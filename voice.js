@@ -30,6 +30,20 @@ const CLIPS = (() => {
 })();
 function hash(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); }
 
+
+/* Anfrage mit Zeitlimit */
+async function fetchT(url, opts = {}, ms = 15000) {
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms);
+  try { return await fetch(url, {...opts, signal: ctl.signal}); }
+  catch (e) { throw {code: 'el_network', timeout: e && e.name === 'AbortError'}; }
+  finally { clearTimeout(t); }
+}
+async function errDetail(r) {
+  let j = null; try { j = await r.clone().json(); } catch (e) {}
+  const d = j && (j.detail || j), st = d && (d.status || d.code) || '', msg = typeof d === 'string' ? d : (d && d.message) || '';
+  return {status: String(st), msg: String(msg), all: JSON.stringify(d || ''), perm: /permission/i.test(st + ' ' + msg), quota: /quota|credit|limit_exceed/i.test(st + ' ' + msg)};
+}
+
 const VOX = (() => {
   let gen = 0, current = null, exhausted = false, keyBad = false, voiceList = null, forceFb = null;
   const MODELS = {hoch: 'eleven_multilingual_v2', sparsam: 'eleven_flash_v2_5'};
@@ -38,15 +52,20 @@ const VOX = (() => {
   /* ---------- Stimmen-Liste und Zuordnung ---------- */
   async function listVoices(force) {
     if (voiceList && !force) return voiceList;
-    try { const c = JSON.parse(localStorage.getItem('skipper-voices') || 'null'); if (c && !force && Date.now() - c.t < 864e5) return (voiceList = c.v); } catch (e) {}
+    try { const c = JSON.parse(localStorage.getItem('skipper-voices') || 'null'); if (c && !force && Date.now() - c.t < 864e5 && c.v && c.v.length) return (voiceList = c.v); } catch (e) {}
     const k = elKey(); if (!k) return [];
-    const r = await fetch(EL_BASE + '/v1/voices', {headers: {'xi-api-key': k}});
-    if (r.status === 401) { keyBad = true; throw {code: 'el_bad_key'}; }
+    let r = await fetchT(EL_BASE + '/v1/voices', {headers: {'xi-api-key': k}}, 12000);
+    if (r.status === 401 || r.status === 403) { const d = await errDetail(r); if (d.perm) throw {code: 'el_perm', what: 'Stimmen (Voices)', detail: d.msg}; keyBad = true; throw {code: 'el_bad_key', detail: d.msg}; }
+    if (!r.ok) { r = await fetchT(EL_BASE + '/v2/voices?page_size=100', {headers: {'xi-api-key': k}}, 12000); }
     if (!r.ok) throw {code: 'el_http', status: r.status};
     const j = await r.json();
     voiceList = (j.voices || []).map(v => ({id: v.voice_id, name: v.name, labels: v.labels || {}, preview: v.preview_url, cat: v.category}));
     try { localStorage.setItem('skipper-voices', JSON.stringify({t: Date.now(), v: voiceList})); } catch (e) {}
     keyBad = false; return voiceList;
+  }
+  async function ensureVoices() {
+    if (S.voices && S.voices.hinnerk && S.voices.smilla) return;
+    const list = await listVoices(); autoAssign(list);
   }
   function autoAssign(list) {
     if (!list || !list.length) return;
@@ -66,7 +85,7 @@ const VOX = (() => {
   async function credits() {
     const k = elKey(); if (!k) return null;
     try {
-      const r = await fetch(EL_BASE + '/v1/user/subscription', {headers: {'xi-api-key': k}});
+      const r = await fetchT(EL_BASE + '/v1/user/subscription', {headers: {'xi-api-key': k}}, 10000);
       if (!r.ok) return {unknown: true};
       const j = await r.json();
       return {used: j.character_count, limit: j.character_limit, left: Math.max(0, j.character_limit - j.character_count), reset: j.next_character_count_reset_unix};
@@ -82,20 +101,20 @@ const VOX = (() => {
     const k = elKey();
     const body = {text, model_id: model, voice_settings: {stability: .45, similarity_boost: .78, style: model === MODELS.hoch ? .3 : 0, use_speaker_boost: true}};
     if (model === MODELS.sparsam) body.language_code = 'de';
-    let r;
-    try { r = await fetch(`${EL_BASE}/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, {method: 'POST', headers: {'xi-api-key': k, 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)}); }
-    catch (e) { throw {code: 'el_network'}; }
+    const r = await fetchT(`${EL_BASE}/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, {method: 'POST', headers: {'xi-api-key': k, 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)}, 20000);
     if (!r.ok) {
-      let msg = ''; try { const j = await r.json(); msg = JSON.stringify(j.detail || j); } catch (e) {}
-      if (/quota|credit|limit/i.test(msg) || r.status === 402) { exhausted = true; throw {code: 'el_quota'}; }
-      if (r.status === 401) { keyBad = true; throw {code: 'el_bad_key'}; }
-      throw {code: 'el_http', status: r.status, message: msg};
+      const d = await errDetail(r);
+      if (d.quota || r.status === 402) { exhausted = true; throw {code: 'el_quota'}; }
+      if (r.status === 401 || r.status === 403) { if (d.perm) throw {code: 'el_perm', what: 'Text zu Sprache', detail: d.msg}; keyBad = true; throw {code: 'el_bad_key', detail: d.msg}; }
+      throw {code: 'el_http', status: r.status, message: d.msg || d.all};
     }
     return r.blob();
   }
   /* Holt Audio für einen Satz: erst aus dem Speicher, sonst neu erzeugen. */
   async function clip(cid, text, kind) {
-    const voice = S.voices && S.voices[cid]; if (!voice || !elKey() || keyBad) return null;
+    if (!elKey() || keyBad) return null;
+    if (!(S.voices && S.voices[cid])) { try { await ensureVoices(); } catch (e) { throw e; } }
+    const voice = S.voices && S.voices[cid]; if (!voice) return null;
     const want = kind === 'fixed' ? MODELS[(S.cfg && S.cfg.quality) || 'sparsam'] : MODELS.sparsam;
     const other = want === MODELS.hoch ? MODELS.sparsam : MODELS.hoch;
     for (const m of [want, other]) { const b = await CLIPS.get(hash(voice + '|' + m + '|' + text)); if (b) return b; }
@@ -107,7 +126,7 @@ const VOX = (() => {
     return b;
   }
 
-  function noticeFor(e) { hooks.notice(e && e.code === 'el_quota' ? 'quota' : e && e.code === 'el_bad_key' ? 'badkey' : 'elerr'); return null; }
+  function noticeFor(e) { hooks.notice(e && e.code === 'el_quota' ? 'quota' : e && e.code === 'el_bad_key' ? 'badkey' : e && e.code === 'el_perm' ? 'perm' : e && e.code === 'el_network' ? 'elnet' : 'elerr', e); return null; }
   /* ---------- Abspielen ---------- */
   function playBlob(blob, cid, g) {
     return new Promise(res => {
@@ -117,6 +136,8 @@ const VOX = (() => {
       current = {stop: () => { try { a.pause(); } catch (e) {} res(); }};
       const done = () => { URL.revokeObjectURL(a.src); res(); };
       a.onended = done; a.onerror = done;
+      let dog = setTimeout(done, 40000);
+      a.onloadedmetadata = () => { clearTimeout(dog); const d = isFinite(a.duration) ? a.duration : 20; dog = setTimeout(done, d * 1000 / (a.playbackRate || 1) + 2500); };
       a.play().catch(done);
       if (g !== gen) { a.pause(); res(); }
     });
@@ -244,8 +265,8 @@ const VOX = (() => {
       const blob = new Blob(chunks, {type: recd.mimeType || 'audio/webm'});
       const fd = new FormData(); fd.append('model_id', 'scribe_v2'); fd.append('language_code', 'de'); fd.append('file', blob, 'sprache.webm');
       try {
-        const r = await fetch(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd});
-        if (!r.ok) { const m = await r.text(); if (/quota|credit/i.test(m)) exhausted = true; return resolve({text: '', err: 'el_stt'}); }
+        const r = await fetchT(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd}, 25000);
+        if (!r.ok) { const d = await errDetail(r); if (d.quota) exhausted = true; return resolve({text: '', err: d.perm || r.status === 401 || r.status === 403 ? 'el_stt_perm' : d.quota ? 'el_stt_quota' : 'el_stt', detail: d.msg}); }
         const j = await r.json(); resolve({text: (j.text || '').trim(), err: null});
       } catch (e) { resolve({text: '', err: 'el_stt'}); }
     };
@@ -272,7 +293,15 @@ const VOX = (() => {
     const mode = (S.cfg && S.cfg.stt) || 'phone', opts = {...o};
     if (opts.pause == null) opts.pause = S.cfg.pause;
     if ((mode === 'eleven' && elKey() && !exhausted) || (!SR && elKey())) return listenEleven(opts);
-    return listenPhone(opts);
+    let cur = listenPhone(opts);
+    const holder = {finish: () => cur.finish(), cancel: () => cur.cancel()};
+    holder.done = cur.done.then(r => {
+      if (r.err && ['network', 'service-not-allowed', 'unsupported'].includes(r.err) && elKey() && !exhausted) {
+        hooks.notice('sttswitch'); cur = listenEleven(opts); return cur.done;
+      }
+      return r;
+    });
+    return holder;
   }
   async function askMic() {
     try { const st = await navigator.mediaDevices.getUserMedia({audio: true}); st.getTracks().forEach(t => t.stop()); return true; } catch (e) { return false; }
@@ -281,6 +310,14 @@ const VOX = (() => {
   return {
     hooks, listVoices, autoAssign, credits, say, lines, stream, stop, preview, listen, askMic, clip,
     set forceFallback(v) { forceFb = v; },
+    ensureVoices, ttsTest: (voice, text) => elFetch(voice, text, MODELS.sparsam),
+    async sttTest() {
+      const n = 16000, buf = new ArrayBuffer(44 + n * 2), dv = new DataView(buf), w = (o, s) => [...s].forEach((c, i) => dv.setUint8(o + i, c.charCodeAt(0)));
+      w(0, 'RIFF'); dv.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, 16000, true); dv.setUint32(28, 32000, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, 'data'); dv.setUint32(40, n * 2, true);
+      const fd = new FormData(); fd.append('model_id', 'scribe_v2'); fd.append('language_code', 'de'); fd.append('file', new Blob([buf], {type: 'audio/wav'}), 'stille.wav');
+      const r = await fetchT(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd}, 25000);
+      if (r.ok) return {ok: true}; const d = await errDetail(r); return {ok: false, status: r.status, perm: d.perm || r.status === 401 || r.status === 403, msg: d.msg};
+    },
     get canListen() { return !!SR || !!elKey(); }, get hasSR() { return !!SR; },
     get exhausted() { return exhausted; }, set exhausted(v) { exhausted = v; }, get keyBad() { return keyBad; },
     resetFlags() { exhausted = false; keyBad = false; voiceList = null; },

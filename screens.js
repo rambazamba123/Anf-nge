@@ -2,6 +2,48 @@
    Bildschirme: Deck, Kajüte, Lernen, Prüfung, Logbuch, Einstellungen
    ========================================================================== */
 
+/* Sprüche zum Lernstand: einer je 3 % Bestehenschance, bildhaft und mit einem kleinen Seitenhieb. */
+const SAYINGS = [
+  'Dein Wissen ist so dicht wie ein Fischernetz.',
+  'So wacklig wie ein Kartenhaus bei Windstärke acht.',
+  'Du schwimmst. Aber nur, weil Holz nicht untergeht.',
+  'So orientiert wie eine Möwe im Nebel.',
+  'Dein Kurs ist so gerade wie ein Korkenzieher.',
+  'So sicher wie ein Ruderboot aus Pappe.',
+  'Die Prüfer würden dir nicht mal eine Badeente anvertrauen.',
+  'So standfest wie ein Leuchtturm aus Sand.',
+  'Ein Viertel geschafft. Drei Viertel treiben noch im Hafenbecken.',
+  'So hell wie eine Positionslampe ohne Strom.',
+  'Langsam sieht das Wrack wieder aus wie ein Boot.',
+  'So überzeugend wie ein Seemann, der seekrank ist.',
+  'Wind in den Segeln. Nur leider von vorn.',
+  'So zuverlässig wie der Wetterbericht von letzter Woche.',
+  'Halb voll oder halb leer? Bei dir eher halb gekentert.',
+  'So solide wie ein Steg mit drei fehlenden Planken.',
+  'Die Hälfte sitzt. Den Rest entscheidet der Münzwurf.',
+  'Keine Landratte mehr. Aber auch noch kein Kapitän.',
+  'Dicht wie ein alter Kutter: Es tropft nur noch an ein paar Stellen.',
+  'Die Crew hört auf zu tuscheln, wenn du an Bord kommst.',
+  'So ordentlich wie eine Kajüte nach Windstärke sechs.',
+  'Fest wie ein Poller. Nur die Leine hängt noch durch.',
+  'Zwei Drittel klar Schiff. Das letzte Drittel ist Nebel.',
+  'Fast. Und fast ist das Lieblingswort aller Durchgefallenen.',
+  'So sicher wie ein Anker auf Sandgrund: hält meistens.',
+  'Drei Viertel. Die Prüfung fängt an, dich ernst zu nehmen.',
+  'Stabil wie ein Kutter. Jetzt bloß nicht übermütig werden.',
+  'So fest wie ein Palstek. Ein guter Palstek.',
+  'Die Möwen folgen dir schon. Das ist ein gutes Zeichen.',
+  'So klar wie ein Leuchtfeuer in einer Sternennacht.',
+  'Das Prüfungsboot sieht dich kommen und wird nervös.',
+  'So unerschütterlich wie Helgoland.',
+  'Nur noch Kleinigkeiten. Und Prüfer lieben Kleinigkeiten.',
+  'Prüfungsreif. Wenn jetzt was schiefgeht, war es das Wetter.',
+];
+const sayingFor = ch => SAYINGS[Math.min(SAYINGS.length - 1, Math.floor(ch * 100 / 3))];
+function bindSaying() {
+  document.querySelectorAll('[data-saying]').forEach(p => p.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, p.dataset.saying, 'fixed'); });
+}
+
 /* ---------- Deck ---------- */
 function courseCard() {
   const left = daysLeft(), r = racePos(), ch = r.you;
@@ -9,6 +51,7 @@ function courseCard() {
   return `<section class="card" aria-label="Kurs bis zur Prüfung">
     <div class="course"><div class="big">${left === 0 ? 'Heute' : left}</div>
       <div>${left === 0 ? 'ist Prüfungstag. Mast- und Schotbruch!' : `${left === 1 ? 'Tag' : 'Tage'} bis zur Prüfung am ${fmtDate(S.profile.exam)}`}<br><span class="muted small">Bestehenschance etwa ${Math.round(ch * 100)} %</span></div></div>
+    <p class="saying" data-saying="${esc(sayingFor(ch))}" role="button" tabindex="0" title="Antippen zum Vorlesen"><b style="color:${CREW[S.crew.K].color}">${esc(nameOf('K'))}:</b> „${esc(sayingFor(ch))}“</p>
     <div class="track"><div class="ln"></div><div class="done" style="width:${(ch * 100).toFixed(1)}%"></div>
       ${boat('#8a96a3', r.exam, 'Prüfungsboot')}${boat('#f0b53e', ch, 'Dein Boot')}
       <svg class="goal" viewBox="0 0 22 24" aria-hidden="true"><path d="M11 2v20" stroke="var(--muted)" stroke-width="2"/><path d="M11 3h9l-3 4 3 4h-9z" fill="#c2473b"/></svg></div>
@@ -29,7 +72,7 @@ function renderDeck() {
   ${tight ? `<p class="small muted">Dein Plan ist knapp: Heute sind mehr Fragen dran, als in ${S.profile.minutes} Minuten gut zu schaffen sind.</p>` : ''}
   ${courseCard()}`;
   const learn = () => { if (done) { const pool = Q.filter(q => st(q.n)); runQuiz(shuffle(pool).sort((a, b) => st(b.n).w - st(a.n).w).slice(0, 10), 'Extrarunde'); } else startSession(); };
-  $('#learn').onclick = learn; $('#exam').onclick = examIntro; $('#horn').onclick = hornQuiz;
+  $('#learn').onclick = learn; $('#exam').onclick = examIntro; $('#horn').onclick = hornQuiz; bindSaying();
   app.querySelectorAll('[data-go]').forEach(b => b.onclick = () => {
     AUD.click(); const g = b.dataset.go;
     if (g === 'learn') learn(); else if (g === 'exam') examIntro(); else setTab(g);
@@ -48,7 +91,10 @@ function renderCabin() {
     <button class="btn small hidden" id="tfin">Fertig</button>
   </div>
   <div class="interim" id="tint"></div>
-  ${apiKey() ? '' : `<div class="card small">${esc(aiErr({code: 'no_key'}))}</div>`}
+  ${apiKey() ? '' : `<div class="card" id="keycard"><h3>Ein Schlüssel fehlt noch</h3>
+    <p class="small" style="margin:0 0 8px">Damit die Crew mit dir redet, braucht sie deinen Anthropic-Schlüssel. Er wird nur auf diesem Handy gespeichert.</p>
+    <input type="password" id="ck" autocomplete="off" placeholder="sk-ant-…"><button class="btn wide" id="cks" style="margin-top:10px">Speichern und testen</button><p class="status" id="ckr"></p></div>`}
+  <p class="small muted" style="margin:0 0 10px">Läuft etwas nicht? <button class="btn small ghost" id="stlink" style="min-height:34px;margin-left:4px">Selbsttest</button></p>
   <div class="log" id="tlog"></div>
   <div class="card stories" style="margin-top:16px">
     <h3>Kajütengeschichten</h3>
@@ -62,6 +108,13 @@ function renderCabin() {
   const log = $('#tlog'); S.talk.slice(-14).forEach(l => logLine(l.s, l.t, false));
   if (!S.talk.length) log.innerHTML = `<p class="small muted">Tipp: Tippe auf eine Figur, dann sagt sie etwas.</p>`;
   $('#talkBtn').onclick = () => { AUD.unlock(); TALK.on ? stopTalk(true) : startTalk(); };
+  $('#stlink').onclick = () => { renderSettings(); setTimeout(() => { const c = $('#stcard'); if (c) { c.scrollIntoView({block: 'start'}); $('#strun').click(); } }, 100); };
+  const ck = $('#cks'); if (ck) ck.onclick = async () => {
+    const v = $('#ck').value.trim(), o = $('#ckr'); if (!v) { o.className = 'status err'; o.textContent = 'Bitte den Schlüssel einfügen.'; return; }
+    setApiKey(v); o.className = 'status'; o.textContent = 'Teste die Verbindung…';
+    try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); o.className = 'status ok'; o.textContent = 'Verbindung steht. Ahoi!'; setTimeout(renderCabin, 900); }
+    catch (e) { o.className = 'status err'; o.textContent = aiErr(e); if (e.code === 'bad_key') setApiKey(''); }
+  };
   $('#gen').onclick = () => makeStory(TOPICS.find(t => t.id === $('#tp').value));
   app.querySelectorAll('[data-st]').forEach(b => b.onclick = () => showStory(S.stories[+b.dataset.st]));
   app.querySelectorAll('.cabin .ch').forEach(g => { g.style.cursor = 'pointer'; g.addEventListener('click', () => { if (TALK.on) return; AUD.unlock(); const c = g.dataset.ch; VOX.stop(); VOX.say(c, lineOf(c, 'tap'), 'fixed'); }); });
@@ -87,8 +140,23 @@ function setTalkUI(stt, sub = '') {
   b.classList.toggle('on', TALK.on); b.setAttribute('aria-label', TALK.on ? 'Gespräch beenden' : 'Gespräch starten');
   f.classList.toggle('hidden', stt !== 'listen');
 }
+function needKey() {
+  setTalkUI('idle', 'Erst den Anthropic-Schlüssel eintragen, dann geht es los.');
+  const c = $('#keycard'); if (c) { c.scrollIntoView({block: 'center', behavior: 'smooth'}); const i = $('#ck'); if (i) i.focus(); } else toast(aiErr({code: 'no_key'}), 7000);
+}
+function sttErrText(err) {
+  return {network: 'Die Spracherkennung des Handys braucht Internet und funktioniert nur in Chrome. Mit ElevenLabs-Schlüssel nutze ich automatisch dessen Erkennung.',
+    'not-allowed': 'Das Mikrofon ist gesperrt. Tippe oben in der Adresszeile auf das Schloss-Symbol und erlaube das Mikrofon.',
+    'service-not-allowed': 'Dieser Browser lässt keine Spracherkennung zu. Nimm Chrome oder trag einen ElevenLabs-Schlüssel ein.',
+    unsupported: 'Dieser Browser kann keine Sprache erkennen. Nimm Chrome oder trag einen ElevenLabs-Schlüssel ein.',
+    'audio-capture': 'Kein Mikrofon gefunden, oder eine andere App benutzt es gerade.',
+    el_stt_perm: 'Dein ElevenLabs-Schlüssel darf „Sprache zu Text“ nicht nutzen. Erstelle einen Schlüssel mit diesem Recht oder stell unter Einstellungen → Zuhören auf „Handy“.',
+    el_stt_quota: 'Das ElevenLabs-Guthaben reicht nicht für die Spracherkennung.',
+    el_stt: 'Die ElevenLabs-Spracherkennung hat nicht geklappt. Prüf die Verbindung.'}[err] || `Die Spracherkennung hat nicht geklappt (${err}). Schreib unten oder starte den Selbsttest.`;
+}
 async function startTalk(fromStory) {
-  if (!apiKey()) { toast(aiErr({code: 'no_key'})); return; }
+  if (!apiKey()) return needKey();
+  if (!VOX.hasSR && !elKey()) { setTalkUI('idle', sttErrText('unsupported')); return; }
   TALK.on = true; TALK.misses = 0; setTalkUI('speak');
   const sc = $('.cabin'); if (sc) sc.onclick = () => { if (TALK.on) { VOX.stop(); } };
   if (fromStory) return userSays('(Die Geschichte ist zu Ende. Sprecht mich jetzt direkt an und knüpft daran an.)', '', true);
@@ -106,12 +174,12 @@ async function listenTurn() {
   if (f) f.onclick = () => TALK.ctl && TALK.ctl.finish();
   const r = await TALK.ctl.done; TALK.ctl = null; const i = $('#tint'); if (i) i.textContent = '';
   if (!TALK.on) return;
-  if (r.err && r.err !== 'aborted') { stopTalk(false); setTalkUI('idle', r.err === 'network' ? 'Die Spracherkennung des Handys braucht Internet. In den Einstellungen kannst du auf ElevenLabs umstellen.' : r.err === 'not-allowed' ? 'Das Mikrofon ist gesperrt. Erlaube es über das Schloss-Symbol in der Adresszeile.' : 'Die Spracherkennung hat nicht geklappt. Schreib unten oder versuch es nochmal.'); return; }
+  if (r.err && r.err !== 'aborted') { stopTalk(false); setTalkUI('idle', sttErrText(r.err)); return; }
   if (!r.text) { TALK.misses++; if (TALK.misses >= 2) { stopTalk(false); setTalkUI('idle', 'Ich hab nichts gehört. Tippe aufs Mikrofon, wenn du weiterreden willst.'); return; } return listenTurn(); }
   TALK.misses = 0; userSays(r.text);
 }
 async function userSays(text, extra = '', hidden = false) {
-  if (!apiKey()) { toast(aiErr({code: 'no_key'})); return; }
+  if (!apiKey()) { $('#chatIn').value = text; return needKey(); }
   VOX.stop(); if (!hidden) logLine('U', text); setTalkUI('think');
   const rel = relevant(text);
   const hist = S.talk.slice(-16, hidden ? undefined : -1).map(l => l.s === 'U' ? {role: 'user', content: l.t} : {role: 'assistant', content: `${l.s}: ${l.t}`});
@@ -130,13 +198,13 @@ async function userSays(text, extra = '', hidden = false) {
   try {
     const full = await ai([...hist, {role: 'user', content: text}], {system: sys, maxTokens: 500, signal: TALK.abort.signal, onText: t => take(t, false)});
     take(full, true);
-  } catch (e) { if (e.code !== 'cancelled') { logLine('K', aiErr(e), false); } }
+  } catch (e) { if (e.code !== 'cancelled') { logLine('K', aiErr(e), false); stopTalk(false); TALK.abort = null; out.close(); setTalkUI('idle', aiErr(e)); if (e.code === 'bad_key') { setApiKey(''); renderCabin(); } return; } }
   TALK.abort = null; out.close(); await out.done;
   if (TALK.on) listenTurn(); else setTalkUI('idle');
 }
 /* Podcast: Kajütengeschichte, einmal erzeugt und gespeichert */
 async function makeStory(t) {
-  if (!apiKey()) { toast(aiErr({code: 'no_key'})); return; }
+  if (!apiKey()) return needKey();
   const box = $('#story'), g = $('#gen'); g.disabled = true;
   box.innerHTML = '<p class="think" style="margin-top:12px">Die Crew setzt sich an den Tisch und schenkt Tee ein…</p>';
   const pool = Q.filter(q => q.n >= t.from && q.n <= t.to), known = shuffle(pool.filter(q => st(q.n))), fresh = shuffle(pool.filter(q => !st(q.n)));
@@ -262,6 +330,7 @@ function runQuiz(queue, title, mode = 'learn') {
         <div id="after"></div>
       </div>
       <div class="crewrow">${charSVG(M)}<div class="say hidden" data-say="${M}"></div><div class="say hidden" data-say="${T}"></div>${charSVG(T)}</div>`;
+    window.scrollTo(0, 0);
     $('#quit').onclick = () => { save(); setTab('deck'); };
     app.querySelectorAll('.ans').forEach(b => b.onclick = () => answer(q, +b.dataset.k));
     if (sig) { bindSig(sig); if (hide) setTimeout(() => { const b = $('#sigPlay'); if (b) b.click(); }, 500); }
@@ -360,6 +429,7 @@ function startExam(mode) {
         ${q.img ? `<div class="qimg">${q.img.map(s => `<img src="${s}" alt="Abbildung zu Frage ${q.n}">`).join('')}</div>` : ''}
         <div id="ans">${order.map(k => `<button class="ans" data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div></div>
       <div class="row"><button class="btn ghost small" id="abort">Prüfung abbrechen</button></div>`;
+    window.scrollTo(0, 0);
     app.querySelector('.exambar svg').addEventListener('click', () => VOX.say('kroeger', lineOf('kroeger', 'tap'), 'fixed'));
     if (sig) bindSig(sig);
     $('#abort').onclick = () => { if (confirm('Prüfung wirklich abbrechen? Sie wird nicht gewertet.')) { clearInterval(examTimer); examTimer = null; AUD.clock(0); setTab('deck'); } };
@@ -401,7 +471,7 @@ function renderLog() {
     <div class="card"><h3>Themen</h3>${TOPICS.map(t => { const s = topicStats(t); return `<div class="topic"><div class="row" style="justify-content:space-between"><span>${t.name}</span><span class="muted small" style="flex:0 0 auto">${s.m}/${s.total}</span></div><div class="bar"><span class="m" style="width:${s.m / s.total * 100}%"></span><span class="l" style="width:${s.l / s.total * 100}%"></span></div></div>`; }).join('')}
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
     <div class="card small muted"><p style="margin:0">Noch nicht enthalten: die Bildfragen 16 bis 30 und die Navigationsaufgaben 286 bis 300.</p></div>`;
-  $('#set').onclick = renderSettings;
+  $('#set').onclick = renderSettings; bindSaying();
 }
 
 /* ---------- Einstellungen ---------- */
@@ -461,6 +531,10 @@ function renderSettings() {
     <button class="btn" id="sv" style="margin-top:12px">Speichern</button>
   </div>
 
+  <h2>Selbsttest</h2>
+  <div class="card" id="stcard"><p class="small" style="margin:0 0 10px">Prüft Browser, Mikrofon, beide Schlüssel, Stimmen und Ton. Kostet etwa 20 ElevenLabs-Credits und einen Bruchteil eines Cents bei Anthropic.</p>
+    <button class="btn wide" id="strun">Selbsttest starten</button><div id="stout" style="margin-top:10px"></div></div>
+
   <h2>Sonstiges</h2>
   <div class="card">
     <div class="row"><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
@@ -504,7 +578,38 @@ function renderSettings() {
   $('#rsBk').onclick = () => $('#bkf').click();
   $('#bkf').onchange = async () => { const f = $('#bkf').files[0]; if (!f) return; try { const v = JSON.parse(await f.text()); if (!v || !v.profile) throw 0; if (!confirm('Lernstand aus der Sicherung übernehmen? Der aktuelle wird ersetzt.')) return; localStorage.setItem(KEY, JSON.stringify(v)); S = load(); toast('Sicherung geladen.'); setTab('deck'); } catch (e) { toast('Die Datei ist keine gültige Skipper-Sicherung.'); } };
   $('#rs').onclick = () => { if (confirm('Willst du wirklich deinen gesamten Lernstand löschen?')) { try { localStorage.removeItem(KEY); } catch (e) {} S = load(); stopAll(); splash(); } };
+  $('#strun').onclick = () => { AUD.unlock(); runSelfTest($('#stout'), $('#strun')); };
   if (elKey()) loadVoices();
+}
+async function runSelfTest(out, btn) {
+  btn.disabled = true; const rows = [];
+  const draw = (busy) => { out.innerHTML = rows.map(r => `<div class="trow"><b class="${r.ok === true ? 'pass' : r.ok === false ? 'fail' : 'muted'}">${r.ok === true ? '✓' : r.ok === false ? '✗' : '–'}</b><div><b>${esc(r.label)}</b><div class="small muted">${esc(r.detail || '')}</div></div></div>`).join('') + (busy ? `<p class="think" style="margin:8px 0 0">${esc(busy)}</p>` : ''); };
+  const add = (ok, label, detail) => { rows.push({ok, label, detail}); draw(); };
+  const ua = navigator.userAgent; let br = /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /EdgA?\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Chrome|CriOS/.test(ua) ? 'Chrome' : 'unbekannt';
+  try { if (navigator.brave && await navigator.brave.isBrave()) br = 'Brave'; } catch (e) {}
+  add(br === 'Chrome' ? true : null, 'Browser: ' + br, br === 'Chrome' ? 'Passt.' : br === 'Brave' ? 'Brave sperrt die Spracherkennung meist. Nimm Chrome oder einen ElevenLabs-Schlüssel mit „Sprache zu Text“.' : 'Am zuverlässigsten läuft die App in Chrome.');
+  add(VOX.hasSR ? true : (elKey() ? null : false), 'Spracherkennung im Browser', VOX.hasSR ? 'Vorhanden.' : elKey() ? 'Fehlt. Ich nutze stattdessen ElevenLabs.' : 'Fehlt. Nimm Chrome oder trag einen ElevenLabs-Schlüssel ein.');
+  let mic = 'unbekannt'; try { mic = (await navigator.permissions.query({name: 'microphone'})).state; } catch (e) {}
+  add(mic === 'granted' ? true : mic === 'denied' ? false : null, 'Mikrofon', {granted: 'Erlaubt.', denied: 'Gesperrt. Tippe in der Adresszeile auf das Schloss-Symbol und erlaube das Mikrofon.', prompt: 'Noch nicht gefragt. Der Browser fragt beim ersten Sprechen.'}[mic] || 'Status unbekannt.');
+  draw('Teste den Ton…'); try { await AUD.sfx('glocke', {vol: .8}); add(null, 'Ton', 'Eben hat eine Glocke geläutet. Hast du sie gehört? Wenn nicht: Lautstärke hoch, Stummschalter aus.'); } catch (e) { add(false, 'Ton', 'Konnte nichts abspielen.'); }
+  if (!apiKey()) add(false, 'Anthropic-Schlüssel', 'Fehlt. Ohne ihn gibt es keine Gespräche, Lektionen und Geschichten.');
+  else { draw('Teste Anthropic…'); try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); add(true, 'Anthropic-Schlüssel', 'Verbindung steht.'); } catch (e) { add(false, 'Anthropic-Schlüssel', aiErr(e)); } }
+  if (!elKey()) add(null, 'ElevenLabs-Schlüssel', 'Nicht eingetragen. Die Crew spricht mit der Ersatzstimme.');
+  else {
+    draw('Teste ElevenLabs…'); let list = null;
+    try { list = await VOX.listVoices(true); VOX.autoAssign(list); add(true, 'ElevenLabs: Stimmen', `${list.length} Stimmen gefunden.`); }
+    catch (e) { add(false, 'ElevenLabs: Stimmen', e.code === 'el_perm' ? 'Der Schlüssel darf die Stimmen nicht lesen. Setze beim Schlüssel „Stimmen“ auf „Gelesen“.' : e.code === 'el_bad_key' ? 'Der Schlüssel wird nicht akzeptiert. Prüf, ob er vollständig kopiert ist und nicht abgelaufen.' : 'ElevenLabs ist nicht erreichbar.'); }
+    const cr = await VOX.credits(); add(cr && !cr.unknown ? true : null, 'ElevenLabs: Guthaben', cr && !cr.unknown ? `Noch ${cr.left.toLocaleString('de-DE')} von ${cr.limit.toLocaleString('de-DE')} Credits.` : 'Nicht abrufbar. Dafür braucht der Schlüssel „Benutzer: Gelesen“. Für die App nicht nötig.');
+    if (list && list.length) {
+      draw('Teste die Stimme…');
+      try { const b = await VOX.ttsTest(S.voices[S.crew.K], 'Moin, hier ist die Crew.'); const a = new Audio(URL.createObjectURL(b)); a.play().catch(() => {}); add(true, 'ElevenLabs: Text zu Sprache', `${nameOf('K')} hat eben „Moin, hier ist die Crew“ gesagt.`); }
+      catch (e) { add(false, 'ElevenLabs: Text zu Sprache', e.code === 'el_perm' ? 'Der Schlüssel darf „Text zu Sprache“ nicht nutzen.' : e.code === 'el_quota' ? 'Das Guthaben oder das Schlüssel-Limit ist aufgebraucht.' : 'Hat nicht geklappt' + (e.status ? ` (Fehler ${e.status})` : '') + '.'); }
+    }
+    draw('Teste die Spracherkennung von ElevenLabs…');
+    try { const r = await VOX.sttTest(); add(r.ok ? true : r.perm ? (VOX.hasSR ? null : false) : false, 'ElevenLabs: Sprache zu Text', r.ok ? 'Erlaubt.' : r.perm ? `Nicht erlaubt.${VOX.hasSR ? ' Kein Problem, solange die Handy-Erkennung läuft.' : ' Setze beim Schlüssel „Sprache zu Text“ auf „Zugriff“.'}` : `Hat nicht geklappt (Fehler ${r.status}).`); }
+    catch (e) { add(false, 'ElevenLabs: Sprache zu Text', 'Nicht erreichbar.'); }
+  }
+  draw(); btn.disabled = false; btn.textContent = 'Selbsttest wiederholen';
 }
 async function loadVoices() {
   const box = $('#voices'); if (!box) return;
