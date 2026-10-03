@@ -112,13 +112,10 @@ async function ai(input, opts = {}) {
   const key = apiKey(); if (!key) throw {code: 'no_key'};
   const body = {model: pickModel(opts), max_tokens: opts.maxTokens || 1500, messages: toMessages(input), stream: true};
   if (opts.system) body.system = opts.system;
-  let res; const ctl = new AbortController(); let timedOut = false;
-  if (opts.signal) { if (opts.signal.aborted) ctl.abort(); else opts.signal.addEventListener('abort', () => ctl.abort()); }
-  const to = setTimeout(() => { timedOut = true; ctl.abort(); }, 30000);
+  let res;
   try {
-    res = await fetch(API_URL, {method: 'POST', signal: ctl.signal, headers: {'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true'}, body: JSON.stringify(body)});
-  } catch (e) { clearTimeout(to); if (timedOut) throw {code: 'timeout'}; if (e && e.name === 'AbortError') throw {code: 'cancelled'}; throw {code: 'network'}; }
-  clearTimeout(to);
+    res = await fetch(API_URL, {method: 'POST', signal: opts.signal, headers: {'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true'}, body: JSON.stringify(body)});
+  } catch (e) { if (e && e.name === 'AbortError') throw {code: 'cancelled'}; throw {code: 'network'}; }
   if (!res.ok) {
     let msg = ''; try { const j = await res.json(); msg = (j.error && j.error.message) || ''; } catch (e) {}
     throw {code: res.status === 401 ? 'bad_key' : res.status === 429 ? 'rate_limited' : (res.status === 529 || res.status === 503) ? 'overloaded' : /credit|balance|billing/i.test(msg) ? 'no_credit' : 'http', message: msg};
@@ -149,7 +146,6 @@ function aiErr(e) {
     case 'bad_key': return 'Der Anthropic-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.';
     case 'no_credit': return 'Auf deinem Anthropic-Konto ist kein Guthaben mehr. Lade es in der Anthropic-Konsole auf.';
     case 'network': return 'Keine Verbindung. Bist du online?';
-    case 'timeout': return 'Die Antwort hat zu lange gedauert. Prüf deine Verbindung und versuch es nochmal.';
     case 'overloaded': return 'Der Dienst ist gerade überlastet. Versuch es gleich noch einmal.';
     case 'rate_limited': return 'Gerade zu viele Anfragen. Versuch es in ein paar Minuten noch einmal.';
     case 'invalid_json': return 'Die Antwort kam unvollständig an. Versuch es noch einmal.';
@@ -213,11 +209,8 @@ function toast(msg, ms = 4200) {
   t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), ms);
 }
 const shown = new Set();
-VOX.hooks.notice = (kind, e) => {
+VOX.hooks.notice = kind => {
   if (shown.has(kind)) return; shown.add(kind);
-  if (kind === 'perm') return toast(`Dein ElevenLabs-Schlüssel darf „${(e && e.what) || 'diese Funktion'}“ nicht nutzen. Erstelle einen Schlüssel mit diesem Recht.`, 8000);
-  if (kind === 'elnet') return toast('ElevenLabs ist gerade nicht erreichbar. Ich nehme die Ersatzstimme.');
-  if (kind === 'sttswitch') return toast('Die Spracherkennung des Handys geht hier nicht. Ich nutze die von ElevenLabs (kostet Credits).', 6000);
   toast({quota: 'Das ElevenLabs-Guthaben ist aufgebraucht. Die Crew spricht jetzt mit der Ersatzstimme.', budget: 'Das Tageslimit für die Live-Stimme ist erreicht. Ändern kannst du es unter Einstellungen → Stimmen.', badkey: 'Der ElevenLabs-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.', elerr: 'Eine Stimme kam nicht durch. Ich nehme die Ersatzstimme.'}[kind] || '');
 };
 
