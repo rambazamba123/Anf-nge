@@ -494,7 +494,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.21';
+  window.__ver = '4.23';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3202,6 +3202,7 @@ function renderLog() {
     ${ex.length ? `<div class="card"><h3>Letzte Probeprüfungen</h3>${ex.map(e => `<div class="row" style="justify-content:space-between;margin:4px 0"><span>${e.score} von ${e.n === 60 ? '60 Punkten' : e.n + ' richtig'}${e.nav != null ? ` · Navigation ${e.nav}/9` : ''}${e.mode === 'train' ? ' <span class="muted small">(mit Rückmeldung)</span>' : ''}</span><b class="${(e.passAll != null ? e.passAll : e.pass) ? 'pass' : 'fail'}" style="flex:0 0 auto">${(e.passAll != null ? e.passAll : e.pass) ? 'Bestanden' : e.oral ? 'Mündlich' : 'Nicht bestanden'}</b></div>`).join('')}</div>` : ''}
     ${COURSE.id === 'sbf' && S.nav && Object.keys(S.nav).length ? `<div class="card"><h3>Navigationsaufgaben</h3><p class="small" style="margin:0">${Object.entries(S.nav).map(([n, p]) => `Nr. ${n}: <b class="${p >= 7 ? 'pass' : 'fail'}">${p}/9</b>`).join(' · ')}</p></div>` : ''}
     ${trophyCard()}
+    ${toernCard()}
     ${eggCard()}
     <div class="card"><h3>Kapitel</h3>${TOPICS.map(t => { const s = topicStats(t); return `<div class="topic"><div class="row" style="justify-content:space-between"><span>${t.name}</span><span class="muted small" style="flex:0 0 auto">${s.m}/${s.total}</span></div><div class="bar"><span class="m" style="width:${s.m / s.total * 100}%"></span><span class="l" style="width:${s.l / s.total * 100}%"></span></div></div>`; }).join('')}
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
@@ -3639,6 +3640,11 @@ function foundEgg(id) {
   LOG.add('entdecken', 'Easter-Egg: ' + EGGS[id] + ' (' + n + '/' + all + ')');
   setTimeout(() => toast(`Entdeckt: ${EGGS[id]} · ${n} von ${all}`), 600);
 }
+/* Törn-Logbuch (Daten kommen aus navi.js, hier nur Anzeige) */
+function toernCard() {
+  const L = (S.toern && S.toern.log) || []; if (!L.length) return '';
+  return `<div class="card"><h3>Törn-Logbuch</h3>${L.slice(-6).reverse().map(x => `<div class="row" style="justify-content:space-between;margin:4px 0"><span class="small">${new Date(x.day * 864e5).toLocaleDateString('de-DE', {day: 'numeric', month: 'short'})} · ${esc(x.t)} · ${x.art === 'motor' ? 'Motor' : 'Segel'}</span><span class="small">${'⭐'.repeat(x.sterne)} ${x.ok}/${x.n}</span></div>`).join('')}</div>`;
+}
 function eggCard() {
   const got = S.eggs || {}, ids = Object.keys(EGGS), n = ids.filter(k => got[k] != null).length;
   return `<div class="card"><h3>Entdeckt an Bord</h3><p style="margin:0 0 6px"><b>${n} von ${ids.length}</b> Easter-Eggs entdeckt.</p>
@@ -3850,7 +3856,7 @@ function startEgg(id, el) {
     frachter: () => { AUD.sfx('nebelhornFern', {vol: .4}); foundEgg('frachter'); sayEgg('frachter'); }, bauteile: () => { AUD.click(); wig(); kisteHint(); },
     segel: () => { const sc = el.closest('.scene'); const down = sc.classList.toggle('sailsdown'); AUD.sfx('segel', {vol: .6, rate: down ? .85 : 1.05}); setTimeout(() => AUD.sfx('segel', {vol: .35, rate: 1.2}), 500); if (down) setTimeout(() => AUD.sfx('anker', {vol: .25, dur: 1.6}), 700); LOG.add('entdecken', down ? 'Segel eingeholt' : 'Segel gesetzt'); },
     /* Steuer: hier startet später der Törn (5.6) */
-    pinne: () => { AUD.click(); wig(); toast('Hier startet bald der Törn. Bis dahin: Manöver üben in der Spielekiste.'); },
+    pinne: () => { AUD.click(); wig(); loadNavi().then(() => NAV.toernStart()).catch(() => toast('Der Törn ließ sich nicht laden. Prüf dein Internet.')); },
     moewe: () => { AUD.sfx('moewe', {offset: 3, dur: 2, vol: .55}); el.classList.add('flyoff'); setTimeout(() => el.classList.remove('flyoff'), 2600); },
     seehund: () => { el.classList.add('dive'); AUD.sfx('segel', {vol: .3, rate: .6}); setTimeout(() => el.classList.remove('dive'), 5000); },
   };

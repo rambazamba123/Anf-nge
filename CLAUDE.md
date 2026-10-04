@@ -285,4 +285,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] 5.5c Lektionen 1–5 (v4.19: `GEN` mit 14 Aufgabentypen, `NAV.task` Übungsmaschine, `grade` mit Toleranzen, `NAV.path/lesson/exercise`, Meisterschaft → `S.navi.lek[id].sterne`)
   - [x] 5.5b Navi-Fibel (v4.18: 23 Begriffe in `data/navi.json`, `NAV.fibel`, `NAV.term`, `NAV.linkTerms` macht Begriffe überall antippbar)
   - [x] 5.5a Karte und Werkzeuge (v4.17: `navi.js` nachgeladen, `data/karte.json`, Mercator, Zoom, Lupe, Kursdreieck mit Gradbogen, Zirkel, Bleistift, Rechenblatt)
-- [ ] 5.6 Törn-Light
+- [x] 5.6 Törn-Light (v4.22–4.23)
+  - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
+  - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5
+  - [x] 5.6c Ressourcen (Proviant aus Lerntagen, Sprit, Laune, Boot), Abbruch kostet Proviant, Ankunft mit Sternen, Törn-Logbuch
