@@ -277,7 +277,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] Easter-Eggs (v4.14: 11 neue, 29 insgesamt; `EGG_LINES`, `FLAG_ART`, `glasenNow`, `wxOverride`)
 - [x] 5.8 SBF Binnen (v4.15: `data/binnen.json` 300 Fragen, 70 Bilder in `img/b/`, `COURSES.binnen`, `BIN_TOPICS`, `BIN_EXAM` motor/segel, `S.binSegel`; SBF-See-Fragen 16–30 mit Bild freigeschaltet)
 - [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
-- [ ] Konzept 5.5 und 5.6 freigegeben (Entwurf: `docs/konzept-navi-toern.md`, `docs/karte-entwurf.svg` – wartet auf Freigabe)
-- Lauf 1 abgeschlossen (v4.10–v4.16), lokal committet, Push wartet auf Freigabe
+- [x] Konzept 5.5 und 5.6 freigegeben (04.10.2026, inkl. Vorschläge zu Toleranzen und Zeit; `docs/konzept-navi-toern.md`)
+- [x] Lauf 1 abgeschlossen und gepusht (v4.10–v4.16)
 - [ ] 5.5 Navigationsschule
 - [ ] 5.6 Törn-Light
