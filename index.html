@@ -286,6 +286,13 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat{aspect-ratio:auto;height:calc(100svh - 200px);min-height:430px;max-height:780px}
 .scene.boat .pano{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;cursor:grab}
 .scene.boat .pano::-webkit-scrollbar{display:none}
+.scene.boat.detail .pano svg{aspect-ratio:1200/640}
+.scene.boat.ov svg{cursor:zoom-in} .scene.boat.ov [data-egg]{pointer-events:none}
+.scene.boat svg.zoomin{transition:transform .32s ease-in,opacity .32s ease-in;transform:scale(2.4);opacity:.25}
+.scene.boat.detail .pano{animation:zfade .4s ease-out}
+@keyframes zfade{from{opacity:0;transform:scale(.9)}}
+.scene.boat .ovbtn{position:absolute;left:10px;top:10px;z-index:4;background:rgba(255,250,240,.94);color:#2a2019;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.scene.boat .labels{pointer-events:none}
 .scene.boat .pano svg{height:100%;width:auto;aspect-ratio:400/380;max-width:none}
 .bgpill{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(30,24,18,.92);color:#fffaf0;padding:10px 12px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);font-size:.92rem;max-width:520px;margin:0 auto}
 .scene.cabin.seated .seatglow{opacity:.5;transition:opacity .4s}
@@ -470,7 +477,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.12';
+  window.__ver = '4.13';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3444,6 +3451,91 @@ function boatScene(crew) {
 </div>`;
 }
 const FERNGLAS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="15.5" r="3.5"/><circle cx="17.5" cy="15.5" r="3.5"/><path d="M10 15.5h4M5 12l2-6h3l1 6M19 12l-2-6h-3l-1 6"/></svg>';
+/* ---------- Detailansicht: das lange Boot (5.4) ----------
+   Etwa drei Bildschirmbreiten, nur waagerecht wischen. Links der Bug, rechts das Heck.
+   Alle Eggs und Funktionen der Übersicht liegen auch hier (gleiche data-egg/data-go). */
+const DETAIL_HINTS = [{x: 734, y: 226, r: 38}, {x: 985, y: 236, r: 44}];
+/* Übersicht (x 0..400) ↔ Detail (x 0..1200): Stützpunkte Bug, Mast, Niedergang, Steuer, Motor */
+const ZOOM_MAP = [[0, 0], [60, 80], [195, 420], [287, 734], [345, 985], [372, 1160], [400, 1200]];
+function ovToDetail(x) {
+  for (let i = 1; i < ZOOM_MAP.length; i++) { const [a, A] = ZOOM_MAP[i - 1], [b, B] = ZOOM_MAP[i]; if (x <= b) return A + (x - a) / (b - a) * (B - A); }
+  return 1200;
+}
+const lbl = (x, y, t) => `<g class="lbl" transform="translate(${x} ${y})"><rect x="${-t.length * 4.2 - 9}" y="-13" width="${t.length * 8.4 + 18}" height="22" rx="11" fill="rgba(255,250,240,.9)"/><text text-anchor="middle" y="3" style="font:700 12px var(--bfont, sans-serif);fill:#2a2019">${t}</text></g>`;
+function longBoatScene(crew) {
+  const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
+  const tri = (x) => `${stars().replace(/<g class="stars"/, `<g class="stars" transform="translate(${x} 0)"`)}`;
+  return `<div class="scene boat detail" data-day="${day}" data-wx="${wx}" style="${styleVars(p)}${boatLook()}">
+  <div class="pano" id="pano"><svg class="longboat" viewBox="0 -120 1200 640" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Das Boot aus der Nähe: Bug, Mast, Niedergang, Cockpit mit Steuer und Motor. Zum Wischen.">
+    <defs><clipPath id="dClip1"><circle cx="560" cy="226" r="11"/></clipPath><clipPath id="dClip2"><circle cx="620" cy="226" r="11"/></clipPath></defs>
+    <rect y="-120" width="1200" height="640" style="fill:var(--skyT)"/>
+    <rect y="120" width="1200" height="92" style="fill:var(--skyB)"/>
+    ${tri(0)}${tri(400)}${tri(800)}${sunMoon(1080, 62)}
+    <g class="clouds">${cloud(60, 54, 1.2)}${cloud(330, 96, .9)}${cloud(610, 40, 1)}${cloud(880, 88, .8)}${cloud(1120, 120, .9)}</g>
+    <g class="gullfly" data-egg="moewe"><path d="M0 0 q8 -7 14 0 q6 -7 14 0" stroke="#fbfbf7" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="-6" y="-12" width="40" height="22" fill="transparent"/></g>
+    <path d="M840 212 L870 200 L960 197 L1010 205 L1040 212 Z" fill="#b5563a"/><path d="M870 200 L960 197" stroke="#6a8f4a" stroke-width="3"/>
+    <g transform="translate(940 202) scale(1.3)"><g data-egg="leuchtturm">${lighthouse(0, 0)}<rect x="-12" y="-36" width="34" height="38" fill="transparent"/></g></g>
+    <rect y="210" width="1200" height="310" style="fill:var(--sea)"/>
+    ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(226, 'w1', 'var(--seaD)', .4, 520)}</g>`).join('')}
+    <g class="rocker">
+      <!-- Mast, Wanten und Vorstag (oben aus dem Bild heraus) -->
+      <path d="M422 -120 L330 252 M422 -120 L520 252 M422 -120 L78 248 M1130 248 L422 -120" stroke="#8a8a8a" stroke-width="1.6"/>
+      <g class="sails" data-egg="segel">
+        <path class="sail jib" d="M92 244 L398 -96 Q414 80 384 238 Z" style="fill:var(--jib,#efe3c8)"/>
+        <path class="sail main" d="M428 -110 L428 228 L770 228 Q660 40 450 -110 Z" style="fill:var(--sail,#fbf3e1)"/>
+        <path d="M428 60 Q520 66 560 60 M428 130 Q560 140 640 128" stroke="#000" stroke-opacity=".08" stroke-width="2" fill="none"/>
+      </g>
+      <g class="furled" aria-hidden="true"><rect x="424" y="222" width="350" height="12" rx="6" fill="#e9dfc8"/><path d="M470 222 v12 M530 222 v12 M590 222 v12 M650 222 v12 M710 222 v12" stroke="#b9a98a" stroke-width="2"/></g>
+      <rect x="416" y="-120" width="12" height="372" rx="3" fill="#5a3e2a"/>
+      <path d="M426 234 L780 234" stroke="#5a3e2a" stroke-width="8" stroke-linecap="round"/>
+      <!-- Aufbau mit Bullaugen (Crew) und Niedergang -->
+      <path d="M470 252 L486 206 L760 206 L770 252 Z" fill="#f7f2e6"/><path d="M486 206 L760 206" stroke="#c8b99a" stroke-width="3"/>
+      <g data-go="kajuete" class="portholes">
+        <circle cx="560" cy="226" r="11" fill="#f3d79a"/><g clip-path="url(#dClip1)">${charG(crew.K, 546, 212, .28)}</g>
+        <circle cx="620" cy="226" r="11" fill="#f3d79a"/><g clip-path="url(#dClip2)">${charG(crew.M, 606, 212, .28)}</g>
+        <circle cx="560" cy="226" r="12.5" fill="none" stroke="#c8962e" stroke-width="3"/><circle cx="620" cy="226" r="12.5" fill="none" stroke="#c8962e" stroke-width="3"/>
+        <rect x="540" y="208" width="104" height="38" fill="transparent"/></g>
+      <g data-go="kajuete" class="hatch">
+        <rect x="706" y="196" width="56" height="8" rx="3" fill="#7a4e33"/>
+        <rect x="710" y="202" width="48" height="50" rx="3" fill="#5a3e2a"/>
+        <rect x="716" y="208" width="36" height="44" fill="#2a1a10"/>
+        <ellipse class="hatchglow" cx="734" cy="246" rx="16" ry="7" fill="#ffcf7a" opacity=".55"/>
+        <path d="M718 218 H750 M718 228 H750 M718 238 H750" stroke="#b98a5a" stroke-width="3"/>
+        <rect x="700" y="190" width="68" height="64" fill="transparent"/></g>
+      <!-- Cockpit mit Bänken, Winsch, Horn und Pinne -->
+      <path d="M780 252 L792 230 L1060 230 L1070 252 Z" fill="#c9b58e"/><rect x="800" y="236" width="250" height="12" rx="3" fill="#8a6a46"/>
+      <circle cx="812" cy="226" r="7" fill="#4a4a4a"/><circle cx="812" cy="226" r="3" fill="#8a8a8a"/>
+      <g data-egg="horn"><circle cx="860" cy="226" r="5" fill="#2b2118"/><path d="M864 226 L884 217 L884 235 Z" fill="#c8962e"/><rect x="850" y="210" width="40" height="28" fill="transparent"/></g>
+      <g data-egg="pinne"><path d="M1076 244 L950 226" stroke="#5a3e2a" stroke-width="7" stroke-linecap="round"/><path d="M950 226 L930 223" stroke="#c8962e" stroke-width="7" stroke-linecap="round"/><rect x="1068" y="232" width="14" height="26" rx="3" fill="#3a2a1c"/><rect x="920" y="208" width="166" height="44" fill="transparent"/></g>
+      <!-- Heck: Heckkorb, Flagge (Wimpel), Außenborder -->
+      <path d="M1100 252 L1100 214 L1150 214 L1150 252" stroke="#9aa3ab" stroke-width="3" fill="none"/>
+      <g data-egg="bauteile"><path d="M1124 252 L1124 160" stroke="#5a3e2a" stroke-width="3"/><path class="flag" d="M1124 162 L1164 168 L1124 178 Z" fill="#2b2b2b"/><path d="M1124 168 L1164 172 L1124 178 Z" fill="#d6513c"/><path d="M1124 174 L1164 176 L1124 178 Z" fill="#f0c94a"/><rect x="1110" y="152" width="60" height="32" fill="transparent"/></g>
+      <!-- Bug: Bugkorb, Seitenlaternen, Anker -->
+      <path d="M56 248 L60 214 L140 214 L150 250" stroke="#9aa3ab" stroke-width="3" fill="none"/>
+      <g data-egg="laternen"><rect x="92" y="216" width="22" height="12" rx="3" fill="#2b2118"/><circle class="lant r" cx="98" cy="222" r="3" fill="#e2463b"/><circle class="lant g" cx="108" cy="222" r="3" fill="#4caf50"/><rect x="84" y="206" width="38" height="28" fill="transparent"/></g>
+      <!-- Rumpf -->
+      <path d="M36 248 L1160 248 L1150 302 L78 302 Q50 284 36 248 Z" style="fill:var(--hull,#fbf6ec)"/>
+      <path d="M40 258 L1158 258 L1156 268 L46 268 Z" style="fill:var(--stripe,#3d5f8f)"/>
+      <path d="M70 294 L1152 294 L1150 302 L78 302 Z" fill="#c2473b"/>
+      <circle cx="56" cy="276" r="3" fill="#5a3e2a"/><path d="M56 279 V292 M48 288 Q56 298 64 288" stroke="#5a3e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      ${S.boat && S.boat.name ? `<text x="1040" y="288" text-anchor="middle" style="fill:var(--stripe,#3d5f8f);font:700 18px var(--hfont, Georgia, serif);letter-spacing:1px">${esc(S.boat.name)}</text>` : ''}
+      <g data-egg="motor"><rect x="1158" y="250" width="10" height="14" fill="#3a3a3a"/><rect x="1150" y="232" width="38" height="24" rx="8" fill="#5c5c5c"/>
+        <path d="M1158 256 L1182 256 L1180 300 L1174 330 L1166 330 L1162 300 Z" fill="#4a4a4a"/><rect x="1144" y="226" width="54" height="108" fill="transparent"/></g>
+      <circle class="navl white" cx="1150" cy="246" r="3" fill="#fffbe8"/>
+    </g>
+    <g data-egg="tonne"><g transform="translate(270 366) scale(1.4)">${buoyG(0, 0)}</g><rect x="250" y="316" width="40" height="64" fill="transparent"/></g>
+    <g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M640 356 q12 -9 24 0 q-12 9 -24 0 Z M664 356 l8 -6 v12 Z" fill="#e8954a"/><circle cx="646" cy="354.5" r="1.2" fill="#2b2118"/></g><rect x="626" y="336" width="56" height="34" fill="transparent"/></g>
+    <g transform="translate(920 -14)"><g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="12" ry="10" fill="#7d8790"/><circle cx="57" cy="401" r="1.6" fill="#2b2118"/><circle cx="67" cy="401" r="1.6" fill="#2b2118"/><ellipse cx="62" cy="407" rx="3.5" ry="2.2" fill="#4a5258"/><rect x="46" y="388" width="32" height="26" fill="transparent"/></g></g>
+    ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(318, 'w2', 'var(--seaD)', .5, 520)}${waves(380, 'w3', 'var(--seaD)', .6, 520)}${rain(520)}${fog()}</g>`).join('')}
+    <g class="labels">${lbl(110, 186, 'Bug')}${lbl(422, 196, 'Mast')}${lbl(734, 176, 'Niedergang')}${lbl(985, 196, 'Steuer')}${lbl(1168, 214, 'Motor')}</g>
+    <g class="hints">${DETAIL_HINTS.map(h => `<circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="none" stroke="#fff6b0" stroke-width="3"/>`).join('')}</g>
+  </svg></div>
+  <div class="panohint" aria-hidden="true">‹ wischen ›</div>
+  <button class="btn small ovbtn" id="ovbtn">↖ Übersicht</button>
+  <button class="fernglas" id="fernglas" aria-label="Fernglas: zeigt, was man antippen kann">${FERNGLAS_SVG}</button>
+  <div class="bubble hidden" id="bubble" role="status" aria-live="polite"><b></b><span></span></div>
+</div>`;
+}
 
 /* Fernglas: antippen oder gedrückt halten zeigt kurz alle antippbaren Stellen */
 /* Kringel und Beschriftung nur dort, wo ein Spiel oder Lerninhalt steckt */
@@ -3494,10 +3586,12 @@ function bindFernglas(scene) {
 
 /* ---------- Startbildschirm ---------- */
 let fishTimer = null;
+/* Zwei Ebenen an Deck: Übersicht (ganzes Boot) und Detail (langes Boot). detailX = Mitte in Detail-Koordinaten (0..1200). */
+let deckView = 'overview', detailX = null;
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
-  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length;
-  app.innerHTML = `${boatScene(S.crew)}
+  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, detail = deckView === 'detail';
+  app.innerHTML = `${detail ? longBoatScene(S.crew) : boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace('>‹ wischen ›<', '>Antippen zum Heranzoomen<')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
@@ -3506,11 +3600,26 @@ function renderBoat() {
     ${courseCard()}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
-  bindPano($('#pano'));
+  if (detail) bindPano($('#pano'), 'panoD', detailX); else bindPano($('#pano'));
+  detailX = null;
   $('#down').onclick = goBelow; $('#crs').onclick = courseSheet; $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
-  sc.querySelectorAll('[data-egg]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); startEgg(el.dataset.egg, el); }));
+  if (detail) {
+    sc.querySelectorAll('[data-egg]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); startEgg(el.dataset.egg, el); }));
+    $('#ovbtn').onclick = () => { AUD.click(); deckView = 'overview'; renderBoat(); };
+  } else {
+    /* Übersicht: Antippen zoomt an genau diese Stelle (Eggs wohnen in der Detailansicht) */
+    const svg = sc.querySelector('svg');
+    svg.addEventListener('click', e => {
+      if (e.target.closest('[data-go]')) return;
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM(); if (!m) return;
+      const x = pt.matrixTransform(m.inverse()).x; AUD.unlock(); AUD.click();
+      const r = svg.getBoundingClientRect(); svg.style.transformOrigin = `${e.clientX - r.left}px ${e.clientY - r.top}px`; svg.classList.add('zoomin');
+      LOG.add('deck', 'Zoom auf x=' + Math.round(x));
+      setTimeout(() => { deckView = 'detail'; detailX = ovToDetail(x); renderBoat(); }, 320);
+    });
+  }
   clearTimeout(fishTimer);
   const jump = () => { if (tab !== 'deck') return; const f = sc.querySelector('.fishwrap'); if (f) { f.classList.remove('jump'); f.getBBox(); f.classList.add('jump'); } fishTimer = setTimeout(jump, 9000 + Math.random() * 14000); };
   fishTimer = setTimeout(jump, 4000);
@@ -3518,15 +3627,17 @@ function renderBoat() {
 }
 function goBelow() { AUD.unlock(); setTab('cabin'); }
 /* Panorama: Start beim Cockpit, Position merken, am Laptop mit der Maus ziehen */
-function bindPano(pano) {
+function bindPano(pano, key = 'panoX', centerX = null) {
   if (!pano) return;
-  requestAnimationFrame(() => {
+  const place0 = () => {
     const max = pano.scrollWidth - pano.clientWidth; if (max <= 0) return;
-    const want = S.panoX != null ? S.panoX : (.72 * pano.scrollWidth - pano.clientWidth / 2) / max;
+    /* centerX: Ziel in Detail-Koordinaten (0..1200), z. B. nach dem Heranzoomen */
+    const want = centerX != null ? (centerX / 1200 * pano.scrollWidth - pano.clientWidth / 2) / max : S[key] != null ? S[key] : (.72 * pano.scrollWidth - pano.clientWidth / 2) / max;
     pano.scrollLeft = Math.max(0, Math.min(1, want)) * max;
-  });
+  };
+  place0(); requestAnimationFrame(place0);
   let st = null;
-  pano.addEventListener('scroll', () => { const max = pano.scrollWidth - pano.clientWidth; if (max > 0) S.panoX = pano.scrollLeft / max; }, {passive: true});
+  pano.addEventListener('scroll', () => { const max = pano.scrollWidth - pano.clientWidth; if (max > 0) S[key] = pano.scrollLeft / max; }, {passive: true});
   pano.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; st = {x: e.clientX, l: pano.scrollLeft, moved: false}; });
   pano.addEventListener('pointermove', e => { if (!st) return; const dx = e.clientX - st.x; if (Math.abs(dx) > 5) st.moved = true; pano.scrollLeft = st.l - dx; });
   const end = () => { if (st && st.moved) { pano.addEventListener('click', ev => { ev.stopPropagation(); ev.preventDefault(); }, {capture: true, once: true}); } st = null; };
