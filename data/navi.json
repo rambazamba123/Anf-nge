@@ -24,5 +24,32 @@
   {"id": "abdrift", "t": "Abdrift (BW)", "a": "abdrift", "e": "Die Abdrift ist der Winkel zwischen rechtweisendem Kurs und Kurs durchs Wasser, den der Wind verursacht. Die Beschickung für Wind (BW) zählt plus, wenn der Wind von Backbord kommt (das Boot wird nach Steuerbord versetzt), und minus bei Wind von Steuerbord.", "m": "Wind von Backbord schiebt nach Steuerbord: plus. Wind von Steuerbord: minus."},
   {"id": "gezeiten", "t": "Gezeiten", "a": "gezeiten", "e": "Gezeiten sind das regelmäßige Steigen (Flut) und Fallen (Ebbe) des Wassers, verursacht vor allem durch den Mond. Zwischen zwei Hochwassern liegen etwa 12 Stunden 25 Minuten. Der Unterschied zwischen Hoch- und Niedrigwasser heißt Tidenhub. Bei Springzeit (nach Voll- und Neumond) ist er größer, bei Nippzeit kleiner, und auch die Gezeitenströme sind entsprechend stärker oder schwächer.", "m": "Spring springt hoch, Nipp nippt nur."}
  ],
- "lektionen": []
+ "lektionen": [
+  {"id": "L1", "t": "Karte lesen", "d": "Koordinaten ablesen und eintragen, Symbole, Tiefen", "typen": ["posAblesen", "posSetzen", "symbol", "tiefe"],
+   "crew": [{"s": "K", "t": "So, ran an den Kartentisch. Jede Position hat zwei Zahlen: erst die Breite, dann die Länge."},
+            {"s": "K", "t": "Die Breite liest du am linken oder rechten Rand ab, die Länge oben oder unten. Die feinen Striche sind Zehntel Minuten."},
+            {"s": "M", "t": "Und die kleinen Zahlen im Wasser sind Tiefen in Metern unter Kartennull. Kartennull ist fast das niedrigste Wasser, meistens ist es also tiefer."},
+            {"s": "T", "t": "Breite zuerst! Breite zuerst!"}]},
+  {"id": "L2", "t": "Werkzeuge", "d": "Kursdreieck und Zirkel, Distanz am Breitenrand", "typen": ["kursMessen", "distMessen"],
+   "crew": [{"s": "K", "t": "Das Kursdreieck legst du mit der Kante an die Kurslinie. Dann schiebst du es, bis die Mitte auf einem Meridian liegt, und liest am Gradbogen ab."},
+            {"s": "K", "t": "Pass auf die Richtung auf: Auf dem Bogen stehen immer zwei Zahlen. Der Pfeil an der Kante zeigt, wohin du fährst."},
+            {"s": "M", "t": "Den Zirkel spreizt du zwischen den beiden Punkten. Dann ab damit an den Breitenrand, ungefähr auf gleicher Höhe. Eine Minute Breite ist eine Seemeile."},
+            {"s": "T", "t": "Nie am Längenrand! Nie am Längenrand!"}]},
+  {"id": "L3", "t": "Kurse umrechnen", "d": "rwK, mwK und MgK mit Rechentrainer", "typen": ["rw2mg", "mg2rw", "peilRechnen"],
+   "crew": [{"s": "K", "t": "Die Karte kennt nur rechtweisend, dein Kompass nur seinen Magnetkompasskurs. Dazwischen liegen Missweisung und Ablenkung."},
+            {"s": "K", "t": "Vom Kompass zur Karte rechnest du: MgK plus Ablenkung plus Missweisung gleich rwK. Von der Karte zum Kompass rückwärts, also minus und minus."},
+            {"s": "M", "t": "Und das Vorzeichen: Östliche Werte sind plus, westliche minus. Die Missweisung steht in der Kompassrose, die Ablenkung in der Tabelle vom Schiff."},
+            {"s": "T", "t": "Ost ist plus! Ost ist plus!"}]},
+  {"id": "L4", "t": "Peilen", "d": "Peilung, Kreuzpeilung, Feuer erkennen", "typen": ["kreuz", "feuer"],
+   "crew": [{"s": "K", "t": "Mit dem Handpeilkompass peilst du zwei Objekte, die gut auseinanderliegen. Am besten fast im rechten Winkel."},
+            {"s": "K", "t": "Die Peilungen rechnest du um wie Kurse: plus Ablenkung, plus Missweisung. Beim Handpeilkompass ist die Ablenkung meist null."},
+            {"s": "M", "t": "Dann legst du das Dreieck am Objekt an und ziehst die Linie. Wo sich die beiden Linien kreuzen, da bist du. Das ist der beobachtete Ort."},
+            {"s": "T", "t": "Kreuz! Kreuz! Da sind wir!"}]},
+  {"id": "L5", "t": "Koppeln", "d": "Fahrt mal Zeit gleich Distanz, Koppelort", "typen": ["distZeit", "zeitDist", "koppelort"],
+   "crew": [{"s": "K", "t": "Koppeln ist die Kunst, ohne Hilfsmittel zu wissen, wo man ist. Du kennst den letzten Ort, deinen Kurs, deine Fahrt und die Zeit."},
+            {"s": "K", "t": "Fahrt mal Zeit gleich Distanz. Sechs Knoten in einer halben Stunde sind drei Seemeilen. Die trägst du auf der Kurslinie ab, und schon hast du den Koppelort."},
+            {"s": "M", "t": "Und Zeit rechnest du am besten in Minuten: Distanz durch Fahrt mal sechzig."},
+            {"s": "T", "t": "Mal sechzig! Mal sechzig!"}]}
+ ]
+
 }

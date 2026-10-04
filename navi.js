@@ -52,7 +52,7 @@ const fmtLon = lon => { const t = 6 * 60 + lon; return `${String(Math.floor(t / 
 const fmtPos = p => fmtLat(p.lat) + '  ' + fmtLon(p.lon);
 const fmtDeg = k => String(Math.round(n360(k)) % 360).padStart(3, '0') + '°';
 const fmtSigned = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(Math.round(v)) + '°';
-const num = s => { if (s == null) return NaN; const m = String(s).replace(',', '.').match(/-?\d+(\.\d+)?/); return m ? +m[0] : NaN; };
+const num = s => { if (s == null) return NaN; const m = String(s).replace(',', '.').replace(/[−–]/g, '-').match(/-?\d+(\.\d+)?/); return m ? +m[0] : NaN; };
 const angDiff = (a, b) => Math.abs(((a - b + 540) % 360) - 180);
 Object.assign(NAV, {proj, unproj, kursDist, versegeln, kreuzpeilung, ablenkung, mw, fmtPos, fmtLat, fmtLon, fmtDeg, fmtSigned, num, angDiff, n360, r1});
 
@@ -279,6 +279,7 @@ const CSS = `
 .nsheetgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nsheetgrid label{margin:0;font-size:.8rem}
 .nfield{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.nfield input{width:110px}
 .nok{color:var(--stb,#1e7f4f);font-weight:700}.nno{color:var(--bb,#c2473b);font-weight:700}
+.ntab{border-collapse:collapse;margin:8px 0;font-size:.78rem;width:100%}.ntab th,.ntab td{border:1px solid var(--line);padding:3px 4px;text-align:center}
 `;
 NAV.init = async function () {
   if (!document.getElementById('navicss')) { const s = document.createElement('style'); s.id = 'navicss'; s.textContent = CSS + FIBCSS; document.head.appendChild(s); }
@@ -373,6 +374,186 @@ NAV.fibel = function (filter = '') {
   $('#gback').onclick = () => NAV.hub();
   app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { NAV.term(b.dataset.f); setTimeout(() => { const s = $('#sheet'); if (s) s.querySelector('[data-close]').addEventListener('click', () => NAV.fibel($('#fsr') ? $('#fsr').value : ''), {once: true}); }, 0); });
   let t = null; $('#fsr').oninput = e => { clearTimeout(t); t = setTimeout(() => { NAV.fibel(e.target.value); const s = $('#fsr'); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 300); };
+};
+/* ==========================================================================
+   Lernpfad: Aufgabengenerator, Übungsmaschine, Meisterschaft
+   Jede Aufgabe: {text, chart, fields:[{k,l,t}], sol:{}, tol:{}, hint:[], expl, soll(ctl)}
+   ========================================================================== */
+const rnd = (a, b) => a + Math.random() * (b - a), ri = (a, b) => Math.floor(rnd(a, b + 1)), pick = a => a[Math.floor(Math.random() * a.length)];
+const BUOYS = () => K.objekte.filter(o => ['bb', 'stb', 'mitte', 'nord', 'west', 'einzel'].includes(o.typ));
+const PEIL = () => K.objekte.filter(o => ['turm', 'kirche', 'mast', 'mitte', 'einzel', 'nord', 'west'].includes(o.typ));
+const ROSE = () => { const p = fromXY([240, 720]); return unproj(p.x, p.y); };
+const comma = (v, d = 1) => v.toFixed(d).replace('.', ',');
+const latMinOf = lat => 55 * 60 + lat - 55 * 60, lonMinOf = lon => lon;
+/* Liegt ein Punkt im freien Wasser (nicht an Land, nicht auf der Insel, auf der Karte)? */
+function inSea(p) {
+  const b = K.bounds; if (p.lat < b.lat0 + 1 || p.lat > b.lat1 - 1 || p.lon < b.lon0 + 1.5 || p.lon > 49.5) return false;
+  const isl = {lat: 30 - 240 / 50, lon: 20 + 360 / 28.45}; if (Math.hypot((p.lat - isl.lat), (p.lon - isl.lon) * .57) < 2.6) return false;
+  return true;
+}
+function seaPoint() { for (let i = 0; i < 200; i++) { const p = {lat: rnd(14, 26), lon: rnd(24, 48)}; if (inSea(p)) return p; } return {lat: 19, lon: 36}; }
+function twoBuoys(dmin = 2, dmax = 10) { const B = BUOYS(); for (let i = 0; i < 300; i++) { const a = pick(B), b = pick(B); if (a === b) continue; const kd = kursDist(a, b); if (kd.d >= dmin && kd.d <= dmax) return [a, b, kd]; } const a = B[0], b = B[3]; return [a, b, kursDist(a, b)]; }
+/* Kennung in Worte fassen, z. B. „Fl(2) R 9s“ → „zwei rote Blitze, Wiederkehr 9 Sekunden“ */
+function kennWorte(k) {
+  const m = k.match(/^(Fl|Q|VQ|Iso|Oc)(?:\((\d+)\))?\s*([RGW])?\s*(\d+)?s?/); if (!m) return k;
+  const zahl = ['', 'ein', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'][+m[2] || 1], farbe = {R: 'rote', G: 'grüne', W: 'weiße'}[m[3] || 'W'], farbe1 = {R: 'rotes', G: 'grünes', W: 'weißes'}[m[3] || 'W'];
+  const art = m[1] === 'Fl' ? (m[2] ? `Gruppen aus ${zahl} ${farbe}n Blitzen` : `${farbe1.replace(/s$/, 'r')} Blitz`.replace('weißer', 'weißer').replace('roter', 'roter')) : m[1] === 'Q' ? (m[2] ? `Gruppen aus ${zahl} weißen Funkeln` : 'ununterbrochenes weißes Funkeln') : m[1] === 'Iso' ? `${farbe1} Gleichtaktfeuer` : (m[2] ? `${farbe1} unterbrochenes Feuer in Gruppen zu ${zahl}` : `${farbe1} unterbrochenes Feuer`);
+  return art + (m[4] ? `, Wiederkehr ${m[4]} Sekunden` : '');
+}
+const GEN = {
+  posAblesen() { const o = pick(BUOYS()); return {text: `Lies die geographische Position der Tonne <b>${o.id}</b> ab.`, chart: {center: o, hi: [o.id], tools: ['hand']}, fields: [{k: 'lat', l: 'Breite', t: 'lat'}, {k: 'lon', l: 'Länge', t: 'lon'}], sol: {lat: o.lat, lon: o.lon},
+    hint: ['Die Breite liest du am linken oder rechten Kartenrand ab: Grad, Minuten und Zehntel.', 'Die Länge liest du oben oder unten ab. Leg die Lupe (Finger gedrückt halten) auf den Rand.'], expl: `${o.id} liegt auf ${fmtPos(o)}.`, soll: c => c.addMark(proj(o.lat, o.lon), '', 'soll')}; },
+  posSetzen() { const p = seaPoint(); return {text: `Trage die Position <b>${fmtPos(p)}</b> mit einem Kreuz in die Karte ein.`, chart: {center: p, tools: ['hand', 'punkt']}, fields: [{k: 'pos', l: 'Kreuz in der Karte', t: 'pos'}], sol: {pos: p},
+    hint: ['Erst die Breite am Rand suchen, dann die Länge oben oder unten.', 'Mit dem Werkzeug ✕ setzt du das Kreuz. Die Lupe hilft beim genauen Setzen.'], expl: `Gesucht war ${fmtPos(p)}.`, soll: c => c.addMark(proj(p.lat, p.lon), 'Soll', 'soll')}; },
+  symbol() {
+    const B = BUOYS(), o = pick(B), q = Math.random() < .5;
+    if (q) { const opts = [...new Set([o.bed, ...B.filter(x => x.typ !== o.typ).map(x => x.bed)])].slice(0, 6); const o4 = [o.bed, ...opts.filter(x => x !== o.bed).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
+      return {text: `Was bedeutet die Tonne <b>${o.id}</b>? Schau dir Farbe und Toppzeichen in der Karte an.`, chart: {center: o, hi: [o.id], tools: ['hand'], noInfo: true}, fields: [{k: 'mc', l: '', t: 'mc', opts: o4}], sol: {mc: o.bed}, hint: ['Rot und stumpf ist Backbord, grün und spitz ist Steuerbord. Gelb-schwarze Tonnen sind Kardinaltonnen.'], expl: `${o.id}: ${o.farbe}, Toppzeichen ${o.topp}. ${o.bed}.`}; }
+    const kk = [...new Set(B.map(x => x.kenn))], o4 = [o.kenn, ...kk.filter(x => x !== o.kenn).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
+    return {text: `Welche Kennung hat das Feuer der Tonne <b>${o.id}</b>?`, chart: {center: o, hi: [o.id], tools: ['hand'], noInfo: true, hideKenn: true}, fields: [{k: 'mc', l: '', t: 'mc', opts: o4}], sol: {mc: o.kenn}, hint: ['Bei Lateraltonnen wechseln sich Fl und Fl(2) ab, Kardinaltonnen funkeln (Q).'], expl: `${o.id} hat ${o.kenn}: ${kennWorte(o.kenn)}.`};
+  },
+  tiefe() { const t = pick(K.tiefen), p0 = fromXY([t[0], t[1]]), ll = unproj(p0.x, p0.y), kt = num(t[2].replace('₅', '.5')), h = ri(5, 35) / 10;
+    return {text: `An der markierten Stelle steht eine Kartentiefe. Die Höhe der Gezeit beträgt gerade <b>${comma(h)} m</b>. Wie groß ist die Kartentiefe, und wie tief ist das Wasser dort jetzt?`, chart: {center: ll, tools: ['hand'], ring: ll}, fields: [{k: 'kt', l: 'Kartentiefe', t: 'm'}, {k: 'wt', l: 'Wassertiefe', t: 'm'}], sol: {kt, wt: kt + h},
+      hint: ['Die kleine Zahl ist die Kartentiefe in Metern unter Kartennull.', 'Wassertiefe = Kartentiefe + Höhe der Gezeit.'], expl: `Kartentiefe ${comma(kt)} m plus ${comma(h)} m Gezeit sind ${comma(kt + h)} m Wassertiefe.`}; },
+  kursMessen() { const [a, b, kd] = twoBuoys(); return {text: `Wie lautet der rechtweisende Kurs (rwK) von <b>${a.id}</b> nach <b>${b.id}</b>?`, chart: {center: {lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2}, hi: [a.id, b.id], tools: ['hand', 'stift', 'dreieck']}, fields: [{k: 'k', l: 'rwK', t: 'deg'}], sol: {k: kd.k},
+    hint: ['Zieh mit dem Bleistift eine Linie von Tonne zu Tonne (sie rastet ein).', 'Leg das Kursdreieck mit der Kante an die Linie, der Pfeil zeigt zum Ziel. Dann lies dort ab, wo die rote Meridianlinie den Gradbogen schneidet.'], expl: `Der rwK von ${a.id} nach ${b.id} ist ${fmtDeg(kd.k)}.`, ctrl: c => c.dreieckDeg() != null ? `Dreieckskante zeigt ${fmtDeg(c.dreieckDeg())}` : '', soll: c => c.addLine(proj(a.lat, a.lon), proj(b.lat, b.lon), 'soll')}; },
+  distMessen() { const [a, b, kd] = twoBuoys(); return {text: `Wie groß ist die Distanz zwischen <b>${a.id}</b> und <b>${b.id}</b>?`, chart: {center: {lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2}, hi: [a.id, b.id], tools: ['hand', 'zirkel']}, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d: kd.d},
+    hint: ['Zirkel wählen und die beiden Tonnen antippen.', 'Dann am Gelenk zum Breitenrand ziehen, ungefähr auf derselben Höhe, und die Minuten ablesen: 1\' = 1 sm.'], expl: `Die Distanz beträgt ${comma(kd.d)} sm.`, ctrl: c => { const d = c.zirkelSm(); return d != null ? `Zirkel misst ${comma(d)} sm` : ''; }, soll: c => c.addLine(proj(a.lat, a.lon), proj(b.lat, b.lon), 'soll')}; },
+  rw2mg() { const rwk = ri(0, 359), abl = pick([-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), m = mw(), mg = n360(rwk - m - abl);
+    return {text: `Der rwK beträgt <b>${fmtDeg(rwk)}</b>. Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: {center: ROSE(), tools: ['hand'], width: 420}, fields: [{k: 'mw', l: 'Mw', t: 'sdeg'}, {k: 'mg', l: 'MgK', t: 'deg'}], sol: {mw: m, mg}, tol: {mw: 0, mg: 1},
+      hint: ['Die Mw steht in der Kompassrose: 3° E, also +3°.', 'Von der Karte zum Kompass: MgK = rwK − Mw − Abl.'], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(m)}) − (${fmtSigned(abl)}) = ${fmtDeg(mg)}.`}; },
+  mg2rw() { const row = pick(K.deviation), mg = n360(row[0] + pick([0, 0, 10, -10])), abl = Math.round(ablenkung(mg)), m = mw(), rw = n360(mg + abl + m);
+    const tab = `<table class="ntab"><tr><th>MgK</th>${K.deviation.map(r => `<td>${String(r[0]).padStart(3, '0')}</td>`).join('')}</tr><tr><th>Abl.</th>${K.deviation.map(r => `<td>${fmtSigned(r[1])}</td>`).join('')}</tr></table>`;
+    return {text: `Am Steuerkompass liegt der MgK <b>${fmtDeg(mg)}</b> an. Die Ablenkung entnimmst du der Ablenkungstabelle (zwischen den Werten gleichmäßig verteilen), die Mw der Karte (3° E). Wie lautet der rwK?${tab}`, chart: null, fields: [{k: 'abl', l: 'Abl.', t: 'sdeg'}, {k: 'rw', l: 'rwK', t: 'deg'}], sol: {abl, rw}, tol: {abl: 1, rw: 1},
+      hint: ['Such in der Tabelle die Ablenkung zum MgK. Liegt er zwischen zwei Werten, rechne anteilig.', 'Vom Kompass zur Karte: rwK = MgK + Abl. + Mw.'], expl: `Abl. bei ${fmtDeg(mg)}: ${fmtSigned(abl)}. rwK = ${fmtDeg(mg)} + (${fmtSigned(abl)}) + (${fmtSigned(m)}) = ${fmtDeg(rw)}.`}; },
+  peilRechnen() { const mgp = ri(0, 359), m = mw(), rwp = n360(mgp + m);
+    return {text: `Mit dem Handpeilkompass peilst du einen Leuchtturm in <b>${fmtDeg(mgp)}</b> (MgP). Die Ablenkung beträgt 0°, die Mw ist 3° E. Wie lautet die rwP?`, chart: null, fields: [{k: 'rwp', l: 'rwP', t: 'deg'}], sol: {rwp}, tol: {rwp: 1}, hint: ['Peilungen rechnest du wie Kurse: rwP = MgP + Abl. + Mw.'], expl: `rwP = ${fmtDeg(mgp)} + 0° + 3° = ${fmtDeg(rwp)}.`}; },
+  kreuz() {
+    let ship, o1, o2, p1, p2;
+    for (let i = 0; i < 400; i++) { ship = seaPoint(); const P = PEIL(); o1 = pick(P); o2 = pick(P); if (o1 === o2) continue; const a = kursDist(ship, o1), b = kursDist(ship, o2), dd = angDiff(a.k, b.k); if (a.d < 2 || b.d < 2 || a.d > 14 || b.d > 14 || dd < 50 || dd > 130) continue; p1 = a.k; p2 = b.k; break; }
+    const m = mw(), mg1 = Math.round(n360(p1 - m)), mg2 = Math.round(n360(p2 - m)), rw1 = n360(mg1 + m), rw2 = n360(mg2 + m), pos = kreuzpeilung(o1, rw1, o2, rw2) || ship;
+    return {text: `Zur Standortbestimmung peilst du mit dem Handpeilkompass (Abl. 0°): <b>${o1.id}</b> MgP = ${fmtDeg(mg1)}, <b>${o2.id}</b> MgP = ${fmtDeg(mg2)}. Die Mw ist der Karte zu entnehmen. Wie lauten die rwP? Trage die Standlinien ein und setze ein Kreuz auf deinen Standort.`,
+      chart: {center: pos, hi: [o1.id, o2.id], tools: ['hand', 'dreieck', 'stift', 'punkt'], width: 700}, fields: [{k: 'r1', l: 'rwP ' + o1.id, t: 'deg'}, {k: 'r2', l: 'rwP ' + o2.id, t: 'deg'}, {k: 'pos', l: 'Standort (Kreuz)', t: 'pos'}], sol: {r1: rw1, r2: rw2, pos}, tol: {r1: 1, r2: 1},
+      hint: ['rwP = MgP + Abl. + Mw, also jeweils plus 3°.', 'Leg das Dreieck mit der Kante an das Objekt, Pfeil zeigt zum Objekt (die rwP), und zieh mit „Linie am Dreieck“ die Standlinie.', 'Wo sich beide Linien kreuzen, setzt du mit ✕ den beobachteten Ort.'],
+      expl: `rwP ${o1.id} = ${fmtDeg(rw1)}, rwP ${o2.id} = ${fmtDeg(rw2)}. Beobachteter Ort: ${fmtPos(pos)}.`,
+      soll: c => { const P = proj(pos.lat, pos.lon); c.addLine(proj(o1.lat, o1.lon), P, 'soll'); c.addLine(proj(o2.lat, o2.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); }};
+  },
+  feuer() { const L = K.objekte.filter(o => o.kenn), o = pick(L), o4 = [o.id, ...L.filter(x => x.kenn !== o.kenn).map(x => x.id).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
+    return {text: `Nachts siehst du voraus ein Feuer: <b>${kennWorte(o.kenn)}</b>. Welches ist es?`, chart: {center: o, tools: ['hand'], width: 900, noInfo: true}, fields: [{k: 'mc', l: '', t: 'mc', opts: o4}], sol: {mc: o.id}, hint: ['Vergleiche mit den Kennungen in der Karte: Fl = Blitz, Q = Funkeln, Iso = Gleichtakt, Oc = unterbrochen. Die Zahl in Klammern ist die Gruppe, die letzte Zahl die Wiederkehr.'], expl: `Es ist ${o.id} (${o.kenn}).`}; },
+  distZeit() { const v = ri(8, 24) / 2, t = ri(2, 18) * 5, d = v * t / 60;
+    return {text: `Du fährst <b>${comma(v)} kn</b> über Grund. Welche Distanz legst du in <b>${t} Minuten</b> zurück?`, chart: null, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d}, tol: {d: .1}, hint: ['Distanz = Fahrt × Zeit. Zeit in Stunden: Minuten durch 60.'], expl: `${comma(v)} kn × ${t}/60 h = ${comma(d, 2)} sm.`}; },
+  zeitDist() { const v = ri(8, 24) / 2, d = ri(15, 120) / 10, t = d / v * 60;
+    return {text: `Bis zur nächsten Tonne sind es <b>${comma(d)} sm</b>. Du fährst <b>${comma(v)} kn</b> über Grund. Wie lange brauchst du?`, chart: null, fields: [{k: 't', l: 'Zeit', t: 'min'}], sol: {t}, tol: {t: 1}, hint: ['Zeit = Distanz durch Fahrt, mal 60 für Minuten.'], expl: `${comma(d)} sm : ${comma(v)} kn × 60 = ${Math.round(t)} Minuten.`}; },
+  koppelort() {
+    let a, k, v, t, z;
+    for (let i = 0; i < 300; i++) { a = pick(BUOYS()); k = ri(0, 35) * 10; v = ri(10, 20) / 2; t = ri(3, 9) * 10; z = versegeln(a, k, v * t / 60); if (inSea(z)) break; }
+    const hh = ri(8, 15), mm = pick([0, 15, 30]), tt = mm + t, fmtT = m2 => `${String(hh + Math.floor(m2 / 60)).padStart(2, '0')}:${String(m2 % 60).padStart(2, '0')}`;
+    return {text: `Um ${fmtT(mm)} Uhr passierst du die Tonne <b>${a.id}</b> nahebei. Du steuerst rwK <b>${fmtDeg(k)}</b> mit <b>${comma(v)} kn</b>. Strom und Wind gibt es nicht. Wo ist dein Koppelort um <b>${fmtT(tt)} Uhr</b>?`,
+      chart: {center: z, hi: [a.id], tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 700}, fields: [{k: 'lat', l: 'Breite', t: 'lat'}, {k: 'lon', l: 'Länge', t: 'lon'}], sol: {lat: z.lat, lon: z.lon},
+      hint: [`Distanz = ${comma(v)} kn × ${t} min / 60.`, 'Dreieck an die Tonne legen, auf den Kurs drehen und die Kurslinie ziehen.', 'Distanz mit dem Zirkel am Breitenrand abgreifen und auf der Kurslinie abtragen, dort das Kreuz setzen und die Position ablesen.'],
+      expl: `Distanz ${comma(v * t / 60, 2)} sm auf ${fmtDeg(k)} ab ${a.id}: Koppelort ${fmtPos(z)}.`, soll: c => { const A = proj(a.lat, a.lon), Z = proj(z.lat, z.lon); c.addLine(A, Z, 'soll'); c.addMark(Z, 'Ok', 'soll'); }};
+  },
+};
+NAV.GEN = GEN;
+/* Bewertung: Toleranzen laut freigegebenem Konzept (Kurs/Peilung ±2°, Distanz ±0,2 sm, Position ±0,3', Zeit ±2 min) */
+const TOL = {deg: 2, sdeg: 0, sm: .2, lat: .3, lon: .3, min: 2, m: .05, pos: .3};
+function grade(task, vals, ctl) {
+  const res = {};
+  task.fields.forEach(f => {
+    const tol = (task.tol && task.tol[f.k] != null) ? task.tol[f.k] : TOL[f.t], sol = task.sol[f.k];
+    let ok = false, got = vals[f.k];
+    if (f.t === 'pos') { const m = ctl && ctl.st.marks.filter(x => !x.c).slice(-1)[0]; if (m) { const ll = unproj(m.x, m.y), d = kursDist(ll, sol).d; ok = d <= tol; got = fmtPos(ll); } else got = 'kein Kreuz'; }
+    else if (f.t === 'mc') ok = got === sol;
+    else if (f.t === 'deg') ok = !isNaN(num(got)) && angDiff(num(got), sol) <= tol;
+    else ok = !isNaN(num(got)) && Math.abs(num(got) - sol) <= tol + 1e-9;
+    res[f.k] = {ok, got};
+  });
+  return res;
+}
+const solText = (f, v) => f.t === 'deg' ? fmtDeg(v) : f.t === 'sdeg' ? fmtSigned(v) : f.t === 'sm' ? comma(v) + ' sm' : f.t === 'lat' ? fmtLat(v) : f.t === 'lon' ? fmtLon(v) : f.t === 'min' ? Math.round(v) + ' min' : f.t === 'm' ? comma(v) + ' m' : f.t === 'pos' ? fmtPos(v) : String(v);
+function fieldHTML(f) {
+  if (f.t === 'mc') return `<div class="menu" data-mc="${f.k}">${f.opts.map(o => `<button class="menuitem" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+  if (f.t === 'pos') return `<p class="small muted" style="margin:4px 0">${NAV.linkTerms(esc(f.l))}: setze mit dem Werkzeug ✕ ein Kreuz in die Karte.</p>`;
+  const pre = f.t === 'lat' ? '55°' : f.t === 'lon' ? '006°' : '', post = f.t === 'lat' ? "' N" : f.t === 'lon' ? "' E" : f.t === 'deg' || f.t === 'sdeg' ? '°' : f.t === 'sm' ? 'sm' : f.t === 'min' ? 'min' : f.t === 'm' ? 'm' : '';
+  const ph = f.t === 'lat' || f.t === 'lon' ? 'Min., z. B. 20,4' : f.t === 'deg' ? 'z. B. 074' : f.t === 'sdeg' ? 'z. B. +3 oder −2' : '';
+  return `<label class="nfield"><span style="min-width:96px">${NAV.linkTerms(esc(f.l))}</span>${pre}<input data-k="${f.k}" inputmode="${f.t === 'sdeg' ? 'text' : 'decimal'}" placeholder="${ph}" autocomplete="off">${post}</label>`;
+}
+/* Eine Aufgabe zeigen. opts: {title, mode:'guided'|'free'|'master'|'exam', onResult(ok,res), next} */
+NAV.task = function (task, opts) {
+  const guided = opts.mode === 'guided', exam = opts.mode === 'exam'; NAV.lastTask = task;
+  gameShell(opts.title || 'Übung', `${opts.head || ''}<div class="card small" id="xtask" style="margin-top:6px">${NAV.linkTerms(task.text)}</div>
+    ${task.chart ? '<div id="nchartbox"></div><div class="row" style="margin:6px 0;flex-wrap:wrap"><button class="btn small ghost" id="nline">Linie am Dreieck</button><button class="btn small ghost" id="nsheet">Rechenblatt</button><span class="small muted" id="xctrl"></span></div>' : '<div class="row" style="margin:6px 0"><button class="btn small ghost" id="nsheet">Rechenblatt</button></div>'}
+    <div class="card" id="xform">${task.fields.map(fieldHTML).join('')}
+      <div class="row" style="margin-top:8px"><button class="btn lamp" id="xcheck">${exam ? 'Weiter' : 'Prüfen'}</button>${guided ? '<button class="btn ghost" id="xhint">Hilfe</button>' : ''}</div><div id="xhints"></div><div id="xfb"></div></div>`);
+  NAV.bindTerms(app);
+  if (opts.back) $('#gback').onclick = opts.back;
+  let ctl = null;
+  if (task.chart) {
+    const ch = task.chart;
+    ctl = NAV.mountChart($('#nchartbox'), {center: ch.center, width: ch.width || 520, tools: ch.tools, tool: 'hand', onTap: t => { if (!ch.noInfo && !exam && t.obj) toast(t.obj.id + (t.obj.kenn ? ' · ' + t.obj.kenn : '')); }});
+    if (ch.hi) ctl.highlight(ch.hi);
+    if (ch.ring) { const p = proj(ch.ring.lat, ch.ring.lon); ctl.svg.querySelector('#nhi').insertAdjacentHTML('beforeend', `<circle cx="${p.x}" cy="${p.y}" r="18" class="nhi"/>`); }
+    if (ch.hideKenn) ctl.svg.querySelectorAll('.nlab.k').forEach(e => e.remove());
+    $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck wählen.'); ctl.lineFromDreieck(); };
+    if (guided && task.ctrl) { const upd = () => { $('#xctrl').textContent = task.ctrl(ctl); }; ctl.on('dreieck', upd); ctl.on('zirkel', upd); }
+  }
+  $('#nsheet').onclick = () => NAV.sheet();
+  const vals = {};
+  app.querySelectorAll('[data-mc]').forEach(g => g.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { vals[g.dataset.mc] = b.dataset.v; g.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
+  let hints = 0, used = false;
+  if ($('#xhint')) $('#xhint').onclick = () => { used = true; if (hints < task.hint.length) { $('#xhints').insertAdjacentHTML('beforeend', `<p class="small" style="margin:6px 0 0">💡 ${NAV.linkTerms(esc(task.hint[hints]))}</p>`); NAV.bindTerms($('#xhints')); hints++; } };
+  if (guided) $('#xhint').click();
+  $('#xcheck').onclick = () => {
+    app.querySelectorAll('[data-k]').forEach(i => { vals[i.dataset.k] = i.value; });
+    const res = grade(task, vals, ctl), ok = task.fields.every(f => res[f.k].ok);
+    if (exam) return opts.onResult(ok, res, task);
+    AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
+    $('#xfb').innerHTML = `<div class="fb" style="margin-top:8px">${task.fields.map(f => `<p style="margin:2px 0">${res[f.k].ok ? '<span class="nok">✓</span>' : '<span class="nno">✗</span>'} ${esc(f.l || 'Antwort')}: ${res[f.k].ok ? 'richtig' : `deine ${esc(String(res[f.k].got || '–'))}, richtig ${esc(solText(f, task.sol[f.k]))}`}</p>`).join('')}
+      <p class="small" style="margin:8px 0 0">${NAV.linkTerms(esc(task.expl))}</p>${task.soll ? '<p class="small muted" style="margin:4px 0 0">Die Lösung ist in der Karte gestrichelt eingezeichnet.</p>' : ''}<button class="btn wide" id="xnext" style="margin-top:10px">${opts.nextLabel || 'Nächste Aufgabe'}</button></div>`;
+    NAV.bindTerms($('#xfb'));
+    if (ctl && task.soll) task.soll(ctl);
+    $('#xcheck').disabled = true;
+    if (opts.onResult) opts.onResult(ok, res, task, used);
+    $('#xnext').onclick = () => opts.next && opts.next();
+  };
+  return ctl;
+};
+/* ---------- Lernpfad ---------- */
+const lekOf = id => (NV.lektionen || []).find(l => l.id === id);
+const lekState = id => { const n = S_(); return n.lek[id] = n.lek[id] || {serie: 0, sterne: 0, n: 0}; };
+NAV.path = function () {
+  const L = NV.lektionen || [];
+  gameShell('Lernpfad', `<p class="small muted" style="margin:6px 0 10px">Jede Lektion: Die Crew erklärt, dann geführte Übung, freie Übung und Meisterschaft. Drei richtige Aufgaben ohne Hilfe in Folge geben einen Stern. Ab Lektion 5 mit Stern darfst du im Törn selbst Kurse absetzen.</p>
+    <div class="menu">${L.map((l, i) => { const s = lekState(l.id); return `<button class="menuitem" data-l="${l.id}"><b>${s.sterne ? '⭐ ' : ''}${i + 1}. ${esc(l.t)}</b><span class="small muted">${esc(l.d)}${s.n ? ` · ${s.n} Aufgaben gelöst` : ''}</span></button>`; }).join('')}</div>`);
+  $('#gback').onclick = () => NAV.hub();
+  app.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { AUD.click(); NAV.lesson(b.dataset.l); });
+};
+NAV.lesson = function (id) {
+  const l = lekOf(id), s = lekState(id), cid2 = r => cid(r);
+  gameShell(l.t, `<div class="card"><h2 style="margin:0 0 6px">${esc(l.t)}</h2>${l.crew.map(c => `<p style="margin:6px 0"><b>${esc(nameOf(c.s))}:</b> ${NAV.linkTerms(esc(c.t))}</p>`).join('')}
+      <button class="btn small ghost" id="lread">▶ Vorlesen lassen</button></div>
+    <div class="menu" style="margin-top:10px">
+      <button class="menuitem" data-m="guided"><b>Geführte Übung</b><span class="small muted">Mit Hilfen und Kontrollwerten</span></button>
+      <button class="menuitem" data-m="free"><b>Freie Übung</b><span class="small muted">Zufallsaufgaben, so viele du willst</span></button>
+      <button class="menuitem" data-m="master"><b>Meisterschaft ${s.sterne ? '⭐' : `(${s.serie} von 3)`}</b><span class="small muted">Ohne Hilfe, drei richtig in Folge</span></button>
+    </div>`);
+  NAV.bindTerms(app);
+  $('#gback').onclick = () => { VOX.stop(); NAV.path(); };
+  $('#lread').onclick = () => { AUD.unlock(); VOX.stop(); VOX.lines(l.crew.map(c => ({cid: cid2(c.s), t: c.t})), 'fixed'); };
+  app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { VOX.stop(); NAV.exercise(id, b.dataset.m); });
+};
+NAV.exercise = function (id, mode) {
+  const l = lekOf(id), s = lekState(id), typ = pick(l.typen), task = GEN[typ]();
+  const head = `<p class="small muted" style="margin:6px 0 0">${mode === 'guided' ? 'Geführte Übung' : mode === 'free' ? 'Freie Übung' : `Meisterschaft: ${s.serie} von 3 in Folge`}${s.sterne ? ' · ⭐' : ''}</p>`;
+  NAV.task(task, {title: l.t, mode, head, back: () => NAV.lesson(id), next: () => NAV.exercise(id, mode),
+    onResult: (ok, res, t, usedHint) => {
+      if (ok) s.n++;
+      if (mode === 'master') {
+        s.serie = ok ? s.serie + 1 : 0;
+        if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; setTimeout(() => { toast(`⭐ Stern für „${l.t}“!`); AUD.sfx('glocke', {vol: .5}); }, 400); LOG.add('navi', 'Stern ' + id); }
+      }
+      save();
+    }});
 };
 NAV.hub = async function () {
   await NAV.init();
