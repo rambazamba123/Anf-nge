@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 1120" width="1260" height="1120" font-family="Helvetica, Arial, sans-serif">
+  <!-- ENTWURF: erfundene Übungskarte „Kliev-Mündung“. Selbst gezeichnet, nichts von der BSH-Karte übernommen.
+       Gebiet (erfunden, offene See): 55°10'N–55°30'N, 6°20'E–7°00'E. Mercator, 1' Breite = 1 sm ≈ 50 px, 1' Länge ≈ 28,45 px. -->
+  <rect width="1260" height="1120" fill="#ffffff"/>
+  <!-- Kartenfeld -->
+  <clipPath id="frame"><rect x="60" y="60" width="1138" height="1000"/></clipPath>
+  <g clip-path="url(#frame)">
+    <rect x="60" y="60" width="1138" height="1000" fill="#fbfdff"/>
+    <!-- Tiefenzonen: unter 10 m hellblau, unter 5 m blau -->
+    <path d="M760 60 C820 200 860 330 900 430 L900 580 C840 700 790 860 760 1060 L1198 1060 L1198 60 Z" fill="#dbeef8"/>
+    <path d="M840 60 C880 200 910 330 935 430 L935 580 C890 700 850 860 830 1060 L1198 1060 L1198 60 Z" fill="#b9dcef"/>
+    <ellipse cx="420" cy="300" rx="190" ry="110" fill="#dbeef8"/><ellipse cx="420" cy="300" rx="140" ry="75" fill="#b9dcef"/>
+    <ellipse cx="610" cy="720" rx="120" ry="60" fill="#dbeef8"/><ellipse cx="610" cy="720" rx="75" ry="32" fill="#b9dcef"/>
+    <!-- Fahrwasser Klabautertief (über 10 m) -->
+    <path d="M150 505 C400 500 700 495 900 480 L1198 470 L1198 530 L900 540 C700 545 400 548 150 545 Z" fill="#fbfdff"/>
+    <!-- Watt -->
+    <path d="M880 60 C915 190 945 320 965 425 L965 440 C930 430 900 330 870 200 Z" fill="#c9dcb0"/>
+    <path d="M965 575 C940 680 900 820 880 1060 L930 1060 C950 840 975 700 985 580 Z" fill="#c9dcb0"/>
+    <ellipse cx="420" cy="300" rx="105" ry="52" fill="#c9dcb0"/>
+    <!-- Land: Festland mit Mündung der Kliev, Insel Smillaoog -->
+    <path d="M930 60 C960 190 985 320 1000 440 C1060 448 1140 452 1198 452 L1198 60 Z" fill="#f1e3b8" stroke="#8a7a52" stroke-width="1.5"/>
+    <path d="M1000 562 C1060 556 1140 552 1198 552 L1198 1060 L925 1060 C940 860 965 700 1000 562 Z" fill="#f1e3b8" stroke="#8a7a52" stroke-width="1.5"/>
+    <path d="M1000 440 C1060 448 1140 452 1198 452 L1198 552 C1140 552 1060 556 1000 562 Z" fill="#b9dcef"/>
+    <path d="M345 300 C360 268 420 262 470 272 C505 280 510 318 470 330 C420 342 360 336 345 300 Z" fill="#f1e3b8" stroke="#8a7a52" stroke-width="1.5"/>
+    <text x="430" y="312" font-size="15" font-style="italic" fill="#5a4a2a" text-anchor="middle">Smillaoog</text>
+    <text x="1080" y="250" font-size="20" font-style="italic" fill="#5a4a2a" text-anchor="middle">Hinnerksland</text>
+    <text x="1110" y="510" font-size="14" font-style="italic" fill="#2f5d7c" text-anchor="middle">Kliev</text>
+    <text x="905" y="160" font-size="12" font-style="italic" fill="#56703a" transform="rotate(70 905 160)">Möwenwatt</text>
+    <!-- Hafen Hinnerksiel mit Molenfeuer -->
+    <rect x="1100" y="430" width="44" height="22" fill="#d9c79a" stroke="#8a7a52"/><text x="1122" y="422" font-size="12" text-anchor="middle" fill="#5a4a2a">Hinnerksiel</text>
+    <circle cx="1098" cy="452" r="4" fill="#3c8c5a"/><text x="1092" y="470" font-size="10" fill="#7a2a7a" text-anchor="end">Iso G 4s</text>
+    <!-- Leuchtturm Roter Klaas -->
+    <path d="M376 288 L380 266 L386 266 L390 288 Z" fill="#d6332c"/><circle cx="383" cy="262" r="5" fill="#f2c230" stroke="#7a2a7a"/>
+    <text x="300" y="250" font-size="11" fill="#7a2a7a">Roter Klaas</text><text x="300" y="263" font-size="10" fill="#7a2a7a">Oc(2) WR 10s 22m 14/11M</text>
+    <!-- Sandbank mit Wrack -->
+    <text x="610" y="725" font-size="12" font-style="italic" fill="#2f5d7c" text-anchor="middle">Gummientensand</text>
+    <g transform="translate(640 700)"><path d="M-10 0 H10 M-6 -4 V4 M0 -4 V4 M6 -4 V4" stroke="#222" stroke-width="1.6"/></g>
+    <text x="652" y="708" font-size="9">Wrack</text>
+    <!-- Verkehrstrennungsgebiet (VTG) im Nordwesten -->
+    <g transform="rotate(-22 300 150)" opacity=".9">
+      <rect x="40" y="105" width="560" height="38" fill="none" stroke="#d14fa0" stroke-width="1.5" stroke-dasharray="8 4"/>
+      <rect x="40" y="143" width="560" height="16" fill="#f3c6e2"/>
+      <rect x="40" y="159" width="560" height="38" fill="none" stroke="#d14fa0" stroke-width="1.5" stroke-dasharray="8 4"/>
+      <path d="M140 124 h60 l-10 -6 m10 6 l-10 6 M460 178 h-60 l10 -6 m-10 6 l10 6" stroke="#d14fa0" stroke-width="2" fill="none"/>
+      <text x="300" y="156" font-size="11" fill="#a0306e" text-anchor="middle">VTG Kliev Approach</text>
+    </g>
+    <!-- Tiefenzahlen (Kartennull) -->
+    <g font-size="11" fill="#333" font-style="italic">
+      <text x="200" y="420">23</text><text x="320" y="640">18</text><text x="520" y="430">14</text><text x="700" y="610">8</text><text x="560" y="690">1₅</text>
+      <text x="820" y="380">6</text><text x="850" y="700">4</text><text x="250" y="930">27</text><text x="720" y="920">12</text><text x="560" y="520">12</text><text x="800" y="515">11</text>
+    </g>
+    <!-- Ansteuerungstonne und Lateralsystem (von See kommend: Rot an Backbord = Nordseite) -->
+    <g font-size="10" fill="#222">
+      <g transform="translate(150 525)"><circle r="8" fill="#fff" stroke="#d6332c" stroke-width="2"/><path d="M0 -8 V8" stroke="#d6332c" stroke-width="5"/><circle cy="-13" r="4" fill="#d6332c"/></g>
+      <text x="130" y="556">KL · Iso 8s</text>
+      <g fill="#d6332c"><rect x="305" y="485" width="10" height="14"/><rect x="465" y="482" width="10" height="14"/><rect x="625" y="478" width="10" height="14"/><rect x="785" y="472" width="10" height="14"/><rect x="930" y="465" width="10" height="14"/></g>
+      <g fill="#3c8c5a"><path d="M310 566 l6 -14 l6 14 Z"/><path d="M470 565 l6 -14 l6 14 Z"/><path d="M630 562 l6 -14 l6 14 Z"/><path d="M790 556 l6 -14 l6 14 Z"/><path d="M935 548 l6 -14 l6 14 Z"/></g>
+      <text x="302" y="478">K2</text><text x="462" y="475">K4</text><text x="622" y="471">K6</text><text x="782" y="465">K8</text><text x="922" y="458">K10</text>
+      <text x="308" y="580">K1</text><text x="468" y="579">K3</text><text x="628" y="576">K5</text><text x="788" y="570">K7</text><text x="933" y="562">K9</text>
+      <!-- Kardinaltonnen am Gummientensand -->
+      <g transform="translate(470 720)"><rect x="-5" y="-8" width="10" height="16" fill="#f2c230" stroke="#222"/><rect x="-5" y="-3" width="10" height="6" fill="#222"/><path d="M-5 -12 l5 -7 l5 7 Z M-5 -22 l5 7 l5 -7 Z" fill="#222"/></g><text x="430" y="748">GS-W · Q(9) 15s</text>
+      <g transform="translate(610 630)"><rect x="-5" y="-8" width="10" height="16" fill="#f2c230" stroke="#222"/><rect x="-5" y="-8" width="10" height="8" fill="#222"/><path d="M-5 -12 l5 -7 l5 7 Z M-5 -21 l5 -7 l5 7 Z" fill="#222"/></g><text x="622" y="626">GS-N · Q</text>
+      <g transform="translate(640 678)"><rect x="-5" y="-8" width="10" height="16" fill="#222"/><rect x="-5" y="-3" width="10" height="6" fill="#d6332c"/><circle cy="-13" r="3" fill="#222"/><circle cy="-20" r="3" fill="#222"/></g><text x="652" y="672">Einzelgefahr · Fl(2) 5s</text>
+    </g>
+  </g>
+  <rect x="60" y="60" width="1138" height="1000" fill="none" stroke="#222" stroke-width="2"/>
+  <!-- Breitenrand (links/rechts) und Längenrand (oben/unten) -->
+  <g stroke="#222" stroke-width="1">
+    <path d="M52 60 V1060 M1206 60 V1060 M60 52 H1198 M60 1068 H1198"/>
+    <g id="lat">
+      <path d="M52 110 h8 M52 160 h8 M52 210 h8 M52 260 h8 M52 310 h14 M52 360 h8 M52 410 h8 M52 460 h8 M52 510 h8 M52 560 h14 M52 610 h8 M52 660 h8 M52 710 h8 M52 760 h8 M52 810 h14 M52 860 h8 M52 910 h8 M52 960 h8 M52 1010 h8"/>
+      <path d="M1198 110 h8 M1198 160 h8 M1198 210 h8 M1198 260 h8 M1198 310 h14 M1198 360 h8 M1198 410 h8 M1198 460 h8 M1198 510 h8 M1198 560 h14 M1198 610 h8 M1198 660 h8 M1198 710 h8 M1198 760 h8 M1198 810 h14 M1198 860 h8 M1198 910 h8 M1198 960 h8 M1198 1010 h8"/>
+    </g>
+    <path d="M202 52 v8 M344 52 v14 M486 52 v8 M628 52 v14 M771 52 v8 M913 52 v14 M1055 52 v8 M202 1060 v8 M344 1060 v14 M486 1060 v8 M628 1060 v14 M771 1060 v8 M913 1060 v14 M1055 1060 v8"/>
+  </g>
+  <g font-size="12" fill="#222">
+    <text x="8" y="64">55°30'</text><text x="8" y="314">55°25'</text><text x="8" y="564">55°20'</text><text x="8" y="814">55°15'</text><text x="8" y="1064">55°10'</text>
+    <text x="40" y="44">6°20'E</text><text x="324" y="44">6°30'</text><text x="608" y="44">6°40'</text><text x="893" y="44">6°50'</text><text x="1170" y="44">7°00'</text>
+  </g>
+  <!-- Kompassrose: außen rechtweisend, innen missweisend (Mw 3° E) -->
+  <g transform="translate(300 780)">
+    <circle r="112" fill="none" stroke="#7a2a7a" stroke-width="1.2"/><circle r="96" fill="none" stroke="#7a2a7a" stroke-width=".8"/>
+    <g stroke="#7a2a7a" stroke-width="1">
+      <path d="M0 -112 V-100 M0 112 V100 M-112 0 H-100 M112 0 H100 M79 -79 l-8 8 M-79 -79 l8 8 M79 79 l-8 -8 M-79 79 l8 -8"/>
+    </g>
+    <path d="M0 -112 L-6 -96 L6 -96 Z" fill="#7a2a7a"/>
+    <text y="-118" font-size="11" fill="#7a2a7a" text-anchor="middle">000°</text><text x="122" y="4" font-size="11" fill="#7a2a7a">090°</text><text y="132" font-size="11" fill="#7a2a7a" text-anchor="middle">180°</text><text x="-148" y="4" font-size="11" fill="#7a2a7a">270°</text>
+    <g transform="rotate(3)"><circle r="70" fill="none" stroke="#7a2a7a" stroke-width=".8" stroke-dasharray="3 3"/><path d="M0 -70 L-5 -56 L0 -60 L5 -56 Z" fill="#7a2a7a"/><path d="M0 -56 V56 M-56 0 H56" stroke="#7a2a7a" stroke-width=".6"/></g>
+    <text y="30" font-size="11" fill="#7a2a7a" text-anchor="middle">Mw 3°E (2026)</text>
+  </g>
+  <!-- Gezeitenstrom-Tabelle (erfunden) -->
+  <g transform="translate(860 880)">
+    <rect width="320" height="150" fill="#fffef6" stroke="#222"/>
+    <text x="10" y="20" font-size="12" font-weight="bold">Gezeitenstrom bei ◇A (Tonne K5), auf HW bezogen</text>
+    <g font-size="11"><text x="10" y="42">Std</text><text x="70" y="42">−3</text><text x="110" y="42">−2</text><text x="150" y="42">−1</text><text x="190" y="42">HW</text><text x="230" y="42">+1</text><text x="270" y="42">+2</text>
+      <text x="10" y="64">rw °</text><text x="70" y="64">085</text><text x="110" y="64">088</text><text x="150" y="64">090</text><text x="190" y="64">—</text><text x="230" y="64">268</text><text x="270" y="64">265</text>
+      <text x="10" y="86">kn Sp</text><text x="70" y="86">1,8</text><text x="110" y="86">2,2</text><text x="150" y="86">1,4</text><text x="190" y="86">0,2</text><text x="230" y="86">1,6</text><text x="270" y="86">2,1</text>
+      <text x="10" y="108">kn Np</text><text x="70" y="108">1,0</text><text x="110" y="108">1,2</text><text x="150" y="108">0,8</text><text x="190" y="108">0,1</text><text x="230" y="108">0,9</text><text x="270" y="108">1,2</text>
+      <text x="10" y="138" fill="#666">Werte erfunden, nur zum Üben</text></g>
+  </g>
+  <!-- Titel -->
+  <g transform="translate(1000 110)">
+    <rect x="-150" y="-30" width="300" height="78" fill="#fffef6" stroke="#222"/>
+    <text text-anchor="middle" font-size="15" font-weight="bold">ÜBUNGSKARTE KLIEV-MÜNDUNG</text>
+    <text y="18" text-anchor="middle" font-size="11">Erfunden · Mercator · Maßstab ca. 1 : 100 000</text>
+    <text y="34" text-anchor="middle" font-size="11">Tiefen in m unter Kartennull</text>
+    <text y="50" text-anchor="middle" font-size="10" fill="#a0306e">Entwurf · nicht zur Navigation</text>
+  </g>
+</svg>

@@ -52,12 +52,56 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Am Ende von Lauf 1 neu schreiben, vom echten Stand v4.9+ aus:*
-- Dateien und Ordner (`index.html`, `data/`, `img/`, `audio/`, `audio/stimmen/`, `sw.js`, Icons)
-- die wichtigsten Funktionen und Objekte je Bereich: Start, Deck, Kajüte, Spiele, Folgen, Stimme, Zeit, Kurse, Einstellungen
-- der Aufbau des Spielstands `S`
-
-Ziel: Eine neue Sitzung findet sich ohne langes Suchen zurecht. Höchstens etwa 40 Zeilen.
+*Stand v4.16 (Ende Lauf 1).*
+- **Dateien:**
+  - `index.html` (Code und CSS, ~447 KB)
+  - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
+  - `manifest.webmanifest`, `icon-192/512.png`
+  - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
+  - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
+  - `audio/`
+  - `audio/stimmen/` (Stimmenpaket mit `manifest.json`, noch leer)
+  - `docs/`: Konzepte
+- **Start:**
+  - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
+  - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
+- **Deck:**
+  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht, Antippen zoomt) und `longBoatScene` (1200×640, wischen)
+  - Hilfen: `ovToDetail`, `bindPano(pano, key, centerX)`
+  - Eggs: `startEgg` mit Handlern je `data-egg`
+  - Fernglas: `bindFernglas`, `GAME_KEYS`, `BOAT_HINTS` / `DETAIL_HINTS`
+- **Kajüte:**
+  - `renderCabin`, `cabinScene`, `CABIN_SPOTS` (`fn` = vom Fernglas markiert), `SPOT`, `TAP`
+  - Erstbesuch: `cabinWelcome` (Texte `CABIN`, SKS-Quiz, `fahrplanSheet`)
+  - Hocker: `bgSit`
+- **Easter-Eggs:**
+  - Register `EGGS`, Fund melden mit `foundEgg(id)` → `S.eggs`, Anzeige `eggCard`
+  - Sätze `EGG_LINES` (über `sayEgg`), `FLAG_ART`, `glasenNow`, `wxOverride`
+- **Spiele:**
+  - `GAMES`, `gamesHub` (Raster, `GAME_ART`), `gameShell`, `gameOver`
+  - Punkte immer über `recordScore(key, wert)`: Trophäen `TROPHY`, Crew-Rekorde `NPC_BEST`, Sprüche `OVERTAKE`, Rang `rankInfo`, `leaderSheet`, `trophyCard`
+- **Lernen und Prüfung:**
+  - `runQuiz` (Option `scoreKey`), `examIntro` / `startExam` (beliebig viele Teile aus `COURSE.exam.parts`), `startExamOpen` (SKS)
+  - Plan: `computePlan`, `fahrplan`
+- **Kurse:**
+  - `COURSES` (`sbf`, `sks`, `binnen`), `useCourse`, `switchCourse`, `QN`, `TOPICS`
+  - Themen: `SBF_TOPICS`, `BIN_TOPICS`, `SKS_TOPICS`
+  - Binnen-Prüfung: `BIN_EXAM.motor` / `.segel`, Wahl über `S.binSegel`
+- **Lexikon:** `LEX` (aus `lexikon.json`), `lexEntries`, `renderLexikon` (Kategorien, Suche), `lexSheet`, `lexOf(q)` (Knopf in der Lernrunde nach dem Antworten), `sksRelated`
+- **Folgen:** `EPISODES`, `SHORTS`, `playEpisode`, `epFill`, `showStory`
+- **Stimme:**
+  - `VOX` (`say`, `lines`, `clip`)
+  - `CLIPS` (IndexedDB `skipper-audio` v2: Stores `clips` und `meta`)
+  - Stimmenpaket: `PACK`, `packLines`, `buildVoicePack`, `exportClips`
+  - Geräusche und Musik: `AUD`
+- **Zeit und Wetter:** `shipHour`, `dayPart`, `weatherToday` (beachtet `WX_OVERRIDE`), `palette`
+- **Crew:** `CREW`, `ROLE_OPTIONS`, `cid`, `nameOf`, `styleRules`, `TONE` (immer `erw`)
+- **Spielstand `S`** (Key `skipper-sbfsee-v1`):
+  - Profil: `profile` {`name`, `exam`, `minutes`, `exp`, `goal`, `revier`, `drive`, `facts[]`}
+  - Kurse: `course`, `courses[id]` (Lernstand je Kurs: `qs`, `lessons`, `exams` …)
+  - Ausstattung: `crew`, `cfg`, `boat`
+  - Spiele und Funde: `best`, `nav`, `passed`, `eggs`
+  - Flags: `introV5`, `cabinWelcome`, `reOnb`, `binSegel`, `tour`
 
 ## 5. Konzepte (verbindlich)
 
@@ -233,6 +277,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] Easter-Eggs (v4.14: 11 neue, 29 insgesamt; `EGG_LINES`, `FLAG_ART`, `glasenNow`, `wxOverride`)
 - [x] 5.8 SBF Binnen (v4.15: `data/binnen.json` 300 Fragen, 70 Bilder in `img/b/`, `COURSES.binnen`, `BIN_TOPICS`, `BIN_EXAM` motor/segel, `S.binSegel`; SBF-See-Fragen 16–30 mit Bild freigeschaltet)
 - [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
-- [ ] Konzept 5.5 und 5.6 freigegeben
+- [ ] Konzept 5.5 und 5.6 freigegeben (Entwurf: `docs/konzept-navi-toern.md`, `docs/karte-entwurf.svg` – wartet auf Freigabe)
+- Lauf 1 abgeschlossen (v4.10–v4.16), lokal committet, Push wartet auf Freigabe
 - [ ] 5.5 Navigationsschule
 - [ ] 5.6 Törn-Light
