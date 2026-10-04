@@ -1,0 +1,2503 @@
+{
+ "episodes": {
+  "sbf": [
+   {
+    "id": "sbf-01",
+    "title": "Wer hat hier eigentlich das Sagen?",
+    "topics": [
+     "b1"
+    ],
+    "qs": [
+     1,
+     2,
+     3,
+     6,
+     7,
+     8,
+     9
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Moin und willkommen in der Kajüte. Der Tee dampft, draußen klatscht das Wasser an den Rumpf, und Smilla hat eine Geschichte mitgebracht."
+     },
+     {
+      "s": "M",
+      "t": "Hab ich. Letzten Sommer, Föhr, vier Leute auf einem Charterboot. Ablegen, alle gut gelaunt, und keiner weiß, wer eigentlich Schiffsführer ist. Jeder dachte, der andere."
+     },
+     {
+      "s": "K",
+      "t": "Und genau das geht nicht. Bevor es losgeht, muss der verantwortliche Schiffsführer bestimmt werden. Einer. Nicht alle ein bisschen."
+     },
+     {
+      "s": "T",
+      "t": "Einer! Einer!"
+     },
+     {
+      "s": "M",
+      "t": "Am Ende hat es der Jüngste gemacht, weil er den Schein hatte. Und dann kam das zweite Problem: Der Vorbesitzer hatte abends am Steg schon drei Bier."
+     },
+     {
+      "s": "K",
+      "t": "Dann steuert er nicht. Punkt. Wer durch Alkohol oder andere Mittel in der sicheren Führung behindert ist, darf weder das Boot führen noch Kurs oder Geschwindigkeit selbst bestimmen. Und ab null Komma fünf Promille ist sowieso Schluss, egal wie fit man sich fühlt."
+     },
+     {
+      "s": "M",
+      "t": "Null Komma fünf. Das ist schnell erreicht."
+     },
+     {
+      "s": "K",
+      "t": "Schneller als man denkt. Na, was meinst du: Ab welcher Blutalkoholkonzentration ist Schluss mit Steuern?"
+     },
+     {
+      "s": "Q",
+      "n": 2
+     },
+     {
+      "s": "K",
+      "t": "Gut. Dann wollen wir mal einen Begriff klären, über den jeder stolpert: Wann ist ein Fahrzeug eigentlich in Fahrt?"
+     },
+     {
+      "s": "M",
+      "t": "Wenn es fährt?"
+     },
+     {
+      "s": "K",
+      "t": "Nö. In Fahrt heißt nur: Es liegt nicht vor Anker, es ist nicht an Land festgemacht, und es sitzt nicht auf Grund. Ob es sich bewegt, ist egal. Ein Boot, das mit laufender Maschine still im Wasser liegt, ist in Fahrt."
+     },
+     {
+      "s": "T",
+      "t": "Liegt still und fährt trotzdem!"
+     },
+     {
+      "s": "M",
+      "t": "Und dann die Sache mit dem Segeln. Der Käpt'n hat mich mal angeschnauzt, weil ich unter Segel den Motor mitlaufen ließ."
+     },
+     {
+      "s": "K",
+      "t": "Weil du dann kein Segelfahrzeug mehr bist. Wer gleichzeitig segelt und die Maschine nutzt, gilt als Maschinenfahrzeug. Mit allen Pflichten. Und am Tage zeigst du das: ein schwarzer Kegel, Spitze nach unten, vorne gut sichtbar."
+     },
+     {
+      "s": "M",
+      "t": "Spitze nach unten. Wie ein umgedrehtes Hütchen."
+     },
+     {
+      "s": "K",
+      "t": "Merk dir: Der Motor zieht die Spitze runter. Na, was meinst du, wie sieht das Tagessignal aus?"
+     },
+     {
+      "s": "Q",
+      "n": 7
+     },
+     {
+      "s": "K",
+      "t": "Zum Schluss noch Luv und Lee, weil Smilla das am Anfang auch ständig verwechselt hat."
+     },
+     {
+      "s": "M",
+      "t": "Nur einmal! Luv ist die Seite, von der der Wind kommt. Die dem Wind zugekehrte Seite. Lee ist die abgewandte, also die ruhige, geschützte Seite."
+     },
+     {
+      "s": "K",
+      "t": "Eselsbrücke vom alten Fährmann: In Lee liegst du im Windschatten und kannst in Ruhe deinen Tee trinken. Das war es für heute. Morgen geht es um Lichter, Töne und Signale."
+     },
+     {
+      "s": "T",
+      "t": "Tuuut! Bis morgen!"
+     }
+    ]
+   },
+   {
+    "id": "sbf-02",
+    "title": "Licht an, Augen auf",
+    "topics": [
+     "b1"
+    ],
+    "qs": [
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Gestern ging es um Luv und Lee, heute wird es dunkel. Smilla, wann müssen die Lichter überhaupt an?"
+     },
+     {
+      "s": "M",
+      "t": "Nicht erst, wenn es stockfinster ist. Die Regel sagt: {A:10} Also auch bei Nebel am helllichten Tag."
+     },
+     {
+      "s": "K",
+      "t": "Und wozu der ganze Aufwand? {A:11} Wer die Lichter lesen kann, weiß, wohin der andere fährt, bevor er es sieht."
+     },
+     {
+      "s": "T",
+      "t": "Rot links, grün rechts!"
+     },
+     {
+      "s": "M",
+      "t": "Für kleine Segler gibt es eine Abkürzung. Statt Seitenlichter und Hecklicht darf ein Segelfahrzeug unter 20 Metern {A:12}"
+     },
+     {
+      "s": "K",
+      "t": "Eine Laterne, drei Farben, oben am Mast. Aber Achtung: Sobald der Motor mitläuft, bist du Maschinenfahrzeug und führst {A:13}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Laterne darf der kleine Segler statt der Seitenlichter führen?"
+     },
+     {
+      "s": "Q",
+      "n": 12
+     },
+     {
+      "s": "M",
+      "t": "Und dann die Klassiker beim Ausweichen. Zwei Motorboote genau aufeinander zu. Was passiert?"
+     },
+     {
+      "s": "K",
+      "t": "{A:14} Beide nach rechts, so wie auf der Straße. Einfach zu merken."
+     },
+     {
+      "s": "M",
+      "t": "Und wenn sich die Kurse kreuzen?"
+     },
+     {
+      "s": "K",
+      "t": "{A:15} Wer den anderen rechts hat, weicht aus. Der von rechts hat Vorfahrt, wie an der Kreuzung ohne Schilder."
+     },
+     {
+      "s": "T",
+      "t": "Rechts vor links! Rechts vor links!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Zwei Motorboote auf Gegenkurs, was ist zu tun?"
+     },
+     {
+      "s": "Q",
+      "n": 14
+     },
+     {
+      "s": "K",
+      "t": "Das war Folge zwei. Beim nächsten Mal geht es raus in die Natur, mit zehn goldenen Regeln."
+     }
+    ]
+   },
+   {
+    "id": "sbf-03",
+    "title": "Zehn goldene Regeln",
+    "topics": [
+     "b3"
+    ],
+    "qs": [
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Ich hab eine Frage an den Käpt'n. Was ist das für ein Zettel, der bei uns immer an der Pinnwand hängt?"
+     },
+     {
+      "s": "K",
+      "t": "Das sind {A:31} Ein Merkblatt, kein Gesetz, aber jeder anständige Skipper hält sich daran."
+     },
+     {
+      "s": "M",
+      "t": "Und was steht drin?"
+     },
+     {
+      "s": "K",
+      "t": "Wie du mithilfst, dass Pflanzen und Tiere ihre Ruhe haben: {A:32} Zum Beispiel: Bleib weg von Schilf und bewachsenen Ufern."
+     },
+     {
+      "s": "M",
+      "t": "Warum eigentlich? Da ist es doch so hübsch."
+     },
+     {
+      "s": "K",
+      "t": "{A:33} Vögel brüten da. Ein Boot im Schilf ist wie ein Elefant im Wohnzimmer."
+     },
+     {
+      "s": "T",
+      "t": "Elefant! Elefant!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Warum hält man sich von Schilf- und Röhrichtzonen fern?"
+     },
+     {
+      "s": "Q",
+      "n": 33
+     },
+     {
+      "s": "M",
+      "t": "Jetzt eine Geschichte vom Käpt'n. Die mit dem Frachter."
+     },
+     {
+      "s": "K",
+      "t": "Ich war jung und dachte, ich fahre mal dicht an so einen Riesen ran. Dumme Idee. {A:34} Ich hab das Boot gerade so gehalten."
+     },
+     {
+      "s": "M",
+      "t": "Und beim Anlegen? Du sagst immer: gegen den Strom."
+     },
+     {
+      "s": "K",
+      "t": "Gegen Strom und Wind anlegen, {A:35} Du kannst mit dem Gas spielen, das Boot bleibt beherrschbar."
+     },
+     {
+      "s": "M",
+      "t": "Und im engen Fahrwasser, wenn uns einer entgegenkommt?"
+     },
+     {
+      "s": "K",
+      "t": "{A:36} Und wenn dich ein großer überholt: {A:37} Also Abstand, ruhig bleiben, nicht erschrecken."
+     },
+     {
+      "s": "T",
+      "t": "Abstand! Abstand!"
+     },
+     {
+      "s": "M",
+      "t": "Letzte Frage für heute: Wo erfährt man, welche Farbe fürs Unterwasserschiff die Umwelt schont?"
+     },
+     {
+      "s": "K",
+      "t": "{A:38} Die haben Listen dafür. Na, was meinst du, wie verhält man sich beim Begegnen im engen Fahrwasser?"
+     },
+     {
+      "s": "Q",
+      "n": 36
+     },
+     {
+      "s": "K",
+      "t": "Bis zur nächsten Folge, dann wird es technisch: Der Propeller hat Launen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-04",
+    "title": "Der Propeller hat Launen",
+    "topics": [
+     "b3"
+    ],
+    "qs": [
+     39,
+     40,
+     41,
+     42,
+     44,
+     45,
+     46,
+     47,
+     48
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Heute wird geankert, angelegt und rückwärts gefahren. Smilla, der Anker ist unten. Woher weißt du, dass er hält?"
+     },
+     {
+      "s": "M",
+      "t": "Hand auf die Kette. {A:39} Ruckelt es, rutscht er über den Grund."
+     },
+     {
+      "s": "K",
+      "t": "Genau. Und wenn wir an den Steg wollen, dann nicht quer rein, sondern {A:40} Flach anfahren, das Boot gleitet an die Pier."
+     },
+     {
+      "s": "T",
+      "t": "Spitz! Spitz!"
+     },
+     {
+      "s": "M",
+      "t": "Jetzt kommt das, was mich am Anfang verrückt gemacht hat. Rückwärtsgang, und das Boot macht nicht, was ich will."
+     },
+     {
+      "s": "K",
+      "t": "Das ist der Radeffekt. Ein rechtsdrehender Propeller, {A:44} Im Rückwärtsgang gilt dann: {A:41}"
+     },
+     {
+      "s": "M",
+      "t": "Das Heck geht nach links, obwohl ich das Ruder gerade halte."
+     },
+     {
+      "s": "K",
+      "t": "Richtig. Der Propeller schiebt das Heck seitlich weg, {A:46} Klingt wie ein Fehler, ist aber dein Freund. {A:47}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Rechtsdrehender Propeller, Rückwärtsgang, wohin dreht das Heck?"
+     },
+     {
+      "s": "Q",
+      "n": 41
+     },
+     {
+      "s": "M",
+      "t": "Und deshalb legst du immer mit der linken Seite an."
+     },
+     {
+      "s": "K",
+      "t": "{A:48} Beim Aufstoppen rückwärts zieht es das Heck sauber an den Steg. Der Motor macht die Arbeit, nicht du."
+     },
+     {
+      "s": "M",
+      "t": "Und ein linksdrehender Propeller?"
+     },
+     {
+      "s": "K",
+      "t": "{A:45} Dann läuft alles spiegelverkehrt."
+     },
+     {
+      "s": "T",
+      "t": "Spiegel! Spiegel!"
+     },
+     {
+      "s": "M",
+      "t": "Eins noch, die rote Schnur am Handgelenk. Der Quickstopp."
+     },
+     {
+      "s": "K",
+      "t": "Fällst du über Bord, reißt die Schnur, und {A:42} Der Motor steht sofort. Lebensversicherung für drei Euro."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Anlegeseite ist mit rechtsdrehendem Propeller empfehlenswert?"
+     },
+     {
+      "s": "Q",
+      "n": 48
+     },
+     {
+      "s": "K",
+      "t": "Das war Folge vier. Nächstes Mal stehen wir an der Tankstelle."
+     }
+    ]
+   },
+   {
+    "id": "sbf-05",
+    "title": "Tanken, Technik, Temperatur",
+    "topics": [
+     "b4",
+     "b3"
+    ],
+    "qs": [
+     43,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Tankstelle am Hafen. Der Käpt'n hat mir damals erst mal die Zigarette aus dem Mund genommen. Zu Recht."
+     },
+     {
+      "s": "K",
+      "t": "Beim Tanken gilt: {A:49} Benzindämpfe sind schwerer als Luft und sammeln sich in der Bilge."
+     },
+     {
+      "s": "M",
+      "t": "Und wenn trotzdem mal Sprit oder Öl in die Bilge läuft?"
+     },
+     {
+      "s": "K",
+      "t": "{A:43} Nicht die Pumpe anwerfen und ab ins Hafenbecken."
+     },
+     {
+      "s": "T",
+      "t": "Motor aus! Motor aus!"
+     },
+     {
+      "s": "K",
+      "t": "Dann unterwegs. Beim Außenborder gibt es kein Ruder im klassischen Sinn, die Ruderwirkung entsteht {A:50}"
+     },
+     {
+      "s": "M",
+      "t": "Und bei der Einbaumaschine mit fester Welle?"
+     },
+     {
+      "s": "K",
+      "t": "Da braucht das Ruder erst Wasser, das dagegen strömt. Beim Rückwärtsfahren setzt die Wirkung spät ein, {A:51}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was muss beim Tanken beachtet werden?"
+     },
+     {
+      "s": "Q",
+      "n": 49
+     },
+     {
+      "s": "M",
+      "t": "Unterwegs schaue ich alle paar Minuten auf die Instrumente. Was genau?"
+     },
+     {
+      "s": "K",
+      "t": "Drei Dinge: {A:52} Wird die Maschine zu heiß, kann das verschiedene Gründe haben: {A:53}"
+     },
+     {
+      "s": "M",
+      "t": "Und die Lämpchen? Die Ladekontrolle geht nach dem Start nicht aus."
+     },
+     {
+      "s": "K",
+      "t": "Dann ist wahrscheinlich {A:54} Leuchtet die Ölkontrolle weiter: {A:55} Beides: nicht ignorieren, sondern ran an den Motor."
+     },
+     {
+      "s": "T",
+      "t": "Lämpchen! Lämpchen!"
+     },
+     {
+      "s": "M",
+      "t": "Einmal hat der Motor gestartet, ich kupple ein, und nichts bewegt sich."
+     },
+     {
+      "s": "K",
+      "t": "Dann war es vermutlich ein {A:56} Eine Leine im Propeller, klassisch. Und bleibt der Außenborder mit vollem Tank einfach stehen: {A:57}"
+     },
+     {
+      "s": "K",
+      "t": "Die kleine Schraube oben am Tankdeckel vergisst jeder einmal. Na, was meinst du: Außenborder bleibt mit vollem Tank stehen, was kann es sein?"
+     },
+     {
+      "s": "Q",
+      "n": 57
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal geht es um Papiere, Strom und Gas an Bord."
+     }
+    ]
+   },
+   {
+    "id": "sbf-06",
+    "title": "Papiere, Strom und Gas",
+    "topics": [
+     "b4",
+     "b5"
+    ],
+    "qs": [
+     58,
+     59,
+     60,
+     61,
+     62,
+     63,
+     64,
+     65,
+     66
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Smilla hat gefragt, wo die ganzen Tipps für Wassersportler eigentlich stehen. Es gibt {A:58}"
+     },
+     {
+      "s": "M",
+      "t": "Und die kleinen Elektroboote am See, die fährt jeder ohne Schein?"
+     },
+     {
+      "s": "K",
+      "t": "Nur unter einer Bedingung: {A:59} Alles darüber braucht den Führerschein."
+     },
+     {
+      "s": "T",
+      "t": "Siebeneinhalb! Siebeneinhalb!"
+     },
+     {
+      "s": "M",
+      "t": "Wenn wir das Boot ein paar Wochen allein lassen, was machst du immer als Letztes?"
+     },
+     {
+      "s": "K",
+      "t": "{A:60} Sonst kommst du wieder und das Boot ist ein Aquarium."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Vorkehrungen trifft man vor dem längeren Verlassen?"
+     },
+     {
+      "s": "Q",
+      "n": 60
+     },
+     {
+      "s": "M",
+      "t": "Und im Hafen, an den festgemachten Booten vorbei: langsam. Warum eigentlich?"
+     },
+     {
+      "s": "K",
+      "t": "{A:61} Deine Welle reißt sonst anderen die Leinen aus."
+     },
+     {
+      "s": "M",
+      "t": "Jetzt zum Gas. Wo liegt bei uns die Flasche?"
+     },
+     {
+      "s": "K",
+      "t": "{A:62} Und das aus gutem Grund: {A:63} Die Dämpfe sinken nach unten in die Bilge und warten da."
+     },
+     {
+      "s": "T",
+      "t": "Schwerer als Luft!"
+     },
+     {
+      "s": "M",
+      "t": "Und wenn doch mal Gas ins Boot kommt?"
+     },
+     {
+      "s": "K",
+      "t": "{A:64} Kein Lichtschalter, kein Funke. Bevor die Anlage überhaupt in Betrieb geht: {A:65} Und nach dem Kochen: {A:66}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Warum sind Propan und Butan an Bord so gefährlich?"
+     },
+     {
+      "s": "Q",
+      "n": 63
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Feuer, Wartung und der Ernstfall."
+     }
+    ]
+   },
+   {
+    "id": "sbf-07",
+    "title": "Feuer, Wartung, Ernstfall",
+    "topics": [
+     "b5"
+    ],
+    "qs": [
+     67,
+     68,
+     69,
+     70,
+     71,
+     72
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Käpt'n, die Rettungswesten, die aufblasbaren. Wie oft müssen die zur Wartung?"
+     },
+     {
+      "s": "K",
+      "t": "{A:67} Die kleine Patrone und die Tablette altern, ob du willst oder nicht."
+     },
+     {
+      "s": "M",
+      "t": "Und der Feuerlöscher?"
+     },
+     {
+      "s": "K",
+      "t": "Für Sportboote taugen {A:68} Und im Ernstfall: {A:69} Nicht aus fünf Metern in die Luft sprühen."
+     },
+     {
+      "s": "T",
+      "t": "Luft weg! Feuer weg!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wie oft müssen aufblasbare Rettungsmittel gewartet werden?"
+     },
+     {
+      "s": "Q",
+      "n": 67
+     },
+     {
+      "s": "M",
+      "t": "Thema Zusammenstoß. Ich hab mal gesehen, wie einer einfach weitergefahren ist."
+     },
+     {
+      "s": "K",
+      "t": "Geht gar nicht. {A:70} Wer abhaut, hat ein Problem mit dem Gesetz und mit seinem Gewissen."
+     },
+     {
+      "s": "M",
+      "t": "Und das Wetter? Du guckst morgens immer aufs Barometer."
+     },
+     {
+      "s": "K",
+      "t": "Weil das Wettergeschehen hauptsächlich von drei Dingen abhängt: {A:71} Fällt der Druck schnell, zieh dir die Jacke an."
+     },
+     {
+      "s": "M",
+      "t": "Letzte Frage: Wann darf man eigentlich Notsignale geben? Nicht, wenn der Motor spinnt, oder?"
+     },
+     {
+      "s": "K",
+      "t": "Nur {A:72} Ein kaputter Motor im Hafen ist ärgerlich, aber keine Not. Na, was meinst du: In welcher Situation dürfen Notsignale gegeben werden?"
+     },
+     {
+      "s": "Q",
+      "n": 72
+     },
+     {
+      "s": "T",
+      "t": "Nur bei Gefahr! Tuuut!"
+     },
+     {
+      "s": "K",
+      "t": "Damit sind die Basisfragen durch. Ab der nächsten Folge geht es raus auf See."
+     }
+    ]
+   },
+   {
+    "id": "sbf-08",
+    "title": "Wo die Regeln gelten",
+    "topics": [
+     "s1"
+    ],
+    "qs": [
+     73,
+     74,
+     75,
+     76,
+     77,
+     78,
+     79,
+     80
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Willkommen auf See. Jetzt kommen die Kollisionsverhütungsregeln, kurz KVR. Smilla, wo gelten die?"
+     },
+     {
+      "s": "M",
+      "t": "{A:73} Also fast überall, wo Seeschiffe fahren können."
+     },
+     {
+      "s": "K",
+      "t": "Und dann gibt es die Seeschifffahrtsstraßen-Ordnung für unsere Küstengewässer. Widersprechen sich beide, gilt {A:74}"
+     },
+     {
+      "s": "T",
+      "t": "See-Schiff-Fahrts-Straßen-Ordnung! Puh."
+     },
+     {
+      "s": "M",
+      "t": "Wer braucht auf diesen Straßen eigentlich keinen Schein?"
+     },
+     {
+      "s": "K",
+      "t": "Ausgenommen sind {A:75} Alles andere: Schein in die Tasche."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was gilt, wenn Seeschifffahrtsstraßen-Ordnung und KVR sich widersprechen?"
+     },
+     {
+      "s": "Q",
+      "n": 74
+     },
+     {
+      "s": "M",
+      "t": "Und wer ist verantwortlich, wenn an Bord etwas schiefgeht?"
+     },
+     {
+      "s": "K",
+      "t": "{A:76} Dazu gehört die seemännische Sorgfaltspflicht, also {A:77}"
+     },
+     {
+      "s": "M",
+      "t": "Klingt abstrakt. Was heißt das konkret?"
+     },
+     {
+      "s": "K",
+      "t": "{A:78} Kurz: Bevor es losgeht, weiß jeder an Bord, wo die Westen sind und wie der Motor ausgeht."
+     },
+     {
+      "s": "M",
+      "t": "Und dann der berühmte letzte Augenblick."
+     },
+     {
+      "s": "K",
+      "t": "Das Manöver des letzten Augenblicks ist das {A:79} Es kommt dann, {A:80} Also wenn der andere nicht reagiert und es eng wird: selbst handeln."
+     },
+     {
+      "s": "T",
+      "t": "Letzter Augenblick! Jetzt!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was bedeutet das Manöver des letzten Augenblicks?"
+     },
+     {
+      "s": "Q",
+      "n": 79
+     },
+     {
+      "s": "K",
+      "t": "Beim nächsten Mal: Überholer, Behinderte und Nebel."
+     }
+    ]
+   },
+   {
+    "id": "sbf-09",
+    "title": "Überholer, Behinderte und Nebel",
+    "topics": [
+     "s1"
+    ],
+    "qs": [
+     81,
+     82,
+     83,
+     84,
+     85,
+     86,
+     87,
+     88,
+     89,
+     90
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Käpt'n, ab wann bin ich eigentlich Überholer? Ich komme ja immer irgendwie von hinten."
+     },
+     {
+      "s": "K",
+      "t": "Die Regel ist präzise: {A:81} Mehr als zwei Strich achterlicher als querab, das ist der Winkel, in dem der andere nachts nur dein Hecklicht sieht."
+     },
+     {
+      "s": "T",
+      "t": "Hecklicht! Hecklicht!"
+     },
+     {
+      "s": "M",
+      "t": "Und was ist der Unterschied zwischen manövrierunfähig und manövrierbehindert? Das verwechsle ich dauernd."
+     },
+     {
+      "s": "K",
+      "t": "Manövrierunfähig: {A:82} Da ist etwas kaputt. Manövrierbehindert: {A:83} Da ist jemand bei der Arbeit, Bagger, Kabelleger, Taucher."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wann gilt ein Fahrzeug als überholendes Fahrzeug?"
+     },
+     {
+      "s": "Q",
+      "n": 81
+     },
+     {
+      "s": "M",
+      "t": "Nebel. Was machst du als Erstes, wenn die Sicht zu ist?"
+     },
+     {
+      "s": "K",
+      "t": "{A:84} Langsam, Ohren auf, Pfeife bereit."
+     },
+     {
+      "s": "M",
+      "t": "Thema Laternen: Darf ich mir irgendeine im Baumarkt kaufen?"
+     },
+     {
+      "s": "K",
+      "t": "Nein. Welche Vorschriften gelten? {A:85} Und zugelassen sind {A:86}"
+     },
+     {
+      "s": "M",
+      "t": "Und diese Autobahnen auf See, die Verkehrstrennungsgebiete?"
+     },
+     {
+      "s": "K",
+      "t": "{A:87} Befahren: {A:88} Also immer rechts, wie auf der Autobahn."
+     },
+     {
+      "s": "T",
+      "t": "Rechts fahren! Rechts!"
+     },
+     {
+      "s": "M",
+      "t": "Zwei Begriffe noch: in Sicht befindlich und sichere Geschwindigkeit."
+     },
+     {
+      "s": "K",
+      "t": "In Sicht befindlich heißt: {A:89} Und sichere Geschwindigkeit: {A:90} Na, was meinst du: Was bedeutet in Sicht befindlich?"
+     },
+     {
+      "s": "Q",
+      "n": 89
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal lernen wir, Lichter zu lesen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-10",
+    "title": "Lichter lesen, Teil eins",
+    "topics": [
+     "s2"
+    ],
+    "qs": [
+     95,
+     96,
+     100,
+     101,
+     113,
+     114,
+     115
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Nachtfahrt. Da draußen sind nur Lichter, und jedes erzählt eine Geschichte. Smilla, was führt ein Schlepphänger?"
+     },
+     {
+      "s": "M",
+      "t": "Geschleppte Fahrzeuge führen {A:95} Also wie ein Segler: kein weißes Topplicht."
+     },
+     {
+      "s": "K",
+      "t": "Und am Tag zeigt der Schleppverband einen schwarzen Rhombus auf jedem Fahrzeug, wenn er {A:96}"
+     },
+     {
+      "s": "T",
+      "t": "Rhombus! Rhombus!"
+     },
+     {
+      "s": "K",
+      "t": "Jetzt das Wichtigste für die Nacht. Zwei rote Rundumlichter übereinander heißt: Ich kann nicht ausweichen. Manövrierunfähige Fahrzeuge ab 12 Metern in Fahrt führen {A:100}"
+     },
+     {
+      "s": "M",
+      "t": "Und wenn sie trotzdem noch durchs Wasser laufen?"
+     },
+     {
+      "s": "K",
+      "t": "Dann {A:101} Also rot rot, und die Seitenlichter dazu."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Lichter führt ein manövrierunfähiges Fahrzeug ab 12 Metern in Fahrt, ohne Fahrt durchs Wasser?"
+     },
+     {
+      "s": "Q",
+      "n": 100
+     },
+     {
+      "s": "M",
+      "t": "Wer führt denn nur Seitenlichter und Hecklicht, ohne das weiße Topplicht?"
+     },
+     {
+      "s": "K",
+      "t": "{A:113} Siehst du nachts rot, grün und keinen weißen Punkt darüber, ist es kein Motorboot."
+     },
+     {
+      "s": "M",
+      "t": "Und der Ankerlieger im Hafen?"
+     },
+     {
+      "s": "K",
+      "t": "Unter 50 Metern führt er {A:114} Große Pötte ab 100 Metern machen es anders, da leuchtet das ganze Deck: {A:115}"
+     },
+     {
+      "s": "T",
+      "t": "Weiß rundum! Weiß rundum!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Fahrzeuge führen nur Seitenlichter und ein weißes Hecklicht?"
+     },
+     {
+      "s": "Q",
+      "n": 113
+     },
+     {
+      "s": "K",
+      "t": "Beim nächsten Mal die Spezialisten: Grundsitzer, Fischer und Tiefgangbehinderte."
+     }
+    ]
+   },
+   {
+    "id": "sbf-11",
+    "title": "Lichter lesen, Teil zwei",
+    "topics": [
+     "s2"
+    ],
+    "qs": [
+     91,
+     92,
+     93,
+     94,
+     97,
+     98,
+     99,
+     102,
+     103,
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Ich hab die Bilder aus dem Katalog mitgebracht. Käpt'n, erklär mir die Logik, dann muss ich nicht alles auswendig lernen."
+     },
+     {
+      "s": "K",
+      "t": "Die Logik: Ein Maschinenfahrzeug unter 50 Metern hat ein weißes Topplicht, Seitenlichter, Hecklicht. Ab 50 Metern kommt ein zweites Topplicht dazu, weiter achtern und höher."
+     },
+     {
+      "s": "M",
+      "t": "Also: ein Topplicht, klein. Zwei Topplichter, groß."
+     },
+     {
+      "s": "K",
+      "t": "Genau. Rot über rot: manövrierunfähig. Rot weiß rot: manövrierbehindert, der arbeitet. Rot über rot über rot: tiefgangbehindert, der kann nicht ausweichen, weil zu tief."
+     },
+     {
+      "s": "T",
+      "t": "Rot weiß rot! Arbeitet!"
+     },
+     {
+      "s": "M",
+      "t": "Und der Grundsitzer?"
+     },
+     {
+      "s": "K",
+      "t": "Der zeigt die Ankerlichter plus zwei rote Rundumlichter übereinander. Ab 50 Metern zwei weiße Ankerlichter, vorne höher als hinten."
+     },
+     {
+      "s": "M",
+      "t": "Und am Tag, ohne Lichter?"
+     },
+     {
+      "s": "K",
+      "t": "Dann hängen Signalkörper im Mast. Zwei Bälle übereinander: manövrierunfähig. Ball, Rhombus, Ball: manövrierbehindert. Drei Bälle: Grundsitzer. Ein Zylinder: tiefgangbehindert. Zwei Kegel mit den Spitzen zueinander: Fischer bei der Arbeit. Und der Rhombus auf jedem Fahrzeug: {A:96}"
+     },
+     {
+      "s": "M",
+      "t": "Fischer?"
+     },
+     {
+      "s": "K",
+      "t": "Trawler, also Schleppnetz: grün über weiß. Andere Fischer, etwa mit Treibnetz: rot über weiß. Merksatz von Smilla, bitte."
+     },
+     {
+      "s": "M",
+      "t": "Grün über weiß, der Trawler schleppt fleißig. Rot über weiß, der Fischer bleibt stehen."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welches Fahrzeug führt die Lichter bei Frage einhundert?"
+     },
+     {
+      "s": "Q",
+      "n": 100
+     },
+     {
+      "s": "K",
+      "t": "Und für die Prüfung gilt: Schau dir die Bilder im Lernteil an. Die Logik hast du jetzt, die Bilder liefert die Übungsrunde."
+     },
+     {
+      "s": "Q",
+      "n": 113
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal wird es neblig: Töne statt Lichter."
+     }
+    ]
+   },
+   {
+    "id": "sbf-12",
+    "title": "Töne im Nebel",
+    "topics": [
+     "s3",
+     "b1"
+    ],
+    "qs": [
+     4,
+     5,
+     116,
+     117,
+     118,
+     119,
+     120,
+     121,
+     122,
+     123,
+     124
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Nebel über der Elbe. Du siehst nichts, aber du hörst alles. Erst die Grundlagen: Ein kurzer Ton dauert {A:4} Ein langer Ton {A:5}"
+     },
+     {
+      "s": "T",
+      "t": "Tuuuut! Das war lang!"
+     },
+     {
+      "s": "M",
+      "t": "Und was sagt mir ein langer Ton alle zwei Minuten?"
+     },
+     {
+      "s": "K",
+      "t": "Das ist {A:116} Zwei lange Töne hintereinander: {A:117}"
+     },
+     {
+      "s": "M",
+      "t": "Und lang, kurz, kurz?"
+     },
+     {
+      "s": "K",
+      "t": "Das rufen die, die nicht ausweichen können oder behindert sind: {A:118} Hinten dran antwortet manchmal lang, kurz, kurz, kurz, das ist {A:119}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Ein langer Ton mindestens alle zwei Minuten, wer ist das?"
+     },
+     {
+      "s": "Q",
+      "n": 116
+     },
+     {
+      "s": "M",
+      "t": "Und wir als Segler, 12 Meter lang, im Nebel?"
+     },
+     {
+      "s": "K",
+      "t": "{A:120} Also wie die Behinderten, lang, kurz, kurz. Und unter 12 Metern: {A:121}"
+     },
+     {
+      "s": "M",
+      "t": "Und vor Anker?"
+     },
+     {
+      "s": "K",
+      "t": "Unter 100 Metern: {A:122} Ab 100 Metern: {A:123} Und zusätzlich darf jeder Ankerlieger warnen: {A:124}"
+     },
+     {
+      "s": "T",
+      "t": "Kurz, lang, kurz! Hier liege ich!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welches Schallsignal gibt ein Segelfahrzeug ab 12 Metern bei verminderter Sicht?"
+     },
+     {
+      "s": "Q",
+      "n": 120
+     },
+     {
+      "s": "K",
+      "t": "Nächste Folge: Wer weicht wem aus?"
+     }
+    ]
+   },
+   {
+    "id": "sbf-13",
+    "title": "Wer weicht wem aus",
+    "topics": [
+     "s4"
+    ],
+    "qs": [
+     125,
+     126,
+     127,
+     128,
+     129,
+     130,
+     131,
+     132,
+     133,
+     134,
+     135,
+     136,
+     137
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Die wichtigste Frage auf See: Kracht es gleich? Woran erkennst du das, Smilla?"
+     },
+     {
+      "s": "M",
+      "t": "{A:125} Bleibt die Peilung gleich und der Abstand wird kleiner, dann treffen wir uns."
+     },
+     {
+      "s": "K",
+      "t": "Zwei Segler, freier Seeraum, Wind von derselben Seite: {A:126} Zwei Maschinenfahrzeuge auf Gegenkurs: {A:127}"
+     },
+     {
+      "s": "T",
+      "t": "Luv weicht Lee! Luv weicht Lee!"
+     },
+     {
+      "s": "M",
+      "t": "Und Motorboot gegen Segler?"
+     },
+     {
+      "s": "K",
+      "t": "Im freien Seeraum: {A:128} Und das gilt für das Motorboot genauso gegenüber Fischern, Manövrierunfähigen und Manövrierbehinderten: {A:129} Aber der Segler ist nicht der König. Gegenüber einem manövrierunfähigen oder behinderten Fahrzeug: {A:132}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Woran erkennt man die Gefahr eines Zusammenstoßes?"
+     },
+     {
+      "s": "Q",
+      "n": 125
+     },
+     {
+      "s": "M",
+      "t": "Und die großen Pötte, die am Fahrwasser hängen?"
+     },
+     {
+      "s": "K",
+      "t": "Bei tiefgangbehinderten Fahrzeugen und bei den Großen im Fahrwasser gilt: {A:133} Da bist du mit deinem Jollenkreuzer einfach weg."
+     },
+     {
+      "s": "M",
+      "t": "Als Kurshalter mache ich erst mal nichts?"
+     },
+     {
+      "s": "K",
+      "t": "Richtig, {A:135} Und der Ausweichpflichtige? {A:136} Keine Zentimeterkorrektur, sondern ein Manöver, das der andere sieht."
+     },
+     {
+      "s": "M",
+      "t": "Und der Überholer?"
+     },
+     {
+      "s": "K",
+      "t": "{A:137} Immer. Egal ob Segel oder Motor."
+     },
+     {
+      "s": "T",
+      "t": "Überholer weicht aus!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wie muss sich ein Ausweichpflichtiger gegenüber dem Kurshalter verhalten?"
+     },
+     {
+      "s": "Q",
+      "n": 136
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Signale geben und Verkehrstrennungsgebiete."
+     }
+    ]
+   },
+   {
+    "id": "sbf-14",
+    "title": "Fünf kurze Töne",
+    "topics": [
+     "s4"
+    ],
+    "qs": [
+     138,
+     139,
+     140,
+     141,
+     142,
+     143,
+     144,
+     145,
+     146,
+     147,
+     148,
+     149,
+     150,
+     151,
+     152
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Nebel, und ich höre ein Signal irgendwo vor mir. Was jetzt?"
+     },
+     {
+      "s": "K",
+      "t": "{A:138} Im Zweifel stoppen und lauschen."
+     },
+     {
+      "s": "M",
+      "t": "Und bei klarer Sicht: Der andere müsste ausweichen, tut es aber nicht."
+     },
+     {
+      "s": "K",
+      "t": "Dann {A:139} Fünf kurze Töne heißen: {A:140} Und ein Ankerlieger, der dir kurz, lang, kurz gibt: {A:141}"
+     },
+     {
+      "s": "T",
+      "t": "Fünf kurze! Hallo, aufwachen!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Bedeutung haben fünf kurze Töne?"
+     },
+     {
+      "s": "Q",
+      "n": 140
+     },
+     {
+      "s": "M",
+      "t": "Verkehrstrennungsgebiet. Wie fahre ich da rein?"
+     },
+     {
+      "s": "K",
+      "t": "{A:142} Queren: {A:143} Die Regeln dazu stehen {A:144}"
+     },
+     {
+      "s": "M",
+      "t": "Und wenn es auf dem Einbahnweg eng wird?"
+     },
+     {
+      "s": "K",
+      "t": "Maschinenfahrzeug bei Kollisionsgefahr: {A:145} Segler beim Queren: {A:146} Und allgemein für Fahrzeuge unter 20 Metern und Segler: {A:147}"
+     },
+     {
+      "s": "M",
+      "t": "Und der Bagger mitten im Fahrwasser, mit Bällen und Rhomben an der Rah?"
+     },
+     {
+      "s": "K",
+      "t": "Ball, Rhombus, Ball senkrecht übereinander heißt manövrierbehindert. Zeigt er seitlich noch zwei Bälle und zwei Rhomben, sagt er dir, wo es nicht geht und wo es geht: Die Seite mit den zwei Rhomben ist frei, die mit den zwei Bällen ist gesperrt. Das ist {A:148}"
+     },
+     {
+      "s": "M",
+      "t": "Rhombus frei, Ball gesperrt. Merk ich mir."
+     },
+     {
+      "s": "M",
+      "t": "Ich hab mal ein Schiff mit einem roten Licht oder einer roten Flagge gesehen, und der Käpt'n hat die Pfeife ausgemacht."
+     },
+     {
+      "s": "K",
+      "t": "Das war {A:151} Rauchen verboten in der Nähe, logisch."
+     },
+     {
+      "s": "T",
+      "t": "Pfeife aus! Pfeife aus!"
+     },
+     {
+      "s": "M",
+      "t": "Und wo steht eigentlich, welche Gewässer Seeschifffahrtsstraßen sind?"
+     },
+     {
+      "s": "K",
+      "t": "In der {A:152} Na, was meinst du: Wie quert man ein Verkehrstrennungsgebiet?"
+     },
+     {
+      "s": "Q",
+      "n": 143
+     },
+     {
+      "s": "K",
+      "t": "Nächste Folge: Was im Fahrwasser gilt."
+     }
+    ]
+   },
+   {
+    "id": "sbf-15",
+    "title": "Im Fahrwasser",
+    "topics": [
+     "s5"
+    ],
+    "qs": [
+     153,
+     154,
+     155,
+     156,
+     157,
+     158,
+     159,
+     160,
+     161,
+     165,
+     166,
+     167
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Heute fahren wir die Elbe hoch. Was ist überhaupt ein Fahrwasser, Smilla?"
+     },
+     {
+      "s": "M",
+      "t": "{A:156} Also das, was zwischen den Tonnen liegt."
+     },
+     {
+      "s": "K",
+      "t": "Und welche Seite ist Steuerbord? {A:157} Merk dir: Von See kommend ist rechts Steuerbord, egal wie der Fluss sich windet."
+     },
+     {
+      "s": "T",
+      "t": "Von See kommend! Von See!"
+     },
+     {
+      "s": "M",
+      "t": "Örtliche Sondervorschriften, wo stehen die?"
+     },
+     {
+      "s": "K",
+      "t": "In {A:153} Und die Verkehrszentrale im Funk? {A:158} Die haben den Überblick, du nicht."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welches ist die Steuerbordseite eines Fahrwassers?"
+     },
+     {
+      "s": "Q",
+      "n": 157
+     },
+     {
+      "s": "M",
+      "t": "Blaues Blinklicht und ein weißer Stern am Himmel. Was ist los?"
+     },
+     {
+      "s": "K",
+      "t": "Blau blinkend: {A:154} Weiße Leuchtkugeln: {A:155} Beides heißt: Platz machen."
+     },
+     {
+      "s": "M",
+      "t": "Nachts im Fahrwasser, kleiner Segler unter 12 Metern?"
+     },
+     {
+      "s": "K",
+      "t": "Da führt er {A:159} Und ein Motorboot unter 7 Metern? {A:160} Nachts hat der kleine Flitzer im Fahrwasser nichts verloren."
+     },
+     {
+      "s": "M",
+      "t": "Beim Einlaufen in den Hafen, wenn ich nicht um die Ecke sehe?"
+     },
+     {
+      "s": "K",
+      "t": "{A:161} Und wer einläuft oder quert: {A:165} Segler, die quer zum Fahrwasser kreuzen: {A:166} Außerhalb des Fahrwassers gelten {A:167}"
+     },
+     {
+      "s": "T",
+      "t": "Ein langer Ton! Tuuuut!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wie verhalten sich Fahrzeuge, die ins Fahrwasser einlaufen oder es queren?"
+     },
+     {
+      "s": "Q",
+      "n": 165
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Verbote, Kanal und Schleusen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-16",
+    "title": "Verbote, Kanal und Schleusen",
+    "topics": [
+     "s5"
+    ],
+    "qs": [
+     168,
+     169,
+     170,
+     171,
+     172,
+     173,
+     174,
+     175,
+     176,
+     178
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Überholen verboten. Wo genau?"
+     },
+     {
+      "s": "K",
+      "t": "{A:168} Kurz gesagt: überall, wo du nicht siehst, was kommt."
+     },
+     {
+      "s": "M",
+      "t": "Und Wasserski, Jetski, Surfbretter?"
+     },
+     {
+      "s": "K",
+      "t": "Nur {A:169} Und die Zugboote und Surfer gegenüber allen anderen? {A:170}"
+     },
+     {
+      "s": "T",
+      "t": "Surfer weicht aus! Surfer!"
+     },
+     {
+      "s": "M",
+      "t": "Ankern verboten, wo?"
+     },
+     {
+      "s": "K",
+      "t": "{A:171} Und wenn das eigene Boot gesunken ist und für andere gefährlich wird: {A:172}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wo ist das Überholen verboten?"
+     },
+     {
+      "s": "Q",
+      "n": 168
+     },
+     {
+      "s": "M",
+      "t": "Nord-Ostsee-Kanal. Ich stehe vor der Schleuse. Wann darf ich rein?"
+     },
+     {
+      "s": "K",
+      "t": "{A:173} Die Regeln dafür findest du in den {A:174} Drei unterbrochene rote Lichter am Weichenmast heißen: {A:175}"
+     },
+     {
+      "s": "M",
+      "t": "Und die Geschwindigkeitstafel im Kanal?"
+     },
+     {
+      "s": "K",
+      "t": "Die zeigt {A:176} Hörst du an einer Brücke oder Schleuse das besondere Schallsignal: {A:178}"
+     },
+     {
+      "s": "T",
+      "t": "Warten! Warten!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Bei welchem Signal dürfen Sportboote in die Kanalschleusen einfahren?"
+     },
+     {
+      "s": "Q",
+      "n": 173
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Zeichen, Flaggen und Sperren."
+     }
+    ]
+   },
+   {
+    "id": "sbf-17",
+    "title": "Zeichen, Flaggen und Sperren",
+    "topics": [
+     "s5"
+    ],
+    "qs": [
+     162,
+     163,
+     164,
+     177,
+     179,
+     180,
+     181,
+     182,
+     183,
+     184,
+     185,
+     186,
+     187,
+     188,
+     189
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Heute wird es laut. Das allgemeine Gefahr- und Warnsignal lautet: {A:163} Und es wird gegeben, {A:164}"
+     },
+     {
+      "s": "T",
+      "t": "Lang kurz kurz kurz kurz! Zweimal!"
+     },
+     {
+      "s": "M",
+      "t": "Das klingt wie ein wütender Wecker."
+     },
+     {
+      "s": "K",
+      "t": "Soll es auch. Na, was meinst du: Wie lautet das allgemeine Gefahr- und Warnsignal?"
+     },
+     {
+      "s": "Q",
+      "n": 163
+     },
+     {
+      "s": "M",
+      "t": "Jetzt die Tafeln. Vor dem Badestrand?"
+     },
+     {
+      "s": "K",
+      "t": "Die Tafel heißt: {A:180} Und ohne Tafel, vor erkennbarem Badebetrieb außerhalb des Fahrwassers, gilt {A:181} Die Tafel mit der Acht: {A:179}"
+     },
+     {
+      "s": "M",
+      "t": "Und die anderen Zeichen? Schutzbedürftige Anlage, besondere Gebiete?"
+     },
+     {
+      "s": "K",
+      "t": "Die einen bedeuten {A:177} Die anderen: {A:182} Und militärische Warngebiete erkennst du {A:183} Sperrgebiet: {A:184}"
+     },
+     {
+      "s": "T",
+      "t": "Sperrgebiet! Nicht rein!"
+     },
+     {
+      "s": "M",
+      "t": "Flaggen. Das eine Signal hieß Anhalten."
+     },
+     {
+      "s": "K",
+      "t": "Genau, {A:185} Und das Schallsignal der Polizei bedeutet: {A:186} Dauernde Sperrung der Straße: {A:187} Als Schallsignal: {A:188} Und außergewöhnliche Behinderung: {A:189}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Höchstgeschwindigkeit gilt vor Stellen mit erkennbarem Badebetrieb?"
+     },
+     {
+      "s": "Q",
+      "n": 181
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Tonnen am Fahrwasserrand."
+     }
+    ]
+   },
+   {
+    "id": "sbf-18",
+    "title": "Tonnen am Rand",
+    "topics": [
+     "s6"
+    ],
+    "qs": [
+     190,
+     191,
+     192,
+     193,
+     194,
+     195,
+     196,
+     197,
+     198,
+     199
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Meine Lieblingsfolge, weil ich hier mal durchgefallen bin. Tonnen."
+     },
+     {
+      "s": "K",
+      "t": "Dann erzähl du. Rot und grün?"
+     },
+     {
+      "s": "M",
+      "t": "Grün, spitz, ungerade Nummern: {A:191} Rot, stumpf, gerade Nummern: {A:192} Von See kommend."
+     },
+     {
+      "s": "T",
+      "t": "Grün rechts, rot links, rein in den Hafen!"
+     },
+     {
+      "s": "K",
+      "t": "Und die rot-weiß gestreifte Kugel mitten drin?"
+     },
+     {
+      "s": "M",
+      "t": "Das ist die {A:190} Da kannst du drauf zufahren, darfst aber nicht drauf bleiben."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Bedeutung hat die grüne, spitze Tonne?"
+     },
+     {
+      "s": "Q",
+      "n": 191
+     },
+     {
+      "s": "M",
+      "t": "Jetzt die gemeinen: Tonnen mit einem breiten Band in der anderen Farbe."
+     },
+     {
+      "s": "K",
+      "t": "Grün mit rotem Band: {A:195} Rot mit grünem Band: {A:196} Die Grundfarbe sagt, wo das Hauptfahrwasser weitergeht."
+     },
+     {
+      "s": "M",
+      "t": "Und nachts?"
+     },
+     {
+      "s": "K",
+      "t": "Steuerbordtonnen: {A:198} Backbordtonnen: {A:199} Die Kennung in der Karte liest sich so: Oc zwei R Whis heißt {A:197}"
+     },
+     {
+      "s": "T",
+      "t": "Heultonne! Uuuuh!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Grüne Tonne mit rotem Band, was bedeutet sie?"
+     },
+     {
+      "s": "Q",
+      "n": 195
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Gefahr in vier Himmelsrichtungen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-19",
+    "title": "Gefahr in vier Himmelsrichtungen",
+    "topics": [
+     "s6"
+    ],
+    "qs": [
+     200,
+     201,
+     202,
+     203,
+     204,
+     205,
+     206,
+     207,
+     208,
+     209
+    ],
+    "minutes": 4,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Kardinaltonnen. Schwarz-gelb, mit zwei Kegeln oben. Smilla, wie liest man die?"
+     },
+     {
+      "s": "M",
+      "t": "Die Kegel zeigen, wo das tiefe Wasser ist. Beide Spitzen nach oben: Nord, {A:200} Beide nach unten: Süd, {A:202}"
+     },
+     {
+      "s": "K",
+      "t": "Spitzen auseinander, wie ein Ei: Ost, {A:201} Spitzen zueinander, wie eine Taille: West, {A:203}"
+     },
+     {
+      "s": "T",
+      "t": "Nord oben, Süd unten!"
+     },
+     {
+      "s": "K",
+      "t": "Und nachts blinken sie wie eine Uhr. Dauernd funkeln: {A:204} Drei Blitze: {A:205} Sechs plus ein langer: {A:206} Neun: {A:207}"
+     },
+     {
+      "s": "M",
+      "t": "Drei Uhr Osten, sechs Uhr Süden, neun Uhr Westen. Zwölf Uhr Norden funkelt durch."
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was bedeutet die Kardinaltonne mit beiden Spitzen nach oben?"
+     },
+     {
+      "s": "Q",
+      "n": 200
+     },
+     {
+      "s": "M",
+      "t": "Und die schwarz-rote mit zwei Bällen?"
+     },
+     {
+      "s": "K",
+      "t": "Das ist {A:208} Nachts: Fl zwei, also {A:209} Zwei Bälle, zwei Blitze, Einzelgefahr."
+     },
+     {
+      "s": "T",
+      "t": "Zwei Bälle, zwei Blitze!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Bedeutung hat das Feuer mit der Kennung Fl zwei?"
+     },
+     {
+      "s": "Q",
+      "n": 209
+     },
+     {
+      "s": "K",
+      "t": "Nächste Folge: Feuer, die den Weg weisen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-20",
+    "title": "Feuer, die den Weg weisen",
+    "topics": [
+     "s6",
+     "s7"
+    ],
+    "qs": [
+     210,
+     211,
+     212,
+     213,
+     214,
+     215,
+     220,
+     221,
+     222,
+     223,
+     224
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Leuchtfeuer sind die Straßenschilder der Nacht. Ein Leitfeuer ist ein {A:210} Man navigiert, indem man {A:211}"
+     },
+     {
+      "s": "M",
+      "t": "Und das Richtfeuer, mit den zwei Türmen?"
+     },
+     {
+      "s": "K",
+      "t": "{A:212} Stehen beide übereinander, bist du auf der Linie. Das Quermarkenfeuer dagegen ist ein {A:213} Beim Übergang {A:214}"
+     },
+     {
+      "s": "T",
+      "t": "In Deckung bringen! Deckung!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was versteht man unter einem Richtfeuer?"
+     },
+     {
+      "s": "Q",
+      "n": 212
+     },
+     {
+      "s": "M",
+      "t": "Jetzt die Kennungen. Ich bringe sie durcheinander: Blink, Blitz, Funkel."
+     },
+     {
+      "s": "K",
+      "t": "Unterbrochenes Feuer: {A:215} Blinkfeuer: {A:220} Blitzfeuer: {A:221} Funkelfeuer: {A:222} Gleichtaktfeuer: {A:223}"
+     },
+     {
+      "s": "M",
+      "t": "Also: Blink ist lang, Blitz ist kurz, Funkeln ist hektisch."
+     },
+     {
+      "s": "K",
+      "t": "Und die Wiederkehr ist der {A:224} Stoppuhr raus, von Blitz zu Blitz."
+     },
+     {
+      "s": "T",
+      "t": "Blink lang, Blitz kurz!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was versteht man unter einem Blitzfeuer?"
+     },
+     {
+      "s": "Q",
+      "n": 221
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Naturschutz und Nachrichten für Seefahrer."
+     }
+    ]
+   },
+   {
+    "id": "sbf-21",
+    "title": "Naturschutz und Nachrichten",
+    "topics": [
+     "s7",
+     "s6"
+    ],
+    "qs": [
+     216,
+     217,
+     218,
+     219,
+     225,
+     226,
+     227,
+     228,
+     229,
+     230,
+     231,
+     232
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Wattenmeer. Seehunde auf der Sandbank. Ich will hin."
+     },
+     {
+      "s": "K",
+      "t": "Du bleibst weg. {A:218} Der Abstand laut den goldenen Regeln: {A:219}"
+     },
+     {
+      "s": "T",
+      "t": "Dreihundert Meter! Mindestens!"
+     },
+     {
+      "s": "M",
+      "t": "Wo sehe ich, wo ein Naturschutzgebiet anfängt?"
+     },
+     {
+      "s": "K",
+      "t": "{A:216} Die Befahrensregeln auszugsweise ebenfalls {A:217} Und grundsätzlich: {A:225}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welcher Abstand ist zu Seehunden einzuhalten?"
+     },
+     {
+      "s": "Q",
+      "n": 219
+     },
+     {
+      "s": "M",
+      "t": "Was steht in den örtlichen Befahrensregelungen alles drin?"
+     },
+     {
+      "s": "K",
+      "t": "{A:226} In Erlaubniszonen können {A:227} Und Schnellfahrkorridore sind {A:229} ist die Höchstgeschwindigkeit, wenn die Nordsee-Befahrensverordnung nichts anderes sagt."
+     },
+     {
+      "s": "M",
+      "t": "Und unser Müll?"
+     },
+     {
+      "s": "K",
+      "t": "{A:230} Nichts geht über Bord, nicht mal der Teebeutel."
+     },
+     {
+      "s": "M",
+      "t": "Zum Schluss die Papiere. Welche Veröffentlichungen brauche ich fürs Revier?"
+     },
+     {
+      "s": "K",
+      "t": "{A:231} Und die Nachrichten für Seefahrer enthalten {A:232} Deshalb vor jeder Fahrt lesen."
+     },
+     {
+      "s": "T",
+      "t": "Lesen! Lesen!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was enthalten die Nachrichten für Seefahrer?"
+     },
+     {
+      "s": "Q",
+      "n": 232
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal sitzen wir am Kartentisch."
+     }
+    ]
+   },
+   {
+    "id": "sbf-22",
+    "title": "Karte, Kompass, Koppelort",
+    "topics": [
+     "s8"
+    ],
+    "qs": [
+     233,
+     234,
+     235,
+     236,
+     237,
+     238,
+     239,
+     240,
+     241,
+     242,
+     243,
+     244,
+     245,
+     246,
+     247,
+     248
+    ],
+    "minutes": 6,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Kartentisch. Erste Frage, bevor du irgendwas misst: {A:235}"
+     },
+     {
+      "s": "M",
+      "t": "Und wo steht, was die Zeichen in der Karte bedeuten?"
+     },
+     {
+      "s": "K",
+      "t": "{A:237} Die Tiefen in deutschen Karten stehen {A:236} Und Beschreibungen der Schifffahrtszeichen findest du im {A:238} Küsten- und Hafenverhältnisse: {A:234}"
+     },
+     {
+      "s": "T",
+      "t": "INT eins! INT eins!"
+     },
+     {
+      "s": "M",
+      "t": "Seemeilen. Wo lese ich die ab?"
+     },
+     {
+      "s": "K",
+      "t": "{A:239} Eine Seemeile ist {A:240} Und Knoten sind {A:241}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wo entnimmt man in der Seekarte die Seemeilen?"
+     },
+     {
+      "s": "Q",
+      "n": 239
+     },
+     {
+      "s": "M",
+      "t": "Kompass. Die Ablenkung, woher nehme ich die?"
+     },
+     {
+      "s": "K",
+      "t": "{A:242} Und beim Einbau: {A:248}"
+     },
+     {
+      "s": "M",
+      "t": "Peilung und Standlinie?"
+     },
+     {
+      "s": "K",
+      "t": "Eine Peilung ist {A:243} Eine Standlinie erhält man {A:244} Zwei Standlinien, ein Schnittpunkt, dein Ort."
+     },
+     {
+      "s": "M",
+      "t": "Strom und Wind versetzen mich. Was ist der Unterschied?"
+     },
+     {
+      "s": "K",
+      "t": "Stromversetzung: {A:245} Windversetzung: {A:246} Und der Koppelort ist der {A:247} Vorsicht in Seegaten: {A:233}"
+     },
+     {
+      "s": "T",
+      "t": "Brecher! Brecher!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was versteht man unter einem Koppelort?"
+     },
+     {
+      "s": "Q",
+      "n": 247
+     },
+     {
+      "s": "K",
+      "t": "Nächste Folge: Ebbe, Flut und ein Schlepp im Seegang."
+     }
+    ]
+   },
+   {
+    "id": "sbf-23",
+    "title": "Ebbe, Flut und Schlepp",
+    "topics": [
+     "s8",
+     "s9"
+    ],
+    "qs": [
+     249,
+     250,
+     251,
+     252,
+     253,
+     254,
+     255,
+     256,
+     257,
+     258,
+     259
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "M",
+      "t": "Ebbe und Flut, Käpt'n. Ich sage immer, bei Ebbe ist wenig Wasser da."
+     },
+     {
+      "s": "K",
+      "t": "Ebbe ist kein Zustand, sondern eine Bewegung: {A:249} Flut ist {A:250} Das Niedrigwasser ist der {A:252} Das Hochwasser der {A:253}"
+     },
+     {
+      "s": "M",
+      "t": "Und eine Tide?"
+     },
+     {
+      "s": "K",
+      "t": "{A:251} Der Tidenhub ist {A:254} Die Zeiten dazu stehen {A:255}"
+     },
+     {
+      "s": "T",
+      "t": "Hoch, runter, hoch!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was versteht man unter Ebbe?"
+     },
+     {
+      "s": "Q",
+      "n": 249
+     },
+     {
+      "s": "M",
+      "t": "Jetzt die Geschichte vom Schlepp. Du hast mal eine Jolle bei Welle vier abgeschleppt."
+     },
+     {
+      "s": "K",
+      "t": "Und die Leine war zu kurz. Bei starkem Seegang soll sie {A:256} Dann heben sich beide Boote gleichzeitig. Allgemein: {A:257}"
+     },
+     {
+      "s": "M",
+      "t": "Und wenn das Boot steuerunfähig ist?"
+     },
+     {
+      "s": "K",
+      "t": "Bug in den Wind, {A:258} Und bei viel Seegang Fahrt raus, {A:259}"
+     },
+     {
+      "s": "T",
+      "t": "Langsam! Langsam!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Wie lang sollte eine Schleppleine bei starkem Seegang sein?"
+     },
+     {
+      "s": "Q",
+      "n": 256
+     },
+     {
+      "s": "K",
+      "t": "Nächstes Mal: Wetter und Warnungen."
+     }
+    ]
+   },
+   {
+    "id": "sbf-24",
+    "title": "Wetter und Warnungen",
+    "topics": [
+     "s9"
+    ],
+    "qs": [
+     260,
+     261,
+     262,
+     263,
+     264,
+     265,
+     266,
+     267,
+     268,
+     269,
+     270,
+     271,
+     272
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Smilla liest die Wetterkarte vor. Isobaren, was sind das?"
+     },
+     {
+      "s": "M",
+      "t": "{A:264} Dargestellt {A:262} Liegen sie eng, wird es windig."
+     },
+     {
+      "s": "K",
+      "t": "Und auf der Nordhalbkugel: Hoch dreht im Uhrzeigersinn, Tief dagegen. {A:265}"
+     },
+     {
+      "s": "T",
+      "t": "Tief, Tief, nass!"
+     },
+     {
+      "s": "M",
+      "t": "Der Luftdruck fällt rasch. Was heißt das?"
+     },
+     {
+      "s": "K",
+      "t": "{A:263} Also Jacke an und Hafen suchen. Die Beaufort-Skala liefert {A:261}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Womit muss bei rasch fallendem Luftdruck gerechnet werden?"
+     },
+     {
+      "s": "Q",
+      "n": 263
+     },
+     {
+      "s": "M",
+      "t": "Die Warnungen im Seewetterbericht. Starkwind, Sturm, wo ist die Grenze?"
+     },
+     {
+      "s": "K",
+      "t": "Starkwindwarnung: {A:267} Sturmwarnung: {A:268} Frischer Wind ist {A:269} Und schwerer Sturm, orkanartig, Orkan: {A:270}"
+     },
+     {
+      "s": "M",
+      "t": "Und im Nebel im Fahrwasser, als Sportboot?"
+     },
+     {
+      "s": "K",
+      "t": "{A:271} Die Großen sehen dich nicht, auch mit AIS nicht. AIS dient übrigens primär {A:272}"
+     },
+     {
+      "s": "T",
+      "t": "Sechs, sieben Starkwind! Acht Sturm!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Für welche Windstärken wird eine Sturmwarnung herausgegeben?"
+     },
+     {
+      "s": "Q",
+      "n": 268
+     },
+     {
+      "s": "K",
+      "t": "Letzte Folge der Staffel: Wenn es ernst wird."
+     }
+    ]
+   },
+   {
+    "id": "sbf-25",
+    "title": "Wenn es ernst wird",
+    "topics": [
+     "s10"
+    ],
+    "qs": [
+     273,
+     274,
+     275,
+     276,
+     277,
+     278,
+     279,
+     280,
+     281,
+     282,
+     283,
+     284,
+     285
+    ],
+    "minutes": 5,
+    "lines": [
+     {
+      "s": "K",
+      "t": "Die letzte Folge, und die wichtigste. Erst Vorsorge. Über AIS werden {A:273} Und die Sorgfaltspflicht verlangt: {A:274}"
+     },
+     {
+      "s": "M",
+      "t": "Schweres Wetter kündigt sich an. Was tust du, bevor es losgeht?"
+     },
+     {
+      "s": "K",
+      "t": "{A:275} Alles, was fliegen kann, wird festgebunden. Auch die Teekanne."
+     },
+     {
+      "s": "T",
+      "t": "Westen an! Westen an!"
+     },
+     {
+      "s": "M",
+      "t": "Mensch über Bord. Wie kriege ich ihn wieder rein?"
+     },
+     {
+      "s": "K",
+      "t": "{A:276} Und damit es gar nicht passiert: {A:278}"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Welche Sicherheitsmaßnahmen trifft man vor schwerem Wetter?"
+     },
+     {
+      "s": "Q",
+      "n": 275
+     },
+     {
+      "s": "M",
+      "t": "Und wenn wir kentern?"
+     },
+     {
+      "s": "K",
+      "t": "{A:277} Das Boot ist dein Rettungsmittel, auch kieloben."
+     },
+     {
+      "s": "M",
+      "t": "Welche Notsignale gibt es?"
+     },
+     {
+      "s": "K",
+      "t": "{A:279} Und egal ob Flagge N über C, Dauerton am Nebelhorn, SOS mit Licht oder eine rote Rakete: Alles heißt {A:280}"
+     },
+     {
+      "s": "T",
+      "t": "Rot! Rot! Hilfe!"
+     },
+     {
+      "s": "K",
+      "t": "Na, was meinst du: Was bedeutet eine Leuchtrakete mit einem roten Stern?"
+     },
+     {
+      "s": "Q",
+      "n": 283
+     },
+     {
+      "s": "K",
+      "t": "Das war die Staffel. Du hast jetzt alle Themen einmal gehört. Der Rest ist Übung. Und Smilla hat noch Tee."
+     },
+     {
+      "s": "M",
+      "t": "Immer. Bis zur nächsten Runde!"
+     }
+    ]
+   }
+  ],
+  "sks": []
+ },
+ "shorts": [
+  {
+   "id": "s-01",
+   "who": "K",
+   "title": "Warum Steuerbord Steuerbord heißt",
+   "lines": [
+    "Kleine Geschichte am Rande, während der Tee zieht. Warum heißt die rechte Seite Steuerbord? Weil das Steuerruder früher nicht in der Mitte saß, sondern rechts am Heck, an einem Riemen. Steuerbord ist also wörtlich die Seite, an der gesteuert wurde.",
+    "Und links? Mit dem Ruder rechts legte man am Kai mit der anderen Seite an, damit das Ruder nicht zerdrückt wird. Die Seite, mit der man anlegte, hieß erst Ladebord, und daraus wurde später Backbord. Der Steuermann stand mit dem Rücken, dem Back, zu dieser Seite.",
+    "Seitdem hat sich am Boot viel geändert, aber die Namen sind geblieben. So ist das auf See: Die alten Wörter halten länger als die alten Schiffe."
+   ]
+  },
+  {
+   "id": "s-02",
+   "who": "T",
+   "title": "Der Mann, der den Wind gezählt hat",
+   "lines": [
+    "Wusstest du das? Die Windstärke, die ich immer rufe, West fünf bis sechs, die hat ein Mann erfunden. Francis Beaufort. Britischer Admiral. Um achtzehnhundertfünf hat er eine Skala gemacht, damit alle Seeleute dasselbe meinen, wenn sie von Wind reden.",
+    "Vorher sagte der eine steife Brise und der andere frisch, und keiner wusste, wie viel Segel noch stehen darf. Beaufort hat es an den Segeln eines Kriegsschiffs festgemacht: wie viel Tuch das Schiff bei welchem Wind tragen kann. Null war Flaute, zwölf war Orkan.",
+    "Später hat man Meter pro Sekunde dazugelegt und Wellenhöhen. Aber die Zahlen sind geblieben. Darum rufe ich sechs, und jeder an Bord weiß Bescheid. Böig! Böig!"
+   ]
+  },
+  {
+   "id": "s-03",
+   "who": "M",
+   "title": "Knoten, die man nicht binden kann",
+   "lines": [
+    "Warum heißt die Geschwindigkeit auf See eigentlich Knoten? Früher warf man achtern ein Holzbrett an einer Leine ins Wasser, das Log. In die Leine waren in gleichen Abständen Knoten geknüpft. Man ließ sie durch die Hand laufen und zählte, wie viele Knoten in einer festen Zeit durchrutschten, gemessen mit einer kleinen Sanduhr.",
+    "So viele Knoten, so viele Seemeilen in der Stunde. Der Name ist geblieben, auch wenn heute ein Sensor misst. Und deshalb sagt man nie Knoten pro Stunde. Das wäre doppelt gemoppelt."
+   ]
+  },
+  {
+   "id": "s-04",
+   "who": "K",
+   "title": "Acht Glasen",
+   "lines": [
+    "Auf alten Schiffen gab es keine Uhren für jeden, aber eine Schiffsglocke. Alle halbe Stunde schlug der Wachhabende die Glocke, einmal mehr pro halbe Stunde. Nach vier Stunden, bei acht Glasen, war die Wache zu Ende, und die nächste übernahm.",
+    "Glas heißt es, weil die Zeit mit einer Sanduhr aus Glas gemessen wurde. Wer heute auf einem Traditionssegler mitfährt, hört die Glocke noch. Und wer acht Glasen hört, weiß: Jetzt gibt es Ablösung und hoffentlich Kaffee."
+   ]
+  },
+  {
+   "id": "s-05",
+   "who": "T",
+   "title": "Papageien an Bord",
+   "lines": [
+    "Ja, ich weiß, was ihr denkt: Papagei auf der Schulter, Augenklappe, Holzbein. Aber das mit den Papageien stimmt sogar ein bisschen. Seeleute, die aus den Tropen zurückkamen, brachten gern bunte Vögel mit. Die waren teuer, leicht zu füttern und beeindruckten zu Hause alle.",
+    "Ob sie wirklich auf Schultern saßen, weiß keiner so genau. Ich sitze lieber auf der Stange. Da fällt man nicht runter, wenn es schaukelt. Zwieback! Zwieback!"
+   ]
+  },
+  {
+   "id": "s-06",
+   "who": "M",
+   "title": "Rot links, grün rechts, seit wann?",
+   "lines": [
+    "Die Seitenlichter, rot an Backbord und grün an Steuerbord, sind keine Erfindung von gestern. Mitte des neunzehnten Jahrhunderts, als Dampfschiffe nachts immer öfter zusammenstießen, haben die Briten die farbigen Positionslichter vorgeschrieben.",
+    "Die Idee ist simpel: Siehst du nachts das rote Licht eines anderen, siehst du seine linke Seite, er fährt also von rechts nach links an dir vorbei. Siehst du beide Farben, kommt er genau auf dich zu. Ein paar Lampen, und plötzlich konnten Schiffe im Dunkeln miteinander reden."
+   ]
+  },
+  {
+   "id": "s-07",
+   "who": "K",
+   "title": "Der Leuchtturm, der ein Weltwunder war",
+   "lines": [
+    "Der berühmteste Leuchtturm der Geschichte stand in Alexandria, auf der Insel Pharos, gebaut vor über zweitausend Jahren. Er gehörte zu den sieben Weltwundern der Antike und soll weit über hundert Meter hoch gewesen sein.",
+    "Oben brannte nachts ein Feuer, tagsüber spiegelte ein Metallspiegel die Sonne. Erdbeben haben ihn irgendwann zerlegt. Aber sein Name lebt weiter: In vielen Sprachen heißt Leuchtturm bis heute Pharos oder Faro."
+   ]
+  },
+  {
+   "id": "s-08",
+   "who": "M",
+   "title": "SOS heißt gar nichts",
+   "lines": [
+    "Viele denken, SOS steht für Save Our Souls. Stimmt nicht. Die drei Buchstaben wurden neunzehnhundertsechs als Notzeichen für den Funk festgelegt, weil sie im Morsealphabet so leicht zu erkennen sind: drei kurz, drei lang, drei kurz.",
+    "Kein Wort, keine Abkürzung, nur ein Rhythmus, den jeder sofort hört, auch bei schlechtem Empfang. Die hübschen Deutungen kamen erst später, weil Menschen gern Geschichten zu Buchstaben erfinden."
+   ]
+  },
+  {
+   "id": "s-09",
+   "who": "T",
+   "title": "Mayday kommt aus Frankreich",
+   "lines": [
+    "Mayday! Mayday! Das hat nichts mit dem Mai zu tun. Ein Funker am Flughafen Croydon bei London, Frederick Mockford, suchte in den Zwanzigerjahren ein Notwort, das alle verstehen. Viele Flüge gingen nach Paris. Also nahm er das französische m'aider, helft mir, und machte Mayday daraus.",
+    "Seitdem rufen es Piloten und Seeleute auf der ganzen Welt. Dreimal hintereinander, damit es keiner überhört. Mayday! Mayday! Mayday! So, jetzt hab ich es auch gerufen."
+   ]
+  },
+  {
+   "id": "s-10",
+   "who": "K",
+   "title": "Die Insel, die getauscht wurde",
+   "lines": [
+    "Helgoland, der rote Felsen da draußen, war lange britisch. Achtzehnhundertneunzig kam die Insel in einem Vertrag mit Großbritannien zum Deutschen Reich. Im Volksmund heißt es, man habe sie gegen Sansibar getauscht, in Wahrheit ging es um viel mehr Gebiete in Afrika.",
+    "Seitdem ist sie ein Prüfstein für jeden Küstensegler: Wer von Cuxhaven nach Helgoland kommt, hat die Deutsche Bucht gemeistert. Und das Bier dort ist zollfrei. Sagt man."
+   ]
+  },
+  {
+   "id": "s-11",
+   "who": "M",
+   "title": "Warum Seekarten so aussehen",
+   "lines": [
+    "Die meisten Seekarten sind Mercatorkarten, nach Gerhard Mercator, der fünfzehnhundertneunundsechzig eine Weltkarte zeichnete. Sein Trick: Ein Kurs, den man mit konstanter Kompassrichtung fährt, ist auf seiner Karte eine gerade Linie.",
+    "Dafür nahm er in Kauf, dass die Flächen zum Pol hin immer größer werden. Grönland sieht riesig aus. Für Seeleute war das egal, für sie zählt nur: Lineal anlegen, Kurs ablesen, fertig. Genau das macht ihr am Kartentisch."
+   ]
+  },
+  {
+   "id": "s-12",
+   "who": "K",
+   "title": "Mond, Sonne, Springtide",
+   "lines": [
+    "Ebbe und Flut macht vor allem der Mond. Er zieht das Wasser auf seiner Seite zu einem Berg zusammen, und auf der gegenüberliegenden Seite der Erde entsteht ein zweiter. Die Erde dreht sich darunter weg, und so gibt es in gut vierundzwanzig Stunden zweimal Hochwasser.",
+    "Die Sonne zieht auch, nur schwächer. Stehen Mond und Sonne in einer Linie, bei Voll- und Neumond, addieren sich die Kräfte: Springtide, besonders hoch und besonders niedrig. Bei Halbmond arbeiten sie gegeneinander: Nipptide. Das steht alles in deiner Gezeitentafel, aber jetzt weißt du, warum."
+   ]
+  },
+  {
+   "id": "s-13",
+   "who": "T",
+   "title": "Warum die Möwen hinterherfliegen",
+   "lines": [
+    "Möwen sind nicht dumm. Sie fliegen hinter Fischkuttern her, weil beim Sortieren der Fang Reste über Bord gehen. Freies Essen, keine Arbeit. Hinter Fähren fliegen sie, weil die Leute Pommes werfen. Auch freies Essen.",
+    "Und sie segeln im Wind, der vom Schiff hochgedrückt wird, fast ohne Flügelschlag. Faul und schlau. Ich bewundere das. Aber ich bleibe auf meiner Stange."
+   ]
+  },
+  {
+   "id": "s-14",
+   "who": "M",
+   "title": "Die Kieler Woche fing klein an",
+   "lines": [
+    "Achtzehnhundertzweiundachtzig trafen sich zwanzig Segelyachten vor Kiel zu einer Wettfahrt. Das war der Anfang der Kieler Woche. Heute ist sie die größte Segelveranstaltung der Welt, mit Tausenden Booten und Millionen Besuchern.",
+    "Was ich daran mag: Es fing mit zwanzig Leuten an, die einfach Lust hatten. So fängt eigentlich alles Gute auf dem Wasser an."
+   ]
+  },
+  {
+   "id": "s-15",
+   "who": "K",
+   "title": "Der Kanal, der Deutschland durchschneidet",
+   "lines": [
+    "Der Nord-Ostsee-Kanal verbindet Kiel mit der Elbe bei Brunsbüttel, fast hundert Kilometer quer durch Schleswig-Holstein. Eröffnet achtzehnhundertfünfundneunzig, damals als Kaiser-Wilhelm-Kanal. Er spart den Weg um Dänemark herum, mehrere hundert Seemeilen.",
+    "Er gilt als eine der meistbefahrenen künstlichen Wasserstraßen der Welt. Wer mit dem Sportboot durchfährt, wartet an der Schleuse auf das weiße Blinklicht und fährt dann hinter den großen Pötten her. Ein Tag, den man nicht vergisst."
+   ]
+  },
+  {
+   "id": "s-16",
+   "who": "M",
+   "title": "Die Seenotretter",
+   "lines": [
+    "Wenn jemand an unserer Küste in Not gerät, kommen die Seenotretter. Die Deutsche Gesellschaft zur Rettung Schiffbrüchiger gibt es seit achtzehnhundertfünfundsechzig, und das Besondere: Sie finanziert sich fast nur durch Spenden.",
+    "Die kleinen Sammelschiffchen auf Tresen in Hafenkneipen sind ihr Markenzeichen. Wer eins sieht, wirft was rein. Könnte sein, dass die mal für uns rausfahren."
+   ]
+  },
+  {
+   "id": "s-17",
+   "who": "T",
+   "title": "Heuler",
+   "lines": [
+    "Die Seehunde auf den Sandbänken bekommen im Sommer ihre Jungen. Verliert ein Junges seine Mutter, ruft es laut und klagend, deshalb nennt man es Heuler. An der Küste gibt es Stationen, die solche Heuler aufpäppeln und wieder auswildern.",
+    "Deshalb bleibt man weit weg von den Sandbänken. Die Mütter sollen gar nicht erst erschrecken und abtauchen. Ich halte Abstand. Ich bin ja nur ein Papagei, aber ein höflicher."
+   ]
+  },
+  {
+   "id": "s-18",
+   "who": "K",
+   "title": "Der Uhrmacher und der Längengrad",
+   "lines": [
+    "Jahrhundertelang wussten Seeleute, wie weit nördlich sie waren, aber nicht, wie weit östlich oder westlich. Dafür braucht man eine genaue Uhr. Und Uhren gingen auf schaukelnden Schiffen falsch.",
+    "Ein englischer Tischler und Uhrmacher, John Harrison, baute im achtzehnten Jahrhundert Uhren, die auch auf See genau blieben. Der Staat hatte einen riesigen Preis ausgesetzt, und er musste jahrzehntelang kämpfen, bis man ihm das Geld gab. Heute sagt ein Satellit, wo du bist. Damals war es ein Tischler."
+   ]
+  },
+  {
+   "id": "s-19",
+   "who": "M",
+   "title": "Wo das Herz schlägt",
+   "lines": [
+    "Meine Lieblings-Eselsbrücke, falls du Backbord und Steuerbord wieder vertauschst: Backbord ist links, da, wo das Herz schlägt. Und die Farben dazu: Backbord, rot, wie Blut. Steuerbord, grün, wie die Wiese rechts vom Haus.",
+    "Noch eine: Die Wörter Backbord und links haben beide vier Buchstaben weniger als ihr Gegenstück. Nein, das stimmt nicht. Aber Herz und rot, das bleibt."
+   ]
+  },
+  {
+   "id": "s-20",
+   "who": "K",
+   "title": "Warum das Logbuch Logbuch heißt",
+   "lines": [
+    "Das Logbuch heißt nicht so, weil man sich einloggt. Das Log war das Holzbrett an der Leine, mit dem man die Geschwindigkeit maß. Was man ablas, trug man in ein Buch ein: das Logbuch. Dazu kamen Kurs, Wetter, Besonderheiten.",
+    "Heute heißt im Computer jedes Protokoll Log, aber der Ursprung schwimmt im Wasser. Wenn du also abends in dein Logbuch schreibst, was du gelernt hast, machst du etwas, das Seeleute seit Jahrhunderten tun."
+   ]
+  }
+ ]
+}

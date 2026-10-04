@@ -43,8 +43,14 @@ Nutzer sind im Moment nur ich. Später testen Freunde, gern auch mit meinen Keys
 
 ## 4. Architektur
 ```
-index.html          gesamter Code, CSS und Kataloge (SBF: DATA, SKS: SKS_DATA)  ~765 KB
+index.html          gesamter Code und CSS  ~385 KB
+data/sbf.json       SBF-See-Katalog (DATA), seit v4.6 ausgelagert
+data/sks.json       SKS-Katalog (SKS_DATA)
+data/nav.json       die 15 Navigationsaufgaben (NAV_TASKS)
+data/folgen.json    Kajütenfunk-Folgen und Kurzgeschichten ({episodes, shorts})
+                    → alle vier lädt loadData() beim Start (startApp), danach boot()
 img/q/*.jpg|png     Original-Katalogbilder (seit v4.4 ausgelagert)
+manifest.webmanifest, icon-192.png, icon-512.png   installierbare App
 audio/*.mp3         Musik und Geräusche
 audio/stimmen/      Stimmenpaket: fertige Crew-Sätze + manifest.json
 sw.js               Service Worker (Update-Hinweis)
