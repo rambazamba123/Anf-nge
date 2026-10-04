@@ -301,6 +301,22 @@ button.coursechip{border:0;cursor:pointer}
 #stagePanel.answered .panel{opacity:.55;pointer-events:none;transition:opacity .2s}
 .scene.boat .panohint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(255,250,240,.92);color:#2a2019;padding:4px 14px;border-radius:999px;font:700 .85rem var(--bfont);pointer-events:none;opacity:0;animation:panohint 4s ease .8s forwards;z-index:3}
 @keyframes panohint{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.knife.taken{opacity:0;pointer-events:none}
+[data-egg="kompass"] .needle{transform-box:fill-box;transform-origin:50% 50%}
+[data-egg="kompass"].devi .needle{animation:devi 2.6s ease-out forwards}
+@keyframes devi{0%{transform:rotate(0)}15%{transform:rotate(80deg)}35%{transform:rotate(-45deg)}55%{transform:rotate(40deg)}75%{transform:rotate(18deg)}100%{transform:rotate(25deg)}}
+.krabbe{opacity:0;pointer-events:none} .krabbe.pop{animation:krab 2.8s ease-out}
+@keyframes krab{0%{opacity:1;transform:translateY(10px)}30%{opacity:1;transform:translate(-10px,-46px) rotate(-25deg)}100%{opacity:0;transform:translate(-40px,20px) rotate(50deg)}}
+.bottle{opacity:0;pointer-events:none} .bottle.up{animation:bottle 1.6s ease-out forwards}
+@keyframes bottle{from{opacity:1;transform:translateY(40px)}to{opacity:1;transform:translateY(-6px)}}
+[data-egg="ring"].thrown{animation:ringthrow 1.6s ease-in forwards}
+@keyframes ringthrow{40%{transform:translate(40px,-50px) rotate(90deg)}100%{transform:translate(80px,110px) rotate(200deg)}}
+.flagline{pointer-events:none}
+.baro .bneedle{transform-box:view-box;transform-origin:258px 56px;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.galley .pot{transform-box:fill-box;transform-origin:50% 100%} .galley.slide .pot{animation:potslide .7s ease-in-out 3}
+@keyframes potslide{0%,100%{transform:translateX(0)}50%{transform:translateX(8px) rotate(5deg)}}
+.scene.boat.queasy .pano{animation:queasy .5s ease-in-out 4}
+@keyframes queasy{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
 .wiggle{animation:wiggle .6s ease}
 @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
 [data-egg].wiggle{transform-box:fill-box;transform-origin:50% 100%}
@@ -477,7 +493,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.13';
+  window.__ver = '4.14';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -919,6 +935,7 @@ function dayPart(d) {
 }
 /* Wetter: pro Tag zufällig, aber den ganzen Tag gleich. Meistens schön. */
 function weatherToday() {
+  if (window.WX_OVERRIDE && Date.now() < WX_OVERRIDE.until) return WX_OVERRIDE.wx;
   const forced = window.S && S.cfg && S.cfg.wx && S.cfg.wx !== 'auto' ? S.cfg.wx : null;
   if (forced) return forced;
   const d = new Date(); let x = d.getFullYear() * 1000 + (d.getMonth() + 1) * 40 + d.getDate();
@@ -1064,6 +1081,10 @@ function cabinScene(crew) {
       <circle cx="86" cy="68" r="8" fill="#3e6b5a"/><path d="M86 60 Q90 52 86 48" stroke="#6aa06a" stroke-width="2" fill="none"/>
       <g class="hang2"><g transform="translate(10 98)"><path d="M17 -6 L4 0 M17 -6 L30 0" stroke="#5a3a24" stroke-width="1.2"/><circle cx="17" cy="-6" r="1.8" fill="#8a6420"/><rect width="34" height="70" rx="3" fill="#8a5a3a"/><circle cx="17" cy="6" r="2" fill="#5a3a24"/>
         <path d="M17 8 C6 22 28 26 17 36 C8 44 26 50 17 58" stroke="#e6d3a8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 h16" stroke="#e6d3a8" stroke-width="2.5"/><circle cx="17" cy="62" r="3.5" fill="none" stroke="#e6d3a8" stroke-width="2.5"/></g></g>
+      <g transform="translate(0 -14)"><g class="galley" data-tap="galley"><path d="M40 58 H110" stroke="#7a4e33" stroke-width="4"/><path d="M40 50 H110" stroke="#b98a5a" stroke-width="2"/><path d="M42 50 V58 M108 50 V58" stroke="#b98a5a" stroke-width="2"/>
+        <g class="pot"><rect x="50" y="44" width="18" height="12" rx="2" fill="#8a8a8a"/><path d="M48 46 h22" stroke="#5c5c5c" stroke-width="2"/></g><g class="pot"><rect x="78" y="40" width="14" height="16" rx="3" fill="#c2473b"/><path d="M92 46 h5" stroke="#7a2a22" stroke-width="2"/></g>
+        <rect x="36" y="34" width="78" height="28" fill="transparent"/></g></g>
+      <g class="baro" data-tap="baro"><circle cx="258" cy="56" r="13" fill="#f7f2e6" stroke="#c8962e" stroke-width="3"/><path d="M249 60 A10 10 0 0 1 267 60" stroke="#c2473b" stroke-width="1.2" fill="none"/><path class="bneedle" d="M258 56 L265 49" stroke="#2b2118" stroke-width="1.8" stroke-linecap="round"/><circle cx="258" cy="56" r="1.6" fill="#2b2118"/><rect x="242" y="40" width="32" height="32" fill="transparent"/></g>
       <g class="clockwrap" data-tap="clock"><g class="clock" transform="translate(134 46)"><circle r="16" fill="#f7f2e6" stroke="#8a6420" stroke-width="3"/>
         <path d="M0 -12 V-10 M12 0 H10 M0 12 V10 M-12 0 H-10" stroke="#8a6420" stroke-width="1.5"/>
         <path d="M0 0 V-7" stroke="#2b2118" stroke-width="2.2" stroke-linecap="round" transform="rotate(${hr})"/>
@@ -1392,6 +1413,7 @@ function packLines(withEpisodes) {
   ONB_FREE.forEach(l => add(l.s, l.t));
   Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
   Object.entries(OVERTAKE).forEach(([id, t]) => out.push({cid: id, t: pclean(t)}));
+  Object.values(EGG_LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
   const g = GRUSS[S.crew.K] || GRUSS.hinnerk;
   MOIN.concat(g).forEach(x => out.push({cid: S.crew.K, t: pclean(x)}));
   if (withEpisodes) {
@@ -2620,6 +2642,19 @@ function renderCabin() {
     mouse: el => { if (el.classList.contains('gone')) return; AUD.squeak(); el.classList.add('gone'); setTimeout(() => el.classList.remove('gone'), 4000); },
     gull: el => { if (el.classList.contains('fly')) return; el.classList.add('fly'); AUD.sfx('moewe', {offset: 2, dur: 2.2, vol: .5}); },
     crab: el => { el.classList.remove('run'); el.getBBox(); el.classList.add('run'); AUD.click(); },
+    /* Egg: Barometer dreimal klopfen → „das Glas fällt“, Nebel zieht für ein paar Minuten auf */
+    baro: el => {
+      const now = Date.now(); eggTaps.baro = (eggTaps.baro || []).filter(t => now - t < 4000).concat(now);
+      const nd = el.querySelector('.bneedle'); nd.style.transform = `rotate(${-eggTaps.baro.length * 35}deg)`; AUD.click();
+      if (eggTaps.baro.length >= 3) { eggTaps.baro = []; wxOverride('nebel', 6 * 60000); foundEgg('barometer'); sayEgg('barometer').then(() => { if (tab === 'cabin') setTab('cabin'); }); }
+      else setTimeout(() => { if (!eggTaps.baro || !eggTaps.baro.length) nd.style.transform = ''; }, 4200);
+    },
+    /* Egg: Schlingerleiste zeigt nur bei Seegang (Wind oder Sturm), was sie kann */
+    galley: el => {
+      const rough = ['windig', 'sturm'].includes(weatherToday());
+      el.classList.remove('slide'); el.getBBox(); el.classList.add('slide'); AUD.click(); setTimeout(() => el.classList.remove('slide'), 3000);
+      if (rough) { foundEgg('schlinger'); sayEgg('schlinger'); } else sayEgg('schlingerRuhig');
+    },
     spider: el => { const sp = el.querySelector('.spider'); sp.classList.remove('drop'); sp.getBBox(); sp.classList.add('drop'); },
   };
   app.querySelectorAll('[data-tap]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); foundEgg(el.dataset.tap); (TAP[el.dataset.tap] || (() => {}))(el); }));
@@ -3475,6 +3510,8 @@ function longBoatScene(crew) {
     <g class="gullfly" data-egg="moewe"><path d="M0 0 q8 -7 14 0 q6 -7 14 0" stroke="#fbfbf7" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="-6" y="-12" width="40" height="22" fill="transparent"/></g>
     <path d="M840 212 L870 200 L960 197 L1010 205 L1040 212 Z" fill="#b5563a"/><path d="M870 200 L960 197" stroke="#6a8f4a" stroke-width="3"/>
     <g transform="translate(940 202) scale(1.3)"><g data-egg="leuchtturm">${lighthouse(0, 0)}<rect x="-12" y="-36" width="34" height="38" fill="transparent"/></g></g>
+    ${day === 'nacht' || day === 'abend' ? `<g data-egg="frachter"><path d="M44 210 L50 194 L76 194 L82 210 Z" fill="#1b232c"/><rect x="56" y="180" width="14" height="14" fill="#1b232c"/><path d="M60 194 V172 M66 194 V160" stroke="#1b232c" stroke-width="2"/>
+      <circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>` : ''}
     <rect y="210" width="1200" height="310" style="fill:var(--sea)"/>
     ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(226, 'w1', 'var(--seaD)', .4, 520)}</g>`).join('')}
     <g class="rocker">
@@ -3487,6 +3524,9 @@ function longBoatScene(crew) {
       </g>
       <g class="furled" aria-hidden="true"><rect x="424" y="222" width="350" height="12" rx="6" fill="#e9dfc8"/><path d="M470 222 v12 M530 222 v12 M590 222 v12 M650 222 v12 M710 222 v12" stroke="#b9a98a" stroke-width="2"/></g>
       <rect x="416" y="-120" width="12" height="372" rx="3" fill="#5a3e2a"/>
+      <g class="flagline" id="flagline"></g>
+      <g data-egg="glocke"><path d="M434 186 H458" stroke="#5a3e2a" stroke-width="3"/><path d="M438 208 Q438 190 446 190 Q454 190 454 208 Z" fill="#c8962e"/><path d="M436 208 H456" stroke="#8a6420" stroke-width="2"/><circle cx="446" cy="211" r="2.2" fill="#8a6420"/><rect x="432" y="182" width="28" height="34" fill="transparent"/></g>
+      <g data-egg="flaggen"><rect x="452" y="240" width="18" height="12" rx="3" fill="#3d5f8f"/><path d="M455 240 l3 -4 h4 l3 4" fill="#d6332c"/><rect x="448" y="232" width="26" height="22" fill="transparent"/></g>
       <path d="M426 234 L780 234" stroke="#5a3e2a" stroke-width="8" stroke-linecap="round"/>
       <!-- Aufbau mit Bullaugen (Crew) und Niedergang -->
       <path d="M470 252 L486 206 L760 206 L770 252 Z" fill="#f7f2e6"/><path d="M486 206 L760 206" stroke="#c8b99a" stroke-width="3"/>
@@ -3502,14 +3542,18 @@ function longBoatScene(crew) {
         <ellipse class="hatchglow" cx="734" cy="246" rx="16" ry="7" fill="#ffcf7a" opacity=".55"/>
         <path d="M718 218 H750 M718 228 H750 M718 238 H750" stroke="#b98a5a" stroke-width="3"/>
         <rect x="700" y="190" width="68" height="64" fill="transparent"/></g>
+      <g data-egg="messer" class="knife"><path d="M640 203 L662 199 L664 202 L642 205 Z" fill="#c9d0d4"/><rect x="662" y="198" width="12" height="5" rx="2" fill="#7a4e33"/><rect x="634" y="190" width="46" height="18" fill="transparent"/></g>
       <!-- Cockpit mit Bänken, Winsch, Horn und Pinne -->
       <path d="M780 252 L792 230 L1060 230 L1070 252 Z" fill="#c9b58e"/><rect x="800" y="236" width="250" height="12" rx="3" fill="#8a6a46"/>
       <circle cx="812" cy="226" r="7" fill="#4a4a4a"/><circle cx="812" cy="226" r="3" fill="#8a8a8a"/>
       <g data-egg="horn"><circle cx="860" cy="226" r="5" fill="#2b2118"/><path d="M864 226 L884 217 L884 235 Z" fill="#c8962e"/><rect x="850" y="210" width="40" height="28" fill="transparent"/></g>
+      <g data-egg="kompass"><circle cx="903" cy="222" r="9" fill="#2b2118"/><circle cx="903" cy="222" r="6.5" fill="#f3e9cf"/><path class="needle" d="M903 216 L905 222 L903 228 L901 222 Z" fill="#c2473b"/><rect x="892" y="210" width="24" height="24" fill="transparent"/></g>
       <g data-egg="pinne"><path d="M1076 244 L950 226" stroke="#5a3e2a" stroke-width="7" stroke-linecap="round"/><path d="M950 226 L930 223" stroke="#c8962e" stroke-width="7" stroke-linecap="round"/><rect x="1068" y="232" width="14" height="26" rx="3" fill="#3a2a1c"/><rect x="920" y="208" width="166" height="44" fill="transparent"/></g>
       <!-- Heck: Heckkorb, Flagge (Wimpel), Außenborder -->
       <path d="M1100 252 L1100 214 L1150 214 L1150 252" stroke="#9aa3ab" stroke-width="3" fill="none"/>
       <g data-egg="bauteile"><path d="M1124 252 L1124 160" stroke="#5a3e2a" stroke-width="3"/><path class="flag" d="M1124 162 L1164 168 L1124 178 Z" fill="#2b2b2b"/><path d="M1124 168 L1164 172 L1124 178 Z" fill="#d6513c"/><path d="M1124 174 L1164 176 L1124 178 Z" fill="#f0c94a"/><rect x="1110" y="152" width="60" height="32" fill="transparent"/></g>
+      <g data-egg="ring"><circle cx="1112" cy="236" r="11" fill="none" stroke="#e8562c" stroke-width="5"/><path d="M1101 236 h5 M1118 236 h5 M1112 225 v5 M1112 242 v5" stroke="#fbf6ec" stroke-width="5"/><rect x="1098" y="222" width="28" height="28" fill="transparent"/></g>
+      <g data-egg="angel"><path d="M1100 246 L1196 150" stroke="#7a4e33" stroke-width="3" stroke-linecap="round"/><path class="aline" d="M1196 150 V318" stroke="#e6e2d6" stroke-width="1"/><circle cx="1196" cy="318" r="2.5" fill="#d6332c"/><rect x="1172" y="140" width="28" height="70" fill="transparent"/></g>
       <!-- Bug: Bugkorb, Seitenlaternen, Anker -->
       <path d="M56 248 L60 214 L140 214 L150 250" stroke="#9aa3ab" stroke-width="3" fill="none"/>
       <g data-egg="laternen"><rect x="92" y="216" width="22" height="12" rx="3" fill="#2b2118"/><circle class="lant r" cx="98" cy="222" r="3" fill="#e2463b"/><circle class="lant g" cx="108" cy="222" r="3" fill="#4caf50"/><rect x="84" y="206" width="38" height="28" fill="transparent"/></g>
@@ -3523,6 +3567,8 @@ function longBoatScene(crew) {
         <path d="M1158 256 L1182 256 L1180 300 L1174 330 L1166 330 L1162 300 Z" fill="#4a4a4a"/><rect x="1144" y="226" width="54" height="108" fill="transparent"/></g>
       <circle class="navl white" cx="1150" cy="246" r="3" fill="#fffbe8"/>
     </g>
+    <g class="krabbe" aria-hidden="true"><g transform="translate(1170 330)"><ellipse rx="9" ry="6" fill="#d9542f"/><path d="M-9 -2 l-6 -6 M9 -2 l6 -6 M-6 4 l-5 4 M6 4 l5 4" stroke="#d9542f" stroke-width="2"/><circle cx="-3" cy="-5" r="1.4" fill="#2b2118"/><circle cx="3" cy="-5" r="1.4" fill="#2b2118"/></g></g>
+    <g class="bottle" aria-hidden="true"><g transform="translate(1190 300) rotate(-20)"><rect x="-5" y="-14" width="10" height="22" rx="4" fill="#5c8f6a" opacity=".85"/><rect x="-2.5" y="-20" width="5" height="7" fill="#5c8f6a"/><rect x="-3" y="-10" width="6" height="10" fill="#f3e9cf"/></g></g>
     <g data-egg="tonne"><g transform="translate(270 366) scale(1.4)">${buoyG(0, 0)}</g><rect x="250" y="316" width="40" height="64" fill="transparent"/></g>
     <g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M640 356 q12 -9 24 0 q-12 9 -24 0 Z M664 356 l8 -6 v12 Z" fill="#e8954a"/><circle cx="646" cy="354.5" r="1.2" fill="#2b2118"/></g><rect x="626" y="336" width="56" height="34" fill="transparent"/></g>
     <g transform="translate(920 -14)"><g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="12" ry="10" fill="#7d8790"/><circle cx="57" cy="401" r="1.6" fill="#2b2118"/><circle cx="67" cy="401" r="1.6" fill="#2b2118"/><ellipse cx="62" cy="407" rx="3.5" ry="2.2" fill="#4a5258"/><rect x="46" y="388" width="32" height="26" fill="transparent"/></g></g>
@@ -3548,6 +3594,8 @@ const EGGS = {
   moewe: 'Möwe am Himmel', leuchtturm: 'Leuchtturm', bauteile: 'Wimpel am Mast', laternen: 'Toplaternen', horn: 'Nebelhorn', segel: 'Segel bergen',
   motor: 'Außenborder', tonne: 'Tonne', seehund: 'Abtauchender Seehund', fisch: 'Springender Fisch',
   clock: 'Tickende Uhr', lamp: 'Schaukelnde Lampe', lampfall: 'Lampe heruntergeholt', mouse: 'Kajütenmaus', gull: 'Möwe am Bullauge', crab: 'Krebs', spider: 'Spinne', walkcat: 'Bordkatze',
+  deviation: 'Deviation am Kompass', krabbe: 'Krabbe im Kühlwasser', barometer: 'Fallendes Barometer', glasen: 'Glasen geschlagen', nebelglocke: 'Glocke im Nebel', frachter: 'Frachter bei Nacht',
+  schlinger: 'Schlingerleiste', flaschenpost: 'Flaschenpost', flaggen: 'Signalflaggen', mob: 'Mensch über Bord', seekrank: 'Seekranker Papagei',
 };
 function foundEgg(id) {
   if (!EGGS[id]) return; S.eggs = S.eggs || {};
@@ -3560,6 +3608,64 @@ function eggCard() {
   const got = S.eggs || {}, ids = Object.keys(EGGS), n = ids.filter(k => got[k] != null).length;
   return `<div class="card"><h3>Entdeckt an Bord</h3><p style="margin:0 0 6px"><b>${n} von ${ids.length}</b> Easter-Eggs entdeckt.</p>
     <p class="small muted" style="margin:0">${ids.map(k => got[k] != null ? esc(EGGS[k]) : '???').join(' · ')}</p></div>`;
+}
+/* ---------- Neue Easter-Eggs (Lauf 1) ----------
+   Feste Sätze ohne Namen (Stimmenpaket). Fachliches nach KVR/SBF-Katalog. */
+const EGG_LINES = {
+  deviation: [{s: 'K', t: 'Siehste? Eisen in der Nähe vom Kompass, und schon zeigt die Nadel Blödsinn. Das nennt man Deviation. Messer weg vom Kompass!'}],
+  kompass: [{s: 'M', t: 'Der Steuerkompass. Der zeigt nach Norden. Meistens. Wenn ihn keiner ärgert.'}],
+  krabbe: [{s: 'M', t: 'Na, wer verstopft denn da den Kühlwasserkanal? Raus mit dir, du Krabbe!'}, {s: 'T', t: 'Krabbe! Krabbe!'}],
+  barometer: [{s: 'K', t: 'Das Glas fällt, und zwar schnell. Da braut sich was zusammen. Ich riech schon den Nebel.'}],
+  nebelglocke: [{s: 'K', t: 'Hörst du das? Eine Glocke im Nebel. Da liegt einer vor Anker. Schön langsam, und Augen und Ohren auf!'}],
+  frachter: [{s: 'K', t: 'Siehst du die zwei weißen Topplichter übereinander? Ein Maschinenfahrzeug, fünfzig Meter oder länger. Und wenn du Rot und Grün zugleich siehst, kommt er genau auf dich zu.'}],
+  schlinger: [{s: 'M', t: 'Siehste, die Schlingerleiste hält die Töpfe fest. Ohne die hätten wir jetzt Erbsensuppe an der Decke.'}],
+  schlingerRuhig: [{s: 'M', t: 'Die Leiste da? Die zeigt erst bei Seegang, was sie kann.'}],
+  flaschenpost: [{s: 'T', t: 'Post! Post!'}],
+  mob: [{s: 'K', t: 'Mensch über Bord! Laut rufen, Rettungsring werfen, und den Menschen nie aus den Augen lassen!'}, {s: 'T', t: 'Ausguck! Ausguck!'}],
+  seekrank: [{s: 'T', t: 'Mir ist schlecht! Mir ist schlecht!'}, {s: 'K', t: 'Wer so wild schaukelt, braucht sich nicht wundern. Guck auf den Horizont, das hilft.'}],
+  messer: [{s: 'M', t: 'Ein Bordmesser gehört an jeden Gürtel. Aber pass auf, wo du damit rumläufst.'}],
+};
+const BOTTLE_POST = [
+  'Wer das liest, schuldet dem Klabautermann ein Bier. Gezeichnet: der Klabautermann.',
+  'Hilfe! Ich bin auf einer einsamen Insel gestrandet. Das WLAN ist furchtbar.',
+  'Merke: Rot an Backbord, wenn du in den Hafen fährst. Schöne Grüße vom Prüfer.',
+  'Liebe Finderin, lieber Finder: Die Flasche war voll, als ich losgefahren bin. Prost.',
+  'Diese Flasche ist seit 1987 unterwegs. Die Wellen waren so hoch wie der Leuchtturm. Mindestens.',
+];
+const sayEgg = async key => { if (!AUD.ready) return; for (const l of (EGG_LINES[key] || [])) await VOX.say(cid(l.s), l.t, 'fixed'); };
+/* Wetter kurz verändern (Barometer-Egg): gilt bis 'until' und hat Vorrang */
+function wxOverride(wx, ms) { window.WX_OVERRIDE = {wx, until: Date.now() + ms}; }
+/* Glasen: alle halbe Stunde ein Schlag mehr, nach vier Stunden (Ende der Wache) acht Glasen */
+function glasenNow() { const h = shipHour(), n = Math.floor((h % 4) * 2); return n === 0 ? 8 : n; }
+async function ringGlasen(n, vol = .55, rate = 1) {
+  for (let i = 0; i < n; i++) { AUD.sfx('glocke', {vol, rate}); await new Promise(r => setTimeout(r, i % 2 === 0 && i < n - 1 ? 330 : 900)); }
+}
+/* Internationales Flaggenalphabet (vereinfacht gezeichnet, Farben und Muster wie im Signalbuch) */
+const FLAG_ART = (() => {
+  const W = '#fbfbf7', R = '#d6332c', B = '#1f4fa0', Y = '#f2c230', K = '#222';
+  const r = (x, y, w, h, c) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+  const p = (d, c) => `<path d="${d}" fill="${c}"/>`;
+  return {
+    A: r(0, 0, 9, 12, W) + p('M9 0 H18 L13 6 L18 12 H9 Z', B), B: p('M0 0 H18 L13 6 L18 12 H0 Z', R),
+    C: r(0, 0, 18, 12, B) + r(0, 2.4, 18, 7.2, W) + r(0, 4.8, 18, 2.4, R), D: r(0, 0, 18, 12, Y) + r(0, 3, 18, 6, B),
+    E: r(0, 0, 18, 6, B) + r(0, 6, 18, 6, R), F: r(0, 0, 18, 12, W) + p('M9 0 L18 6 L9 12 L0 6 Z', R),
+    G: [0, 1, 2, 3, 4, 5].map(i => r(i * 3, 0, 3, 12, i % 2 ? B : Y)).join(''), H: r(0, 0, 9, 12, W) + r(9, 0, 9, 12, R),
+    I: r(0, 0, 18, 12, Y) + '<circle cx="9" cy="6" r="3.2" fill="#222"/>', J: r(0, 0, 18, 12, B) + r(0, 4, 18, 4, W),
+    K: r(0, 0, 9, 12, Y) + r(9, 0, 9, 12, B), L: r(0, 0, 18, 12, K) + r(0, 0, 9, 6, Y) + r(9, 6, 9, 6, Y),
+    M: r(0, 0, 18, 12, B) + '<path d="M0 0 L18 12 M18 0 L0 12" stroke="#fbfbf7" stroke-width="2.4"/>',
+    N: [0, 1, 2, 3].map(c => [0, 1, 2, 3].map(rr => r(c * 4.5, rr * 3, 4.5, 3, (c + rr) % 2 ? W : B)).join('')).join(''),
+    O: r(0, 0, 18, 12, Y) + p('M0 0 H18 V12 Z', R), P: r(0, 0, 18, 12, B) + r(6, 4, 6, 4, W), Q: r(0, 0, 18, 12, Y),
+    R: r(0, 0, 18, 12, R) + r(7.5, 0, 3, 12, Y) + r(0, 4.5, 18, 3, Y), S: r(0, 0, 18, 12, W) + r(6, 4, 6, 4, B),
+    T: r(0, 0, 6, 12, R) + r(6, 0, 6, 12, W) + r(12, 0, 6, 12, B), U: r(0, 0, 18, 12, W) + r(0, 0, 9, 6, R) + r(9, 6, 9, 6, R),
+    V: r(0, 0, 18, 12, W) + '<path d="M0 0 L18 12 M18 0 L0 12" stroke="#d6332c" stroke-width="2.4"/>',
+    W: r(0, 0, 18, 12, B) + r(2.5, 2, 13, 8, W) + r(6, 4, 6, 4, R), X: r(0, 0, 18, 12, W) + r(7.5, 0, 3, 12, B) + r(0, 4.5, 18, 3, B),
+    Y: r(0, 0, 18, 12, Y) + '<path d="M-2 4 L6 -4 M-2 12 L14 -4 M4 14 L20 -2 M12 14 L20 6" stroke="#d6332c" stroke-width="2.6"/>',
+    Z: p('M0 0 H18 L9 6 Z', Y) + p('M0 0 V12 L9 6 Z', K) + p('M0 12 H18 L9 6 Z', R) + p('M18 0 V12 L9 6 Z', B),
+  };
+})();
+function flagWord() {
+  const raw = (S.boat && S.boat.name) || 'MOIN';
+  return raw.toUpperCase().replace(/Ä/g, 'AE').replace(/Ö/g, 'OE').replace(/Ü/g, 'UE').replace(/ß/g, 'SS').replace(/[^A-Z]/g, '').slice(0, 10) || 'MOIN';
 }
 /* Fernglas: Kreise plus Beschriftung, damit man weiß, wo was ist */
 function revealLabels(scene, on) {
@@ -3608,6 +3714,13 @@ function renderBoat() {
   if (detail) {
     sc.querySelectorAll('[data-egg]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); startEgg(el.dataset.egg, el); }));
     $('#ovbtn').onclick = () => { AUD.click(); deckView = 'overview'; renderBoat(); };
+    /* Egg: sechsmal hektisch hin und her wischen → dem Papagei wird schlecht */
+    const pano = $('#pano'); let lastX = pano.scrollLeft, lastDir = 0, turns = [], sick = false;
+    pano.addEventListener('scroll', () => {
+      const dx = pano.scrollLeft - lastX; lastX = pano.scrollLeft; if (Math.abs(dx) < 2 || sick) return;
+      const d = Math.sign(dx), now = Date.now(); if (d !== lastDir) { lastDir = d; turns = turns.filter(t => now - t < 3500).concat(now); }
+      if (turns.length >= 7) { sick = true; sc.classList.add('queasy'); setTimeout(() => sc.classList.remove('queasy'), 2500); foundEgg('seekrank'); sayEgg('seekrank'); }
+    }, {passive: true});
   } else {
     /* Übersicht: Antippen zoomt an genau diese Stelle (Eggs wohnen in der Detailansicht) */
     const svg = sc.querySelector('svg');
@@ -3646,6 +3759,7 @@ function bindPano(pano, key = 'panoX', centerX = null) {
 
 /* ---------- Überraschungen (Spiele) ---------- */
 let returnTo = 'deck';
+const eggTaps = {};
 function startEgg(id, el) {
   LOG.add('entdecken', 'Überraschung: ' + id); foundEgg(id);
   const wig = () => { el.classList.remove('wiggle'); try { el.getBBox(); } catch (e) {} el.classList.add('wiggle'); setTimeout(() => el.classList.remove('wiggle'), 700); };
@@ -3653,7 +3767,46 @@ function startEgg(id, el) {
     horn: () => { AUD.sfx('nebelhorn', {vol: .35, dur: 1.4}); wig(); kisteHint(); },
     laternen: () => { AUD.click(); wig(); kisteHint(); }, leuchtturm: () => { AUD.click(); wig(); kisteHint(); }, tonne: () => { AUD.click(); wig(); kisteHint(); },
     fisch: () => { const f = el.closest('.fishwrap') || el; f.classList.remove('jump'); try { f.getBBox(); } catch (e) {} f.classList.add('jump'); kisteHint(); },
-    motor: () => { AUD.sfx('motorStart', {vol: .4}); wig(); kisteHint(); }, bauteile: () => { AUD.click(); wig(); kisteHint(); },
+    motor: () => {
+      AUD.sfx('motorStart', {vol: .4}); wig(); kisteHint();
+      /* Egg: dreimal schnell → der Kühlwasser-Kontrollstrahl spuckt eine Krabbe aus */
+      const now = Date.now(); eggTaps.motor = (eggTaps.motor || []).filter(t => now - t < 3000).concat(now);
+      const k = el.closest('.scene') && el.closest('.scene').querySelector('.krabbe');
+      if (eggTaps.motor.length >= 3 && k) { eggTaps.motor = []; k.classList.remove('pop'); try { k.getBBox(); } catch (e) {} k.classList.add('pop'); foundEgg('krabbe'); setTimeout(() => sayEgg('krabbe'), 600); }
+    },
+    messer: () => { el.classList.add('taken'); window.CARRY = 'messer'; AUD.click(); toast('Bordmesser eingesteckt.'); sayEgg('messer'); },
+    kompass: () => {
+      if (window.CARRY === 'messer') {
+        window.CARRY = null; el.classList.remove('devi'); try { el.getBBox(); } catch (e) {} el.classList.add('devi'); AUD.sfx('piep', {vol: .3});
+        foundEgg('deviation'); sayEgg('deviation');
+        setTimeout(() => { const kn = document.querySelector('.knife'); if (kn) kn.classList.remove('taken'); }, 4000);
+      } else { wig(); sayEgg('kompass'); }
+    },
+    glocke: async () => {
+      if (eggTaps.ringing) return; eggTaps.ringing = true; wig();
+      const n = glasenNow(), h = shipHour(), hh = String(Math.floor(h)).padStart(2, '0') + ':' + String(Math.floor((h % 1) * 60)).padStart(2, '0');
+      toast(`${n} Glasen · Schiffszeit ${hh}`); await ringGlasen(n); foundEgg('glasen');
+      /* Im Nebel antwortet eine Glocke: ein Fahrzeug vor Anker läutet rasch (KVR Regel 35) */
+      if (weatherToday() === 'nebel') { await new Promise(r => setTimeout(r, 1400)); for (let i = 0; i < 6; i++) { AUD.sfx('glocke', {vol: .14, rate: .88}); await new Promise(r => setTimeout(r, 260)); } foundEgg('nebelglocke'); await sayEgg('nebelglocke'); }
+      eggTaps.ringing = false;
+    },
+    flaggen: () => {
+      const line = el.closest('svg').querySelector('#flagline'); if (!line) return;
+      if (line.childElementCount) { line.innerHTML = ''; AUD.sfx('segel', {vol: .3, rate: 1.3}); return; }
+      const word = flagWord(), x0 = 470, y0 = -95, x1 = 1050, y1 = 206, n = word.length;
+      line.innerHTML = word.split('').map((ch, i) => { const t = (i + .5) / Math.max(n, 6), x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t; return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(1.5)"><path d="M0 0 V14" stroke="#5a3e2a" stroke-width=".6"/>${FLAG_ART[ch]}</g>`; }).join('');
+      AUD.sfx('segel', {vol: .35, rate: 1.4}); foundEgg('flaggen'); toast('Die Signalflaggen buchstabieren: ' + word.split('').join('-'));
+    },
+    angel: () => {
+      const now = Date.now(); eggTaps.angel = (eggTaps.angel || []).filter(t => now - t < 6000).concat(now); wig(); AUD.click();
+      if (eggTaps.angel.length >= 3) {
+        eggTaps.angel = []; const b = el.closest('.scene').querySelector('.bottle'); if (b) { b.classList.remove('up'); try { b.getBBox(); } catch (e) {} b.classList.add('up'); setTimeout(() => b.classList.remove('up'), 6000); }
+        foundEgg('flaschenpost'); sayEgg('flaschenpost');
+        setTimeout(() => sheet(`<h2 style="margin:0 0 8px">Flaschenpost</h2><p style="font-style:italic;margin:0">„${esc(BOTTLE_POST[Math.random() * BOTTLE_POST.length | 0])}“</p>`), 1400);
+      }
+    },
+    ring: () => { el.classList.remove('thrown'); try { el.getBBox(); } catch (e) {} el.classList.add('thrown'); AUD.sfx('segel', {vol: .4, rate: .7}); foundEgg('mob'); sayEgg('mob'); setTimeout(() => el.classList.remove('thrown'), 6000); },
+    frachter: () => { AUD.sfx('nebelhornFern', {vol: .4}); foundEgg('frachter'); sayEgg('frachter'); }, bauteile: () => { AUD.click(); wig(); kisteHint(); },
     segel: () => { const sc = el.closest('.scene'); const down = sc.classList.toggle('sailsdown'); AUD.sfx('segel', {vol: .6, rate: down ? .85 : 1.05}); setTimeout(() => AUD.sfx('segel', {vol: .35, rate: 1.2}), 500); if (down) setTimeout(() => AUD.sfx('anker', {vol: .25, dur: 1.6}), 700); LOG.add('entdecken', down ? 'Segel eingeholt' : 'Segel gesetzt'); },
     /* Steuer: hier startet später der Törn (5.6) */
     pinne: () => { AUD.click(); wig(); toast('Hier startet bald der Törn. Bis dahin: Manöver üben in der Spielekiste.'); },

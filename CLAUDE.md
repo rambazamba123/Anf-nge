@@ -230,7 +230,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] 5.2 Fernglas-Regel und Easter-Egg-Sammlung (v4.11: `EGGS`, `foundEgg`, `S.eggs`, Logbuch-Karte)
 - [x] 5.3 Spielekiste, Trophäen, Bestenliste, Rang (v4.12: `TROPHY`, `NPC_BEST`, `OVERTAKE`, `recordScore`, `rankInfo`, Raster mit `GAME_ART`)
 - [x] 5.4 Panorama mit zwei Ebenen und neuem langem Boot (v4.13: `longBoatScene`, `deckView`, `ovToDetail`, Knopf „Übersicht“)
-- [ ] Easter-Eggs (mindestens 10 neue)
+- [x] Easter-Eggs (v4.14: 11 neue, 29 insgesamt; `EGG_LINES`, `FLAG_ART`, `glasenNow`, `wxOverride`)
 - [ ] 5.8 SBF Binnen
 - [ ] 5.7 Lexikon komplett
 - [ ] Konzept 5.5 und 5.6 freigegeben
