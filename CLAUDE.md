@@ -228,7 +228,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] Kataloge in `data/` ausgelagert (seit v4.6)
 - [x] 5.1 Begrüßung mit Streit und Neustart (v4.10: Flag `introV5`, `?neustart`, bekannte Nutzer ohne neue Fragen)
 - [x] 5.2 Fernglas-Regel und Easter-Egg-Sammlung (v4.11: `EGGS`, `foundEgg`, `S.eggs`, Logbuch-Karte)
-- [ ] 5.3 Spielekiste, Trophäen, Bestenliste, Rang
+- [x] 5.3 Spielekiste, Trophäen, Bestenliste, Rang (v4.12: `TROPHY`, `NPC_BEST`, `OVERTAKE`, `recordScore`, `rankInfo`, Raster mit `GAME_ART`)
 - [ ] 5.4 Panorama mit zwei Ebenen und neuem langem Boot
 - [ ] Easter-Eggs (mindestens 10 neue)
 - [ ] 5.8 SBF Binnen

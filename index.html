@@ -297,6 +297,17 @@ button.coursechip{border:0;cursor:pointer}
 .wiggle{animation:wiggle .6s ease}
 @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
 [data-egg].wiggle{transform-box:fill-box;transform-origin:50% 100%}
+.gamegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gtile{display:flex;flex-direction:column;border-radius:14px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
+.gtile.off{opacity:.55}
+.gplay{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:3px;border:0;background:none;color:inherit;text-align:left;padding:12px 12px 8px;font:inherit;cursor:pointer}
+.gplay svg{width:64px;height:48px;margin-bottom:4px}
+.gplay b{font-family:var(--hfont);font-size:1rem;line-height:1.15}
+.gplay .small{line-height:1.25}
+.glb{border:0;border-top:1px solid var(--line);background:none;color:var(--muted);font:600 .76rem var(--bfont);padding:8px 12px;text-align:left;display:flex;align-items:center;gap:6px;cursor:pointer}
+.medal{display:inline-block;width:12px;height:12px;border-radius:50%;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.rankcard .rankbar{height:6px;border-radius:3px;background:var(--line);margin-top:8px;overflow:hidden}
+.rankcard .rankbar i{display:block;height:100%;background:var(--lamp,#f0b43e)}
 .gamelist{display:grid;gap:10px}
 .gamelist button{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;border:0;border-radius:14px;padding:14px 16px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--line);min-height:56px}
 .gamelist button b{font-family:var(--hfont);font-size:1.08rem}
@@ -459,7 +470,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.11';
+  window.__ver = '4.12';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1373,6 +1384,7 @@ function packLines(withEpisodes) {
   Object.values(ONB2).forEach(list => list.forEach(l => add(l.s, l.t)));
   ONB_FREE.forEach(l => add(l.s, l.t));
   Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
+  Object.entries(OVERTAKE).forEach(([id, t]) => out.push({cid: id, t: pclean(t)}));
   const g = GRUSS[S.crew.K] || GRUSS.hinnerk;
   MOIN.concat(g).forEach(x => out.push({cid: S.crew.K, t: pclean(x)}));
   if (withEpisodes) {
@@ -2801,7 +2813,7 @@ function bindSig(sig) {
     hornCtl.done.then(() => { hornCtl = null; const x = $('#sigPlay'); if (x) x.textContent = 'Nochmal anhören'; });
   };
 }
-function hornQuiz() { runQuiz(shuffle(SIG_QS), 'Schallsignale hören', 'horn'); }
+function hornQuiz() { runQuiz(shuffle(SIG_QS), 'Schallsignale hören', 'horn', {scoreKey: 'horn'}); }
 
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
@@ -2933,6 +2945,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
       <button class="btn wide lamp" id="home">${esc(opts.doneLabel || 'Zurück in die Kajüte')}</button>`;
     app.querySelector('svg.ch').style.width = '76px';
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
+    if (opts.scoreKey) recordScore(opts.scoreKey, res.right);
     $('#home').onclick = () => { VOX.stop('weiter nach Quiz'); opts.onDone ? opts.onDone(res) : setTab('cabin'); };
     if (AUD.ready) VOX.say(M, lineOf(M, 'praise', idx), 'fixed');
   }
@@ -3111,6 +3124,7 @@ function renderLog() {
       <p class="small muted" style="margin:10px 0 0">Die Bestehenschance ist eine Schätzung: Für jede Frage nehme ich je nach Lernstand eine Trefferwahrscheinlichkeit an und rechne damit die Prüfung nach der amtlichen Regel durch.</p></div>
     ${ex.length ? `<div class="card"><h3>Letzte Probeprüfungen</h3>${ex.map(e => `<div class="row" style="justify-content:space-between;margin:4px 0"><span>${e.score} von ${e.n === 60 ? '60 Punkten' : e.n + ' richtig'}${e.nav != null ? ` · Navigation ${e.nav}/9` : ''}${e.mode === 'train' ? ' <span class="muted small">(mit Rückmeldung)</span>' : ''}</span><b class="${(e.passAll != null ? e.passAll : e.pass) ? 'pass' : 'fail'}" style="flex:0 0 auto">${(e.passAll != null ? e.passAll : e.pass) ? 'Bestanden' : e.oral ? 'Mündlich' : 'Nicht bestanden'}</b></div>`).join('')}</div>` : ''}
     ${COURSE.id === 'sbf' && S.nav && Object.keys(S.nav).length ? `<div class="card"><h3>Navigationsaufgaben</h3><p class="small" style="margin:0">${Object.entries(S.nav).map(([n, p]) => `Nr. ${n}: <b class="${p >= 7 ? 'pass' : 'fail'}">${p}/9</b>`).join(' · ')}</p></div>` : ''}
+    ${trophyCard()}
     ${eggCard()}
     <div class="card"><h3>Kapitel</h3>${TOPICS.map(t => { const s = topicStats(t); return `<div class="topic"><div class="row" style="justify-content:space-between"><span>${t.name}</span><span class="muted small" style="flex:0 0 auto">${s.m}/${s.total}</span></div><div class="bar"><span class="m" style="width:${s.m / s.total * 100}%"></span><span class="l" style="width:${s.l / s.total * 100}%"></span></div></div>`; }).join('')}
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
@@ -3561,9 +3575,14 @@ function gameScore(k) {
 }
 function gamesHub() {
   returnTo = 'cabin';
-  gameShell('Spielekiste', `<div class="gamelist">${GAMES.map((g, i) => { const ok = !g.ok || g.ok(); const nm = g.k === 'traps' && COURSE.kind !== 'mc' ? 'Wackelkandidaten' : g.n; return `<button data-gi="${i}" ${ok ? '' : 'aria-disabled="true" style="opacity:.55"'}><span><b>${esc(nm)}</b><br><span class="small muted">${esc(ok ? g.d : g.why)}</span></span><small>${esc(gameScore(g.k))}</small></button>`; }).join('')}</div>`);
+  const r = rankInfo();
+  gameShell('Spielekiste', `<div class="card rankcard"><b>${esc(r.name)}</b><span class="small muted"> · ${r.pts} von ${r.max} Trophäenpunkten${r.next ? ` · ab ${r.next[0]}: ${esc(r.next[1])}` : ''}</span><div class="rankbar"><i style="width:${Math.round(r.pts / r.max * 100)}%"></i></div></div>
+    <div class="gamegrid">${GAMES.map((g, i) => { const ok = !g.ok || g.ok(); const nm = g.k === 'traps' && COURSE.kind !== 'mc' ? 'Wackelkandidaten' : g.n; const tr = trophyOf(g.k), v = myBest(g.k);
+      return `<div class="gtile${ok ? '' : ' off'}"><button class="gplay" data-gi="${i}" ${ok ? '' : 'aria-disabled="true"'}><svg viewBox="0 0 64 48" aria-hidden="true">${GAME_ART[g.k] || ''}</svg><b>${esc(nm)}</b><span class="small muted">${esc(ok ? g.d : g.why)}</span></button>
+        <button class="glb" data-lb="${g.k}" aria-label="Bestenliste ${esc(nm)}"><i class="medal" style="background:${MEDAL[tr]}"></i>${tr ? TROPHY_NAMES[tr] : 'Noch keine'} · ${v ? 'Rekord ' + v : '–'}</button></div>`; }).join('')}</div>`);
   AUD.sfx('tuerAuf', {vol: .45});
   document.querySelectorAll('[data-gi]').forEach(b => b.onclick = () => { const g = GAMES[+b.dataset.gi]; if (g.ok && !g.ok()) return toast(g.n + ' ' + g.why + '.'); AUD.click(); LOG.add('spiel', g.n); returnTo = 'cabin'; g.f(); });
+  document.querySelectorAll('[data-lb]').forEach(b => b.onclick = () => { AUD.click(); leaderSheet(b.dataset.lb); });
 }
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */
 const TOUR = {
@@ -3849,6 +3868,87 @@ function gameShell(title, inner) {
 let gameLoop = null, gameTimers = [];
 function stopGames() { cancelAnimationFrame(gameLoop); gameLoop = null; gameTimers.forEach(clearTimeout); gameTimers = []; AUD.loop('motorLauf', 0); }
 function best(key, val) { S.best = S.best || {}; if (val != null && val > (S.best[key] || 0)) { S.best[key] = val; save(); return true; } return false; }
+/* ---------- Scoring: Trophäen, Bestenliste, Gesamtrang ----------
+   Jedes Spiel meldet seine Punkte über recordScore(key, wert). Schwellen fest: [Bronze, Silber, Gold].
+   Die Crew hat feste Rekorde; jede Figur hat ein Paradespiel. Überholt man eine Figur, kommt ein fester Spruch. */
+const TROPHY = {
+  horn: {u: 'richtig', t: [4, 6, 7]}, lights: {u: 'richtig', t: [5, 7, 8]}, lh: {u: 'erkannt', t: [4, 6, 7]},
+  buoy: {u: 'Tore', t: [10, 25, 45]}, man: {u: 'Manöver', t: [1, 3, 6]}, nav: {u: 'bestanden', t: [1, 5, 15]},
+  motor: {u: 'richtig', t: [3, 4, 5]}, parts: {u: 'gefunden', t: [5, 7, 8]}, fish: {u: 'Fische', t: [8, 18, 30]}, traps: {u: 'richtig', t: [6, 8, 10]},
+};
+const TROPHY_NAMES = ['', 'Bronze', 'Silber', 'Gold'];
+/* Feste Rekorde der Crew (Paradespiel jeweils ganz oben) */
+const NPC_BEST = {
+  hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7},
+  ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8},
+  smilla: {buoy: 52, man: 5, nav: 6, horn: 6, lights: 7, lh: 5, motor: 4, parts: 7, fish: 16, traps: 7},
+  piet: {motor: 5, man: 3, nav: 2, horn: 4, lights: 4, lh: 3, buoy: 30, parts: 6, fish: 22, traps: 5},
+  klabauter: {horn: 7, man: 1, nav: 0, lights: 3, lh: 4, buoy: 18, motor: 2, parts: 5, fish: 9, traps: 4},
+  backbord: {fish: 35, man: 0, nav: 0, horn: 2, lights: 2, lh: 1, buoy: 12, motor: 1, parts: 3, traps: 2},
+  kroeger: {lights: 8, traps: 10, nav: 15, horn: 7, lh: 6, man: 4, buoy: 20, motor: 4, parts: 7, fish: 6},
+};
+/* Wer überholt wird, sagt etwas (fest, ohne Namen, fürs Stimmenpaket) */
+const OVERTAKE = {
+  hinnerk: 'Na sowas. Von einer Landratte überholt. Ich geh mal kurz an die Reling und guck aufs Wasser.',
+  ilse: 'Donnerwetter, mien Jung. Da strick ich mir aus meinem Rekord jetzt einen Trostschal.',
+  smilla: 'Ey! Das war mein Rekord! Na warte, morgen hol ich mir den zurück. Mit Zinsen.',
+  piet: 'Menno. Und ich dachte, wenigstens da bin ich der Größte an Bord.',
+  klabauter: 'Überholt! Überholt! Schande! Schande!',
+  backbord: 'Miau. Hmpf. Krrrr.',
+  kroeger: 'Hm. Bemerkenswert. Ich notiere: Der Prüfling hat den Prüfer geschlagen. Das kommt nicht oft vor. Bilden Sie sich nichts darauf ein.',
+};
+const RANKS = [[0, 'Schiffsjunge'], [3, 'Leichtmatrose'], [7, 'Matrose'], [12, 'Bootsmann'], [18, 'Steuermann'], [24, 'Erster Offizier'], [30, 'Kapitän']];
+const navPassed = () => Object.values(S.nav || {}).filter(p => p >= 7).length;
+function myBest(key) { if (key === 'nav') return navPassed(); return (S.best && S.best[key]) || 0; }
+function trophyOf(key, v = myBest(key)) { const t = (TROPHY[key] || {}).t || []; return t.filter(x => v >= x).length; }
+function rankInfo() {
+  const pts = Object.keys(TROPHY).reduce((a, k) => a + trophyOf(k), 0), max = Object.keys(TROPHY).length * 3;
+  let i = 0; RANKS.forEach(([p], k) => { if (pts >= p) i = k; });
+  return {pts, max, name: RANKS[i][1], next: RANKS[i + 1] || null};
+}
+function leaderboard(key) {
+  return Object.keys(NPC_BEST).map(id => ({id, name: CREW[id].short, v: NPC_BEST[id][key] || 0})).concat({id: 'me', name: 'Du', v: myBest(key)}).sort((a, b) => b.v - a.v || (a.id === 'me' ? -1 : 1));
+}
+/* Punkte melden: Rekord, Trophäe, überholte Figuren. Gibt true zurück bei neuem Rekord. */
+function recordScore(key, val) {
+  const before = myBest(key), tb = trophyOf(key, before);
+  const nb = key === 'nav' ? false : best(key, val);
+  const after = myBest(key), ta = trophyOf(key, after);
+  if (after <= before) return nb;
+  LOG.add('spiel', key + ': Rekord ' + after);
+  const passed = Object.keys(NPC_BEST).filter(id => { const v = NPC_BEST[id][key] || 0; return before < v && after >= v; }).sort((a, b) => NPC_BEST[b][key] - NPC_BEST[a][key]);
+  if (ta > tb) setTimeout(() => toast(`${TROPHY_NAMES[ta]} in „${(GAMES.find(g => g.k === key) || {}).n || key}“!`), 300);
+  if (passed.length) {
+    const who = passed[0]; S.passed = S.passed || {}; S.passed[key + ':' + who] = today(); save();
+    setTimeout(() => { toast(`Du hast ${CREW[who].short} überholt!`); if (AUD.ready) VOX.say(who, OVERTAKE[who], 'fixed'); }, ta > tb ? 2600 : 400);
+  }
+  return nb;
+}
+/* Kleine Zeichnungen für die Kacheln (flach, warm) */
+const GAME_ART = {
+  horn: '<circle cx="18" cy="26" r="6" fill="#2b2118"/><path d="M22 26 L50 14 V38 Z" fill="#c8962e"/><path d="M54 18 q5 8 0 16 M58 14 q8 12 0 24" stroke="#5a3e2a" stroke-width="2" fill="none" stroke-linecap="round"/>',
+  lights: '<rect x="0" y="0" width="64" height="48" rx="6" fill="#1d2a38"/><circle cx="16" cy="30" r="5" fill="#e2463b"/><circle cx="48" cy="30" r="5" fill="#4caf50"/><circle cx="32" cy="14" r="4" fill="#fffbe8"/><path d="M8 40 Q32 34 56 40" stroke="#6b7c8e" stroke-width="2" fill="none"/>',
+  lh: '<path d="M26 44 L29 12 H35 L38 44 Z" fill="#f7f2e6"/><path d="M27.5 30 H36.5 L37 36 H27 Z M28.6 18 H35.4 L35.8 24 H28.2 Z" fill="#c2473b"/><rect x="27" y="6" width="10" height="7" rx="2" fill="#2b2118"/><path d="M37 9 L60 2 V16 Z" fill="#ffd36b" opacity=".8"/>',
+  buoy: '<path d="M10 40 L16 18 L22 40 Z" fill="#c2473b"/><path d="M42 40 L48 16 L54 40 Z" fill="#3c8c5a"/><path d="M4 42 Q32 36 60 42" stroke="#3d5f8f" stroke-width="3" fill="none"/><path d="M30 34 l4 -6 l4 6 Z" fill="#fbf6ec"/>',
+  man: '<path d="M8 38 Q32 30 56 38 L50 44 H14 Z" fill="#fbf6ec" stroke="#5a3e2a" stroke-width="2"/><path d="M40 34 L56 20" stroke="#5a3e2a" stroke-width="4" stroke-linecap="round"/><rect x="2" y="6" width="10" height="34" fill="#7a4e33"/>',
+  nav: '<rect x="4" y="6" width="56" height="38" rx="3" fill="#efe3c8"/><path d="M12 36 Q24 20 36 26 T56 12" stroke="#3d5f8f" stroke-width="2" stroke-dasharray="4 3" fill="none"/><path d="M14 14 L30 14 L14 30 Z" fill="none" stroke="#2b2118" stroke-width="2"/><circle cx="50" cy="34" r="6" fill="none" stroke="#c2473b" stroke-width="1.5"/>',
+  motor: '<rect x="22" y="4" width="22" height="14" rx="5" fill="#5c5c5c"/><path d="M28 18 H40 L39 38 L36 46 H32 L29 38 Z" fill="#4a4a4a"/><path d="M14 10 H22" stroke="#2b2118" stroke-width="3" stroke-linecap="round"/><path d="M44 42 l10 -4 M44 46 l10 2" stroke="#9cc3d9" stroke-width="2" stroke-linecap="round"/>',
+  parts: '<path d="M32 6 V40 M20 16 H44" stroke="#5a3e2a" stroke-width="4" stroke-linecap="round"/><path d="M14 32 Q32 52 50 32" stroke="#5a3e2a" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="32" cy="8" r="4" fill="none" stroke="#5a3e2a" stroke-width="3"/>',
+  fish: '<path d="M10 24 q16 -14 32 0 q-16 14 -32 0 Z M42 24 l12 -9 v18 Z" fill="#e8954a"/><circle cx="18" cy="22" r="2" fill="#2b2118"/><path d="M4 44 Q32 38 60 44" stroke="#3d5f8f" stroke-width="2" fill="none"/>',
+  traps: '<rect x="6" y="30" width="52" height="10" rx="2" fill="#b98a5a"/><path d="M14 30 Q32 6 50 30" stroke="#8a8a8a" stroke-width="3" fill="none"/><circle cx="32" cy="26" r="4" fill="#f0c94a"/><path d="M30 22 q2 -4 4 0" stroke="#2b2118" stroke-width="1.5" fill="none"/>',
+};
+const MEDAL = ['#cfc6b8', '#b8763a', '#a9b2bb', '#e0b23c'];
+function leaderSheet(key) {
+  const g = GAMES.find(x => x.k === key) || {n: key}, tr = TROPHY[key], rows = leaderboard(key);
+  sheet(`<h2 style="margin:0 0 4px">Bestenliste: ${esc(g.n)}</h2>
+    <p class="small muted" style="margin:0 0 10px">Bronze ab ${tr.t[0]}, Silber ab ${tr.t[1]}, Gold ab ${tr.t[2]} ${esc(tr.u)}.</p>
+    <ol style="margin:0;padding-left:22px;display:grid;gap:4px">${rows.map(r => `<li${r.id === 'me' ? ' style="font-weight:700;color:var(--lamp-ink, inherit)"' : ''}>${esc(r.name)}: ${r.v} ${esc(tr.u)}</li>`).join('')}</ol>`);
+}
+function trophyCard() {
+  const r = rankInfo();
+  return `<div class="card"><h3>Trophäen und Rekorde</h3><p style="margin:0 0 6px">Rang: <b>${r.name}</b> · ${r.pts} von ${r.max} Trophäenpunkten${r.next ? ` (ab ${r.next[0]}: ${r.next[1]})` : ''}</p>
+    <p class="small muted" style="margin:0">${GAMES.map(g => `${esc(g.n)}: ${myBest(g.k)}${trophyOf(g.k) ? ' · ' + TROPHY_NAMES[trophyOf(g.k)] : ''}`).join(' · ')}</p></div>`;
+}
 function pickOpts(correct, pool, n = 4) { return shuffle([correct, ...shuffle(pool.filter(x => x !== correct)).slice(0, n - 1)]); }
 
 /* ---------- Lichter bei Nacht (Kollisionsverhütungsregeln) ----------
@@ -3875,7 +3975,7 @@ function lightsGame() {
   const rounds = shuffle(LIGHTS).slice(0, 8); let i = 0, score = 0;
   gameShell('Lichter bei Nacht', `<div class="nightsea"><svg viewBox="0 0 300 150" id="lsvg"></svg></div><div class="card" id="lq"></div>`);
   const show = () => {
-    if (i >= rounds.length) { const nb = best('lights', score); $('#lq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} richtig</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lights) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lightsGame; return; }
+    if (i >= rounds.length) { const nb = recordScore('lights', score); $('#lq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} richtig</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lights) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lightsGame; return; }
     const r = rounds[i], opts = pickOpts(r.name, names);
     $('#gscore').textContent = `${i + 1}/${rounds.length}`;
     $('#lsvg').innerHTML = `<rect width="300" height="150" fill="#0b1626"/><rect y="112" width="300" height="38" fill="#0d2238"/>
@@ -3920,7 +4020,7 @@ function lighthouseGame() {
     step();
   };
   const show = () => {
-    if (i >= rounds.length) { clearTimeout(blinkT); const nb = best('lh', score); $('#bq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} erkannt</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lh) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lighthouseGame; return; }
+    if (i >= rounds.length) { clearTimeout(blinkT); const nb = recordScore('lh', score); $('#bq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} erkannt</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lh) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lighthouseGame; return; }
     const r = rounds[i], col = ['#fff3c0', '#ff5a4a', '#4dff8a'][Math.random() * 3 | 0];
     $('#gscore').textContent = `${i + 1}/${rounds.length}`;
     run(r.p, col);
@@ -3959,7 +4059,7 @@ function drawWater(ctx, W, H, t) {
   for (let y = (t * .06) % 40 - 40; y < H; y += 40) { ctx.beginPath(); for (let x = 0; x <= W; x += 20) ctx.lineTo(x, y + Math.sin((x + y) / 30) * 3); ctx.stroke(); }
 }
 function gameOver(score, key, again) {
-  stopGames(); const nb = best(key, score), o = $('#gover'); if (!o) return;
+  stopGames(); const nb = recordScore(key, score), o = $('#gover'); if (!o) return;
   o.innerHTML = `<h2 style="margin:0 0 4px">${score} Punkte</h2><p class="muted" style="margin:0 0 10px">${nb ? 'Neuer Rekord!' : `Rekord: ${(S.best && S.best[key]) || 0}`}</p><button class="btn lamp" id="again">Nochmal</button>`;
   o.classList.remove('hidden'); $('#again').onclick = again;
 }
@@ -4070,7 +4170,7 @@ function motorGame() {
     AUD.loop('motorLauf', 0);
     const qs = shuffle(MOTOR_QUIZ); let i = 0, score = 0;
     const show = () => {
-      if (i >= qs.length) { best('motor', score); app.querySelector('.motorcard').innerHTML = `<h2 style="margin:0">${score} von ${qs.length} richtig</h2><p class="muted">Gut zu wissen für jede Fahrt mit Außenborder.</p>`; $('#mquiz').textContent = 'Nochmal'; $('#mquiz').onclick = motorGame; return; }
+      if (i >= qs.length) { recordScore('motor', score); app.querySelector('.motorcard').innerHTML = `<h2 style="margin:0">${score} von ${qs.length} richtig</h2><p class="muted">Gut zu wissen für jede Fahrt mit Außenborder.</p>`; $('#mquiz').textContent = 'Nochmal'; $('#mquiz').onclick = motorGame; return; }
       const q = qs[i], opts = shuffle([q.a, ...q.o]);
       app.querySelector('.motorcard').innerHTML = `<p><b>${esc(q.q)}</b></p>${opts.map(o => `<button class="ans" data-o="${esc(o)}">${esc(o)}</button>`).join('')}<div id="mfb"></div>`;
       $('#mquiz').classList.add('hidden');
@@ -4099,7 +4199,7 @@ function partsGame() {
   const showLabels = on => { labels.innerHTML = on ? PARTS.map(p => `<g><circle cx="${p.x}" cy="${p.y}" r="3" fill="#f0b53e"/><text x="${p.x + 5}" y="${p.y - 4}" font-size="9" font-weight="700" fill="#2a2019" stroke="#fffaf0" stroke-width="2.5" paint-order="stroke">${esc(p.n)}</text></g>`).join('') : ''; };
   const rounds = shuffle(PARTS).slice(0, 8); let i = 0, score = 0, waiting = true;
   const ask = () => {
-    if (i >= rounds.length) { best('parts', score); $('#pq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} gefunden</h2><div class="row" style="margin-top:10px"><button class="btn ghost" id="pall">Alle Namen zeigen</button><button class="btn lamp" id="again">Nochmal</button></div>`; $('#again').onclick = partsGame; $('#pall').onclick = () => showLabels(true); return; }
+    if (i >= rounds.length) { recordScore('parts', score); $('#pq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} gefunden</h2><div class="row" style="margin-top:10px"><button class="btn ghost" id="pall">Alle Namen zeigen</button><button class="btn lamp" id="again">Nochmal</button></div>`; $('#again').onclick = partsGame; $('#pall').onclick = () => showLabels(true); return; }
     waiting = true; showLabels(false); $('#gscore').textContent = `${i + 1}/${rounds.length}`;
     $('#pq').innerHTML = `<p style="margin:0"><b>Tippe auf: ${esc(rounds[i].n)}</b></p><p class="small muted" id="pfb" style="margin:6px 0 0">Tippe direkt ins Bild.</p>`;
   };
@@ -4129,7 +4229,7 @@ function navGame(opt = {}) {
     const t = NAV_TASKS.find(x => x.n === n); let i = 0, score = 0;
     const step = () => {
       if (i >= 9) {
-        S.nav[n] = score; save(); const passed = score >= 7;
+        S.nav[n] = score; save(); recordScore('nav', 0); const passed = score >= 7;
         box.innerHTML = `<div class="card"><h2 style="margin:0" class="${passed ? 'pass' : 'fail'}">${score} von 9 Punkten</h2><p class="muted">In der Prüfung brauchst du mindestens 7 von 9 Punkten.</p>
           ${opt.exam && opt.onDone ? '<button class="btn wide lamp" id="ndone">Zum Gesamtergebnis</button>' : '<button class="btn wide lamp" id="nmore">Andere Aufgabe</button>'}</div>`;
         if ($('#nmore')) $('#nmore').onclick = pick; if ($('#ndone')) $('#ndone').onclick = () => opt.onDone(score);
@@ -4200,7 +4300,7 @@ function maneuverGame() {
     let sx = null;
     c.addEventListener('pointerdown', e => { sx = e.clientX; });
     c.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) < 18) { boat.rudder = 0; msg = 'Ruder mittschiffs'; } else { boat.rudder = Math.max(-1, Math.min(1, dx / 90)); msg = dx > 0 ? 'Ruder Steuerbord' : 'Ruder Backbord'; } msgT = performance.now(); AUD.click(); });
-    const finish = (ok, text) => { done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) best('man', (S.best.man || 0) + 1); save(); run(); }; };
+    const finish = (ok, text) => { done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
     const step = now => {
       const dt = Math.min(50, now - last) / 1000; last = now; const t = now - t0;
       /* Fahrdynamik: Gas beschleunigt, Wasser bremst, Ruder wirkt nur mit Fahrt (rückwärts umgekehrt) */
@@ -4384,7 +4484,7 @@ function trapRound(opts = {}) {
   if (COURSE.kind !== 'mc') { const weak = Q.filter(q => st(q.n) && st(q.n).w > 0).sort((a, b) => st(b.n).w - st(a.n).w).slice(0, 10); return weak.length ? runQuiz(weak, 'Deine Wackelkandidaten', 'learn', opts) : extraRound(opts); }
   const weak = Q.filter(q => st(q.n) && st(q.n).w > 0).sort((a, b) => st(b.n).w - st(a.n).w).slice(0, 5);
   const set = [...new Set([...weak, ...shuffle(TRAPS)])].slice(0, 10);
-  runQuiz(set, 'Prüfungsfallen', 'learn', opts);
+  runQuiz(set, 'Prüfungsfallen', 'learn', {...opts, scoreKey: 'traps'});
 }
 
 /* ---------- Was soll ich als Nächstes lernen? Der Käpt'n empfiehlt genau eine Sache. ---------- */
