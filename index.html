@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.6';
+  window.__ver = '4.7';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1292,32 +1292,38 @@ const elKey = () => { try { return (localStorage.getItem(ELKEY) || '').trim(); }
 const setElKey = k => { try { k ? localStorage.setItem(ELKEY, k.trim()) : localStorage.removeItem(ELKEY); } catch (e) {} };
 
 /* ---------- Kleiner Speicher für Audio (IndexedDB) ---------- */
+/* clips: die MP3s. meta: wer was gesagt hat (cid, t, kind), damit man sie später ins Stimmenpaket exportieren kann. */
 const CLIPS = (() => {
   let dbp = null;
   const open = () => dbp || (dbp = new Promise(res => {
     try {
-      const r = indexedDB.open('skipper-audio', 1);
-      r.onupgradeneeded = () => r.result.createObjectStore('clips');
+      const r = indexedDB.open('skipper-audio', 2);
+      r.onupgradeneeded = () => { const db = r.result; if (!db.objectStoreNames.contains('clips')) db.createObjectStore('clips'); if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta'); };
       r.onsuccess = () => res(r.result); r.onerror = () => res(null);
     } catch (e) { res(null); }
   }));
-  const tx = async (mode, fn) => { const db = await open(); if (!db) return null; return new Promise(res => { try { const t = db.transaction('clips', mode), st = t.objectStore('clips'); const q = fn(st); t.oncomplete = () => res(q && q.result); t.onerror = () => res(null); } catch (e) { res(null); } }); };
+  const tx = async (mode, fn, store = 'clips') => { const db = await open(); if (!db) return null; return new Promise(res => { try { const t = db.transaction(store, mode), st = t.objectStore(store); const q = fn(st); t.oncomplete = () => res(q && q.result); t.onerror = () => res(null); } catch (e) { res(null); } }); };
   return {
     get: k => tx('readonly', st => st.get(k)),
-    put: (k, v) => tx('readwrite', st => st.put(v, k)),
-    clear: () => tx('readwrite', st => st.clear()),
+    put: (k, v, meta) => { if (meta) tx('readwrite', st => st.put(meta, k), 'meta'); return tx('readwrite', st => st.put(v, k)); },
+    clear: () => { tx('readwrite', st => st.clear(), 'meta'); return tx('readwrite', st => st.clear()); },
     count: () => tx('readonly', st => st.count()),
+    /* alle Einträge mit Text: [{k, cid, t, kind, at}] */
+    async list() { const [keys, vals] = await Promise.all([tx('readonly', st => st.getAllKeys(), 'meta'), tx('readonly', st => st.getAll(), 'meta')]); return (keys || []).map((k, i) => ({k, ...vals[i]})); },
   };
 })();
 /* Stimmenpaket: einmal erzeugte Sätze liegen als MP3 im Ordner audio/stimmen (mit manifest.json).
    Alle Nutzer bekommen sie von dort, ohne dass ElevenLabs erneut bezahlt wird. */
 const pclean = t => String(t).replace(/\*\*/g, '').replace(/[▬●]/g, '').replace(/^[-•]\s*/gm, '').replace(/\s+/g, ' ').trim();
 const PACK = (() => {
-  let man = null, loading = null; const mem = new Map();
+  let man = null, texts = {}, loading = null; const mem = new Map();
   const key = (cid, text) => hash(cid + '|' + pclean(text));
-  const load = () => loading || (loading = (location.protocol === 'file:' ? Promise.resolve({}) : fetch('audio/stimmen/manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {}).catch(() => ({}))).then(j => { man = (j && j.files) || {}; return man; }));
+  const load = () => loading || (loading = (location.protocol === 'file:' ? Promise.resolve({}) : fetch('audio/stimmen/manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {}).catch(() => ({}))).then(j => { man = (j && j.files) || {}; texts = (j && j.texts) || {}; return man; }));
   return {
     key, load,
+    has: (cid, text) => !!(man && man[key(cid, text)]),
+    /* bisheriges Manifest plus neue Einträge: Ein neues ZIP überschreibt nie, was schon im Paket ist. */
+    merged: (files, tx) => ({made: new Date().toISOString(), crew: S.crew, files: {...(man || {}), ...files}, texts: {...texts, ...tx}}),
     async get(cid, text) {
       try { await load(); const k = key(cid, text); if (!man[k]) return null; if (mem.has(k)) return mem.get(k);
         const r = await fetch('audio/stimmen/' + man[k]); if (!r.ok) return null; const b = await r.blob(); mem.set(k, b); return b; } catch (e) { return null; }
@@ -1340,23 +1346,54 @@ function packLines(withEpisodes) {
   }
   const seen = new Set(); return out.filter(x => { const k = x.cid + '|' + x.t; if (seen.has(k)) return false; seen.add(k); return true; });
 }
-/* Erzeugt das Paket mit deinem ElevenLabs-Schlüssel und lädt es als ZIP herunter */
+async function loadZipLib() {
+  if (!window.JSZip) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }).catch(() => null);
+  return !!window.JSZip;
+}
+/* ZIP mit neuen MP3s und dem zusammengeführten manifest.json herunterladen. Inhalt einfach in audio/stimmen entpacken (überschreiben). */
+async function downloadPack(zip, files, texts, name) {
+  zip.file('manifest.json', JSON.stringify(PACK.merged(files, texts), null, 1));
+  const blob = await zip.generateAsync({type: 'blob'}), u = URL.createObjectURL(blob), aEl = document.createElement('a');
+  aEl.href = u; aEl.download = name; document.body.appendChild(aEl); aEl.click(); aEl.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000);
+}
+/* Erzeugt die festen Sätze (Begrüßung, Kennenlernen, Moin), die noch nicht im Paket sind, und lädt sie als ZIP herunter.
+   Folgen entstehen erst beim Hören und kommen über exportClips ins Paket. */
 async function buildVoicePack(status, withEpisodes) {
   const say = t => { if (status) status.textContent = t; };
   if (!elKey()) return say('Dafür brauchst du den ElevenLabs-Schlüssel.');
   try { await VOX.ensureVoices(); } catch (e) { return say('Die Stimmen sind gerade nicht erreichbar.'); }
   say('Lade das ZIP-Werkzeug…');
-  if (!window.JSZip) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }).catch(() => null);
-  if (!window.JSZip) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
-  const lines = packLines(withEpisodes), zip = new JSZip(), files = {}, texts = {}; let ok = 0, fail = 0;
+  if (!await loadZipLib()) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
+  await PACK.load();
+  const lines = packLines(withEpisodes).filter(l => !PACK.has(l.cid, l.t)), zip = new JSZip(), files = {}, texts = {}; let ok = 0, fail = 0;
+  if (!lines.length) return say('Alle festen Sätze sind schon im Paket. Nichts zu tun.');
   for (let i = 0; i < lines.length; i++) {
     const {cid: c, t} = lines[i]; say(`Satz ${i + 1} von ${lines.length}…`);
     try { const b = await VOX.clip(c, t, 'fixed'); if (b) { const k = PACK.key(c, t); zip.file(k + '.mp3', b); files[k] = k + '.mp3'; texts[k] = c + ': ' + t; ok++; } else fail++; } catch (e) { fail++; }
   }
-  zip.file('manifest.json', JSON.stringify({made: new Date().toISOString(), crew: S.crew, files, texts}, null, 1));
-  const blob = await zip.generateAsync({type: 'blob'}), u = URL.createObjectURL(blob), aEl = document.createElement('a');
-  aEl.href = u; aEl.download = 'stimmen.zip'; document.body.appendChild(aEl); aEl.click(); aEl.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000);
-  say(`Fertig: ${ok} Sätze im Paket${fail ? `, ${fail} fehlgeschlagen` : ''}. Entpacke stimmen.zip und lade den Inhalt auf GitHub in den Ordner audio/stimmen hoch.`);
+  await downloadPack(zip, files, texts, 'stimmen.zip');
+  say(`Fertig: ${ok} neue Sätze${fail ? `, ${fail} fehlgeschlagen` : ''}. Leg stimmen.zip in den Projektordner, Claude baut es in audio/stimmen ein.`);
+}
+/* Was im Gerät gespeichert ist und noch nicht im Paket liegt (ohne freie Gespräche, die wiederholen sich nicht) */
+async function clipStats() {
+  await PACK.load(); const all = await CLIPS.list();
+  const fresh = all.filter(m => m.kind !== 'live' && m.cid && m.t && !PACK.has(m.cid, m.t));
+  return {all: all.length, fresh};
+}
+async function exportClips(status) {
+  const say = t => { if (status) status.textContent = t; };
+  const {fresh} = await clipStats();
+  if (!fresh.length) return say('Keine neuen Aufnahmen. Alles Gehörte ist schon im Paket.');
+  say('Lade das ZIP-Werkzeug…');
+  if (!await loadZipLib()) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
+  const zip = new JSZip(), files = {}, texts = {}, seen = new Set(); let ok = 0;
+  for (const m of fresh) {
+    const k = PACK.key(m.cid, m.t); if (seen.has(k)) continue; seen.add(k);
+    const b = await CLIPS.get(m.k); if (!b) continue;
+    zip.file(k + '.mp3', b); files[k] = k + '.mp3'; texts[k] = m.cid + ': ' + pclean(m.t); ok++;
+  }
+  await downloadPack(zip, files, texts, 'stimmen-neu.zip');
+  say(`${ok} Aufnahmen exportiert. Leg stimmen-neu.zip in den Projektordner, Claude baut sie in audio/stimmen ein. Danach hört jeder sie gratis.`);
 }
 function hash(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); }
 
@@ -1454,7 +1491,8 @@ const VOX = (() => {
     if (kind !== 'fixed' && !budgetOk(text.length)) { hooks.notice('budget'); return null; }
     const b = await elFetch(voice, text, want);
     usage().all += text.length; if (kind === 'live') usage().live += text.length; save();
-    if (kind === 'fixed' || kind === 'story') CLIPS.put(hash(voice + '|' + want + '|' + text), b);
+    /* Alles merken, auch Vorlesen und Gespräch: Derselbe Satz kostet nie zweimal. */
+    CLIPS.put(hash(voice + '|' + want + '|' + text), b, {cid, t: text, kind, at: Date.now()});
     return b;
   }
 
@@ -2118,6 +2156,8 @@ function registerSW() {
 }
 function boot() {
   applyTheme(); registerSW(); try { PACK.load(); } catch (e) {}
+  /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
   if (!S.introDone || !S.introV4) { S.introV4 = true; save(); return splash(); }
   if (!S.profile) return onboardingForm();
   setTab('deck'); tapToBoard();
@@ -3098,9 +3138,9 @@ function renderSettings() {
     <label for="fb">Wenn keine Stimme verfügbar ist</label>${sel('fb', [['phone', 'Handystimme'], ['babble', 'Brabbeln und mitlesen'], ['text', 'Nur mitlesen']], c.fallback)}
     <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr">Gespeicherte Sätze löschen</button></div><p class="status" id="clrr"></p>
     <h3 style="margin-top:14px">Stimmenpaket für alle</h3>
-    <p class="small muted" style="margin:0 0 8px">Erzeugt alle festen Sätze (Begrüßung, Kennenlernen, Moin) einmal und lädt sie als ZIP herunter. Auf GitHub in <b>audio/stimmen</b> hochgeladen, hören alle Tester sie ohne Kosten. Im Paket gerade: ${PACK.size} Sätze.</p>
-    <label style="display:flex;gap:8px;align-items:center;margin:0 0 8px"><input type="checkbox" id="vpep" style="width:auto"> Kajüten-Folgen mit einpacken (viele Zeichen)</label>
-    <button class="btn ghost" id="vpk">Stimmenpaket erzeugen</button><p class="status" id="vpkr"></p>
+    <p class="small muted" style="margin:0 0 8px">Alles, was die Crew einmal mit ElevenLabs gesagt hat, bleibt auf diesem Handy gespeichert und kostet nie wieder. Ins Paket in <b>audio/stimmen</b> gelegt, hören es alle Geräte und Tester gratis. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
+    <button class="btn ghost" id="vpk">Feste Sätze erzeugen</button><p class="status" id="vpkr"></p>
+    <button class="btn ghost" id="vpx">Neue Aufnahmen exportieren</button><p class="status" id="vpxr"></p>
   </div>
 
   <h2>Zuhören</h2>
@@ -3189,7 +3229,9 @@ function renderSettings() {
   [['#vm', 'music'], ['#va', 'amb'], ['#vs', 'sfx'], ['#vv', 'voice']].forEach(([id, k]) => $(id).oninput = () => { c[k] = +$(id).value; AUD.applyVolumes(); save(); });
   $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
-  $('#vpk').onclick = () => buildVoicePack($('#vpkr'), $('#vpep').checked);
+  $('#vpk').onclick = () => buildVoicePack($('#vpkr'), false);
+  $('#vpx').onclick = () => exportClips($('#vpxr'));
+  clipStats().then(s => { const e = $('#clipst'); if (e) e.textContent = `Auf diesem Handy: ${s.all} Aufnahmen, davon ${s.fresh.length} noch nicht im Paket.`; }).catch(() => {});
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
   $('#sv').onclick = () => { S.profile.exam = $('#ex2').value || S.profile.exam; S.profile.minutes = +$('#mi2').value; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.plan = null; save(); toast('Gespeichert.'); };
   $('#course').onchange = () => { const v = $('#course').value; switchCourse(v); LOG.add('schein', 'gewechselt zu ' + COURSES[v].short); toast('Jetzt lernst du für den ' + COURSES[v].name + '.'); renderSettings(); };
