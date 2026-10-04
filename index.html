@@ -327,7 +327,7 @@ button.coursechip{border:0;cursor:pointer}
 .motorbtn[aria-pressed="true"]{background:#3c8c5a}
 .lever b{position:absolute;left:0;right:0;text-align:center;color:#fffaf0;font:700 10px sans-serif}
 .revlabel{position:absolute;transform:translate(-50%,-100%);background:#fffaf0;color:#2a2019;font:700 .72rem var(--bfont);padding:2px 8px;border-radius:999px;box-shadow:0 1px 0 rgba(0,0,0,.25);pointer-events:none;z-index:4;white-space:nowrap}
-.scene.reveal .spot{box-shadow:0 0 0 3px #fff6b0,0 0 16px 4px rgba(240,181,62,.6)}
+.scene.reveal .spot.fn{box-shadow:0 0 0 3px #fff6b0,0 0 16px 4px rgba(240,181,62,.6)}
 .coach{position:fixed;inset:0;z-index:90}
 .coachhole{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(15,20,26,.62);pointer-events:none}
 .coachtip{position:absolute;left:16px;right:16px;max-width:480px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:16px;padding:14px;box-shadow:0 4px 0 rgba(0,0,0,.2)}
@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.10';
+  window.__ver = '4.11';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1004,14 +1004,14 @@ function deckScene(crew, o = {}) {
 const CABIN_SPOTS = [
   {id: 'buecher', label: 'Bücher', x: 14.5, y: 25.5},
   {id: 'plan', label: 'Plan', x: 33.5, y: 21},
-  {id: 'deck', label: 'An Deck', x: 88, y: 25},
+  {id: 'deck', label: 'An Deck', x: 88, y: 25, fn: 1},
   {id: 'knoten', label: 'Knoten', x: 2, y: 49, side: 'l'},
   {id: 'funk', label: 'Funk', x: 13, y: 56},
-  {id: 'karte', label: 'Karte', x: 47, y: 71.5},
+  {id: 'karte', label: 'Kartentisch', x: 47, y: 71.5, fn: 1},
   {id: 'logbuch', label: 'Logbuch', x: 66, y: 71.5},
   {id: 'pruefung', label: 'Prüfung', x: 98, y: 55, side: 'r'},
-  {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86},
-  {id: 'hocker', label: 'Hinsetzen', x: 54, y: 88},
+  {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86, fn: 1},
+  {id: 'hocker', label: 'Hinsetzen', x: 54, y: 88, fn: 1},
 ];
 function cabinScene(crew) {
   const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
@@ -1072,7 +1072,7 @@ function cabinScene(crew) {
     </g>
     <g class="stool" aria-hidden="true"><path d="M200 312 L194 346 M232 312 L238 346 M206 312 L204 346 M226 312 L228 346" stroke="#5a3a24" stroke-width="4" stroke-linecap="round"/><path d="M199 333 H233" stroke="#5a3a24" stroke-width="3"/><ellipse cx="216" cy="310" rx="22" ry="6" fill="#8a5a3a"/><ellipse cx="216" cy="306" rx="19" ry="5" fill="#b5563a"/><ellipse class="seatglow" cx="216" cy="306" rx="19" ry="5" fill="#ffcf7a" opacity="0"/></g>
   </svg>
-  ${CABIN_SPOTS.map(h => `<button class="spot ${h.side || ''}" style="left:${h.x}%;top:${h.y}%" data-spot="${h.id}" aria-label="${h.label}"></button>`).join('')}
+  ${CABIN_SPOTS.map(h => `<button class="spot ${h.side || ''}${h.fn ? ' fn' : ''}" style="left:${h.x}%;top:${h.y}%" data-spot="${h.id}" aria-label="${h.label}"></button>`).join('')}
   <button class="fernglas" id="fernglas" aria-label="Fernglas: zeigt, was man antippen kann">${typeof FERNGLAS_SVG !== 'undefined' ? FERNGLAS_SVG : ''}</button>
   <div class="bubble hidden" id="bubble" role="status" aria-live="polite"><b></b><span></span></div>
 </div>`;
@@ -2593,7 +2593,7 @@ function renderCabin() {
       const now = Date.now(); lampTaps = lampTaps.filter(t => now - t < 4000).concat(now);
       el.classList.remove('kick'); el.getBBox();
       if (lampTaps.length >= 7) {
-        el.classList.add('fallen'); sc.classList.add('dark'); LOG.add('entdecken', 'Lampe heruntergefallen');
+        el.classList.add('fallen'); sc.classList.add('dark'); LOG.add('entdecken', 'Lampe heruntergefallen'); foundEgg('lampfall');
         setTimeout(() => AUD.crash(), 700);
         setTimeout(() => VOX.say(S.crew.K, S.crew.K === 'ilse' ? 'Ach du liebe Zeit! Wer kehrt das jetzt wieder zusammen?' : 'Na super. Wer macht das jetzt wieder heile?', 'fixed'), 1400);
       } else { el.classList.add('kick'); AUD.click(); setTimeout(() => el.classList.remove('kick'), 950); }
@@ -2603,7 +2603,7 @@ function renderCabin() {
     crab: el => { el.classList.remove('run'); el.getBBox(); el.classList.add('run'); AUD.click(); },
     spider: el => { const sp = el.querySelector('.spider'); sp.classList.remove('drop'); sp.getBBox(); sp.classList.add('drop'); },
   };
-  app.querySelectorAll('[data-tap]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); (TAP[el.dataset.tap] || (() => {}))(el); }));
+  app.querySelectorAll('[data-tap]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); foundEgg(el.dataset.tap); (TAP[el.dataset.tap] || (() => {}))(el); }));
   scheduleCatWalk();
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
@@ -2627,7 +2627,7 @@ function catWalk() {
   g.innerHTML = `<g transform="translate(${flip ? 450 : -50} 282) scale(${flip ? -.42 : .42} .42)">${ART.backbord()}</g>`;
   if (flip) g.classList.add('back');
   svg.appendChild(g); if (perch) perch.style.visibility = 'hidden';
-  g.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); meow(); });
+  g.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); foundEgg('walkcat'); meow(); });
   if (AUD.ready) AUD.sfx('schnurren', {vol: .4});
   setTimeout(() => { g.remove(); if (perch) perch.style.visibility = ''; scheduleCatWalk(60 + Math.random() * 60); }, 9500);
 }
@@ -3111,6 +3111,7 @@ function renderLog() {
       <p class="small muted" style="margin:10px 0 0">Die Bestehenschance ist eine Schätzung: Für jede Frage nehme ich je nach Lernstand eine Trefferwahrscheinlichkeit an und rechne damit die Prüfung nach der amtlichen Regel durch.</p></div>
     ${ex.length ? `<div class="card"><h3>Letzte Probeprüfungen</h3>${ex.map(e => `<div class="row" style="justify-content:space-between;margin:4px 0"><span>${e.score} von ${e.n === 60 ? '60 Punkten' : e.n + ' richtig'}${e.nav != null ? ` · Navigation ${e.nav}/9` : ''}${e.mode === 'train' ? ' <span class="muted small">(mit Rückmeldung)</span>' : ''}</span><b class="${(e.passAll != null ? e.passAll : e.pass) ? 'pass' : 'fail'}" style="flex:0 0 auto">${(e.passAll != null ? e.passAll : e.pass) ? 'Bestanden' : e.oral ? 'Mündlich' : 'Nicht bestanden'}</b></div>`).join('')}</div>` : ''}
     ${COURSE.id === 'sbf' && S.nav && Object.keys(S.nav).length ? `<div class="card"><h3>Navigationsaufgaben</h3><p class="small" style="margin:0">${Object.entries(S.nav).map(([n, p]) => `Nr. ${n}: <b class="${p >= 7 ? 'pass' : 'fail'}">${p}/9</b>`).join(' · ')}</p></div>` : ''}
+    ${eggCard()}
     <div class="card"><h3>Kapitel</h3>${TOPICS.map(t => { const s = topicStats(t); return `<div class="topic"><div class="row" style="justify-content:space-between"><span>${t.name}</span><span class="muted small" style="flex:0 0 auto">${s.m}/${s.total}</span></div><div class="bar"><span class="m" style="width:${s.m / s.total * 100}%"></span><span class="l" style="width:${s.l / s.total * 100}%"></span></div></div>`; }).join('')}
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
     <div class="card small muted"><p style="margin:0">Noch nicht enthalten: ${COURSE.kind === 'open' ? 'die Kartenaufgabe und drei Skizzenfragen' : 'die Bildfragen 16 bis 30'}. App-Version ${esc(window.__ver || '?')}.</p></div>`;
@@ -3351,13 +3352,10 @@ let NAV_TASKS = [];
 /* ==========================================================================
    Das Boot: Startbildschirm und Navigation.
    Durch die Bullaugen sieht man die Crew, der Niedergang führt in die Kajüte.
-   Überall stecken unbeschriftete Überraschungen (Spiele). Das Fernglas zeigt sie.
+   Überall stecken unbeschriftete Überraschungen. Das Fernglas zeigt nur Stellen mit Funktion.
    ========================================================================== */
-const BOAT_HINTS = [
-  {x: 287, y: 270, r: 22}, {x: 199, y: 272, r: 30}, {x: 328, y: 270, r: 14}, {x: 195, y: 68, r: 14},
-  {x: 211, y: 64, r: 12}, {x: 370, y: 312, r: 22}, {x: 352, y: 272, r: 12}, {x: 300, y: 394, r: 22},
-  {x: 46, y: 228, r: 24}, {x: 160, y: 396, r: 18},
-];
+/* Das Fernglas kringelt nur Stellen mit Funktion ein (Niedergang, Steuer). Easter-Eggs muss man selbst finden. */
+const BOAT_HINTS = [{x: 287, y: 270, r: 22}, {x: 347, y: 272, r: 18}];
 /* Pinsel: Farben und Name des eigenen Bootes (Einstellungen → Boot-Look) */
 const LOOK = {
   hull: [['#fbf6ec', 'Weiß'], ['#24364f', 'Marineblau'], ['#2f5a43', 'Dunkelgrün'], ['#a8362c', 'Rot'], ['#2b2b2b', 'Schwarz']],
@@ -3435,9 +3433,28 @@ const FERNGLAS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
 
 /* Fernglas: antippen oder gedrückt halten zeigt kurz alle antippbaren Stellen */
 /* Kringel und Beschriftung nur dort, wo ein Spiel oder Lerninhalt steckt */
-const GAME_KEYS = new Set(['kajuete', 'horn', 'segel', 'pinne', 'motor']);
-const EGG_LABELS = {moewe: 'Möwe', leuchtturm: 'Leuchtturm', bauteile: 'Bauteile', laternen: 'Laternen', kajuete: 'Niedergang', horn: 'Horn', pinne: 'Pinne', motor: 'Motor', tonne: 'Tonne', seehund: 'Seehund', fisch: 'Fisch', segel: 'Segel',
+const GAME_KEYS = new Set(['kajuete', 'pinne']);
+const EGG_LABELS = {moewe: 'Möwe', leuchtturm: 'Leuchtturm', bauteile: 'Bauteile', laternen: 'Laternen', kajuete: 'Niedergang', horn: 'Horn', pinne: 'Steuer · Törn', motor: 'Motor', tonne: 'Tonne', seehund: 'Seehund', fisch: 'Fisch', segel: 'Segel',
   clock: 'Uhr', lamp: 'Lampe', mouse: 'Maus', gull: 'Möwe', crab: 'Krebs', spider: 'Spinne', walkcat: 'Katze'};
+/* ---------- Easter-Egg-Sammlung (S.eggs: id → Tag des Fundes) ----------
+   Nur echte Überraschungen ohne Funktion. Neue Eggs hier eintragen, dann zählen sie automatisch mit. */
+const EGGS = {
+  moewe: 'Möwe am Himmel', leuchtturm: 'Leuchtturm', bauteile: 'Wimpel am Mast', laternen: 'Toplaternen', horn: 'Nebelhorn', segel: 'Segel bergen',
+  motor: 'Außenborder', tonne: 'Tonne', seehund: 'Abtauchender Seehund', fisch: 'Springender Fisch',
+  clock: 'Tickende Uhr', lamp: 'Schaukelnde Lampe', lampfall: 'Lampe heruntergeholt', mouse: 'Kajütenmaus', gull: 'Möwe am Bullauge', crab: 'Krebs', spider: 'Spinne', walkcat: 'Bordkatze',
+};
+function foundEgg(id) {
+  if (!EGGS[id]) return; S.eggs = S.eggs || {};
+  if (S.eggs[id] != null) return; S.eggs[id] = today(); save();
+  const n = Object.keys(S.eggs).filter(k => EGGS[k]).length, all = Object.keys(EGGS).length;
+  LOG.add('entdecken', 'Easter-Egg: ' + EGGS[id] + ' (' + n + '/' + all + ')');
+  setTimeout(() => toast(`Entdeckt: ${EGGS[id]} · ${n} von ${all}`), 600);
+}
+function eggCard() {
+  const got = S.eggs || {}, ids = Object.keys(EGGS), n = ids.filter(k => got[k] != null).length;
+  return `<div class="card"><h3>Entdeckt an Bord</h3><p style="margin:0 0 6px"><b>${n} von ${ids.length}</b> Easter-Eggs entdeckt.</p>
+    <p class="small muted" style="margin:0">${ids.map(k => got[k] != null ? esc(EGGS[k]) : '???').join(' · ')}</p></div>`;
+}
 /* Fernglas: Kreise plus Beschriftung, damit man weiß, wo was ist */
 function revealLabels(scene, on) {
   scene.querySelectorAll('.revlabel').forEach(e => e.remove());
@@ -3505,7 +3522,7 @@ function bindPano(pano) {
 /* ---------- Überraschungen (Spiele) ---------- */
 let returnTo = 'deck';
 function startEgg(id, el) {
-  LOG.add('entdecken', 'Überraschung: ' + id);
+  LOG.add('entdecken', 'Überraschung: ' + id); foundEgg(id);
   const wig = () => { el.classList.remove('wiggle'); try { el.getBBox(); } catch (e) {} el.classList.add('wiggle'); setTimeout(() => el.classList.remove('wiggle'), 700); };
   const G = {
     horn: () => { AUD.sfx('nebelhorn', {vol: .35, dur: 1.4}); wig(); kisteHint(); },
@@ -3513,7 +3530,8 @@ function startEgg(id, el) {
     fisch: () => { const f = el.closest('.fishwrap') || el; f.classList.remove('jump'); try { f.getBBox(); } catch (e) {} f.classList.add('jump'); kisteHint(); },
     motor: () => { AUD.sfx('motorStart', {vol: .4}); wig(); kisteHint(); }, bauteile: () => { AUD.click(); wig(); kisteHint(); },
     segel: () => { const sc = el.closest('.scene'); const down = sc.classList.toggle('sailsdown'); AUD.sfx('segel', {vol: .6, rate: down ? .85 : 1.05}); setTimeout(() => AUD.sfx('segel', {vol: .35, rate: 1.2}), 500); if (down) setTimeout(() => AUD.sfx('anker', {vol: .25, dur: 1.6}), 700); LOG.add('entdecken', down ? 'Segel eingeholt' : 'Segel gesetzt'); },
-    pinne: () => { AUD.click(); wig(); kisteHint(); },
+    /* Steuer: hier startet später der Törn (5.6) */
+    pinne: () => { AUD.click(); wig(); toast('Hier startet bald der Törn. Bis dahin: Manöver üben in der Spielekiste.'); },
     moewe: () => { AUD.sfx('moewe', {offset: 3, dur: 2, vol: .55}); el.classList.add('flyoff'); setTimeout(() => el.classList.remove('flyoff'), 2600); },
     seehund: () => { el.classList.add('dive'); AUD.sfx('segel', {vol: .3, rate: .6}); setTimeout(() => el.classList.remove('dive'), 5000); },
   };
@@ -3549,7 +3567,7 @@ function gamesHub() {
 }
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */
 const TOUR = {
-  boat: [{sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du, was man an Bord alles antippen kann. Es gibt einiges zu entdecken!'}],
+  boat: [{sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du die wichtigen Stellen an Bord. Alles andere musst du selbst entdecken. Es gibt einiges!'}],
   cabin: [{sel: '#pathcard', text: 'Hier steht, was heute dran ist. Ein Tipp auf „Weiter“, und es geht los.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
 };
 function tour(name) {
