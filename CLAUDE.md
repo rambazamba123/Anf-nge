@@ -1,176 +1,238 @@
-# Skipper – Projekt-Brief für Claude Code
-Stand: App v4.4, 04.10.2026. Diese Datei liegt im Hauptordner des Repos. Claude Code liest sie automatisch.
+# Skipper – Projekt-Brief für Claude Code (Version 3)
+
+> **Der Code ist die Wahrheit.** Wenn dieser Brief und der Code sich widersprechen, gilt der Code. Den Widerspruch nennst du im Bericht. Abschnitt 4 (Code-Karte) und Abschnitt 8 (Status) hältst du selbst aktuell, und zwar am Ende jedes Laufs. Einen Neustart nach einem Abbruch beginnst du immer mit Abschnitt 8.
 
 ## 1. Worum es geht
 „Skipper“ ist eine Lern-App für Bootsführerscheine:
 - SBF See (fertig)
-- SKS (Katalog drin, Kajüten-Folgen fehlen)
+- SKS (Katalog drin)
 - SBF Binnen (fehlt)
 - später Funk (SRC/UBI) und Pyrotechnik (FKN)
 
-Man lernt an Bord einer Segelyacht. Die Crew besteht aus Käpt'n, Matrosin und Papagei, geprüft wird von Kapitän Harms. Beim Start wird gefragt, für welchen Schein man lernt.
+Man lernt an Bord einer Segelyacht. Die Crew besteht aus Käpt'n, Matrose oder Matrosin und Bordtier, geprüft wird von Kapitän Harms.
 
-Die App läuft als eigene Web-App auf GitHub Pages, nicht als Claude-Artefakt, weil Artefakte kein Mikrofon und keine eigene Sprachausgabe erlauben. Hauptgerät ist Android mit Chrome im Hochformat, langfristig sollen alle Plattformen laufen.
-
-Nutzer sind im Moment nur ich. Später testen Freunde, gern auch mit meinen Keys. Einen echten Prüfungstermin gibt es nicht: Es geht um die App selbst.
+Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome im Hochformat, langfristig sollen alle Plattformen laufen. Im Moment nutze nur ich die App, später testen Freunde. Einen Prüfungstermin gibt es nicht: Es geht um die App selbst.
 
 **Wann ist die App fertig?**
-- Erkunden wie bei Moorhuhn: ein langes Boot, herangezoomt, das Sichtfenster lässt sich nur waagerecht wischen.
-- Viele Easter-Eggs, auch raffinierte, bei denen man erst herausfinden muss, was zu tun ist.
+- Erkunden wie bei Moorhuhn: ein langes Boot, das man waagerecht wischt.
+- Viele versteckte Easter-Eggs.
 - Unter Deck im Schnitt.
-- Ein Lexikon mit allen Zeichen, Lichtern, Tonnen und Symbolen in Originalgrafik aus der Prüfung.
-- Ein richtig gutes, realistisches Navigationsspiel und ein digitaler Törn.
-- Scoring für alle Spiele.
+- Ein vollständiges Lexikon mit Originalgrafiken.
+- Eine Navigationsschule, in der man Navigation wirklich lernt.
+- Ein digitaler Törn.
+- Trophäen und Scoring für alle Spiele.
 - Texte und Audios werden gespeichert, damit kaum Tokens oder Credits verbraucht werden.
 
-## 2. Arbeitsregeln (immer)
+## 2. Arbeitsregeln
 - **Antworten:** kurz, auf Deutsch, laienverständlich. Ich bin GitHub-Anfänger.
-- **Fragen:** Bei Unklarheit erst fragen. Nichts erfinden, Unsicherheit offen sagen. Sag mir, wenn ich etwas übersehe, und sei kreativ.
-- **Prüfungsinhalte:** nur aus den amtlichen Katalogen (ELWIS). Fachlich muss alles korrekt sein.
-- **Planen:** Erst einen kurzen Plan zeigen, dann umsetzen. Eine Etappe nach der anderen, nicht alles auf einmal.
-- **Editieren:** Gezielt editieren, nie die ganze `index.html` neu schreiben. Die Datei ist groß, also mit Suchen und Ersetzen arbeiten.
-- **Testen:** Nach jeder Etappe testen. Lokal läuft ein Server mit `python -m http.server`, bitte nicht per `file://` öffnen. Wenn möglich mit Playwright-Screenshots im Hochformat (400×860), sonst mir sagen, was ich im Browser prüfen soll. Die JS-Konsole muss frei von Fehlern sein.
-- **Version und Sicherung:** `__ver` in `index.html` hochzählen, dazu immer gleich `VERSION` in `sw.js` (sonst erscheint am Handy kein „Jetzt laden“). Nach jeder Etappe einen Git-Commit mit klarer Nachricht machen.
-- **Spielstände nie brechen:** Speicher-Key `skipper-sbfsee-v1`. Interne IDs bleiben, z. B. heißt der Prüfer intern weiter `kroeger`. Neue Felder immer mit Standardwert.
-- **Schlüssel:** Keys (Anthropic, ElevenLabs) liegen nur im Browser. Nie ins Repo schreiben, nie ausgeben.
-- **ELWIS-PDFs:** liegen in `quellen/` und stehen in `.gitignore`, sie werden nicht veröffentlicht. Für Bilder in der App die Originalgrafiken ausschneiden und in `img/` ablegen.
+- **Ehrlichkeit:** Nichts erfinden, Unsicherheit offen sagen. Sag mir, wenn ich etwas übersehe.
+- **Selbstständig arbeiten:**
+  - Einen ganzen Lauf (Abschnitt 7) am Stück abarbeiten, ohne zwischendurch auf mein OK zu warten.
+  - Kleine Unklarheiten selbst sinnvoll entscheiden und im Bericht nennen.
+  - Nur stoppen bei echten Grundsatzfragen, bei Fehlern, die du nicht lösen kannst, oder an einem Haltepunkt.
+- **Pro Etappe:**
+  - gezielt editieren, nie ganze Dateien neu schreiben
+  - testen
+  - `__ver` und die Version in `sw.js` hochzählen
+  - lokal committen
+  - in Abschnitt 8 abhaken
+- **Testen:**
+  - Lokaler Server: Den vorhandenen Ersatz-Server nutzen, Python fehlt auf diesem Rechner.
+  - Hochformat 400×860, Konsole ohne Fehler, alte Spielstände laden ohne Fehler.
+  - Wenn möglich mit Screenshots.
+- **Spielstände nie brechen:** Speicher-Key `skipper-sbfsee-v1`, interne IDs bleiben (z. B. `kroeger` für Kapitän Harms). Neue Felder bekommen immer einen Standardwert.
+- **Prüfungsinhalte:** nur aus den amtlichen Katalogen in `quellen/`. Fachlich muss alles korrekt sein.
+- **Schlüssel:** Anthropic- und ElevenLabs-Key nie ins Repo schreiben und nie ausgeben.
+- **`quellen/`:** Der Ordner ist in `.gitignore` und wird nie hochgeladen. Die BSH-Übungskarte 49 (`quellen/0381510_h1_FS19ix.webp`) trägt den Vermerk „Alle Rechte vorbehalten“. Sie dient nur als Vorlage für Maßstab, Aufgabentypen und Symbolik. Nichts davon abpausen und nichts in die App übernehmen.
+- **Stimmen:** Feste Sätze enthalten keine Namen, damit sie ins Stimmenpaket passen. Alles, was sich wiederholt, wird gespeichert und nie neu erzeugt.
 
 ## 3. Stil und Ton
-- **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch. Wenige Details, kein Kitsch. Die Szenen bauen sich aus Tageszeit und Wetter auf.
-- **Crew:** witzig, herzlich, plattdeutsch angehaucht. Der Papagei wiederholt Schlagworte.
-- **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“, „Gummiente“). SKS-Lernende bekommen spürbar mehr Respekt, fast wie unter Kollegen. Das steuert `styleRules()`.
-- **Frechheit:** immer FSK 18 (seit v4.8, keine Altersfrage mehr): derber Seemannssprech, viele doppeldeutige Witze, Metaphern aus der Seefahrt. `ageGroup()` liefert immer `erw` (`TONE.erw`, `TEASE`).
+- **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch. Szenen hängen von Tageszeit und Wetter ab.
+- **Crew:** witzig, herzlich, plattdeutsch angehaucht. Die Freigabe ist **so, wie sie aktuell im Code steht** (seit v4.8 immer FSK 18). Ändern nur auf meine Anweisung.
+- **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
-## 4. Architektur
-```
-index.html          gesamter Code und CSS  ~385 KB
-data/sbf.json       SBF-See-Katalog (DATA), seit v4.6 ausgelagert
-data/sks.json       SKS-Katalog (SKS_DATA)
-data/nav.json       die 15 Navigationsaufgaben (NAV_TASKS)
-data/folgen.json    Kajütenfunk-Folgen und Kurzgeschichten ({episodes, shorts})
-                    → alle vier lädt loadData() beim Start (startApp), danach boot()
-img/q/*.jpg|png     Original-Katalogbilder (seit v4.4 ausgelagert)
-manifest.webmanifest, icon-192.png, icon-512.png   installierbare App
-audio/*.mp3         Musik und Geräusche
-audio/stimmen/      Stimmenpaket: fertige Crew-Sätze + manifest.json
-sw.js               Service Worker (Update-Hinweis)
-quellen/            ELWIS-PDFs, nur lokal (.gitignore)
-```
+## 4. Code-Karte
+*Am Ende von Lauf 1 neu schreiben, vom echten Stand v4.9+ aus:*
+- Dateien und Ordner (`index.html`, `data/`, `img/`, `audio/`, `audio/stimmen/`, `sw.js`, Icons)
+- die wichtigsten Funktionen und Objekte je Bereich: Start, Deck, Kajüte, Spiele, Folgen, Stimme, Zeit, Kurse, Einstellungen
+- der Aufbau des Spielstands `S`
 
-**Code-Landkarte (Funktionsnamen in `index.html`):**
-- **Start:** `boot` → `splash` → `runIntro` (Streit am Steg, Text in `INTRO`) → `convoOnboarding` (Auswahlknöpfe plus eigenes Textfeld; feste Sätze in `ONB`, `ONB2`, `ONB2_OPTS`, Namensvorschläge `NICKS`; eigener Text → Claude-Antwort, sonst `ONB_FREE`) → `keysStep` → `endIntro`. Das alte Formular `onboardingForm` ist nur Notlösung.
-- **Erstes Mal in der Kajüte:** `cabinWelcome` (Sätze in `CABIN`): Lernplan erklären, bei SKS 5 SBF-Fragen mit Crew-Urteil, Zusammenfassung aus Bausteinen, dann `fahrplanSheet` (`fahrplan()`). Flag `S.cabinWelcome`.
-- **Steckbrief:** `S.profile.facts` (max. `FACTS_MAX`), ergänzt über `addFact` (Kennenlernen und `F:`-Zeilen im Gespräch), in den Einstellungen einzeln löschbar; „Kennenlernen neu starten“ setzt `introDone`/`cabinWelcome` zurück.
-- **Deck:**
-  - `renderBoat`, `boatScene` (SVG, viewBox `0 40 400 380`, im `.pano`-Scroller), `bindPano`
-  - Hotspots: `BOAT_HINTS`, `startEgg`, `kisteHint`, Fernglas mit `GAME_KEYS`, `EGG_LABELS`
-  - Boot-Look: `LOOK`, `boatLook()`, gespeichert in `S.boat`
-- **Kajüte:**
-  - `renderCabin`, `cabinScene`; Klickflächen in `CABIN_SPOTS`, Aktionen in `SPOT`, kleine Animationen in `TAP`
-  - Hocker: `bgSit`, `bgStop`, `bgPick` (Hintergrund-Gerede, `S.bgHeard`, Stimme gedämpft über `window.VOXDIM`)
-  - Lexikon: `renderLexikon`
-- **Spiele:**
-  - Liste und Rekorde: `GAMES`, `gamesHub`, `gameScore`, `best()`, `S.best`; Gerüst: `gameShell`, `canvasGame`, `gameOver`
-  - Einzelspiele: `hornQuiz` (`SIG_QS`), `lightsGame` (`LIGHTS`), `lighthouseGame`, `buoyGame`, `maneuverGame` (`MANEUVERS`; Motor an/aus, Gashebel stufenlos), `navGame` (`S.nav`), `motorGame`, `partsGame`, `fishGame`, `trapRound`
-- **Folgen:** `EPISODES.sbf` (25 Folgen, `EPISODES.sks` ist leer), `SHORTS` (20 Stück), `playEpisode`, `epFill` (setzt `{A:n}` und `{Q:n}` ein), `showStory`
-- **Stimme:**
-  - `VOX` mit `say`, `lines`, `clip`, `ensureVoices`, `listen`
-  - Zwischenspeicher: `CLIPS` (IndexedDB)
-  - Stimmenpaket: `PACK` (lädt `audio/stimmen/manifest.json`), `packLines`, `buildVoicePack` (nur fehlende feste Sätze), `exportClips` (neue Aufnahmen aus dem Gerät als ZIP), `pclean`
-  - Jede ElevenLabs-Aufnahme wird mit Figur und Text in `CLIPS` (IndexedDB `skipper-audio` v2, Stores `clips` und `meta`) gespeichert
-  - Geräusche und Musik: `AUD` mit `sfx`, `loop`, `playMusic`, `weather`
-- **Zeit:**
-  - `SHIP_DAY_MS` (50 Minuten = 1 Tag), `shipHour`, `dayPart`, `tickDay` (Farben wechseln live)
-  - Aussehen: `palette`, `styleVars`, `weatherToday`
-  - Einstellung `S.cfg.cycle` mit „schnell“ oder „echt“
-- **Kurse:** `COURSES` (sbf/sks), `useCourse`, `QN`, `TOPICS`, `topicOf`, `ansText` (bei SBF ist `a[0]` richtig)
-- **Crew:** `CREW`, `ROLE_OPTIONS`, `cid(role)`, `nameOf`, `styleRules`
-- **Sonstiges:** `renderSettings` (Einstellungen), `LOG.add` (Protokoll)
+Ziel: Eine neue Sitzung findet sich ohne langes Suchen zurecht. Höchstens etwa 40 Zeilen.
 
-**Stimmenpaket-Prinzip:** Feste Sätze enthalten keine Namen und werden einmal mit ElevenLabs erzeugt. Sie liegen dann als MP3 in `audio/stimmen/`. `clip()` schaut zuerst ins Paket, dann in IndexedDB und erst danach bei ElevenLabs. Alles, was oft wiederholt wird, muss so gespeichert werden.
+## 5. Konzepte (verbindlich)
 
-## 5. Fertig (v4.3 und v4.4)
-- Panorama-Deck. Es nutzt allerdings noch die alte, kurze Bootszeichnung.
-- Spielekiste mit Rekorden. Deck-Objekte wackeln oder tönen nur noch.
-- Manöver mit Motor an/aus, Startsperre und stufenlosem Gashebel.
-- Prüfer heißt jetzt Kapitän Harms.
-- Längeres „Moooin“.
-- Tag und Nacht in 50 Minuten.
-- Kennenlernen als witziges Auswahl-Gespräch.
-- Stimmenpaket-Generator.
-- Hocker in der Kajüte startet das Hintergrund-Gerede.
-- Lexikon aus den 58 SBF-Bildfragen (206/207 seit v4.9 mit Kennung).
-- Pinsel: Name, Rumpf, Streifen, Segel.
-- Bilder ausgelagert.
+### 5.1 Erster Start: Begrüßung mit Streit
+Beim allerersten Start zankt sich die Crew, wo Backbord ist. Dann bemerkt sie dich, stellt sich vor und geht ins Kennenlernen über.
 
-## 6. Etappen (Reihenfolge, je mit Abnahme)
-**E0 Start-Check.** `git status` prüfen, `__ver` prüfen (soll 4.4 sein, `img/q/` vorhanden), lokalen Server starten und einen Rauchtest machen. Fehlt Git, mir Schritt für Schritt helfen, z. B. mit GitHub Desktop.
+**Fehler:** Die Szene erscheint nicht. Ursache: `boot()` setzt `introV4` sofort, und alte Spielstände haben das Flag schon.
 
-**E1 Kataloge auslagern.**
-- Ziel: `DATA` → `data/sbf.json`, `SKS_DATA` → `data/sks.json`, beim Start mit `fetch` laden und einen Ladebildschirm zeigen.
-- Abnahme: `index.html` deutlich unter 400 KB, alle Funktionen laufen weiter.
+**Lösung:**
+- Ein neues Flag einführen und erst am Ende des Intros setzen.
+- Die URL `?neustart` setzt die Intro-Flags zurück, zum Testen.
+- Die Knöpfe „Kennenlernen neu starten“ und „Alles zurücksetzen“ gibt es schon. Sie müssen das Intro mit Streit sicher auslösen.
+- Die neue Begrüßung am Steg und in der Kajüte (seit v4.8) sinnvoll damit verbinden, nichts doppelt abspielen.
 
-**E2 Navigation, das Herzstück.**
-- Kartentisch mit einer selbst gezeichneten Übungskarte. Keine BSH-Karte, wegen der Rechte.
-- Werkzeuge:
-  - Kursdreieck und Anlegen eines Kurses
-  - Zirkel für Distanzen am Breitengrad-Rand
-  - Peilung und Kreuzpeilung
-  - Missweisung und Deviation (rwK → mwK → MgK)
-  - Strom- und Windversatz, Koppelort, Gezeiten
-- Inhalte: die 15 amtlichen Navigationsaufgaben aus `quellen/` als Aufgabentypen. Bewertung nach dem amtlichen Bewertungsschlüssel, mit Toleranzen.
-- Abnahme: Ich löse eine Aufgabe komplett am Handy, und es fühlt sich echt an.
+### 5.2 Fernglas und Easter-Eggs
+- Das Fernglas markiert nur Dinge mit Funktion: Niedergang, Steuer (Törn), Kartentisch, Spielekiste, Hocker.
+- Easter-Eggs werden nie markiert, die muss man selbst entdecken.
+- Gefundene Easter-Eggs zählen als Sammlung im Logbuch, angezeigt als „x von y entdeckt“.
 
-**E3 Törn-Light.**
-- Auf derselben Karte gibt es Etappen von Hafen zu Hafen.
-- Ablegen, Motor oder Segel, Kurs halten.
-- Ereignisse unterwegs: Tonne, Feuer, Nebel, Verkehrstrennungsgebiet, Mensch über Bord.
-- Dabei kommen Prüfungsfragen, Nacht und Wetter laufen über die Schiffszeit, das Logbuch füllt sich.
-- Zuerst ein Konzept auf einer Seite, das ich freigebe.
+### 5.3 Spielekiste und Scoring
+- **Aussehen:** ein Raster mit 2 Spalten statt einer Liste.
+  - Jede Kachel hat eine kleine SVG-Zeichnung zum Spiel im Stil aus Abschnitt 3.
+  - Auf der Kachel stehen Name, Trophäe und eigener Rekord.
+- **Scoring für alle Spiele:**
+  - Jedes Spiel liefert Punkte, auch Horn-Quiz, Prüfungsfallen und Kartentisch.
+  - Trophäen pro Spiel: Bronze, Silber, Gold, jeweils mit festen Schwellen.
+  - Dazu ein Gesamtrang vom Schiffsjungen bis zum Kapitän.
+- **Bestenliste pro Spiel:**
+  - Feste Rekorde aller 6 Crew-Figuren und von Kapitän Harms. Jede Figur hat ein Paradespiel.
+  - Wer eine Figur überholt, bekommt einen festen, frechen Spruch.
+  - Rekorde erscheinen auch im Logbuch.
 
-**E4 Langes Panorama-Boot.**
-- Das Boot wird neu als lange Zeichnung gebaut, etwa 3 Bildschirmbreiten, im Stil aus Abschnitt 3.
-- Bug, Mast, Cockpit, Pinne, Motor und Niedergang liegen nebeneinander.
-- Nur die wichtigsten Dinge sind beschriftet.
+### 5.4 Panorama mit zwei Ebenen
+1. **Übersicht:** das heutige ganze Boot als „große Ansicht“.
+2. **Detailansicht:** Tippt man auf eine Stelle der Übersicht, wird hineingezoomt.
+   - Dort liegt ein **neu gezeichnetes, langes Boot**, etwa 3 Bildschirmbreiten breit, das man nur waagerecht wischen kann.
+   - Die Teile liegen nebeneinander: Bug, Mast, Cockpit mit Steuer, Motor, Niedergang.
+   - Nur die wichtigsten Dinge sind beschriftet.
+   - Es gibt einen deutlichen Knopf „Übersicht“ für den Rückweg.
 
-**E5 Unter Deck im Schnitt.**
-- Räume: Maschinenraum, Kojen (Hinlegen startet ebenfalls das Gerede), Funkecke, Kombüse, Navi-Tisch.
-- Vorschlag, bitte bestätigen: Die Spielekiste bleibt die zentrale Liste. Die Räume sind zusätzliche Eingänge, z. B. Navi-Tisch → Kartentisch, Funkecke → Schallsignale, Maschinenraum → Motorkunde.
+Alle vorhandenen Hotspots und Easter-Eggs ziehen mit um.
 
-**E6 Easter-Eggs.**
+### 5.5 Navigationsschule (Kartentisch)
+Man soll Navigation wirklich lernen, für SBF See und darauf aufbauend SKS.
+
+**Die Karte:** selbst gezeichnet, eine erfundene Nordsee-Flussmündung. Sie enthält Gezeiten, Tonnen, Feuer, Tiefen, eine Kompassrose mit Missweisung und einen Breiten- und Längenrand.
+
+**Drei Bereiche:**
+
+1. **Navi-Fibel**
+   - Ein Glossar mit allen Begriffen, darunter: Breite und Länge, Seemeile, Kartennull, rwK, mwK, MgK, Missweisung, Deviation mit Ablenkungstabelle, rwP, Standlinie, Kreuzpeilung, Koppelort, Gissort, KdW, KüG, FdW, FüG, Stromdreieck, Vorhaltewinkel, Abdrift, Gezeiten.
+   - Jeder Begriff hat eine Erklärung, eine kleine Animation und eine Merkhilfe.
+   - Begriffe sind überall antippbar.
+
+2. **Lernpfad**, jede Lektion gleich aufgebaut:
+   - Die Crew erklärt kurz, mit Animation.
+   - Geführte Übung mit Hilfen und konkreter Rückmeldung bei Fehlern.
+   - Freie Übung: zufällig erzeugte Aufgaben, also unbegrenzt viele.
+   - Meisterschaft: 3 Aufgaben hintereinander ohne Hilfe richtig, dann gibt es einen Stern.
+
+   Die Lektionen:
+   1. Karte lesen: Koordinaten, Symbole, Tiefen
+   2. Werkzeuge: Kursdreieck und Zirkel, Distanz am Breitenrand
+   3. Kurse umrechnen: rwK ↔ mwK ↔ MgK, mit Rechentrainer
+   4. Peilen: Peilung, Kreuzpeilung, Feuer erkennen
+   5. Koppeln: Fahrt × Zeit = Distanz, Koppelort
+   6. Strom: Stromdreieck, Vorhaltewinkel
+   7. Wind und Abdrift
+   8. Gezeiten, so weit es die amtlichen Aufgaben verlangen
+   9. Gesamtaufgaben
+
+   Die SKS-Stufe baut darauf auf. Den Umfang prüfst du anhand von `quellen/`.
+
+3. **Prüfungsmodus**
+   - Aufgaben im Format der 15 amtlichen Navigationsaufgaben, übertragen auf unsere Karte.
+   - Ohne Hilfen, mit Zeitvorgabe nach amtlicher Regel.
+   - Bewertet wird nach dem Bewertungsschlüssel mit seinen Toleranzen.
+   - Am Ende: Punkte, Fehleranalyse und welche Lektion man wiederholen sollte.
+
+**Bedienung am Handy:**
+- Karte: mit zwei Fingern zoomen, mit einem Finger verschieben. Beim Ablesen hilft eine Lupe.
+- Kursdreieck: zum Verschieben ziehen, zum Drehen am Griff fassen.
+- Zirkel: zwei Punkte setzen.
+- Bleistift: Linien ziehen, mit Rückgängig-Knopf.
+- Rechenblatt: ein Feld zum Eintragen der Werte.
+
+**Fortschritt:** Erst wenn die Lektionen 1 bis 5 geschafft sind, darf man im Törn selbst Kurse absetzen.
+
+### 5.6 Törn-Light (einfachste Variante)
+- **Start:** Man tippt an Deck aufs Steuer. Dann kommt die Frage „Tagesetappe starten oder fortsetzen?“.
+- **Ablauf:** Man sitzt im Cockpit und steuert nicht selbst. Das Boot fährt die Route auf der Navi-Karte, die Ansicht ist eine Cockpit-Szene mit kleiner Karte.
+- **Dauer:** Eine Etappe dauert 5 bis 10 Minuten. Tag und Nacht laufen über die Schiffszeit, das Wetter wechselt.
+- **Wahl:** Unter Segel (Kurs zum Wind, Wende und Halse als Entscheidung) oder unter Motor (Sprit).
+- **Ressourcen:** Proviant, Treibstoff, Crew-Laune und Bootszustand.
+  - Proviant verdient man durch tägliches Lernen.
+  - Wer eine Etappe abbricht, verliert Proviant.
+- **Ereignisse:** zufällig und passend zum Ort, zum Teil als Minispiel aus der Spielekiste:
+  - Anlegen im Zielhafen → Manöverspiel
+  - Ein Schiff kommt entgegen → Ausweichregel wählen
+  - Begegnung bei Nacht → Lichterspiel
+  - Nebel → Schallsignale
+  - Tonne umfahren → Tonnen-Slalom
+  - Motorproblem → Motorkunde
+  - Kontrolle durch die Wasserschutzpolizei → Papiere und Fragen
+  - Mensch über Bord
+  - Wetterumschwung → reffen
+  - Verkehrstrennungsgebiet queren
+  - Leuchtfeuer erkennen
+- **Am Ziel:** Logbucheintrag und Bewertung der Etappe.
+- **Später, optional:** selbst steuern von oben, wie bei GTA 2.
+
+### 5.7 Lexikon komplett
+- **Inhalte:** alle Lichter, Signalkörper, Tonnen und Betonnung, Schallsignale mit Ton, Flaggen, Tafelzeichen und Kartensymbole.
+- **Quelle:** Originalgrafiken aus den ELWIS-PDFs in `quellen/`, ausgeschnitten nach `img/lex/`.
+- **Aufbau:** nach Thema sortiert, mit Suche. Jeder Eintrag hat eine Bedeutung und eine Merkhilfe.
+- **Querverweise:** in beide Richtungen zwischen Lexikon und Fragen.
+- **Kurse:** SBF, SKS und Binnen.
+
+### 5.8 SBF Binnen
+- Dritter Kurs aus `quellen/Fragenkatalog Binnen.pdf`, mit Bildern.
+- Daten in `data/binnen.json`.
+- Prüfungsmodus nach amtlicher Regel.
+- Auswahl beim Kennenlernen erweitern.
+
+## 6. Später (nicht in den Läufen 1 und 2)
+- **Cloudflare-Worker:**
+  - Die Keys liegen im Worker statt im Browser. Tester brauchen nur ein Passwort, ein Tageslimit schützt das Guthaben.
+  - Dazu eine Anleitung Schritt für Schritt für mich.
+  - Kommt vor dem Freundestest.
+- **Folgen** für SKS und Binnen, danach das Stimmenpaket aktualisieren.
+- **Unter Deck im Schnitt:** Räume nach und nach füllen. Alle Spiele bleiben vorerst in der Spielekiste.
+- **Funk und Pyro:** erst, wenn ich die Kataloge geliefert habe.
+
+## 7. Läufe
+**Lauf 1 (am Stück, ohne Zwischenstopp):** 5.1 → 5.2 → 5.3 → 5.4 → Easter-Eggs → 5.8 → 5.7
+
+Easter-Eggs:
 - Ziel: mindestens 10 neue, ein Teil davon raffiniert und nur in mehreren Schritten zu entdecken.
 - Ideen:
-  - Kompass, dazu ein Messer auf den Tisch legen → die Nadel springt (Deviation)
+  - Kompass, dazu ein Messer → Deviation
   - Seewasserfilter mit Krabbe
-  - Barometer fällt → Wetter schlägt um
+  - Barometer mit Wetterumschwung
   - Nebelglocke, die antwortet
-  - Nachts Möwe und Frachter mit Lichterführung
+  - Frachter mit Lichterführung bei Nacht
   - Schlingerleiste in der Kombüse
   - Angel mit Flaschenpost
   - Glasen zur Schiffszeit
   - Signalflaggen buchstabieren den Namen
-- Gefundene Eggs zählen als Sammlung im Logbuch.
 
-**E7 Lexikon komplett.**
-- Inhalte: alle Lichter, Signalkörper, Tonnen und Betonnung, Schallsignale (mit Ton), Flaggen, Tafelzeichen und Kartensymbole.
-- Quelle: Originalgrafiken aus den ELWIS-PDFs, nach Thema sortiert, mit Suche.
-- Querverweise: Lexikon → passende Fragen und umgekehrt.
+Am Ende von Lauf 1:
+- Abschnitt 4 und 8 aktualisieren.
+- Ein **gemeinsames Konzept für 5.5 und 5.6** auf höchstens 2 Seiten schreiben, mit Datenmodell, Kartenentwurf (als Bild) und Unteretappen.
+- Bericht schreiben, dann **Haltepunkt**: Push und Konzept-Freigabe durch mich.
 
-**E8 SBF Binnen.**
-- Katalog aus `quellen/Fragenkatalog_Binnen.pdf` übernehmen, mit Bildern.
-- Den Kurs in `COURSES` anlegen.
-- Prüfungsmodus nach amtlicher Regel.
+**Lauf 2 (am Stück):** 5.5 (Karte und Werkzeuge → Fibel → Lektionen → Prüfungsmodus) → 5.6
 
-**E9 Folgen ergänzen.** Kajüten-Folgen für SKS und Binnen im Stil der SBF-Folgen schreiben, mit Quiz-Stopps und `{A:n}`-Platzhaltern.
+Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 
-**E10 Scoring einheitlich.** Jedes Spiel speichert einen Rekord, auch Horn-Quiz und Prüfungsfallen. Die Rekorde stehen in der Spielekiste und im Logbuch.
+**Bericht (immer gleich aufgebaut, kurz):**
+- erledigt
+- bewusst anders entschieden, mit Grund
+- offen
+- **Handy-Checkliste:** was ich selbst prüfen muss, z. B. Mikrofon und echte Stimmen
+- was ich übersehen könnte
 
-**E11 Ausblick.** Funk (SRC/UBI) und Pyrotechnik (FKN) als weitere Kurse.
-
-## 7. Offene Entscheidungen (mich fragen, wenn es so weit ist)
-- Cloudflare-Worker als Vermittler, damit Tester ohne eigene Keys auskommen: ja oder nein? Bis dahin bleiben die Keys im Browser.
-- E5: Spiele in den Räumen oder nur in der Spielekiste? Mein Wunsch war „alle an einem Ort“, der Vorschlag oben verbindet beides.
-- Für das Knotenbrett fehlen noch Fotos.
-
-## 8. Upload zu GitHub
-Am liebsten macht Claude Code `git add`, `commit` und `push` für mich und erklärt dabei kurz, was passiert. Ohne Git lade ich auf github.com hoch (Add file → Upload files), und zwar alle geänderten Dateien und Ordner. Danach 1–2 Minuten warten und in der App auf „Jetzt laden“ tippen.
+## 8. Status (von Claude Code gepflegt)
+- [x] E0 Start-Check (v4.9: Git ok, `data/` ausgelagert, `img/q/`, `quellen/` mit `.gitignore`)
+- [x] Kataloge in `data/` ausgelagert (seit v4.6)
+- [ ] 5.1 Begrüßung mit Streit und Neustart
+- [ ] 5.2 Fernglas-Regel und Easter-Egg-Sammlung
+- [ ] 5.3 Spielekiste, Trophäen, Bestenliste, Rang
+- [ ] 5.4 Panorama mit zwei Ebenen und neuem langem Boot
+- [ ] Easter-Eggs (mindestens 10 neue)
+- [ ] 5.8 SBF Binnen
+- [ ] 5.7 Lexikon komplett
+- [ ] Konzept 5.5 und 5.6 freigegeben
+- [ ] 5.5 Navigationsschule
+- [ ] 5.6 Törn-Light
