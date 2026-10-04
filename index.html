@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.4';
+  window.__ver = '4.5';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -687,9 +687,9 @@ const LINES = {
       'Na, schon wieder da? Sehr gut, das gefällt mir.',
       'Moin!',
       'Moin moin!',
-      'Mooin moin! Schön, dass du wieder an Bord bist.',
-      'Moooooin… Mensch, wo warst du denn so lange?',
-      'Mooooooooin! Wir dachten schon, du bist über Bord gegangen!',
+      'Moin, moin! Schön, dass du wieder an Bord bist.',
+      'Na, moin! Mensch, wo warst du denn so lange?',
+      'Ja, moin! Wir dachten schon, du bist über Bord gegangen!',
     ],
     tap: ['Hab ich dir schon vom großen Sturm von 87 erzählt? Die Wellen waren so hoch wie der Leuchtturm. Mindestens.', 'Ruhig Blut. Wer ruhig bleibt, kommt sicher an.', 'Butter bei die Fische: Heute lernen wir was.'],
     talk: 'Na, worüber wollen wir klönen?',
@@ -700,9 +700,9 @@ const LINES = {
       'Na, mien Jung, schon wieder da? Fein.',
       'Moin!',
       'Moin moin!',
-      'Mooin moin! Setz dich, der Tee ist noch warm.',
-      'Moooooin… Wo hast du dich denn rumgetrieben?',
-      'Mooooooooin! Ich hab schon drei Pullover gestrickt, so lange warst du weg!',
+      'Moin, moin! Setz dich, der Tee ist noch warm.',
+      'Na, moin! Wo hast du dich denn rumgetrieben?',
+      'Ja, moin! Ich hab schon drei Pullover gestrickt, so lange warst du weg!',
     ],
     tap: ['Erst die Masche, dann der Pullover. Erst die Regel, dann die Fahrt.', 'Nicht hudeln. Gründlich ist schneller.', 'Noch ein Tee, mien Jung?'],
     talk: 'So, mien Jung. Worüber wollen wir schnacken?',
@@ -745,10 +745,13 @@ const GRUSS = {
   hinnerk: ['Schön, dass du wieder an Bord bist.', 'Der Tee ist heiß, und die See ist ruhig. Fast.', 'Leinen los, heute lernen wir was!', 'Na, schon Salzwasser in den Adern?', 'Komm rein, bevor dich der Wind wegpustet.', 'Die Crew hat schon auf dich gewartet.', 'Setz dich, die Pfeife ist gestopft.', 'Ahoi! Bereit für ein paar Seemeilen Wissen?', 'Ablandiger Wind und gute Laune. Was will man mehr?', 'Heute ist ein guter Tag für Seemannschaft.'],
   ilse: ['Schön, dass du da bist, mien Jung.', 'Der Tee steht schon auf dem Tisch.', 'Setz dich, ich stricke, du lernst.', 'Na, wieder Lust auf Seeluft?', 'Komm rein, draußen pfeift der Wind.', 'Heute machen wir es gründlich, aber gemütlich.', 'Ahoi! Die Maschen sitzen, jetzt sitzt gleich auch das Wissen.', 'Gut, dass du kommst. Der Käpt\'n in mir freut sich.'],
 };
+/* Ein Seemann zieht das Moin nicht lang (das stolpert in der Sprachausgabe), er sagt es kurz und trocken.
+   Wie lange du weg warst, hört man an den Worten danach. Moin und Satz sind getrennte Clips, damit beide im Stimmenpaket liegen. */
+const MOIN = ['Moin!', 'Moin, moin!', 'Na, moin!', 'Na, moin! Lang nicht gesehen.', 'Ja, moin! Dich gibt\'s ja auch noch!'];
+function moinWord(gap) { return MOIN[gap <= 1 ? 0 : gap <= 3 ? 1 : gap <= 7 ? 2 : gap <= 14 ? 3 : 4]; }
 function moinText(gap, lead) {
-  const n = gap <= 1 ? 12 : gap <= 3 ? 15 : gap <= 7 ? 18 : gap <= 14 ? 22 : 26;
   const g = GRUSS[lead] || GRUSS.hinnerk;
-  return 'M' + 'o'.repeat(n) + 'in! ' + g[Math.random() * g.length | 0];
+  return [moinWord(gap), g[Math.random() * g.length | 0]];
 }
 /* Altersgruppen für den Ton der Crew: kind (unter 16), teen (16–17), erw (ab 18) */
 const TEASE = {
@@ -806,7 +809,7 @@ const ONB = {
 };
 /* Kennenlernen, Teil 2: nur feste Sätze (ohne Namen), damit sie einmal erzeugt und dann aus dem Stimmenpaket kommen */
 const ONB2 = {
-  nameOk: [{s: 'M', t: 'Moooin! Schöner Name. Den merk ich mir.'}],
+  nameOk: [{s: 'M', t: 'Moin! Schöner Name. Den merk ich mir.'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
   sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet.'}, {s: 'M', t: 'Endlich mal jemand Ernsthaftes an Bord.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
   examAsk: [{s: 'K', t: 'Hast du schon einen Prüfungstermin? Wenn nicht, auch gut.'}],
@@ -1329,7 +1332,7 @@ function packLines(withEpisodes) {
   Object.values(ONB).forEach(l => add(l.s, l.t));
   Object.values(ONB2).forEach(list => list.forEach(l => add(l.s, l.t)));
   const g = GRUSS[S.crew.K] || GRUSS.hinnerk;
-  [12, 15, 18, 22, 26].forEach(n => g.forEach(x => out.push({cid: S.crew.K, t: pclean('M' + 'o'.repeat(n) + 'in! ' + x)})));
+  MOIN.concat(g).forEach(x => out.push({cid: S.crew.K, t: pclean(x)}));
   if (withEpisodes) {
     const fill = s => s.replace(/\{A:([\w-]+)\}/g, (_, n) => { const q = QN[n] || QN[+n]; return q ? ansText(q).replace(/\s+/g, ' ').trim() : ''; }).replace(/\{Q:([\w-]+)\}/g, (_, n) => { const q = QN[n] || QN[+n]; return q ? q.q.replace(/\s+/g, ' ').trim() : ''; });
     (EPISODES[S.course] || []).forEach(ep => ep.lines.forEach(l => { if (l.s !== 'Q') add(l.s, fill(l.t)); }));
@@ -2129,7 +2132,7 @@ function tapToBoard() {
     S.lastDay = today(); save();
     LOG.add('öffnen', 'zuletzt vor ' + gap + ' Tagen');
     if (tab === 'cabin') { await AUD.sfx('schritte', {vol: .55, dur: 2.6}); }
-    await VOX.say(S.crew.K, moinText(gap, S.crew.K), 'fixed');
+    await VOX.lines(moinText(gap, S.crew.K).map(t => ({cid: S.crew.K, t})), 'fixed');
     pipeOnce();
     raceTicks();
   };

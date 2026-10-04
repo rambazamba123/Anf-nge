@@ -30,7 +30,7 @@ Nutzer sind im Moment nur ich. Später testen Freunde, gern auch mit meinen Keys
 - **Planen:** Erst einen kurzen Plan zeigen, dann umsetzen. Eine Etappe nach der anderen, nicht alles auf einmal.
 - **Editieren:** Gezielt editieren, nie die ganze `index.html` neu schreiben. Die Datei ist groß, also mit Suchen und Ersetzen arbeiten.
 - **Testen:** Nach jeder Etappe testen. Lokal läuft ein Server mit `python -m http.server`, bitte nicht per `file://` öffnen. Wenn möglich mit Playwright-Screenshots im Hochformat (400×860), sonst mir sagen, was ich im Browser prüfen soll. Die JS-Konsole muss frei von Fehlern sein.
-- **Version und Sicherung:** `__ver` in `index.html` hochzählen. Nach jeder Etappe einen Git-Commit mit klarer Nachricht machen.
+- **Version und Sicherung:** `__ver` in `index.html` hochzählen, dazu immer gleich `VERSION` in `sw.js` (sonst erscheint am Handy kein „Jetzt laden“). Nach jeder Etappe einen Git-Commit mit klarer Nachricht machen.
 - **Spielstände nie brechen:** Speicher-Key `skipper-sbfsee-v1`. Interne IDs bleiben, z. B. heißt der Prüfer intern weiter `kroeger`. Neue Felder immer mit Standardwert.
 - **Schlüssel:** Keys (Anthropic, ElevenLabs) liegen nur im Browser. Nie ins Repo schreiben, nie ausgeben.
 - **ELWIS-PDFs:** liegen in `quellen/` und stehen in `.gitignore`, sie werden nicht veröffentlicht. Für Bilder in der App die Originalgrafiken ausschneiden und in `img/` ablegen.
