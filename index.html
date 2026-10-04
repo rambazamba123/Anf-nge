@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.8';
+  window.__ver = '4.9';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4523,8 +4523,8 @@ async function cabinWelcome() {
   /* SKS: Der SBF See ist Voraussetzung. Fünf Fragen aus dem amtlichen SBF-Katalog (ohne Bildfragen), richtig ist a[0]. */
   if (S.course === 'sks' && !gone()) {
     await talk('sksIntro');
-    /* ohne Bild- und Tonfragen und ohne 206/207, deren Kennung im Katalog der App noch fehlt */
-    const pool = shuffle(DATA.filter(q => !q.skip && !q.img && !q.sig && Array.isArray(q.a) && !/folgender Kennung\?\s*$/.test(q.q))).slice(0, 5); let ok = 0;
+    /* ohne Bild- und Tonfragen (die brauchen mehr Platz als das Panel) */
+    const pool = shuffle(DATA.filter(q => !q.skip && !q.img && !q.sig && Array.isArray(q.a))).slice(0, 5); let ok = 0;
     for (let i = 0; i < pool.length && !gone(); i++) {
       const q = pool[i], opts = shuffle(q.a.map((a, k) => ({a, k})));
       const k = await new Promise(res => {

@@ -99,7 +99,7 @@ quellen/            ELWIS-PDFs, nur lokal (.gitignore)
 - Kennenlernen als witziges Auswahl-Gespräch.
 - Stimmenpaket-Generator.
 - Hocker in der Kajüte startet das Hintergrund-Gerede.
-- Lexikon aus den 56 SBF-Bildfragen.
+- Lexikon aus den 58 SBF-Bildfragen (206/207 seit v4.9 mit Kennung).
 - Pinsel: Name, Rumpf, Streifen, Segel.
 - Bilder ausgelagert.
 
