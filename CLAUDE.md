@@ -52,7 +52,14 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Stand v4.16 (Ende Lauf 1).*
+*Stand v4.23 (Ende Lauf 2).*
+- **Navigationsschule und Törn** liegen in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`, das Steuer an Deck öffnet `NAV.toernStart`):
+  - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L9)
+  - Karte: `proj`/`unproj` (Mercator, Minuten ab 55°N/006°E), `NAV.mountChart` (Zoom, Lupe, Kursdreieck, Zirkel, Stift, Kreuz)
+  - Rechnen: `kursDist`, `versegeln`, `kreuzpeilung`, `ablenkung`
+  - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`), `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
+  - Törn: `ETAPPEN`, `routePos`, `planEvents`, `EV`, `ankunft`; Logbuch-Anzeige `toernCard` in `index.html`
+  - Spielstand: `S.navi` {`fibel`, `lek[id]` {`serie`, `sterne`, `n`}, `pruef[]`}, `S.toern` {`i`, `p`, `art`, `ev[]`, `prov`, `sprit`, `laune`, `zustand`, `log[]`}
 - **Dateien:**
   - `index.html` (Code und CSS, ~447 KB)
   - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
@@ -279,6 +286,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
 - [x] Konzept 5.5 und 5.6 freigegeben (04.10.2026, inkl. Vorschläge zu Toleranzen und Zeit; `docs/konzept-navi-toern.md`)
 - [x] Lauf 1 abgeschlossen und gepusht (v4.10–v4.16)
+- [x] Lauf 2 abgeschlossen und gepusht (v4.17–v4.23)
 - [x] 5.5 Navigationsschule
   - [x] 5.5e Prüfungsmodus (v4.21: `NAV.exam`, 25 min, Fehleranalyse mit Lektionsempfehlung, `S.navi.pruef`; Teil 3 der SBF-Probeprüfung nutzt ihn)
   - [x] 5.5d Lektionen 6–9 (v4.20: Strom/Vorhalten, Wind/Abdrift, Gezeiten, Gesamtaufgabe `GEN.gesamt` + `NAV.multi`, Zeichnungen bleiben über die Schritte)
