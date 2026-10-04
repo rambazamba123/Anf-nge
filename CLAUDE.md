@@ -279,7 +279,8 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
 - [x] Konzept 5.5 und 5.6 freigegeben (04.10.2026, inkl. Vorschläge zu Toleranzen und Zeit; `docs/konzept-navi-toern.md`)
 - [x] Lauf 1 abgeschlossen und gepusht (v4.10–v4.16)
-- [ ] 5.5 Navigationsschule
+- [x] 5.5 Navigationsschule
+  - [x] 5.5e Prüfungsmodus (v4.21: `NAV.exam`, 25 min, Fehleranalyse mit Lektionsempfehlung, `S.navi.pruef`; Teil 3 der SBF-Probeprüfung nutzt ihn)
   - [x] 5.5d Lektionen 6–9 (v4.20: Strom/Vorhalten, Wind/Abdrift, Gezeiten, Gesamtaufgabe `GEN.gesamt` + `NAV.multi`, Zeichnungen bleiben über die Schritte)
   - [x] 5.5c Lektionen 1–5 (v4.19: `GEN` mit 14 Aufgabentypen, `NAV.task` Übungsmaschine, `grade` mit Toleranzen, `NAV.path/lesson/exercise`, Meisterschaft → `S.navi.lek[id].sterne`)
   - [x] 5.5b Navi-Fibel (v4.18: 23 Begriffe in `data/navi.json`, `NAV.fibel`, `NAV.term`, `NAV.linkTerms` macht Begriffe überall antippbar)

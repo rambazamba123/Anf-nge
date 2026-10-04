@@ -567,6 +567,7 @@ NAV.task = function (task, opts) {
     if (ch.hi) ctl.highlight(ch.hi);
     if (ch.ring) { const p = proj(ch.ring.lat, ch.ring.lon); ctl.svg.querySelector('#nhi').insertAdjacentHTML('beforeend', `<circle cx="${p.x}" cy="${p.y}" r="18" class="nhi"/>`); }
     if (ch.hideKenn) ctl.svg.querySelectorAll('.nlab.k').forEach(e => e.remove());
+    NAV.lastCtl = ctl;
     if (opts.keep) { ctl.st.lines = opts.keep.lines.slice(); ctl.st.marks = opts.keep.marks.slice(); if (opts.keep.vb) ctl.setVB(opts.keep.vb); ctl.ink(); }
     $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck wählen.'); ctl.lineFromDreieck(); };
     if (guided && task.ctrl) { const upd = () => { $('#xctrl').textContent = task.ctrl(ctl); }; ctl.on('dreieck', upd); ctl.on('zirkel', upd); }
@@ -601,9 +602,10 @@ const GESAMT_HINTS = {
 };
 /* Mehrteilige Aufgabe (Gesamtaufgabe, Prüfung): Schritte nacheinander, Zeichnungen bleiben stehen */
 NAV.multi = function (mt, opts) {
-  let i = 0, pts = 0, keep = null; const results = [];
+  let i = 0, pts = 0, keep = null, fin = false; const results = [];
+  const end = () => { if (fin) return; fin = true; opts.done(pts, results, mt); };
   const step = () => {
-    if (i >= mt.steps.length) return opts.done(pts, results);
+    if (fin) return; if (i >= mt.steps.length) return end();
     const s = mt.steps[i], t = {...s, chart: s.chart ? {...s.chart, hideKenn: s.hideKenn} : null};
     const head = `<div class="card small" style="margin-top:6px">${NAV.linkTerms(mt.scen)}</div><p class="small muted" style="margin:6px 0 0">Teilaufgabe ${i + 1} von ${mt.steps.length}${opts.mode !== 'exam' ? ` · bisher ${pts} Punkte` : ''}${opts.extraHead ? ' · ' + opts.extraHead() : ''}</p>`;
     NAV.task(t, {title: opts.title, mode: opts.mode, head, back: opts.back, keep, nextLabel: i < mt.steps.length - 1 ? 'Nächste Teilaufgabe' : 'Auswertung',
@@ -615,6 +617,35 @@ NAV.multi = function (mt, opts) {
       next: () => { i++; step(); }});
   };
   step();
+  return {finish: end};
+};
+/* ---------- Prüfungsmodus (5.5e): Gesamtaufgabe ohne Hilfen, 25 Minuten, Auswertung mit Fehleranalyse ---------- */
+const EXAM_MIN = 25;
+NAV.exam = function (o = {}) {
+  const mt = GEN.gesamt(); let left = EXAM_MIN * 60; clearInterval(NAV._timer);
+  const fmt = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  AUD.sfx('glocke', {vol: .6}); LOG.add('navi', 'Prüfungsmodus Start');
+  const run = NAV.multi(mt, {title: 'Prüfung Navigation', mode: 'exam', back: () => { if (confirm('Prüfung abbrechen? Sie wird nicht gewertet.')) { clearInterval(NAV._timer); o.inExam ? setTab('cabin') : NAV.hub(); } },
+    extraHead: () => `<span id="xtime">⏱ ${fmt(left)}</span>`,
+    done: (pts, results) => {
+      clearInterval(NAV._timer);
+      const n = S_(); n.pruef.push({day: today(), pts}); n.pruef = n.pruef.slice(-30); save(); recordScore('nav', 0);
+      if (o.onDone) return o.onDone(pts);
+      const missing = mt.steps.length - results.length, wrongLek = [...new Set(results.filter(r => !r.ok).map(r => r.step.lek).concat(missing ? [mt.steps[results.length].lek] : []))];
+      const ok = pts >= 7; AUD.sfx(ok ? 'richtig' : 'enttaeuschung', {vol: .5});
+      gameShell('Prüfung Navigation', `<div class="card"><h2 style="margin:0" class="${ok ? 'pass' : 'fail'}">${ok ? 'Bestanden' : 'Nicht bestanden'}: ${pts} von 9 Punkten</h2><p class="muted" style="margin:4px 0 0">Bestanden ab 7 Punkten.${missing ? ` Die Zeit war um, ${missing} Teilaufgabe${missing > 1 ? 'n' : ''} fehlte${missing > 1 ? 'n' : ''}.` : ''}</p></div>
+        <h3 style="margin:14px 0 6px">Fehleranalyse</h3>
+        ${mt.steps.map((s, k) => { const r = results[k]; return `<div class="card small"><b>${r ? (r.ok ? '<span class="nok">✓</span>' : '<span class="nno">✗</span>') : '<span class="nno">–</span>'} ${k + 1}.</b> ${NAV.linkTerms(s.text.replace(/<table[\s\S]*<\/table>/, ''))}<br><span class="muted">Lösung: ${NAV.linkTerms(esc(s.expl))}</span>${r && !r.ok ? `<br><span class="muted">Deine Antwort: ${s.fields.map(f => esc(String(r.res[f.k].got || '–'))).join(', ')}</span>` : ''}</div>`; }).join('')}
+        ${wrongLek.length ? `<div class="card"><b>Wiederhole am besten:</b><div class="row" style="margin-top:6px;flex-wrap:wrap">${wrongLek.map(id => { const l = lekOf(id); return l ? `<button class="btn small ghost" data-wl="${id}">${esc(l.t)}</button>` : ''; }).join('')}</div></div>` : ''}
+        <div class="row"><button class="btn lamp" id="again">Neue Prüfung</button><button class="btn ghost" id="tohub">Zur Navigationsschule</button></div>`);
+      NAV.bindTerms(app);
+      $('#gback').onclick = () => NAV.hub(); $('#again').onclick = () => NAV.exam(o); $('#tohub').onclick = () => NAV.hub();
+      app.querySelectorAll('[data-wl]').forEach(b => b.onclick = () => NAV.lesson(b.dataset.wl));
+    }});
+  NAV._timer = setInterval(() => {
+    left--; const e = document.getElementById('xtime'); if (e) { e.textContent = '⏱ ' + fmt(left); e.style.color = left < 300 ? 'var(--bb, #c2473b)' : ''; }
+    if (left <= 0) { clearInterval(NAV._timer); toast('Die Zeit ist um.'); run.finish(); }
+  }, 1000);
 };
 /* ---------- Lernpfad ---------- */
 const lekOf = id => (NV.lektionen || []).find(l => l.id === id);

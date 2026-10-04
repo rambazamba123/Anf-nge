@@ -494,7 +494,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.20';
+  window.__ver = '4.21';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3094,18 +3094,18 @@ function startExam(mode) {
     res.filter(r => !r.ok).forEach(r => { const s = st(r.q.n) || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w++; s.d = today(); S.qs[r.q.n] = s; });
     S.exams = (S.exams || []).concat({day: today(), score, n: N, pass: passed, basis, see, parts: pr.map(x => x.ok), mode}); markPath('extra'); save();
     const wrongs = res.filter(r => !r.ok);
-    app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von ${N} richtig</div><div class="small muted">${pr.map(x => `${x.p.name} ${x.ok} von ${x.p.count} (nötig ${x.p.min})`).join(' · ')}.${COURSE.id === 'sbf' ? ' Die Navigationsaufgabe fehlt hier noch.' : ''}</div></div></div>
+    app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von ${N} richtig</div><div class="small muted">${pr.map(x => `${x.p.name} ${x.ok} von ${x.p.count} (nötig ${x.p.min})`).join(' · ')}.${COURSE.id === 'sbf' ? ' Teil 3, die Navigationsaufgabe, folgt unten.' : ''}</div></div></div>
       ${wrongs.length ? `<h2 style="margin-top:18px">Das schauen wir uns nochmal an</h2>${wrongs.map(w => { const d = w.k !== null ? diffWords(w.q.a[w.k], w.q.a[0]) : null; return `<div class="card"><div class="tag">Frage ${w.q.n}</div><p><strong>${esc(w.q.q)}</strong></p>${w.q.img ? `<div class="qimg">${w.q.img.map(s => `<img src="${s}" alt="">`).join('')}</div>` : ''}
         ${w.k === null ? '<p class="muted">Nicht beantwortet.</p>' : d && d.sim >= .45 ? `<div class="diff"><div class="w">Deine: ${d.a}</div><div class="r">Richtig: ${d.b}</div></div>` : `<p style="color:var(--bb);margin:0 0 4px">Deine: ${esc(w.q.a[w.k])}</p><p style="color:var(--stb);margin:0">Richtig: ${esc(w.q.a[0])}</p>`}</div>`; }).join('')}` : ''}
-      ${COURSE.id === 'sbf' ? `<div class="card" style="border-color:var(--lamp)"><b>Teil 3: Navigationsaufgabe</b><p class="small" style="margin:4px 0 8px">In der echten Prüfung gehört eine Navigationsaufgabe mit 9 Teilfragen dazu (mindestens 7 Punkte). Mit deiner Übungskarte kannst du sie jetzt lösen.</p><button class="btn lamp wide" id="navpart">Navigationsaufgabe lösen</button></div>` : ''}
+      ${COURSE.id === 'sbf' ? `<div class="card" style="border-color:var(--lamp)"><b>Teil 3: Navigationsaufgabe</b><p class="small" style="margin:4px 0 8px">In der echten Prüfung gehört eine Navigationsaufgabe mit 9 Teilfragen dazu (mindestens 7 Punkte). Du löst sie auf unserer Übungskarte, 25 Minuten.</p><button class="btn lamp wide" id="navpart">Navigationsaufgabe lösen</button></div>` : ''}
       <button class="btn wide" id="home" style="margin-top:6px">Zurück in die Kajüte</button>`;
     app.querySelector('svg.ch').style.width = '96px';
     $('#home').onclick = () => setTab('cabin');
-    if ($('#navpart')) $('#navpart').onclick = () => { returnTo = 'cabin'; navGame({exam: true, task: 1 + (Math.random() * 15 | 0), onDone: nav => {
+    if ($('#navpart')) $('#navpart').onclick = () => { returnTo = 'cabin'; loadNavi().then(() => NAV.exam({inExam: true, onDone: nav => {
       const ex = S.exams[S.exams.length - 1]; ex.nav = nav; const all = passed && nav >= 7; ex.passAll = all; save();
       app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${all ? 'pass' : 'fail'}">${all ? 'Gesamt bestanden' : 'Gesamt nicht bestanden'}</div><div class="small muted">Basis ${basis}/7 (nötig 5) · See ${see}/23 (nötig 18) · Navigation ${nav}/9 (nötig 7)</div></div></div><button class="btn wide" id="home2" style="margin-top:12px">Zurück in die Kajüte</button>`;
       app.querySelector('svg.ch').style.width = '96px'; $('#home2').onclick = () => setTab('cabin');
-      VOX.say('kroeger', lineOf('kroeger', all ? 'pass' : 'fail'), 'fixed'); }}); };
+      VOX.say('kroeger', lineOf('kroeger', all ? 'pass' : 'fail'), 'fixed'); }})); };
     if (!passed) setTimeout(() => AUD.sfx('enttaeuschung', {vol: .5}), 400);
     setTimeout(() => VOX.say('kroeger', lineOf('kroeger', passed ? 'pass' : 'fail'), 'fixed'), passed ? 900 : 3200);
   }
@@ -4243,7 +4243,7 @@ const OVERTAKE = {
   kroeger: 'Hm. Bemerkenswert. Ich notiere: Der Prüfling hat den Prüfer geschlagen. Das kommt nicht oft vor. Bilden Sie sich nichts darauf ein.',
 };
 const RANKS = [[0, 'Schiffsjunge'], [3, 'Leichtmatrose'], [7, 'Matrose'], [12, 'Bootsmann'], [18, 'Steuermann'], [24, 'Erster Offizier'], [30, 'Kapitän']];
-const navPassed = () => Object.values(S.nav || {}).filter(p => p >= 7).length;
+const navPassed = () => Object.values(S.nav || {}).filter(p => p >= 7).length + ((S.navi && S.navi.pruef) || []).filter(p => p.pts >= 7).length;
 function myBest(key) { if (key === 'nav') return navPassed(); return (S.best && S.best[key]) || 0; }
 function trophyOf(key, v = myBest(key)) { const t = (TROPHY[key] || {}).t || []; return t.filter(x => v >= x).length; }
 function rankInfo() {
