@@ -1,0 +1,16 @@
+# Amtliche PDFs und Rohmaterial (nur lokal, nicht veröffentlichen)
+quellen/
+
+# Systemdateien
+Thumbs.db
+desktop.ini
+.DS_Store
+*.lnk
+
+# Editor / Werkzeuge
+.vscode/
+.idea/
+node_modules/
+__pycache__/
+*.tmp
+*.log
