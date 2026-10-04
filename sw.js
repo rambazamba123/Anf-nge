@@ -1,10 +1,10 @@
 /* Skipper – Service Worker
    Bei jeder neuen App-Version VERSION hochzählen (gleich wie __ver in index.html).
    Nur dann merkt das Handy, dass es etwas Neues gibt, und zeigt „Jetzt laden“. */
-const VERSION = '4.16';
+const VERSION = '4.17';
 const CACHE = 'skipper-' + VERSION;
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png']
-  .concat(['sbf', 'sks', 'nav', 'folgen', 'binnen', 'lexikon'].map(f => 'data/' + f + '.json?v=' + VERSION));
+  .concat(['sbf', 'sks', 'nav', 'folgen', 'binnen', 'lexikon', 'karte', 'navi'].map(f => 'data/' + f + '.json?v=' + VERSION)).concat(['navi.js?v=' + VERSION]);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}));

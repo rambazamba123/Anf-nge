@@ -494,7 +494,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.16';
+  window.__ver = '4.17';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2655,7 +2655,7 @@ function renderCabin() {
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
   const SPOT = {buecher: chaptersSheet, plan: planSheet, deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), pruefung: examIntro, kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
-    knoten: () => toast('Das Knotenbrett wartet noch auf die Knotenfotos.'), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navGame(); }};
+    knoten: () => toast('Das Knotenbrett wartet noch auf die Knotenfotos.'), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
   let lampTaps = [];
@@ -3773,6 +3773,12 @@ function renderBoat() {
   fishTimer = setTimeout(jump, 4000);
   if (!S.tour || !S.tour.boat) setTimeout(() => tour('boat'), 900);
 }
+/* Navigationsschule und Törn liegen in navi.js und werden erst bei Bedarf geladen */
+let naviP = null;
+function loadNavi() {
+  return naviP || (naviP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'navi.js?v=' + window.__ver; s.onload = () => NAV.init().then(res, rej); s.onerror = () => { naviP = null; rej(new Error('navi.js')); }; document.head.appendChild(s); }));
+}
+function navSchool() { returnTo = 'cabin'; loadNavi().then(() => NAV.hub()).catch(e => { naviP = null; LOG.add('navi', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Die Navigationsschule ließ sich nicht laden. Prüf dein Internet.'); }); }
 function goBelow() { AUD.unlock(); setTab('cabin'); }
 /* Panorama: Start beim Cockpit, Position merken, am Laptop mit der Maus ziehen */
 function bindPano(pano, key = 'panoX', centerX = null) {
@@ -3862,7 +3868,7 @@ const GAMES = [
   {k: 'lh', n: 'Leuchtfeuer', d: 'Kennungen erkennen', f: () => lighthouseGame()},
   {k: 'buoy', n: 'Tonnen-Slalom', d: 'Rot an Backbord, grün an Steuerbord', f: () => buoyGame()},
   {k: 'man', n: 'Manöver', d: 'Ablegen, Anlegen, Mensch über Bord', f: () => maneuverGame()},
-  {k: 'nav', n: 'Kartentisch', d: 'Die 15 Navigationsaufgaben', f: () => navGame(), ok: () => COURSE.id === 'sbf', why: 'gehört zum SBF See'},
+  {k: 'nav', n: 'Kartentisch', d: 'Navigationsschule mit Karte', f: () => navSchool()},
   {k: 'motor', n: 'Motorkunde', d: 'Was ist was am Außenborder?', f: () => motorGame()},
   {k: 'parts', n: 'Bauteile', d: 'Teile des Bootes', f: () => partsGame()},
   {k: 'fish', n: 'Fischfang', d: 'Zur Erholung', f: () => fishGame()},

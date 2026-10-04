@@ -280,4 +280,5 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] Konzept 5.5 und 5.6 freigegeben (04.10.2026, inkl. Vorschläge zu Toleranzen und Zeit; `docs/konzept-navi-toern.md`)
 - [x] Lauf 1 abgeschlossen und gepusht (v4.10–v4.16)
 - [ ] 5.5 Navigationsschule
+  - [x] 5.5a Karte und Werkzeuge (v4.17: `navi.js` nachgeladen, `data/karte.json`, Mercator, Zoom, Lupe, Kursdreieck mit Gradbogen, Zirkel, Bleistift, Rechenblatt)
 - [ ] 5.6 Törn-Light
