@@ -493,7 +493,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.14';
+  window.__ver = '4.15';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -546,6 +546,7 @@ let DATA = [];
 </script>
 <script>
 let SKS_DATA = [];
+let BIN_DATA = []; /* SBF Binnen: data/binnen.json */
 
 </script>
 <script>
@@ -833,7 +834,7 @@ const INTRO = [
    Ton: immer FSK 18, Seemannssprech, gern doppeldeutig. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
 const ONB = {
   nameAsk: {s: 'M', t: 'Und wie sollen wir dich nennen? Ich hab dir schon mal was eingetragen. Gern geschehen.'},
-  courseAsk: {s: 'K', t: 'Für welchen Schein willst du dich hier einschiffen? Sportbootführerschein See oder Sportküstenschifferschein?'},
+  courseAsk: {s: 'K', t: 'Für welchen Schein willst du dich hier einschiffen? Sportbootführerschein See, Binnen oder Sportküstenschifferschein?'},
   minutesAsk: {s: 'M', t: 'Wie lange hältst du am Tag durch? Beim Lernen, mein ich.'},
   expAsk: {s: 'K', t: 'Hast du schon mal selbst am Ruder gestanden? Oder bisher nur am Tresen vom Hafenrestaurant?'},
   done: {s: 'K', t: 'So. Kurs ist abgesteckt. Guck dich an Deck um, und dann komm runter in die Kajüte. Da reden wir über den Fahrplan.'},
@@ -842,6 +843,7 @@ const ONB = {
 const ONB2 = {
   nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
+  binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt versauter, als es ist.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
   sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet. Mit Rückgrat.'}, {s: 'M', t: 'Endlich mal jemand, der weiß, wo vorne ist. Hoffentlich.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
   examAsk: [{s: 'K', t: 'Und wann musst du vor dem Prüfer die Hosen runterlassen? Ich mein natürlich: Wann ist deine Prüfung?'}],
   examNone: [{s: 'K', t: 'Kein Termin? Dann liegen wir erst mal vor Anker. Ich trag uns sechs Wochen ein, das kannst du später ändern.'}],
@@ -1810,6 +1812,7 @@ const VOX = (() => {
    ========================================================================== */
 const SBF_TOPICS = [
   {id: 'b1', name: 'Grundbegriffe und Grundregeln', from: 1, to: 15},
+  {id: 'b2', name: 'Tafel- und Schifffahrtszeichen', from: 16, to: 30},
   {id: 'b3', name: 'Umwelt, Anlegen und Bootshandling', from: 31, to: 48},
   {id: 'b4', name: 'Motor, Tanken und Technik', from: 49, to: 62},
   {id: 'b5', name: 'Sicherheit an Bord und Notfall', from: 63, to: 72},
@@ -1832,7 +1835,7 @@ const COURSES = {
   sbf: {id: 'sbf', name: 'Sportbootführerschein See', short: 'SBF See', kind: 'mc',
     items: () => DATA.filter(q => !q.skip), all: () => DATA, topics: SBF_TOPICS,
     catalog: 'amtlicher Fragenkatalog für den Sportbootführerschein See (Stand 1. August 2023)',
-    exam: {parts: [{has: q => q.n <= 72, count: 7, name: 'Basisfragen', min: 5}, {has: q => q.n >= 73, count: 23, name: 'See-Fragen', min: 18}], minutes: 60,
+    exam: {parts: [{has: q => q.n <= 72, count: 7, name: 'Basisfragen', min: 5}, {has: q => q.n >= 73, count: 23, name: 'See-Fragen', min: 18}], minutes: 60, desc: '30 Fragen: 7 Basisfragen und 23 spezifische Fragen See. 60 Minuten.',
       rule: 'Bestanden bei mindestens 5 von 7 Basisfragen und mindestens 18 von 23 See-Fragen. Dazu kommt in der echten Prüfung die Navigationsaufgabe (mindestens 7 von 9 Punkten), die hier noch fehlt.'},
     related: {b1: ['s1'], b3: ['s9'], b4: ['s9'], b5: ['s10'], s1: ['b1', 's4'], s2: ['s3', 's4'], s3: ['s2'], s4: ['s5', 's2'], s5: ['s6', 's4'], s6: ['s5', 's8'], s7: ['s5'], s8: ['s6'], s9: ['b3', 's10'], s10: ['b5', 's9']}},
   sks: {id: 'sks', name: 'Sportküstenschifferschein', short: 'SKS', kind: 'open',
@@ -1841,6 +1844,34 @@ const COURSES = {
     exam: {parts: [{has: q => q.s === 'nav', count: 6, name: 'Navigation'}, {has: q => q.s === 'recht', count: 5, name: 'Schifffahrtsrecht'}, {has: q => q.s === 'wetter', count: 5, name: 'Wetterkunde'}, {has: q => q.s === 'see1', count: 7, name: 'Seemannschaft I'}, {has: q => q.s === 'see2', count: 7, name: 'Seemannschaft II'}], minutes: 90, points: 2,
       rule: 'Fragebogen mit 60 Punkten: ab 39 Punkten bestanden, 33 bis 38 Punkte bedeuten eine mündliche Nachprüfung, 32 oder weniger nicht bestanden. Dazu kommt die Kartenaufgabe (30 Punkte, bestanden ab 20), die hier noch fehlt. Die Aufteilung auf 30 Fragen zu je 2 Punkten ist eine Annahme, die Punktzahl ist amtlich.'},
     related: {nav: ['wetter'], recht: ['see2'], wetter: ['nav', 'see1'], see1: ['see2'], see2: ['see1', 'recht']}},
+  /* SBF Binnen: Basisfragen 1–72 wie SBF See, spezifisch Binnen 73–253, Segeln 254–300. Antwort a ist richtig.
+     Prüfung nach amtlichem Bewertungsschlüssel, wahlweise mit Antriebsmaschine (30) oder mit Antriebsmaschine und Segeln (37). */
+  binnen: {id: 'binnen', name: 'Sportbootführerschein Binnen', short: 'SBF Binnen', kind: 'mc',
+    items: () => BIN_DATA.filter(q => !q.skip), all: () => BIN_DATA, get topics() { return BIN_TOPICS; },
+    catalog: 'amtlicher Fragenkatalog für den Sportbootführerschein Binnen (Stand 1. August 2023)',
+    get exam() { return S.binSegel ? BIN_EXAM.segel : BIN_EXAM.motor; },
+    related: {i1: ['b1'], i2: ['i4'], i3: ['i2'], i4: ['i5', 'i6'], i5: ['i4'], i6: ['i4', 'g3'], i7: ['b5'], g1: ['g3'], g2: ['g3'], g3: ['g2']}},
+};
+const BIN_TOPICS = SBF_TOPICS.filter(t => t.to <= 72).concat([
+  {id: 'i1', name: 'Recht und Zuständigkeiten Binnen', from: 73, to: 87},
+  {id: 'i2', name: 'Fahrwasser, Wasserstände und Kennzeichnung', from: 88, to: 106},
+  {id: 'i3', name: 'Tafelzeichen, Brücken und Schleusen', from: 107, to: 119},
+  {id: 'i4', name: 'Lichter und Sichtzeichen', from: 120, to: 158},
+  {id: 'i5', name: 'Schallsignale', from: 159, to: 172},
+  {id: 'i6', name: 'Fahrregeln, Ausweichen und Begegnen', from: 173, to: 204},
+  {id: 'i7', name: 'Unsichtiges Wetter, Notfall, Umwelt und Wetter', from: 205, to: 220},
+  {id: 'i8', name: 'Wasserski, Kennzeichen und Besonderes', from: 221, to: 253},
+  {id: 'g1', name: 'Segeln: Bootstypen und Stabilität', from: 254, to: 266},
+  {id: 'g2', name: 'Segeln: Tauwerk, Segel und Wind', from: 267, to: 281},
+  {id: 'g3', name: 'Segeln: Trimm und Manöver', from: 282, to: 300},
+].map(t => ({...t, has: q => q.n >= t.from && q.n <= t.to})));
+const BIN_EXAM = {
+  motor: {parts: [{has: q => q.n <= 72, count: 7, name: 'Basisfragen', min: 5}, {has: q => q.n >= 73 && q.n <= 253, count: 23, name: 'Binnen-Fragen', min: 18}], minutes: 45,
+    desc: '30 Fragen: 7 Basisfragen und 23 spezifische Fragen Binnen. 45 Minuten.',
+    rule: 'Mit Antriebsmaschine: bestanden bei mindestens 5 von 7 Basisfragen und mindestens 18 von 23 Binnen-Fragen (amtlicher Bewertungsschlüssel).'},
+  segel: {parts: [{has: q => q.n <= 72, count: 7, name: 'Basisfragen', min: 5}, {has: q => q.n >= 73 && q.n <= 253, count: 23, name: 'Binnen-Fragen', min: 18}, {has: q => q.n >= 254, count: 7, name: 'Segelfragen', min: 5}], minutes: 60,
+    desc: '37 Fragen: 7 Basisfragen, 23 spezifische Fragen Binnen und 7 Segelfragen. 60 Minuten.',
+    rule: 'Mit Antriebsmaschine und Segeln: bestanden bei mindestens 5 von 7 Basisfragen, 18 von 23 Binnen-Fragen und 5 von 7 Segelfragen (amtlicher Bewertungsschlüssel).'},
 };
 const SKS_NAMES = {nav: 'Navigation', recht: 'Schifffahrtsrecht', wetter: 'Wetterkunde', see1: 'Seemannschaft I', see2: 'Seemannschaft II'};
 const _sksCache = {};
@@ -2450,12 +2481,12 @@ Antworte auf die Antwort des Neuen mit 1 bis 2 kurzen Zeilen, zusammen höchsten
   prof.name = (n.text || nick).slice(0, 24);
   await react('nameOk');
   /* Schein */
-  const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
+  const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /binnen|fluss|flüsse|kanal/i.test(t) ? 'binnen' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
   const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]));
   let course = c.k || parseCourse(c.text);
   if (!course) { await freeReply('Zum Schein', ONB.courseAsk.t, c.text); course = S.course || 'sbf'; }
   if (course !== S.course) { switchCourse(course); const bk = courseBucket(course); prof.exam = bk.examSet ? bk.exam : null; }
-  await react(course === 'sks' ? 'sks' : 'sbf');
+  await react(ONB2[course] ? course : 'sbf');
   /* Prüfungstermin */
   const e = await ask(ONB2.examAsk[0], [['14', 'In 2 Wochen'], ['30', 'In einem Monat'], ['60', 'In 2 Monaten'], ['90', 'In 3 Monaten oder später'], ['none', 'Noch kein Termin']], {ph: 'Oder ein Datum, z. B. 12.12.2026'});
   let ex = null;
@@ -3000,11 +3031,12 @@ function examIntro() {
   if (AUD.ready) AUD.sfx('klopfen', {vol: .8}).then(() => AUD.sfx('tuerAuf', {vol: .5}));
   const open = COURSE.kind === 'open'; let mode = 'real';
   app.innerHTML = `<div class="qhead"><div class="tag">Probeprüfung · ${esc(COURSE.short)}</div><button class="btn small ghost" id="back">Zurück</button></div>
-    <div class="result">${charSVG('kroeger')}<div><h1 style="margin:0">Kapitän Harms prüft</h1><p class="muted" style="margin:4px 0 0">${open ? '30 Fragen mit freien Antworten, je bis zu 2 Punkte. 90 Minuten.' : '30 Fragen: 7 Basisfragen und 23 spezifische Fragen See. 60 Minuten.'}</p></div></div>
+    <div class="result">${charSVG('kroeger')}<div><h1 style="margin:0">Kapitän Harms prüft</h1><p class="muted" style="margin:4px 0 0">${open ? '30 Fragen mit freien Antworten, je bis zu 2 Punkte. 90 Minuten.' : esc(COURSE.exam.desc || '')}</p></div></div>
     <div class="card" style="margin-top:14px">
       ${open ? `<p style="margin:0">Du schreibst oder sprichst deine Antworten. Am Ende korrigiert Kapitän Harms nach dem amtlichen Antwortvorschlag: Inhalt, Vollständigkeit und Fachbegriffe zählen. Ohne Anthropic-Schlüssel bewertest du dich selbst.</p>` : `<label id="mdl" style="margin-top:0">Wie willst du prüfen?</label>
       <div class="chips" role="group" aria-labelledby="mdl"><button class="chip" data-m="real" aria-pressed="true">Wie im Ernstfall</button><button class="chip" data-m="train" aria-pressed="false">Mit Rückmeldung</button></div>
       <p class="small muted" id="mdesc" style="margin:10px 0 0">Du siehst erst am Ende, was richtig war.</p>`}
+      ${COURSE.id === 'binnen' ? `<label id="bvl" style="margin-top:12px">Welcher Schein?</label><div class="chips" role="group" aria-labelledby="bvl"><button class="chip" data-bv="motor" aria-pressed="${!S.binSegel}">Mit Antriebsmaschine</button><button class="chip" data-bv="segel" aria-pressed="${!!S.binSegel}">Mit Antriebsmaschine und Segeln</button></div>` : ''}
       <p class="small" style="margin:10px 0 0"><b>Amtliche Regel:</b> ${esc(COURSE.exam.rule)}</p>
     </div>
     ${coverage() < .6 ? `<div class="card small" style="border-color:var(--lamp)"><b>Tipp von Kapitän Harms:</b> Du kennst erst ${Math.round(coverage() * 100)} Prozent der Fragen. Eine Probeprüfung lohnt sich richtig ab etwa 60 Prozent. Du darfst trotzdem.</div>` : ''}
@@ -3012,10 +3044,11 @@ function examIntro() {
   app.querySelector('svg.ch').style.width = '96px';
   $('#back').onclick = () => setTab('cabin');
   app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { mode = b.dataset.m; app.querySelectorAll('[data-m]').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#mdesc').textContent = mode === 'real' ? 'Du siehst erst am Ende, was richtig war.' : 'Nach jeder Antwort siehst du, ob sie stimmt, und wie viele Fehler du dir je Teil noch leisten kannst.'; });
+  app.querySelectorAll('[data-bv]').forEach(b => b.onclick = () => { S.binSegel = b.dataset.bv === 'segel'; save(); examIntro(); });
   $('#go').onclick = () => { AUD.unlock(); open ? startExamOpen() : startExam(mode); };
 }
 function startExam(mode) {
-  const qs = examPick(), answers = new Array(30).fill(null);
+  const qs = examPick(), N = qs.length, answers = new Array(N).fill(null);
   LOG.add('prüfung', 'Start (' + mode + '), Fragen: ' + qs.map(q => q.n).join(','));
   let i = 0, left = COURSE.exam.minutes * 60, said10 = false, said3 = false;
   const parts = COURSE.exam.parts, partOf = q => parts.find(p => p.has(q));
@@ -3032,8 +3065,8 @@ function startExam(mode) {
   function show() {
     if (i >= qs.length) return finish();
     const q = qs[i], order = shuffle([0, 1, 2, 3]), sig = sigOf(q);
-    app.innerHTML = `<div class="exambar">${charSVG('kroeger')}<div><div class="tag">Frage ${i + 1} von 30</div>${mode === 'train' ? `<div class="small">Noch erlaubt: ${parts.map(p => `${p.name.replace('fragen', '').replace('-Fragen', '')} <b>${Math.max(0, leftWrong(p))}</b>`).join(' · ')}</div>` : ''}</div><div class="time ${left <= 600 ? 'low' : ''}" id="etime">${fmt(left)}</div></div>
-      <div class="prog"><i style="width:${(i / 30 * 100).toFixed(0)}%"></i></div>
+    app.innerHTML = `<div class="exambar">${charSVG('kroeger')}<div><div class="tag">Frage ${i + 1} von ${N}</div>${mode === 'train' ? `<div class="small">Noch erlaubt: ${parts.map(p => `${p.name.replace('fragen', '').replace('-Fragen', '')} <b>${Math.max(0, leftWrong(p))}</b>`).join(' · ')}</div>` : ''}</div><div class="time ${left <= 600 ? 'low' : ''}" id="etime">${fmt(left)}</div></div>
+      <div class="prog"><i style="width:${(i / N * 100).toFixed(0)}%"></i></div>
       <div class="card"><div class="qtext">${esc(q.q.replace(/\s*\(([●▬\s]+)\)/, ''))}</div>${sig ? sigBox(sig, false) : ''}
         ${q.img ? `<div class="qimg">${q.img.map(s => `<img src="${s}" alt="Abbildung zu Frage ${q.n}">`).join('')}</div>` : ''}
         <div id="ans">${order.map(k => `<button class="ans" data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div></div>
@@ -3054,19 +3087,19 @@ function startExam(mode) {
   function finish() {
     clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.sfx('glocke', {vol: .7});
     const res = qs.map((q, k) => ({q, k: answers[k], ok: answers[k] === 0}));
-    const score = res.filter(r => r.ok).length, basis = res.filter(r => r.ok && parts[0].has(r.q)).length, see = score - basis;
-    const passed = basis >= parts[0].min && see >= parts[1].min;
+    const score = res.filter(r => r.ok).length, pr = parts.map(p => ({p, ok: res.filter(r => r.ok && p.has(r.q)).length}));
+    const basis = pr[0].ok, see = pr[1].ok, passed = pr.every(x => x.ok >= x.p.min);
     res.filter(r => !r.ok).forEach(r => { const s = st(r.q.n) || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w++; s.d = today(); S.qs[r.q.n] = s; });
-    S.exams = (S.exams || []).concat({day: today(), score, n: 30, pass: passed, basis, see, mode}); markPath('extra'); save();
+    S.exams = (S.exams || []).concat({day: today(), score, n: N, pass: passed, basis, see, parts: pr.map(x => x.ok), mode}); markPath('extra'); save();
     const wrongs = res.filter(r => !r.ok);
-    app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von 30 richtig</div><div class="small muted">Basisfragen ${basis} von 7 (nötig 5) · See-Fragen ${see} von 23 (nötig 18). Die Navigationsaufgabe fehlt hier noch.</div></div></div>
+    app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von ${N} richtig</div><div class="small muted">${pr.map(x => `${x.p.name} ${x.ok} von ${x.p.count} (nötig ${x.p.min})`).join(' · ')}.${COURSE.id === 'sbf' ? ' Die Navigationsaufgabe fehlt hier noch.' : ''}</div></div></div>
       ${wrongs.length ? `<h2 style="margin-top:18px">Das schauen wir uns nochmal an</h2>${wrongs.map(w => { const d = w.k !== null ? diffWords(w.q.a[w.k], w.q.a[0]) : null; return `<div class="card"><div class="tag">Frage ${w.q.n}</div><p><strong>${esc(w.q.q)}</strong></p>${w.q.img ? `<div class="qimg">${w.q.img.map(s => `<img src="${s}" alt="">`).join('')}</div>` : ''}
         ${w.k === null ? '<p class="muted">Nicht beantwortet.</p>' : d && d.sim >= .45 ? `<div class="diff"><div class="w">Deine: ${d.a}</div><div class="r">Richtig: ${d.b}</div></div>` : `<p style="color:var(--bb);margin:0 0 4px">Deine: ${esc(w.q.a[w.k])}</p><p style="color:var(--stb);margin:0">Richtig: ${esc(w.q.a[0])}</p>`}</div>`; }).join('')}` : ''}
-      <div class="card" style="border-color:var(--lamp)"><b>Teil 3: Navigationsaufgabe</b><p class="small" style="margin:4px 0 8px">In der echten Prüfung gehört eine Navigationsaufgabe mit 9 Teilfragen dazu (mindestens 7 Punkte). Mit deiner Übungskarte kannst du sie jetzt lösen.</p><button class="btn lamp wide" id="navpart">Navigationsaufgabe lösen</button></div>
+      ${COURSE.id === 'sbf' ? `<div class="card" style="border-color:var(--lamp)"><b>Teil 3: Navigationsaufgabe</b><p class="small" style="margin:4px 0 8px">In der echten Prüfung gehört eine Navigationsaufgabe mit 9 Teilfragen dazu (mindestens 7 Punkte). Mit deiner Übungskarte kannst du sie jetzt lösen.</p><button class="btn lamp wide" id="navpart">Navigationsaufgabe lösen</button></div>` : ''}
       <button class="btn wide" id="home" style="margin-top:6px">Zurück in die Kajüte</button>`;
     app.querySelector('svg.ch').style.width = '96px';
     $('#home').onclick = () => setTab('cabin');
-    $('#navpart').onclick = () => { returnTo = 'cabin'; navGame({exam: true, task: 1 + (Math.random() * 15 | 0), onDone: nav => {
+    if ($('#navpart')) $('#navpart').onclick = () => { returnTo = 'cabin'; navGame({exam: true, task: 1 + (Math.random() * 15 | 0), onDone: nav => {
       const ex = S.exams[S.exams.length - 1]; ex.nav = nav; const all = passed && nav >= 7; ex.passAll = all; save();
       app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${all ? 'pass' : 'fail'}">${all ? 'Gesamt bestanden' : 'Gesamt nicht bestanden'}</div><div class="small muted">Basis ${basis}/7 (nötig 5) · See ${see}/23 (nötig 18) · Navigation ${nav}/9 (nötig 7)</div></div></div><button class="btn wide" id="home2" style="margin-top:12px">Zurück in die Kajüte</button>`;
       app.querySelector('svg.ch').style.width = '96px'; $('#home2').onclick = () => setTab('cabin');
@@ -3170,7 +3203,7 @@ function renderLog() {
     ${eggCard()}
     <div class="card"><h3>Kapitel</h3>${TOPICS.map(t => { const s = topicStats(t); return `<div class="topic"><div class="row" style="justify-content:space-between"><span>${t.name}</span><span class="muted small" style="flex:0 0 auto">${s.m}/${s.total}</span></div><div class="bar"><span class="m" style="width:${s.m / s.total * 100}%"></span><span class="l" style="width:${s.l / s.total * 100}%"></span></div></div>`; }).join('')}
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
-    <div class="card small muted"><p style="margin:0">Noch nicht enthalten: ${COURSE.kind === 'open' ? 'die Kartenaufgabe und drei Skizzenfragen' : 'die Bildfragen 16 bis 30'}. App-Version ${esc(window.__ver || '?')}.</p></div>`;
+    <div class="card small muted"><p style="margin:0">${COURSE.kind === 'open' ? 'Noch nicht enthalten: die Kartenaufgabe und drei Skizzenfragen. ' : ''}App-Version ${esc(window.__ver || '?')}.</p></div>`;
   $('#back').onclick = () => setTab('cabin'); $('#set').onclick = renderSettings; bindSaying();
   const bk = $('#bkup'); if (bk) bk.onclick = () => { doBackup(); renderLog(); };
 }
@@ -4957,8 +4990,8 @@ function courseSheet() {
 /* Inhalte (Kataloge, Navigationsaufgaben, Folgen) liegen in data/ und werden vor dem Start geladen. */
 async function loadData() {
   const get = f => fetch('data/' + f + '?v=' + window.__ver).then(r => { if (!r.ok) throw new Error(f + ': HTTP ' + r.status); return r.json(); });
-  const [sbf, sks, nav, folgen] = await Promise.all([get('sbf.json'), get('sks.json'), get('nav.json'), get('folgen.json')]);
-  DATA = sbf; SKS_DATA = sks; NAV_TASKS = nav;
+  const [sbf, sks, nav, folgen, bin] = await Promise.all([get('sbf.json'), get('sks.json'), get('nav.json'), get('folgen.json'), get('binnen.json')]);
+  DATA = sbf; SKS_DATA = sks; NAV_TASKS = nav; BIN_DATA = bin;
   EPISODES = Object.assign({sbf: [], sks: []}, folgen.episodes); SHORTS = folgen.shorts || [];
   useCourse(S.course);
 }
