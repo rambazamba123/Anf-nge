@@ -248,6 +248,7 @@ NAV.mountChart = function (host, opt = {}) {
     /* Messwerte (für Hilfen in der geführten Übung) */
     zirkelSm() { const z = st.zirkel; if (!z || !z.done) return null; const a = unproj(z.a.x, z.a.y), b = unproj(z.b.x, z.b.y); return kursDist(a, b).d; },
     dreieckDeg() { return st.dreieck ? st.dreieck.a : null; },
+    setVB(v) { vbSet({...v}); },
   };
   ctl.setTool(opt.tool || 'hand'); ink();
   return ctl;
@@ -454,9 +455,81 @@ const GEN = {
       expl: `Distanz ${comma(v * t / 60, 2)} sm auf ${fmtDeg(k)} ab ${a.id}: Koppelort ${fmtPos(z)}.`, soll: c => { const A = proj(a.lat, a.lon), Z = proj(z.lat, z.lon); c.addLine(A, Z, 'soll'); c.addMark(Z, 'Ok', 'soll'); }};
   },
 };
+/* ---------- Strom, Wind, Gezeiten (Lektionen 6–8) ---------- */
+const vec = (k, v) => [Math.sin(rad(k)) * v, Math.cos(rad(k)) * v];
+const vk = ([e, n]) => ({k: n360(deg(Math.atan2(e, n))), v: Math.hypot(e, n)});
+function stromAus(hIdx, spring) { const s = K.strom; return {std: s.std[hIdx], r: s.rw[hIdx], v: spring ? s.sp[hIdx] : s.np[hIdx]}; }
+const stdText = h => h === 0 ? 'Hochwasser' : `${Math.abs(h)} Stunde${Math.abs(h) > 1 ? 'n' : ''} ${h < 0 ? 'vor' : 'nach'} Hochwasser`;
+function zufallsStrom() { const idx = pick(K.strom.rw.map((r, i) => r == null ? -1 : i).filter(i => i >= 0)), sp = Math.random() < .5; return {...stromAus(idx, sp), sp}; }
+Object.assign(GEN, {
+  stromKueg() { const kdw = ri(0, 71) * 5, fdw = ri(8, 16) / 2, c = zufallsStrom(), g = vk([vec(kdw, fdw)[0] + vec(c.r, c.v)[0], vec(kdw, fdw)[1] + vec(c.r, c.v)[1]]);
+    return {text: `Du steuerst KdW <b>${fmtDeg(kdw)}</b> mit FdW <b>${comma(fdw)} kn</b>. Der Strom setzt <b>${fmtDeg(c.r)}</b> mit <b>${comma(c.v)} kn</b>. Wie lauten KüG und FüG?`, chart: null,
+      fields: [{k: 'kueg', l: 'KüG', t: 'deg'}, {k: 'fueg', l: 'FüG', t: 'kn'}], sol: {kueg: g.k, fueg: g.v}, tol: {kueg: 3},
+      hint: ['Zeichne das Stromdreieck für eine Stunde: erst den Pfeil KdW/FdW, an dessen Spitze den Strompfeil.', 'Vom Anfang des ersten bis zur Spitze des zweiten Pfeils: Richtung = KüG, Länge = FüG. Rechnerisch: Vektoren addieren.'],
+      expl: `Vektorsumme aus ${fmtDeg(kdw)}/${comma(fdw)} kn und Strom ${fmtDeg(c.r)}/${comma(c.v)} kn: KüG ${fmtDeg(g.k)}, FüG ${comma(g.v)} kn.`}; },
+  vorhalteStrom() {
+    let a, b, kd, fdw, c, kdw, fueg;
+    for (let i = 0; i < 100; i++) {
+      [a, b, kd] = twoBuoys(3, 10); fdw = ri(8, 14) / 2; c = zufallsStrom();
+      /* Strom in Anteil längs (par) und quer (perp) zum gewünschten KüG zerlegen; das Boot muss den Queranteil aufheben */
+      const u = vec(kd.k, 1), p = [u[1], -u[0]], cv = vec(c.r, c.v), par = cv[0] * u[0] + cv[1] * u[1], perp = cv[0] * p[0] + cv[1] * p[1];
+      if (Math.abs(perp) >= fdw * .8) continue;
+      const wPar = Math.sqrt(fdw * fdw - perp * perp), W = [u[0] * wPar - p[0] * perp, u[1] * wPar - p[1] * perp];
+      kdw = vk(W).k; fueg = wPar + par; if (fueg > .5) break;
+    }
+    return {text: `Du willst über Grund genau von <b>${a.id}</b> nach <b>${b.id}</b>. Deine FdW ist <b>${comma(fdw)} kn</b>, der Strom setzt <b>${fmtDeg(c.r)}</b> mit <b>${comma(c.v)} kn</b>. Welchen KdW musst du steuern, und welche FüG ergibt sich?`,
+      chart: {center: {lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2}, hi: [a.id, b.id], tools: ['hand', 'stift', 'dreieck']}, fields: [{k: 'kdw', l: 'KdW', t: 'deg'}, {k: 'fueg', l: 'FüG', t: 'kn'}], sol: {kdw, fueg}, tol: {kdw: 3},
+      hint: [`Erst den KüG abnehmen: ${a.id} nach ${b.id}.`, 'Strompfeil (1 Stunde) vom Start antragen. Um seine Spitze einen Kreis mit Radius FdW schlagen, der die Kurslinie schneidet.', 'Von der Strompfeilspitze zum Schnittpunkt: das ist dein KdW. Vom Start zum Schnittpunkt: die FüG.'],
+      expl: `KüG ${fmtDeg(kd.k)}. Vorhalten ergibt KdW ${fmtDeg(kdw)}, FüG ${comma(fueg)} kn.`, soll: ctl => ctl.addLine(proj(a.lat, a.lon), proj(b.lat, b.lon), 'soll')};
+  },
+  stromTab() { const c = zufallsStrom();
+    return {text: `Es ist <b>${stdText(c.std)}</b>, <b>${c.sp ? 'Springzeit' : 'Nippzeit'}</b>. Lies aus der Stromtabelle für den Punkt A Richtung und Stärke des Gezeitenstroms ab.<table class="ntab"><tr><th>Std</th>${K.strom.std.map(s => `<td>${s === 0 ? 'HW' : (s > 0 ? '+' : '−') + Math.abs(s)}</td>`).join('')}</tr><tr><th>rw°</th>${K.strom.rw.map(r => `<td>${r == null ? '—' : String(r).padStart(3, '0')}</td>`).join('')}</tr><tr><th>kn Sp</th>${K.strom.sp.map(v => `<td>${comma(v)}</td>`).join('')}</tr><tr><th>kn Np</th>${K.strom.np.map(v => `<td>${comma(v)}</td>`).join('')}</tr></table>`,
+      chart: null, fields: [{k: 'r', l: 'Strom setzt', t: 'deg'}, {k: 'v', l: 'Stärke', t: 'kn'}], sol: {r: c.r, v: c.v}, tol: {r: 0, v: .05},
+      hint: ['Spalte nach der Stunde zu Hochwasser wählen, Zeile Sp (Springzeit) oder Np (Nippzeit).'], expl: `${stdText(c.std)}, ${c.sp ? 'Springzeit' : 'Nippzeit'}: Strom setzt ${fmtDeg(c.r)} mit ${comma(c.v)} kn.`}; },
+  abdrift() { const rwk = ri(0, 71) * 5, a = ri(3, 10), bb = Math.random() < .5, bw = bb ? a : -a, kdw = n360(rwk + bw);
+    return {text: `Du steuerst rwK <b>${fmtDeg(rwk)}</b>. Der Wind kommt von <b>${bb ? 'Backbord' : 'Steuerbord'}</b> und verursacht <b>${a}°</b> Abdrift. Wie groß ist die Beschickung für Wind (BW), und welcher KdW ergibt sich?`, chart: null,
+      fields: [{k: 'bw', l: 'BW', t: 'sdeg'}, {k: 'kdw', l: 'KdW', t: 'deg'}], sol: {bw, kdw}, tol: {bw: 0, kdw: 1}, hint: ['Wind von Backbord drückt nach Steuerbord: BW ist plus. Wind von Steuerbord: minus.', 'KdW = rwK + BW.'], expl: `BW = ${fmtSigned(bw)}, KdW = ${fmtDeg(rwk)} ${bw > 0 ? '+' : '−'} ${a}° = ${fmtDeg(kdw)}.`}; },
+  windVorhalt() { const kdw = ri(0, 71) * 5, a = ri(3, 10), bb = Math.random() < .5, bw = bb ? a : -a, rwk = n360(kdw - bw);
+    return {text: `Du willst durchs Wasser genau KdW <b>${fmtDeg(kdw)}</b> laufen. Der Wind kommt von <b>${bb ? 'Backbord' : 'Steuerbord'}</b>, die Abdrift beträgt <b>${a}°</b>. Welchen rwK musst du steuern?`, chart: null,
+      fields: [{k: 'rwk', l: 'rwK', t: 'deg'}], sol: {rwk}, tol: {rwk: 1}, hint: ['KdW = rwK + BW, also rwK = KdW − BW.', 'Wind von Backbord: BW plus, also musst du weniger Grad steuern (gegen den Wind halten).'], expl: `BW = ${fmtSigned(bw)}. rwK = ${fmtDeg(kdw)} − (${fmtSigned(bw)}) = ${fmtDeg(rwk)}.`}; },
+  tidenhub() { const hw = ri(28, 42) / 10, nw = ri(1, 6) / 10, kt = pick([2, 3, 4, 5, 6]);
+    return {text: `Für Hinnerksiel gibt der Gezeitenkalender heute Hochwasser mit <b>${comma(hw)} m</b> und Niedrigwasser mit <b>${comma(nw)} m</b> über Kartennull an. Wie groß ist der Tidenhub? Und wie tief ist das Wasser bei Niedrigwasser an einer Stelle mit <b>${kt} m</b> Kartentiefe?`, chart: null,
+      fields: [{k: 'hub', l: 'Tidenhub', t: 'm'}, {k: 'wt', l: 'Wassertiefe bei NW', t: 'm'}], sol: {hub: hw - nw, wt: kt + nw}, hint: ['Tidenhub = Hochwasserhöhe − Niedrigwasserhöhe.', 'Wassertiefe = Kartentiefe + Höhe der Gezeit (hier die NW-Höhe).'], expl: `Tidenhub ${comma(hw)} − ${comma(nw)} = ${comma(hw - nw)} m. Wassertiefe ${kt} + ${comma(nw)} = ${comma(kt + nw)} m.`}; },
+  durchfahrt() { const tg = ri(10, 19) / 10, sich = .5, kt = 1.5, h = tg + sich - kt;
+    return {text: `Du willst bei ruhigem Wetter über den Gummientensand (Kartentiefe <b>1,5 m</b>). Dein Boot hat <b>${comma(tg)} m</b> Tiefgang, du willst <b>0,5 m</b> Wasser unter dem Kiel haben. Welche Höhe der Gezeit brauchst du mindestens?`, chart: {center: {lat: 17, lon: 39.3}, tools: ['hand'], width: 380},
+      fields: [{k: 'h', l: 'Höhe der Gezeit', t: 'm'}], sol: {h}, hint: ['Benötigte Wassertiefe = Tiefgang + Sicherheit.', 'Höhe der Gezeit = benötigte Wassertiefe − Kartentiefe.'], expl: `${comma(tg)} + 0,5 − 1,5 = ${comma(h)} m.`}; },
+  /* ---------- Gesamtaufgabe (Lektion 9 und Prüfungsmodus): neun verkettete Teilaufgaben ---------- */
+  gesamt() {
+    let a, b, kd, v, t1, ok, ob, o1, o2, rw1, rw2, mg1, mg2;
+    for (let i = 0; i < 500; i++) {
+      [a, b, kd] = twoBuoys(4, 10); v = ri(10, 20) / 2; t1 = ri(2, 5) * 10; if (v * t1 / 60 > kd.d - .5) continue;
+      ok = versegeln(a, kd.k, v * t1 / 60); ob = versegeln(ok, ri(0, 35) * 10, rnd(.3, 1.1)); if (!inSea(ob) || !inSea(ok)) continue;
+      const P = PEIL(); o1 = pick(P); o2 = pick(P); if (o1 === o2 || o1 === a || o2 === a) continue;
+      const p1 = kursDist(ob, o1), p2 = kursDist(ob, o2), dd = angDiff(p1.k, p2.k); if (p1.d < 1.5 || p2.d < 1.5 || p1.d > 14 || p2.d > 14 || dd < 50 || dd > 130) continue;
+      mg1 = Math.round(n360(p1.k - mw())); mg2 = Math.round(n360(p2.k - mw())); break;
+    }
+    rw1 = n360(mg1 + mw()); rw2 = n360(mg2 + mw()); const obs = kreuzpeilung(o1, rw1, o2, rw2) || ob, bv = kursDist(ok, obs);
+    const rwk = Math.round(kd.k), abl = pick([-5, -4, -3, -2, 2, 3, 4, 5]), mgk = n360(rwk - mw() - abl), hh = ri(8, 15), T = m2 => `${String(hh + Math.floor(m2 / 60)).padStart(2, '0')}:${String(m2 % 60).padStart(2, '0')}`;
+    const ch = {center: {lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2}, tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 760, noInfo: true}, A = proj(a.lat, a.lon), B = proj(b.lat, b.lon);
+    const typB = BUOYS().filter(x => x.typ !== b.typ || x.kenn !== b.kenn), combo = x => `Farbe: ${x.farbe}; Kennung: ${x.kenn}; Toppzeichen: ${x.topp}`;
+    const optsB = [...new Set([combo(b), ...typB.map(combo)])].filter(x => x !== combo(b)).sort(() => Math.random() - .5).slice(0, 3).concat(combo(b)).sort(() => Math.random() - .5);
+    const scen = `Ein Sportboot läuft in der Kliev-Mündung mit <b>${comma(v)} kn</b> Fahrt über Grund. Um <b>${T(0)} Uhr</b> wird die Tonne <b>${a.id}</b> nahebei passiert. Von dort wird der Kurs auf die Tonne <b>${b.id}</b> abgesetzt.`;
+    return {scen, steps: [
+      {text: 'Wie lautet der rwK?', chart: ch, fields: [{k: 'k', l: 'rwK', t: 'deg'}], sol: {k: kd.k}, hint: [], expl: `rwK = ${fmtDeg(kd.k)}.`, soll: c => c.addLine(A, B, 'soll'), lek: 'L2'},
+      {text: `Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: ch, fields: [{k: 'mg', l: 'MgK', t: 'deg'}], sol: {mg: mgk}, tol: {mg: 1}, hint: [], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(mw())}) − (${fmtSigned(abl)}) = ${fmtDeg(mgk)}.`, lek: 'L3'},
+      {text: `Wie groß ist die Distanz zwischen <b>${a.id}</b> und <b>${b.id}</b>?`, chart: ch, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d: kd.d}, hint: [], expl: `Distanz ${comma(kd.d)} sm.`, lek: 'L2'},
+      {text: 'In welcher Zeit wird diese Distanz zurückgelegt?', chart: ch, fields: [{k: 't', l: 'Zeit', t: 'min'}], sol: {t: kd.d / v * 60}, hint: [], expl: `${comma(kd.d)} sm : ${comma(v)} kn × 60 = ${Math.round(kd.d / v * 60)} min.`, lek: 'L5'},
+      {text: `Auf welcher Position befindet sich das Boot nach Koppelort um <b>${T(t1)} Uhr</b>?`, chart: ch, fields: [{k: 'lat', l: 'Breite', t: 'lat'}, {k: 'lon', l: 'Länge', t: 'lon'}], sol: {lat: ok.lat, lon: ok.lon}, hint: [], expl: `Koppelort ${fmtPos(ok)}.`, soll: c => c.addMark(proj(ok.lat, ok.lon), 'Ok', 'soll'), lek: 'L5'},
+      {text: `Um ${T(t1)} Uhr werden mit dem Handpeilkompass (Abl. 0°) gepeilt: <b>${o1.id}</b> MgP = ${fmtDeg(mg1)}, <b>${o2.id}</b> MgP = ${fmtDeg(mg2)}. Die Mw ist der Seekarte zu entnehmen. Wie lauten die rwP?`, chart: ch, fields: [{k: 'r1', l: 'rwP ' + o1.id, t: 'deg'}, {k: 'r2', l: 'rwP ' + o2.id, t: 'deg'}], sol: {r1: rw1, r2: rw2}, tol: {r1: 1, r2: 1}, hint: [], expl: `rwP ${o1.id} = ${fmtDeg(rw1)}, rwP ${o2.id} = ${fmtDeg(rw2)}.`, lek: 'L4'},
+      {text: 'Trage die rechtweisenden Peilungen in die Seekarte ein und setze ein Kreuz auf den beobachteten Ort.', chart: ch, fields: [{k: 'pos', l: 'Beobachteter Ort', t: 'pos'}], sol: {pos: obs}, hint: [], expl: `Beobachteter Ort ${fmtPos(obs)}.`, soll: c => { const P = proj(obs.lat, obs.lon); c.addLine(proj(o1.lat, o1.lon), P, 'soll'); c.addLine(proj(o2.lat, o2.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); }, lek: 'L4'},
+      {text: 'Wie lautet die Besteckversetzung (vom Koppelort zum beobachteten Ort)?', chart: ch, fields: [{k: 'bk', l: 'BV Richtung', t: 'deg'}, {k: 'bd', l: 'BV Distanz', t: 'sm'}], sol: {bk: bv.k, bd: bv.d}, tol: {bk: 10, bd: .2}, hint: [], expl: `BV = ${fmtDeg(bv.k)} – ${comma(bv.d)} sm.`, lek: 'L5'},
+      {text: `Beschreibe Farbe, Kennung und Toppzeichen der Tonne <b>${b.id}</b>.`, chart: ch, fields: [{k: 'mc', l: '', t: 'mc', opts: optsB}], sol: {mc: combo(b)}, hint: [], expl: `${b.id}: ${combo(b)}.`, lek: 'L1', hideKenn: true},
+    ]};
+  },
+});
 NAV.GEN = GEN;
 /* Bewertung: Toleranzen laut freigegebenem Konzept (Kurs/Peilung ±2°, Distanz ±0,2 sm, Position ±0,3', Zeit ±2 min) */
-const TOL = {deg: 2, sdeg: 0, sm: .2, lat: .3, lon: .3, min: 2, m: .05, pos: .3};
+const TOL = {deg: 2, sdeg: 0, sm: .2, kn: .2, lat: .3, lon: .3, min: 2, m: .05, pos: .3};
 function grade(task, vals, ctl) {
   const res = {};
   task.fields.forEach(f => {
@@ -470,11 +543,11 @@ function grade(task, vals, ctl) {
   });
   return res;
 }
-const solText = (f, v) => f.t === 'deg' ? fmtDeg(v) : f.t === 'sdeg' ? fmtSigned(v) : f.t === 'sm' ? comma(v) + ' sm' : f.t === 'lat' ? fmtLat(v) : f.t === 'lon' ? fmtLon(v) : f.t === 'min' ? Math.round(v) + ' min' : f.t === 'm' ? comma(v) + ' m' : f.t === 'pos' ? fmtPos(v) : String(v);
+const solText = (f, v) => f.t === 'deg' ? fmtDeg(v) : f.t === 'sdeg' ? fmtSigned(v) : f.t === 'sm' ? comma(v) + ' sm' : f.t === 'kn' ? comma(v) + ' kn' : f.t === 'lat' ? fmtLat(v) : f.t === 'lon' ? fmtLon(v) : f.t === 'min' ? Math.round(v) + ' min' : f.t === 'm' ? comma(v) + ' m' : f.t === 'pos' ? fmtPos(v) : String(v);
 function fieldHTML(f) {
   if (f.t === 'mc') return `<div class="menu" data-mc="${f.k}">${f.opts.map(o => `<button class="menuitem" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
   if (f.t === 'pos') return `<p class="small muted" style="margin:4px 0">${NAV.linkTerms(esc(f.l))}: setze mit dem Werkzeug ✕ ein Kreuz in die Karte.</p>`;
-  const pre = f.t === 'lat' ? '55°' : f.t === 'lon' ? '006°' : '', post = f.t === 'lat' ? "' N" : f.t === 'lon' ? "' E" : f.t === 'deg' || f.t === 'sdeg' ? '°' : f.t === 'sm' ? 'sm' : f.t === 'min' ? 'min' : f.t === 'm' ? 'm' : '';
+  const pre = f.t === 'lat' ? '55°' : f.t === 'lon' ? '006°' : '', post = f.t === 'lat' ? "' N" : f.t === 'lon' ? "' E" : f.t === 'deg' || f.t === 'sdeg' ? '°' : f.t === 'sm' ? 'sm' : f.t === 'kn' ? 'kn' : f.t === 'min' ? 'min' : f.t === 'm' ? 'm' : '';
   const ph = f.t === 'lat' || f.t === 'lon' ? 'Min., z. B. 20,4' : f.t === 'deg' ? 'z. B. 074' : f.t === 'sdeg' ? 'z. B. +3 oder −2' : '';
   return `<label class="nfield"><span style="min-width:96px">${NAV.linkTerms(esc(f.l))}</span>${pre}<input data-k="${f.k}" inputmode="${f.t === 'sdeg' ? 'text' : 'decimal'}" placeholder="${ph}" autocomplete="off">${post}</label>`;
 }
@@ -494,6 +567,7 @@ NAV.task = function (task, opts) {
     if (ch.hi) ctl.highlight(ch.hi);
     if (ch.ring) { const p = proj(ch.ring.lat, ch.ring.lon); ctl.svg.querySelector('#nhi').insertAdjacentHTML('beforeend', `<circle cx="${p.x}" cy="${p.y}" r="18" class="nhi"/>`); }
     if (ch.hideKenn) ctl.svg.querySelectorAll('.nlab.k').forEach(e => e.remove());
+    if (opts.keep) { ctl.st.lines = opts.keep.lines.slice(); ctl.st.marks = opts.keep.marks.slice(); if (opts.keep.vb) ctl.setVB(opts.keep.vb); ctl.ink(); }
     $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck wählen.'); ctl.lineFromDreieck(); };
     if (guided && task.ctrl) { const upd = () => { $('#xctrl').textContent = task.ctrl(ctl); }; ctl.on('dreieck', upd); ctl.on('zirkel', upd); }
   }
@@ -506,17 +580,41 @@ NAV.task = function (task, opts) {
   $('#xcheck').onclick = () => {
     app.querySelectorAll('[data-k]').forEach(i => { vals[i.dataset.k] = i.value; });
     const res = grade(task, vals, ctl), ok = task.fields.every(f => res[f.k].ok);
-    if (exam) return opts.onResult(ok, res, task);
+    if (exam) return opts.onResult(ok, res, task, false, ctl);
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
     $('#xfb').innerHTML = `<div class="fb" style="margin-top:8px">${task.fields.map(f => `<p style="margin:2px 0">${res[f.k].ok ? '<span class="nok">✓</span>' : '<span class="nno">✗</span>'} ${esc(f.l || 'Antwort')}: ${res[f.k].ok ? 'richtig' : `deine ${esc(String(res[f.k].got || '–'))}, richtig ${esc(solText(f, task.sol[f.k]))}`}</p>`).join('')}
       <p class="small" style="margin:8px 0 0">${NAV.linkTerms(esc(task.expl))}</p>${task.soll ? '<p class="small muted" style="margin:4px 0 0">Die Lösung ist in der Karte gestrichelt eingezeichnet.</p>' : ''}<button class="btn wide" id="xnext" style="margin-top:10px">${opts.nextLabel || 'Nächste Aufgabe'}</button></div>`;
     NAV.bindTerms($('#xfb'));
     if (ctl && task.soll) task.soll(ctl);
     $('#xcheck').disabled = true;
-    if (opts.onResult) opts.onResult(ok, res, task, used);
+    if (opts.onResult) opts.onResult(ok, res, task, used, ctl);
     $('#xnext').onclick = () => opts.next && opts.next();
   };
   return ctl;
+};
+const GESAMT_HINTS = {
+  L1: ['Farbe und Toppzeichen siehst du am Kartensymbol, die Kennung steht daneben.'],
+  L2: ['Linie von Tonne zu Tonne ziehen, Dreieck anlegen, an der roten Meridianlinie ablesen. Distanz mit dem Zirkel am Breitenrand.'],
+  L3: ['MgK = rwK − Mw − Abl. Mw aus der Kompassrose: 3° E.'],
+  L4: ['rwP = MgP + Abl. + Mw. Dreieck am Objekt anlegen, Linie ziehen, Kreuz auf den Schnittpunkt.'],
+  L5: ['Zeit = Distanz : Fahrt × 60. Koppelort: Fahrt × Zeit auf der Kurslinie abtragen. BV: vom Koppelort zum beobachteten Ort.'],
+};
+/* Mehrteilige Aufgabe (Gesamtaufgabe, Prüfung): Schritte nacheinander, Zeichnungen bleiben stehen */
+NAV.multi = function (mt, opts) {
+  let i = 0, pts = 0, keep = null; const results = [];
+  const step = () => {
+    if (i >= mt.steps.length) return opts.done(pts, results);
+    const s = mt.steps[i], t = {...s, chart: s.chart ? {...s.chart, hideKenn: s.hideKenn} : null};
+    const head = `<div class="card small" style="margin-top:6px">${NAV.linkTerms(mt.scen)}</div><p class="small muted" style="margin:6px 0 0">Teilaufgabe ${i + 1} von ${mt.steps.length}${opts.mode !== 'exam' ? ` · bisher ${pts} Punkte` : ''}${opts.extraHead ? ' · ' + opts.extraHead() : ''}</p>`;
+    NAV.task(t, {title: opts.title, mode: opts.mode, head, back: opts.back, keep, nextLabel: i < mt.steps.length - 1 ? 'Nächste Teilaufgabe' : 'Auswertung',
+      onResult: (ok, res, task, used, c) => {
+        pts += ok ? 1 : 0; results.push({ok, step: s, res});
+        if (c) keep = {lines: c.st.lines.slice(), marks: c.st.marks.slice(), vb: {...c.st.vb}};
+        if (opts.mode === 'exam') { i++; step(); }
+      },
+      next: () => { i++; step(); }});
+  };
+  step();
 };
 /* ---------- Lernpfad ---------- */
 const lekOf = id => (NV.lektionen || []).find(l => l.id === id);
@@ -545,6 +643,18 @@ NAV.lesson = function (id) {
 NAV.exercise = function (id, mode) {
   const l = lekOf(id), s = lekState(id), typ = pick(l.typen), task = GEN[typ]();
   const head = `<p class="small muted" style="margin:6px 0 0">${mode === 'guided' ? 'Geführte Übung' : mode === 'free' ? 'Freie Übung' : `Meisterschaft: ${s.serie} von 3 in Folge`}${s.sterne ? ' · ⭐' : ''}</p>`;
+  if (task.steps) {
+    /* Gesamtaufgabe: bestanden ab 7 von 9 Punkten (wie in der Prüfung) */
+    if (mode === 'guided') task.steps.forEach(st => { st.hint = GESAMT_HINTS[st.lek] || []; });
+    return NAV.multi(task, {title: l.t, mode, back: () => NAV.lesson(id), extraHead: () => mode === 'master' ? `Meisterschaft ${s.serie} von 3` : '', done: pts => {
+      const ok = pts >= 7; s.n++;
+      if (mode === 'master') { s.serie = ok ? s.serie + 1 : 0; if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; toast(`⭐ Stern für „${l.t}“!`); } }
+      save(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5});
+      gameShell(l.t, `<div class="card"><h2 style="margin:0" class="${ok ? 'pass' : 'fail'}">${pts} von 9 Punkten</h2><p class="muted">${ok ? 'Bestanden: In der Prüfung brauchst du mindestens 7 Punkte.' : 'Noch nicht: In der Prüfung brauchst du mindestens 7 von 9 Punkten.'}</p>
+        <div class="row"><button class="btn lamp" id="again">Neue Gesamtaufgabe</button><button class="btn ghost" id="tol">Zur Lektion</button></div></div>`);
+      $('#gback').onclick = () => NAV.lesson(id); $('#again').onclick = () => NAV.exercise(id, mode); $('#tol').onclick = () => NAV.lesson(id);
+    }});
+  }
   NAV.task(task, {title: l.t, mode, head, back: () => NAV.lesson(id), next: () => NAV.exercise(id, mode),
     onResult: (ok, res, t, usedHint) => {
       if (ok) s.n++;

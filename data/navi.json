@@ -50,6 +50,28 @@
             {"s": "K", "t": "Fahrt mal Zeit gleich Distanz. Sechs Knoten in einer halben Stunde sind drei Seemeilen. Die trägst du auf der Kurslinie ab, und schon hast du den Koppelort."},
             {"s": "M", "t": "Und Zeit rechnest du am besten in Minuten: Distanz durch Fahrt mal sechzig."},
             {"s": "T", "t": "Mal sechzig! Mal sechzig!"}]}
+,
+  {"id": "L6", "t": "Strom", "d": "Stromdreieck, Kurs und Fahrt über Grund, Vorhaltewinkel", "typen": ["stromKueg", "vorhalteStrom", "stromTab"],
+   "crew": [{"s": "K", "t": "Das Wasser bewegt sich, und du mit ihm. Die Logge misst nur die Fahrt durchs Wasser, über Grund kommt der Strom noch dazu."},
+            {"s": "K", "t": "Im Stromdreieck hängst du zwei Pfeile hintereinander: Kurs und Fahrt durchs Wasser, dann den Strom. Vom Anfang zur Spitze ist das dein Kurs und deine Fahrt über Grund."},
+            {"s": "M", "t": "Willst du über Grund genau aufs Ziel, musst du gegen den Strom vorhalten. Wie beim Schwimmen über einen Fluss: schräg gegen die Strömung."},
+            {"s": "T", "t": "Schräg! Schräg!"}]},
+  {"id": "L7", "t": "Wind und Abdrift", "d": "Abdrift, Beschickung für Wind, Kurs durchs Wasser", "typen": ["abdrift", "windVorhalt"],
+   "crew": [{"s": "K", "t": "Der Wind schiebt dein Boot seitlich weg. Den Winkel zwischen rechtweisendem Kurs und Kurs durchs Wasser nennt man Abdrift."},
+            {"s": "K", "t": "Kommt der Wind von Backbord, wirst du nach Steuerbord gedrückt, die Beschickung zählt plus. Wind von Steuerbord: minus."},
+            {"s": "M", "t": "Und wenn du trotzdem einen bestimmten Kurs durchs Wasser laufen willst, steuerst du um die Abdrift dagegen."},
+            {"s": "T", "t": "Backbord plus! Backbord plus!"}]},
+  {"id": "L8", "t": "Gezeiten", "d": "Wassertiefe, Tidenhub, Durchfahrt, Gezeitenstrom", "typen": ["tiefe", "tidenhub", "durchfahrt", "stromTab"],
+   "crew": [{"s": "K", "t": "In der Nordsee steigt und fällt das Wasser zweimal am Tag. Die Karte zeigt die Tiefe bei Kartennull, also bei fast niedrigstem Wasser."},
+            {"s": "K", "t": "Wassertiefe ist Kartentiefe plus Höhe der Gezeit. Und der Unterschied zwischen Hoch- und Niedrigwasser heißt Tidenhub."},
+            {"s": "M", "t": "Bei Springzeit ist der Hub groß und der Strom stark, bei Nippzeit beides kleiner. Die Stromtabelle in der Karte gibt dir Richtung und Stärke für jede Stunde vor und nach Hochwasser."},
+            {"s": "T", "t": "Spring springt! Nipp nippt!"}]},
+  {"id": "L9", "t": "Gesamtaufgaben", "d": "Neun Teilaufgaben am Stück, wie in der Prüfung", "typen": ["gesamt"],
+   "crew": [{"s": "K", "t": "Jetzt kommt alles zusammen: Kurs abnehmen, Kompasskurs rechnen, Distanz und Zeit, Koppelort, Kreuzpeilung und Besteckversetzung."},
+            {"s": "K", "t": "Genau so sieht die Navigationsaufgabe in der Prüfung aus. Neun Fragen, sieben musst du richtig haben."},
+            {"s": "M", "t": "Arbeite sauber Schritt für Schritt. Deine Linien in der Karte bleiben stehen, du kannst darauf aufbauen."},
+            {"s": "T", "t": "Sieben von neun! Sieben von neun!"}]}
  ]
+
 
 }
