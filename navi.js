@@ -281,7 +281,7 @@ const CSS = `
 .nok{color:var(--stb,#1e7f4f);font-weight:700}.nno{color:var(--bb,#c2473b);font-weight:700}
 `;
 NAV.init = async function () {
-  if (!document.getElementById('navicss')) { const s = document.createElement('style'); s.id = 'navicss'; s.textContent = CSS; document.head.appendChild(s); }
+  if (!document.getElementById('navicss')) { const s = document.createElement('style'); s.id = 'navicss'; s.textContent = CSS + FIBCSS; document.head.appendChild(s); }
   if (K) return;
   const get = f => fetch('data/' + f + '?v=' + window.__ver).then(r => { if (!r.ok) throw new Error(f); return r.json(); });
   [K, NV] = await Promise.all([get('karte.json'), get('navi.json').catch(() => ({}))]);
@@ -300,6 +300,7 @@ NAV.freeChart = function () {
   gameShell('Freie Karte', `<div id="nchartbox"></div>
     <div class="row" style="margin:8px 0;flex-wrap:wrap"><button class="btn small ghost" id="nline">Linie am Dreieck ziehen</button><button class="btn small ghost" id="nclear">Alles wegwischen</button><button class="btn small ghost" id="nsheet">Rechenblatt</button></div>
     <div class="card small" id="ninfo">Tippe eine Tonne oder ein Feuer an.</div>`);
+  $('#gback').onclick = () => NAV.hub();
   const ctl = NAV.mountChart($('#nchartbox'), {onTap: t => { $('#ninfo').innerHTML = t.obj ? infoCard(t.obj) : 'Position: <b>' + fmtPos(t.ll) + '</b>'; }});
   $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck auswählen.'); ctl.lineFromDreieck(); };
   $('#nclear').onclick = () => ctl.clear();
@@ -314,6 +315,64 @@ NAV.sheet = function () {
   const w = sheet(`<h2 style="margin:0 0 8px">Rechenblatt</h2><p class="small muted" style="margin:0 0 8px">Merke: rwK = MgK + Abl. + Mw. Östliche Werte sind plus, westliche minus.</p>
     <div class="nsheetgrid">${F.map(([k, n]) => `<label>${n}<input data-sv="${k}" value="${esc(sheetVals[k] || '')}" ${k === 'notiz' ? '' : 'inputmode="decimal"'}></label>`).join('')}</div>`);
   w.querySelectorAll('[data-sv]').forEach(i => i.oninput = () => { sheetVals[i.dataset.sv] = i.value; });
+};
+/* ---------- Navi-Fibel: Begriffe mit Erklärung, kleiner Animation und Merkhilfe ---------- */
+const ARR = (x1, y1, x2, y2, c, cls = '') => { const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L, bx = -ux * 11, by = -uy * 11, px = -uy * 5, py = ux * 5;
+  return `<g class="${cls}"><path d="M${x1} ${y1} L${x2} ${y2}" stroke="${c}" stroke-width="3"/><path d="M${x2} ${y2} l${(bx + px).toFixed(1)} ${(by + py).toFixed(1)} M${x2} ${y2} l${(bx - px).toFixed(1)} ${(by - py).toFixed(1)}" stroke="${c}" stroke-width="3" fill="none" stroke-linecap="round"/></g>`; };
+function anim(type) {
+  const boat = (x, y, r = 0) => `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M0 -12 Q7 -2 5 10 L-5 10 Q-7 -2 0 -12 Z" fill="#fbf6ec" stroke="#2a2a6a" stroke-width="1.5"/></g>`;
+  const N = (x, c, t, rot = 0) => `<g transform="translate(${x} 130) rotate(${rot})"><path d="M0 0 V-100" stroke="${c}" stroke-width="2" stroke-dasharray="${t === 'rwN' ? '' : '5 3'}"/><text y="-104" text-anchor="middle" font-size="11" fill="${c}">${t}</text></g>`;
+  const A = {
+    gradnetz: `<circle cx="130" cy="75" r="62" fill="#dbeef8" stroke="#2f5d7c"/>${[-40, -20, 0, 20, 40].map(d => `<ellipse cx="130" cy="75" rx="${Math.abs(62 * Math.sin(rad(90 - Math.abs(d))))}" ry="62" fill="none" stroke="#2f5d7c" stroke-width=".7"/>`).join('')}${[-40, -20, 0, 20, 40].map(d => `<path d="M${130 - 62 * Math.cos(rad(d))} ${75 - 62 * Math.sin(rad(d))} H${130 + 62 * Math.cos(rad(d))}" stroke="#c2473b" stroke-width="${d ? .8 : 2}"/>`).join('')}<circle class="fpulse" cx="160" cy="55" r="5" fill="#f0b43e"/><text x="200" y="40" font-size="11">Breite ↕</text><text x="200" y="120" font-size="11">Länge ↔</text>`,
+    seemeile: `<path d="M30 20 V140" stroke="#222" stroke-width="2"/>${[0, 1, 2, 3, 4, 5].map(i => `<path d="M30 ${20 + i * 24} h14" stroke="#222"/><text x="48" y="${24 + i * 24}" font-size="10">${20 - i}'</text>`).join('')}<g class="fslide"><path d="M140 44 L170 10 L200 68" stroke="#444" stroke-width="2.4" fill="none"/></g><text x="120" y="130" font-size="11">1' Breite = 1 sm = 1852 m</text>`,
+    kurse: `${N(70, '#2a2a6a', 'rwN')}${N(70, '#7a2a7a', 'mwN', 16)}${N(70, '#c2473b', 'MgN', 34)}<g class="frock">${boat(70, 130, 60)}</g><path d="M70 130 L170 72" stroke="#2a2a6a" stroke-width="2"/><text x="110" y="144" font-size="11">rwK = MgK + Abl. + Mw</text>`,
+    missweisung: `${N(110, '#2a2a6a', 'rwN')}<g class="fswing">${N(110, '#7a2a7a', 'mwN', 12)}</g><path d="M110 60 A70 70 0 0 1 124 61" stroke="#c2473b" stroke-width="2" fill="none"/><text x="160" y="80" font-size="11">Mw (Ost = +)</text>`,
+    deviation: `<circle cx="100" cy="80" r="50" fill="#f7f2e6" stroke="#2a2a6a"/><g class="fneedle"><path d="M100 36 L105 80 L100 124 L95 80 Z" fill="#c2473b"/></g><g class="fknife"><path d="M180 70 L215 64 L217 68 L182 74 Z" fill="#9aa"/><rect x="215" y="62" width="16" height="8" fill="#7a4e33"/></g><text x="160" y="130" font-size="11">Eisen → Ablenkung</text>`,
+    peilung: `<g transform="translate(200 40)"><path d="M0 0 L-4 -22 Q0 -27 4 -22 Z" fill="#c1489a"/><circle r="4" fill="#fff" stroke="#222"/></g>${boat(60, 120, 50)}<path class="fdraw" d="M60 120 L200 40" stroke="#2a2a6a" stroke-width="2" stroke-dasharray="6 4"/><text x="30" y="40" font-size="11">rwP = MgP + Abl. + Mw</text>`,
+    kreuzpeilung: `<g transform="translate(40 30)"><circle r="4" fill="#fff" stroke="#222"/></g><g transform="translate(230 40)"><circle r="4" fill="#fff" stroke="#222"/></g><path class="fdraw" d="M40 30 L150 120" stroke="#2a2a6a" stroke-width="2"/><path class="fdraw d2" d="M230 40 L120 125" stroke="#2a2a6a" stroke-width="2"/><g class="fpop"><path d="M127 103 l12 12 M139 103 l-12 12" stroke="#c2473b" stroke-width="3"/></g>`,
+    koppel: `${boat(40, 110, 70)}${ARR(40, 110, 200, 50, '#2a2a6a', 'fdraw')}<circle class="fpop" cx="200" cy="50" r="6" fill="none" stroke="#2a2a6a" stroke-width="2"/><text x="60" y="140" font-size="11">Fahrt × Zeit = Distanz</text>`,
+    gissort: `${ARR(40, 110, 190, 50, '#2a2a6a')}<circle cx="190" cy="50" r="6" fill="none" stroke="#2a2a6a" stroke-width="2"/>${ARR(190, 50, 220, 85, '#3c8c5a', 'fdraw')}<path class="fpop" d="M214 79 h12 v12 h-12 Z" fill="none" stroke="#3c8c5a" stroke-width="2"/><text x="40" y="140" font-size="11">Koppelort + Strom/Wind = Gissort</text>`,
+    bv: `<circle cx="80" cy="60" r="6" fill="none" stroke="#2a2a6a" stroke-width="2"/><text x="60" y="45" font-size="10">Ok</text>${ARR(80, 60, 190, 100, '#c2473b', 'fdraw')}<path d="M182 92 l16 16 M198 92 l-16 16" stroke="#2a2a6a" stroke-width="2.5"/><text x="200" y="125" font-size="10">Ob</text>`,
+    strom: `${ARR(40, 120, 180, 40, '#2a2a6a', 'fdraw')}${ARR(180, 40, 220, 100, '#3c8c5a', 'fdraw d2')}${ARR(40, 120, 220, 100, '#c2473b', 'fdraw d3')}<text x="70" y="70" font-size="10" fill="#2a2a6a">KdW/FdW</text><text x="205" y="60" font-size="10" fill="#3c8c5a">Strom</text><text x="110" y="135" font-size="10" fill="#c2473b">KüG/FüG</text>`,
+    vorhalte: `<path d="M20 30 H240 M20 120 H240" stroke="#9cc3d9" stroke-width="2"/>${ARR(160, 60, 200, 60, '#3c8c5a')}<g class="frock">${boat(130, 115, -25)}</g><path class="fdraw" d="M130 115 L130 35" stroke="#c2473b" stroke-width="2" stroke-dasharray="5 3"/><text x="20" y="145" font-size="11">schräg gegen den Strom steuern</text>`,
+    abdrift: `<g class="fwind">${ARR(20, 40, 60, 40, '#7a8a99')}${ARR(20, 70, 60, 70, '#7a8a99')}</g>${boat(130, 120, 0)}<path d="M130 120 V20" stroke="#2a2a6a" stroke-width="2"/><path class="fdraw" d="M130 120 L160 22" stroke="#c2473b" stroke-width="2" stroke-dasharray="5 3"/><text x="170" y="40" font-size="10" fill="#c2473b">KdW</text><text x="100" y="18" font-size="10">rwK</text><text x="10" y="100" font-size="10">Wind von Bb → +</text>`,
+    gezeiten: `<path d="M10 120 H250" stroke="#8a7a52" stroke-width="2"/><rect class="ftide" x="10" y="60" width="240" height="60" fill="#b9dcef"/><path d="M10 105 H250" stroke="#c2473b" stroke-dasharray="4 3"/><text x="14" y="102" font-size="10" fill="#c2473b">Kartennull</text><text x="160" y="50" font-size="11">HW … NW … HW</text>`,
+  };
+  return `<svg viewBox="0 0 260 150" class="fanim">${A[type] || ''}</svg>`;
+}
+const FIBCSS = `.fanim{width:100%;max-width:340px;height:auto;display:block;margin:6px auto;background:#fbfdff;border-radius:10px}
+@media (prefers-reduced-motion:no-preference){
+.fanim .fdraw{stroke-dasharray:400;stroke-dashoffset:400;animation:fdraw 1.6s ease-out forwards}.fanim .d2{animation-delay:.9s}.fanim .d3{animation-delay:1.8s}
+@keyframes fdraw{to{stroke-dashoffset:0}}
+.fanim .fpop{opacity:0;animation:fpop .4s 2.2s forwards}@keyframes fpop{to{opacity:1}}
+.fanim .fpulse{animation:fpulse 1.4s ease-in-out infinite}@keyframes fpulse{50%{r:9}}
+.fanim .fslide{animation:fslide 2.4s ease-in-out infinite alternate}@keyframes fslide{to{transform:translate(-100px,30px)}}
+.fanim .fswing{transform-origin:110px 130px;animation:fswing 2s ease-in-out infinite alternate}@keyframes fswing{from{transform:rotate(-6deg)}}
+.fanim .fneedle{transform-origin:100px 80px;animation:fneedle 3s ease-in-out infinite}@keyframes fneedle{40%,60%{transform:rotate(18deg)}}
+.fanim .fknife{animation:fknife 3s ease-in-out infinite}@keyframes fknife{40%,60%{transform:translateX(-40px)}}
+.fanim .frock{animation:frock 3s ease-in-out infinite}@keyframes frock{50%{transform:translateY(-3px)}}
+.fanim .fwind{animation:fwind 1.5s linear infinite}@keyframes fwind{to{transform:translateX(20px);opacity:.3}}
+.fanim .ftide{animation:ftide 5s ease-in-out infinite alternate}@keyframes ftide{to{transform:translateY(30px)}}}
+.nterm{border:0;background:none;padding:0;color:inherit;font:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:help}`;
+NAV.anim = anim;
+/* Begriff anzeigen (überall antippbar) */
+NAV.term = function (id) {
+  const f = (NV.fibel || []).find(x => x.id === id); if (!f) return;
+  S_().fibel[id] = 1; save();
+  sheet(`<h2 style="margin:0 0 6px">${esc(f.t)}</h2>${anim(f.a)}<p style="margin:6px 0">${esc(f.e)}</p><p class="small" style="margin:0">💡 ${esc(f.m)}</p>`);
+};
+/* In Texten Fachbegriffe antippbar machen: ersetzt Kürzel durch Knöpfe */
+const TERMS = [['rwK', 'rwk'], ['mwK', 'mwk'], ['MgK', 'mgk'], ['rwP', 'rwp'], ['MgP', 'rwp'], ['Mw', 'mw'], ['Abl.', 'abl'], ['Ablenkung', 'abl'], ['Missweisung', 'mw'], ['Kreuzpeilung', 'kreuzpeilung'], ['Koppelort', 'koppelort'], ['Gissort', 'gissort'], ['Besteckversetzung', 'bv'], ['KdW', 'kdw'], ['FdW', 'fdw'], ['KüG', 'kueg'], ['FüG', 'fueg'], ['Vorhaltewinkel', 'vorhalte'], ['Abdrift', 'abdrift'], ['Standlinie', 'standlinie'], ['Kartennull', 'kartennull'], ['Seemeile', 'sm']];
+NAV.linkTerms = html => { let out = html; TERMS.forEach(([w, id]) => { out = out.replace(new RegExp('(^|[\\s(>„])(' + w.replace('.', '\\.') + ')(?=[\\s,.:;)!?<“]|$)', 'g'), `$1<button class="nterm" data-term="${id}">$2</button>`); }); return out; };
+NAV.bindTerms = root => root.querySelectorAll('[data-term]').forEach(b => b.onclick = e => { e.stopPropagation(); NAV.term(b.dataset.term); });
+NAV.fibel = function (filter = '') {
+  const n = S_(), f = filter.trim().toLowerCase(), list = (NV.fibel || []).filter(x => !f || (x.t + ' ' + x.e).toLowerCase().includes(f));
+  gameShell('Navi-Fibel', `<p class="small muted" style="margin:6px 0 8px">${Object.keys(n.fibel).length} von ${(NV.fibel || []).length} Begriffen angesehen.</p>
+    <input type="search" id="fsr" placeholder="Suchen, z. B. Peilung" value="${esc(filter)}" style="width:100%">
+    <div class="menu" style="margin-top:10px">${list.map(x => `<button class="menuitem" data-f="${x.id}"><b>${n.fibel[x.id] ? '✓ ' : ''}${esc(x.t)}</b><span class="small muted">${esc(x.e.split('. ')[0])}.</span></button>`).join('') || '<p class="muted">Nichts gefunden.</p>'}</div>`);
+  $('#gback').onclick = () => NAV.hub();
+  app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { NAV.term(b.dataset.f); setTimeout(() => { const s = $('#sheet'); if (s) s.querySelector('[data-close]').addEventListener('click', () => NAV.fibel($('#fsr') ? $('#fsr').value : ''), {once: true}); }, 0); });
+  let t = null; $('#fsr').oninput = e => { clearTimeout(t); t = setTimeout(() => { NAV.fibel(e.target.value); const s = $('#fsr'); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 300); };
 };
 NAV.hub = async function () {
   await NAV.init();
