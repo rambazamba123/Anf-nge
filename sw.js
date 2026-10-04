@@ -1,7 +1,7 @@
 /* Skipper – Service Worker
    Bei jeder neuen App-Version VERSION hochzählen (gleich wie __ver in index.html).
    Nur dann merkt das Handy, dass es etwas Neues gibt, und zeigt „Jetzt laden“. */
-const VERSION = '4.7';
+const VERSION = '4.8';
 const CACHE = 'skipper-' + VERSION;
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png']
   .concat(['sbf', 'sks', 'nav', 'folgen'].map(f => 'data/' + f + '.json?v=' + VERSION));

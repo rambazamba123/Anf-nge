@@ -39,7 +39,7 @@ Nutzer sind im Moment nur ich. Später testen Freunde, gern auch mit meinen Keys
 - **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch. Wenige Details, kein Kitsch. Die Szenen bauen sich aus Tageszeit und Wetter auf.
 - **Crew:** witzig, herzlich, plattdeutsch angehaucht. Der Papagei wiederholt Schlagworte.
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“, „Gummiente“). SKS-Lernende bekommen spürbar mehr Respekt, fast wie unter Kollegen. Das steuert `styleRules()`.
-- **Frechheit nach Alter:** unter 16 nett, 16–17 frech, ab 18 darf geflucht werden (`TONE`, `TEASE`).
+- **Frechheit:** immer FSK 18 (seit v4.8, keine Altersfrage mehr): derber Seemannssprech, viele doppeldeutige Witze, Metaphern aus der Seefahrt. `ageGroup()` liefert immer `erw` (`TONE.erw`, `TEASE`).
 
 ## 4. Architektur
 ```
@@ -58,7 +58,9 @@ quellen/            ELWIS-PDFs, nur lokal (.gitignore)
 ```
 
 **Code-Landkarte (Funktionsnamen in `index.html`):**
-- **Start:** `boot` → `splash` → `runIntro` (Text in `INTRO`) → `micQuestion` → `convoOnboarding` (Sätze in `ONB`, `ONB2`, Auswahl in `ONB2_OPTS`; Helfer `ask`, `react`, `choose`) → `keysStep` → `endIntro`. Das alte Formular `onboardingForm` wird nur noch als Notlösung genutzt.
+- **Start:** `boot` → `splash` → `runIntro` (Streit am Steg, Text in `INTRO`) → `convoOnboarding` (Auswahlknöpfe plus eigenes Textfeld; feste Sätze in `ONB`, `ONB2`, `ONB2_OPTS`, Namensvorschläge `NICKS`; eigener Text → Claude-Antwort, sonst `ONB_FREE`) → `keysStep` → `endIntro`. Das alte Formular `onboardingForm` ist nur Notlösung.
+- **Erstes Mal in der Kajüte:** `cabinWelcome` (Sätze in `CABIN`): Lernplan erklären, bei SKS 5 SBF-Fragen mit Crew-Urteil, Zusammenfassung aus Bausteinen, dann `fahrplanSheet` (`fahrplan()`). Flag `S.cabinWelcome`.
+- **Steckbrief:** `S.profile.facts` (max. `FACTS_MAX`), ergänzt über `addFact` (Kennenlernen und `F:`-Zeilen im Gespräch), in den Einstellungen einzeln löschbar; „Kennenlernen neu starten“ setzt `introDone`/`cabinWelcome` zurück.
 - **Deck:**
   - `renderBoat`, `boatScene` (SVG, viewBox `0 40 400 380`, im `.pano`-Scroller), `bindPano`
   - Hotspots: `BOAT_HINTS`, `startEgg`, `kisteHint`, Fernglas mit `GAME_KEYS`, `EGG_LABELS`
@@ -74,7 +76,8 @@ quellen/            ELWIS-PDFs, nur lokal (.gitignore)
 - **Stimme:**
   - `VOX` mit `say`, `lines`, `clip`, `ensureVoices`, `listen`
   - Zwischenspeicher: `CLIPS` (IndexedDB)
-  - Stimmenpaket: `PACK` (lädt `audio/stimmen/manifest.json`), `packLines`, `buildVoicePack`, `pclean`
+  - Stimmenpaket: `PACK` (lädt `audio/stimmen/manifest.json`), `packLines`, `buildVoicePack` (nur fehlende feste Sätze), `exportClips` (neue Aufnahmen aus dem Gerät als ZIP), `pclean`
+  - Jede ElevenLabs-Aufnahme wird mit Figur und Text in `CLIPS` (IndexedDB `skipper-audio` v2, Stores `clips` und `meta`) gespeichert
   - Geräusche und Musik: `AUD` mit `sfx`, `loop`, `playMusic`, `weather`
 - **Zeit:**
   - `SHIP_DAY_MS` (50 Minuten = 1 Tag), `shipHour`, `dayPart`, `tickDay` (Farben wechseln live)

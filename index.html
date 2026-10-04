@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.7';
+  window.__ver = '4.8';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -777,7 +777,8 @@ const TEASE = {
     erw: ['Ich bin zwölf und hab heute mehr gelernt als du. Krass, oder?', 'Du quatschst echt mehr als mein Opa, und der redet die ganze Zeit.'],
   },
 };
-const ageGroup = () => (window.S && S.profile && S.profile.ageGroup) || 'erw';
+/* Die Crew ist immer FSK 18 frech (Wunsch des Nutzers). Die alten Altersgruppen bleiben nur für alte Spielstände. */
+const ageGroup = () => 'erw';
 const teaseOf = id => { const t = TEASE[id] && TEASE[id][ageGroup()]; return t ? t[Math.random() * t.length | 0] : ''; };
 const lineOf = (id, key, i) => { const v = LINES[id] && LINES[id][key]; if (!v) return ''; if (Array.isArray(v)) return i === undefined ? v[Math.random() * v.length | 0] : v[Math.min(i, v.length - 1)]; return v; };
 
@@ -794,50 +795,81 @@ const INTRO = [
   {s: 'M', t: 'Wir bringen dich sicher durch deine Prüfung. Versprochen.'},
   {s: 'K', t: 'Sag mal, dürfen wir dich auch hören? Dann können wir ganz normal miteinander schnacken.'},
 ];
-/* Fragen fürs Kennenlernen im Gespräch */
+/* Kennenlernen am Steg: nur feste Sätze ohne Namen, damit sie einmal erzeugt im Stimmenpaket liegen.
+   Ton: immer FSK 18, Seemannssprech, gern doppeldeutig. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
 const ONB = {
-  micOk: {s: 'M', t: 'Super, ich hör dich. Wie heißt du denn?'},
-  name: {s: 'M', t: 'Wie heißt du denn?'},
-  nameAgain: {s: 'M', t: 'Das hab ich nicht verstanden. Sag einfach nur deinen Vornamen.'},
-  exam: {s: 'K', t: 'Und wann ist deine Prüfung? Sag einfach das Datum.'},
-  examAgain: {s: 'K', t: 'Das Datum hab ich nicht verstanden. Sag es zum Beispiel so: elfter November.'},
-  minutes: {s: 'M', t: 'Wie viele Minuten hast du am Tag zum Lernen, so ungefähr?'},
-  boat: {s: 'K', t: 'Bist du schon mal selbst ein Boot gefahren?'},
-  room: {s: 'M', t: 'Ist noch jemand bei dir im Raum? Dann sag ruhig auch mal Moin!'},
-  roomYes: {s: 'T', t: 'Moin! Moin! Zwei Leute! Doppelt Zwieback!'},
-  roomFish: {s: 'K', t: 'Hm. Keiner da? Dann nenn ich dich einfach Fisch, weil ich dich nicht höre. Moin, Fisch!'},
-  done: {s: 'K', t: 'So. Kurs ist abgesteckt. Dann mal: Leinen los!'},
+  nameAsk: {s: 'M', t: 'Und wie sollen wir dich nennen? Ich hab dir schon mal was eingetragen. Gern geschehen.'},
+  courseAsk: {s: 'K', t: 'Für welchen Schein willst du dich hier einschiffen? Sportbootführerschein See oder Sportküstenschifferschein?'},
+  minutesAsk: {s: 'M', t: 'Wie lange hältst du am Tag durch? Beim Lernen, mein ich.'},
+  expAsk: {s: 'K', t: 'Hast du schon mal selbst am Ruder gestanden? Oder bisher nur am Tresen vom Hafenrestaurant?'},
+  done: {s: 'K', t: 'So. Kurs ist abgesteckt. Guck dich an Deck um, und dann komm runter in die Kajüte. Da reden wir über den Fahrplan.'},
 };
-/* Kennenlernen, Teil 2: nur feste Sätze (ohne Namen), damit sie einmal erzeugt und dann aus dem Stimmenpaket kommen */
 const ONB2 = {
-  nameOk: [{s: 'M', t: 'Moin! Schöner Name. Den merk ich mir.'}],
+  nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
-  sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet.'}, {s: 'M', t: 'Endlich mal jemand Ernsthaftes an Bord.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
-  examAsk: [{s: 'K', t: 'Hast du schon einen Prüfungstermin? Wenn nicht, auch gut.'}],
-  examNone: [{s: 'K', t: 'Kein Termin? Dann segeln wir ohne Zeitdruck. Ich trag uns mal sechs Wochen ein, das kannst du später ändern.'}],
-  examSet: [{s: 'K', t: 'Gut, der Termin steht. Das kriegen wir hin.'}],
-  age_kind: [{s: 'M', t: 'Dann sind wir besonders nett. Fast immer.'}],
-  age_teen: [{s: 'T', t: 'Jung und frech! Wie ich!'}],
-  age_erw: [{s: 'K', t: 'Erwachsen. Gut, dann darf ich ja richtig schimpfen.'}],
-  exp_none: [{s: 'K', t: 'Noch nie? Macht nix. Jeder Kapitän hat mal mit nassen Füßen angefangen.'}],
-  exp_guest: [{s: 'M', t: 'Mitgefahren zählt. Dann weißt du schon, wo man sich festhält.'}],
+  sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet. Mit Rückgrat.'}, {s: 'M', t: 'Endlich mal jemand, der weiß, wo vorne ist. Hoffentlich.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
+  examAsk: [{s: 'K', t: 'Und wann musst du vor dem Prüfer die Hosen runterlassen? Ich mein natürlich: Wann ist deine Prüfung?'}],
+  examNone: [{s: 'K', t: 'Kein Termin? Dann liegen wir erst mal vor Anker. Ich trag uns sechs Wochen ein, das kannst du später ändern.'}],
+  examSoon: [{s: 'K', t: 'So bald schon? Na dann, alle Mann an die Riemen. Hier wird nicht gekuschelt, hier wird gepaukt.'}, {s: 'T', t: 'Pauken! Pauken!'}],
+  examSet: [{s: 'K', t: 'Gut, der Termin steht. Der ist wie Hochwasser: Er kommt, ob du bereit bist oder nicht.'}],
+  min_short: [{s: 'M', t: 'Eine Viertelstunde. Kurz, aber knackig. Kenn ich von Seemännern.'}, {s: 'K', t: 'Ich hab das gehört!'}],
+  min_mid: [{s: 'K', t: 'Eine halbe Stunde, das reicht für eine ordentliche Wache. Wenn du nicht einpennst.'}],
+  min_long: [{s: 'K', t: 'Eine Stunde und mehr? Respekt. Du hast Ausdauer wie ein Leuchtturmwärter im Winter.'}, {s: 'T', t: 'Ausdauer! Ausdauer!'}],
+  exp_none: [{s: 'K', t: 'Noch nie? Macht nix. Jeder alte Seebär hat mal als nasser Schiffsjunge angefangen.'}],
+  exp_guest: [{s: 'M', t: 'Mitgefahren zählt. Dann weißt du ja schon, wo man sich festhält, wenn es ruppig wird.'}],
   exp_some: [{s: 'K', t: 'Schon selbst gesteuert. Dann weißt du ja, wo vorne ist. Meistens.'}],
-  exp_lots: [{s: 'K', t: 'Viel Erfahrung, sagst du. Das sagen sie alle. Wir werden sehen.'}],
+  exp_lots: [{s: 'K', t: 'Viel Erfahrung, sagst du. Das sagen sie alle, bis sie zum ersten Mal rückwärts in eine enge Box müssen.'}],
   goalAsk: [{s: 'M', t: 'Und wofür brauchst du den Schein eigentlich?'}],
   goal_boot: [{s: 'K', t: 'Ein eigenes Boot. Dann lernst du bald: Ein Boot ist ein Loch im Wasser, in das man Geld wirft.'}],
-  goal_charter: [{s: 'M', t: 'Chartern! Dann üben wir besonders das Anlegen. Im Hafen gucken nämlich immer alle zu.'}],
+  goal_charter: [{s: 'M', t: 'Chartern! Dann üben wir das Anlegen besonders gründlich. Im Hafen gucken nämlich immer alle zu, und keiner hat Mitleid.'}],
   goal_job: [{s: 'K', t: 'Beruflich. Dann nehmen wir das ernst. Also, ich nehme es ernst. Der Papagei nicht.'}, {s: 'T', t: 'Nie! Nie!'}],
-  goal_spass: [{s: 'T', t: 'Weil ich es kann! Weil ich es kann!'}, {s: 'K', t: 'Die beste Begründung, die es gibt.'}],
-  revAsk: [{s: 'K', t: 'Wo willst du später mal fahren?'}],
-  rev_ostsee: [{s: 'M', t: 'Ostsee. Kaum Gezeiten, viele schöne Häfen. Gute Wahl.'}],
-  rev_nordsee: [{s: 'K', t: 'Nordsee. Ebbe, Flut und Watt. Da lernst du Gezeiten ganz von allein. Meistens ein bisschen zu spät.'}],
-  rev_binnen: [{s: 'M', t: 'Seen und Flüsse. Dafür brauchst du dann auch den Binnenschein. Den nehmen wir uns später vor.'}],
-  rev_mittelmeer: [{s: 'K', t: 'Mittelmeer. Warmes Wasser und Sonne. Ich bin ein bisschen neidisch.'}],
+  goal_spass: [{s: 'T', t: 'Weil ich es kann! Weil ich es kann!'}, {s: 'K', t: 'Die ehrlichste Begründung, die je über diesen Steg gekommen ist.'}],
+  revAsk: [{s: 'K', t: 'Wo willst du später dein Revier markieren?'}],
+  rev_ostsee: [{s: 'M', t: 'Ostsee. Kaum Gezeiten, schöne Häfen und an jeder Ecke ein Fischbrötchen. Gute Wahl.'}],
+  rev_nordsee: [{s: 'K', t: 'Nordsee. Ebbe, Flut und Watt. Da lernst du Gezeiten ganz von allein. Meistens, wenn du schon trocken liegst.'}],
+  rev_binnen: [{s: 'M', t: 'Seen und Flüsse. Dafür brauchst du dann noch den Binnenschein. Den nehmen wir uns später vor.'}],
+  rev_mittelmeer: [{s: 'K', t: 'Mittelmeer. Warmes Wasser, heiße Häfen, und angelegt wird römisch-katholisch. Also mit dem Heck zuerst.'}, {s: 'T', t: 'Heck zuerst! Heck zuerst!'}],
   rev_offen: [{s: 'T', t: 'Überall! Überall!'}],
-  driveAsk: [{s: 'M', t: 'Segeln oder Motor?'}],
-  drive_segel: [{s: 'K', t: 'Ein Segler. Endlich jemand, der weiß, dass Wind nichts kostet.'}],
-  drive_motor: [{s: 'M', t: 'Motor. Dann zeig ich dir später, warum man beim Starten immer nach dem Kühlwasserstrahl guckt.'}],
-  drive_beides: [{s: 'K', t: 'Beides. Klug. Wenn der Wind einschläft, hast du immer noch den Motor.'}],
+  driveAsk: [{s: 'M', t: 'Segeln oder Motor? Oder bist du jemand, der gern beides hat?'}],
+  drive_segel: [{s: 'K', t: 'Ein Segler. Endlich jemand, der weiß, dass Wind nichts kostet und eine steife Brise das Schönste ist.'}],
+  drive_motor: [{s: 'M', t: 'Motor. Dann zeig ich dir später, warum man nach dem Starten guckt, ob hinten was rausspritzt. Kühlwasser, mein ich.'}],
+  drive_beides: [{s: 'K', t: 'Beides. Klug. Wenn der Wind schlappmacht, hast du immer noch was in der Hinterhand.'}],
+};
+/* Wenn jemand frei schreibt und keine Claude-Antwort kommt (kein Schlüssel, kein Netz) */
+const ONB_FREE = [{s: 'K', t: 'Aha. Hab ich notiert. Ob ich es verstanden hab, ist eine andere Frage.'}, {s: 'M', t: 'Steht im Logbuch. Darauf kommen wir zurück, versprochen.'}, {s: 'T', t: 'Notiert! Notiert!'}];
+/* Freche Namensvorschläge fürs Feld „Wie sollen wir dich nennen?“ */
+const NICKS = ['Landratte', 'Kielschwein', 'Bilgenkrabbe', 'Leichtmatrose', 'Möwenschreck', 'Seepocke', 'Klabauter-Azubi', 'Smutje Ahnungslos', 'Plankenputzer', 'Pützenschwenker', 'Fenderfummler', 'Kombüsenkapitän'];
+/* Erstes Mal in der Kajüte: Plan erklären, bei SKS kurze SBF-Prüfung, dann Ziele und Fahrplan. Ebenfalls nur feste Sätze. */
+const CABIN = {
+  hello: [{s: 'K', t: 'Da ist ja unser Neuzugang. Komm rein, Kopf einziehen. Der Niedergang hat schon Größere flachgelegt.'}, {s: 'M', t: 'Setz dich. Der Tee ist heiß, der Käpt\'n auch. Also, auf seine Pläne.'}, {s: 'T', t: 'Heiß! Heiß!'}],
+  plan: [
+    {s: 'K', t: 'Also, so läuft das hier an Bord. Jeden Tag gibt es drei Etappen: Erst Aufwärmen mit Fragen, die schon mal dran waren. Dann neue Fragen. Und zum Schluss eine Folge Kajütenfunk.'},
+    {s: 'M', t: 'Was du richtig hast, kommt erst nach ein paar Tagen wieder. Was du verbockst, steht morgen wieder vor der Tür. Wie ein Verflossener, der nicht loslassen kann.'},
+    {s: 'K', t: 'Das nennt sich Lernkartei. Die Fragen wandern durch fünf Fächer. Sind sie ganz hinten, sitzen sie bombenfest. Wie ein Palstek.'},
+    {s: 'K', t: 'Kurz vor der Prüfung kommt nichts Neues mehr. Dann wird nur noch wiederholt, und Kapitän Harms nimmt dich in der Probeprüfung in die Mangel.'},
+    {s: 'M', t: 'Und wenn dir der Kopf raucht, geh in die Spielekiste. Lichter, Tonnen, Schallsignale. Lernen, ohne dass es wehtut.'},
+    {s: 'T', t: 'Spielekiste! Spielekiste!'},
+  ],
+  sksIntro: [{s: 'K', t: 'Moment mal. Du willst den Küstenschifferschein? Dafür brauchst du den Sportbootführerschein See. Mal sehen, ob davon noch was hängengeblieben ist.'}, {s: 'M', t: 'Fünf Fragen. Ohne Spicken. Wir gucken dir auf die Finger.'}, {s: 'T', t: 'Finger! Finger!'}],
+  sks_low: [{s: 'K', t: 'Mein lieber Scholli. Das ist kein Wissen, das ist Treibgut.'}, {s: 'M', t: 'Und damit willst du den Küstenschifferschein? Du kriegst ja nicht mal die Badewanne ohne Schlagseite an den Steg.'}, {s: 'T', t: 'Gummiente! Gummiente! Hahaha!'}, {s: 'K', t: 'Na gut. Wir frischen den Sportbootführerschein nebenbei mit auf. Aber ich lach heute Abend noch drüber.'}],
+  sks_mid: [{s: 'K', t: 'Na. Halb voll oder halb leer? Bei dir eher halb abgesoffen.'}, {s: 'M', t: 'Immerhin weißt du noch, wo das Wasser ist. Das ist schon mal die halbe Miete.'}, {s: 'T', t: 'Halb! Halb!'}, {s: 'K', t: 'Wir kriegen dich schon hin. Aber im Moment bist du eher Leichtmatrose als Küstenschiffer.'}],
+  sks_high: [{s: 'K', t: 'Hm. Nicht schlecht. Gar nicht schlecht.'}, {s: 'M', t: 'Der Käpt\'n grinst. Das hab ich seit dem letzten Rumfass nicht mehr gesehen.'}, {s: 'K', t: 'Ich grinse nicht. Ich hab nur Wind im Gesicht. Gut, du darfst bleiben. Aber bild dir nix drauf ein.'}, {s: 'T', t: 'Respekt! Respekt!'}],
+  sumIntro: [{s: 'K', t: 'So. Dann fass ich mal zusammen, was ich über dich weiß.'}],
+  sum_goal_boot: [{s: 'K', t: 'Du willst ein eigenes Boot. Also lernen wir so, dass du es später auch heil wieder in den Hafen kriegst.'}],
+  sum_goal_charter: [{s: 'K', t: 'Du willst chartern. Unser Ziel: Du legst so sauber an, dass im Hafen keiner was zu lästern hat.'}],
+  sum_goal_job: [{s: 'K', t: 'Du brauchst den Schein beruflich. Also wird hier nicht rumgeschippert, hier wird gearbeitet.'}],
+  sum_goal_spass: [{s: 'K', t: 'Du machst das aus Spaß an der Freude. Bestes Motiv. Spaß hält länger als jeder gute Vorsatz.'}],
+  sum_time_short: [{s: 'K', t: 'Bis zur Prüfung ist es knapp. Wir fahren unter Vollzeug, jeden Tag ein ordentliches Stück.'}],
+  sum_time_mid: [{s: 'K', t: 'Bis zur Prüfung haben wir ordentlich Zeit. Genug für eine saubere Reise, wenn du nicht trödelst.'}],
+  sum_time_long: [{s: 'K', t: 'Bis zur Prüfung ist es noch lange hin. Wir segeln gemütlich, aber wir segeln. Ankern gilt nicht.'}],
+  sum_min_short: [{s: 'K', t: 'Viel Zeit am Tag hast du nicht. Darum lernen wir in kleinen Schlucken. Wie beim guten Rum.'}],
+  sum_min_mid: [{s: 'K', t: 'Mit deiner Lernzeit am Tag kommen wir gut voran.'}],
+  sum_min_long: [{s: 'K', t: 'Bei deiner Lernzeit pro Tag muss ich eher aufpassen, dass du dich nicht übernimmst.'}],
+  sum_exp_none: [{s: 'K', t: 'Und weil du noch nie am Ruder warst, erklär ich die Grundlagen in Ruhe. Jeder fängt mal klein an. Sogar ich. Ganz früher.'}],
+  sum_exp_guest: [{s: 'K', t: 'Du warst schon mal mit an Bord. Das Gefühl kennst du, jetzt kommt das Wissen dazu.'}],
+  sum_exp_some: [{s: 'K', t: 'Du hast schon Erfahrung. Gut, dann achten wir besonders auf die Prüfungsfallen. Die erwischen auch alte Hasen.'}],
+  sumPlan: [{s: 'K', t: 'Und hier ist dein Fahrplan bis zur Prüfung. Schreib ihn dir hinter die Ohren. Oder lass ihn dir tätowieren, wie früher.'}],
+  sumEnd: [{s: 'M', t: 'Den Fahrplan findest du jederzeit wieder, unter Lernplan.'}, {s: 'K', t: 'Dann mal: Leinen los. Die erste Etappe wartet.'}],
 };
 const ONB2_OPTS = {
   goal: [['boot', 'Eigenes Boot'], ['charter', 'Chartern im Urlaub'], ['job', 'Für den Job'], ['spass', 'Einfach, weil ich es kann']],
@@ -1338,6 +1370,8 @@ function packLines(withEpisodes) {
   INTRO.forEach(l => add(l.s, names(l.t)));
   Object.values(ONB).forEach(l => add(l.s, l.t));
   Object.values(ONB2).forEach(list => list.forEach(l => add(l.s, l.t)));
+  ONB_FREE.forEach(l => add(l.s, l.t));
+  Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
   const g = GRUSS[S.crew.K] || GRUSS.hinnerk;
   MOIN.concat(g).forEach(x => out.push({cid: S.crew.K, t: pclean(x)}));
   if (withEpisodes) {
@@ -1989,12 +2023,12 @@ function relevant(text) {
 }
 function learner() {
   const p = S.profile || {}, dl = daily();
-  return `Über ${p.name || 'den Lernenden'}: ${EXP[p.exp] || ''}. ${p.about ? 'Selbst erzählt: ' + p.about + '.' : ''}${(p.facts || []).length ? ' Was die Crew schon über ihn weiß: ' + p.facts.slice(-12).join('; ') + '.' : ''} Prüfung in ${S.profile ? daysLeft() : '?'} Tagen. Schwächen bisher: ${weakTopics().join(', ') || 'noch keine erkennbar'}. Heute schon ${dl.answered} Fragen beantwortet und ${dl.talk} Mal mit der Crew geredet.`;
+  return `Über ${p.name || 'den Lernenden'}: ${EXP[p.exp] || ''}. ${p.about ? 'Selbst erzählt: ' + p.about + '.' : ''}${(p.facts || []).length ? ' Was die Crew schon über die Person weiß: ' + p.facts.slice(-20).join('; ') + '.' : ''} Prüfung in ${S.profile ? daysLeft() : '?'} Tagen. Schwächen bisher: ${weakTopics().join(', ') || 'noch keine erkennbar'}. Heute schon ${dl.answered} Fragen beantwortet und ${dl.talk} Mal mit der Crew geredet.`;
 }
 const TONE = {
   kind: 'Der Nutzer ist unter 16. Sprecht kindgerecht: frech, aber lieb, keine Schimpfwörter.',
   teen: 'Der Nutzer ist 16 oder 17. Sprecht flapsig und frech, harmlose Kraftausdrücke wie Mist oder verflixt sind okay.',
-  erw: 'Der Nutzer ist erwachsen. Derber Seemannston ist erlaubt, gelegentliche Flüche wie verdammt oder Himmel, Arsch und Zwirn sind okay. Niemals beleidigend, anzüglich oder herabwürdigend.',
+  erw: 'Ton: FSK 18. Frecher, derber Seemannssprech mit vielen doppeldeutigen Witzen und Anspielungen aus der Seefahrt (Mast, Leinen festmachen, Anlegen, steife Brise, einlaufen, Schoten dichtholen, Achterdeck und so weiter). Benutzt reichlich Metaphern und Redewendungen von Bord. Flüche wie verdammt, Himmel, Arsch und Zwirn oder Klabautermann nochmal sind okay. Zweideutig ja, platt oder pornografisch nie. Nie verletzend wegen Herkunft, Aussehen, Geschlecht oder Ähnlichem.',
 };
 const GARN = [
   'Bleibt streng bei prüfungsrelevantem Wissen, keine Anekdoten.',
@@ -2242,32 +2276,14 @@ function runIntro() {
     if (l.turn) { K.classList.remove('tilt-r', 'look-r'); M.classList.remove('tilt-l', 'look-l'); [K, M, T].forEach(a => { const h = a.querySelector('.hopper'); h.classList.remove('hop'); h.getBoundingClientRect(); h.classList.add('hop'); }); await new Promise(r => setTimeout(r, 600)); }
   }}));
   let skipped = false;
-  $('#skip').onclick = () => { skipped = true; VOX.stop(); K.classList.remove('tilt-r', 'look-r'); M.classList.remove('tilt-l', 'look-l'); $('#cam').classList.add('near'); micQuestion(); };
-  (async () => { await new Promise(r => setTimeout(r, 2200)); if (skipped) return; await VOX.lines(list, 'fixed'); if (!skipped) micQuestion(); })();
+  $('#skip').onclick = () => { skipped = true; VOX.stop(); K.classList.remove('tilt-r', 'look-r'); M.classList.remove('tilt-l', 'look-l'); $('#cam').classList.add('near'); convoOnboarding(); };
+  (async () => { await new Promise(r => setTimeout(r, 2200)); if (skipped) return; await VOX.lines(list, 'fixed'); if (!skipped) convoOnboarding(); })();
 }
 function stagePanel(html) {
   let p = $('#stagePanel');
   if (!p) { p = document.createElement('div'); p.id = 'stagePanel'; p.className = 'overlay'; p.style.background = 'none'; p.style.zIndex = '46'; document.body.appendChild(p); }
   p.classList.remove('answered'); p.innerHTML = `<div class="panel">${html}</div>`; return p;
 }
-function micQuestion() {
-  const sk = $('#skip'); if (sk) sk.remove();
-  const canMic = VOX.canListen && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
-  stagePanel(`<h2 style="margin:0 0 4px">Mikrofon einschalten?</h2>
-    <p class="muted" style="margin:0 0 12px">Dann redet ihr ganz normal miteinander. Gehört wird nur, solange das Mikrofon rot leuchtet.</p>
-    <div class="row">${canMic ? '<button class="btn" id="micYes">Ja, einschalten</button>' : ''}<button class="btn ghost" id="micNo">Lieber tippen</button></div>
-    ${canMic ? '' : '<p class="small muted" style="margin:10px 0 0">Dieser Browser kann keine Sprache erkennen. Am besten klappt es mit Chrome auf dem Handy.</p>'}
-    <p class="status" id="mst"></p>`);
-  const no = () => { S.micOk = false; save(); convoOnboarding(); };
-  $('#micNo').onclick = no;
-  const y = $('#micYes'); if (y) y.onclick = async () => {
-    y.disabled = true; $('#mst').textContent = 'Dein Browser fragt gleich nach dem Mikrofon. Tippe auf „Zulassen“.';
-    const ok = await VOX.askMic();
-    if (!ok) { $('#mst').className = 'status err'; $('#mst').textContent = 'Das Mikrofon ist gesperrt. Du kannst es später über das Schloss-Symbol in der Adresszeile erlauben. Wir machen erst einmal mit Tippen weiter.'; setTimeout(no, 3500); return; }
-    S.micOk = true; save(); convoOnboarding();
-  };
-}
-
 /* ---------- Kennenlernen im Gespräch ---------- */
 const NUMW = {einunddreißig: 31, dreißig: 30, neunundzwanzig: 29, achtundzwanzig: 28, siebenundzwanzig: 27, sechsundzwanzig: 26, fünfundzwanzig: 25, vierundzwanzig: 24, dreiundzwanzig: 23, zweiundzwanzig: 22, einundzwanzig: 21, zwanzig: 20, neunzehn: 19, achtzehn: 18, siebzehn: 17, sechzehn: 16, fünfzehn: 15, vierzehn: 14, dreizehn: 13, zwölft: 12, zwölf: 12, elft: 11, elf: 11, zehnt: 10, zehn: 10, neunt: 9, neun: 9, acht: 8, siebt: 7, sieben: 7, sechst: 6, sechs: 6, fünft: 5, fünf: 5, viert: 4, vier: 4, dritt: 3, drei: 3, zweit: 2, zwei: 2, erst: 1, eins: 1, ein: 1};
 const NUMKEYS = Object.keys(NUMW).sort((a, b) => b.length - a.length);
@@ -2336,96 +2352,92 @@ function parseName(t) {
 }
 const MIC_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
 
+/* Steckbrief: was die Crew über den Nutzer weiß. Gleiche Überschrift ersetzt den alten Eintrag, neues wird ergänzt. */
+const FACTS_MAX = 60;
+function addFact(prof, f, label) {
+  prof.facts = (prof.facts || []).filter(x => !(label && x.startsWith(label + ':'))).concat(f).slice(-FACTS_MAX);
+}
 async function convoOnboarding() {
-  /* Jede Frage wird gesprochen und gleichzeitig zum Antippen angeboten. Wer mag, spricht oder erzählt frei. */
+  /* Am Steg: jede Frage gesprochen, mit Auswahlknöpfen und eigenem Textfeld. Antippen unterbricht die Crew sofort. */
+  const sk = $('#skip'); if (sk) sk.remove();
   const old = S.profile || {};
   const prof = {name: '', exam: null, minutes: 30, exp: null, about: '', facts: [], ...old};
-  const sayRole = (role, t, kind = 'fixed') => VOX.say(cid(role), t, kind);
-  const YES = /^\s*(ja|jo|jep|jap|genau|richtig|stimmt|korrekt|passt|klar|yes)\b/i;
-  const mic = !!S.micOk && VOX.canListen;
-  let ctl = null;
-  LOG.add('kennenlernen', 'Start' + (old.name ? ' (Profil vorhanden)' : '') + (mic ? ', mit Mikro' : ', ohne Mikro'));
-  /* Eine Frage: gesprochen, mit Knöpfen, und (falls erlaubt) mit offenem Mikro. Antwort kommt von dem, was zuerst da ist. */
-  const ask = (line, chipsHtml, bindChips, parse, o = {}) => new Promise(async res => {
-    let done = false; const finish = v => { if (done) return; done = true; if (ctl) { ctl.cancel(); ctl = null; } const sp = $('#stagePanel'); if (sp) sp.classList.add('answered'); res(v); };
-    const draw = note => { const sp0 = $('#stagePanel'); if (sp0) sp0.classList.remove('answered'); return stagePanel(`<p class="small" style="margin:0 0 8px;color:var(--muted)">${esc(line.t)}</p>${chipsHtml}
-      ${mic ? `<div class="talkbar" style="margin-top:12px"><div class="micbig on" aria-hidden="true">${MIC_SVG}</div><div class="talkstate" id="ost">Oder sag es einfach<small id="onote">${note || 'Ich höre zu…'}</small></div><button class="btn small" id="ofin">Fertig</button></div><div class="interim" id="oin"></div>` : ''}`); };
-    draw(); bindChips(finish);
-    await sayRole(line.s, line.t, line.kind || 'fixed');
-    if (!mic || done) return;
-    for (let i = 0; i < 3 && !done; i++) {
-      ctl = VOX.listen({onInterim: t => { const e = $('#oin'); if (e) e.textContent = t; }, noSpeech: o.noSpeech || 14000, pause: o.pause});
-      const f = $('#ofin'); if (f) f.onclick = () => ctl && ctl.finish();
-      const r = await ctl.done; ctl = null; if (done) return;
-      if (r.err && r.err !== 'aborted') { LOG.add('kennenlernen', 'Mikro-Fehler ' + r.err); const n = $('#onote'); if (n) n.textContent = 'Das Mikro hat nicht geklappt. Tippe einfach an.'; return; }
-      if (!r.text.trim()) { if (o.allowSilence) return finish(null); const n = $('#onote'); if (n) n.textContent = 'Ich habe nichts gehört. Tippe an oder sag es nochmal.'; continue; }
-      const v = parse(r.text); if (v != null) return finish(v);
-      if (line.again) { const n = $('#onote'); if (n) n.textContent = 'Das habe ich nicht verstanden.'; await sayRole(line.s, line.again); }
-    }
+  const say = l => VOX.say(cid(l.s), l.t, 'fixed');
+  const react = async key => { for (const l of (ONB2[key] || [])) await say(l); };
+  const inDays = d => new Date(Date.now() + d * 864e5).toISOString().slice(0, 10);
+  LOG.add('kennenlernen', 'Start' + (old.name ? ' (Profil vorhanden)' : ''));
+  /* Eine Frage: Knöpfe [[key, Text]] plus Textfeld. Ergebnis {k} oder {text}. */
+  const ask = (line, opts, o = {}) => new Promise(res => {
+    let done = false;
+    const fin = v => { if (done) return; done = true; VOX.stop('antwort'); const sp = $('#stagePanel'); if (sp) sp.classList.add('answered'); res(v); };
+    stagePanel(`<p class="small" style="margin:0 0 8px;color:var(--muted)">${esc(line.t)}</p>
+      ${opts && opts.length ? '<div class="chips">' + opts.map(([k, v]) => `<button class="chip" data-k="${esc(String(k))}">${esc(v)}</button>`).join('') + '</div>' : ''}
+      <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input type="text" id="ofree" placeholder="${esc(o.ph || 'Oder schreib selbst…')}" value="${esc(o.value || '')}" style="flex:1;min-width:0"><button class="btn" id="ofok">${o.value != null ? 'Weiter' : 'Senden'}</button></div>`);
+    document.querySelectorAll('#stagePanel [data-k]').forEach(b => b.onclick = () => fin({k: b.dataset.k}));
+    const inp = $('#ofree'), go = () => { const t = inp.value.trim(); if (t) fin({text: t}); else if (o.value != null) fin({text: ''}); };
+    $('#ofok').onclick = go; inp.onkeydown = e => { if (e.key === 'Enter') go(); };
+    say(line);
   });
-  const chips = (list, attr) => '<div class="chips">' + list.map(([k, v]) => `<button class="chip" data-${attr}="${esc(String(k))}">${esc(v)}</button>`).join('') + '</div>';
-  const bindAttr = (attr, map = v => v) => fin => document.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => fin(map(b.dataset[attr])));
-  const react = async key => { for (const l of (ONB2[key] || [])) await sayRole(l.s, l.t); };
-  /* Auswahlfrage: Knöpfe, oder per Sprache das erste Wort einer Antwort sagen */
-  const choose = (askKey, optKey) => { const opts = ONB2_OPTS[optKey], l = ONB2[askKey][0];
-    return ask({s: l.s, t: l.t}, chips(opts, 'o' + optKey), bindAttr('o' + optKey), t => { const o = opts.find(([, v]) => new RegExp('\\b' + v.split(' ')[0].toLowerCase(), 'i').test(t)); return o ? o[0] : null; }); };
-  /* Name */
-  const known = prof.name;
-  const n = await ask({s: 'M', t: known ? `Du bist doch ${known}, oder? Sag ja, oder sag mir deinen richtigen Namen.` : (mic ? ONB.micOk.t : ONB.name.t), again: ONB.nameAgain.t},
-    `<input type="text" id="fn" placeholder="Vorname" autocomplete="given-name" value="${esc(prof.name || '')}"><button class="btn wide" id="fok" style="margin-top:10px">Weiter</button>`,
-    fin => { $('#fok').onclick = () => fin($('#fn').value.trim() || prof.name || ''); },
-    t => (known && YES.test(t)) ? known : parseName(t));
-  if (n) prof.name = n;
-  if (prof.name) await react('nameOk');
+  /* Eigener Text: merken und die Crew live antworten lassen (Claude). Ohne Schlüssel oder Netz ein fester Spruch. */
+  const freeReply = async (label, q, text) => {
+    addFact(prof, label + ': ' + text.slice(0, 160), label);
+    if (apiKey()) {
+      try {
+        const K = CREW[S.crew.K], M = CREW[S.crew.M], T = CREW[S.crew.T];
+        const sys = `Ihr seid die Crew einer Segelyacht und lernt gerade am Steg jemanden kennen, der bei euch für den Bootsführerschein lernen will.
+K = ${K.persona}
+M = ${M.persona}
+T = ${T.persona} T sagt nur ganz kurze Einwürfe und wiederholt gern ein Schlagwort.
+${styleRules()}
+Antworte auf die Antwort des Neuen mit 1 bis 2 kurzen Zeilen, zusammen höchstens 35 Wörter. Jede Zeile beginnt mit K:, M: oder T:. Kein Markdown, keine Emojis. Stell keine neue Frage, die nächste Frage kommt automatisch.`;
+        const tx = await ai(`Frage der Crew: ${q}\nAntwort: ${text}`, {system: sys, modelTier: 'quick', maxTokens: 300});
+        const lines = String(tx).split('\n').map(l => l.match(/^\s*([KMT])\s*:\s*(.+)$/)).filter(Boolean).slice(0, 2);
+        if (lines.length) { for (const m of lines) await VOX.say(cid(m[1]), m[2], 'live'); return; }
+      } catch (e) { LOG.add('kennenlernen', 'freie Antwort ohne Claude: ' + (e && (e.code || e.message))); }
+    }
+    await say(ONB_FREE[Math.random() * ONB_FREE.length | 0]);
+  };
+  /* Name: frecher Vorschlag steht schon im Feld */
+  const nick = old.name || NICKS[Math.random() * NICKS.length | 0];
+  const n = await ask(ONB.nameAsk, [], {value: nick, ph: 'Name oder Spitzname'});
+  prof.name = (n.text || nick).slice(0, 24);
+  await react('nameOk');
   /* Schein */
-  const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /sportboot|sbf|bootsführer|motorboot|\bsee\b/i.test(t) ? 'sbf' : null;
-  const course = await ask({s: 'K', t: 'Für welchen Schein lernst du? Für den Sportbootführerschein See oder für den Sportküstenschifferschein?', again: 'Sag einfach: Sportbootführerschein oder Küstenschifferschein.'},
-    chips(Object.values(COURSES).map(c => [c.id, c.name]), 'c'), bindAttr('c'), parseCourse) || S.course;
+  const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
+  const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]));
+  let course = c.k || parseCourse(c.text);
+  if (!course) { await freeReply('Zum Schein', ONB.courseAsk.t, c.text); course = S.course || 'sbf'; }
   if (course !== S.course) { switchCourse(course); const bk = courseBucket(course); prof.exam = bk.examSet ? bk.exam : null; }
   await react(course === 'sks' ? 'sks' : 'sbf');
-  /* Prüfungsdatum */
-  const NOEX = /kein|nein|noch nicht|weiß nicht|egal/i;
-  const ex = await ask({s: 'K', t: ONB2.examAsk[0].t, again: ONB.examAgain.t},
-    `<input type="date" id="fd" value="${prof.exam || new Date(Date.now() + 42 * 864e5).toISOString().slice(0, 10)}"><div class="row" style="margin-top:10px"><button class="btn" id="fok">Termin übernehmen</button><button class="btn ghost" id="fno">Noch kein Termin</button></div>`,
-    fin => { $('#fok').onclick = () => fin($('#fd').value || 'none'); $('#fno').onclick = () => fin('none'); },
-    t => NOEX.test(t) ? 'none' : (prof.exam && YES.test(t)) ? prof.exam : parseDate(t));
-  if (ex && ex !== 'none') { prof.exam = ex; prof.examReal = true; await react('examSet'); }
-  else { prof.exam = new Date(Date.now() + 42 * 864e5).toISOString().slice(0, 10); prof.examReal = false; await react('examNone'); }
-  /* Alter */
-  const toAge = t => { const v = firstNum(t) || 0; return v >= 5 && v <= 99 ? (v < 16 ? 'kind' : v < 18 ? 'teen' : 'erw') : null; };
-  prof.ageGroup = await ask({s: 'M', t: 'Und wie alt bist du? Nur damit wir wissen, wie frech wir sein dürfen.', again: 'Sag einfach eine Zahl, zum Beispiel: dreißig.'},
-    chips([['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']], 'a'), bindAttr('a'), toAge) || prof.ageGroup || 'erw';
-  await react('age_' + prof.ageGroup);
+  /* Prüfungstermin */
+  const e = await ask(ONB2.examAsk[0], [['14', 'In 2 Wochen'], ['30', 'In einem Monat'], ['60', 'In 2 Monaten'], ['90', 'In 3 Monaten oder später'], ['none', 'Noch kein Termin']], {ph: 'Oder ein Datum, z. B. 12.12.2026'});
+  let ex = null;
+  if (e.k) ex = e.k === 'none' ? null : inDays(+e.k);
+  else if (!/kein|nein|noch nicht|weiß nicht|egal/i.test(e.text)) { ex = parseDate(e.text); if (!ex) await freeReply('Zum Prüfungstermin', ONB2.examAsk[0].t, e.text); }
+  if (ex) { prof.exam = ex; prof.examReal = true; await react(dayNum(new Date(ex + 'T12:00')) - today() <= 21 ? 'examSoon' : 'examSet'); }
+  else { prof.exam = inDays(42); prof.examReal = false; await react('examNone'); }
   /* Lernzeit */
-  prof.minutes = await ask({s: 'M', t: ONB.minutes.t, again: 'Sag einfach eine Zahl, zum Beispiel: dreißig Minuten.'},
-    chips([15, 30, 45, 60, 90].map(m => [m, m + ' Minuten']), 'm'), bindAttr('m', Number), parseMinutes) || prof.minutes || 30;
+  const m = await ask(ONB.minutesAsk, [15, 30, 45, 60, 90].map(x => [x, x + ' Minuten']), {ph: 'Oder selbst, z. B. eine Stunde'});
+  const min = m.k ? +m.k : parseMinutes(m.text);
+  if (min) { prof.minutes = min; await react(min <= 15 ? 'min_short' : min <= 45 ? 'min_mid' : 'min_long'); }
+  else { prof.minutes = prof.minutes || 30; await freeReply('Zur Lernzeit pro Tag', ONB.minutesAsk.t, m.text); }
   /* Erfahrung */
-  prof.exp = await ask({s: 'K', t: ONB.boat.t, again: 'Sag einfach: nein, schon mitgefahren, schon selbst gesteuert oder viel Erfahrung.'},
-    chips(Object.entries(EXP).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)]), 'e'), bindAttr('e'), parseExp) || prof.exp || 'none';
-  await react('exp_' + prof.exp);
-  /* Wer bist du? Drei schnelle Auswahlfragen mit Antwort der Crew */
+  const x = await ask(ONB.expAsk, Object.entries(EXP).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)]));
+  if (x.k) { prof.exp = x.k; await react('exp_' + x.k); }
+  else { prof.exp = parseExp(x.text) || prof.exp || 'none'; await freeReply('Zur Bootserfahrung', ONB.expAsk.t, x.text); }
+  /* Ziel, Revier, Antrieb */
   const LBL = (k, v) => (ONB2_OPTS[k].find(o => o[0] === v) || [, v])[1];
-  const goal = await choose('goalAsk', 'goal'); if (goal) { prof.goal = goal; await react('goal_' + goal); }
-  const rev = await choose('revAsk', 'rev'); if (rev) { prof.revier = rev; await react('rev_' + rev); }
-  const drive = await choose('driveAsk', 'drive'); if (drive) { prof.drive = drive; await react('drive_' + drive); }
-  prof.facts = (prof.facts || []).concat([goal && 'Ziel mit dem Schein: ' + LBL('goal', goal), rev && 'Wunschrevier: ' + LBL('rev', rev), drive && 'Fährt am liebsten: ' + LBL('drive', drive)].filter(Boolean)).slice(-30);
-  /* Frei erzählen: Das hilft der Crew, den Unterricht auf dich zuzuschneiden */
-  const story = await ask({s: 'K', t: 'Jetzt erzähl mal frei: Was hast du mit dem Schein vor, wo willst du fahren, und was macht dir vielleicht Respekt? Je mehr du erzählst, desto besser können wir dir helfen.'},
-    `<textarea id="fa" placeholder="Zum Beispiel: Ich will mit Freunden an der Ostsee chartern. Vor Nachtfahrten hab ich Respekt…">${esc(prof.about || '')}</textarea><div class="row" style="margin-top:8px"><button class="btn" id="fok">Weiter</button><button class="btn ghost" id="fskip">Überspringen</button></div>`,
-    fin => { $('#fok').onclick = () => fin($('#fa').value.trim() || null); $('#fskip').onclick = () => fin(null); },
-    t => t.trim(), {noSpeech: 20000, pause: 3});
-  if (story) { prof.about = (prof.about ? prof.about + ' ' : '') + story; prof.facts = (prof.facts || []).concat('Erzählt beim Kennenlernen: ' + story.slice(0, 220)).slice(-30); await sayRole('K', 'Danke, das merk ich mir. Das hilft uns mehr, als du denkst.'); }
-  /* Noch jemand im Raum? */
-  if (mic) {
-    const t = await ask({s: 'M', t: ONB.room.t}, '', () => {}, t => t.trim() || '', {noSpeech: 6500, pause: 1.4, allowSilence: true});
-    S.others = !!(t && t.length > 1);
-    await sayRole(S.others ? 'T' : 'K', S.others ? ONB.roomYes.t : ONB.roomFish.t);
+  for (const [askKey, optKey, field, label] of [['goalAsk', 'goal', 'goal', 'Ziel mit dem Schein'], ['revAsk', 'rev', 'revier', 'Wunschrevier'], ['driveAsk', 'drive', 'drive', 'Fährt am liebsten']]) {
+    const a = await ask(ONB2[askKey][0], ONB2_OPTS[optKey]);
+    if (a.k) { prof[field] = a.k; addFact(prof, label + ': ' + LBL(optKey, a.k), label); await react(optKey + '_' + a.k); }
+    else { prof[field] = 'eigen'; await freeReply(label, ONB2[askKey][0].t, a.text); }
   }
-  if (!prof.exam) prof.exam = new Date(Date.now() + 42 * 864e5).toISOString().slice(0, 10);
+  if (!prof.exam) prof.exam = inDays(42);
   const changed = !old.exam || old.exam !== prof.exam || old.minutes !== prof.minutes;
-  S.profile = prof; if (changed) S.plan = null; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; save();
-  LOG.add('kennenlernen', 'fertig: ' + JSON.stringify({name: prof.name, exam: prof.exam, age: prof.ageGroup, min: prof.minutes, exp: prof.exp, about: !!prof.about}));
-  await sayRole('K', 'So. Kurs ist abgesteckt. Den Rest erzählst du uns nach und nach. Dann mal: Leinen los!');
+  S.profile = prof; if (changed) S.plan = null; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.cabinWelcome = false; save();
+  LOG.add('kennenlernen', 'fertig: ' + JSON.stringify({name: prof.name, exam: prof.exam, min: prof.minutes, exp: prof.exp, goal: prof.goal, facts: prof.facts.length}));
+  const sp = $('#stagePanel'); if (sp) sp.remove();
+  await say(ONB.done);
   /* Schlüssel zum Schluss, mit „Später“ */
   if (apiKey() && elKey()) return endIntro(false);
   keysStep(() => endIntro(false));
@@ -2446,7 +2458,6 @@ function onboardingForm() {
     {q: 'Wie heißt du?', html: () => `<input type="text" id="sv" placeholder="Vorname" autocomplete="given-name" value="${esc(P.name)}">`, get: () => { P.name = $('#sv').value.trim(); }},
     {q: 'Für welchen Schein lernst du?', html: () => chips('course', Object.values(COURSES).map(c => [c.id, c.name])), key: 'course'},
     {q: 'Wann ist deine Prüfung?', html: () => `<input type="date" id="sv" value="${P.exam}">`, get: () => { P.exam = $('#sv').value || P.exam; }},
-    {q: 'Wie alt bist du?', sub: 'Danach richtet sich, wie frech die Crew sein darf.', html: () => chips('ageGroup', [['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']]), key: 'ageGroup'},
     {q: 'Wie viel Zeit hast du am Tag?', html: () => chips('minutes', [15, 30, 45, 60, 90].map(m => [m, m + ' Minuten'])), key: 'minutes', num: true},
     {q: 'Wie gut kennst du dich mit Booten aus?', html: () => chips('exp', Object.entries(EXP).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)])), key: 'exp'},
   ];
@@ -2539,7 +2550,7 @@ function courseCard() {
 /* ---------- Kajüte: hier wird gelernt ---------- */
 function renderCabin() {
   place = 'kajuete'; soundFor('kajuete'); returnTo = 'cabin';
-  const needAge = S.profile && !S.profile.ageGroup, path = todayPath(), next = path.find(s => !s.done), done = path.filter(s => s.done).length;
+  const needAge = false, path = todayPath(), next = path.find(s => !s.done), done = path.filter(s => s.done).length;
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="updeck">↑ An Deck</button><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
   ${cabinScene(S.crew)}
   ${!courseBucket(S.course).examSet ? `<div class="card" id="datecard"><h3>Wann ist deine ${esc(COURSE.short)}-Prüfung?</h3><input type="date" id="cdate" value="${S.profile.exam}"><button class="btn wide" id="cdsave" style="margin-top:10px">Speichern</button></div>` : ''}
@@ -2590,7 +2601,8 @@ function renderCabin() {
   scheduleCatWalk();
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
-  if (!S.tour || !S.tour.cabin) setTimeout(() => tour('cabin'), 1600);
+  if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
+  else if (!S.tour || !S.tour.cabin) setTimeout(() => tour('cabin'), 1600);
   pipeOnce();
   const dl = daily();
   if (AUD.ready && dl.answered < 5 && dl.talk >= 3 && S.lastTease !== today()) { S.lastTease = today(); save(); setTimeout(() => VOX.say(S.crew.M, teaseOf(S.crew.M) || teaseOf(S.crew.K), 'fixed'), 800); }
@@ -3167,9 +3179,10 @@ function renderSettings() {
 
   <h2>Crew-Charakter</h2>
   <div class="card">
-    <label for="agegr" style="margin-top:0">Altersgruppe (bestimmt, wie frech die Crew ist)</label>${sel('agegr', [['kind', 'Unter 16: frech, aber lieb'], ['teen', '16 oder 17: flapsig'], ['erw', '18 oder älter: derber Seemannston']], ageGroup())}
     <label for="garn">Seemannsgarn</label>${sel('garn', [[0, 'Nur Prüfungsrelevantes'], [1, 'Ab und zu ein Fakt'], [2, 'Fakten und wahre Geschichten'], [3, 'Viel Seemannsgarn']], c.garn == null ? 2 : c.garn)}
-    <p class="small muted" style="margin:6px 0 0">Was die Crew über dich weiß: ${(S.profile.facts || []).length ? esc(S.profile.facts.slice(-6).join(' · ')) : 'noch nichts'}. <button class="btn small ghost" id="forget" style="min-height:32px">Vergessen</button></p>
+    <h3 style="margin:12px 0 4px">Steckbrief: Das weiß die Crew über dich</h3>
+    ${(S.profile.facts || []).length ? '<ul class="small" style="margin:0;padding-left:18px">' + S.profile.facts.map((f, i) => `<li>${esc(f)} <button class="btn small ghost" data-fx="${i}" style="min-height:28px;padding:0 8px" aria-label="Eintrag löschen">✕</button></li>`).join('') + '</ul>' : '<p class="small muted" style="margin:0">Noch nichts. Erzähl der Crew was, sie merkt es sich.</p>'}
+    <div class="row" style="margin-top:8px"><button class="btn small ghost" id="forget">Alles vergessen</button><button class="btn small ghost" id="reonb">Kennenlernen neu starten</button></div>
   </div>
 
   <h2>Protokoll</h2>
@@ -3243,8 +3256,10 @@ function renderSettings() {
   $('#rs').onclick = () => { if (confirm('Willst du wirklich deinen gesamten Lernstand löschen?')) { try { localStorage.removeItem(KEY); } catch (e) {} S = load(); stopAll(); splash(); } };
   groupSettings();
   $('#strun').onclick = () => { AUD.unlock(); runSelfTest($('#stout'), $('#strun')); };
-  bindSel('#agegr', v => { S.profile.ageGroup = v; }); bindSel('#garn', v => { c.garn = +v; });
+  bindSel('#garn', v => { c.garn = +v; });
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
+  app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
+  $('#reonb').onclick = () => { S.introDone = false; S.cabinWelcome = false; save(); location.reload(); };
   const lv = $('#logview'); lv.textContent = LOG.all().slice(-60).map(e => e.join(' | ')).join('\n') || 'Noch leer.';
   $('#logcopy').onclick = async () => { try { await navigator.clipboard.writeText(LOG.text()); toast('Protokoll kopiert. Füge es im Chat mit Claude ein.'); } catch (e) { toast('Kopieren ging nicht. Nimm „Teilen“.'); } };
   $('#logshare').onclick = async () => { const text = 'Skipper-Protokoll v' + window.__ver + '\n' + LOG.text(); if (navigator.share) { try { await navigator.share({title: 'Skipper-Protokoll', text}); } catch (e) {} } else { try { await navigator.clipboard.writeText(text); toast('Protokoll kopiert.'); } catch (e) {} } };
@@ -3676,7 +3691,7 @@ async function userSays(text, extra = '', hidden = false) {
     const lines = full.split('\n'); const upto = last ? lines.length : lines.length - 1;
     for (let k = done; k < upto; k++) {
       const raw = lines[k].trim(); if (!raw) continue;
-      const f = raw.match(/^F\s*:\s*(.+)$/); if (f) { S.profile.facts = (S.profile.facts || []).concat(f[1].trim()).slice(-30); save(); LOG.add('fakt', f[1].trim()); continue; }
+      const f = raw.match(/^F\s*:\s*(.+)$/); if (f) { addFact(S.profile, f[1].trim()); save(); LOG.add('fakt', f[1].trim()); continue; }
       const o = raw.match(/^O\s*:\s*(.+)$/); if (o) { TALK.opts = o[1].split('|').map(x => x.trim()).filter(Boolean).slice(0, 4); continue; }
       const m = raw.match(/^([KMT])\s*:\s*(.+)$/); const role = m ? m[1] : 'K', t = (m ? m[2] : raw).trim(); if (!t) continue;
       logLine(role, t); out.push(cid(role), t); if (TALK.state === 'think') setTalkUI('speak');
@@ -4460,9 +4475,89 @@ function planSheet() {
   const {due, newLeft} = todayNumbers(), dl = daily();
   const w = sheet(`<h2 style="margin:0 0 8px">Plan für heute</h2>${courseCard()}
     <div class="card"><p style="margin:0">Heute schon <b>${dl.answered}</b> Fragen beantwortet. Fällig: <b>${due}</b> Wiederholungen, geplant: <b>${newLeft}</b> neue Fragen.</p></div>
-    <button class="btn lamp wide" id="recgo">Was empfiehlt der Käpt'n?</button>`);
+    <button class="btn lamp wide" id="recgo">Was empfiehlt der Käpt'n?</button><button class="btn ghost wide" id="fpgo" style="margin-top:8px">Fahrplan bis zur Prüfung</button>`);
+  $('#fpgo').onclick = fahrplanSheet;
   bindSaying();
   $('#recgo').onclick = () => { closeSheet(); charMenu(S.crew.K); setTimeout(() => { const b = document.querySelector('[data-m="next"]'); if (b) b.click(); }, 50); };
+}
+/* ---------- Fahrplan bis zur Prüfung ----------
+   Wie computePlan: die letzten 20 % der Tage nur Wiederholung, davor neue Fragen Thema für Thema. */
+function fahrplan() {
+  const left = Math.max(1, daysLeft());
+  const reviewDays = left >= 8 ? Math.round(left * .2) : Math.floor(left / 4), learnDays = Math.max(1, left - reviewDays);
+  const topics = TOPICS.map(t => ({name: t.name, n: Q.filter(q => t.has(q) && !st(q.n)).length})).filter(t => t.n);
+  const total = topics.reduce((a, t) => a + t.n, 0), perDay = total ? Math.ceil(total / learnDays) : 0;
+  const dateOf = d => new Date(Date.now() + d * 864e5).toISOString().slice(0, 10);
+  const weeks = []; let day = 0;
+  topics.forEach(t => {
+    const from = day, to = day + t.n / perDay; day = to;
+    for (let w = Math.floor(from / 7); w <= Math.floor(Math.max(from, to - .001) / 7); w++) (weeks[w] = weeks[w] || []).includes(t.name) || weeks[w].push(t.name);
+  });
+  return {left, learnDays, reviewDays, perDay, total, reviewFrom: dateOf(learnDays),
+    weeks: weeks.map((names, w) => ({from: dateOf(w * 7), to: dateOf(Math.min(learnDays, w * 7 + 7) - 1), names: names || []})).filter(w => w.names.length)};
+}
+function fahrplanHtml() {
+  const f = fahrplan(), d = iso => new Date(iso + 'T12:00').toLocaleDateString('de-DE', {day: 'numeric', month: 'short'});
+  return `<h2 style="margin:0 0 6px">Fahrplan bis zur Prüfung</h2>
+    <p class="small" style="margin:0 0 10px">Prüfung am <b>${fmtDate(S.profile.exam)}</b>, also in <b>${f.left}</b> Tagen. ${f.total ? `Pro Tag etwa <b>${f.perDay}</b> neue Fragen plus Wiederholungen, bei ${S.profile.minutes} Minuten Lernzeit.` : 'Alle Fragen hast du schon einmal gesehen. Jetzt wird nur noch wiederholt.'}</p>
+    <ol class="small" style="margin:0;padding-left:20px;display:grid;gap:6px">
+      ${f.weeks.map((w, i) => `<li><b>Woche ${i + 1}</b> (${d(w.from)} bis ${d(w.to)}): ${w.names.map(esc).join(', ')}</li>`).join('')}
+      <li><b>Wiederholung</b> ab ${d(f.reviewFrom)}: nichts Neues mehr, nur fällige Fragen. Jeden zweiten Tag eine Probeprüfung bei Kapitän Harms.</li>
+      <li><b>Prüfung</b> am ${d(S.profile.exam)}: Mast- und Schotbruch!</li>
+    </ol>`;
+}
+function fahrplanSheet() { sheet(fahrplanHtml()); }
+
+/* ---------- Erstes Mal in der Kajüte: Plan erklären, bei SKS kurze SBF-Prüfung, dann Ziele und Fahrplan ---------- */
+let cabinTalking = false;
+async function cabinWelcome() {
+  if (cabinTalking || !S.profile || S.cabinWelcome || tab !== 'cabin') return; cabinTalking = true;
+  let stop = false;
+  const gone = () => stop || tab !== 'cabin';
+  const panel = html => stagePanel(`${html}<div class="row" style="margin-top:10px"><button class="btn small ghost" id="cwskip">Überspringen</button></div>`);
+  const bindSkip = () => { const b = $('#cwskip'); if (b) b.onclick = () => { stop = true; VOX.stop('überspringen'); }; };
+  const talk = async key => { if (gone()) return; panel('<p class="small muted" style="margin:0">Die Crew erklärt …</p>'); bindSkip(); await VOX.lines((CABIN[key] || []).map(l => ({cid: cid(l.s), t: l.t})), 'fixed'); };
+  LOG.add('kajüte', 'Begrüßung und Fahrplan');
+  await new Promise(r => setTimeout(r, 600));
+  await talk('hello'); await talk('plan');
+  /* SKS: Der SBF See ist Voraussetzung. Fünf Fragen aus dem amtlichen SBF-Katalog (ohne Bildfragen), richtig ist a[0]. */
+  if (S.course === 'sks' && !gone()) {
+    await talk('sksIntro');
+    /* ohne Bild- und Tonfragen und ohne 206/207, deren Kennung im Katalog der App noch fehlt */
+    const pool = shuffle(DATA.filter(q => !q.skip && !q.img && !q.sig && Array.isArray(q.a) && !/folgender Kennung\?\s*$/.test(q.q))).slice(0, 5); let ok = 0;
+    for (let i = 0; i < pool.length && !gone(); i++) {
+      const q = pool[i], opts = shuffle(q.a.map((a, k) => ({a, k})));
+      const k = await new Promise(res => {
+        panel(`<p class="small muted" style="margin:0 0 4px">SBF-Frage ${i + 1} von ${pool.length} · Frage ${q.n}</p><p style="margin:0 0 8px"><b>${esc(q.q)}</b></p>
+          <div class="menu">${opts.map(o => `<button class="menuitem" data-a="${o.k}">${esc(o.a)}</button>`).join('')}</div>`);
+        bindSkip(); const sb = $('#cwskip'); if (sb) sb.addEventListener('click', () => res(-1));
+        document.querySelectorAll('#stagePanel [data-a]').forEach(b => b.onclick = () => res(+b.dataset.a));
+      });
+      if (k < 0) break;
+      const right = k === 0; if (right) ok++;
+      AUD.sfx(right ? 'richtig' : 'falsch', {vol: .5});
+      document.querySelectorAll('#stagePanel [data-a]').forEach(b => { b.disabled = true; if (+b.dataset.a === 0) b.style.outline = '3px solid var(--stb, #1E7F4F)'; else if (+b.dataset.a === k) b.style.opacity = '.45'; });
+      await new Promise(r => setTimeout(r, right ? 900 : 2200));
+    }
+    if (!gone()) { S.sbfCheck = {day: today(), ok, of: pool.length}; LOG.add('kajüte', 'SBF-Check ' + ok + '/' + pool.length); await talk(ok <= 1 ? 'sks_low' : ok <= 3 ? 'sks_mid' : 'sks_high'); }
+  }
+  /* Zusammenfassung aus festen Bausteinen */
+  if (!gone()) {
+    const p = S.profile, left = daysLeft(), lines = [...CABIN.sumIntro];
+    if (CABIN['sum_goal_' + p.goal]) lines.push(...CABIN['sum_goal_' + p.goal]);
+    lines.push(...CABIN[left <= 21 ? 'sum_time_short' : left <= 60 ? 'sum_time_mid' : 'sum_time_long']);
+    lines.push(...CABIN[p.minutes <= 20 ? 'sum_min_short' : p.minutes <= 45 ? 'sum_min_mid' : 'sum_min_long']);
+    lines.push(...CABIN[p.exp === 'none' ? 'sum_exp_none' : p.exp === 'guest' ? 'sum_exp_guest' : 'sum_exp_some']);
+    lines.push(...CABIN.sumPlan);
+    panel('<p class="small muted" style="margin:0">Der Käpt\'n fasst zusammen …</p>'); bindSkip();
+    await VOX.lines(lines.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
+  }
+  const sp = $('#stagePanel'); if (sp) sp.remove();
+  S.cabinWelcome = true; save(); cabinTalking = false;
+  if (tab !== 'cabin') return;
+  fahrplanSheet();
+  if (!stop) VOX.lines(CABIN.sumEnd.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
+  if (!S.tour || !S.tour.cabin) { const iv = setInterval(() => { if ($('#sheet')) return; clearInterval(iv); if (tab === 'cabin') tour('cabin'); }, 700); }
 }
 function courseSheet() {
   const w = sheet(`<h2 style="margin:0 0 4px">Welcher Schein?</h2><p class="small muted" style="margin:0 0 10px">Jeder Schein hat seinen eigenen Katalog und Lernstand. Nichts wird vermischt, nichts geht verloren.</p>
