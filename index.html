@@ -320,6 +320,7 @@ button.coursechip{border:0;cursor:pointer}
 .wiggle{animation:wiggle .6s ease}
 @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
 [data-egg].wiggle{transform-box:fill-box;transform-origin:50% 100%}
+.lexsig{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 0;padding:6px 10px;border-radius:10px;background:var(--bg)}
 .gamegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .gtile{display:flex;flex-direction:column;border-radius:14px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
 .gtile.off{opacity:.55}
@@ -493,7 +494,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.15';
+  window.__ver = '4.16';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2982,9 +2983,10 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     $('#after').innerHTML = `<div class="fb">${ok ? '<p style="margin:6px 0 0"><strong style="color:var(--stb)">Richtig.</strong></p>' : '<p style="margin:6px 0 0"><strong style="color:var(--bb)">Nicht ganz.</strong> Grün ist die Katalogantwort. Die Frage kommt am Ende noch einmal.</p>'}
       ${diff}
       <div id="expl" class="lesson" style="margin-top:8px"></div>
-      <div class="row" style="margin-top:10px"><button class="btn ghost" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ghost" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}</div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ghost" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}${lexOf(q) ? '<button class="btn ghost" id="lexq">Lexikon</button>' : ''}</div>
       <button class="btn wide" id="nxt" style="margin-top:10px">Weiter</button></div>`;
     $('#nxt').onclick = () => { VOX.stop(); i++; show(); };
+    const lx = $('#lexq'); if (lx) lx.onclick = () => lexSheet(lexOf(q));
     $('#why').onclick = () => explain(q, k);
     const mn = $('#mn'); if (mn) mn.onclick = () => mnemonic(q);
     $('#nxt').scrollIntoView({block: 'nearest', behavior: 'smooth'});
@@ -4124,18 +4126,58 @@ async function bgSit() {
   bgStop(true);
 }
 /* ---------- Lexikon: Original-Bilder aus dem amtlichen Fragenkatalog ---------- */
+/* ---------- Lexikon (5.7) ----------
+   Einträge = Katalogfragen mit Originalgrafik oder Tonsignal. Bedeutung = amtliche Antwort a.
+   Kategorie, Merkhilfe und Tonmuster aus data/lexikon.json. SKS nutzt das See-Lexikon (SBF See ist Voraussetzung). */
+let LEX = {cats: [], e: {}};
+const lexSrc = () => COURSE.id === 'binnen' ? 'bin' : 'sbf';
+const lexKey = (q, src = lexSrc()) => (src === 'bin' && q.n > 72 ? 'bin:' : 'sbf:') + q.n;
+function lexEntries() {
+  const src = lexSrc(), data = src === 'bin' ? BIN_DATA : DATA;
+  return data.filter(q => !q.skip && (LEX.e[lexKey(q, src)] || (q.img && q.img.length))).map(q => {
+    const k = lexKey(q, src), d = LEX.e[k] || [];
+    return {k, q, cat: d[0] || 'tafel', merk: d[1] || '', sig: d[2] || sigOf(q), img: q.img || []};
+  });
+}
+/* Lexikon-Eintrag zu einer Frage des aktiven Kurses (für den Verweis aus der Lernrunde) */
+function lexOf(q) { if (!q || COURSE.kind !== 'mc') return null; return lexEntries().find(x => x.q.n === q.n) || null; }
+/* Verwandte SKS-Fragen: über markante Wörter der Bedeutung */
+function sksRelated(x) {
+  const words = (ansText(x.q) + ' ' + x.merk).toLowerCase().match(/[a-zäöüß]{7,}/g) || [];
+  const stop = new Set(['kennzeichnung', 'fahrzeug', 'fahrzeuge', 'allgemeinen', 'schifffahrt', 'bedeutet', 'zwischen', 'gestattet']);
+  const ws = [...new Set(words)].filter(w => !stop.has(w)); if (!ws.length) return [];
+  return Q.map(q => ({q, s: ws.filter(w => (q.q + ' ' + ansText(q)).toLowerCase().includes(w)).length})).filter(o => o.s >= 2).sort((a, b) => b.s - a.s).slice(0, 3).map(o => o.q);
+}
+function lexCard(x, full, noPractice) {
+  const catName = (LEX.cats.find(c => c[0] === x.cat) || [, ''])[1];
+  const rel = COURSE.id === 'sks' ? sksRelated(x) : [];
+  return `<div class="card lex" data-lk="${esc(x.k)}">${x.img.length ? `<div class="leximgs">${x.img.map(src => `<img src="${src}" alt="" loading="lazy">`).join('')}</div>` : ''}
+    ${x.sig ? `<div class="lexsig"><span class="small">${esc(x.sig)}</span><button class="btn small ghost" data-play="${esc(x.sig)}">▶ Anhören</button></div>` : ''}
+    <p style="margin:6px 0 4px"><b>${esc(ansText(x.q))}</b></p>
+    ${x.merk ? `<p class="small" style="margin:0 0 6px">💡 ${esc(x.merk)}</p>` : ''}
+    <p class="small muted" style="margin:0">${full ? esc(catName) + ' · ' : ''}${COURSE.id === 'sks' ? 'SBF See' : esc(COURSE.short)}, Frage ${x.q.n}: ${esc(x.q.q.split('\n')[0])}</p>
+    <div class="row" style="margin-top:6px;flex-wrap:wrap">${COURSE.id === 'sks' ? rel.map(q => `<button class="btn small ghost" data-rq="${esc(String(q.n))}">SKS ${esc(qLabel(q))}</button>`).join('') : noPractice ? '' : `<button class="btn small ghost" data-qn="${x.q.n}">Frage üben</button>`}</div></div>`;
+}
+function bindLexCards(root, back) {
+  root.querySelectorAll('[data-play]').forEach(b => b.onclick = () => { AUD.unlock(); if (hornCtl) hornCtl.stop(); hornCtl = AUD.horn(b.dataset.play, () => {}); });
+  root.querySelectorAll('[data-qn]').forEach(b => b.onclick = () => { closeSheet(); const q = QN[+b.dataset.qn]; if (q) runQuiz([q], 'Aus dem Lexikon', 'learn', {noRequeue: true, doneLabel: 'Zurück zum Lexikon', onDone: back}); });
+  root.querySelectorAll('[data-rq]').forEach(b => b.onclick = () => { closeSheet(); const q = QN[b.dataset.rq]; if (q) runQuiz([q], 'Aus dem Lexikon', 'learn', {noRequeue: true, doneLabel: 'Zurück zum Lexikon', onDone: back}); });
+}
+function lexSheet(x) { const w = sheet(`<h2 style="margin:0 0 8px">Lexikon</h2>${lexCard(x, true, true)}`); bindLexCards(w, () => setTab('cabin')); }
+let lexCat = 'alle';
 function renderLexikon(filter = '') {
   subScreen(); place = 'log';
-  const all = COURSE.all().filter(q => (q.img && q.img.length) || (q.qi && q.qi.length));
-  const f = filter.trim().toLowerCase();
-  const hit = q => !f || (q.q + ' ' + ansText(q) + ' ' + (Array.isArray(q.a) ? '' : '')).toLowerCase().includes(f);
-  const groups = {}; all.filter(hit).forEach(q => { const t = topicOf(q.n); (groups[t.name] = groups[t.name] || []).push(q); });
+  const all = lexEntries(), f = filter.trim().toLowerCase();
+  const hit = x => (lexCat === 'alle' || x.cat === lexCat) && (!f || (x.q.q + ' ' + ansText(x.q) + ' ' + x.merk + ' ' + x.cat).toLowerCase().includes(f));
+  const shown = all.filter(hit), cats = LEX.cats.filter(c => all.some(x => x.cat === c[0]));
   app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Lexikon</h1><button class="btn small ghost" id="back">Zurück</button></div>
-    <p class="small muted" style="margin:4px 0 10px">Alle Bilder stammen aus dem amtlichen Fragenkatalog (ELWIS). ${all.length} Einträge im ${esc(COURSE.short)}.</p>
+    <p class="small muted" style="margin:4px 0 10px">Originalgrafiken und Bedeutungen aus dem amtlichen Fragenkatalog (ELWIS). ${all.length} Einträge${COURSE.id === 'sks' ? ' aus dem SBF See, mit passenden SKS-Fragen' : ' im ' + esc(COURSE.short)}.</p>
     <input type="search" id="lxs" style="width:100%" placeholder="Suchen, z. B. Tonne, Topplicht, Kegel…" value="${esc(filter)}">
-    ${Object.entries(groups).map(([name, qs]) => `<h2 style="margin:18px 0 8px">${esc(name)}</h2>${qs.map(q => `<div class="card lex"><div class="leximgs">${(q.img || q.qi || []).map(src => `<img src="${src}" alt="" loading="lazy">`).join('')}</div>
-      <p class="small muted" style="margin:6px 0 2px">${esc(qLabel(q))}: ${esc(q.q.split('\n')[0])}</p><p style="margin:0"><b>${esc(ansText(q))}</b></p></div>`).join('')}`).join('') || '<p class="muted">Nichts gefunden.</p>'}`;
-  $('#back').onclick = () => setTab(returnTo === 'deck' ? 'deck' : 'cabin');
+    <div class="chips" style="margin:10px 0 0">${[['alle', 'Alle']].concat(cats).map(([id, n]) => `<button class="chip" data-lc="${id}" aria-pressed="${lexCat === id}">${esc(n)}</button>`).join('')}</div>
+    ${cats.filter(c => shown.some(x => x.cat === c[0])).map(([id, name]) => `<h2 style="margin:18px 0 8px">${esc(name)}</h2>${shown.filter(x => x.cat === id).map(x => lexCard(x)).join('')}`).join('') || '<p class="muted">Nichts gefunden.</p>'}`;
+  $('#back').onclick = () => { if (hornCtl) hornCtl.stop(); setTab(returnTo === 'deck' ? 'deck' : 'cabin'); };
+  app.querySelectorAll('[data-lc]').forEach(b => b.onclick = () => { lexCat = b.dataset.lc; renderLexikon($('#lxs').value); });
+  bindLexCards(app, () => renderLexikon(filter));
   let t = null; $('#lxs').oninput = e => { clearTimeout(t); t = setTimeout(() => { renderLexikon(e.target.value); const s = $('#lxs'); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 350); };
 }
 function playEpisode(ep) {
@@ -4990,8 +5032,8 @@ function courseSheet() {
 /* Inhalte (Kataloge, Navigationsaufgaben, Folgen) liegen in data/ und werden vor dem Start geladen. */
 async function loadData() {
   const get = f => fetch('data/' + f + '?v=' + window.__ver).then(r => { if (!r.ok) throw new Error(f + ': HTTP ' + r.status); return r.json(); });
-  const [sbf, sks, nav, folgen, bin] = await Promise.all([get('sbf.json'), get('sks.json'), get('nav.json'), get('folgen.json'), get('binnen.json')]);
-  DATA = sbf; SKS_DATA = sks; NAV_TASKS = nav; BIN_DATA = bin;
+  const [sbf, sks, nav, folgen, bin, lex] = await Promise.all([get('sbf.json'), get('sks.json'), get('nav.json'), get('folgen.json'), get('binnen.json'), get('lexikon.json')]);
+  DATA = sbf; SKS_DATA = sks; NAV_TASKS = nav; BIN_DATA = bin; LEX = lex;
   EPISODES = Object.assign({sbf: [], sks: []}, folgen.episodes); SHORTS = folgen.shorts || [];
   useCourse(S.course);
 }

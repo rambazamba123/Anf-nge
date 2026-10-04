@@ -232,7 +232,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [x] 5.4 Panorama mit zwei Ebenen und neuem langem Boot (v4.13: `longBoatScene`, `deckView`, `ovToDetail`, Knopf „Übersicht“)
 - [x] Easter-Eggs (v4.14: 11 neue, 29 insgesamt; `EGG_LINES`, `FLAG_ART`, `glasenNow`, `wxOverride`)
 - [x] 5.8 SBF Binnen (v4.15: `data/binnen.json` 300 Fragen, 70 Bilder in `img/b/`, `COURSES.binnen`, `BIN_TOPICS`, `BIN_EXAM` motor/segel, `S.binSegel`; SBF-See-Fragen 16–30 mit Bild freigeschaltet)
-- [ ] 5.7 Lexikon komplett
+- [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
 - [ ] Konzept 5.5 und 5.6 freigegeben
 - [ ] 5.5 Navigationsschule
 - [ ] 5.6 Törn-Light
