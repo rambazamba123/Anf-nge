@@ -226,7 +226,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 ## 8. Status (von Claude Code gepflegt)
 - [x] E0 Start-Check (v4.9: Git ok, `data/` ausgelagert, `img/q/`, `quellen/` mit `.gitignore`)
 - [x] Kataloge in `data/` ausgelagert (seit v4.6)
-- [ ] 5.1 Begrüßung mit Streit und Neustart
+- [x] 5.1 Begrüßung mit Streit und Neustart (v4.10: Flag `introV5`, `?neustart`, bekannte Nutzer ohne neue Fragen)
 - [ ] 5.2 Fernglas-Regel und Easter-Egg-Sammlung
 - [ ] 5.3 Spielekiste, Trophäen, Bestenliste, Rang
 - [ ] 5.4 Panorama mit zwei Ebenen und neuem langem Boot

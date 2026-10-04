@@ -459,7 +459,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.9';
+  window.__ver = '4.10';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -803,6 +803,7 @@ const ONB = {
   minutesAsk: {s: 'M', t: 'Wie lange hältst du am Tag durch? Beim Lernen, mein ich.'},
   expAsk: {s: 'K', t: 'Hast du schon mal selbst am Ruder gestanden? Oder bisher nur am Tresen vom Hafenrestaurant?'},
   done: {s: 'K', t: 'So. Kurs ist abgesteckt. Guck dich an Deck um, und dann komm runter in die Kajüte. Da reden wir über den Fahrplan.'},
+  known: {s: 'K', t: 'Ach, du bist das! Dich kennen wir ja schon. Na dann, komm an Bord. Die Leinen sind los.'},
 };
 const ONB2 = {
   nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
@@ -2192,7 +2193,10 @@ function boot() {
   applyTheme(); registerSW(); try { PACK.load(); } catch (e) {}
   /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
-  if (!S.introDone || !S.introV4) { S.introV4 = true; save(); return splash(); }
+  /* ?neustart: nur die Intro-Flags zurücksetzen (zum Testen), Lernstand bleibt */
+  if (/[?&]neustart\b/.test(location.search)) { S.introV5 = false; S.introDone = false; S.cabinWelcome = false; save(); try { history.replaceState(null, '', location.pathname); } catch (e) {} LOG.add('start', 'Neustart per URL'); }
+  /* introV5 wird erst am Ende des Intros gesetzt (endIntro). Alte Spielstände sehen den Streit so genau einmal. */
+  if (!S.introV5) return splash();
   if (!S.profile) return onboardingForm();
   setTab('deck'); tapToBoard();
 }
@@ -2360,6 +2364,8 @@ function addFact(prof, f, label) {
 async function convoOnboarding() {
   /* Am Steg: jede Frage gesprochen, mit Auswahlknöpfen und eigenem Textfeld. Antippen unterbricht die Crew sofort. */
   const sk = $('#skip'); if (sk) sk.remove();
+  /* Schon bekannt (altes Profil, „Intro nochmal ansehen“): nach dem Streit nicht alles neu fragen */
+  if (S.profile && S.profile.name && !S.reOnb) { await VOX.say(cid(ONB.known.s), ONB.known.t, 'fixed'); return endIntro(false); }
   const old = S.profile || {};
   const prof = {name: '', exam: null, minutes: 30, exp: null, about: '', facts: [], ...old};
   const say = l => VOX.say(cid(l.s), l.t, 'fixed');
@@ -2445,7 +2451,7 @@ Antworte auf die Antwort des Neuen mit 1 bis 2 kurzen Zeilen, zusammen höchsten
 function endIntro(toForm) {
   VOX.stop(); VOX.forceFallback = null;
   const h = $('#introHolder'); if (h) h.remove(); const p = $('#stagePanel'); if (p) p.remove();
-  S.introDone = true; S.introV4 = true; S.lastDay = today(); save();
+  S.introDone = true; S.introV4 = true; S.introV5 = true; S.reOnb = false; S.lastDay = today(); save();
   if (toForm && !S.profile) return onboardingForm();
   setTab('deck');
 }
@@ -3253,13 +3259,13 @@ function renderSettings() {
   $('#bk').onclick = doBackup;
   $('#rsBk').onclick = () => $('#bkf').click();
   $('#bkf').onchange = async () => { const f = $('#bkf').files[0]; if (!f) return; try { const v = JSON.parse(await f.text()); if (!v || !v.profile) throw 0; if (!confirm('Lernstand aus der Sicherung übernehmen? Der aktuelle wird ersetzt.')) return; localStorage.setItem(KEY, JSON.stringify(v)); S = load(); toast('Sicherung geladen.'); setTab('cabin'); } catch (e) { toast('Die Datei ist keine gültige Skipper-Sicherung.'); } };
-  $('#rs').onclick = () => { if (confirm('Willst du wirklich deinen gesamten Lernstand löschen?')) { try { localStorage.removeItem(KEY); } catch (e) {} S = load(); stopAll(); splash(); } };
+  $('#rs').onclick = () => { if (confirm('Willst du wirklich deinen gesamten Lernstand löschen?')) { try { localStorage.removeItem(KEY); } catch (e) {} stopAll(); location.reload(); } };
   groupSettings();
   $('#strun').onclick = () => { AUD.unlock(); runSelfTest($('#stout'), $('#strun')); };
   bindSel('#garn', v => { c.garn = +v; });
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
   app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
-  $('#reonb').onclick = () => { S.introDone = false; S.cabinWelcome = false; save(); location.reload(); };
+  $('#reonb').onclick = () => { S.introDone = false; S.introV5 = false; S.reOnb = true; S.cabinWelcome = false; save(); location.reload(); };
   const lv = $('#logview'); lv.textContent = LOG.all().slice(-60).map(e => e.join(' | ')).join('\n') || 'Noch leer.';
   $('#logcopy').onclick = async () => { try { await navigator.clipboard.writeText(LOG.text()); toast('Protokoll kopiert. Füge es im Chat mit Claude ein.'); } catch (e) { toast('Kopieren ging nicht. Nimm „Teilen“.'); } };
   $('#logshare').onclick = async () => { const text = 'Skipper-Protokoll v' + window.__ver + '\n' + LOG.text(); if (navigator.share) { try { await navigator.share({title: 'Skipper-Protokoll', text}); } catch (e) {} } else { try { await navigator.clipboard.writeText(text); toast('Protokoll kopiert.'); } catch (e) {} } };
