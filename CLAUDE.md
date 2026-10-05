@@ -48,11 +48,24 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 
 ## 3. Stil und Ton
 - **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch. Szenen hängen von Tageszeit und Wetter ab.
-- **Crew:** witzig, herzlich, plattdeutsch angehaucht. Die Freigabe ist **so, wie sie aktuell im Code steht** (seit v4.8 immer FSK 18). Ändern nur auf meine Anweisung.
+- **Crew:** witzig, herzlich, plattdeutsch angehaucht. Die Freigabe ist **so, wie sie aktuell im Code steht** (seit v4.8 immer FSK 18). Ändern nur auf meine Anweisung. Laut Nutzer (05.10.2026) ist der Ton auch für 14-Jährige in Ordnung.
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Stand v4.23 (Ende Lauf 2).*
+*Stand v4.32 (Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
+- **KI und Kosten:**
+  - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
+  - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
+  - `ai()` zählt `S.kiUse` {day, n}; `KI_LIMIT` (0 = aus) für das spätere Tageslimit
+  - Sprech-Arten: `fixed` (fester Satz, kommt ins Paket), `story`, `live` (KI-Antwort), `local` (wechselnder App-Text, nie ElevenLabs)
+  - Entwickler-Werkzeuge `.dev`, `devOn()` (an bei ElevenLabs-Schlüssel oder `S.cfg.dev`)
+- **Fragekarten:** `data/karten-sbf.json`, `karten-bin.json`, `karten-sks.json` ({k: {Schlüssel: {e, m, f}}}), Schlüssel `sbf:n`, `bin:n`, `sks:<id>`
+  - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (grauer Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
+- **Stimmenpaket:** `PACK.voices` (Manifest legt die Stimmen fest), `VOX.voiceOf`, `packLines` (alle Crews), `packVoices`, `downloadPack` (ZIP-Teile unter 20 MB plus `geschichten.json`), `buildVoicePack`, `exportClips`
+  - Werkzeuge: `tools/stimmen-import.js` (ZIPs aus `import/`), `tools/stimmenpaket.js` (direkt mit `ELEVENLABS_API_KEY`)
+- **Offline:** Schriften in `fonts/`, `offlineStock()` (einmal pro Version), `sw.js` mit `MEDIEN` (Versionsname des Medien-Speichers)
+- **Zurück-Taste:** `initBackKey`, `handleBack` (Reihenfolge `BACKS`), `guardBack`
+- **Zuhören:** `AUD.hush` schaltet Musik und Geräusche beim Zuhören stumm
 - **Navigationsschule und Törn** liegen in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`, das Steuer an Deck öffnet `NAV.toernStart`):
   - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L9)
   - Karte: `proj`/`unproj` (Mercator, Minuten ab 55°N/006°E), `NAV.mountChart` (Zoom, Lupe, Kursdreieck, Zirkel, Stift, Kreuz)
@@ -67,7 +80,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
-  - `audio/stimmen/` (Stimmenpaket mit `manifest.json`, noch leer)
+  - `audio/stimmen/` (Stimmenpaket mit `manifest.json`; legt auch die Stimmen fest, noch leer)
   - `docs/`: Konzepte
 - **Start:**
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
@@ -293,6 +306,24 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] 5.5c Lektionen 1–5 (v4.19: `GEN` mit 14 Aufgabentypen, `NAV.task` Übungsmaschine, `grade` mit Toleranzen, `NAV.path/lesson/exercise`, Meisterschaft → `S.navi.lek[id].sterne`)
   - [x] 5.5b Navi-Fibel (v4.18: 23 Begriffe in `data/navi.json`, `NAV.fibel`, `NAV.term`, `NAV.linkTerms` macht Begriffe überall antippbar)
   - [x] 5.5a Karte und Werkzeuge (v4.17: `navi.js` nachgeladen, `data/karte.json`, Mercator, Zoom, Lupe, Kursdreieck mit Gradbogen, Zirkel, Bleistift, Rechenblatt)
+- [x] Architektur-Lauf (v4.24–v4.31, 05.10.2026, Konzept `docs/konzept-architektur.md`)
+  - [x] A1 KI-Schalter, gelbe Kostenknöpfe, keine automatischen KI-Aufrufe, Tageszähler (v4.24)
+  - [x] A3 Stimmenpaket: feste Stimmen, alle Crews, Export, Import- und Erzeugungs-Skript, eigene Folgen bleiben (v4.25)
+  - [x] A4 Offline: lokale Schriften, Offline-Vorrat, versionierter Medien-Speicher (v4.26)
+  - [x] A5 Zurück-Taste, ruhigeres Zuhören im Gespräch (v4.27)
+  - [x] A2 Fragekarten: SBF 285, Binnen 228, SKS 635 (v4.28–v4.31)
+  - [x] Kostenknöpfe grau wie „ausgegraut“ statt gelb, weil Gelb schon für Hauptknöpfe genutzt wird (v4.32, Wunsch des Nutzers)
+  - [x] Gepusht auf `claude/sweet-cori-fklbww` (live erst nach Übernahme in `main`)
+- **Entscheidungen des Nutzers (05.10.2026):** Konten mit Supabase. Stimmenpaket erst erzeugen, wenn der Nutzer die Podcastfolgen überarbeitet hat, dann in bester verfügbarer Qualität.
+- **Offen (Reihenfolge):**
+  1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
+  2. A6 Konten und Server mit Supabase (freigegeben), danach KI-Tageslimit auf dem Server
+  3. Stimmenpaket: **erst nach der Überarbeitung der Podcastfolgen durch den Nutzer**, dann in bester Qualität (Handy-ZIP oder `tools/stimmenpaket.js` mit Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io`)
+  4. Folgen für SKS und Binnen, danach das Stimmenpaket ergänzen
+  5. Capacitor, Datenschutz, Store, Skins mit Käufen
+  6. Unter Deck im Schnitt; Funk und Pyro (warten auf Kataloge)
+  7. Datenfehler prüfen (Originalkatalog): SBF 279 (doppelte Antwort), SBF 285 und Binnen 253 (angehängter PDF-Text), SKS nav-92 (Antwort leer), recht-23 (Frage abgeschnitten), „Stand: 01. Juli 2006“-Reste in SKS-Antworten
+  8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
 - [x] 5.6 Törn-Light (v4.22–4.23)
   - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
   - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5

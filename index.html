@@ -8,9 +8,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <title>Skipper – SBF See</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --bg:#dfe9e6; --paper:#fbf6ec; --paper-edge:#e7dbc4; --ink:#2a2019; --muted:#6c5f52; --line:#e1d5bf;
@@ -42,6 +40,10 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:0;border-radius:14px;padding:.75em 1.15em;background:var(--sea);color:var(--sea-ink);font-weight:700;min-height:50px;text-align:center}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
 .btn.lamp{background:var(--lamp);color:#3a2610}
+/* Grau wie „ausgegraut“, mit Funkeln: Dieser Knopf kann KI- oder Stimmenkosten verursachen. Bei ausgeschalteter KI verschwindet er. */
+.btn.ki{background:#bdb8b0;color:#3f3b35;box-shadow:inset 0 0 0 2px #9d978e}
+.btn.ki::before{content:'✦';font-size:.85em;opacity:.85}
+.noki .ki,.nodev .dev{display:none!important}
 .btn.wide{width:100%}
 .btn.small{min-height:40px;padding:.4em .9em;font-size:.92rem}
 .btn:disabled{opacity:.5;cursor:default}
@@ -275,6 +277,8 @@ nav.tabs svg{width:26px;height:26px}
 .menuitem{text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 12px;color:var(--ink);min-height:48px}
 .menuitem b{display:block;font-family:var(--hfont);font-size:1.02rem;line-height:1.2}
 .menuitem small{color:var(--muted)}
+.menuitem.ki{background:#d3cec6;border-color:#9d978e;color:#3f3b35}
+.menuitem.ki small{color:#5c574f}
 .menusay{background:var(--bg);border-radius:12px;padding:10px 12px;margin:0 0 10px;line-height:1.45}
 .hornbtn{display:flex;flex-direction:column;align-items:center;gap:1px;border:0;border-radius:16px;padding:6px 10px;min-height:56px;background:#c8962e;color:#2a1a08;font:700 .72rem/1.1 var(--bfont);box-shadow:0 3px 0 rgba(0,0,0,.22);flex:none}
 .hornbtn svg{width:26px;height:26px}
@@ -494,7 +498,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.23';
+  window.__ver = '4.32';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1172,7 +1176,7 @@ const AUD = (() => {
     enttaeuschung: 'audio/enttaeuschung.mp3', falsch: 'audio/falsch.mp3', richtig: 'audio/richtig.mp3', motorStart: 'audio/motor-start.mp3', motorLauf: 'audio/motor-lauf.mp3',
   };
   let ctx = null, master, bus = {}, filt, buffers = {}, loading = {};
-  let music = {name: null, src: null, gain: null}, loops = {}, duckState = 0, events = [], unlocked = false;
+  let music = {name: null, src: null, gain: null}, loops = {}, duckState = 0, hushed = false, events = [], unlocked = false;
   const cfg = () => (window.S && S.cfg) || {music: .35, amb: .6, sfx: .7};
 
   function init() {
@@ -1194,8 +1198,8 @@ const AUD = (() => {
   }
   function applyVolumes() {
     if (!ctx) return; const c = cfg(), t = ctx.currentTime;
-    bus.music.gain.setTargetAtTime(c.music * (duckState ? (music.name === 'musik-abend' ? .12 : .35) : 1), t, .25);
-    bus.amb.gain.setTargetAtTime(c.amb, t, .3);
+    bus.music.gain.setTargetAtTime(hushed ? 0 : c.music * (duckState ? (music.name === 'musik-abend' ? .12 : .35) : 1), t, .25);
+    bus.amb.gain.setTargetAtTime(hushed ? 0 : c.amb, t, .3);
     bus.sfx.gain.setTargetAtTime(c.sfx, t, .1);
   }
   async function load(name) {
@@ -1223,6 +1227,8 @@ const AUD = (() => {
     music.src = s; music.gain = g;
   }
   function duck(on) { duckState = on ? 1 : 0; applyVolumes(); }
+  /* Beim Zuhören Musik und Geräusche ganz leise: Sonst hört das Mikrofon Wellen und Musik statt dich. */
+  function hush(on) { hushed = !!on; applyVolumes(); }
 
   /* ---------- Dauer-Geräusche ---------- */
   async function setLoop(name, vol, rate = 1) {
@@ -1349,7 +1355,7 @@ const AUD = (() => {
     g.gain.value = 0; o.connect(g); g.connect(bus.sfx); const t = ctx.currentTime;
     g.gain.linearRampToValueAtTime(.12, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + .12); o.start(t); o.stop(t + .13);
   }
-  return {squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  return {files: FILES, hush, squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>
@@ -1391,88 +1397,123 @@ const CLIPS = (() => {
    Alle Nutzer bekommen sie von dort, ohne dass ElevenLabs erneut bezahlt wird. */
 const pclean = t => String(t).replace(/\*\*/g, '').replace(/[▬●]/g, '').replace(/^[-•]\s*/gm, '').replace(/\s+/g, ' ').trim();
 const PACK = (() => {
-  let man = null, texts = {}, loading = null; const mem = new Map();
+  let man = null, texts = {}, voices = {}, loading = null; const mem = new Map();
   const key = (cid, text) => hash(cid + '|' + pclean(text));
-  const load = () => loading || (loading = (location.protocol === 'file:' ? Promise.resolve({}) : fetch('audio/stimmen/manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {}).catch(() => ({}))).then(j => { man = (j && j.files) || {}; texts = (j && j.texts) || {}; return man; }));
+  const load = () => loading || (loading = (location.protocol === 'file:' ? Promise.resolve({}) : fetch('audio/stimmen/manifest.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {}).catch(() => ({}))).then(j => { man = (j && j.files) || {}; texts = (j && j.texts) || {}; voices = (j && j.voices) || {}; return man; }));
   return {
     key, load,
     has: (cid, text) => !!(man && man[key(cid, text)]),
     /* bisheriges Manifest plus neue Einträge: Ein neues ZIP überschreibt nie, was schon im Paket ist. */
-    merged: (files, tx) => ({made: new Date().toISOString(), crew: S.crew, files: {...(man || {}), ...files}, texts: {...texts, ...tx}}),
+    merged: (files, tx) => ({made: new Date().toISOString(), voices: Object.keys(voices).length ? voices : packVoices(), files: {...(man || {}), ...files}, texts: {...texts, ...tx}}),
     async get(cid, text) {
       try { await load(); const k = key(cid, text); if (!man[k]) return null; if (mem.has(k)) return mem.get(k);
         const r = await fetch('audio/stimmen/' + man[k]); if (!r.ok) return null; const b = await r.blob(); mem.set(k, b); return b; } catch (e) { return null; }
     },
     get size() { return man ? Object.keys(man).length : 0; },
+    files: () => man ? Object.values(man) : [],
+    /* Die Stimmen gibt das Paket vor (eine feste ElevenLabs-Stimme je Figur), nicht jedes Gerät. */
+    get voices() { return voices; },
   };
 })();
-/* Alle festen Sätze sammeln, die ins Stimmenpaket gehören */
+/* Alle festen Sätze sammeln, die ins Stimmenpaket gehören: für jede mögliche Crew (Käpt'n, Matrose, Bordtier je 2 Figuren),
+   damit jeder Nutzer sie gratis hört, egal wen er gewählt hat. Navi und Törn kommen dazu, wenn navi.js geladen ist. */
 function packLines(withEpisodes) {
-  const out = [], add = (role, t) => { if (t) out.push({cid: cid(role), t: pclean(t)}); };
-  const names = s => s.replace('{K}', nameOf('K')).replace('{M}', nameOf('M')).replace('{T}', nameOf('T'));
-  INTRO.forEach(l => add(l.s, names(l.t)));
-  Object.values(ONB).forEach(l => add(l.s, l.t));
-  Object.values(ONB2).forEach(list => list.forEach(l => add(l.s, l.t)));
-  ONB_FREE.forEach(l => add(l.s, l.t));
-  Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
-  Object.entries(OVERTAKE).forEach(([id, t]) => out.push({cid: id, t: pclean(t)}));
-  Object.values(EGG_LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
-  const g = GRUSS[S.crew.K] || GRUSS.hinnerk;
-  MOIN.concat(g).forEach(x => out.push({cid: S.crew.K, t: pclean(x)}));
-  if (withEpisodes) {
-    const fill = s => s.replace(/\{A:([\w-]+)\}/g, (_, n) => { const q = QN[n] || QN[+n]; return q ? ansText(q).replace(/\s+/g, ' ').trim() : ''; }).replace(/\{Q:([\w-]+)\}/g, (_, n) => { const q = QN[n] || QN[+n]; return q ? q.q.replace(/\s+/g, ' ').trim() : ''; });
-    (EPISODES[S.course] || []).forEach(ep => ep.lines.forEach(l => { if (l.s !== 'Q') add(l.s, fill(l.t)); }));
-  }
-  const seen = new Set(); return out.filter(x => { const k = x.cid + '|' + x.t; if (seen.has(k)) return false; seen.add(k); return true; });
+  const out = [], seen = new Set();
+  const push = (c, t) => { t = pclean(t || ''); if (!c || !t) return; const k = c + '|' + t; if (seen.has(k)) return; seen.add(k); out.push({cid: c, t}); };
+  /* Sätze, die fest zu einer Figur gehören */
+  Object.entries(LINES).forEach(([id, o]) => Object.values(o).forEach(v => [].concat(v).forEach(t => push(id, t))));
+  Object.entries(GRUSS).forEach(([id, l]) => { MOIN.forEach(t => push(id, t)); l.forEach(t => push(id, t)); });
+  Object.entries(TEASE).forEach(([id, o]) => (o[ageGroup()] || []).forEach(t => push(id, t)));
+  Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
+  ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
+  push('ilse', 'Ach du liebe Zeit! Wer kehrt das jetzt wieder zusammen?'); push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
+  /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
+  const keep = S.crew, nv = window.NAV && NAV.data ? (NAV.data().NV || {}) : {};
+  try {
+    for (const K of ROLE_OPTIONS.K) for (const M of ROLE_OPTIONS.M) for (const T of ROLE_OPTIONS.T) {
+      S.crew = {...keep, K, M, T};
+      const add = (role, t) => push(cid(role), t);
+      const names = x => x.replace(/\{K\}/g, nameOf('K')).replace(/\{M\}/g, nameOf('M')).replace(/\{T\}/g, nameOf('T'));
+      INTRO.forEach(l => add(l.s, names(l.t)));
+      Object.values(ONB).forEach(l => add(l.s, l.t));
+      Object.values(ONB2).forEach(list => list.forEach(l => add(l.s, l.t)));
+      ONB_FREE.forEach(l => add(l.s, l.t));
+      Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
+      Object.values(EGG_LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
+      (nv.lektionen || []).forEach(l => (l.crew || []).forEach(c => add(c.s, c.t)));
+      if (window.NAV && NAV.TOERN_LINES) Object.values(NAV.TOERN_LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
+      if (withEpisodes) {
+        (EPISODES[S.course] || []).forEach(ep => ep.lines.forEach(l => { if (l.s !== 'Q') add(l.s, epFill(l.t)); }));
+        SHORTS.forEach(sh => sh.lines.forEach(t => add(sh.who, t)));
+      }
+    }
+  } finally { S.crew = keep; }
+  return out;
 }
 async function loadZipLib() {
   if (!window.JSZip) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }).catch(() => null);
   return !!window.JSZip;
 }
-/* ZIP mit neuen MP3s und dem zusammengeführten manifest.json herunterladen. Inhalt einfach in audio/stimmen entpacken (überschreiben). */
-async function downloadPack(zip, files, texts, name) {
-  zip.file('manifest.json', JSON.stringify(PACK.merged(files, texts), null, 1));
-  const blob = await zip.generateAsync({type: 'blob'}), u = URL.createObjectURL(blob), aEl = document.createElement('a');
-  aEl.href = u; aEl.download = name; document.body.appendChild(aEl); aEl.click(); aEl.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000);
+/* Stimmen, mit denen das Paket entsteht: alle Figuren, so wie sie gerade auf diesem Gerät eingestellt sind */
+function packVoices() { const v = {}; Object.keys(CREW).forEach(id => { const x = VOX.voiceOf(id); if (x) v[id] = x; }); return v; }
+/* ZIP(s) mit neuen MP3s, zusammengeführtem manifest.json und den eigenen Folgen herunterladen.
+   Über 20 MB wird geteilt, damit jede Datei auf GitHub hochgeladen werden kann (Grenze 25 MB). */
+async function downloadPack(items, name) {
+  const parts = []; let cur = null, size = 0;
+  for (const it of items) { if (!cur || size + it.b.size > 20e6) { cur = []; parts.push(cur); size = 0; } cur.push(it); size += it.b.size; }
+  if (!parts.length) parts.push([]);
+  for (let p = 0; p < parts.length; p++) {
+    const zip = new JSZip(), files = {}, texts = {};
+    parts[p].forEach(it => { zip.file(it.k + '.mp3', it.b); files[it.k] = it.k + '.mp3'; texts[it.k] = it.cid + ': ' + it.t; });
+    zip.file('manifest.json', JSON.stringify(PACK.merged(files, texts), null, 1));
+    if (p === 0 && (S.stories || []).length) zip.file('geschichten.json', JSON.stringify({course: S.course, stories: S.stories}, null, 1));
+    const blob = await zip.generateAsync({type: 'blob'}), u = URL.createObjectURL(blob), aEl = document.createElement('a');
+    aEl.href = u; aEl.download = parts.length > 1 ? name.replace('.zip', '-' + (p + 1) + '.zip') : name; document.body.appendChild(aEl); aEl.click(); aEl.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000);
+    await new Promise(r => setTimeout(r, 1200));
+  }
+  return parts.length;
 }
-/* Erzeugt die festen Sätze (Begrüßung, Kennenlernen, Moin), die noch nicht im Paket sind, und lädt sie als ZIP herunter.
-   Folgen entstehen erst beim Hören und kommen über exportClips ins Paket. */
-async function buildVoicePack(status, withEpisodes) {
+/* Erzeugt alle festen Sätze, die noch nicht im Paket sind (Gehörtes kommt kostenlos aus dem Gerätespeicher), und lädt sie als ZIP herunter. */
+async function buildVoicePack(status) {
   const say = t => { if (status) status.textContent = t; };
   if (!elKey()) return say('Dafür brauchst du den ElevenLabs-Schlüssel.');
+  if (!kiOn()) return say('Schalte dafür zuerst die KI-Funktionen ein.');
   try { await VOX.ensureVoices(); } catch (e) { return say('Die Stimmen sind gerade nicht erreichbar.'); }
+  try { await loadNavi(); } catch (e) {}
+  await PACK.load();
+  const lines = packLines(true).filter(l => !PACK.has(l.cid, l.t)), chars = lines.reduce((a, l) => a + l.t.length, 0);
+  if (!lines.length) return say('Alle festen Sätze sind schon im Paket. Nichts zu tun.');
+  if (!confirm(`${lines.length} Sätze fehlen im Paket, zusammen ${chars.toLocaleString('de-DE')} Zeichen. Schon Gehörtes kostet nichts, der Rest höchstens etwa so viele Credits (Sparsam: etwa die Hälfte). Das dauert eine Weile, lass die App offen. Los?`)) return say('Abgebrochen.');
   say('Lade das ZIP-Werkzeug…');
   if (!await loadZipLib()) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
-  await PACK.load();
-  const lines = packLines(withEpisodes).filter(l => !PACK.has(l.cid, l.t)), zip = new JSZip(), files = {}, texts = {}; let ok = 0, fail = 0;
-  if (!lines.length) return say('Alle festen Sätze sind schon im Paket. Nichts zu tun.');
+  const items = []; let fail = 0;
   for (let i = 0; i < lines.length; i++) {
     const {cid: c, t} = lines[i]; say(`Satz ${i + 1} von ${lines.length}…`);
-    try { const b = await VOX.clip(c, t, 'fixed'); if (b) { const k = PACK.key(c, t); zip.file(k + '.mp3', b); files[k] = k + '.mp3'; texts[k] = c + ': ' + t; ok++; } else fail++; } catch (e) { fail++; }
+    try { const b = await VOX.clip(c, t, 'fixed'); if (b) items.push({k: PACK.key(c, t), cid: c, t, b}); else fail++; } catch (e) { fail++; if (e && e.code === 'el_quota') break; }
   }
-  await downloadPack(zip, files, texts, 'stimmen.zip');
-  say(`Fertig: ${ok} neue Sätze${fail ? `, ${fail} fehlgeschlagen` : ''}. Leg stimmen.zip in den Projektordner, Claude baut es in audio/stimmen ein.`);
+  const n = await downloadPack(items, 'stimmen.zip');
+  say(`Fertig: ${items.length} Sätze in ${n} ZIP-Datei${n > 1 ? 'en' : ''}${fail ? `, ${fail} fehlgeschlagen (nochmal tippen holt den Rest)` : ''}. Lade sie auf GitHub in den Ordner import hoch und sag Claude Bescheid.`);
 }
-/* Was im Gerät gespeichert ist und noch nicht im Paket liegt (ohne freie Gespräche, die wiederholen sich nicht) */
+/* Was im Gerät gespeichert ist und noch nicht im Paket liegt (ohne freie Gespräche, die wiederholen sich nicht).
+   Nur Aufnahmen mit der Stimme, die das Paket vorgibt, damit eine Figur nicht mit zwei Stimmen spricht. */
 async function clipStats() {
-  await PACK.load(); const all = await CLIPS.list();
-  const fresh = all.filter(m => m.kind !== 'live' && m.cid && m.t && !PACK.has(m.cid, m.t));
+  await PACK.load(); const all = await CLIPS.list(), pv = PACK.voices || {};
+  const fresh = all.filter(m => m.kind !== 'live' && m.kind !== 'local' && m.cid && m.t && !PACK.has(m.cid, m.t) && (!pv[m.cid] || !m.v || m.v === pv[m.cid]));
   return {all: all.length, fresh};
 }
 async function exportClips(status) {
   const say = t => { if (status) status.textContent = t; };
   const {fresh} = await clipStats();
-  if (!fresh.length) return say('Keine neuen Aufnahmen. Alles Gehörte ist schon im Paket.');
+  if (!fresh.length && !(S.stories || []).length) return say('Keine neuen Aufnahmen. Alles Gehörte ist schon im Paket.');
   say('Lade das ZIP-Werkzeug…');
   if (!await loadZipLib()) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
-  const zip = new JSZip(), files = {}, texts = {}, seen = new Set(); let ok = 0;
+  const items = [], seen = new Set();
   for (const m of fresh) {
     const k = PACK.key(m.cid, m.t); if (seen.has(k)) continue; seen.add(k);
-    const b = await CLIPS.get(m.k); if (!b) continue;
-    zip.file(k + '.mp3', b); files[k] = k + '.mp3'; texts[k] = m.cid + ': ' + pclean(m.t); ok++;
+    const b = await CLIPS.get(m.k); if (b) items.push({k, cid: m.cid, t: pclean(m.t), b});
   }
-  await downloadPack(zip, files, texts, 'stimmen-neu.zip');
-  say(`${ok} Aufnahmen exportiert. Leg stimmen-neu.zip in den Projektordner, Claude baut sie in audio/stimmen ein. Danach hört jeder sie gratis.`);
+  const n = await downloadPack(items, 'stimmen-neu.zip');
+  say(`${items.length} Aufnahmen${(S.stories || []).length ? ' und deine eigenen Folgen' : ''} exportiert (${n} ZIP). Lade sie auf GitHub in den Ordner import hoch und sag Claude Bescheid. Danach hört jeder sie gratis.`);
 }
 function hash(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); }
 
@@ -1510,7 +1551,10 @@ const VOX = (() => {
     try { localStorage.setItem('skipper-voices', JSON.stringify({t: Date.now(), v: voiceList})); } catch (e) {}
     keyBad = false; return voiceList;
   }
+  /* Feste Stimme einer Figur: zuerst die vom Stimmenpaket vorgegebene, sonst die auf diesem Gerät gewählte */
+  function voiceOf(cid) { return (PACK.voices && PACK.voices[cid]) || (S.voices && S.voices[cid]) || null; }
   async function ensureVoices() {
+    if (PACK.voices && PACK.voices.hinnerk) return;
     if (S.voices && S.voices.hinnerk && S.voices.smilla) return;
     const list = await listVoices(); autoAssign(list);
   }
@@ -1548,7 +1592,7 @@ const VOX = (() => {
     const k = elKey();
     const body = {text, model_id: model, voice_settings: {stability: .45, similarity_boost: .78, style: model === MODELS.hoch ? .3 : 0, use_speaker_boost: true}};
     if (model === MODELS.sparsam) body.language_code = 'de';
-    const r = await fetchT(`${EL_BASE}/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, {method: 'POST', headers: {'xi-api-key': k, 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)}, 20000);
+    const r = await fetchT(`${EL_BASE}/v1/text-to-speech/${voice}?output_format=mp3_44100_64`, {method: 'POST', headers: {'xi-api-key': k, 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)}, 20000);
     if (!r.ok) {
       const d = await errDetail(r); log('elevenlabs', 'HTTP ' + r.status + ' ' + (d.status || '') + ' ' + (d.msg || ''));
       if (d.quota || r.status === 402) { exhausted = true; throw {code: 'el_quota'}; }
@@ -1558,20 +1602,23 @@ const VOX = (() => {
     return r.blob();
   }
   /* Holt Audio für einen Satz: erst aus dem Speicher, sonst neu erzeugen. */
+  /* Holt Audio für einen Satz: Stimmenpaket, dann Speicher auf dem Gerät, erst dann (nur mit eingeschalteter KI) neu erzeugen. */
   async function clip(cid, text, kind) {
     const packed = await PACK.get(cid, text); if (packed) return packed;
-    if (!elKey() || keyBad || noEl) return null;
-    if (!(S.voices && S.voices[cid])) { try { await ensureVoices(); } catch (e) { throw e; } }
-    const voice = S.voices && S.voices[cid]; if (!voice) return null;
-    const want = kind === 'fixed' ? MODELS[(S.cfg && S.cfg.quality) || 'sparsam'] : MODELS.sparsam;
+    const want = kind === 'fixed' || kind === 'story' ? MODELS[(S.cfg && S.cfg.quality) || 'sparsam'] : MODELS.sparsam;
     const other = want === MODELS.hoch ? MODELS.sparsam : MODELS.hoch;
-    for (const m of [want, other]) { const b = await CLIPS.get(hash(voice + '|' + m + '|' + text)); if (b) return b; }
+    const cached = async v => { for (const m of [want, other]) { const b = await CLIPS.get(hash(v + '|' + m + '|' + text)); if (b) return b; } return null; };
+    let voice = voiceOf(cid);
+    if (voice) { const b = await cached(voice); if (b) return b; }
+    /* local: wechselnder Text aus der App (z. B. Zahlen) – nie neu erzeugen, Handystimme genügt */
+    if (kind === 'local' || !kiOn() || !elKey() || keyBad || noEl) return null;
+    if (!voice) { await ensureVoices(); voice = voiceOf(cid); if (!voice) return null; const b = await cached(voice); if (b) return b; }
     if (exhausted) return null;
     if (kind !== 'fixed' && !budgetOk(text.length)) { hooks.notice('budget'); return null; }
     const b = await elFetch(voice, text, want);
     usage().all += text.length; if (kind === 'live') usage().live += text.length; save();
     /* Alles merken, auch Vorlesen und Gespräch: Derselbe Satz kostet nie zweimal. */
-    CLIPS.put(hash(voice + '|' + want + '|' + text), b, {cid, t: text, kind, at: Date.now()});
+    CLIPS.put(hash(voice + '|' + want + '|' + text), b, {cid, t: text, kind, at: Date.now(), v: voice});
     return b;
   }
 
@@ -1766,17 +1813,19 @@ const VOX = (() => {
     return {done: p, finish: () => finish(), cancel: () => finish(true)};
   }
   function listen(o = {}) {
-    const mode = (S.cfg && S.cfg.stt) || 'phone', opts = {...o};
+    const mode = (S.cfg && S.cfg.stt) || 'phone', opts = {...o}, el = elKey() && !exhausted && kiOn();
     if (opts.pause == null) opts.pause = S.cfg.pause;
-    if ((mode === 'eleven' && elKey() && !exhausted) || (!SR && elKey())) return listenEleven(opts);
+    AUD.hush(true);
+    const quiet = p => p.then(r => { AUD.hush(false); return r; }, e => { AUD.hush(false); throw e; });
+    if ((mode === 'eleven' && el) || (!SR && el)) { const c = listenEleven(opts); return {...c, done: quiet(c.done)}; }
     let cur = listenPhone(opts);
     const holder = {finish: () => cur.finish(), cancel: () => cur.cancel()};
-    holder.done = cur.done.then(r => {
-      if (r.err && ['network', 'service-not-allowed', 'unsupported'].includes(r.err) && elKey() && !exhausted) {
+    holder.done = quiet(cur.done.then(r => {
+      if (r.err && ['network', 'service-not-allowed', 'unsupported'].includes(r.err) && el) {
         hooks.notice('sttswitch'); cur = listenEleven(opts); return cur.done;
       }
       return r;
-    });
+    }));
     return holder;
   }
   async function askMic() {
@@ -1784,7 +1833,7 @@ const VOX = (() => {
   }
 
   return {
-    hooks, listVoices, autoAssign, credits, say, lines, stream, stop, preview, listen, askMic, clip,
+    hooks, listVoices, autoAssign, credits, say, lines, stream, stop, preview, listen, askMic, clip, voiceOf,
     set forceFallback(v) { forceFb = v; },
     get noEl() { return noEl; }, set noEl(v) { noEl = !!v; },
     ensureVoices, ttsTest: (voice, text) => elFetch(voice, text, MODELS.sparsam),
@@ -1892,7 +1941,7 @@ const INT = [0, 1, 2, 4, 7, 14]; // Lernkartei-Abstände in Tagen
 const EXP = {none: 'noch nie selbst ein Boot gefahren', guest: 'schon mitgefahren, aber nie selbst gesteuert', some: 'schon selbst ein Boot gesteuert', lots: 'viel Erfahrung auf dem Wasser'};
 const KEY = 'skipper-sbfsee-v1';
 const CFIELDS = ['qs', 'chap', 'exams', 'stories', 'storyQs', 'examHist', 'plan', 'mnemo', 'talk', 'lessons', 'start', 'talkCtx', 'lastTease'];
-const DEFAULT_CFG = {music: .35, amb: .6, sfx: .7, voice: 1, pause: 2, stt: 'phone', quality: 'sparsam', fallback: 'phone', theme: 'auto', comments: true, budget: 6000, wxSound: true, wx: 'auto', read: true, garn: 2};
+const DEFAULT_CFG = {music: .35, amb: .6, sfx: .7, voice: 1, pause: 2, stt: 'phone', quality: 'sparsam', fallback: 'phone', theme: 'auto', comments: true, budget: 6000, wxSound: true, wx: 'auto', read: true, garn: 2, ki: true};
 
 /* ---------- Speicher ---------- */
 var S = load();
@@ -2022,9 +2071,19 @@ function toMessages(input) {
    Neuere Modelle denken standardmäßig nach; das Antwortlimit gilt für Nachdenken PLUS Text.
    Deshalb: Nachdenken abschalten, wo das Modell es erlaubt; sonst genug Spielraum geben.
    Kommt trotzdem kein Text, wird automatisch einmal mit dem schnellen Modell wiederholt. */
+/* KI-Schalter und Kostenzähler. Kosten entstehen nur über graue Knöpfe (.ki).
+   KI_LIMIT: Kosten-Aktionen pro Tag und Gerät; 0 = noch keine Grenze (kommt später mit den Konten auf den Server). */
+const KI_LIMIT = 0;
+const kiOn = () => !(S && S.cfg && S.cfg.ki === false);
+function kiUse() { const d = today(); if (!S.kiUse || S.kiUse.day !== d) S.kiUse = {day: d, n: 0}; return S.kiUse; }
+/* Entwickler-Werkzeuge (Stimmenpaket, Stimmenwahl, Selbsttest): an, solange ein ElevenLabs-Schlüssel eingetragen ist, sonst per Einstellung */
+const devOn = () => S.cfg && S.cfg.dev != null ? !!S.cfg.dev : !!elKey();
+function applyKi() { document.body.classList.toggle('noki', !kiOn()); document.body.classList.toggle('nodev', !devOn()); }
 let thinkOff = (() => { try { return localStorage.getItem('skipper-thinkoff') !== 'no'; } catch (e) { return true; } })();
 async function ai(input, opts = {}) {
+  if (!kiOn()) throw {code: 'ki_off'};
   const key = apiKey(); if (!key) throw {code: 'no_key'};
+  if (!opts._counted) { const u = kiUse(); if (KI_LIMIT && u.n >= KI_LIMIT) throw {code: 'ki_limit'}; u.n++; opts._counted = true; save(); }
   const model = opts.forceModel || pickModel(opts), fast = model === MODELS.fast;
   const want = opts.maxTokens || 1500;
   const body = {model, max_tokens: (thinkOff || fast || /sonnet-5-5/.test(model)) ? Math.max(want, 600) : Math.max(want, 4096), messages: toMessages(input), stream: true};
@@ -2076,6 +2135,8 @@ async function aiJson(input, opts = {}) {
 }
 function aiErr(e) {
   switch (e && e.code) {
+    case 'ki_off': return 'Die KI-Funktionen sind ausgeschaltet. Einschalten kannst du sie in den Einstellungen.';
+    case 'ki_limit': return 'Für heute ist das KI-Kontingent aufgebraucht. Morgen geht es weiter, lernen kannst du trotzdem.';
     case 'no_key': return 'Für Gespräche braucht die Crew deinen Anthropic-Schlüssel. Trag ihn im Logbuch unter Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
     case 'bad_key': return 'Der Anthropic-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.';
     case 'no_credit': return 'Auf deinem Anthropic-Konto ist kein Guthaben mehr. Lade es in der Anthropic-Konsole auf.';
@@ -2262,8 +2323,51 @@ function registerSW() {
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
 }
+/* Zurück-Taste (Android, auch in der installierten Web-App): wirkt wie der Zurück-Knopf des aktuellen Bildschirms.
+   Ein Wächter-Eintrag im Verlauf fängt die Taste ab. Gibt es nichts mehr zurück (Deck), schließt ein zweites Zurück die App. */
+const BACKS = ['#quit', '#gback', '#back', '#ovbtn', '#home'];
+let backGuard = false;
+function guardBack() { if (backGuard) return; try { history.pushState({skipper: 'wache'}, ''); backGuard = true; } catch (e) {} }
+function handleBack() {
+  if ($('#sheet')) { closeSheet(); return true; }
+  if ($('#splashOv') || $('#stagePanel')) return true;
+  if (examTimer) { if (confirm('Prüfung abbrechen? Sie wird nicht gewertet.')) { stopAll(); setTab('cabin'); } return true; }
+  for (const id of BACKS) { const b = document.querySelector(id); if (b && !b.disabled && b.offsetParent !== null) { b.click(); return true; } }
+  if (tab !== 'deck' && !$('.tapzone')) { setTab(tab === 'cabin' ? 'deck' : 'cabin'); return true; }
+  return false;
+}
+function initBackKey() {
+  try { history.replaceState({skipper: 'start'}, ''); } catch (e) { return; }
+  guardBack();
+  window.addEventListener('popstate', () => {
+    backGuard = false;
+    try { if (handleBack()) return guardBack(); } catch (e) { LOG.add('zurück', 'Fehler: ' + (e && e.message)); return guardBack(); }
+    toast('Nochmal Zurück zum Schließen.', 2500);
+    setTimeout(guardBack, 2500);
+  });
+}
+/* Offline-Vorrat: einmal pro Version im Hintergrund alle Bilder, Töne und Stimmen laden.
+   Der Service Worker merkt sie sich, danach geht alles ohne Netz. Nicht im Datensparmodus. */
+async function offlineStock() {
+  try {
+    if (!navigator.serviceWorker || !navigator.serviceWorker.controller || window.__inPreview) return;
+    if (localStorage.getItem('skipper-offline') === window.__ver) return;
+    const con = navigator.connection; if (con && con.saveData) return;
+    await PACK.load();
+    const urls = new Set();
+    [DATA, BIN_DATA, SKS_DATA].forEach(list => (list || []).forEach(q => [].concat(q.img || [], q.qi || [], q.ai || []).forEach(u => urls.add(u))));
+    Object.values(AUD.files).forEach(u => urls.add(u));
+    PACK.files().forEach(f => urls.add('audio/stimmen/' + f));
+    let n = 0;
+    for (const u of urls) {
+      try { const r = await fetch(u); if (r.ok) { await r.arrayBuffer(); n++; } } catch (e) { LOG.add('offline', 'abgebrochen nach ' + n + ' Dateien'); return; }
+      await new Promise(r => setTimeout(r, 40));
+    }
+    localStorage.setItem('skipper-offline', window.__ver); LOG.add('offline', n + ' von ' + urls.size + ' Dateien im Vorrat');
+  } catch (e) {}
+}
 function boot() {
-  applyTheme(); registerSW(); try { PACK.load(); } catch (e) {}
+  applyTheme(); applyKi(); registerSW(); initBackKey(); setTimeout(offlineStock, 15000); try { PACK.load(); } catch (e) {}
   /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
   /* ?neustart: nur die Intro-Flags zurücksetzen (zum Testen), Lernstand bleibt */
@@ -2315,12 +2419,16 @@ function splash() {
 }
 /* Schlüssel-Schritt: erklärt, wofür die Schlüssel sind, mit Datenschutz-Hinweis und "Später" */
 function keysStep(next) {
-  const p = stagePanel(`<h2 style="margin:0 0 6px">Zwei Schlüssel für die echte Crew</h2>
+  const p = stagePanel(`<h2 style="margin:0 0 6px">Mit KI-Crew oder ohne?</h2>
+    <div class="chips" style="margin:0 0 10px"><button class="chip" data-kion="1" aria-pressed="${kiOn()}">Mit KI-Crew</button><button class="chip" data-kion="0" aria-pressed="${!kiOn()}">Ohne KI lernen</button></div>
+    <p class="small" style="margin:0 0 8px">Ohne KI entstehen keine Kosten: Lernen, Prüfung, Erklärungen und Folgen gehen trotzdem. Mit KI kannst du die Crew alles fragen. Das läuft über graue Knöpfe ✦ und kostet ein wenig. Umstellen kannst du das jederzeit in den Einstellungen.</p>
+    <div id="kkeys" class="${kiOn() ? '' : 'hidden'}"><h3 style="margin:8px 0 6px">Zwei Schlüssel für die echte Crew</h3>
     <p class="small" style="margin:0 0 8px"><b>Anthropic</b> lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
     <label for="k1" style="margin-top:6px">Anthropic-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' : ''}">
     <label for="k2">ElevenLabs-Schlüssel</label><input type="password" id="k2" autocomplete="off" placeholder="sk_…" value="${elKey() ? '••••••••' : ''}">
-    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab.</p>
+    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab.</p></div>
     <div class="row"><button class="btn lamp" id="ksave">Speichern und weiter</button><button class="btn ghost" id="klater">Später</button></div>`);
+  p.querySelectorAll('[data-kion]').forEach(b => b.onclick = () => { S.cfg.ki = b.dataset.kion === '1'; save(); applyKi(); p.querySelectorAll('[data-kion]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); $('#kkeys').classList.toggle('hidden', !S.cfg.ki); });
   p.style.background = 'rgba(18,24,30,.45)';
   const done = () => { p.remove(); next(); };
   $('#klater').onclick = done;
@@ -2457,23 +2565,9 @@ async function convoOnboarding() {
     $('#ofok').onclick = go; inp.onkeydown = e => { if (e.key === 'Enter') go(); };
     say(line);
   });
-  /* Eigener Text: merken und die Crew live antworten lassen (Claude). Ohne Schlüssel oder Netz ein fester Spruch. */
+  /* Eigener Text: merken und mit einem festen Spruch antworten (kostet nichts, geht offline und liegt im Stimmenpaket) */
   const freeReply = async (label, q, text) => {
     addFact(prof, label + ': ' + text.slice(0, 160), label);
-    if (apiKey()) {
-      try {
-        const K = CREW[S.crew.K], M = CREW[S.crew.M], T = CREW[S.crew.T];
-        const sys = `Ihr seid die Crew einer Segelyacht und lernt gerade am Steg jemanden kennen, der bei euch für den Bootsführerschein lernen will.
-K = ${K.persona}
-M = ${M.persona}
-T = ${T.persona} T sagt nur ganz kurze Einwürfe und wiederholt gern ein Schlagwort.
-${styleRules()}
-Antworte auf die Antwort des Neuen mit 1 bis 2 kurzen Zeilen, zusammen höchstens 35 Wörter. Jede Zeile beginnt mit K:, M: oder T:. Kein Markdown, keine Emojis. Stell keine neue Frage, die nächste Frage kommt automatisch.`;
-        const tx = await ai(`Frage der Crew: ${q}\nAntwort: ${text}`, {system: sys, modelTier: 'quick', maxTokens: 300});
-        const lines = String(tx).split('\n').map(l => l.match(/^\s*([KMT])\s*:\s*(.+)$/)).filter(Boolean).slice(0, 2);
-        if (lines.length) { for (const m of lines) await VOX.say(cid(m[1]), m[2], 'live'); return; }
-      } catch (e) { LOG.add('kennenlernen', 'freie Antwort ohne Claude: ' + (e && (e.code || e.message))); }
-    }
     await say(ONB_FREE[Math.random() * ONB_FREE.length | 0]);
   };
   /* Name: frecher Vorschlag steht schon im Feld */
@@ -2641,7 +2735,7 @@ function renderCabin() {
     <ol class="path">${path.map(s => `<li class="${s.done ? 'done' : s === next ? 'now' : ''}"><span class="tick" aria-hidden="true">${s.done ? '✓' : ''}</span>${esc(s.label)}</li>`).join('')}</ol>
     <button class="btn wide lamp" id="pathgo" style="font-size:1.08rem">${next ? 'Weiter: ' + esc(next.label) : 'Geschafft! Noch eine Extrarunde?'}</button>
   </div>
-  <div class="row ways"><button class="btn" id="totalk">Mit der Crew reden</button><button class="btn ghost" id="toexam">Probeprüfung</button></div>
+  <div class="row ways"><button class="btn ki" id="totalk">Mit der Crew reden</button><button class="btn ghost" id="toexam">Probeprüfung</button></div>
   <button class="btn wide ghost" id="togames" style="margin-top:10px">🎲 Spielekiste</button>
   <p class="sidelinks"><button id="tolex">Lexikon</button><button id="tofunk">Kajütenfunk</button><button id="tobooks">Kapitel</button><button id="tolog">Logbuch</button></p>`;
   $('#updeck').onclick = () => { AUD.click(); setTab('deck'); };
@@ -2734,7 +2828,7 @@ async function makeStory(topicId) {
     const key = n => COURSE.kind === 'open' ? String(n) : +n;
     const lines = data.lines.map(l => l && l.s === 'Q' ? (ok.has(key(l.n)) ? {s: 'Q', n: key(l.n)} : null) : (l && /^[KMT]$/.test(l.s) && l.t ? {s: l.s, t: String(l.t)} : null)).filter(Boolean);
     const story = {title: String(data.title || t.name), topic: t.id, qs: pick.map(q => q.n), crew: {...S.crew}, lines};
-    S.stories = (S.stories || []).concat(story).slice(-10);
+    S.stories = (S.stories || []).concat(story).slice(-50); /* bleiben gespeichert; Export ins Repo über das Stimmenpaket */
     S.storyQs = [...new Set((S.storyQs || []).concat(story.qs))]; save();
     LOG.add('funk', 'Neue Folge: ' + story.title + ' (Fragen ' + story.qs.join(',') + ')');
     showStory(story);
@@ -2750,7 +2844,7 @@ async function showStory(story) {
     <div class="row" style="margin-bottom:10px"><button class="btn" id="play">Anhören</button>${story.qs.length ? '<button class="btn ghost" id="pq">Fragen dazu üben</button>' : ''}</div>
     <div id="lines">${story.lines.map((l, i) => l.s === 'Q' ? `<div class="line stopline" data-i="${i}"><span class="who">Stopp</span><span>${QN[l.n] ? esc(qLabel(QN[l.n])) : 'Frage'} an dich</span></div>` : `<div class="line" data-i="${i}"><span class="who" style="color:${CREW[crewOf(l.s)].color}">${esc(CREW[crewOf(l.s)].short)}</span><span>${esc(l.t)}</span></div>`).join('')}</div>
     <div id="stopq"></div>
-    <div class="row hidden" id="after" style="margin-top:10px"><button class="btn lamp" id="cont">Weiterreden</button>${story.qs.length ? '<button class="btn ghost" id="pq2">Fragen dazu üben</button>' : ''}${story.short ? '' : '<button class="btn ghost" id="shortnext">Kurzgeschichte</button>'}</div>`;
+    <div class="row hidden" id="after" style="margin-top:10px"><button class="btn ki" id="cont">Weiterreden</button>${story.qs.length ? '<button class="btn ghost" id="pq2">Fragen dazu üben</button>' : ''}${story.short ? '' : '<button class="btn ghost" id="shortnext">Kurzgeschichte</button>'}</div>`;
   if (elKey() && !story.played) $('#cost').textContent = `Beim ersten Anhören werden die Stimmen einmal erzeugt: bis zu etwa ${chars} Credits. Danach ist die Folge gespeichert.`;
   const practice = () => { VOX.stop('üben'); runQuiz(story.qs.map(n => QN[n]).filter(q => q && !q.skip), 'Fragen aus dem Kajütenfunk'); };
   const pq = $('#pq'); if (pq) pq.onclick = practice; const pq2 = $('#pq2'); if (pq2) pq2.onclick = practice;
@@ -2819,27 +2913,83 @@ function startSession() {
   if (pending) showLesson(TOPICS.find(t => t.id === pending), () => runQuiz(queue, 'Lerneinheit'));
   else runQuiz(queue, 'Lerneinheit');
 }
+/* ---------- Fragekarten: Erklärung, Merktipp, typischer Fehler ----------
+   Aus data/karten-*.json, einmal erstellt, offline. Schlüssel wie im Lexikon (sbf:n, bin:n), SKS: sks:<id>.
+   Fehlt eine Karte, gibt es den gelben KI-Knopf als Ersatz. */
+let KARTEN = {};
+const cardKey = q => q.kind === 'open' ? 'sks:' + q.n : lexKey(q);
+const cardOf = q => (q && KARTEN[cardKey(q)]) || null;
+/* Vorlesen-Knopf: grau (Kostenknopf), wenn der Text noch nicht im Stimmenpaket liegt und ElevenLabs ihn erzeugen würde */
+const readCls = (c, t, kind) => kind === 'local' || !kiOn() || !elKey() || (kind === 'fixed' && PACK.has(c, pclean(t))) ? 'ghost' : 'ki';
+/* Merkspruch ohne KI: aus der Karte oder dem Lexikon */
+const localMn = q => { const c = cardOf(q), l = COURSE.kind === 'mc' ? lexOf(q) : null; return (c && c.m) || (l && l.merk) || ''; };
+function cardHtml(q, k) {
+  const c = cardOf(q); if (!c) return '';
+  const fl = q.kind === 'open' ? 'Oft vergessen' : 'Typischer Fehler';
+  return `<div class="fact"><b>Warum:</b> ${esc(c.e)}</div>${c.f && k !== 0 ? `<p class="small" style="margin:8px 0 0"><b>${fl}:</b> ${esc(c.f)}</p>` : ''}${c.m ? `<p class="small" style="margin:8px 0 0">💡 ${esc(c.m)}</p>` : ''}`;
+}
+const cardSpeech = c => [c.e, c.m].filter(Boolean).join(' ');
+/* Leitplanken für Rückfragen: Claude erklärt auf Grundlage unserer Daten und erfindet nichts */
+const TUTOR = `- Grundlage sind die Katalogfrage, die verbindliche Katalogantwort und die Erklärung aus unseren Unterlagen. Die Katalogantwort ist immer richtig. Stell sie nie infrage.
+- Gibt es auf die Frage in den Unterlagen keine Antwort und bist du dir nicht ganz sicher, sag offen: Das steht nicht in unseren Unterlagen. Erfinde keine Zahlen, Regeln oder Paragrafen.
+- Höchstens 5 kurze Sätze.`;
+function qContext(q, k) {
+  const c = cardOf(q);
+  return `${catLine(q)}${q.img || q.qi ? ' (zur Frage gehört eine Abbildung, die du nicht siehst)' : ''}${Array.isArray(q.a) ? '\nFalsche Auswahlantworten: ' + q.a.slice(1).join(' | ') : ''}${k ? '\nGewählt wurde: ' + q.a[k] : ''}${c ? `\nErklärung aus unseren Unterlagen: ${c.e}${c.m ? '\nMerktipp: ' + c.m : ''}${c.f ? '\nTypischer Fehler: ' + c.f : ''}` : ''}`;
+}
+/* Grauer Kasten „Crew fragen“: Rückfragen zu einer Katalogfrage (kostet KI) */
+function askCrewBox(host, q, k) {
+  if (!host || host.querySelector('.askcrew')) return;
+  const sugg = ['Erklär es einfacher', 'Gib mir ein Beispiel aus der Praxis'].concat(Array.isArray(q.a) ? ['Warum sind die anderen Antworten falsch?'] : []);
+  host.insertAdjacentHTML('beforeend', `<div class="askcrew ki"><div class="tag">✦ Crew fragen (KI)</div>
+    <div class="chips" style="margin:6px 0">${sugg.map(x => `<button class="chip" data-aq="${esc(x)}">${esc(x)}</button>`).join('')}</div>
+    <div class="typerow"><input type="text" placeholder="Oder eigene Frage…" aria-label="Eigene Frage an die Crew" autocomplete="off"><button class="btn small ki">Fragen</button></div>
+    <div class="lesson aqout" style="margin-top:8px"></div></div>`);
+  const box = host.querySelector('.askcrew'), out = box.querySelector('.aqout'), inp = box.querySelector('input');
+  const run = async text => {
+    if (!text) return; VOX.stop('Rückfrage'); out.innerHTML = `<p class="think">${esc(nameOf('K'))} überlegt…</p>`;
+    try {
+      const tx = await ai(`${qContext(q, k)}\n\nFrage des Lernenden dazu: ${text}`, {system: leadPersona(TUTOR), modelTier: 'quick', maxTokens: 450, onText: t => { out.innerHTML = md(t); }});
+      out.innerHTML = md(tx); const b = document.createElement('button'); b.className = 'btn small ' + readCls(S.crew.K, tx, 'live'); b.textContent = 'Vorlesen';
+      b.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx.replace(/\*\*/g, ''), 'live'); }; out.appendChild(b);
+    } catch (e) { out.innerHTML = `<p class="muted">${esc(aiErr(e))}</p>`; }
+  };
+  box.querySelectorAll('[data-aq]').forEach(b => b.onclick = () => run(b.dataset.aq));
+  box.querySelector('button.ki').onclick = () => { const v = inp.value.trim(); inp.value = ''; run(v); };
+  inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); box.querySelector('button.ki').click(); } };
+}
+/* Lektion ohne KI: Katalogantworten mit den Erklärungen der Karten */
+function localLesson(qs) {
+  const max = 15;
+  return `<p style="margin-top:0">Das Wichtigste zu diesem Thema, direkt aus dem Katalog:</p><ul>${qs.slice(0, max).map(q => { const c = cardOf(q); return `<li style="margin-bottom:8px"><strong>${esc(q.q.split('\n')[0])}</strong><br>${esc(ansText(q))}${c ? `<br><span class="small muted">${esc(c.e)}</span>` : ''}</li>`; }).join('')}</ul>${qs.length > max ? `<p class="small muted">Und ${qs.length - max} weitere Fragen im Quiz.</p>` : ''}`;
+}
 function showLesson(t, next) {
   subScreen(); place = 'quiz'; soundFor('quiz'); AUD.sfx('blaettern', {vol: .6});
   const qs = Q.filter(t.has);
   app.innerHTML = `<div class="qhead"><div class="tag">Neue Lektion</div><button class="btn small ghost" id="back">Zurück</button></div>
     <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:8px">${charSVG(S.crew.K)}<h1 style="margin:0">${esc(t.name)}</h1></div>
-    <div class="card lesson" id="les"><p class="think">${esc(nameOf('K'))} bereitet die Lektion vor…</p></div>
+    <div class="card lesson" id="les"></div>
     <div class="row"><button class="btn ghost hidden" id="read">Vorlesen</button><button class="btn" id="nx">Zum Quiz</button></div>`;
   app.querySelector('svg.ch').style.width = '70px';
   $('#back').onclick = () => setTab('cabin');
   $('#nx').onclick = () => { VOX.stop(); S.lessons[t.id] = S.lessons[t.id] || 'gesehen'; save(); next(); };
   const box = $('#les');
   if (typeof S.lessons[t.id] === 'string' && S.lessons[t.id].length > 40) { box.innerHTML = md(S.lessons[t.id]); readBtn(S.lessons[t.id]); clampLong(box); return; }
-  ai(`Hier sind die Katalogfragen zu diesem Thema mit den richtigen Antworten:\n${qs.map(catLine).join('\n')}\n\nSchreibe jetzt eine kurze Lektion (etwa 180 bis 260 Wörter) zum Thema „${t.name}“, in deiner Art erzählt. Erkläre die Zusammenhänge hinter diesen Fragen so, dass man sie versteht statt auswendig lernt. Gib 2 bis 3 Merkhilfen. Wenn es passt, ende mit einem Absatz, der mit „Übrigens:“ beginnt und eine wahre, gut belegte Kleinigkeit aus der Seefahrt erzählt; wenn dir nichts Sicheres einfällt, lass ihn weg. Markiere wichtige Begriffe mit **fett**.`, {system: leadPersona(), onText: tx => { box.innerHTML = md(tx); }})
-    .then(tx => { box.innerHTML = md(tx); S.lessons[t.id] = tx; save(); readBtn(tx); clampLong(box); })
-    .catch(e => { box.innerHTML = `<p class="muted">${esc(aiErr(e) || 'Lektion abgebrochen.')}</p><h3>Die wichtigsten Katalogantworten</h3><ul>${qs.slice(0, 12).map(q => `<li><strong>${esc(q.q)}</strong><br>${esc(ansText(q))}</li>`).join('')}</ul>`; });
-  function readBtn(tx) { const r = $('#read'); if (!r) return; r.classList.remove('hidden'); r.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx, 'live'); }; }
+  /* Ohne Kosten: Katalog und Karten. Die erzählte Lektion gibt es auf Wunsch (grauer Kostenknopf), sie wird gespeichert. */
+  box.innerHTML = localLesson(qs); clampLong(box);
+  const tell = document.createElement('button'); tell.className = 'btn ki wide'; tell.style.margin = '0 0 12px'; tell.textContent = nameOf('K') + ' erzählt die Lektion'; $('#nx').parentElement.before(tell);
+  tell.onclick = () => {
+    tell.remove(); box.innerHTML = `<p class="think">${esc(nameOf('K'))} bereitet die Lektion vor…</p>`;
+    ai(`Hier sind die Katalogfragen zu diesem Thema mit den richtigen Antworten:\n${qs.map(catLine).join('\n')}\n\nSchreibe jetzt eine kurze Lektion (etwa 180 bis 260 Wörter) zum Thema „${t.name}“, in deiner Art erzählt. Erkläre die Zusammenhänge hinter diesen Fragen so, dass man sie versteht statt auswendig lernt. Gib 2 bis 3 Merkhilfen. Wenn es passt, ende mit einem Absatz, der mit „Übrigens:“ beginnt und eine wahre, gut belegte Kleinigkeit aus der Seefahrt erzählt; wenn dir nichts Sicheres einfällt, lass ihn weg. Markiere wichtige Begriffe mit **fett**.`, {system: leadPersona(), onText: tx => { box.innerHTML = md(tx); }})
+      .then(tx => { box.innerHTML = md(tx); S.lessons[t.id] = tx; save(); readBtn(tx); clampLong(box); })
+      .catch(e => { box.innerHTML = `<p class="muted">${esc(aiErr(e) || 'Lektion abgebrochen.')}</p>` + localLesson(qs); });
+  };
+  function readBtn(tx) { const r = $('#read'); if (!r) return; r.className = 'btn ' + readCls(S.crew.K, tx, 'live'); r.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx, 'live'); }; }
 }
 
 /* Lange Texte kürzen, mit "Weiterlesen" */
 function clampLong(box) {
-  if (!box || box.scrollHeight < 460) return;
+  if (!box || box.scrollHeight < 460 || box.classList.contains('clamp')) return;
   box.classList.add('clamp');
   const b = document.createElement('button'); b.className = 'btn small ghost'; b.textContent = 'Weiterlesen';
   b.onclick = () => { box.classList.remove('clamp'); b.remove(); }; box.after(b);
@@ -2940,10 +3090,12 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
       $('#reveal').classList.add('hidden'); if (sp) sp.classList.add('hidden');
       $('#after').innerHTML = `<div class="fact" style="white-space:pre-line"><b>Antwortvorschlag:</b>\n${esc(q.a)}</div>
         ${q.ai ? `<div class="qimg">${q.ai.map(s => `<img src="${s}" alt="Abbildung zur Antwort">`).join('')}</div>` : ''}
-        ${mine && apiKey() ? '<button class="btn ghost small" id="check">Prüf meine Antwort</button><div id="checkfb" class="lesson" style="margin-top:8px"></div>' : ''}
+        ${cardOf(q) ? `<div style="margin-top:10px">${cardHtml(q)}</div>` : ''}
+        ${mine ? '<button class="btn ki small" id="check">Prüf meine Antwort</button><div id="checkfb" class="lesson" style="margin-top:8px"></div>' : ''}
         ${kw.length >= 2 ? `<p class="small muted" style="margin:10px 0 0">Hast du das genannt? Tippe an, was drin war:</p><div class="kwchips">${kw.map((k, j) => `<button class="kw" data-kw="${j}" aria-pressed="false">${esc(k)}</button>`).join('')}</div><p class="small" id="kwsug" style="margin:0"></p>` : ''}
         <p class="small muted" style="margin:10px 0 6px">Wie gut wusstest du es?</p>
         <div class="row"><button class="btn" data-r="2" style="background:var(--stb)">Gewusst</button><button class="btn ghost" data-r="1">Teilweise</button><button class="btn ghost" data-r="0" style="color:var(--bb)">Nicht gewusst</button></div>`;
+      askCrewBox($('#after'), q);
       /* Stichworte: selbst abhaken, oder automatisch aus der eigenen Antwort vorbelegen */
       const marks = new Set(); const low = mine.toLowerCase();
       kw.forEach((k, j) => { if (low && k.toLowerCase().split(/\s+/).some(w => w.length > 3 && low.includes(w.slice(0, Math.max(4, w.length - 2))))) marks.add(j); });
@@ -2983,7 +3135,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     $('#after').innerHTML = `<div class="fb">${ok ? '<p style="margin:6px 0 0"><strong style="color:var(--stb)">Richtig.</strong></p>' : '<p style="margin:6px 0 0"><strong style="color:var(--bb)">Nicht ganz.</strong> Grün ist die Katalogantwort. Die Frage kommt am Ende noch einmal.</p>'}
       ${diff}
       <div id="expl" class="lesson" style="margin-top:8px"></div>
-      <div class="row" style="margin-top:10px"><button class="btn ghost" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ghost" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}${lexOf(q) ? '<button class="btn ghost" id="lexq">Lexikon</button>' : ''}</div>
+      <div class="row" style="margin-top:10px"><button class="btn ${cardOf(q) ? 'ghost' : 'ki'}" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ${localMn(q) || S.mnemo[q.n] ? 'ghost' : 'ki'}" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}${lexOf(q) ? '<button class="btn ghost" id="lexq">Lexikon</button>' : ''}</div>
       <button class="btn wide" id="nxt" style="margin-top:10px">Weiter</button></div>`;
     $('#nxt').onclick = () => { VOX.stop(); i++; show(); };
     const lx = $('#lexq'); if (lx) lx.onclick = () => lexSheet(lexOf(q));
@@ -2995,22 +3147,31 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
       if (!ok && Math.random() < .35) VOX.say(T, lineOf(T, 'wrong'), 'fixed');
     }
   }
+  /* Erklärung: zuerst die Karte (offline, gratis), Rückfragen danach im gelben Kasten */
   function explain(q, k) {
-    const ex = $('#expl'); $('#why').disabled = true; ex.innerHTML = `<p class="think">${esc(nameOf('K'))} überlegt…</p>`;
+    const ex = $('#expl'), c = cardOf(q); $('#why').disabled = true;
+    if (c) {
+      ex.innerHTML = cardHtml(q, k);
+      const t = cardSpeech(c), b = document.createElement('button'); b.className = 'btn small ' + readCls(S.crew.K, t, 'fixed'); b.style.marginTop = '8px'; b.textContent = 'Vorlesen';
+      b.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, t, 'fixed'); }; ex.appendChild(b);
+      return askCrewBox(ex, q, k);
+    }
+    ex.innerHTML = `<p class="think">${esc(nameOf('K'))} überlegt…</p>`;
     ai(`Katalogfrage ${q.n}: ${q.q}${q.sig ? ' [' + q.sig + ']' : ''}${q.img ? ' (zur Frage gehört eine Abbildung, die du nicht siehst)' : ''}\nRichtige Katalogantwort: ${q.a[0]}\n${k !== 0 ? 'Gewählt wurde: ' + q.a[k] + '\n' : ''}Erkläre in 2 bis 4 Sätzen, warum die Katalogantwort stimmt${k !== 0 ? ' und was an der gewählten Antwort falsch ist' : ''}. Gib eine kurze Merkhilfe, wenn sie wirklich hilft.`, {system: leadPersona(), modelTier: 'quick', onText: tx => { ex.innerHTML = md(tx); }})
-      .then(tx => { ex.innerHTML = md(tx); const b = document.createElement('button'); b.className = 'btn small ghost'; b.textContent = 'Vorlesen'; b.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx, 'live'); }; ex.appendChild(b); })
+      .then(tx => { ex.innerHTML = md(tx); const b = document.createElement('button'); b.className = 'btn small ' + readCls(S.crew.K, tx, 'live'); b.textContent = 'Vorlesen'; b.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx, 'live'); }; ex.appendChild(b); askCrewBox(ex, q, k); })
       .catch(e => { ex.innerHTML = `<p class="muted">${esc(aiErr(e))}</p>`; $('#why').disabled = false; });
   }
   async function mnemonic(q) {
     const b = $('#mn'); b.disabled = true; const ex = $('#expl');
-    let tx = S.mnemo[q.n];
+    let tx = S.mnemo[q.n] || localMn(q); const fromKi = !tx;
     if (!tx) {
       ex.innerHTML = `<p class="think">${esc(CREW[T].short)} denkt nach…</p>`;
       try { tx = (await ai(`Katalogfrage ${q.n}: ${q.q}\nRichtige Antwort: ${ansText(q)}\nErfinde einen kurzen, lustigen Merkspruch, höchstens 20 Wörter, gern gereimt, der genau diese richtige Antwort sicher im Kopf verankert. Er muss inhaltlich exakt stimmen. Gib nur den Merkspruch aus.`, {system: `Du bist ${CREW[T].persona} Für Merksprüche darfst du ausnahmsweise bis zu 20 Wörter sagen.\n${RULES}`, modelTier: 'quick', maxTokens: 120})).trim().replace(/^["„]|["“]$/g, ''); S.mnemo[q.n] = tx; save(); }
       catch (e) { ex.innerHTML = `<p class="muted">${esc(aiErr(e))}</p>`; b.disabled = false; return; }
     }
     tx = tx.replace(/\*\*/g, ''); ex.innerHTML = `<div class="fact"><b>${esc(CREW[T].short)}:</b> ${esc(tx)}</div>`;
-    AUD.unlock(); VOX.stop(); VOX.say(T, tx, 'fixed');
+    /* Merktipps aus Karte oder Lexikon kosten nichts: echte Stimme nur, wenn sie im Paket liegt, sonst Handystimme */
+    AUD.unlock(); VOX.stop(); VOX.say(T, tx, fromKi || S.mnemo[q.n] || PACK.has(T, pclean(tx)) ? 'fixed' : 'local');
   }
   async function finish() {
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
@@ -3143,17 +3304,26 @@ function startExamOpen() {
     $('#enext').onclick = () => { keep(); if (i < qs.length - 1) { i++; show(); } else if (confirm('Prüfung abgeben?')) { clearInterval(examTimer); examTimer = null; AUD.clock(0); grade(); } };
     $('#abort').onclick = () => { if (confirm('Prüfung wirklich abbrechen? Sie wird nicht gewertet.')) { clearInterval(examTimer); examTimer = null; AUD.clock(0); setTab('cabin'); } };
   }
-  async function grade() {
+  /* Abgabe: selbst bewerten (gratis, offline) oder Kapitän Harms per KI korrigieren lassen (grauer Kostenknopf) */
+  function grade() {
     AUD.clock(0); AUD.sfx('glocke', {vol: .7});
+    if (!kiOn()) return selfGrade();
+    app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><h1 style="margin:0">Abgegeben.</h1><p class="small" style="margin:4px 0 0">Wie soll korrigiert werden?</p></div></div>
+      <button class="btn wide lamp" id="gself" style="margin-top:12px">Selbst bewerten mit dem Antwortvorschlag</button>
+      <button class="btn wide ki" id="gki" style="margin-top:10px">Kapitän Harms korrigiert</button>`;
+    app.querySelector('svg.ch').style.width = '96px';
+    $('#gself').onclick = selfGrade; $('#gki').onclick = harmsGrade;
+  }
+  async function harmsGrade() {
     app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><h1 style="margin:0">Kapitän Harms korrigiert…</h1><p class="think" style="margin:4px 0 0">Er vergleicht jede Antwort mit dem amtlichen Antwortvorschlag.</p></div></div>`;
     app.querySelector('svg.ch').style.width = '96px';
     let pts = null;
-    if (apiKey()) {
+    {
       const list = qs.map((q, k) => `[${k}] ${q.label}: ${q.q.replace(/\n/g, ' ')}\nAntwortvorschlag: ${q.a.replace(/\n/g, ' ')}\nAntwort des Bewerbers: ${(answers[k] || '').trim() || '(keine Antwort)'}`).join('\n\n');
       try {
         const j = await aiJson(`Bewerte jede Antwort einer SKS-Probeprüfung mit 0, 1 oder 2 Punkten, so wie ein amtlicher Prüfer: Die Antwort muss nicht wörtlich übereinstimmen. Maßgeblich ist, in welchem Umfang sie mit dem sachlichen Inhalt, der Vollständigkeit und der Fachsprache des Antwortvorschlags übereinstimmt. Keine Antwort gibt 0 Punkte.\n\n${list}\n\nAntworte NUR mit JSON: {"p":[{"i":0,"pt":2,"k":"kurze Begründung"}]}`, {system: `Du bist ein strenger, fairer Prüfer für den ${COURSE.name}.\n${RULES}`, modelTier: 'complex', maxTokens: 3500});
         if (j && Array.isArray(j.p)) { pts = qs.map(() => ({pt: 0, k: ''})); j.p.forEach(x => { if (pts[x.i]) pts[x.i] = {pt: Math.max(0, Math.min(2, +x.pt || 0)), k: String(x.k || '')}; }); }
-      } catch (e) { LOG.add('prüfung', 'Korrektur fehlgeschlagen: ' + (e.code || e)); }
+      } catch (e) { LOG.add('prüfung', 'Korrektur fehlgeschlagen: ' + (e.code || e)); toast(aiErr(e) || 'Die Korrektur klappte nicht. Bewerte selbst.', 6000); }
     }
     if (!pts) return selfGrade();
     result(pts);
@@ -3228,30 +3398,34 @@ function renderSettings() {
     <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
   <div class="card"><h3>${ROLE_NAMES.P}</h3><div style="display:flex;gap:12px;align-items:center">${charSVG('kroeger')}<p class="small" style="margin:0">${CREW.kroeger.story}</p></div></div>
 
-  <h2>Schlüssel</h2>
-  <div class="card"><label for="ak" style="margin-top:0">Anthropic-Schlüssel (für Gespräche, Lektionen, Geschichten)</label>
+  <h2>KI und Schlüssel</h2>
+  <div class="card"><label for="kion" style="margin-top:0">KI-Funktionen</label>${sel('kion', [['1', 'An: Crew fragen, Gespräche, echte Stimmen'], ['0', 'Aus: nur lernen, keine Kosten']], kiOn() ? '1' : '0')}
+    <p class="small muted" style="margin:6px 0 0">Graue Knöpfe mit ✦ können Kosten verursachen. Ist die KI aus, verschwinden sie. Lernen, Prüfungen, Erklärungen und Folgen aus dem Stimmenpaket gehen immer, auch offline. Heute genutzt: ${kiUse().n} KI-Aktionen.</p></div>
+  <div class="card ki"><label for="ak" style="margin-top:0">Anthropic-Schlüssel (für Gespräche, Lektionen, Geschichten)</label>
     <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
     <div class="row" style="margin-top:10px"><button class="btn" id="aks">Speichern und testen</button>${apiKey() ? '<button class="btn ghost" id="akd">Entfernen</button>' : ''}</div><p class="status" id="akr"></p>
     <label for="mdl">Modell</label>${sel('mdl', [['smart', 'Gründlich (Claude Sonnet 5.5)'], ['fast', 'Schnell und günstig (Claude Haiku 4.5)']], S.model || 'smart')}
   </div>
-  <div class="card"><label for="ek" style="margin-top:0">ElevenLabs-Schlüssel (für die Stimmen)</label>
+  <div class="card ki"><label for="ek" style="margin-top:0">ElevenLabs-Schlüssel (für die Stimmen)</label>
     <input type="password" id="ek" autocomplete="off" placeholder="sk_…" value="${elKey() ? '••••••••' + esc(elKey().slice(-4)) : ''}">
     <div class="row" style="margin-top:10px"><button class="btn" id="eks">Speichern und testen</button>${elKey() ? '<button class="btn ghost" id="ekd">Entfernen</button>' : ''}</div><p class="status" id="ekr"></p>
     <p class="small muted" style="margin:0">Beide Schlüssel bleiben nur auf diesem Handy und gehen direkt an Anthropic bzw. ElevenLabs.</p>
   </div>
 
   <h2>Stimmen</h2>
-  <div class="card" id="voices"><p class="small muted" style="margin:0">${elKey() ? 'Lade Stimmen…' : 'Trag zuerst den ElevenLabs-Schlüssel ein.'}</p></div>
+  <div class="card dev ki" id="voices"><p class="small muted" style="margin:0">${elKey() ? 'Lade Stimmen…' : 'Trag zuerst den ElevenLabs-Schlüssel ein.'}</p></div>
   <div class="card">
     <label for="qual" style="margin-top:0">Stimmenqualität für feste Sätze und Geschichten</label>${sel('qual', [['sparsam', 'Sparsam (Flash, etwa halbe Credits)'], ['hoch', 'Hoch (Multilingual, 1 Credit pro Zeichen)']], c.quality)}
     <label for="bud">Tageslimit für die Live-Stimme im Gespräch</label>${sel('bud', [[500, '500 Zeichen'], [1000, '1.000 Zeichen'], [1500, '1.500 Zeichen'], [3000, '3.000 Zeichen'], [6000, '6.000 Zeichen'], [100000, 'Kein Limit']], c.budget)}
     <p class="small muted" style="margin:6px 0 0">Heute im Live-Gespräch: ${VOX.usageToday().live.toLocaleString('de-DE')} Zeichen, insgesamt neu erzeugt: ${VOX.usageToday().all.toLocaleString('de-DE')}. Gespeicherte Sätze kosten nichts.</p>
     <label for="fb">Wenn keine Stimme verfügbar ist</label>${sel('fb', [['phone', 'Handystimme'], ['babble', 'Brabbeln und mitlesen'], ['text', 'Nur mitlesen']], c.fallback)}
     <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr">Gespeicherte Sätze löschen</button></div><p class="status" id="clrr"></p>
-    <h3 style="margin-top:14px">Stimmenpaket für alle</h3>
-    <p class="small muted" style="margin:0 0 8px">Alles, was die Crew einmal mit ElevenLabs gesagt hat, bleibt auf diesem Handy gespeichert und kostet nie wieder. Ins Paket in <b>audio/stimmen</b> gelegt, hören es alle Geräte und Tester gratis. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
-    <button class="btn ghost" id="vpk">Feste Sätze erzeugen</button><p class="status" id="vpkr"></p>
-    <button class="btn ghost" id="vpx">Neue Aufnahmen exportieren</button><p class="status" id="vpxr"></p>
+  </div>
+  <div class="card dev"><h3 style="margin-top:0">Stimmenpaket für alle (Entwickler)</h3>
+    <p class="small muted" style="margin:0 0 8px">Jeder feste Satz wird nur einmal mit ElevenLabs erzeugt und landet in <b>audio/stimmen</b> im Repo. Dann hören ihn alle Geräte gratis und offline. Das Paket legt auch die Stimmen fest. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
+    <button class="btn ghost" id="vpx">Gehörtes exportieren (gratis)</button><p class="status" id="vpxr"></p>
+    <button class="btn ki" id="vpk">Fehlende Sätze erzeugen</button><p class="status" id="vpkr"></p>
+    <p class="small muted" style="margin:6px 0 0">Die ZIP-Dateien lädst du auf GitHub in den Ordner <b>import</b> hoch. Claude baut sie mit <b>tools/stimmen-import.js</b> ein. Deine eigenen Kajütenfunk-Folgen reisen mit und werden vor dem Einbau geprüft.</p>
   </div>
 
   <h2>Zuhören</h2>
@@ -3299,13 +3473,14 @@ function renderSettings() {
     <button class="btn" id="sv" style="margin-top:12px">Speichern</button>
   </div>
 
-  <h2>Selbsttest</h2>
-  <div class="card" id="stcard"><p class="small" style="margin:0 0 10px">Prüft Browser, Mikrofon, beide Schlüssel, Stimmen und Ton. Kostet etwa 20 ElevenLabs-Credits und einen Bruchteil eines Cents bei Anthropic.</p>
-    <button class="btn wide" id="strun">Selbsttest starten</button><div id="stout" style="margin-top:10px"></div></div>
+  <h2 class="dev">Selbsttest</h2>
+  <div class="card dev" id="stcard"><p class="small" style="margin:0 0 10px">Prüft Browser, Mikrofon, beide Schlüssel, Stimmen und Ton. Kostet etwa 20 ElevenLabs-Credits und einen Bruchteil eines Cents bei Anthropic.</p>
+    <button class="btn wide ki" id="strun">Selbsttest starten</button><div id="stout" style="margin-top:10px"></div></div>
 
   <h2>Sonstiges</h2>
   <div class="card">
     <div class="row"><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
+    <label for="devm">Entwickler-Werkzeuge</label>${sel('devm', [['1', 'Zeigen (Stimmenpaket, Stimmenwahl, Selbsttest)'], ['0', 'Ausblenden']], devOn() ? '1' : '0')}
     <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
     <input type="file" id="bkf" accept="application/json,.json" class="hidden">
     <p class="small muted" style="margin:10px 0 0">Dein Lernstand liegt nur in diesem Browser. Speichere ab und zu eine Sicherung.</p>
@@ -3333,6 +3508,8 @@ function renderSettings() {
     return cr && !cr.unknown ? `Verbunden. Noch ${cr.left.toLocaleString('de-DE')} von ${cr.limit.toLocaleString('de-DE')} Credits.` : 'Verbunden. Das Guthaben kann ich mit diesem Schlüssel nicht abfragen.';
   });
   $('#mdl').onchange = () => { S.model = $('#mdl').value; save(); };
+  $('#devm').onchange = () => { c.dev = $('#devm').value === '1'; save(); applyKi(); };
+  $('#kion').onchange = () => { c.ki = $('#kion').value === '1'; save(); applyKi(); VOX.stop('KI-Schalter'); toast(c.ki ? 'KI-Funktionen an. Graue Knöpfe mit ✦ kosten Credits.' : 'KI-Funktionen aus. Keine Kosten mehr.'); };
   const bindSel = (id, fn) => { $(id).onchange = () => { fn($(id).value); save(); }; };
   bindSel('#qual', v => c.quality = v); bindSel('#bud', v => c.budget = +v); bindSel('#fb', v => c.fallback = v); bindSel('#stt', v => c.stt = v);
   bindSel('#wxs', v => { c.wxSound = v === '1'; soundFor(place); }); bindSel('#wx', v => { c.wx = v; soundFor(place); });
@@ -3341,7 +3518,7 @@ function renderSettings() {
   [['#vm', 'music'], ['#va', 'amb'], ['#vs', 'sfx'], ['#vv', 'voice']].forEach(([id, k]) => $(id).oninput = () => { c[k] = +$(id).value; AUD.applyVolumes(); save(); });
   $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
-  $('#vpk').onclick = () => buildVoicePack($('#vpkr'), false);
+  $('#vpk').onclick = () => buildVoicePack($('#vpkr'));
   $('#vpx').onclick = () => exportClips($('#vpxr'));
   clipStats().then(s => { const e = $('#clipst'); if (e) e.textContent = `Auf diesem Handy: ${s.all} Aufnahmen, davon ${s.fresh.length} noch nicht im Paket.`; }).catch(() => {});
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
@@ -3414,8 +3591,8 @@ async function loadVoices() {
   let list = [];
   try { list = await VOX.listVoices(); VOX.autoAssign(list); } catch (e) { box.innerHTML = `<p class="small status err" style="margin:0">${e.code === 'el_bad_key' ? 'Der ElevenLabs-Schlüssel wird nicht akzeptiert.' : 'Die Stimmenliste ist gerade nicht erreichbar.'}</p>`; return; }
   if (!list.length) { box.innerHTML = '<p class="small muted" style="margin:0">Keine Stimmen gefunden.</p>'; return; }
-  const ids = [S.crew.K, S.crew.M, S.crew.T, 'kroeger'];
-  box.innerHTML = ids.map(id => `<div class="voice-row">${charSVG(id)}<div><b style="font-family:var(--hfont)">${CREW[id].short}</b><select data-v="${id}" aria-label="Stimme für ${CREW[id].short}">${list.map(v => `<option value="${v.id}" ${S.voices[id] === v.id ? 'selected' : ''}>${esc(v.name)}${v.labels && v.labels.gender ? ' · ' + esc(v.labels.gender) : ''}${v.labels && v.labels.age ? ', ' + esc(v.labels.age) : ''}</option>`).join('')}</select></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn small ghost" data-pv="${id}">Hörprobe</button><button class="btn small ghost" data-ts="${id}">Testsatz</button></div></div>`).join('') +
+  const ids = [S.crew.K, S.crew.M, S.crew.T, 'kroeger'], fixedV = Object.keys(PACK.voices || {}).length > 0;
+  box.innerHTML = (fixedV ? '<p class="small" style="margin:0 0 8px"><b>Die Stimmen legt das Stimmenpaket fest.</b> So klingt jede Figur auf allen Geräten gleich. Ändern geht nur zusammen mit einem neuen Paket.</p>' : '') + ids.map(id => `<div class="voice-row">${charSVG(id)}<div><b style="font-family:var(--hfont)">${CREW[id].short}</b><select data-v="${id}" ${fixedV ? 'disabled' : ''} aria-label="Stimme für ${CREW[id].short}">${list.map(v => `<option value="${v.id}" ${VOX.voiceOf(id) === v.id ? 'selected' : ''}>${esc(v.name)}${v.labels && v.labels.gender ? ' · ' + esc(v.labels.gender) : ''}${v.labels && v.labels.age ? ', ' + esc(v.labels.age) : ''}</option>`).join('')}</select></div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn small ghost" data-pv="${id}">Hörprobe</button><button class="btn small ghost" data-ts="${id}">Testsatz</button></div></div>`).join('') +
     `<p class="small muted" style="margin:10px 0 0">Die Hörprobe ist kostenlos, der Testsatz kostet ein paar Credits. Tipp: In der ElevenLabs-Stimmenbibliothek kannst du deutsche Stimmen zu „Meine Stimmen“ hinzufügen, dann erscheinen sie hier.</p>`;
   box.querySelectorAll('svg.ch').forEach(s => s.style.width = '52px');
   box.querySelectorAll('[data-v]').forEach(s => s.onchange = () => { S.voices[s.dataset.v] = s.value; save(); });
@@ -3428,7 +3605,7 @@ function renderSources() {
   app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Quellen</h1><button class="btn small ghost" id="back">Zurück</button></div>
     <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Angegeben ist jeweils der vollständige Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
     <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p></div>
-    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0">Schriften Baloo 2 und Nunito über Google Fonts. Gespräche mit Claude von Anthropic, Stimmen von ElevenLabs. Schallsignale werden in der App selbst erzeugt.</p></div>`;
+    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0">Schriften Baloo 2 und Nunito (SIL Open Font License), lokal mitgeliefert. Gespräche mit Claude von Anthropic, Stimmen von ElevenLabs. Schallsignale werden in der App selbst erzeugt.</p></div>`;
   $('#back').onclick = renderSettings;
 }
 
@@ -3980,6 +4157,11 @@ function bindKeycard(after) {
 function renderTalk() {
   const fromStory = TALK.pending; TALK.pending = false;
   place = 'kajuete'; soundFor('kajuete');
+  if (!kiOn()) {
+    app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="back">← Kajüte</button><b class="tbtitle">Klönschnack</b><span></span></div>
+      <div class="card" style="margin-top:14px"><h3>Die KI-Crew hat Feierabend</h3><p class="small" style="margin:0 0 10px">Die KI-Funktionen sind ausgeschaltet. Lernen, Erklärungen, Lexikon und Kajütenfunk gehen trotzdem, auch offline.</p><button class="btn ghost" id="toset">Einstellungen</button></div>`;
+    $('#back').onclick = () => setTab('cabin'); $('#toset').onclick = renderSettings; return;
+  }
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="back">← Kajüte</button><b class="tbtitle">Klönschnack</b><button class="chip" id="free" aria-pressed="${S.cfg.free ? 'true' : 'false'}">Freihand</button></div>
     <div class="crewstage">${charSVG(S.crew.K)}${charSVG(S.crew.M)}${charSVG(S.crew.T)}<div class="bubble hidden" id="bubble" role="status" aria-live="polite"><b></b><span></span></div></div>
     ${apiKey() ? '' : KEYCARD()}
@@ -4026,6 +4208,8 @@ function afterCrew() {
 async function listenTurn() {
   if (!apiKey()) return needKey();
   TALK.on = true; setTalkUI('listen');
+  /* Kurz durchatmen: Das Handy gibt den Lautsprecher frei, bevor das Mikrofon startet (sonst oft „nichts gehört“). */
+  VOX.stop('zuhören'); await new Promise(r => setTimeout(r, 350)); if (tab !== 'talk' || !TALK.on) return;
   TALK.ctl = VOX.listen({onInterim: t => { const i = $('#tint'); if (i) i.textContent = t; }, onState: s => s === 'think' && setTalkUI('think'), noSpeech: 12000});
   const r = await TALK.ctl.done; TALK.ctl = null; const i = $('#tint'); if (i) i.textContent = '';
   if (tab !== 'talk') return;
@@ -4082,7 +4266,7 @@ function renderFunk() {
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="back">← Kajüte</button><b class="tbtitle">Kajütenfunk</b><span></span></div>
     <div class="card">
       <div class="row" style="align-items:center;margin-bottom:8px"><p class="small" style="margin:0;flex:1 1 180px">Die Crew erzählt locker über das, was man an Bord wissen muss, und hält ab und zu an, um dich zu fragen. Zwischendurch gibt es Kurzgeschichten.</p></div>
-      <div class="chips" style="margin:0 0 10px"><button class="chip" id="fv" aria-pressed="${S.cfg.funkVoice === 'phone'}">${S.cfg.funkVoice === 'phone' ? 'Handystimme (kostenlos)' : 'Echte Stimmen (Credits)'}</button></div>
+      <div class="chips" style="margin:0 0 10px"><button class="chip" id="fv" aria-pressed="${S.cfg.funkVoice === 'phone'}">${S.cfg.funkVoice === 'phone' ? 'Handystimme' : kiOn() && elKey() ? 'Echte Stimmen (Fehlendes kostet Credits)' : 'Echte Stimmen (aus dem Paket)'}</button></div>
       ${nextEp ? `<button class="btn wide lamp" id="playnext" style="font-size:1.05rem">Nächste Folge: ${esc(nextEp.title)}</button>` : eps.length ? '<p class="small"><b>Alle Folgen gehört.</b> Du kannst jede Folge unten nochmal anhören.</p>' : '<p class="small muted">Für diesen Schein sind die Folgen noch in Arbeit.</p>'}
       ${unheardShorts.length ? `<button class="btn ghost wide" id="playshort" style="margin-top:8px">Kurzgeschichte zwischendurch</button>` : ''}
       <div id="story"></div>
@@ -4090,9 +4274,9 @@ function renderFunk() {
     ${eps.length ? `<div class="card stories"><h3>Alle Folgen</h3>
       <select id="ftop"><option value="">Alle Themen</option>${TOPICS.map(t => `<option value="${t.id}">${t.name}</option>`).join('')}</select>
       <div id="eplist" style="margin-top:8px">${eps.map(e => `<div class="st" data-topics="${e.topics.join(' ')}"><span>${heard[e.id] ? '✓ ' : ''}${esc(e.title)} <span class="small muted">· ${e.minutes} Min.</span></span><button class="btn small ghost" data-ep="${e.id}">Anhören</button></div>`).join('')}</div></div>` : ''}
-    <div class="card stories"><h3>Eigene Folge erzeugen</h3><p class="small muted" style="margin:0 0 8px">Die Crew denkt sich eine neue Folge zu einem Thema aus (kostet Anthropic-Tokens und Stimmen-Credits).</p>
+    <div class="card stories"><div class="ki"><h3>Eigene Folge erzeugen</h3><p class="small muted" style="margin:0 0 8px">Die Crew denkt sich eine neue Folge zu einem Thema aus (kostet Anthropic-Tokens und Stimmen-Credits). Sie bleibt gespeichert.</p>
       <select id="tp"><option value="auto" selected>Automatisch: was als Nächstes dran ist</option>${TOPICS.map(t => `<option value="${t.id}">${t.name}</option>`).join('')}</select>
-      <button class="btn wide" id="gen" style="margin-top:10px">Neue Folge erzeugen</button>
+      <button class="btn wide ki" id="gen" style="margin-top:10px">Neue Folge erzeugen</button></div>
       ${own.length ? `<h3 style="margin-top:16px">Eigene Folgen</h3><div>${own.map((s, i) => `<div class="st"><span>${esc(s.title)}</span><button class="btn small ghost" data-st="${own.length - 1 - i}">Anhören</button></div>`).join('')}</div>` : ''}
     </div>`;
   $('#back').onclick = () => setTab('cabin');
@@ -4101,6 +4285,12 @@ function renderFunk() {
   const ps = $('#playshort'); if (ps) ps.onclick = () => playShort(unheardShorts[Math.random() * unheardShorts.length | 0]);
   const ft = $('#ftop'); if (ft) ft.onchange = () => app.querySelectorAll('#eplist .st').forEach(r => r.classList.toggle('hidden', !!ft.value && !r.dataset.topics.split(' ').includes(ft.value)));
   app.querySelectorAll('[data-ep]').forEach(b => b.onclick = () => playEpisode(eps.find(e => e.id === b.dataset.ep)));
+  /* Folgen, die noch nicht komplett im Stimmenpaket liegen, würden beim Anhören Credits kosten: Knopf grau */
+  if (kiOn() && elKey() && S.cfg.funkVoice !== 'phone') PACK.load().then(() => {
+    const packed = ep => ep.lines.every(l => l.s === 'Q' || PACK.has(cid(l.s), epFill(l.t)));
+    app.querySelectorAll('[data-ep]').forEach(b => { const ep = eps.find(e => e.id === b.dataset.ep); if (ep && !packed(ep)) b.className = 'btn small ki'; });
+    if (pn && nextEp && !packed(nextEp)) pn.className = 'btn wide ki';
+  });
   $('#gen').onclick = () => makeStory($('#tp').value);
   app.querySelectorAll('[data-st]').forEach(b => b.onclick = () => showStory(S.stories[+b.dataset.st]));
 }
@@ -4761,20 +4951,23 @@ function explainUnit(u) {
   app.innerHTML = `<div class="qhead"><div class="tag">Erklärung · ${esc(u.label)}</div><button class="btn small ghost" id="back">Kajüte</button></div>
     <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:8px">${charSVG(K)}<h1 style="margin:0">${esc(nameOf('K'))} erklärt</h1></div>
     <p class="muted small" style="margin:0 0 10px">Nur die ${miss.length} Fragen, die beim Raten noch nicht saßen.</p>
-    <div class="card lesson" id="les"><p class="think">${esc(nameOf('K'))} stopft die Pfeife und überlegt…</p></div>
+    <div class="card lesson" id="les"></div>
     <div class="card hidden" id="openq"></div>
     <div class="row"><button class="btn ghost hidden" id="read">Vorlesen</button><button class="btn lamp" id="nx">Zum Abschluss-Quiz</button></div>`;
   app.querySelector('svg.ch').style.width = '70px';
   $('#back').onclick = () => setTab('cabin');
   $('#nx').onclick = () => { VOX.stop('weiter zum Abschluss'); S.chap[u.id] = {...(S.chap[u.id] || {}), stage: 'erklaert'}; save(); runAbschluss(u); };
   const box = $('#les');
-  const fallback = () => { box.innerHTML = `<h3>Die richtigen Antworten</h3><ul>${miss.map(q => `<li><strong>${esc(q.q)}</strong><br>${esc(ansText(q))}</li>`).join('')}</ul>`; };
-  if (!apiKey()) { fallback(); return; }
-  ai(`Diese Katalogfragen hat der Lernende beim Raten noch nicht gewusst:\n${miss.map(catLine).join('\n')}\n\nErkläre jetzt genau diese Inhalte in deiner Art, etwa ${Math.min(320, 90 + miss.length * 35)} Wörter. Nicht auswendig lernen lassen, sondern verstehen: Zusammenhänge, Bilder, Merkhilfen. Markiere wichtige Begriffe mit **fett**. Schreibe ganz am Ende in eine eigene Zeile genau eine offene Verständnisfrage an den Lernenden im Format: FRAGE: <Frage>`, {system: leadPersona(), onText: tx => { box.innerHTML = md(tx.split(/\nFRAGE:/)[0]); }})
+  /* Ohne Kosten: Antworten mit den Erklärungen der Karten. Die erzählte Erklärung mit Verständnisfrage gibt es per grauem Kostenknopf. */
+  const fallback = () => { box.innerHTML = `<h3 style="margin-top:0">Die richtigen Antworten</h3><ul>${miss.map(q => { const c = cardOf(q); return `<li style="margin-bottom:8px"><strong>${esc(q.q)}</strong><br>${esc(ansText(q))}${c ? `<br><span class="small muted">${esc(c.e)}${c.m ? ' 💡 ' + esc(c.m) : ''}</span>` : ''}</li>`; }).join('')}</ul>`; clampLong(box); };
+  fallback();
+  const tell = document.createElement('button'); tell.className = 'btn ki wide'; tell.style.margin = '0 0 12px'; tell.textContent = nameOf('K') + ' erklärt es und fragt nach'; $('#openq').before(tell);
+  tell.onclick = () => { tell.remove(); box.innerHTML = `<p class="think">${esc(nameOf('K'))} stopft die Pfeife und überlegt…</p>`; tellUnit(); };
+  const tellUnit = () => ai(`Diese Katalogfragen hat der Lernende beim Raten noch nicht gewusst:\n${miss.map(catLine).join('\n')}\n\nErkläre jetzt genau diese Inhalte in deiner Art, etwa ${Math.min(320, 90 + miss.length * 35)} Wörter. Nicht auswendig lernen lassen, sondern verstehen: Zusammenhänge, Bilder, Merkhilfen. Markiere wichtige Begriffe mit **fett**. Schreibe ganz am Ende in eine eigene Zeile genau eine offene Verständnisfrage an den Lernenden im Format: FRAGE: <Frage>`, {system: leadPersona(), onText: tx => { box.innerHTML = md(tx.split(/\nFRAGE:/)[0]); }})
     .then(tx => {
       const [body, fq] = tx.split(/\n?FRAGE:\s*/);
       box.innerHTML = md(body); clampLong(box);
-      const r = $('#read'); if (r) { r.classList.remove('hidden'); r.onclick = () => { AUD.unlock(); VOX.stop('vorlesen neu'); VOX.say(K, body.replace(/\*\*/g, ''), 'live'); }; }
+      const r = $('#read'); if (r) { r.className = 'btn ' + readCls(K, body, 'live'); r.onclick = () => { AUD.unlock(); VOX.stop('vorlesen neu'); VOX.say(K, body.replace(/\*\*/g, ''), 'live'); }; }
       if (fq && fq.trim()) openQuestion(fq.trim(), miss);
     })
     .catch(e => { fallback(); box.insertAdjacentHTML('afterbegin', `<p class="muted">${esc(aiErr(e))}</p>`); });
@@ -4784,7 +4977,7 @@ function openQuestion(question, miss) {
   const c = $('#openq'); if (!c) return; c.classList.remove('hidden');
   c.innerHTML = `<div class="tag">Frage vom ${esc(ROLE_NAMES.K)}</div><p style="font-weight:700;margin:4px 0 8px">${esc(question)}</p>
     <textarea id="oa" placeholder="Antworte in deinen eigenen Worten…"></textarea>
-    <div class="row" style="margin-top:8px"><button class="btn" id="oasend">Antworten</button>${VOX.canListen ? `<button class="btn ghost" id="oamic">Sprechen</button>` : ''}<button class="btn ghost" id="oaskip">Überspringen</button></div>
+    <div class="row" style="margin-top:8px"><button class="btn ki" id="oasend">Antworten</button>${VOX.canListen ? `<button class="btn ghost" id="oamic">Sprechen</button>` : ''}<button class="btn ghost" id="oaskip">Überspringen</button></div>
     <div id="oafb" class="lesson" style="margin-top:8px"></div>`;
   $('#oaskip').onclick = () => c.classList.add('hidden');
   const mic = $('#oamic'); if (mic) mic.onclick = async () => { AUD.unlock(); VOX.stop('sprechen statt tippen'); mic.textContent = 'Ich höre zu…'; mic.disabled = true; const r = await VOX.listen({onInterim: t => { $('#oa').value = t; }}).done; mic.textContent = 'Sprechen'; mic.disabled = false; if (r.text) $('#oa').value = r.text; };
@@ -4793,7 +4986,8 @@ function openQuestion(question, miss) {
     const fb = $('#oafb'); fb.innerHTML = '<p class="think">Hm, mal sehen…</p>'; $('#oasend').disabled = true;
     try {
       const tx = await ai(`Verständnisfrage: ${question}\nAntwort des Lernenden: ${ans}\nPassende Katalogfragen mit verbindlicher Antwort:\n${miss.map(catLine).join('\n')}\nBewerte in 2 bis 3 kurzen Sätzen in deiner Art: Was stimmt, was fehlt oder ist falsch? Beginne mit "Richtig.", "Fast." oder "Nicht ganz."`, {system: leadPersona(), modelTier: 'quick', maxTokens: 220, onText: t => { fb.innerHTML = md(t); }});
-      fb.innerHTML = md(tx); AUD.unlock(); VOX.say(S.crew.K, tx.replace(/\*\*/g, ''), 'live');
+      fb.innerHTML = md(tx); const rb = document.createElement('button'); rb.className = 'btn small ' + readCls(S.crew.K, tx, 'live'); rb.textContent = 'Vorlesen';
+      rb.onclick = () => { AUD.unlock(); VOX.stop(); VOX.say(S.crew.K, tx.replace(/\*\*/g, ''), 'live'); }; fb.appendChild(rb);
     } catch (e) { fb.innerHTML = `<p class="muted">${esc(aiErr(e))}</p>`; }
     $('#oasend').disabled = false;
   };
@@ -4893,16 +5087,25 @@ function sheet(html) {
   return w;
 }
 function closeSheet() { const s = $('#sheet'); if (s) s.remove(); }
-const menuBtn = (id, label, sub) => `<button class="menuitem" data-m="${id}"><b>${label}</b>${sub ? `<small>${sub}</small>` : ''}</button>`;
+const menuBtn = (id, label, sub, cls = '') => `<button class="menuitem ${cls}" data-m="${id}"><b>${label}</b>${sub ? `<small>${sub}</small>` : ''}</button>`;
 /* Jedes Antippen ein anderes Miau, nie zweimal dasselbe hintereinander */
 let lastMeow = -1;
 function meow() { let k; do { k = Math.random() * 3 | 0; } while (k === lastMeow); lastMeow = k; AUD.sfx(['katze', 'katze2', 'katze3'][k], {vol: .6}); }
+/* Lernstrategie ohne KI: aus Plan und Lernstand */
+function stratText() {
+  const sure = Q.filter(q => st(q.n) && st(q.n).b >= 3).length, due = Q.filter(q => isDue(q.n)).length, d = daysLeft(), p = computePlan();
+  const open = UNITS.filter(u => unitStage(u) !== 'fertig').length;
+  const a = d > 0 ? `Bis zur Prüfung sind es noch ${d} Tage.` : 'Die Prüfung ist heute oder schon vorbei. Ein neues Datum trägst du in den Einstellungen ein.';
+  const b = `${sure} von ${Q.length} Fragen sitzen schon sicher${due ? `, und ${due} Wiederholungen sind fällig. Die zuerst, die gehen schnell und bringen am meisten` : ''}.`;
+  const c = open ? `Danach jeden Tag etwa ${p.cap} Fragen, und Kapitel für Kapitel: erst raten, dann erklären lassen, dann nochmal. ${open} Kapitelabschnitte sind noch offen.` : 'Alle Kapitel sind geschafft. Jetzt Probeprüfungen, bis du dreimal hintereinander bestehst.';
+  return `${a} ${b} ${c} Lieber jeden Tag ein bisschen als einmal die Woche ganz viel.`;
+}
 function charMenu(cidv) {
   const c = CREW[cidv], role = c.role;
   if (cidv === 'backbord') meow(); else if (cidv === 'klabauter') AUD.sfx('papagei', {vol: .5}); else AUD.click();
   const head = `<div class="sheethead">${charSVG(cidv)}<div><h2 style="margin:0">${esc(c.short)}</h2><p class="small muted" style="margin:0">${esc(c.blurb)}</p></div></div><div id="msay" class="menusay hidden"></div>`;
   let items = '';
-  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', 'Einfach klönen', 'Freies Gespräch') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten');
+  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten');
   if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('tap', 'Sag was');
   if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '') + menuBtn('tap', 'Sag was');
   const w = sheet(head + `<div class="menu">${items}</div>`);
@@ -4910,19 +5113,12 @@ function charMenu(cidv) {
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = async () => {
     const m = b.dataset.m; AUD.click();
     if (m === 'next') {
-      const r = recommendNext(); say(r.say, 'fixed');
+      const r = recommendNext(); say(r.say, /\d/.test(r.say) ? 'local' : 'fixed');
       const go = document.createElement('button'); go.className = 'btn lamp wide'; go.style.marginTop = '10px'; go.textContent = 'Los geht\'s: ' + r.label;
       go.onclick = () => { closeSheet(); VOX.stop('Empfehlung gestartet'); r.run(); }; $('#msay').after(go); w.querySelector('.menu').classList.add('hidden');
     }
-    if (m === 'strat' || m === 'garn') {
-      if (!apiKey()) { closeSheet(); return needKey(); }
-      const box = $('#msay'); box.classList.remove('hidden'); box.innerHTML = '<span class="think">Moment…</span>'; w.querySelector('.menu').classList.add('hidden');
-      const ask = m === 'strat'
-        ? `Gib mir in höchstens 4 Sätzen eine ehrliche, konkrete Lernstrategie für meine Lage. Daten: ${daysLeft()} Tage bis zur Prüfung, ${Q.filter(q => st(q.n) && st(q.n).b >= 3).length} von ${Q.length} Fragen sicher, ${Q.filter(q => isDue(q.n)).length} Wiederholungen fällig, ${UNITS.filter(u => unitStage(u) === 'fertig').length} von ${UNITS.length} Kapitelabschnitten geschafft, Bestehenschance etwa ${Math.round(passChance() * 100)} Prozent, ${S.profile.minutes} Minuten am Tag geplant. Empfohlen wird die Reihenfolge: erst raten, dann erklären lassen, dann nochmal. Keine Aufzählung.`
-        : `Erzähl mir in höchstens 5 Sätzen etwas Spannendes aus der Seefahrt, passend zu meinem Seemannsgarn-Wunsch. Wenn es ein echter Fakt oder eine wahre Geschichte ist, muss sie stimmen.`;
-      try { const tx = await ai(ask, {system: leadPersona(), modelTier: 'quick', maxTokens: 320, onText: t => { box.textContent = t.replace(/\*\*/g, ''); }}); say(tx.replace(/\*\*/g, '')); }
-      catch (e) { box.textContent = aiErr(e); }
-    }
+    if (m === 'strat') { say(stratText(), 'local'); w.querySelector('.menu').classList.add('hidden'); }
+    if (m === 'garn') { closeSheet(); setTab('funk'); const un = SHORTS.filter(x => !(S.heard || {})[x.id]), pool = un.length ? un : SHORTS; playShort(pool[Math.random() * pool.length | 0]); }
     if (m === 'topic') {
       w.querySelector('.menu').innerHTML = TOPICS.map(t => menuBtn('t:' + t.id, t.name)).join('');
       w.querySelectorAll('[data-m^="t:"]').forEach(x => x.onclick = () => { closeSheet(); const t = TOPICS.find(tt => tt.id === x.dataset.m.slice(2)); showLesson(t, () => setTab('cabin')); });
@@ -5047,6 +5243,9 @@ async function loadData() {
   const [sbf, sks, nav, folgen, bin, lex] = await Promise.all([get('sbf.json'), get('sks.json'), get('nav.json'), get('folgen.json'), get('binnen.json'), get('lexikon.json')]);
   DATA = sbf; SKS_DATA = sks; NAV_TASKS = nav; BIN_DATA = bin; LEX = lex;
   EPISODES = Object.assign({sbf: [], sks: []}, folgen.episodes); SHORTS = folgen.shorts || [];
+  /* Fragekarten: fehlt eine Datei, geht alles weiter wie ohne Karte */
+  const cards = await Promise.all(['sbf', 'bin', 'sks'].map(c => get('karten-' + c + '.json').catch(() => ({k: {}}))));
+  KARTEN = Object.assign({}, ...cards.map(c => (c && c.k) || {}));
   useCourse(S.course);
 }
 function startApp() {

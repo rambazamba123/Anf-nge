@@ -1,0 +1,2552 @@
+{
+"about": "Fragekarten: Erklärung (e), Merktipp (m), typischer Fehler (f) je Katalogfrage. Einmal erstellt; die Katalogantwort bleibt verbindlich.",
+"k": {
+"sks:nav-1": {
+"e": "Eine unvollständige oder veraltete Karte kann neue Wracks, verlegte Tonnen oder Sperrgebiete verschweigen. Deshalb prüft der Schiffsführer vor der Reise, ob alles da und berichtigt ist.",
+"m": "Vollständig und aktuell.",
+"f": "Beides gehört dazu: Vollständigkeit und Berichtigung."
+},
+"sks:nav-10": {
+"e": "Die NfS erscheinen zweisprachig, auf Deutsch und Englisch.",
+"m": "Deutsch und Englisch."
+},
+"sks:nav-100": {
+"e": "Ein Wegpunkt ist ein Punkt mit geografischen Koordinaten, den man ansteuern will.",
+"m": "Wegpunkt = Ziel mit Koordinaten."
+},
+"sks:nav-101": {
+"e": "WGS 84 ist das weltweite Bezugssystem von GPS. Es bildet die tatsächliche Form der gesamten Erde bestmöglich ab.",
+"m": "World Geodetic System 1984."
+},
+"sks:nav-102": {
+"e": "Kleine Echos verschwinden durch Seegang und Regen, durch falsche Bedienung, durch zu große Entfernung oder durch Gieren des Boots bei vorausorientierter Darstellung.",
+"m": "Wellen, Regen, Bedienung, Entfernung, Gieren."
+},
+"sks:nav-103": {
+"e": "Mit Radar peilt man ein Objekt (Peilstrahl als Standlinie) und misst mit dem VRM den Abstand (Abstandskreis als Standlinie). Der Schnitt ist der Ort.",
+"m": "Radar: Peilung plus Abstandskreis."
+},
+"sks:nav-104": {
+"e": "Damit zwei nahe Ziele getrennt erscheinen, wählt man eine kurze Impulslänge und einen kleineren Messbereich.",
+"m": "Kurzer Impuls, kleiner Bereich."
+},
+"sks:nav-105": {
+"e": "AIS heißt Automatic Identification System, auf Deutsch automatisches Identifizierungssystem.",
+"m": "Automatic Identification System."
+},
+"sks:nav-106": {
+"e": "Schiffe mit AIS senden automatisch und regelmäßig ihre Identität und Schiffsdaten. Zusätzlich können sicherheitsrelevante Nachrichten gesendet werden.",
+"m": "Automatisch: Wer bin ich, was mache ich."
+},
+"sks:nav-107": {
+"e": "AIS funkt über UKW und reicht deshalb etwa so weit wie UKW, bei Handelsschiffen 20 bis 30 sm. Je höher die Antenne, desto weiter.",
+"m": "AIS reicht wie UKW, hoch hinaus hilft."
+},
+"sks:nav-108": {
+"e": "Mit Relaisstationen an Land lässt sich die Reichweite erhöhen, und abschattende Hindernisse wie Berge lassen sich umgehen.",
+"m": "Relais überbrücken Hindernisse."
+},
+"sks:nav-109": {
+"e": "Berufsschiffe senden statische Daten wie Kennung, Rufzeichen und Maße, dynamische wie Zeit, Position, Kurs, Fahrt und Status sowie Reisedaten wie Tiefgang, Ziel und ETA.",
+"m": "Statisch, dynamisch, Reise."
+},
+"sks:nav-11": {
+"e": "Leuchtfeuerverzeichnisse beschreiben Leuchtfeuer, Feuerschiffe und Großtonnen mit ihrer geografischen Lage.",
+"m": "Feuer, Feuerschiffe, Großtonnen."
+},
+"sks:nav-110": {
+"e": "Ein Schiff erscheint nur, wenn es AIS hat, das Gerät eingeschaltet ist, GPS läuft und es nicht wegen zu vieler Schiffe aus Kapazitätsgründen ausgeblendet wird. Verlassen kann man sich also nicht darauf.",
+"m": "Kein AIS-Signal heißt nicht: kein Schiff."
+},
+"sks:nav-111": {
+"e": "AIS überträgt die GPS-Position des anderen Schiffs. Ist dessen GPS falsch, sieht jeder die falsche Position. Von Hand eingegebene Daten wie Ziel, Tiefgang oder Status können veraltet sein.",
+"m": "AIS ist nur so gut wie das, was eingegeben wurde."
+},
+"sks:nav-112": {
+"e": "Sportboote sind auf Radar oft schwer zu erkennen. Zeigen viele Schiffe AIS-Ziele im Radar an, fällt ein Sportboot ohne AIS noch weniger auf.",
+"m": "Ohne AIS bist du noch unsichtbarer."
+},
+"sks:nav-113": {
+"e": "Auch für kurze Küstenfahrten gehören Steuerkompass, Peilkompass, Lot, Log und Uhr an Bord.",
+"m": "Kompass zum Steuern und Peilen, Lot, Log, Uhr."
+},
+"sks:nav-114": {
+"e": "Zur navigatorischen Mindestausrüstung gehören zum Beispiel Steuerkompass, Peileinrichtung, ein Funknavigationsgerät, Log, Lot, Fernglas, Barometer, Weltempfänger, berichtigte Seekarten und Seebücher, Logbuch und Uhr.",
+"m": "Kompass, Peilung, GPS, Log, Lot, Glas, Barometer, Radio, Karten, Logbuch, Uhr."
+},
+"sks:nav-115": {
+"e": "Ein Kugelkompass bleibt auch bei starker Krängung brauchbar, und die Kugel vergrößert die Rose wie eine Lupe.",
+"m": "Kugel: kippsicher und vergrößernd."
+},
+"sks:nav-116": {
+"e": "Dauerhaft ändert sich die Ablenkung, wenn sich der magnetische Zustand an Bord ändert, etwa durch Einbauten oder versetzte Ausrüstung.",
+"m": "Umbauen verändert die Deviation."
+},
+"sks:nav-117": {
+"e": "Vorübergehend stören elektronische Geräte, magnetische Gegenstände wie Werkzeug oder Handpeilkompass und Gleichstromleitungen nahe am Kompass.",
+"m": "Handy, Werkzeug, Kabel weg vom Kompass."
+},
+"sks:nav-118": {
+"e": "Magnetisierbares Material sollte mindestens 1 m vom Magnetkompass entfernt sein.",
+"m": "Ein Meter Abstand."
+},
+"sks:nav-12": {
+"e": "Tonnen unter 8 m Höhe stehen nicht in den Leuchtfeuerverzeichnissen. Für sie braucht man die Seekarte.",
+"m": "Kleine Tonnen unter 8 m fehlen."
+},
+"sks:nav-13": {
+"e": "Merkmale der Schifffahrtszeichen findet man in den Leuchtfeuerverzeichnissen und auszugsweise in den Seekarten, in der Karte 1/INT 1 und für schwimmende Zeichen in Anlage I der SeeSchStrO.",
+"m": "Verzeichnis, Karte 1, SeeSchStrO-Anlage.",
+"f": "Die Anlage I zur SeeSchStrO wird gern vergessen."
+},
+"sks:nav-14": {
+"e": "Feuerhöhen beziehen sich im Gezeitengebiet (Nordsee) auf mittleres Hochwasser, in der gezeitenlosen Ostsee auf mittleren Wasserstand.",
+"m": "Nordsee: MHW. Ostsee: Mittelwasser."
+},
+"sks:nav-15": {
+"e": "Brückensignale stehen in den See- und Hafenhandbüchern und in den Seekarten.",
+"m": "Handbuch und Karte."
+},
+"sks:nav-16": {
+"e": "Die Seehandbücher des BSH gliedern sich in Schifffahrtsangelegenheiten, Naturverhältnisse sowie Küstenkunde und Segelanweisungen.",
+"m": "Schifffahrt, Natur, Küste."
+},
+"sks:nav-17": {
+"e": "Richtungen werden rechtweisend in Grad angegeben und im Uhrzeigersinn gezählt.",
+"m": "Rechtweisend, rechtsherum."
+},
+"sks:nav-18": {
+"e": "Sektorgrenzen sind Peilungen vom Schiff zum Feuer. Wer das Feuer in 030° bis 042° peilt, steht südwestlich davon. Also liegt der Sektor im Südwest-Quadranten.",
+"m": "Sektoren sind Peilungen zum Feuer, der Sektor liegt also gegenüber.",
+"f": "Die Begründung gehört dazu: Peilung zum Feuer."
+},
+"sks:nav-19": {
+"e": "Leitfeuer sind Einzelfeuer mit Sektoren verschiedener Farbe oder Kennung. Der Leitsektor bezeichnet ein Fahrwasser, eine Hafeneinfahrt oder freies Wasser zwischen Untiefen.",
+"m": "Ein Feuer, mehrere Sektoren."
+},
+"sks:nav-2": {
+"e": "GPS rechnet im Bezugssystem WGS 84. Ältere Karten nutzen manchmal ein anderes Kartendatum. Trägt man die GPS-Position ungeprüft ein, kann sie in der Karte an der falschen Stelle liegen.",
+"m": "GPS spricht WGS 84, die Karte vielleicht nicht."
+},
+"sks:nav-20": {
+"e": "Richtfeuer sind ein Unter- und ein Oberfeuer, die in Deckpeilung eine Kurslinie bezeichnen. Man ist auf der Linie, wenn beide senkrecht übereinander stehen.",
+"m": "Zwei Feuer übereinander: auf Kurs."
+},
+"sks:nav-21": {
+"e": "Ein Torfeuer sind zwei gleiche Feuer in gleicher Höhe, beiderseits der Fahrwasserachse genau gegenüber und gleich weit von ihr entfernt. Man fährt mittendurch.",
+"m": "Zwei gleiche Feuer wie ein Tor."
+},
+"sks:nav-22": {
+"e": "Die Tragweite ist der Abstand, in dem ein Feuer gerade noch einen deutlichen Lichteindruck im Auge hervorruft.",
+"m": "Tragweite: wie weit das Licht reicht."
+},
+"sks:nav-23": {
+"e": "Die Nenntragweite ist die Tragweite bei einer festgelegten meteorologischen Sichtweite von 10 sm am Tag.",
+"m": "Nenntragweite: Tragweite bei 10 sm Sicht."
+},
+"sks:nav-24": {
+"e": "Die Tragweite hängt vor allem von der Lichtstärke des Feuers und von der Durchlässigkeit der Luft ab.",
+"m": "Helligkeit und klare Luft."
+},
+"sks:nav-25": {
+"e": "„18 M“ an einem Feuer in der Seekarte ist die Nenntragweite: 18 Seemeilen.",
+"m": "M = Meilen der Nenntragweite."
+},
+"sks:nav-26": {
+"e": "Die Sichtweite ist die Entfernung, auf die man ein Feuer über die Erdkrümmung hinweg sehen kann. Sie hängt von der Feuerhöhe und der eigenen Augeshöhe ab.",
+"m": "Sichtweite: Erdkrümmung. Hohes Feuer, hohes Auge, weite Sicht.",
+"f": "Tragweite ist Licht, Sichtweite ist Geometrie."
+},
+"sks:nav-27": {
+"e": "„Feuer in der Kimm“ klappt nur, wenn das Licht so weit reicht wie die geometrische Sicht. Die Tragweite muss mindestens gleich der Sichtweite sein.",
+"m": "Das Licht muss bis zur Kimm reichen."
+},
+"sks:nav-28": {
+"e": "Tabellen für den Abstand eines Feuers in der Kimm stehen in den deutschen und britischen Leuchtfeuerverzeichnissen.",
+"m": "Kimmabstand: im Leuchtfeuerverzeichnis."
+},
+"sks:nav-29": {
+"e": "Symbole und Abkürzungen der Seekarten erklärt die Karte 1/INT des BSH.",
+"m": "Karte 1 ist das Wörterbuch."
+},
+"sks:nav-3": {
+"e": "Zwischen WGS 84 und anderen Bezugssystemen liegen meist 0,1 bis 1 Kabellänge, also etwa 20 bis 200 m. Es kann auch mehr sein.",
+"m": "Grob 20 bis 200 m, manchmal mehr."
+},
+"sks:nav-30": {
+"e": "Die BfS geben die zuständigen Wasser- und Schifffahrtsbehörden von Bund und Ländern heraus. Sie melden wichtige Maßnahmen und Ereignisse auf den Seeschifffahrtsstraßen und in der deutschen AWZ.",
+"m": "BfS: von den Ämtern, für Seeschifffahrtsstraßen und AWZ."
+},
+"sks:nav-31": {
+"e": "Die BfS hängen an amtlichen Aushangstellen aus, etwa bei Ämtern, Hafenverwaltungen, Wasserschutzpolizei, Schleusen und Yachthäfen, und stehen auf elwis.de.",
+"m": "Aushang und ELWIS."
+},
+"sks:nav-32": {
+"e": "Die BfS melden vor allem Änderungen an Feuern, Tonnen und Landmarken, veränderte Tiefen, Wracks und Hindernisse sowie Bau-, Bagger- und Militärarbeiten mit Sperrungen.",
+"m": "Zeichen, Tiefen, Hindernisse, Arbeiten."
+},
+"sks:nav-33": {
+"e": "Nautische Warnnachrichten geben die Verkehrszentralen für ihren Bereich und der Seewarndienst Emden für das gesamte deutsche Warngebiet heraus. Der Deutschlandfunk verbreitet sie.",
+"m": "Verkehrszentralen und Emden, gesendet im Deutschlandfunk."
+},
+"sks:nav-34": {
+"e": "„Vital“ bedeutet, dass die Warnung auf eine lebensbedrohende Gefahr hinweist.",
+"m": "Vital = lebenswichtig."
+},
+"sks:nav-35": {
+"e": "Vom 1. April bis 31. Oktober werden vitale Warnnachrichten für die Sportschifffahrt zusätzlich über ausgewählte Radiosender verbreitet.",
+"m": "Saison April bis Oktober: auch im Radio."
+},
+"sks:nav-36": {
+"e": "Die NfS gibt das BSH einmal wöchentlich als Heft und im Internet heraus.",
+"m": "BSH, wöchentlich."
+},
+"sks:nav-37": {
+"e": "Britische Seekarten, die die NfS nicht erfassen, berichtigt man mit den britischen Notices to Mariners.",
+"m": "Britische Karte, britische Notices."
+},
+"sks:nav-38": {
+"e": "P-Nachrichten kündigen eine bevorstehende Maßnahme an. Weil sie nur begrenzt gelten, trägt sie keine amtliche Stelle ein. Man muss die gültigen P-Nachrichten vor Gebrauch selbst in der Karte vermerken.",
+"m": "P wie preliminary: selbst eintragen.",
+"f": "Die Begründung ist die begrenzte Geltungsdauer."
+},
+"sks:nav-39": {
+"e": "T-Nachrichten melden einen zeitweiligen Zustand. Auch sie werden wegen begrenzter Geltung nicht amtlich eingetragen. Man vermerkt die gültigen T-Nachrichten vor Gebrauch selbst.",
+"m": "T wie temporary: selbst eintragen."
+},
+"sks:nav-4": {
+"e": "Das Bezugssystem und Korrekturhinweise stehen am Kartenrand unter dem Titel.",
+"m": "Unter dem Titel nachsehen."
+},
+"sks:nav-40": {
+"e": "Beim Ansteuern einer Küste nimmt man die Karte mit dem größtmöglichen Maßstab. Nur dort sind alle Schifffahrtszeichen und Details eingetragen.",
+"m": "Nah an der Küste: größter Maßstab."
+},
+"sks:nav-41": {
+"e": "Die Missweisung in der Karte gilt für ein bestimmtes Jahr. Mit der angegebenen jährlichen Änderung rechnet man sie auf das aktuelle Jahr um.",
+"m": "Missweisung aufs aktuelle Jahr hochrechnen."
+},
+"sks:nav-42": {
+"e": "Sportbootkarten werden nach dem Druck nicht mehr berichtigt. Der Nutzer muss sie vor Gebrauch selbst mit den NfS auf den neuesten Stand bringen.",
+"m": "Sportbootkarte: selbst berichtigen."
+},
+"sks:nav-43": {
+"e": "1 m/s sind etwa 1,94 kn. Faustregel: m/s mal 2 ergibt Knoten.",
+"m": "Knoten = Meter pro Sekunde mal zwei."
+},
+"sks:nav-44": {
+"e": "Die Logge misst nur die Fahrt durchs Wasser. Für die Fahrt über Grund muss man Stromrichtung und -geschwindigkeit berücksichtigen.",
+"m": "Logge misst FdW, Karte braucht FüG."
+},
+"sks:nav-45": {
+"e": "GPS misst die Bewegung über Grund und zeigt deshalb die Fahrt über Grund (FüG).",
+"m": "GPS: über Grund."
+},
+"sks:nav-46": {
+"e": "GPS zeigt den Kurs über Grund (KüG).",
+"m": "GPS: über Grund."
+},
+"sks:nav-47": {
+"e": "Regelmäßig eingetragene Positionen zeigen früh, ob man von der Kurslinie abkommt, damit man rechtzeitig korrigieren kann.",
+"m": "Oft eintragen, früh korrigieren."
+},
+"sks:nav-48": {
+"e": "Die Besteckversetzung ist Richtung und Entfernung vom Koppelort zum beobachteten Ort zum gleichen Zeitpunkt.",
+"m": "Vom gekoppelten zum beobachteten Ort."
+},
+"sks:nav-49": {
+"e": "Eine Besteckversetzung entsteht durch ungenaues Steuern und Koppeln, durch Kursfehler wie eine ungenaue Steuertafel und durch nicht berücksichtigten Strom und Wind.",
+"m": "Steuern, Kompass, Strom und Wind."
+},
+"sks:nav-5": {
+"e": "Passt das Kartendatum nicht zu WGS 84, sagt die Karte, um wie viele Minuten man die GPS-Position nach Nord oder Süd und nach Ost oder West verschieben muss.",
+"m": "GPS-Position um die angegebenen Minuten verlegen."
+},
+"sks:nav-50": {
+"e": "Schneiden sich zwei Standlinien sehr spitz oder sehr stumpf, verschiebt schon ein kleiner Peilfehler den Schnittpunkt stark. Zwischen 30° und 150° bleibt der Ort ausreichend sicher.",
+"m": "Schnittwinkel 30° bis 150°, am besten 90°."
+},
+"sks:nav-51": {
+"e": "Regelmäßige Kompasskontrollen prüfen, ob der Kompass funktioniert und ob die Werte der Ablenkungstabelle noch stimmen.",
+"m": "Kompass und Deviationstabelle prüfen."
+},
+"sks:nav-52": {
+"e": "Auch ohne Gezeiten kann Wind Wasser aufstauen und Strömungen erzeugen. Lässt er nach, schwappt das Wasser zurück, typisch für die Ostsee.",
+"m": "Wind staut, dann schwappt es zurück."
+},
+"sks:nav-53": {
+"e": "Vor einer Nachtfahrt legt man Kurse und Wendepunkte fest, markiert Untiefen, notiert, welche Feuer wann in der Kimm auftauchen, und sucht die Strecke nach unbefeuerten Tonnen ab.",
+"m": "Kurse planen, Gefahren markieren, Feuer vorhersagen, dunkle Tonnen finden.",
+"f": "Die unbefeuerten Tonnen werden gern vergessen."
+},
+"sks:nav-54": {
+"e": "Terrestrisch bestimmt man den Ort durch Kreuzpeilung, durch Peilung und Abstand (Feuer in der Kimm, Radar) oder durch Peilung und Lotung.",
+"m": "Kreuzpeilung, Peilung plus Abstand, Peilung plus Lot."
+},
+"sks:nav-55": {
+"e": "Mit nur einem bekannten Objekt kombiniert man die Peilung mit einem Abstand (Feuer in der Kimm, Radar) oder mit einer Lotung.",
+"m": "Ein Objekt: Peilung plus Abstand oder Lot."
+},
+"sks:nav-56": {
+"e": "Rechtweisend Nord zeigt zum geografischen Nordpol, missweisend Nord zum magnetischen Nordpol, und Magnetkompass-Nord ist die Richtung, in die die Kompassnadel an Bord tatsächlich zeigt, gestört durch das Schiff selbst.",
+"m": "Erde, Magnetfeld, Schiff: rwN, mwN, MgN."
+},
+"sks:nav-57": {
+"e": "Zwischen rwN und mwN liegt die Missweisung (Erde), zwischen mwN und MgN die Ablenkung oder Deviation (Schiff).",
+"m": "Mw kommt von der Erde, Abl vom Schiff."
+},
+"sks:nav-58": {
+"e": "Der Gesamtwinkel von rwN nach MgN ist die Fehlweisung: Ablenkung plus Missweisung.",
+"m": "Fw = Abl + Mw."
+},
+"sks:nav-59": {
+"e": "Die Missweisung steht in der Seekarte für ein bestimmtes Jahr. Mit der angegebenen jährlichen Änderung rechnet man sie auf das aktuelle Jahr um.",
+"m": "Aus der Karte, aufs Jahr umrechnen."
+},
+"sks:nav-6": {
+"e": "Deutsche Karten tragen einen Berichtigungsstempel des BSH oder einer amtlichen Berichtigungsstelle. Er zeigt, bis wann die Karte amtlich berichtigt ist.",
+"m": "Stempel vom BSH."
+},
+"sks:nav-60": {
+"e": "Die Ablenkung steht in der Ablenkungstabelle des Schiffs. Sie hängt vom anliegenden Kurs ab.",
+"m": "Ablenkung: Tabelle, je nach Kurs."
+},
+"sks:nav-61": {
+"e": "Jedes Schiff hat sein eigenes Magnetfeld durch Motor, Eisen und Elektrik. Deshalb braucht jedes Schiff seine eigene Ablenkungstabelle.",
+"m": "Jedes Schiff stört anders."
+},
+"sks:nav-62": {
+"e": "Für die Peilung gilt die Ablenkung des anliegenden Kurses, nicht der Peilrichtung. Erst Abl für den MgK aus der Tabelle anbringen, dann die aufs Jahr berichtigte Mw.",
+"m": "Ablenkung vom Kurs, nicht von der Peilung."
+},
+"sks:nav-63": {
+"e": "Eine Lotung gibt nur dann eine brauchbare Standlinie, wenn der Grund regelmäßig und deutlich genug ansteigt oder abfällt. Auf flachem Grund passt dieselbe Tiefe überall.",
+"m": "Lotung hilft nur, wo der Grund sich deutlich ändert."
+},
+"sks:nav-64": {
+"e": "Für Sportboote besonders wichtig sind Sonderzeichen für Sperrgebiete und Kardinalzeichen für allgemeine Gefahrenstellen.",
+"m": "Gelb für Sperrgebiete, Kardinal für Gefahren."
+},
+"sks:nav-65": {
+"e": "Sperr- und Verbotsgebiete findet man in den Seekarten, in den Bekanntmachungen für Seefahrer und in den Nautischen Warnnachrichten.",
+"m": "Karte, BfS, NWN."
+},
+"sks:nav-66": {
+"e": "Reeden, Warngebiete und andere besondere Gebiete kennzeichnen gelbe Fass-, Leucht- oder Spierentonnen oder gelbe Stangen.",
+"m": "Gelb heißt: besonderes Gebiet."
+},
+"sks:nav-67": {
+"e": "Sperrgebiete erkennt man an gelben Tonnen oder Stangen mit breitem rotem Band, Fass- und Leuchttonnen tragen die Aufschrift „Sperrgebiet“ oder „Sperr-G“.",
+"m": "Gelb mit rotem Band: Sperrgebiet."
+},
+"sks:nav-68": {
+"e": "Feuer auf Sonderzeichen sind gelb.",
+"m": "Gelbe Tonne, gelbes Licht."
+},
+"sks:nav-69": {
+"e": "Weiße Tonnen mit gelbem Kreuz oder Stangen mit gelbem Band zeigen badebetriebsbedingt gesperrte Flächen: Fahrverbot für Maschinenfahrzeuge und Wassermotorräder.",
+"m": "Weiß mit gelbem Kreuz: Badezone."
+},
+"sks:nav-7": {
+"e": "Bei britischen Seekarten steht der Berichtigungsstempel auf der Rückseite.",
+"m": "Britisch: Stempel hinten."
+},
+"sks:nav-70": {
+"e": "Zur Springzeit stehen Sonne, Mond und Erde in einer Linie, die Anziehungskräfte addieren sich. Zur Nippzeit stehen sie im rechten Winkel und schwächen sich ab.",
+"m": "Linie = Spring, rechter Winkel = Nipp."
+},
+"sks:nav-71": {
+"e": "Das Alter der Gezeit sagt, in welcher Phase sich die Tide gerade befindet: Nipp-, Mitt- oder Springzeit.",
+"m": "Alter = Phase im Spring-Nipp-Zyklus."
+},
+"sks:nav-72": {
+"e": "Ein Mondtag dauert 24 h 50 min. Die Gezeiten verschieben sich deshalb täglich um etwa 50 Minuten, und manchmal rutscht ein Hoch- oder Niedrigwasser in den nächsten Tag.",
+"m": "Jeden Tag 50 Minuten später."
+},
+"sks:nav-73": {
+"e": "Wind und sehr hoher oder niedriger Luftdruck verändern den Wasserstand. Hoch- und Niedrigwasser können dann höher oder niedriger sein und früher oder später kommen als in der Tafel.",
+"m": "Die Tafel kennt kein Wetter."
+},
+"sks:nav-74": {
+"e": "Tiefen in deutschen Seekarten beziehen sich auf Kartennull (KN).",
+"m": "Alle Tiefen ab Kartennull."
+},
+"sks:nav-75": {
+"e": "Kartennull ist die Bezugsfläche, von der aus die Tiefen der Seekarte gemessen sind.",
+"m": "KN ist die Nulllinie der Karte."
+},
+"sks:nav-76": {
+"e": "In der Ostsee ist Kartennull der mittlere Wasserstand. In der Nordsee und im Ärmelkanal ist es der niedrigstmögliche Gezeitenwasserstand (LAT). Die Karte beschreibt ihr Kartennull.",
+"m": "Ostsee: Mittelwasser. Nordsee: LAT."
+},
+"sks:nav-77": {
+"e": "Lotet man nicht bei Niedrigwasser, wird es bis zum nächsten Niedrigwasser noch flacher.",
+"m": "Gelotet ist nicht das Minimum."
+},
+"sks:nav-78": {
+"e": "Die Kartentiefe ist die auf Kartennull bezogene Tiefe: Wassertiefe minus Höhe der Gezeit.",
+"m": "KT = WT − H."
+},
+"sks:nav-79": {
+"e": "Normalerweise ist mindestens die Kartentiefe vorhanden, denn die Gezeit hebt das Wasser darüber.",
+"m": "Kartentiefe ist das Minimum, normalerweise."
+},
+"sks:nav-8": {
+"e": "Der Stempel bedeutet: berichtigt bis zur Mitteilung Nr. 3595 der Admiralty Notices to Mariners aus dem Jahr 1998.",
+"m": "N.T.M. = Notices to Mariners, Nummer und Jahr."
+},
+"sks:nav-80": {
+"e": "Zur Springzeit sind die Hochwasser besonders hoch und die Niedrigwasser besonders niedrig.",
+"m": "Spring: großer Tidenhub."
+},
+"sks:nav-81": {
+"e": "Zur Nippzeit sind die Hochwasser besonders niedrig und die Niedrigwasser besonders hoch.",
+"m": "Nipp: kleiner Tidenhub."
+},
+"sks:nav-82": {
+"e": "Zur Springzeit laufen die Gezeitenströme deutlich stärker als zur Nippzeit.",
+"m": "Spring: starker Strom."
+},
+"sks:nav-83": {
+"e": "Gezeitenströme stehen in Gezeitenstromatlanten und Seehandbüchern sowie in Gezeitenstromtabellen auf den Seekarten, bezogen auf das Hochwasser eines Bezugsorts.",
+"m": "Atlas, Handbuch, Tabelle auf der Karte."
+},
+"sks:nav-84": {
+"e": "Eine unterstrichene Zahl ist eine Trockenfallhöhe: Diese Stelle liegt 2,3 m über Kartennull und kann trockenfallen.",
+"m": "Unterstrichen heißt über Kartennull."
+},
+"sks:nav-85": {
+"e": "Wassertiefe minus Höhe der Gezeit ergibt die Kartentiefe. Umgekehrt: Kartentiefe plus Höhe der Gezeit ergibt die Wassertiefe.",
+"m": "WT = KT + H."
+},
+"sks:nav-86": {
+"e": "Mit der Uhrzeit einer Lotung sieht man in der Gezeitentafel, ob das Wasser gerade steigt oder fällt, und kann die Kartentiefe vergleichen.",
+"m": "Lotung ohne Uhrzeit ist im Tidengewässer wertlos."
+},
+"sks:nav-87": {
+"e": "Ein Pegel ist eine Skala, an der man den Wasserstand abliest.",
+"m": "Pegel = Messlatte fürs Wasser."
+},
+"sks:nav-88": {
+"e": "Wind erzeugt eigene Strömungen und verändert den Wasserstand. Diese Effekte kommen zu Gezeiten und Gezeitenströmen hinzu.",
+"m": "Wind legt noch was drauf."
+},
+"sks:nav-89": {
+"e": "GPS funktioniert weltweit, ist jederzeit verfügbar und meist sehr genau.",
+"m": "Weltweit, immer, genau."
+},
+"sks:nav-9": {
+"e": "Die NfS melden wichtige Maßnahmen, Ereignisse und Veränderungen auf den Seeschifffahrtsstraßen, der Hohen See und in Hoheitsgewässern anderer Staaten in Europa und angrenzend.",
+"m": "NfS: was sich draußen ändert."
+},
+"sks:nav-90": {
+"e": "GPS ist mit etwa 95 % Wahrscheinlichkeit auf 10 bis 20 m genau, DGPS auf 1 bis 10 m.",
+"m": "GPS 10–20 m, DGPS 1–10 m."
+},
+"sks:nav-91": {
+"e": "Ungenau wird GPS bei abgeschatteter Antenne, in der Nähe von Flughäfen, Fernsehsendern und Marineeinrichtungen und durch Störungen von Funk- und Elektrogeräten an Bord.",
+"m": "Schatten und Störsender."
+},
+"sks:nav-92": {
+"e": "GPS steht für Global Positioning System, ein satellitengestütztes Ortungssystem.",
+"m": "Global Positioning System."
+},
+"sks:nav-93": {
+"e": "Der Empfänger misst, wie lange die Signale mehrerer Satelliten brauchen. Daraus ergeben sich Abstände, und aus den Abständen der Ort.",
+"m": "Laufzeit ergibt Abstand, Abstände ergeben Ort."
+},
+"sks:nav-94": {
+"e": "DGPS heißt Differential GPS. Referenzstationen mit bekannter Position funken Korrekturwerte, die die GPS-Messung regional verbessern.",
+"m": "Bekannte Station sagt, wie falsch GPS gerade liegt."
+},
+"sks:nav-95": {
+"e": "Die GPS-Antenne braucht ringsum freie Sicht zum Himmel und eine einwandfreie Erdung.",
+"m": "Freie Sicht und gute Erdung."
+},
+"sks:nav-96": {
+"e": "Die MOB-Taste speichert die Position im Moment des Drückens und zeigt danach rechtweisende Peilung und Distanz zu diesem Punkt.",
+"m": "MOB: Punkt merken, zurückführen."
+},
+"sks:nav-97": {
+"e": "„100 m mit 95 %“ heißt: In 95 von 100 Fällen liegt das Schiff im Kreis von 100 m um die angezeigte Position. Jede 20. Messung ist ungenauer.",
+"m": "95 %: jede zwanzigste Messung liegt daneben."
+},
+"sks:nav-98": {
+"e": "Die Güte einer GPS-Position erkennt man am HDOP-Wert, an der Zahl der empfangenen Satelliten und im Vergleich mit anderen Verfahren und dem Koppelort.",
+"m": "HDOP, Satellitenzahl, Gegenprobe."
+},
+"sks:nav-99": {
+"e": "GPS-Ort und Seekarte müssen dasselbe Bezugssystem haben: entweder das Kartendatum im Gerät einstellen, die Position laut Kartenhinweis verschieben oder eine WGS-84-Karte benutzen.",
+"m": "Gleiches Datum: einstellen, verschieben oder WGS-84-Karte."
+},
+"sks:recht-1": {
+"e": "Sicherheitszonen sind Wasserflächen von 500 m um Plattformen, Bohrinseln oder Forschungsanlagen. Sie dürfen nicht befahren werden.",
+"m": "500 m um Plattformen: tabu."
+},
+"sks:recht-10": {
+"e": "Manövrierbehindert sind zum Beispiel Tonnen-, Kabel- und Rohrleger, Bagger und Vermessungsschiffe, Versorger, Flugzeugträger, Minenräumer im Einsatz und stark eingeschränkte Schleppverbände.",
+"m": "Alles, was gerade arbeitet."
+},
+"sks:recht-100": {
+"e": "Die Bundesflagge weht während der Flaggzeit am Flaggenstock am Heck, auf mehrmastigen segelnden Yachten auch im Topp des hintersten Masts, nie am Achterstag.",
+"m": "Heimatflagge hinten am Heck."
+},
+"sks:recht-101": {
+"e": "In Schutzzone I darf man die Fahrwasser von 3 Stunden nach bis 3 Stunden vor Hochwasser nicht verlassen. Sonst gilt außerhalb der Fahrwasser höchstens 8 kn, im Fahrwasser 12 kn.",
+"m": "Nur rund um Hochwasser raus; 8 kn draußen, 12 kn drinnen."
+},
+"sks:recht-102": {
+"e": "Die Grenzen der Schutzzonen I und der speziellen Schutzgebiete sind in den Seekarten eingetragen.",
+"m": "Steht in der Karte."
+},
+"sks:recht-103": {
+"e": "MARPOL soll die Verschmutzung der Meere durch Schiffe verhindern.",
+"m": "MARPOL = Marine Pollution."
+},
+"sks:recht-104": {
+"e": "Sondergebiete nach MARPOL in Europa sind Ostsee, Nordsee und Mittelmeer.",
+"m": "Ost, Nord, Mittelmeer."
+},
+"sks:recht-105": {
+"e": "In Sondergebieten ist das Einleiten von Öl, Abwasser, Müll und anderen Schadstoffen grundsätzlich verboten.",
+"m": "Nichts rein ins Meer."
+},
+"sks:recht-106": {
+"e": "MARPOL gilt grundsätzlich für alle Schiffe, also auch für Sportboote.",
+"m": "Auch für dich."
+},
+"sks:recht-107": {
+"e": "Entsorgungsmöglichkeiten in deutschen Sportboothäfen stehen in einer Übersichtsbroschüre des BSH für Öl, Müll und Abwasser.",
+"m": "BSH-Broschüre zur Entsorgung."
+},
+"sks:recht-108": {
+"e": "Darf ölhaltiges Bilgenwasser nach MARPOL nicht gelenzt werden, bleibt es an Bord und wird im Hafen entsorgt.",
+"m": "Öl im Zweifel immer an Land."
+},
+"sks:recht-109": {
+"e": "Nord-, Ostsee und Mittelmeer sind MARPOL-Sondergebiete. Dort darf kein Müll ins Meer.",
+"m": "Sondergebiet: kein Müll über Bord."
+},
+"sks:recht-11": {
+"e": "Sichere Geschwindigkeit heißt: Man kann jederzeit so rechtzeitig aufstoppen, dass ein Zusammenstoß vermieden wird.",
+"m": "So schnell, dass du noch rechtzeitig stehst."
+},
+"sks:recht-110": {
+"e": "In Sondergebieten verboten sind unter anderem Kunststoffe wie Seile, Netze, Segel und Tüten sowie Papier, Lumpen, Glas, Metall, Steingut und Verpackungsmaterial.",
+"m": "Praktisch alles, was nicht Essensrest ist."
+},
+"sks:recht-12": {
+"e": "Lichter und Signalkörper für Manövrierunfähigkeit sind ab 12 m Länge Pflicht.",
+"m": "Ab 12 m."
+},
+"sks:recht-13": {
+"e": "Im Bereich der SeeSchStrO kennzeichnet sich der Tanker mit Rot-Weiß-Rot als Wegerechtschiff. Er gilt dann als manövrierbehindert, und man muss ihm bei Kollisionsgefahr ausweichen.",
+"m": "Rot-Weiß-Rot im Revier: Wegerecht."
+},
+"sks:recht-14": {
+"e": "Manövrierbehinderte zeigen immer Rot-Weiß-Rot. Mit Fahrt durchs Wasser kommen Topplichter, Seiten- und Hecklicht dazu, vor Anker die Ankerlichter.",
+"m": "Rot-Weiß-Rot plus Fahrt- oder Ankerlichter."
+},
+"sks:recht-15": {
+"e": "Tagsüber zeigen Manövrierbehinderte Ball-Rhombus-Ball und Manövrierunfähige zwei schwarze Bälle.",
+"m": "Ball-Rhombus-Ball behindert, zwei Bälle unfähig."
+},
+"sks:recht-16": {
+"e": "Unter Segel mit Motor führt man nachts die Lichter eines Maschinenfahrzeugs und tags einen Kegel mit der Spitze nach unten, gut sichtbar im Vorschiff.",
+"m": "Nachts Topplicht, tags Kegel nach unten."
+},
+"sks:recht-17": {
+"e": "Lichter werden zwischen Sonnenuntergang und Sonnenaufgang geführt und bei verminderter Sicht auch tagsüber.",
+"m": "Dunkel oder diesig: Licht an."
+},
+"sks:recht-18": {
+"e": "Rhomben an Schlepper und Anhang zeigen einen Schleppverband über 200 m. Nachts führt der Schlepper drei Topplichter übereinander, Seiten-, Heck- und das gelbe Schlepplicht, der Anhang Seiten- und Hecklicht.",
+"m": "Rhombus = über 200 m = drei Topplichter."
+},
+"sks:recht-19": {
+"e": "Lang-kurz-kurz gibt der Schlepper, lang-kurz-kurz-kurz direkt danach der Anhang. Es ist ein Schleppverband in Fahrt.",
+"m": "Schlepper gibt, Anhang antwortet mit einem kurz mehr."
+},
+"sks:recht-2": {
+"e": "Die Verordnung zu den KVR gilt auf den Seeschifffahrtsstraßen und für Schiffe unter deutscher Flagge auch seewärts des Küstenmeers, also weltweit, soweit andere Staaten nichts Abweichendes regeln.",
+"m": "Deutsche Flagge: Regel reist mit."
+},
+"sks:recht-20": {
+"e": "Drei Glockenschläge, rasches Läuten, wieder drei Schläge: ein Fahrzeug auf Grund unter 100 m.",
+"m": "Drei Schläge drumherum: Grundsitzer."
+},
+"sks:recht-21": {
+"e": "Rot über Weiß mit zusätzlichem Licht in Richtung des Fanggeräts zeigt einen Treibnetzfischer, dessen Netz waagerecht weiter als 150 m reicht. Bei schlechter Sicht gibt er lang-kurz-kurz.",
+"m": "Rot über Weiß: Fischer ohne Trawl."
+},
+"sks:recht-22": {
+"e": "Zwei rote Lichter übereinander ohne weitere Lichter zeigen ein manövrierunfähiges Fahrzeug ohne Fahrt durchs Wasser.",
+"m": "Nur Rot über Rot: kaputt und still."
+},
+"sks:recht-23": {
+"e": "Taucht zu den zwei roten Lichtern plötzlich das Backbordlicht auf, hat das manövrierunfähige Fahrzeug Fahrt durchs Wasser aufgenommen.",
+"m": "Seitenlicht dazu: Es bewegt sich jetzt."
+},
+"sks:recht-24": {
+"e": "Ausguck heißt nach KVR: jederzeit mit Augen, Ohren und allen verfügbaren Mitteln die Lage überblicken und Kollisionsgefahren erkennen.",
+"m": "Sehen, hören, alle Mittel."
+},
+"sks:recht-25": {
+"e": "Fahrzeuge unter 20 m und Segler dürfen ein Schiff, das nur im engen Fahrwasser sicher fahren kann, nicht behindern. Sie machen frühzeitig Platz.",
+"m": "Kleine und Segler machen früh Platz."
+},
+"sks:recht-26": {
+"e": "Die Küstenverkehrszone liegt zwischen der Küste und der landwärtigen Grenze eines Verkehrstrennungsgebiets.",
+"m": "Küste bis VTG."
+},
+"sks:recht-27": {
+"e": "Fahrzeuge unter 20 m und Segelfahrzeuge dürfen die Küstenverkehrszone auch im Durchgangsverkehr benutzen.",
+"m": "Kleine und Segler dürfen durch."
+},
+"sks:recht-28": {
+"e": "Ohne Radar fährt ein Maschinenfahrzeug bei schlechter Sicht mit sicherer, der Sicht angepasster Geschwindigkeit.",
+"m": "Nebel: angepasst langsam."
+},
+"sks:recht-29": {
+"e": "Auch Segler fahren bei schlechter Sicht mit angepasster Geschwindigkeit. Gute Seemannschaft ist, die Maschine bereitzuhalten.",
+"m": "Nebel unter Segel: langsam und Motor startklar."
+},
+"sks:recht-3": {
+"e": "Wer wegen körperlicher oder geistiger Mängel, Alkohol oder anderer Rauschmittel nicht sicher führen oder Brücken- und Decksdienst leisten kann, darf es nicht.",
+"m": "Beeinträchtigt heißt: Finger weg vom Ruder."
+},
+"sks:recht-30": {
+"e": "Hört man ein Signal von vorn, verringert man die Fahrt auf das Minimum für die Steuerfähigkeit, stoppt notfalls ganz und manövriert äußerst vorsichtig, bis die Gefahr vorbei ist.",
+"m": "Signal von vorn: Fahrt raus."
+},
+"sks:recht-31": {
+"e": "Erst per Funk warnen, dann mindestens fünf kurze Töne, ergänzend fünf Lichtblitze, dann das Manöver des vorletzten und schließlich des letzten Augenblicks. Pflicht sind das Schallsignal und das Manöver des letzten Augenblicks.",
+"m": "Funk, fünf kurz, Blitze, vorletzter, letzter Augenblick.",
+"f": "Die Frage nach den Pflichtmaßnahmen: Schallsignal und letzter Augenblick."
+},
+"sks:recht-32": {
+"e": "Topplicht mit wechselnd Grün und Rot darunter ist ein Maschinenfahrzeug unter 50 m, das giert und fast entgegenkommt. Beide ändern den Kurs nach Steuerbord und geben einen kurzen Ton.",
+"m": "Beide nach Steuerbord, einmal kurz."
+},
+"sks:recht-33": {
+"e": "Beim Queren eines Verkehrstrennungsgebiets zeigt die Kielrichtung möglichst rechtwinklig zur Verkehrsrichtung.",
+"m": "Kiel im rechten Winkel."
+},
+"sks:recht-34": {
+"e": "Einen betonnten Schifffahrtsweg ohne Verkehrstrennung quert man unter Beachtung der normalen KVR-Ausweichregeln.",
+"m": "Kein VTG: normale KVR."
+},
+"sks:recht-35": {
+"e": "Steht die Kompasspeilung zu einem anderen Fahrzeug und nähert man sich, besteht Kollisionsgefahr.",
+"m": "Peilung steht, Abstand sinkt."
+},
+"sks:recht-36": {
+"e": "Ausweichmanöver fährt man früh und durchgreifend, damit der andere die Absicht sofort erkennt und man gut frei bleibt.",
+"m": "Früh und deutlich."
+},
+"sks:recht-37": {
+"e": "Nach dem Ausweichen prüft man laufend, ob es wirkt, bis das andere Fahrzeug klar passiert ist.",
+"m": "Dranbleiben, bis der andere vorbei ist."
+},
+"sks:recht-38": {
+"e": "Ein einzelnes rotes Licht ist das Backbordlicht eines Seglers. Er steht in Luv: Entweder hat er Wind von Backbord oder er ist bei gleicher Windseite der luvwärtige. In beiden Fällen weicht er aus.",
+"m": "Rot in Luv weicht aus."
+},
+"sks:recht-39": {
+"e": "Ein einzelnes grünes Licht in Luv ist das Steuerbordlicht eines Seglers. Mit Wind von Backbord kann man nicht erkennen, wie er segelt, also muss man selbst ausweichen.",
+"m": "Wind von Backbord und unklar: selbst ausweichen."
+},
+"sks:recht-4": {
+"e": "Verboten ist es ab 0,25 mg/l Atemalkohol oder 0,5 Promille Blutalkohol oder einer Menge, die dazu führt.",
+"m": "0,25 mg/l Atem = 0,5 Promille Blut."
+},
+"sks:recht-40": {
+"e": "Weiß und zeitweise Rot sind Hecklicht und Backbordlicht eines gierenden Seglers. Man nähert sich auf der Sektorgrenze von hinten und muss im Zweifel als Überholer ausweichen.",
+"m": "Im Zweifel bist du der Überholer."
+},
+"sks:recht-41": {
+"e": "Rot-Weiß-Rot mit Topp- und Seitenlichtern zeigt ein manövrierbehindertes Fahrzeug mit Fahrt. Es kommt aus dem Hecksektor und muss als Überholer ausweichen.",
+"m": "Überholer weicht immer, auch der Behinderte."
+},
+"sks:recht-42": {
+"e": "Im freien Seeraum entscheidet die Lage beim ersten Insichtkommen, wer ausweicht. Spätere Lageänderungen ändern daran nichts.",
+"m": "Wer zuerst wie gesehen wird, bleibt so."
+},
+"sks:recht-43": {
+"e": "Als Kurshalter behält man Kurs und Geschwindigkeit bei. Weicht der andere erkennbar nicht aus, darf man manövrieren (vorletzter Augenblick). Kann er es allein nicht mehr verhindern, muss man manövrieren (letzter Augenblick).",
+"m": "Halten, dürfen, müssen."
+},
+"sks:recht-44": {
+"e": "Ein Segler weicht Manövrierunfähigen, Manövrierbehinderten und Fischenden aus und je nach Windseite auch anderen Seglern.",
+"m": "Unfähig, behindert, fischend, und mancher Segler."
+},
+"sks:recht-45": {
+"e": "Ein Sportboot darf ein tiefgangbehindertes Fahrzeug nicht behindern. Es ändert frühzeitig Kurs, Geschwindigkeit oder beides.",
+"m": "Früh Platz machen."
+},
+"sks:recht-46": {
+"e": "Ein Behinderungsverbot gilt im engen Fahrwasser und im Einbahnweg eines Verkehrstrennungsgebiets gegenüber Maschinenfahrzeugen.",
+"m": "Enges Fahrwasser und VTG."
+},
+"sks:recht-47": {
+"e": "Von Minenräumfahrzeugen hält man mindestens 1.000 m Abstand.",
+"m": "Minenräumer: ein Kilometer."
+},
+"sks:recht-48": {
+"e": "Topplicht und beide Seitenlichter recht voraus heißt: Ein Maschinenfahrzeug unter 50 m kommt genau entgegen. Beide ändern den Kurs nach Steuerbord, passieren Backbord an Backbord und geben einen kurzen Ton.",
+"m": "Rot und Grün zugleich: beide nach rechts."
+},
+"sks:recht-49": {
+"e": "Man sieht das grüne Seitenlicht von B, also seine Steuerbordseite. B hat A an seiner Steuerbordseite und muss ausweichen. A hält Kurs und Geschwindigkeit.",
+"m": "Siehst du Grün, hast du Vorfahrt und hältst Kurs."
+},
+"sks:recht-5": {
+"e": "Bei der Anwendung der KVR sind alle Gefahren und besonderen Umstände zu berücksichtigen. Um unmittelbare Gefahr abzuwenden, kann sogar ein Abweichen von den Regeln nötig sein, etwa wenn der Ausweichpflichtige nicht reagiert.",
+"m": "Regeln ja, aber Gefahr abwenden geht vor."
+},
+"sks:recht-50": {
+"e": "Eine Motoryacht weicht Manövrierunfähigen, Manövrierbehinderten, Fischenden, Seglern und je nach Lage anderen Maschinenfahrzeugen aus.",
+"m": "Fast allen, außer manchem Motorboot."
+},
+"sks:recht-51": {
+"e": "Weißes Topplicht und später das rote Backbordlicht von B an Steuerbord: B kreuzt von rechts. A muss ausweichen und einen kurzen Ton geben. B hält Kurs und Geschwindigkeit.",
+"m": "Siehst du Rot, musst du weichen."
+},
+"sks:recht-52": {
+"e": "Unter 12 m ohne die roten Rundumlichter zeigt man auf jede andere Weise, dass man manövrierunfähig ist: Funk, Schall- oder Lichtsignal lang-kurz-kurz, das andere Fahrzeug anleuchten, weißes Rundumlicht, weißer Stern oder Blitz-Knall, und die Verkehrszentrale informieren.",
+"m": "Mit allem, was geht, auf sich aufmerksam machen."
+},
+"sks:recht-53": {
+"e": "Fahrwasser der Seeschifffahrtsstraßen gelten als enge Fahrwasser im Sinne der KVR.",
+"m": "Fahrwasser = enges Fahrwasser."
+},
+"sks:recht-54": {
+"e": "Zur durchgehenden Schifffahrt gehören alle Fahrzeuge, die deutlich dem Fahrwasser folgen, also höchstens etwa 10° davon abweichen, egal zu welchem Zweck.",
+"m": "Folgen heißt: höchstens 10° schräg."
+},
+"sks:recht-55": {
+"e": "Jeder muss Sicherheit und Leichtigkeit des Verkehrs gewährleisten und darf andere nicht schädigen, gefährden oder mehr als unvermeidbar behindern oder belästigen.",
+"m": "Sicher, flüssig, rücksichtsvoll."
+},
+"sks:recht-56": {
+"e": "Der Schiffsführer muss die Verkehrsvorschriften befolgen und sein Fahrzeug so ausrüsten, dass es Lichter, Signalkörper und Schallsignale führen und geben kann.",
+"m": "Regeln einhalten und richtig ausgerüstet sein."
+},
+"sks:recht-57": {
+"e": "Seeschifffahrtsstraßen sind die Wasserflächen von der Küste bis 3 sm seewärts der Basislinie, die betonnten seewärtigen Fahrwasser im Küstenmeer und bestimmte Binnenwasserstraßen.",
+"m": "Küste bis 3 sm hinter der Basislinie, plus betonnte Fahrwasser."
+},
+"sks:recht-58": {
+"e": "Fahrwasser sind die durch laterale Tonnen begrenzten oder gekennzeichneten Wasserflächen, auf Binnenwasserstraßen auch die für die durchgehende Schifffahrt bestimmten Flächen.",
+"m": "Fahrwasser = betonnte Straße."
+},
+"sks:recht-59": {
+"e": "Auf deutschen Seeschifffahrtsstraßen gelten die KVR, die Seeschifffahrtsstraßen-Ordnung mit ihren Bekanntmachungen und gegebenenfalls Hafenordnungen.",
+"m": "KVR, SeeSchStrO, Hafenordnung."
+},
+"sks:recht-6": {
+"e": "Die KVR sind Mindestanforderungen. Seemännische Praxis und besondere Umstände können mehr verlangen, und wer das versäumt, trägt die Folgen.",
+"m": "KVR sind das Minimum."
+},
+"sks:recht-60": {
+"e": "Die KVR gelten im ganzen Bereich der SeeSchStrO, im und außerhalb des Fahrwassers, soweit die SeeSchStrO nichts anderes bestimmt. Die speziellere Regel geht vor.",
+"m": "KVR überall, außer die SeeSchStrO sagt etwas anderes."
+},
+"sks:recht-61": {
+"e": "Segler, die nicht dem Fahrwasser folgen, weichen sich untereinander nach den KVR aus, ohne vorfahrtberechtigte Fahrzeuge zu stören.",
+"m": "Unter sich KVR, Vorfahrt der anderen beachten."
+},
+"sks:recht-62": {
+"e": "Kurz-lang fortwährend mit rotem Rundumlicht ist das Bleib-weg-Signal: gefährliche Stoffe treten aus oder es besteht Explosionsgefahr. Man entfernt sich weit, bedient keine elektrischen Schalter und vermeidet offenes Feuer.",
+"m": "Bleib weg, keine Funken."
+},
+"sks:recht-63": {
+"e": "Gefährdet man ein anderes Fahrzeug oder wird gefährdet, gibt man rechtzeitig das Gefahr- und Warnsignal: zweimal ein langer und vier kurze Töne.",
+"m": "Lang plus viermal kurz, zweimal."
+},
+"sks:recht-64": {
+"e": "Sportboote dürfen den NOK nur zur Durchfahrt, ohne Lotsen nur tagsüber und nicht bei schlechter Sicht benutzen. Sie müssen vor Ende der Tagfahrzeit eine Sportboot-Liegestelle erreichen und dürfen bei plötzlichem Nebel hinter den Dalben in den Weichen festmachen.",
+"m": "Nur durch, nur tags, rechtzeitig zur Liegestelle."
+},
+"sks:recht-65": {
+"e": "Auf dem NOK ist Segeln verboten. Motorboote dürfen zusätzlich Segel setzen. Ein motorbetriebenes Sportboot darf nur ein Sportboot schleppen.",
+"m": "Kanal: Motor ja, nur Segeln nein."
+},
+"sks:recht-66": {
+"e": "Im Nebel auf dem NOK macht man so schnell wie möglich in einem Weichengebiet hinter den Dalben oder an einer geeigneten Liegestelle fest.",
+"m": "Nebel im Kanal: rein hinter die Dalben."
+},
+"sks:recht-67": {
+"e": "Unterbrochen rot: Einfahren verboten. Unterbrochen weiß über rot: Freigabe wird vorbereitet. Unterbrochen weiß: Sportboote dürfen einfahren.",
+"m": "Rot nein, Weiß über Rot gleich, Weiß los."
+},
+"sks:recht-68": {
+"e": "„Vorfahrt beachten“ heißt warten. Man zeigt früh, dass man wartet, und fährt erst, wenn der Fahrwasserverkehr nicht beeinträchtigt wird.",
+"m": "Vorfahrt beachten = früh zeigen, dass du wartest."
+},
+"sks:recht-69": {
+"e": "Vorfahrt hat das Fahrzeug im Fahrwasser. Andere warten mit Einlaufen, Drehen oder An- und Ablegen. Vorfahrt erzwingen darf man aber nicht, bei drohender Kollision muss auch der Berechtigte handeln.",
+"m": "Vorfahrt haben ist kein Recht auf Rammen."
+},
+"sks:recht-7": {
+"e": "Verkehrstrennungsgebiete sind Schifffahrtswege mit Einbahnwegen. Man fährt rechts der Trennlinie oder Trennzone, darf aber die ganze Breite des Einbahnwegs nutzen.",
+"m": "Rechts fahren, ganze Spur nutzen."
+},
+"sks:recht-70": {
+"e": "Wer ins Fahrwasser einläuft, beachtet die Vorfahrt der Fahrzeuge darin, wartet, bis es frei ist, und zeigt das früh.",
+"m": "Einlaufen: warten."
+},
+"sks:recht-71": {
+"e": "Wer den Anker- oder Liegeplatz verlässt, beachtet die Vorfahrt der Fahrzeuge im Fahrwasser und wartet, bis es frei ist.",
+"m": "Ablegen: warten."
+},
+"sks:recht-72": {
+"e": "Im Fahrwasser hält sich ein Sportboot so nah wie gefahrlos möglich am rechten Rand.",
+"m": "Rechts ran im Fahrwasser."
+},
+"sks:recht-73": {
+"e": "Außerhalb des Fahrwassers fährt man so, dass klar erkennbar ist, dass man es nicht benutzt.",
+"m": "Deutlich draußen bleiben."
+},
+"sks:recht-74": {
+"e": "Segler, die dem Fahrwasser folgen und sich entgegenkommen, weichen beide nach Steuerbord aus.",
+"m": "Im Fahrwasser: beide rechts."
+},
+"sks:recht-75": {
+"e": "Queren heißt, deutlich mehr als etwa 10° vom Fahrwasserverlauf abzuweichen, zum Beispiel beim Kreuzen über das Fahrwasser.",
+"m": "Mehr als 10° schräg = queren."
+},
+"sks:recht-76": {
+"e": "Außerhalb des Fahrwassers sind bei erkennbarem Badebetrieb innerhalb von 500 m vom Ufer höchstens 8 km/h erlaubt.",
+"m": "Badende in Sicht: 8 km/h."
+},
+"sks:recht-77": {
+"e": "Rot-Weiß-Rot mit Fahrtlichtern ist ein manövrierbehindertes Fahrzeug in Fahrt, das unter Wasser arbeitet. Zwei Grüne zeigen die freie Seite, zwei Rote die behinderte.",
+"m": "Grün frei, Rot gesperrt."
+},
+"sks:recht-78": {
+"e": "Ball-Rhombus-Ball mit Bugwelle: ein baggerndes Fahrzeug in Fahrt. Zwei Rhomben zeigen die Passierseite, zwei Bälle die behinderte Seite.",
+"m": "Rhomben frei, Bälle gesperrt."
+},
+"sks:recht-79": {
+"e": "Elbabwärts liegt die Backbordfahrwasserseite, von See aus gesehen links, an Steuerbord. 32a ist eine Backbordtonne. Abwärts nehmen die Nummern ab, die nächste ist 32.",
+"m": "Abwärts zählen die Tonnen runter."
+},
+"sks:recht-8": {
+"e": "Manövrierunfähig ist ein Fahrzeug, das wegen außergewöhnlicher Umstände wie Ruderbruch nicht regelgerecht manövrieren und deshalb nicht ausweichen kann.",
+"m": "Unfähig = etwas ist kaputt."
+},
+"sks:recht-80": {
+"e": "Schleppt ein Motorsportboot ein anderes Sportboot, gilt es nicht als schleppendes Maschinenfahrzeug nach KVR. Besondere Lichter braucht es deshalb nicht.",
+"m": "Sportboot schleppt Sportboot: keine Extra-Lichter."
+},
+"sks:recht-81": {
+"e": "Auf dem NOK darf ein Motorsportboot nur ein Sportboot schleppen, das geschleppte muss kürzer als 15 m sein, und man muss mindestens 9 km/h fahren.",
+"m": "Eins, unter 15 m, mindestens 9 km/h."
+},
+"sks:recht-82": {
+"e": "Diese Signale an Land zeigen eine außergewöhnliche Schifffahrtsbehinderung. Nachts zeigt man Rot-Rot-Grün übereinander.",
+"m": "Nachts: Rot, Rot, Grün."
+},
+"sks:recht-83": {
+"e": "Auch nach SeeSchStrO darf niemand führen oder Brücken- und Decksdienst leisten, der durch Mängel, Alkohol oder andere Rauschmittel beeinträchtigt ist.",
+"m": "Beeinträchtigt: kein Dienst."
+},
+"sks:recht-84": {
+"e": "Nach SeeSchStrO gelten dieselben Grenzen: 0,25 mg/l Atemalkohol oder 0,5 Promille Blutalkohol.",
+"m": "0,25 mg/l oder 0,5 Promille."
+},
+"sks:recht-85": {
+"e": "Beim ersten Anlaufen eines ausländischen Hafens erledigt man Einreise-, Gesundheits- und Zollformalitäten.",
+"m": "Einreise, Gesundheit, Zoll."
+},
+"sks:recht-86": {
+"e": "Das Flaggenzertifikat stellt das BSH aus. Es weist Recht und Pflicht zum Führen der Bundesflagge nach, für nicht registerpflichtige Fahrzeuge unter 15 m.",
+"m": "Unter 15 m: Flaggenzertifikat vom BSH."
+},
+"sks:recht-87": {
+"e": "Das Schiffszertifikat weist die Eintragung im Seeschiffsregister nach. Es stellt das Registergericht aus, Pflicht ist es ab 15 m Rumpflänge.",
+"m": "Ab 15 m: Schiffszertifikat vom Registergericht."
+},
+"sks:recht-88": {
+"e": "Das Küstenmeer reicht von der Küstenlinie bei mittlerem Hochwasser oder der Basislinie bis 12 sm seewärts.",
+"m": "Küstenmeer: 12 Seemeilen."
+},
+"sks:recht-89": {
+"e": "Innere Gewässer liegen landwärts der Basislinien.",
+"m": "Innen = hinter der Basislinie."
+},
+"sks:recht-9": {
+"e": "Manövrierbehindert ist ein Fahrzeug, das wegen seiner Arbeit, etwa als Bagger oder Kabelleger, nicht regelgerecht manövrieren und deshalb nicht ausweichen kann.",
+"m": "Behindert = bei der Arbeit."
+},
+"sks:recht-90": {
+"e": "Die Basislinie trennt die inneren Gewässer vom Küstenmeer. Sie ist in den Seekarten eingezeichnet.",
+"m": "Basislinie: Grenze innen/Küstenmeer, steht in der Karte."
+},
+"sks:recht-91": {
+"e": "Die Bundesstelle für Seeunfalluntersuchung untersucht Seeunfälle, ermittelt die Umstände und gibt Berichte und Sicherheitsempfehlungen heraus. Sie sucht Ursachen, keine Schuldigen.",
+"m": "Ursachen finden, Unfälle verhindern."
+},
+"sks:recht-92": {
+"e": "Ein Seeunfall liegt zum Beispiel vor bei Schiffsverlust, Grundberührung oder Kollision, bei Tod oder schwerer Verletzung, bei Umwelt- oder Sachschaden oder bei Gefahr für Menschen, Schiffe oder Umwelt.",
+"m": "Schiff, Mensch, Umwelt: Schaden oder Gefahr."
+},
+"sks:recht-93": {
+"e": "Ein Seeunfall wird sofort der Bundesstelle für Seeunfalluntersuchung gemeldet, im deutschen Hafen auch über die Wasserschutzpolizei, im Ausland über die Hafenbehörde.",
+"m": "Sofort melden, notfalls über WSP oder Hafenbehörde."
+},
+"sks:recht-94": {
+"e": "Zu melden sind unter anderem: Meldender, Ort und Zeit, Schiffsdaten mit Rufzeichen und MMSI, Schiffsführer, Herkunft und Ziel, Personen an Bord, Schäden, Ablauf, beteiligte Schiffe, Wetter und Verschmutzungsgefahr.",
+"m": "Wer, wo, wann, welches Schiff, was passiert, welcher Schaden."
+},
+"sks:recht-95": {
+"e": "Die Meldepflicht regelt die Verordnung über die Sicherung der Seefahrt. Melden muss der Schiffsführer, ersatzweise ein Besatzungsmitglied oder der Betreiber.",
+"m": "Sicherungsverordnung, Schiffsführer meldet."
+},
+"sks:recht-96": {
+"e": "Seeämter sind Untersuchungsausschüsse, die prüfen, ob ein Fahrverbot verhängt oder ein Befähigungszeugnis oder Sportbootführerschein entzogen werden muss.",
+"m": "Seeamt: Geht der Schein weg?"
+},
+"sks:recht-97": {
+"e": "Rechtliche Hinweise geben die Broschüren „Sicherheit auf dem Wasser“ und „Sicherheit im See- und Küstenbereich“.",
+"m": "Zwei Sicherheitsbroschüren."
+},
+"sks:recht-98": {
+"e": "Eine unbekannte Gefahr wie einen treibenden Container meldet man schnellstmöglich direkt oder über Verkehrszentrale oder Küstenfunkstelle dem Maritimen Lagezentrum in Cuxhaven.",
+"m": "Gefahr auf See: MLZ Cuxhaven."
+},
+"sks:recht-99": {
+"e": "Die Gastlandflagge wird beim Einlaufen in die Küstengewässer des Gastlands unter der Steuerbordsaling gesetzt.",
+"m": "Gast steht rechts: Steuerbordsaling."
+},
+"sks:see1-1": {
+"e": "Gelcoat ist die äußere Schutzschicht eines GFK-Bauteils.",
+"m": "Gelcoat = Außenhaut aus Kunstharz."
+},
+"sks:see1-10": {
+"e": "Backstagen stagen den Mast zusätzlich nach achtern ab, vor allem bei 7/8-Takelung und anderen nicht toppgetakelten Yachten.",
+"m": "Backstagen: Extra-Halt nach hinten bei 7/8."
+},
+"sks:see1-100": {
+"e": "Mit Steuerbordseite an der Pier: Bugstrahlruder nach Backbord, gleichzeitig Ruder hart Steuerbord und langsam voraus. Der Bug geht weg, das Heck schwenkt auch weg, und das Boot löst sich fast parallel.",
+"m": "Bug weg mit Strahl, Heck weg mit Ruder und Schraube."
+},
+"sks:see1-101": {
+"e": "Einen Sturm wettert man ab durch Beiliegen, Lenzen vor Topp und Takel mit nachgeschleppten Leinen, Liegen vor Treibanker oder aktiv unter Sturmbesegelung, wobei man brechende Seen aussteuert.",
+"m": "Beiliegen, lenzen, Treibanker oder aktiv segeln."
+},
+"sks:see1-102": {
+"e": "Bei auflandigem Starkwind drohen vor Häfen Grund- und Kreuzseen und Querstrom. Das Einlaufen kann gefährlich werden.",
+"m": "Hafen bei Sturm: Brecher vor der Einfahrt."
+},
+"sks:see1-103": {
+"e": "An einer Leeküste drückt der Wind die Yacht aufs Land. Kann sie sich nicht freikreuzen, droht die Strandung.",
+"m": "Leeküste: Kein Platz zum Ausweichen."
+},
+"sks:see1-105": {
+"e": "Ein Treibanker mit richtiger Leinenlänge hält den Bug im Wind und verringert die Drift.",
+"m": "Bug in den Wind, langsamer treiben."
+},
+"sks:see1-106": {
+"e": "Im Tidengewässer muss die Tiefe auch bei Niedrigwasser reichen oder sicheres Aufsetzen möglich sein, und die Leinen müssen lang genug für Steigen und Fallen sein. Bei großem Tidenhub bleibt man an Bord.",
+"m": "Tiefe bei NW, Leinen lang genug, aufpassen."
+},
+"sks:see1-107": {
+"e": "Setzt der Strom gegen den Wind, wird die See kurz, steil und kabbelig.",
+"m": "Wind gegen Strom: Waschbrett."
+},
+"sks:see1-108": {
+"e": "Mitlaufender Strom erhöht die Fahrt über Grund. Das Log misst nur die Fahrt durchs Wasser und zeigt das nicht.",
+"m": "Strom schiebt, Log merkt nichts."
+},
+"sks:see1-109": {
+"e": "Einen Überbordgefallenen holt man mit gesicherter Badeleiter, Großschot, beschwerter Trittschlinge, Rettungstalje, einem untergezogenen kleinen Segel, Bergegurt oder über das Dingi an Bord.",
+"m": "Leiter, Talje, Schlinge, Segel, Gurt, Dingi."
+},
+"sks:see1-11": {
+"e": "Laufendes Gut ist das Tauwerk zum Setzen, Bergen und Bedienen der Segel und anderer Teile der Takelage.",
+"m": "Laufendes Gut bewegt sich, stehendes hält."
+},
+"sks:see1-110": {
+"e": "Sofort: „Mensch über Bord!“ rufen, Rettungsmittel zuwerfen, Person im Auge behalten, Maschine starten, Manöver einleiten, Notmeldung, Blitzboje, MOB-Taste, dann bergen.",
+"m": "Rufen, werfen, zeigen, Motor, Manöver, melden."
+},
+"sks:see1-111": {
+"e": "Gegen Überbordfallen: Sicherheitsgurt anlegen und einpicken, Strecktaue vom Bug zum Heck spannen, Crew die Einpickpunkte zeigen.",
+"m": "Gurt, Strecktau, Einpickpunkte."
+},
+"sks:see1-112": {
+"e": "Schritte der Rettung: Maschine starten, Sichtkontakt halten, Manöver mit erster Leinenverbindung, sichere Bergung, Erste Hilfe und Betreuung, gegebenenfalls Notalarm.",
+"m": "Motor, sehen, ran, rauf, versorgen, melden."
+},
+"sks:see1-113": {
+"e": "Den Bezugspunkt für die Suche sichert man mit einer Markierungsblitzboje und der MOB-Taste des GPS.",
+"m": "Blitzboje und MOB-Taste."
+},
+"sks:see1-114": {
+"e": "Zur Sicherheitsausrüstung einer 10-m-Yacht gehören unter anderem Lenzpumpen und Pützen, Lecksicherung, Feuerlöscher, Werkzeug, Seenotsignale, Handlampen, Funk, Anker, Erste Hilfe, Radarreflektor und Rettungsmittel.",
+"m": "Pumpen, Leck, Feuer, Signale, Funk, Anker, Erste Hilfe."
+},
+"sks:see1-115": {
+"e": "Für die Crew gehören an Bord: Weste und Lifebelt für jeden, Rettungsinsel, Rettungskragen mit Tag- und Nachtsignal und Erste-Hilfe-Ausrüstung mit Anleitung.",
+"m": "Weste, Gurt, Insel, Kragen, Erste Hilfe."
+},
+"sks:see1-116": {
+"e": "Das nächste Wartungsdatum der Rettungsinsel steht auf der farbigen Serviceplakette oder im Wartungszertifikat.",
+"m": "Plakette auf der Insel."
+},
+"sks:see1-117": {
+"e": "Automatikwesten müssen regelmäßig gewartet werden. Die Fälligkeit zeigt die farbige Serviceplakette.",
+"m": "Plakette prüfen."
+},
+"sks:see1-118": {
+"e": "Ein Strecktau ist ein straff gespannter Draht, Gurt oder eine Leine vom Cockpit zum Vorschiff, an dem man sich mit dem Lifebelt einpickt.",
+"m": "Laufleine zum Einpicken."
+},
+"sks:see1-119": {
+"e": "Seenotsignalmittel sind rote Handfackeln und Raketen, orangefarbener Rauch, Signalpistole, Seewasserfärber, Flaggen N und C, Signallampe und Seenotfunkboje.",
+"m": "Rot leuchten, orange rauchen, N und C."
+},
+"sks:see1-12": {
+"e": "Segel pflegt man, indem man sie trocknet, vor Sonne schützt, Salz abspült und Schäden sofort repariert.",
+"m": "Trocken, im Schatten, salzfrei, heil."
+},
+"sks:see1-120": {
+"e": "An Bord gehören Feuerlöscher (ABC-Pulver, eventuell CO2), eine Pütz für feste Stoffe, eine Löschdecke und ein Löschdurchlass für geschlossene Motorräume.",
+"m": "Löscher, Pütz, Decke, Durchlass."
+},
+"sks:see1-121": {
+"e": "Geeignet ist der ABC-Pulverlöscher, für geschlossene Motorräume der CO2-Löscher. Löscher müssen griffbereit nahe Motor, Kombüse und Heizung hängen, CO2-Löscher nicht im Schiffsinneren (Erstickungsgefahr).",
+"m": "Pulver griffbereit, CO2 nicht innen lagern."
+},
+"sks:see1-122": {
+"e": "Feuerlöscher bleiben funktionsfähig, wenn man die Prüftermine einhält (Plakette) und sie vor Feuchtigkeit und Korrosion schützt.",
+"m": "Prüfen lassen und trocken halten."
+},
+"sks:see1-123": {
+"e": "Brand bekämpfen: Öffnungen schließen, Brennstoff und Hauptschalter unterbrechen, Löscher erst am Brandherd auslösen, von unten und vorn löschen, Löschdecke nutzen, Flüssigkeitsbrände nie mit Wasser.",
+"m": "Luft weg, Sprit weg, von unten löschen, kein Wasser auf Öl."
+},
+"sks:see1-124": {
+"e": "Beim Seeklarmachen prüft man unter anderem Seetüchtigkeit, Segel, Treibstoff, Navigationsunterlagen, Sicherheitseinweisung, Rettungs- und Signalmittel, Wasser und Proviant, Motor, Elektronik, Lenzanlage, Feuerlöscher, Papiere und Funk.",
+"m": "Boot, Segel, Sprit, Karten, Crew, Sicherheit, Vorräte."
+},
+"sks:see1-125": {
+"e": "Die Sicherheitseinweisung umfasst Westen und Gurte, Rettungsinsel, Signalmittel, Lenzpumpen, Seeventile und WC, Kocher, Feuerlöscher, Motor, Elektrik, Funk, Mensch über Bord und Seekrankheit.",
+"m": "Alles, was retten, pumpen, löschen oder funken kann."
+},
+"sks:see1-126": {
+"e": "Unbedingt einweisen muss man in Ankergeschirr, Lenzeinrichtung, Feuerlöscher, Motor, Seeventile, UKW-Funk, MOB-Taste, Seenotsignale und Notruder.",
+"m": "Anker, Pumpe, Feuer, Motor, Ventile, Funk, MOB, Notruder."
+},
+"sks:see1-127": {
+"e": "Vor jedem Auslaufen: Wetterbericht, Sicherheitseinrichtung, Motor, Navigationsgeräte, Bilge, Wasser und Treibstoff, Schall- und Lichtsignale, Lichter und aktuelle Karten prüfen.",
+"m": "Wetter, Technik, Bilge, Vorräte, Lichter, Karten."
+},
+"sks:see1-128": {
+"e": "Jeder muss Pumpen und Ventile kennen, damit sie im Notfall jeder bedienen kann.",
+"m": "Im Notfall muss es jeder können."
+},
+"sks:see1-129": {
+"e": "Falsch bedient kann über das Bord-WC Wasser ins Boot laufen.",
+"m": "Falsches Pumpen flutet das Boot."
+},
+"sks:see1-13": {
+"e": "Ein hoch geschnittenes Unterliek sorgt dafür, dass überkommende Seen nicht ins Segel schlagen und Rigg und Segel nicht belasten.",
+"m": "Unterliek hoch, Welle drunter durch."
+},
+"sks:see1-130": {
+"e": "Jeder soll den Anker sicher ausbringen und einholen können.",
+"m": "Ankern kann jeder."
+},
+"sks:see1-131": {
+"e": "Bei einem Leck: Meldung abgeben, Fahrt rausnehmen, wenn nötig, pumpen, Leck suchen und abdichten, flaches Wasser ansteuern und so trimmen, dass das Leck möglichst aus dem Wasser kommt.",
+"m": "Melden, pumpen, dichten, Leck hochtrimmen."
+},
+"sks:see1-132": {
+"e": "Steigt das Wasser trotzdem: Notzeichen und Funkmeldung, Radartransponder an, Verlassen vorbereiten, Westen an, Insel klar, wenn möglich auf ruhigem Flachwasser auf Grund setzen.",
+"m": "Notruf, Insel klar, auf Grund setzen."
+},
+"sks:see1-133": {
+"e": "Grundberührungen und harte Stöße können die Bordwand beschädigen und Sinkgefahr verursachen. Danach prüft man das Boot.",
+"m": "Nach dem Rums: Bilge prüfen."
+},
+"sks:see1-134": {
+"e": "In Seenot: Ruhe bewahren, Notalarm geben, Radartransponder an, Insel klarmachen, Weste und Gurt an, so lange wie möglich an Bord bleiben, warm anziehen.",
+"m": "Ruhig, Notruf, Insel, Weste, an Bord bleiben."
+},
+"sks:see1-135": {
+"e": "Vor dem Umsteigen in die Insel: Weste und Gurt an, warm anziehen, möglichst warm trinken, Proviant, Wasser, Signalmittel, Funkbake, Transponder und Handfunkgerät in die Insel bringen.",
+"m": "Warm, nass innen, alles Wichtige mitnehmen."
+},
+"sks:see1-136": {
+"e": "Man verlässt das Schiff so spät wie möglich: An Bord überlebt man besser, das Schiff ist leichter zu finden, und das Umsteigen in die Insel ist schwer.",
+"m": "Steig nur auf, wenn du musst."
+},
+"sks:see1-137": {
+"e": "Hubschrauberschlinge: Karabiner einpicken, mit Kopf und Armen einsteigen, Arme nach unten drücken und Hände schließen. Das Windenseil hängt frei und wird nie an Bord festgemacht.",
+"m": "Rein, Arme runter, Seil nie festmachen."
+},
+"sks:see1-138": {
+"e": "Notzeichen gibt man auf Anordnung des Schiffsführers, wenn unmittelbare Gefahr für Schiff oder Crew besteht, die ohne fremde Hilfe nicht zu überwinden ist.",
+"m": "Nur bei echter Not und auf Anordnung."
+},
+"sks:see1-139": {
+"e": "Im Notfall darf jeder ein UKW-Funkgerät benutzen, auch ohne Funkzeugnis.",
+"m": "Not kennt kein Zeugnis."
+},
+"sks:see1-14": {
+"e": "Das Trysegel ist ein kleines Schwerwettersegel, das statt des Großsegels mit losem Unterliek gefahren wird.",
+"m": "Trysegel: Sturmgroß ohne Baum."
+},
+"sks:see1-140": {
+"e": "Seekranke beaufsichtigt man im Cockpit und sichert sie gegen Überbordfallen, gleicht ihren Flüssigkeitsverlust aus, lässt sie zum Horizont schauen und gibt ihnen Aufgaben.",
+"m": "Sichern, trinken, Horizont, beschäftigen."
+},
+"sks:see1-141": {
+"e": "Ein Reitgewicht zieht die Ankertrosse zum Grund, damit der Zug flach bleibt und der Anker nicht ausbricht. Es dämpft außerdem Rucke.",
+"m": "Gewicht drückt die Leine runter."
+},
+"sks:see1-142": {
+"e": "Ein Kettenvorlauf zieht die Trosse am Anker nach unten, damit der Zug auf den Anker flach bleibt.",
+"m": "Kette unten, Zug flach."
+},
+"sks:see1-143": {
+"e": "Leichtgewichtsanker halten gut in Sand, Schlick und weichem Ton, mäßig in hartem Ton und Lehm, schlecht in Steinen, Kraut und weichem Schlamm.",
+"m": "Sand gut, Stein und Kraut schlecht."
+},
+"sks:see1-144": {
+"e": "Ein Ankerplatz sollte vor Wind und Welle schützen, genug Platz zum Schwojen bieten, und man plant Winddrehungen ein.",
+"m": "Schutz, Platz, Winddrehung."
+},
+"sks:see1-145": {
+"e": "Meiden sollte man steinige, verkrautete und stark schlammige Böden.",
+"m": "Kein Stein, kein Kraut, kein Brei."
+},
+"sks:see1-146": {
+"e": "Kann man nicht genug Kette stecken, hilft ein Reitgewicht, den Anker am Boden zu halten.",
+"m": "Wenig Kette: Reitgewicht."
+},
+"sks:see1-147": {
+"e": "Bei zunehmendem Wind steckt man mehr Kette oder Trosse oder setzt ein Reitgewicht.",
+"m": "Mehr Kette, mehr Gewicht."
+},
+"sks:see1-148": {
+"e": "Auf verkrautetem Grund nimmt man den Stockanker. Er gräbt sich durch sein höheres Gewicht besser ein.",
+"m": "Kraut: Stockanker."
+},
+"sks:see1-149": {
+"e": "Die Ankerboje zeigt, wo der Anker liegt. Mit ihrer Trippleine kann man einen festsitzenden Anker rückwärts herausziehen.",
+"m": "Boje zeigt und hilft beim Bergen."
+},
+"sks:see1-15": {
+"e": "Schlagende Segel beschädigen Tuch und Beschläge, besonders bei viel Wind.",
+"m": "Schlagen zerstört."
+},
+"sks:see1-150": {
+"e": "Ob der Anker hält, prüft man an der Vibration der Kette, durch Einrucken, durch wiederholte Peilungen und Abstandsschätzungen und mit dem Ankeralarm des GPS.",
+"m": "Fühlen, einrucken, peilen, Alarm an."
+},
+"sks:see1-151": {
+"e": "Auf Sportbooten verbreitet sind Patentanker, Stockanker mit klappbarem Stock, Draggen mit klappbaren Flunken und Pflugscharanker.",
+"m": "Patent, Stock, Draggen, Pflug."
+},
+"sks:see1-152": {
+"e": "Als Anker mit hoher Haltekraft anerkannt sind zum Beispiel Bruce-, CQR-, Danforth- und D'Hone-Anker.",
+"m": "Bruce, CQR, Danforth, D'Hone."
+},
+"sks:see1-153": {
+"e": "Eine Kette hilft beim Eingraben, verkleinert den Schwojkreis, dämpft Rucke, scheuert nicht an Steinen durch und erhöht die Haltekraft. Oft fährt man zwischen Anker und Leine 3 bis 5 m Kettenvorlauf.",
+"m": "Kette hält besser, Leine plus Kettenvorlauf ist der Kompromiss."
+},
+"sks:see1-154": {
+"e": "Knoten schwächen die Leine um bis zu 50 %. Die Kette befestigt man mit einem Taustropp im Kettenkasten, damit man sie im Notfall schnell kappen kann.",
+"m": "Kein Knoten am Anker, Stropp zum Kappen."
+},
+"sks:see1-155": {
+"e": "Helles Wasser zeigt Sandgrund, dort hält der Anker gut. Dunkler Grund deutet auf Bewuchs hin, wo er schlecht hält.",
+"m": "Hell = Sand = gut."
+},
+"sks:see1-156": {
+"e": "Wirft man Anker und Leine zusammen, kann die Leine sich um den Anker wickeln, und er gräbt sich nicht ein.",
+"m": "Erst Anker, dann Leine nachstecken."
+},
+"sks:see1-157": {
+"e": "Große Schiffe drehen weit und stoppen spät, sehen nach vorn schlecht, sehen kleine Boote im Radarschatten nicht, machen große Bugwellen und nehmen einem den Wind.",
+"m": "Groß ist träge, blind und windschattig."
+},
+"sks:see1-158": {
+"e": "Hinter dem Heck eines großen Schiffs gefährden Sog und Hecksee das eigene Boot.",
+"m": "Nicht dicht hinterm Heck vorbei."
+},
+"sks:see1-159": {
+"e": "Ändert ein großes Schiff den Kurs, schwenkt sein Heck weit zur Gegenseite aus: bei Kursänderung nach Steuerbord nach Backbord und umgekehrt.",
+"m": "Bug rechts, Heck links."
+},
+"sks:see1-16": {
+"e": "Segellatten geben dem Segel Profil und verhindern, dass das Achterliek einklappt.",
+"m": "Latten halten das Achterliek in Form."
+},
+"sks:see1-160": {
+"e": "Große Schiffe brauchen je nach Typ, Größe, Beladung und Tempo das 8- bis 12-fache ihrer Länge und bis zu 8 bis 12 Minuten zum Stoppen. Ein voll beladenes 300-m-Containerschiff bei 24 kn braucht etwa 2 sm.",
+"m": "Kilometer und Minuten, nicht Meter und Sekunden."
+},
+"sks:see1-161": {
+"e": "Bei Hartruder dreht der Bug, das Heck schlägt zur Gegenseite aus. Das Schiff läuft noch mehrere Schiffslängen auf der alten Kurslinie weiter, bei 300 m langen Schiffen etwa 500 bis 600 m.",
+"m": "Große Schiffe weichen erst spät sichtbar aus."
+},
+"sks:see1-162": {
+"e": "Vor vielen großen Schiffen ist ein Bereich bis zu 2 Schiffslängen oder 500 m von der Brücke aus nicht einsehbar.",
+"m": "Vor dem Bug bist du unsichtbar."
+},
+"sks:see1-163": {
+"e": "Ein hoch und fest angebrachter passiver Radarreflektor, besser noch ein aktiver, erhöht die Chance, im Radar gesehen zu werden.",
+"m": "Hoch hängen, besser aktiv."
+},
+"sks:see1-17": {
+"e": "Mit dem Cunningham-Stropp reguliert man die Vorliekspannung des Großsegels und damit seinen Trimm.",
+"m": "Cunningham: Vorliek straffen."
+},
+"sks:see1-18": {
+"e": "Mindestens an Bord: ein reffbares Groß, eine reffbare Rollfock oder Vorsegel verschiedener Größe und eine Sturmfock.",
+"m": "Groß, Fock(s), Sturmfock."
+},
+"sks:see1-19": {
+"e": "Die Vorsegel-Rollreffanlage rollt das Vorsegel um das Vorstag und verkleinert es stufenlos.",
+"m": "Fock aufrollen statt wechseln."
+},
+"sks:see1-2": {
+"e": "Beim Sandwichverfahren wird zwischen zwei GFK-Schichten eine Zwischenlage, zum Beispiel Balsaholz, einlaminiert.",
+"m": "GFK, Kern, GFK wie ein Sandwich."
+},
+"sks:see1-20": {
+"e": "Die Großsegel-Rollreffanlage rollt das Groß in den Mast oder in den Baum und verkleinert es stufenlos.",
+"m": "Groß im Mast oder Baum aufrollen."
+},
+"sks:see1-21": {
+"e": "Der Lenzkorb hält Schmutz von der Pumpe fern, damit sie nicht verstopft. Man muss ihn regelmäßig prüfen und reinigen.",
+"m": "Sieb vor der Pumpe sauber halten."
+},
+"sks:see1-22": {
+"e": "Eine seegehende Yacht braucht zwei unabhängige Bilgenpumpen, eine von Deck und eine von unten bedienbar, und zwei Pützen mit Leine.",
+"m": "Zwei Pumpen, zwei Eimer."
+},
+"sks:see1-23": {
+"e": "Mehrere Anker braucht man als Ersatz, zum Verwarpen oder Verkatten, für unterschiedliche Ankergründe und um bei schwerem Wetter oder im Tidengewässer vor zwei Ankern zu liegen.",
+"m": "Ersatz, Warpen, Grund, zwei Anker."
+},
+"sks:see1-24": {
+"e": "Mindestens vier Festmacherleinen und vier Fender gehören an Bord.",
+"m": "Vier und vier."
+},
+"sks:see1-25": {
+"e": "Außerdem braucht man Reservetauwerk, eine Wurfleine, eine Schlepptrosse und eine Ankerleine.",
+"m": "Reserve, Wurf, Schlepp, Anker."
+},
+"sks:see1-26": {
+"e": "Ersatzteile und Werkzeug braucht man für Segel, Rumpf und Rigg, Motor, Elektrik und Schlauchleitungen.",
+"m": "Segel, Rumpf, Rigg, Motor, Strom, Schläuche."
+},
+"sks:see1-27": {
+"e": "Zur Segelreparatur gehören Segelhandschuh, Segelnadeln, Segelgarn, Wachs, Zange und selbstklebendes Segeltuch.",
+"m": "Handschuh, Nadel, Garn, Wachs, Zange, Klebetuch."
+},
+"sks:see1-28": {
+"e": "Um die Takelage nach Mastbruch zu kappen, braucht man Bolzenschneider, Metallsäge mit Ersatzblättern, Schraubenschlüssel und Zangen.",
+"m": "Bolzenschneider und Säge."
+},
+"sks:see1-29": {
+"e": "Griffbereit sein müssen Zeisinge, Bändsel, Tape, Reserveschäkel, Schäkelöffner, Bordmesser und Kombizange.",
+"m": "Bändsel, Tape, Schäkel, Messer, Zange."
+},
+"sks:see1-3": {
+"e": "Sandwichbau ist steif und verwindungsfest, leicht und isoliert gut.",
+"m": "Steif, leicht, warm."
+},
+"sks:see1-30": {
+"e": "Eine Yacht mit Radsteuerung braucht eine Notpinne. Alle an Bord müssen sie kennen, damit sie im Notfall sofort montiert ist.",
+"m": "Notpinne: alle wissen, wo und wie."
+},
+"sks:see1-31": {
+"e": "Amtliche Informationen zu Ausrüstung und Sicherheit stehen in „Sicherheit im See- und Küstenbereich“ (BSH) und „Sicherheit auf dem Wasser“ (Verkehrsministerium). Sie werden auch bei Unfällen herangezogen.",
+"m": "Zwei Sicherheitsbroschüren."
+},
+"sks:see1-32": {
+"e": "Handlenzpumpen funktionieren auch bei Strom- oder Motorausfall.",
+"m": "Hand geht immer."
+},
+"sks:see1-33": {
+"e": "Flüssiggas ist schwerer als Luft, sammelt sich unten in der Bilge und bildet mit Luft ein explosives Gemisch.",
+"m": "Gas sinkt und knallt."
+},
+"sks:see1-34": {
+"e": "Ein Bord-WC hat Seeventil mit Spülwasserschlauch, Handpumpe, einen Hebel zum Unterbrechen der Seewasserzufuhr und den Abwasserschlauch (über den Fäkalientank) zum Seeventil.",
+"m": "Zulauf, Pumpe, Hebel, Ablauf."
+},
+"sks:see1-35": {
+"e": "Bord-WC: Spülventil öffnen, kräftig pumpen und spülen, Seewasserzufuhr per Hebel unterbrechen, Becken leer pumpen, Seeventile schließen.",
+"m": "Auf, spülen, umlegen, leerpumpen, zu."
+},
+"sks:see1-36": {
+"e": "Stabilität ist die Eigenschaft eines Schiffs, aufrecht zu schwimmen und sich aus der Krängung wieder aufzurichten.",
+"m": "Aufrecht schwimmen, wieder hochkommen."
+},
+"sks:see1-37": {
+"e": "Die Stabilität hängt von der Form und der Gewichtsverteilung ab. Beansprucht wird sie durch Seitenwind, Trossenzug oder enge Kurven schneller Motoryachten.",
+"m": "Form und Gewicht gegen Wind, Zug und Kurven."
+},
+"sks:see1-38": {
+"e": "In schwerem Wetter hängt die Stabilität zusätzlich von Wind und Seegang ab, besonders von brechenden Wellen.",
+"m": "Brecher sind die größte Gefahr."
+},
+"sks:see1-39": {
+"e": "Im Formschwerpunkt F greift der Auftrieb nach oben an, im Massenschwerpunkt G die Gewichtskraft nach unten.",
+"m": "F drückt hoch, G zieht runter."
+},
+"sks:see1-4": {
+"e": "Stahl ist sehr fest, zuverlässig und langlebig, aber schwer und rostanfällig.",
+"m": "Stark, aber schwer und rostig."
+},
+"sks:see1-40": {
+"e": "Krängt das Schiff, taucht die geneigte Seite tiefer ein, und der Formschwerpunkt wandert dorthin. Auftrieb und Gewicht greifen versetzt an und bilden ein aufrichtendes Moment: Gewicht mal Hebelarm.",
+"m": "F wandert zur Seite, das Boot richtet sich auf."
+},
+"sks:see1-41": {
+"e": "In der Bö wird der wahre Wind stärker, der Fahrtwind bleibt zunächst gleich. Im Vektorparallelogramm dreht der scheinbare Wind dadurch achterlicher, er raumt. Beim Kreuzen kann man dann höher an den Wind gehen.",
+"m": "Bö raumt, mitluven."
+},
+"sks:see1-42": {
+"e": "Am Wind ist der scheinbare Wind stärker als der wahre, raumschots und vor dem Wind schwächer. Deshalb muss nur das eine Boot reffen.",
+"m": "Gleicher Wind, anderer Kurs, anderes Gefühl."
+},
+"sks:see1-43": {
+"e": "Krängt die Yacht, wird der Lateralplan, also die seitliche Fläche unter Wasser, kleiner. Der seitliche Widerstand sinkt und die Abdrift steigt.",
+"m": "Schräg liegen heißt mehr abdriften."
+},
+"sks:see1-44": {
+"e": "Mit der Krängung wandert der Segeldruckpunkt nach Lee aus. Das Boot wird luvgieriger.",
+"m": "Mehr Lage, mehr Luvgierigkeit."
+},
+"sks:see1-45": {
+"e": "Starker Ruderdruck mit Krängung am Wind ist Luvgierigkeit. Abhilfe: Traveller nach Lee, Großschot etwas fieren oder das Groß reffen.",
+"m": "Traveller runter, Schot auf, reffen."
+},
+"sks:see1-46": {
+"e": "Der Unterliekstrecker regelt die Spannung des Unterlieks. Mehr Zug macht den unteren Teil des Groß flacher, weniger Zug bauchiger.",
+"m": "Unterliek straff: flach unten."
+},
+"sks:see1-47": {
+"e": "Falten im Vorliek der Fock kommen meist von einem nicht genug durchgesetzten Fall.",
+"m": "Falten vorn: Fall dichter."
+},
+"sks:see1-48": {
+"e": "Killt das Unterliek des Vorsegels, liegt der Holepunkt zu weit vorn.",
+"m": "Unten flattert: Holepunkt nach hinten."
+},
+"sks:see1-49": {
+"e": "Killt das Achterliek des Vorsegels, liegt der Holepunkt zu weit achtern.",
+"m": "Hinten flattert: Holepunkt nach vorn."
+},
+"sks:see1-5": {
+"e": "Mit der CE-Kategorie legt der Hersteller fest, in welchem Fahrgebiet, bis zu welcher Windstärke und welcher Wellenhöhe das Boot sicher betrieben werden kann.",
+"m": "Kategorie: wo, wie viel Wind, wie viel Welle."
+},
+"sks:see1-50": {
+"e": "Windfäden zeigen den Strömungsverlauf am Segel und helfen beim Trimmen.",
+"m": "Fäden zeigen die Strömung."
+},
+"sks:see1-51": {
+"e": "Bei Starkwind trimmt man das Groß flach: Unterliek- und Vorliekstrecker dicht, Großschot dicht, Fall durchsetzen, Achterstag spannen, Traveller nach Lee.",
+"m": "Starkwind: alles straff, Traveller nach Lee."
+},
+"sks:see1-52": {
+"e": "Das Groß trimmt man mit Großschot, Traveller, Unterliekstrecker, Cunninghamstrecker, Großfall und Achterstagspanner.",
+"m": "Schot, Traveller, Unterliek, Cunningham, Fall, Achterstag."
+},
+"sks:see1-53": {
+"e": "Opferanoden schützen gegen Elektrolyse, indem sie sich statt der wichtigen Metallteile auflösen. Man ersetzt sie nach einer Saison, nicht erst wenn sie verbraucht sind.",
+"m": "Jede Saison neue Anoden."
+},
+"sks:see1-54": {
+"e": "Auf Kunststoffyachten schützt eine Zinkanode auf der Propellerwelle den Propeller vor Elektrolyse.",
+"m": "Zink auf die Welle."
+},
+"sks:see1-55": {
+"e": "Vor dem Tanken von Diesel: Maschine aus, offenes Feuer löschen, nicht rauchen und gegen Überlaufen vorsorgen.",
+"m": "Motor aus, Feuer aus, Überlauf verhindern."
+},
+"sks:see1-56": {
+"e": "Umweltschutz beim Tanken: Ölbindetücher um die Öffnung, möglichst an der Zapfsäule tanken, bei Kanistern großen Trichter mit Schlauch nutzen und nicht bei Wind und Welle aus Kanistern nachfüllen.",
+"m": "Tücher drum, Zapfhahn, Trichter, ruhiges Wasser."
+},
+"sks:see1-57": {
+"e": "Das Wendegetriebe kuppelt den Propeller ein und aus, schaltet auf Rückwärts um und untersetzt die Drehzahl.",
+"m": "Kuppeln, umsteuern, untersetzen."
+},
+"sks:see1-58": {
+"e": "Vor dem Anlassen: Hauptschalter ein, Kraftstoff- und Kühlwasserventile auf, Getriebe auf neutral.",
+"m": "Strom, Ventile, Leerlauf."
+},
+"sks:see1-59": {
+"e": "Nach dem Anlassen prüft man Kühlwasserdurchlauf, Öldruck und Ladung, Motorgeräusche und Abgase.",
+"m": "Wasser raus, Lampen aus, Klang und Rauch ok."
+},
+"sks:see1-6": {
+"e": "Die CE-Kategorien sind A Hochsee, B außerhalb von Küstengewässern, C küstennahe Gewässer und D geschützte Gewässer.",
+"m": "A Hochsee, B draußen, C Küste, D geschützt."
+},
+"sks:see1-60": {
+"e": "Erste Störungsanzeichen sind ungewohnte Geräusche, Vibrationen, verfärbte Abgase und leuchtende Lade- oder Öldruckkontrolle mit Warnton.",
+"m": "Hören, fühlen, sehen."
+},
+"sks:see1-61": {
+"e": "Geht der Diesel nicht über den Stopp aus, unterbricht man die Kraftstoffzufuhr oder verschließt die Luftansaugung.",
+"m": "Ohne Sprit oder ohne Luft geht er aus."
+},
+"sks:see1-62": {
+"e": "Springt der Diesel nicht an, kann die Batterie zu schwach sein, der Tank leer, Luft in der Leitung, die Kaltstarthilfe falsch bedient oder der Anlasser defekt.",
+"m": "Batterie, Sprit, Luft, Vorglühen, Anlasser."
+},
+"sks:see1-63": {
+"e": "Bleibt der Motor beim Einkuppeln stehen, ist die Welle blockiert (Leine im Propeller), das Getriebe schwergängig oder die Welle verbogen.",
+"m": "Meist hängt was im Propeller."
+},
+"sks:see1-64": {
+"e": "Beim Saildrive verstopfen oft Folien oder Pflanzen den Kühlwassereinlass. Mehrmals abwechselnd vor- und zurückfahren löst sie meist.",
+"m": "Vor, zurück, vor: Einlass frei."
+},
+"sks:see1-65": {
+"e": "Auf Yachten mit Einbaumotor gibt es Festflügel-, Falt-, Drehflügel- und Verstellpropeller.",
+"m": "Fest, falt, dreh, verstell."
+},
+"sks:see1-66": {
+"e": "Ein Faltpropeller öffnet sich beim Aufstoppen eventuell erst bei hoher Drehzahl und wirkt schwächer als ein Festpropeller. Man plant mehr Bremsweg ein.",
+"m": "Faltprop bremst später."
+},
+"sks:see1-67": {
+"e": "Propeller beschreibt man durch Flügelzahl, Flügelfläche, Durchmesser und Steigung.",
+"m": "Flügel, Fläche, Durchmesser, Steigung."
+},
+"sks:see1-68": {
+"e": "Den Außenborder verstaut man mit leerem Tank und Vergaser an Deck oder in einer nach außen entlüfteten Backskiste, nie unter Deck. Benzindämpfe bilden mit Luft ein leicht entzündliches Gemisch.",
+"m": "Leer und an Deck."
+},
+"sks:see1-69": {
+"e": "Im Wasserabscheider sammelt sich Kondenswasser aus dem Tank, damit es nicht in den Motor gelangt und Startprobleme macht.",
+"m": "Wasser raus aus dem Diesel."
+},
+"sks:see1-7": {
+"e": "Kategorie B gilt für Fahrten außerhalb der Küstengewässer bis einschließlich 8 Bft und 4 m signifikanter Wellenhöhe.",
+"m": "B: 8 Bft, 4 m."
+},
+"sks:see1-70": {
+"e": "Ein voller Tank hat wenig Luft, in der sich Kondenswasser bilden kann. So vermeidet man Startschwierigkeiten.",
+"m": "Voll heißt trocken."
+},
+"sks:see1-71": {
+"e": "Mindestens an Bord: Impeller für die Wasserpumpe, Reservekeilriemen, Motoröl und Dichtungsmaterial.",
+"m": "Impeller, Keilriemen, Öl, Dichtung."
+},
+"sks:see1-72": {
+"e": "2 × 60 Ah sind zwei Batterien mit zusammen 120 Ah Nennkapazität. Weil man sie kaum über 80 % lädt und nicht ganz entladen sollte, stehen netto etwa 72 Ah zur Verfügung.",
+"m": "120 Ah nominell, etwa 72 Ah nutzbar."
+},
+"sks:see1-73": {
+"e": "Strom = Leistung durch Spannung: 24 W / 12 V = 2 A. Zwei Verbraucher mal 10 Stunden: 2 × 2 A × 10 h = 40 Ah.",
+"m": "Watt durch Volt = Ampere, mal Stunden."
+},
+"sks:see1-74": {
+"e": "Festmacher, Ankerleinen und Schlepptrossen müssen bruchfest und elastisch sein, damit sie Rucke abfedern.",
+"m": "Stark und federnd."
+},
+"sks:see1-75": {
+"e": "Gegen Schamfilen zieht man einen gesicherten Plastikschlauch oder notfalls Tuchstreifen über die Scheuerstelle der Leine.",
+"m": "Scheuerschutz drüber."
+},
+"sks:see1-76": {
+"e": "Knoten schwächen eine Leine, bis zu 50 % Festigkeitsverlust.",
+"m": "Knoten halbiert die Kraft."
+},
+"sks:see1-77": {
+"e": "Ein genähter Takling verhindert, dass bei Kern-Mantel-Tauwerk die Seele in den Mantel rutscht.",
+"m": "Genähter Takling."
+},
+"sks:see1-78": {
+"e": "Längsseits macht man mit Vorleine, Vorspring, Achterspring und Achterleine fest.",
+"m": "Zwei Leinen, zwei Springs."
+},
+"sks:see1-8": {
+"e": "Bei der Seilzugsteuerung dreht das Rad ein Zahnrad, über das eine Kette in der Steuersäule läuft. Die Kette ist mit Steuerseilen verbunden, die über Umlenkrollen zum Ruderquadranten führen.",
+"m": "Rad, Kette, Seil, Quadrant."
+},
+"sks:see1-80": {
+"e": "Antifouling ist giftig. Abgespritzt wird nur auf einem Reinigungsplatz, der Wasser und Schmutz auffängt, nicht in die Kanalisation.",
+"m": "Nur auf dem Waschplatz mit Auffang."
+},
+"sks:see1-81": {
+"e": "Häufigste Ursache sind schlechte Kontakte und Korrosion. Kontakte festziehen, Korrosion mit feinem Schleifpapier entfernen und Kontaktspray nutzen.",
+"m": "Salz frisst Kontakte."
+},
+"sks:see1-82": {
+"e": "Ist das Gelcoat beschädigt, zieht das Laminat darunter Wasser und wird geschädigt. Deshalb sofort ausbessern.",
+"m": "Kratzer im Gelcoat: Wasser kommt rein."
+},
+"sks:see1-83": {
+"e": "Ins Logbuch gehören mindestens Namen und Funktionen der Crew, Beginn und Ende der Fahrt und regelmäßig Position, Kurs, Geschwindigkeit, Strömung, Wetter und Luftdruck.",
+"m": "Wer, wann, und regelmäßig wo und wie."
+},
+"sks:see1-84": {
+"e": "Vor dem Setzen brauchen Großschot und Niederholer Lose, und das Fall muss frei laufen. Solange der Wind von vorn kommt, schlägt der Baum hin und her: Verletzungsgefahr.",
+"m": "Lose geben, Fall klar, Kopf weg vom Baum."
+},
+"sks:see1-85": {
+"e": "Reißt das Groß unter der untersten Lattentasche, nimmt man die untere Latte heraus und refft bis über den Riss.",
+"m": "Latte raus, über den Riss reffen."
+},
+"sks:see1-86": {
+"e": "Bindereff: Baum mit Dirk oder Niederholer halten, Fall fieren, Hals in den Reffhaken, Fall wieder dicht, Achterliek-Reffkausch mit der Reffleine auf den Baum holen, loses Tuch einbinden.",
+"m": "Baum halten, runter, Hals, hoch, Schothorn, einbinden."
+},
+"sks:see1-87": {
+"e": "Der Bullenstander verhindert eine ungewollte Halse bei achterlichem Wind. Er läuft von der Baumnock zum Vorschiff.",
+"m": "Baumnock nach vorn festlegen."
+},
+"sks:see1-88": {
+"e": "Vor dem Wind drückt der Wind den Baum nach oben. Der Niederholer, je nach Wind durchgesetzt, verhindert das Steigen und hält das Segel in Form.",
+"m": "Niederholer hält den Baum unten."
+},
+"sks:see1-89": {
+"e": "Legt man gleich große Boote versetzt oder abwechselnd mit Bug und Heck zur Pier, stehen die Masten nicht auf gleicher Höhe und können nicht gegeneinanderschlagen.",
+"m": "Masten versetzt legen."
+},
+"sks:see1-9": {
+"e": "Stagen halten den Mast nach vorn und achtern, Wanten seitlich.",
+"m": "Stagen längs, Wanten quer."
+},
+"sks:see1-90": {
+"e": "Läuft Schwell in den Hafen, rollen die Boote. Masten müssen versetzt stehen, damit sie nicht gegeneinanderschlagen.",
+"m": "Schwell: Masten auseinander."
+},
+"sks:see1-91": {
+"e": "Bei aufziehendem Gewitter verkleinert man rechtzeitig das Vorsegel, macht das Groß klar zum Reffen oder Bergen, zieht Ölzeug, Gurt und Weste an und trägt die Position ein.",
+"m": "Früh reffen, Weste an, Position notieren."
+},
+"sks:see1-92": {
+"e": "Mit einer fremden Yacht fährt man zu Beginn Wende, Halse, Q-Wende und Rettungsmanöver bei verschiedenen Geschwindigkeiten und Segelführungen.",
+"m": "Erst üben, dann segeln."
+},
+"sks:see1-93": {
+"e": "Nach Mastbruch nimmt man den Mast möglichst an Bord und sichert ihn. Geht das nicht, kappt man Mast und Wanten, damit sie den Rumpf nicht beschädigen.",
+"m": "An Bord holen oder kappen."
+},
+"sks:see1-94": {
+"e": "Wie lang der Aufschießer zur Person wird, hängt von Geschwindigkeit, Wind, Seegang, Strömung sowie Form und Gewicht des Boots ab.",
+"m": "Fahrt, Wind, Welle, Strom, Boot."
+},
+"sks:see1-95": {
+"e": "Achterleinen bekommen ein Auge, zum Beispiel einen Palstek, und werden möglichst früh über die Pfähle gelegt, bei Seitenwind zuerst über den Luvpfahl.",
+"m": "Auge rein, früh über den Luvpfahl."
+},
+"sks:see1-96": {
+"e": "Vor dem Anlegen teilt man die Crew ein und legt Leinen und Fender bereit.",
+"m": "Leute, Leinen, Fender."
+},
+"sks:see1-97": {
+"e": "Beim Saildrive sitzt der Propeller weit vor dem Ruder. Das Ruder wird nicht direkt angeströmt, und beim Anfahren lässt sich das Boot schlechter steuern.",
+"m": "Saildrive: Ruder kriegt wenig Strom ab."
+},
+"sks:see1-98": {
+"e": "Ein Bugstrahlruder ist ein Propeller in einer Querröhre im Bug. Es schiebt den Bug bei wenig Fahrt seitlich.",
+"m": "Querschub am Bug."
+},
+"sks:see1-99": {
+"e": "Das Bugstrahlruder hilft beim An- und Ablegen und beim Drehen auf engem Raum.",
+"m": "Hafenmanöver."
+},
+"sks:see2-1": {
+"e": "Für Sportbootrümpfe verwendet man vor allem GFK, Stahl, Aluminium, wasserfest verleimtes Sperrholz und Massivholz.",
+"m": "GFK, Stahl, Alu, Sperrholz, Holz."
+},
+"sks:see2-10": {
+"e": "Die CE-Kategorien sind A Hochsee, B außerhalb von Küstengewässern, C küstennahe Gewässer und D geschützte Gewässer.",
+"m": "A Hochsee, B draußen, C Küste, D geschützt."
+},
+"sks:see2-100": {
+"e": "Seenotsignalmittel sind rote Handfackeln und Raketen, orangefarbener Rauch, Signalpistole, Seewasserfärber, Flaggen N und C, Signallampe und Seenotfunkboje.",
+"m": "Rot leuchten, orange rauchen, N und C."
+},
+"sks:see2-101": {
+"e": "An Bord gehören Feuerlöscher (ABC-Pulver, eventuell CO2), eine Pütz für feste Stoffe, eine Löschdecke und ein Löschdurchlass für geschlossene Motorräume.",
+"m": "Löscher, Pütz, Decke, Durchlass."
+},
+"sks:see2-102": {
+"e": "Geeignet ist der ABC-Pulverlöscher, für geschlossene Motorräume der CO2-Löscher. Löscher müssen griffbereit nahe Motor, Kombüse und Heizung hängen, CO2-Löscher nicht im Schiffsinneren (Erstickungsgefahr).",
+"m": "Pulver griffbereit, CO2 nicht innen lagern."
+},
+"sks:see2-103": {
+"e": "Feuerlöscher bleiben funktionsfähig, wenn man die Prüftermine einhält (Plakette) und sie vor Feuchtigkeit und Korrosion schützt.",
+"m": "Prüfen lassen und trocken halten."
+},
+"sks:see2-104": {
+"e": "Brand bekämpfen: Öffnungen schließen, Brennstoff und Hauptschalter unterbrechen, Löscher erst am Brandherd auslösen, von unten und vorn löschen, Löschdecke nutzen, Flüssigkeitsbrände nie mit Wasser.",
+"m": "Luft weg, Sprit weg, von unten löschen, kein Wasser auf Öl."
+},
+"sks:see2-105": {
+"e": "Beim Seeklarmachen einer Motoryacht prüft man unter anderem Seetüchtigkeit, Treibstoff, Navigationsunterlagen, Sicherheitseinweisung, Rettungs- und Signalmittel, Vorräte, Motor, Elektronik, Lenzanlage, Feuerlöscher und Papiere.",
+"m": "Boot, Sprit, Karten, Crew, Sicherheit, Vorräte, Technik, Papiere."
+},
+"sks:see2-106": {
+"e": "Die Sicherheitseinweisung umfasst Westen und Gurte, Rettungsinsel, Signalmittel, Lenzpumpen, Seeventile und WC, Kocher, Feuerlöscher, Motor, Elektrik, Funk, Mensch über Bord und Seekrankheit.",
+"m": "Alles, was retten, pumpen, löschen oder funken kann."
+},
+"sks:see2-107": {
+"e": "Unbedingt einweisen muss man in Ankergeschirr, Lenzeinrichtung, Feuerlöscher, Motor, Seeventile, UKW-Funk, MOB-Taste, Seenotsignale und Notruder.",
+"m": "Anker, Pumpe, Feuer, Motor, Ventile, Funk, MOB, Notruder."
+},
+"sks:see2-108": {
+"e": "Vor jedem Auslaufen: Wetterbericht, Sicherheitseinrichtung, Motor, Navigationsgeräte, Bilge, Wasser und Treibstoff, Schall- und Lichtsignale, Lichter und aktuelle Karten prüfen.",
+"m": "Wetter, Technik, Bilge, Vorräte, Lichter, Karten."
+},
+"sks:see2-109": {
+"e": "Jeder muss Pumpen und Ventile kennen, damit sie im Notfall jeder bedienen kann.",
+"m": "Im Notfall muss es jeder können."
+},
+"sks:see2-11": {
+"e": "Kategorie B gilt für Fahrten außerhalb der Küstengewässer bis einschließlich 8 Bft und 4 m signifikanter Wellenhöhe.",
+"m": "B: 8 Bft, 4 m."
+},
+"sks:see2-110": {
+"e": "Falsch bedient kann über das Bord-WC Wasser ins Boot laufen.",
+"m": "Falsches Pumpen flutet das Boot."
+},
+"sks:see2-111": {
+"e": "Jeder soll den Anker sicher ausbringen und einholen können.",
+"m": "Ankern kann jeder."
+},
+"sks:see2-112": {
+"e": "Bei einem Leck: Meldung abgeben, Fahrt rausnehmen, wenn nötig, pumpen, Leck suchen und abdichten, flaches Wasser ansteuern und so trimmen, dass das Leck möglichst aus dem Wasser kommt.",
+"m": "Melden, pumpen, dichten, Leck hochtrimmen."
+},
+"sks:see2-113": {
+"e": "Steigt das Wasser trotzdem: Notzeichen und Funkmeldung, Radartransponder an, Verlassen vorbereiten, Westen an, Insel klar, wenn möglich auf ruhigem Flachwasser auf Grund setzen.",
+"m": "Notruf, Insel klar, auf Grund setzen."
+},
+"sks:see2-114": {
+"e": "Grundberührungen und harte Stöße können die Bordwand beschädigen und Sinkgefahr verursachen. Danach prüft man das Boot.",
+"m": "Nach dem Rums: Bilge prüfen."
+},
+"sks:see2-115": {
+"e": "In Seenot: Ruhe bewahren, Notalarm geben, Radartransponder an, Insel klarmachen, Weste und Gurt an, so lange wie möglich an Bord bleiben, warm anziehen.",
+"m": "Ruhig, Notruf, Insel, Weste, an Bord bleiben."
+},
+"sks:see2-116": {
+"e": "Vor dem Umsteigen in die Insel: Weste und Gurt an, warm anziehen, möglichst warm trinken, Proviant, Wasser, Signalmittel, Funkbake, Transponder und Handfunkgerät in die Insel bringen.",
+"m": "Warm, nass innen, alles Wichtige mitnehmen."
+},
+"sks:see2-117": {
+"e": "Man verlässt das Schiff so spät wie möglich: An Bord überlebt man besser, das Schiff ist leichter zu finden, und das Umsteigen in die Insel ist schwer.",
+"m": "Steig nur auf, wenn du musst."
+},
+"sks:see2-118": {
+"e": "Hubschrauberschlinge: Karabiner einpicken, mit Kopf und Armen einsteigen, Arme nach unten drücken und Hände schließen. Das Windenseil hängt frei und wird nie an Bord festgemacht.",
+"m": "Rein, Arme runter, Seil nie festmachen."
+},
+"sks:see2-119": {
+"e": "Notzeichen gibt man auf Anordnung des Schiffsführers, wenn unmittelbare Gefahr für Schiff oder Crew besteht, die ohne fremde Hilfe nicht zu überwinden ist.",
+"m": "Nur bei echter Not und auf Anordnung."
+},
+"sks:see2-12": {
+"e": "Bei der Seilzugsteuerung dreht das Rad ein Zahnrad, über das eine Kette in der Steuersäule läuft. Die Kette ist mit Steuerseilen verbunden, die über Umlenkrollen zum Ruderquadranten führen.",
+"m": "Rad, Kette, Seil, Quadrant."
+},
+"sks:see2-120": {
+"e": "Im Notfall darf jeder ein UKW-Funkgerät benutzen, auch ohne Funkzeugnis.",
+"m": "Not kennt kein Zeugnis."
+},
+"sks:see2-121": {
+"e": "Seekranke beaufsichtigt man im Cockpit und sichert sie gegen Überbordfallen, gleicht ihren Flüssigkeitsverlust aus, lässt sie zum Horizont schauen und gibt ihnen Aufgaben.",
+"m": "Sichern, trinken, Horizont, beschäftigen."
+},
+"sks:see2-122": {
+"e": "Ein Reitgewicht zieht die Ankertrosse zum Grund, damit der Zug flach bleibt und der Anker nicht ausbricht. Es dämpft außerdem Rucke.",
+"m": "Gewicht drückt die Leine runter."
+},
+"sks:see2-123": {
+"e": "Ein Kettenvorlauf zieht die Trosse am Anker nach unten, damit der Zug auf den Anker flach bleibt.",
+"m": "Kette unten, Zug flach."
+},
+"sks:see2-124": {
+"e": "Leichtgewichtsanker halten gut in Sand, Schlick und weichem Ton, mäßig in hartem Ton und Lehm, schlecht in Steinen, Kraut und weichem Schlamm.",
+"m": "Sand gut, Stein und Kraut schlecht."
+},
+"sks:see2-125": {
+"e": "Ein Ankerplatz sollte vor Wind und Welle schützen, genug Platz zum Schwojen bieten, und man plant Winddrehungen ein.",
+"m": "Schutz, Platz, Winddrehung."
+},
+"sks:see2-126": {
+"e": "Meiden sollte man steinige, verkrautete und stark schlammige Böden.",
+"m": "Kein Stein, kein Kraut, kein Brei."
+},
+"sks:see2-127": {
+"e": "Kann man nicht genug Kette stecken, hilft ein Reitgewicht, den Anker am Boden zu halten.",
+"m": "Wenig Kette: Reitgewicht."
+},
+"sks:see2-128": {
+"e": "Bei zunehmendem Wind steckt man mehr Kette oder Trosse oder setzt ein Reitgewicht.",
+"m": "Mehr Kette, mehr Gewicht."
+},
+"sks:see2-129": {
+"e": "Auf verkrautetem Grund nimmt man den Stockanker. Er gräbt sich durch sein höheres Gewicht besser ein.",
+"m": "Kraut: Stockanker."
+},
+"sks:see2-13": {
+"e": "Der Lenzkorb hält Schmutz von der Pumpe fern, damit sie nicht verstopft. Man muss ihn regelmäßig prüfen und reinigen.",
+"m": "Sieb vor der Pumpe sauber halten."
+},
+"sks:see2-130": {
+"e": "Die Ankerboje zeigt, wo der Anker liegt. Mit ihrer Trippleine kann man einen festsitzenden Anker rückwärts herausziehen.",
+"m": "Boje zeigt und hilft beim Bergen."
+},
+"sks:see2-131": {
+"e": "Ob der Anker hält, prüft man an der Vibration der Kette, durch Einrucken, durch wiederholte Peilungen und Abstandsschätzungen und mit dem Ankeralarm des GPS.",
+"m": "Fühlen, einrucken, peilen, Alarm an."
+},
+"sks:see2-132": {
+"e": "Auf Sportbooten verbreitet sind Patentanker, Stockanker mit klappbarem Stock, Draggen mit klappbaren Flunken und Pflugscharanker.",
+"m": "Patent, Stock, Draggen, Pflug."
+},
+"sks:see2-133": {
+"e": "Als Anker mit hoher Haltekraft anerkannt sind zum Beispiel Bruce-, CQR-, Danforth- und D'Hone-Anker.",
+"m": "Bruce, CQR, Danforth, D'Hone."
+},
+"sks:see2-134": {
+"e": "Eine Kette hilft beim Eingraben, verkleinert den Schwojkreis, dämpft Rucke, scheuert nicht an Steinen durch und erhöht die Haltekraft. Oft fährt man zwischen Anker und Leine 3 bis 5 m Kettenvorlauf.",
+"m": "Kette hält besser, Leine plus Kettenvorlauf ist der Kompromiss."
+},
+"sks:see2-135": {
+"e": "Knoten schwächen die Leine um bis zu 50 %. Die Kette befestigt man mit einem Taustropp im Kettenkasten, damit man sie im Notfall schnell kappen kann.",
+"m": "Kein Knoten am Anker, Stropp zum Kappen."
+},
+"sks:see2-136": {
+"e": "Helles Wasser zeigt Sandgrund, dort hält der Anker gut. Dunkler Grund deutet auf Bewuchs hin, wo er schlecht hält.",
+"m": "Hell = Sand = gut."
+},
+"sks:see2-137": {
+"e": "Wirft man Anker und Leine zusammen, kann die Leine sich um den Anker wickeln, und er gräbt sich nicht ein.",
+"m": "Erst Anker, dann Leine nachstecken."
+},
+"sks:see2-138": {
+"e": "Vor dem Ankern wählt man anhand von Karte und Handbuch einen Platz mit passendem Grund und Tiefe, ermittelt Wind und Strom, macht Ankergeschirr und Ankersignal klar und läuft langsam gegen Wind oder Strom an.",
+"m": "Platz planen, Wind und Strom, klar machen, langsam gegenan."
+},
+"sks:see2-139": {
+"e": "Ankermanöver: Platz planen, gegen Wind oder Strom ansteuern, bei langsamer Rückwärtsfahrt den Anker fallen lassen, das 3- bis 5-fache der Wassertiefe stecken, Ankerball oder -licht setzen, Position notieren und kontrollieren.",
+"m": "Rückwärts fallen lassen, 3- bis 5-fach stecken, Signal setzen."
+},
+"sks:see2-14": {
+"e": "Auf einer seegehenden Yacht gehören zwei unabhängige Bilgepumpen an Bord, eine von Deck bedienbar, und zwei Pützen mit Leine.",
+"m": "Zwei Pumpen, zwei Eimer."
+},
+"sks:see2-140": {
+"e": "Große Schiffe drehen weit und stoppen spät, sehen nach vorn schlecht, sehen kleine Boote im Radarschatten nicht und machen große Bugwellen.",
+"m": "Groß ist träge und fast blind nach vorn."
+},
+"sks:see2-141": {
+"e": "Hinter dem Heck eines großen Schiffs gefährden Sog und Hecksee das eigene Boot.",
+"m": "Nicht dicht hinterm Heck vorbei."
+},
+"sks:see2-142": {
+"e": "Ändert ein großes Schiff den Kurs, schwenkt sein Heck weit zur Gegenseite aus: bei Kursänderung nach Steuerbord nach Backbord und umgekehrt.",
+"m": "Bug rechts, Heck links."
+},
+"sks:see2-143": {
+"e": "Große Schiffe brauchen je nach Typ, Größe, Beladung und Tempo das 8- bis 12-fache ihrer Länge und bis zu 8 bis 12 Minuten zum Stoppen. Ein voll beladenes 300-m-Containerschiff bei 24 kn braucht etwa 2 sm.",
+"m": "Kilometer und Minuten, nicht Meter und Sekunden."
+},
+"sks:see2-144": {
+"e": "Bei Hartruder dreht der Bug, das Heck schlägt zur Gegenseite aus. Das Schiff läuft noch mehrere Schiffslängen auf der alten Kurslinie weiter, bei 300 m langen Schiffen etwa 500 bis 600 m.",
+"m": "Große Schiffe weichen erst spät sichtbar aus."
+},
+"sks:see2-145": {
+"e": "Vor vielen großen Schiffen ist ein Bereich bis zu 2 Schiffslängen oder 500 m von der Brücke aus nicht einsehbar.",
+"m": "Vor dem Bug bist du unsichtbar."
+},
+"sks:see2-146": {
+"e": "Ein hoch und fest angebrachter passiver Radarreflektor, besser noch ein aktiver, erhöht die Chance, im Radar gesehen zu werden.",
+"m": "Hoch hängen, besser aktiv."
+},
+"sks:see2-15": {
+"e": "Mehrere Anker braucht man als Ersatz, zum Verwarpen oder Verkatten, für unterschiedliche Ankergründe und um bei schwerem Wetter oder im Tidengewässer vor zwei Ankern zu liegen.",
+"m": "Ersatz, Warpen, Grund, zwei Anker."
+},
+"sks:see2-16": {
+"e": "Mindestens vier Festmacherleinen und vier Fender gehören an Bord.",
+"m": "Vier und vier."
+},
+"sks:see2-17": {
+"e": "Außerdem braucht man Reservetauwerk, eine Wurfleine, eine Schlepptrosse und eine Ankerleine.",
+"m": "Reserve, Wurf, Schlepp, Anker."
+},
+"sks:see2-18": {
+"e": "Amtliche Informationen zu Ausrüstung und Sicherheit stehen in „Sicherheit im See- und Küstenbereich“ (BSH) und „Sicherheit auf dem Wasser“ (Verkehrsministerium). Sie werden auch bei Unfällen herangezogen.",
+"m": "Zwei Sicherheitsbroschüren."
+},
+"sks:see2-19": {
+"e": "Handlenzpumpen funktionieren auch bei Strom- oder Motorausfall.",
+"m": "Hand geht immer."
+},
+"sks:see2-2": {
+"e": "Gleiter sind flach und breit und heben sich bei höherer Geschwindigkeit auf glattem Wasser aus dem Wasser. Im Seegang schlagen sie hart auf, das belastet die Konstruktion.",
+"m": "Gleiter: schnell auf glattem Wasser, hart im Seegang."
+},
+"sks:see2-20": {
+"e": "Flüssiggas ist schwerer als Luft, sammelt sich unten in der Bilge und bildet mit Luft ein explosives Gemisch.",
+"m": "Gas sinkt und knallt."
+},
+"sks:see2-21": {
+"e": "Ein Bord-WC hat Seeventil mit Spülwasserschlauch, Handpumpe, einen Hebel zum Unterbrechen der Seewasserzufuhr und den Abwasserschlauch (über den Fäkalientank) zum Seeventil.",
+"m": "Zulauf, Pumpe, Hebel, Ablauf."
+},
+"sks:see2-22": {
+"e": "Bord-WC: Spülventil öffnen, kräftig pumpen und spülen, Seewasserzufuhr per Hebel unterbrechen, Becken leer pumpen, Seeventile schließen.",
+"m": "Auf, spülen, umlegen, leerpumpen, zu."
+},
+"sks:see2-23": {
+"e": "Stabilität ist die Eigenschaft eines Schiffs, aufrecht zu schwimmen und sich aus der Krängung wieder aufzurichten.",
+"m": "Aufrecht schwimmen, wieder hochkommen."
+},
+"sks:see2-24": {
+"e": "Die Stabilität hängt von der Form und der Gewichtsverteilung ab. Beansprucht wird sie durch Seitenwind, Trossenzug oder enge Kurven schneller Motoryachten.",
+"m": "Form und Gewicht gegen Wind, Zug und Kurven."
+},
+"sks:see2-25": {
+"e": "In schwerem Wetter hängt die Stabilität zusätzlich von Wind und Seegang ab, besonders von brechenden Wellen.",
+"m": "Brecher sind die größte Gefahr."
+},
+"sks:see2-26": {
+"e": "Im Formschwerpunkt F greift der Auftrieb nach oben an, im Massenschwerpunkt G die Gewichtskraft nach unten.",
+"m": "F drückt hoch, G zieht runter."
+},
+"sks:see2-27": {
+"e": "Krängt das Schiff, taucht die geneigte Seite tiefer ein, und der Formschwerpunkt wandert dorthin. Auftrieb und Gewicht greifen versetzt an und bilden ein aufrichtendes Moment: Gewicht mal Hebelarm.",
+"m": "F wandert zur Seite, das Boot richtet sich auf."
+},
+"sks:see2-28": {
+"e": "Trimm ist der Unterschied zwischen vorderem und achterem Tiefgang.",
+"m": "Vorne tiefer oder hinten tiefer."
+},
+"sks:see2-29": {
+"e": "Liegt eine Yacht vorn tiefer, ist sie vorlich getrimmt, hinten tiefer achterlich, gleich tief auf ebenem Kiel.",
+"m": "Vorlich, achterlich, eben."
+},
+"sks:see2-3": {
+"e": "Verdränger werden nur vom Auftrieb getragen. Ihre Geschwindigkeit ist durch die Rumpfgeschwindigkeit begrenzt.",
+"m": "Verdränger: getragen, nicht gleitend."
+},
+"sks:see2-30": {
+"e": "Die Rumpfgeschwindigkeit ist die rechnerische Höchstfahrt eines Verdrängers. Sie hängt von der Wasserlinienlänge ab: je länger, desto schneller.",
+"m": "Länge läuft."
+},
+"sks:see2-31": {
+"e": "Diesel ist weniger feuergefährlich als Benzin, und der Dieselmotor verbraucht weniger.",
+"m": "Sicherer und sparsamer."
+},
+"sks:see2-32": {
+"e": "Benzindämpfe bergen Explosions- und Brandgefahr, die Zündanlage ist feuchtigkeitsempfindlich, und der Benziner verbraucht mehr.",
+"m": "Explosiv, feuchteempfindlich, durstig."
+},
+"sks:see2-33": {
+"e": "Das Wendegetriebe kuppelt den Propeller ein und aus, schaltet auf Rückwärts um und untersetzt die Drehzahl.",
+"m": "Kuppeln, umsteuern, untersetzen."
+},
+"sks:see2-34": {
+"e": "Bei der Einhebelschaltung bedient ein Hebel Gas und Getriebe zugleich, bei der Zweihebelschaltung gibt es getrennte Hebel.",
+"m": "Ein Hebel für alles oder zwei getrennt."
+},
+"sks:see2-35": {
+"e": "Die Zweikreiskühlung hat einen geschlossenen Süßwasserkreislauf durch den Motor und einen offenen Seewasserkreislauf. Beide verbindet ein thermostatgeregelter Wärmetauscher.",
+"m": "Süßwasser innen, Seewasser außen, Wärmetauscher dazwischen."
+},
+"sks:see2-36": {
+"e": "Im geschlossenen Süßwasserkreislauf kann man Frostschutz zugeben, Ablagerungen werden vermieden, und das Thermostat bringt den Motor schnell auf konstante Betriebstemperatur.",
+"m": "Kein Salz im Motor, schnell warm."
+},
+"sks:see2-37": {
+"e": "Nach dem Anlassen prüft man Kühlwasserdurchlauf, Öldruck und Ladung, Motorgeräusche und Abgase.",
+"m": "Wasser raus, Lampen aus, Klang und Rauch ok."
+},
+"sks:see2-38": {
+"e": "Erste Störungsanzeichen sind ungewohnte Geräusche, Vibrationen, verfärbte Abgase und leuchtende Lade- oder Öldruckkontrolle mit Warnton.",
+"m": "Hören, fühlen, sehen."
+},
+"sks:see2-39": {
+"e": "Startet der Diesel nicht, prüft man Tankfüllung, Absperrhahn, Schläuche, Filter und Kraftstoffpumpe.",
+"m": "Sprit, Hahn, Schlauch, Filter, Pumpe."
+},
+"sks:see2-4": {
+"e": "Halbgleiter haben wenig Tiefgang, sind sehr formstabil und fahren mit starker Motorisierung schnell.",
+"m": "Dazwischen: halb getragen, halb gleitend."
+},
+"sks:see2-40": {
+"e": "Startet der Benziner nicht, prüft man Tankfüllung, Absperrhahn, Schläuche, Filter, Pumpe und zusätzlich den Vergaser.",
+"m": "Wie Diesel plus Vergaser."
+},
+"sks:see2-41": {
+"e": "Zu wenig Öldruck kann von verstopftem Ölsieb oder Filter, zu wenig Öl, defekter Pumpe, defektem Druckventil oder einer defekten Anzeige kommen.",
+"m": "Sieb, Stand, Filter, Pumpe, Ventil, Anzeige."
+},
+"sks:see2-42": {
+"e": "Leuchtet die Ladekontrolle im Betrieb, sind Kabel unterbrochen, der Keilriemen der Lichtmaschine defekt oder Regler oder Lichtmaschine kaputt.",
+"m": "Kabel, Keilriemen, Lichtmaschine."
+},
+"sks:see2-43": {
+"e": "Schwarzer Rauch zeigt unvollständige Verbrennung: kalter Motor, verschmutzter Luftfilter, schlechter Kraftstoff, verstellte Einspritzpumpe oder Überlastung.",
+"m": "Schwarz = zu viel Sprit, zu wenig Luft."
+},
+"sks:see2-44": {
+"e": "Weißer Rauch ist verdampfendes Wasser: Kondensat bei kaltem Motor, ein gerissener Zylinderkopf oder eine defekte Kopfdichtung.",
+"m": "Weiß = Wasser."
+},
+"sks:see2-45": {
+"e": "Beim Tanken: Maschine aus, kein Feuer, keine Schalter, alle Öffnungen zu und tragbare Tanks möglichst außerhalb des Boots füllen.",
+"m": "Aus, kein Funke, Luken zu, Kanister draußen füllen."
+},
+"sks:see2-46": {
+"e": "Vor dem Dieselstart: Hauptschalter ein, Kraftstoff- und Kühlwasserventile auf, Getriebe neutral, Kühlwasser prüfen.",
+"m": "Strom, Ventile, Leerlauf, Kühlwasser."
+},
+"sks:see2-47": {
+"e": "Vor dem Benzinstart zusätzlich: Motorraum und Bilge entlüften, damit sich keine Benzindämpfe entzünden.",
+"m": "Beim Benziner erst lüften."
+},
+"sks:see2-48": {
+"e": "Im Betrieb kontrolliert man Öldruck und -temperatur, Kühlwassertemperatur, Drehzahl und Ladung und achtet auf Geräusche, Vibrationen und Abgasfarbe.",
+"m": "Anzeigen, Ohren, Rauch."
+},
+"sks:see2-49": {
+"e": "Nach dem Abstellen: Kraftstoffventil zu, Hauptschalter aus, Seeventile schließen.",
+"m": "Sprit zu, Strom aus, Ventile zu."
+},
+"sks:see2-5": {
+"e": "Gelcoat ist die äußere Schutzschicht eines GFK-Bauteils.",
+"m": "Gelcoat = Außenhaut aus Kunstharz."
+},
+"sks:see2-50": {
+"e": "Beim Saildrive verstopfen oft Folien oder Pflanzen den Kühlwassereinlass. Mehrmals abwechselnd vor- und zurückfahren löst sie meist.",
+"m": "Vor, zurück, vor: Einlass frei."
+},
+"sks:see2-51": {
+"e": "Blauer Rauch zeigt verbrennendes Schmieröl: beim Zweitakter ein zu öliges Gemisch, beim Viertakter zu viel Öl oder defekte Kolben- bzw. Ölabstreifringe.",
+"m": "Blau = Öl verbrennt."
+},
+"sks:see2-52": {
+"e": "Beim Ottomotor zündet eine Zündkerze das Benzin-Luft-Gemisch (Fremdzündung). Beim Diesel erhitzt starke Verdichtung die Luft so, dass sich der eingespritzte Kraftstoff selbst entzündet.",
+"m": "Otto: Funke. Diesel: Druck."
+},
+"sks:see2-53": {
+"e": "Fährt man den Diesel leer, gelangt Luft in Pumpe und Leitungen. Er springt dann nach dem Tanken nicht an, bis man entlüftet hat. Außerdem können Ablagerungen und Kondenswasser stören.",
+"m": "Diesel nie leerfahren."
+},
+"sks:see2-54": {
+"e": "Fällt die Drehzahl plötzlich ab und geht der Motor beim Gaswegnehmen aus, hat sich wahrscheinlich etwas im Propeller verfangen, etwa eine Leine oder Plane.",
+"m": "Plötzlich schwer: Propeller blockiert."
+},
+"sks:see2-55": {
+"e": "Batterien werden an Bord zum Starten und für das Bordnetz gebraucht.",
+"m": "Starter und Verbraucher."
+},
+"sks:see2-56": {
+"e": "Beim Laden können Batterien Gas abgeben. Batteriekästen und -räume müssen deshalb gut be- und entlüftet sein.",
+"m": "Laden heißt lüften."
+},
+"sks:see2-57": {
+"e": "2 × 60 Ah sind zwei Batterien mit zusammen 120 Ah Nennkapazität. Weil man sie kaum über 80 % lädt und nicht ganz entladen sollte, stehen netto etwa 72 Ah zur Verfügung.",
+"m": "120 Ah nominell, etwa 72 Ah nutzbar."
+},
+"sks:see2-58": {
+"e": "Strom = Leistung durch Spannung: 24 W / 12 V = 2 A. Zwei Verbraucher mal 10 Stunden: 2 × 2 A × 10 h = 40 Ah.",
+"m": "Watt durch Volt = Ampere, mal Stunden."
+},
+"sks:see2-59": {
+"e": "Kolbenfresser drohen bei Kühlwassermangel, Dampfblasen, zu hoher Temperatur, zu niedrigem oder fallendem Öldruck, falschem oder zu wenig Öl, fallender Drehzahl, zitternder Drehzahlnadel und klopfenden Geräuschen.",
+"m": "Zu heiß, zu wenig Öl: Motor frisst."
+},
+"sks:see2-6": {
+"e": "Beim Sandwichverfahren wird zwischen zwei GFK-Schichten eine Zwischenlage, zum Beispiel Balsaholz, einlaminiert.",
+"m": "GFK, Kern, GFK wie ein Sandwich."
+},
+"sks:see2-60": {
+"e": "Festmacher, Ankerleinen und Schlepptrossen müssen bruchfest und elastisch sein, damit sie Rucke abfedern.",
+"m": "Stark und federnd."
+},
+"sks:see2-61": {
+"e": "Gegen Schamfilen zieht man einen gesicherten Plastikschlauch oder notfalls Tuchstreifen über die Scheuerstelle der Leine.",
+"m": "Scheuerschutz drüber."
+},
+"sks:see2-62": {
+"e": "Knoten schwächen eine Leine, bis zu 50 % Festigkeitsverlust.",
+"m": "Knoten halbiert die Kraft."
+},
+"sks:see2-63": {
+"e": "Ein genähter Takling verhindert, dass bei Kern-Mantel-Tauwerk die Seele in den Mantel rutscht.",
+"m": "Genähter Takling."
+},
+"sks:see2-64": {
+"e": "Längsseits macht man mit Vorleine, Vorspring, Achterspring und Achterleine fest.",
+"m": "Zwei Leinen, zwei Springs."
+},
+"sks:see2-66": {
+"e": "Antifouling ist giftig. Abgespritzt wird nur auf einem Reinigungsplatz, der Wasser und Schmutz auffängt, nicht in die Kanalisation.",
+"m": "Nur auf dem Waschplatz mit Auffang."
+},
+"sks:see2-67": {
+"e": "Häufigste Ursache sind schlechte Kontakte und Korrosion. Kontakte festziehen, Korrosion mit feinem Schleifpapier entfernen und Kontaktspray nutzen.",
+"m": "Salz frisst Kontakte."
+},
+"sks:see2-68": {
+"e": "Ist das Gelcoat beschädigt, zieht das Laminat darunter Wasser und wird geschädigt. Deshalb sofort ausbessern.",
+"m": "Kratzer im Gelcoat: Wasser kommt rein."
+},
+"sks:see2-69": {
+"e": "Ins Logbuch gehören mindestens Namen und Funktionen der Crew, Beginn und Ende der Fahrt und regelmäßig Position, Kurs, Geschwindigkeit, Strömung, Wetter und Luftdruck.",
+"m": "Wer, wann, und regelmäßig wo und wie."
+},
+"sks:see2-7": {
+"e": "Sandwichbau ist steif und verwindungsfest, leicht und isoliert gut.",
+"m": "Steif, leicht, warm."
+},
+"sks:see2-70": {
+"e": "Auch bei ruhigem Wetter trägt man nachts an Deck immer Weste und Gurt und geht nur eingepickt über Deck.",
+"m": "Nachts immer eingepickt."
+},
+"sks:see2-71": {
+"e": "Der Radeffekt ist das seitliche Versetzen des Hecks durch die drehende Schraube.",
+"m": "Die Schraube rollt das Heck zur Seite."
+},
+"sks:see2-72": {
+"e": "Propeller beschreibt man durch Flügelzahl, Flügelfläche, Durchmesser und Steigung.",
+"m": "Flügel, Fläche, Durchmesser, Steigung."
+},
+"sks:see2-73": {
+"e": "Rückwärts versetzt ein rechtsdrehender Propeller das Heck nach Backbord, ein linksdrehender nach Steuerbord.",
+"m": "Rechtsdreher rückwärts: Heck nach Backbord."
+},
+"sks:see2-74": {
+"e": "Bei Zweischraubern drehen die Propeller gegenläufig. Lässt man einen vorwärts und einen rückwärts laufen, dreht das Boot fast auf der Stelle.",
+"m": "Einer vor, einer zurück: drehen auf dem Teller."
+},
+"sks:see2-75": {
+"e": "Weil die Propeller gegenläufig drehen, heben sich ihre Radeffekte auf.",
+"m": "Zwei Radeffekte gegeneinander: null."
+},
+"sks:see2-76": {
+"e": "Ein Bugstrahlruder ist ein Propeller in einer Querröhre im Bug. Es schiebt den Bug bei wenig Fahrt seitlich.",
+"m": "Querschub am Bug."
+},
+"sks:see2-77": {
+"e": "Den Außenfahrstand besetzt man bei schlechter Sicht, um Schallsignale zu hören, und bei Manövern in engen Gewässern für bessere Rundumsicht.",
+"m": "Draußen hört und sieht man mehr."
+},
+"sks:see2-78": {
+"e": "Eine Hahnepot verteilt den Zug der Schleppleine auf mehrere Belegpunkte, zum Beispiel die kräftigen Springklampen auf beiden Seiten.",
+"m": "Last verteilen statt eine Klampe ausreißen."
+},
+"sks:see2-79": {
+"e": "Achterleinen bekommen ein Auge, zum Beispiel einen Palstek, und werden möglichst früh über die Pfähle gelegt, bei Seitenwind zuerst über den Luvpfahl.",
+"m": "Auge rein, früh über den Luvpfahl."
+},
+"sks:see2-8": {
+"e": "Stahl ist sehr fest, zuverlässig und langlebig, aber schwer und rostanfällig.",
+"m": "Stark, aber schwer und rostig."
+},
+"sks:see2-80": {
+"e": "Vor dem Anlegen teilt man die Crew ein und legt Leinen und Fender bereit.",
+"m": "Leute, Leinen, Fender."
+},
+"sks:see2-81": {
+"e": "Drehen über Steuerbord auf engem Raum: Ruder hart Steuerbord, Steuerbordmaschine rückwärts, Backbordmaschine voraus.",
+"m": "Innen rückwärts, außen vorwärts."
+},
+"sks:see2-82": {
+"e": "Das Bugstrahlruder hilft beim An- und Ablegen und beim Drehen auf engem Raum.",
+"m": "Hafenmanöver."
+},
+"sks:see2-83": {
+"e": "Mit Steuerbordseite an der Pier: Bugstrahlruder nach Backbord, gleichzeitig Ruder hart Steuerbord und langsam voraus. Der Bug geht weg, das Heck schwenkt auch weg, und das Boot löst sich fast parallel.",
+"m": "Bug weg mit Strahl, Heck weg mit Ruder und Schraube."
+},
+"sks:see2-84": {
+"e": "Bei auflandigem Starkwind drohen vor Häfen Grund- und Kreuzseen und Querstrom. Das Einlaufen kann gefährlich werden.",
+"m": "Hafen bei Sturm: Brecher vor der Einfahrt."
+},
+"sks:see2-85": {
+"e": "Überrascht ein Sturm eine Motoryacht nahe der Küste, läuft man möglichst schnell einen Hafen oder Landschutz an, hält sonst mit langsamer Fahrt gegen die See und sichert die Crew.",
+"m": "Schutz suchen, sonst langsam gegenan."
+},
+"sks:see2-86": {
+"e": "Im Tidengewässer muss die Tiefe auch bei Niedrigwasser reichen oder sicheres Aufsetzen möglich sein, und die Leinen müssen lang genug für Steigen und Fallen sein. Bei großem Tidenhub bleibt man an Bord.",
+"m": "Tiefe bei NW, Leinen lang genug, aufpassen."
+},
+"sks:see2-87": {
+"e": "Setzt der Strom gegen den Wind, wird die See kurz, steil und kabbelig.",
+"m": "Wind gegen Strom: Waschbrett."
+},
+"sks:see2-88": {
+"e": "Mitlaufender Strom erhöht die Fahrt über Grund. Das Log misst nur die Fahrt durchs Wasser und zeigt das nicht.",
+"m": "Strom schiebt, Log merkt nichts."
+},
+"sks:see2-89": {
+"e": "Bei schwerer See schlägt ein Motorboot am wenigsten hart auf, wenn es in einem Winkel von 20 bis 25° zur Seegangsrichtung fährt.",
+"m": "Schräg gegen die See, 20 bis 25 Grad."
+},
+"sks:see2-9": {
+"e": "Mit der CE-Kategorie legt der Hersteller fest, in welchem Fahrgebiet, bis zu welcher Windstärke und welcher Wellenhöhe das Boot sicher betrieben werden kann.",
+"m": "Kategorie: wo, wie viel Wind, wie viel Welle."
+},
+"sks:see2-90": {
+"e": "Eine Person holt man auf einer Motoryacht mit gesicherter Badeleiter, beschwerter Trittschlinge, Rettungstalje oder Bergegurt an Bord.",
+"m": "Leiter, Schlinge, Talje, Gurt."
+},
+"sks:see2-91": {
+"e": "Sofort: „Mensch über Bord!“ rufen, Rettungsmittel zuwerfen, Person im Auge behalten, Maschine starten, Manöver einleiten, Notmeldung, Blitzboje, MOB-Taste, dann bergen.",
+"m": "Rufen, werfen, zeigen, Motor, Manöver, melden."
+},
+"sks:see2-92": {
+"e": "Gegen Überbordfallen: Sicherheitsgurt anlegen und einpicken, Strecktaue vom Bug zum Heck spannen, Crew die Einpickpunkte zeigen.",
+"m": "Gurt, Strecktau, Einpickpunkte."
+},
+"sks:see2-93": {
+"e": "Schritte der Rettung: Maschine starten, Sichtkontakt halten, Manöver mit erster Leinenverbindung, sichere Bergung, Erste Hilfe und Betreuung, gegebenenfalls Notalarm.",
+"m": "Motor, sehen, ran, rauf, versorgen, melden."
+},
+"sks:see2-94": {
+"e": "Den Bezugspunkt für die Suche sichert man mit einer Markierungsblitzboje und der MOB-Taste des GPS.",
+"m": "Blitzboje und MOB-Taste."
+},
+"sks:see2-95": {
+"e": "Zur Sicherheitsausrüstung einer 10-m-Yacht gehören unter anderem Lenzpumpen und Pützen, Lecksicherung, Feuerlöscher, Werkzeug, Seenotsignale, Handlampen, Funk, Anker, Erste Hilfe, Radarreflektor und Rettungsmittel.",
+"m": "Pumpen, Leck, Feuer, Signale, Funk, Anker, Erste Hilfe."
+},
+"sks:see2-96": {
+"e": "Für die Crew gehören an Bord: Weste und Lifebelt für jeden, Rettungsinsel, Rettungskragen mit Tag- und Nachtsignal und Erste-Hilfe-Ausrüstung mit Anleitung.",
+"m": "Weste, Gurt, Insel, Kragen, Erste Hilfe."
+},
+"sks:see2-97": {
+"e": "Das nächste Wartungsdatum der Rettungsinsel steht auf der farbigen Serviceplakette oder im Wartungszertifikat.",
+"m": "Plakette auf der Insel."
+},
+"sks:see2-98": {
+"e": "Automatikwesten müssen regelmäßig gewartet werden. Die Fälligkeit zeigt die farbige Serviceplakette.",
+"m": "Plakette prüfen."
+},
+"sks:see2-99": {
+"e": "Ein Strecktau ist ein straff gespannter Draht, Gurt oder eine Leine vom Cockpit zum Vorschiff, an dem man sich mit dem Lifebelt einpickt.",
+"m": "Laufleine zum Einpicken."
+},
+"sks:wetter-1": {
+"e": "Wind ist bewegte Luft. Sie strömt wegen der Druckunterschiede vom Hoch zum Tief.",
+"m": "Luft will vom Hoch ins Tief."
+},
+"sks:wetter-10": {
+"e": "Orkanwarnungen gibt es ab Windstärke 10. Die Böen liegen dann erfahrungsgemäß über Bft 12.",
+"m": "Ab 10: Orkanwarnung."
+},
+"sks:wetter-100": {
+"e": "Den Luftdruck misst man mit dem Barometer oder schreibt ihn mit dem Barografen auf.",
+"m": "Barometer oder Barograf."
+},
+"sks:wetter-101": {
+"e": "Ohne Messanlage schätzt man die Windstärke mit der Beaufortskala nach dem Seegangsbild und die Richtung nach der Laufrichtung der Wellenkämme.",
+"m": "Stärke am Seegang, Richtung an den Kämmen."
+},
+"sks:wetter-11": {
+"e": "Geschätzt wird mit der 12-teiligen Beaufortskala. Mäßiger Wind ist Stärke 4, Starkwind Stärke 6 und 7.",
+"m": "4 mäßig, 6–7 stark."
+},
+"sks:wetter-12": {
+"e": "Sendezeiten und Frequenzen für Europa stehen im „Handbuch Nautischer Funkdienst“ und im „Jachtfunkdienst“, weltweit in der „Admiralty List of Radio Signals“.",
+"m": "Europa: Handbuch und Jachtfunk. Weltweit: Admiralty."
+},
+"sks:wetter-13": {
+"e": "Wetter bekommt man über Rundfunk, Küstenfunkstellen, Verkehrszentralen, NAVTEX, SafetyNet, Online-Dienste, Funkfernschreiben, Wetterfax, Telefonabruf oder Törnberatung.",
+"m": "Radio, Funk, NAVTEX, Internet, Fax, Telefon."
+},
+"sks:wetter-14": {
+"e": "Ein Halo um Sonne oder Mond entsteht in dünnen Eiswolken (Cirrostratus), die oft einer Warmfront vorausziehen. Er kündigt Niederschlag und Wetterverschlechterung an.",
+"m": "Ring um Sonne oder Mond: Regen im Anmarsch."
+},
+"sks:wetter-15": {
+"e": "Haufenwolken bringen Böen, besonders der Cumulonimbus, die Schauer- und Gewitterwolke.",
+"m": "Hohe Haufen, harte Böen."
+},
+"sks:wetter-16": {
+"e": "Man unterscheidet Haufen- und Schichtwolken. Die zehn Haupttypen sind Cirrus, Cirrostratus, Cirrocumulus, Altostratus, Altocumulus, Nimbostratus, Stratocumulus, Stratus, Cumulus und Cumulonimbus.",
+"m": "Cirro hoch, Alto mittel, ohne Vorsilbe tief."
+},
+"sks:wetter-17": {
+"e": "Tiefe Wolken liegen bei 0 bis 2 km, mittelhohe bei 2 bis 7 km, hohe bei 7 bis 13 km.",
+"m": "2, 7, 13 Kilometer."
+},
+"sks:wetter-18": {
+"e": "Hohe Wolken bestehen aus kleinen Eiskristallen, weil es dort sehr kalt ist.",
+"m": "Oben ist Eis."
+},
+"sks:wetter-19": {
+"e": "Ein kräftiges Gewitter erkennt man am Cumulonimbus mit ambossförmigem Schirm in großer Höhe.",
+"m": "Amboss oben: Gewitter."
+},
+"sks:wetter-2": {
+"e": "Der Taupunkt ist die Temperatur, bei der abgekühlte Luft mit Feuchtigkeit gesättigt ist. Darunter kondensiert Wasser: Tau, Nebel, Wolken.",
+"m": "Taupunkt: Ab hier wird's nass."
+},
+"sks:wetter-20": {
+"e": "Altocumulus castellanus, mittelhohe Wolken mit Türmchen wie eine Burg, kündigen oft schon vormittags Wärmegewitter an.",
+"m": "Burgtürmchen am Morgen: Gewitter am Nachmittag."
+},
+"sks:wetter-21": {
+"e": "Auf der Nordhalbkugel weht der Wind rechtsherum aus dem Hoch heraus und linksherum ins Tief hinein.",
+"m": "Hoch rechtsrum raus, Tief linksrum rein."
+},
+"sks:wetter-22": {
+"e": "Eine Front ist die vordere Grenze einer Luftmasse. Man unterscheidet Warm-, Kalt- und Okklusionsfront.",
+"m": "Warm, kalt, okkludiert."
+},
+"sks:wetter-23": {
+"e": "Vor der Kaltfront bleibt der Druck gleich oder fällt wenig, beim Durchgang ist er am tiefsten, danach steigt er deutlich.",
+"m": "Tiefpunkt beim Durchgang, danach geht's rauf."
+},
+"sks:wetter-24": {
+"e": "Isobaren zeigen Windrichtung und Druckgefälle. Je enger sie liegen, desto stärker der Wind.",
+"m": "Eng = windig."
+},
+"sks:wetter-25": {
+"e": "Am Boden bremst die Reibung den Wind, er dreht dadurch gegen den Uhrzeigersinn (rückgedreht) und weht schräg zu den Isobaren.",
+"m": "Reibung lenkt den Wind ab."
+},
+"sks:wetter-26": {
+"e": "Über See weht der Wind ums Tief rückgedreht etwa 10° bis 20° schräg zu den Isobaren ins Tief hinein.",
+"m": "Ins Tief hinein, 10 bis 20 Grad schräg."
+},
+"sks:wetter-27": {
+"e": "Ums Hoch weht der Wind über See rückgedreht etwa 10° bis 20° schräg aus dem Hoch heraus.",
+"m": "Aus dem Hoch heraus, 10 bis 20 Grad schräg."
+},
+"sks:wetter-28": {
+"e": "Schnelle Tiefs ziehen mit 30 bis 50 kn, mittlere mit 15 bis 30 kn, langsame bis 15 kn.",
+"m": "15, 30, 50."
+},
+"sks:wetter-29": {
+"e": "Tiefs entstehen, wo kalte Luft aus hohen Breiten auf warme subtropische Luft trifft.",
+"m": "Kalt trifft warm."
+},
+"sks:wetter-3": {
+"e": "Die Luftfeuchtigkeit gibt man als relative Feuchte in Prozent an.",
+"m": "Relative Feuchte in Prozent."
+},
+"sks:wetter-30": {
+"e": "Im Zentrum eines Hochs weht meist nur schwacher, umlaufender Wind.",
+"m": "Im Hoch ist Flaute."
+},
+"sks:wetter-31": {
+"e": "Isobaren werden international im Abstand von 5 hPa gezeichnet.",
+"m": "Alle 5 hPa eine Linie."
+},
+"sks:wetter-32": {
+"e": "Vor der Warmfront: bedeckt, Dauerregen, schlechte Sicht. Im Warmsektor: diesig, aufgelockert, zeitweise Regen. Hinter der Kaltfront: gute Sicht, aber Schauer mit kräftigen Böen.",
+"m": "Grau und Regen, dann diesig, dann klar mit Schauern."
+},
+"sks:wetter-33": {
+"e": "Auf der Nordhalbkugel weht der Wind linksherum ins Tief. Daraus ergeben sich an den Punkten der Skizze Nordost, Süd, Südwest, Nordwest und im Zentrum umlaufender Wind.",
+"m": "Gegen den Uhrzeiger ums Tief."
+},
+"sks:wetter-34": {
+"e": "In der Abbildung ist 1 die Okklusion (der Ausläufer), 2 die Warmfront und 3 die Kaltfront.",
+"m": "Okklusion vorne, dann warm, dann kalt."
+},
+"sks:wetter-35": {
+"e": "Luftmassengrenzen sind Fronten. Sie trennen Luft unterschiedlicher Temperatur und Feuchte: Kaltfront, Warmfront, Okklusion.",
+"m": "Fronten trennen Luftmassen."
+},
+"sks:wetter-36": {
+"e": "Im Mittelmeer muss man vor allem mit der Land-Seewind-Zirkulation rechnen.",
+"m": "Tags Seewind, nachts Landwind."
+},
+"sks:wetter-37": {
+"e": "Wichtige regionale Winde im Mittelmeer sind Mistral, Scirocco, Bora und Etesien (Meltemi).",
+"m": "Mistral, Scirocco, Bora, Meltemi."
+},
+"sks:wetter-38": {
+"e": "In der Adria muss man mit der Bora rechnen, einem kalten, sehr böigen Fallwind.",
+"m": "Adria: Bora."
+},
+"sks:wetter-39": {
+"e": "In der Ägäis wehen im Sommer die Etesien, der Meltemi.",
+"m": "Ägäis: Meltemi."
+},
+"sks:wetter-4": {
+"e": "Eine Wetterbeobachtung an Bord umfasst Windrichtung und -stärke, Luftdruck, Wetter, Bedeckung, Wolken, Seegang, Strom, Temperatur und gegebenenfalls Luftfeuchte.",
+"m": "Wind, Druck, Himmel, See, Temperatur."
+},
+"sks:wetter-40": {
+"e": "Tröge bilden sich auf der Rückseite von Tiefs in hochreichender Kaltluft und folgen meist einer Kaltfront.",
+"m": "Trog kommt nach der Kaltfront."
+},
+"sks:wetter-41": {
+"e": "Die Okklusion wird auch „Ausläufer“ genannt.",
+"m": "Ausläufer = Okklusion."
+},
+"sks:wetter-42": {
+"e": "Tagsüber erwärmt sich das Land stärker als das Wasser. Warme Luft steigt über Land auf, und kühlere Luft strömt von See nach: Seewind.",
+"m": "Tags heißes Land saugt die Seeluft an."
+},
+"sks:wetter-43": {
+"e": "Haufenwolken (Cumulus) über Land am späten Vormittag zeigen aufsteigende Luft und kündigen Seewind an.",
+"m": "Cumulus über Land: Seewind kommt."
+},
+"sks:wetter-44": {
+"e": "Seewind erreicht im Mittelmeer bis etwa 25 kn (Bft 6), in Nord- und Ostsee meist bis 15 kn, selten bis 20 kn (Bft 4–5, selten 5–6).",
+"m": "Mittelmeer stärker als Nord- und Ostsee."
+},
+"sks:wetter-45": {
+"e": "Seewind weht von Mittag bis zum frühen Abend.",
+"m": "Mittags bis abends."
+},
+"sks:wetter-46": {
+"e": "Setzt Seewind ein, kann er den bisherigen Wind in Richtung und Stärke erheblich verändern.",
+"m": "Seewind mischt das Windbild auf."
+},
+"sks:wetter-47": {
+"e": "Nachts kühlt das Land stark ab, das Wasser kaum. Über dem wärmeren Wasser steigt Luft auf, und vom Land strömt Luft nach: Landwind.",
+"m": "Nachts ist das Wasser wärmer."
+},
+"sks:wetter-48": {
+"e": "Landwind ist schwächer als Seewind, etwa 1 bis 10 kn, Bft 1 bis 3.",
+"m": "Landwind ist schwach."
+},
+"sks:wetter-49": {
+"e": "Landwind weht von Mitternacht bis zum frühen Morgen.",
+"m": "Nachts bis früh."
+},
+"sks:wetter-5": {
+"e": "Die Windstärke gibt man in Beaufort an, die Windgeschwindigkeit in Knoten, m/s oder km/h.",
+"m": "Stärke in Bft, Tempo in kn, m/s, km/h."
+},
+"sks:wetter-50": {
+"e": "Vorhergesagte Windgeschwindigkeiten gelten meist für etwa 10 m Höhe.",
+"m": "10 Meter über Wasser."
+},
+"sks:wetter-51": {
+"e": "Der wahre Wind hängt nicht vom eigenen Kurs ab. Anluven ändert nur den scheinbaren Wind, die wahre Windgeschwindigkeit bleibt gleich.",
+"m": "Dein Kurs ändert den wahren Wind nicht."
+},
+"sks:wetter-52": {
+"e": "„Nordwest 6“ ist ein Mittelwert: Die Richtung kann um bis zu 45° schwanken (WNW bis NNW), Böen können 1 bis 2 Bft darüber liegen.",
+"m": "Plus minus eine Strichgruppe, Böen 1–2 Bft mehr."
+},
+"sks:wetter-53": {
+"e": "Schauerböen treten besonders beim Durchzug und auf der Rückseite von Kaltfronten nahe Schauern auf und können den Mittelwind um 2 Bft übersteigen.",
+"m": "Schauer bringt plus 2 Bft."
+},
+"sks:wetter-54": {
+"e": "Im Sommer können bei sonst schwachem Wind Gewitter mit Böen bis Sturm- oder Orkanstärke auftreten. Deshalb werden sie extra angegeben.",
+"m": "Schwacher Wind, aber Gewitter: Vorsicht!"
+},
+"sks:wetter-55": {
+"e": "Ein Seewetterbericht besteht aus Hinweisen auf Starkwind oder Sturm, Wetterlage, Vorhersagen, Aussichten und Stationsmeldungen.",
+"m": "Warnung, Lage, Vorhersage, Aussicht, Stationen."
+},
+"sks:wetter-56": {
+"e": "Lokale Effekte wie Land-Seewind, Düsen- und Kapeffekte kann der Seewetterbericht nur eingeschränkt berücksichtigen.",
+"m": "Lokales steht nicht im Bericht."
+},
+"sks:wetter-57": {
+"e": "Starkwindwarnungen gibt es bei erwarteten oder andauernden 6 bis 7 Bft. International heißen sie near-gale warning.",
+"m": "6–7 Bft = near gale."
+},
+"sks:wetter-58": {
+"e": "Sturmwarnungen gibt es ab erwarteten oder andauernden 8 Bft. International heißen sie gale warning.",
+"m": "Ab 8 Bft: gale."
+},
+"sks:wetter-59": {
+"e": "Seewetterberichte geben die kennzeichnende (charakteristische) Wellenhöhe an.",
+"m": "Kennzeichnende Wellenhöhe."
+},
+"sks:wetter-6": {
+"e": "Linien gleichen Luftdrucks heißen Isobaren. Den Druck misst man in Hektopascal, früher auch in Millibar (gleicher Zahlenwert).",
+"m": "Isobaren in hPa (= mbar)."
+},
+"sks:wetter-60": {
+"e": "Die kennzeichnende Wellenhöhe ist der Mittelwert des höchsten Drittels der Wellen. Einzelne Wellen können 1,5-mal so hoch werden.",
+"m": "Einzelwellen bis 1,5-fach."
+},
+"sks:wetter-61": {
+"e": "Rechtdrehend heißt, der Wind dreht im Uhrzeigersinn, zum Beispiel von Süd über West nach Nord. Rückdrehend heißt gegen den Uhrzeigersinn um mindestens 45°.",
+"m": "Rechts mit der Uhr, rück gegen die Uhr."
+},
+"sks:wetter-62": {
+"e": "Stationsmeldungen werden von der Umgebung der Station beeinflusst. Die Richtung kann verfälscht sein, die Geschwindigkeit ist meist geringer als auf See, selten höher.",
+"m": "An Land gemessen ist nicht auf See gemessen."
+},
+"sks:wetter-63": {
+"e": "„Diesig“ bedeutet Sichtweiten von über 1 km bis 10 km, etwa 0,5 bis 6 sm.",
+"m": "Diesig: 1 bis 10 km."
+},
+"sks:wetter-64": {
+"e": "Wo das Seegebiet „Fischer“ liegt, steht im Handbuch Nautischer Funkdienst, im Jachtfunkdienst für Nord- und Ostsee oder in der Admiralty List of Radio Signals.",
+"m": "Seegebiete: in den Funkhandbüchern."
+},
+"sks:wetter-65": {
+"e": "Mittlere Windverhältnisse eines fremden Reviers findet man in Hafen- und Revierführern und in Monatskarten.",
+"m": "Revierführer und Monatskarten."
+},
+"sks:wetter-66": {
+"e": "Fällt der Druck in 3 Stunden um 10 hPa, ist meist schwerer Sturm zu erwarten. Bei starkem Druckfall muss man Kurs und Fahrt im Verhältnis zum Tief bedenken.",
+"m": "10 hPa in 3 h: schwerer Sturm."
+},
+"sks:wetter-67": {
+"e": "Fährt man nach Westen auf ein ostwärts ziehendes Tief zu, nähert man sich ihm doppelt schnell. Der beobachtete Druckfall wird stärker.",
+"m": "Gegenkurs zum Tief: Druck fällt schneller."
+},
+"sks:wetter-68": {
+"e": "Bei ablandigem Wind liegt der Hafen im Windschatten. Draußen auf See weht es deutlich stärker als im Hafen.",
+"m": "Ablandig: Im Hafen täuscht die Ruhe."
+},
+"sks:wetter-69": {
+"e": "Bei auflandigem Wind in einem ungeschützten Hafen entspricht der Wind dort etwa dem auf freier See.",
+"m": "Auflandig: Was im Hafen weht, weht auch draußen."
+},
+"sks:wetter-7": {
+"e": "Gewitter bringen Böen bis Orkanstärke, plötzliche Winddrehungen, Regen oder Hagel mit schlechter Sicht und Blitzschlag.",
+"m": "Böen, Drehen, Hagel, Blitz."
+},
+"sks:wetter-70": {
+"e": "In engen Durchfahrten wird die Luft wie in einer Düse zusammengepresst und beschleunigt.",
+"m": "Düseneffekt."
+},
+"sks:wetter-71": {
+"e": "In Luv eines Kaps dreht der Wind oft parallel zur Küste und frischt auf. In Lee ist er meist schwach, kann bei hohen Bergen umlaufen und ist örtlich sehr böig durch Fallwinde.",
+"m": "Luv: stärker. Lee: schwach, aber böig."
+},
+"sks:wetter-72": {
+"e": "Bei auf- oder küstenparallelem Wind beschleunigt die Steilküste den Wind teilweise. Bei ablandigem Wind muss man mit umlaufenden Winden und Fallböen rechnen.",
+"m": "Steilküste: Beschleunigung oder Fallböen."
+},
+"sks:wetter-73": {
+"e": "Flaut der Wind abends langsam ab, bleibt das Wetter oft gut. Nimmt er abends zu, kündigt das häufig Starkwind, Sturm und Regen an.",
+"m": "Abends abflauend gut, abends zunehmend schlecht."
+},
+"sks:wetter-74": {
+"e": "Dreht der Wind nach einer Kaltfront zurück und fällt der Druck erneut, kommt meist deutliche Verschlechterung mit Wind bis Sturmstärke. Das nennt man Troglage.",
+"m": "Nach der Front nochmal runter: Trog."
+},
+"sks:wetter-75": {
+"e": "Beim Durchzug eines markanten Trogs dreht der Wind recht, meist um 60 bis 90°. Besonders auf der Rückseite kann er bis Orkanstärke wehen.",
+"m": "Trog: kräftiges Rechtsdrehen, hinten harte Böen."
+},
+"sks:wetter-76": {
+"e": "Nebel entsteht durch Feuchtezufuhr, durch Mischung feuchter Luftmassen unterschiedlicher Temperatur oder durch Abkühlung der Luft unter den Taupunkt.",
+"m": "Feucht plus kalt: Nebel."
+},
+"sks:wetter-77": {
+"e": "Nebel heißt: Sichtweite unter 1.000 m.",
+"m": "Unter 1 km."
+},
+"sks:wetter-78": {
+"e": "Kaltwassernebel entsteht, wenn warme, feuchte Luft über kaltes Wasser zieht und unter den Taupunkt abkühlt. In Europa vor allem im Frühjahr.",
+"m": "Warme Luft, kaltes Wasser: Frühjahr."
+},
+"sks:wetter-79": {
+"e": "Warmwassernebel entsteht, wenn kalte Luft über warmes Wasser strömt und Verdunstung sie sättigt. In Europa vor allem im Herbst.",
+"m": "Kalte Luft, warmes Wasser: Herbst."
+},
+"sks:wetter-8": {
+"e": "Besonders heftige Gewitter entstehen am Ende einer hochsommerlichen Schönwetterperiode mit einer Kaltfront.",
+"m": "Nach der Hitze kommt der Knall."
+},
+"sks:wetter-80": {
+"e": "Strahlungsnebel entsteht nach Sonnenuntergang bei klarem Himmel, wenn die bodennahe Luft über Land unter den Taupunkt abkühlt. Man trifft ihn auf Flüssen, in engen Durchfahrten und vor der Küste, wenn er hinausgeweht wird.",
+"m": "Klare Nacht über Land: Strahlungsnebel."
+},
+"sks:wetter-81": {
+"e": "Im Mittelmeer kann bei bestimmten Wetterlagen Saharastaub die Sicht stark verringern.",
+"m": "Saharastaub."
+},
+"sks:wetter-82": {
+"e": "Seegang besteht aus Windsee und Dünung.",
+"m": "Windsee plus Dünung."
+},
+"sks:wetter-83": {
+"e": "Windsee wird vom Wind vor Ort oder in der Nähe erzeugt.",
+"m": "Windsee: frisch gemacht."
+},
+"sks:wetter-84": {
+"e": "Wie hoch die Windsee wird, hängt von Windgeschwindigkeit, Fetch (Wirklänge) und Wirkdauer ab.",
+"m": "Stärke, Strecke, Dauer."
+},
+"sks:wetter-85": {
+"e": "Dünung ist Seegang, der dem Windfeld vorausläuft, oder alter, abklingender Seegang. Setzt plötzlich hohe Dünung ein, kann ein Sturm aufziehen.",
+"m": "Dünung ist der Bote des Sturms."
+},
+"sks:wetter-86": {
+"e": "Die Wellenhöhe ist der senkrechte Abstand zwischen Wellenberg und Wellental.",
+"m": "Berg bis Tal, senkrecht."
+},
+"sks:wetter-87": {
+"e": "Die Wellenlänge ist der waagerechte Abstand zwischen zwei Wellenbergen.",
+"m": "Berg bis Berg, waagerecht."
+},
+"sks:wetter-88": {
+"e": "Bei ablandigem Wind ist der Fetch an der Küste kurz, der Seegang bleibt niedriger als draußen.",
+"m": "Kurzer Anlauf, kleine Wellen."
+},
+"sks:wetter-89": {
+"e": "Bei auflandigem Wind ist der Seegang an der Küste ähnlich hoch wie draußen. Wo es flacher wird, drohen zusätzlich Brecher und Grundseen.",
+"m": "Auflandig: volle See, im Flachen Brecher."
+},
+"sks:wetter-9": {
+"e": "Vorhersagen nutzen die 8-teilige Windrose in 45°-Stufen, Stationsmeldungen die 16-teilige in 22,5°-Stufen.",
+"m": "Vorhersage grob (8), Meldung fein (16)."
+},
+"sks:wetter-90": {
+"e": "Grundseen sind besonders hohe Brecher, die über Untiefen oder ansteigendem Grund entstehen. Sie können etwa 2,5-mal so hoch werden wie die kennzeichnende Wellenhöhe.",
+"m": "Grundsee: bis 2,5-fach."
+},
+"sks:wetter-91": {
+"e": "Laufen Wind und Strom gegeneinander, werden die Wellen kürzer und steiler.",
+"m": "Gegeneinander: kurz und steil."
+},
+"sks:wetter-92": {
+"e": "Laufen Wind und Strom in dieselbe Richtung, werden die Wellen länger und flacher.",
+"m": "Miteinander: lang und flach."
+},
+"sks:wetter-93": {
+"e": "Kreuzsee entsteht, wenn Windsee und Dünung aus verschiedenen Richtungen kommen, etwa vor und beim Durchzug einer Kaltfront oder eines Trogs und nahe dem Tiefkern.",
+"m": "Wellen von zwei Seiten."
+},
+"sks:wetter-94": {
+"e": "In Lee kleiner Inseln laufen die Wellen um die Insel herum und kreuzen sich. Die See ist kurz und kabbelig.",
+"m": "Hinter der Insel: kabbelig."
+},
+"sks:wetter-95": {
+"e": "Wassertiefe sowie Meeres- und Gezeitenströme können Länge und Höhe des Seegangs stark verändern.",
+"m": "Tiefe und Strom formen die Wellen."
+},
+"sks:wetter-96": {
+"e": "Aus einer Dünungskarte kann man nicht auf den Wind schließen, denn Dünung gibt es auch ohne Wind vor Ort.",
+"m": "Dünung verrät den Wind nicht."
+},
+"sks:wetter-97": {
+"e": "Die Windgeschwindigkeit misst man mit dem Anemometer.",
+"m": "Anemometer."
+},
+"sks:wetter-98": {
+"e": "In Fahrt zeigt das Anemometer den scheinbaren Wind, also wahren Wind plus Fahrtwind.",
+"m": "An Bord: scheinbar."
+},
+"sks:wetter-99": {
+"e": "Wer den Luftdruck regelmäßig notiert, erkennt Trends wie einen nahenden Trog oder ein Tief. Man schreibt ihn mindestens alle 4 Stunden auf.",
+"m": "Alle 4 Stunden ins Logbuch."
+}
+}
+}
