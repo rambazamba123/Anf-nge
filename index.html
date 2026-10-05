@@ -8,9 +8,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <title>Skipper – SBF See</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --bg:#dfe9e6; --paper:#fbf6ec; --paper-edge:#e7dbc4; --ink:#2a2019; --muted:#6c5f52; --line:#e1d5bf;
@@ -500,7 +498,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.25';
+  window.__ver = '4.26';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1355,7 +1353,7 @@ const AUD = (() => {
     g.gain.value = 0; o.connect(g); g.connect(bus.sfx); const t = ctx.currentTime;
     g.gain.linearRampToValueAtTime(.12, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + .12); o.start(t); o.stop(t + .13);
   }
-  return {squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  return {files: FILES, squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>
@@ -1410,6 +1408,7 @@ const PACK = (() => {
         const r = await fetch('audio/stimmen/' + man[k]); if (!r.ok) return null; const b = await r.blob(); mem.set(k, b); return b; } catch (e) { return null; }
     },
     get size() { return man ? Object.keys(man).length : 0; },
+    files: () => man ? Object.values(man) : [],
     /* Die Stimmen gibt das Paket vor (eine feste ElevenLabs-Stimme je Figur), nicht jedes Gerät. */
     get voices() { return voices; },
   };
@@ -2320,8 +2319,28 @@ function registerSW() {
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
 }
+/* Offline-Vorrat: einmal pro Version im Hintergrund alle Bilder, Töne und Stimmen laden.
+   Der Service Worker merkt sie sich, danach geht alles ohne Netz. Nicht im Datensparmodus. */
+async function offlineStock() {
+  try {
+    if (!navigator.serviceWorker || !navigator.serviceWorker.controller || window.__inPreview) return;
+    if (localStorage.getItem('skipper-offline') === window.__ver) return;
+    const con = navigator.connection; if (con && con.saveData) return;
+    await PACK.load();
+    const urls = new Set();
+    [DATA, BIN_DATA, SKS_DATA].forEach(list => (list || []).forEach(q => [].concat(q.img || [], q.qi || [], q.ai || []).forEach(u => urls.add(u))));
+    Object.values(AUD.files).forEach(u => urls.add(u));
+    PACK.files().forEach(f => urls.add('audio/stimmen/' + f));
+    let n = 0;
+    for (const u of urls) {
+      try { const r = await fetch(u); if (r.ok) { await r.arrayBuffer(); n++; } } catch (e) { LOG.add('offline', 'abgebrochen nach ' + n + ' Dateien'); return; }
+      await new Promise(r => setTimeout(r, 40));
+    }
+    localStorage.setItem('skipper-offline', window.__ver); LOG.add('offline', n + ' von ' + urls.size + ' Dateien im Vorrat');
+  } catch (e) {}
+}
 function boot() {
-  applyTheme(); applyKi(); registerSW(); try { PACK.load(); } catch (e) {}
+  applyTheme(); applyKi(); registerSW(); setTimeout(offlineStock, 15000); try { PACK.load(); } catch (e) {}
   /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
   /* ?neustart: nur die Intro-Flags zurücksetzen (zum Testen), Lernstand bleibt */
@@ -3558,7 +3577,7 @@ function renderSources() {
   app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Quellen</h1><button class="btn small ghost" id="back">Zurück</button></div>
     <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Angegeben ist jeweils der vollständige Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
     <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p></div>
-    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0">Schriften Baloo 2 und Nunito über Google Fonts. Gespräche mit Claude von Anthropic, Stimmen von ElevenLabs. Schallsignale werden in der App selbst erzeugt.</p></div>`;
+    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0">Schriften Baloo 2 und Nunito (SIL Open Font License), lokal mitgeliefert. Gespräche mit Claude von Anthropic, Stimmen von ElevenLabs. Schallsignale werden in der App selbst erzeugt.</p></div>`;
   $('#back').onclick = renderSettings;
 }
 
