@@ -498,7 +498,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.26';
+  window.__ver = '4.27';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1176,7 +1176,7 @@ const AUD = (() => {
     enttaeuschung: 'audio/enttaeuschung.mp3', falsch: 'audio/falsch.mp3', richtig: 'audio/richtig.mp3', motorStart: 'audio/motor-start.mp3', motorLauf: 'audio/motor-lauf.mp3',
   };
   let ctx = null, master, bus = {}, filt, buffers = {}, loading = {};
-  let music = {name: null, src: null, gain: null}, loops = {}, duckState = 0, events = [], unlocked = false;
+  let music = {name: null, src: null, gain: null}, loops = {}, duckState = 0, hushed = false, events = [], unlocked = false;
   const cfg = () => (window.S && S.cfg) || {music: .35, amb: .6, sfx: .7};
 
   function init() {
@@ -1198,8 +1198,8 @@ const AUD = (() => {
   }
   function applyVolumes() {
     if (!ctx) return; const c = cfg(), t = ctx.currentTime;
-    bus.music.gain.setTargetAtTime(c.music * (duckState ? (music.name === 'musik-abend' ? .12 : .35) : 1), t, .25);
-    bus.amb.gain.setTargetAtTime(c.amb, t, .3);
+    bus.music.gain.setTargetAtTime(hushed ? 0 : c.music * (duckState ? (music.name === 'musik-abend' ? .12 : .35) : 1), t, .25);
+    bus.amb.gain.setTargetAtTime(hushed ? 0 : c.amb, t, .3);
     bus.sfx.gain.setTargetAtTime(c.sfx, t, .1);
   }
   async function load(name) {
@@ -1227,6 +1227,8 @@ const AUD = (() => {
     music.src = s; music.gain = g;
   }
   function duck(on) { duckState = on ? 1 : 0; applyVolumes(); }
+  /* Beim Zuhören Musik und Geräusche ganz leise: Sonst hört das Mikrofon Wellen und Musik statt dich. */
+  function hush(on) { hushed = !!on; applyVolumes(); }
 
   /* ---------- Dauer-Geräusche ---------- */
   async function setLoop(name, vol, rate = 1) {
@@ -1353,7 +1355,7 @@ const AUD = (() => {
     g.gain.value = 0; o.connect(g); g.connect(bus.sfx); const t = ctx.currentTime;
     g.gain.linearRampToValueAtTime(.12, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + .12); o.start(t); o.stop(t + .13);
   }
-  return {files: FILES, squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  return {files: FILES, hush, squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>
@@ -1811,17 +1813,19 @@ const VOX = (() => {
     return {done: p, finish: () => finish(), cancel: () => finish(true)};
   }
   function listen(o = {}) {
-    const mode = (S.cfg && S.cfg.stt) || 'phone', opts = {...o};
+    const mode = (S.cfg && S.cfg.stt) || 'phone', opts = {...o}, el = elKey() && !exhausted && kiOn();
     if (opts.pause == null) opts.pause = S.cfg.pause;
-    if ((mode === 'eleven' && elKey() && !exhausted) || (!SR && elKey())) return listenEleven(opts);
+    AUD.hush(true);
+    const quiet = p => p.then(r => { AUD.hush(false); return r; }, e => { AUD.hush(false); throw e; });
+    if ((mode === 'eleven' && el) || (!SR && el)) { const c = listenEleven(opts); return {...c, done: quiet(c.done)}; }
     let cur = listenPhone(opts);
     const holder = {finish: () => cur.finish(), cancel: () => cur.cancel()};
-    holder.done = cur.done.then(r => {
-      if (r.err && ['network', 'service-not-allowed', 'unsupported'].includes(r.err) && elKey() && !exhausted) {
+    holder.done = quiet(cur.done.then(r => {
+      if (r.err && ['network', 'service-not-allowed', 'unsupported'].includes(r.err) && el) {
         hooks.notice('sttswitch'); cur = listenEleven(opts); return cur.done;
       }
       return r;
-    });
+    }));
     return holder;
   }
   async function askMic() {
@@ -2319,6 +2323,29 @@ function registerSW() {
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
 }
+/* Zurück-Taste (Android, auch in der installierten Web-App): wirkt wie der Zurück-Knopf des aktuellen Bildschirms.
+   Ein Wächter-Eintrag im Verlauf fängt die Taste ab. Gibt es nichts mehr zurück (Deck), schließt ein zweites Zurück die App. */
+const BACKS = ['#quit', '#gback', '#back', '#ovbtn', '#home'];
+let backGuard = false;
+function guardBack() { if (backGuard) return; try { history.pushState({skipper: 'wache'}, ''); backGuard = true; } catch (e) {} }
+function handleBack() {
+  if ($('#sheet')) { closeSheet(); return true; }
+  if ($('#splashOv') || $('#stagePanel')) return true;
+  if (examTimer) { if (confirm('Prüfung abbrechen? Sie wird nicht gewertet.')) { stopAll(); setTab('cabin'); } return true; }
+  for (const id of BACKS) { const b = document.querySelector(id); if (b && !b.disabled && b.offsetParent !== null) { b.click(); return true; } }
+  if (tab !== 'deck' && !$('.tapzone')) { setTab(tab === 'cabin' ? 'deck' : 'cabin'); return true; }
+  return false;
+}
+function initBackKey() {
+  try { history.replaceState({skipper: 'start'}, ''); } catch (e) { return; }
+  guardBack();
+  window.addEventListener('popstate', () => {
+    backGuard = false;
+    try { if (handleBack()) return guardBack(); } catch (e) { LOG.add('zurück', 'Fehler: ' + (e && e.message)); return guardBack(); }
+    toast('Nochmal Zurück zum Schließen.', 2500);
+    setTimeout(guardBack, 2500);
+  });
+}
 /* Offline-Vorrat: einmal pro Version im Hintergrund alle Bilder, Töne und Stimmen laden.
    Der Service Worker merkt sie sich, danach geht alles ohne Netz. Nicht im Datensparmodus. */
 async function offlineStock() {
@@ -2340,7 +2367,7 @@ async function offlineStock() {
   } catch (e) {}
 }
 function boot() {
-  applyTheme(); applyKi(); registerSW(); setTimeout(offlineStock, 15000); try { PACK.load(); } catch (e) {}
+  applyTheme(); applyKi(); registerSW(); initBackKey(); setTimeout(offlineStock, 15000); try { PACK.load(); } catch (e) {}
   /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
   /* ?neustart: nur die Intro-Flags zurücksetzen (zum Testen), Lernstand bleibt */
@@ -4180,6 +4207,8 @@ function afterCrew() {
 async function listenTurn() {
   if (!apiKey()) return needKey();
   TALK.on = true; setTalkUI('listen');
+  /* Kurz durchatmen: Das Handy gibt den Lautsprecher frei, bevor das Mikrofon startet (sonst oft „nichts gehört“). */
+  VOX.stop('zuhören'); await new Promise(r => setTimeout(r, 350)); if (tab !== 'talk' || !TALK.on) return;
   TALK.ctl = VOX.listen({onInterim: t => { const i = $('#tint'); if (i) i.textContent = t; }, onState: s => s === 'think' && setTalkUI('think'), noSpeech: 12000});
   const r = await TALK.ctl.done; TALK.ctl = null; const i = $('#tint'); if (i) i.textContent = '';
   if (tab !== 'talk') return;
