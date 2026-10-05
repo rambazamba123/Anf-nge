@@ -928,21 +928,213 @@
 "e": "Backstagen stagen den Mast zusätzlich nach achtern ab, vor allem bei 7/8-Takelung und anderen nicht toppgetakelten Yachten.",
 "m": "Backstagen: Extra-Halt nach hinten bei 7/8."
 },
+"sks:see1-100": {
+"e": "Mit Steuerbordseite an der Pier: Bugstrahlruder nach Backbord, gleichzeitig Ruder hart Steuerbord und langsam voraus. Der Bug geht weg, das Heck schwenkt auch weg, und das Boot löst sich fast parallel.",
+"m": "Bug weg mit Strahl, Heck weg mit Ruder und Schraube."
+},
+"sks:see1-101": {
+"e": "Einen Sturm wettert man ab durch Beiliegen, Lenzen vor Topp und Takel mit nachgeschleppten Leinen, Liegen vor Treibanker oder aktiv unter Sturmbesegelung, wobei man brechende Seen aussteuert.",
+"m": "Beiliegen, lenzen, Treibanker oder aktiv segeln."
+},
+"sks:see1-102": {
+"e": "Bei auflandigem Starkwind drohen vor Häfen Grund- und Kreuzseen und Querstrom. Das Einlaufen kann gefährlich werden.",
+"m": "Hafen bei Sturm: Brecher vor der Einfahrt."
+},
+"sks:see1-103": {
+"e": "An einer Leeküste drückt der Wind die Yacht aufs Land. Kann sie sich nicht freikreuzen, droht die Strandung.",
+"m": "Leeküste: Kein Platz zum Ausweichen."
+},
+"sks:see1-105": {
+"e": "Ein Treibanker mit richtiger Leinenlänge hält den Bug im Wind und verringert die Drift.",
+"m": "Bug in den Wind, langsamer treiben."
+},
+"sks:see1-106": {
+"e": "Im Tidengewässer muss die Tiefe auch bei Niedrigwasser reichen oder sicheres Aufsetzen möglich sein, und die Leinen müssen lang genug für Steigen und Fallen sein. Bei großem Tidenhub bleibt man an Bord.",
+"m": "Tiefe bei NW, Leinen lang genug, aufpassen."
+},
+"sks:see1-107": {
+"e": "Setzt der Strom gegen den Wind, wird die See kurz, steil und kabbelig.",
+"m": "Wind gegen Strom: Waschbrett."
+},
+"sks:see1-108": {
+"e": "Mitlaufender Strom erhöht die Fahrt über Grund. Das Log misst nur die Fahrt durchs Wasser und zeigt das nicht.",
+"m": "Strom schiebt, Log merkt nichts."
+},
+"sks:see1-109": {
+"e": "Einen Überbordgefallenen holt man mit gesicherter Badeleiter, Großschot, beschwerter Trittschlinge, Rettungstalje, einem untergezogenen kleinen Segel, Bergegurt oder über das Dingi an Bord.",
+"m": "Leiter, Talje, Schlinge, Segel, Gurt, Dingi."
+},
 "sks:see1-11": {
 "e": "Laufendes Gut ist das Tauwerk zum Setzen, Bergen und Bedienen der Segel und anderer Teile der Takelage.",
 "m": "Laufendes Gut bewegt sich, stehendes hält."
+},
+"sks:see1-110": {
+"e": "Sofort: „Mensch über Bord!“ rufen, Rettungsmittel zuwerfen, Person im Auge behalten, Maschine starten, Manöver einleiten, Notmeldung, Blitzboje, MOB-Taste, dann bergen.",
+"m": "Rufen, werfen, zeigen, Motor, Manöver, melden."
+},
+"sks:see1-111": {
+"e": "Gegen Überbordfallen: Sicherheitsgurt anlegen und einpicken, Strecktaue vom Bug zum Heck spannen, Crew die Einpickpunkte zeigen.",
+"m": "Gurt, Strecktau, Einpickpunkte."
+},
+"sks:see1-112": {
+"e": "Schritte der Rettung: Maschine starten, Sichtkontakt halten, Manöver mit erster Leinenverbindung, sichere Bergung, Erste Hilfe und Betreuung, gegebenenfalls Notalarm.",
+"m": "Motor, sehen, ran, rauf, versorgen, melden."
+},
+"sks:see1-113": {
+"e": "Den Bezugspunkt für die Suche sichert man mit einer Markierungsblitzboje und der MOB-Taste des GPS.",
+"m": "Blitzboje und MOB-Taste."
+},
+"sks:see1-114": {
+"e": "Zur Sicherheitsausrüstung einer 10-m-Yacht gehören unter anderem Lenzpumpen und Pützen, Lecksicherung, Feuerlöscher, Werkzeug, Seenotsignale, Handlampen, Funk, Anker, Erste Hilfe, Radarreflektor und Rettungsmittel.",
+"m": "Pumpen, Leck, Feuer, Signale, Funk, Anker, Erste Hilfe."
+},
+"sks:see1-115": {
+"e": "Für die Crew gehören an Bord: Weste und Lifebelt für jeden, Rettungsinsel, Rettungskragen mit Tag- und Nachtsignal und Erste-Hilfe-Ausrüstung mit Anleitung.",
+"m": "Weste, Gurt, Insel, Kragen, Erste Hilfe."
+},
+"sks:see1-116": {
+"e": "Das nächste Wartungsdatum der Rettungsinsel steht auf der farbigen Serviceplakette oder im Wartungszertifikat.",
+"m": "Plakette auf der Insel."
+},
+"sks:see1-117": {
+"e": "Automatikwesten müssen regelmäßig gewartet werden. Die Fälligkeit zeigt die farbige Serviceplakette.",
+"m": "Plakette prüfen."
+},
+"sks:see1-118": {
+"e": "Ein Strecktau ist ein straff gespannter Draht, Gurt oder eine Leine vom Cockpit zum Vorschiff, an dem man sich mit dem Lifebelt einpickt.",
+"m": "Laufleine zum Einpicken."
+},
+"sks:see1-119": {
+"e": "Seenotsignalmittel sind rote Handfackeln und Raketen, orangefarbener Rauch, Signalpistole, Seewasserfärber, Flaggen N und C, Signallampe und Seenotfunkboje.",
+"m": "Rot leuchten, orange rauchen, N und C."
 },
 "sks:see1-12": {
 "e": "Segel pflegt man, indem man sie trocknet, vor Sonne schützt, Salz abspült und Schäden sofort repariert.",
 "m": "Trocken, im Schatten, salzfrei, heil."
 },
+"sks:see1-120": {
+"e": "An Bord gehören Feuerlöscher (ABC-Pulver, eventuell CO2), eine Pütz für feste Stoffe, eine Löschdecke und ein Löschdurchlass für geschlossene Motorräume.",
+"m": "Löscher, Pütz, Decke, Durchlass."
+},
+"sks:see1-121": {
+"e": "Geeignet ist der ABC-Pulverlöscher, für geschlossene Motorräume der CO2-Löscher. Löscher müssen griffbereit nahe Motor, Kombüse und Heizung hängen, CO2-Löscher nicht im Schiffsinneren (Erstickungsgefahr).",
+"m": "Pulver griffbereit, CO2 nicht innen lagern."
+},
+"sks:see1-122": {
+"e": "Feuerlöscher bleiben funktionsfähig, wenn man die Prüftermine einhält (Plakette) und sie vor Feuchtigkeit und Korrosion schützt.",
+"m": "Prüfen lassen und trocken halten."
+},
+"sks:see1-123": {
+"e": "Brand bekämpfen: Öffnungen schließen, Brennstoff und Hauptschalter unterbrechen, Löscher erst am Brandherd auslösen, von unten und vorn löschen, Löschdecke nutzen, Flüssigkeitsbrände nie mit Wasser.",
+"m": "Luft weg, Sprit weg, von unten löschen, kein Wasser auf Öl."
+},
+"sks:see1-124": {
+"e": "Beim Seeklarmachen prüft man unter anderem Seetüchtigkeit, Segel, Treibstoff, Navigationsunterlagen, Sicherheitseinweisung, Rettungs- und Signalmittel, Wasser und Proviant, Motor, Elektronik, Lenzanlage, Feuerlöscher, Papiere und Funk.",
+"m": "Boot, Segel, Sprit, Karten, Crew, Sicherheit, Vorräte."
+},
+"sks:see1-125": {
+"e": "Die Sicherheitseinweisung umfasst Westen und Gurte, Rettungsinsel, Signalmittel, Lenzpumpen, Seeventile und WC, Kocher, Feuerlöscher, Motor, Elektrik, Funk, Mensch über Bord und Seekrankheit.",
+"m": "Alles, was retten, pumpen, löschen oder funken kann."
+},
+"sks:see1-126": {
+"e": "Unbedingt einweisen muss man in Ankergeschirr, Lenzeinrichtung, Feuerlöscher, Motor, Seeventile, UKW-Funk, MOB-Taste, Seenotsignale und Notruder.",
+"m": "Anker, Pumpe, Feuer, Motor, Ventile, Funk, MOB, Notruder."
+},
+"sks:see1-127": {
+"e": "Vor jedem Auslaufen: Wetterbericht, Sicherheitseinrichtung, Motor, Navigationsgeräte, Bilge, Wasser und Treibstoff, Schall- und Lichtsignale, Lichter und aktuelle Karten prüfen.",
+"m": "Wetter, Technik, Bilge, Vorräte, Lichter, Karten."
+},
+"sks:see1-128": {
+"e": "Jeder muss Pumpen und Ventile kennen, damit sie im Notfall jeder bedienen kann.",
+"m": "Im Notfall muss es jeder können."
+},
+"sks:see1-129": {
+"e": "Falsch bedient kann über das Bord-WC Wasser ins Boot laufen.",
+"m": "Falsches Pumpen flutet das Boot."
+},
 "sks:see1-13": {
 "e": "Ein hoch geschnittenes Unterliek sorgt dafür, dass überkommende Seen nicht ins Segel schlagen und Rigg und Segel nicht belasten.",
 "m": "Unterliek hoch, Welle drunter durch."
 },
+"sks:see1-130": {
+"e": "Jeder soll den Anker sicher ausbringen und einholen können.",
+"m": "Ankern kann jeder."
+},
+"sks:see1-131": {
+"e": "Bei einem Leck: Meldung abgeben, Fahrt rausnehmen, wenn nötig, pumpen, Leck suchen und abdichten, flaches Wasser ansteuern und so trimmen, dass das Leck möglichst aus dem Wasser kommt.",
+"m": "Melden, pumpen, dichten, Leck hochtrimmen."
+},
+"sks:see1-132": {
+"e": "Steigt das Wasser trotzdem: Notzeichen und Funkmeldung, Radartransponder an, Verlassen vorbereiten, Westen an, Insel klar, wenn möglich auf ruhigem Flachwasser auf Grund setzen.",
+"m": "Notruf, Insel klar, auf Grund setzen."
+},
+"sks:see1-133": {
+"e": "Grundberührungen und harte Stöße können die Bordwand beschädigen und Sinkgefahr verursachen. Danach prüft man das Boot.",
+"m": "Nach dem Rums: Bilge prüfen."
+},
+"sks:see1-134": {
+"e": "In Seenot: Ruhe bewahren, Notalarm geben, Radartransponder an, Insel klarmachen, Weste und Gurt an, so lange wie möglich an Bord bleiben, warm anziehen.",
+"m": "Ruhig, Notruf, Insel, Weste, an Bord bleiben."
+},
+"sks:see1-135": {
+"e": "Vor dem Umsteigen in die Insel: Weste und Gurt an, warm anziehen, möglichst warm trinken, Proviant, Wasser, Signalmittel, Funkbake, Transponder und Handfunkgerät in die Insel bringen.",
+"m": "Warm, nass innen, alles Wichtige mitnehmen."
+},
+"sks:see1-136": {
+"e": "Man verlässt das Schiff so spät wie möglich: An Bord überlebt man besser, das Schiff ist leichter zu finden, und das Umsteigen in die Insel ist schwer.",
+"m": "Steig nur auf, wenn du musst."
+},
+"sks:see1-137": {
+"e": "Hubschrauberschlinge: Karabiner einpicken, mit Kopf und Armen einsteigen, Arme nach unten drücken und Hände schließen. Das Windenseil hängt frei und wird nie an Bord festgemacht.",
+"m": "Rein, Arme runter, Seil nie festmachen."
+},
+"sks:see1-138": {
+"e": "Notzeichen gibt man auf Anordnung des Schiffsführers, wenn unmittelbare Gefahr für Schiff oder Crew besteht, die ohne fremde Hilfe nicht zu überwinden ist.",
+"m": "Nur bei echter Not und auf Anordnung."
+},
+"sks:see1-139": {
+"e": "Im Notfall darf jeder ein UKW-Funkgerät benutzen, auch ohne Funkzeugnis.",
+"m": "Not kennt kein Zeugnis."
+},
 "sks:see1-14": {
 "e": "Das Trysegel ist ein kleines Schwerwettersegel, das statt des Großsegels mit losem Unterliek gefahren wird.",
 "m": "Trysegel: Sturmgroß ohne Baum."
+},
+"sks:see1-140": {
+"e": "Seekranke beaufsichtigt man im Cockpit und sichert sie gegen Überbordfallen, gleicht ihren Flüssigkeitsverlust aus, lässt sie zum Horizont schauen und gibt ihnen Aufgaben.",
+"m": "Sichern, trinken, Horizont, beschäftigen."
+},
+"sks:see1-141": {
+"e": "Ein Reitgewicht zieht die Ankertrosse zum Grund, damit der Zug flach bleibt und der Anker nicht ausbricht. Es dämpft außerdem Rucke.",
+"m": "Gewicht drückt die Leine runter."
+},
+"sks:see1-142": {
+"e": "Ein Kettenvorlauf zieht die Trosse am Anker nach unten, damit der Zug auf den Anker flach bleibt.",
+"m": "Kette unten, Zug flach."
+},
+"sks:see1-143": {
+"e": "Leichtgewichtsanker halten gut in Sand, Schlick und weichem Ton, mäßig in hartem Ton und Lehm, schlecht in Steinen, Kraut und weichem Schlamm.",
+"m": "Sand gut, Stein und Kraut schlecht."
+},
+"sks:see1-144": {
+"e": "Ein Ankerplatz sollte vor Wind und Welle schützen, genug Platz zum Schwojen bieten, und man plant Winddrehungen ein.",
+"m": "Schutz, Platz, Winddrehung."
+},
+"sks:see1-145": {
+"e": "Meiden sollte man steinige, verkrautete und stark schlammige Böden.",
+"m": "Kein Stein, kein Kraut, kein Brei."
+},
+"sks:see1-146": {
+"e": "Kann man nicht genug Kette stecken, hilft ein Reitgewicht, den Anker am Boden zu halten.",
+"m": "Wenig Kette: Reitgewicht."
+},
+"sks:see1-147": {
+"e": "Bei zunehmendem Wind steckt man mehr Kette oder Trosse oder setzt ein Reitgewicht.",
+"m": "Mehr Kette, mehr Gewicht."
+},
+"sks:see1-148": {
+"e": "Auf verkrautetem Grund nimmt man den Stockanker. Er gräbt sich durch sein höheres Gewicht besser ein.",
+"m": "Kraut: Stockanker."
 },
 "sks:see1-15": {
 "e": "Schlagende Segel beschädigen Tuch und Beschläge, besonders bei viel Wind.",
@@ -952,37 +1144,365 @@
 "e": "Segellatten geben dem Segel Profil und verhindern, dass das Achterliek einklappt.",
 "m": "Latten halten das Achterliek in Form."
 },
+"sks:see1-17": {
+"e": "Mit dem Cunningham-Stropp reguliert man die Vorliekspannung des Großsegels und damit seinen Trimm.",
+"m": "Cunningham: Vorliek straffen."
+},
+"sks:see1-18": {
+"e": "Mindestens an Bord: ein reffbares Groß, eine reffbare Rollfock oder Vorsegel verschiedener Größe und eine Sturmfock.",
+"m": "Groß, Fock(s), Sturmfock."
+},
+"sks:see1-19": {
+"e": "Die Vorsegel-Rollreffanlage rollt das Vorsegel um das Vorstag und verkleinert es stufenlos.",
+"m": "Fock aufrollen statt wechseln."
+},
 "sks:see1-2": {
 "e": "Beim Sandwichverfahren wird zwischen zwei GFK-Schichten eine Zwischenlage, zum Beispiel Balsaholz, einlaminiert.",
 "m": "GFK, Kern, GFK wie ein Sandwich."
+},
+"sks:see1-20": {
+"e": "Die Großsegel-Rollreffanlage rollt das Groß in den Mast oder in den Baum und verkleinert es stufenlos.",
+"m": "Groß im Mast oder Baum aufrollen."
+},
+"sks:see1-21": {
+"e": "Der Lenzkorb hält Schmutz von der Pumpe fern, damit sie nicht verstopft. Man muss ihn regelmäßig prüfen und reinigen.",
+"m": "Sieb vor der Pumpe sauber halten."
+},
+"sks:see1-22": {
+"e": "Eine seegehende Yacht braucht zwei unabhängige Bilgenpumpen, eine von Deck und eine von unten bedienbar, und zwei Pützen mit Leine.",
+"m": "Zwei Pumpen, zwei Eimer."
+},
+"sks:see1-23": {
+"e": "Mehrere Anker braucht man als Ersatz, zum Verwarpen oder Verkatten, für unterschiedliche Ankergründe und um bei schwerem Wetter oder im Tidengewässer vor zwei Ankern zu liegen.",
+"m": "Ersatz, Warpen, Grund, zwei Anker."
+},
+"sks:see1-24": {
+"e": "Mindestens vier Festmacherleinen und vier Fender gehören an Bord.",
+"m": "Vier und vier."
+},
+"sks:see1-25": {
+"e": "Außerdem braucht man Reservetauwerk, eine Wurfleine, eine Schlepptrosse und eine Ankerleine.",
+"m": "Reserve, Wurf, Schlepp, Anker."
+},
+"sks:see1-26": {
+"e": "Ersatzteile und Werkzeug braucht man für Segel, Rumpf und Rigg, Motor, Elektrik und Schlauchleitungen.",
+"m": "Segel, Rumpf, Rigg, Motor, Strom, Schläuche."
+},
+"sks:see1-27": {
+"e": "Zur Segelreparatur gehören Segelhandschuh, Segelnadeln, Segelgarn, Wachs, Zange und selbstklebendes Segeltuch.",
+"m": "Handschuh, Nadel, Garn, Wachs, Zange, Klebetuch."
+},
+"sks:see1-28": {
+"e": "Um die Takelage nach Mastbruch zu kappen, braucht man Bolzenschneider, Metallsäge mit Ersatzblättern, Schraubenschlüssel und Zangen.",
+"m": "Bolzenschneider und Säge."
+},
+"sks:see1-29": {
+"e": "Griffbereit sein müssen Zeisinge, Bändsel, Tape, Reserveschäkel, Schäkelöffner, Bordmesser und Kombizange.",
+"m": "Bändsel, Tape, Schäkel, Messer, Zange."
 },
 "sks:see1-3": {
 "e": "Sandwichbau ist steif und verwindungsfest, leicht und isoliert gut.",
 "m": "Steif, leicht, warm."
 },
+"sks:see1-30": {
+"e": "Eine Yacht mit Radsteuerung braucht eine Notpinne. Alle an Bord müssen sie kennen, damit sie im Notfall sofort montiert ist.",
+"m": "Notpinne: alle wissen, wo und wie."
+},
+"sks:see1-31": {
+"e": "Amtliche Informationen zu Ausrüstung und Sicherheit stehen in „Sicherheit im See- und Küstenbereich“ (BSH) und „Sicherheit auf dem Wasser“ (Verkehrsministerium). Sie werden auch bei Unfällen herangezogen.",
+"m": "Zwei Sicherheitsbroschüren."
+},
+"sks:see1-32": {
+"e": "Handlenzpumpen funktionieren auch bei Strom- oder Motorausfall.",
+"m": "Hand geht immer."
+},
+"sks:see1-33": {
+"e": "Flüssiggas ist schwerer als Luft, sammelt sich unten in der Bilge und bildet mit Luft ein explosives Gemisch.",
+"m": "Gas sinkt und knallt."
+},
+"sks:see1-34": {
+"e": "Ein Bord-WC hat Seeventil mit Spülwasserschlauch, Handpumpe, einen Hebel zum Unterbrechen der Seewasserzufuhr und den Abwasserschlauch (über den Fäkalientank) zum Seeventil.",
+"m": "Zulauf, Pumpe, Hebel, Ablauf."
+},
+"sks:see1-35": {
+"e": "Bord-WC: Spülventil öffnen, kräftig pumpen und spülen, Seewasserzufuhr per Hebel unterbrechen, Becken leer pumpen, Seeventile schließen.",
+"m": "Auf, spülen, umlegen, leerpumpen, zu."
+},
+"sks:see1-36": {
+"e": "Stabilität ist die Eigenschaft eines Schiffs, aufrecht zu schwimmen und sich aus der Krängung wieder aufzurichten.",
+"m": "Aufrecht schwimmen, wieder hochkommen."
+},
+"sks:see1-37": {
+"e": "Die Stabilität hängt von der Form und der Gewichtsverteilung ab. Beansprucht wird sie durch Seitenwind, Trossenzug oder enge Kurven schneller Motoryachten.",
+"m": "Form und Gewicht gegen Wind, Zug und Kurven."
+},
+"sks:see1-38": {
+"e": "In schwerem Wetter hängt die Stabilität zusätzlich von Wind und Seegang ab, besonders von brechenden Wellen.",
+"m": "Brecher sind die größte Gefahr."
+},
+"sks:see1-39": {
+"e": "Im Formschwerpunkt F greift der Auftrieb nach oben an, im Massenschwerpunkt G die Gewichtskraft nach unten.",
+"m": "F drückt hoch, G zieht runter."
+},
 "sks:see1-4": {
 "e": "Stahl ist sehr fest, zuverlässig und langlebig, aber schwer und rostanfällig.",
 "m": "Stark, aber schwer und rostig."
+},
+"sks:see1-40": {
+"e": "Krängt das Schiff, taucht die geneigte Seite tiefer ein, und der Formschwerpunkt wandert dorthin. Auftrieb und Gewicht greifen versetzt an und bilden ein aufrichtendes Moment: Gewicht mal Hebelarm.",
+"m": "F wandert zur Seite, das Boot richtet sich auf."
+},
+"sks:see1-41": {
+"e": "In der Bö wird der wahre Wind stärker, der Fahrtwind bleibt zunächst gleich. Im Vektorparallelogramm dreht der scheinbare Wind dadurch achterlicher, er raumt. Beim Kreuzen kann man dann höher an den Wind gehen.",
+"m": "Bö raumt, mitluven."
+},
+"sks:see1-42": {
+"e": "Am Wind ist der scheinbare Wind stärker als der wahre, raumschots und vor dem Wind schwächer. Deshalb muss nur das eine Boot reffen.",
+"m": "Gleicher Wind, anderer Kurs, anderes Gefühl."
+},
+"sks:see1-43": {
+"e": "Krängt die Yacht, wird der Lateralplan, also die seitliche Fläche unter Wasser, kleiner. Der seitliche Widerstand sinkt und die Abdrift steigt.",
+"m": "Schräg liegen heißt mehr abdriften."
+},
+"sks:see1-44": {
+"e": "Mit der Krängung wandert der Segeldruckpunkt nach Lee aus. Das Boot wird luvgieriger.",
+"m": "Mehr Lage, mehr Luvgierigkeit."
+},
+"sks:see1-45": {
+"e": "Starker Ruderdruck mit Krängung am Wind ist Luvgierigkeit. Abhilfe: Traveller nach Lee, Großschot etwas fieren oder das Groß reffen.",
+"m": "Traveller runter, Schot auf, reffen."
+},
+"sks:see1-46": {
+"e": "Der Unterliekstrecker regelt die Spannung des Unterlieks. Mehr Zug macht den unteren Teil des Groß flacher, weniger Zug bauchiger.",
+"m": "Unterliek straff: flach unten."
+},
+"sks:see1-47": {
+"e": "Falten im Vorliek der Fock kommen meist von einem nicht genug durchgesetzten Fall.",
+"m": "Falten vorn: Fall dichter."
+},
+"sks:see1-48": {
+"e": "Killt das Unterliek des Vorsegels, liegt der Holepunkt zu weit vorn.",
+"m": "Unten flattert: Holepunkt nach hinten."
+},
+"sks:see1-49": {
+"e": "Killt das Achterliek des Vorsegels, liegt der Holepunkt zu weit achtern.",
+"m": "Hinten flattert: Holepunkt nach vorn."
 },
 "sks:see1-5": {
 "e": "Mit der CE-Kategorie legt der Hersteller fest, in welchem Fahrgebiet, bis zu welcher Windstärke und welcher Wellenhöhe das Boot sicher betrieben werden kann.",
 "m": "Kategorie: wo, wie viel Wind, wie viel Welle."
 },
+"sks:see1-50": {
+"e": "Windfäden zeigen den Strömungsverlauf am Segel und helfen beim Trimmen.",
+"m": "Fäden zeigen die Strömung."
+},
+"sks:see1-51": {
+"e": "Bei Starkwind trimmt man das Groß flach: Unterliek- und Vorliekstrecker dicht, Großschot dicht, Fall durchsetzen, Achterstag spannen, Traveller nach Lee.",
+"m": "Starkwind: alles straff, Traveller nach Lee."
+},
+"sks:see1-52": {
+"e": "Das Groß trimmt man mit Großschot, Traveller, Unterliekstrecker, Cunninghamstrecker, Großfall und Achterstagspanner.",
+"m": "Schot, Traveller, Unterliek, Cunningham, Fall, Achterstag."
+},
+"sks:see1-53": {
+"e": "Opferanoden schützen gegen Elektrolyse, indem sie sich statt der wichtigen Metallteile auflösen. Man ersetzt sie nach einer Saison, nicht erst wenn sie verbraucht sind.",
+"m": "Jede Saison neue Anoden."
+},
+"sks:see1-54": {
+"e": "Auf Kunststoffyachten schützt eine Zinkanode auf der Propellerwelle den Propeller vor Elektrolyse.",
+"m": "Zink auf die Welle."
+},
+"sks:see1-55": {
+"e": "Vor dem Tanken von Diesel: Maschine aus, offenes Feuer löschen, nicht rauchen und gegen Überlaufen vorsorgen.",
+"m": "Motor aus, Feuer aus, Überlauf verhindern."
+},
+"sks:see1-56": {
+"e": "Umweltschutz beim Tanken: Ölbindetücher um die Öffnung, möglichst an der Zapfsäule tanken, bei Kanistern großen Trichter mit Schlauch nutzen und nicht bei Wind und Welle aus Kanistern nachfüllen.",
+"m": "Tücher drum, Zapfhahn, Trichter, ruhiges Wasser."
+},
+"sks:see1-57": {
+"e": "Das Wendegetriebe kuppelt den Propeller ein und aus, schaltet auf Rückwärts um und untersetzt die Drehzahl.",
+"m": "Kuppeln, umsteuern, untersetzen."
+},
+"sks:see1-58": {
+"e": "Vor dem Anlassen: Hauptschalter ein, Kraftstoff- und Kühlwasserventile auf, Getriebe auf neutral.",
+"m": "Strom, Ventile, Leerlauf."
+},
+"sks:see1-59": {
+"e": "Nach dem Anlassen prüft man Kühlwasserdurchlauf, Öldruck und Ladung, Motorgeräusche und Abgase.",
+"m": "Wasser raus, Lampen aus, Klang und Rauch ok."
+},
 "sks:see1-6": {
 "e": "Die CE-Kategorien sind A Hochsee, B außerhalb von Küstengewässern, C küstennahe Gewässer und D geschützte Gewässer.",
 "m": "A Hochsee, B draußen, C Küste, D geschützt."
+},
+"sks:see1-60": {
+"e": "Erste Störungsanzeichen sind ungewohnte Geräusche, Vibrationen, verfärbte Abgase und leuchtende Lade- oder Öldruckkontrolle mit Warnton.",
+"m": "Hören, fühlen, sehen."
+},
+"sks:see1-61": {
+"e": "Geht der Diesel nicht über den Stopp aus, unterbricht man die Kraftstoffzufuhr oder verschließt die Luftansaugung.",
+"m": "Ohne Sprit oder ohne Luft geht er aus."
+},
+"sks:see1-62": {
+"e": "Springt der Diesel nicht an, kann die Batterie zu schwach sein, der Tank leer, Luft in der Leitung, die Kaltstarthilfe falsch bedient oder der Anlasser defekt.",
+"m": "Batterie, Sprit, Luft, Vorglühen, Anlasser."
+},
+"sks:see1-63": {
+"e": "Bleibt der Motor beim Einkuppeln stehen, ist die Welle blockiert (Leine im Propeller), das Getriebe schwergängig oder die Welle verbogen.",
+"m": "Meist hängt was im Propeller."
+},
+"sks:see1-64": {
+"e": "Beim Saildrive verstopfen oft Folien oder Pflanzen den Kühlwassereinlass. Mehrmals abwechselnd vor- und zurückfahren löst sie meist.",
+"m": "Vor, zurück, vor: Einlass frei."
+},
+"sks:see1-65": {
+"e": "Auf Yachten mit Einbaumotor gibt es Festflügel-, Falt-, Drehflügel- und Verstellpropeller.",
+"m": "Fest, falt, dreh, verstell."
+},
+"sks:see1-66": {
+"e": "Ein Faltpropeller öffnet sich beim Aufstoppen eventuell erst bei hoher Drehzahl und wirkt schwächer als ein Festpropeller. Man plant mehr Bremsweg ein.",
+"m": "Faltprop bremst später."
+},
+"sks:see1-67": {
+"e": "Propeller beschreibt man durch Flügelzahl, Flügelfläche, Durchmesser und Steigung.",
+"m": "Flügel, Fläche, Durchmesser, Steigung."
+},
+"sks:see1-68": {
+"e": "Den Außenborder verstaut man mit leerem Tank und Vergaser an Deck oder in einer nach außen entlüfteten Backskiste, nie unter Deck. Benzindämpfe bilden mit Luft ein leicht entzündliches Gemisch.",
+"m": "Leer und an Deck."
+},
+"sks:see1-69": {
+"e": "Im Wasserabscheider sammelt sich Kondenswasser aus dem Tank, damit es nicht in den Motor gelangt und Startprobleme macht.",
+"m": "Wasser raus aus dem Diesel."
 },
 "sks:see1-7": {
 "e": "Kategorie B gilt für Fahrten außerhalb der Küstengewässer bis einschließlich 8 Bft und 4 m signifikanter Wellenhöhe.",
 "m": "B: 8 Bft, 4 m."
 },
+"sks:see1-70": {
+"e": "Ein voller Tank hat wenig Luft, in der sich Kondenswasser bilden kann. So vermeidet man Startschwierigkeiten.",
+"m": "Voll heißt trocken."
+},
+"sks:see1-71": {
+"e": "Mindestens an Bord: Impeller für die Wasserpumpe, Reservekeilriemen, Motoröl und Dichtungsmaterial.",
+"m": "Impeller, Keilriemen, Öl, Dichtung."
+},
+"sks:see1-72": {
+"e": "2 × 60 Ah sind zwei Batterien mit zusammen 120 Ah Nennkapazität. Weil man sie kaum über 80 % lädt und nicht ganz entladen sollte, stehen netto etwa 72 Ah zur Verfügung.",
+"m": "120 Ah nominell, etwa 72 Ah nutzbar."
+},
+"sks:see1-73": {
+"e": "Strom = Leistung durch Spannung: 24 W / 12 V = 2 A. Zwei Verbraucher mal 10 Stunden: 2 × 2 A × 10 h = 40 Ah.",
+"m": "Watt durch Volt = Ampere, mal Stunden."
+},
+"sks:see1-74": {
+"e": "Festmacher, Ankerleinen und Schlepptrossen müssen bruchfest und elastisch sein, damit sie Rucke abfedern.",
+"m": "Stark und federnd."
+},
+"sks:see1-75": {
+"e": "Gegen Schamfilen zieht man einen gesicherten Plastikschlauch oder notfalls Tuchstreifen über die Scheuerstelle der Leine.",
+"m": "Scheuerschutz drüber."
+},
+"sks:see1-76": {
+"e": "Knoten schwächen eine Leine, bis zu 50 % Festigkeitsverlust.",
+"m": "Knoten halbiert die Kraft."
+},
+"sks:see1-77": {
+"e": "Ein genähter Takling verhindert, dass bei Kern-Mantel-Tauwerk die Seele in den Mantel rutscht.",
+"m": "Genähter Takling."
+},
+"sks:see1-78": {
+"e": "Längsseits macht man mit Vorleine, Vorspring, Achterspring und Achterleine fest.",
+"m": "Zwei Leinen, zwei Springs."
+},
 "sks:see1-8": {
 "e": "Bei der Seilzugsteuerung dreht das Rad ein Zahnrad, über das eine Kette in der Steuersäule läuft. Die Kette ist mit Steuerseilen verbunden, die über Umlenkrollen zum Ruderquadranten führen.",
 "m": "Rad, Kette, Seil, Quadrant."
 },
+"sks:see1-80": {
+"e": "Antifouling ist giftig. Abgespritzt wird nur auf einem Reinigungsplatz, der Wasser und Schmutz auffängt, nicht in die Kanalisation.",
+"m": "Nur auf dem Waschplatz mit Auffang."
+},
+"sks:see1-81": {
+"e": "Häufigste Ursache sind schlechte Kontakte und Korrosion. Kontakte festziehen, Korrosion mit feinem Schleifpapier entfernen und Kontaktspray nutzen.",
+"m": "Salz frisst Kontakte."
+},
+"sks:see1-82": {
+"e": "Ist das Gelcoat beschädigt, zieht das Laminat darunter Wasser und wird geschädigt. Deshalb sofort ausbessern.",
+"m": "Kratzer im Gelcoat: Wasser kommt rein."
+},
+"sks:see1-83": {
+"e": "Ins Logbuch gehören mindestens Namen und Funktionen der Crew, Beginn und Ende der Fahrt und regelmäßig Position, Kurs, Geschwindigkeit, Strömung, Wetter und Luftdruck.",
+"m": "Wer, wann, und regelmäßig wo und wie."
+},
+"sks:see1-84": {
+"e": "Vor dem Setzen brauchen Großschot und Niederholer Lose, und das Fall muss frei laufen. Solange der Wind von vorn kommt, schlägt der Baum hin und her: Verletzungsgefahr.",
+"m": "Lose geben, Fall klar, Kopf weg vom Baum."
+},
+"sks:see1-85": {
+"e": "Reißt das Groß unter der untersten Lattentasche, nimmt man die untere Latte heraus und refft bis über den Riss.",
+"m": "Latte raus, über den Riss reffen."
+},
+"sks:see1-86": {
+"e": "Bindereff: Baum mit Dirk oder Niederholer halten, Fall fieren, Hals in den Reffhaken, Fall wieder dicht, Achterliek-Reffkausch mit der Reffleine auf den Baum holen, loses Tuch einbinden.",
+"m": "Baum halten, runter, Hals, hoch, Schothorn, einbinden."
+},
+"sks:see1-87": {
+"e": "Der Bullenstander verhindert eine ungewollte Halse bei achterlichem Wind. Er läuft von der Baumnock zum Vorschiff.",
+"m": "Baumnock nach vorn festlegen."
+},
+"sks:see1-88": {
+"e": "Vor dem Wind drückt der Wind den Baum nach oben. Der Niederholer, je nach Wind durchgesetzt, verhindert das Steigen und hält das Segel in Form.",
+"m": "Niederholer hält den Baum unten."
+},
+"sks:see1-89": {
+"e": "Legt man gleich große Boote versetzt oder abwechselnd mit Bug und Heck zur Pier, stehen die Masten nicht auf gleicher Höhe und können nicht gegeneinanderschlagen.",
+"m": "Masten versetzt legen."
+},
 "sks:see1-9": {
 "e": "Stagen halten den Mast nach vorn und achtern, Wanten seitlich.",
 "m": "Stagen längs, Wanten quer."
+},
+"sks:see1-90": {
+"e": "Läuft Schwell in den Hafen, rollen die Boote. Masten müssen versetzt stehen, damit sie nicht gegeneinanderschlagen.",
+"m": "Schwell: Masten auseinander."
+},
+"sks:see1-91": {
+"e": "Bei aufziehendem Gewitter verkleinert man rechtzeitig das Vorsegel, macht das Groß klar zum Reffen oder Bergen, zieht Ölzeug, Gurt und Weste an und trägt die Position ein.",
+"m": "Früh reffen, Weste an, Position notieren."
+},
+"sks:see1-92": {
+"e": "Mit einer fremden Yacht fährt man zu Beginn Wende, Halse, Q-Wende und Rettungsmanöver bei verschiedenen Geschwindigkeiten und Segelführungen.",
+"m": "Erst üben, dann segeln."
+},
+"sks:see1-93": {
+"e": "Nach Mastbruch nimmt man den Mast möglichst an Bord und sichert ihn. Geht das nicht, kappt man Mast und Wanten, damit sie den Rumpf nicht beschädigen.",
+"m": "An Bord holen oder kappen."
+},
+"sks:see1-94": {
+"e": "Wie lang der Aufschießer zur Person wird, hängt von Geschwindigkeit, Wind, Seegang, Strömung sowie Form und Gewicht des Boots ab.",
+"m": "Fahrt, Wind, Welle, Strom, Boot."
+},
+"sks:see1-95": {
+"e": "Achterleinen bekommen ein Auge, zum Beispiel einen Palstek, und werden möglichst früh über die Pfähle gelegt, bei Seitenwind zuerst über den Luvpfahl.",
+"m": "Auge rein, früh über den Luvpfahl."
+},
+"sks:see1-96": {
+"e": "Vor dem Anlegen teilt man die Crew ein und legt Leinen und Fender bereit.",
+"m": "Leute, Leinen, Fender."
+},
+"sks:see1-97": {
+"e": "Beim Saildrive sitzt der Propeller weit vor dem Ruder. Das Ruder wird nicht direkt angeströmt, und beim Anfahren lässt sich das Boot schlechter steuern.",
+"m": "Saildrive: Ruder kriegt wenig Strom ab."
+},
+"sks:see1-98": {
+"e": "Ein Bugstrahlruder ist ein Propeller in einer Querröhre im Bug. Es schiebt den Bug bei wenig Fahrt seitlich.",
+"m": "Querschub am Bug."
+},
+"sks:see1-99": {
+"e": "Das Bugstrahlruder hilft beim An- und Ablegen und beim Drehen auf engem Raum.",
+"m": "Hafenmanöver."
 },
 "sks:wetter-1": {
 "e": "Wind ist bewegte Luft. Sie strömt wegen der Druckunterschiede vom Hoch zum Tief.",
