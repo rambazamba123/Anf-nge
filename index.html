@@ -3095,6 +3095,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
         ${kw.length >= 2 ? `<p class="small muted" style="margin:10px 0 0">Hast du das genannt? Tippe an, was drin war:</p><div class="kwchips">${kw.map((k, j) => `<button class="kw" data-kw="${j}" aria-pressed="false">${esc(k)}</button>`).join('')}</div><p class="small" id="kwsug" style="margin:0"></p>` : ''}
         <p class="small muted" style="margin:10px 0 6px">Wie gut wusstest du es?</p>
         <div class="row"><button class="btn" data-r="2" style="background:var(--stb)">Gewusst</button><button class="btn ghost" data-r="1">Teilweise</button><button class="btn ghost" data-r="0" style="color:var(--bb)">Nicht gewusst</button></div>`;
+      askCrewBox($('#after'), q);
       /* Stichworte: selbst abhaken, oder automatisch aus der eigenen Antwort vorbelegen */
       const marks = new Set(); const low = mine.toLowerCase();
       kw.forEach((k, j) => { if (low && k.toLowerCase().split(/\s+/).some(w => w.length > 3 && low.includes(w.slice(0, Math.max(4, w.length - 2))))) marks.add(j); });
