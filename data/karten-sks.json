@@ -487,9 +487,53 @@
 "e": "Manövrierbehindert sind zum Beispiel Tonnen-, Kabel- und Rohrleger, Bagger und Vermessungsschiffe, Versorger, Flugzeugträger, Minenräumer im Einsatz und stark eingeschränkte Schleppverbände.",
 "m": "Alles, was gerade arbeitet."
 },
+"sks:recht-100": {
+"e": "Die Bundesflagge weht während der Flaggzeit am Flaggenstock am Heck, auf mehrmastigen segelnden Yachten auch im Topp des hintersten Masts, nie am Achterstag.",
+"m": "Heimatflagge hinten am Heck."
+},
+"sks:recht-101": {
+"e": "In Schutzzone I darf man die Fahrwasser von 3 Stunden nach bis 3 Stunden vor Hochwasser nicht verlassen. Sonst gilt außerhalb der Fahrwasser höchstens 8 kn, im Fahrwasser 12 kn.",
+"m": "Nur rund um Hochwasser raus; 8 kn draußen, 12 kn drinnen."
+},
+"sks:recht-102": {
+"e": "Die Grenzen der Schutzzonen I und der speziellen Schutzgebiete sind in den Seekarten eingetragen.",
+"m": "Steht in der Karte."
+},
+"sks:recht-103": {
+"e": "MARPOL soll die Verschmutzung der Meere durch Schiffe verhindern.",
+"m": "MARPOL = Marine Pollution."
+},
+"sks:recht-104": {
+"e": "Sondergebiete nach MARPOL in Europa sind Ostsee, Nordsee und Mittelmeer.",
+"m": "Ost, Nord, Mittelmeer."
+},
+"sks:recht-105": {
+"e": "In Sondergebieten ist das Einleiten von Öl, Abwasser, Müll und anderen Schadstoffen grundsätzlich verboten.",
+"m": "Nichts rein ins Meer."
+},
+"sks:recht-106": {
+"e": "MARPOL gilt grundsätzlich für alle Schiffe, also auch für Sportboote.",
+"m": "Auch für dich."
+},
+"sks:recht-107": {
+"e": "Entsorgungsmöglichkeiten in deutschen Sportboothäfen stehen in einer Übersichtsbroschüre des BSH für Öl, Müll und Abwasser.",
+"m": "BSH-Broschüre zur Entsorgung."
+},
+"sks:recht-108": {
+"e": "Darf ölhaltiges Bilgenwasser nach MARPOL nicht gelenzt werden, bleibt es an Bord und wird im Hafen entsorgt.",
+"m": "Öl im Zweifel immer an Land."
+},
+"sks:recht-109": {
+"e": "Nord-, Ostsee und Mittelmeer sind MARPOL-Sondergebiete. Dort darf kein Müll ins Meer.",
+"m": "Sondergebiet: kein Müll über Bord."
+},
 "sks:recht-11": {
 "e": "Sichere Geschwindigkeit heißt: Man kann jederzeit so rechtzeitig aufstoppen, dass ein Zusammenstoß vermieden wird.",
 "m": "So schnell, dass du noch rechtzeitig stehst."
+},
+"sks:recht-110": {
+"e": "In Sondergebieten verboten sind unter anderem Kunststoffe wie Seile, Netze, Segel und Tüten sowie Papier, Lumpen, Glas, Metall, Steingut und Verpackungsmaterial.",
+"m": "Praktisch alles, was nicht Essensrest ist."
 },
 "sks:recht-12": {
 "e": "Lichter und Signalkörper für Manövrierunfähigkeit sind ab 12 m Länge Pflicht.",
@@ -648,25 +692,701 @@
 "e": "Von Minenräumfahrzeugen hält man mindestens 1.000 m Abstand.",
 "m": "Minenräumer: ein Kilometer."
 },
+"sks:recht-48": {
+"e": "Topplicht und beide Seitenlichter recht voraus heißt: Ein Maschinenfahrzeug unter 50 m kommt genau entgegen. Beide ändern den Kurs nach Steuerbord, passieren Backbord an Backbord und geben einen kurzen Ton.",
+"m": "Rot und Grün zugleich: beide nach rechts."
+},
+"sks:recht-49": {
+"e": "Man sieht das grüne Seitenlicht von B, also seine Steuerbordseite. B hat A an seiner Steuerbordseite und muss ausweichen. A hält Kurs und Geschwindigkeit.",
+"m": "Siehst du Grün, hast du Vorfahrt und hältst Kurs."
+},
 "sks:recht-5": {
 "e": "Bei der Anwendung der KVR sind alle Gefahren und besonderen Umstände zu berücksichtigen. Um unmittelbare Gefahr abzuwenden, kann sogar ein Abweichen von den Regeln nötig sein, etwa wenn der Ausweichpflichtige nicht reagiert.",
 "m": "Regeln ja, aber Gefahr abwenden geht vor."
+},
+"sks:recht-50": {
+"e": "Eine Motoryacht weicht Manövrierunfähigen, Manövrierbehinderten, Fischenden, Seglern und je nach Lage anderen Maschinenfahrzeugen aus.",
+"m": "Fast allen, außer manchem Motorboot."
+},
+"sks:recht-51": {
+"e": "Weißes Topplicht und später das rote Backbordlicht von B an Steuerbord: B kreuzt von rechts. A muss ausweichen und einen kurzen Ton geben. B hält Kurs und Geschwindigkeit.",
+"m": "Siehst du Rot, musst du weichen."
+},
+"sks:recht-52": {
+"e": "Unter 12 m ohne die roten Rundumlichter zeigt man auf jede andere Weise, dass man manövrierunfähig ist: Funk, Schall- oder Lichtsignal lang-kurz-kurz, das andere Fahrzeug anleuchten, weißes Rundumlicht, weißer Stern oder Blitz-Knall, und die Verkehrszentrale informieren.",
+"m": "Mit allem, was geht, auf sich aufmerksam machen."
+},
+"sks:recht-53": {
+"e": "Fahrwasser der Seeschifffahrtsstraßen gelten als enge Fahrwasser im Sinne der KVR.",
+"m": "Fahrwasser = enges Fahrwasser."
+},
+"sks:recht-54": {
+"e": "Zur durchgehenden Schifffahrt gehören alle Fahrzeuge, die deutlich dem Fahrwasser folgen, also höchstens etwa 10° davon abweichen, egal zu welchem Zweck.",
+"m": "Folgen heißt: höchstens 10° schräg."
+},
+"sks:recht-55": {
+"e": "Jeder muss Sicherheit und Leichtigkeit des Verkehrs gewährleisten und darf andere nicht schädigen, gefährden oder mehr als unvermeidbar behindern oder belästigen.",
+"m": "Sicher, flüssig, rücksichtsvoll."
+},
+"sks:recht-56": {
+"e": "Der Schiffsführer muss die Verkehrsvorschriften befolgen und sein Fahrzeug so ausrüsten, dass es Lichter, Signalkörper und Schallsignale führen und geben kann.",
+"m": "Regeln einhalten und richtig ausgerüstet sein."
+},
+"sks:recht-57": {
+"e": "Seeschifffahrtsstraßen sind die Wasserflächen von der Küste bis 3 sm seewärts der Basislinie, die betonnten seewärtigen Fahrwasser im Küstenmeer und bestimmte Binnenwasserstraßen.",
+"m": "Küste bis 3 sm hinter der Basislinie, plus betonnte Fahrwasser."
+},
+"sks:recht-58": {
+"e": "Fahrwasser sind die durch laterale Tonnen begrenzten oder gekennzeichneten Wasserflächen, auf Binnenwasserstraßen auch die für die durchgehende Schifffahrt bestimmten Flächen.",
+"m": "Fahrwasser = betonnte Straße."
+},
+"sks:recht-59": {
+"e": "Auf deutschen Seeschifffahrtsstraßen gelten die KVR, die Seeschifffahrtsstraßen-Ordnung mit ihren Bekanntmachungen und gegebenenfalls Hafenordnungen.",
+"m": "KVR, SeeSchStrO, Hafenordnung."
 },
 "sks:recht-6": {
 "e": "Die KVR sind Mindestanforderungen. Seemännische Praxis und besondere Umstände können mehr verlangen, und wer das versäumt, trägt die Folgen.",
 "m": "KVR sind das Minimum."
 },
+"sks:recht-60": {
+"e": "Die KVR gelten im ganzen Bereich der SeeSchStrO, im und außerhalb des Fahrwassers, soweit die SeeSchStrO nichts anderes bestimmt. Die speziellere Regel geht vor.",
+"m": "KVR überall, außer die SeeSchStrO sagt etwas anderes."
+},
+"sks:recht-61": {
+"e": "Segler, die nicht dem Fahrwasser folgen, weichen sich untereinander nach den KVR aus, ohne vorfahrtberechtigte Fahrzeuge zu stören.",
+"m": "Unter sich KVR, Vorfahrt der anderen beachten."
+},
+"sks:recht-62": {
+"e": "Kurz-lang fortwährend mit rotem Rundumlicht ist das Bleib-weg-Signal: gefährliche Stoffe treten aus oder es besteht Explosionsgefahr. Man entfernt sich weit, bedient keine elektrischen Schalter und vermeidet offenes Feuer.",
+"m": "Bleib weg, keine Funken."
+},
+"sks:recht-63": {
+"e": "Gefährdet man ein anderes Fahrzeug oder wird gefährdet, gibt man rechtzeitig das Gefahr- und Warnsignal: zweimal ein langer und vier kurze Töne.",
+"m": "Lang plus viermal kurz, zweimal."
+},
+"sks:recht-64": {
+"e": "Sportboote dürfen den NOK nur zur Durchfahrt, ohne Lotsen nur tagsüber und nicht bei schlechter Sicht benutzen. Sie müssen vor Ende der Tagfahrzeit eine Sportboot-Liegestelle erreichen und dürfen bei plötzlichem Nebel hinter den Dalben in den Weichen festmachen.",
+"m": "Nur durch, nur tags, rechtzeitig zur Liegestelle."
+},
+"sks:recht-65": {
+"e": "Auf dem NOK ist Segeln verboten. Motorboote dürfen zusätzlich Segel setzen. Ein motorbetriebenes Sportboot darf nur ein Sportboot schleppen.",
+"m": "Kanal: Motor ja, nur Segeln nein."
+},
+"sks:recht-66": {
+"e": "Im Nebel auf dem NOK macht man so schnell wie möglich in einem Weichengebiet hinter den Dalben oder an einer geeigneten Liegestelle fest.",
+"m": "Nebel im Kanal: rein hinter die Dalben."
+},
+"sks:recht-67": {
+"e": "Unterbrochen rot: Einfahren verboten. Unterbrochen weiß über rot: Freigabe wird vorbereitet. Unterbrochen weiß: Sportboote dürfen einfahren.",
+"m": "Rot nein, Weiß über Rot gleich, Weiß los."
+},
+"sks:recht-68": {
+"e": "„Vorfahrt beachten“ heißt warten. Man zeigt früh, dass man wartet, und fährt erst, wenn der Fahrwasserverkehr nicht beeinträchtigt wird.",
+"m": "Vorfahrt beachten = früh zeigen, dass du wartest."
+},
+"sks:recht-69": {
+"e": "Vorfahrt hat das Fahrzeug im Fahrwasser. Andere warten mit Einlaufen, Drehen oder An- und Ablegen. Vorfahrt erzwingen darf man aber nicht, bei drohender Kollision muss auch der Berechtigte handeln.",
+"m": "Vorfahrt haben ist kein Recht auf Rammen."
+},
 "sks:recht-7": {
 "e": "Verkehrstrennungsgebiete sind Schifffahrtswege mit Einbahnwegen. Man fährt rechts der Trennlinie oder Trennzone, darf aber die ganze Breite des Einbahnwegs nutzen.",
 "m": "Rechts fahren, ganze Spur nutzen."
+},
+"sks:recht-70": {
+"e": "Wer ins Fahrwasser einläuft, beachtet die Vorfahrt der Fahrzeuge darin, wartet, bis es frei ist, und zeigt das früh.",
+"m": "Einlaufen: warten."
+},
+"sks:recht-71": {
+"e": "Wer den Anker- oder Liegeplatz verlässt, beachtet die Vorfahrt der Fahrzeuge im Fahrwasser und wartet, bis es frei ist.",
+"m": "Ablegen: warten."
+},
+"sks:recht-72": {
+"e": "Im Fahrwasser hält sich ein Sportboot so nah wie gefahrlos möglich am rechten Rand.",
+"m": "Rechts ran im Fahrwasser."
+},
+"sks:recht-73": {
+"e": "Außerhalb des Fahrwassers fährt man so, dass klar erkennbar ist, dass man es nicht benutzt.",
+"m": "Deutlich draußen bleiben."
+},
+"sks:recht-74": {
+"e": "Segler, die dem Fahrwasser folgen und sich entgegenkommen, weichen beide nach Steuerbord aus.",
+"m": "Im Fahrwasser: beide rechts."
+},
+"sks:recht-75": {
+"e": "Queren heißt, deutlich mehr als etwa 10° vom Fahrwasserverlauf abzuweichen, zum Beispiel beim Kreuzen über das Fahrwasser.",
+"m": "Mehr als 10° schräg = queren."
+},
+"sks:recht-76": {
+"e": "Außerhalb des Fahrwassers sind bei erkennbarem Badebetrieb innerhalb von 500 m vom Ufer höchstens 8 km/h erlaubt.",
+"m": "Badende in Sicht: 8 km/h."
+},
+"sks:recht-77": {
+"e": "Rot-Weiß-Rot mit Fahrtlichtern ist ein manövrierbehindertes Fahrzeug in Fahrt, das unter Wasser arbeitet. Zwei Grüne zeigen die freie Seite, zwei Rote die behinderte.",
+"m": "Grün frei, Rot gesperrt."
+},
+"sks:recht-78": {
+"e": "Ball-Rhombus-Ball mit Bugwelle: ein baggerndes Fahrzeug in Fahrt. Zwei Rhomben zeigen die Passierseite, zwei Bälle die behinderte Seite.",
+"m": "Rhomben frei, Bälle gesperrt."
+},
+"sks:recht-79": {
+"e": "Elbabwärts liegt die Backbordfahrwasserseite, von See aus gesehen links, an Steuerbord. 32a ist eine Backbordtonne. Abwärts nehmen die Nummern ab, die nächste ist 32.",
+"m": "Abwärts zählen die Tonnen runter."
 },
 "sks:recht-8": {
 "e": "Manövrierunfähig ist ein Fahrzeug, das wegen außergewöhnlicher Umstände wie Ruderbruch nicht regelgerecht manövrieren und deshalb nicht ausweichen kann.",
 "m": "Unfähig = etwas ist kaputt."
 },
+"sks:recht-80": {
+"e": "Schleppt ein Motorsportboot ein anderes Sportboot, gilt es nicht als schleppendes Maschinenfahrzeug nach KVR. Besondere Lichter braucht es deshalb nicht.",
+"m": "Sportboot schleppt Sportboot: keine Extra-Lichter."
+},
+"sks:recht-81": {
+"e": "Auf dem NOK darf ein Motorsportboot nur ein Sportboot schleppen, das geschleppte muss kürzer als 15 m sein, und man muss mindestens 9 km/h fahren.",
+"m": "Eins, unter 15 m, mindestens 9 km/h."
+},
+"sks:recht-82": {
+"e": "Diese Signale an Land zeigen eine außergewöhnliche Schifffahrtsbehinderung. Nachts zeigt man Rot-Rot-Grün übereinander.",
+"m": "Nachts: Rot, Rot, Grün."
+},
+"sks:recht-83": {
+"e": "Auch nach SeeSchStrO darf niemand führen oder Brücken- und Decksdienst leisten, der durch Mängel, Alkohol oder andere Rauschmittel beeinträchtigt ist.",
+"m": "Beeinträchtigt: kein Dienst."
+},
+"sks:recht-84": {
+"e": "Nach SeeSchStrO gelten dieselben Grenzen: 0,25 mg/l Atemalkohol oder 0,5 Promille Blutalkohol.",
+"m": "0,25 mg/l oder 0,5 Promille."
+},
+"sks:recht-85": {
+"e": "Beim ersten Anlaufen eines ausländischen Hafens erledigt man Einreise-, Gesundheits- und Zollformalitäten.",
+"m": "Einreise, Gesundheit, Zoll."
+},
+"sks:recht-86": {
+"e": "Das Flaggenzertifikat stellt das BSH aus. Es weist Recht und Pflicht zum Führen der Bundesflagge nach, für nicht registerpflichtige Fahrzeuge unter 15 m.",
+"m": "Unter 15 m: Flaggenzertifikat vom BSH."
+},
+"sks:recht-87": {
+"e": "Das Schiffszertifikat weist die Eintragung im Seeschiffsregister nach. Es stellt das Registergericht aus, Pflicht ist es ab 15 m Rumpflänge.",
+"m": "Ab 15 m: Schiffszertifikat vom Registergericht."
+},
+"sks:recht-88": {
+"e": "Das Küstenmeer reicht von der Küstenlinie bei mittlerem Hochwasser oder der Basislinie bis 12 sm seewärts.",
+"m": "Küstenmeer: 12 Seemeilen."
+},
+"sks:recht-89": {
+"e": "Innere Gewässer liegen landwärts der Basislinien.",
+"m": "Innen = hinter der Basislinie."
+},
 "sks:recht-9": {
 "e": "Manövrierbehindert ist ein Fahrzeug, das wegen seiner Arbeit, etwa als Bagger oder Kabelleger, nicht regelgerecht manövrieren und deshalb nicht ausweichen kann.",
 "m": "Behindert = bei der Arbeit."
+},
+"sks:recht-90": {
+"e": "Die Basislinie trennt die inneren Gewässer vom Küstenmeer. Sie ist in den Seekarten eingezeichnet.",
+"m": "Basislinie: Grenze innen/Küstenmeer, steht in der Karte."
+},
+"sks:recht-91": {
+"e": "Die Bundesstelle für Seeunfalluntersuchung untersucht Seeunfälle, ermittelt die Umstände und gibt Berichte und Sicherheitsempfehlungen heraus. Sie sucht Ursachen, keine Schuldigen.",
+"m": "Ursachen finden, Unfälle verhindern."
+},
+"sks:recht-92": {
+"e": "Ein Seeunfall liegt zum Beispiel vor bei Schiffsverlust, Grundberührung oder Kollision, bei Tod oder schwerer Verletzung, bei Umwelt- oder Sachschaden oder bei Gefahr für Menschen, Schiffe oder Umwelt.",
+"m": "Schiff, Mensch, Umwelt: Schaden oder Gefahr."
+},
+"sks:recht-93": {
+"e": "Ein Seeunfall wird sofort der Bundesstelle für Seeunfalluntersuchung gemeldet, im deutschen Hafen auch über die Wasserschutzpolizei, im Ausland über die Hafenbehörde.",
+"m": "Sofort melden, notfalls über WSP oder Hafenbehörde."
+},
+"sks:recht-94": {
+"e": "Zu melden sind unter anderem: Meldender, Ort und Zeit, Schiffsdaten mit Rufzeichen und MMSI, Schiffsführer, Herkunft und Ziel, Personen an Bord, Schäden, Ablauf, beteiligte Schiffe, Wetter und Verschmutzungsgefahr.",
+"m": "Wer, wo, wann, welches Schiff, was passiert, welcher Schaden."
+},
+"sks:recht-95": {
+"e": "Die Meldepflicht regelt die Verordnung über die Sicherung der Seefahrt. Melden muss der Schiffsführer, ersatzweise ein Besatzungsmitglied oder der Betreiber.",
+"m": "Sicherungsverordnung, Schiffsführer meldet."
+},
+"sks:recht-96": {
+"e": "Seeämter sind Untersuchungsausschüsse, die prüfen, ob ein Fahrverbot verhängt oder ein Befähigungszeugnis oder Sportbootführerschein entzogen werden muss.",
+"m": "Seeamt: Geht der Schein weg?"
+},
+"sks:recht-97": {
+"e": "Rechtliche Hinweise geben die Broschüren „Sicherheit auf dem Wasser“ und „Sicherheit im See- und Küstenbereich“.",
+"m": "Zwei Sicherheitsbroschüren."
+},
+"sks:recht-98": {
+"e": "Eine unbekannte Gefahr wie einen treibenden Container meldet man schnellstmöglich direkt oder über Verkehrszentrale oder Küstenfunkstelle dem Maritimen Lagezentrum in Cuxhaven.",
+"m": "Gefahr auf See: MLZ Cuxhaven."
+},
+"sks:recht-99": {
+"e": "Die Gastlandflagge wird beim Einlaufen in die Küstengewässer des Gastlands unter der Steuerbordsaling gesetzt.",
+"m": "Gast steht rechts: Steuerbordsaling."
+},
+"sks:see1-1": {
+"e": "Gelcoat ist die äußere Schutzschicht eines GFK-Bauteils.",
+"m": "Gelcoat = Außenhaut aus Kunstharz."
+},
+"sks:see1-10": {
+"e": "Backstagen stagen den Mast zusätzlich nach achtern ab, vor allem bei 7/8-Takelung und anderen nicht toppgetakelten Yachten.",
+"m": "Backstagen: Extra-Halt nach hinten bei 7/8."
+},
+"sks:see1-11": {
+"e": "Laufendes Gut ist das Tauwerk zum Setzen, Bergen und Bedienen der Segel und anderer Teile der Takelage.",
+"m": "Laufendes Gut bewegt sich, stehendes hält."
+},
+"sks:see1-12": {
+"e": "Segel pflegt man, indem man sie trocknet, vor Sonne schützt, Salz abspült und Schäden sofort repariert.",
+"m": "Trocken, im Schatten, salzfrei, heil."
+},
+"sks:see1-13": {
+"e": "Ein hoch geschnittenes Unterliek sorgt dafür, dass überkommende Seen nicht ins Segel schlagen und Rigg und Segel nicht belasten.",
+"m": "Unterliek hoch, Welle drunter durch."
+},
+"sks:see1-14": {
+"e": "Das Trysegel ist ein kleines Schwerwettersegel, das statt des Großsegels mit losem Unterliek gefahren wird.",
+"m": "Trysegel: Sturmgroß ohne Baum."
+},
+"sks:see1-15": {
+"e": "Schlagende Segel beschädigen Tuch und Beschläge, besonders bei viel Wind.",
+"m": "Schlagen zerstört."
+},
+"sks:see1-16": {
+"e": "Segellatten geben dem Segel Profil und verhindern, dass das Achterliek einklappt.",
+"m": "Latten halten das Achterliek in Form."
+},
+"sks:see1-2": {
+"e": "Beim Sandwichverfahren wird zwischen zwei GFK-Schichten eine Zwischenlage, zum Beispiel Balsaholz, einlaminiert.",
+"m": "GFK, Kern, GFK wie ein Sandwich."
+},
+"sks:see1-3": {
+"e": "Sandwichbau ist steif und verwindungsfest, leicht und isoliert gut.",
+"m": "Steif, leicht, warm."
+},
+"sks:see1-4": {
+"e": "Stahl ist sehr fest, zuverlässig und langlebig, aber schwer und rostanfällig.",
+"m": "Stark, aber schwer und rostig."
+},
+"sks:see1-5": {
+"e": "Mit der CE-Kategorie legt der Hersteller fest, in welchem Fahrgebiet, bis zu welcher Windstärke und welcher Wellenhöhe das Boot sicher betrieben werden kann.",
+"m": "Kategorie: wo, wie viel Wind, wie viel Welle."
+},
+"sks:see1-6": {
+"e": "Die CE-Kategorien sind A Hochsee, B außerhalb von Küstengewässern, C küstennahe Gewässer und D geschützte Gewässer.",
+"m": "A Hochsee, B draußen, C Küste, D geschützt."
+},
+"sks:see1-7": {
+"e": "Kategorie B gilt für Fahrten außerhalb der Küstengewässer bis einschließlich 8 Bft und 4 m signifikanter Wellenhöhe.",
+"m": "B: 8 Bft, 4 m."
+},
+"sks:see1-8": {
+"e": "Bei der Seilzugsteuerung dreht das Rad ein Zahnrad, über das eine Kette in der Steuersäule läuft. Die Kette ist mit Steuerseilen verbunden, die über Umlenkrollen zum Ruderquadranten führen.",
+"m": "Rad, Kette, Seil, Quadrant."
+},
+"sks:see1-9": {
+"e": "Stagen halten den Mast nach vorn und achtern, Wanten seitlich.",
+"m": "Stagen längs, Wanten quer."
+},
+"sks:wetter-1": {
+"e": "Wind ist bewegte Luft. Sie strömt wegen der Druckunterschiede vom Hoch zum Tief.",
+"m": "Luft will vom Hoch ins Tief."
+},
+"sks:wetter-10": {
+"e": "Orkanwarnungen gibt es ab Windstärke 10. Die Böen liegen dann erfahrungsgemäß über Bft 12.",
+"m": "Ab 10: Orkanwarnung."
+},
+"sks:wetter-100": {
+"e": "Den Luftdruck misst man mit dem Barometer oder schreibt ihn mit dem Barografen auf.",
+"m": "Barometer oder Barograf."
+},
+"sks:wetter-101": {
+"e": "Ohne Messanlage schätzt man die Windstärke mit der Beaufortskala nach dem Seegangsbild und die Richtung nach der Laufrichtung der Wellenkämme.",
+"m": "Stärke am Seegang, Richtung an den Kämmen."
+},
+"sks:wetter-11": {
+"e": "Geschätzt wird mit der 12-teiligen Beaufortskala. Mäßiger Wind ist Stärke 4, Starkwind Stärke 6 und 7.",
+"m": "4 mäßig, 6–7 stark."
+},
+"sks:wetter-12": {
+"e": "Sendezeiten und Frequenzen für Europa stehen im „Handbuch Nautischer Funkdienst“ und im „Jachtfunkdienst“, weltweit in der „Admiralty List of Radio Signals“.",
+"m": "Europa: Handbuch und Jachtfunk. Weltweit: Admiralty."
+},
+"sks:wetter-13": {
+"e": "Wetter bekommt man über Rundfunk, Küstenfunkstellen, Verkehrszentralen, NAVTEX, SafetyNet, Online-Dienste, Funkfernschreiben, Wetterfax, Telefonabruf oder Törnberatung.",
+"m": "Radio, Funk, NAVTEX, Internet, Fax, Telefon."
+},
+"sks:wetter-14": {
+"e": "Ein Halo um Sonne oder Mond entsteht in dünnen Eiswolken (Cirrostratus), die oft einer Warmfront vorausziehen. Er kündigt Niederschlag und Wetterverschlechterung an.",
+"m": "Ring um Sonne oder Mond: Regen im Anmarsch."
+},
+"sks:wetter-15": {
+"e": "Haufenwolken bringen Böen, besonders der Cumulonimbus, die Schauer- und Gewitterwolke.",
+"m": "Hohe Haufen, harte Böen."
+},
+"sks:wetter-16": {
+"e": "Man unterscheidet Haufen- und Schichtwolken. Die zehn Haupttypen sind Cirrus, Cirrostratus, Cirrocumulus, Altostratus, Altocumulus, Nimbostratus, Stratocumulus, Stratus, Cumulus und Cumulonimbus.",
+"m": "Cirro hoch, Alto mittel, ohne Vorsilbe tief."
+},
+"sks:wetter-17": {
+"e": "Tiefe Wolken liegen bei 0 bis 2 km, mittelhohe bei 2 bis 7 km, hohe bei 7 bis 13 km.",
+"m": "2, 7, 13 Kilometer."
+},
+"sks:wetter-18": {
+"e": "Hohe Wolken bestehen aus kleinen Eiskristallen, weil es dort sehr kalt ist.",
+"m": "Oben ist Eis."
+},
+"sks:wetter-19": {
+"e": "Ein kräftiges Gewitter erkennt man am Cumulonimbus mit ambossförmigem Schirm in großer Höhe.",
+"m": "Amboss oben: Gewitter."
+},
+"sks:wetter-2": {
+"e": "Der Taupunkt ist die Temperatur, bei der abgekühlte Luft mit Feuchtigkeit gesättigt ist. Darunter kondensiert Wasser: Tau, Nebel, Wolken.",
+"m": "Taupunkt: Ab hier wird's nass."
+},
+"sks:wetter-20": {
+"e": "Altocumulus castellanus, mittelhohe Wolken mit Türmchen wie eine Burg, kündigen oft schon vormittags Wärmegewitter an.",
+"m": "Burgtürmchen am Morgen: Gewitter am Nachmittag."
+},
+"sks:wetter-21": {
+"e": "Auf der Nordhalbkugel weht der Wind rechtsherum aus dem Hoch heraus und linksherum ins Tief hinein.",
+"m": "Hoch rechtsrum raus, Tief linksrum rein."
+},
+"sks:wetter-22": {
+"e": "Eine Front ist die vordere Grenze einer Luftmasse. Man unterscheidet Warm-, Kalt- und Okklusionsfront.",
+"m": "Warm, kalt, okkludiert."
+},
+"sks:wetter-23": {
+"e": "Vor der Kaltfront bleibt der Druck gleich oder fällt wenig, beim Durchgang ist er am tiefsten, danach steigt er deutlich.",
+"m": "Tiefpunkt beim Durchgang, danach geht's rauf."
+},
+"sks:wetter-24": {
+"e": "Isobaren zeigen Windrichtung und Druckgefälle. Je enger sie liegen, desto stärker der Wind.",
+"m": "Eng = windig."
+},
+"sks:wetter-25": {
+"e": "Am Boden bremst die Reibung den Wind, er dreht dadurch gegen den Uhrzeigersinn (rückgedreht) und weht schräg zu den Isobaren.",
+"m": "Reibung lenkt den Wind ab."
+},
+"sks:wetter-26": {
+"e": "Über See weht der Wind ums Tief rückgedreht etwa 10° bis 20° schräg zu den Isobaren ins Tief hinein.",
+"m": "Ins Tief hinein, 10 bis 20 Grad schräg."
+},
+"sks:wetter-27": {
+"e": "Ums Hoch weht der Wind über See rückgedreht etwa 10° bis 20° schräg aus dem Hoch heraus.",
+"m": "Aus dem Hoch heraus, 10 bis 20 Grad schräg."
+},
+"sks:wetter-28": {
+"e": "Schnelle Tiefs ziehen mit 30 bis 50 kn, mittlere mit 15 bis 30 kn, langsame bis 15 kn.",
+"m": "15, 30, 50."
+},
+"sks:wetter-29": {
+"e": "Tiefs entstehen, wo kalte Luft aus hohen Breiten auf warme subtropische Luft trifft.",
+"m": "Kalt trifft warm."
+},
+"sks:wetter-3": {
+"e": "Die Luftfeuchtigkeit gibt man als relative Feuchte in Prozent an.",
+"m": "Relative Feuchte in Prozent."
+},
+"sks:wetter-30": {
+"e": "Im Zentrum eines Hochs weht meist nur schwacher, umlaufender Wind.",
+"m": "Im Hoch ist Flaute."
+},
+"sks:wetter-31": {
+"e": "Isobaren werden international im Abstand von 5 hPa gezeichnet.",
+"m": "Alle 5 hPa eine Linie."
+},
+"sks:wetter-32": {
+"e": "Vor der Warmfront: bedeckt, Dauerregen, schlechte Sicht. Im Warmsektor: diesig, aufgelockert, zeitweise Regen. Hinter der Kaltfront: gute Sicht, aber Schauer mit kräftigen Böen.",
+"m": "Grau und Regen, dann diesig, dann klar mit Schauern."
+},
+"sks:wetter-33": {
+"e": "Auf der Nordhalbkugel weht der Wind linksherum ins Tief. Daraus ergeben sich an den Punkten der Skizze Nordost, Süd, Südwest, Nordwest und im Zentrum umlaufender Wind.",
+"m": "Gegen den Uhrzeiger ums Tief."
+},
+"sks:wetter-34": {
+"e": "In der Abbildung ist 1 die Okklusion (der Ausläufer), 2 die Warmfront und 3 die Kaltfront.",
+"m": "Okklusion vorne, dann warm, dann kalt."
+},
+"sks:wetter-35": {
+"e": "Luftmassengrenzen sind Fronten. Sie trennen Luft unterschiedlicher Temperatur und Feuchte: Kaltfront, Warmfront, Okklusion.",
+"m": "Fronten trennen Luftmassen."
+},
+"sks:wetter-36": {
+"e": "Im Mittelmeer muss man vor allem mit der Land-Seewind-Zirkulation rechnen.",
+"m": "Tags Seewind, nachts Landwind."
+},
+"sks:wetter-37": {
+"e": "Wichtige regionale Winde im Mittelmeer sind Mistral, Scirocco, Bora und Etesien (Meltemi).",
+"m": "Mistral, Scirocco, Bora, Meltemi."
+},
+"sks:wetter-38": {
+"e": "In der Adria muss man mit der Bora rechnen, einem kalten, sehr böigen Fallwind.",
+"m": "Adria: Bora."
+},
+"sks:wetter-39": {
+"e": "In der Ägäis wehen im Sommer die Etesien, der Meltemi.",
+"m": "Ägäis: Meltemi."
+},
+"sks:wetter-4": {
+"e": "Eine Wetterbeobachtung an Bord umfasst Windrichtung und -stärke, Luftdruck, Wetter, Bedeckung, Wolken, Seegang, Strom, Temperatur und gegebenenfalls Luftfeuchte.",
+"m": "Wind, Druck, Himmel, See, Temperatur."
+},
+"sks:wetter-40": {
+"e": "Tröge bilden sich auf der Rückseite von Tiefs in hochreichender Kaltluft und folgen meist einer Kaltfront.",
+"m": "Trog kommt nach der Kaltfront."
+},
+"sks:wetter-41": {
+"e": "Die Okklusion wird auch „Ausläufer“ genannt.",
+"m": "Ausläufer = Okklusion."
+},
+"sks:wetter-42": {
+"e": "Tagsüber erwärmt sich das Land stärker als das Wasser. Warme Luft steigt über Land auf, und kühlere Luft strömt von See nach: Seewind.",
+"m": "Tags heißes Land saugt die Seeluft an."
+},
+"sks:wetter-43": {
+"e": "Haufenwolken (Cumulus) über Land am späten Vormittag zeigen aufsteigende Luft und kündigen Seewind an.",
+"m": "Cumulus über Land: Seewind kommt."
+},
+"sks:wetter-44": {
+"e": "Seewind erreicht im Mittelmeer bis etwa 25 kn (Bft 6), in Nord- und Ostsee meist bis 15 kn, selten bis 20 kn (Bft 4–5, selten 5–6).",
+"m": "Mittelmeer stärker als Nord- und Ostsee."
+},
+"sks:wetter-45": {
+"e": "Seewind weht von Mittag bis zum frühen Abend.",
+"m": "Mittags bis abends."
+},
+"sks:wetter-46": {
+"e": "Setzt Seewind ein, kann er den bisherigen Wind in Richtung und Stärke erheblich verändern.",
+"m": "Seewind mischt das Windbild auf."
+},
+"sks:wetter-47": {
+"e": "Nachts kühlt das Land stark ab, das Wasser kaum. Über dem wärmeren Wasser steigt Luft auf, und vom Land strömt Luft nach: Landwind.",
+"m": "Nachts ist das Wasser wärmer."
+},
+"sks:wetter-48": {
+"e": "Landwind ist schwächer als Seewind, etwa 1 bis 10 kn, Bft 1 bis 3.",
+"m": "Landwind ist schwach."
+},
+"sks:wetter-49": {
+"e": "Landwind weht von Mitternacht bis zum frühen Morgen.",
+"m": "Nachts bis früh."
+},
+"sks:wetter-5": {
+"e": "Die Windstärke gibt man in Beaufort an, die Windgeschwindigkeit in Knoten, m/s oder km/h.",
+"m": "Stärke in Bft, Tempo in kn, m/s, km/h."
+},
+"sks:wetter-50": {
+"e": "Vorhergesagte Windgeschwindigkeiten gelten meist für etwa 10 m Höhe.",
+"m": "10 Meter über Wasser."
+},
+"sks:wetter-51": {
+"e": "Der wahre Wind hängt nicht vom eigenen Kurs ab. Anluven ändert nur den scheinbaren Wind, die wahre Windgeschwindigkeit bleibt gleich.",
+"m": "Dein Kurs ändert den wahren Wind nicht."
+},
+"sks:wetter-52": {
+"e": "„Nordwest 6“ ist ein Mittelwert: Die Richtung kann um bis zu 45° schwanken (WNW bis NNW), Böen können 1 bis 2 Bft darüber liegen.",
+"m": "Plus minus eine Strichgruppe, Böen 1–2 Bft mehr."
+},
+"sks:wetter-53": {
+"e": "Schauerböen treten besonders beim Durchzug und auf der Rückseite von Kaltfronten nahe Schauern auf und können den Mittelwind um 2 Bft übersteigen.",
+"m": "Schauer bringt plus 2 Bft."
+},
+"sks:wetter-54": {
+"e": "Im Sommer können bei sonst schwachem Wind Gewitter mit Böen bis Sturm- oder Orkanstärke auftreten. Deshalb werden sie extra angegeben.",
+"m": "Schwacher Wind, aber Gewitter: Vorsicht!"
+},
+"sks:wetter-55": {
+"e": "Ein Seewetterbericht besteht aus Hinweisen auf Starkwind oder Sturm, Wetterlage, Vorhersagen, Aussichten und Stationsmeldungen.",
+"m": "Warnung, Lage, Vorhersage, Aussicht, Stationen."
+},
+"sks:wetter-56": {
+"e": "Lokale Effekte wie Land-Seewind, Düsen- und Kapeffekte kann der Seewetterbericht nur eingeschränkt berücksichtigen.",
+"m": "Lokales steht nicht im Bericht."
+},
+"sks:wetter-57": {
+"e": "Starkwindwarnungen gibt es bei erwarteten oder andauernden 6 bis 7 Bft. International heißen sie near-gale warning.",
+"m": "6–7 Bft = near gale."
+},
+"sks:wetter-58": {
+"e": "Sturmwarnungen gibt es ab erwarteten oder andauernden 8 Bft. International heißen sie gale warning.",
+"m": "Ab 8 Bft: gale."
+},
+"sks:wetter-59": {
+"e": "Seewetterberichte geben die kennzeichnende (charakteristische) Wellenhöhe an.",
+"m": "Kennzeichnende Wellenhöhe."
+},
+"sks:wetter-6": {
+"e": "Linien gleichen Luftdrucks heißen Isobaren. Den Druck misst man in Hektopascal, früher auch in Millibar (gleicher Zahlenwert).",
+"m": "Isobaren in hPa (= mbar)."
+},
+"sks:wetter-60": {
+"e": "Die kennzeichnende Wellenhöhe ist der Mittelwert des höchsten Drittels der Wellen. Einzelne Wellen können 1,5-mal so hoch werden.",
+"m": "Einzelwellen bis 1,5-fach."
+},
+"sks:wetter-61": {
+"e": "Rechtdrehend heißt, der Wind dreht im Uhrzeigersinn, zum Beispiel von Süd über West nach Nord. Rückdrehend heißt gegen den Uhrzeigersinn um mindestens 45°.",
+"m": "Rechts mit der Uhr, rück gegen die Uhr."
+},
+"sks:wetter-62": {
+"e": "Stationsmeldungen werden von der Umgebung der Station beeinflusst. Die Richtung kann verfälscht sein, die Geschwindigkeit ist meist geringer als auf See, selten höher.",
+"m": "An Land gemessen ist nicht auf See gemessen."
+},
+"sks:wetter-63": {
+"e": "„Diesig“ bedeutet Sichtweiten von über 1 km bis 10 km, etwa 0,5 bis 6 sm.",
+"m": "Diesig: 1 bis 10 km."
+},
+"sks:wetter-64": {
+"e": "Wo das Seegebiet „Fischer“ liegt, steht im Handbuch Nautischer Funkdienst, im Jachtfunkdienst für Nord- und Ostsee oder in der Admiralty List of Radio Signals.",
+"m": "Seegebiete: in den Funkhandbüchern."
+},
+"sks:wetter-65": {
+"e": "Mittlere Windverhältnisse eines fremden Reviers findet man in Hafen- und Revierführern und in Monatskarten.",
+"m": "Revierführer und Monatskarten."
+},
+"sks:wetter-66": {
+"e": "Fällt der Druck in 3 Stunden um 10 hPa, ist meist schwerer Sturm zu erwarten. Bei starkem Druckfall muss man Kurs und Fahrt im Verhältnis zum Tief bedenken.",
+"m": "10 hPa in 3 h: schwerer Sturm."
+},
+"sks:wetter-67": {
+"e": "Fährt man nach Westen auf ein ostwärts ziehendes Tief zu, nähert man sich ihm doppelt schnell. Der beobachtete Druckfall wird stärker.",
+"m": "Gegenkurs zum Tief: Druck fällt schneller."
+},
+"sks:wetter-68": {
+"e": "Bei ablandigem Wind liegt der Hafen im Windschatten. Draußen auf See weht es deutlich stärker als im Hafen.",
+"m": "Ablandig: Im Hafen täuscht die Ruhe."
+},
+"sks:wetter-69": {
+"e": "Bei auflandigem Wind in einem ungeschützten Hafen entspricht der Wind dort etwa dem auf freier See.",
+"m": "Auflandig: Was im Hafen weht, weht auch draußen."
+},
+"sks:wetter-7": {
+"e": "Gewitter bringen Böen bis Orkanstärke, plötzliche Winddrehungen, Regen oder Hagel mit schlechter Sicht und Blitzschlag.",
+"m": "Böen, Drehen, Hagel, Blitz."
+},
+"sks:wetter-70": {
+"e": "In engen Durchfahrten wird die Luft wie in einer Düse zusammengepresst und beschleunigt.",
+"m": "Düseneffekt."
+},
+"sks:wetter-71": {
+"e": "In Luv eines Kaps dreht der Wind oft parallel zur Küste und frischt auf. In Lee ist er meist schwach, kann bei hohen Bergen umlaufen und ist örtlich sehr böig durch Fallwinde.",
+"m": "Luv: stärker. Lee: schwach, aber böig."
+},
+"sks:wetter-72": {
+"e": "Bei auf- oder küstenparallelem Wind beschleunigt die Steilküste den Wind teilweise. Bei ablandigem Wind muss man mit umlaufenden Winden und Fallböen rechnen.",
+"m": "Steilküste: Beschleunigung oder Fallböen."
+},
+"sks:wetter-73": {
+"e": "Flaut der Wind abends langsam ab, bleibt das Wetter oft gut. Nimmt er abends zu, kündigt das häufig Starkwind, Sturm und Regen an.",
+"m": "Abends abflauend gut, abends zunehmend schlecht."
+},
+"sks:wetter-74": {
+"e": "Dreht der Wind nach einer Kaltfront zurück und fällt der Druck erneut, kommt meist deutliche Verschlechterung mit Wind bis Sturmstärke. Das nennt man Troglage.",
+"m": "Nach der Front nochmal runter: Trog."
+},
+"sks:wetter-75": {
+"e": "Beim Durchzug eines markanten Trogs dreht der Wind recht, meist um 60 bis 90°. Besonders auf der Rückseite kann er bis Orkanstärke wehen.",
+"m": "Trog: kräftiges Rechtsdrehen, hinten harte Böen."
+},
+"sks:wetter-76": {
+"e": "Nebel entsteht durch Feuchtezufuhr, durch Mischung feuchter Luftmassen unterschiedlicher Temperatur oder durch Abkühlung der Luft unter den Taupunkt.",
+"m": "Feucht plus kalt: Nebel."
+},
+"sks:wetter-77": {
+"e": "Nebel heißt: Sichtweite unter 1.000 m.",
+"m": "Unter 1 km."
+},
+"sks:wetter-78": {
+"e": "Kaltwassernebel entsteht, wenn warme, feuchte Luft über kaltes Wasser zieht und unter den Taupunkt abkühlt. In Europa vor allem im Frühjahr.",
+"m": "Warme Luft, kaltes Wasser: Frühjahr."
+},
+"sks:wetter-79": {
+"e": "Warmwassernebel entsteht, wenn kalte Luft über warmes Wasser strömt und Verdunstung sie sättigt. In Europa vor allem im Herbst.",
+"m": "Kalte Luft, warmes Wasser: Herbst."
+},
+"sks:wetter-8": {
+"e": "Besonders heftige Gewitter entstehen am Ende einer hochsommerlichen Schönwetterperiode mit einer Kaltfront.",
+"m": "Nach der Hitze kommt der Knall."
+},
+"sks:wetter-80": {
+"e": "Strahlungsnebel entsteht nach Sonnenuntergang bei klarem Himmel, wenn die bodennahe Luft über Land unter den Taupunkt abkühlt. Man trifft ihn auf Flüssen, in engen Durchfahrten und vor der Küste, wenn er hinausgeweht wird.",
+"m": "Klare Nacht über Land: Strahlungsnebel."
+},
+"sks:wetter-81": {
+"e": "Im Mittelmeer kann bei bestimmten Wetterlagen Saharastaub die Sicht stark verringern.",
+"m": "Saharastaub."
+},
+"sks:wetter-82": {
+"e": "Seegang besteht aus Windsee und Dünung.",
+"m": "Windsee plus Dünung."
+},
+"sks:wetter-83": {
+"e": "Windsee wird vom Wind vor Ort oder in der Nähe erzeugt.",
+"m": "Windsee: frisch gemacht."
+},
+"sks:wetter-84": {
+"e": "Wie hoch die Windsee wird, hängt von Windgeschwindigkeit, Fetch (Wirklänge) und Wirkdauer ab.",
+"m": "Stärke, Strecke, Dauer."
+},
+"sks:wetter-85": {
+"e": "Dünung ist Seegang, der dem Windfeld vorausläuft, oder alter, abklingender Seegang. Setzt plötzlich hohe Dünung ein, kann ein Sturm aufziehen.",
+"m": "Dünung ist der Bote des Sturms."
+},
+"sks:wetter-86": {
+"e": "Die Wellenhöhe ist der senkrechte Abstand zwischen Wellenberg und Wellental.",
+"m": "Berg bis Tal, senkrecht."
+},
+"sks:wetter-87": {
+"e": "Die Wellenlänge ist der waagerechte Abstand zwischen zwei Wellenbergen.",
+"m": "Berg bis Berg, waagerecht."
+},
+"sks:wetter-88": {
+"e": "Bei ablandigem Wind ist der Fetch an der Küste kurz, der Seegang bleibt niedriger als draußen.",
+"m": "Kurzer Anlauf, kleine Wellen."
+},
+"sks:wetter-89": {
+"e": "Bei auflandigem Wind ist der Seegang an der Küste ähnlich hoch wie draußen. Wo es flacher wird, drohen zusätzlich Brecher und Grundseen.",
+"m": "Auflandig: volle See, im Flachen Brecher."
+},
+"sks:wetter-9": {
+"e": "Vorhersagen nutzen die 8-teilige Windrose in 45°-Stufen, Stationsmeldungen die 16-teilige in 22,5°-Stufen.",
+"m": "Vorhersage grob (8), Meldung fein (16)."
+},
+"sks:wetter-90": {
+"e": "Grundseen sind besonders hohe Brecher, die über Untiefen oder ansteigendem Grund entstehen. Sie können etwa 2,5-mal so hoch werden wie die kennzeichnende Wellenhöhe.",
+"m": "Grundsee: bis 2,5-fach."
+},
+"sks:wetter-91": {
+"e": "Laufen Wind und Strom gegeneinander, werden die Wellen kürzer und steiler.",
+"m": "Gegeneinander: kurz und steil."
+},
+"sks:wetter-92": {
+"e": "Laufen Wind und Strom in dieselbe Richtung, werden die Wellen länger und flacher.",
+"m": "Miteinander: lang und flach."
+},
+"sks:wetter-93": {
+"e": "Kreuzsee entsteht, wenn Windsee und Dünung aus verschiedenen Richtungen kommen, etwa vor und beim Durchzug einer Kaltfront oder eines Trogs und nahe dem Tiefkern.",
+"m": "Wellen von zwei Seiten."
+},
+"sks:wetter-94": {
+"e": "In Lee kleiner Inseln laufen die Wellen um die Insel herum und kreuzen sich. Die See ist kurz und kabbelig.",
+"m": "Hinter der Insel: kabbelig."
+},
+"sks:wetter-95": {
+"e": "Wassertiefe sowie Meeres- und Gezeitenströme können Länge und Höhe des Seegangs stark verändern.",
+"m": "Tiefe und Strom formen die Wellen."
+},
+"sks:wetter-96": {
+"e": "Aus einer Dünungskarte kann man nicht auf den Wind schließen, denn Dünung gibt es auch ohne Wind vor Ort.",
+"m": "Dünung verrät den Wind nicht."
+},
+"sks:wetter-97": {
+"e": "Die Windgeschwindigkeit misst man mit dem Anemometer.",
+"m": "Anemometer."
+},
+"sks:wetter-98": {
+"e": "In Fahrt zeigt das Anemometer den scheinbaren Wind, also wahren Wind plus Fahrtwind.",
+"m": "An Bord: scheinbar."
+},
+"sks:wetter-99": {
+"e": "Wer den Luftdruck regelmäßig notiert, erkennt Trends wie einen nahenden Trog oder ein Tief. Man schreibt ihn mindestens alle 4 Stunden auf.",
+"m": "Alle 4 Stunden ins Logbuch."
 }
 }
 }
