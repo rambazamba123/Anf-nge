@@ -40,8 +40,8 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:0;border-radius:14px;padding:.75em 1.15em;background:var(--sea);color:var(--sea-ink);font-weight:700;min-height:50px;text-align:center}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
 .btn.lamp{background:var(--lamp);color:#3a2610}
-/* Gelb-gold mit Funkeln: Dieser Knopf kann KI- oder Stimmenkosten verursachen. Bei ausgeschalteter KI verschwindet er. */
-.btn.ki{background:linear-gradient(180deg,#f9dd7e,#d6a01e);color:#3a2610;box-shadow:inset 0 0 0 2px #a8780e,0 1px 0 rgba(0,0,0,.15)}
+/* Grau wie „ausgegraut“, mit Funkeln: Dieser Knopf kann KI- oder Stimmenkosten verursachen. Bei ausgeschalteter KI verschwindet er. */
+.btn.ki{background:#bdb8b0;color:#3f3b35;box-shadow:inset 0 0 0 2px #9d978e}
 .btn.ki::before{content:'✦';font-size:.85em;opacity:.85}
 .noki .ki,.nodev .dev{display:none!important}
 .btn.wide{width:100%}
@@ -277,8 +277,8 @@ nav.tabs svg{width:26px;height:26px}
 .menuitem{text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 12px;color:var(--ink);min-height:48px}
 .menuitem b{display:block;font-family:var(--hfont);font-size:1.02rem;line-height:1.2}
 .menuitem small{color:var(--muted)}
-.menuitem.ki{background:linear-gradient(180deg,#fbe7a0,#ecc455);border-color:#a8780e;color:#3a2610}
-.menuitem.ki small{color:#5a4410}
+.menuitem.ki{background:#d3cec6;border-color:#9d978e;color:#3f3b35}
+.menuitem.ki small{color:#5c574f}
 .menusay{background:var(--bg);border-radius:12px;padding:10px 12px;margin:0 0 10px;line-height:1.45}
 .hornbtn{display:flex;flex-direction:column;align-items:center;gap:1px;border:0;border-radius:16px;padding:6px 10px;min-height:56px;background:#c8962e;color:#2a1a08;font:700 .72rem/1.1 var(--bfont);box-shadow:0 3px 0 rgba(0,0,0,.22);flex:none}
 .hornbtn svg{width:26px;height:26px}
@@ -498,7 +498,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.31';
+  window.__ver = '4.32';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2071,8 +2071,8 @@ function toMessages(input) {
    Neuere Modelle denken standardmäßig nach; das Antwortlimit gilt für Nachdenken PLUS Text.
    Deshalb: Nachdenken abschalten, wo das Modell es erlaubt; sonst genug Spielraum geben.
    Kommt trotzdem kein Text, wird automatisch einmal mit dem schnellen Modell wiederholt. */
-/* KI-Schalter und Kostenzähler. Kosten entstehen nur über gelbe Knöpfe (.ki).
-   KI_LIMIT: gelbe Aktionen pro Tag und Gerät; 0 = noch keine Grenze (kommt später mit den Konten auf den Server). */
+/* KI-Schalter und Kostenzähler. Kosten entstehen nur über graue Knöpfe (.ki).
+   KI_LIMIT: Kosten-Aktionen pro Tag und Gerät; 0 = noch keine Grenze (kommt später mit den Konten auf den Server). */
 const KI_LIMIT = 0;
 const kiOn = () => !(S && S.cfg && S.cfg.ki === false);
 function kiUse() { const d = today(); if (!S.kiUse || S.kiUse.day !== d) S.kiUse = {day: d, n: 0}; return S.kiUse; }
@@ -2421,7 +2421,7 @@ function splash() {
 function keysStep(next) {
   const p = stagePanel(`<h2 style="margin:0 0 6px">Mit KI-Crew oder ohne?</h2>
     <div class="chips" style="margin:0 0 10px"><button class="chip" data-kion="1" aria-pressed="${kiOn()}">Mit KI-Crew</button><button class="chip" data-kion="0" aria-pressed="${!kiOn()}">Ohne KI lernen</button></div>
-    <p class="small" style="margin:0 0 8px">Ohne KI entstehen keine Kosten: Lernen, Prüfung, Erklärungen und Folgen gehen trotzdem. Mit KI kannst du die Crew alles fragen. Das läuft über gelbe Knöpfe ✦ und kostet ein wenig. Umstellen kannst du das jederzeit in den Einstellungen.</p>
+    <p class="small" style="margin:0 0 8px">Ohne KI entstehen keine Kosten: Lernen, Prüfung, Erklärungen und Folgen gehen trotzdem. Mit KI kannst du die Crew alles fragen. Das läuft über graue Knöpfe ✦ und kostet ein wenig. Umstellen kannst du das jederzeit in den Einstellungen.</p>
     <div id="kkeys" class="${kiOn() ? '' : 'hidden'}"><h3 style="margin:8px 0 6px">Zwei Schlüssel für die echte Crew</h3>
     <p class="small" style="margin:0 0 8px"><b>Anthropic</b> lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
     <label for="k1" style="margin-top:6px">Anthropic-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' : ''}">
@@ -2919,7 +2919,7 @@ function startSession() {
 let KARTEN = {};
 const cardKey = q => q.kind === 'open' ? 'sks:' + q.n : lexKey(q);
 const cardOf = q => (q && KARTEN[cardKey(q)]) || null;
-/* Vorlesen-Knopf: gelb, wenn der Text noch nicht im Stimmenpaket liegt und ElevenLabs ihn erzeugen würde */
+/* Vorlesen-Knopf: grau (Kostenknopf), wenn der Text noch nicht im Stimmenpaket liegt und ElevenLabs ihn erzeugen würde */
 const readCls = (c, t, kind) => kind === 'local' || !kiOn() || !elKey() || (kind === 'fixed' && PACK.has(c, pclean(t))) ? 'ghost' : 'ki';
 /* Merkspruch ohne KI: aus der Karte oder dem Lexikon */
 const localMn = q => { const c = cardOf(q), l = COURSE.kind === 'mc' ? lexOf(q) : null; return (c && c.m) || (l && l.merk) || ''; };
@@ -2937,7 +2937,7 @@ function qContext(q, k) {
   const c = cardOf(q);
   return `${catLine(q)}${q.img || q.qi ? ' (zur Frage gehört eine Abbildung, die du nicht siehst)' : ''}${Array.isArray(q.a) ? '\nFalsche Auswahlantworten: ' + q.a.slice(1).join(' | ') : ''}${k ? '\nGewählt wurde: ' + q.a[k] : ''}${c ? `\nErklärung aus unseren Unterlagen: ${c.e}${c.m ? '\nMerktipp: ' + c.m : ''}${c.f ? '\nTypischer Fehler: ' + c.f : ''}` : ''}`;
 }
-/* Gelber Kasten „Crew fragen“: Rückfragen zu einer Katalogfrage (kostet KI) */
+/* Grauer Kasten „Crew fragen“: Rückfragen zu einer Katalogfrage (kostet KI) */
 function askCrewBox(host, q, k) {
   if (!host || host.querySelector('.askcrew')) return;
   const sugg = ['Erklär es einfacher', 'Gib mir ein Beispiel aus der Praxis'].concat(Array.isArray(q.a) ? ['Warum sind die anderen Antworten falsch?'] : []);
@@ -2975,7 +2975,7 @@ function showLesson(t, next) {
   $('#nx').onclick = () => { VOX.stop(); S.lessons[t.id] = S.lessons[t.id] || 'gesehen'; save(); next(); };
   const box = $('#les');
   if (typeof S.lessons[t.id] === 'string' && S.lessons[t.id].length > 40) { box.innerHTML = md(S.lessons[t.id]); readBtn(S.lessons[t.id]); clampLong(box); return; }
-  /* Ohne Kosten: Katalog und Karten. Die erzählte Lektion gibt es auf Wunsch (gelber Knopf), sie wird gespeichert. */
+  /* Ohne Kosten: Katalog und Karten. Die erzählte Lektion gibt es auf Wunsch (grauer Kostenknopf), sie wird gespeichert. */
   box.innerHTML = localLesson(qs); clampLong(box);
   const tell = document.createElement('button'); tell.className = 'btn ki wide'; tell.style.margin = '0 0 12px'; tell.textContent = nameOf('K') + ' erzählt die Lektion'; $('#nx').parentElement.before(tell);
   tell.onclick = () => {
@@ -3304,7 +3304,7 @@ function startExamOpen() {
     $('#enext').onclick = () => { keep(); if (i < qs.length - 1) { i++; show(); } else if (confirm('Prüfung abgeben?')) { clearInterval(examTimer); examTimer = null; AUD.clock(0); grade(); } };
     $('#abort').onclick = () => { if (confirm('Prüfung wirklich abbrechen? Sie wird nicht gewertet.')) { clearInterval(examTimer); examTimer = null; AUD.clock(0); setTab('cabin'); } };
   }
-  /* Abgabe: selbst bewerten (gratis, offline) oder Kapitän Harms per KI korrigieren lassen (gelb) */
+  /* Abgabe: selbst bewerten (gratis, offline) oder Kapitän Harms per KI korrigieren lassen (grauer Kostenknopf) */
   function grade() {
     AUD.clock(0); AUD.sfx('glocke', {vol: .7});
     if (!kiOn()) return selfGrade();
@@ -3400,7 +3400,7 @@ function renderSettings() {
 
   <h2>KI und Schlüssel</h2>
   <div class="card"><label for="kion" style="margin-top:0">KI-Funktionen</label>${sel('kion', [['1', 'An: Crew fragen, Gespräche, echte Stimmen'], ['0', 'Aus: nur lernen, keine Kosten']], kiOn() ? '1' : '0')}
-    <p class="small muted" style="margin:6px 0 0">Gelbe Knöpfe mit ✦ können Kosten verursachen. Ist die KI aus, verschwinden sie. Lernen, Prüfungen, Erklärungen und Folgen aus dem Stimmenpaket gehen immer, auch offline. Heute genutzt: ${kiUse().n} KI-Aktionen.</p></div>
+    <p class="small muted" style="margin:6px 0 0">Graue Knöpfe mit ✦ können Kosten verursachen. Ist die KI aus, verschwinden sie. Lernen, Prüfungen, Erklärungen und Folgen aus dem Stimmenpaket gehen immer, auch offline. Heute genutzt: ${kiUse().n} KI-Aktionen.</p></div>
   <div class="card ki"><label for="ak" style="margin-top:0">Anthropic-Schlüssel (für Gespräche, Lektionen, Geschichten)</label>
     <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
     <div class="row" style="margin-top:10px"><button class="btn" id="aks">Speichern und testen</button>${apiKey() ? '<button class="btn ghost" id="akd">Entfernen</button>' : ''}</div><p class="status" id="akr"></p>
@@ -3509,7 +3509,7 @@ function renderSettings() {
   });
   $('#mdl').onchange = () => { S.model = $('#mdl').value; save(); };
   $('#devm').onchange = () => { c.dev = $('#devm').value === '1'; save(); applyKi(); };
-  $('#kion').onchange = () => { c.ki = $('#kion').value === '1'; save(); applyKi(); VOX.stop('KI-Schalter'); toast(c.ki ? 'KI-Funktionen an. Gelbe Knöpfe kosten Credits.' : 'KI-Funktionen aus. Keine Kosten mehr.'); };
+  $('#kion').onchange = () => { c.ki = $('#kion').value === '1'; save(); applyKi(); VOX.stop('KI-Schalter'); toast(c.ki ? 'KI-Funktionen an. Graue Knöpfe mit ✦ kosten Credits.' : 'KI-Funktionen aus. Keine Kosten mehr.'); };
   const bindSel = (id, fn) => { $(id).onchange = () => { fn($(id).value); save(); }; };
   bindSel('#qual', v => c.quality = v); bindSel('#bud', v => c.budget = +v); bindSel('#fb', v => c.fallback = v); bindSel('#stt', v => c.stt = v);
   bindSel('#wxs', v => { c.wxSound = v === '1'; soundFor(place); }); bindSel('#wx', v => { c.wx = v; soundFor(place); });
@@ -4285,7 +4285,7 @@ function renderFunk() {
   const ps = $('#playshort'); if (ps) ps.onclick = () => playShort(unheardShorts[Math.random() * unheardShorts.length | 0]);
   const ft = $('#ftop'); if (ft) ft.onchange = () => app.querySelectorAll('#eplist .st').forEach(r => r.classList.toggle('hidden', !!ft.value && !r.dataset.topics.split(' ').includes(ft.value)));
   app.querySelectorAll('[data-ep]').forEach(b => b.onclick = () => playEpisode(eps.find(e => e.id === b.dataset.ep)));
-  /* Folgen, die noch nicht komplett im Stimmenpaket liegen, würden beim Anhören Credits kosten: Knopf gelb */
+  /* Folgen, die noch nicht komplett im Stimmenpaket liegen, würden beim Anhören Credits kosten: Knopf grau */
   if (kiOn() && elKey() && S.cfg.funkVoice !== 'phone') PACK.load().then(() => {
     const packed = ep => ep.lines.every(l => l.s === 'Q' || PACK.has(cid(l.s), epFill(l.t)));
     app.querySelectorAll('[data-ep]').forEach(b => { const ep = eps.find(e => e.id === b.dataset.ep); if (ep && !packed(ep)) b.className = 'btn small ki'; });
@@ -4958,7 +4958,7 @@ function explainUnit(u) {
   $('#back').onclick = () => setTab('cabin');
   $('#nx').onclick = () => { VOX.stop('weiter zum Abschluss'); S.chap[u.id] = {...(S.chap[u.id] || {}), stage: 'erklaert'}; save(); runAbschluss(u); };
   const box = $('#les');
-  /* Ohne Kosten: Antworten mit den Erklärungen der Karten. Die erzählte Erklärung mit Verständnisfrage gibt es per gelbem Knopf. */
+  /* Ohne Kosten: Antworten mit den Erklärungen der Karten. Die erzählte Erklärung mit Verständnisfrage gibt es per grauem Kostenknopf. */
   const fallback = () => { box.innerHTML = `<h3 style="margin-top:0">Die richtigen Antworten</h3><ul>${miss.map(q => { const c = cardOf(q); return `<li style="margin-bottom:8px"><strong>${esc(q.q)}</strong><br>${esc(ansText(q))}${c ? `<br><span class="small muted">${esc(c.e)}${c.m ? ' 💡 ' + esc(c.m) : ''}</span>` : ''}</li>`; }).join('')}</ul>`; clampLong(box); };
   fallback();
   const tell = document.createElement('button'); tell.className = 'btn ki wide'; tell.style.margin = '0 0 12px'; tell.textContent = nameOf('K') + ' erklärt es und fragt nach'; $('#openq').before(tell);

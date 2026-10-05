@@ -52,15 +52,15 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Stand v4.31 (Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
+*Stand v4.32 (Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
-  - Kostenknöpfe haben die Klasse `.ki` (goldgelb mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
+  - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
   - `ai()` zählt `S.kiUse` {day, n}; `KI_LIMIT` (0 = aus) für das spätere Tageslimit
   - Sprech-Arten: `fixed` (fester Satz, kommt ins Paket), `story`, `live` (KI-Antwort), `local` (wechselnder App-Text, nie ElevenLabs)
   - Entwickler-Werkzeuge `.dev`, `devOn()` (an bei ElevenLabs-Schlüssel oder `S.cfg.dev`)
 - **Fragekarten:** `data/karten-sbf.json`, `karten-bin.json`, `karten-sks.json` ({k: {Schlüssel: {e, m, f}}}), Schlüssel `sbf:n`, `bin:n`, `sks:<id>`
-  - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (gelber Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
+  - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (grauer Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
 - **Stimmenpaket:** `PACK.voices` (Manifest legt die Stimmen fest), `VOX.voiceOf`, `packLines` (alle Crews), `packVoices`, `downloadPack` (ZIP-Teile unter 20 MB plus `geschichten.json`), `buildVoicePack`, `exportClips`
   - Werkzeuge: `tools/stimmen-import.js` (ZIPs aus `import/`), `tools/stimmenpaket.js` (direkt mit `ELEVENLABS_API_KEY`)
 - **Offline:** Schriften in `fonts/`, `offlineStock()` (einmal pro Version), `sw.js` mit `MEDIEN` (Versionsname des Medien-Speichers)
@@ -312,11 +312,13 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] A4 Offline: lokale Schriften, Offline-Vorrat, versionierter Medien-Speicher (v4.26)
   - [x] A5 Zurück-Taste, ruhigeres Zuhören im Gespräch (v4.27)
   - [x] A2 Fragekarten: SBF 285, Binnen 228, SKS 635 (v4.28–v4.31)
-  - [ ] **Push ausstehend:** GitHub lehnt Schreiben ab (403, App ohne Schreibrecht). Alle Commits liegen nur lokal.
+  - [x] Kostenknöpfe grau wie „ausgegraut“ statt gelb, weil Gelb schon für Hauptknöpfe genutzt wird (v4.32, Wunsch des Nutzers)
+  - [x] Gepusht auf `claude/sweet-cori-fklbww` (live erst nach Übernahme in `main`)
+- **Entscheidungen des Nutzers (05.10.2026):** Konten mit Supabase. Stimmenpaket erst erzeugen, wenn der Nutzer die Podcastfolgen überarbeitet hat, dann in bester verfügbarer Qualität.
 - **Offen (Reihenfolge):**
-  1. Push, sobald der GitHub-Zugang repariert ist
-  2. Stimmenpaket erzeugen (Handy-ZIP oder `tools/stimmenpaket.js` mit Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io`)
-  3. A6 Konten und Server (Vorschlag Supabase), danach KI-Tageslimit auf dem Server
+  1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
+  2. A6 Konten und Server mit Supabase (freigegeben), danach KI-Tageslimit auf dem Server
+  3. Stimmenpaket: **erst nach der Überarbeitung der Podcastfolgen durch den Nutzer**, dann in bester Qualität (Handy-ZIP oder `tools/stimmenpaket.js` mit Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io`)
   4. Folgen für SKS und Binnen, danach das Stimmenpaket ergänzen
   5. Capacitor, Datenschutz, Store, Skins mit Käufen
   6. Unter Deck im Schnitt; Funk und Pyro (warten auf Kataloge)

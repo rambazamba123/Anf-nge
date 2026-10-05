@@ -3,8 +3,8 @@ Stand 05.10.2026 · gilt zusammen mit CLAUDE.md · Grundlage: Architektur-Review
 
 ## 1. Grundsätze (entschieden)
 1. **Die Lern-App läuft ohne KI.** Lernen, Prüfen, Erklärungen, Lexikon, Folgen, Spiele, Navi und Törn funktionieren offline und ohne Schlüssel.
-2. **Kosten entstehen nur über gelbe Knöpfe.** Jeder Knopf, der Claude oder eine neue ElevenLabs-Aufnahme auslösen kann, ist goldgelb (`.btn.ki`). Automatische KI-Aufrufe gibt es nicht mehr.
-3. **KI-Schalter:** Beim Start und in den Einstellungen kann man die KI-Funktionen ein- oder ausschalten (`S.cfg.ki`). Wenn sie aus sind, verschwinden alle gelben Knöpfe, und es entstehen keine Kosten.
+2. **Kosten entstehen nur über graue Kostenknöpfe.** Jeder Knopf, der Claude oder eine neue ElevenLabs-Aufnahme auslösen kann, ist grau wie ausgegraut (`.btn.ki`). Automatische KI-Aufrufe gibt es nicht mehr.
+3. **KI-Schalter:** Beim Start und in den Einstellungen kann man die KI-Funktionen ein- oder ausschalten (`S.cfg.ki`). Wenn sie aus sind, verschwinden alle grauen Kostenknöpfe, und es entstehen keine Kosten.
 4. **Fester Text wird einmal erzeugt.**
    - Ablauf: einmal mit ElevenLabs sprechen lassen, als MP3 ins Repo (`audio/stimmen/`) legen, ab dann hören es alle gratis und offline.
    - Die Stimmen gibt die App vor (`voices` im Stimmenpaket), nicht jeder Nutzer selbst.
@@ -17,17 +17,17 @@ Stand 05.10.2026 · gilt zusammen mit CLAUDE.md · Grundlage: Architektur-Review
 ## 2. Wo KI bleibt und was lokal wird
 | Funktion | bisher | neu |
 |---|---|---|
-| „Warum?“ nach einer Frage | Claude, jedes Mal neu | Karte aus `karten.json` (offline); gelber Knopf „Crew fragen“ für Rückfragen |
-| Merkspruch | Claude, pro Gerät gespeichert | Merktipp der Karte, Lexikon-Merkhilfe; gelber Knopf nur, wenn beides fehlt |
-| Lektion je Thema | Claude automatisch beim Öffnen | Katalogantworten und Karten des Themas; gelber Knopf „Crew erzählt es“ (Ergebnis wird gespeichert) |
-| Kapitel-Erklärung nach dem Raten | Claude automatisch | Karten der falsch geratenen Fragen; gelber Knopf für die Erzählung und die Verständnisfrage |
+| „Warum?“ nach einer Frage | Claude, jedes Mal neu | Karte aus `karten.json` (offline); grauer Kostenknopf „Crew fragen“ für Rückfragen |
+| Merkspruch | Claude, pro Gerät gespeichert | Merktipp der Karte, Lexikon-Merkhilfe; grauer Kostenknopf nur, wenn beides fehlt |
+| Lektion je Thema | Claude automatisch beim Öffnen | Katalogantworten und Karten des Themas; grauer Kostenknopf „Crew erzählt es“ (Ergebnis wird gespeichert) |
+| Kapitel-Erklärung nach dem Raten | Claude automatisch | Karten der falsch geratenen Fragen; grauer Kostenknopf für die Erzählung und die Verständnisfrage |
 | Kennenlernen, freie Antwort | Claude plus Live-Stimme | feste Antworten (`ONB_FREE`) |
 | Lernstrategie | Claude | lokal aus dem Lernplan (`computePlan`) |
 | Seemannsgarn | Claude | feste Shorts aus `folgen.json` |
-| Kajütenfunk, neue Folge | Claude, Folge nur pro Gerät | gelber Knopf; Folge wird dauerhaft gespeichert und kann ins Repo exportiert werden, sodass alle sie bekommen |
+| Kajütenfunk, neue Folge | Claude, Folge nur pro Gerät | grauer Kostenknopf; Folge wird dauerhaft gespeichert und kann ins Repo exportiert werden, sodass alle sie bekommen |
 | Folgen und feste Sätze | ElevenLabs pro Gerät | Stimmenpaket im Repo; fehlt ein Satz, entsteht er einmal und wird exportiert |
-| Gespräch (Klönschnack) | Claude plus Live-Stimme | bleibt, Einstieg ist ein gelber Knopf |
-| SKS-Freitext bewerten | Claude automatisch, sonst selbst bewerten | Wahl: selbst bewerten (Standard) oder gelber Knopf „Harms korrigiert“ |
+| Gespräch (Klönschnack) | Claude plus Live-Stimme | bleibt, Einstieg ist ein grauer Kostenknopf |
+| SKS-Freitext bewerten | Claude automatisch, sonst selbst bewerten | Wahl: selbst bewerten (Standard) oder grauer Kostenknopf „Harms korrigiert“ |
 | Vorlesen dynamischer Antworten | automatisch | nur auf Knopfdruck |
 
 ## 3. Stimmenpaket (Ablauf)
@@ -59,7 +59,7 @@ Stand 05.10.2026 · gilt zusammen mit CLAUDE.md · Grundlage: Architektur-Review
   - `save()` schreibt weiter lokal und schickt zusätzlich eine verzögerte Kopie an den Server.
   - Beim Start gewinnt der neuere Stand (`S.updatedAt`).
 - **Tageslimit:**
-  - Der Server zählt die gelben Aktionen pro Konto und Tag.
+  - Der Server zählt die Kosten-Aktionen pro Konto und Tag.
   - In der App gibt es schon heute einen Zähler (`S.kiUse`) und eine Grenze `KI_LIMIT`, die noch ausgeschaltet ist.
 - **Datenschutz:** Datenschutzerklärung, Einwilligung beim KI-Schalter, Löschen des Kontos löscht alle Daten.
 
@@ -78,7 +78,7 @@ Stand 05.10.2026 · gilt zusammen mit CLAUDE.md · Grundlage: Architektur-Review
 ## 7. Aktionsplan
 | Etappe | Inhalt | Stand |
 |---|---|---|
-| A1 | KI-Schalter, gelbe Knöpfe, keine automatischen KI-Aufrufe, Tageszähler | jetzt |
+| A1 | KI-Schalter, graue Kostenknöpfe, keine automatischen KI-Aufrufe, Tageszähler | jetzt |
 | A2 | `data/karten.json` mit Erklärung und Merktipp je Frage, „Warum?“ und Merkspruch lokal | jetzt (SBF, Binnen, SKS nacheinander) |
 | A3 | Stimmenpaket: feste Stimmen, Paket erzeugen, Import-Skript, KI-Folgen dauerhaft speichern | jetzt |
 | A4 | Offline: lokale Schriften, Offline-Vorrat, versionierter Medien-Speicher | jetzt |
