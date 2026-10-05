@@ -2,7 +2,7 @@
    Bei jeder neuen App-Version VERSION hochzählen (gleich wie __ver in index.html).
    Nur dann merkt das Handy, dass es etwas Neues gibt, und zeigt „Jetzt laden“.
    MEDIEN hochzählen, wenn ein Bild oder Ton unter gleichem Namen ersetzt wurde (neue Namen brauchen das nicht). */
-const VERSION = '4.30';
+const VERSION = '4.31';
 const MEDIEN = 'skipper-medien-2';
 const CACHE = 'skipper-' + VERSION;
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'fonts/fonts.css', 'fonts/baloo2-latin.woff2', 'fonts/baloo2-latin-ext.woff2', 'fonts/nunito-latin.woff2', 'fonts/nunito-latin-ext.woff2']
