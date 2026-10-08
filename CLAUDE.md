@@ -154,13 +154,18 @@ Beim allerersten Start zankt sich die Crew, wo Backbord ist. Dann bemerkt sie di
   - Wer eine Figur überholt, bekommt einen festen, frechen Spruch.
   - Rekorde erscheinen auch im Logbuch.
 
-### 5.4 Panorama mit zwei Ebenen
-1. **Übersicht:** das heutige ganze Boot als „große Ansicht“.
-2. **Detailansicht:** Tippt man auf eine Stelle der Übersicht, wird hineingezoomt.
-   - Dort liegt ein **neu gezeichnetes, langes Boot**, etwa 3 Bildschirmbreiten breit, das man nur waagerecht wischen kann.
-   - Die Teile liegen nebeneinander: Bug, Mast, Cockpit mit Steuer, Motor, Niedergang.
-   - Nur die wichtigsten Dinge sind beschriftet.
-   - Es gibt einen deutlichen Knopf „Übersicht“ für den Rückweg.
+### 5.4 Bootsansichten (Lauf 3, ersetzt das bisherige 5.4)
+**Übersicht (herausgezoomt):**
+- Das ganze Boot auf einen Blick. Man kann nicht wischen oder verschieben, Details gibt es wenige.
+- Das ist das „Übermenü“: Lernfortschritt pro Schein, Einstellungen, Account- und Schlüssel-Infos, Schein wechseln.
+- Ein klarer Weg „An Bord gehen“ führt in die Detailansicht, zusätzlich geht es per Antippen.
+
+**Detailansicht (herangezoomt):**
+- Ein deutlich kleinerer Ausschnitt: Man sieht praktisch nur das Deck, höchstens etwas Reling, das Meer unten nicht.
+- Wischbar ist nur waagerecht, über das lange Boot.
+- Die Ansicht startet zwischen Steuerrad und Kajüteneingang.
+- Das Steuerrad startet den Törn (siehe 5.14).
+- Alles andere ist sinnvoll über das Boot verteilt: Niedergang, Mast, Bug, Motor, Aufgaben und Easter-Eggs.
 
 Alle vorhandenen Hotspots und Easter-Eggs ziehen mit um.
 
@@ -246,6 +251,54 @@ Man soll Navigation wirklich lernen, für SBF See und darauf aufbauend SKS.
 - Prüfungsmodus nach amtlicher Regel.
 - Auswahl beim Kennenlernen erweitern.
 
+### 5.9 Begrüßungs-Moin
+- Ein richtig gezogenes „MOOOOOOOOIN“: Das O soll 2 bis 3 Sekunden klingen.
+- Prüfen, ob ElevenLabs lange Vokale kürzt. Wenn ja, eine Lösung finden, zum Beispiel eine andere Schreibweise, langsamere Wiedergabe nur dieses Clips oder einen eigenen Clip.
+- Der Satz kommt als fester Satz ins Stimmenpaket.
+
+### 5.10 Einführung beim ersten Öffnen
+- Jede Funktion bekommt beim ersten Öffnen eine kurze Einführung durch die Crew: Navigationsschule, Törn, Spielekiste, Lexikon, Prüfung, Hocker und jeder Schein.
+- Die Einführung dauert höchstens etwa 30 Sekunden, lässt sich überspringen und besteht aus festen Sätzen.
+- Im Spielstand wird pro Funktion gemerkt, ob sie schon lief.
+- In den Einstellungen gibt es „Einführungen erneut zeigen“.
+- Die Navigationsschule kommt zuerst dran.
+
+### 5.11 Navigationsschule prüfen und ergänzen
+- **Kritisch durchgehen wie ein strenger Prüfer.** Prüfpunkte:
+  - Rechnungen
+  - Vorzeichen bei Missweisung und Deviation
+  - Strom und Wind: „wohin“ statt „woher“
+  - Ablesung am Kursdreieck
+  - Distanz nur am Breitenrand
+  - Bedienbarkeit am Handy
+
+  Gefundene Fehler beheben und im Bericht auflisten.
+- **Lesbarkeit:** Die Kartenbeschriftung muss auch bei kleinem Zoom lesbar sein.
+- **SKS-Tiefe:** Doppelpeilung, Versegelungspeilung und eine Kartenaufgabe im SKS-Stil ergänzen.
+- **Toleranz:** Die ±10° bei kleinen Besteckversetzungen bleiben vorerst.
+
+### 5.12 Prüfer holt einen ab
+- Der Zugang über die Tür passt nicht und fällt weg.
+- Neu: Man bestellt Kapitän Harms per Telefon oder Funkgerät in der Kajüte. Alternativ bittet man Smilla oder den Käpt'n, ihn zu holen.
+- Harms kommt kurz herein, mit Animation und einem Spruch, und holt einen zur Prüfungssimulation ab.
+- Das Fernglas markiert den neuen Zugang.
+
+### 5.13 Funk und Pyro als eigene Scheine (Späterphase: nur Architektur jetzt)
+- **Vorbereitung:** Zuerst prüfen, was in `quellen/` liegt, zum Beispiel SRC, UBI oder FKN.
+- **Jeder Schein wird ein eigener Kurs** wie SBF, SKS und Binnen:
+  - Katalog und Themen
+  - Lernrunden
+  - Probeprüfung nach amtlicher Regel
+  - Lexikon-Einträge
+  - Auswahl beim Kennenlernen und unter „Schein wechseln“
+- **Übungen Funk:**
+  - Buchstabiertafel
+  - MAYDAY-, PAN-PAN- und SÉCURITÉ-Meldungen zusammensetzen
+  - Kanäle und DSC
+  - englische Standardsätze, nur soweit die Unterlagen das hergeben
+- **Übungen Pyro:** Signalmittel erkennen und richtig handhaben.
+- **Daten:** in `data/*.json`, nur bei Bedarf laden.
+
 ### 5.14 Törn 2.0 (ersetzt den Törn-Light aus 5.6)
 Vorerst nur Wissen aus SBF See und SKS. Binnen, Funk und Pyro kommen später und sollen sich allein durch Hinzufügen von Daten einhängen lassen.
 
@@ -327,6 +380,14 @@ Rauchtest erweitern: Törnauswahl, kompletter Landratte-Törn, Nachtereignis, Ne
 **Am Ende**
 §4 und §8 aktualisieren. Bericht im festen Format: erledigt / bewusst anders entschieden / offen / Handy-Checkliste / was ich übersehen könnte / Balancing-Werte / Tag-Stichprobe / Anzahl SKS-Fragen „nur offen“ / gefundene Navigationsfehler / neue feste Sätze fürs Stimmenpaket. Dann auf das OK zum Push warten.
 
+
+### 5.15 Technik
+- **Rauchtest-Skript im Repo** (`tests/smoke`):
+  - klickt alle Kurse und Hauptbereiche durch
+  - meldet Fehler in der Konsole
+  - läuft vor jedem Commit
+- **Dateigröße:** `index.html` darf nicht weiter wachsen. Neue Bereiche kommen in eigene Dateien, die bei Bedarf geladen werden, so wie `navi.js`.
+- **Feste Sätze:** Eine Liste aller neuen festen Sätze pflegen. Am Ende eines Laufs erzeugt der Nutzer das Stimmenpaket einmal. Liegt eine `stimmen.zip` im Repo-Ordner, wird sie nach `audio/stimmen/` eingebaut.
 
 ## 6. Später (nicht in den Läufen 1 und 2)
 - **Cloudflare-Worker:**
@@ -414,7 +475,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - Kostenknöpfe grau, verschwinden bei KI aus
   - Zurück-Taste im Quiz, in der Karte und in den Einstellungen
 - **Werkzeuge nur als Trockenlauf geprüft:** `tools/stimmenpaket.js` ist noch nie mit echtem Schlüssel gelaufen. Erst mit der Freigabe der Podcastfolgen.
-- **Lauf 3 (Nachtrag `CLAUDE-nachtrag-lauf3.md`): Datei fehlt** im Ordner und in der Git-Historie. Inhalt zu Moin, zwei Bootsansichten, Einführungen, Navi-Prüfung, SKS-Navi, lesbarer Karte, Prüfer, Technik/Rauchtest ist nicht bekannt. **Bitte den Nachtrag erneut hochladen.** Funk und Pyro bleiben ausgenommen.
+- **Lauf 3 (Nachtrag, eingearbeitet 08.10.2026):** Plan und Unteretappen in `docs/lauf3-plan.md`. Funk und Pyro später, nur Schein-Architektur jetzt.
 - **Törn 2.0 (Lauf 4, Konzept 5.14):** läuft. Plan in `docs/toern2-plan.md`. T1 (Tags) angelegt, Fehlerquote in der 20er-Stichprobe grob 15–20 % (nicht fertig). T2–T7 offen.
 - **Offen (Reihenfolge):**
   1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
@@ -425,6 +486,14 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   6. Unter Deck im Schnitt; Funk und Pyro (warten auf Kataloge)
   7. Datenfehler prüfen (Originalkatalog): SBF 279 (doppelte Antwort), SBF 285 und Binnen 253 (angehängter PDF-Text), SKS nav-92 (Antwort leer), recht-23 (Frage abgeschnitten), „Stand: 01. Juli 2006“-Reste in SKS-Antworten
   8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
+- [ ] Lauf 3 (Nachtrag)
+  - [ ] L3a 5.9 Moin (Netz für ElevenLabs nötig)
+  - [ ] L3b 5.4 zwei Ansichten
+  - [ ] L3c 5.10 Einführungen
+  - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
+  - [ ] L3e 5.12 Prüfer holt ab
+  - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
+  - [ ] L3g 5.15 Technik und Rauchtest
 - [x] 5.6 Törn-Light (v4.22–4.23)
   - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
   - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5
