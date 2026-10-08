@@ -49,7 +49,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03-kajuete', page, async () => { await ev(page, () => setTab('cabin')); await sleep(700); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
-  await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500); });
+  await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
+    /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
+    if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
+    await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */

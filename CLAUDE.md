@@ -59,6 +59,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `ai()` zählt `S.kiUse` {day, n}; `KI_LIMIT` (0 = aus) für das spätere Tageslimit
   - Sprech-Arten: `fixed` (fester Satz, kommt ins Paket), `story`, `live` (KI-Antwort), `local` (wechselnder App-Text, nie ElevenLabs)
   - Entwickler-Werkzeuge `.dev`, `devOn()` (an bei ElevenLabs-Schlüssel oder `S.cfg.dev`)
+- **Einführungen (5.10):** `einfuehrung(id)` liest `INTROS` (`data/einfuehrungen.json`), merkt `S.intros[id]`, gibt ein Promise zurück (der Hocker wartet darauf)
 - **Fragekarten:** `data/karten-sbf.json`, `karten-bin.json`, `karten-sks.json` ({k: {Schlüssel: {e, m, f}}}), Schlüssel `sbf:n`, `bin:n`, `sks:<id>`
   - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (grauer Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
 - **Stimmenpaket:** `PACK.voices` (Manifest legt die Stimmen fest), `VOX.voiceOf`, `packLines` (alle Crews), `packVoices`, `downloadPack` (ZIP-Teile unter 20 MB plus `geschichten.json`), `buildVoicePack`, `exportClips`
@@ -505,7 +506,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
 - [ ] Lauf 3 (Nachtrag)
   - [x] L3a 5.9 Moin (v4.37: `MOIN_LANG` „Mooooooooin!“ als fester Satz, Clip wird mit `playBlob(…, dehnen)` auf 0,8× gedehnt, Tonhöhe bleibt; Handy-Test durch den Nutzer offen)
   - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
-  - [ ] L3c 5.10 Einführungen
+  - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
   - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
   - [ ] L3e 5.12 Prüfer holt ab
   - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
