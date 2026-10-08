@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Skipper – Navigationsschule (5.5) und Törn (5.6)
+   Skipper – Navigationsschule (5.5)
    Wird erst am Kartentisch nachgeladen (loadNavi in index.html).
    Karte: data/karte.json (erfundene Kliev-Mündung). Positionen in Bogenminuten
    ab 55°00'N / 006°00'E. Projektion: Mercator, 1' Länge = SC Einheiten.
@@ -280,8 +280,6 @@ const CSS = `
 .nsheetgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nsheetgrid label{margin:0;font-size:.8rem}
 .nfield{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.nfield input{width:110px}
 .nok{color:var(--stb,#1e7f4f);font-weight:700}.nno{color:var(--bb,#c2473b);font-weight:700}
-.scene.boat.toernscene{height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:440/300!important}.toernscene .pano{overflow:hidden!important}.toernscene .pano svg{aspect-ratio:auto!important;width:100%;height:100%}
-.tstat{font-size:.82rem;margin:6px 0;line-height:1.35}.tmini .nwrap{height:30svh;min-height:200px}.tev{border-color:var(--lamp,#f0b43e);border-width:2px}
 .ntab{border-collapse:collapse;margin:8px 0;font-size:.78rem;width:100%}.ntab th,.ntab td{border:1px solid var(--line);padding:3px 4px;text-align:center}
 `;
 NAV.init = async function () {
@@ -397,6 +395,7 @@ function inSea(p) {
 function seaPoint() { for (let i = 0; i < 200; i++) { const p = {lat: rnd(14, 26), lon: rnd(24, 48)}; if (inSea(p)) return p; } return {lat: 19, lon: 36}; }
 function twoBuoys(dmin = 2, dmax = 10) { const B = BUOYS(); for (let i = 0; i < 300; i++) { const a = pick(B), b = pick(B); if (a === b) continue; const kd = kursDist(a, b); if (kd.d >= dmin && kd.d <= dmax) return [a, b, kd]; } const a = B[0], b = B[3]; return [a, b, kursDist(a, b)]; }
 /* Kennung in Worte fassen, z. B. „Fl(2) R 9s“ → „zwei rote Blitze, Wiederkehr 9 Sekunden“ */
+NAV.kennWorte = k => kennWorte(k);
 function kennWorte(k) {
   const m = k.match(/^(Fl|Q|VQ|Iso|Oc)(?:\((\d+)\))?\s*([RGW])?\s*(\d+)?s?/); if (!m) return k;
   const zahl = ['', 'ein', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'][+m[2] || 1], farbe = {R: 'rote', G: 'grüne', W: 'weiße'}[m[3] || 'W'], farbe1 = {R: 'rotes', G: 'grünes', W: 'weißes'}[m[3] || 'W'];
@@ -698,180 +697,7 @@ NAV.exercise = function (id, mode) {
       save();
     }});
 };
-/* ==========================================================================
-   Törn-Light (5.6): Tagesetappen auf der Kliev-Karte, Cockpit-Ansicht, Ereignisse
-   S.toern = {i (Etappe), p (gefahrene sm), art ('segel'|'motor'), ev[], prov, sprit, laune, zustand, log[], provDay}
-   ========================================================================== */
-const ETAPPEN = [
-  {id: 'h-s', t: 'Hinnerksiel → Smillaoog', wp: [[22.4, 57.2], [21.05, 52.5], [21.05, 46], [21.0, 36], [22.6, 33.0], [24.55, 33.1]], ziel: 'Smillaoog'},
-  {id: 's-k', t: 'Smillaoog → Ansteuerung KL', wp: [[24.55, 33.1], [23.2, 29.0], [21.5, 24.5], [20.85, 23.4]], ziel: 'KL'},
-  {id: 'k-v', t: 'KL → quer durchs VTG und zurück', wp: [[20.85, 23.4], [24.2, 24.0], [28.5, 20.95], [24.2, 24.0], [21.4, 28.0]], vtg: true, ziel: 'K2'},
-  {id: 'k-h', t: 'Heimweg nach Hinnerksiel', wp: [[21.4, 28.0], [21.0, 36], [21.05, 46], [21.05, 52.5], [22.4, 57.2]], ziel: 'Hinnerksiel'},
-];
-const T_ = () => { const n = S_(); if (!S.toern) S.toern = {i: 0, p: 0, art: null, ev: [], prov: 3, sprit: 100, laune: 80, zustand: 100, log: [], provDay: today()}; return S.toern; };
-const legLen = e => { let s = 0; for (let k = 1; k < e.wp.length; k++) s += kursDist({lat: e.wp[k - 1][0], lon: e.wp[k - 1][1]}, {lat: e.wp[k][0], lon: e.wp[k][1]}).d; return s; };
-/* Position und Kurs nach p Seemeilen auf der Route */
-function routePos(e, p) {
-  let rest = p;
-  for (let k = 1; k < e.wp.length; k++) {
-    const a = {lat: e.wp[k - 1][0], lon: e.wp[k - 1][1]}, b = {lat: e.wp[k][0], lon: e.wp[k][1]}, kd = kursDist(a, b);
-    if (rest <= kd.d || k === e.wp.length - 1) { const f = Math.min(1, rest / kd.d); return {lat: a.lat + (b.lat - a.lat) * f, lon: a.lon + (b.lon - a.lon) * f, k: kd.k, leg: k}; }
-    rest -= kd.d;
-  }
-}
-/* Wind des Tages: Richtung aus dem Datum, Stärke aus dem Wetter */
-function windHeute() { const d = today(), wx = weatherToday(); return {von: (d * 37) % 360, bft: wx === 'sturm' ? 7 : wx === 'windig' ? 5 : wx === 'nebel' ? 2 : 3}; }
-const nmSec = (e, art) => { const L = legLen(e); return Math.max(300, Math.min(600, L * 22)) / L * (art === 'segel' ? 1.15 : 1); };
-/* Proviant: +1 für jeden Lerntag mit mindestens 10 beantworteten Fragen seit der letzten Abrechnung */
-function provAbrechnen() {
-  const t = T_(), h = S.hist || {}; let plus = 0;
-  for (let d = t.provDay; d < today(); d++) if ((h[d] || 0) >= 10) plus++;
-  t.provDay = today(); if (plus) { t.prov = Math.min(9, t.prov + plus); toast(`+${plus} Proviant fürs Lernen`); }
-}
-NAV.toernStart = async function () {
-  await NAV.init(); const t = T_(); provAbrechnen(); save();
-  const e = ETAPPEN[t.i % ETAPPEN.length], laeuft = t.art && t.p > 0, selbst = ['L1', 'L2', 'L3', 'L4', 'L5'].every(id => S_().lek[id] && S_().lek[id].sterne);
-  const w = sheet(`<h2 style="margin:0 0 6px">Törn</h2><p class="small" style="margin:0 0 8px">${laeuft ? `Etappe „${esc(e.t)}“ läuft: ${comma(t.p)} von ${comma(legLen(e))} sm geschafft.` : `Nächste Etappe: <b>${esc(e.t)}</b>, etwa ${comma(legLen(e))} sm.`}</p>
-    <p class="small muted" style="margin:0 0 8px">Proviant ${t.prov} · Sprit ${Math.round(t.sprit)} % · Laune ${Math.round(t.laune)} % · Boot ${Math.round(t.zustand)} %</p>
-    ${laeuft ? '<button class="btn lamp wide" id="tgo">Tagesetappe fortsetzen</button><button class="btn ghost wide" id="tabort" style="margin-top:8px">Etappe abbrechen (kostet Proviant)</button>'
-      : `<div class="row"><button class="btn lamp" data-art="segel">Unter Segel</button><button class="btn" data-art="motor" ${t.sprit < 10 ? 'disabled' : ''}>Unter Motor</button></div>
-      <label style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="tselbst" style="width:auto" ${selbst ? '' : 'disabled'}> Kurse selbst absetzen${selbst ? '' : ' (erst mit Sternen in Lektion 1–5)'}</label>`}`);
-  if ($('#tgo')) $('#tgo').onclick = () => { closeSheet(); NAV.toern(); };
-  if ($('#tabort')) $('#tabort').onclick = () => { t.prov = Math.max(0, t.prov - 1); t.p = 0; t.art = null; t.ev = []; save(); closeSheet(); toast('Etappe abgebrochen. Ein Proviantpaket ist futsch.'); };
-  w.querySelectorAll('[data-art]').forEach(b => b.onclick = () => { if (t.prov <= 0) return toast('Kein Proviant mehr. Lern ein bisschen, dann gibt es neuen.'); t.art = b.dataset.art; t.p = 0; t.selbst = !!($('#tselbst') && $('#tselbst').checked); t.ev = planEvents(e, t); t.start = Date.now(); t.ok = 0; t.nEv = 0; save(); closeSheet(); NAV.toern(); });
-};
-let toernTimer = null, toernPause = false;
-NAV.toern = function () {
-  const t = T_(), e = ETAPPEN[t.i % ETAPPEN.length], L = legLen(e), wind = windHeute();
-  const scene = longBoatScene(S.crew).replace('viewBox="0 -120 1200 640"', 'viewBox="760 40 440 300"').replace('class="scene boat detail"', 'class="scene boat detail toernscene"');
-  gameShell('Törn: ' + e.t, `${scene}<div class="tstat" id="tstat"></div><div id="nchartbox" class="tmini"></div><div id="tevent"></div>`);
-  app.querySelectorAll('.toernscene .ovbtn, .toernscene .fernglas, .toernscene .panohint, .toernscene .labels').forEach(x => x.remove());
-  $('#gback').onclick = () => { clearInterval(toernTimer); save(); setTab('deck'); };
-  const ctl = NAV.mountChart($('#nchartbox'), {tools: ['hand'], center: routePos(e, t.p), width: 420});
-  ctl.st.lines = e.wp.slice(1).map((p, k) => ({a: proj(e.wp[k][0], e.wp[k][1]), b: proj(p[0], p[1]), c: 'soll'})); ctl.ink(); ctl.tipText('');
-  const boatMark = () => { const r = routePos(e, t.p), P = proj(r.lat, r.lon); ctl.svg.querySelector('#nhi').innerHTML = `<g transform="translate(${P.x} ${P.y}) rotate(${r.k})"><path d="M0 -12 L6 8 L0 4 L-6 8 Z" fill="#f0b43e" stroke="#2a2a6a" stroke-width="1.5"/></g>`; return r; };
-  const stat = r => { const sec = Math.max(0, Math.round((L - t.p) * nmSec(e, t.art))); $('#tstat').innerHTML = `<b>${t.art === 'segel' ? (angDiff(r.k, wind.von) < 40 ? '⛵ Kreuzen (zu hoch am Wind)' : '⛵ Segel') : '⚙ Motor'}</b> · rwK ${fmtDeg(r.k)} · noch ${comma(Math.max(0, L - t.p))} sm (~${Math.ceil(sec / 60)} min) · Wind aus ${fmtDeg(wind.von)}, ${wind.bft} Bft<br><span class="small muted">Proviant ${t.prov} · Sprit ${Math.round(t.sprit)} % · Laune ${Math.round(t.laune)} % · Boot ${Math.round(t.zustand)} %</span>`; };
-  let last = boatMark(); stat(last); toernPause = false;
-  if (AUD.ready) { AUD.loop && t.art === 'motor' && AUD.loop('motorLauf', .25); }
-  clearInterval(toernTimer);
-  toernTimer = setInterval(() => {
-    if (toernPause || !document.getElementById('tstat')) { if (!document.getElementById('tstat')) clearInterval(toernTimer); return; }
-    const cur = routePos(e, t.p), kreuz = t.art === 'segel' && angDiff(cur.k, wind.von) < 40, step = (kreuz ? .7 : 1) / nmSec(e, t.art); t.p = Math.min(L, t.p + step);
-    if (t.art === 'motor') { t.sprit = Math.max(0, t.sprit - step * 2.5); if (t.sprit <= 0) { t.art = 'segel'; toast('Sprit alle! Weiter unter Segel.'); } }
-    const r = boatMark(); stat(r);
-    /* Karte folgt dem Boot, wenn es aus der Mitte läuft */
-    const P = proj(r.lat, r.lon), v = ctl.st.vb; if (v && (P.x < v.x + v.w * .2 || P.x > v.x + v.w * .8 || P.y < v.y + v.h * .2 || P.y > v.y + v.h * .8)) ctl.focus(r.lat, r.lon, v.w);
-    if (r.leg !== last.leg) { const alt = last.k; last = r; if (onLegChange(e, t, alt, r.k, wind)) return; }
-    last = r;
-    const ev = t.ev.find(x => !x.done && t.p >= x.at); if (ev) return showEvent(e, t, ev);
-    if (t.p >= L - 1e-6) return ankunft(e, t);
-    if (Math.round(t.p * 100) % 20 === 0) save();
-  }, 1000);
-};
-/* Kurswechsel: unter Segel Wende/Halse entscheiden, bei „selbst absetzen“ den rwK berechnen lassen */
-function onLegChange(e, t, alt, neu, wind) {
-  if (t.selbst) { const ev = {typ: 'kurs', k: neu}; showEvent(e, t, ev); return true; }
-  if (t.art !== 'segel') return false;
-  if (Math.abs(((neu - alt + 540) % 360) - 180) < 10) return false;
-  const dreh = ((neu - alt + 540) % 360) - 180, im = a => { const d = ((a - alt + 540) % 360) - 180; return dreh > 0 ? d > 0 && d < dreh : d < 0 && d > dreh; };
-  const loes = im(wind.von) ? 'Wende' : im(n360(wind.von + 180)) ? 'Halse' : 'Kein Manöver, nur die Segel trimmen';
-  showEvent(e, t, {typ: 'manoever', alt, neu, loes}); return true;
-}
-/* ---------- Ereignisse unterwegs (5.6b) ---------- */
-const LICHTER = [['zwei rote Rundumlichter senkrecht übereinander', 'Manövrierunfähiges Fahrzeug'], ['rot, weiß, rot senkrecht übereinander', 'Manövrierbehindertes Fahrzeug'], ['grün über weiß', 'Fischendes Fahrzeug, das trawlt'], ['drei rote Rundumlichter senkrecht übereinander', 'Tiefgangbehindertes Fahrzeug'], ['weiß über rot', 'Lotsenfahrzeug im Dienst']];
-const BEGEGNUNG = [
-  {art: 'motor', q: 'Du fährst unter Motor. Ein anderes Maschinenfahrzeug kommt dir genau entgegen.', ok: 'Beide weichen nach Steuerbord aus.', f: ['Beide weichen nach Backbord aus.', 'Das größere Fahrzeug muss ausweichen.', 'Ich halte Kurs, der andere weicht aus.']},
-  {art: 'segel', q: 'Du segelst mit Wind von Backbord. Ein Segelboot mit Wind von Steuerbord kommt auf Kollisionskurs.', ok: 'Ich muss ausweichen, denn ich habe Wind von Backbord.', f: ['Der andere muss ausweichen, weil er von Steuerbord kommt.', 'Wer schneller ist, weicht aus.', 'Beide halten Kurs.']},
-  {art: 'motor', q: 'Du fährst auf offener See unter Motor. Ein Segelboot kreuzt deinen Kurs.', ok: 'Ich weiche aus: Maschinenfahrzeuge weichen Segelfahrzeugen aus.', f: ['Das Segelboot muss ausweichen.', 'Wer von rechts kommt, hat Vorfahrt.', 'Ich gebe fünf kurze Töne und halte Kurs.']},
-  {art: 'segel', q: 'Im engen Fahrwasser kommt dir ein großes Frachtschiff entgegen, du bist unter Segel.', ok: 'Ich darf es nicht behindern und halte mich möglichst weit rechts am Fahrwasserrand.', f: ['Als Segler habe ich immer Vorrang.', 'Ich fahre in der Mitte, damit es mich sieht.', 'Ich wende sofort quer zum Fahrwasser.']},
-  {q: 'Vor dir fährt ein langsameres Boot, du willst überholen.', ok: 'Als Überholer muss ich ausweichen und darf den anderen nicht behindern.', f: ['Der Langsamere muss Platz machen.', 'Überholen ist auf See verboten.', 'Ich gebe einen langen Ton, dann muss er stoppen.']},
-];
-const EV = {
-  tonne: (e, t, ev) => { const o = K.objekte.find(x => x.id === ev.obj), ein = ev.ein, rot = o.typ === 'bb', seite = (rot === ein) ? 'An Backbord' : 'An Steuerbord';
-    return {q: `Voraus liegt die Tonne <b>${o.id}</b> (${o.farbe}). Du fährst ${ein ? 'von See kommend in Richtung Kliev hinein' : 'aus der Kliev hinaus Richtung See'}. An welcher Seite lässt du sie?`, opts: ['An Backbord', 'An Steuerbord', 'Egal, Hauptsache im Fahrwasser'], ok: seite,
-      expl: `Von See kommend bleiben rote Tonnen an Backbord und grüne an Steuerbord. Wer hinausfährt, hat es umgekehrt. Hier also: ${seite.toLowerCase()}.`, game: ['Tonnen-Slalom', () => buoyGame()]}; },
-  vtg: () => ({q: 'Vor dir liegt das Verkehrstrennungsgebiet „Kliev Approach“. Du willst es queren. Wie?', opts: ['Möglichst rechtwinklig zur allgemeinen Verkehrsrichtung queren, zügig und ohne zu behindern.', 'Längs in der Einbahnstraße mitfahren, bis es passt.', 'Diagonal, das ist der kürzeste Weg.', 'Über die Trennzone fahren, da ist es frei.'], ok: 'Möglichst rechtwinklig zur allgemeinen Verkehrsrichtung queren, zügig und ohne zu behindern.', expl: 'Verkehrstrennungsgebiete quert man möglichst rechtwinklig zur allgemeinen Verkehrsrichtung (KVR Regel 10). Die Trennzone ist kein Fahrweg.'}),
-  begegnung: (e, t, ev) => { const B = BEGEGNUNG.filter(x => !x.art || x.art === t.art), b = B[ev.v % B.length], o = [b.ok, ...b.f].sort(() => Math.random() - .5); return {q: b.q, opts: o, ok: b.ok, expl: 'Ausweichregeln nach den Kollisionsverhütungsregeln (KVR). ' + b.ok}; },
-  nacht: (e, t, ev) => { const l = LICHTER[ev.v % LICHTER.length], o = [l[1], ...LICHTER.filter(x => x !== l).map(x => x[1]).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
-    return {q: `Nachts siehst du voraus: <b>${l[0]}</b>. Was ist das?`, opts: o, ok: l[1], expl: `${l[0][0].toUpperCase() + l[0].slice(1)}: ${l[1]}.`, game: ['Lichter bei Nacht', () => lightsGame()]}; },
-  nebel: () => ({q: 'Nebel zieht auf, die Sicht fällt unter eine halbe Seemeile. Was tust du?', opts: ['Sichere Geschwindigkeit fahren, Schallsignale geben, Lichter einschalten und den Ausguck verstärken.', 'Volle Fahrt voraus, um schnell aus dem Nebel zu kommen.', 'Sofort ankern, egal wo.', 'Nur noch nach GPS fahren, sonst nichts ändern.'], ok: 'Sichere Geschwindigkeit fahren, Schallsignale geben, Lichter einschalten und den Ausguck verstärken.', expl: 'Bei verminderter Sicht: sichere Geschwindigkeit, Schallsignale, Lichterführung und guter Ausguck (KVR Regeln 5, 19, 35).', game: SIG_QS.length ? ['Schallsignale hören', () => hornQuiz()] : null}),
-  motorprob: () => ({q: 'Aus dem Kühlwasser-Kontrollstrahl am Außenborder kommt plötzlich nichts mehr.', opts: ['Motor sofort stoppen und die Kühlwasserzufuhr prüfen, zum Beispiel Ansaugöffnung und Impeller.', 'Mehr Gas geben, dann kommt wieder Wasser.', 'Weiterfahren, das ist normal bei Wellen.', 'Den Motor kippen und weiterlaufen lassen.'], ok: 'Motor sofort stoppen und die Kühlwasserzufuhr prüfen, zum Beispiel Ansaugöffnung und Impeller.', expl: 'Ohne Kühlwasser überhitzt der Motor in kurzer Zeit. Also stoppen und Ursache suchen.', game: ['Motorkunde', () => motorGame()]}),
-  boe: () => ({q: 'Eine kräftige Böe kommt, das Boot krängt stark und wird luvgierig.', opts: ['Rechtzeitig reffen, in der Böe die Großschot fieren.', 'Segel dichtholen und Kurs halten.', 'Abfallen und alle Segel bergen, egal was kommt.', 'Gar nichts, Krängung ist gut für die Fahrt.'], ok: 'Rechtzeitig reffen, in der Böe die Großschot fieren.', expl: 'Wird es zu viel Wind: rechtzeitig reffen. In der Böe Druck aus dem Segel nehmen, also fieren.'}),
-  mob: () => ({q: '„Mensch über Bord!“ Ein Crewmitglied ist ins Wasser gefallen.', opts: ['Laut rufen, Rettungsmittel zuwerfen, die Person nie aus den Augen lassen und ein Rettungsmanöver fahren.', 'Sofort hinterherspringen.', 'Erst einmal den Hafen anfunken und abwarten.', 'Mit voller Fahrt weiter, um Hilfe zu holen.'], ok: 'Laut rufen, Rettungsmittel zuwerfen, die Person nie aus den Augen lassen und ein Rettungsmanöver fahren.', expl: 'Mensch über Bord: rufen, Rettungsring werfen, Ausguck halten, Manöver fahren. Niemals selbst hinterherspringen.', game: ['Manöver', () => maneuverGame()]}),
-  feuer: (e, t, ev) => { const o = K.objekte.find(x => x.id === ev.obj), L = K.objekte.filter(x => x.kenn && x.kenn !== o.kenn), op = [o.id, ...L.map(x => x.id).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
-    return {q: `Voraus siehst du ein Feuer: <b>${kennWorte(o.kenn)}</b>. Welches ist es?`, opts: op, ok: o.id, expl: `${o.id} hat ${o.kenn}.`}; },
-  anlegen: (e) => ({q: `Gleich bist du in ${esc(e.ziel)}. Was bereitest du vor dem Anlegen vor?`, opts: ['Fender und Festmacherleinen klarmachen und langsam an den Liegeplatz heranfahren.', 'Segel dichtholen und mit Schwung reinfahren.', 'Nichts, das klappt schon.', 'Den Anker vorn fallen lassen.'], ok: 'Fender und Festmacherleinen klarmachen und langsam an den Liegeplatz heranfahren.', expl: 'Vor dem Anlegen: Fender raus, Leinen klar, Crew einteilen, langsam fahren.', game: ['Manöver', () => maneuverGame()]}),
-  polizei: () => ({q: 'Die Wasserschutzpolizei hält dich an: „Moin, Kontrolle! Papiere bitte. Und dann drei Fragen.“', quiz: true}),
-};
-/* Ereignisse für eine Etappe planen (Position in sm) */
-function planEvents(e, t) {
-  const L = legLen(e), ev = [], night = ['nacht', 'abend'].includes(dayPart()), wx = weatherToday();
-  /* Tonne in der Nähe der Route */
-  for (let p = L * .15; p < L * .8; p += .2) { const r = routePos(e, p), o = K.objekte.find(x => ['bb', 'stb'].includes(x.typ) && kursDist(r, x).d < .7); if (o) { ev.push({typ: 'tonne', at: p, obj: o.id, ein: r.k > 30 && r.k < 150}); break; } }
-  if (e.vtg) { const a = {lat: e.wp[0][0], lon: e.wp[0][1]}, b = {lat: e.wp[1][0], lon: e.wp[1][1]}; ev.push({typ: 'vtg', at: kursDist(a, b).d * .9}); }
-  const pool = ['begegnung', 'polizei', 'mob', night ? 'nacht' : 'begegnung', night ? 'feuer' : 'polizei', wx === 'nebel' || Math.random() < .3 ? 'nebel' : 'mob', t.art === 'motor' ? 'motorprob' : 'boe'];
-  const n = ri(2, 3), ziel = ev.length + n, used = new Set(ev.map(x => x.typ));
-  for (let k = 0; k < 30 && ev.length < ziel; k++) { const typ = pick(pool); if (used.has(typ)) continue; used.add(typ); const at = rnd(L * .2, L * .85); const x = {typ, at, v: ri(0, 9)}; if (typ === 'feuer') x.obj = pick(K.objekte.filter(o => o.kenn)).id; ev.push(x); }
-  if (K.haefen.some(h => h.id === e.ziel)) ev.push({typ: 'anlegen', at: L - .05});
-  return ev.sort((a, b) => a.at - b.at);
-}
-function showEvent(e, t, ev) {
-  toernPause = true; AUD.sfx('piep', {vol: .4});
-  if (ev.typ === 'kurs') {
-    const leg = routePos(e, t.p + .01), kk = Math.round(ev.k);
-    $('#tevent').innerHTML = `<div class="card tev"><b>Neuer Kurs</b><p style="margin:4px 0 8px">Du hast selbst die Navigation. Nimm in der Karte den rwK für den nächsten Abschnitt der Route ab (gestrichelte Linie ab dem Boot).</p><label class="nfield"><span>rwK</span><input id="tk" inputmode="decimal" placeholder="z. B. 074">°</label><button class="btn lamp" id="tok">Kurs absetzen</button><div id="tfb"></div></div>`;
-    $('#tok').onclick = () => { const v = num($('#tk').value), ok = !isNaN(v) && angDiff(v, ev.k) <= 3; t.nEv++; if (ok) { t.ok++; t.laune = Math.min(100, t.laune + 4); } else { t.zustand = Math.max(0, t.zustand - 3); t.laune = Math.max(0, t.laune - 5); }
-      $('#tfb').innerHTML = `<p class="${ok ? 'nok' : 'nno'}">${ok ? 'Sauber abgesetzt!' : `Daneben, der rwK ist ${fmtDeg(kk)}. Wir korrigieren.`}</p><button class="btn wide" id="tweiter">Weiter</button>`; $('#tweiter').onclick = () => { $('#tevent').innerHTML = ''; toernPause = false; save(); }; };
-    return;
-  }
-  if (ev.typ === 'manoever') {
-    const opts = ['Wende', 'Halse', 'Kein Manöver, nur die Segel trimmen'];
-    return eventCard(e, t, ev, {q: `Kurswechsel von ${fmtDeg(ev.alt)} auf ${fmtDeg(ev.neu)}. Der Wind kommt aus ${fmtDeg(windHeute().von)}. Was ist dafür nötig?`, opts, ok: ev.loes, expl: 'Geht der Bug durch den Wind, ist es eine Wende. Geht das Heck durch den Wind, ist es eine Halse. Sonst werden nur die Segel neu getrimmt.'});
-  }
-  const def = EV[ev.typ](e, t, ev);
-  if (def.quiz) {
-    $('#tevent').innerHTML = `<div class="card tev"><b>Kontrolle</b><p style="margin:4px 0 8px">${def.q}</p><button class="btn lamp" id="tquiz">Fragen beantworten</button></div>`;
-    $('#tquiz').onclick = () => { clearInterval(toernTimer); const qs = shuffle(Q).slice(0, 3); runQuiz(qs, 'Wasserschutzpolizei', 'learn', {noRequeue: true, doneLabel: 'Weiter segeln', onDone: res => { ev.done = true; t.nEv++; const ok = res.right >= 2; if (ok) { t.ok++; t.laune = Math.min(100, t.laune + 5); } else t.laune = Math.max(0, t.laune - 10); save(); toast(ok ? 'Alles in Ordnung, gute Fahrt!' : 'Na ja. Die Polizei schaut skeptisch.'); NAV.toern(); }}); };
-    return;
-  }
-  eventCard(e, t, ev, def);
-}
-function eventCard(e, t, ev, def) {
-  $('#tevent').innerHTML = `<div class="card tev"><p style="margin:0 0 8px">${NAV.linkTerms(def.q)}</p><div class="menu">${def.opts.slice().sort(() => Math.random() - .5).map(o => `<button class="menuitem" data-a="${esc(o)}">${esc(o)}</button>`).join('')}</div><div id="tfb"></div></div>`;
-  NAV.bindTerms($('#tevent'));
-  $('#tevent').querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
-    const ok = b.dataset.a === def.ok; ev.done = true; t.nEv++;
-    if (ok) { t.ok++; t.laune = Math.min(100, t.laune + 5); } else { t.laune = Math.max(0, t.laune - 10); t.zustand = Math.max(0, t.zustand - 5); }
-    AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
-    $('#tevent').querySelectorAll('[data-a]').forEach(x => { x.disabled = true; if (x.dataset.a === def.ok) x.style.outline = '3px solid var(--stb, #1E7F4F)'; });
-    $('#tfb').innerHTML = `<p class="small" style="margin:8px 0">${ok ? '<span class="nok">Richtig.</span>' : '<span class="nno">Nicht ganz.</span>'} ${NAV.linkTerms(esc(def.expl))}</p><div class="row"><button class="btn lamp" id="tweiter">Weiter</button>${def.game ? `<button class="btn ghost" id="tgame">Als Spiel üben: ${esc(def.game[0])}</button>` : ''}</div>`;
-    NAV.bindTerms($('#tfb')); save();
-    $('#tweiter').onclick = () => { $('#tevent').innerHTML = ''; toernPause = false; };
-    if ($('#tgame')) $('#tgame').onclick = () => { clearInterval(toernTimer); def.game[1](); const gb = $('#gback'); if (gb) gb.onclick = () => { stopGames(); NAV.toern(); }; };
-  });
-}
-/* ---------- Ankunft: Bewertung und Logbuch (5.6c) ---------- */
-const TOERN_LINES = {
-  gut: [{s: 'K', t: 'Fest! Das war eine saubere Etappe. So fährt ein Skipper.'}, {s: 'T', t: 'Skipper! Skipper!'}],
-  mittel: [{s: 'K', t: 'Angekommen. Nicht schön, aber selten. Morgen machen wir das besser.'}],
-  schlecht: [{s: 'M', t: 'Wir sind da. Irgendwie. Das Boot hat ein paar Schrammen, die Crew auch.'}, {s: 'T', t: 'Schrammen! Schrammen!'}],
-};
-function ankunft(e, t) {
-  clearInterval(toernTimer); AUD.loop && AUD.loop('motorLauf', 0);
-  const quote = t.nEv ? t.ok / t.nEv : 1, sterne = 1 + (quote >= .7 ? 1 : 0) + (t.zustand >= 90 && quote >= .9 ? 1 : 0), min = Math.max(1, Math.round((Date.now() - (t.start || Date.now())) / 60000));
-  t.log = (t.log || []).concat({day: today(), t: e.t, art: t.art, min, ok: t.ok, n: t.nEv, sterne}).slice(-40);
-  t.prov = Math.max(0, t.prov - 1); if (e.ziel === 'Hinnerksiel') { t.sprit = 100; t.zustand = Math.min(100, t.zustand + 20); }
-  t.i = (t.i + 1) % ETAPPEN.length; t.p = 0; t.art = null; t.ev = []; save();
-  LOG.add('törn', `${e.t}: ${t.ok}/${t.nEv}, ${sterne} Sterne`); AUD.sfx('glocke', {vol: .6});
-  const key = sterne >= 3 ? 'gut' : sterne === 2 ? 'mittel' : 'schlecht';
-  gameShell('Angekommen', `<div class="card"><h2 style="margin:0 0 6px">${'⭐'.repeat(sterne)} ${esc(e.ziel)} erreicht</h2><p style="margin:0">${esc(e.t)} · ${t.ok} von ${t.nEv} Situationen richtig · ${min} Minute${min === 1 ? '' : 'n'}</p>
-    <p class="small muted" style="margin:8px 0 0">Proviant ${t.prov} · Sprit ${Math.round(t.sprit)} % · Laune ${Math.round(t.laune)} % · Boot ${Math.round(t.zustand)} %</p>
-    <p class="small" style="margin:8px 0 0">Der Eintrag steht im Logbuch.</p></div><div class="row"><button class="btn lamp" id="tnext">Nächste Etappe</button><button class="btn ghost" id="tdeck">An Deck</button></div>`);
-  if (AUD.ready) VOX.lines(TOERN_LINES[key].map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
-  $('#gback').onclick = () => setTab('deck'); $('#tdeck').onclick = () => setTab('deck'); $('#tnext').onclick = () => NAV.toernStart();
-}
-NAV.TOERN_LINES = TOERN_LINES;
-NAV.toernData = {ETAPPEN, routePos, legLen, planEvents};
+/* Der Törn liegt seit Törn 2.0 (5.14) in toern.js. */
 NAV.hub = async function () {
   await NAV.init();
   const n = S_(), stars = Object.values(n.lek).reduce((a, l) => a + (l.sterne ? 1 : 0), 0);

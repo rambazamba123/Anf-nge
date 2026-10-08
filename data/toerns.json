@@ -1,0 +1,88 @@
+{
+  "about": "Törn 2.0 (CLAUDE.md 5.14). Stufen, Orte und Törns im eigenen Revier (Kliev-Mündung, data/karte.json). Positionen [lat, lon] in Bogenminuten ab 55°00'N / 006°00'E. Neue Scheine: Kürzel in stufen[].scheine eintragen, Fragen über data/tags.json.",
+  "stufen": [
+    {"id": "landratte", "name": "Landratte", "scheine": {"sbf": 1}, "aufgaben": 7, "schaden": 10, "spaet": 1.3, "hilfe": 2, "nacht": 0, "nebel": 0, "kombi": 0, "reparatur": 25, "text": "Kurze Ausflüge bei gutem Wetter. Die Crew ruft früh „Wahrschau!“."},
+    {"id": "leichtmatrose", "name": "Leichtmatrose", "scheine": {"sbf": 1}, "aufgaben": 9, "schaden": 19, "spaet": 1.3, "hilfe": 1.5, "nacht": 0.15, "nebel": 0.1, "kombi": 0, "reparatur": 20, "text": "Längere Schläge, Abenddämmerung und erste Wetterwechsel."},
+    {"id": "seebaer", "name": "Seebär", "scheine": {"sbf": 0.7, "sks": 0.3}, "aufgaben": 10, "schaden": 15, "spaet": 1.4, "hilfe": 1, "nacht": 0.35, "nebel": 0.25, "kombi": 0.15, "reparatur": 25, "ohneTeil": 2, "empfohlen": 2, "text": "Nachtfahrt, Nebel, Verkehrstrennungsgebiet. Ab hier hilft SKS-Wissen."},
+    {"id": "kaphoornier", "name": "Kap-Hoornier", "scheine": {"sbf": 0.4, "sks": 0.6}, "aufgaben": 11, "schaden": 17, "spaet": 1.5, "hilfe": 0.6, "nacht": 0.4, "nebel": 0.3, "kombi": 0.3, "reparatur": 20, "ohneTeil": 4, "empfohlen": 3, "text": "Mehrtägige Törns gegen Wind und Tide. Fehler werden teuer."},
+    {"id": "klabautermann", "name": "Klabautermann", "scheine": {"sbf": 0.2, "sks": 0.8}, "aufgaben": 12, "schaden": 21, "spaet": 1.6, "hilfe": 0.3, "nacht": 0.5, "nebel": 0.4, "kombi": 0.45, "reparatur": 15, "ohneTeil": 8, "empfohlen": 7, "text": "Sturm, Nacht und Nebel zugleich. Ohne gute Ausrüstung kaum zu schaffen."}
+  ],
+  "orte": {
+    "Hinnerksiel": {"pos": [22.2, 57.2], "hafen": true, "text": "Heimathafen am Nordufer der Kliev"},
+    "Südkoog": {"pos": [20.35, 54.6], "hafen": true, "text": "Kleiner Fischerhafen am Südufer"},
+    "Smillaoog": {"pos": [24.4, 33.1], "hafen": true, "text": "Inselhafen unter dem Leuchtturm Roter Klaas"},
+    "Möwenwatt": {"pos": [26.5, 48.2], "hafen": false, "text": "Ankerplatz vor dem Watt"},
+    "Reede Nord": {"pos": [28.6, 21.0], "hafen": false, "text": "Ankerplatz nördlich vom Verkehrstrennungsgebiet"},
+    "Mündung": {"pos": [21.0, 45.0], "hafen": false, "text": "Wendepunkt in der Kliev-Mündung"},
+    "KL": {"pos": [20.7, 23.16], "hafen": false, "text": "Ansteuerungstonne"}
+  },
+  "toerns": [
+    {"id": "kaffee", "name": "Kaffee im Nachbarhafen", "stufe": "landratte", "scheine": ["sbf"], "ausr": [], "wetter": ["schoen", "schoen", "windig"],
+      "text": "Einmal quer über die Kliev nach Südkoog. Kaffee und Butterkuchen warten.",
+      "etappen": [{"von": "Hinnerksiel", "nach": "Südkoog", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.5, 56.4], [20.9, 55.5], [20.35, 54.6]]}]},
+    {"id": "fischbroetchen", "name": "Fischbrötchen-Fahrt", "stufe": "landratte", "scheine": ["sbf"], "ausr": [], "wetter": ["schoen", "windig"],
+      "text": "Die Kliev hinunter bis zur Mündung und zurück. Unterwegs gibt es Fischbrötchen.",
+      "etappen": [{"von": "Hinnerksiel", "nach": "Hinnerksiel", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.3, 54.5], [21.05, 50.5], [20.9, 46.5], [21.0, 45.0], [21.15, 47.0], [21.2, 51.0], [21.4, 54.5], [22.2, 57.2]]}]},
+    {"id": "ansteuerung", "name": "Einmal um die Ansteuerungstonne", "stufe": "landratte", "scheine": ["sbf"], "ausr": [], "wetter": ["schoen", "windig"],
+      "text": "Von Smillaoog einmal um die rot-weiße Tonne KL und zurück.",
+      "etappen": [{"von": "Smillaoog", "nach": "Smillaoog", "gebiet": "kueste", "tz": "tag", "wp": [[24.4, 33.1], [23.2, 29.0], [21.5, 24.5], [21.2, 22.6], [20.2, 22.6], [20.2, 23.8], [21.5, 24.8], [23.2, 29.3], [24.4, 33.1]]}]},
+
+    {"id": "leuchtturmwirt", "name": "Zum Leuchtturmwirt", "stufe": "leichtmatrose", "scheine": ["sbf"], "ausr": ["festmacher"], "wetter": ["schoen", "windig", "regen"],
+      "text": "Durchs Fahrwasser hinaus und hinüber nach Smillaoog. Der Wirt am Roten Klaas hat Scholle.",
+      "etappen": [{"von": "Hinnerksiel", "nach": "Smillaoog", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.05, 52.5], [21.05, 46.0], [21.0, 36.0], [22.6, 33.0], [24.4, 33.1]]}]},
+    {"id": "tide", "name": "Mit der Tide ins Watt", "stufe": "leichtmatrose", "scheine": ["sbf"], "ausr": [], "wetter": ["schoen", "windig"],
+      "text": "Mit auflaufendem Wasser zum Ankerplatz vor dem Möwenwatt. Auf die Tiefe achten!",
+      "etappen": [{"von": "Hinnerksiel", "nach": "Möwenwatt", "gebiet": "watt", "tz": "tag", "wp": [[22.2, 57.2], [21.3, 54.0], [21.4, 50.0], [23.5, 48.8], [26.5, 48.2]]}]},
+    {"id": "abendrot", "name": "Abendrot vor Kliev", "stufe": "leichtmatrose", "scheine": ["sbf"], "ausr": ["lampen"], "wetter": ["schoen", "windig"],
+      "text": "Abendschlag von Südkoog bis vor die Mündung und heim nach Hinnerksiel. Es wird dunkel.",
+      "etappen": [{"von": "Südkoog", "nach": "Hinnerksiel", "gebiet": "fluss", "tz": "abend", "wp": [[20.35, 54.6], [20.9, 52.0], [20.9, 46.0], [20.85, 40.5], [21.2, 41.0], [21.2, 47.0], [21.2, 52.5], [22.2, 57.2]]}]},
+
+    {"id": "nachtfahrt", "name": "Nachtfahrt nach Südkoog", "stufe": "seebaer", "scheine": ["sbf", "sks"], "ausr": ["lampen", "radarreflektor"], "wetter": ["schoen", "windig"],
+      "text": "Von Smillaoog bei Nacht durchs Fahrwasser nach Südkoog. Man sieht nur Lichter und Feuer.",
+      "etappen": [{"von": "Smillaoog", "nach": "Südkoog", "gebiet": "fluss", "tz": "nacht", "wp": [[24.4, 33.1], [22.6, 33.0], [21.0, 36.0], [21.05, 46.0], [21.0, 52.0], [20.35, 54.6]]}]},
+    {"id": "barre", "name": "Nebel über der Barre", "stufe": "seebaer", "scheine": ["sbf", "sks"], "ausr": ["radarreflektor", "nebelhorn"], "wetter": ["nebel", "nebel", "schoen"],
+      "text": "Von der Ansteuerungstonne an der Barre vorbei die Kliev hinauf. Nebel ist angesagt.",
+      "etappen": [{"von": "KL", "nach": "Hinnerksiel", "gebiet": "fluss", "tz": "tag", "wp": [[20.85, 23.6], [20.9, 29.0], [20.9, 36.0], [20.9, 46.0], [21.05, 52.5], [22.2, 57.2]]}]},
+    {"id": "vtg", "name": "Quer übers Fahrwasser", "stufe": "seebaer", "scheine": ["sbf", "sks"], "ausr": ["radarreflektor"], "wetter": ["schoen", "windig"],
+      "text": "Zwei Tage: über das Verkehrstrennungsgebiet zur Reede Nord und zurück nach Smillaoog.",
+      "etappen": [
+        {"von": "Smillaoog", "nach": "Reede Nord", "gebiet": "vtg", "tz": "tag", "wp": [[24.4, 33.1], [23.2, 29.0], [24.2, 24.0], [28.6, 21.0]]},
+        {"von": "Reede Nord", "nach": "Smillaoog", "gebiet": "vtg", "tz": "tag", "wp": [[28.6, 21.0], [24.2, 24.0], [23.2, 29.0], [24.4, 33.1]]}]},
+
+    {"id": "windtide", "name": "Gegen Wind und Tide", "stufe": "kaphoornier", "scheine": ["sbf", "sks"], "ausr": ["reffanlage", "radarreflektor"], "wetter": ["windig", "windig", "sturm", "schoen"],
+      "text": "Zwei Tage gegen den Westwind: nach Smillaoog und dann um die Ansteuerungstonne.",
+      "etappen": [
+        {"von": "Hinnerksiel", "nach": "Smillaoog", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.05, 52.5], [21.05, 46.0], [21.0, 36.0], [22.6, 33.0], [24.4, 33.1]]},
+        {"von": "Smillaoog", "nach": "Smillaoog", "gebiet": "kueste", "tz": "tag", "wp": [[24.4, 33.1], [23.2, 29.0], [21.5, 24.5], [21.2, 22.6], [20.2, 22.6], [20.2, 23.8], [21.5, 24.8], [23.2, 29.3], [24.4, 33.1]]}]},
+    {"id": "dreitage", "name": "Drei Tage Nordsee", "stufe": "kaphoornier", "scheine": ["sbf", "sks"], "ausr": ["reffanlage", "ukw", "radarreflektor"], "wetter": ["windig", "schoen", "nebel", "sturm"],
+      "text": "Hinnerksiel – Smillaoog – Reede Nord – Südkoog. Drei Tage, jeder mit eigenem Wetter.",
+      "etappen": [
+        {"von": "Hinnerksiel", "nach": "Smillaoog", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.05, 52.5], [21.05, 46.0], [21.0, 36.0], [22.6, 33.0], [24.4, 33.1]]},
+        {"von": "Smillaoog", "nach": "Reede Nord", "gebiet": "vtg", "tz": "abend", "wp": [[24.4, 33.1], [23.2, 29.0], [24.2, 24.0], [28.6, 21.0]]},
+        {"von": "Reede Nord", "nach": "Südkoog", "gebiet": "see", "tz": "tag", "wp": [[28.6, 21.0], [24.2, 24.0], [21.5, 24.5], [20.9, 29.0], [20.9, 36.0], [21.0, 46.0], [21.0, 52.0], [20.35, 54.6]]}]},
+    {"id": "inseln", "name": "Rund um die Inseln", "stufe": "kaphoornier", "scheine": ["sbf", "sks"], "ausr": ["lampen", "reffanlage", "radarreflektor"], "wetter": ["schoen", "windig", "regen"],
+      "text": "Rund um Smillaoog und südlich um den Gummientensand. Drei Etappen, eine davon nachts.",
+      "etappen": [
+        {"von": "Südkoog", "nach": "Smillaoog", "gebiet": "fluss", "tz": "tag", "wp": [[20.35, 54.6], [21.0, 52.0], [21.05, 46.0], [21.0, 36.0], [22.6, 33.0], [24.4, 33.1]]},
+        {"von": "Smillaoog", "nach": "KL", "gebiet": "kueste", "tz": "nacht", "wp": [[24.4, 33.1], [24.0, 37.5], [26.5, 38.5], [27.5, 33.0], [27.0, 28.5], [24.0, 26.5], [21.5, 24.5], [20.9, 23.6]]},
+        {"von": "KL", "nach": "Südkoog", "gebiet": "see", "tz": "tag", "wp": [[20.9, 23.6], [17.5, 28.0], [15.0, 34.0], [14.5, 40.0], [15.5, 45.0], [19.0, 49.5], [20.2, 52.5], [20.35, 54.6]]}]},
+
+    {"id": "herbststurm", "name": "Herbststurm-Überführung", "stufe": "klabautermann", "scheine": ["sks"], "ausr": ["reffanlage", "rettungsinsel", "ukw", "radarreflektor"], "wetter": ["sturm", "sturm", "windig"],
+      "text": "Das Boot muss vor dem Winter nach Smillaoog. Leider kommt der Herbststurm mit.",
+      "etappen": [
+        {"von": "Hinnerksiel", "nach": "KL", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.05, 52.5], [21.05, 46.0], [20.9, 36.0], [20.9, 29.0], [20.85, 23.6]]},
+        {"von": "KL", "nach": "Smillaoog", "gebiet": "see", "tz": "abend", "wp": [[20.85, 23.6], [21.5, 24.5], [23.2, 29.0], [24.4, 33.1]]}]},
+    {"id": "nnw7", "name": "Nacht, Nebel, Nordwest 7", "stufe": "klabautermann", "scheine": ["sks"], "ausr": ["radarreflektor", "nebelhorn", "reffanlage", "plotter"], "wetter": ["nebel", "sturm"],
+      "text": "Nachts über das Verkehrstrennungsgebiet. Nordwest 7, später Nebel. Viel Glück.",
+      "etappen": [
+        {"von": "Smillaoog", "nach": "Reede Nord", "gebiet": "vtg", "tz": "nacht", "wp": [[24.4, 33.1], [23.2, 29.0], [24.2, 24.0], [28.6, 21.0]]},
+        {"von": "Reede Nord", "nach": "KL", "gebiet": "vtg", "tz": "nacht", "wp": [[28.6, 21.0], [24.2, 24.0], [21.5, 24.5], [20.9, 23.6]]}]},
+    {"id": "grosserunde", "name": "Die Große Runde", "stufe": "klabautermann", "scheine": ["sks"], "ausr": ["reffanlage", "rettungsinsel", "ukw", "radarreflektor", "plotter", "lampen"], "wetter": ["windig", "nebel", "sturm", "schoen"],
+      "text": "Vier Tage durchs ganze Revier: Kliev, Smillaoog, Reede Nord, Ansteuerung und südlich um den Sand.",
+      "etappen": [
+        {"von": "Hinnerksiel", "nach": "Smillaoog", "gebiet": "fluss", "tz": "tag", "wp": [[22.2, 57.2], [21.05, 52.5], [21.05, 46.0], [21.0, 36.0], [22.6, 33.0], [24.4, 33.1]]},
+        {"von": "Smillaoog", "nach": "Reede Nord", "gebiet": "vtg", "tz": "nacht", "wp": [[24.4, 33.1], [23.2, 29.0], [24.2, 24.0], [28.6, 21.0]]},
+        {"von": "Reede Nord", "nach": "KL", "gebiet": "vtg", "tz": "tag", "wp": [[28.6, 21.0], [24.2, 24.0], [21.5, 24.5], [20.9, 23.6]]},
+        {"von": "KL", "nach": "Südkoog", "gebiet": "see", "tz": "abend", "wp": [[20.9, 23.6], [17.5, 28.0], [15.0, 34.0], [14.5, 40.0], [15.5, 45.0], [19.0, 49.5], [20.2, 52.5], [20.35, 54.6]]}]}
+  ]
+}
