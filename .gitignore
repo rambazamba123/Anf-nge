@@ -20,3 +20,6 @@ __pycache__/
 
 # Rauchtest-Bilder
 tests/smoke/bilder/
+
+# 5.15: Stimmenpaket, wird mit tools/stimmen-import.js eingebaut
+stimmen.zip

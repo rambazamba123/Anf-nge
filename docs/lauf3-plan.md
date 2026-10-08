@@ -38,3 +38,11 @@ Danach Bericht (festes Format aus CLAUDE.md §7) und Push nach OK.
 - L3b braucht L3c nicht, aber beide berühren den Start, deshalb L3b vor L3c.
 - L3e hängt von L3b ab (Fernglas-Markierung).
 - L3g kommt zuletzt, weil der Rauchtest alle Bereiche durchklickt.
+
+## Stand nach Lauf 3 (08.10.2026, v4.35–v4.42)
+Alle Unteretappen erledigt. Abweichungen vom Plan:
+- L3c: statt `intro.js` liegen die Sätze in `data/einfuehrungen.json`, im Code nur die kleine Funktion `einfuehrung(id)` (spart eine nachgeladene Datei).
+- L3d: `quellen/` fehlt in dieser Umgebung. Die SKS-Erweiterung stützt sich auf den SKS-Katalog in `data/sks.json` (nav-44, 48–50, 54, 55, 62, 103) und Standardverfahren der terrestrischen Navigation. Format der amtlichen SKS-Kartenaufgaben bitte gegen `quellen/` abgleichen.
+- L3e: altes Telefon (Wunsch des Nutzers), das Funkgerät bleibt für die Folgen.
+- L3g: Rauchtest läuft vor jedem Commit über `.githooks/pre-commit` (einmalig `git config core.hooksPath .githooks`). `stimmen.zip` im Repo-Ordner baut `tools/stimmen-import.js` mit ein.
+- `index.html` ist in Lauf 3 um etwa 11 KB gewachsen (470 → 481 KB: Steuerrad, Rennen, Telefon, Einführungen). Größere Teile kamen in Daten-Dateien.
