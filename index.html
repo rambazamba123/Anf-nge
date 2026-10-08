@@ -501,7 +501,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.36';
+  window.__ver = '4.37';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -789,9 +789,10 @@ const GRUSS = {
   hinnerk: ['Schön, dass du wieder an Bord bist.', 'Der Tee ist heiß, und die See ist ruhig. Fast.', 'Leinen los, heute lernen wir was!', 'Na, schon Salzwasser in den Adern?', 'Komm rein, bevor dich der Wind wegpustet.', 'Die Crew hat schon auf dich gewartet.', 'Setz dich, die Pfeife ist gestopft.', 'Ahoi! Bereit für ein paar Seemeilen Wissen?', 'Ablandiger Wind und gute Laune. Was will man mehr?', 'Heute ist ein guter Tag für Seemannschaft.'],
   ilse: ['Schön, dass du da bist, mien Jung.', 'Der Tee steht schon auf dem Tisch.', 'Setz dich, ich stricke, du lernst.', 'Na, wieder Lust auf Seeluft?', 'Komm rein, draußen pfeift der Wind.', 'Heute machen wir es gründlich, aber gemütlich.', 'Ahoi! Die Maschen sitzen, jetzt sitzt gleich auch das Wissen.', 'Gut, dass du kommst. Der Käpt\'n in mir freut sich.'],
 };
-/* Ein Seemann zieht das Moin nicht lang (das stolpert in der Sprachausgabe), er sagt es kurz und trocken.
-   Wie lange du weg warst, hört man an den Worten danach. Moin und Satz sind getrennte Clips, damit beide im Stimmenpaket liegen. */
-const MOIN = ['Moin!', 'Moin, moin!', 'Na, moin!', 'Na, moin! Lang nicht gesehen.', 'Ja, moin! Dich gibt\'s ja auch noch!'];
+/* Wie lange du weg warst, hört man an den Worten danach. Moin und Satz sind getrennte Clips, damit beide im Stimmenpaket liegen. */
+/* 5.9: Das erste Moin ist richtig gezogen (O etwa 2–3 Sekunden). Dieser Clip wird beim Abspielen leicht gedehnt, Tonhöhe bleibt. */
+const MOIN_LANG = 'Mooooooooin!';
+const MOIN = [MOIN_LANG, 'Moin, moin!', 'Na, moin!', 'Na, moin! Lang nicht gesehen.', 'Ja, moin! Dich gibt\'s ja auch noch!'];
 function moinWord(gap) { return MOIN[gap <= 1 ? 0 : gap <= 3 ? 1 : gap <= 7 ? 2 : gap <= 14 ? 3 : 4]; }
 function moinText(gap, lead) {
   const g = GRUSS[lead] || GRUSS.hinnerk;
@@ -1629,14 +1630,14 @@ const VOX = (() => {
 
   function noticeFor(e) { hooks.notice(e && e.code === 'el_quota' ? 'quota' : e && e.code === 'el_bad_key' ? 'badkey' : e && e.code === 'el_perm' ? 'perm' : e && e.code === 'el_network' ? 'elnet' : 'elerr', e); return null; }
   /* ---------- Abspielen ---------- */
-  function playBlob(blob, cid, g) {
+  function playBlob(blob, cid, g, dehnen) {
     return new Promise(res => {
       const a = window.__vel || (window.__vel = new Audio()), c = CREW[cid] || {};
       try { a.pause(); } catch (e) {}
       if (a.__url) { try { URL.revokeObjectURL(a.__url); } catch (e) {} }
       a.__url = URL.createObjectURL(blob); a.src = a.__url;
-      a.preservesPitch = false; a.mozPreservesPitch = false; a.webkitPreservesPitch = false;
-      a.playbackRate = c.fx || 1; a.volume = Math.min(1, ((S.cfg && S.cfg.voice) || 1) * (window.VOXDIM || 1));
+      a.preservesPitch = !!dehnen; a.mozPreservesPitch = !!dehnen; a.webkitPreservesPitch = !!dehnen;
+      a.playbackRate = (c.fx || 1) * (dehnen ? .8 : 1); a.volume = Math.min(1, ((S.cfg && S.cfg.voice) || 1) * (window.VOXDIM || 1));
       let fin = false, dog = null;
       const done = () => { if (fin) return; fin = true; clearTimeout(dog); a.onended = a.onerror = a.onloadedmetadata = null; res(); };
       current = {stop: () => { try { a.pause(); } catch (e) {} done(); }};
@@ -1662,8 +1663,8 @@ const VOX = (() => {
   function playPhoneOne(text, cid) {
     return new Promise(res => {
       if (!('speechSynthesis' in window)) return res();
-      const c = CREW[cid] || {}, u = new SpeechSynthesisUtterance(text);
-      u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = c.rate || 1;
+      const c = CREW[cid] || {}, lang = /^mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/i, 'ooo') : text);
+      u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
       const v = phoneVoices.find(v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name)) || phoneVoices[0]; if (v) u.voice = v;
       let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
       const dog = setTimeout(() => { log('handystimme', 'Zeitlimit erreicht'); done(); }, 3500 + text.length * 95);
@@ -1687,7 +1688,7 @@ const VOX = (() => {
     hooks.start(cid, text); AUD.duck(true);
     const t0 = Date.now(), src = blob ? 'elevenlabs' : (forceFb || (S.cfg && S.cfg.fallback) || 'phone');
     log('sprechen', cid + ' · ' + src + ' · ' + text.length + ' Zeichen · „' + text.slice(0, 50) + '“');
-    if (blob) await playBlob(blob, cid, g);
+    if (blob) await playBlob(blob, cid, g, /^mo{4,}in/i.test(text));
     else {
       const fb = forceFb || (S.cfg && S.cfg.fallback) || 'phone';
       if (fb === 'phone' && 'speechSynthesis' in window) await playPhone(text, cid);
