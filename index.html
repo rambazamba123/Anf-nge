@@ -303,6 +303,7 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat .pano svg{height:100%;width:auto;aspect-ratio:400/380;max-width:none}
 .phone .hoerer{transition:transform .3s;transform-origin:15px 6px}.phone.ab .hoerer{transform:translate(8px,-7px) rotate(-18deg)}
 .harms{position:fixed;inset:0;z-index:63;background:rgba(20,14,10,.5);display:flex;align-items:flex-end;justify-content:center;padding:16px}.harms .hbox{background:#fffaf0;color:#2a2019;border-radius:18px;padding:14px;max-width:440px;width:100%;display:flex;gap:10px;align-items:flex-end;animation:harmsIn .9s ease-out both;box-shadow:0 8px 24px rgba(0,0,0,.35)}.harms .hbox>svg{width:96px;flex:none}.harms p{margin:0 0 10px}@keyframes harmsIn{from{transform:translateX(115%)}to{transform:none}}
+.menuitem.off,.chip.off{opacity:.45;cursor:default;filter:grayscale(1)}
 .einf{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:62;max-height:60svh;overflow:auto;background:rgba(30,24,18,.94);color:#fffaf0;padding:12px 14px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35)}.einf p{margin:6px 0}.einf .muted{color:#e8dcc4}.einf .row{justify-content:flex-end;margin-top:8px}.einf .btn.ghost{color:#fffaf0;border-color:rgba(255,250,240,.6);background:transparent}
 .bgpill{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(30,24,18,.92);color:#fffaf0;padding:10px 12px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);font-size:.92rem;max-width:520px;margin:0 auto}
 .scene.cabin.seated .seatglow{opacity:.5;transition:opacity .4s}
@@ -504,7 +505,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.40';
+  window.__ver = '4.41';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2579,7 +2580,7 @@ async function convoOnboarding() {
     let done = false;
     const fin = v => { if (done) return; done = true; VOX.stop('antwort'); const sp = $('#stagePanel'); if (sp) sp.classList.add('answered'); res(v); };
     stagePanel(`<p class="small" style="margin:0 0 8px;color:var(--muted)">${esc(line.t)}</p>
-      ${opts && opts.length ? '<div class="chips">' + opts.map(([k, v]) => `<button class="chip" data-k="${esc(String(k))}">${esc(v)}</button>`).join('') + '</div>' : ''}
+      ${opts && opts.length ? '<div class="chips">' + opts.map(([k, v, off]) => off ? `<button class="chip off" disabled aria-disabled="true">${esc(v)} · kommt bald</button>` : `<button class="chip" data-k="${esc(String(k))}">${esc(v)}</button>`).join('') + '</div>' : ''}
       <div class="row" style="margin-top:10px;flex-wrap:nowrap"><input type="text" id="ofree" placeholder="${esc(o.ph || 'Oder schreib selbst…')}" value="${esc(o.value || '')}" style="flex:1;min-width:0"><button class="btn" id="ofok">${o.value != null ? 'Weiter' : 'Senden'}</button></div>`);
     document.querySelectorAll('#stagePanel [data-k]').forEach(b => b.onclick = () => fin({k: b.dataset.k}));
     const inp = $('#ofree'), go = () => { const t = inp.value.trim(); if (t) fin({text: t}); else if (o.value != null) fin({text: ''}); };
@@ -2598,7 +2599,7 @@ async function convoOnboarding() {
   await react('nameOk');
   /* Schein */
   const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /binnen|fluss|flüsse|kanal/i.test(t) ? 'binnen' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
-  const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]));
+  const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]).concat(COURSES_SOON.map(x => [x.id, x.name, 1])));
   let course = c.k || parseCourse(c.text);
   if (!course) { await freeReply('Zum Schein', ONB.courseAsk.t, c.text); course = S.course || 'sbf'; }
   if (course !== S.course) { switchCourse(course); const bk = courseBucket(course); prof.exam = bk.examSet ? bk.exam : null; }
@@ -2647,10 +2648,10 @@ function onboardingForm() {
   /* Kennenlernen per Tippen: eine Frage pro Seite */
   $('#tabs').classList.add('hidden'); const h = $('#introHolder'); if (h) h.remove();
   const P = {name: '', course: S.course, exam: new Date(Date.now() + 28 * 864e5).toISOString().slice(0, 10), ageGroup: 'erw', minutes: 30, exp: 'none'};
-  const chips = (key, list) => `<div class="chips big">${list.map(([k, v]) => `<button class="chip" data-v="${k}" aria-pressed="${String(P[key]) === String(k)}">${v}</button>`).join('')}</div>`;
+  const chips = (key, list) => `<div class="chips big">${list.map(([k, v, off]) => off ? `<button class="chip off" disabled aria-disabled="true">${v} · kommt bald</button>` : `<button class="chip" data-v="${k}" aria-pressed="${String(P[key]) === String(k)}">${v}</button>`).join('')}</div>`;
   const STEPS = [
     {q: 'Wie heißt du?', html: () => `<input type="text" id="sv" placeholder="Vorname" autocomplete="given-name" value="${esc(P.name)}">`, get: () => { P.name = $('#sv').value.trim(); }},
-    {q: 'Für welchen Schein lernst du?', html: () => chips('course', Object.values(COURSES).map(c => [c.id, c.name])), key: 'course'},
+    {q: 'Für welchen Schein lernst du?', html: () => chips('course', Object.values(COURSES).map(c => [c.id, c.name]).concat(COURSES_SOON.map(c => [c.id, esc(c.name), 1]))), key: 'course'},
     {q: 'Wann ist deine Prüfung?', html: () => `<input type="date" id="sv" value="${P.exam}">`, get: () => { P.exam = $('#sv').value || P.exam; }},
     {q: 'Wie viel Zeit hast du am Tag?', html: () => chips('minutes', [15, 30, 45, 60, 90].map(m => [m, m + ' Minuten'])), key: 'minutes', num: true},
     {q: 'Wie gut kennst du dich mit Booten aus?', html: () => chips('exp', Object.entries(EXP).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)])), key: 'exp'},
@@ -2729,6 +2730,9 @@ function bindSaying() {
 
 /* ---------- Deck ---------- */
 /* Rennen (5.4): ein Boot je Schein in eigener Farbe, Ziel am jeweiligen Prüfungsdatum, graues Boot = heute */
+/* 5.13: Scheine, die noch kommen. Ein neuer Schein wird ein Eintrag in COURSES (Katalog in data/*.json, nur bei Bedarf laden,
+   Themen, Prüfungsregel, Lexikon) und in data/tags.json für den Törn. Bis dahin steht er hier und erscheint ausgegraut. */
+const COURSES_SOON = [{id: 'funk', name: 'Funkzeugnisse (SRC/UBI)'}, {id: 'pyro', name: 'Fachkunde Pyrotechnik (FKN)'}];
 const COURSE_COLOR = {sbf: '#f0b53e', sks: '#3d8fd6', binnen: '#3aa564', funk: '#b06bd6', pyro: '#e0683c'};
 function passChanceFor(id) {
   if (id === S.course) return passChance();
@@ -5334,7 +5338,7 @@ async function cabinWelcome() {
 }
 function courseSheet() {
   const w = sheet(`<h2 style="margin:0 0 4px">Welcher Schein?</h2><p class="small muted" style="margin:0 0 10px">Jeder Schein hat seinen eigenen Katalog und Lernstand. Nichts wird vermischt, nichts geht verloren.</p>
-    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}</div>`);
+    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}${COURSES_SOON.map(c => `<button class="menuitem off" disabled aria-disabled="true"><b>${esc(c.name)}</b><small>Kommt bald</small></button>`).join('')}</div>`);
   w.querySelectorAll('[data-m^="c:"]').forEach(b => b.onclick = () => { const id = b.dataset.m.slice(2); closeSheet(); if (id !== S.course) { switchCourse(id); toast('Jetzt lernst du für den ' + COURSES[id].name + '.'); } setTab(tab === 'deck' ? 'deck' : 'cabin'); einfuehrung(id); });
 }
 
