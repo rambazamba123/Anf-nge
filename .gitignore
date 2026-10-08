@@ -17,3 +17,6 @@ __pycache__/
 
 # Stimmen-ZIPs aus der App (werden nach audio/stimmen entpackt)
 *.zip
+
+# Rauchtest-Bilder
+tests/smoke/bilder/

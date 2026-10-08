@@ -1,0 +1,19 @@
+{
+  "about": "Törn 2.0: Ausrüstung. art: teil (wird am Boot verbaut, bleibt) oder vorrat (wird verbraucht). Preise in Talern (Bordkasse). fund: kann unterwegs gefunden werden. Wirkung steht in data/ereignisse.json (hilft/noetig).",
+  "start": {"kasse": 60, "prov": 3, "sprit": 100, "teile": ["festmacher"], "vorrat": {"impeller": 0, "signal": 1, "lampe": 0, "diesel": 0}},
+  "teile": [
+    {"id": "festmacher", "art": "teil", "name": "Festmacher und Fender", "preis": 20, "fund": false, "text": "Gehört zur Grundausstattung. Ohne sie wird jedes Anlegen zur Schrammenparade."},
+    {"id": "radarreflektor", "art": "teil", "name": "Radarreflektor", "preis": 60, "fund": true, "text": "Hoch am Mast angebracht, damit andere Schiffe dich im Radar besser sehen. Hilft bei Nebel und Nacht."},
+    {"id": "nebelhorn", "art": "teil", "name": "Druckgas-Nebelhorn", "preis": 35, "fund": true, "text": "Laut genug für die vorgeschriebenen Schallsignale. Hilft bei Nebel."},
+    {"id": "reffanlage", "art": "teil", "name": "Rollreffanlage", "preis": 120, "fund": false, "text": "Vorsegel stufenlos verkleinern, ohne aufs Vorschiff zu müssen. Hilft bei Böen, Starkwind und Gewitter."},
+    {"id": "ukw", "art": "teil", "name": "UKW-Funkgerät", "preis": 140, "fund": false, "text": "Lagemeldungen der Verkehrszentrale hören und im Notfall Hilfe rufen. Macht aus Seenot ein Abschleppen."},
+    {"id": "plotter", "art": "teil", "name": "Kartenplotter", "preis": 160, "fund": false, "text": "Zeigt die Position laufend an. Hilft bei Nebel und beim Navigieren nachts."},
+    {"id": "autopilot", "art": "teil", "name": "Autopilot", "preis": 150, "fund": false, "text": "Steuert auf langen Schlägen. Die Crew bleibt besser gelaunt."},
+    {"id": "rettungsinsel", "art": "teil", "name": "Rettungsinsel", "preis": 200, "fund": false, "text": "Für den schlimmsten Fall. Bei Seenot verlierst du deutlich weniger."},
+    {"id": "lampen", "art": "teil", "name": "Ersatzlampen-Satz", "preis": 15, "fund": true, "text": "Ersatz für die Positionslaternen. Fällt nachts ein Licht aus, ist es schnell getauscht."},
+    {"id": "impeller", "art": "vorrat", "name": "Ersatz-Impeller", "preis": 25, "fund": true, "text": "Die Kühlwasserpumpe hat einen Gummiflügel. Ist er hin, wird der Motor heiß."},
+    {"id": "signal", "art": "vorrat", "name": "Seenotsignalmittel", "preis": 30, "fund": true, "text": "Rote Handfackel oder Leuchtrakete mit rotem Stern. Nur für echte Not."},
+    {"id": "diesel", "art": "vorrat", "name": "Dieselkanister", "preis": 15, "fund": true, "text": "Bringt 30 Prozent Sprit, wenn der Tank leer wird."},
+    {"id": "proviant", "art": "vorrat", "name": "Proviantpaket", "preis": 20, "fund": true, "text": "Ein Tag Essen für die Crew. Ohne Proviant legt niemand ab."}
+  ]
+}
