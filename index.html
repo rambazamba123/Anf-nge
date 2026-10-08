@@ -290,7 +290,10 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat{aspect-ratio:auto;height:calc(100svh - 200px);min-height:430px;max-height:780px}
 .scene.boat .pano{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;cursor:grab}
 .scene.boat .pano::-webkit-scrollbar{display:none}
-.scene.boat.detail .pano svg{aspect-ratio:1200/640}
+.scene.boat.detail .pano svg{aspect-ratio:1200/305}
+.scene.boat.detail{height:48svh;min-height:300px;max-height:460px}
+.scene.boat.ov{height:auto;min-height:0;max-height:none;aspect-ratio:400/380}.scene.boat.ov .pano{overflow:hidden}.scene.boat.ov .pano svg{width:100%;height:100%}
+.scene.boat .aboard{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;font-size:1.15rem;padding:14px 28px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.25)}.scene.boat.ov .panohint{bottom:auto;top:14px}
 .scene.boat.ov svg{cursor:zoom-in} .scene.boat.ov [data-egg]{pointer-events:none}
 .scene.boat svg.zoomin{transition:transform .32s ease-in,opacity .32s ease-in;transform:scale(2.4);opacity:.25}
 .scene.boat.detail .pano{animation:zfade .4s ease-out}
@@ -498,7 +501,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.35';
+  window.__ver = '4.36';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2709,17 +2712,31 @@ function bindSaying() {
 }
 
 /* ---------- Deck ---------- */
+/* Rennen (5.4): ein Boot je Schein in eigener Farbe, Ziel am jeweiligen Prüfungsdatum, graues Boot = heute */
+const COURSE_COLOR = {sbf: '#f0b53e', sks: '#3d8fd6', binnen: '#3aa564', funk: '#b06bd6', pyro: '#e0683c'};
+function passChanceFor(id) {
+  if (id === S.course) return passChance();
+  const C = COURSES[id], b = ((S.courses || {})[id] || {}).qs || {}, items = C.items();
+  const pOf = list => list.length ? list.reduce((a, q) => a + (b[q.n] ? PROB[b[q.n].b] : PROB[0]), 0) / list.length : PROB[0];
+  if (C.kind === 'open') return binomAtLeast(60, pOf(items), 39);
+  return C.exam.parts.reduce((acc, p) => acc * binomAtLeast(p.count, pOf(items.filter(p.has)), p.min), 1);
+}
+const examIsoOf = id => id === S.course ? S.profile.exam : ((S.courses || {})[id] || {}).exam;
+const raceCourses = () => Object.keys(COURSES).filter(id => id === S.course || Object.keys((((S.courses || {})[id] || {}).qs) || {}).length);
 function courseCard() {
-  const left = daysLeft(), r = racePos(), ch = r.you;
+  const start = S.start || (S.start = today(), save(), S.start), LEAD = .15, day = iso => { if (!iso) return today() + 60; const [y, m, d] = iso.split('-').map(Number); return dayNum(new Date(y, m - 1, d)); };
+  const rows = raceCourses().map(id => ({id, c: COURSES[id], iso: examIsoOf(id), ex: day(examIsoOf(id)), ch: passChanceFor(id), col: COURSE_COLOR[id] || '#f0b53e'}));
+  const end = Math.max(today() + 1, ...rows.map(r => r.ex)), pos = d => LEAD + (1 - LEAD) * Math.min(1, Math.max(0, (d - start) / Math.max(1, end - start)));
+  const me = rows.find(r => r.id === S.course), next = rows.filter(r => r.ex >= today()).sort((x, y) => x.ex - y.ex)[0] || me, left = Math.max(0, next.ex - today()), multi = rows.length > 1;
   const boat = (sail, pct, label) => `<svg class="boatI" style="left:${(pct * 100).toFixed(1)}%" viewBox="0 0 26 26" role="img" aria-label="${label}"><path d="M13 3v15M13 4l7 11h-7z" fill="${sail}" stroke="${sail}" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 18h18l-3 4H7z" fill="${sail === '#8a96a3' ? '#5c6670' : '#3d5f8f'}"/></svg>`;
+  const goal = (col, pct, label) => `<svg class="goal" style="left:calc(${(pct * 100).toFixed(1)}% - 11px);right:auto" viewBox="0 0 22 24" role="img" aria-label="${label}"><path d="M11 2v20" stroke="var(--muted)" stroke-width="2"/><path d="M11 3h9l-3 4 3 4h-9z" fill="${multi ? col : '#c2473b'}"/></svg>`;
   return `<section class="card" aria-label="Kurs bis zur Prüfung">
     <div class="course"><div class="big">${left === 0 ? 'Heute' : left}</div>
-      <div>${left === 0 ? 'ist Prüfungstag. Mast- und Schotbruch!' : `${left === 1 ? 'Tag' : 'Tage'} bis zur Prüfung am ${fmtDate(S.profile.exam)}`}<br><span class="muted small">Bestehenschance etwa ${Math.round(ch * 100)} %</span></div></div>
-    <p class="saying" data-saying="${esc(sayingFor(ch))}" role="button" tabindex="0" title="Antippen zum Vorlesen"><b style="color:${CREW[S.crew.K].color}">${esc(nameOf('K'))}:</b> „${esc(sayingFor(ch))}“</p>
-    <div class="track"><div class="ln"></div><div class="done" style="width:${(ch * 100).toFixed(1)}%"></div>
-      ${boat('#8a96a3', r.exam, 'Prüfungsboot')}${boat('#f0b53e', ch, 'Dein Boot')}
-      <svg class="goal" viewBox="0 0 22 24" aria-hidden="true"><path d="M11 2v20" stroke="var(--muted)" stroke-width="2"/><path d="M11 3h9l-3 4 3 4h-9z" fill="#c2473b"/></svg></div>
-    <div class="legend"><span><i style="background:#f0b53e"></i>Dein Lernstand</span><span><i style="background:#8a96a3"></i>Das Prüfungsboot</span></div>
+      <div>${left === 0 ? `ist ${esc(next.c.short)}-Prüfungstag. Mast- und Schotbruch!` : `${left === 1 ? 'Tag' : 'Tage'} bis zur ${multi ? esc(next.c.short) + '-' : ''}Prüfung am ${fmtDate(next.iso || S.profile.exam)}`}<br><span class="muted small">Bestehenschance ${multi ? esc(me.c.short) + ' ' : ''}etwa ${Math.round(me.ch * 100)} %</span></div></div>
+    <p class="saying" data-saying="${esc(sayingFor(me.ch))}" role="button" tabindex="0" title="Antippen zum Vorlesen"><b style="color:${CREW[S.crew.K].color}">${esc(nameOf('K'))}:</b> „${esc(sayingFor(me.ch))}“</p>
+    <div class="track"><div class="ln"></div><div class="done" style="width:${(pos(me.ex) * me.ch * 100).toFixed(1)}%;background:${me.col}"></div>
+      ${rows.map(r => goal(r.col, pos(r.ex), 'Ziel ' + r.c.short)).join('')}${boat('#8a96a3', pos(today()), 'Prüfungsboot (heute)')}${rows.map(r => boat(r.col, pos(r.ex) * r.ch, r.c.short)).join('')}</div>
+    <div class="legend">${rows.map(r => `<span><i style="background:${r.col}"></i>${multi ? `${esc(r.c.short)} ${Math.round(r.ch * 100)} %${r.iso ? ' · ' + fmtDate(r.iso) : ''}` : 'Dein Lernstand'}</span>`).join('')}<span><i style="background:#8a96a3"></i>Das Prüfungsboot</span></div>
   </section>`;
 }
 /* ---------- Kajüte: hier wird gelernt ---------- */
@@ -3716,7 +3733,7 @@ function longBoatScene(crew) {
   const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
   const tri = (x) => `${stars().replace(/<g class="stars"/, `<g class="stars" transform="translate(${x} 0)"`)}`;
   return `<div class="scene boat detail" data-day="${day}" data-wx="${wx}" style="${styleVars(p)}${boatLook()}">
-  <div class="pano" id="pano"><svg class="longboat" viewBox="0 -120 1200 640" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Das Boot aus der Nähe: Bug, Mast, Niedergang, Cockpit mit Steuer und Motor. Zum Wischen.">
+  <div class="pano" id="pano"><svg class="longboat" viewBox="0 30 1200 305" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Das Boot aus der Nähe: Bug, Mast, Niedergang, Cockpit mit Steuer und Motor. Zum Wischen.">
     <defs><clipPath id="dClip1"><circle cx="560" cy="226" r="11"/></clipPath><clipPath id="dClip2"><circle cx="620" cy="226" r="11"/></clipPath></defs>
     <rect y="-120" width="1200" height="640" style="fill:var(--skyT)"/>
     <rect y="120" width="1200" height="92" style="fill:var(--skyB)"/>
@@ -3729,6 +3746,8 @@ function longBoatScene(crew) {
       <circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>` : ''}
     <rect y="210" width="1200" height="310" style="fill:var(--sea)"/>
     ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(226, 'w1', 'var(--seaD)', .4, 520)}</g>`).join('')}
+    <!-- Wasser-Eggs hinter dem Boot, im Streifen unter der Insel -->
+    <g data-egg="tonne"><g transform="translate(800 228) scale(.6)">${buoyG(0, 0)}</g><rect x="788" y="200" width="24" height="32" fill="transparent"/></g><g transform="translate(240 -132)"><g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M640 356 q12 -9 24 0 q-12 9 -24 0 Z M664 356 l8 -6 v12 Z" fill="#e8954a"/><circle cx="646" cy="354.5" r="1.2" fill="#2b2118"/></g><rect x="626" y="336" width="56" height="34" fill="transparent"/></g></g><g transform="translate(1000 -180)"><g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="12" ry="10" fill="#7d8790"/><circle cx="57" cy="401" r="1.6" fill="#2b2118"/><circle cx="67" cy="401" r="1.6" fill="#2b2118"/><ellipse cx="62" cy="407" rx="3.5" ry="2.2" fill="#4a5258"/><rect x="46" y="388" width="32" height="26" fill="transparent"/></g></g>
     <g class="rocker">
       <!-- Mast, Wanten und Vorstag (oben aus dem Bild heraus) -->
       <path d="M422 -120 L330 252 M422 -120 L520 252 M422 -120 L78 248 M1130 248 L422 -120" stroke="#8a8a8a" stroke-width="1.6"/>
@@ -3783,11 +3802,11 @@ function longBoatScene(crew) {
       <circle class="navl white" cx="1150" cy="246" r="3" fill="#fffbe8"/>
       ${ausrArt()}
     </g>
-    <g class="krabbe" aria-hidden="true"><g transform="translate(1170 330)"><ellipse rx="9" ry="6" fill="#d9542f"/><path d="M-9 -2 l-6 -6 M9 -2 l6 -6 M-6 4 l-5 4 M6 4 l5 4" stroke="#d9542f" stroke-width="2"/><circle cx="-3" cy="-5" r="1.4" fill="#2b2118"/><circle cx="3" cy="-5" r="1.4" fill="#2b2118"/></g></g>
+    <g class="krabbe" aria-hidden="true"><g transform="translate(1170 318)"><ellipse rx="9" ry="6" fill="#d9542f"/><path d="M-9 -2 l-6 -6 M9 -2 l6 -6 M-6 4 l-5 4 M6 4 l5 4" stroke="#d9542f" stroke-width="2"/><circle cx="-3" cy="-5" r="1.4" fill="#2b2118"/><circle cx="3" cy="-5" r="1.4" fill="#2b2118"/></g></g>
     <g class="bottle" aria-hidden="true"><g transform="translate(1190 300) rotate(-20)"><rect x="-5" y="-14" width="10" height="22" rx="4" fill="#5c8f6a" opacity=".85"/><rect x="-2.5" y="-20" width="5" height="7" fill="#5c8f6a"/><rect x="-3" y="-10" width="6" height="10" fill="#f3e9cf"/></g></g>
-    <g data-egg="tonne"><g transform="translate(270 366) scale(1.4)">${buoyG(0, 0)}</g><rect x="250" y="316" width="40" height="64" fill="transparent"/></g>
-    <g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M640 356 q12 -9 24 0 q-12 9 -24 0 Z M664 356 l8 -6 v12 Z" fill="#e8954a"/><circle cx="646" cy="354.5" r="1.2" fill="#2b2118"/></g><rect x="626" y="336" width="56" height="34" fill="transparent"/></g>
-    <g transform="translate(920 -14)"><g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="12" ry="10" fill="#7d8790"/><circle cx="57" cy="401" r="1.6" fill="#2b2118"/><circle cx="67" cy="401" r="1.6" fill="#2b2118"/><ellipse cx="62" cy="407" rx="3.5" ry="2.2" fill="#4a5258"/><rect x="46" y="388" width="32" height="26" fill="transparent"/></g></g>
+    
+    
+    
     ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(318, 'w2', 'var(--seaD)', .5, 520)}${waves(380, 'w3', 'var(--seaD)', .6, 520)}${rain(520)}${fog()}</g>`).join('')}
     <g class="labels">${lbl(110, 186, 'Bug')}${lbl(422, 196, 'Mast')}${lbl(734, 176, 'Niedergang')}${lbl(990, 164, 'Steuer')}${lbl(1168, 214, 'Motor')}</g>
     <g class="hints">${DETAIL_HINTS.map(h => `<circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="none" stroke="#fff6b0" stroke-width="3"/>`).join('')}</g>
@@ -3930,18 +3949,19 @@ let deckView = 'overview', detailX = null;
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
   const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, detail = deckView === 'detail';
-  app.innerHTML = `${detail ? longBoatScene(S.crew) : boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace('>‹ wischen ›<', '>Antippen zum Heranzoomen<')}
+  app.innerHTML = `${detail ? longBoatScene(S.crew) : boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace('>‹ wischen ›<', '>Antippen zum Heranzoomen<').replace(/<\/div>\s*$/, '<button class="btn lamp aboard" id="aboard">⚓ An Bord gehen</button></div>')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
-      <button class="btn wide lamp" id="down" style="font-size:1.08rem">Runter in die Kajüte</button>
+      <button class="btn wide ${detail ? 'lamp' : 'ghost'}" id="down" style="font-size:1.08rem">${detail ? 'Runter in die Kajüte' : 'Direkt in die Kajüte'}</button>
     </div>
-    ${courseCard()}
+    ${detail ? '' : courseCard()}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
-  if (detail) bindPano($('#pano'), 'panoD', detailX); else bindPano($('#pano'));
+  if (detail) bindPano($('#pano'), 'panoD', detailX != null ? detailX : 862);
   detailX = null;
-  $('#down').onclick = goBelow; $('#crs').onclick = courseSheet; $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
+  $('#down').onclick = goBelow; $('#crs').onclick = courseSheet;
+  if ($('#aboard')) $('#aboard').onclick = e => { e.stopPropagation(); AUD.unlock(); AUD.click(); deckView = 'detail'; detailX = null; renderBoat(); }; $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
   if (detail) {
