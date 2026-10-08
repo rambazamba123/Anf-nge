@@ -29,3 +29,6 @@ Weitere Sprechtexte im Törn (Aufgaben, Seewetterbericht, Erklärungen) werden n
 
 ## v4.38 – 5.10 Einführungen beim ersten Öffnen
 Alle Sätze stehen in `data/einfuehrungen.json` (Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker, SBF See, SKS, SBF Binnen) und werden von `packLines` mitgenommen. Neu ist außerdem das gezogene „Mooooooooin!“ (5.9, v4.37).
+
+## v4.39 – 5.11 SKS-Stufe am Kartentisch
+Neue Crew-Sätze der Lektionen L10 „SKS: Peilverfahren“ und L11 „SKS: Kartenaufgabe“ in `data/navi.json` (je 4 Sätze, über `packLines` erfasst).

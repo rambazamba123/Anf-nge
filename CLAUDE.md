@@ -68,10 +68,10 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Zurück-Taste:** `initBackKey`, `handleBack` (Reihenfolge `BACKS`), `guardBack`
 - **Zuhören:** `AUD.hush` schaltet Musik und Geräusche beim Zuhören stumm
 - **Navigationsschule** liegt in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`):
-  - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L9)
+  - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L11)
   - Karte: `proj`/`unproj` (Mercator, Minuten ab 55°N/006°E), `NAV.mountChart` (Zoom, Lupe, Kursdreieck, Zirkel, Stift, Kreuz)
   - Rechnen: `kursDist`, `versegeln`, `kreuzpeilung`, `ablenkung`
-  - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`), `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
+  - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`; SKS: `versegelung`, `doppel`, `peilAbstand`, `sksGesamt` mit `need`), Folgefehler über `step.folge`, `mgAusMw`, `ABL_TAB`, `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
   - Spielstand: `S.navi` {`fibel`, `lek[id]` {`serie`, `sterne`, `n`}, `pruef[]`}; `NAV.kennWorte` (Kennung in Worten)
 - **Törn 2.0** liegt in `toern.js` (nachgeladen über `loadToern()` nach `navi.js`; das Steuer an Deck ruft `openToern()` → `TOERN.open`):
   - Daten: `data/toerns.json` (`stufen` mit `scheine`, `aufgaben`, `schaden`, `ohneTeil`, `empfohlen`; `orte`; 15 `toerns` mit `etappen[].wp`), `data/ereignisse.json` (`ereignisse` mit `ref` auf amtliche Fragen, `gen` Kartenaufgaben, `fahrzeuge` Lichter/Signalkörper, `tags`, `crew`), `data/ausruestung.json` (`start`, `teile`), `data/tags.json`, `data/sks-mc.json`
@@ -507,7 +507,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] L3a 5.9 Moin (v4.37: `MOIN_LANG` „Mooooooooin!“ als fester Satz, Clip wird mit `playBlob(…, dehnen)` auf 0,8× gedehnt, Tonhöhe bleibt; Handy-Test durch den Nutzer offen)
   - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
   - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
-  - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
+  - [x] L3d 5.11 Navi-Prüfung und SKS-Navi (v4.39: Rechenproben ohne Fehler; Beschriftung wächst beim Herauszoomen mit (`--lz`), Kennungen und Tiefen erst ab mittlerem Zoom; Folgefehler in der Gesamtaufgabe (`folge`); Ablenkungstabelle passt ins Hochformat; neu L10 „SKS: Peilverfahren“ (`versegelung`, `doppel`, `peilAbstand`) und L11 „SKS: Kartenaufgabe“ (`sksGesamt`, 5 von 7); Fibel +2 Begriffe)
   - [ ] L3e 5.12 Prüfer holt ab
   - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
   - [ ] L3g 5.15 Technik und Rauchtest
