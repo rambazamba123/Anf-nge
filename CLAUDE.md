@@ -93,7 +93,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
   - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
 - **Deck:**
-  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht, Antippen zoomt) und `longBoatScene` (1200×640, wischen)
+  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht = Übermenü, kein Wischen, Knopf „An Bord gehen“, darunter das Rennen `courseCard`) und `longBoatScene` (Nahansicht nur Deck, viewBox 0 30 1200 305, wischen; Steuerrad startet den Törn)
   - Hilfen: `ovToDetail`, `bindPano(pano, key, centerX)`
   - Eggs: `startEgg` mit Handlern je `data-egg`
   - Fernglas: `bindFernglas`, `GAME_KEYS`, `BOAT_HINTS` / `DETAIL_HINTS`
@@ -504,7 +504,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
 - [ ] Lauf 3 (Nachtrag)
   - [ ] L3a 5.9 Moin (Netz für ElevenLabs nötig)
-  - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine  mit , , Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
+  - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
   - [ ] L3c 5.10 Einführungen
   - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
   - [ ] L3e 5.12 Prüfer holt ab
