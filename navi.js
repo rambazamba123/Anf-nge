@@ -123,7 +123,7 @@ function chartSVG() {
   s += lane(v.lane1[0], v.lane1[1], 'none') + lane(v.lane2[0], v.lane2[1], 'none') + `<polygon points="${pts(rotRect(v, v.sep[0], v.sep[1]).map(fromXY))}" fill="#f3c6e2"/>`;
   const vc = fromXY([v.cx + 60, v.cy]); s += `<text class="vtg" transform="translate(${vc.x.toFixed(0)} ${vc.y.toFixed(0)}) rotate(${v.rot})" text-anchor="middle" y="4">${v.name}</text>`;
   K.tiefen.forEach(([x, y, t]) => { const p = fromXY([x, y]); s += `<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" class="tief">${t}</text>`; });
-  K.namen.forEach(n => { const p = fromXY(n.xy); s += `<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" class="nname${n.w ? ' w' : ''}${n.watt ? ' g' : ''}" style="font-size:${n.s}px" text-anchor="middle"${n.rot ? ` transform="rotate(${n.rot} ${p.x.toFixed(1)} ${p.y.toFixed(1)})"` : ''}>${n.t}</text>`; });
+  K.namen.forEach(n => { const p = fromXY(n.xy); s += `<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" class="nname${n.w ? ' w' : ''}${n.watt ? ' g' : ''}" style="font-size:calc(${n.s}px * var(--lz,1))" text-anchor="middle"${n.rot ? ` transform="rotate(${n.rot} ${p.x.toFixed(1)} ${p.y.toFixed(1)})"` : ''}>${n.t}</text>`; });
   const wr = proj(K.wrack.lat, K.wrack.lon); s += `<g transform="translate(${wr.x.toFixed(1)} ${wr.y.toFixed(1)})"><path d="M-9 0 H9 M-5 -4 V4 M0 -4 V4 M5 -4 V4" stroke="#222" stroke-width="1.4"/></g>`;
   const sa = proj(K.strom.lat, K.strom.lon); s += `<g transform="translate(${sa.x.toFixed(1)} ${sa.y.toFixed(1)})"><path d="M0 -7 L7 0 L0 7 L-7 0 Z" fill="none" stroke="#7a2a7a" stroke-width="1.2"/><text x="0" y="3" class="rlab">${K.strom.punkt}</text></g>`;
   K.objekte.forEach(o => { s += symbol(o); });
@@ -143,7 +143,7 @@ NAV.mountChart = function (host, opt = {}) {
   const svg = host.querySelector('.nsvg'), lens = host.querySelector('.nlens'), lsvg = lens.querySelector('svg'), tip = host.querySelector('.ntip');
   const G = id => svg.querySelector('#' + id);
   const st = {tool: 'hand', lines: [], marks: [], undo: [], dreieck: null, zirkel: null, vb: null};
-  const vbSet = v => { const r = svg.getBoundingClientRect(), asp = (r.height || 400) / (r.width || 400); v.h = v.w * asp; v.x = Math.max(-200, Math.min(W - v.w + 200, v.x)); v.y = Math.max(-200, Math.min(H - v.h + 200, v.y)); st.vb = v; svg.setAttribute('viewBox', `${v.x.toFixed(1)} ${v.y.toFixed(1)} ${v.w.toFixed(1)} ${v.h.toFixed(1)}`); };
+  const vbSet = v => { const r = svg.getBoundingClientRect(), asp = (r.height || 400) / (r.width || 400); v.h = v.w * asp; v.x = Math.max(-200, Math.min(W - v.w + 200, v.x)); v.y = Math.max(-200, Math.min(H - v.h + 200, v.y)); st.vb = v; /* 5.11: Beschriftung wächst beim Herauszoomen mit, damit sie lesbar bleibt (Lupe zeigt die Originalgröße) */ const lz = Math.min(3.6, Math.max(1, v.w / (r.width || 400))); svg.style.setProperty('--lz', lz.toFixed(2)); svg.classList.toggle('weit', lz > 2.3); svg.setAttribute('viewBox', `${v.x.toFixed(1)} ${v.y.toFixed(1)} ${v.w.toFixed(1)} ${v.h.toFixed(1)}`); };
   const toChart = (cx, cy) => { const r = svg.getBoundingClientRect(), v = st.vb; return {x: v.x + (cx - r.left) / r.width * v.w, y: v.y + (cy - r.top) / r.height * v.h}; };
   const scale = () => { const r = svg.getBoundingClientRect(); return st.vb.w / r.width; };
   const focus = (lat, lon, w = 520) => { const p = proj(lat, lon); vbSet({x: p.x - w / 2, y: p.y - w * .55, w}); };
@@ -259,10 +259,10 @@ const CSS = `
 .nwrap{position:relative;margin:0 -16px;height:62svh;min-height:360px;background:#fff;overflow:hidden;touch-action:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .nsvg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
 .nsvg text{font-family:Helvetica,Arial,sans-serif}
-.nlab{font-size:9px;fill:#222}.nlab.k{fill:#7a2a7a;font-size:8px}.rlab{font-size:9px;fill:#7a2a7a;text-anchor:middle}
-.slab{font-size:10px;fill:#222}.scale path{stroke:#222;stroke-width:.8}.grid{stroke:#7a8a99;stroke-width:.5;stroke-dasharray:2 4}
-.tief{font-size:10px;font-style:italic;fill:#333}.nname{font-style:italic;fill:#5a4a2a}.nname.w{fill:#2f5d7c}.nname.g{fill:#56703a}
-.vtg{font-size:11px;fill:#a0306e}
+.nlab{font-size:calc(9px * var(--lz,1));fill:#222}.weit .nlab.k,.weit .tief{display:none}.nlab.k{fill:#7a2a7a;font-size:calc(8px * var(--lz,1))}.rlab{font-size:calc(9px * var(--lz,1));fill:#7a2a7a;text-anchor:middle}
+.slab{font-size:calc(10px * var(--lz,1));fill:#222}.scale path{stroke:#222;stroke-width:.8}.grid{stroke:#7a8a99;stroke-width:.5;stroke-dasharray:2 4}
+.tief{font-size:calc(10px * var(--lz,1));font-style:italic;fill:#333}.nname{font-style:italic;fill:#5a4a2a}.nname.w{fill:#2f5d7c}.nname.g{fill:#56703a}
+.vtg{font-size:calc(11px * var(--lz,1));fill:#a0306e}
 .pencil{stroke:#2a2a6a;stroke-width:1.4;fill:none}.pencil.live{stroke-dasharray:4 3}.pencil.ok{stroke:#1e7f4f;stroke-width:1.8}.pencil.soll{stroke:#c1489a;stroke-width:1.6;stroke-dasharray:6 4}
 .xmark path{stroke:#2a2a6a;stroke-width:1.8}.xmark text{font-size:10px;fill:#2a2a6a}.xmark.ok path{stroke:#1e7f4f}.xmark.soll path{stroke:#c1489a}
 .dreieck .dbody{fill:rgba(240,248,255,.55);stroke:#5a7a9a;stroke-width:1}.dreieck .dedge{stroke:#2a2a6a;stroke-width:1.6}
@@ -280,7 +280,7 @@ const CSS = `
 .nsheetgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nsheetgrid label{margin:0;font-size:.8rem}
 .nfield{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.nfield input{width:110px}
 .nok{color:var(--stb,#1e7f4f);font-weight:700}.nno{color:var(--bb,#c2473b);font-weight:700}
-.ntab{border-collapse:collapse;margin:8px 0;font-size:.78rem;width:100%}.ntab th,.ntab td{border:1px solid var(--line);padding:3px 4px;text-align:center}
+.ntab{border-collapse:collapse;margin:8px 0;font-size:.72rem;display:block;max-width:100%;overflow-x:auto}.ntab th,.ntab td{border:1px solid var(--line);padding:3px 4px;text-align:center;min-width:30px}
 `;
 NAV.init = async function () {
   if (!document.getElementById('navicss')) { const s = document.createElement('style'); s.id = 'navicss'; s.textContent = CSS + FIBCSS; document.head.appendChild(s); }
@@ -364,7 +364,7 @@ NAV.term = function (id) {
   sheet(`<h2 style="margin:0 0 6px">${esc(f.t)}</h2>${anim(f.a)}<p style="margin:6px 0">${esc(f.e)}</p><p class="small" style="margin:0">💡 ${esc(f.m)}</p>`);
 };
 /* In Texten Fachbegriffe antippbar machen: ersetzt Kürzel durch Knöpfe */
-const TERMS = [['rwK', 'rwk'], ['mwK', 'mwk'], ['MgK', 'mgk'], ['rwP', 'rwp'], ['MgP', 'rwp'], ['Mw', 'mw'], ['Abl.', 'abl'], ['Ablenkung', 'abl'], ['Missweisung', 'mw'], ['Kreuzpeilung', 'kreuzpeilung'], ['Koppelort', 'koppelort'], ['Gissort', 'gissort'], ['Besteckversetzung', 'bv'], ['KdW', 'kdw'], ['FdW', 'fdw'], ['KüG', 'kueg'], ['FüG', 'fueg'], ['Vorhaltewinkel', 'vorhalte'], ['Abdrift', 'abdrift'], ['Standlinie', 'standlinie'], ['Kartennull', 'kartennull'], ['Seemeile', 'sm']];
+const TERMS = [['rwK', 'rwk'], ['mwK', 'mwk'], ['MgK', 'mgk'], ['rwP', 'rwp'], ['MgP', 'rwp'], ['Mw', 'mw'], ['Abl.', 'abl'], ['Ablenkung', 'abl'], ['Missweisung', 'mw'], ['Kreuzpeilung', 'kreuzpeilung'], ['Versegelungspeilung', 'versegelung'], ['Doppelpeilung', 'doppelpeilung'], ['Vierstrichpeilung', 'doppelpeilung'], ['Koppelort', 'koppelort'], ['Gissort', 'gissort'], ['Besteckversetzung', 'bv'], ['KdW', 'kdw'], ['FdW', 'fdw'], ['KüG', 'kueg'], ['FüG', 'fueg'], ['Vorhaltewinkel', 'vorhalte'], ['Abdrift', 'abdrift'], ['Standlinie', 'standlinie'], ['Kartennull', 'kartennull'], ['Seemeile', 'sm']];
 NAV.linkTerms = html => { let out = html; TERMS.forEach(([w, id]) => { out = out.replace(new RegExp('(^|[\\s(>„])(' + w.replace('.', '\\.') + ')(?=[\\s,.:;)!?<“]|$)', 'g'), `$1<button class="nterm" data-term="${id}">$2</button>`); }); return out; };
 NAV.bindTerms = root => root.querySelectorAll('[data-term]').forEach(b => b.onclick = e => { e.stopPropagation(); NAV.term(b.dataset.term); });
 NAV.fibel = function (filter = '') {
@@ -402,6 +402,8 @@ function kennWorte(k) {
   const art = m[1] === 'Fl' ? (m[2] ? `Gruppen aus ${zahl} ${farbe}n Blitzen` : `${farbe1.replace(/s$/, 'r')} Blitz`.replace('weißer', 'weißer').replace('roter', 'roter')) : m[1] === 'Q' ? (m[2] ? `Gruppen aus ${zahl} weißen Funkeln` : 'ununterbrochenes weißes Funkeln') : m[1] === 'Iso' ? `${farbe1} Gleichtaktfeuer` : (m[2] ? `${farbe1} unterbrochenes Feuer in Gruppen zu ${zahl}` : `${farbe1} unterbrochenes Feuer`);
   return art + (m[4] ? `, Wiederkehr ${m[4]} Sekunden` : '');
 }
+/* Ablenkungstabelle in zwei Blöcken zu je 6 Werten, damit sie im Hochformat ganz sichtbar ist */
+const ABL_TAB = () => [K.deviation.slice(0, 6), K.deviation.slice(6)].map(part => `<table class="ntab"><tr><th>MgK</th>${part.map(r => `<td>${String(r[0]).padStart(3, '0')}</td>`).join('')}</tr><tr><th>Abl.</th>${part.map(r => `<td>${fmtSigned(r[1])}</td>`).join('')}</tr></table>`).join('');
 const GEN = {
   posAblesen() { const o = pick(BUOYS()); return {text: `Lies die geographische Position der Tonne <b>${o.id}</b> ab.`, chart: {center: o, hi: [o.id], tools: ['hand']}, fields: [{k: 'lat', l: 'Breite', t: 'lat'}, {k: 'lon', l: 'Länge', t: 'lon'}], sol: {lat: o.lat, lon: o.lon},
     hint: ['Die Breite liest du am linken oder rechten Kartenrand ab: Grad, Minuten und Zehntel.', 'Die Länge liest du oben oder unten ab. Leg die Lupe (Finger gedrückt halten) auf den Rand.'], expl: `${o.id} liegt auf ${fmtPos(o)}.`, soll: c => c.addMark(proj(o.lat, o.lon), '', 'soll')}; },
@@ -425,7 +427,7 @@ const GEN = {
     return {text: `Der rwK beträgt <b>${fmtDeg(rwk)}</b>. Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: {center: ROSE(), tools: ['hand'], width: 420}, fields: [{k: 'mw', l: 'Mw', t: 'sdeg'}, {k: 'mg', l: 'MgK', t: 'deg'}], sol: {mw: m, mg}, tol: {mw: 0, mg: 1},
       hint: ['Die Mw steht in der Kompassrose: 3° E, also +3°.', 'Von der Karte zum Kompass: MgK = rwK − Mw − Abl.'], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(m)}) − (${fmtSigned(abl)}) = ${fmtDeg(mg)}.`}; },
   mg2rw() { const row = pick(K.deviation), mg = n360(row[0] + pick([0, 0, 10, -10])), abl = Math.round(ablenkung(mg)), m = mw(), rw = n360(mg + abl + m);
-    const tab = `<table class="ntab"><tr><th>MgK</th>${K.deviation.map(r => `<td>${String(r[0]).padStart(3, '0')}</td>`).join('')}</tr><tr><th>Abl.</th>${K.deviation.map(r => `<td>${fmtSigned(r[1])}</td>`).join('')}</tr></table>`;
+    const tab = ABL_TAB();
     return {text: `Am Steuerkompass liegt der MgK <b>${fmtDeg(mg)}</b> an. Die Ablenkung entnimmst du der Ablenkungstabelle (zwischen den Werten gleichmäßig verteilen), die Mw der Karte (3° E). Wie lautet der rwK?${tab}`, chart: null, fields: [{k: 'abl', l: 'Abl.', t: 'sdeg'}, {k: 'rw', l: 'rwK', t: 'deg'}], sol: {abl, rw}, tol: {abl: 1, rw: 1},
       hint: ['Such in der Tabelle die Ablenkung zum MgK. Liegt er zwischen zwei Werten, rechne anteilig.', 'Vom Kompass zur Karte: rwK = MgK + Abl. + Mw.'], expl: `Abl. bei ${fmtDeg(mg)}: ${fmtSigned(abl)}. rwK = ${fmtDeg(mg)} + (${fmtSigned(abl)}) + (${fmtSigned(m)}) = ${fmtDeg(rw)}.`}; },
   peilRechnen() { const mgp = ri(0, 359), m = mw(), rwp = n360(mgp + m);
@@ -517,14 +519,98 @@ Object.assign(GEN, {
     const scen = `Ein Sportboot läuft in der Kliev-Mündung mit <b>${comma(v)} kn</b> Fahrt über Grund. Um <b>${T(0)} Uhr</b> wird die Tonne <b>${a.id}</b> nahebei passiert. Von dort wird der Kurs auf die Tonne <b>${b.id}</b> abgesetzt.`;
     return {scen, steps: [
       {text: 'Wie lautet der rwK?', chart: ch, fields: [{k: 'k', l: 'rwK', t: 'deg'}], sol: {k: kd.k}, hint: [], expl: `rwK = ${fmtDeg(kd.k)}.`, soll: c => c.addLine(A, B, 'soll'), lek: 'L2'},
-      {text: `Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: ch, fields: [{k: 'mg', l: 'MgK', t: 'deg'}], sol: {mg: mgk}, tol: {mg: 1}, hint: [], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(mw())}) − (${fmtSigned(abl)}) = ${fmtDeg(mgk)}.`, lek: 'L3'},
+      {text: `Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: ch, fields: [{k: 'mg', l: 'MgK', t: 'deg'}], sol: {mg: mgk}, tol: {mg: 1}, folge: R => { const r = R[0] && R[0].res.k; return r && r.ok ? {mg: n360(Math.round(num(r.got)) - mw() - abl)} : null; }, hint: [], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(mw())}) − (${fmtSigned(abl)}) = ${fmtDeg(mgk)}.`, lek: 'L3'},
       {text: `Wie groß ist die Distanz zwischen <b>${a.id}</b> und <b>${b.id}</b>?`, chart: ch, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d: kd.d}, hint: [], expl: `Distanz ${comma(kd.d)} sm.`, lek: 'L2'},
-      {text: 'In welcher Zeit wird diese Distanz zurückgelegt?', chart: ch, fields: [{k: 't', l: 'Zeit', t: 'min'}], sol: {t: kd.d / v * 60}, hint: [], expl: `${comma(kd.d)} sm : ${comma(v)} kn × 60 = ${Math.round(kd.d / v * 60)} min.`, lek: 'L5'},
+      {text: 'In welcher Zeit wird diese Distanz zurückgelegt?', chart: ch, fields: [{k: 't', l: 'Zeit', t: 'min'}], sol: {t: kd.d / v * 60}, folge: R => { const r = R[2] && R[2].res.d; return r && r.ok ? {t: num(r.got) / v * 60} : null; }, hint: [], expl: `${comma(kd.d)} sm : ${comma(v)} kn × 60 = ${Math.round(kd.d / v * 60)} min.`, lek: 'L5'},
       {text: `Auf welcher Position befindet sich das Boot nach Koppelort um <b>${T(t1)} Uhr</b>?`, chart: ch, fields: [{k: 'lat', l: 'Breite', t: 'lat'}, {k: 'lon', l: 'Länge', t: 'lon'}], sol: {lat: ok.lat, lon: ok.lon}, hint: [], expl: `Koppelort ${fmtPos(ok)}.`, soll: c => c.addMark(proj(ok.lat, ok.lon), 'Ok', 'soll'), lek: 'L5'},
       {text: `Um ${T(t1)} Uhr werden mit dem Handpeilkompass (Abl. 0°) gepeilt: <b>${o1.id}</b> MgP = ${fmtDeg(mg1)}, <b>${o2.id}</b> MgP = ${fmtDeg(mg2)}. Die Mw ist der Seekarte zu entnehmen. Wie lauten die rwP?`, chart: ch, fields: [{k: 'r1', l: 'rwP ' + o1.id, t: 'deg'}, {k: 'r2', l: 'rwP ' + o2.id, t: 'deg'}], sol: {r1: rw1, r2: rw2}, tol: {r1: 1, r2: 1}, hint: [], expl: `rwP ${o1.id} = ${fmtDeg(rw1)}, rwP ${o2.id} = ${fmtDeg(rw2)}.`, lek: 'L4'},
       {text: 'Trage die rechtweisenden Peilungen in die Seekarte ein und setze ein Kreuz auf den beobachteten Ort.', chart: ch, fields: [{k: 'pos', l: 'Beobachteter Ort', t: 'pos'}], sol: {pos: obs}, hint: [], expl: `Beobachteter Ort ${fmtPos(obs)}.`, soll: c => { const P = proj(obs.lat, obs.lon); c.addLine(proj(o1.lat, o1.lon), P, 'soll'); c.addLine(proj(o2.lat, o2.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); }, lek: 'L4'},
       {text: 'Wie lautet die Besteckversetzung (vom Koppelort zum beobachteten Ort)?', chart: ch, fields: [{k: 'bk', l: 'BV Richtung', t: 'deg'}, {k: 'bd', l: 'BV Distanz', t: 'sm'}], sol: {bk: bv.k, bd: bv.d}, tol: {bk: 10, bd: .2}, hint: [], expl: `BV = ${fmtDeg(bv.k)} – ${comma(bv.d)} sm.`, lek: 'L5'},
       {text: `Beschreibe Farbe, Kennung und Toppzeichen der Tonne <b>${b.id}</b>.`, chart: ch, fields: [{k: 'mc', l: '', t: 'mc', opts: optsB}], sol: {mc: combo(b)}, hint: [], expl: `${b.id}: ${combo(b)}.`, lek: 'L1', hideKenn: true},
+    ]};
+  },
+});
+/* ---------- SKS-Stufe (5.11): Versegelungspeilung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe im SKS-Stil ----------
+   Grundlage im amtlichen SKS-Katalog: nav-48/49 (Besteckversetzung), nav-50 (Schnittwinkel 30–150°), nav-54/55/103 (Peilung und Abstand),
+   nav-44 (FdW/FüG), nav-62 (Peilung beschicken). Handpeilkompass: Abl. 0°. */
+const uhr = (hh, m) => `${String(hh + Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+/* MgK aus mwK über die Ablenkungstabelle (die Abl. gilt für den MgK, deshalb kurz iterieren) */
+function mgAusMw(mwk) { let mg = mwk; for (let i = 0; i < 6; i++) mg = n360(mwk - ablenkung(mg)); return mg; }
+/* Versegelte Standlinie: Standlinie 1 um Kurs/Distanz über Grund verschieben und mit Standlinie 2 schneiden */
+function versegelOrt(o, rw1, rw2, k, d) { const o2 = versegeln(o, k, d); return kreuzpeilung(o2, rw1, o, rw2); }
+function versegelLage(k, d, from) {
+  for (let i = 0; i < 400; i++) {
+    const s2 = from ? versegeln(from.a, from.k, from.p0 + d) : seaPoint(), s1 = versegeln(s2, k + 180, d), O = pick(PEIL());
+    if (!inSea(s1) || !inSea(s2)) continue;
+    const b1 = kursDist(s1, O), b2 = kursDist(s2, O); if (b1.d < 1.5 || b2.d < 1.5 || b1.d > 12 || b2.d > 12) continue;
+    const dd = angDiff(b1.k, b2.k); if (dd < 30 || dd > 150) continue;
+    const mg1 = Math.round(n360(b1.k - mw())), mg2 = Math.round(n360(b2.k - mw())), rw1 = n360(mg1 + mw()), rw2 = n360(mg2 + mw());
+    const pos = versegelOrt(O, rw1, rw2, k, d); if (!pos) continue;
+    return {O, s2, mg1, mg2, rw1, rw2, pos};
+  }
+  return null;
+}
+const versegelSoll = (L, k, d) => c => { const P = proj(L.pos.lat, L.pos.lon), o2 = versegeln(L.O, k, d); c.addLine(proj(L.O.lat, L.O.lon), P, 'soll'); c.addLine(proj(o2.lat, o2.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); };
+Object.assign(GEN, {
+  versegelung() {
+    let L = null, k, v, t, d; while (!L) { k = ri(0, 35) * 10; v = ri(10, 16) / 2; t = ri(3, 6) * 10; d = v * t / 60; L = versegelLage(k, d); }
+    const hh = ri(8, 16);
+    return {text: `Du steuerst rwK <b>${fmtDeg(k)}</b> mit <b>${comma(v)} kn</b> Fahrt über Grund. Strom und Wind gibt es nicht. Um <b>${uhr(hh, 0)} Uhr</b> peilst du <b>${L.O.id}</b> mit dem Handpeilkompass (Abl. 0°): MgP = ${fmtDeg(L.mg1)}. Um <b>${uhr(hh, t)} Uhr</b> peilst du <b>${L.O.id}</b> erneut: MgP = ${fmtDeg(L.mg2)}. Die Mw ist der Karte zu entnehmen. Bestimme deinen Standort um ${uhr(hh, t)} Uhr mit einer Versegelungspeilung.`,
+      chart: {center: L.pos, hi: [L.O.id], tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 700},
+      fields: [{k: 'r1', l: 'rwP 1', t: 'deg'}, {k: 'r2', l: 'rwP 2', t: 'deg'}, {k: 'd', l: 'Versegelte Distanz', t: 'sm'}, {k: 'pos', l: `Standort ${uhr(hh, t)} Uhr`, t: 'pos'}], sol: {r1: L.rw1, r2: L.rw2, d, pos: L.pos}, tol: {r1: 1, r2: 1, d: .1, pos: .4},
+      hint: ['rwP = MgP + Abl. + Mw, hier also jeweils plus 3°.', `Distanz = ${comma(v)} kn × ${t} min / 60.`, 'Erste Standlinie durch das Objekt zeichnen. Dann diese Linie um die Distanz in Kursrichtung parallel verschieben: Dreieck auf den Kurs legen, ab einem Punkt der Linie die Distanz mit dem Zirkel abtragen und dort die Parallele ziehen.', 'Wo die verschobene erste und die zweite Standlinie sich schneiden, ist dein Ort zur Zeit der zweiten Peilung.'],
+      expl: `rwP 1 = ${fmtDeg(L.rw1)}, rwP 2 = ${fmtDeg(L.rw2)}. Die erste Standlinie wird um ${comma(d, 2)} sm auf ${fmtDeg(k)} versegelt. Schnittpunkt: ${fmtPos(L.pos)}.`, soll: versegelSoll(L, k, d)};
+  },
+  doppel() {
+    let O, k, v, t, d, s1, s2, side, a;
+    for (let i = 0; i < 400; i++) {
+      O = pick(PEIL()); side = Math.random() < .5 ? 1 : -1; a = pick([30, 45, 45]); k = ri(0, 35) * 10; v = ri(10, 16) / 2; t = ri(3, 8) * 5; d = v * t / 60;
+      s2 = versegeln(O, k + side * 2 * a + 180, d); s1 = versegeln(s2, k + 180, d);
+      if (inSea(s1) && inSea(s2) && inSea(versegeln(s1, k, d / 2))) break;
+    }
+    const sd = side > 0 ? 'Steuerbord' : 'Backbord', rwp = n360(k + side * 2 * a), hh = ri(8, 16), quer = 2 * a === 90;
+    return {text: `Du steuerst rwK <b>${fmtDeg(k)}</b> mit <b>${comma(v)} kn</b> Fahrt über Grund, ohne Strom und Wind. Um <b>${uhr(hh, 0)} Uhr</b> siehst du <b>${O.id}</b> genau <b>${a}° an ${sd}</b> voraus (Seitenpeilung). Um <b>${uhr(hh, t)} Uhr</b> steht es <b>${quer ? `querab an ${sd}` : `${2 * a}° an ${sd}`}</b>. Wie weit bist du dann von ${O.id} entfernt, wie lautet die rwP, und wo stehst du?`,
+      chart: {center: s2, hi: [O.id], tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 700},
+      fields: [{k: 'ab', l: 'Abstand', t: 'sm'}, {k: 'rwp', l: 'rwP', t: 'deg'}, {k: 'pos', l: `Standort ${uhr(hh, t)} Uhr`, t: 'pos'}], sol: {ab: d, rwp, pos: s2}, tol: {ab: .1, rwp: 1},
+      hint: ['Verdoppelt sich der Seitenwinkel, ist der Abstand bei der zweiten Peilung so groß wie die gefahrene Distanz (gleichschenkliges Dreieck). 45° und dann querab heißt Vierstrichpeilung.', `Distanz = ${comma(v)} kn × ${t} min / 60.`, `rwP = rwK ${side > 0 ? 'plus' : 'minus'} Seitenwinkel (${sd}).`, 'Vom Objekt die Gegenrichtung der rwP zeichnen und den Abstand mit dem Zirkel abtragen.'],
+      expl: `Gefahren: ${comma(v)} kn × ${t} min = ${comma(d, 2)} sm, also Abstand ${comma(d, 2)} sm. rwP = ${fmtDeg(k)} ${side > 0 ? '+' : '−'} ${2 * a}° = ${fmtDeg(rwp)}. Standort ${fmtPos(s2)}.`,
+      soll: c => { const P = proj(s2.lat, s2.lon); c.addLine(proj(O.lat, O.lon), P, 'soll'); c.addLine(proj(s1.lat, s1.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); }};
+  },
+  peilAbstand() {
+    let O, s, b; for (let i = 0; i < 300; i++) { O = pick(PEIL()); s = seaPoint(); b = kursDist(s, O); if (b.d >= 1.5 && b.d <= 8) break; }
+    const mg = Math.round(n360(b.k - mw())), rw = n360(mg + mw()), D = Math.round(b.d * 10) / 10, pos = versegeln(O, rw + 180, D);
+    return {text: `Du peilst <b>${O.id}</b> mit dem Handpeilkompass (Abl. 0°): MgP = ${fmtDeg(mg)}. Gleichzeitig misst das Radar mit dem VRM einen Abstand von <b>${comma(D)} sm</b>. Die Mw ist der Karte zu entnehmen. Wie lautet die rwP, und wo stehst du?`,
+      chart: {center: pos, hi: [O.id], tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 600},
+      fields: [{k: 'rwp', l: 'rwP', t: 'deg'}, {k: 'pos', l: 'Standort', t: 'pos'}], sol: {rwp: rw, pos}, tol: {rwp: 1},
+      hint: ['rwP = MgP + Abl. + Mw.', 'Die Peilung ist die erste Standlinie, der Abstandskreis um das Objekt die zweite.', 'Abstand am Breitenrand mit dem Zirkel abgreifen und vom Objekt aus auf der Standlinie abtragen.'],
+      expl: `rwP = ${fmtDeg(mg)} + 0° + ${fmtSigned(mw())} = ${fmtDeg(rw)}. Auf der Gegenrichtung ${fmtDeg(rw + 180)} ${comma(D)} sm ab ${O.id}: ${fmtPos(pos)}.`,
+      soll: c => { const P = proj(pos.lat, pos.lon); c.addLine(proj(O.lat, O.lon), P, 'soll'); c.addMark(P, 'Ob', 'soll'); }};
+  },
+  /* Kartenaufgabe im SKS-Stil: Strom, Vorhalten, Wind, Ablenkungstabelle, versegelte Peilung über Grund */
+  sksGesamt() {
+    let a, b, kd, fdw, c, kdw, fueg, L, side, ab, bw, rwk, mgk, t2, dv, p0;
+    for (let i = 0; i < 300; i++) {
+      [a, b, kd] = twoBuoys(5, 11); fdw = ri(10, 14) / 2; c = zufallsStrom();
+      const u = vec(kd.k, 1), p = [u[1], -u[0]], cv = vec(c.r, c.v), par = cv[0] * u[0] + cv[1] * u[1], perp = cv[0] * p[0] + cv[1] * p[1];
+      if (Math.abs(perp) >= fdw * .7) continue;
+      const wPar = Math.sqrt(fdw * fdw - perp * perp); kdw = vk([u[0] * wPar - p[0] * perp, u[1] * wPar - p[1] * perp]).k; fueg = wPar + par; if (fueg < 2) continue;
+      t2 = pick([20, 30]); dv = fueg * t2 / 60; p0 = rnd(.5, Math.max(.6, kd.d - dv - .5)); if (p0 + dv > kd.d - .3) continue;
+      L = versegelLage(kd.k, dv, {a, k: kd.k, p0}); if (L) break;
+    }
+    if (!L) return GEN.sksGesamt();
+    side = Math.random() < .5 ? 1 : -1; ab = ri(3, 8); bw = side * ab; rwk = n360(kdw - bw); const mwk = n360(rwk - mw()); mgk = mgAusMw(mwk);
+    const hh = ri(8, 14), tP = Math.round(p0 / fueg * 60), A = proj(a.lat, a.lon), B = proj(b.lat, b.lon);
+    const ch = {center: {lat: (a.lat + b.lat) / 2, lon: (a.lon + b.lon) / 2}, tools: ['hand', 'dreieck', 'zirkel', 'stift', 'punkt'], width: 760, noInfo: true};
+    const scen = `Eine Yacht läuft mit <b>${comma(fdw)} kn</b> Fahrt durchs Wasser. Um <b>${uhr(hh, 0)} Uhr</b> passiert sie die Tonne <b>${a.id}</b> und will über Grund genau zur Tonne <b>${b.id}</b>. Es ist <b>${stdText(c.std)}</b>, <b>${c.sp ? 'Springzeit' : 'Nippzeit'}</b>; der Gezeitenstrom aus der Stromtabelle (Punkt A) gilt für das ganze Gebiet. Der Wind kommt von <b>${side > 0 ? 'Backbord' : 'Steuerbord'}</b> und verursacht <b>${ab}°</b> Abdrift. Die Ablenkung entnimmst du der Ablenkungstabelle, die Mw der Karte.${ABL_TAB()}`;
+    const stromTabHTML = `<table class="ntab"><tr><th>Std</th>${K.strom.std.map(s => `<td>${s === 0 ? 'HW' : (s > 0 ? '+' : '−') + Math.abs(s)}</td>`).join('')}</tr><tr><th>rw°</th>${K.strom.rw.map(r => `<td>${r == null ? '—' : String(r).padStart(3, '0')}</td>`).join('')}</tr><tr><th>kn Sp</th>${K.strom.sp.map(v => `<td>${comma(v)}</td>`).join('')}</tr><tr><th>kn Np</th>${K.strom.np.map(v => `<td>${comma(v)}</td>`).join('')}</tr></table>`;
+    return {scen, need: 5, steps: [
+      {text: `Welchen KüG musst du von ${a.id} nach ${b.id} laufen?`, chart: ch, fields: [{k: 'kueg', l: 'KüG', t: 'deg'}], sol: {kueg: kd.k}, hint: [], hilfe: ['Bleistiftlinie von Tonne zu Tonne, Kursdreieck anlegen und am Gradbogen ablesen.'], expl: `KüG = ${fmtDeg(kd.k)}.`, soll: cc => cc.addLine(A, B, 'soll'), lek: 'L2'},
+      {text: `Lies Richtung und Stärke des Gezeitenstroms ab.${stromTabHTML}`, chart: null, fields: [{k: 'r', l: 'Strom setzt', t: 'deg'}, {k: 'v', l: 'Stärke', t: 'kn'}], sol: {r: c.r, v: c.v}, tol: {r: 0, v: .05}, hint: [], hilfe: ['Spalte nach der Stunde zu Hochwasser, Zeile Sp oder Np. Die Richtung ist die, in die der Strom setzt.'], expl: `Strom setzt ${fmtDeg(c.r)} mit ${comma(c.v)} kn.`, lek: 'L6'},
+      {text: 'Welchen KdW musst du steuern, damit du trotz Strom auf dem KüG bleibst, und welche FüG ergibt sich?', chart: ch, fields: [{k: 'kdw', l: 'KdW', t: 'deg'}, {k: 'fueg', l: 'FüG', t: 'kn'}], sol: {kdw, fueg}, tol: {kdw: 3}, hint: [], hilfe: ['Strompfeil für eine Stunde vom Start antragen, um seine Spitze einen Kreis mit der FdW schlagen und mit der Kurslinie schneiden.', 'Strompfeilspitze → Schnittpunkt = KdW. Start → Schnittpunkt = FüG.'], expl: `Vorhalten ergibt KdW ${fmtDeg(kdw)} und FüG ${comma(fueg)} kn.`, lek: 'L6'},
+      {text: 'Welchen rwK musst du wegen der Abdrift steuern?', chart: null, fields: [{k: 'rwk', l: 'rwK', t: 'deg'}], sol: {rwk}, tol: {rwk: 1}, folge: R => { const r = R[2] && R[2].res.kdw; return r && r.ok ? {rwk: n360(num(r.got) - bw)} : null; }, hint: [], hilfe: [`Wind von ${side > 0 ? 'Backbord' : 'Steuerbord'}: BW = ${fmtSigned(bw)}. rwK = KdW − BW.`], expl: `BW = ${fmtSigned(bw)}, rwK = ${fmtDeg(kdw)} − (${fmtSigned(bw)}) = ${fmtDeg(rwk)}.`, lek: 'L7'},
+      {text: 'Welcher MgK liegt am Steuerkompass an?', chart: null, fields: [{k: 'mg', l: 'MgK', t: 'deg'}], sol: {mg: mgk}, tol: {mg: 2}, folge: R => { const r = R[3] && R[3].res.rwk; return r && r.ok ? {mg: mgAusMw(n360(num(r.got) - mw()))} : null; }, hint: [], hilfe: ['Erst mwK = rwK − Mw. Die Ablenkung gilt für den MgK: Nimm sie für den mwK aus der Tabelle, rechne den MgK und prüf, ob die Ablenkung dazu passt.'], expl: `mwK = ${fmtDeg(rwk)} − (${fmtSigned(mw())}) = ${fmtDeg(mwk)}. Abl. bei MgK ${fmtDeg(mgk)}: ${fmtSigned(Math.round(ablenkung(mgk)))}. MgK = ${fmtDeg(mgk)}.`, lek: 'L3'},
+      {text: `Wann erreichst du ${b.id}?`, chart: ch, fields: [{k: 'eta', l: 'Fahrzeit', t: 'min'}], sol: {eta: kd.d / fueg * 60}, tol: {eta: 4}, folge: R => { const r = R[2] && R[2].res.fueg; return r && r.ok ? {eta: kd.d / num(r.got) * 60} : null; }, hint: [], hilfe: ['Distanz am Breitenrand abgreifen. Zeit = Distanz : FüG × 60.'], expl: `${comma(kd.d)} sm : ${comma(fueg)} kn × 60 = ${Math.round(kd.d / fueg * 60)} min, Ankunft etwa ${uhr(hh, Math.round(kd.d / fueg * 60))} Uhr.`, lek: 'L5'},
+      {text: `Unterwegs peilst du um <b>${uhr(hh, tP)} Uhr</b> <b>${L.O.id}</b> mit dem Handpeilkompass (Abl. 0°): MgP = ${fmtDeg(L.mg1)}. Um <b>${uhr(hh, tP + t2)} Uhr</b> peilst du ${L.O.id} erneut: MgP = ${fmtDeg(L.mg2)}. Bestimme deinen Ort um ${uhr(hh, tP + t2)} Uhr mit einer Versegelungspeilung (versegelt wird über Grund).`, chart: {...ch, hi: [L.O.id]}, fields: [{k: 'pos', l: 'Beobachteter Ort', t: 'pos'}], sol: {pos: L.pos}, tol: {pos: .4}, hint: [], hilfe: ['Beide Peilungen: plus 3° Mw.', `Erste Standlinie um FüG × ${t2} min auf dem KüG versegeln, mit der zweiten schneiden.`], expl: `Versegelt ${comma(dv, 2)} sm auf ${fmtDeg(kd.k)}. Beobachteter Ort ${fmtPos(L.pos)}.`, soll: versegelSoll(L, kd.k, dv), lek: 'L10'},
     ]};
   },
 });
@@ -608,6 +694,8 @@ NAV.multi = function (mt, opts) {
   const step = () => {
     if (fin) return; if (i >= mt.steps.length) return end();
     const s = mt.steps[i], t = {...s, chart: s.chart ? {...s.chart, hideKenn: s.hideKenn} : null};
+    /* 5.11: Folgefehler. Lag ein früherer Wert innerhalb der Toleranz, wird mit dem eigenen Wert weitergerechnet (sonst zählen 2° Ablesefehler doppelt) */
+    if (s.folge) { const f = s.folge(results); if (f) t.sol = {...s.sol, ...f}; }
     const head = `<div class="card small" style="margin-top:6px">${NAV.linkTerms(mt.scen)}</div><p class="small muted" style="margin:6px 0 0">Teilaufgabe ${i + 1} von ${mt.steps.length}${opts.mode !== 'exam' ? ` · bisher ${pts} Punkte` : ''}${opts.extraHead ? ' · ' + opts.extraHead() : ''}</p>`;
     NAV.task(t, {title: opts.title, mode: opts.mode, head, back: opts.back, keep, nextLabel: i < mt.steps.length - 1 ? 'Nächste Teilaufgabe' : 'Auswertung',
       onResult: (ok, res, task, used, c) => {
@@ -677,12 +765,13 @@ NAV.exercise = function (id, mode) {
   const head = `<p class="small muted" style="margin:6px 0 0">${mode === 'guided' ? 'Geführte Übung' : mode === 'free' ? 'Freie Übung' : `Meisterschaft: ${s.serie} von 3 in Folge`}${s.sterne ? ' · ⭐' : ''}</p>`;
   if (task.steps) {
     /* Gesamtaufgabe: bestanden ab 7 von 9 Punkten (wie in der Prüfung) */
-    if (mode === 'guided') task.steps.forEach(st => { st.hint = GESAMT_HINTS[st.lek] || []; });
+    if (mode === 'guided') task.steps.forEach(st => { st.hint = st.hilfe || GESAMT_HINTS[st.lek] || []; });
+    const need = task.need || 7, all = task.steps.length;
     return NAV.multi(task, {title: l.t, mode, back: () => NAV.lesson(id), extraHead: () => mode === 'master' ? `Meisterschaft ${s.serie} von 3` : '', done: pts => {
-      const ok = pts >= 7; s.n++;
+      const ok = pts >= need; s.n++;
       if (mode === 'master') { s.serie = ok ? s.serie + 1 : 0; if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; toast(`⭐ Stern für „${l.t}“!`); } }
       save(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5});
-      gameShell(l.t, `<div class="card"><h2 style="margin:0" class="${ok ? 'pass' : 'fail'}">${pts} von 9 Punkten</h2><p class="muted">${ok ? 'Bestanden: In der Prüfung brauchst du mindestens 7 Punkte.' : 'Noch nicht: In der Prüfung brauchst du mindestens 7 von 9 Punkten.'}</p>
+      gameShell(l.t, `<div class="card"><h2 style="margin:0" class="${ok ? 'pass' : 'fail'}">${pts} von ${all} Punkten</h2><p class="muted">${ok ? `Bestanden: Du brauchst mindestens ${need} Punkte.` : `Noch nicht: Du brauchst mindestens ${need} von ${all} Punkten.`}</p>
         <div class="row"><button class="btn lamp" id="again">Neue Gesamtaufgabe</button><button class="btn ghost" id="tol">Zur Lektion</button></div></div>`);
       $('#gback').onclick = () => NAV.lesson(id); $('#again').onclick = () => NAV.exercise(id, mode); $('#tol').onclick = () => NAV.lesson(id);
     }});

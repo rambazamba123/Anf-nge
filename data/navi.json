@@ -22,7 +22,9 @@
   {"id": "stromdreieck", "t": "Stromdreieck", "a": "strom", "e": "Im Stromdreieck addiert man zwei Vektoren: Kurs und Fahrt durchs Wasser (KdW, FdW) und den Strom (Richtung, in die er setzt, und Stärke). Die Summe ist Kurs und Fahrt über Grund (KüG, FüG). Alle Vektoren gelten für dieselbe Zeit, meist eine Stunde.", "m": "Boot plus Strom gleich Spur. Pfeile immer hintereinanderhängen: Anfang an Ende."},
   {"id": "vorhalte", "t": "Vorhaltewinkel", "a": "vorhalte", "e": "Der Vorhaltewinkel ist der Winkel, um den man gegen den Strom vorhalten muss, damit der Kurs über Grund genau zum Ziel führt. Man steuert also schräg in den Strom hinein.", "m": "Wie beim Schwimmen über einen Fluss: Wer drüben gegenüber ankommen will, schwimmt schräg gegen die Strömung."},
   {"id": "abdrift", "t": "Abdrift (BW)", "a": "abdrift", "e": "Die Abdrift ist der Winkel zwischen rechtweisendem Kurs und Kurs durchs Wasser, den der Wind verursacht. Die Beschickung für Wind (BW) zählt plus, wenn der Wind von Backbord kommt (das Boot wird nach Steuerbord versetzt), und minus bei Wind von Steuerbord.", "m": "Wind von Backbord schiebt nach Steuerbord: plus. Wind von Steuerbord: minus."},
-  {"id": "gezeiten", "t": "Gezeiten", "a": "gezeiten", "e": "Gezeiten sind das regelmäßige Steigen (Flut) und Fallen (Ebbe) des Wassers, verursacht vor allem durch den Mond. Zwischen zwei Hochwassern liegen etwa 12 Stunden 25 Minuten. Der Unterschied zwischen Hoch- und Niedrigwasser heißt Tidenhub. Bei Springzeit (nach Voll- und Neumond) ist er größer, bei Nippzeit kleiner, und auch die Gezeitenströme sind entsprechend stärker oder schwächer.", "m": "Spring springt hoch, Nipp nippt nur."}
+  {"id": "gezeiten", "t": "Gezeiten", "a": "gezeiten", "e": "Gezeiten sind das regelmäßige Steigen (Flut) und Fallen (Ebbe) des Wassers, verursacht vor allem durch den Mond. Zwischen zwei Hochwassern liegen etwa 12 Stunden 25 Minuten. Der Unterschied zwischen Hoch- und Niedrigwasser heißt Tidenhub. Bei Springzeit (nach Voll- und Neumond) ist er größer, bei Nippzeit kleiner, und auch die Gezeitenströme sind entsprechend stärker oder schwächer.", "m": "Spring springt hoch, Nipp nippt nur."},
+  {"id": "versegelung", "t": "Versegelungspeilung", "a": "kreuzpeilung", "e": "Hast du nur ein Objekt zum Peilen, peilst du es zweimal mit etwas zeitlichem Abstand. Die erste Standlinie verschiebst du parallel um die Strecke, die du dazwischen über Grund zurückgelegt hast (Kurs und Distanz über Grund). Wo die verschobene erste Standlinie die zweite schneidet, ist dein Ort zur Zeit der zweiten Peilung.", "m": "Die alte Linie fährt mit."},
+  {"id": "doppelpeilung", "t": "Doppelpeilung (Seitenwinkel verdoppelt)", "a": "peilung", "e": "Du peilst ein Objekt unter einem Seitenwinkel zur Kursrichtung und wartest, bis sich dieser Winkel verdoppelt hat. Dann ist dein Abstand zum Objekt genau so groß wie die Strecke, die du in der Zeit gefahren bist, denn das Dreieck ist gleichschenklig. Der bekannteste Fall ist die Vierstrichpeilung: erst 45° voraus, dann querab.", "m": "Doppelter Winkel, gleiche Strecke."}
  ],
  "lektionen": [
   {"id": "L1", "t": "Karte lesen", "d": "Koordinaten ablesen und eintragen, Symbole, Tiefen", "typen": ["posAblesen", "posSetzen", "symbol", "tiefe"],
@@ -70,7 +72,17 @@
    "crew": [{"s": "K", "t": "Jetzt kommt alles zusammen: Kurs abnehmen, Kompasskurs rechnen, Distanz und Zeit, Koppelort, Kreuzpeilung und Besteckversetzung."},
             {"s": "K", "t": "Genau so sieht die Navigationsaufgabe in der Prüfung aus. Neun Fragen, sieben musst du richtig haben."},
             {"s": "M", "t": "Arbeite sauber Schritt für Schritt. Deine Linien in der Karte bleiben stehen, du kannst darauf aufbauen."},
-            {"s": "T", "t": "Sieben von neun! Sieben von neun!"}]}
+            {"s": "T", "t": "Sieben von neun! Sieben von neun!"}]},
+  {"id": "L10", "t": "SKS: Peilverfahren", "d": "Versegelungspeilung, Doppelpeilung, Peilung und Abstand", "typen": ["versegelung", "doppel", "peilAbstand"],
+   "crew": [{"s": "K", "t": "Jetzt wird es SKS. Oft hast du nur ein einziges Objekt in Sicht. Dann peilst du es zweimal und versegelst die erste Standlinie."},
+            {"s": "K", "t": "Verdoppelt sich der Seitenwinkel, ist dein Abstand so groß wie die gefahrene Strecke. Bei 45 Grad und querab heißt das Vierstrichpeilung."},
+            {"s": "M", "t": "Und mit Radar geht es noch einfacher: Peilung und Abstand zusammen ergeben sofort einen Ort."},
+            {"s": "T", "t": "Zweimal peilen! Zweimal peilen!"}]},
+  {"id": "L11", "t": "SKS: Kartenaufgabe", "d": "Strom, Vorhalten, Wind, Ablenkungstabelle und Versegelung in einer Aufgabe", "typen": ["sksGesamt"],
+   "crew": [{"s": "K", "t": "Das hier ist eine Kartenaufgabe im Stil des Küstenschifferscheins. Du willst über Grund von Tonne zu Tonne, aber Strom und Wind reden mit."},
+            {"s": "K", "t": "Erst den Kurs über Grund, dann vorhalten gegen den Strom, dann die Abdrift, und zum Schluss mit der Ablenkungstabelle auf den Kompasskurs."},
+            {"s": "M", "t": "Unterwegs bestimmst du deinen Ort mit einer Versegelungspeilung. Versegelt wird dabei immer über Grund."},
+            {"s": "T", "t": "Über Grund! Über Grund!"}]}
  ]
 
 

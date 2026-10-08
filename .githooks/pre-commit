@@ -1,0 +1,8 @@
+#!/bin/sh
+# 5.15: Rauchtest vor jedem Commit. Einmal einschalten mit:  git config core.hooksPath .githooks
+# Überspringen im Notfall:  git commit --no-verify
+# Ohne Playwright gibt es nur einen Hinweis, der Commit geht trotzdem durch.
+out=$(node tests/smoke/rauchtest.js 2>&1); code=$?
+if echo "$out" | grep -q "Playwright fehlt"; then echo "Rauchtest übersprungen: Playwright fehlt."; exit 0; fi
+echo "$out" | tail -3
+exit $code

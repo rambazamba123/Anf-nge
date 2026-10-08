@@ -52,7 +52,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Stand v4.34 (Törn 2.0, Lauf 4; davor Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
+*Stand v4.42 (Lauf 3 abgeschlossen; Törn 2.0 in v4.34; davor Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
@@ -68,10 +68,10 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Zurück-Taste:** `initBackKey`, `handleBack` (Reihenfolge `BACKS`), `guardBack`
 - **Zuhören:** `AUD.hush` schaltet Musik und Geräusche beim Zuhören stumm
 - **Navigationsschule** liegt in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`):
-  - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L9)
+  - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L11)
   - Karte: `proj`/`unproj` (Mercator, Minuten ab 55°N/006°E), `NAV.mountChart` (Zoom, Lupe, Kursdreieck, Zirkel, Stift, Kreuz)
   - Rechnen: `kursDist`, `versegeln`, `kreuzpeilung`, `ablenkung`
-  - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`), `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
+  - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`; SKS: `versegelung`, `doppel`, `peilAbstand`, `sksGesamt` mit `need`), Folgefehler über `step.folge`, `mgAusMw`, `ABL_TAB`, `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
   - Spielstand: `S.navi` {`fibel`, `lek[id]` {`serie`, `sterne`, `n`}, `pruef[]`}; `NAV.kennWorte` (Kennung in Worten)
 - **Törn 2.0** liegt in `toern.js` (nachgeladen über `loadToern()` nach `navi.js`; das Steuer an Deck ruft `openToern()` → `TOERN.open`):
   - Daten: `data/toerns.json` (`stufen` mit `scheine`, `aufgaben`, `schaden`, `ohneTeil`, `empfohlen`; `orte`; 15 `toerns` mit `etappen[].wp`), `data/ereignisse.json` (`ereignisse` mit `ref` auf amtliche Fragen, `gen` Kartenaufgaben, `fahrzeuge` Lichter/Signalkörper, `tags`, `crew`), `data/ausruestung.json` (`start`, `teile`), `data/tags.json`, `data/sks-mc.json`
@@ -82,6 +82,8 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Dateien:**
   - `index.html` (Code und CSS, ~458 KB; soll nicht weiter wachsen, 5.15)
   - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
+  - `navi.js`, `toern.js` (nachgeladen), `data/einfuehrungen.json` (5.10)
+  - `tests/smoke/rauchtest.js`, `.githooks/pre-commit` (Rauchtest vor jedem Commit)
   - `navi.js` (Navigationsschule), `toern.js` (Törn 2.0)
   - `manifest.webmanifest`, `icon-192/512.png`
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
@@ -102,6 +104,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `renderCabin`, `cabinScene`, `CABIN_SPOTS` (`fn` = vom Fernglas markiert), `SPOT`, `TAP`
   - Erstbesuch: `cabinWelcome` (Texte `CABIN`, SKS-Quiz, `fahrplanSheet`)
   - Hocker: `bgSit`
+  - Prüfer: `harmsKommt(via)` (Telefon `telefon` oder Crew-Menü „Hol Kapitän Harms“), Sätze `HARMS`, danach `examIntro('harms')`
 - **Easter-Eggs:**
   - Register `EGGS`, Fund melden mit `foundEgg(id)` → `S.eggs`, Anzeige `eggCard`
   - Sätze `EGG_LINES` (über `sayEgg`), `FLAG_ART`, `glasenNow`, `wxOverride`
@@ -112,7 +115,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `runQuiz` (Option `scoreKey`), `examIntro` / `startExam` (beliebig viele Teile aus `COURSE.exam.parts`), `startExamOpen` (SKS)
   - Plan: `computePlan`, `fahrplan`
 - **Kurse:**
-  - `COURSES` (`sbf`, `sks`, `binnen`), `useCourse`, `switchCourse`, `QN`, `TOPICS`
+  - `COURSES` (`sbf`, `sks`, `binnen`), `COURSES_SOON` (Funk, Pyro: ausgegraut), `useCourse`, `switchCourse`, `QN`, `TOPICS`
   - Themen: `SBF_TOPICS`, `BIN_TOPICS`, `SKS_TOPICS`
   - Binnen-Prüfung: `BIN_EXAM.motor` / `.segel`, Wahl über `S.binSegel`
 - **Lexikon:** `LEX` (aus `lexikon.json`), `lexEntries`, `renderLexikon` (Kategorien, Suche), `lexSheet`, `lexOf(q)` (Knopf in der Lernrunde nach dem Antworten), `sksRelated`
@@ -503,14 +506,14 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   6. Unter Deck im Schnitt; Funk und Pyro (warten auf Kataloge)
   7. Datenfehler prüfen (Originalkatalog): SBF 279 (doppelte Antwort), SBF 285 und Binnen 253 (angehängter PDF-Text), SKS nav-92 (Antwort leer), recht-23 (Frage abgeschnitten), „Stand: 01. Juli 2006“-Reste in SKS-Antworten
   8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
-- [ ] Lauf 3 (Nachtrag)
+- [x] Lauf 3 (Nachtrag, v4.35–v4.42, Stand in `docs/lauf3-plan.md`)
   - [x] L3a 5.9 Moin (v4.37: `MOIN_LANG` „Mooooooooin!“ als fester Satz, Clip wird mit `playBlob(…, dehnen)` auf 0,8× gedehnt, Tonhöhe bleibt; Handy-Test durch den Nutzer offen)
   - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
   - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
-  - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
-  - [ ] L3e 5.12 Prüfer holt ab
-  - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
-  - [ ] L3g 5.15 Technik und Rauchtest
+  - [x] L3d 5.11 Navi-Prüfung und SKS-Navi (v4.39: Rechenproben ohne Fehler; Beschriftung wächst beim Herauszoomen mit (`--lz`), Kennungen und Tiefen erst ab mittlerem Zoom; Folgefehler in der Gesamtaufgabe (`folge`); Ablenkungstabelle passt ins Hochformat; neu L10 „SKS: Peilverfahren“ (`versegelung`, `doppel`, `peilAbstand`) und L11 „SKS: Kartenaufgabe“ (`sksGesamt`, 5 von 7); Fibel +2 Begriffe)
+  - [x] L3e 5.12 Prüfer holt ab (v4.40: altes Telefon an der Kajütenwand, Spot `telefon` (Fernglas), Freizeichen `AUD.tuut`, `harmsKommt(via)` mit Klopfen, Tür, Spruch `HARMS`; Käpt'n und Matrose/Matrosin können ihn im Menü holen; Tür-Zugang entfernt)
+  - [x] L3f 5.13 Schein-Auswahl (v4.41: `COURSES_SOON` mit Funk und Pyro, ausgegraut „kommt bald“ in `courseSheet` und beiden Kennenlern-Abfragen; Weg für neue Scheine im Kommentar an `COURSES_SOON`)
+  - [x] L3g 5.15 Technik und Rauchtest (v4.42: `tests/smoke/rauchtest.js` mit 22 Schritten, `.githooks/pre-commit` (einmalig `git config core.hooksPath .githooks`), `docs/feste-saetze.md` gepflegt, `stimmen.zip` im Repo-Ordner wird von `tools/stimmen-import.js` eingebaut)
 - [x] 5.6 Törn-Light (v4.22–4.23; seit v4.33 durch Törn 2.0 ersetzt, Code aus navi.js entfernt)
   - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
   - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5

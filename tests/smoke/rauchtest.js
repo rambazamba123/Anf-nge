@@ -47,12 +47,16 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   page = await neu(stand());
   await schritt('02-deck', page, async () => { await ev(page, () => setTab('deck')); await sleep(700); });
   await schritt('03-kajuete', page, async () => { await ev(page, () => setTab('cabin')); await sleep(700); });
+  /* 5.12: altes Telefon ruft Kapitän Harms, der holt zur Probeprüfung ab */
+  await schritt('03b-telefon-harms', page, async () => { await ev(page, () => document.querySelector('[data-spot="telefon"]').click()); await sleep(7500); if (!await page.$('#harms')) throw new Error('Harms kommt nicht'); await ev(page, () => document.querySelector('#hgo').click()); await sleep(600); await ev(page, () => setTab('cabin')); await sleep(400); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
   await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
     await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
+  /* 5.11: SKS-Stufe am Kartentisch (Versegelung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe) */
+  for (const l of ['L10', 'L11']) await schritt('08-navi-' + l, page, async () => { await ev(page, l => NAV.exercise(l, 'guided'), l); await sleep(700); if (!await page.$('#xform')) throw new Error('keine Aufgabe'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */

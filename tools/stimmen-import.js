@@ -1,5 +1,5 @@
 /* Stimmen-ZIPs aus der App ins Stimmenpaket einbauen.
-   Aufruf: node tools/stimmen-import.js [ordner]   (Standard: import/)
+   Aufruf: node tools/stimmen-import.js [ordner]   (Standard: import/, dazu stimmen.zip im Repo-Ordner)
    - entpackt jede *.zip, kopiert die MP3s nach audio/stimmen/
    - führt manifest.json zusammen (vorhandene Einträge bleiben, die Stimmen werden nur beim ersten Mal festgelegt)
    - eigene Kajütenfunk-Folgen (geschichten.json) landen zur Prüfung in import/geschichten-<datum>.json
@@ -9,12 +9,15 @@ const root = path.resolve(__dirname, '..'), dir = path.resolve(root, process.arg
 const manPath = path.join(out, 'manifest.json');
 const man = fs.existsSync(manPath) ? JSON.parse(fs.readFileSync(manPath, 'utf8')) : {};
 man.files = man.files || {}; man.texts = man.texts || {}; man.voices = man.voices || {};
-const zips = fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.toLowerCase().endsWith('.zip')).sort() : [];
-if (!zips.length) { console.log('Keine ZIP-Dateien in ' + dir); process.exit(0); }
+/* 5.15: Auch eine stimmen.zip direkt im Repo-Ordner wird eingebaut */
+const zips = (fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.toLowerCase().endsWith('.zip')).sort().map(f => path.join(dir, f)) : [])
+  .concat(fs.existsSync(path.join(root, 'stimmen.zip')) ? [path.join(root, 'stimmen.zip')] : []);
+if (!zips.length) { console.log('Keine ZIP-Dateien in ' + dir + ' und keine stimmen.zip im Repo-Ordner'); process.exit(0); }
+fs.mkdirSync(dir, {recursive: true});
 let neu = 0, alt = 0, konflikt = 0;
 for (const z of zips) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'stimmen-'));
-  execFileSync('unzip', ['-q', '-o', path.join(dir, z), '-d', tmp]);
+  execFileSync('unzip', ['-q', '-o', z, '-d', tmp]);
   const m = JSON.parse(fs.readFileSync(path.join(tmp, 'manifest.json'), 'utf8'));
   /* Stimmen: Das erste Paket legt sie fest. Weicht ein späteres ab, werden dessen Aufnahmen nicht übernommen. */
   const mv = m.voices || {};
