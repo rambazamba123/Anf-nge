@@ -8,29 +8,29 @@ const read = f => JSON.parse(fs.readFileSync(path.join(root, 'data', f), 'utf8')
 const REGEL = [
   // Wortanfang-Treffer (\b vor dem Stamm), damit „Recht“ nicht „rechtwinklig“ trifft
   ['nacht', /\b(Nacht|Nächte|nachts|Dunkel\w*|Dämmerung|Sonnenuntergang|Sonnenaufgang)\b/i],
-  ['nebel', /\b(Nebel|unsichtig\w*|verminderte[rn]? Sicht|Sichtweite)\b/i],
-  ['fahrwasser', /\b(Fahrwasser|Fahrrinne|Seeschifffahrtsstraße|Wasserstraße|Engstelle|Kanal|Verkehrstrennung|Hafen)/i],
+  ['nebel', /\b(Nebel|unsichtig\w*|verminderte[rn]? Sicht)\b/i],
+  ['fahrwasser', /\b(Fahrwasser|Fahrrinne|Seeschifffahrtsstraße|Wasserstraße|Engstelle|Kanal|Verkehrstrennung|Hafeneinfahrt|Einlaufen)/i],
   ['ausweichen', /\b(ausweich|Kurshalt|Vorfahrt|Kollision|Zusammenstoß|Begegn|Überhol|überhol|Gefahr eines)/i],
   ['lichter', /\b(Licht(er|en|s)?|Signalkörper|Laterne|Topplicht|Seitenlicht|Hecklicht|Rundumlicht)\b/i],
-  ['schallsignale', /\b(Schallzeichen|Schallsignal\w*|Warnsignal|Gefahrsignal|Schalltöne|Töne|Tonsignal|Pfeife|Glocke|Gong|Nebelsignal|Horn|Signal)\b/i],
-  ['betonnung', /\b(Tonne|Tonnen|Betonnung|Kardinal|Leitfeuer|Richtfeuer|Befeuerung|Kennung|Quermarke|Leuchtturm|Leuchtfeuer|Blinkfeuer|Feuer|Funkelfeuer|Blitzfeuer|Gleichtaktfeuer|Unterbrochenes Feuer)\b/i],
-  ['tafel', /\b(Tafel|Tafelzeichen|Schifffahrtszeichen|Sichtzeichen)/i],
+  ['schallsignale', /\b(Schallzeichen|Schallsignal\w*|Warnsignal|Gefahrsignal|Schalltöne|Töne|Tonsignal|Pfeife|Glocke|Gong|Nebelsignal|Horn)\b/i],
+  ['betonnung', /\b(Tonne|Tonnen|Betonnung|Kardinal\w*|Leitfeuer\w*|Richtfeuer\w*|Torfeuer\w*|Befeuerung|Kennung|Quermarke\w*|Leuchtturm\w*|Leuchtfeuer\w*|Leuchttonne\w*|Blinkfeuer|Feuer|Feuers|Funkelfeuer|Blitzfeuer|Gleichtaktfeuer|Unterbrochenes Feuer)\b/i],
+  ['tafel', /\b(Tafel|Tafelzeichen|Sichtzeichen)/i],
   ['flagge', /\b(Flagge|Wimpel|Flaggensignal|Signalflagge)/i],
   ['motor', /\b(Motor|Motoren|Maschine|Antriebsmaschine|Kühlwasser|Propeller|Schraube|Wendegetriebe|Batterie|Benzin|Diesel|Kraftstoff|Zündung|Saildrive|Vergaser|Ölstand|Öldruck|Impeller|Lichtmaschine|Ladekontroll|Einspritz)/i],
-  ['wetter', /\b(Wetter\w*|Starkwind\w*|Windstärke\w*|Windrichtung\w*|Windversetzung|Sturmwarnung|Starkwindwarnung|Warnung|Wind\b|Böe|Sturm|Luftdruck|Front|Hoch(?!-)|Tief(?!-)|Gewitter|Seegang|Dünung|Wolke|Beaufort|Bft|Brecher|Schauer|Regen|Hagel|Taupunkt|Isobar|Wellen|Welle)\b/i],
+  ['wetter', /\b(Wetter\w*|Starkwind\w*|Windstärke\w*|Windrichtung\w*|Windversetzung|Sturmwarnung|Starkwindwarnung|Warnung|Wind\b|Böe|Sturm|Luftdruck|Front|Hochdruck\w*|Tiefdruck\w*|Tiefausläufer|Tiefkern|Gewitter|Seegang|Dünung|Wolke|Beaufort|Bft|Brecher|Schauer|Regen|Hagel|Taupunkt|Isobar|Wellen|Welle)\b/i],
   ['sicherheit', /\b(Sicherheit|Rettung|Weste|Notsignal|Notzeichen|Seenot|Feuerlöscher|Brand|über Bord|Überbord|Notfall|Notruf|Lenz|Löschdecke|Gurt|verlass\w*|Warnnachricht|Gefahr|Rettungsinsel|Floß|Flüssiggas|Gas(?![a-zäöüß])|offenes Feuer|Gefahrgut|gefährlich)/i],
-  ['recht', /\b(Recht(?!s-|s? bzw|s?winkl|s?dreh|s?seit)|Rechts(vorschrift|regel)|Verordnung|Verkehrsvorschrift\w*|Vorschrift\w*|Pflicht|Erlaubnis|Führerschein|Fahrerlaubnis|Alkohol|Promille|Zeugnis|zuständig|Gebühr|Kennzeichen|Befähigung|Einreise|Zoll|Genehmigung|Ordnungswidrig|Schiffsführer|Sorgfalt|Verantwortung|Verbot)/i],
+  ['recht', /\b(Recht(?!e[nmrs]?\b|s-|s? bzw|s?winkl|s?dreh|s?seit|weisend)|Rechts(vorschrift|regel)|Verordnung|Verkehrsvorschrift\w*|Vorschrift\w*|Pflicht|Erlaubnis|Führerschein|Fahrerlaubnis|Alkohol|Promille|Zeugnis|zuständig|Gebühr|Kennzeichen|Befähigung|Einreise|Zoll|Genehmigung|Ordnungswidrig|Schiffsführer|Sorgfalt|Verantwortung|Verbot)/i],
   ['navigation', /\b(Navigation|Kurs|Peilung|peil|Koppel|Standlinie|Seekarte|Kompass|Missweisung|Ablenkung|Deviation|Distanz|Seemeile|GPS|Ortsbestimmung|Besteck|Kartennull|Wasserstand|Ortung)/i],
   ['manoever', /\b(Manöver|Wende|Wenden|Halse|Anlegen|Ablegen|drehen|Bugstrahl|Stopp|aufstopp|Schlepp|Hahnepot|Päckchen|Boje|Anker|Steuerfähig|Radeffekt)/i],
   ['seemannschaft', /\b(Segel|Takel|Tauwerk|Leine|Knoten|Rigg|Mast|Want|Stag|Reff|Trimm|Schot|Fall|Luv|Lee|Bootsbau|GFK|Rumpf|Gelcoat|Sandwich|Fender|Festmacher|Klampe|Pütz|Pinne|Ruder|laufende|laufendes)/i],
-  ['strom', /\b(Strom|Stromversetzung|Strömung|Tide|Tidenhub|Ebbe|Flut|Gezeit|Abdrift|Hochwasser|Niedrigwasser)/i],
+  ['strom', /\b(Strom(?!menge|verbrauch|kreis|stärke|leitung|schalter|ausfall|erzeug|-)|Stromversetzung|Strömung|Tide|Tidenhub|Ebbe|Flut|Gezeit|Abdrift|Hochwasser|Niedrigwasser)/i],
   ['stabilitaet', /\b(kentern|Kentern|Stabilität|aufricht|Krängung|Schwerpunkt)/i],
   ['umwelt', /\b(Umwelt\w*|Naturschutz|Tierwelt|Pflanzen\w*|Seehund\w*|Vogel\w*|Reinhalt\w*|Abfall\w*|Müll\w*|Feuchtgebiet\w*)/i],
   ['vtg', /\b(Verkehrstrennung|VTG|Einbahnweg|Trennlinie)/i],
 
 ];
 const TOPIC_FALLBACK = { b1: 'recht', b2: 'tafel', b3: 'manoever', b4: 'seemannschaft', b5: 'sicherheit' };
-const SKS_FALLBACK = { nav: 'navigation', recht: 'recht', wetter: 'wetter', see1: 'seemannschaft', see2: 'motor' };
+const SKS_FALLBACK = { nav: 'navigation', recht: 'recht', wetter: 'wetter', see1: 'seemannschaft', see2: 'seemannschaft' };
 function tagsFuer(text, fallback) {
   const tags = REGEL.filter(([, re]) => re.test(text)).map(([t]) => t);
   if (!tags.length && fallback) tags.push(fallback);

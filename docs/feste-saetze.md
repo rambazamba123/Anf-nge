@@ -1,0 +1,28 @@
+# Feste Sätze fürs Stimmenpaket (Törn 2.0)
+
+Stand v4.34 · Quelle: `data/ereignisse.json` → `crew`. Alle Sätze ohne Namen, damit sie für jede Crew passen (CLAUDE.md §2). Die App sammelt sie über `packLines` (`TOERN.LINES`), sobald der Törn einmal geladen war.
+
+| Anlass | Rolle | Satz |
+|---|---|---|
+| wahrschau | Matrose/Matrosin | Wahrschau! Da vorn! |
+| wahrschau | Käpt'n | Wahrschau! Augen auf! |
+| wahrschau | Bordtier | Wahrschau! Wahrschau! |
+| gut | Käpt'n | Sauber gemacht. So fährt ein Skipper. |
+| gut | Matrose/Matrosin | Na bitte, geht doch! |
+| gut | Bordtier | Richtig! Richtig! |
+| schlecht | Käpt'n | Das war nix. Merk dir das. |
+| schlecht | Matrose/Matrosin | Autsch. Das gibt Schrammen. |
+| schlecht | Bordtier | Falsch! Falsch! |
+| spaet | Käpt'n | Zu spät! Auf See wartet keiner. |
+| spaet | Matrose/Matrosin | Hallo? Schläfst du am Ruder? |
+| aufwachen | Käpt'n | Moin! Aufstehen, die Tide wartet nicht. |
+| aufwachen | Matrose/Matrosin | Kaffee ist fertig. Ab an Deck. |
+| ankunft | Käpt'n | Fest! Leinen sind belegt. Gut gemacht. |
+| ankunft | Bordtier | Fest! Fest! |
+| seenot | Käpt'n | Das war zu viel. Wir brauchen Hilfe. |
+| seenot | Matrose/Matrosin | Und ich hab doch gesagt, wir hätten im Hafen bleiben sollen. |
+| liegen | Käpt'n | Richtig. Bei dem Wetter bleibt ein guter Skipper im Hafen. |
+| liegen | Matrose/Matrosin | Dann eben Karten spielen. |
+| zuvorsichtig | Matrose/Matrosin | Bei dem Wetter im Hafen bleiben? Da segeln sogar die Möwen. |
+
+Weitere Sprechtexte im Törn (Aufgaben, Seewetterbericht, Erklärungen) werden nicht vorgelesen. Sie wechseln je nach Lage und wären als feste Sätze zu viele.

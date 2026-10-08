@@ -74,7 +74,8 @@
     "feuer": {"art":"erkennen","zeit":45,"schwere":0.8,"ref":"sbf:198"},
     "lichter": {"art":"erkennen","zeit":40,"schwere":1},
     "signalkoerper": {"art":"erkennen","zeit":40,"schwere":1},
-    "strom": {"art":"erkennen","zeit":35,"schwere":0.7}
+    "strom": {"art":"erkennen","zeit":35,"schwere":0.7},
+    "kurs": {"art":"erkennen","zeit":60,"schwere":0.8}
   },
   "crew": {
     "wahrschau": [{"s":"M","t":"Wahrschau! Da vorn!"},{"s":"K","t":"Wahrschau! Augen auf!"},{"s":"T","t":"Wahrschau! Wahrschau!"}],

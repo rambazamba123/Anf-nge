@@ -498,7 +498,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.33';
+  window.__ver = '4.34';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5127,7 +5127,7 @@ function charMenu(cidv) {
   const head = `<div class="sheethead">${charSVG(cidv)}<div><h2 style="margin:0">${esc(c.short)}</h2><p class="small muted" style="margin:0">${esc(c.blurb)}</p></div></div><div id="msay" class="menusay hidden"></div>`;
   let items = '';
   if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten');
-  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('tap', 'Sag was');
+  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + (S.course === 'sks' ? menuBtn('mc', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten zur Auswahl') : '') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('tap', 'Sag was');
   if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '') + menuBtn('tap', 'Sag was');
   const w = sheet(head + `<div class="menu">${items}</div>`);
   const say = (t, kind = 'live') => { const m = $('#msay'); m.classList.remove('hidden'); m.textContent = t; AUD.unlock(); VOX.stop('Menü'); VOX.say(cidv, t, kind); };
@@ -5147,6 +5147,7 @@ function charMenu(cidv) {
     if (m === 'talk') { closeSheet(); startTalk(); }
     if (m === 'quiz') { closeSheet(); reviewSession('Abfrage von ' + c.short); }
     if (m === 'traps') { closeSheet(); trapRound(); }
+    if (m === 'mc') { closeSheet(); returnTo = 'cabin'; loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Die Ankreuz-Runde ließ sich nicht laden. Prüf dein Internet.')); }
     if (m === 'story') { closeSheet(); openFunk(); }
     if (m === 'horn') { closeSheet(); hornQuiz(); }
     if (m === 'tap') say(lineOf(cidv, 'tap'), 'fixed');

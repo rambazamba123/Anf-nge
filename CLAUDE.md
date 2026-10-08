@@ -52,7 +52,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
 
 ## 4. Code-Karte
-*Stand v4.32 (Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
+*Stand v4.34 (Törn 2.0, Lauf 4; davor Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
@@ -66,22 +66,29 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Offline:** Schriften in `fonts/`, `offlineStock()` (einmal pro Version), `sw.js` mit `MEDIEN` (Versionsname des Medien-Speichers)
 - **Zurück-Taste:** `initBackKey`, `handleBack` (Reihenfolge `BACKS`), `guardBack`
 - **Zuhören:** `AUD.hush` schaltet Musik und Geräusche beim Zuhören stumm
-- **Navigationsschule und Törn** liegen in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`, das Steuer an Deck öffnet `NAV.toernStart`):
+- **Navigationsschule** liegt in `navi.js` (nachgeladen über `loadNavi()`; `navSchool()` öffnet `NAV.hub`):
   - Daten: `data/karte.json` (erfundene Kliev-Mündung, Tonnen, Feuer, Mw, Ablenkungstabelle, Stromtabelle), `data/navi.json` (`fibel`, `lektionen` L1–L9)
   - Karte: `proj`/`unproj` (Mercator, Minuten ab 55°N/006°E), `NAV.mountChart` (Zoom, Lupe, Kursdreieck, Zirkel, Stift, Kreuz)
   - Rechnen: `kursDist`, `versegeln`, `kreuzpeilung`, `ablenkung`
   - Lernen: `NAV.fibel`/`term`/`linkTerms`, Aufgabengenerator `GEN` (inkl. `gesamt`), `NAV.task` + `grade` (Toleranzen `TOL`), `NAV.multi`, `NAV.path`/`lesson`/`exercise`, `NAV.exam` (25 min)
-  - Törn (alt, wird durch Törn 2.0 aus 5.14 ersetzt): `ETAPPEN`, `routePos`, `planEvents`, `EV`, `ankunft`; Logbuch-Anzeige `toernCard` in `index.html`
-  - Spielstand: `S.navi` {`fibel`, `lek[id]` {`serie`, `sterne`, `n`}, `pruef[]`}, `S.toern` {`i`, `p`, `art`, `ev[]`, `prov`, `sprit`, `laune`, `zustand`, `log[]`}
+  - Spielstand: `S.navi` {`fibel`, `lek[id]` {`serie`, `sterne`, `n`}, `pruef[]`}; `NAV.kennWorte` (Kennung in Worten)
+- **Törn 2.0** liegt in `toern.js` (nachgeladen über `loadToern()` nach `navi.js`; das Steuer an Deck ruft `openToern()` → `TOERN.open`):
+  - Daten: `data/toerns.json` (`stufen` mit `scheine`, `aufgaben`, `schaden`, `ohneTeil`, `empfohlen`; `orte`; 15 `toerns` mit `etappen[].wp`), `data/ereignisse.json` (`ereignisse` mit `ref` auf amtliche Fragen, `gen` Kartenaufgaben, `fahrzeuge` Lichter/Signalkörper, `tags`, `crew`), `data/ausruestung.json` (`start`, `teile`), `data/tags.json`, `data/sks-mc.json`
+  - Kern ohne DOM `TOERN.core` (auch in Node): `tagWetter`, `bericht`, `entscheid`, `plan`, `genKandidaten`, `zeit`, `folgen`, `malus`, `sterne`, `simulate`
+  - Oberfläche: `TOERN.open` (Törnwahl), `starten`, `weiter` (springt in die gespeicherte Phase), `aufwachen`, `wetterbericht`, `fahrt` (Canvas `draw`: Himmel, Land per Strahl `rayLand`, Tonnen mit Kennung `lightOn`, Schiffe `drawShip` mit Lichtern nach Lage, Nebel, Regen, Deck, Wanten als Peilmarke, Steuerrad, Verklicker), Mini-Karte über `NAV.mountChart`, `zeigeAufgabe`/`antwort` (Reaktionszeit, Signale tuten, Peilen, Fernglas), `frageAufgabe` (SBF, SKS-MC, „nur offen“), `genAufgabe` (Tonne, Kardinal, Feuer, Lichter, Signalkörper, Strom, Kurs selbst absetzen), `etappeEnde`/`nachbesprechung`, `seenot`, `laden` (Bootsladen), `logbuch`, `TOERN.mcRunde` (SKS-Ankreuzrunde)
+  - Spielstand: `S.toern2` {`kasse`, `prov`, `sprit`, `teile[]`, `vorrat{}`, `log[]`, `seen{}`, `provDay`, `schnitt{}`, `lauf`: {`id`, `si`, `e`, `tag`, `phase`, `w`, `plan`, `t`, `i`, `card`, `zustand`, `laune`, `punkte`, `eRes[]`, `res[]`, `sterne[]`}}; Standard `null`. Der alte `S.toern` bleibt unangetastet, sein Logbuch zeigt `toernCard` mit an.
+  - Am langen Boot zeigt `ausrArt()` verbaute Teile. `AUD.sfx`/`AUD.horn` können mit `pan` links/rechts klingen.
 - **Dateien:**
-  - `index.html` (Code und CSS, ~447 KB)
+  - `index.html` (Code und CSS, ~458 KB; soll nicht weiter wachsen, 5.15)
   - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
+  - `navi.js` (Navigationsschule), `toern.js` (Törn 2.0)
   - `manifest.webmanifest`, `icon-192/512.png`
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`; legt auch die Stimmen fest, noch leer)
-  - `docs/`: Konzepte
+  - `docs/`: Konzepte, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
+  - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`
 - **Start:**
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
   - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
@@ -476,7 +483,15 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - Zurück-Taste im Quiz, in der Karte und in den Einstellungen
 - **Werkzeuge nur als Trockenlauf geprüft:** `tools/stimmenpaket.js` ist noch nie mit echtem Schlüssel gelaufen. Erst mit der Freigabe der Podcastfolgen.
 - **Lauf 3 (Nachtrag, eingearbeitet 08.10.2026):** Plan und Unteretappen in `docs/lauf3-plan.md`. Funk und Pyro später, nur Schein-Architektur jetzt.
-- **Törn 2.0 (Lauf 4, Konzept 5.14):** läuft. Plan in `docs/toern2-plan.md`. T1 (Tags) angelegt, Fehlerquote in der 20er-Stichprobe grob 15–20 % (nicht fertig). T2–T7 offen.
+- [x] **Törn 2.0 (Lauf 4, Konzept 5.14)** (v4.33–v4.34, Plan `docs/toern2-plan.md`)
+  - [x] T1 Tags (920 Fragen; Stichprobe 14 % → 10 % Fehler, systematische Fehler korrigiert)
+  - [x] T2 SKS-MC (613 Multiple Choice, 22 nur offen)
+  - [x] T3 Daten (5 Stufen, 15 Törns, 38 Ereignisse, 13 Ausrüstungsteile)
+  - [x] T4 `toern.js` mit Sicht vom Steuer, Aufgaben, Wetter, Ausrüstung, Pause, Nachbesprechung
+  - [x] T5 SKS-Ankreuzrunde in der Lernrunde
+  - [x] T6 Balancing (alle Ziele erreicht)
+  - [x] T7 altes Gerüst entfernt, Rauchtest `tests/smoke/rauchtest.js`
+  - Offen: Standortbestimmung per Landmarken-Peilung als Aufgabe, Funk-Lagemeldungen als eigene Aufgabe, eigene Geräusche für Wind/Alarm (heute vorhandene Klänge), echte Handyprüfung
 - **Offen (Reihenfolge):**
   1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
   2. A6 Konten und Server mit Supabase (freigegeben), danach KI-Tageslimit auf dem Server
@@ -494,7 +509,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [ ] L3e 5.12 Prüfer holt ab
   - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
   - [ ] L3g 5.15 Technik und Rauchtest
-- [x] 5.6 Törn-Light (v4.22–4.23)
+- [x] 5.6 Törn-Light (v4.22–4.23; seit v4.33 durch Törn 2.0 ersetzt, Code aus navi.js entfernt)
   - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
   - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5
   - [x] 5.6c Ressourcen (Proviant aus Lerntagen, Sprit, Laune, Boot), Abbruch kostet Proviant, Ankunft mit Sternen, Törn-Logbuch

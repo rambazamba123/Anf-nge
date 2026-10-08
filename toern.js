@@ -104,6 +104,8 @@ core.genKandidaten = (D, c) => {
     if (lateral && n.d < .9) out.push({gen: nacht ? 'feuer' : 'tonne', obj: o.id, f: n.f, ein: n.k > 0 && n.k < 180});
     if (!lateral && n.d < 1.6) out.push({gen: 'kardinal', obj: o.id, f: n.f});
   }
+  /* Kurse selbst absetzen (erst mit Sternen in Lektion 1–5, CLAUDE.md 5.5): an Kursänderungspunkten */
+  if (c.kursSelbst) { const L = geo.len(wp); let acc = 0; for (let k = 1; k < wp.length - 1 && k <= 2; k++) { acc += geo.kd(wp[k - 1], wp[k]).d; out.push({gen: 'kurs', leg: k, f: Math.min(.9, acc / L + .02)}); } }
   if (nacht) out.push({gen: 'lichter'}, {gen: 'lichter'});
   else out.push({gen: 'signalkoerper'});
   if (['fluss', 'kueste'].includes(c.gebiet) && c.si >= 1) out.push({gen: 'strom'});
@@ -241,8 +243,8 @@ const comma = (v, d = 0) => Number(v).toFixed(d).replace('.', ',');
 const mmss = s => { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 const CL = Math.cos(55.35 * RAD);
 const CSS = `
-.tw-res{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.tw-chip{background:var(--card,#fffaf0);border:1px solid var(--line,#ddd);border-radius:999px;padding:3px 9px;font-size:.78rem;white-space:nowrap}
-.tw-stufe{margin:14px 0 6px;font:700 1rem var(--hfont)}.tw-card{border:1px solid var(--line,#ddd);border-radius:14px;padding:10px 12px;margin:8px 0;background:var(--card,#fffaf0)}
+.tw-res{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.tw-chip{background:var(--paper,#fffaf0);border:1px solid var(--line,#ddd);border-radius:999px;padding:3px 9px;font-size:.78rem;white-space:nowrap}
+.tw-stufe{margin:14px 0 6px;font:700 1rem var(--hfont)}.tw-card{border:1px solid var(--line,#ddd);border-radius:14px;padding:10px 12px;margin:8px 0;background:var(--paper,#fffaf0)}
 .tw-card h3{margin:0 0 2px;font-size:1rem}.tw-card p{margin:4px 0}.tw-tags{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}.tw-tag{font-size:.72rem;border-radius:6px;padding:1px 6px;background:rgba(0,0,0,.06)}
 .tw-tag.ok{background:#d9efd9;color:#1d5e2d}.tw-tag.no{background:#f6e0d6;color:#8a3a1a}
 .tw-wrap{position:relative;display:flex;flex-direction:column;height:calc(100svh - 64px);max-height:900px}
@@ -252,7 +254,7 @@ const CSS = `
 .tw-ctl{display:flex;gap:6px;margin:6px 0}.tw-ctl button{flex:1;padding:8px 4px;font-size:.82rem}
 .tw-low{position:relative;flex:1 1 auto;min-height:170px}.tw-low .nwrap{height:100%!important;min-height:160px}
 .tw-mini{position:absolute;inset:0}.tw-mini .ntoolbar,.tw-mini .ntip{display:none}
-.tw-task{position:absolute;inset:0;overflow:auto;background:var(--card,#fffaf0);border:2px solid var(--lamp,#f0b43e);border-radius:14px;padding:10px 12px;z-index:5}
+.tw-task{position:absolute;inset:0;overflow:auto;background:var(--paper,#fffaf0);border:2px solid var(--lamp,#f0b43e);border-radius:14px;padding:10px 12px;z-index:5}
 .tw-task h3{margin:0 0 4px;font-size:1rem;display:flex;justify-content:space-between;gap:8px}.tw-task p{margin:4px 0 8px}
 .tw-bar{height:6px;background:rgba(0,0,0,.1);border-radius:3px;overflow:hidden;margin:2px 0 8px}.tw-bar i{display:block;height:100%;background:var(--lamp,#f0b43e);transition:width .25s linear}
 .tw-bar.eng i{background:#d9542f}.tw-opts{display:flex;flex-direction:column;gap:6px}.tw-opts button{text-align:left;padding:9px 10px;font-size:.88rem;line-height:1.3}
@@ -422,7 +424,8 @@ function fahrt() {
   if (!L.plan) {
     if (t.prov < 1) { toast('Kein Proviant für diese Etappe. Lern ein bisschen, dann geht es weiter.'); return TOERN.open(); }
     t.prov -= 1;
-    const c = {R: RL_(L), toern: tn, etappe: e, stufe: D.stufen[L.si], si: L.si, w: L.w, tz: e.tz, antrieb: L.antrieb, teile: teileSet(), used: new Set(L.used), orte: D.orte};
+    const lek = (S.navi && S.navi.lek) || {}, kursSelbst = ['L1', 'L2', 'L3', 'L4', 'L5'].every(id => lek[id] && lek[id].sterne);
+    const c = {R: RL_(L), toern: tn, etappe: e, stufe: D.stufen[L.si], si: L.si, w: L.w, tz: e.tz, antrieb: L.antrieb, teile: teileSet(), used: new Set(L.used), orte: D.orte, kursSelbst};
     L.plan = core.plan(D, c); L.used = [...c.used]; L.t = 0; L.i = 0; L.wx = L.w.wx; L.bft = L.w.bft; L.eRes = [];
     const m = core.malus(tn, ctxFor(L)); if (m.schaden) { L.zustand -= m.schaden; setTimeout(() => toast(`Ohne ${m.fehlt.map(a => (D.teile.find(x => x.id === a) || {}).name || a).join(', ')} wird es hart: Boot −${m.schaden} %.`, 6000), 900); }
     save();
@@ -487,7 +490,7 @@ function loop() {
 function hud() {
   const L = F.L, t = T2(), w = {von: (L.w && L.w.von) || 225, bft: L.bft};
   const sp = L.w && L.w.spaeter;
-  const h = `<span>Etappe ${L.e + 1}/${F.tn.etappen.length}</span><span>⏱ ${mmss(L.plan.dauer - L.t)}</span><span>🌬 ${core.windText(w)}${L.wx === 'nebel' ? ' 🌫' : L.wx === 'regen' ? ' 🌧' : L.wx === 'flaute' ? ' (Flaute)' : ''}${sp ? ' → ' + core.windText(sp) : ''}</span><span>${L.zustand > 60 ? '💚' : L.zustand > 30 ? '💛' : '❤️'} Boot ${Math.max(0, Math.round(L.zustand))} %</span><span>🙂 ${Math.round(L.laune)}</span><span>🍞 ${t.prov}</span><span>⛽ ${Math.round(t.sprit)} %</span><span>🪙 ${t.kasse}</span><span>${L.antrieb === 'motor' ? '⚙ Motor' : '⛵ Segel'}</span>`;
+  const h = `${L.wx === 'nebel' ? '<span>🎧 mit Kopfhörern besser</span>' : ''}<span>Etappe ${L.e + 1}/${F.tn.etappen.length}</span><span>⏱ ${mmss(L.plan.dauer - L.t)}</span><span>🌬 ${core.windText(w)}${L.wx === 'nebel' ? ' 🌫' : L.wx === 'regen' ? ' 🌧' : L.wx === 'flaute' ? ' (Flaute)' : ''}${sp ? ' → ' + core.windText(sp) : ''}</span><span>${L.zustand > 60 ? '💚' : L.zustand > 30 ? '💛' : '❤️'} Boot ${Math.max(0, Math.round(L.zustand))} %</span><span>🙂 ${Math.round(L.laune)}</span><span>🍞 ${t.prov}</span><span>⛽ ${Math.round(t.sprit)} %</span><span>🪙 ${t.kasse}</span><span>${L.antrieb === 'motor' ? '⚙ Motor' : '⛵ Segel'}</span>`;
   if (F.hudTxt !== h) { F.hudTxt = h; $('#twhud').innerHTML = h; }
   /* Boot auf der Mini-Karte, Karte folgt */
   const p = posNow(), P = NAV.proj(p.lat, p.lon);
@@ -507,7 +510,8 @@ function vorbereiten(idx) {
   const now = performance.now() / 1000, dur = 6 * F.st.hilfe + 4 + core.zeit(D, task, ctxFor(L));
   const ship = (fz, von, extra = {}) => {
     const rb0 = von === 'stb' ? 45 + R() * 20 : von === 'bb' ? -45 - R() * 20 : von === 'voraus' ? (R() - .5) * 10 : 160;
-    F.scene.push({k: 'schiff', idx, fz, rb: rb0, d0: extra.nah ? .9 : 2.2, d1: extra.kollision ? .12 : .45, t0: now, dur, drift: extra.drift || 0, aspect: extra.aspect || (von === 'stb' ? 'rot' : von === 'bb' ? 'gruen' : extra.gegen ? 'beide' : 'heck'), blau: extra.blau, ...extra});
+    const fog = L.wx === 'nebel';
+    F.scene.push({k: 'schiff', idx, fz, rb: rb0, d0: fog ? .5 : extra.nah ? .9 : 2.2, d1: extra.kollision ? .12 : fog ? .22 : .45, t0: now, dur, drift: extra.drift || 0, aspect: extra.aspect || (von === 'stb' ? 'rot' : von === 'bb' ? 'gruen' : extra.gegen ? 'beide' : 'heck'), blau: extra.blau, ...extra});
   };
   if (task.typ === 'ev') {
     if (sz.typ === 'schiff') ship(sz.fz, sz.von, {kollision: sz.kollision, nah: sz.nah, gegen: sz.gegen, blau: sz.blau, aspect: sz.zeige === 'rot' ? 'rot' : sz.zeige === 'gruen' ? 'gruen' : null, drift: sz.peil ? (task.konst = R() < .55, task.konst ? 0 : (R() < .5 ? -1 : 1) * (14 + R() * 10)) : 0});
@@ -544,7 +548,7 @@ function zeigeAufgabe(idx, wieder) {
   const order = L.card.order || (L.card.order = shuffle(A.opts ? A.opts.map((_, i) => i) : []));
   const hilfe = F.st.hilfe >= 1.5 && A.opts && A.opts.length > 2 && !A.signal;
   $('#twtask').innerHTML = `<div class="tw-task"><h3><span>${esc(A.titel)}${task.kombi ? ' ⚡' : ''}</span>${A.zeit ? `<span class="small" id="twsek">${Math.ceil(L.card.rest)} s</span>` : ''}</h3>${A.zeit ? '<div class="tw-bar" id="twbar"><i style="width:100%"></i></div>' : ''}
-    ${A.img ? A.img.map(s => `<img class="tw-img" src="${s}" alt="">`).join('') : ''}<p>${NAV.linkTerms(A.q)}</p>
+    ${A.img ? A.img.map(s => `<img class="tw-img" src="${s}" alt="">`).join('') : ''}<p>${NAV.linkTerms(A.q)}</p>${A.sig ? `<div class="tw-seq">${esc(A.sig.replace(/mindestens\s*/, ''))}</div><button class="btn small ghost" id="twplay" style="margin-bottom:6px">▶ Signal anhören</button>` : ''}
     ${A.signal ? `<div class="tw-seq" id="twseq">${esc(F.hornSeq) || '&nbsp;'}</div><div class="tw-horn"><button class="btn" data-h="●">● kurz</button><button class="btn" data-h="▬">▬ lang</button><button class="btn ghost" data-h="x">⌫</button></div><button class="btn lamp wide" id="twsig">Signal fertig</button>`
       : A.offen ? `<button class="btn lamp wide" id="twauf">Antwort aufdecken</button>` : `<div class="tw-opts">${order.map(i => `<button class="btn" data-o="${i}">${esc(A.opts[i])}</button>`).join('')}</div>`}
     ${hilfe ? '<button class="btn ghost small" id="twtipp" style="margin-top:6px">💡 Crew fragen (streicht eine falsche Antwort)</button>' : ''}<div id="twfb"></div></div>`;
@@ -553,6 +557,7 @@ function zeigeAufgabe(idx, wieder) {
   app.querySelectorAll('[data-h]').forEach(b => b.onclick = () => { const h = b.dataset.h; if (h === 'x') F.hornSeq = F.hornSeq.split(' ').slice(0, -1).join(' '); else { F.hornSeq = (F.hornSeq ? F.hornSeq + ' ' : '') + h; AUD.horn(h); } L.card.seq = F.hornSeq; $('#twseq').innerHTML = esc(F.hornSeq) || '&nbsp;'; });
   if ($('#twsig')) $('#twsig').onclick = () => antwort(norm(F.hornSeq) === norm(A.signal) ? 'ok' : 'falsch');
   if ($('#twauf')) $('#twauf').onclick = () => offenAufdecken(A);
+  if ($('#twplay')) $('#twplay').onclick = () => AUD.horn(A.sig);
   if ($('#twtipp')) $('#twtipp').onclick = e => { e.target.remove(); const wrong = [...app.querySelectorAll('[data-o]')].filter(b => +b.dataset.o !== A.ok && !b.disabled); if (wrong.length) { const b = wrong[Math.random() * wrong.length | 0]; b.disabled = true; b.style.textDecoration = 'line-through'; } };
 }
 const karte = k => { try { return (typeof KARTEN !== 'undefined' && KARTEN[k]) || null; } catch (e) { return null; } };
@@ -611,7 +616,7 @@ function frageAufgabe(task, idx) {
   const L = F.L;
   if (!task.key) {
     const used = new Set(L.fragen || []), sch = task.schein;
-    const pool = sch === 'sks' ? SKS_DATA.filter(q => !q.sketch && q.a) : DATA.filter(q => !q.skip);
+    const pool = sch === 'sks' ? SKS_DATA.filter(q => !q.sketch && q.a && !(SKSMC[q.id] && SKSMC[q.id].bild)) : DATA.filter(q => !q.skip);
     const key = q => sch === 'sks' ? 'sks:' + q.id : 'sbf:' + q.n;
     let cand = pool.filter(q => !used.has(key(q)) && (TAGS[key(q)] || []).some(x => task.tags.includes(x)));
     if (cand.length < 4) cand = pool.filter(q => !used.has(key(q)));
@@ -624,7 +629,7 @@ function frageAufgabe(task, idx) {
   if (s === 'sbf') {
     const q = DATA.find(x => String(x.n) === id); if (!q) return null;
     const card = karte(task.key);
-    return {titel: titel + ' (SBF See ' + q.n + ')', q: esc(q.q), img: q.img, opts: q.a.slice(), ok: 0, expl: card ? card.e : '', ref: task.key, frage: {s: 'sbf', n: q.n}, amtHtml: `<div class="amt small"><b>Amtlich richtig:</b> ${esc(q.a[0])}</div>`};
+    return {titel: titel + ' (SBF See ' + q.n + ')', q: esc(q.q), img: q.img, sig: q.sig, opts: q.a.slice(), ok: 0, expl: card ? card.e : '', ref: task.key, frage: {s: 'sbf', n: q.n}, amtHtml: `<div class="amt small"><b>Amtlich richtig:</b> ${esc(q.a[0])}</div>`};
   }
   const q = SKS_DATA.find(x => x.id === id); if (!q) return null;
   const mc = SKSMC[id], amt = `<div class="amt small"><b>Amtliche Antwort:</b><br>${esc(cleanA(q.a)).replace(/\n/g, '<br>')}</div>`;
@@ -670,6 +675,15 @@ function genAufgabe(task) {
     const opts = [fz].concat(andere).map(f => f.name);
     return {titel: nacht ? 'Lichter bei Nacht' : 'Signalkörper', q: nacht ? 'Voraus Lichter. Was für ein Fahrzeug ist das? (Fernglas hilft.)' : 'Ein Fahrzeug zeigt Signalkörper. Was für eines ist das? (Fernglas hilft.)', opts, ok: 0,
       expl: `Das ist ein ${fz.name}.`, ref: nacht ? fz.ref : fz.tagRef};
+  }
+  if (g === 'kurs') {
+    const wp = F.e.wp, a = wp[task.leg], b = wp[task.leg + 1]; if (!b) return null;
+    const rwK = Math.round(NAV.kursDist({lat: a[0], lon: a[1]}, {lat: b[0], lon: b[1]}).k), mw = NAV.mw(), mwK = n360(rwK - mw);
+    let m = mwK; for (let i = 0; i < 4; i++) m = n360(mwK - NAV.ablenkung(m)); const abl = Math.round(((mwK - m + 540) % 360) - 180), mgK = n360(Math.round(m));
+    const fd = v => String(Math.round(n360(v)) % 360).padStart(3, '0') + '°', falsch1 = n360(rwK + mw - abl), falsch2 = rwK;
+    const opts = [fd(mgK), fd(falsch1 === mgK ? falsch1 + 6 : falsch1), fd(falsch2 === mgK || falsch2 === falsch1 ? falsch2 + 10 : falsch2)];
+    return {titel: 'Kurs selbst absetzen', q: `Gleich ändern wir den Kurs. In der Karte misst du für den nächsten Abschnitt <b>rwK ${fd(rwK)}</b>. Missweisung ${NAV.fmtSigned(mw)} (${K.mw.dir === 'E' ? 'Ost' : 'West'}), Ablenkung laut Tabelle ${NAV.fmtSigned(abl)}. Welchen Magnetkompasskurs (MgK) steuerst du?`, opts, ok: 0,
+      expl: `rwK ${fd(rwK)} − Mw (${NAV.fmtSigned(mw)}) = mwK ${fd(mwK)}; mwK − Abl (${NAV.fmtSigned(abl)}) = MgK ${fd(mgK)}. Östliche Werte zieht man auf dem Weg von rw nach Mg ab.`};
   }
   if (g === 'strom') {
     const o = OBJ(task.obj), rw = task.rw != null ? task.rw : 90, wohin = core.richtung(rw, true), gegen = core.richtung(rw + 180, true), quer = core.richtung(rw + 90, true);
@@ -859,7 +873,7 @@ function draw(time, dt) {
   const now = time;
   F.scene = F.scene.filter(s => !s.weg || now - s.weg < 6);
   F.scene.filter(s => s.k === 'schiff').map(s => ({s, rb: rbOf(s, now), d: dOf(s, now)})).sort((a, b) => b.d - a.d).forEach(({s, rb, d}) => {
-    if (Math.abs(rb) > fov / 2 + 8 || (nebel && d > .45)) return;
+    if (Math.abs(rb) > fov / 2 + 8 || (nebel && d > .55)) return;
     drawShip(s, X(rb), Y(d), Math.max(2.4, 14 / (d + .1) * zoom * .6), nacht || (day === 'abend' && d > 1), time);
   });
   F.scene.filter(s => s.k === 'mob').forEach(s => { const x = X(-12), y = Y(.06 + (now - s.t0) * .004); cx.fillStyle = '#e8562c'; cx.beginPath(); cx.arc(x, y, 6, 0, 7); cx.fill(); cx.fillStyle = '#f2c9a0'; cx.beginPath(); cx.arc(x + 1, y - 7, 4, 0, 7); cx.fill(); });
@@ -963,5 +977,34 @@ function drawBoat(W, H, hy, time, nacht) {
   const wrel = ((((L.w && L.w.von) || 225) - F.heading) + 360) % 360;
   cx.save(); cx.translate(W - 26, 26); cx.fillStyle = 'rgba(0,0,0,.35)'; cx.beginPath(); cx.arc(0, 0, 17, 0, 7); cx.fill(); cx.rotate((wrel + 180) * RAD); cx.fillStyle = '#ffd25a'; cx.beginPath(); cx.moveTo(0, -13); cx.lineTo(5, 6); cx.lineTo(0, 2); cx.lineTo(-5, 6); cx.fill(); cx.restore();
 }
+/* ---------- SKS als Multiple Choice in der Lernrunde (5.14, T5) ----------
+   10 Fragen, bevorzugt fällige und wackelige; nach jeder Antwort die volle amtliche Antwort. Zählt im SKS-Lernstand. */
+TOERN.mcRunde = function () {
+  const b = S.course === 'sks' ? S.qs : ((S.courses || {}).sks || {}).qs || {};
+  const pool = SKS_DATA.filter(q => !q.sketch && SKSMC[q.id] && !SKSMC[q.id].offen);
+  const w = q => { const s = b[q.id]; return !s ? 2 : s.b <= 1 ? 5 : s.d + Math.pow(2, s.b) <= today() ? 3 : s.b >= 4 ? .4 : 1; };
+  const qs = []; const rest = pool.slice();
+  while (qs.length < 10 && rest.length) { const q = weighted(Math.random, rest, w); qs.push(q); rest.splice(rest.indexOf(q), 1); }
+  let i = 0, ok = 0;
+  const zeig = () => {
+    if (i >= qs.length) {
+      gameShell('Ankreuz-Runde', `<div class="card"><h2 style="margin:0 0 6px">${ok} von ${qs.length} richtig</h2><p class="small muted" style="margin:0">Falsche Fragen kommen in deine Wiederholung. Die Prüfung bleibt mit freien Antworten, hier übst du das Wiedererkennen.</p></div><div class="row"><button class="btn lamp" id="mcneu">Noch eine Runde</button><button class="btn ghost" id="mczu">Zurück</button></div>`);
+      $('#mcneu').onclick = () => TOERN.mcRunde(); $('#mczu').onclick = () => setTab('cabin'); $('#gback').onclick = () => setTab('cabin'); return;
+    }
+    const q = qs[i], m = SKSMC[q.id], opts = shuffle([m.r].concat(m.f));
+    gameShell('Ankreuz-Runde', `<p class="small muted" style="margin:6px 0">Frage ${i + 1} von ${qs.length} · SKS ${esc(q.id)}</p><div class="card"><p style="margin:0 0 10px">${esc(q.q)}</p><div class="tw-opts">${opts.map((o, k) => `<button class="btn" data-k="${k}">${esc(o)}</button>`).join('')}</div><div id="mcfb"></div></div>`);
+    $('#gback').onclick = () => setTab('cabin');
+    app.querySelectorAll('[data-k]').forEach(btn => btn.onclick = () => {
+      const r = opts[+btn.dataset.k] === m.r; if (r) ok++;
+      app.querySelectorAll('[data-k]').forEach(x => { x.disabled = true; if (opts[+x.dataset.k] === m.r) x.classList.add('richtig'); else if (x === btn) x.classList.add('falsch'); });
+      AUD.sfx(r ? 'richtig' : 'falsch', {vol: r ? .45 : .35});
+      try { if (S.course === 'sks') record(q.id, r); else if (!r) markWrong({s: 'sks', n: q.id}); } catch (e) {}
+      const card = karte('sks:' + q.id);
+      $('#mcfb').innerHTML = `<div class="tw-fb">${r ? '<b class="nok">Richtig!</b>' : '<b class="nno">Nicht richtig.</b>'}<div class="amt small"><b>Amtliche Antwort:</b><br>${esc(cleanA(q.a)).replace(/\n/g, '<br>')}</div>${card && card.m ? `<p class="small">💡 ${esc(card.m)}</p>` : ''}<button class="btn lamp wide" id="mcweiter">Weiter</button></div>`;
+      $('#mcweiter').onclick = () => { AUD.click(); i++; zeig(); };
+    });
+  };
+  zeig();
+};
 TOERN.debug = () => F;
 })(typeof window !== 'undefined' ? window : globalThis);
