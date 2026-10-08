@@ -301,6 +301,8 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat .ovbtn{position:absolute;left:10px;top:10px;z-index:4;background:rgba(255,250,240,.94);color:#2a2019;box-shadow:0 2px 0 rgba(0,0,0,.2)}
 .scene.boat .labels{pointer-events:none}
 .scene.boat .pano svg{height:100%;width:auto;aspect-ratio:400/380;max-width:none}
+.phone .hoerer{transition:transform .3s;transform-origin:15px 6px}.phone.ab .hoerer{transform:translate(8px,-7px) rotate(-18deg)}
+.harms{position:fixed;inset:0;z-index:63;background:rgba(20,14,10,.5);display:flex;align-items:flex-end;justify-content:center;padding:16px}.harms .hbox{background:#fffaf0;color:#2a2019;border-radius:18px;padding:14px;max-width:440px;width:100%;display:flex;gap:10px;align-items:flex-end;animation:harmsIn .9s ease-out both;box-shadow:0 8px 24px rgba(0,0,0,.35)}.harms .hbox>svg{width:96px;flex:none}.harms p{margin:0 0 10px}@keyframes harmsIn{from{transform:translateX(115%)}to{transform:none}}
 .einf{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:62;max-height:60svh;overflow:auto;background:rgba(30,24,18,.94);color:#fffaf0;padding:12px 14px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35)}.einf p{margin:6px 0}.einf .muted{color:#e8dcc4}.einf .row{justify-content:flex-end;margin-top:8px}.einf .btn.ghost{color:#fffaf0;border-color:rgba(255,250,240,.6);background:transparent}
 .bgpill{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(30,24,18,.92);color:#fffaf0;padding:10px 12px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);font-size:.92rem;max-width:520px;margin:0 auto}
 .scene.cabin.seated .seatglow{opacity:.5;transition:opacity .4s}
@@ -502,7 +504,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.39';
+  window.__ver = '4.40';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1056,7 +1058,7 @@ const CABIN_SPOTS = [
   {id: 'funk', label: 'Funk', x: 13, y: 56},
   {id: 'karte', label: 'Kartentisch', x: 47, y: 71.5, fn: 1},
   {id: 'logbuch', label: 'Logbuch', x: 66, y: 71.5},
-  {id: 'pruefung', label: 'Prüfung', x: 98, y: 55, side: 'r'},
+  {id: 'telefon', label: 'Telefon: Kapitän Harms', x: 63.3, y: 24.4, fn: 1},
   {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86, fn: 1},
   {id: 'hocker', label: 'Hinsetzen', x: 54, y: 88, fn: 1},
 ];
@@ -1097,6 +1099,8 @@ function cabinScene(crew) {
         <g class="pot"><rect x="50" y="44" width="18" height="12" rx="2" fill="#8a8a8a"/><path d="M48 46 h22" stroke="#5c5c5c" stroke-width="2"/></g><g class="pot"><rect x="78" y="40" width="14" height="16" rx="3" fill="#c2473b"/><path d="M92 46 h5" stroke="#7a2a22" stroke-width="2"/></g>
         <rect x="36" y="34" width="78" height="28" fill="transparent"/></g></g>
       <g class="baro" data-tap="baro"><circle cx="258" cy="56" r="13" fill="#f7f2e6" stroke="#c8962e" stroke-width="3"/><path d="M249 60 A10 10 0 0 1 267 60" stroke="#c2473b" stroke-width="1.2" fill="none"/><path class="bneedle" d="M258 56 L265 49" stroke="#2b2118" stroke-width="1.8" stroke-linecap="round"/><circle cx="258" cy="56" r="1.6" fill="#2b2118"/><rect x="242" y="40" width="32" height="32" fill="transparent"/></g>
+      <g class="phone" aria-hidden="true"><g transform="translate(238 74)"><rect width="30" height="34" rx="3" fill="#7a4e33" stroke="#4a2e1d" stroke-width="1.5"/><rect x="4" y="11" width="22" height="19" rx="4" fill="#2b2118"/><circle cx="15" cy="21" r="6.5" fill="#e8dcc4"/><circle cx="17.9" cy="17.8" r=".9" fill="#2b2118"/><circle cx="15.2" cy="16.7" r=".9" fill="#2b2118"/><circle cx="12.4" cy="17.6" r=".9" fill="#2b2118"/><circle cx="10.8" cy="20.1" r=".9" fill="#2b2118"/><circle cx="11.2" cy="23.0" r=".9" fill="#2b2118"/><circle cx="13.4" cy="25.0" r=".9" fill="#2b2118"/><circle cx="16.3" cy="25.1" r=".9" fill="#2b2118"/><circle cx="18.7" cy="23.3" r=".9" fill="#2b2118"/><circle cx="15" cy="21" r="1.6" fill="#c2473b"/>
+        <g class="hoerer"><path d="M3 8 Q15 1 27 8" stroke="#2b2118" stroke-width="5" fill="none" stroke-linecap="round"/></g><path d="M27 28 q6 3 2 8 q-4 5 2 9" stroke="#2b2118" stroke-width="1.2" fill="none"/></g></g>
       <g class="clockwrap" data-tap="clock"><g class="clock" transform="translate(134 46)"><circle r="16" fill="#f7f2e6" stroke="#8a6420" stroke-width="3"/>
         <path d="M0 -12 V-10 M12 0 H10 M0 12 V10 M-12 0 H-10" stroke="#8a6420" stroke-width="1.5"/>
         <path d="M0 0 V-7" stroke="#2b2118" stroke-width="2.2" stroke-linecap="round" transform="rotate(${hr})"/>
@@ -1362,7 +1366,14 @@ const AUD = (() => {
     g.gain.value = 0; o.connect(g); g.connect(bus.sfx); const t = ctx.currentTime;
     g.gain.linearRampToValueAtTime(.12, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + .12); o.start(t); o.stop(t + .13);
   }
-  return {files: FILES, hush, squeak, crash, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  /* Freizeichen wie im deutschen Telefonnetz: 425 Hz, 1 s Ton, dann Pause */
+  function tuut(n = 2) {
+    init(); if (!ctx) return new Promise(r => setTimeout(r, 1500));
+    let t = ctx.currentTime + .1;
+    for (let i = 0; i < n; i++) { const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = 425; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.18, t + .03); g.gain.setValueAtTime(.18, t + 1); g.gain.linearRampToValueAtTime(0, t + 1.05); o.connect(g); g.connect(bus.sfx); o.start(t); o.stop(t + 1.1); t += 2.2; }
+    return new Promise(r => setTimeout(r, (t - ctx.currentTime) * 1000));
+  }
+  return {files: FILES, hush, squeak, crash, tuut, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>
@@ -1429,6 +1440,7 @@ function packLines(withEpisodes) {
   const push = (c, t) => { t = pclean(t || ''); if (!c || !t) return; const k = c + '|' + t; if (seen.has(k)) return; seen.add(k); out.push({cid: c, t}); };
   /* Sätze, die fest zu einer Figur gehören */
   Object.entries(LINES).forEach(([id, o]) => Object.values(o).forEach(v => [].concat(v).forEach(t => push(id, t))));
+  HARMS.kommt.forEach(t => push('kroeger', t));
   Object.entries(GRUSS).forEach(([id, l]) => { MOIN.forEach(t => push(id, t)); l.forEach(t => push(id, t)); });
   Object.entries(TEASE).forEach(([id, o]) => (o[ageGroup()] || []).forEach(t => push(id, t)));
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
@@ -1448,6 +1460,7 @@ function packLines(withEpisodes) {
       Object.values(CABIN).forEach(list => list.forEach(l => add(l.s, l.t)));
       Object.values(EGG_LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
       (nv.lektionen || []).forEach(l => (l.crew || []).forEach(c => add(c.s, c.t)));
+      Object.entries(HARMS.holen).forEach(([r, t]) => add(r, t));
       Object.values(INTROS.e || {}).forEach(x => x.l.forEach(l => add(l.s, l.t)));
       if (window.TOERN && TOERN.LINES) Object.values(TOERN.LINES).forEach(list => list.forEach(l => add(l.s, l.t)));
       if (withEpisodes) {
@@ -2764,13 +2777,13 @@ function renderCabin() {
   $('#crs').onclick = courseSheet;
   $('#pathgo').onclick = () => { AUD.unlock(); AUD.click(); next ? next.run() : extraRound(); };
   $('#totalk').onclick = () => { AUD.unlock(); setTab('talk'); };
-  $('#toexam').onclick = examIntro; $('#togames').onclick = () => { AUD.unlock(); gamesHub(); }; $('#tofunk').onclick = () => setTab('funk'); $('#tolex').onclick = () => { returnTo = 'cabin'; renderLexikon(); }; $('#tobooks').onclick = chaptersSheet; $('#tolog').onclick = () => setTab('log');
+  $('#toexam').onclick = () => harmsKommt(); $('#togames').onclick = () => { AUD.unlock(); gamesHub(); }; $('#tofunk').onclick = () => setTab('funk'); $('#tolex').onclick = () => { returnTo = 'cabin'; renderLexikon(); }; $('#tobooks').onclick = chaptersSheet; $('#tolog').onclick = () => setTab('log');
   const cd = $('#cdsave'); if (cd) cd.onclick = () => { S.profile.exam = $('#cdate').value || S.profile.exam; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.plan = null; save(); $('#datecard').remove(); toast('Prüfungsdatum gespeichert.'); };
   app.querySelectorAll('[data-age]').forEach(b => b.onclick = () => { S.profile.ageGroup = b.dataset.age; save(); const c = $('#agecard'); if (c) c.remove(); toast('Danke! Die Crew weiß jetzt Bescheid.'); });
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: chaptersSheet, plan: planSheet, deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), pruefung: examIntro, kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: chaptersSheet, plan: planSheet, deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => toast('Das Knotenbrett wartet noch auf die Knotenfotos.'), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -3211,9 +3224,9 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
 }
 
 /* ---------- Probeprüfung mit Kapitän Harms ---------- */
-function examIntro() {
+function examIntro(von) {
   subScreen(); place = 'exam'; soundFor('exam');
-  if (AUD.ready) AUD.sfx('klopfen', {vol: .8}).then(() => AUD.sfx('tuerAuf', {vol: .5}));
+  if (von !== 'harms' && AUD.ready) AUD.sfx('klopfen', {vol: .8}).then(() => AUD.sfx('tuerAuf', {vol: .5}));
   const open = COURSE.kind === 'open'; let mode = 'real';
   app.innerHTML = `<div class="qhead"><div class="tag">Probeprüfung · ${esc(COURSE.short)}</div><button class="btn small ghost" id="back">Zurück</button></div>
     <div class="result">${charSVG('kroeger')}<div><h1 style="margin:0">Kapitän Harms prüft</h1><p class="muted" style="margin:4px 0 0">${open ? '30 Fragen mit freien Antworten, je bis zu 2 Punkte. 90 Minuten.' : esc(COURSE.exam.desc || '')}</p></div></div>
@@ -4118,6 +4131,27 @@ function gamesHub() {
   document.querySelectorAll('[data-gi]').forEach(b => b.onclick = () => { const g = GAMES[+b.dataset.gi]; if (g.ok && !g.ok()) return toast(g.n + ' ' + g.why + '.'); AUD.click(); LOG.add('spiel', g.n); returnTo = 'cabin'; g.f(); });
   document.querySelectorAll('[data-lb]').forEach(b => b.onclick = () => { AUD.click(); leaderSheet(b.dataset.lb); });
   einfuehrung('spiele');
+}
+/* ---------- 5.12: Kapitän Harms holt dich zur Probeprüfung ab ----------
+   Altes Telefon in der Kajüte (Freizeichen), oder Käpt'n bzw. Matrose/Matrosin holen ihn. Feste Sätze ohne Namen. */
+const HARMS = {
+  kommt: ['Wer klingelt mich da aus der Koje? Ach, du. Na dann: Bleistift spitzen und mitkommen.', 'Probeprüfung? Jetzt gleich? Gut. Den Bogen hab ich schon unterm Arm.', 'So, Schluss mit Teetrinken. Mitkommen, und keine Ausreden.'],
+  holen: {K: 'Ich hol ihn. Aber beschwer dich nachher nicht, wenn er wieder streng guckt.', M: 'Ich lauf schnell rüber und klopf bei ihm. Ich drück dir die Daumen.'},
+};
+async function harmsKommt(via) {
+  if ($('#harms')) return;
+  closeSheet(); AUD.unlock(); VOX.stop('Harms'); LOG.add('prüfung', 'Harms gerufen' + (via ? ' über ' + via : ' per Telefon'));
+  const wait = ms => new Promise(r => setTimeout(r, ms)), ph = $('.scene.cabin .phone');
+  if (via) await VOX.say(cid(via), HARMS.holen[via], 'fixed');
+  else { if (ph) ph.classList.add('ab'); await AUD.tuut(2); if (ph) ph.classList.remove('ab'); }
+  AUD.sfx('schritte', {vol: .4, dur: 1.2}); await wait(700); AUD.sfx('klopfen', {vol: .8}); await wait(700); AUD.sfx('tuerAuf', {vol: .5});
+  const line = HARMS.kommt[Math.random() * HARMS.kommt.length | 0];
+  const w = document.createElement('div'); w.id = 'harms'; w.className = 'harms';
+  w.innerHTML = `<div class="hbox">${charSVG('kroeger')}<div><p><b>${esc(CREW.kroeger.short)}:</b> ${esc(line)}</p><div class="row"><button class="btn small ghost" id="hno">Doch nicht</button><button class="btn lamp" id="hgo">Mitgehen</button></div></div></div>`;
+  document.body.appendChild(w);
+  const zu = () => { VOX.stop('Harms'); w.remove(); };
+  $('#hno').onclick = zu; $('#hgo').onclick = () => { zu(); examIntro('harms'); };
+  VOX.say('kroeger', line, 'fixed');
 }
 /* ---------- 5.10: Einführung beim ersten Öffnen einer Funktion ----------
    Feste Sätze aus data/einfuehrungen.json, überspringbar. S.intros[id] merkt, was schon lief. Gibt ein Promise zurück (fertig oder übersprungen). */
@@ -5079,7 +5113,7 @@ function todayPath() {
     {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'), done: p.unit,
       run: () => next ? startUnit(next) : trapRound(doneOpts('unit'))},
     {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge', done: p.extra,
-      run: () => examDue ? examIntro() : setTab('funk')},
+      run: () => examDue ? harmsKommt() : setTab('funk')},
   ];
 }
 function warmup(opts = {}) {
@@ -5171,8 +5205,8 @@ function charMenu(cidv) {
   if (cidv === 'backbord') meow(); else if (cidv === 'klabauter') AUD.sfx('papagei', {vol: .5}); else AUD.click();
   const head = `<div class="sheethead">${charSVG(cidv)}<div><h2 style="margin:0">${esc(c.short)}</h2><p class="small muted" style="margin:0">${esc(c.blurb)}</p></div></div><div id="msay" class="menusay hidden"></div>`;
   let items = '';
-  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten');
-  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + (S.course === 'sks' ? menuBtn('mc', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten zur Auswahl') : '') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('tap', 'Sag was');
+  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung');
+  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + (S.course === 'sks' ? menuBtn('mc', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten zur Auswahl') : '') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung') + menuBtn('tap', 'Sag was');
   if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '') + menuBtn('tap', 'Sag was');
   const w = sheet(head + `<div class="menu">${items}</div>`);
   const say = (t, kind = 'live') => { const m = $('#msay'); m.classList.remove('hidden'); m.textContent = t; AUD.unlock(); VOX.stop('Menü'); VOX.say(cidv, t, kind); };
@@ -5190,6 +5224,7 @@ function charMenu(cidv) {
       w.querySelectorAll('[data-m^="t:"]').forEach(x => x.onclick = () => { closeSheet(); const t = TOPICS.find(tt => tt.id === x.dataset.m.slice(2)); showLesson(t, () => setTab('cabin')); });
     }
     if (m === 'talk') { closeSheet(); startTalk(); }
+    if (m === 'harms') { closeSheet(); harmsKommt(role); }
     if (m === 'quiz') { closeSheet(); reviewSession('Abfrage von ' + c.short); }
     if (m === 'traps') { closeSheet(); trapRound(); }
     if (m === 'mc') { closeSheet(); returnTo = 'cabin'; loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Die Ankreuz-Runde ließ sich nicht laden. Prüf dein Internet.')); }

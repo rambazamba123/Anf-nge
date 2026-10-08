@@ -102,6 +102,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `renderCabin`, `cabinScene`, `CABIN_SPOTS` (`fn` = vom Fernglas markiert), `SPOT`, `TAP`
   - Erstbesuch: `cabinWelcome` (Texte `CABIN`, SKS-Quiz, `fahrplanSheet`)
   - Hocker: `bgSit`
+  - Prüfer: `harmsKommt(via)` (Telefon `telefon` oder Crew-Menü „Hol Kapitän Harms“), Sätze `HARMS`, danach `examIntro('harms')`
 - **Easter-Eggs:**
   - Register `EGGS`, Fund melden mit `foundEgg(id)` → `S.eggs`, Anzeige `eggCard`
   - Sätze `EGG_LINES` (über `sayEgg`), `FLAG_ART`, `glasenNow`, `wxOverride`
@@ -508,7 +509,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
   - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
   - [x] L3d 5.11 Navi-Prüfung und SKS-Navi (v4.39: Rechenproben ohne Fehler; Beschriftung wächst beim Herauszoomen mit (`--lz`), Kennungen und Tiefen erst ab mittlerem Zoom; Folgefehler in der Gesamtaufgabe (`folge`); Ablenkungstabelle passt ins Hochformat; neu L10 „SKS: Peilverfahren“ (`versegelung`, `doppel`, `peilAbstand`) und L11 „SKS: Kartenaufgabe“ (`sksGesamt`, 5 von 7); Fibel +2 Begriffe)
-  - [ ] L3e 5.12 Prüfer holt ab
+  - [x] L3e 5.12 Prüfer holt ab (v4.40: altes Telefon an der Kajütenwand, Spot `telefon` (Fernglas), Freizeichen `AUD.tuut`, `harmsKommt(via)` mit Klopfen, Tür, Spruch `HARMS`; Käpt'n und Matrose/Matrosin können ihn im Menü holen; Tür-Zugang entfernt)
   - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)
   - [ ] L3g 5.15 Technik und Rauchtest
 - [x] 5.6 Törn-Light (v4.22–4.23; seit v4.33 durch Törn 2.0 ersetzt, Code aus navi.js entfernt)

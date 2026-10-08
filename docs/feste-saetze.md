@@ -32,3 +32,6 @@ Alle Sätze stehen in `data/einfuehrungen.json` (Kartentisch, Törn, Spielekiste
 
 ## v4.39 – 5.11 SKS-Stufe am Kartentisch
 Neue Crew-Sätze der Lektionen L10 „SKS: Peilverfahren“ und L11 „SKS: Kartenaufgabe“ in `data/navi.json` (je 4 Sätze, über `packLines` erfasst).
+
+## v4.40 – 5.12 Kapitän Harms holt ab
+In `HARMS` (index.html): drei Sprüche für Kapitän Harms (`kroeger`) und je ein Satz für Käpt'n und Matrose/Matrosin, wenn sie ihn holen.
