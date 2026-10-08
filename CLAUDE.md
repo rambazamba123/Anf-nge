@@ -59,6 +59,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `ai()` zählt `S.kiUse` {day, n}; `KI_LIMIT` (0 = aus) für das spätere Tageslimit
   - Sprech-Arten: `fixed` (fester Satz, kommt ins Paket), `story`, `live` (KI-Antwort), `local` (wechselnder App-Text, nie ElevenLabs)
   - Entwickler-Werkzeuge `.dev`, `devOn()` (an bei ElevenLabs-Schlüssel oder `S.cfg.dev`)
+- **Einführungen (5.10):** `einfuehrung(id)` liest `INTROS` (`data/einfuehrungen.json`), merkt `S.intros[id]`, gibt ein Promise zurück (der Hocker wartet darauf)
 - **Fragekarten:** `data/karten-sbf.json`, `karten-bin.json`, `karten-sks.json` ({k: {Schlüssel: {e, m, f}}}), Schlüssel `sbf:n`, `bin:n`, `sks:<id>`
   - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (grauer Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
 - **Stimmenpaket:** `PACK.voices` (Manifest legt die Stimmen fest), `VOX.voiceOf`, `packLines` (alle Crews), `packVoices`, `downloadPack` (ZIP-Teile unter 20 MB plus `geschichten.json`), `buildVoicePack`, `exportClips`
@@ -93,7 +94,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
   - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
 - **Deck:**
-  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht, Antippen zoomt) und `longBoatScene` (1200×640, wischen)
+  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht = Übermenü, kein Wischen, Knopf „An Bord gehen“, darunter das Rennen `courseCard`) und `longBoatScene` (Nahansicht nur Deck, viewBox 0 30 1200 305, wischen; Steuerrad startet den Törn)
   - Hilfen: `ovToDetail`, `bindPano(pano, key, centerX)`
   - Eggs: `startEgg` mit Handlern je `data-egg`
   - Fernglas: `bindFernglas`, `GAME_KEYS`, `BOAT_HINTS` / `DETAIL_HINTS`
@@ -326,7 +327,7 @@ Vorerst nur Wissen aus SBF See und SKS. Binnen, Funk und Pyro kommen später und
 - Die offizielle SKS-Probeprüfung bleibt mit freien Antworten wie bisher.
 
 **Ablauf**
-1. Steuerrad in der Detailansicht an Deck antippen → Törnauswahl. Mehrere Törns, ALLE sofort wählbar. Pro Törn: Name, Stufe, Anzahl Etappen, ungefähre Dauer, empfohlene Scheine, empfohlene Ausrüstung. Ein laufender Törn steht oben als „Fortsetzen“.
+1. Steuerrad in der Detailansicht an Deck antippen → Törnauswahl. **Neu (Nutzer, 09.10.2026):** Es stehen immer die nächsten drei Törns der Liste zur Wahl; geschaffte werden abgehakt (Liste „Geschafft“, dort „Nochmal“) und der nächste rückt nach. Im Törn läuft keine Musik, nur Meer und Wetter. Pro Törn: Name, Stufe, Anzahl Etappen, ungefähre Dauer, empfohlene Scheine, empfohlene Ausrüstung. Ein laufender Törn steht oben als „Fortsetzen“.
    Stufen: Landratte → Leichtmatrose → Seebär → Kap-Hoornier → Klabautermann.
    Törns (eigenes Revier, darf ergänzt werden):
    - Landratte: „Kaffee im Nachbarhafen“, „Fischbrötchen-Fahrt“, „Einmal um die Ansteuerungstonne“
@@ -491,6 +492,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] T5 SKS-Ankreuzrunde in der Lernrunde
   - [x] T6 Balancing (alle Ziele erreicht)
   - [x] T7 altes Gerüst entfernt, Rauchtest `tests/smoke/rauchtest.js`
+  - [x] v4.35: Törnliste zeigt drei offene Törns, geschaffte abgehakt; keine Musik im Törn; Steuerrad statt Pinne an Deck (Übersicht, Nahansicht, Bauteile-Spiel)
   - Offen: Standortbestimmung per Landmarken-Peilung als Aufgabe, Funk-Lagemeldungen als eigene Aufgabe, eigene Geräusche für Wind/Alarm (heute vorhandene Klänge), echte Handyprüfung
 - **Offen (Reihenfolge):**
   1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
@@ -502,9 +504,9 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   7. Datenfehler prüfen (Originalkatalog): SBF 279 (doppelte Antwort), SBF 285 und Binnen 253 (angehängter PDF-Text), SKS nav-92 (Antwort leer), recht-23 (Frage abgeschnitten), „Stand: 01. Juli 2006“-Reste in SKS-Antworten
   8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
 - [ ] Lauf 3 (Nachtrag)
-  - [ ] L3a 5.9 Moin (Netz für ElevenLabs nötig)
-  - [ ] L3b 5.4 zwei Ansichten
-  - [ ] L3c 5.10 Einführungen
+  - [x] L3a 5.9 Moin (v4.37: `MOIN_LANG` „Mooooooooin!“ als fester Satz, Clip wird mit `playBlob(…, dehnen)` auf 0,8× gedehnt, Tonhöhe bleibt; Handy-Test durch den Nutzer offen)
+  - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
+  - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
   - [ ] L3d 5.11 Navi-Prüfung und SKS-Navi
   - [ ] L3e 5.12 Prüfer holt ab
   - [ ] L3f 5.13 Schein-Auswahl (Funk/Pyro später)

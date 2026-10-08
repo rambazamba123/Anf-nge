@@ -307,6 +307,8 @@ TOERN.init = async function () {
   LANDP = K.flaechen.filter(f => f.art === 'land').map(f => f.xy.map(([x, y]) => [(20 + x / 28.45) * CL, 30 - y / 50]));
 };
 TOERN.data = () => D;
+/* Törn-Bildschirm ohne Musik (Meer, Wind und Wetter bleiben) */
+const shell = (title, html) => { gameShell(title, html); AUD.playMusic(null); };
 
 /* ---------- Törnwahl ---------- */
 TOERN.open = async function () {
@@ -314,19 +316,24 @@ TOERN.open = async function () {
   returnTo = 'deck';
   const L = t.lauf, tn = L && D.toerns.find(x => x.id === L.id);
   const has = new Set(t.teile), stand = sc => { const b = sc === S.course ? S : (S.courses || {})[sc] || {}; const q = b.qs || {}; return Object.values(q).filter(x => x.b >= 3).length; };
+  /* Immer die nächsten drei nicht geschafften Törns in Listenreihenfolge; geschaffte werden abgehakt */
+  const geschafft = D.toerns.filter(x => t.schnitt[x.id] != null), offen = D.toerns.filter(x => t.schnitt[x.id] == null).slice(0, 3);
   const card = x => {
     const min = Math.round(x.etappen.length * (D.stufen.find(s => s.id === x.stufe).aufgaben * 26 + 40 + 120) / 60);
     return `<div class="tw-card"><h3>${esc(x.name)}</h3><p class="small muted">${esc(x.text)}</p>
       <div class="tw-tags"><span class="tw-tag">${x.etappen.length} Etappe${x.etappen.length > 1 ? 'n' : ''} · ca. ${min} Min.</span>${x.etappen.some(e => e.tz === 'nacht') ? '<span class="tw-tag">🌙 Nacht</span>' : ''}${x.wetter.includes('nebel') ? '<span class="tw-tag">🌫 Nebel möglich</span>' : ''}${x.wetter.includes('sturm') ? '<span class="tw-tag">🌬 Starkwind</span>' : ''}</div>
       <div class="tw-tags">${x.scheine.map(s => `<span class="tw-tag ${stand(s) > 30 ? 'ok' : 'no'}">Schein: ${SCHEIN[s] || s}</span>`).join('')}${x.ausr.map(a => `<span class="tw-tag ${has.has(a) ? 'ok' : 'no'}">${has.has(a) ? '✓' : '○'} ${esc((D.teile.find(z => z.id === a) || {}).name || a)}</span>`).join('')}</div>
-      <button class="btn lamp small" data-start="${x.id}">Ablegen</button></div>`;
+      ${L && L.id === x.id ? '<p class="small"><b>Läuft gerade, oben fortsetzen.</b></p>' : `<button class="btn lamp small" data-start="${x.id}">Ablegen</button>`}</div>`;
   };
   gameShell('Törn', `<div class="tw-res"><span class="tw-chip">🪙 ${t.kasse} Taler</span><span class="tw-chip">🍞 ${t.prov} Proviant</span><span class="tw-chip">⛽ ${Math.round(t.sprit)} %</span><span class="tw-chip">🔧 ${t.teile.length} Teile</span></div>
     ${L && tn ? `<div class="tw-card" style="border:2px solid var(--lamp,#f0b43e)"><h3>Fortsetzen: ${esc(tn.name)}</h3><p class="small">Etappe ${L.e + 1} von ${tn.etappen.length}${L.phase === 'fahrt' ? ` · noch ${mmss(L.plan.dauer - L.t)}` : ''} · Boot ${Math.round(L.zustand)} %</p>
       <div class="row"><button class="btn lamp" id="twweiter">Weiter</button><button class="btn ghost small" id="twabbruch">Abbrechen (kostet Proviant)</button></div></div>` : ''}
     <div class="row" style="margin:4px 0"><button class="btn small" id="twladen">🛒 Bootsladen</button><button class="btn small ghost" id="twlog">📖 Törn-Logbuch</button></div>
-    <p class="small muted" style="margin:8px 0 0">Alle Törns sind sofort wählbar. Die Stufe sagt, wie hart es wird. Grün heißt: Schein schon gut geübt bzw. Teil an Bord. Ab Seebär kostet jedes fehlende empfohlene Teil zu Beginn jeder Etappe Bootszustand.</p>
-    ${D.stufen.map(s => `<div class="tw-stufe">${esc(s.name)}</div><p class="small muted" style="margin:0">${esc(s.text)}</p>${D.toerns.filter(x => x.stufe === s.id).map(card).join('')}`).join('')}`);
+    <p class="small muted" style="margin:8px 0 0">Drei Törns stehen zur Wahl. Schaffst du einen, wird er abgehakt und der nächste kommt dazu. Grün heißt: Schein schon gut geübt bzw. Teil an Bord. Ab Seebär kostet jedes fehlende empfohlene Teil zu Beginn jeder Etappe Bootszustand.</p>
+    ${D.stufen.filter(s => offen.some(x => x.stufe === s.id)).map(s => `<div class="tw-stufe">${esc(s.name)}</div><p class="small muted" style="margin:0">${esc(s.text)}</p>${offen.filter(x => x.stufe === s.id).map(card).join('')}`).join('')}
+    ${!offen.length ? '<div class="tw-card"><h3>Alle Törns geschafft! ⚓</h3><p class="small">Du kannst jeden noch einmal fahren.</p></div>' : ''}
+    ${geschafft.length ? `<details class="tw-card"><summary><b>✓ Geschafft (${geschafft.length})</b></summary>${geschafft.map(x => `<div class="tw-row"><span>✓ ${esc(x.name)} <span class="small muted">${esc(STUFE_NAME(x.stufe))}</span></span><span>${'⭐'.repeat(t.schnitt[x.id] || 1)} <button class="btn small ghost" data-start="${x.id}">Nochmal</button></span></div>`).join('')}</details>` : ''}`);
+  AUD.playMusic(null);
   app.querySelectorAll('[data-start]').forEach(b => b.onclick = () => { AUD.click(); if (L && !confirm('Der laufende Törn wird abgebrochen und kostet ein Proviantpaket. Neu starten?')) return; if (L) abbrechen(true); starten(b.dataset.start); });
   if ($('#twweiter')) $('#twweiter').onclick = () => { AUD.click(); weiter(); };
   if ($('#twabbruch')) $('#twabbruch').onclick = () => { if (confirm('Törn abbrechen? Ein Proviantpaket geht verloren.')) { abbrechen(); TOERN.open(); } };
@@ -376,7 +383,7 @@ function wetterbericht() {
   const w = L.w, E = core.entscheid(w, L.si, teileSet());
   const opts = [['fahren', 'Auslaufen wie geplant'], ['anders', E.anders], ['bleiben', 'Im Hafen bleiben, morgen ist auch ein Tag']];
   const barom = w.bft >= 6 || (w.spaeter && w.spaeter.bft >= 6) ? '↘ fällt' : w.wx === 'schoen' ? '↗ steigt' : '→ gleich';
-  gameShell(tn.name, `<p class="small muted" style="margin:6px 0">Etappe ${L.e + 1} von ${tn.etappen.length}: <b>${esc(e.von)} → ${esc(e.nach)}</b> · Tag ${L.tag + L.e + 1}</p>
+  shell(tn.name, `<p class="small muted" style="margin:6px 0">Etappe ${L.e + 1} von ${tn.etappen.length}: <b>${esc(e.von)} → ${esc(e.nach)}</b> · Tag ${L.tag + L.e + 1}</p>
     <div class="tw-wx">📻 ${esc(core.bericht(w))}<br><span class="small">Barometer: ${barom}</span></div>
     <p style="margin:8px 0">Skipper, was machen wir heute?</p><div class="tw-opts" id="twent">${opts.map(([k, l]) => `<button class="btn" data-k="${k}">${esc(l)}</button>`).join('')}</div><div id="twentfb"></div>`);
   $('#gback').onclick = () => { save(); setTab('deck'); };
@@ -431,7 +438,7 @@ function fahrt() {
     save();
   }
   const st = D.stufen[L.si];
-  gameShell(tn.name, `<div class="tw-wrap"><div class="tw-hud" id="twhud"></div>
+  shell(tn.name, `<div class="tw-wrap"><div class="tw-hud" id="twhud"></div>
     <div class="tw-view" id="twview"><canvas id="twcv"></canvas></div>
     <div class="tw-ctl"><button class="btn small" id="twfern">🔭 Fernglas</button><button class="btn small" id="twpeil">🧭 Peilen</button><button class="btn small" id="twhorn">📯 Horn</button><button class="btn small ghost" id="twpause">⏸ Pause</button></div>
     <div class="tw-low"><div class="tw-mini" id="twmini"></div><div id="twtask"></div></div></div>`);
@@ -717,14 +724,14 @@ function seenot() {
   LOG.add('törn', `${tn.name}: ${ukw ? 'abgeschleppt' : 'Seenot'}`);
   stopFahrt(); crewSay('seenot', 1);
   t.lauf = null; save();
-  gameShell('Törn beendet', `<div class="card"><h2 style="margin:0 0 6px">${ukw ? '🚤 Abgeschleppt' : '🆘 Seenot'}</h2><p>Das Boot ist zu sehr mitgenommen. ${ukw ? 'Über UKW kam schnell Hilfe, ein Seenotrettungskreuzer schleppt euch in den Hafen.' : sig ? 'Mit der roten Handfackel habt ihr Hilfe gerufen. Die Seenotretter holen euch rein.' : 'Ohne Funk und Signalmittel dauert es lange, bis Hilfe kommt.'}</p>
+  shell('Törn beendet', `<div class="card"><h2 style="margin:0 0 6px">${ukw ? '🚤 Abgeschleppt' : '🆘 Seenot'}</h2><p>Das Boot ist zu sehr mitgenommen. ${ukw ? 'Über UKW kam schnell Hilfe, ein Seenotrettungskreuzer schleppt euch in den Hafen.' : sig ? 'Mit der roten Handfackel habt ihr Hilfe gerufen. Die Seenotretter holen euch rein.' : 'Ohne Funk und Signalmittel dauert es lange, bis Hilfe kommt.'}</p>
     <p class="small">Verlust: ${verlust} Taler und ein Proviantpaket.${insel ? ' Die Rettungsinsel hat Schlimmeres verhindert.' : ''}</p></div>
     ${fehlerListe(L.eRes)}<button class="btn lamp wide" id="twzu">Zur Törnwahl</button>`);
   bindFehler(); $('#twzu').onclick = () => TOERN.open(); $('#gback').onclick = () => setTab('deck');
 }
 function meuterei() {
   const t = T2(); t.prov = Math.max(0, t.prov - 1); const L = t.lauf; t.lauf = null; stopFahrt(); save();
-  gameShell('Törn beendet', `<div class="card"><h2 style="margin:0 0 6px">😤 Die Crew streikt</h2><p>Die Laune ist auf null. Die Crew will heim. Ein Proviantpaket ist futsch.</p></div>${fehlerListe(L.eRes)}<button class="btn lamp wide" id="twzu">Zur Törnwahl</button>`);
+  shell('Törn beendet', `<div class="card"><h2 style="margin:0 0 6px">😤 Die Crew streikt</h2><p>Die Laune ist auf null. Die Crew will heim. Ein Proviantpaket ist futsch.</p></div>${fehlerListe(L.eRes)}<button class="btn lamp wide" id="twzu">Zur Törnwahl</button>`);
   bindFehler(); $('#twzu').onclick = () => TOERN.open();
 }
 function etappeEnde() {
@@ -759,7 +766,7 @@ function nachbesprechung() {
   const fund = L.fund && D.teile.find(x => x.id === L.fund);
   let bonus = 0;
   if (letzte && !L.bonus) { const avg = L.sterne.reduce((a, b) => a + b, 0) / L.sterne.length; bonus = Math.round([20, 40, 70, 110, 170][L.si] * avg / 3); t.kasse += bonus; L.bonus = bonus; t.schnitt[tn.id] = Math.max(t.schnitt[tn.id] || 0, Math.round(avg)); save(); }
-  gameShell('Angekommen', `<div class="card"><h2 style="margin:0 0 6px">${'⭐'.repeat(sterne)}${'☆'.repeat(3 - sterne)} ${esc(e.nach)} erreicht</h2>
+  shell('Angekommen', `<div class="card"><h2 style="margin:0 0 6px">${'⭐'.repeat(sterne)}${'☆'.repeat(3 - sterne)} ${esc(e.nach)} erreicht</h2>
     <p style="margin:0">Etappe ${L.e + 1} von ${tn.etappen.length} · ${ok} von ${n} Aufgaben richtig · ${L.punkte} Punkte</p>
     <p class="small muted" style="margin:6px 0 0">Boot ${Math.round(L.zustand)} % (nach Reparatur) · Laune ${Math.round(L.laune)} · +${L.taler || 0} Taler${L.tank ? ` · getankt für ${L.tank} Taler` : ''}${L.bonus ? ` · Törn-Prämie ${L.bonus} Taler` : ''}</p>
     ${fund ? `<p class="small" style="margin:6px 0 0">🎁 Fundstück: <b>${esc(fund.name)}</b>${fund.art === 'teil' ? ' (gleich verbaut)' : ''}</p>` : ''}</div>
@@ -776,7 +783,7 @@ function laden() {
   const t = T2();
   const row = x => { const own = x.art === 'teil' && t.teile.includes(x.id), cnt = x.art === 'vorrat' ? (x.id === 'proviant' ? t.prov : t.vorrat[x.id] || 0) : 0;
     return `<div class="tw-card"><div class="tw-row"><b>${esc(x.name)}</b><span>${own ? '✓ an Bord' : x.preis + ' Taler'}</span></div><p class="small muted">${esc(x.text)}</p>${x.art === 'vorrat' ? `<p class="small">Vorrat: ${cnt}</p>` : ''}${own ? '' : `<button class="btn small" data-kauf="${x.id}" ${t.kasse < x.preis ? 'disabled' : ''}>Kaufen</button>`}</div>`; };
-  gameShell('Bootsladen', `<div class="tw-res"><span class="tw-chip">🪙 ${t.kasse} Taler</span><span class="tw-chip">⛽ ${Math.round(t.sprit)} %</span></div>
+  shell('Bootsladen', `<div class="tw-res"><span class="tw-chip">🪙 ${t.kasse} Taler</span><span class="tw-chip">⛽ ${Math.round(t.sprit)} %</span></div>
     <p class="small muted">Taler gibt es fürs Lernen (15 je Lerntag mit 10 Antworten) und für Törns. Verbaute Teile siehst du am Boot in der Nahansicht.</p>
     <button class="btn small" id="twtank" ${t.sprit >= 100 || t.kasse < 1 ? 'disabled' : ''}>Volltanken (${Math.ceil((100 - t.sprit) / 4)} Taler)</button>
     <div class="tw-stufe">Verbauen</div>${D.teile.filter(x => x.art === 'teil').map(row).join('')}<div class="tw-stufe">Vorrat</div>${D.teile.filter(x => x.art === 'vorrat').map(row).join('')}`);
@@ -786,7 +793,7 @@ function laden() {
 }
 function logbuch() {
   const t = T2();
-  gameShell('Törn-Logbuch', t.log.length ? t.log.slice().reverse().map(x => `<div class="tw-row"><span class="small">${new Date(x.day * 864e5).toLocaleDateString('de-DE', {day: 'numeric', month: 'short'})} · ${esc(x.t)} · Etappe ${x.e}${x.art === 'seenot' ? ' · Seenot' : x.art === 'abgeschleppt' ? ' · abgeschleppt' : ''}</span><span class="small">${'⭐'.repeat(x.sterne)} ${x.ok}/${x.n}</span></div>`).join('') : '<p class="small muted">Noch keine Etappe gefahren.</p>');
+  shell('Törn-Logbuch', t.log.length ? t.log.slice().reverse().map(x => `<div class="tw-row"><span class="small">${new Date(x.day * 864e5).toLocaleDateString('de-DE', {day: 'numeric', month: 'short'})} · ${esc(x.t)} · Etappe ${x.e}${x.art === 'seenot' ? ' · Seenot' : x.art === 'abgeschleppt' ? ' · abgeschleppt' : ''}</span><span class="small">${'⭐'.repeat(x.sterne)} ${x.ok}/${x.n}</span></div>`).join('') : '<p class="small muted">Noch keine Etappe gefahren.</p>');
   $('#gback').onclick = () => TOERN.open();
 }
 

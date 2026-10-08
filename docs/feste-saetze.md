@@ -26,3 +26,6 @@ Stand v4.34 · Quelle: `data/ereignisse.json` → `crew`. Alle Sätze ohne Namen
 | zuvorsichtig | Matrose/Matrosin | Bei dem Wetter im Hafen bleiben? Da segeln sogar die Möwen. |
 
 Weitere Sprechtexte im Törn (Aufgaben, Seewetterbericht, Erklärungen) werden nicht vorgelesen. Sie wechseln je nach Lage und wären als feste Sätze zu viele.
+
+## v4.38 – 5.10 Einführungen beim ersten Öffnen
+Alle Sätze stehen in `data/einfuehrungen.json` (Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker, SBF See, SKS, SBF Binnen) und werden von `packLines` mitgenommen. Neu ist außerdem das gezogene „Mooooooooin!“ (5.9, v4.37).

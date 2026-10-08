@@ -49,7 +49,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03-kajuete', page, async () => { await ev(page, () => setTab('cabin')); await sleep(700); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
-  await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500); });
+  await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
+    /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
+    if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
+    await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */
@@ -75,9 +78,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if (!await page.$('#twfertig') && !await page.$('#twnext') && !await page.$('#twzu')) throw new Error('keine Nachbesprechung');
   });
 
+  await schritt('14-naechster-toern', page, async () => {
+    await ev(page, () => document.querySelector('#twfertig').click()); await sleep(1500);
+    const ids = await ev(page, () => [...document.querySelectorAll('div.tw-card [data-start]')].map(b => b.dataset.start));
+    if (ids.includes('kaffee') || !ids.includes('leuchtturmwirt')) throw new Error('Liste rückt nicht nach: ' + ids.join(','));
+    if (!await page.$('details.tw-card')) throw new Error('keine Liste „Geschafft“');
+  });
   /* 4. Nacht- und Nebelereignis, Pause und Fortsetzen nach Neuladen */
   await schritt('20-nacht-nebel', page, async () => {
-    await ev(page, () => { S.toern2.prov = 5; S.toern2.lauf = null; save(); openToern(); }); await sleep(1200);
+    await ev(page, () => { S.toern2.prov = 5; S.toern2.lauf = null; TOERN.data().toerns.slice(0, 6).forEach(x => { S.toern2.schnitt[x.id] = 2; }); save(); openToern(); }); await sleep(1200);
     await ev(page, () => document.querySelector('[data-start="nachtfahrt"]').click()); await sleep(4200);
     await ev(page, () => { const L = S.toern2.lauf; L.w = {wx: 'schoen', bft: 3, von: 225, sicht: 'gut', see: .5}; document.querySelector('[data-k="fahren"]').click(); }); await sleep(300);
     await ev(page, () => document.querySelector('#twnext').click()); await sleep(1000);

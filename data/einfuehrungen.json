@@ -1,0 +1,38 @@
+{
+ "about": "5.10: Kurze Einführungen beim ersten Öffnen einer Funktion. Feste Sätze ohne Namen (Stimmenpaket). s = Rolle K (Käpt'n), M (Matrose/Matrosin), T (Bordtier). Gesehen wird in S.intros[id] gemerkt.",
+ "e": {
+  "navi": {"titel": "Kartentisch", "l": [
+   {"s": "K", "t": "Das hier ist der Kartentisch. Hier lernst du, wo du bist und wie du dahin kommst, wo du hinwillst."},
+   {"s": "M", "t": "Die Karte zoomst du mit zwei Fingern und schiebst sie mit einem. Kursdreieck, Zirkel und Bleistift liegen gleich daneben."},
+   {"s": "K", "t": "Fang mit der Fibel an. Im Lernpfad geht es Lektion für Lektion weiter. Drei richtige Aufgaben am Stück, und es gibt einen Stern."},
+   {"s": "T", "t": "Stern! Stern!"}]},
+  "toern": {"titel": "Törn", "l": [
+   {"s": "K", "t": "Am Steuerrad geht es auf Törn. Drei Törns stehen zur Wahl, und mit jedem geschafften kommt ein neuer dazu."},
+   {"s": "M", "t": "Jeden Morgen liest du zuerst den Seewetterbericht. Bei Schietwetter liegen bleiben ist keine Schande, sondern gute Seemannschaft."},
+   {"s": "K", "t": "Unterwegs passiert dauernd was. Lichter, Tonnen, Nebel, Gegenverkehr. Je schneller du richtig reagierst, desto besser."},
+   {"s": "T", "t": "Leinen los!"}]},
+  "spiele": {"titel": "Spielekiste", "l": [
+   {"s": "M", "t": "Die Spielekiste! Jedes Spiel gibt Punkte, und für gute Runden gibt es Bronze, Silber oder Gold."},
+   {"s": "K", "t": "Jeder von uns hat irgendwo einen Rekord stehen. Wer uns überholt, kriegt das auch zu hören."},
+   {"s": "T", "t": "Rekord! Rekord!"}]},
+  "lexikon": {"titel": "Lexikon", "l": [
+   {"s": "K", "t": "Im Lexikon steht alles, was man auf dem Wasser sehen und hören kann. Lichter, Tonnen, Flaggen, Schallsignale."},
+   {"s": "M", "t": "Oben suchst du, darunter wählst du ein Thema. Jeder Eintrag hat eine Merkhilfe, und aus der Lernrunde kommst du direkt hierher."}]},
+  "pruefung": {"titel": "Probeprüfung", "l": [
+   {"s": "K", "t": "Jetzt wird es ernst. Die Probeprüfung läuft wie die echte: gleiche Fragenzahl, gleiche Zeit, gleiche Bestehensgrenze."},
+   {"s": "M", "t": "Wie im Ernstfall siehst du erst am Ende, was richtig war. Mit Rückmeldung erfährst du es nach jeder Frage."},
+   {"s": "T", "t": "Bange! Bange!"}]},
+  "hocker": {"titel": "Hocker", "l": [
+   {"s": "M", "t": "Setz dich ruhig hin. Wir schnacken im Hintergrund, und du hörst einfach zu."},
+   {"s": "K", "t": "Aufstehen kannst du jederzeit. Dann ist sofort Ruhe an Bord."}]},
+  "sbf": {"titel": "SBF See", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein See. Dreißig Ankreuzfragen und eine Navigationsaufgabe, dazu die praktische Prüfung."},
+   {"s": "M", "t": "Am Anfang lernst du die Fragen hier unten in der Kajüte. Wenn sie sitzen, geht es raus auf Törn."}]},
+  "sks": {"titel": "SKS", "l": [
+   {"s": "K", "t": "Der Sportküstenschifferschein. Das ist keine Badewanne mehr, das ist richtige Seefahrt. Respekt."},
+   {"s": "M", "t": "Hier gibt es keine Ankreuzfragen, du antwortest frei. Zum Üben gibt es trotzdem die Ankreuz-Runde."}]},
+  "binnen": {"titel": "SBF Binnen", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein Binnen. Flüsse, Kanäle, Schleusen und jede Menge Tafelzeichen."},
+   {"s": "M", "t": "Für den Schein unter Segel kommen noch Segelfragen dazu. Das stellst du vor der Probeprüfung ein."}]}
+ }
+}
