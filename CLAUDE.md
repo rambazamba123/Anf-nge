@@ -326,7 +326,7 @@ Vorerst nur Wissen aus SBF See und SKS. Binnen, Funk und Pyro kommen später und
 - Die offizielle SKS-Probeprüfung bleibt mit freien Antworten wie bisher.
 
 **Ablauf**
-1. Steuerrad in der Detailansicht an Deck antippen → Törnauswahl. Mehrere Törns, ALLE sofort wählbar. Pro Törn: Name, Stufe, Anzahl Etappen, ungefähre Dauer, empfohlene Scheine, empfohlene Ausrüstung. Ein laufender Törn steht oben als „Fortsetzen“.
+1. Steuerrad in der Detailansicht an Deck antippen → Törnauswahl. **Neu (Nutzer, 09.10.2026):** Es stehen immer die nächsten drei Törns der Liste zur Wahl; geschaffte werden abgehakt (Liste „Geschafft“, dort „Nochmal“) und der nächste rückt nach. Im Törn läuft keine Musik, nur Meer und Wetter. Pro Törn: Name, Stufe, Anzahl Etappen, ungefähre Dauer, empfohlene Scheine, empfohlene Ausrüstung. Ein laufender Törn steht oben als „Fortsetzen“.
    Stufen: Landratte → Leichtmatrose → Seebär → Kap-Hoornier → Klabautermann.
    Törns (eigenes Revier, darf ergänzt werden):
    - Landratte: „Kaffee im Nachbarhafen“, „Fischbrötchen-Fahrt“, „Einmal um die Ansteuerungstonne“
@@ -491,6 +491,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - [x] T5 SKS-Ankreuzrunde in der Lernrunde
   - [x] T6 Balancing (alle Ziele erreicht)
   - [x] T7 altes Gerüst entfernt, Rauchtest `tests/smoke/rauchtest.js`
+  - [x] v4.35: Törnliste zeigt drei offene Törns, geschaffte abgehakt; keine Musik im Törn; Steuerrad statt Pinne an Deck (Übersicht, Nahansicht, Bauteile-Spiel)
   - Offen: Standortbestimmung per Landmarken-Peilung als Aufgabe, Funk-Lagemeldungen als eigene Aufgabe, eigene Geräusche für Wind/Alarm (heute vorhandene Klänge), echte Handyprüfung
 - **Offen (Reihenfolge):**
   1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt

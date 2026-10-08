@@ -75,9 +75,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if (!await page.$('#twfertig') && !await page.$('#twnext') && !await page.$('#twzu')) throw new Error('keine Nachbesprechung');
   });
 
+  await schritt('14-naechster-toern', page, async () => {
+    await ev(page, () => document.querySelector('#twfertig').click()); await sleep(1500);
+    const ids = await ev(page, () => [...document.querySelectorAll('div.tw-card [data-start]')].map(b => b.dataset.start));
+    if (ids.includes('kaffee') || !ids.includes('leuchtturmwirt')) throw new Error('Liste rückt nicht nach: ' + ids.join(','));
+    if (!await page.$('details.tw-card')) throw new Error('keine Liste „Geschafft“');
+  });
   /* 4. Nacht- und Nebelereignis, Pause und Fortsetzen nach Neuladen */
   await schritt('20-nacht-nebel', page, async () => {
-    await ev(page, () => { S.toern2.prov = 5; S.toern2.lauf = null; save(); openToern(); }); await sleep(1200);
+    await ev(page, () => { S.toern2.prov = 5; S.toern2.lauf = null; TOERN.data().toerns.slice(0, 6).forEach(x => { S.toern2.schnitt[x.id] = 2; }); save(); openToern(); }); await sleep(1200);
     await ev(page, () => document.querySelector('[data-start="nachtfahrt"]').click()); await sleep(4200);
     await ev(page, () => { const L = S.toern2.lauf; L.w = {wx: 'schoen', bft: 3, von: 225, sicht: 'gut', see: .5}; document.querySelector('[data-k="fahren"]').click(); }); await sleep(300);
     await ev(page, () => document.querySelector('#twnext').click()); await sleep(1000);
