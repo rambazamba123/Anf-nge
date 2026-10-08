@@ -1,0 +1,3494 @@
+{
+ "about": "Situations-Tags je Frage (automatisch vergeben, tools/tag-fragen.js). Schlüssel: sbf:n bzw. sks:<id>. Kataloge unverändert.",
+ "vokabular": [
+  "nacht",
+  "nebel",
+  "fahrwasser",
+  "ausweichen",
+  "lichter",
+  "schallsignale",
+  "betonnung",
+  "tafel",
+  "flagge",
+  "motor",
+  "wetter",
+  "sicherheit",
+  "recht",
+  "navigation",
+  "manoever",
+  "seemannschaft",
+  "strom",
+  "stabilitaet",
+  "umwelt",
+  "vtg",
+  "segel"
+ ],
+ "tags": {
+  "sbf:1": [
+   "recht"
+  ],
+  "sbf:2": [
+   "recht",
+   "navigation"
+  ],
+  "sbf:3": [
+   "manoever"
+  ],
+  "sbf:4": [
+   "recht"
+  ],
+  "sbf:5": [
+   "recht"
+  ],
+  "sbf:6": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sbf:7": [
+   "schallsignale",
+   "motor",
+   "seemannschaft"
+  ],
+  "sbf:8": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sbf:9": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sbf:10": [
+   "nacht",
+   "nebel",
+   "lichter"
+  ],
+  "sbf:11": [
+   "recht"
+  ],
+  "sbf:12": [
+   "lichter",
+   "seemannschaft"
+  ],
+  "sbf:13": [
+   "lichter",
+   "motor",
+   "seemannschaft"
+  ],
+  "sbf:14": [
+   "motor",
+   "navigation"
+  ],
+  "sbf:15": [
+   "ausweichen",
+   "motor",
+   "sicherheit",
+   "navigation"
+  ],
+  "sbf:16": [
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:17": [
+   "tafel"
+  ],
+  "sbf:18": [
+   "fahrwasser",
+   "ausweichen",
+   "tafel"
+  ],
+  "sbf:19": [
+   "tafel"
+  ],
+  "sbf:20": [
+   "tafel"
+  ],
+  "sbf:21": [
+   "tafel"
+  ],
+  "sbf:22": [
+   "tafel",
+   "recht",
+   "manoever"
+  ],
+  "sbf:23": [
+   "tafel"
+  ],
+  "sbf:24": [
+   "tafel"
+  ],
+  "sbf:25": [
+   "tafel",
+   "sicherheit"
+  ],
+  "sbf:26": [
+   "tafel",
+   "recht"
+  ],
+  "sbf:27": [
+   "tafel",
+   "recht"
+  ],
+  "sbf:28": [
+   "tafel"
+  ],
+  "sbf:29": [
+   "tafel"
+  ],
+  "sbf:30": [
+   "lichter"
+  ],
+  "sbf:31": [
+   "umwelt"
+  ],
+  "sbf:32": [
+   "umwelt"
+  ],
+  "sbf:33": [
+   "manoever"
+  ],
+  "sbf:34": [
+   "stabilitaet"
+  ],
+  "sbf:35": [
+   "wetter",
+   "manoever",
+   "strom"
+  ],
+  "sbf:36": [
+   "fahrwasser",
+   "ausweichen"
+  ],
+  "sbf:37": [
+   "sicherheit",
+   "navigation"
+  ],
+  "sbf:38": [
+   "umwelt"
+  ],
+  "sbf:39": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sbf:40": [
+   "manoever"
+  ],
+  "sbf:41": [
+   "motor"
+  ],
+  "sbf:42": [
+   "motor"
+  ],
+  "sbf:43": [
+   "umwelt"
+  ],
+  "sbf:44": [
+   "motor"
+  ],
+  "sbf:45": [
+   "motor"
+  ],
+  "sbf:46": [
+   "motor",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sbf:47": [
+   "motor"
+  ],
+  "sbf:48": [
+   "motor",
+   "manoever"
+  ],
+  "sbf:49": [
+   "betonnung",
+   "motor",
+   "sicherheit"
+  ],
+  "sbf:50": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sbf:51": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sbf:52": [
+   "motor"
+  ],
+  "sbf:53": [
+   "motor"
+  ],
+  "sbf:54": [
+   "motor"
+  ],
+  "sbf:55": [
+   "seemannschaft"
+  ],
+  "sbf:56": [
+   "motor"
+  ],
+  "sbf:57": [
+   "motor"
+  ],
+  "sbf:58": [
+   "sicherheit",
+   "umwelt"
+  ],
+  "sbf:59": [
+   "recht"
+  ],
+  "sbf:60": [
+   "sicherheit"
+  ],
+  "sbf:61": [
+   "seemannschaft"
+  ],
+  "sbf:62": [
+   "sicherheit"
+  ],
+  "sbf:63": [
+   "sicherheit"
+  ],
+  "sbf:64": [
+   "sicherheit"
+  ],
+  "sbf:65": [
+   "sicherheit"
+  ],
+  "sbf:66": [
+   "sicherheit"
+  ],
+  "sbf:67": [
+   "sicherheit"
+  ],
+  "sbf:68": [
+   "sicherheit"
+  ],
+  "sbf:69": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sbf:70": [
+   "ausweichen"
+  ],
+  "sbf:71": [
+   "wetter"
+  ],
+  "sbf:72": [
+   "sicherheit"
+  ],
+  "sbf:73": [
+   "ausweichen"
+  ],
+  "sbf:74": [
+   "fahrwasser",
+   "ausweichen",
+   "recht"
+  ],
+  "sbf:75": [
+   "fahrwasser",
+   "motor",
+   "recht"
+  ],
+  "sbf:76": [
+   "recht"
+  ],
+  "sbf:77": [
+   "recht",
+   "seemannschaft"
+  ],
+  "sbf:78": [
+   "sicherheit",
+   "recht"
+  ],
+  "sbf:79": [
+   "ausweichen",
+   "navigation",
+   "manoever"
+  ],
+  "sbf:80": [
+   "ausweichen",
+   "manoever"
+  ],
+  "sbf:81": [
+   "sicherheit"
+  ],
+  "sbf:82": [
+   "ausweichen",
+   "motor",
+   "seemannschaft"
+  ],
+  "sbf:83": [
+   "ausweichen"
+  ],
+  "sbf:84": [
+   "nebel",
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:85": [
+   "fahrwasser",
+   "ausweichen",
+   "schallsignale",
+   "tafel",
+   "recht"
+  ],
+  "sbf:86": [
+   "schallsignale",
+   "flagge"
+  ],
+  "sbf:87": [
+   "fahrwasser",
+   "vtg"
+  ],
+  "sbf:88": [
+   "fahrwasser",
+   "recht",
+   "vtg"
+  ],
+  "sbf:89": [
+   "sicherheit"
+  ],
+  "sbf:90": [
+   "sicherheit"
+  ],
+  "sbf:91": [
+   "lichter",
+   "motor"
+  ],
+  "sbf:92": [
+   "lichter",
+   "motor"
+  ],
+  "sbf:93": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:94": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:95": [
+   "lichter"
+  ],
+  "sbf:96": [
+   "manoever"
+  ],
+  "sbf:97": [
+   "lichter"
+  ],
+  "sbf:98": [
+   "lichter"
+  ],
+  "sbf:99": [
+   "lichter"
+  ],
+  "sbf:100": [
+   "lichter"
+  ],
+  "sbf:101": [
+   "lichter"
+  ],
+  "sbf:102": [
+   "lichter"
+  ],
+  "sbf:103": [
+   "lichter"
+  ],
+  "sbf:104": [
+   "lichter"
+  ],
+  "sbf:105": [
+   "lichter"
+  ],
+  "sbf:106": [
+   "lichter"
+  ],
+  "sbf:107": [
+   "lichter"
+  ],
+  "sbf:108": [
+   "lichter"
+  ],
+  "sbf:109": [
+   "lichter"
+  ],
+  "sbf:110": [
+   "lichter"
+  ],
+  "sbf:111": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:112": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:113": [
+   "lichter",
+   "seemannschaft"
+  ],
+  "sbf:114": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:115": [
+   "lichter",
+   "manoever"
+  ],
+  "sbf:116": [
+   "nebel",
+   "schallsignale",
+   "motor"
+  ],
+  "sbf:117": [
+   "nebel",
+   "schallsignale",
+   "motor"
+  ],
+  "sbf:118": [
+   "nebel",
+   "schallsignale",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sbf:119": [
+   "nebel",
+   "schallsignale",
+   "manoever"
+  ],
+  "sbf:120": [
+   "nebel",
+   "schallsignale",
+   "seemannschaft"
+  ],
+  "sbf:121": [
+   "nebel",
+   "schallsignale"
+  ],
+  "sbf:122": [
+   "nebel",
+   "schallsignale",
+   "manoever"
+  ],
+  "sbf:123": [
+   "nebel",
+   "schallsignale",
+   "manoever"
+  ],
+  "sbf:124": [
+   "nebel",
+   "schallsignale",
+   "manoever"
+  ],
+  "sbf:125": [
+   "ausweichen",
+   "sicherheit",
+   "navigation"
+  ],
+  "sbf:126": [
+   "fahrwasser",
+   "ausweichen",
+   "wetter",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sbf:127": [
+   "ausweichen",
+   "motor",
+   "sicherheit",
+   "navigation"
+  ],
+  "sbf:128": [
+   "fahrwasser",
+   "ausweichen",
+   "motor",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sbf:129": [
+   "fahrwasser",
+   "ausweichen",
+   "motor",
+   "sicherheit"
+  ],
+  "sbf:130": [
+   "fahrwasser",
+   "ausweichen",
+   "motor",
+   "sicherheit"
+  ],
+  "sbf:131": [
+   "fahrwasser",
+   "ausweichen",
+   "motor",
+   "sicherheit"
+  ],
+  "sbf:132": [
+   "fahrwasser",
+   "ausweichen",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sbf:133": [
+   "sicherheit"
+  ],
+  "sbf:134": [
+   "sicherheit"
+  ],
+  "sbf:135": [
+   "ausweichen",
+   "navigation",
+   "manoever"
+  ],
+  "sbf:136": [
+   "ausweichen",
+   "navigation"
+  ],
+  "sbf:137": [
+   "sicherheit"
+  ],
+  "sbf:138": [
+   "nebel",
+   "ausweichen",
+   "schallsignale",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sbf:139": [
+   "ausweichen",
+   "schallsignale",
+   "sicherheit",
+   "navigation",
+   "manoever"
+  ],
+  "sbf:140": [
+   "ausweichen",
+   "schallsignale"
+  ],
+  "sbf:141": [
+   "schallsignale",
+   "sicherheit",
+   "manoever"
+  ],
+  "sbf:142": [
+   "fahrwasser",
+   "vtg"
+  ],
+  "sbf:143": [
+   "fahrwasser",
+   "wetter",
+   "recht",
+   "seemannschaft",
+   "strom",
+   "vtg"
+  ],
+  "sbf:144": [
+   "fahrwasser",
+   "ausweichen",
+   "recht",
+   "vtg"
+  ],
+  "sbf:145": [
+   "fahrwasser",
+   "ausweichen",
+   "motor",
+   "vtg"
+  ],
+  "sbf:146": [
+   "fahrwasser",
+   "motor",
+   "seemannschaft",
+   "vtg"
+  ],
+  "sbf:147": [
+   "fahrwasser",
+   "motor",
+   "seemannschaft",
+   "vtg"
+  ],
+  "sbf:148": [
+   "sicherheit"
+  ],
+  "sbf:149": [
+   "recht"
+  ],
+  "sbf:150": [
+   "sicherheit"
+  ],
+  "sbf:151": [
+   "betonnung",
+   "sicherheit",
+   "recht"
+  ],
+  "sbf:152": [
+   "fahrwasser"
+  ],
+  "sbf:153": [
+   "fahrwasser"
+  ],
+  "sbf:154": [
+   "recht"
+  ],
+  "sbf:155": [
+   "tafel",
+   "motor",
+   "manoever"
+  ],
+  "sbf:156": [
+   "fahrwasser"
+  ],
+  "sbf:157": [
+   "fahrwasser"
+  ],
+  "sbf:158": [
+   "fahrwasser"
+  ],
+  "sbf:159": [
+   "fahrwasser",
+   "ausweichen",
+   "lichter",
+   "seemannschaft"
+  ],
+  "sbf:160": [
+   "fahrwasser",
+   "ausweichen",
+   "lichter",
+   "motor"
+  ],
+  "sbf:161": [
+   "fahrwasser",
+   "schallsignale"
+  ],
+  "sbf:162": [
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:163": [
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:164": [
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:165": [
+   "fahrwasser",
+   "ausweichen",
+   "sicherheit",
+   "manoever"
+  ],
+  "sbf:166": [
+   "fahrwasser",
+   "ausweichen",
+   "seemannschaft"
+  ],
+  "sbf:167": [
+   "fahrwasser",
+   "ausweichen"
+  ],
+  "sbf:168": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sbf:169": [
+   "fahrwasser",
+   "tafel",
+   "sicherheit",
+   "recht",
+   "seemannschaft"
+  ],
+  "sbf:170": [
+   "seemannschaft"
+  ],
+  "sbf:171": [
+   "fahrwasser",
+   "recht",
+   "manoever"
+  ],
+  "sbf:172": [
+   "sicherheit"
+  ],
+  "sbf:173": [
+   "fahrwasser",
+   "lichter",
+   "schallsignale"
+  ],
+  "sbf:174": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sbf:175": [
+   "fahrwasser",
+   "lichter",
+   "recht"
+  ],
+  "sbf:176": [
+   "fahrwasser",
+   "tafel"
+  ],
+  "sbf:177": [
+   "tafel"
+  ],
+  "sbf:178": [
+   "schallsignale"
+  ],
+  "sbf:179": [
+   "tafel"
+  ],
+  "sbf:180": [
+   "tafel",
+   "motor"
+  ],
+  "sbf:181": [
+   "fahrwasser",
+   "seemannschaft"
+  ],
+  "sbf:182": [
+   "tafel"
+  ],
+  "sbf:183": [
+   "fahrwasser"
+  ],
+  "sbf:184": [
+   "tafel"
+  ],
+  "sbf:185": [
+   "flagge"
+  ],
+  "sbf:186": [
+   "schallsignale"
+  ],
+  "sbf:187": [
+   "fahrwasser",
+   "tafel",
+   "recht"
+  ],
+  "sbf:188": [
+   "fahrwasser",
+   "schallsignale",
+   "recht"
+  ],
+  "sbf:189": [
+   "tafel"
+  ],
+  "sbf:190": [
+   "betonnung"
+  ],
+  "sbf:191": [
+   "fahrwasser",
+   "tafel"
+  ],
+  "sbf:192": [
+   "fahrwasser",
+   "tafel"
+  ],
+  "sbf:193": [
+   "fahrwasser",
+   "betonnung",
+   "tafel"
+  ],
+  "sbf:194": [
+   "fahrwasser",
+   "betonnung",
+   "tafel"
+  ],
+  "sbf:195": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sbf:196": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sbf:197": [
+   "betonnung"
+  ],
+  "sbf:198": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sbf:199": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sbf:200": [
+   "tafel",
+   "sicherheit"
+  ],
+  "sbf:201": [
+   "tafel",
+   "sicherheit"
+  ],
+  "sbf:202": [
+   "tafel",
+   "sicherheit"
+  ],
+  "sbf:203": [
+   "tafel",
+   "sicherheit"
+  ],
+  "sbf:204": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sbf:205": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sbf:206": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sbf:207": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sbf:208": [
+   "tafel"
+  ],
+  "sbf:209": [
+   "betonnung"
+  ],
+  "sbf:210": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sbf:211": [
+   "recht"
+  ],
+  "sbf:212": [
+   "betonnung"
+  ],
+  "sbf:213": [
+   "fahrwasser",
+   "navigation"
+  ],
+  "sbf:214": [
+   "navigation"
+  ],
+  "sbf:215": [
+   "betonnung"
+  ],
+  "sbf:216": [
+   "navigation",
+   "umwelt"
+  ],
+  "sbf:217": [
+   "navigation",
+   "umwelt"
+  ],
+  "sbf:218": [
+   "umwelt"
+  ],
+  "sbf:219": [
+   "umwelt"
+  ],
+  "sbf:220": [
+   "betonnung"
+  ],
+  "sbf:221": [
+   "betonnung"
+  ],
+  "sbf:222": [
+   "betonnung"
+  ],
+  "sbf:223": [
+   "betonnung"
+  ],
+  "sbf:224": [
+   "sicherheit"
+  ],
+  "sbf:225": [
+   "umwelt"
+  ],
+  "sbf:226": [
+   "seemannschaft",
+   "umwelt"
+  ],
+  "sbf:227": [
+   "recht"
+  ],
+  "sbf:228": [
+   "recht"
+  ],
+  "sbf:229": [
+   "motor",
+   "wetter",
+   "recht",
+   "seemannschaft"
+  ],
+  "sbf:230": [
+   "recht",
+   "umwelt"
+  ],
+  "sbf:231": [
+   "navigation",
+   "strom"
+  ],
+  "sbf:232": [
+   "betonnung"
+  ],
+  "sbf:233": [
+   "wetter",
+   "strom"
+  ],
+  "sbf:234": [
+   "fahrwasser"
+  ],
+  "sbf:235": [
+   "navigation"
+  ],
+  "sbf:236": [
+   "navigation"
+  ],
+  "sbf:237": [
+   "navigation"
+  ],
+  "sbf:238": [
+   "betonnung",
+   "tafel",
+   "navigation"
+  ],
+  "sbf:239": [
+   "recht",
+   "navigation"
+  ],
+  "sbf:240": [
+   "navigation"
+  ],
+  "sbf:241": [
+   "navigation",
+   "seemannschaft"
+  ],
+  "sbf:242": [
+   "navigation"
+  ],
+  "sbf:243": [
+   "navigation"
+  ],
+  "sbf:244": [
+   "recht",
+   "navigation"
+  ],
+  "sbf:245": [
+   "navigation",
+   "strom"
+  ],
+  "sbf:246": [
+   "wetter",
+   "navigation"
+  ],
+  "sbf:247": [
+   "navigation"
+  ],
+  "sbf:248": [
+   "navigation"
+  ],
+  "sbf:249": [
+   "seemannschaft",
+   "strom"
+  ],
+  "sbf:250": [
+   "strom"
+  ],
+  "sbf:251": [
+   "strom"
+  ],
+  "sbf:252": [
+   "navigation",
+   "seemannschaft",
+   "strom"
+  ],
+  "sbf:253": [
+   "navigation",
+   "seemannschaft",
+   "strom"
+  ],
+  "sbf:254": [
+   "strom"
+  ],
+  "sbf:255": [
+   "strom"
+  ],
+  "sbf:256": [
+   "wetter",
+   "manoever"
+  ],
+  "sbf:257": [
+   "manoever"
+  ],
+  "sbf:258": [
+   "wetter"
+  ],
+  "sbf:259": [
+   "wetter"
+  ],
+  "sbf:260": [
+   "wetter"
+  ],
+  "sbf:261": [
+   "wetter"
+  ],
+  "sbf:262": [
+   "wetter"
+  ],
+  "sbf:263": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sbf:264": [
+   "wetter"
+  ],
+  "sbf:265": [
+   "sicherheit"
+  ],
+  "sbf:266": [
+   "sicherheit"
+  ],
+  "sbf:267": [
+   "wetter"
+  ],
+  "sbf:268": [
+   "wetter"
+  ],
+  "sbf:269": [
+   "wetter"
+  ],
+  "sbf:270": [
+   "wetter"
+  ],
+  "sbf:271": [
+   "nebel",
+   "fahrwasser",
+   "sicherheit",
+   "recht",
+   "navigation",
+   "manoever"
+  ],
+  "sbf:272": [
+   "ausweichen"
+  ],
+  "sbf:273": [
+   "sicherheit"
+  ],
+  "sbf:274": [
+   "nebel",
+   "ausweichen",
+   "sicherheit",
+   "recht",
+   "navigation"
+  ],
+  "sbf:275": [
+   "wetter",
+   "sicherheit",
+   "manoever"
+  ],
+  "sbf:276": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sbf:277": [
+   "sicherheit"
+  ],
+  "sbf:278": [
+   "wetter",
+   "sicherheit",
+   "manoever"
+  ],
+  "sbf:279": [
+   "lichter",
+   "flagge",
+   "sicherheit"
+  ],
+  "sbf:280": [
+   "flagge",
+   "sicherheit"
+  ],
+  "sbf:281": [
+   "sicherheit"
+  ],
+  "sbf:282": [
+   "lichter",
+   "schallsignale",
+   "sicherheit"
+  ],
+  "sbf:283": [
+   "sicherheit"
+  ],
+  "sbf:284": [
+   "flagge",
+   "sicherheit"
+  ],
+  "sbf:285": [
+   "sicherheit"
+  ],
+  "sks:nav-1": [
+   "recht",
+   "navigation"
+  ],
+  "sks:nav-2": [
+   "navigation"
+  ],
+  "sks:nav-3": [
+   "navigation"
+  ],
+  "sks:nav-4": [
+   "navigation"
+  ],
+  "sks:nav-5": [
+   "navigation"
+  ],
+  "sks:nav-6": [
+   "navigation"
+  ],
+  "sks:nav-7": [
+   "navigation"
+  ],
+  "sks:nav-8": [
+   "navigation"
+  ],
+  "sks:nav-9": [
+   "fahrwasser"
+  ],
+  "sks:nav-10": [
+   "navigation"
+  ],
+  "sks:nav-11": [
+   "betonnung"
+  ],
+  "sks:nav-12": [
+   "betonnung",
+   "tafel"
+  ],
+  "sks:nav-13": [
+   "betonnung",
+   "tafel",
+   "navigation"
+  ],
+  "sks:nav-14": [
+   "betonnung",
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-15": [
+   "fahrwasser",
+   "navigation"
+  ],
+  "sks:nav-16": [
+   "seemannschaft"
+  ],
+  "sks:nav-17": [
+   "recht"
+  ],
+  "sks:nav-18": [
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-19": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sks:nav-20": [
+   "fahrwasser",
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-21": [
+   "fahrwasser",
+   "betonnung"
+  ],
+  "sks:nav-22": [
+   "betonnung"
+  ],
+  "sks:nav-23": [
+   "nebel"
+  ],
+  "sks:nav-24": [
+   "navigation"
+  ],
+  "sks:nav-25": [
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-26": [
+   "nebel",
+   "betonnung"
+  ],
+  "sks:nav-27": [
+   "nebel",
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-28": [
+   "navigation"
+  ],
+  "sks:nav-29": [
+   "navigation"
+  ],
+  "sks:nav-30": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sks:nav-31": [
+   "fahrwasser"
+  ],
+  "sks:nav-32": [
+   "betonnung"
+  ],
+  "sks:nav-33": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:nav-34": [
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:nav-35": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:nav-36": [
+   "navigation"
+  ],
+  "sks:nav-37": [
+   "navigation"
+  ],
+  "sks:nav-38": [
+   "navigation"
+  ],
+  "sks:nav-39": [
+   "navigation"
+  ],
+  "sks:nav-40": [
+   "tafel",
+   "navigation"
+  ],
+  "sks:nav-41": [
+   "navigation"
+  ],
+  "sks:nav-42": [
+   "navigation"
+  ],
+  "sks:nav-43": [
+   "seemannschaft"
+  ],
+  "sks:nav-44": [
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-45": [
+   "navigation"
+  ],
+  "sks:nav-46": [
+   "navigation"
+  ],
+  "sks:nav-47": [
+   "navigation"
+  ],
+  "sks:nav-48": [
+   "navigation"
+  ],
+  "sks:nav-49": [
+   "wetter",
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-50": [
+   "navigation"
+  ],
+  "sks:nav-51": [
+   "navigation"
+  ],
+  "sks:nav-52": [
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-53": [
+   "nacht",
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-54": [
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-55": [
+   "betonnung",
+   "navigation"
+  ],
+  "sks:nav-56": [
+   "recht",
+   "navigation"
+  ],
+  "sks:nav-57": [
+   "recht",
+   "navigation"
+  ],
+  "sks:nav-58": [
+   "navigation"
+  ],
+  "sks:nav-59": [
+   "navigation"
+  ],
+  "sks:nav-60": [
+   "navigation"
+  ],
+  "sks:nav-61": [
+   "navigation"
+  ],
+  "sks:nav-62": [
+   "recht",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:nav-63": [
+   "navigation",
+   "umwelt"
+  ],
+  "sks:nav-64": [
+   "fahrwasser",
+   "betonnung",
+   "tafel",
+   "sicherheit"
+  ],
+  "sks:nav-65": [
+   "sicherheit",
+   "recht",
+   "navigation"
+  ],
+  "sks:nav-66": [
+   "navigation"
+  ],
+  "sks:nav-67": [
+   "navigation"
+  ],
+  "sks:nav-68": [
+   "betonnung"
+  ],
+  "sks:nav-69": [
+   "tafel",
+   "motor"
+  ],
+  "sks:nav-70": [
+   "recht"
+  ],
+  "sks:nav-71": [
+   "strom"
+  ],
+  "sks:nav-72": [
+   "fahrwasser",
+   "strom"
+  ],
+  "sks:nav-73": [
+   "wetter",
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-74": [
+   "navigation"
+  ],
+  "sks:nav-75": [
+   "navigation"
+  ],
+  "sks:nav-76": [
+   "fahrwasser",
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-77": [
+   "strom"
+  ],
+  "sks:nav-78": [
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-79": [
+   "navigation"
+  ],
+  "sks:nav-80": [
+   "strom"
+  ],
+  "sks:nav-81": [
+   "strom"
+  ],
+  "sks:nav-82": [
+   "strom"
+  ],
+  "sks:nav-83": [
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-84": [
+   "navigation"
+  ],
+  "sks:nav-85": [
+   "strom"
+  ],
+  "sks:nav-86": [
+   "strom"
+  ],
+  "sks:nav-87": [
+   "navigation"
+  ],
+  "sks:nav-88": [
+   "wetter",
+   "navigation",
+   "strom"
+  ],
+  "sks:nav-89": [
+   "navigation"
+  ],
+  "sks:nav-90": [
+   "navigation"
+  ],
+  "sks:nav-91": [
+   "navigation"
+  ],
+  "sks:nav-92": [
+   "navigation"
+  ],
+  "sks:nav-93": [
+   "navigation"
+  ],
+  "sks:nav-94": [
+   "navigation"
+  ],
+  "sks:nav-95": [
+   "navigation"
+  ],
+  "sks:nav-96": [
+   "recht",
+   "navigation"
+  ],
+  "sks:nav-97": [
+   "navigation"
+  ],
+  "sks:nav-98": [
+   "navigation"
+  ],
+  "sks:nav-99": [
+   "navigation"
+  ],
+  "sks:nav-100": [
+   "navigation"
+  ],
+  "sks:nav-101": [
+   "navigation"
+  ],
+  "sks:nav-102": [
+   "betonnung",
+   "wetter"
+  ],
+  "sks:nav-103": [
+   "navigation"
+  ],
+  "sks:nav-104": [
+   "betonnung"
+  ],
+  "sks:nav-105": [
+   "navigation"
+  ],
+  "sks:nav-106": [
+   "sicherheit"
+  ],
+  "sks:nav-107": [
+   "navigation"
+  ],
+  "sks:nav-108": [
+   "navigation"
+  ],
+  "sks:nav-109": [
+   "motor",
+   "navigation",
+   "manoever"
+  ],
+  "sks:nav-110": [
+   "sicherheit",
+   "navigation"
+  ],
+  "sks:nav-111": [
+   "navigation"
+  ],
+  "sks:nav-112": [
+   "sicherheit"
+  ],
+  "sks:nav-113": [
+   "navigation"
+  ],
+  "sks:nav-114": [
+   "navigation"
+  ],
+  "sks:nav-115": [
+   "navigation",
+   "stabilitaet"
+  ],
+  "sks:nav-116": [
+   "navigation"
+  ],
+  "sks:nav-117": [
+   "navigation"
+  ],
+  "sks:nav-118": [
+   "fahrwasser"
+  ],
+  "sks:recht-1": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:recht-2": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sks:recht-3": [
+   "recht"
+  ],
+  "sks:recht-4": [
+   "recht"
+  ],
+  "sks:recht-5": [
+   "ausweichen",
+   "sicherheit",
+   "recht",
+   "navigation"
+  ],
+  "sks:recht-6": [
+   "recht",
+   "seemannschaft"
+  ],
+  "sks:recht-7": [
+   "fahrwasser",
+   "recht",
+   "vtg"
+  ],
+  "sks:recht-8": [
+   "ausweichen",
+   "seemannschaft"
+  ],
+  "sks:recht-9": [
+   "ausweichen"
+  ],
+  "sks:recht-10": [
+   "navigation",
+   "manoever"
+  ],
+  "sks:recht-11": [
+   "ausweichen"
+  ],
+  "sks:recht-12": [
+   "recht"
+  ],
+  "sks:recht-13": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "recht",
+   "seemannschaft"
+  ],
+  "sks:recht-14": [
+   "lichter",
+   "motor",
+   "manoever"
+  ],
+  "sks:recht-15": [
+   "recht"
+  ],
+  "sks:recht-16": [
+   "nacht",
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:recht-17": [
+   "nacht",
+   "nebel",
+   "lichter"
+  ],
+  "sks:recht-18": [
+   "nacht",
+   "lichter",
+   "tafel",
+   "manoever"
+  ],
+  "sks:recht-19": [
+   "nebel",
+   "schallsignale",
+   "manoever"
+  ],
+  "sks:recht-20": [
+   "nebel",
+   "schallsignale"
+  ],
+  "sks:recht-21": [
+   "nebel",
+   "lichter",
+   "schallsignale",
+   "wetter",
+   "manoever"
+  ],
+  "sks:recht-22": [
+   "nacht",
+   "lichter"
+  ],
+  "sks:recht-23": [
+   "lichter"
+  ],
+  "sks:recht-24": [
+   "ausweichen",
+   "sicherheit"
+  ],
+  "sks:recht-25": [
+   "fahrwasser",
+   "seemannschaft"
+  ],
+  "sks:recht-26": [
+   "fahrwasser",
+   "vtg"
+  ],
+  "sks:recht-27": [
+   "fahrwasser",
+   "seemannschaft"
+  ],
+  "sks:recht-28": [
+   "nebel",
+   "motor"
+  ],
+  "sks:recht-29": [
+   "nebel",
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:recht-30": [
+   "nebel",
+   "ausweichen",
+   "schallsignale",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:recht-31": [
+   "ausweichen",
+   "schallsignale",
+   "motor",
+   "navigation",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:recht-32": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "motor",
+   "wetter",
+   "sicherheit",
+   "recht",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:recht-33": [
+   "fahrwasser",
+   "vtg"
+  ],
+  "sks:recht-34": [
+   "ausweichen"
+  ],
+  "sks:recht-35": [
+   "ausweichen",
+   "sicherheit",
+   "navigation"
+  ],
+  "sks:recht-36": [
+   "ausweichen"
+  ],
+  "sks:recht-37": [
+   "ausweichen",
+   "manoever"
+  ],
+  "sks:recht-38": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "wetter",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:recht-39": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "wetter",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:recht-40": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "wetter",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:recht-41": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "wetter",
+   "recht",
+   "seemannschaft"
+  ],
+  "sks:recht-42": [
+   "ausweichen"
+  ],
+  "sks:recht-43": [
+   "ausweichen",
+   "navigation",
+   "manoever"
+  ],
+  "sks:recht-44": [
+   "ausweichen",
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:recht-45": [
+   "navigation",
+   "manoever"
+  ],
+  "sks:recht-46": [
+   "fahrwasser",
+   "motor",
+   "seemannschaft",
+   "vtg"
+  ],
+  "sks:recht-47": [
+   "recht"
+  ],
+  "sks:recht-48": [
+   "nacht",
+   "lichter",
+   "schallsignale",
+   "motor",
+   "recht",
+   "navigation"
+  ],
+  "sks:recht-49": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "motor",
+   "navigation"
+  ],
+  "sks:recht-50": [
+   "ausweichen",
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:recht-51": [
+   "nacht",
+   "ausweichen",
+   "lichter",
+   "schallsignale",
+   "motor",
+   "recht",
+   "navigation"
+  ],
+  "sks:recht-52": [
+   "nacht",
+   "lichter",
+   "schallsignale",
+   "motor"
+  ],
+  "sks:recht-53": [
+   "fahrwasser"
+  ],
+  "sks:recht-54": [
+   "fahrwasser"
+  ],
+  "sks:recht-55": [
+   "sicherheit"
+  ],
+  "sks:recht-56": [
+   "schallsignale",
+   "recht"
+  ],
+  "sks:recht-57": [
+   "fahrwasser",
+   "betonnung",
+   "recht",
+   "navigation",
+   "strom"
+  ],
+  "sks:recht-58": [
+   "fahrwasser",
+   "betonnung",
+   "seemannschaft"
+  ],
+  "sks:recht-59": [
+   "fahrwasser"
+  ],
+  "sks:recht-60": [
+   "fahrwasser",
+   "ausweichen",
+   "recht"
+  ],
+  "sks:recht-61": [
+   "fahrwasser",
+   "ausweichen",
+   "seemannschaft"
+  ],
+  "sks:recht-62": [
+   "nacht",
+   "lichter",
+   "schallsignale",
+   "betonnung",
+   "sicherheit"
+  ],
+  "sks:recht-63": [
+   "fahrwasser",
+   "schallsignale",
+   "sicherheit",
+   "recht"
+  ],
+  "sks:recht-64": [
+   "nebel",
+   "fahrwasser"
+  ],
+  "sks:recht-65": [
+   "fahrwasser",
+   "motor",
+   "recht",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:recht-66": [
+   "nebel",
+   "fahrwasser"
+  ],
+  "sks:recht-67": [
+   "lichter",
+   "recht"
+  ],
+  "sks:recht-68": [
+   "fahrwasser",
+   "ausweichen",
+   "recht",
+   "navigation"
+  ],
+  "sks:recht-69": [
+   "fahrwasser",
+   "ausweichen",
+   "manoever"
+  ],
+  "sks:recht-70": [
+   "fahrwasser",
+   "ausweichen",
+   "recht"
+  ],
+  "sks:recht-71": [
+   "fahrwasser",
+   "ausweichen",
+   "sicherheit",
+   "recht",
+   "manoever"
+  ],
+  "sks:recht-72": [
+   "fahrwasser",
+   "sicherheit"
+  ],
+  "sks:recht-73": [
+   "fahrwasser"
+  ],
+  "sks:recht-74": [
+   "fahrwasser",
+   "ausweichen",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:recht-75": [
+   "fahrwasser",
+   "seemannschaft"
+  ],
+  "sks:recht-76": [
+   "fahrwasser"
+  ],
+  "sks:recht-77": [
+   "nacht",
+   "lichter"
+  ],
+  "sks:recht-78": [
+   "recht"
+  ],
+  "sks:recht-79": [
+   "betonnung",
+   "seemannschaft"
+  ],
+  "sks:recht-80": [
+   "motor",
+   "manoever"
+  ],
+  "sks:recht-81": [
+   "fahrwasser",
+   "motor",
+   "manoever"
+  ],
+  "sks:recht-82": [
+   "nacht",
+   "lichter",
+   "schallsignale"
+  ],
+  "sks:recht-83": [
+   "recht"
+  ],
+  "sks:recht-84": [
+   "recht"
+  ],
+  "sks:recht-85": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sks:recht-86": [
+   "flagge",
+   "recht"
+  ],
+  "sks:recht-87": [
+   "seemannschaft"
+  ],
+  "sks:recht-88": [
+   "strom"
+  ],
+  "sks:recht-89": [
+   "recht"
+  ],
+  "sks:recht-90": [
+   "navigation"
+  ],
+  "sks:recht-91": [
+   "ausweichen",
+   "sicherheit"
+  ],
+  "sks:recht-92": [
+   "ausweichen",
+   "sicherheit",
+   "umwelt"
+  ],
+  "sks:recht-93": [
+   "fahrwasser",
+   "recht"
+  ],
+  "sks:recht-94": [
+   "flagge",
+   "wetter",
+   "sicherheit",
+   "recht"
+  ],
+  "sks:recht-95": [
+   "sicherheit",
+   "recht",
+   "seemannschaft"
+  ],
+  "sks:recht-96": [
+   "recht"
+  ],
+  "sks:recht-97": [
+   "fahrwasser",
+   "sicherheit",
+   "recht"
+  ],
+  "sks:recht-98": [
+   "sicherheit"
+  ],
+  "sks:recht-99": [
+   "flagge"
+  ],
+  "sks:recht-100": [
+   "fahrwasser",
+   "flagge",
+   "seemannschaft"
+  ],
+  "sks:recht-101": [
+   "fahrwasser",
+   "sicherheit",
+   "strom"
+  ],
+  "sks:recht-102": [
+   "navigation"
+  ],
+  "sks:recht-103": [
+   "recht"
+  ],
+  "sks:recht-104": [
+   "recht"
+  ],
+  "sks:recht-105": [
+   "recht"
+  ],
+  "sks:recht-106": [
+   "recht"
+  ],
+  "sks:recht-107": [
+   "recht"
+  ],
+  "sks:recht-108": [
+   "fahrwasser",
+   "sicherheit"
+  ],
+  "sks:recht-109": [
+   "umwelt"
+  ],
+  "sks:recht-110": [
+   "fahrwasser",
+   "seemannschaft",
+   "umwelt"
+  ],
+  "sks:wetter-1": [
+   "wetter"
+  ],
+  "sks:wetter-2": [
+   "wetter"
+  ],
+  "sks:wetter-3": [
+   "wetter"
+  ],
+  "sks:wetter-4": [
+   "wetter",
+   "strom"
+  ],
+  "sks:wetter-5": [
+   "wetter"
+  ],
+  "sks:wetter-6": [
+   "wetter"
+  ],
+  "sks:wetter-7": [
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:wetter-8": [
+   "wetter"
+  ],
+  "sks:wetter-9": [
+   "wetter"
+  ],
+  "sks:wetter-10": [
+   "wetter"
+  ],
+  "sks:wetter-11": [
+   "wetter"
+  ],
+  "sks:wetter-12": [
+   "wetter"
+  ],
+  "sks:wetter-13": [
+   "wetter"
+  ],
+  "sks:wetter-14": [
+   "wetter"
+  ],
+  "sks:wetter-15": [
+   "wetter"
+  ],
+  "sks:wetter-16": [
+   "wetter"
+  ],
+  "sks:wetter-17": [
+   "wetter"
+  ],
+  "sks:wetter-18": [
+   "wetter"
+  ],
+  "sks:wetter-19": [
+   "wetter"
+  ],
+  "sks:wetter-20": [
+   "wetter"
+  ],
+  "sks:wetter-21": [
+   "wetter",
+   "recht"
+  ],
+  "sks:wetter-22": [
+   "wetter"
+  ],
+  "sks:wetter-23": [
+   "wetter"
+  ],
+  "sks:wetter-24": [
+   "wetter"
+  ],
+  "sks:wetter-25": [
+   "wetter"
+  ],
+  "sks:wetter-26": [
+   "wetter"
+  ],
+  "sks:wetter-27": [
+   "wetter"
+  ],
+  "sks:wetter-28": [
+   "wetter"
+  ],
+  "sks:wetter-29": [
+   "wetter"
+  ],
+  "sks:wetter-30": [
+   "wetter"
+  ],
+  "sks:wetter-31": [
+   "wetter"
+  ],
+  "sks:wetter-32": [
+   "wetter"
+  ],
+  "sks:wetter-33": [
+   "wetter"
+  ],
+  "sks:wetter-34": [
+   "wetter"
+  ],
+  "sks:wetter-35": [
+   "wetter"
+  ],
+  "sks:wetter-36": [
+   "wetter"
+  ],
+  "sks:wetter-37": [
+   "seemannschaft"
+  ],
+  "sks:wetter-38": [
+   "wetter"
+  ],
+  "sks:wetter-39": [
+   "wetter"
+  ],
+  "sks:wetter-40": [
+   "wetter"
+  ],
+  "sks:wetter-41": [
+   "wetter"
+  ],
+  "sks:wetter-42": [
+   "wetter"
+  ],
+  "sks:wetter-43": [
+   "wetter"
+  ],
+  "sks:wetter-44": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:wetter-45": [
+   "wetter"
+  ],
+  "sks:wetter-46": [
+   "wetter"
+  ],
+  "sks:wetter-47": [
+   "nacht",
+   "wetter"
+  ],
+  "sks:wetter-48": [
+   "nacht",
+   "wetter"
+  ],
+  "sks:wetter-49": [
+   "wetter"
+  ],
+  "sks:wetter-50": [
+   "wetter"
+  ],
+  "sks:wetter-51": [
+   "betonnung",
+   "seemannschaft"
+  ],
+  "sks:wetter-52": [
+   "wetter"
+  ],
+  "sks:wetter-53": [
+   "wetter"
+  ],
+  "sks:wetter-54": [
+   "wetter"
+  ],
+  "sks:wetter-55": [
+   "wetter"
+  ],
+  "sks:wetter-56": [
+   "wetter"
+  ],
+  "sks:wetter-57": [
+   "wetter"
+  ],
+  "sks:wetter-58": [
+   "wetter"
+  ],
+  "sks:wetter-59": [
+   "wetter"
+  ],
+  "sks:wetter-60": [
+   "wetter"
+  ],
+  "sks:wetter-61": [
+   "wetter"
+  ],
+  "sks:wetter-62": [
+   "wetter"
+  ],
+  "sks:wetter-63": [
+   "navigation"
+  ],
+  "sks:wetter-64": [
+   "wetter"
+  ],
+  "sks:wetter-65": [
+   "fahrwasser"
+  ],
+  "sks:wetter-66": [
+   "wetter",
+   "navigation"
+  ],
+  "sks:wetter-67": [
+   "wetter"
+  ],
+  "sks:wetter-68": [
+   "fahrwasser",
+   "wetter"
+  ],
+  "sks:wetter-69": [
+   "fahrwasser",
+   "wetter"
+  ],
+  "sks:wetter-70": [
+   "wetter"
+  ],
+  "sks:wetter-71": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:wetter-72": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:wetter-73": [
+   "wetter"
+  ],
+  "sks:wetter-74": [
+   "wetter"
+  ],
+  "sks:wetter-75": [
+   "wetter",
+   "recht"
+  ],
+  "sks:wetter-76": [
+   "nebel"
+  ],
+  "sks:wetter-77": [
+   "nebel"
+  ],
+  "sks:wetter-78": [
+   "wetter"
+  ],
+  "sks:wetter-79": [
+   "wetter"
+  ],
+  "sks:wetter-80": [
+   "nacht",
+   "wetter"
+  ],
+  "sks:wetter-81": [
+   "wetter"
+  ],
+  "sks:wetter-82": [
+   "wetter"
+  ],
+  "sks:wetter-83": [
+   "wetter"
+  ],
+  "sks:wetter-84": [
+   "wetter"
+  ],
+  "sks:wetter-85": [
+   "wetter"
+  ],
+  "sks:wetter-86": [
+   "wetter"
+  ],
+  "sks:wetter-87": [
+   "wetter"
+  ],
+  "sks:wetter-88": [
+   "wetter"
+  ],
+  "sks:wetter-89": [
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:wetter-90": [
+   "wetter"
+  ],
+  "sks:wetter-91": [
+   "wetter",
+   "strom"
+  ],
+  "sks:wetter-92": [
+   "wetter",
+   "strom"
+  ],
+  "sks:wetter-93": [
+   "wetter"
+  ],
+  "sks:wetter-94": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:wetter-95": [
+   "strom"
+  ],
+  "sks:wetter-96": [
+   "wetter"
+  ],
+  "sks:wetter-97": [
+   "wetter"
+  ],
+  "sks:wetter-98": [
+   "wetter"
+  ],
+  "sks:wetter-99": [
+   "wetter"
+  ],
+  "sks:wetter-100": [
+   "wetter"
+  ],
+  "sks:wetter-101": [
+   "fahrwasser",
+   "wetter"
+  ],
+  "sks:see1-1": [
+   "seemannschaft"
+  ],
+  "sks:see1-2": [
+   "seemannschaft"
+  ],
+  "sks:see1-3": [
+   "seemannschaft"
+  ],
+  "sks:see1-4": [
+   "seemannschaft"
+  ],
+  "sks:see1-5": [
+   "wetter"
+  ],
+  "sks:see1-6": [
+   "seemannschaft"
+  ],
+  "sks:see1-7": [
+   "wetter"
+  ],
+  "sks:see1-8": [
+   "seemannschaft"
+  ],
+  "sks:see1-9": [
+   "seemannschaft"
+  ],
+  "sks:see1-10": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-11": [
+   "seemannschaft"
+  ],
+  "sks:see1-12": [
+   "seemannschaft"
+  ],
+  "sks:see1-13": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-14": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-15": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-16": [
+   "seemannschaft"
+  ],
+  "sks:see1-17": [
+   "seemannschaft"
+  ],
+  "sks:see1-18": [
+   "seemannschaft"
+  ],
+  "sks:see1-19": [
+   "seemannschaft"
+  ],
+  "sks:see1-20": [
+   "seemannschaft"
+  ],
+  "sks:see1-21": [
+   "sicherheit"
+  ],
+  "sks:see1-22": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-23": [
+   "wetter",
+   "manoever",
+   "strom"
+  ],
+  "sks:see1-24": [
+   "seemannschaft"
+  ],
+  "sks:see1-25": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-26": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-27": [
+   "seemannschaft"
+  ],
+  "sks:see1-28": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-29": [
+   "seemannschaft"
+  ],
+  "sks:see1-30": [
+   "seemannschaft"
+  ],
+  "sks:see1-31": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:see1-32": [
+   "motor",
+   "sicherheit",
+   "strom"
+  ],
+  "sks:see1-33": [
+   "sicherheit"
+  ],
+  "sks:see1-34": [
+   "seemannschaft"
+  ],
+  "sks:see1-35": [
+   "seemannschaft"
+  ],
+  "sks:see1-36": [
+   "stabilitaet"
+  ],
+  "sks:see1-37": [
+   "motor",
+   "stabilitaet"
+  ],
+  "sks:see1-38": [
+   "wetter",
+   "stabilitaet"
+  ],
+  "sks:see1-39": [
+   "seemannschaft"
+  ],
+  "sks:see1-40": [
+   "stabilitaet"
+  ],
+  "sks:see1-41": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-42": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-43": [
+   "wetter",
+   "stabilitaet"
+  ],
+  "sks:see1-44": [
+   "seemannschaft",
+   "stabilitaet"
+  ],
+  "sks:see1-45": [
+   "wetter",
+   "seemannschaft",
+   "stabilitaet"
+  ],
+  "sks:see1-46": [
+   "seemannschaft"
+  ],
+  "sks:see1-47": [
+   "seemannschaft"
+  ],
+  "sks:see1-48": [
+   "seemannschaft"
+  ],
+  "sks:see1-49": [
+   "seemannschaft"
+  ],
+  "sks:see1-50": [
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see1-51": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-52": [
+   "seemannschaft"
+  ],
+  "sks:see1-53": [
+   "seemannschaft"
+  ],
+  "sks:see1-54": [
+   "motor"
+  ],
+  "sks:see1-55": [
+   "betonnung",
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see1-56": [
+   "wetter",
+   "umwelt"
+  ],
+  "sks:see1-57": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see1-58": [
+   "motor"
+  ],
+  "sks:see1-59": [
+   "motor"
+  ],
+  "sks:see1-60": [
+   "motor"
+  ],
+  "sks:see1-61": [
+   "motor"
+  ],
+  "sks:see1-62": [
+   "motor"
+  ],
+  "sks:see1-63": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-64": [
+   "motor",
+   "umwelt"
+  ],
+  "sks:see1-65": [
+   "motor"
+  ],
+  "sks:see1-66": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see1-67": [
+   "motor"
+  ],
+  "sks:see1-68": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-69": [
+   "motor"
+  ],
+  "sks:see1-70": [
+   "motor"
+  ],
+  "sks:see1-71": [
+   "motor"
+  ],
+  "sks:see1-72": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-73": [
+   "strom"
+  ],
+  "sks:see1-74": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-75": [
+   "seemannschaft"
+  ],
+  "sks:see1-76": [
+   "seemannschaft"
+  ],
+  "sks:see1-77": [
+   "seemannschaft"
+  ],
+  "sks:see1-78": [
+   "seemannschaft"
+  ],
+  "sks:see1-80": [
+   "fahrwasser",
+   "umwelt"
+  ],
+  "sks:see1-81": [
+   "seemannschaft"
+  ],
+  "sks:see1-82": [
+   "seemannschaft"
+  ],
+  "sks:see1-83": [
+   "wetter",
+   "navigation",
+   "strom"
+  ],
+  "sks:see1-84": [
+   "wetter",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-85": [
+   "seemannschaft"
+  ],
+  "sks:see1-86": [
+   "seemannschaft"
+  ],
+  "sks:see1-87": [
+   "sicherheit"
+  ],
+  "sks:see1-88": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-89": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-90": [
+   "fahrwasser",
+   "seemannschaft"
+  ],
+  "sks:see1-91": [
+   "sicherheit",
+   "recht",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-92": [
+   "fahrwasser",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-93": [
+   "seemannschaft"
+  ],
+  "sks:see1-94": [
+   "wetter",
+   "strom"
+  ],
+  "sks:see1-95": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-96": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-97": [
+   "fahrwasser",
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see1-98": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see1-99": [
+   "manoever"
+  ],
+  "sks:see1-100": [
+   "motor",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-101": [
+   "wetter",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-102": [
+   "fahrwasser",
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:see1-103": [
+   "wetter",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-105": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see1-106": [
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see1-107": [
+   "wetter",
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see1-108": [
+   "strom"
+  ],
+  "sks:see1-109": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-110": [
+   "motor",
+   "sicherheit",
+   "navigation",
+   "manoever"
+  ],
+  "sks:see1-111": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see1-112": [
+   "motor",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-113": [
+   "navigation"
+  ],
+  "sks:see1-114": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-115": [
+   "sicherheit"
+  ],
+  "sks:see1-116": [
+   "sicherheit"
+  ],
+  "sks:see1-117": [
+   "seemannschaft"
+  ],
+  "sks:see1-118": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-119": [
+   "flagge",
+   "sicherheit"
+  ],
+  "sks:see1-120": [
+   "motor",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-121": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see1-122": [
+   "sicherheit"
+  ],
+  "sks:see1-123": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sks:see1-124": [
+   "motor",
+   "sicherheit",
+   "navigation",
+   "seemannschaft"
+  ],
+  "sks:see1-125": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see1-126": [
+   "motor",
+   "sicherheit",
+   "recht",
+   "navigation",
+   "manoever"
+  ],
+  "sks:see1-127": [
+   "motor",
+   "wetter",
+   "sicherheit",
+   "navigation"
+  ],
+  "sks:see1-128": [
+   "seemannschaft"
+  ],
+  "sks:see1-129": [
+   "seemannschaft"
+  ],
+  "sks:see1-130": [
+   "manoever"
+  ],
+  "sks:see1-131": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see1-132": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see1-133": [
+   "ausweichen"
+  ],
+  "sks:see1-134": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see1-135": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see1-136": [
+   "sicherheit"
+  ],
+  "sks:see1-137": [
+   "sicherheit"
+  ],
+  "sks:see1-138": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:see1-139": [
+   "recht"
+  ],
+  "sks:see1-140": [
+   "seemannschaft"
+  ],
+  "sks:see1-141": [
+   "manoever"
+  ],
+  "sks:see1-142": [
+   "manoever"
+  ],
+  "sks:see1-143": [
+   "manoever"
+  ],
+  "sks:see1-144": [
+   "wetter",
+   "manoever"
+  ],
+  "sks:see1-145": [
+   "manoever"
+  ],
+  "sks:see1-146": [
+   "manoever"
+  ],
+  "sks:see1-147": [
+   "wetter",
+   "manoever"
+  ],
+  "sks:see1-148": [
+   "manoever"
+  ],
+  "sks:see1-149": [
+   "manoever"
+  ],
+  "sks:see1-150": [
+   "navigation",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-151": [
+   "manoever"
+  ],
+  "sks:see1-152": [
+   "manoever"
+  ],
+  "sks:see1-153": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-154": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-155": [
+   "manoever"
+  ],
+  "sks:see1-156": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see1-157": [
+   "manoever"
+  ],
+  "sks:see1-158": [
+   "seemannschaft"
+  ],
+  "sks:see1-159": [
+   "fahrwasser",
+   "navigation"
+  ],
+  "sks:see1-160": [
+   "manoever"
+  ],
+  "sks:see1-161": [
+   "ausweichen",
+   "navigation"
+  ],
+  "sks:see1-162": [
+   "seemannschaft"
+  ],
+  "sks:see1-163": [
+   "fahrwasser",
+   "wetter"
+  ],
+  "sks:see2-1": [
+   "seemannschaft"
+  ],
+  "sks:see2-2": [
+   "motor",
+   "wetter"
+  ],
+  "sks:see2-3": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see2-4": [
+   "motor"
+  ],
+  "sks:see2-5": [
+   "seemannschaft"
+  ],
+  "sks:see2-6": [
+   "seemannschaft"
+  ],
+  "sks:see2-7": [
+   "seemannschaft"
+  ],
+  "sks:see2-8": [
+   "motor"
+  ],
+  "sks:see2-9": [
+   "wetter"
+  ],
+  "sks:see2-10": [
+   "motor"
+  ],
+  "sks:see2-11": [
+   "wetter"
+  ],
+  "sks:see2-12": [
+   "seemannschaft"
+  ],
+  "sks:see2-13": [
+   "sicherheit"
+  ],
+  "sks:see2-14": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see2-15": [
+   "wetter",
+   "manoever",
+   "strom"
+  ],
+  "sks:see2-16": [
+   "seemannschaft"
+  ],
+  "sks:see2-17": [
+   "motor",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-18": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:see2-19": [
+   "motor",
+   "sicherheit",
+   "strom"
+  ],
+  "sks:see2-20": [
+   "sicherheit"
+  ],
+  "sks:see2-21": [
+   "motor"
+  ],
+  "sks:see2-22": [
+   "seemannschaft"
+  ],
+  "sks:see2-23": [
+   "stabilitaet"
+  ],
+  "sks:see2-24": [
+   "motor",
+   "stabilitaet"
+  ],
+  "sks:see2-25": [
+   "wetter",
+   "stabilitaet"
+  ],
+  "sks:see2-26": [
+   "motor"
+  ],
+  "sks:see2-27": [
+   "stabilitaet"
+  ],
+  "sks:see2-28": [
+   "seemannschaft"
+  ],
+  "sks:see2-29": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see2-30": [
+   "seemannschaft"
+  ],
+  "sks:see2-31": [
+   "motor"
+  ],
+  "sks:see2-32": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see2-33": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see2-34": [
+   "sicherheit"
+  ],
+  "sks:see2-35": [
+   "motor"
+  ],
+  "sks:see2-36": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see2-37": [
+   "motor"
+  ],
+  "sks:see2-38": [
+   "motor"
+  ],
+  "sks:see2-39": [
+   "motor"
+  ],
+  "sks:see2-40": [
+   "motor"
+  ],
+  "sks:see2-41": [
+   "motor"
+  ],
+  "sks:see2-42": [
+   "motor",
+   "strom"
+  ],
+  "sks:see2-43": [
+   "motor"
+  ],
+  "sks:see2-44": [
+   "motor"
+  ],
+  "sks:see2-45": [
+   "betonnung",
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see2-46": [
+   "motor"
+  ],
+  "sks:see2-47": [
+   "motor"
+  ],
+  "sks:see2-48": [
+   "motor"
+  ],
+  "sks:see2-49": [
+   "motor"
+  ],
+  "sks:see2-50": [
+   "motor",
+   "umwelt"
+  ],
+  "sks:see2-51": [
+   "motor"
+  ],
+  "sks:see2-52": [
+   "motor",
+   "wetter"
+  ],
+  "sks:see2-53": [
+   "motor",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see2-54": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see2-55": [
+   "motor"
+  ],
+  "sks:see2-56": [
+   "motor"
+  ],
+  "sks:see2-57": [
+   "motor",
+   "seemannschaft"
+  ],
+  "sks:see2-58": [
+   "strom"
+  ],
+  "sks:see2-59": [
+   "motor",
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see2-60": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-61": [
+   "seemannschaft"
+  ],
+  "sks:see2-62": [
+   "seemannschaft"
+  ],
+  "sks:see2-63": [
+   "seemannschaft"
+  ],
+  "sks:see2-64": [
+   "seemannschaft"
+  ],
+  "sks:see2-66": [
+   "fahrwasser",
+   "umwelt"
+  ],
+  "sks:see2-67": [
+   "motor"
+  ],
+  "sks:see2-68": [
+   "seemannschaft"
+  ],
+  "sks:see2-69": [
+   "wetter",
+   "navigation",
+   "strom"
+  ],
+  "sks:see2-70": [
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:see2-71": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see2-72": [
+   "motor"
+  ],
+  "sks:see2-73": [
+   "motor"
+  ],
+  "sks:see2-74": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see2-75": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see2-76": [
+   "motor",
+   "manoever"
+  ],
+  "sks:see2-77": [
+   "nebel",
+   "schallsignale",
+   "motor",
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see2-78": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-79": [
+   "wetter",
+   "seemannschaft"
+  ],
+  "sks:see2-80": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-81": [
+   "seemannschaft"
+  ],
+  "sks:see2-82": [
+   "manoever"
+  ],
+  "sks:see2-83": [
+   "motor",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-84": [
+   "fahrwasser",
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:see2-85": [
+   "fahrwasser",
+   "motor",
+   "wetter",
+   "sicherheit"
+  ],
+  "sks:see2-86": [
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see2-87": [
+   "wetter",
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see2-88": [
+   "strom"
+  ],
+  "sks:see2-89": [
+   "navigation"
+  ],
+  "sks:see2-90": [
+   "sicherheit"
+  ],
+  "sks:see2-91": [
+   "motor",
+   "sicherheit",
+   "navigation",
+   "manoever"
+  ],
+  "sks:see2-92": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see2-93": [
+   "motor",
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-94": [
+   "navigation"
+  ],
+  "sks:see2-95": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-96": [
+   "sicherheit"
+  ],
+  "sks:see2-97": [
+   "sicherheit"
+  ],
+  "sks:see2-98": [
+   "motor"
+  ],
+  "sks:see2-99": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see2-100": [
+   "flagge",
+   "sicherheit"
+  ],
+  "sks:see2-101": [
+   "motor",
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see2-102": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see2-103": [
+   "sicherheit"
+  ],
+  "sks:see2-104": [
+   "betonnung",
+   "sicherheit"
+  ],
+  "sks:see2-105": [
+   "motor",
+   "sicherheit",
+   "navigation"
+  ],
+  "sks:see2-106": [
+   "motor",
+   "sicherheit"
+  ],
+  "sks:see2-107": [
+   "motor",
+   "sicherheit",
+   "recht",
+   "navigation",
+   "manoever"
+  ],
+  "sks:see2-108": [
+   "motor",
+   "wetter",
+   "sicherheit",
+   "navigation"
+  ],
+  "sks:see2-109": [
+   "motor"
+  ],
+  "sks:see2-110": [
+   "motor"
+  ],
+  "sks:see2-111": [
+   "manoever"
+  ],
+  "sks:see2-112": [
+   "sicherheit",
+   "seemannschaft"
+  ],
+  "sks:see2-113": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see2-114": [
+   "ausweichen"
+  ],
+  "sks:see2-115": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see2-116": [
+   "sicherheit",
+   "manoever"
+  ],
+  "sks:see2-117": [
+   "sicherheit"
+  ],
+  "sks:see2-118": [
+   "sicherheit"
+  ],
+  "sks:see2-119": [
+   "sicherheit",
+   "recht"
+  ],
+  "sks:see2-120": [
+   "recht"
+  ],
+  "sks:see2-121": [
+   "motor"
+  ],
+  "sks:see2-122": [
+   "manoever"
+  ],
+  "sks:see2-123": [
+   "manoever"
+  ],
+  "sks:see2-124": [
+   "manoever"
+  ],
+  "sks:see2-125": [
+   "wetter",
+   "manoever"
+  ],
+  "sks:see2-126": [
+   "manoever"
+  ],
+  "sks:see2-127": [
+   "manoever"
+  ],
+  "sks:see2-128": [
+   "wetter",
+   "manoever"
+  ],
+  "sks:see2-129": [
+   "manoever"
+  ],
+  "sks:see2-130": [
+   "manoever"
+  ],
+  "sks:see2-131": [
+   "navigation",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-132": [
+   "manoever"
+  ],
+  "sks:see2-133": [
+   "manoever"
+  ],
+  "sks:see2-134": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-135": [
+   "sicherheit",
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-136": [
+   "manoever"
+  ],
+  "sks:see2-137": [
+   "manoever",
+   "seemannschaft"
+  ],
+  "sks:see2-138": [
+   "wetter",
+   "navigation",
+   "manoever",
+   "strom"
+  ],
+  "sks:see2-139": [
+   "wetter",
+   "manoever",
+   "seemannschaft",
+   "strom"
+  ],
+  "sks:see2-140": [
+   "manoever"
+  ],
+  "sks:see2-141": [
+   "motor"
+  ],
+  "sks:see2-142": [
+   "fahrwasser",
+   "navigation"
+  ],
+  "sks:see2-143": [
+   "manoever"
+  ],
+  "sks:see2-144": [
+   "ausweichen",
+   "navigation"
+  ],
+  "sks:see2-145": [
+   "motor"
+  ],
+  "sks:see2-146": [
+   "fahrwasser",
+   "wetter"
+  ]
+ }
+}

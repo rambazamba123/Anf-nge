@@ -415,7 +415,7 @@ Danach: Bericht, Push, Abschnitt 8 aktualisieren.
   - Zurück-Taste im Quiz, in der Karte und in den Einstellungen
 - **Werkzeuge nur als Trockenlauf geprüft:** `tools/stimmenpaket.js` ist noch nie mit echtem Schlüssel gelaufen. Erst mit der Freigabe der Podcastfolgen.
 - **Lauf 3 (Nachtrag `CLAUDE-nachtrag-lauf3.md`): Datei fehlt** im Ordner und in der Git-Historie. Inhalt zu Moin, zwei Bootsansichten, Einführungen, Navi-Prüfung, SKS-Navi, lesbarer Karte, Prüfer, Technik/Rauchtest ist nicht bekannt. **Bitte den Nachtrag erneut hochladen.** Funk und Pyro bleiben ausgenommen.
-- **Törn 2.0 (Lauf 4, Konzept 5.14):** läuft. Plan in `docs/toern2-plan.md`.
+- **Törn 2.0 (Lauf 4, Konzept 5.14):** läuft. Plan in `docs/toern2-plan.md`. T1 (Tags) angelegt, Fehlerquote in der 20er-Stichprobe grob 15–20 % (nicht fertig). T2–T7 offen.
 - **Offen (Reihenfolge):**
   1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
   2. A6 Konten und Server mit Supabase (freigegeben), danach KI-Tageslimit auf dem Server

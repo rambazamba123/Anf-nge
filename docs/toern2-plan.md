@@ -3,7 +3,7 @@ Stand 08.10.2026 · Konzept: CLAUDE.md §5.14 · Umsetzung in einem Lauf (Lauf 4
 
 | Etappe | Inhalt | Ergebnis (Prüfung) |
 |---|---|---|
-| T1 | `data/tags.json`: Situations-Tags für alle 285 SBF- und 635 SKS-Fragen (automatisch über Themen und Stichwörter) | Tags vorhanden; 50 Stichproben von Hand, Fehlerquote im Bericht |
+| T1 | `data/tags.json`: Situations-Tags für alle 285 SBF- und 635 SKS-Fragen (automatisch über Themen und Stichwörter) | ERLEDIGT (Stand jetzt): 920 Tags (285 SBF, 635 SKS). Stichprobe 20 von Hand: grob 15–20 % noch unscharf oder falsch (Beispiele: sbf:224, sks:see1-83). 50er-Stichprobe und weitere Regelschärfung offen |
 | T2 | `data/sks-mc.json`: pro SKS-Frage 1 richtige (gekürzt, amtlicher Kern) + 2 „glaubwürdiger Humbug“-Antworten | 635 Einträge; Skript prüft Format, Länge, Dubletten; Kennzeichen „nur offen“ gezählt |
 | T3 | `data/ausruestung.json`, `data/toerns.json`, `data/ereignisse.json` (alle 5 Stufen, 10 Törns, Ereignisse datengetrieben) | Schema-Check per Skript |
 | T4 | `toern.js` (Kernlogik ohne DOM, testbar) + Oberfläche: Törnwahl, Start-Übergang, Wetter-Tagesaufgabe, Fahrt-Ansicht (Canvas), Mini-Karte, Aufgaben mit Reaktionszeit, Pause/Fortsetzen, Nachbesprechung, Logbuch, Bordkasse/Ausrüstung | Spielbar durch einen Landratte-Törn |
