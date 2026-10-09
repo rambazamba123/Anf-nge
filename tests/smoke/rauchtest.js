@@ -56,10 +56,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
   /* V12: Knotenbrett und Knotenkunde */
   await schritt('05b-knoten', page, async () => { await ev(page, () => knotenBrett()); await sleep(1000); if (!await page.$('.knotgrid')) throw new Error('kein Knotenbrett'); await ev(page, () => { const x = document.querySelector('#einfx'); if (x) x.click(); KNOTEN.zeige('acht'); }); await sleep(500); await ev(page, () => KNOTEN.spiel()); await sleep(400); if (!await page.$('[data-o],[data-j]')) throw new Error('kein Knotenspiel'); });
-  /* V12: Palstek als Tau-Animation (läuft, Schritt hervorgehoben, am Ende Zieh-Pfeile) und Spielrunde „Was passiert hier?“ */
-  await schritt('05c-palstek', page, async () => { await ev(page, () => KNOTEN.zeige('palstek-anim')); await sleep(6500);
+  /* V12: jeder Knoten ist eine Tau-Animation (läuft, Schritt hervorgehoben, am Ende Zieh-Pfeile) */
+  await schritt('05c-palstek', page, async () => { await ev(page, () => KNOTEN.zeige('palstek')); await sleep(6500);
     const st = await ev(page, () => { const c = document.querySelector('#kanim'), li = document.querySelector('#kst li.an'); return c && c.width > 0 && li ? [...document.querySelectorAll('#kst li')].indexOf(li) : -1; });
     if (st < 1) throw new Error('Palstek-Animation läuft nicht (Schritt ' + st + ')'); await ev(page, () => { const r = document.querySelector('#kzeit'); r.value = r.max; r.oninput(); }); await sleep(300); });
+  for (const id of ['acht', 'kreuz', 'schot', 'webelein', 'rundtoern', 'klampe']) await schritt('05c-' + id, page, async () => {
+    await ev(page, id => KNOTEN.zeige(id), id); await sleep(2500);
+    const ok = await ev(page, () => { const c = document.querySelector('#kanim'); if (!c || !c.width) return 'keine Leinwand'; const r = document.querySelector('#kzeit'); r.value = r.max; r.oninput(); return document.querySelectorAll('#kst li').length >= 3 ? '' : 'keine Schritte'; });
+    if (ok) throw new Error(id + ': ' + ok); await sleep(400); });
   await schritt('05d-knoten-schritt', page, async () => { await ev(page, () => KNOTEN.spiel(['schritt'])); await sleep(2500); if (!await page.$('#kanim') || !await page.$('[data-o]')) throw new Error('keine Runde „Was passiert hier?“'); });
   await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
