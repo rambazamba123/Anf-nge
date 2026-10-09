@@ -505,7 +505,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.43';
+  window.__ver = '4.44';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -827,7 +827,7 @@ const TEASE = {
     erw: ['Ich bin zwölf und hab heute mehr gelernt als du. Krass, oder?', 'Du quatschst echt mehr als mein Opa, und der redet die ganze Zeit.'],
   },
 };
-/* Die Crew ist immer FSK 18 frech (Wunsch des Nutzers). Die alten Altersgruppen bleiben nur für alte Spielstände. */
+/* V3: Die Crew ist jugendfrei ab 12, aber derb (Wunsch des Nutzers, 09.10.2026). Intern heißt die Stufe weiter 'erw', die alten Altersgruppen bleiben nur für alte Spielstände. */
 const ageGroup = () => 'erw';
 const teaseOf = id => { const t = TEASE[id] && TEASE[id][ageGroup()]; return t ? t[Math.random() * t.length | 0] : ''; };
 const lineOf = (id, key, i) => { const v = LINES[id] && LINES[id][key]; if (!v) return ''; if (Array.isArray(v)) return i === undefined ? v[Math.random() * v.length | 0] : v[Math.min(i, v.length - 1)]; return v; };
@@ -846,7 +846,7 @@ const INTRO = [
   {s: 'K', t: 'Sag mal, dürfen wir dich auch hören? Dann können wir ganz normal miteinander schnacken.'},
 ];
 /* Kennenlernen am Steg: nur feste Sätze ohne Namen, damit sie einmal erzeugt im Stimmenpaket liegen.
-   Ton: immer FSK 18, Seemannssprech, gern doppeldeutig. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
+   Ton: ab 12, derber Seemannssprech, keine Anzüglichkeiten. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
 const ONB = {
   nameAsk: {s: 'M', t: 'Und wie sollen wir dich nennen? Ich hab dir schon mal was eingetragen. Gern geschehen.'},
   courseAsk: {s: 'K', t: 'Für welchen Schein willst du dich hier einschiffen? Sportbootführerschein See, Binnen oder Sportküstenschifferschein?'},
@@ -858,7 +858,7 @@ const ONB = {
 const ONB2 = {
   nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
-  binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt versauter, als es ist.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
+  binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt nach Achterbahn, ist aber nur der Rhein.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
   sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet. Mit Rückgrat.'}, {s: 'M', t: 'Endlich mal jemand, der weiß, wo vorne ist. Hoffentlich.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
   examAsk: [{s: 'K', t: 'Und wann musst du vor dem Prüfer die Hosen runterlassen? Ich mein natürlich: Wann ist deine Prüfung?'}],
   examNone: [{s: 'K', t: 'Kein Termin? Dann liegen wir erst mal vor Anker. Ich trag uns sechs Wochen ein, das kannst du später ändern.'}],
@@ -893,10 +893,10 @@ const ONB_FREE = [{s: 'K', t: 'Aha. Hab ich notiert. Ob ich es verstanden hab, i
 const NICKS = ['Landratte', 'Kielschwein', 'Bilgenkrabbe', 'Leichtmatrose', 'Möwenschreck', 'Seepocke', 'Klabauter-Azubi', 'Smutje Ahnungslos', 'Plankenputzer', 'Pützenschwenker', 'Fenderfummler', 'Kombüsenkapitän'];
 /* Erstes Mal in der Kajüte: Plan erklären, bei SKS kurze SBF-Prüfung, dann Ziele und Fahrplan. Ebenfalls nur feste Sätze. */
 const CABIN = {
-  hello: [{s: 'K', t: 'Da ist ja unser Neuzugang. Komm rein, Kopf einziehen. Der Niedergang hat schon Größere flachgelegt.'}, {s: 'M', t: 'Setz dich. Der Tee ist heiß, der Käpt\'n auch. Also, auf seine Pläne.'}, {s: 'T', t: 'Heiß! Heiß!'}],
+  hello: [{s: 'K', t: 'Da ist ja unser Neuzugang. Komm rein, Kopf einziehen. Der Niedergang hat schon Größere flachgelegt.'}, {s: 'M', t: 'Setz dich. Der Tee ist heiß, der Käpt\'n grantig. Also, Ohren auf für seine Pläne.'}, {s: 'T', t: 'Heiß! Heiß!'}],
   plan: [
     {s: 'K', t: 'Also, so läuft das hier an Bord. Jeden Tag gibt es drei Etappen: Erst Aufwärmen mit Fragen, die schon mal dran waren. Dann neue Fragen. Und zum Schluss eine Folge Kajütenfunk.'},
-    {s: 'M', t: 'Was du richtig hast, kommt erst nach ein paar Tagen wieder. Was du verbockst, steht morgen wieder vor der Tür. Wie ein Verflossener, der nicht loslassen kann.'},
+    {s: 'M', t: 'Was du richtig hast, kommt erst nach ein paar Tagen wieder. Was du verbockst, steht morgen wieder vor der Tür. Wie Seepocken am Rumpf: Die wirst du erst los, wenn du sie abkratzt.'},
     {s: 'K', t: 'Das nennt sich Lernkartei. Die Fragen wandern durch fünf Fächer. Sind sie ganz hinten, sitzen sie bombenfest. Wie ein Palstek.'},
     {s: 'K', t: 'Kurz vor der Prüfung kommt nichts Neues mehr. Dann wird nur noch wiederholt, und Kapitän Harms nimmt dich in der Probeprüfung in die Mangel.'},
     {s: 'M', t: 'Und wenn dir der Kopf raucht, geh in die Spielekiste. Lichter, Tonnen, Schallsignale. Lernen, ohne dass es wehtut.'},
@@ -914,7 +914,7 @@ const CABIN = {
   sum_time_short: [{s: 'K', t: 'Bis zur Prüfung ist es knapp. Wir fahren unter Vollzeug, jeden Tag ein ordentliches Stück.'}],
   sum_time_mid: [{s: 'K', t: 'Bis zur Prüfung haben wir ordentlich Zeit. Genug für eine saubere Reise, wenn du nicht trödelst.'}],
   sum_time_long: [{s: 'K', t: 'Bis zur Prüfung ist es noch lange hin. Wir segeln gemütlich, aber wir segeln. Ankern gilt nicht.'}],
-  sum_min_short: [{s: 'K', t: 'Viel Zeit am Tag hast du nicht. Darum lernen wir in kleinen Schlucken. Wie beim guten Rum.'}],
+  sum_min_short: [{s: 'K', t: 'Viel Zeit am Tag hast du nicht. Darum lernen wir in kleinen Schlucken. Wie beim heißen Tee: Wer kippt, verbrennt sich das Maul.'}],
   sum_min_mid: [{s: 'K', t: 'Mit deiner Lernzeit am Tag kommen wir gut voran.'}],
   sum_min_long: [{s: 'K', t: 'Bei deiner Lernzeit pro Tag muss ich eher aufpassen, dass du dich nicht übernimmst.'}],
   sum_exp_none: [{s: 'K', t: 'Und weil du noch nie am Ruder warst, erklär ich die Grundlagen in Ruhe. Jeder fängt mal klein an. Sogar ich. Ganz früher.'}],
@@ -2188,7 +2188,7 @@ function learner() {
 const TONE = {
   kind: 'Der Nutzer ist unter 16. Sprecht kindgerecht: frech, aber lieb, keine Schimpfwörter.',
   teen: 'Der Nutzer ist 16 oder 17. Sprecht flapsig und frech, harmlose Kraftausdrücke wie Mist oder verflixt sind okay.',
-  erw: 'Ton: FSK 18. Frecher, derber Seemannssprech mit vielen doppeldeutigen Witzen und Anspielungen aus der Seefahrt (Mast, Leinen festmachen, Anlegen, steife Brise, einlaufen, Schoten dichtholen, Achterdeck und so weiter). Benutzt reichlich Metaphern und Redewendungen von Bord. Flüche wie verdammt, Himmel, Arsch und Zwirn oder Klabautermann nochmal sind okay. Zweideutig ja, platt oder pornografisch nie. Nie verletzend wegen Herkunft, Aussehen, Geschlecht oder Ähnlichem.',
+  erw: 'Ton: jugendfrei ab 12, aber derb und hart. Frecher, ruppiger Seemannssprech mit vielen Bildern von Bord (kentern, auf Grund laufen, Landratte, Seepocke, Treibgut). Flüche wie verdammt, Himmel, Arsch und Zwirn oder Klabautermann nochmal sind okay. Keine sexuellen Anspielungen, keine Zweideutigkeiten, kein Alkohol oder Rauchen als Witz. Nie verletzend wegen Herkunft, Aussehen, Geschlecht oder Ähnlichem.',
 };
 const GARN = [
   'Bleibt streng bei prüfungsrelevantem Wissen, keine Anekdoten.',
@@ -2197,7 +2197,7 @@ const GARN = [
   'Viel Seemannsgarn, Anekdoten und Geschichten, gern ausgeschmückt und als Spaß erkennbar. Prüfungswissen bleibt trotzdem exakt.',
 ];
 function styleRules() {
-  const rank = (typeof COURSE !== 'undefined' && COURSE && COURSE.id === 'sks') ? '- Der Lernende macht den Sportküstenschifferschein. Begegnet ihm mit spürbar mehr Respekt, fast wie unter Kollegen.' : '- Der Lernende macht "nur" den Sportbootführerschein. Zieht ihn ab und zu liebevoll damit auf (Badewannen-Kapitän, Gummiente) und nehmt ihn nicht ganz ernst, bleibt aber herzlich. Fachlich immer korrekt.';
+  const rank = (typeof COURSE !== 'undefined' && COURSE && COURSE.id === 'sks') ? '- Der Lernende macht den Sportküstenschifferschein. Zieht ihn trotzdem auf, aber auf Augenhöhe, wie einen Kollegen, der sich noch beweisen muss.' : '- Der Lernende macht "nur" den Sportbootführerschein. Zieht ihn ordentlich damit auf (Badewannen-Kapitän, Gummiente, Landratte) und nehmt ihn nicht ganz ernst, bleibt aber im Kern herzlich. Fachlich immer korrekt.';
   return `${rank}\n- ${TONE[ageGroup()]}\n- ${GARN[S.cfg.garn == null ? 2 : S.cfg.garn]} Wahre Fakten nur, wenn ihr sie sicher wisst.`;
 }
 function rules() {

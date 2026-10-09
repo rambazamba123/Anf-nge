@@ -247,6 +247,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 ### Lauf 4 (ab 09.10.2026)
 - [x] v4.43 V1 Drei Figuren: feste Crew Hinnerk, Smilla, Klabauter (+ Harms), `SPRECHER`, alte Spielstände still umgestellt, Stimmenpaket und Bestenliste nur noch mit diesen (`NPC_IDS`, Katze miaut)
+- [x] v4.44 V3 Ton ab 12: KI-Leitplanke `TONE.erw` ohne Anzüglichkeiten, SBF und SKS werden beide aufgezogen, 5 feste Sätze entschärft (Liste in `docs/feste-saetze.md`)
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
