@@ -51,6 +51,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03b-telefon-harms', page, async () => { await ev(page, () => document.querySelector('[data-spot="telefon"]').click()); await sleep(7500); if (!await page.$('#harms')) throw new Error('Harms kommt nicht'); await ev(page, () => document.querySelector('#hgo').click()); await sleep(600); await ev(page, () => setTab('cabin')); await sleep(400); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
+  /* V12: Knotenbrett und Knotenkunde */
+  await schritt('05b-knoten', page, async () => { await ev(page, () => knotenBrett()); await sleep(1000); if (!await page.$('.knotgrid')) throw new Error('kein Knotenbrett'); await ev(page, () => { const x = document.querySelector('#einfx'); if (x) x.click(); KNOTEN.zeige('acht'); }); await sleep(500); await ev(page, () => KNOTEN.spiel()); await sleep(400); if (!await page.$('[data-o],[data-j]')) throw new Error('kein Knotenspiel'); });
   await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
@@ -73,6 +75,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('13-etappe-komplett', page, async () => {
     for (let k = 0; k < 60; k++) {
       const st = await ev(page, () => { const L = S.toern2.lauf; if (!L || L.phase !== 'fahrt') return 'fertig'; if (document.querySelector('#twok')) { document.querySelector('#twok').click(); return 'weiter'; }
+        const bx = document.querySelector('#twbonusx'); if (bx) { bx.click(); return 'bonus'; }
         const o = document.querySelector('[data-o]:not([disabled])'); if (o) { o.click(); return 'antwort'; }
         const s = document.querySelector('#twsig'); if (s && !s.disabled) { s.click(); return 'signal'; }
         const a = document.querySelector('#twauf'); if (a) { a.click(); setTimeout(() => { const j = document.querySelector('#twja'); if (j) j.click(); }, 50); return 'offen'; }
@@ -106,14 +109,26 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     const t = await ev(page, () => S.toern2.lauf.t); if (Math.abs(t - tVor) > 5) throw new Error(`Stand nicht fortgesetzt (${tVor} → ${t})`);
   });
   await schritt('22-pause', page, async () => { await ev(page, () => document.querySelector('#twpause').click()); await sleep(400); if (!await page.$('#twover')) throw new Error('keine Pause'); await ev(page, () => document.querySelector('#twgo').click()); });
+  /* V14: Bonusrunde (Minispiel) im Törn: starten, gekürzt spielen, Ertrag geht zurück in den Törn, keine Musik */
+  await schritt('23-bonusrunde', page, async () => {
+    await ev(page, () => { const L = S.toern2.lauf; if (L.card) { L.card = null; document.querySelector('#twtask').innerHTML = ''; } L.plan.tasks.splice(L.i, 0, {typ: 'mini', key: 'lights', at: L.t + .5}); }); await sleep(1500);
+    if (!await page.$('#twbonus')) throw new Error('keine Bonusrunde angeboten');
+    const kasse = await ev(page, () => S.toern2.kasse);
+    await ev(page, () => document.querySelector('#twbonus').click()); await sleep(900);
+    if (!await ev(page, () => BONUS && BONUS.key === 'lights')) throw new Error('Minispiel nicht im Bonus-Modus');
+    await ev(page, () => bonusEnde(4)); await sleep(1600);
+    if (!await page.$('#twcv')) throw new Error('nicht zurück im Törn');
+    const r = await ev(page, () => ({n: (S.toern2.lauf.mini || []).length, k: S.toern2.kasse, best: (S.best || {}).lights || 0}));
+    if (r.n < 1 || r.k <= kasse) throw new Error('kein Ertrag: ' + JSON.stringify(r)); if (r.best) throw new Error('Bonus zählt als Rekord');
+  });
 
   /* 5. SKS-Ankreuzrunde */
   await schritt('30-sks-mc', page, async () => { await ev(page, () => { switchCourse('sks'); return loadToern().then(() => TOERN.mcRunde()); }); await sleep(700); await ev(page, () => document.querySelector('[data-k]').click()); await sleep(300); if (!await page.$('#mcweiter')) throw new Error('keine Auswertung'); });
   await page.context().close();
 
   /* 6. Alter Spielstand (Törn-Light, ohne toern2) lädt ohne Fehler */
-  page = await neu(stand({toern: {i: 1, p: 2.5, art: 'segel', ev: [], prov: 3, sprit: 80, laune: 70, zustand: 90, log: [{day: 20000, t: 'Alt', art: 'segel', min: 6, ok: 3, n: 4, sterne: 2}], provDay: 20000}}));
-  await schritt('40-alter-stand', page, async () => { await ev(page, () => setTab('cabin')); await sleep(600); await ev(page, () => openToern()); await sleep(1500); });
+  page = await neu(stand({crew: {K: 'ilse', M: 'piet', T: 'backbord'}, toern: {i: 1, p: 2.5, art: 'segel', ev: [], prov: 3, sprit: 80, laune: 70, zustand: 90, log: [{day: 20000, t: 'Alt', art: 'segel', min: 6, ok: 3, n: 4, sterne: 2}], provDay: 20000}}));
+  await schritt('40-alter-stand', page, async () => { await ev(page, () => setTab('cabin')); await sleep(600); const c = await ev(page, () => S.crew.K + S.crew.M + S.crew.T); if (c !== 'hinnerksmillaklabauter') throw new Error('Crew nicht umgestellt: ' + c); await ev(page, () => openToern()); await sleep(1500); });
   await page.context().close();
 
   await browser.close(); server.close();

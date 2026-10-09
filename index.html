@@ -304,6 +304,9 @@ button.coursechip{border:0;cursor:pointer}
 .phone .hoerer{transition:transform .3s;transform-origin:15px 6px}.phone.ab .hoerer{transform:translate(8px,-7px) rotate(-18deg)}
 .harms{position:fixed;inset:0;z-index:63;background:rgba(20,14,10,.5);display:flex;align-items:flex-end;justify-content:center;padding:16px}.harms .hbox{background:#fffaf0;color:#2a2019;border-radius:18px;padding:14px;max-width:440px;width:100%;display:flex;gap:10px;align-items:flex-end;animation:harmsIn .9s ease-out both;box-shadow:0 8px 24px rgba(0,0,0,.35)}.harms .hbox>svg{width:96px;flex:none}.harms p{margin:0 0 10px}@keyframes harmsIn{from{transform:translateX(115%)}to{transform:none}}
 .menuitem.off,.chip.off{opacity:.45;cursor:default;filter:grayscale(1)}
+.bkatze{cursor:pointer}.bkatze .kzz{animation:kzz 2.6s ease-in-out infinite}.bkatze.blinzelt .kauge{d:path('M-17 -4 a2 2 0 1 0 4 0')}.bkatze.hops{animation:khops .45s ease-in}.bkatze.jagt{animation:kjagt 1.2s ease-in forwards}
+@keyframes kzz{0%{opacity:0;transform:translate(0,0)}40%{opacity:1}100%{opacity:0;transform:translate(6px,-12px)}}@keyframes khops{50%{transform:translateY(-14px)}100%{transform:translateY(-30px);opacity:0}}@keyframes kjagt{30%{transform:translate(-40px,-60px)}100%{transform:translate(-140px,-170px);opacity:0}}
+.instbtn{display:none}body.kanninst .instbtn{display:inline-flex}
 .einf{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:62;max-height:60svh;overflow:auto;background:rgba(30,24,18,.94);color:#fffaf0;padding:12px 14px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35)}.einf p{margin:6px 0}.einf .muted{color:#e8dcc4}.einf .row{justify-content:flex-end;margin-top:8px}.einf .btn.ghost{color:#fffaf0;border-color:rgba(255,250,240,.6);background:transparent}
 .bgpill{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(30,24,18,.92);color:#fffaf0;padding:10px 12px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);font-size:.92rem;max-width:520px;margin:0 auto}
 .scene.cabin.seated .seatglow{opacity:.5;transition:opacity .4s}
@@ -313,8 +316,8 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat .panohint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(255,250,240,.92);color:#2a2019;padding:4px 14px;border-radius:999px;font:700 .85rem var(--bfont);pointer-events:none;opacity:0;animation:panohint 4s ease .8s forwards;z-index:3}
 @keyframes panohint{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
 .knife.taken{opacity:0;pointer-events:none}
-[data-egg="kompass"] .needle{transform-box:fill-box;transform-origin:50% 50%}
-[data-egg="kompass"].devi .needle{animation:devi 2.6s ease-out forwards}
+[data-egg="kompass"] .needle,[data-tap="kompass"] .needle{transform-box:fill-box;transform-origin:50% 50%}
+[data-egg="kompass"].devi .needle,[data-tap="kompass"].devi .needle{animation:devi 2.6s ease-out forwards}
 @keyframes devi{0%{transform:rotate(0)}15%{transform:rotate(80deg)}35%{transform:rotate(-45deg)}55%{transform:rotate(40deg)}75%{transform:rotate(18deg)}100%{transform:rotate(25deg)}}
 .krabbe{opacity:0;pointer-events:none} .krabbe.pop{animation:krab 2.8s ease-out}
 @keyframes krab{0%{opacity:1;transform:translateY(10px)}30%{opacity:1;transform:translate(-10px,-46px) rotate(-25deg)}100%{opacity:0;transform:translate(-40px,20px) rotate(50deg)}}
@@ -505,7 +508,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.42';
+  window.__ver = '4.60';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -718,8 +721,10 @@ const CREW = {
     persona: 'Prüfer Kapitän Harms, ehemaliger Elblotse, prüft seit 25 Jahren. Streng, sachlich, kurze Sätze, heimlich nett.',
     voicePref: ['Daniel', 'Roger', 'Eric', 'Brian', 'George'], gender: 'male', age: 'middle', fx: 1, pitch: 0.9, rate: 0.98},
 };
-const ROLE_OPTIONS = {K: ['hinnerk', 'ilse'], M: ['smilla', 'piet'], T: ['klabauter', 'backbord']};
-const ROLE_NAMES = {K: "Käpt'n", M: 'Matrose', T: 'Bordtier', P: 'Prüfer'};
+/* V1: feste Crew aus drei Sprechern. Ilse und Piet bleiben nur als Daten für alte Spielstände, Backbord läuft als stumme Bordkatze mit (V2). */
+const ROLE_OPTIONS = {K: ['hinnerk'], M: ['smilla'], T: ['klabauter']};
+const SPRECHER = ['hinnerk', 'smilla', 'klabauter', 'kroeger'];
+const ROLE_NAMES = {K: "Käpt'n", M: 'Matrosin', T: 'Bordtier', P: 'Prüfer'};
 
 function charSVG(id, extraCls = '') {
   return `<svg class="ch ${extraCls}" data-ch="${id}" viewBox="0 -2 100 147" aria-hidden="true">${ART[id]()}</svg>`;
@@ -796,11 +801,25 @@ const GRUSS = {
 /* Wie lange du weg warst, hört man an den Worten danach. Moin und Satz sind getrennte Clips, damit beide im Stimmenpaket liegen. */
 /* 5.9: Das erste Moin ist richtig gezogen (O etwa 2–3 Sekunden). Dieser Clip wird beim Abspielen leicht gedehnt, Tonhöhe bleibt. */
 const MOIN_LANG = 'Mooooooooin!';
-const MOIN = [MOIN_LANG, 'Moin, moin!', 'Na, moin!', 'Na, moin! Lang nicht gesehen.', 'Ja, moin! Dich gibt\'s ja auch noch!'];
-function moinWord(gap) { return MOIN[gap <= 1 ? 0 : gap <= 3 ? 1 : gap <= 7 ? 2 : gap <= 14 ? 3 : 4]; }
-function moinText(gap, lead) {
-  const g = GRUSS[lead] || GRUSS.hinnerk;
-  return [moinWord(gap), g[Math.random() * g.length | 0]];
+/* V4: Moin-Bausteine je Figur. Jeder Baustein ist ein fester Satz (einmal erzeugt, im Stimmenpaket).
+   Die Begrüßung setzt sie zufällig zusammen: der Käpt'n fast immer, Smilla und Klabauter manchmal. Gezogene Moins werden beim Abspielen gedehnt. */
+const MOIN_BAU = {
+  hinnerk: ['Moin.', 'Moin, moin!', 'Mooooin!', MOIN_LANG, 'Moin, Mooooooin!', 'Moooooooooin! Moin!', 'Mooin moin!', 'Moin… moin.'],
+  smilla: ['Moin!', 'Moin, moin, moin!', 'Mooooin!', 'Na, moin!', 'Moin, Landratte!'],
+  klabauter: ['Moin! Moin! Moin!', 'Mooooin!', 'Moin! Zwieback?', 'Moooin! Böig! Böig!'],
+};
+/* Wer lange weg war, hört es am Käpt'n */
+const MOIN_WEG = {7: 'Na, moin! Lang nicht gesehen.', 14: 'Ja, moin! Dich gibt\'s ja auch noch!'};
+const MOIN = [...MOIN_BAU.hinnerk, ...Object.values(MOIN_WEG)];
+const pickOf = a => a[Math.random() * a.length | 0];
+function moinKette(gap) {
+  const out = [], kap = Math.random() < .9;
+  if (kap) out.push({cid: 'hinnerk', t: gap > 14 ? MOIN_WEG[14] : gap > 7 ? MOIN_WEG[7] : pickOf(MOIN_BAU.hinnerk)});
+  const dazu = ['smilla', 'klabauter'].filter(() => Math.random() < .22).sort(() => Math.random() - .5);
+  if (!out.length && !dazu.length) dazu.push('smilla');
+  dazu.forEach(c => out.push({cid: c, t: pickOf(MOIN_BAU[c])}));
+  if (kap) out.push({cid: 'hinnerk', t: pickOf(GRUSS.hinnerk)});
+  return out;
 }
 /* Altersgruppen für den Ton der Crew: kind (unter 16), teen (16–17), erw (ab 18) */
 const TEASE = {
@@ -825,7 +844,7 @@ const TEASE = {
     erw: ['Ich bin zwölf und hab heute mehr gelernt als du. Krass, oder?', 'Du quatschst echt mehr als mein Opa, und der redet die ganze Zeit.'],
   },
 };
-/* Die Crew ist immer FSK 18 frech (Wunsch des Nutzers). Die alten Altersgruppen bleiben nur für alte Spielstände. */
+/* V3: Die Crew ist jugendfrei ab 12, aber derb (Wunsch des Nutzers, 09.10.2026). Intern heißt die Stufe weiter 'erw', die alten Altersgruppen bleiben nur für alte Spielstände. */
 const ageGroup = () => 'erw';
 const teaseOf = id => { const t = TEASE[id] && TEASE[id][ageGroup()]; return t ? t[Math.random() * t.length | 0] : ''; };
 const lineOf = (id, key, i) => { const v = LINES[id] && LINES[id][key]; if (!v) return ''; if (Array.isArray(v)) return i === undefined ? v[Math.random() * v.length | 0] : v[Math.min(i, v.length - 1)]; return v; };
@@ -844,7 +863,7 @@ const INTRO = [
   {s: 'K', t: 'Sag mal, dürfen wir dich auch hören? Dann können wir ganz normal miteinander schnacken.'},
 ];
 /* Kennenlernen am Steg: nur feste Sätze ohne Namen, damit sie einmal erzeugt im Stimmenpaket liegen.
-   Ton: immer FSK 18, Seemannssprech, gern doppeldeutig. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
+   Ton: ab 12, derber Seemannssprech, keine Anzüglichkeiten. Jede Frage hat Auswahlknöpfe und ein eigenes Textfeld. */
 const ONB = {
   nameAsk: {s: 'M', t: 'Und wie sollen wir dich nennen? Ich hab dir schon mal was eingetragen. Gern geschehen.'},
   courseAsk: {s: 'K', t: 'Für welchen Schein willst du dich hier einschiffen? Sportbootführerschein See, Binnen oder Sportküstenschifferschein?'},
@@ -856,7 +875,7 @@ const ONB = {
 const ONB2 = {
   nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
-  binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt versauter, als es ist.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
+  binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt nach Achterbahn, ist aber nur der Rhein.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
   sks: [{s: 'K', t: 'Der Sportküstenschifferschein. Donnerwetter. Da wird nicht angekreuzt, da wird geantwortet. Mit Rückgrat.'}, {s: 'M', t: 'Endlich mal jemand, der weiß, wo vorne ist. Hoffentlich.'}, {s: 'T', t: 'Kapitän! Kapitän!'}],
   examAsk: [{s: 'K', t: 'Und wann musst du vor dem Prüfer die Hosen runterlassen? Ich mein natürlich: Wann ist deine Prüfung?'}],
   examNone: [{s: 'K', t: 'Kein Termin? Dann liegen wir erst mal vor Anker. Ich trag uns sechs Wochen ein, das kannst du später ändern.'}],
@@ -891,10 +910,10 @@ const ONB_FREE = [{s: 'K', t: 'Aha. Hab ich notiert. Ob ich es verstanden hab, i
 const NICKS = ['Landratte', 'Kielschwein', 'Bilgenkrabbe', 'Leichtmatrose', 'Möwenschreck', 'Seepocke', 'Klabauter-Azubi', 'Smutje Ahnungslos', 'Plankenputzer', 'Pützenschwenker', 'Fenderfummler', 'Kombüsenkapitän'];
 /* Erstes Mal in der Kajüte: Plan erklären, bei SKS kurze SBF-Prüfung, dann Ziele und Fahrplan. Ebenfalls nur feste Sätze. */
 const CABIN = {
-  hello: [{s: 'K', t: 'Da ist ja unser Neuzugang. Komm rein, Kopf einziehen. Der Niedergang hat schon Größere flachgelegt.'}, {s: 'M', t: 'Setz dich. Der Tee ist heiß, der Käpt\'n auch. Also, auf seine Pläne.'}, {s: 'T', t: 'Heiß! Heiß!'}],
+  hello: [{s: 'K', t: 'Da ist ja unser Neuzugang. Komm rein, Kopf einziehen. Der Niedergang hat schon Größere flachgelegt.'}, {s: 'M', t: 'Setz dich. Der Tee ist heiß, der Käpt\'n grantig. Also, Ohren auf für seine Pläne.'}, {s: 'T', t: 'Heiß! Heiß!'}],
   plan: [
     {s: 'K', t: 'Also, so läuft das hier an Bord. Jeden Tag gibt es drei Etappen: Erst Aufwärmen mit Fragen, die schon mal dran waren. Dann neue Fragen. Und zum Schluss eine Folge Kajütenfunk.'},
-    {s: 'M', t: 'Was du richtig hast, kommt erst nach ein paar Tagen wieder. Was du verbockst, steht morgen wieder vor der Tür. Wie ein Verflossener, der nicht loslassen kann.'},
+    {s: 'M', t: 'Was du richtig hast, kommt erst nach ein paar Tagen wieder. Was du verbockst, steht morgen wieder vor der Tür. Wie Seepocken am Rumpf: Die wirst du erst los, wenn du sie abkratzt.'},
     {s: 'K', t: 'Das nennt sich Lernkartei. Die Fragen wandern durch fünf Fächer. Sind sie ganz hinten, sitzen sie bombenfest. Wie ein Palstek.'},
     {s: 'K', t: 'Kurz vor der Prüfung kommt nichts Neues mehr. Dann wird nur noch wiederholt, und Kapitän Harms nimmt dich in der Probeprüfung in die Mangel.'},
     {s: 'M', t: 'Und wenn dir der Kopf raucht, geh in die Spielekiste. Lichter, Tonnen, Schallsignale. Lernen, ohne dass es wehtut.'},
@@ -912,7 +931,7 @@ const CABIN = {
   sum_time_short: [{s: 'K', t: 'Bis zur Prüfung ist es knapp. Wir fahren unter Vollzeug, jeden Tag ein ordentliches Stück.'}],
   sum_time_mid: [{s: 'K', t: 'Bis zur Prüfung haben wir ordentlich Zeit. Genug für eine saubere Reise, wenn du nicht trödelst.'}],
   sum_time_long: [{s: 'K', t: 'Bis zur Prüfung ist es noch lange hin. Wir segeln gemütlich, aber wir segeln. Ankern gilt nicht.'}],
-  sum_min_short: [{s: 'K', t: 'Viel Zeit am Tag hast du nicht. Darum lernen wir in kleinen Schlucken. Wie beim guten Rum.'}],
+  sum_min_short: [{s: 'K', t: 'Viel Zeit am Tag hast du nicht. Darum lernen wir in kleinen Schlucken. Wie beim heißen Tee: Wer kippt, verbrennt sich das Maul.'}],
   sum_min_mid: [{s: 'K', t: 'Mit deiner Lernzeit am Tag kommen wir gut voran.'}],
   sum_min_long: [{s: 'K', t: 'Bei deiner Lernzeit pro Tag muss ich eher aufpassen, dass du dich nicht übernimmst.'}],
   sum_exp_none: [{s: 'K', t: 'Und weil du noch nie am Ruder warst, erklär ich die Grundlagen in Ruhe. Jeder fängt mal klein an. Sogar ich. Ganz früher.'}],
@@ -1107,6 +1126,10 @@ function cabinScene(crew) {
         <path d="M0 0 V-7" stroke="#2b2118" stroke-width="2.2" stroke-linecap="round" transform="rotate(${hr})"/>
         <path d="M0 0 V-11" stroke="#2b2118" stroke-width="1.4" stroke-linecap="round" transform="rotate(${mn})"/>
         <path class="sec" d="M0 0 V-12.5" stroke="#c2473b" stroke-width=".9" stroke-linecap="round"/><circle r="1.6" fill="#2b2118"/></g></g>
+      <!-- V9: aus der früheren langen Ansicht: Nebelglocke an der Decke, Handpeilkompass und Bordmesser auf dem Tisch -->
+      <g data-tap="glocke"><path d="M76 -30 V12" stroke="#5a3e2a" stroke-width="1.5"/><path d="M68 28 Q68 12 76 12 Q84 12 84 28 Z" fill="#c8962e"/><path d="M66 28 H86" stroke="#8a6420" stroke-width="2"/><circle cx="76" cy="31" r="2" fill="#8a6420"/><rect x="62" y="4" width="28" height="32" fill="transparent"/></g>
+      <g data-tap="kompass"><circle cx="138" cy="230" r="6.5" fill="#2b2118"/><circle cx="138" cy="230" r="4.6" fill="#f3e9cf"/><path class="needle" d="M138 226 L139.5 230 L138 234 L136.5 230 Z" fill="#c2473b"/><rect x="128" y="220" width="20" height="18" fill="transparent"/></g>
+      <g data-tap="messer" class="knife"><path d="M298 233 L314 230 L315 232.5 L299 235 Z" fill="#c9d0d4"/><rect x="314" y="229" width="9" height="4" rx="1.5" fill="#7a4e33"/><rect x="294" y="222" width="34" height="16" fill="transparent"/></g>
       <g class="lamp-sw" data-tap="lamp"><path d="M200 -30 V38" stroke="#2a1c14" stroke-width="2"/><rect x="186" y="10" width="28" height="60" fill="transparent"/><rect x="191" y="34" width="18" height="6" rx="2" fill="#8a6420"/>
         <rect x="190" y="40" width="20" height="24" rx="6" fill="#f3d27a" opacity=".9" stroke="#8a6420" stroke-width="2"/><ellipse cx="200" cy="52" rx="3.5" ry="6" fill="#fff3c4"/></g>
       <g transform="translate(362 112)"><rect width="44" height="186" rx="4" fill="#6e452c" stroke="#4a2e1d" stroke-width="2"/><circle cx="20" cy="40" r="11" fill="#cfe3ee" stroke="#c8962e" stroke-width="3"/><circle cx="8" cy="104" r="3.2" fill="#c8962e"/></g>
@@ -1224,6 +1247,8 @@ const AUD = (() => {
 
   /* ---------- Musik ---------- */
   async function playMusic(name) {
+    /* V15: Solange ein Törn offen ist, gibt es keine Musik (auch nicht in Minispielen, Laden oder Ankreuz-Runde) */
+    if (window.TOERN_STILL) name = null;
     if (!ctx || music.name === name) return;
     const old = music; music = {name, src: null, gain: null};
     if (old.gain) { old.gain.gain.setTargetAtTime(0, ctx.currentTime, .8); const s = old.src; setTimeout(() => { try { s.stop(); } catch (e) {} }, 4000); }
@@ -1442,11 +1467,13 @@ function packLines(withEpisodes) {
   /* Sätze, die fest zu einer Figur gehören */
   Object.entries(LINES).forEach(([id, o]) => Object.values(o).forEach(v => [].concat(v).forEach(t => push(id, t))));
   HARMS.kommt.forEach(t => push('kroeger', t));
-  Object.entries(GRUSS).forEach(([id, l]) => { MOIN.forEach(t => push(id, t)); l.forEach(t => push(id, t)); });
+  Object.entries(MOIN_BAU).forEach(([id, l]) => l.forEach(t => push(id, t)));
+  Object.values(MOIN_WEG).forEach(t => push('hinnerk', t));
+  GRUSS.hinnerk.forEach(t => push('hinnerk', t));
   Object.entries(TEASE).forEach(([id, o]) => (o[ageGroup()] || []).forEach(t => push(id, t)));
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
   ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
-  push('ilse', 'Ach du liebe Zeit! Wer kehrt das jetzt wieder zusammen?'); push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
+  push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
   /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
   const keep = S.crew, nv = window.NAV && NAV.data ? (NAV.data().NV || {}) : {};
   try {
@@ -1470,14 +1497,14 @@ function packLines(withEpisodes) {
       }
     }
   } finally { S.crew = keep; }
-  return out;
+  return out.filter(x => SPRECHER.includes(x.cid));
 }
 async function loadZipLib() {
   if (!window.JSZip) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }).catch(() => null);
   return !!window.JSZip;
 }
 /* Stimmen, mit denen das Paket entsteht: alle Figuren, so wie sie gerade auf diesem Gerät eingestellt sind */
-function packVoices() { const v = {}; Object.keys(CREW).forEach(id => { const x = VOX.voiceOf(id); if (x) v[id] = x; }); return v; }
+function packVoices() { const v = {}; SPRECHER.forEach(id => { const x = VOX.voiceOf(id); if (x) v[id] = x; }); return v; }
 /* ZIP(s) mit neuen MP3s, zusammengeführtem manifest.json und den eigenen Folgen herunterladen.
    Über 20 MB wird geteilt, damit jede Datei auf GitHub hochgeladen werden kann (Grenze 25 MB). */
 async function downloadPack(items, name) {
@@ -1584,7 +1611,7 @@ const VOX = (() => {
     if (!list || !list.length) return;
     S.voices = S.voices || {};
     const ids = new Set(list.map(v => v.id));
-    const order = ['hinnerk', 'smilla', 'klabauter', 'kroeger', 'ilse', 'piet', 'backbord'];
+    const order = SPRECHER;
     const used = new Set(order.map(c => S.voices[c]).filter(v => v && ids.has(v)));
     order.forEach(cid => {
       if (S.voices[cid] && ids.has(S.voices[cid])) return;
@@ -1637,6 +1664,7 @@ const VOX = (() => {
     if (!voice) { await ensureVoices(); voice = voiceOf(cid); if (!voice) return null; const b = await cached(voice); if (b) return b; }
     if (exhausted) return null;
     if (kind !== 'fixed' && !budgetOk(text.length)) { hooks.notice('budget'); return null; }
+    if (!S.kiOk) return null; /* V20: ohne Einwilligung keine neuen Stimmen von ElevenLabs */
     const b = await elFetch(voice, text, want);
     usage().all += text.length; if (kind === 'live') usage().live += text.length; save();
     /* Alles merken, auch Vorlesen und Gespräch: Derselbe Satz kostet nie zweimal. */
@@ -1679,7 +1707,7 @@ const VOX = (() => {
   function playPhoneOne(text, cid) {
     return new Promise(res => {
       if (!('speechSynthesis' in window)) return res();
-      const c = CREW[cid] || {}, lang = /^mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/i, 'ooo') : text);
+      const c = CREW[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
       u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
       const v = phoneVoices.find(v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name)) || phoneVoices[0]; if (v) u.voice = v;
       let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
@@ -1704,7 +1732,7 @@ const VOX = (() => {
     hooks.start(cid, text); AUD.duck(true);
     const t0 = Date.now(), src = blob ? 'elevenlabs' : (forceFb || (S.cfg && S.cfg.fallback) || 'phone');
     log('sprechen', cid + ' · ' + src + ' · ' + text.length + ' Zeichen · „' + text.slice(0, 50) + '“');
-    if (blob) await playBlob(blob, cid, g, /^mo{4,}in/i.test(text));
+    if (blob) await playBlob(blob, cid, g, /mo{4,}in/i.test(text));
     else {
       const fb = forceFb || (S.cfg && S.cfg.fallback) || 'phone';
       if (fb === 'phone' && 'speechSynthesis' in window) await playPhone(text, cid);
@@ -1974,7 +2002,8 @@ function load() {
   if (!v || typeof v !== 'object') v = fresh();
   v.cfg = Object.assign({}, DEFAULT_CFG, v.cfg || {});
   if (v.cfg.budget === 1500) v.cfg.budget = 6000;
-  v.crew = Object.assign({K: 'hinnerk', M: 'smilla', T: 'klabauter'}, v.crew || {});
+  /* V1: alte Spielstände mit Ilse, Piet oder Backbord in der Crew werden still auf die feste Crew umgestellt */
+  v.crew = {K: 'hinnerk', M: 'smilla', T: 'klabauter'};
   v.voices = v.voices || {}; v.qs = v.qs || {}; v.lessons = v.lessons || {}; v.mnemo = v.mnemo || {};
   /* Die erste App hat hier andere Dinge gespeichert (talk war ein Schalter, Geschichten hatten andere Figuren). */
   if (!Array.isArray(v.talk)) v.talk = [];
@@ -2082,6 +2111,35 @@ const MODELS = {smart: 'claude-sonnet-5-5', fast: 'claude-haiku-4-5-20251001'};
 const KEYSTORE = 'skipper-apikey';
 function apiKey() { try { return (localStorage.getItem(KEYSTORE) || '').trim(); } catch (e) { return ''; } }
 function setApiKey(k) { try { k ? localStorage.setItem(KEYSTORE, k.trim()) : localStorage.removeItem(KEYSTORE); } catch (e) {} }
+/* V17: Ein Schlüsselfeld für mehrere Anbieter. Erkannt wird am Anfang: sk-ant- = Anthropic, AIza = Google Gemini, sk- = OpenAI.
+   Die anderen Anbieter antworten ohne Streaming; Modellnamen bei Bedarf hier anpassen. */
+const KI_ANBIETER = {anthropic: 'Anthropic (Claude)', gemini: 'Google Gemini', openai: 'OpenAI'};
+const ANDERE_MODELLE = {gemini: {smart: 'gemini-2.5-flash', fast: 'gemini-2.5-flash-lite'}, openai: {smart: 'gpt-4.1-mini', fast: 'gpt-4.1-nano'}};
+const kiAnbieter = (k = apiKey()) => /^sk-ant-/.test(k) ? 'anthropic' : /^AIza/.test(k) ? 'gemini' : /^sk-/.test(k) ? 'openai' : 'anthropic';
+async function aiAndere(input, opts, key, anb) {
+  const msgs = toMessages(input), tier = opts.modelTier === 'quick' ? 'fast' : 'smart', model = ANDERE_MODELLE[anb][tier], want = opts.maxTokens || 1500;
+  let url, init;
+  if (anb === 'gemini') {
+    url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
+    const body = {contents: msgs.map(m => ({role: m.role === 'assistant' ? 'model' : 'user', parts: [{text: m.content}]})), generationConfig: {maxOutputTokens: Math.max(want, 600)}};
+    if (opts.system) body.systemInstruction = {parts: [{text: opts.system}]};
+    init = {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(body)};
+  } else {
+    url = 'https://api.openai.com/v1/chat/completions';
+    init = {method: 'POST', headers: {'content-type': 'application/json', authorization: 'Bearer ' + key}, body: JSON.stringify({model, max_tokens: Math.max(want, 600), messages: (opts.system ? [{role: 'system', content: opts.system}] : []).concat(msgs)})};
+  }
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 30000); let res;
+  if (opts.signal) opts.signal.addEventListener('abort', () => ctl.abort());
+  try { res = await fetch(url, {...init, signal: ctl.signal}); } catch (e) { clearTimeout(to); throw {code: e && e.name === 'AbortError' ? 'timeout' : 'network'}; }
+  clearTimeout(to);
+  let j = null; try { j = await res.json(); } catch (e) {}
+  if (!res.ok) { const msg = (j && j.error && (j.error.message || j.error.status)) || ''; LOG.add('ki', anb + ' HTTP ' + res.status + ' ' + msg); throw {code: res.status === 401 || res.status === 403 || (res.status === 400 && /key/i.test(msg)) ? 'bad_key' : res.status === 429 ? 'rate_limited' : 'http', message: msg}; }
+  const text = anb === 'gemini' ? (((j.candidates || [])[0] || {}).content || {parts: []}).parts.map(p => p.text || '').join('') : (((j.choices || [])[0] || {}).message || {}).content || '';
+  LOG.add('ki', anb + ' ' + model + ': ' + text.length + ' Zeichen');
+  if (!text.trim()) throw {code: 'empty'};
+  if (opts.onText) opts.onText(text);
+  return text;
+}
 function pickModel(o) { if (o.modelTier === 'complex') return MODELS.smart; if (o.modelTier === 'quick') return MODELS.fast; return MODELS[S.model || 'smart'] || MODELS.smart; }
 function toMessages(input) {
   const raw = typeof input === 'string' ? [{role: 'user', content: input}] : input, out = [];
@@ -2096,6 +2154,21 @@ function toMessages(input) {
 /* KI-Schalter und Kostenzähler. Kosten entstehen nur über graue Knöpfe (.ki).
    KI_LIMIT: Kosten-Aktionen pro Tag und Gerät; 0 = noch keine Grenze (kommt später mit den Konten auf den Server). */
 const KI_LIMIT = 0;
+/* V20: Einwilligung, bevor zum ersten Mal Texte an einen KI-Anbieter oder an ElevenLabs gehen (S.kiOk, Standard: keine).
+   Ohne Einwilligung: keine KI-Antworten, Stimmen nur aus dem Stimmenpaket oder vom Handy. */
+let kiFrage = null;
+function kiEinwilligung() {
+  if (S.kiOk) return Promise.resolve(true);
+  return kiFrage || (kiFrage = new Promise(res => {
+    const w = sheet(`<h2 style="margin:0 0 6px">Kurz zum Datenschutz</h2>
+      <p style="margin:0 0 8px">Für Gespräche, Erklärungen und neue Stimmen schickt die App Texte an den Anbieter deines Schlüssels (Anthropic, Google oder OpenAI) bzw. an ElevenLabs. Das sind Firmen in den USA. Dein Lernstand bleibt auf dem Handy.</p>
+      <p class="small muted" style="margin:0 0 10px">Gib bitte keine sensiblen persönlichen Daten ein. Bist du unter 16, sprich das vorher mit deinen Eltern ab. Widerrufen kannst du jederzeit in den Einstellungen. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a></p>
+      <div class="row"><button class="btn lamp" id="kiok">Einverstanden</button><button class="btn ghost" id="kino">Nein danke</button></div>`);
+    const fertig = ok => { kiFrage = null; if (ok) { S.kiOk = Date.now(); save(); } closeSheet(); res(ok); };
+    w.querySelector('#kiok').onclick = () => fertig(true); w.querySelector('#kino').onclick = () => fertig(false);
+    w.querySelectorAll('[data-close]').forEach(x => x.addEventListener('click', () => { if (kiFrage) { kiFrage = null; res(false); } }));
+  }));
+}
 const kiOn = () => !(S && S.cfg && S.cfg.ki === false);
 function kiUse() { const d = today(); if (!S.kiUse || S.kiUse.day !== d) S.kiUse = {day: d, n: 0}; return S.kiUse; }
 /* Entwickler-Werkzeuge (Stimmenpaket, Stimmenwahl, Selbsttest): an, solange ein ElevenLabs-Schlüssel eingetragen ist, sonst per Einstellung */
@@ -2105,7 +2178,9 @@ let thinkOff = (() => { try { return localStorage.getItem('skipper-thinkoff') !=
 async function ai(input, opts = {}) {
   if (!kiOn()) throw {code: 'ki_off'};
   const key = apiKey(); if (!key) throw {code: 'no_key'};
+  if (!S.kiOk && !(await kiEinwilligung())) throw {code: 'no_consent'};
   if (!opts._counted) { const u = kiUse(); if (KI_LIMIT && u.n >= KI_LIMIT) throw {code: 'ki_limit'}; u.n++; opts._counted = true; save(); }
+  const anb = kiAnbieter(key); if (anb !== 'anthropic') return aiAndere(input, opts, key, anb);
   const model = opts.forceModel || pickModel(opts), fast = model === MODELS.fast;
   const want = opts.maxTokens || 1500;
   const body = {model, max_tokens: (thinkOff || fast || /sonnet-5-5/.test(model)) ? Math.max(want, 600) : Math.max(want, 4096), messages: toMessages(input), stream: true};
@@ -2157,10 +2232,11 @@ async function aiJson(input, opts = {}) {
 }
 function aiErr(e) {
   switch (e && e.code) {
+    case 'no_consent': return 'Ohne deine Einwilligung schickt die App nichts an die KI. Lernen, Prüfung und Stimmen aus dem Paket gehen trotzdem.';
     case 'ki_off': return 'Die KI-Funktionen sind ausgeschaltet. Einschalten kannst du sie in den Einstellungen.';
     case 'ki_limit': return 'Für heute ist das KI-Kontingent aufgebraucht. Morgen geht es weiter, lernen kannst du trotzdem.';
-    case 'no_key': return 'Für Gespräche braucht die Crew deinen Anthropic-Schlüssel. Trag ihn im Logbuch unter Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
-    case 'bad_key': return 'Der Anthropic-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.';
+    case 'no_key': return 'Für Gespräche braucht die Crew einen KI-Schlüssel (Anthropic, Google Gemini oder OpenAI). Trag ihn in den Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
+    case 'bad_key': return `Der ${KI_ANBIETER[kiAnbieter()]}-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.`;
     case 'no_credit': return 'Auf deinem Anthropic-Konto ist kein Guthaben mehr. Lade es in der Anthropic-Konsole auf.';
     case 'network': return 'Keine Verbindung. Bist du online?';
     case 'timeout': return 'Die Antwort hat zu lange gedauert. Prüf deine Verbindung und versuch es nochmal.';
@@ -2185,7 +2261,7 @@ function learner() {
 const TONE = {
   kind: 'Der Nutzer ist unter 16. Sprecht kindgerecht: frech, aber lieb, keine Schimpfwörter.',
   teen: 'Der Nutzer ist 16 oder 17. Sprecht flapsig und frech, harmlose Kraftausdrücke wie Mist oder verflixt sind okay.',
-  erw: 'Ton: FSK 18. Frecher, derber Seemannssprech mit vielen doppeldeutigen Witzen und Anspielungen aus der Seefahrt (Mast, Leinen festmachen, Anlegen, steife Brise, einlaufen, Schoten dichtholen, Achterdeck und so weiter). Benutzt reichlich Metaphern und Redewendungen von Bord. Flüche wie verdammt, Himmel, Arsch und Zwirn oder Klabautermann nochmal sind okay. Zweideutig ja, platt oder pornografisch nie. Nie verletzend wegen Herkunft, Aussehen, Geschlecht oder Ähnlichem.',
+  erw: 'Ton: jugendfrei ab 12, aber derb und hart. Frecher, ruppiger Seemannssprech mit vielen Bildern von Bord (kentern, auf Grund laufen, Landratte, Seepocke, Treibgut). Flüche wie verdammt, Himmel, Arsch und Zwirn oder Klabautermann nochmal sind okay. Keine sexuellen Anspielungen, keine Zweideutigkeiten, kein Alkohol oder Rauchen als Witz. Nie verletzend wegen Herkunft, Aussehen, Geschlecht oder Ähnlichem.',
 };
 const GARN = [
   'Bleibt streng bei prüfungsrelevantem Wissen, keine Anekdoten.',
@@ -2194,7 +2270,7 @@ const GARN = [
   'Viel Seemannsgarn, Anekdoten und Geschichten, gern ausgeschmückt und als Spaß erkennbar. Prüfungswissen bleibt trotzdem exakt.',
 ];
 function styleRules() {
-  const rank = (typeof COURSE !== 'undefined' && COURSE && COURSE.id === 'sks') ? '- Der Lernende macht den Sportküstenschifferschein. Begegnet ihm mit spürbar mehr Respekt, fast wie unter Kollegen.' : '- Der Lernende macht "nur" den Sportbootführerschein. Zieht ihn ab und zu liebevoll damit auf (Badewannen-Kapitän, Gummiente) und nehmt ihn nicht ganz ernst, bleibt aber herzlich. Fachlich immer korrekt.';
+  const rank = (typeof COURSE !== 'undefined' && COURSE && COURSE.id === 'sks') ? '- Der Lernende macht den Sportküstenschifferschein. Zieht ihn trotzdem auf, aber auf Augenhöhe, wie einen Kollegen, der sich noch beweisen muss.' : '- Der Lernende macht "nur" den Sportbootführerschein. Zieht ihn ordentlich damit auf (Badewannen-Kapitän, Gummiente, Landratte) und nehmt ihn nicht ganz ernst, bleibt aber im Kern herzlich. Fachlich immer korrekt.';
   return `${rank}\n- ${TONE[ageGroup()]}\n- ${GARN[S.cfg.garn == null ? 2 : S.cfg.garn]} Wahre Fakten nur, wenn ihr sie sicher wisst.`;
 }
 function rules() {
@@ -2317,7 +2393,7 @@ function soundFor(p) {
 let tab = 'deck', examTimer = null;
 function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
-  const from = tab; stopAll(); tab = t;
+  const from = tab; stopAll(); tab = t; window.TOERN_STILL = false;
   if (t === 'cabin' && from !== 'cabin' && AUD.ready) AUD.sfx('schritte', {vol: .55});
   if (t === 'log' && from !== 'log' && AUD.ready) AUD.sfx('buchAuf', {vol: .6});
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
@@ -2410,7 +2486,7 @@ function tapToBoard() {
     S.lastDay = today(); save();
     LOG.add('öffnen', 'zuletzt vor ' + gap + ' Tagen');
     if (tab === 'cabin') { await AUD.sfx('schritte', {vol: .55, dur: 2.6}); }
-    await VOX.lines(moinText(gap, S.crew.K).map(t => ({cid: S.crew.K, t})), 'fixed');
+    await VOX.lines(moinKette(gap), 'fixed');
     pipeOnce();
     raceTicks();
   };
@@ -2445,10 +2521,10 @@ function keysStep(next) {
     <div class="chips" style="margin:0 0 10px"><button class="chip" data-kion="1" aria-pressed="${kiOn()}">Mit KI-Crew</button><button class="chip" data-kion="0" aria-pressed="${!kiOn()}">Ohne KI lernen</button></div>
     <p class="small" style="margin:0 0 8px">Ohne KI entstehen keine Kosten: Lernen, Prüfung, Erklärungen und Folgen gehen trotzdem. Mit KI kannst du die Crew alles fragen. Das läuft über graue Knöpfe ✦ und kostet ein wenig. Umstellen kannst du das jederzeit in den Einstellungen.</p>
     <div id="kkeys" class="${kiOn() ? '' : 'hidden'}"><h3 style="margin:8px 0 6px">Zwei Schlüssel für die echte Crew</h3>
-    <p class="small" style="margin:0 0 8px"><b>Anthropic</b> lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
-    <label for="k1" style="margin-top:6px">Anthropic-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' : ''}">
+    <p class="small" style="margin:0 0 8px"><b>Ein KI-Schlüssel</b> (Anthropic, Google Gemini oder OpenAI) lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
+    <label for="k1" style="margin-top:6px">KI-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…" value="${apiKey() ? '••••••••' : ''}">
     <label for="k2">ElevenLabs-Schlüssel</label><input type="password" id="k2" autocomplete="off" placeholder="sk_…" value="${elKey() ? '••••••••' : ''}">
-    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab.</p></div>
+    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels. Vor dem ersten Mal fragt die App dich. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></p></div>
     <div class="row"><button class="btn lamp" id="ksave">Speichern und weiter</button><button class="btn ghost" id="klater">Später</button></div>`);
   p.querySelectorAll('[data-kion]').forEach(b => b.onclick = () => { S.cfg.ki = b.dataset.kion === '1'; save(); applyKi(); p.querySelectorAll('[data-kion]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); $('#kkeys').classList.toggle('hidden', !S.cfg.ki); });
   p.style.background = 'rgba(18,24,30,.45)';
@@ -2788,7 +2864,7 @@ function renderCabin() {
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
   const SPOT = {buecher: chaptersSheet, plan: planSheet, deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
-    knoten: () => toast('Das Knotenbrett wartet noch auf die Knotenfotos.'), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
+    knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
   let lampTaps = [];
@@ -2804,7 +2880,8 @@ function renderCabin() {
         setTimeout(() => VOX.say(S.crew.K, S.crew.K === 'ilse' ? 'Ach du liebe Zeit! Wer kehrt das jetzt wieder zusammen?' : 'Na super. Wer macht das jetzt wieder heile?', 'fixed'), 1400);
       } else { el.classList.add('kick'); AUD.click(); setTimeout(() => el.classList.remove('kick'), 950); }
     },
-    mouse: el => { if (el.classList.contains('gone')) return; AUD.squeak(); el.classList.add('gone'); setTimeout(() => el.classList.remove('gone'), 4000); },
+    kompass: el => startEgg('kompass', el), messer: el => startEgg('messer', el), glocke: el => startEgg('glocke', el),
+    mouse: el => { if (el.classList.contains('gone')) return; AUD.squeak(); catChase(); el.classList.add('gone'); setTimeout(() => el.classList.remove('gone'), 4000); },
     gull: el => { if (el.classList.contains('fly')) return; el.classList.add('fly'); AUD.sfx('moewe', {offset: 2, dur: 2.2, vol: .5}); },
     crab: el => { el.classList.remove('run'); el.getBBox(); el.classList.add('run'); AUD.click(); },
     /* Egg: Barometer dreimal klopfen → „das Glas fällt“, Nebel zieht für ein paar Minuten auf */
@@ -2823,15 +2900,43 @@ function renderCabin() {
     spider: el => { const sp = el.querySelector('.spider'); sp.classList.remove('drop'); sp.getBBox(); sp.classList.add('drop'); },
   };
   app.querySelectorAll('[data-tap]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); foundEgg(el.dataset.tap); (TAP[el.dataset.tap] || (() => {}))(el); }));
-  scheduleCatWalk();
+  scheduleCatWalk(); catPlace();
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
   if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
+  /* V5: Wer schon begrüßt wurde, hört einmal die Einführung zu seinem Schein (auch bestehende Nutzer, weil sie neu ist) */
+  else if (S.profile && S.cabinWelcome && !(S.intros || {})['schein_' + S.course]) setTimeout(() => { if (tab === 'cabin' && !cabinTalking && !$('#sheet') && !$('#stagePanel') && !$('#einf')) einfuehrung('schein_' + S.course); }, 1600);
   else if (!S.tour || !S.tour.cabin) setTimeout(() => tour('cabin'), 1600);
   pipeOnce();
   const dl = daily();
   if (AUD.ready && dl.answered < 5 && dl.talk >= 3 && S.lastTease !== today()) { S.lastTease = today(); save(); setTimeout(() => VOX.say(S.crew.M, teaseOf(S.crew.M) || teaseOf(S.crew.K), 'fixed'), 800); }
 }
+/* ---------- V2: Bordkatze Backbord ----------
+   Stumm, an wechselnden Stellen in der Kajüte: schläft auf der Kiste oder am Boden, sitzt auf der Seekarte oder auf dem Hocker.
+   Antippen: miauen und woandershin springen. Drei Eggs: dreimal wecken, Bleistift von der Seekarte fegen, Maus jagen. */
+const CAT_SPOTS = [{id: 'kiste', x: 62, y: 296, schlaf: 1}, {id: 'boden', x: 150, y: 334, schlaf: 1}, {id: 'karte', x: 196, y: 233}, {id: 'hocker', x: 216, y: 304}];
+const CAT_SLEEP = '<g><ellipse rx="17" ry="9" fill="#e39a4c"/><circle cx="-13" cy="-3" r="7.5" fill="#e39a4c"/><path d="M-19 -8 l2 -7 4 5z M-11 -9 l1 -7 4 5z" fill="#e39a4c"/><path class="kauge" d="M-17 -3 q2 1.5 4 0" stroke="#4a2e1d" stroke-width="1.1" fill="none"/><path d="M15 2 q11 2 7 -9" stroke="#d98a3c" stroke-width="4" fill="none" stroke-linecap="round"/><text class="kzz" x="-8" y="-15" font-size="9" font-weight="700" fill="#fffaf0">z</text></g>';
+let catWake = 0;
+function catPlace(not) {
+  const svg = document.querySelector('.scene.cabin svg .rocker'); if (!svg) return;
+  const old = svg.querySelector('.bkatze'); if (old) old.remove();
+  if (!not && Math.random() < .15) return;
+  const opts = CAT_SPOTS.filter(p => p.id !== not), p = opts[Math.random() * opts.length | 0];
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'bkatze' + (p.schlaf ? ' schlaeft' : '')); g.dataset.spot = p.id;
+  g.innerHTML = p.schlaf ? `<g transform="translate(${p.x} ${p.y})">${CAT_SLEEP}</g>` : `<g transform="translate(${p.x - 16} ${p.y - 50}) scale(.33)">${ART.backbord()}</g>`;
+  g.innerHTML += `<rect x="${p.x - 24}" y="${p.y - (p.schlaf ? 20 : 52)}" width="48" height="${p.schlaf ? 30 : 54}" fill="transparent"/>`;
+  svg.appendChild(g); catWake = 0;
+  g.addEventListener('click', e => {
+    e.stopPropagation(); AUD.unlock();
+    if (p.schlaf) { catWake++; g.classList.add('blinzelt'); setTimeout(() => g.classList.remove('blinzelt'), 900);
+      if (catWake < 3) { AUD.sfx('schnurren', {vol: .4, dur: 1.2}); return; }
+      foundEgg('katzewach'); meow(); return catPlace(p.id); }
+    if (p.id === 'karte') { AUD.sfx('bleistift', {vol: .5, dur: .6}); foundEgg('katzekarte'); }
+    meow(); g.classList.add('hops'); setTimeout(() => catPlace(p.id), 450);
+  });
+}
+/* Die Maus antippen, während die Katze wach ist: Die Katze saust hinterher */
+function catChase() { const c = document.querySelector('.scene.cabin .bkatze:not(.schlaeft)'); if (!c) return; c.classList.add('jagt'); foundEgg('katzemaus'); meow(); setTimeout(() => catPlace(c.dataset.spot), 1200); }
 let catTimer = null;
 function scheduleCatWalk(first) {
   clearTimeout(catTimer);
@@ -2840,7 +2945,7 @@ function scheduleCatWalk(first) {
 function catWalk() {
   const svg = document.querySelector('.scene.cabin svg .rocker');
   if (tab !== 'cabin' || !svg || document.querySelector('.walker')) return scheduleCatWalk();
-  const isPet = S.crew.T === 'backbord', perch = isPet ? document.querySelector('.scene.cabin [data-ch="backbord"]') : null;
+  const perch = document.querySelector('.scene.cabin .bkatze');
   const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'walker'); g.setAttribute('data-tap', 'walkcat');
   const flip = Math.random() < .5;
   g.innerHTML = `<g transform="translate(${flip ? 450 : -50} 282) scale(${flip ? -.42 : .42} .42)">${ART.backbord()}</g>`;
@@ -3076,7 +3181,7 @@ function bindSig(sig) {
     hornCtl.done.then(() => { hornCtl = null; const x = $('#sigPlay'); if (x) x.textContent = 'Nochmal anhören'; });
   };
 }
-function hornQuiz() { runQuiz(shuffle(SIG_QS), 'Schallsignale hören', 'horn', {scoreKey: 'horn'}); }
+function hornQuiz() { runQuiz(shuffle(SIG_QS).slice(0, bonusRunden(SIG_QS.length)), 'Schallsignale hören', 'horn', {scoreKey: 'horn'}); }
 
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
@@ -3427,22 +3532,40 @@ function doBackup() {
   toast('Sicherung gespeichert. Leg die Datei an einen sicheren Ort.');
 }
 
+/* ---------- V18: App aufs Handy (Icon, ohne Browserleiste, offline) ----------
+   Android/Chrome: eigener Knopf über beforeinstallprompt. iPhone: Hinweis auf „Teilen → Zum Home-Bildschirm“. */
+let installEv = null;
+const istInstalliert = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const istIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEv = e; document.body.classList.add('kanninst'); });
+window.addEventListener('appinstalled', () => { installEv = null; document.body.classList.remove('kanninst'); toast('Skipper ist installiert. Das Icon liegt jetzt auf deinem Handy.'); });
+if (istIOS() && !istInstalliert()) document.body.classList.add('kanninst');
+function appInstallieren() {
+  AUD.click();
+  if (installEv) { installEv.prompt(); installEv.userChoice.then(c => { if (c && c.outcome === 'accepted') { installEv = null; document.body.classList.remove('kanninst'); } }).catch(() => {}); return; }
+  sheet(`<h2 style="margin:0 0 6px">App aufs Handy</h2>${istInstalliert() ? '<p>Skipper ist auf diesem Gerät schon installiert. ⚓</p>' : istIOS()
+    ? '<p style="margin:0 0 8px">Tippe unten in Safari auf <b>Teilen</b> (Quadrat mit Pfeil nach oben) und dann auf <b>Zum Home-Bildschirm</b>.</p>'
+    : '<p style="margin:0 0 8px">Tippe im Browser oben rechts auf <b>⋮</b> und dann auf <b>App installieren</b> oder <b>Zum Startbildschirm hinzufügen</b>.</p>'}
+    <p class="small muted" style="margin:0">Danach hast du ein Skipper-Icon auf dem Handy. Die App startet ohne Browserleiste, läuft offline und holt sich Updates von selbst. Zum Weitergeben reicht der Link.</p>`);
+}
 /* ---------- Einstellungen ---------- */
 function renderSettings() {
   subScreen(); 
   const c = S.cfg, sel = (id, opts, val) => `<select id="${id}">${opts.map(([v, l]) => `<option value="${v}" ${String(v) === String(val) ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
   const slider = (id, label, val) => `<label for="${id}">${label}</label><input type="range" id="${id}" min="0" max="1" step="0.05" value="${val}">`;
   app.innerHTML = `<div class="set"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">Einstellungen</h1><button class="btn small ghost" id="back">Zurück</button></div>
+  <div class="card"><button class="btn small ghost" id="about" style="float:right">Über die App</button><b>📲 App aufs Handy</b><p class="small muted" style="margin:4px 0 8px">Mit Icon, ohne Browserleiste, auch offline.</p><button class="btn small" id="instset">${istInstalliert() ? 'Schon installiert ✓' : 'App installieren'}</button></div>
   <h2>Crew</h2>
-  ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-role="${role}" data-id="${id}" aria-pressed="${S.crew[role] === id}">${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
+  ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-id="${id}" aria-pressed="true" disabled>${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
     <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
   <div class="card"><h3>${ROLE_NAMES.P}</h3><div style="display:flex;gap:12px;align-items:center">${charSVG('kroeger')}<p class="small" style="margin:0">${CREW.kroeger.story}</p></div></div>
 
   <h2>KI und Schlüssel</h2>
   <div class="card"><label for="kion" style="margin-top:0">KI-Funktionen</label>${sel('kion', [['1', 'An: Crew fragen, Gespräche, echte Stimmen'], ['0', 'Aus: nur lernen, keine Kosten']], kiOn() ? '1' : '0')}
     <p class="small muted" style="margin:6px 0 0">Graue Knöpfe mit ✦ können Kosten verursachen. Ist die KI aus, verschwinden sie. Lernen, Prüfungen, Erklärungen und Folgen aus dem Stimmenpaket gehen immer, auch offline. Heute genutzt: ${kiUse().n} KI-Aktionen.</p></div>
-  <div class="card ki"><label for="ak" style="margin-top:0">Anthropic-Schlüssel (für Gespräche, Lektionen, Geschichten)</label>
-    <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
+  <div class="card ki"><label for="ak" style="margin-top:0">KI-Schlüssel für Gespräche, Lektionen, Geschichten${apiKey() ? ` · erkannt: ${KI_ANBIETER[kiAnbieter()]}` : ''}</label>
+    <p class="small muted" style="margin:0 0 6px">Anthropic (sk-ant-…), Google Gemini (AIza…, bei Google AI Studio gibt es einen kostenlosen Schlüssel mit Tageslimit) oder OpenAI (sk-…). Die App erkennt den Anbieter selbst.</p>
+    <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
     <div class="row" style="margin-top:10px"><button class="btn" id="aks">Speichern und testen</button>${apiKey() ? '<button class="btn ghost" id="akd">Entfernen</button>' : ''}</div><p class="status" id="akr"></p>
     <label for="mdl">Modell</label>${sel('mdl', [['smart', 'Gründlich (Claude Sonnet 5.5)'], ['fast', 'Schnell und günstig (Claude Haiku 4.5)']], S.model || 'smart')}
   </div>
@@ -3524,7 +3647,7 @@ function renderSettings() {
     <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
     <input type="file" id="bkf" accept="application/json,.json" class="hidden">
     <p class="small muted" style="margin:10px 0 0">Dein Lernstand liegt nur in diesem Browser. Speichere ab und zu eine Sicherung.</p>
-    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic, die Stimmen kommen von ElevenLabs. App-Version ${esc(window.__ver || '?')}.</p>
+    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels, neue Stimmen kommen von ElevenLabs. Einwilligung: ${S.kiOk ? `erteilt <button class="btn small ghost" id="kiwid" style="min-height:28px;padding:0 8px">Widerrufen</button>` : 'noch nicht erteilt (die App fragt beim ersten Mal)'}. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a> · App-Version ${esc(window.__ver || '?')}.</p>
     <button class="btn ghost wide" id="rs" style="margin-top:10px;color:var(--bb)">Alles zurücksetzen</button>
   </div></div>`;
   app.querySelectorAll('.crewpick svg').forEach(s => s.style.width = '64px');
@@ -3575,6 +3698,8 @@ function renderSettings() {
   bindSel('#garn', v => { c.garn = +v; });
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
   app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
+  if ($('#kiwid')) $('#kiwid').onclick = () => { S.kiOk = 0; save(); toast('Einwilligung widerrufen. Die App schickt nichts mehr an KI oder ElevenLabs.'); renderSettings(); };
+  $('#instset').onclick = () => appInstallieren(); $('#about').onclick = () => { AUD.click(); renderSources(); };
   $('#reintro').onclick = () => { S.intros = {}; save(); toast('Beim nächsten Öffnen erklärt die Crew alles nochmal.'); };
   $('#reonb').onclick = () => { S.introDone = false; S.introV5 = false; S.reOnb = true; S.cabinWelcome = false; save(); location.reload(); };
   const lv = $('#logview'); lv.textContent = LOG.all().slice(-60).map(e => e.join(' | ')).join('\n') || 'Noch leer.';
@@ -3608,8 +3733,8 @@ async function runSelfTest(out, btn) {
   let mic = 'unbekannt'; try { mic = (await navigator.permissions.query({name: 'microphone'})).state; } catch (e) {}
   add(mic === 'granted' ? true : mic === 'denied' ? false : null, 'Mikrofon', {granted: 'Erlaubt.', denied: 'Gesperrt. Tippe in der Adresszeile auf das Schloss-Symbol und erlaube das Mikrofon.', prompt: 'Noch nicht gefragt. Der Browser fragt beim ersten Sprechen.'}[mic] || 'Status unbekannt.');
   draw('Teste den Ton…'); try { await AUD.sfx('glocke', {vol: .8}); add(null, 'Ton', 'Eben hat eine Glocke geläutet. Hast du sie gehört? Wenn nicht: Lautstärke hoch, Stummschalter aus.'); } catch (e) { add(false, 'Ton', 'Konnte nichts abspielen.'); }
-  if (!apiKey()) add(false, 'Anthropic-Schlüssel', 'Fehlt. Ohne ihn gibt es keine Gespräche, Lektionen und Geschichten.');
-  else { draw('Teste Anthropic…'); try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); add(true, 'Anthropic-Schlüssel', 'Verbindung steht.'); } catch (e) { add(false, 'Anthropic-Schlüssel', aiErr(e)); } }
+  if (!apiKey()) add(false, 'KI-Schlüssel', 'Fehlt. Ohne ihn gibt es keine Gespräche, Lektionen und Geschichten.');
+  else { const an = KI_ANBIETER[kiAnbieter()]; draw('Teste ' + an + '…'); try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); add(true, 'KI-Schlüssel (' + an + ')', 'Verbindung steht.'); } catch (e) { add(false, 'KI-Schlüssel (' + an + ')', aiErr(e)); } }
   if (!elKey()) add(null, 'ElevenLabs-Schlüssel', 'Nicht eingetragen. Die Crew spricht mit der Ersatzstimme.');
   else {
     draw('Teste ElevenLabs…'); let list = null;
@@ -3643,10 +3768,12 @@ async function loadVoices() {
 function renderSources() {
   subScreen();
   const files = ['leberch-ambient-517427.mp3', 'Space_Ambient__leberch.mp3', 'icecodebeats-slow-down-the-boat-3-568312.mp3', 'kaazoom-slow-turn-in-the-lamplight-smooth-jazz-song-male-vocal-480995.mp3', 'soundreality-baltic-sea-beach-waves-midnight-611953.mp3', 'soundreality-wind-blowing-457954.mp3', 'storegraphic-soft-wind-477404.mp3', 'freesound_community-gentle-rain-from-window-24548.mp3', 'audiopapkin-wall-clock-ticking-308746.mp3', 'freesound_community-canvas-dropcloth-snap-1-98862.mp3', 'u_7xr5ffk4oq-opening-bell-421471.mp3', 'freesound_community-herring-gull-1-27057.mp3', 'freesound_community-065410_great-echoing-foghornaiff-40903.mp3', 'flutie8211-foghorn-1-549807.mp3', 'freesound_community-cat-meow-14536.mp3', 'freesound_community-3-avewav-45235.mp3', 'freesound_community-radio-static-2-26831.mp3', 'freesound_community-no-signal-original-interference-27598.mp3', 'u_31vnwfmzt6-bleep-126625.mp3', 'soundreality-footsteps-walking-boots-parquet-4-420133.mp3', 'dragon-studio-door-opening-397990.mp3', 'dragon-studio-knocking-door-1-397992.mp3', 'spinopel-strike-a-match-381917.mp3', 'u_xg7ssi08yr-fliptop-metal-lighter-362054.mp3', 'freesound_community-smoking1-73746.mp3', 'freesound_community-juul-smoking-28389.mp3', 'soumages-book-opening-345808.mp3', 'xpmonster-turning-page-in-a-book-419580.mp3', 'langanicolae-vant-si-valuri-9583.mp3', 'freesound_community-accelerating-out-of-the-marina-with-proceeding-waves-hitting-embankment-24896.mp3', 'freesound_community-cat-98721.mp3', 'dragon-studio-cute-cat-meow-472372.mp3', 'dragon-studio-purring-cat-401727.mp3', 'freesound_community-anchor-raising-67152.mp3', 'freesound_community-pencil-on-paper-20007.mp3', 'mpircek-f-371148.mp3', 'lesiakower-error-mistake-sound-effect-incorrect-answer-437420.mp3', 'freesound_community-rightanswer-95219.mp3', 'freesound_community-engine-start-86242.mp3', 'freesound_community-motorboatsound-32776.mp3'];
-  app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Quellen</h1><button class="btn small ghost" id="back">Zurück</button></div>
-    <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Angegeben ist jeweils der vollständige Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
-    <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p></div>
-    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0">Schriften Baloo 2 und Nunito (SIL Open Font License), lokal mitgeliefert. Gespräche mit Claude von Anthropic, Stimmen von ElevenLabs. Schallsignale werden in der App selbst erzeugt.</p></div>`;
+  app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Über die App</h1><button class="btn small ghost" id="back">Zurück</button></div>
+    <div class="card"><p style="margin:0 0 6px"><b>Skipper</b> · Version ${esc(window.__ver)}</p><p class="small" style="margin:0 0 6px">Lern-App für den Sportbootführerschein See, den Sportküstenschifferschein und den Sportbootführerschein Binnen.</p><p class="small" style="margin:0 0 6px"><a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a></p><p class="small muted" style="margin:0">Die App hilft beim Lernen und ersetzt keine Ausbildung und keine amtliche Prüfung. Die Seekarte der Kliev-Mündung ist erfunden und darf nicht zur Navigation benutzt werden.</p></div>
+    <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Von Pixabay (Pixabay-Lizenz). Danke an die Künstlerinnen und Künstler. Angegeben ist jeweils der Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
+    <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0 0 6px">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p><p class="small" style="margin:0 0 6px">SBF Binnen: Amtlicher Fragenkatalog für den Sportbootführerschein Binnen (ELWIS).</p><p class="small muted" style="margin:0">Die Abbildungen in den Fragen stammen aus den amtlichen Fragenkatalogen. Herausgeber: Wasserstraßen- und Schifffahrtsverwaltung des Bundes, www.elwis.de.</p></div>
+    <div class="card"><h3>Zeichnungen</h3><p class="small" style="margin:0">Boot, Crew, Kajüte, Seekarte, Knoten und Spiele sind für diese App selbst gezeichnet.</p></div>
+    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0 0 6px">Schriften Baloo 2 und Nunito, SIL Open Font License 1.1, lokal mitgeliefert (<a href="fonts/OFL-Baloo2.txt" target="_blank" rel="noopener">Lizenz Baloo 2</a>, <a href="fonts/OFL-Nunito.txt" target="_blank" rel="noopener">Lizenz Nunito</a>).</p><p class="small" style="margin:0 0 6px">Stimmen der Crew: ElevenLabs. Gespräche nur mit eigenem Schlüssel: Anthropic (Claude), Google (Gemini) oder OpenAI.</p><p class="small" style="margin:0">JSZip (MIT-Lizenz) zum Packen des Stimmenpakets. Schallsignale und Freizeichen erzeugt die App selbst.</p></div>`;
   $('#back').onclick = renderSettings;
 }
 
@@ -3681,6 +3808,8 @@ function boatLook() {
 function boatScene(crew) {
   const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
   const night = day === 'nacht' || day === 'abend';
+  /* V9: Die Angel hängt nur bei ruhigem Wetter raus, und auch dann nicht immer */
+  const angelDa = wx !== 'sturm' && wx !== 'regen' && Math.random() < .6;
   return `<div class="scene boat" data-day="${day}" data-wx="${wx}" style="${styleVars(p)}${boatLook()}">
   <div class="pano" id="pano"><svg viewBox="0 40 400 380" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Das Segelboot auf See. Durch die Bullaugen sieht man die Crew, der Niedergang führt hinunter in die Kajüte.">
     <defs><clipPath id="pClip1"><circle cx="172" cy="272" r="11.5"/></clipPath><clipPath id="pClip2"><circle cx="222" cy="272" r="11.5"/></clipPath></defs>
@@ -3721,12 +3850,20 @@ function boatScene(crew) {
       <path d="M58 284 L366 284 Q356 330 326 352 L112 354 Q66 338 58 284 Z" style="fill:var(--hull,#fbf6ec)"/>${S.boat && S.boat.name ? `<text x="214" y="325" text-anchor="middle" style="fill:var(--stripe,#3d5f8f);font:700 15px var(--hfont, Georgia, serif);letter-spacing:1px">${esc(S.boat.name)}</text>` : ""}
       <path d="M60 290 L363 290 L361 299 L64 299 Z" style="fill:var(--stripe,#3d5f8f)"/>
       <path d="M96 340 Q210 348 336 340 L326 352 L112 354 Q102 348 96 340 Z" fill="#c2473b"/>
-      <g data-egg="pinne"><path d="M346 266 V284" stroke="#4a3020" stroke-width="3.84" stroke-linecap="round"/><circle cx="346" cy="266" r="9" fill="none" stroke="#5a3e2a" stroke-width="2.4"/><path d="M346 266 L358.4 266.0 M346 266 L354.7 274.7 M346 266 L346.0 278.4 M346 266 L337.3 274.7 M346 266 L333.6 266.0 M346 266 L337.3 257.3 M346 266 L346.0 253.6 M346 266 L354.7 257.3 " stroke="#5a3e2a" stroke-width="1.4" stroke-linecap="round"/><circle cx="346" cy="266" r="2.2" fill="#c8962e"/><rect x="330" y="250" width="34" height="36" fill="transparent"/></g>
+      <g data-egg="pinne"><!-- V10: Steuerrad von der Seite (das Rad steht quer zum Boot, man sieht es fast nur von der Kante) --><path d="M343 285 L346 268" stroke="#4a3020" stroke-width="3.8" stroke-linecap="round"/><path d="M346 266.5 H350" stroke="#4a3020" stroke-width="2.2"/><ellipse cx="350.5" cy="266" rx="2.8" ry="9.5" fill="none" stroke="#5a3e2a" stroke-width="2.3"/><path d="M350.5 257.5 V274.5" stroke="#5a3e2a" stroke-width="1.1"/><path d="M350.5 255.6 V252.8 M350.5 276.4 V279.2 M352.4 259 l1.6 -1.8 M352.4 273 l1.6 1.8" stroke="#5a3e2a" stroke-width="2" stroke-linecap="round"/><circle cx="350.5" cy="266" r="1.5" fill="#c8962e"/><rect x="330" y="250" width="34" height="36" fill="transparent"/></g>
       <g data-egg="motor"><rect x="364" y="288" width="6" height="10" fill="#3a3a3a"/><rect x="358" y="276" width="24" height="16" rx="6" fill="#5c5c5c"/>
         <path d="M362 292 L377 292 L376 322 L372 346 L366 346 L364 322 Z" fill="#4a4a4a"/><rect x="352" y="272" width="36" height="78" fill="transparent"/></g>
       <circle class="navl red" cx="62" cy="285" r="3.5" fill="#e2463b"/>
       <circle class="navl white" cx="364" cy="280" r="3" fill="#fffbe8"/>
+      <!-- V9: Eggs aus der früheren langen Ansicht -->
+      <g data-egg="ring"><circle cx="250" cy="272" r="7" fill="none" stroke="#e8562c" stroke-width="3.4"/><path d="M243 272 h3 M254 272 h3 M250 265 v3 M250 276 v3" stroke="#fbf6ec" stroke-width="3.4"/><rect x="240" y="262" width="20" height="20" fill="transparent"/></g>
+      <g data-egg="flaggen"><rect x="96" y="272" width="12" height="8" rx="2" fill="#3d5f8f"/><path d="M98 272 l2 -3 h4 l2 3" fill="#d6332c"/><rect x="90" y="264" width="24" height="20" fill="transparent"/></g>
+      <g id="flagline" class="flagline"></g>
+      ${angelDa ? `<g data-egg="angel"><path d="M356 282 L394 236" stroke="#7a4e33" stroke-width="2" stroke-linecap="round"/><path class="aline" d="M394 236 V318" stroke="#e6e2d6" stroke-width=".8"/><circle cx="394" cy="318" r="1.8" fill="#d6332c"/><rect x="376" y="230" width="24" height="44" fill="transparent"/></g>` : ''}
+      <g class="ausr">${ausrArt()}</g>
     </g>
+    ${angelDa ? '<g class="bottle" aria-hidden="true"><g transform="translate(390 318) rotate(-20) scale(.7)"><rect x="-5" y="-14" width="10" height="22" rx="4" fill="#5c8f6a" opacity=".85"/><rect x="-2.5" y="-20" width="5" height="7" fill="#5c8f6a"/><rect x="-3" y="-10" width="6" height="10" fill="#f3e9cf"/></g></g>' : ''}
+    ${night ? '<g data-egg="frachter" transform="translate(74 134) scale(.6)"><path d="M44 210 L50 194 L76 194 L82 210 Z" fill="#1b232c"/><rect x="56" y="180" width="14" height="14" fill="#1b232c"/><path d="M60 194 V172 M66 194 V160" stroke="#1b232c" stroke-width="2"/><circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>' : ''}
     <g data-egg="tonne"><g transform="translate(300 404) scale(1.2)">${buoyG(0, 0)}</g><rect x="284" y="362" width="34" height="56" fill="transparent"/></g>
     <g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="10" ry="9" fill="#7d8790"/><circle cx="58" cy="401" r="1.4" fill="#2b2118"/><circle cx="66" cy="401" r="1.4" fill="#2b2118"/><ellipse cx="62" cy="406" rx="3" ry="2" fill="#4a5258"/><path d="M55 406 l-6 -1 M55 408 l-6 1 M69 406 l6 -1 M69 408 l6 1" stroke="#c9d0d4" stroke-width=".7"/><rect x="48" y="390" width="28" height="26" fill="transparent"/></g>
     <g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M150 396 q10 -8 20 0 q-10 8 -20 0 Z M170 396 l7 -5 v10 Z" fill="#e8954a"/><circle cx="155" cy="394.5" r="1" fill="#2b2118"/></g><rect x="136" y="378" width="48" height="30" fill="transparent"/></g>
@@ -3740,105 +3877,6 @@ function boatScene(crew) {
 </div>`;
 }
 const FERNGLAS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="15.5" r="3.5"/><circle cx="17.5" cy="15.5" r="3.5"/><path d="M10 15.5h4M5 12l2-6h3l1 6M19 12l-2-6h-3l-1 6"/></svg>';
-/* ---------- Detailansicht: das lange Boot (5.4) ----------
-   Etwa drei Bildschirmbreiten, nur waagerecht wischen. Links der Bug, rechts das Heck.
-   Alle Eggs und Funktionen der Übersicht liegen auch hier (gleiche data-egg/data-go). */
-const DETAIL_HINTS = [{x: 734, y: 226, r: 38}, {x: 990, y: 210, r: 40}];
-/* Übersicht (x 0..400) ↔ Detail (x 0..1200): Stützpunkte Bug, Mast, Niedergang, Steuer, Motor */
-const ZOOM_MAP = [[0, 0], [60, 80], [195, 420], [287, 734], [345, 985], [372, 1160], [400, 1200]];
-function ovToDetail(x) {
-  for (let i = 1; i < ZOOM_MAP.length; i++) { const [a, A] = ZOOM_MAP[i - 1], [b, B] = ZOOM_MAP[i]; if (x <= b) return A + (x - a) / (b - a) * (B - A); }
-  return 1200;
-}
-const lbl = (x, y, t) => `<g class="lbl" transform="translate(${x} ${y})"><rect x="${-t.length * 4.2 - 9}" y="-13" width="${t.length * 8.4 + 18}" height="22" rx="11" fill="rgba(255,250,240,.9)"/><text text-anchor="middle" y="3" style="font:700 12px var(--bfont, sans-serif);fill:#2a2019">${t}</text></g>`;
-function longBoatScene(crew) {
-  const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
-  const tri = (x) => `${stars().replace(/<g class="stars"/, `<g class="stars" transform="translate(${x} 0)"`)}`;
-  return `<div class="scene boat detail" data-day="${day}" data-wx="${wx}" style="${styleVars(p)}${boatLook()}">
-  <div class="pano" id="pano"><svg class="longboat" viewBox="0 30 1200 305" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Das Boot aus der Nähe: Bug, Mast, Niedergang, Cockpit mit Steuer und Motor. Zum Wischen.">
-    <defs><clipPath id="dClip1"><circle cx="560" cy="226" r="11"/></clipPath><clipPath id="dClip2"><circle cx="620" cy="226" r="11"/></clipPath></defs>
-    <rect y="-120" width="1200" height="640" style="fill:var(--skyT)"/>
-    <rect y="120" width="1200" height="92" style="fill:var(--skyB)"/>
-    ${tri(0)}${tri(400)}${tri(800)}${sunMoon(1080, 62)}
-    <g class="clouds">${cloud(60, 54, 1.2)}${cloud(330, 96, .9)}${cloud(610, 40, 1)}${cloud(880, 88, .8)}${cloud(1120, 120, .9)}</g>
-    <g class="gullfly" data-egg="moewe"><path d="M0 0 q8 -7 14 0 q6 -7 14 0" stroke="#fbfbf7" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="-6" y="-12" width="40" height="22" fill="transparent"/></g>
-    <path d="M840 212 L870 200 L960 197 L1010 205 L1040 212 Z" fill="#b5563a"/><path d="M870 200 L960 197" stroke="#6a8f4a" stroke-width="3"/>
-    <g transform="translate(940 202) scale(1.3)"><g data-egg="leuchtturm">${lighthouse(0, 0)}<rect x="-12" y="-36" width="34" height="38" fill="transparent"/></g></g>
-    ${day === 'nacht' || day === 'abend' ? `<g data-egg="frachter"><path d="M44 210 L50 194 L76 194 L82 210 Z" fill="#1b232c"/><rect x="56" y="180" width="14" height="14" fill="#1b232c"/><path d="M60 194 V172 M66 194 V160" stroke="#1b232c" stroke-width="2"/>
-      <circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>` : ''}
-    <rect y="210" width="1200" height="310" style="fill:var(--sea)"/>
-    ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(226, 'w1', 'var(--seaD)', .4, 520)}</g>`).join('')}
-    <!-- Wasser-Eggs hinter dem Boot, im Streifen unter der Insel -->
-    <g data-egg="tonne"><g transform="translate(800 228) scale(.6)">${buoyG(0, 0)}</g><rect x="788" y="200" width="24" height="32" fill="transparent"/></g><g transform="translate(240 -132)"><g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M640 356 q12 -9 24 0 q-12 9 -24 0 Z M664 356 l8 -6 v12 Z" fill="#e8954a"/><circle cx="646" cy="354.5" r="1.2" fill="#2b2118"/></g><rect x="626" y="336" width="56" height="34" fill="transparent"/></g></g><g transform="translate(1000 -180)"><g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="12" ry="10" fill="#7d8790"/><circle cx="57" cy="401" r="1.6" fill="#2b2118"/><circle cx="67" cy="401" r="1.6" fill="#2b2118"/><ellipse cx="62" cy="407" rx="3.5" ry="2.2" fill="#4a5258"/><rect x="46" y="388" width="32" height="26" fill="transparent"/></g></g>
-    <g class="rocker">
-      <!-- Mast, Wanten und Vorstag (oben aus dem Bild heraus) -->
-      <path d="M422 -120 L330 252 M422 -120 L520 252 M422 -120 L78 248 M1130 248 L422 -120" stroke="#8a8a8a" stroke-width="1.6"/>
-      <g class="sails" data-egg="segel">
-        <path class="sail jib" d="M92 244 L398 -96 Q414 80 384 238 Z" style="fill:var(--jib,#efe3c8)"/>
-        <path class="sail main" d="M428 -110 L428 228 L770 228 Q660 40 450 -110 Z" style="fill:var(--sail,#fbf3e1)"/>
-        <path d="M428 60 Q520 66 560 60 M428 130 Q560 140 640 128" stroke="#000" stroke-opacity=".08" stroke-width="2" fill="none"/>
-      </g>
-      <g class="furled" aria-hidden="true"><rect x="424" y="222" width="350" height="12" rx="6" fill="#e9dfc8"/><path d="M470 222 v12 M530 222 v12 M590 222 v12 M650 222 v12 M710 222 v12" stroke="#b9a98a" stroke-width="2"/></g>
-      <rect x="416" y="-120" width="12" height="372" rx="3" fill="#5a3e2a"/>
-      <g class="flagline" id="flagline"></g>
-      <g data-egg="glocke"><path d="M434 186 H458" stroke="#5a3e2a" stroke-width="3"/><path d="M438 208 Q438 190 446 190 Q454 190 454 208 Z" fill="#c8962e"/><path d="M436 208 H456" stroke="#8a6420" stroke-width="2"/><circle cx="446" cy="211" r="2.2" fill="#8a6420"/><rect x="432" y="182" width="28" height="34" fill="transparent"/></g>
-      <g data-egg="flaggen"><rect x="452" y="240" width="18" height="12" rx="3" fill="#3d5f8f"/><path d="M455 240 l3 -4 h4 l3 4" fill="#d6332c"/><rect x="448" y="232" width="26" height="22" fill="transparent"/></g>
-      <path d="M426 234 L780 234" stroke="#5a3e2a" stroke-width="8" stroke-linecap="round"/>
-      <!-- Aufbau mit Bullaugen (Crew) und Niedergang -->
-      <path d="M470 252 L486 206 L760 206 L770 252 Z" fill="#f7f2e6"/><path d="M486 206 L760 206" stroke="#c8b99a" stroke-width="3"/>
-      <g data-go="kajuete" class="portholes">
-        <circle cx="560" cy="226" r="11" fill="#f3d79a"/><g clip-path="url(#dClip1)">${charG(crew.K, 546, 212, .28)}</g>
-        <circle cx="620" cy="226" r="11" fill="#f3d79a"/><g clip-path="url(#dClip2)">${charG(crew.M, 606, 212, .28)}</g>
-        <circle cx="560" cy="226" r="12.5" fill="none" stroke="#c8962e" stroke-width="3"/><circle cx="620" cy="226" r="12.5" fill="none" stroke="#c8962e" stroke-width="3"/>
-        <rect x="540" y="208" width="104" height="38" fill="transparent"/></g>
-      <g data-go="kajuete" class="hatch">
-        <rect x="706" y="196" width="56" height="8" rx="3" fill="#7a4e33"/>
-        <rect x="710" y="202" width="48" height="50" rx="3" fill="#5a3e2a"/>
-        <rect x="716" y="208" width="36" height="44" fill="#2a1a10"/>
-        <ellipse class="hatchglow" cx="734" cy="246" rx="16" ry="7" fill="#ffcf7a" opacity=".55"/>
-        <path d="M718 218 H750 M718 228 H750 M718 238 H750" stroke="#b98a5a" stroke-width="3"/>
-        <rect x="700" y="190" width="68" height="64" fill="transparent"/></g>
-      <g data-egg="messer" class="knife"><path d="M640 203 L662 199 L664 202 L642 205 Z" fill="#c9d0d4"/><rect x="662" y="198" width="12" height="5" rx="2" fill="#7a4e33"/><rect x="634" y="190" width="46" height="18" fill="transparent"/></g>
-      <!-- Cockpit mit Bänken, Winsch, Horn und Steuerrad -->
-      <path d="M780 252 L792 230 L1060 230 L1070 252 Z" fill="#c9b58e"/><rect x="800" y="236" width="250" height="12" rx="3" fill="#8a6a46"/>
-      <circle cx="812" cy="226" r="7" fill="#4a4a4a"/><circle cx="812" cy="226" r="3" fill="#8a8a8a"/>
-      <g data-egg="horn"><circle cx="860" cy="226" r="5" fill="#2b2118"/><path d="M864 226 L884 217 L884 235 Z" fill="#c8962e"/><rect x="850" y="210" width="40" height="28" fill="transparent"/></g>
-      <g data-egg="kompass"><circle cx="903" cy="222" r="9" fill="#2b2118"/><circle cx="903" cy="222" r="6.5" fill="#f3e9cf"/><path class="needle" d="M903 216 L905 222 L903 228 L901 222 Z" fill="#c2473b"/><rect x="892" y="210" width="24" height="24" fill="transparent"/></g>
-      <g data-egg="pinne"><path d="M990 204 V250" stroke="#4a3020" stroke-width="7.2" stroke-linecap="round"/><circle cx="990" cy="204" r="22" fill="none" stroke="#5a3e2a" stroke-width="4.5"/><path d="M990 204 L1018.3 204.0 M990 204 L1010.0 224.0 M990 204 L990.0 232.3 M990 204 L970.0 224.0 M990 204 L961.7 204.0 M990 204 L970.0 184.0 M990 204 L990.0 175.7 M990 204 L1010.0 184.0 " stroke="#5a3e2a" stroke-width="2.7" stroke-linecap="round"/><circle cx="990" cy="204" r="4.0" fill="#c8962e"/><rect x="960" y="174" width="60" height="78" fill="transparent"/></g>
-      <!-- Heck: Heckkorb, Flagge (Wimpel), Außenborder -->
-      <path d="M1100 252 L1100 214 L1150 214 L1150 252" stroke="#9aa3ab" stroke-width="3" fill="none"/>
-      <g data-egg="bauteile"><path d="M1124 252 L1124 160" stroke="#5a3e2a" stroke-width="3"/><path class="flag" d="M1124 162 L1164 168 L1124 178 Z" fill="#2b2b2b"/><path d="M1124 168 L1164 172 L1124 178 Z" fill="#d6513c"/><path d="M1124 174 L1164 176 L1124 178 Z" fill="#f0c94a"/><rect x="1110" y="152" width="60" height="32" fill="transparent"/></g>
-      <g data-egg="ring"><circle cx="1112" cy="236" r="11" fill="none" stroke="#e8562c" stroke-width="5"/><path d="M1101 236 h5 M1118 236 h5 M1112 225 v5 M1112 242 v5" stroke="#fbf6ec" stroke-width="5"/><rect x="1098" y="222" width="28" height="28" fill="transparent"/></g>
-      <g data-egg="angel"><path d="M1100 246 L1196 150" stroke="#7a4e33" stroke-width="3" stroke-linecap="round"/><path class="aline" d="M1196 150 V318" stroke="#e6e2d6" stroke-width="1"/><circle cx="1196" cy="318" r="2.5" fill="#d6332c"/><rect x="1172" y="140" width="28" height="70" fill="transparent"/></g>
-      <!-- Bug: Bugkorb, Seitenlaternen, Anker -->
-      <path d="M56 248 L60 214 L140 214 L150 250" stroke="#9aa3ab" stroke-width="3" fill="none"/>
-      <g data-egg="laternen"><rect x="92" y="216" width="22" height="12" rx="3" fill="#2b2118"/><circle class="lant r" cx="98" cy="222" r="3" fill="#e2463b"/><circle class="lant g" cx="108" cy="222" r="3" fill="#4caf50"/><rect x="84" y="206" width="38" height="28" fill="transparent"/></g>
-      <!-- Rumpf -->
-      <path d="M36 248 L1160 248 L1150 302 L78 302 Q50 284 36 248 Z" style="fill:var(--hull,#fbf6ec)"/>
-      <path d="M40 258 L1158 258 L1156 268 L46 268 Z" style="fill:var(--stripe,#3d5f8f)"/>
-      <path d="M70 294 L1152 294 L1150 302 L78 302 Z" fill="#c2473b"/>
-      <circle cx="56" cy="276" r="3" fill="#5a3e2a"/><path d="M56 279 V292 M48 288 Q56 298 64 288" stroke="#5a3e2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      ${S.boat && S.boat.name ? `<text x="1040" y="288" text-anchor="middle" style="fill:var(--stripe,#3d5f8f);font:700 18px var(--hfont, Georgia, serif);letter-spacing:1px">${esc(S.boat.name)}</text>` : ''}
-      <g data-egg="motor"><rect x="1158" y="250" width="10" height="14" fill="#3a3a3a"/><rect x="1150" y="232" width="38" height="24" rx="8" fill="#5c5c5c"/>
-        <path d="M1158 256 L1182 256 L1180 300 L1174 330 L1166 330 L1162 300 Z" fill="#4a4a4a"/><rect x="1144" y="226" width="54" height="108" fill="transparent"/></g>
-      <circle class="navl white" cx="1150" cy="246" r="3" fill="#fffbe8"/>
-      ${ausrArt()}
-    </g>
-    <g class="krabbe" aria-hidden="true"><g transform="translate(1170 318)"><ellipse rx="9" ry="6" fill="#d9542f"/><path d="M-9 -2 l-6 -6 M9 -2 l6 -6 M-6 4 l-5 4 M6 4 l5 4" stroke="#d9542f" stroke-width="2"/><circle cx="-3" cy="-5" r="1.4" fill="#2b2118"/><circle cx="3" cy="-5" r="1.4" fill="#2b2118"/></g></g>
-    <g class="bottle" aria-hidden="true"><g transform="translate(1190 300) rotate(-20)"><rect x="-5" y="-14" width="10" height="22" rx="4" fill="#5c8f6a" opacity=".85"/><rect x="-2.5" y="-20" width="5" height="7" fill="#5c8f6a"/><rect x="-3" y="-10" width="6" height="10" fill="#f3e9cf"/></g></g>
-    
-    
-    
-    ${[0, 400, 800].map(x => `<g transform="translate(${x} 0)">${waves(318, 'w2', 'var(--seaD)', .5, 520)}${waves(380, 'w3', 'var(--seaD)', .6, 520)}${rain(520)}${fog()}</g>`).join('')}
-    <g class="labels">${lbl(110, 186, 'Bug')}${lbl(422, 196, 'Mast')}${lbl(734, 176, 'Niedergang')}${lbl(990, 164, 'Steuer')}${lbl(1168, 214, 'Motor')}</g>
-    <g class="hints">${DETAIL_HINTS.map(h => `<circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="none" stroke="#fff6b0" stroke-width="3"/>`).join('')}</g>
-  </svg></div>
-  <div class="panohint" aria-hidden="true">‹ wischen ›</div>
-  <button class="btn small ovbtn" id="ovbtn">↖ Übersicht</button>
-  <button class="fernglas" id="fernglas" aria-label="Fernglas: zeigt, was man antippen kann">${FERNGLAS_SVG}</button>
-  <div class="bubble hidden" id="bubble" role="status" aria-live="polite"><b></b><span></span></div>
-</div>`;
-}
 
 /* Fernglas: antippen oder gedrückt halten zeigt kurz alle antippbaren Stellen */
 /* Kringel und Beschriftung nur dort, wo ein Spiel oder Lerninhalt steckt */
@@ -3853,6 +3891,7 @@ const EGGS = {
   clock: 'Tickende Uhr', lamp: 'Schaukelnde Lampe', lampfall: 'Lampe heruntergeholt', mouse: 'Kajütenmaus', gull: 'Möwe am Bullauge', crab: 'Krebs', spider: 'Spinne', walkcat: 'Bordkatze',
   deviation: 'Deviation am Kompass', krabbe: 'Krabbe im Kühlwasser', barometer: 'Fallendes Barometer', glasen: 'Glasen geschlagen', nebelglocke: 'Glocke im Nebel', frachter: 'Frachter bei Nacht',
   schlinger: 'Schlingerleiste', flaschenpost: 'Flaschenpost', flaggen: 'Signalflaggen', mob: 'Mensch über Bord', seekrank: 'Seekranker Papagei',
+  katzewach: 'Bordkatze geweckt', katzekarte: 'Katze auf der Seekarte', katzemaus: 'Katze jagt die Maus',
 };
 function foundEgg(id) {
   if (!EGGS[id]) return; S.eggs = S.eggs || {};
@@ -3868,14 +3907,15 @@ function toernCard() {
 }
 /* Törn-Ausrüstung (5.14): verbaute Teile sieht man am langen Boot */
 function ausrArt() {
+  /* Verbaute Teile aus dem Törn (V9: in der einen Bootsansicht, Koordinaten wie boatScene) */
   const t = (S.toern2 && S.toern2.teile) || [], has = id => t.includes(id); let s = '';
-  if (has('radarreflektor')) s += '<path d="M410 10 L434 10 L422 -6 Z M410 10 L434 10 L422 26 Z" fill="#c9d0d4" stroke="#7b858c" stroke-width="1.5"><title>Radarreflektor</title></path>';
-  if (has('ukw')) s += '<path d="M1140 214 V120" stroke="#2b2b2b" stroke-width="2.5"><title>UKW-Antenne</title></path><circle cx="1140" cy="118" r="3" fill="#2b2b2b"/>';
-  if (has('rettungsinsel')) s += '<rect x="1046" y="212" width="40" height="18" rx="8" fill="#f2f2ee" stroke="#9aa3ab" stroke-width="2"><title>Rettungsinsel</title></rect><path d="M1056 212 v18 M1076 212 v18" stroke="#d6513c" stroke-width="2"/>';
-  if (has('plotter')) s += '<rect x="946" y="200" width="22" height="16" rx="3" fill="#1d2630"><title>Kartenplotter</title></rect><rect x="949" y="203" width="16" height="10" fill="#4fa3c7"/>';
-  if (has('autopilot')) s += '<rect x="1000" y="236" width="18" height="8" rx="3" fill="#3a3a3a"><title>Autopilot</title></rect>';
-  if (has('reffanlage')) s += '<rect x="84" y="236" width="14" height="10" rx="3" fill="#8a8a8a"><title>Rollreffanlage</title></rect>';
-  if (has('nebelhorn')) s += '<path d="M872 210 l12 -6 v12 Z" fill="#d6332c"><title>Nebelhorn</title></path><rect x="866" y="207" width="7" height="6" fill="#d6332c"/>';
+  if (has('radarreflektor')) s += '<path d="M189 118 L201 118 L195 110 Z M189 118 L201 118 L195 126 Z" fill="#c9d0d4" stroke="#7b858c" stroke-width="1"><title>Radarreflektor</title></path>';
+  if (has('ukw')) s += '<path d="M360 282 V238" stroke="#2b2b2b" stroke-width="1.6"><title>UKW-Antenne</title></path><circle cx="360" cy="237" r="2" fill="#2b2b2b"/>';
+  if (has('rettungsinsel')) s += '<rect x="304" y="276" width="20" height="9" rx="4" fill="#f2f2ee" stroke="#9aa3ab" stroke-width="1.2"><title>Rettungsinsel</title></rect><path d="M310 276 v9 M318 276 v9" stroke="#d6513c" stroke-width="1.2"/>';
+  if (has('plotter')) s += '<rect x="326" y="262" width="11" height="8" rx="1.5" fill="#1d2630"><title>Kartenplotter</title></rect><rect x="327.5" y="263.5" width="8" height="5" fill="#4fa3c7"/>';
+  if (has('autopilot')) s += '<rect x="334" y="278" width="10" height="5" rx="2" fill="#3a3a3a"><title>Autopilot</title></rect>';
+  if (has('reffanlage')) s += '<rect x="80" y="274" width="9" height="7" rx="2" fill="#8a8a8a"><title>Rollreffanlage</title></rect>';
+  if (has('nebelhorn')) s += '<path d="M199 150 l8 -4 v8 Z" fill="#d6332c"><title>Nebelhorn</title></path>';
   return s;
 }
 function eggCard() {
@@ -3966,48 +4006,34 @@ function bindFernglas(scene) {
 
 /* ---------- Startbildschirm ---------- */
 let fishTimer = null;
-/* Zwei Ebenen an Deck: Übersicht (ganzes Boot) und Detail (langes Boot). detailX = Mitte in Detail-Koordinaten (0..1200). */
-let deckView = 'overview', detailX = null;
+/* V9: Es gibt nur noch eine Bootsansicht. deckView bleibt nur, damit alter Code nicht bricht. */
+let deckView = 'overview';
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
-  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, detail = deckView === 'detail';
-  app.innerHTML = `${detail ? longBoatScene(S.crew) : boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace('>‹ wischen ›<', '>Antippen zum Heranzoomen<').replace(/<\/div>\s*$/, '<button class="btn lamp aboard" id="aboard">⚓ An Bord gehen</button></div>')}
+  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length;
+  app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
-      <button class="btn wide ${detail ? 'lamp' : 'ghost'}" id="down" style="font-size:1.08rem">${detail ? 'Runter in die Kajüte' : 'Direkt in die Kajüte'}</button>
+      <button class="btn wide lamp" id="down" style="font-size:1.08rem">Runter in die Kajüte</button>
+      <button class="btn small ghost instbtn" id="inst" style="margin-top:8px">📲 App aufs Handy</button>
     </div>
-    ${detail ? '' : courseCard()}
+    ${courseCard()}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
-  if (detail) bindPano($('#pano'), 'panoD', detailX != null ? detailX : 862);
-  detailX = null;
-  $('#down').onclick = goBelow; $('#crs').onclick = courseSheet;
-  if ($('#aboard')) $('#aboard').onclick = e => { e.stopPropagation(); AUD.unlock(); AUD.click(); deckView = 'detail'; detailX = null; renderBoat(); }; $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
+  $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
+  $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
-  if (detail) {
-    sc.querySelectorAll('[data-egg]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); startEgg(el.dataset.egg, el); }));
-    $('#ovbtn').onclick = () => { AUD.click(); deckView = 'overview'; renderBoat(); };
-    /* Egg: sechsmal hektisch hin und her wischen → dem Papagei wird schlecht */
-    const pano = $('#pano'); let lastX = pano.scrollLeft, lastDir = 0, turns = [], sick = false;
-    pano.addEventListener('scroll', () => {
-      const dx = pano.scrollLeft - lastX; lastX = pano.scrollLeft; if (Math.abs(dx) < 2 || sick) return;
-      const d = Math.sign(dx), now = Date.now(); if (d !== lastDir) { lastDir = d; turns = turns.filter(t => now - t < 3500).concat(now); }
-      if (turns.length >= 7) { sick = true; sc.classList.add('queasy'); setTimeout(() => sc.classList.remove('queasy'), 2500); foundEgg('seekrank'); sayEgg('seekrank'); }
-    }, {passive: true});
-  } else {
-    /* Übersicht: Antippen zoomt an genau diese Stelle (Eggs wohnen in der Detailansicht) */
-    const svg = sc.querySelector('svg');
-    svg.addEventListener('click', e => {
-      if (e.target.closest('[data-go]')) return;
-      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM(); if (!m) return;
-      const x = pt.matrixTransform(m.inverse()).x; AUD.unlock(); AUD.click();
-      const r = svg.getBoundingClientRect(); svg.style.transformOrigin = `${e.clientX - r.left}px ${e.clientY - r.top}px`; svg.classList.add('zoomin');
-      LOG.add('deck', 'Zoom auf x=' + Math.round(x));
-      setTimeout(() => { deckView = 'detail'; detailX = ovToDetail(x); renderBoat(); }, 320);
-    });
-  }
+  sc.querySelectorAll('[data-egg]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); startEgg(el.dataset.egg, el); }));
+  /* Egg: siebenmal schnell aufs Wasser tippen → das Boot schaukelt wild, dem Papagei wird schlecht */
+  let seaTaps = [], sick = false;
+  sc.querySelector('svg').addEventListener('click', e => {
+    if (sick || e.target.closest('[data-egg],[data-go]')) return;
+    const pt = sc.querySelector('svg').createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = sc.querySelector('svg').getScreenCTM(); if (!m || pt.matrixTransform(m.inverse()).y < 262) return;
+    const now = Date.now(); seaTaps = seaTaps.filter(t => now - t < 3500).concat(now); AUD.unlock(); AUD.sfx('segel', {vol: .2, rate: 1.6});
+    if (seaTaps.length >= 7) { sick = true; sc.classList.add('queasy'); setTimeout(() => { sc.classList.remove('queasy'); sick = false; seaTaps = []; }, 2500); foundEgg('seekrank'); sayEgg('seekrank'); }
+  });
   clearTimeout(fishTimer);
   const jump = () => { if (tab !== 'deck') return; const f = sc.querySelector('.fishwrap'); if (f) { f.classList.remove('jump'); f.getBBox(); f.classList.add('jump'); } fishTimer = setTimeout(jump, 9000 + Math.random() * 14000); };
   fishTimer = setTimeout(jump, 4000);
@@ -4018,6 +4044,12 @@ let naviP = null;
 function loadNavi() {
   return naviP || (naviP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'navi.js?v=' + window.__ver; s.onload = () => NAV.init().then(res, rej); s.onerror = () => { naviP = null; rej(new Error('navi.js')); }; document.head.appendChild(s); }));
 }
+/* V12: Knoten (Knotenbrett und Knotenkunde) liegen in knoten.js */
+let knotenP = null;
+function loadKnoten() {
+  return knotenP || (knotenP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'knoten.js?v=' + window.__ver; s.onload = () => KNOTEN.init().then(res, rej); s.onerror = () => { knotenP = null; rej(new Error('knoten.js')); }; document.head.appendChild(s); }));
+}
+function knotenBrett() { loadKnoten().then(() => { KNOTEN.brett(); einfuehrung('knoten'); }).catch(() => { knotenP = null; toast('Das Knotenbrett ließ sich nicht laden. Prüf dein Internet.'); }); }
 /* Törn 2.0 liegt in toern.js (braucht navi.js) und wird erst am Steuer geladen */
 let toernP = null;
 function loadToern() {
@@ -4026,23 +4058,6 @@ function loadToern() {
 function openToern() { loadToern().then(() => { TOERN.open(); einfuehrung('toern'); }).catch(e => { toernP = null; LOG.add('törn', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Der Törn ließ sich nicht laden. Prüf dein Internet.'); }); }
 function navSchool() { returnTo = 'cabin'; loadNavi().then(() => { NAV.hub(); einfuehrung('navi'); }).catch(e => { naviP = null; LOG.add('navi', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Die Navigationsschule ließ sich nicht laden. Prüf dein Internet.'); }); }
 function goBelow() { AUD.unlock(); setTab('cabin'); }
-/* Panorama: Start beim Cockpit, Position merken, am Laptop mit der Maus ziehen */
-function bindPano(pano, key = 'panoX', centerX = null) {
-  if (!pano) return;
-  const place0 = () => {
-    const max = pano.scrollWidth - pano.clientWidth; if (max <= 0) return;
-    /* centerX: Ziel in Detail-Koordinaten (0..1200), z. B. nach dem Heranzoomen */
-    const want = centerX != null ? (centerX / 1200 * pano.scrollWidth - pano.clientWidth / 2) / max : S[key] != null ? S[key] : (.72 * pano.scrollWidth - pano.clientWidth / 2) / max;
-    pano.scrollLeft = Math.max(0, Math.min(1, want)) * max;
-  };
-  place0(); requestAnimationFrame(place0);
-  let st = null;
-  pano.addEventListener('scroll', () => { const max = pano.scrollWidth - pano.clientWidth; if (max > 0) S[key] = pano.scrollLeft / max; }, {passive: true});
-  pano.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; st = {x: e.clientX, l: pano.scrollLeft, moved: false}; });
-  pano.addEventListener('pointermove', e => { if (!st) return; const dx = e.clientX - st.x; if (Math.abs(dx) > 5) st.moved = true; pano.scrollLeft = st.l - dx; });
-  const end = () => { if (st && st.moved) { pano.addEventListener('click', ev => { ev.stopPropagation(); ev.preventDefault(); }, {capture: true, once: true}); } st = null; };
-  pano.addEventListener('pointerup', end); pano.addEventListener('pointerleave', () => { st = null; });
-}
 
 /* ---------- Überraschungen (Spiele) ---------- */
 let returnTo = 'deck';
@@ -4080,8 +4095,8 @@ function startEgg(id, el) {
     flaggen: () => {
       const line = el.closest('svg').querySelector('#flagline'); if (!line) return;
       if (line.childElementCount) { line.innerHTML = ''; AUD.sfx('segel', {vol: .3, rate: 1.3}); return; }
-      const word = flagWord(), x0 = 470, y0 = -95, x1 = 1050, y1 = 206, n = word.length;
-      line.innerHTML = word.split('').map((ch, i) => { const t = (i + .5) / Math.max(n, 6), x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t; return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(1.5)"><path d="M0 0 V14" stroke="#5a3e2a" stroke-width=".6"/>${FLAG_ART[ch]}</g>`; }).join('');
+      const word = flagWord(), x0 = 205, y0 = 88, x1 = 336, y1 = 270, n = word.length;
+      line.innerHTML = word.split('').map((ch, i) => { const t = (i + .5) / Math.max(n, 6), x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t; return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(.75)"><path d="M0 0 V14" stroke="#5a3e2a" stroke-width=".6"/>${FLAG_ART[ch]}</g>`; }).join('');
       AUD.sfx('segel', {vol: .35, rate: 1.4}); foundEgg('flaggen'); toast('Die Signalflaggen buchstabieren: ' + word.split('').join('-'));
     },
     angel: () => {
@@ -4117,6 +4132,7 @@ const GAMES = [
   {k: 'nav', n: 'Kartentisch', d: 'Navigationsschule mit Karte', f: () => navSchool()},
   {k: 'motor', n: 'Motorkunde', d: 'Was ist was am Außenborder?', f: () => motorGame()},
   {k: 'parts', n: 'Bauteile', d: 'Teile des Bootes', f: () => partsGame()},
+  {k: 'knoten', n: 'Knotenkunde', d: 'Erkennen, wofür, Reihenfolge', f: () => loadKnoten().then(() => KNOTEN.spiel()).catch(() => toast('Die Knoten ließen sich nicht laden.'))},
   {k: 'fish', n: 'Fischfang', d: 'Zur Erholung', f: () => fishGame()},
   {k: 'traps', n: 'Prüfungsfallen', d: 'Die gemeinen Fragen', f: () => trapRound()},
 ];
@@ -4160,9 +4176,9 @@ async function harmsKommt(via) {
 /* ---------- 5.10: Einführung beim ersten Öffnen einer Funktion ----------
    Feste Sätze aus data/einfuehrungen.json, überspringbar. S.intros[id] merkt, was schon lief. Gibt ein Promise zurück (fertig oder übersprungen). */
 let INTROS = {e: {}};
-function einfuehrung(id) {
+function einfuehrung(id, nochmal) {
   S.intros = S.intros || {};
-  const E = INTROS.e[id]; if (!E || S.intros[id] || !S.introV5) return Promise.resolve(false);
+  const E = INTROS.e[id]; if (!E || (S.intros[id] && !nochmal) || !S.introV5) return Promise.resolve(false);
   S.intros[id] = 1; save(); LOG.add('einführung', id);
   const old = $('#einf'); if (old) old.remove();
   const w = document.createElement('div'); w.id = 'einf'; w.className = 'einf';
@@ -4245,8 +4261,8 @@ function sttErrText(err) {
     el_stt: 'Die ElevenLabs-Spracherkennung hat nicht geklappt. Prüf die Verbindung.'}[err] || `Die Spracherkennung hat nicht geklappt (${err}). Schreib unten.`;
 }
 const KEYCARD = () => `<div class="card" id="keycard"><h3>Ein Schlüssel fehlt noch</h3>
-  <p class="small" style="margin:0 0 8px">Damit die Crew mit dir redet, braucht sie deinen Anthropic-Schlüssel. Er wird nur auf diesem Handy gespeichert.</p>
-  <input type="password" id="ck" autocomplete="off" placeholder="sk-ant-…"><button class="btn wide" id="cks" style="margin-top:10px">Speichern und testen</button><p class="status" id="ckr"></p></div>`;
+  <p class="small" style="margin:0 0 8px">Damit die Crew mit dir redet, braucht sie einen KI-Schlüssel (Anthropic, Google Gemini oder OpenAI). Er wird nur auf diesem Handy gespeichert.</p>
+  <input type="password" id="ck" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…"><button class="btn wide" id="cks" style="margin-top:10px">Speichern und testen</button><p class="status" id="ckr"></p></div>`;
 function bindKeycard(after) {
   const ck = $('#cks'); if (!ck) return;
   ck.onclick = async () => {
@@ -4519,18 +4535,20 @@ function best(key, val) { S.best = S.best || {}; if (val != null && val > (S.bes
 const TROPHY = {
   horn: {u: 'richtig', t: [4, 6, 7]}, lights: {u: 'richtig', t: [5, 7, 8]}, lh: {u: 'erkannt', t: [4, 6, 7]},
   buoy: {u: 'Tore', t: [10, 25, 45]}, man: {u: 'Manöver', t: [1, 3, 6]}, nav: {u: 'bestanden', t: [1, 5, 15]},
-  motor: {u: 'richtig', t: [3, 4, 5]}, parts: {u: 'gefunden', t: [5, 7, 8]}, fish: {u: 'Fische', t: [8, 18, 30]}, traps: {u: 'richtig', t: [6, 8, 10]},
+  motor: {u: 'richtig', t: [3, 4, 5]}, parts: {u: 'gefunden', t: [5, 7, 8]}, knoten: {u: 'richtig', t: [5, 7, 8]}, fish: {u: 'Fische', t: [8, 18, 30]}, traps: {u: 'richtig', t: [6, 8, 10]},
 };
 const TROPHY_NAMES = ['', 'Bronze', 'Silber', 'Gold'];
 /* Feste Rekorde der Crew (Paradespiel jeweils ganz oben) */
+/* V1: In der Bestenliste stehen die drei Sprecher, Harms und die Bordkatze */
+const NPC_IDS = () => Object.keys(NPC_BEST).filter(id => SPRECHER.includes(id) || id === 'backbord');
 const NPC_BEST = {
-  hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7},
-  ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8},
-  smilla: {buoy: 52, man: 5, nav: 6, horn: 6, lights: 7, lh: 5, motor: 4, parts: 7, fish: 16, traps: 7},
-  piet: {motor: 5, man: 3, nav: 2, horn: 4, lights: 4, lh: 3, buoy: 30, parts: 6, fish: 22, traps: 5},
-  klabauter: {horn: 7, man: 1, nav: 0, lights: 3, lh: 4, buoy: 18, motor: 2, parts: 5, fish: 9, traps: 4},
-  backbord: {fish: 35, man: 0, nav: 0, horn: 2, lights: 2, lh: 1, buoy: 12, motor: 1, parts: 3, traps: 2},
-  kroeger: {lights: 8, traps: 10, nav: 15, horn: 7, lh: 6, man: 4, buoy: 20, motor: 4, parts: 7, fish: 6},
+  hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7, knoten: 7},
+  ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8, knoten: 8},
+  smilla: {buoy: 52, man: 5, nav: 6, horn: 6, lights: 7, lh: 5, motor: 4, parts: 7, fish: 16, traps: 7, knoten: 6},
+  piet: {motor: 5, man: 3, nav: 2, horn: 4, lights: 4, lh: 3, buoy: 30, parts: 6, fish: 22, traps: 5, knoten: 4},
+  klabauter: {horn: 7, man: 1, nav: 0, lights: 3, lh: 4, buoy: 18, motor: 2, parts: 5, fish: 9, traps: 4, knoten: 3},
+  backbord: {fish: 35, man: 0, nav: 0, horn: 2, lights: 2, lh: 1, buoy: 12, motor: 1, parts: 3, traps: 2, knoten: 1},
+  kroeger: {lights: 8, traps: 10, nav: 15, horn: 7, lh: 6, man: 4, buoy: 20, motor: 4, parts: 7, fish: 6, knoten: 8},
 };
 /* Wer überholt wird, sagt etwas (fest, ohne Namen, fürs Stimmenpaket) */
 const OVERTAKE = {
@@ -4552,25 +4570,27 @@ function rankInfo() {
   return {pts, max, name: RANKS[i][1], next: RANKS[i + 1] || null};
 }
 function leaderboard(key) {
-  return Object.keys(NPC_BEST).map(id => ({id, name: CREW[id].short, v: NPC_BEST[id][key] || 0})).concat({id: 'me', name: 'Du', v: myBest(key)}).sort((a, b) => b.v - a.v || (a.id === 'me' ? -1 : 1));
+  return NPC_IDS().map(id => ({id, name: CREW[id].short, v: NPC_BEST[id][key] || 0})).concat({id: 'me', name: 'Du', v: myBest(key)}).sort((a, b) => b.v - a.v || (a.id === 'me' ? -1 : 1));
 }
 /* Punkte melden: Rekord, Trophäe, überholte Figuren. Gibt true zurück bei neuem Rekord. */
 function recordScore(key, val) {
+  if (BONUS && BONUS.key === key) { bonusEnde(val); return false; }
   const before = myBest(key), tb = trophyOf(key, before);
   const nb = key === 'nav' ? false : best(key, val);
   const after = myBest(key), ta = trophyOf(key, after);
   if (after <= before) return nb;
   LOG.add('spiel', key + ': Rekord ' + after);
-  const passed = Object.keys(NPC_BEST).filter(id => { const v = NPC_BEST[id][key] || 0; return before < v && after >= v; }).sort((a, b) => NPC_BEST[b][key] - NPC_BEST[a][key]);
+  const passed = NPC_IDS().filter(id => { const v = NPC_BEST[id][key] || 0; return before < v && after >= v; }).sort((a, b) => NPC_BEST[b][key] - NPC_BEST[a][key]);
   if (ta > tb) setTimeout(() => toast(`${TROPHY_NAMES[ta]} in „${(GAMES.find(g => g.k === key) || {}).n || key}“!`), 300);
   if (passed.length) {
     const who = passed[0]; S.passed = S.passed || {}; S.passed[key + ':' + who] = today(); save();
-    setTimeout(() => { toast(`Du hast ${CREW[who].short} überholt!`); if (AUD.ready) VOX.say(who, OVERTAKE[who], 'fixed'); }, ta > tb ? 2600 : 400);
+    setTimeout(() => { toast(`Du hast ${CREW[who].short} überholt!`); if (who === 'backbord') meow(); else if (AUD.ready) VOX.say(who, OVERTAKE[who], 'fixed'); }, ta > tb ? 2600 : 400);
   }
   return nb;
 }
 /* Kleine Zeichnungen für die Kacheln (flach, warm) */
 const GAME_ART = {
+  knoten: '<path d="M10 30 H24 C32 30 34 16 42 16 C52 16 54 30 44 34 C36 37 34 44 42 44 C52 44 54 30 62 30" stroke="#5a3e1e" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M10 30 H24 C32 30 34 16 42 16 C52 16 54 30 44 34 C36 37 34 44 42 44 C52 44 54 30 62 30" stroke="#e0b65a" stroke-width="4" fill="none" stroke-linecap="round"/>',
   horn: '<circle cx="18" cy="26" r="6" fill="#2b2118"/><path d="M22 26 L50 14 V38 Z" fill="#c8962e"/><path d="M54 18 q5 8 0 16 M58 14 q8 12 0 24" stroke="#5a3e2a" stroke-width="2" fill="none" stroke-linecap="round"/>',
   lights: '<rect x="0" y="0" width="64" height="48" rx="6" fill="#1d2a38"/><circle cx="16" cy="30" r="5" fill="#e2463b"/><circle cx="48" cy="30" r="5" fill="#4caf50"/><circle cx="32" cy="14" r="4" fill="#fffbe8"/><path d="M8 40 Q32 34 56 40" stroke="#6b7c8e" stroke-width="2" fill="none"/>',
   lh: '<path d="M26 44 L29 12 H35 L38 44 Z" fill="#f7f2e6"/><path d="M27.5 30 H36.5 L37 36 H27 Z M28.6 18 H35.4 L35.8 24 H28.2 Z" fill="#c2473b"/><rect x="27" y="6" width="10" height="7" rx="2" fill="#2b2118"/><path d="M37 9 L60 2 V16 Z" fill="#ffd36b" opacity=".8"/>',
@@ -4617,7 +4637,7 @@ const LIGHTS = [
 const LCOL = {w: '#fff7d6', r: '#ff4a3a', g: '#3dff86', y: '#ffd23c'};
 function lightsGame() {
   const names = [...new Set(LIGHTS.map(x => x.name))];
-  const rounds = shuffle(LIGHTS).slice(0, 8); let i = 0, score = 0;
+  const rounds = shuffle(LIGHTS).slice(0, bonusRunden(8)); let i = 0, score = 0;
   gameShell('Lichter bei Nacht', `<div class="nightsea"><svg viewBox="0 0 300 150" id="lsvg"></svg></div><div class="card" id="lq"></div>`);
   const show = () => {
     if (i >= rounds.length) { const nb = recordScore('lights', score); $('#lq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} richtig</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lights) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lightsGame; return; }
@@ -4653,7 +4673,7 @@ const BEACONS = [
   {k: 'Mo.(A) 8s', name: 'Morsefeuer', p: [[500, 500], [1500, 5500]], why: 'Morse A: kurz, lang (· –), dann Pause.'},
 ];
 function lighthouseGame() {
-  const ks = BEACONS.map(b => b.k), rounds = shuffle(BEACONS).slice(0, 7); let i = 0, score = 0, blinkT = null;
+  const ks = BEACONS.map(b => b.k), rounds = shuffle(BEACONS).slice(0, bonusRunden(7)); let i = 0, score = 0, blinkT = null;
   gameShell('Leuchtfeuer', `<div class="nightsea"><svg viewBox="0 0 300 160">
       <rect width="300" height="160" fill="#0b1626"/><rect y="124" width="300" height="36" fill="#0d2238"/>
       <path d="M140 124 L144 70 L156 70 L160 124 Z" fill="#20303f"/><rect x="141" y="58" width="18" height="12" rx="2" fill="#20303f"/>
@@ -4703,6 +4723,12 @@ function drawWater(ctx, W, H, t) {
   ctx.fillStyle = '#2f6f8f'; ctx.fillRect(0, 0, W, H); ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 2;
   for (let y = (t * .06) % 40 - 40; y < H; y += 40) { ctx.beginPath(); for (let x = 0; x <= W; x += 20) ctx.lineTo(x, y + Math.sin((x + y) / 30) * 3); ctx.stroke(); }
 }
+/* V14: Minispiel als Bonusrunde im Törn. Solange BONUS gesetzt ist, zählen die Punkte nicht für Rekorde,
+   sondern gehen über BONUS.fertig(punkte) an den Törn zurück. runden/sek kürzen das Spiel. */
+let BONUS = null;
+const bonusRunden = n => BONUS && BONUS.runden ? Math.min(n, BONUS.runden) : n;
+const bonusZeit = t0 => !!(BONUS && BONUS.sek && performance.now() - t0 > BONUS.sek * 1000);
+function bonusEnde(punkte) { const b = BONUS; if (!b) return false; BONUS = null; stopGames(); setTimeout(() => b.fertig(punkte || 0), 700); return true; }
 function gameOver(score, key, again) {
   stopGames(); const nb = recordScore(key, score), o = $('#gover'); if (!o) return;
   o.innerHTML = `<h2 style="margin:0 0 4px">${score} Punkte</h2><p class="muted" style="margin:0 0 10px">${nb ? 'Neuer Rekord!' : `Rekord: ${(S.best && S.best[key]) || 0}`}</p><button class="btn lamp" id="again">Nochmal</button>`;
@@ -4738,7 +4764,7 @@ function buoyGame() {
     drawBoatTop(ctx, boat.x, boat.y);
     ctx.fillStyle = '#fff'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${score} Punkte`, 12, 24); ctx.textAlign = 'right'; ctx.fillText('♥'.repeat(Math.max(0, lives)), W - 12, 24);
     if (msg && now - msgT < 2200) { ctx.fillStyle = 'rgba(20,30,40,.75)'; ctx.fillRect(10, H - 30, W - 20, 24); ctx.fillStyle = '#fffaf0'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(msg, W / 2, H - 13); }
-    if (lives <= 0) return gameOver(score, 'buoy', buoyGame);
+    if (lives <= 0 || bonusZeit(t0)) return gameOver(score, 'buoy', buoyGame);
     gameLoop = requestAnimationFrame(step);
   };
   gameLoop = requestAnimationFrame(step);
@@ -4768,7 +4794,7 @@ function fishGame() {
     items = items.filter(it => it.y < H + 30);
     drawBoatTop(ctx, boat.x, boat.y);
     ctx.fillStyle = '#fff'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${score} Fische`, 12, 24); ctx.textAlign = 'right'; ctx.fillText('♥'.repeat(Math.max(0, lives)), W - 12, 24);
-    if (lives <= 0) return gameOver(score, 'fish', fishGame);
+    if (lives <= 0 || bonusZeit(t0)) return gameOver(score, 'fish', fishGame);
     gameLoop = requestAnimationFrame(step);
   };
   gameLoop = requestAnimationFrame(step);
@@ -4813,7 +4839,7 @@ function motorGame() {
   app.querySelectorAll('.mpart').forEach(c => c.onclick = () => { const p = MOTOR_PARTS.find(x => x.id === c.dataset.part); AUD.click(); $('#minfo').innerHTML = `<b>${esc(p.name)}:</b> ${esc(p.t)}`; });
   $('#mquiz').onclick = () => {
     AUD.loop('motorLauf', 0);
-    const qs = shuffle(MOTOR_QUIZ); let i = 0, score = 0;
+    const qs = shuffle(MOTOR_QUIZ).slice(0, bonusRunden(MOTOR_QUIZ.length)); let i = 0, score = 0;
     const show = () => {
       if (i >= qs.length) { recordScore('motor', score); app.querySelector('.motorcard').innerHTML = `<h2 style="margin:0">${score} von ${qs.length} richtig</h2><p class="muted">Gut zu wissen für jede Fahrt mit Außenborder.</p>`; $('#mquiz').textContent = 'Nochmal'; $('#mquiz').onclick = motorGame; return; }
       const q = qs[i], opts = shuffle([q.a, ...q.o]);
@@ -4831,12 +4857,36 @@ function motorGame() {
 }
 
 /* ---------- Bauteile: Wo ist was am Boot? ---------- */
+/* V11: Jedes Bauteil hat seine ganze Fläche als Treffer (f): Vieleck [[x,y],…], Linie {l:[x1,y1,x2,y2], b: halbe Breite}, Kreis {c:[x,y,r]}, Rechteck {r:[x,y,w,h]}.
+   x/y ist nur noch der Platz für die Beschriftung. Koordinaten wie in boatScene. */
 const PARTS = [
-  {n: 'Mast', x: 195, y: 180}, {n: 'Großsegel', x: 255, y: 200}, {n: 'Vorsegel (Fock)', x: 150, y: 205}, {n: 'Baum', x: 262, y: 270},
-  {n: 'Vorstag', x: 118, y: 195}, {n: 'Achterstag', x: 296, y: 210}, {n: 'Verklicker (Windanzeiger)', x: 212, y: 61}, {n: 'Dreifarbenlaterne', x: 195, y: 70},
-  {n: 'Rumpf', x: 220, y: 320}, {n: 'Bug', x: 66, y: 292}, {n: 'Heck', x: 350, y: 300}, {n: 'Steuerrad', x: 346, y: 266},
-  {n: 'Außenborder', x: 371, y: 320}, {n: 'Niedergang', x: 287, y: 270}, {n: 'Bullauge', x: 176, y: 272}, {n: 'Seitenlicht Backbord (rot)', x: 62, y: 285}, {n: 'Hecklicht', x: 364, y: 280},
+  {n: 'Mast', x: 195, y: 180, f: [{l: [195, 76, 195, 272], b: 8}]},
+  {n: 'Großsegel', x: 255, y: 200, f: [[[200, 84], [200, 266], [322, 266], [312, 228], [292, 172], [252, 120]]]},
+  {n: 'Vorsegel (Fock)', x: 150, y: 205, f: [[[188, 88], [188, 262], [86, 278], [104, 236], [132, 176], [162, 128]]]},
+  {n: 'Baum', x: 262, y: 270, f: [{l: [198, 270, 326, 270], b: 7}]},
+  {n: 'Vorstag', x: 118, y: 195, f: [{l: [195, 72, 60, 288], b: 7}]},
+  {n: 'Achterstag', x: 296, y: 210, f: [{l: [195, 72, 346, 286], b: 7}]},
+  {n: 'Verklicker (Windanzeiger)', x: 212, y: 61, f: [{r: [194, 50, 32, 18]}]},
+  {n: 'Dreifarbenlaterne', x: 195, y: 70, f: [{r: [184, 63, 22, 15]}]},
+  {n: 'Rumpf', x: 220, y: 320, f: [[[58, 284], [366, 284], [356, 330], [326, 352], [112, 354], [66, 338]]]},
+  {n: 'Bug', x: 66, y: 292, f: [{c: [72, 300, 24]}]},
+  {n: 'Heck', x: 350, y: 300, f: [{c: [346, 306, 24]}]},
+  {n: 'Steuerrad', x: 346, y: 266, f: [{r: [336, 250, 24, 38]}]},
+  {n: 'Außenborder', x: 371, y: 320, f: [{r: [354, 272, 34, 78]}]},
+  {n: 'Niedergang', x: 287, y: 270, f: [{r: [266, 246, 42, 42]}]},
+  {n: 'Bullauge', x: 176, y: 272, f: [{c: [172, 272, 15]}, {c: [222, 272, 15]}]},
+  {n: 'Seitenlicht Backbord (rot)', x: 62, y: 285, f: [{c: [62, 285, 10]}]},
+  {n: 'Hecklicht', x: 364, y: 280, f: [{c: [364, 280, 9]}]},
 ];
+function partHit(part, p) {
+  return part.f.some(f => {
+    if (Array.isArray(f)) { let inn = false; for (let i = 0, j = f.length - 1; i < f.length; j = i++) { const [xi, yi] = f[i], [xj, yj] = f[j]; if ((yi > p.y) !== (yj > p.y) && p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi) inn = !inn; } return inn; }
+    if (f.c) return Math.hypot(p.x - f.c[0], p.y - f.c[1]) <= f.c[2];
+    if (f.r) return p.x >= f.r[0] && p.x <= f.r[0] + f.r[2] && p.y >= f.r[1] && p.y <= f.r[1] + f.r[3];
+    const [x1, y1, x2, y2] = f.l, dx = x2 - x1, dy = y2 - y1, t = Math.max(0, Math.min(1, ((p.x - x1) * dx + (p.y - y1) * dy) / (dx * dx + dy * dy)));
+    return Math.hypot(p.x - x1 - t * dx, p.y - y1 - t * dy) <= f.b;
+  });
+}
 function partsGame() {
   gameShell('Bauteile', `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat parts"')}<div class="card" id="pq"></div>`);
   const sc = app.querySelector('.scene.boat'), svg = sc.querySelector('svg'); sc.querySelector('.fernglas').remove();
@@ -4850,11 +4900,12 @@ function partsGame() {
   };
   svg.addEventListener('click', e => {
     if (!waiting) return; const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
-    const target = rounds[i], near = PARTS.map(x => ({x, d: Math.hypot(x.x - p.x, x.y - p.y)})).sort((a, b) => a.d - b.d)[0];
-    const ok = near.x === target && near.d < 30; waiting = false; if (ok) score++;
+    const target = rounds[i], ok = partHit(target, p) || Math.hypot(target.x - p.x, target.y - p.y) < 14; waiting = false; if (ok) score++;
+    /* Was wurde stattdessen getroffen? Kleine Teile zuerst, der Rumpf zuletzt */
+    const statt = ok ? null : PARTS.filter(x => x !== target && partHit(x, p)).sort((a, b) => (a.n === 'Rumpf') - (b.n === 'Rumpf'))[0];
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
     labels.innerHTML = `<g><circle cx="${target.x}" cy="${target.y}" r="10" fill="none" stroke="${ok ? '#3c8c5a' : '#c2473b'}" stroke-width="3"/><text x="${target.x + 12}" y="${target.y - 8}" font-size="10" font-weight="700" fill="#2a2019" stroke="#fffaf0" stroke-width="2.5" paint-order="stroke">${esc(target.n)}</text></g>`;
-    $('#pfb').innerHTML = (ok ? '<b style="color:var(--stb)">Richtig!</b>' : `<b style="color:var(--bb)">Nicht ganz.</b> Hier ist es.`) + ' <button class="btn small" id="pnext">Weiter</button>';
+    $('#pfb').innerHTML = (ok ? '<b style="color:var(--stb)">Richtig!</b>' : `<b style="color:var(--bb)">Nicht ganz.</b> ${statt ? 'Das war: ' + esc(statt.n) + '. ' : ''}Hier ist es.`) + ' <button class="btn small" id="pnext">Weiter</button>';
     $('#pnext').onclick = () => { i++; ask(); };
   });
   ask();
@@ -4945,9 +4996,10 @@ function maneuverGame() {
     let sx = null;
     c.addEventListener('pointerdown', e => { sx = e.clientX; });
     c.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) < 18) { boat.rudder = 0; msg = 'Ruder mittschiffs'; } else { boat.rudder = Math.max(-1, Math.min(1, dx / 90)); msg = dx > 0 ? 'Ruder Steuerbord' : 'Ruder Backbord'; } msgT = performance.now(); AUD.click(); });
-    const finish = (ok, text) => { done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
+    const finish = (ok, text) => { if (BONUS && BONUS.key === 'man') { done = true; return bonusEnde(ok ? 1 : 0); } done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
     const step = now => {
       const dt = Math.min(50, now - last) / 1000; last = now; const t = now - t0;
+      if (!done && bonusZeit(t0)) return finish(false, 'Die Zeit ist um.');
       /* Fahrdynamik: Gas beschleunigt, Wasser bremst, Ruder wirkt nur mit Fahrt (rückwärts umgekehrt) */
       const pow = boat.motor ? (boat.gear > 0 ? boat.gear * 60 : boat.gear * 38) : 0; boat.v += (pow - boat.v) * (pow ? .9 : 1.2) * dt;
       const turn = boat.rudder * 1.6 * (boat.v / 60); boat.h += turn * dt; boat.turned += Math.abs(turn * dt);
@@ -5330,7 +5382,7 @@ async function cabinWelcome() {
     await VOX.lines(lines.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
   }
   const sp = $('#stagePanel'); if (sp) sp.remove();
-  S.cabinWelcome = true; S.intros = S.intros || {}; S.intros[S.course] = 1; save(); cabinTalking = false;
+  S.cabinWelcome = true; save(); cabinTalking = false;
   if (tab !== 'cabin') return;
   fahrplanSheet();
   if (!stop) VOX.lines(CABIN.sumEnd.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
@@ -5338,8 +5390,10 @@ async function cabinWelcome() {
 }
 function courseSheet() {
   const w = sheet(`<h2 style="margin:0 0 4px">Welcher Schein?</h2><p class="small muted" style="margin:0 0 10px">Jeder Schein hat seinen eigenen Katalog und Lernstand. Nichts wird vermischt, nichts geht verloren.</p>
-    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}${COURSES_SOON.map(c => `<button class="menuitem off" disabled aria-disabled="true"><b>${esc(c.name)}</b><small>Kommt bald</small></button>`).join('')}</div>`);
-  w.querySelectorAll('[data-m^="c:"]').forEach(b => b.onclick = () => { const id = b.dataset.m.slice(2); closeSheet(); if (id !== S.course) { switchCourse(id); toast('Jetzt lernst du für den ' + COURSES[id].name + '.'); } setTab(tab === 'deck' ? 'deck' : 'cabin'); einfuehrung(id); });
+    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}${COURSES_SOON.map(c => `<button class="menuitem off" disabled aria-disabled="true"><b>${esc(c.name)}</b><small>Kommt bald</small></button>`).join('')}</div>
+    <button class="btn small ghost" id="scheininfo" style="margin-top:10px">Was erwartet mich beim ${esc(COURSE.short)}?</button>`);
+  w.querySelectorAll('[data-m^="c:"]').forEach(b => b.onclick = () => { const id = b.dataset.m.slice(2); closeSheet(); if (id !== S.course) { switchCourse(id); toast('Jetzt lernst du für den ' + COURSES[id].name + '.'); } setTab(tab === 'deck' ? 'deck' : 'cabin'); einfuehrung('schein_' + id); });
+  const ib = w.querySelector('#scheininfo'); if (ib) ib.onclick = () => { closeSheet(); einfuehrung('schein_' + S.course, true); };
 }
 
 /* ---------- Los geht's ---------- */

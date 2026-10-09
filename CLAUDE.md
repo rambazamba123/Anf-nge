@@ -83,13 +83,11 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 **Live-KI** (freies Gespräch, Erklärungen auf Nachfrage) lässt sich nicht vorab erzeugen. Sie bleibt hinter grauen Kostenknöpfen. Ein Tageslimit kommt später (E4).
 
 ## 5. Lizenzen (Prüfliste vor der Veröffentlichung)
-- **L1 Musik und Geräusche in `audio/`** (30 MB, etwa 40 Dateien): Die Herkunft ist im Repo nicht dokumentiert. Der Nutzer muss angeben, woher sie stammen.
-  - In Ordnung sind z. B. eigene Aufnahmen, CC0/Pixabay-Lizenz und ElevenLabs-Geräusche aus einem bezahlten Abo.
-  - Musik von Suno oder Udio darf nur mit bezahltem Abo kommerziell genutzt werden.
+- **L1 Musik und Geräusche in `audio/`** (30 MB, etwa 40 Dateien): von einer lizenzfreien Seite (Nutzer, 09.10.2026). Die Dateinamen (Künstler-Titel-Nummer) sprechen für Pixabay. Die Pixabay-Lizenz erlaubt kommerzielle Nutzung ohne Namensnennung. Freiwillige Nennung der Künstler unter „Über die App“, Liste in `docs/quellen-audio.md`.
 - **L2 Bilder aus den amtlichen Fragenkatalogen** (`img/q/`, `img/b/`) und die Fragentexte: vermutlich als amtliche Werke frei nutzbar. Das ist aber nicht sicher. Vor der Veröffentlichung bei ELWIS/WSV die Nutzungsbedingungen prüfen und in der App eine Quellenangabe machen.
 - **L3 Schriften Baloo 2 und Nunito:** frei (SIL Open Font License). Die Lizenzdatei muss mitgeliefert werden (`fonts/OFL.txt`).
-- **L4 ElevenLabs-Stimmen:** Kommerzielle Nutzung ist nur erlaubt, wenn beim Erzeugen ein bezahltes Abo bestand. Stimmen aus der „Voice Library“ können eigene Bedingungen haben. Welche Stimmen genutzt werden, steht im Manifest.
-- **L5 App-Icon** (`icon-192/512.png`): Herkunft angeben (selbst gemacht oder KI mit welchen Bedingungen?).
+- **L4 ElevenLabs-Stimmen:** bezahltes Abo vorhanden (Nutzer, 09.10.2026). Kommerzielle Nutzung ist damit erlaubt. Stimmen aus der „Voice Library“ können eigene Bedingungen haben. Welche Stimmen genutzt werden, steht im Manifest.
+- **L5 App-Icon** (`icon-192/512.png`): von Claude erstellt, in Ordnung.
 - **L6 JSZip** (von cdnjs, MIT-Lizenz) ist in Ordnung, Hinweis unter „Über die App“.
 - **L7** Alle Zeichnungen sind selbst gezeichnete SVGs im Code, die Karte ist erfunden. Beides ist in Ordnung.
 
@@ -97,13 +95,13 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 **Block A: Crew und Ton (zuerst, weil die Stimmen davon abhängen)**
-- **V1 Drei Figuren:**
+- ✓ **V1 Drei Figuren:**
   - Hinnerk, Smilla und Klabauter, dazu Harms als Prüfer.
   - Ilse und Piet entfallen. Spielstände mit ihnen werden still umgestellt (R7). Die Crewwahl im Kennenlernen fällt weg.
-- **V2 Bordkatze Backbord:** ohne Stimme. Sie taucht an Deck und in der Kajüte an wechselnden Stellen auf, schläft, jagt die Maus, sitzt auf dem Kartentisch und miaut beim Antippen. Ein paar ihrer Streiche sind Easter-Eggs.
-- **V3 Ton ab 12:** alle festen Sätze, die Folgen, die KI-Leitplanken (`styleRules`, `TONE`, `TEASE`) und das Kennenlernen durchgehen. Anzüglichkeiten raus, derb und hart bleibt. Alle werden aufgezogen.
-- **V4 Moin-Bausteine:** wie in §4 beschrieben.
-- **V5 Schein-Einführung durch die Crew:** Beim Wählen eines Scheins erzählt die Crew wie im Gespräch:
+- ✓ **V2 Bordkatze Backbord:** ohne Stimme. Sie taucht an Deck und in der Kajüte an wechselnden Stellen auf, schläft, jagt die Maus, sitzt auf dem Kartentisch und miaut beim Antippen. Ein paar ihrer Streiche sind Easter-Eggs.
+- ✓ **V3 Ton ab 12:** alle festen Sätze, die Folgen, die KI-Leitplanken (`styleRules`, `TONE`, `TEASE`) und das Kennenlernen durchgehen. Anzüglichkeiten raus, derb und hart bleibt. Alle werden aufgezogen.
+- ✓ **V4 Moin-Bausteine:** wie in §4 beschrieben.
+- ✓ **V5 Schein-Einführung durch die Crew:** Beim Wählen eines Scheins erzählt die Crew wie im Gespräch:
   - was das für ein Schein ist und wofür man ihn braucht
   - wie die Prüfung abläuft (Theorie, Praxis, Zeit, Bestehensgrenze)
   - was man lernt und wie lange es etwa dauert
@@ -112,19 +110,19 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   Feste Sätze, überspringbar, ersetzt die heutigen Zwei-Satz-Einführungen je Schein.
 
 **Block B: Stimmenpaket**
-- **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
-- **V7 Werkzeug „nur Fehlendes nachliefern“** prüfen und im Bericht die Zeichenzahl nennen.
+- ⏳ **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
+- ✓ **V7 Werkzeug „nur Fehlendes nachliefern“** prüfen und im Bericht die Zeichenzahl nennen.
 - **V8 Teil 2 (Folgen):** erst nach der Überarbeitung durch den Nutzer.
 
 **Block C: Boot und Spiele**
-- **V9 Nur noch eine Bootsansicht:**
+- ✓ **V9 Nur noch eine Bootsansicht:**
   - Die lange Ansicht entfällt. Steuerrad, Niedergang und die verbauten Ausrüstungsteile liegen in der einen Ansicht.
   - Die Eggs, die es nur in der langen Ansicht gab, ziehen um: Angel, Flaggen, Frachter, Nebelglocke, Kompass mit Messer, Rettungsring.
   - Manche Eggs erscheinen nur manchmal: die Angel bei ruhigem Wetter, der Frachter nachts.
   - Kompass mit Messer kommt an den Kartentisch, die Nebelglocke in die Kajüte.
-- **V10 Steuerrad in der Bootsansicht von der Seite:** schmales Oval mit Säule.
-- **V11 Bauteile-Spiel:** Jede Stelle des richtigen Bauteils zählt, z. B. das ganze Segel. Dafür bekommt jedes Bauteil eine eigene Trefferfläche statt eines kleinen Kreises.
-- **V12 Knoten** (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
+- ✓ **V10 Steuerrad in der Bootsansicht von der Seite:** schmales Oval mit Säule.
+- ✓ **V11 Bauteile-Spiel:** Jede Stelle des richtigen Bauteils zählt, z. B. das ganze Segel. Dafür bekommt jedes Bauteil eine eigene Trefferfläche statt eines kleinen Kreises.
+- ✓ **V12 Knoten** (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
   - **Knotenbrett in der Kajüte:** Jeder Knoten wird Schritt für Schritt als Animation gezeigt, z. B. Achtknoten, Kreuzknoten, Palstek, Schotstek, Webeleinstek, Rundtörn mit zwei halben Schlägen und Belegen einer Klampe.
   - **Spiel „Knotenkunde“** in der Spielekiste mit drei Runden-Arten:
     1. Erkennen: Welcher Knoten ist das?
@@ -134,8 +132,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - **Übung mit echtem Tau:** Die Crew stoppt die Zeit, du bewertest dich selbst.
 
 **Block D: Törn**
-- **V13 Karte im Törn:** Sie folgt dem Boot in der Mitte, bis man selbst schiebt. Dann bleibt sie stehen. Der Knopf „Zurück zum Boot“ holt sie wieder. Ein automatisches Zurückspringen gibt es nicht.
-- **V14 Minispiele als Bonusrunden:**
+- ✓ **V13 Karte im Törn:** Sie folgt dem Boot in der Mitte, bis man selbst schiebt. Dann bleibt sie stehen. Der Knopf „Zurück zum Boot“ holt sie wieder. Ein automatisches Zurückspringen gibt es nicht.
+- ✓ **V14 Minispiele als Bonusrunden:**
   - Höchstens 1–2 pro Etappe, jeweils passend zur Lage:
     - Anlegen → Manöver
     - Nacht → Lichter
@@ -146,31 +144,38 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
     - Flaute → Fischfang
   - Kurzrunde von 30–60 Sekunden. Gutes Ergebnis = mehr Ertrag (Bordkasse, Proviant), schlechtes kostet kaum etwas.
   - Zählt nicht für Rekorde.
-- **V15 Musik im ganzen Törn gesperrt:** auch in Minispielen, Ankreuz-Runde, Laden und Logbuch. Meer, Wind, Motor und Signale bleiben.
-- **V16 Kleinere Reste** (Claude entscheidet): Standort per Landmarken-Peilung, Lagemeldung der Verkehrszentrale, eigene Geräusche für Wind und Alarm.
+- ✓ **V15 Musik im ganzen Törn gesperrt:** auch in Minispielen, Ankreuz-Runde, Laden und Logbuch. Meer, Wind, Motor und Signale bleiben.
+- ◐ **V16 Kleinere Reste** (Claude entscheidet): Standort per Landmarken-Peilung, Lagemeldung der Verkehrszentrale, eigene Geräusche für Wind und Alarm.
 
 **Block E: Veröffentlichung**
-- **V17 Lizenzen klären** (§5): Der Nutzer liefert die Herkunft von L1, L4 und L5. Claude ergänzt `fonts/OFL.txt` und eine Seite „Über die App“ mit Quellen.
-- **V18 Rechtliches:** Datenschutzerklärung, Impressum (in Deutschland meist Pflicht) und eine Einwilligung vor der ersten KI-Nutzung. Konto-Löschung nur, falls es Konten gibt (E2).
-- **V19 Katalogfehler beheben:**
+- ✓ **V17 Lizenzen klären** (§5): Der Nutzer liefert die Herkunft von L1, L4 und L5. Claude ergänzt `fonts/OFL.txt` und eine Seite „Über die App“ mit Quellen.
+- ◐ **V18 Rechtliches:** Datenschutzerklärung, Impressum (in Deutschland meist Pflicht) und eine Einwilligung vor der ersten KI-Nutzung. Konto-Löschung nur, falls es Konten gibt (E2).
+- ✓ **V19 Katalogfehler beheben:**
   - SBF 279 (doppelte Antwort)
   - SBF 285 und Binnen 253 (angehängter PDF-Text)
   - SKS nav-92 (leere Antwort) und recht-23 (abgeschnittene Frage)
   - „Stand 2006“-Reste in SKS-Antworten
 
   Claude prüft gegen die ELWIS-Kataloge, so weit sie erreichbar sind.
-- **V20 Letzter Feinschliff:** Ladezeit, Offline-Start, Zurück-Taste, und die Handy-Checkliste (§8) mit dem Nutzer durchgehen.
+- ◐ **V20 Letzter Feinschliff:** Ladezeit, Offline-Start, Zurück-Taste, und die Handy-Checkliste (§8) mit dem Nutzer durchgehen.
+
+- ✓ **V21 KI-Schlüssel anderer Anbieter** (E2): Anthropic, Google Gemini oder OpenAI in einem Feld.
+- ✓ **V22 App aufs Handy** (E3): Installieren-Knopf, iPhone-Hinweis, APK-Anleitung `docs/apk-anleitung.md`.
 
 **Nach der Veröffentlichung:** Folgen für SKS und Binnen, Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
 
 ## 7. Code-Karte
-*Stand v4.42. Ändert sich mit Block C (eine Bootsansicht) und Block A (drei Figuren).*
+*Stand v4.60 (Lauf 4). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
   - `ai()` zählt `S.kiUse` {day, n}; `KI_LIMIT` (0 = aus) für das spätere Tageslimit
   - Sprech-Arten: `fixed` (fester Satz, kommt ins Paket), `story`, `live` (KI-Antwort), `local` (wechselnder App-Text, nie ElevenLabs)
   - Entwickler-Werkzeuge `.dev`, `devOn()` (an bei ElevenLabs-Schlüssel oder `S.cfg.dev`)
+- **Crew (V1):** feste Sprecher `SPRECHER` (hinnerk, smilla, klabauter, kroeger), `ROLE_OPTIONS` je eine Figur, alte Spielstände werden in `load()` umgestellt; Bestenliste `NPC_IDS`. Bordkatze stumm: `CAT_SPOTS`, `catPlace`, `catChase` (Kajüte)
+- **Begrüßung (V4):** `MOIN_BAU` je Figur, `MOIN_WEG`, `moinKette(gap)`; gezogene Moins (`/mo{4,}in/`) werden in `playBlob` gedehnt
+- **Einwilligung (V18):** `kiEinwilligung()` vor der ersten KI- oder ElevenLabs-Nutzung, `S.kiOk`; ohne sie `no_consent` bzw. Handystimme. Seiten `datenschutz.html`, `impressum.html` (Platzhalter!)
+- **KI-Anbieter (V21):** ein Schlüsselfeld, `kiAnbieter()` erkennt sk-ant-/AIza/sk-, `aiAndere()` für Gemini und OpenAI (`ANDERE_MODELLE`)
 - **Einführungen (5.10):** `einfuehrung(id)` liest `INTROS` (`data/einfuehrungen.json`), merkt `S.intros[id]`, gibt ein Promise zurück (der Hocker wartet darauf)
 - **Fragekarten:** `data/karten-sbf.json`, `karten-bin.json`, `karten-sks.json` ({k: {Schlüssel: {e, m, f}}}), Schlüssel `sbf:n`, `bin:n`, `sks:<id>`
   - `KARTEN`, `cardOf`, `cardHtml`, `localMn`, `localLesson`, `askCrewBox` (grauer Rückfrage-Kasten), `qContext`, `TUTOR` (Leitplanken), `readCls`
@@ -194,33 +199,39 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - **Dateien:**
   - `index.html` (Code und CSS, ~481 KB; große neue Bereiche in eigene Dateien, R11)
   - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
-  - `navi.js`, `toern.js` (nachgeladen), `data/einfuehrungen.json` (5.10)
+  - `navi.js`, `toern.js`, `knoten.js` (nachgeladen), `data/einfuehrungen.json` (5.10, Schein-Einführungen `schein_*`, Knotenbrett), `data/knoten.json`
+  - `datenschutz.html`, `impressum.html`, `fonts/OFL-*.txt`; Über die App: `renderSources` (Einstellungen)
+  - Musik im Törn gesperrt über `window.TOERN_STILL` (V15); Törn-Karte `ctl.center`, Knopf „Zurück zum Boot“ (V13)
   - `tests/smoke/rauchtest.js`, `.githooks/pre-commit` (Rauchtest vor jedem Commit)
   - `manifest.webmanifest`, `icon-192/512.png`
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`; legt auch die Stimmen fest, noch leer)
-  - `docs/`: Konzepte, `archiv/` (alte Briefe), `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
+  - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`
 - **Start:**
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
   - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
 - **Deck:**
-  - `renderBoat` mit zwei Ebenen über `deckView`: `boatScene` (Übersicht = Übermenü, kein Wischen, Knopf „An Bord gehen“, darunter das Rennen `courseCard`) und `longBoatScene` (Nahansicht nur Deck, viewBox 0 30 1200 305, wischen; Steuerrad startet den Törn)
-  - Hilfen: `ovToDetail`, `bindPano(pano, key, centerX)`
+  - `renderBoat` zeigt nur noch eine Ansicht (V9): `boatScene` mit Steuerrad von der Seite (Törn), Niedergang, Eggs (Ring, Flaggen an `#flagline`, Angel nur bei ruhigem Wetter, Frachter nur nachts), Ausrüstung `ausrArt()`, darunter das Rennen `courseCard`. Seekrank-Egg: 7× schnell aufs Wasser tippen. Die lange Ansicht ist entfernt.
   - Eggs: `startEgg` mit Handlern je `data-egg`
   - Fernglas: `bindFernglas`, `GAME_KEYS`, `BOAT_HINTS` / `DETAIL_HINTS`
 - **Kajüte:**
   - `renderCabin`, `cabinScene`, `CABIN_SPOTS` (`fn` = vom Fernglas markiert), `SPOT`, `TAP`
   - Erstbesuch: `cabinWelcome` (Texte `CABIN`, SKS-Quiz, `fahrplanSheet`)
   - Hocker: `bgSit`
+  - Nebelglocke, Handpeilkompass und Bordmesser (Deviation-Egg) als `data-tap` in `cabinScene`, rufen `startEgg`
+  - Knotenbrett: Spot `knoten` → `knotenBrett()`
   - Prüfer: `harmsKommt(via)` (Telefon `telefon` oder Crew-Menü „Hol Kapitän Harms“), Sätze `HARMS`, danach `examIntro('harms')`
 - **Easter-Eggs:**
   - Register `EGGS`, Fund melden mit `foundEgg(id)` → `S.eggs`, Anzeige `eggCard`
   - Sätze `EGG_LINES` (über `sayEgg`), `FLAG_ART`, `glasenNow`, `wxOverride`
 - **Spiele:**
   - `GAMES`, `gamesHub` (Raster, `GAME_ART`), `gameShell`, `gameOver`
+  - Bauteile-Spiel: Trefferflächen `PARTS[].f`, `partHit` (V11)
+  - Knoten (V12): `knoten.js` (`loadKnoten`, `KNOTEN.brett/zeige/ueben/spiel`), Daten `data/knoten.json`, Bestzeiten `S.knoten`
+  - Bonusrunden im Törn (V14): `BONUS`, `bonusRunden`, `bonusZeit`, `bonusEnde` (index.html) kürzen Spiele und leiten Punkte an `toern.js` (`MINIS`, `miniEinbauen`, `miniAufgabe`, `bonusZurueck`) statt in Rekorde
   - Punkte immer über `recordScore(key, wert)`: Trophäen `TROPHY`, Crew-Rekorde `NPC_BEST`, Sprüche `OVERTAKE`, Rang `rankInfo`, `leaderSheet`, `trophyCard`
 - **Lernen und Prüfung:**
   - `runQuiz` (Option `scoreKey`), `examIntro` / `startExam` (beliebig viele Teile aus `COURSE.exam.parts`), `startExamOpen` (SKS)
@@ -247,15 +258,36 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 ## 8. Status (von Claude gepflegt)
 
+### Lauf 4 (ab 09.10.2026)
+- [x] v4.43 V1 Drei Figuren: feste Crew Hinnerk, Smilla, Klabauter (+ Harms), `SPRECHER`, alte Spielstände still umgestellt, Stimmenpaket und Bestenliste nur noch mit diesen (`NPC_IDS`, Katze miaut)
+- [x] v4.44 V3 Ton ab 12: KI-Leitplanke `TONE.erw` ohne Anzüglichkeiten, SBF und SKS werden beide aufgezogen, 5 feste Sätze entschärft (Liste in `docs/feste-saetze.md`)
+- [x] v4.45 V4 Moin-Bausteine: `MOIN_BAU` je Figur, `moinKette` (Käpt'n ~90 %, Smilla/Klabauter je ~22 %), gezogene Moins überall gedehnt
+- [x] v4.46 V5 Schein-Einführung: `schein_sbf/sks/binnen` (was, wofür, Prüfung, Lernstoff, Praxis), einmal beim Kajütenbesuch und beim Scheinwechsel, jederzeit über „Was erwartet mich …“ in der Schein-Auswahl; `einfuehrung(id, nochmal)`
+- [x] v4.47 V2 Bordkatze Backbord: stumm, wechselnde Plätze in der Kajüte (`CAT_SPOTS`, `catPlace`), springt beim Antippen woanders hin; Eggs `katzewach`, `katzekarte`, `katzemaus` (32 Eggs). An Deck kommt sie mit V9.
+- [ ] V6 Stimmenpaket Teil 1: Werkzeug fertig (`tools/stimmenpaket.js --teil1`, `--probe`, `--modelle`, nur fehlende Sätze), Trockenlauf 320 Sätze / 22.234 Zeichen. **Wartet auf Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` (E5).**
+- [x] v4.48 V15 Musik im ganzen Törn gesperrt: `window.TOERN_STILL` (gesetzt in `shell`/`TOERN.open`, gelöscht in `setTab`), `AUD.playMusic` spielt dann nichts
+- [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
+- [x] v4.50 V10 Steuerrad in der Bootsansicht von der Seite (schmales Oval auf der Säule, Griffe oben und unten)
+- [x] v4.51 V11 Bauteile-Spiel: Trefferflächen je Bauteil (`PARTS[].f`, `partHit`: Vieleck, Linie, Kreis, Rechteck), bei Fehltipp „Das war: …“
+- [x] v4.52 V9 Nur noch eine Bootsansicht: lange Ansicht (`longBoatScene`, `bindPano`, `ovToDetail`) entfernt; Rettungsring, Flaggen (Leine am Achterstag), Angel (nur bei ruhigem Wetter, 60 %), Frachter (nur nachts) und Ausrüstung (`ausrArt`) in der Übersicht; Nebelglocke, Kompass und Messer in der Kajüte; Seekrank-Egg: 7× schnell aufs Wasser tippen
+- [x] v4.53 V14 Minispiele als Bonusrunden im Törn: `MINIS`, `miniEinbauen` (1–2 je Etappe nach Lage: Nebel→Schallsignale, Nacht→Lichter/Leuchtfeuer, Motor→Motorkunde, Flaute→Fischfang, Tonnen-Slalom, letzte Etappe→Anlegen), `BONUS`/`bonusEnde` in index.html kürzen die Spiele und leiten Punkte um (kein Rekord); Ertrag 2/8/15 Taler, ab 90 % +1 Proviant; Anzeige in der Nachbesprechung; Rauchtest `23-bonusrunde`
+- [x] v4.54 V12 Knoten: `knoten.js` (nachgeladen, `loadKnoten`) mit `data/knoten.json` (7 Knoten, schematisch gezeichnet): Knotenbrett in der Kajüte (Animation, Schritte, Merkhilfe, Übung mit echtem Tau + Bestzeit `S.knoten`), Spiel „Knotenkunde“ (Erkennen, Wofür, Reihenfolge; Trophäen, Crew-Rekorde)
+- [x] v4.55 V21 KI-Anbieter: ein Schlüsselfeld für Anthropic (sk-ant-), Google Gemini (AIza) und OpenAI (sk-), Erkennung `kiAnbieter`, Aufruf `aiAndere` (ohne Streaming, Modelle in `ANDERE_MODELLE`), Texte und Selbsttest angepasst
+- [x] v4.56 V22 App aufs Handy: Knopf „📲 App aufs Handy“ an Deck (wenn installierbar) und in den Einstellungen (`appInstallieren`, `beforeinstallprompt`, iPhone-Hinweis), Manifest mit `id` und Beschreibung, APK-Anleitung `docs/apk-anleitung.md` (PWABuilder)
+- [x] v4.57 V17 Lizenzen und Über die App: Seite „Über die App“ (`renderSources`, aus den Einstellungen erreichbar) mit Hinweis „ersetzt keine Ausbildung, Karte nicht zur Navigation“, Pixabay-Musik, Kataloge mit ELWIS-Quellenangabe, Zeichnungen, Schriften-Lizenzen `fonts/OFL-*.txt`, JSZip, KI-Anbieter; `docs/quellen-audio.md`
+- [x] v4.58 V18 Rechtliches: `datenschutz.html` und `impressum.html` (Platzhalter für Name, Anschrift, E-Mail **trägt der Nutzer ein**), Einwilligung vor der ersten KI- oder ElevenLabs-Nutzung (`kiEinwilligung`, `S.kiOk`, Widerruf in den Einstellungen), Links in Einstellungen, Kennenlernen und Über die App
+- [x] v4.59 V19 Katalogfehler: SBF 285 und Binnen 253 ohne angehängten PDF-Text, SKS nav-92 Frage/Antwort getrennt, „Stand 2006“-Reste in 5 SKS-Antworten entfernt, SBF 279 doppelte Antwort entfernt (jetzt 3 Antworten), SKS recht-23 als Bildfrage ausgeblendet. **ELWIS war hier gesperrt: SBF 279 (fehlende 4. Antwort) und recht-23 (Abbildungen) bitte am Original prüfen.**
+- [x] v4.60 V16 Törn-Reste (teilweise): zwei Funk-Ereignisse aus amtlichen Fragen: Verkehrszentrale funkt (SBF 158), treibender Container melden (SKS recht-98), UKW-Funk hilft; Balancing weiter erfüllt. Offen: Standort per Landmarken-Peilung, eigene Wind-/Alarmgeräusche.
 ### Jetzt dran
-- Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
+- **V6 Stimmenpaket Teil 1** wartet nur auf E5: Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` in der Cloud-Umgebung (neue Sitzung nötig). Dann: `node tools/stimmenpaket.js --modelle`, `--probe`, nach OK `--teil1 --los`.
+- **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
+- **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
+- Offen aus V16: Standort per Landmarken-Peilung, eigene Wind- und Alarmgeräusche. Danach V8 (Folgen) nach der Überarbeitung durch den Nutzer.
 
 ### Entscheidungen
 - **E1 Altersfreigabe:** ab 12 (Nutzer, 09.10.2026). Ton siehe §3 und V3.
-- **E2 KI-Funktionen bei der Veröffentlichung, offen:**
-  - **(a) Empfehlung:** Die KI läuft nur mit eigenem Schlüssel. Sonst ist sie aus, und die Stimmen kommen aus dem Paket.
-  - **(b)** Supabase-Server mit Schlüssel und Tageslimit vorher bauen. Das ist in zwei Wochen knapp.
-- **E3 Veröffentlichung, offen:** zuerst als Web-App über den GitHub-Pages-Link (Empfehlung), die Store-App später.
+- **E2 KI-Funktionen bei der Veröffentlichung:** nur mit eigenem Schlüssel, sonst aus. Die Stimmen kommen aus dem Paket (Nutzer, 09.10.2026). Wunsch: auch andere Anbieter-Schlüssel (z. B. Gemini) zulassen.
+- **E3 Veröffentlichung:** als etwas zum Verschicken mit eigenem Icon auf dem Handy. Weg: Installieren-Knopf in der App (Web-App mit Icon) und zusätzlich eine Android-Datei (APK), falls mit vertretbarem Aufwand machbar (Nutzer, 09.10.2026).
 - **E4 KI-Tageslimit:** vorerst unbegrenzt (`KI_LIMIT` 0), ein Limit kommt später.
 - **E5 Stimmenpaket, offen:**
   - **(a) Empfehlung:** Secret `ELEVENLABS_API_KEY` und Domain `api.elevenlabs.io` in der Cloud-Umgebung freigeben, dann erzeugt Claude das Paket.
@@ -268,8 +300,9 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 ### Handy-Checkliste (macht der Nutzer)
 - Mikrofon im Gespräch, Zurück-Taste (App und Browser), Offline-Start, Lautstärke der Stimmen
-- Moin-Varianten, Telefon und Harms, Lesbarkeit der Karte im Törn
-- Einführungen, Minispiele im Törn (sobald gebaut)
+- Moin-Ketten (Käpt'n fast immer, andere manchmal), Telefon und Harms, Karte im Törn mit „Zurück zum Boot“
+- Bonusrunden im Törn, Knotenbrett und Knotenkunde, Bauteile-Spiel (ganze Flächen), Bordkatze in der Kajüte
+- Installieren-Knopf (Android) bzw. „Zum Home-Bildschirm“ (iPhone), Einwilligung beim ersten KI-Gespräch
 
 ### Hinweise und offene Kleinigkeiten
 - Der Ordner `quellen/` fehlt in der Cloud. Die SKS-Kartenaufgabe (L11) stützt sich nur auf den SKS-Katalog in der App. Ein Abgleich mit den Original-Kartenaufgaben ist optional.

@@ -141,7 +141,6 @@
     "recht-20": {"r":"Ein Fahrzeug auf Grund unter 100 m Länge.","f":["Ein Fischer mit ausgebrachtem Netz.","Ein Feuerschiff ohne Licht."]},
     "recht-21": {"offen":true,"bild":true},
     "recht-22": {"r":"Ein manövrierunfähiges Fahrzeug ohne Fahrt durchs Wasser.","f":["Ein Fahrzeug vor Anker.","Ein Lotsenfahrzeug im Dienst."]},
-    "recht-23": {"offen":true,"bild":true},
     "recht-24": {"r":"Jederzeit gehöriger Ausguck durch Sehen, Hören und alle verfügbaren Mittel.","f":["Ausguck nur nachts und bei Nebel.","Auf Sportbooten ersetzt das Radar den Ausguck."]},
     "recht-25": {"r":"Sie dürfen Fahrzeuge, die nur im Fahrwasser sicher fahren können, nicht behindern.","f":["Sie haben im Fahrwasser immer Vorfahrt vor großen Schiffen.","Sie müssen das Fahrwasser grundsätzlich in der Mitte befahren."]},
     "recht-26": {"r":"Das Gebiet zwischen Küste und landseitiger Grenze eines Verkehrstrennungsgebiets.","f":["Die 3-Seemeilen-Zone vor jedem Hafen.","Die Trennzone in der Mitte eines Verkehrstrennungsgebiets."]},

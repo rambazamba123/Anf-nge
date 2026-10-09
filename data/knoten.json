@@ -1,0 +1,33 @@
+{
+ "about": "V12: Knoten für die praktische Prüfung (übliche Auswahl, gegen die amtliche Prüfungsrichtlinie abgleichen). Zeichnungen sind schematisch und selbst gezeichnet: seg = Taustücke in Zeichenreihenfolge (spätere liegen oben), c = Farbe, w = Dicke. Feste Sätze ohne Namen.",
+ "knoten": [
+  {"id": "acht", "name": "Achtknoten", "wofuer": "Stopperknoten am Ende einer Leine, damit sie nicht durch Block oder Klemme rauscht.", "lage": "Die Schot soll nicht aus dem Block rutschen.",
+   "schritte": ["Mit dem Ende eine Bucht legen, das Ende liegt über der stehenden Part.", "Das Ende hinter der stehenden Part herumführen.", "Das Ende von vorn durch die erste Bucht stecken.", "Festziehen. Es entsteht eine Acht."],
+   "merk": "Sieht aus wie eine Acht und hält wie eine.",
+   "seg": [{"d": "M4 60 H34 C50 60 52 36 64 34 C80 32 84 50 70 56"}, {"d": "M70 56 C56 62 56 76 72 74 C86 72 88 56 76 50 C66 45 54 46 50 36 C46 24 62 16 76 20 C90 24 96 36 116 36"}]},
+  {"id": "kreuz", "name": "Kreuzknoten", "wofuer": "Verbindet zwei gleich dicke Leinen, zum Beispiel die Reffbändsel beim Reffen.", "lage": "Zwei gleich dicke Bändsel sollen um das gereffte Segel verbunden werden.",
+   "schritte": ["Rechtes Ende über das linke legen und einmal umschlingen.", "Jetzt das linke Ende über das rechte legen und wieder umschlingen.", "Festziehen. Jedes Ende liegt neben seiner eigenen Part."],
+   "merk": "Rechts über links, links über rechts.",
+   "seg": [{"d": "M4 30 H38 C50 30 56 50 66 50 C74 50 78 40 72 34 C66 28 58 34 54 40 C50 46 40 50 4 50"}, {"d": "M116 30 H82 C70 30 64 50 54 50 C46 50 42 40 48 34 C54 28 62 34 66 40 C70 46 80 50 116 50", "c": "#4f86b8"}, {"d": "M56 37 C60 32 66 31 70 33"}]},
+  {"id": "palstek", "name": "Palstek", "wofuer": "Ein festes Auge, das sich nicht zuzieht. Zum Beispiel für Festmacher über einen Poller oder als Rettungsschlinge.", "lage": "Du brauchst ein festes Auge, das sich nicht zuzieht, um den Festmacher über den Poller zu legen.",
+   "schritte": ["In die stehende Part ein kleines Auge legen.", "Das Ende von unten durch das Auge stecken.", "Das Ende hinter der stehenden Part herumführen.", "Das Ende zurück durch das kleine Auge und festziehen."],
+   "merk": "Die Schlange kommt aus dem See, läuft um den Baum und taucht wieder ab.",
+   "seg": [{"d": "M58 44 C30 46 30 76 60 76 C90 76 90 46 64 42"}, {"d": "M60 4 V28 C60 34 52 36 50 32 C48 28 56 26 62 30 C70 36 66 44 58 44"}, {"d": "M64 42 C72 40 72 32 66 28"}]},
+  {"id": "schot", "name": "Schotstek", "wofuer": "Verbindet zwei unterschiedlich dicke Leinen. Doppelt gelegt hält er noch besser.", "lage": "Eine dünne Leine soll an eine dicke angesteckt werden.",
+   "schritte": ["In die dickere Leine eine Bucht legen.", "Die dünnere Leine von unten durch die Bucht stecken.", "Die dünne Leine um beide Parten der Bucht herumführen.", "Unter sich selbst durchstecken, nicht durch die Bucht, und festziehen."],
+   "merk": "Dick bildet die Bucht, dünn macht die Arbeit.",
+   "seg": [{"d": "M4 30 H60 C76 30 76 52 60 52 H4", "c": "#4f86b8", "w": 9}, {"d": "M116 40 H68 C56 40 54 22 64 22 C76 22 80 60 66 60 C54 60 58 42 68 42"}, {"d": "M68 42 C74 46 74 52 70 54"}]},
+  {"id": "webelein", "name": "Webeleinstek", "wofuer": "Eine Leine schnell an einer Stange, Reling oder einem Pfahl festmachen, zum Beispiel einen Fender an der Reling.", "lage": "Ein Fender soll an der Reling festgemacht werden.",
+   "schritte": ["Die Leine einmal um die Stange legen, das Ende kreuzt über die stehende Part.", "Ein zweites Mal um die Stange herum.", "Das Ende unter der letzten Windung durchstecken und festziehen."],
+   "merk": "Zweimal rum, einmal drunter.",
+   "seg": [{"d": "M57 2 V78", "c": "#8a5a3a", "w": 14}, {"d": "M4 22 H40 L74 42"}, {"d": "M44 56 L74 30 C82 26 90 30 116 30"}]},
+  {"id": "rundtoern", "name": "Rundtörn mit zwei halben Schlägen", "wofuer": "Eine Leine unter Last an Ring, Pfahl oder Poller festmachen. Lässt sich auch unter Last wieder lösen.", "lage": "Das Boot zieht schon am Festmacher, die Leine soll an den Ring.",
+   "schritte": ["Die Leine zweimal ganz um den Pfahl legen. Das ist der Rundtörn.", "Mit dem Ende einen halben Schlag um die stehende Part legen.", "Einen zweiten halben Schlag in die gleiche Richtung legen und festziehen."],
+   "merk": "Erst rund, dann zweimal halb.",
+   "seg": [{"d": "M24 2 V78", "c": "#8a5a3a", "w": 14}, {"d": "M14 30 H38"}, {"d": "M14 38 H38"}, {"d": "M38 34 H116"}, {"d": "M62 34 C56 24 70 22 70 34 C70 44 58 44 62 34"}, {"d": "M80 34 C74 24 88 22 88 34 C88 44 76 44 80 34"}]},
+  {"id": "klampe", "name": "Belegen einer Klampe", "wofuer": "Einen Festmacher oder eine Schot auf einer Klampe festmachen.", "lage": "Der Festmacher soll an Bord auf der Klampe belegt werden.",
+   "schritte": ["Die Leine erst einmal ganz um den Fuß der Klampe legen.", "Dann in Achten über die beiden Hörner führen.", "Zum Schluss ein Kopfschlag: die Leine so verdreht auflegen, dass sie unter sich klemmt."],
+   "merk": "Einmal rum, zweimal kreuz, ein Kopfschlag.",
+   "seg": [{"d": "M18 50 H102", "c": "#9aa3ab", "w": 12}, {"d": "M20 44 C12 36 16 30 26 34", "c": "#9aa3ab", "w": 7}, {"d": "M100 44 C108 36 104 30 94 34", "c": "#9aa3ab", "w": 7}, {"d": "M4 58 C24 62 34 40 60 46 C86 52 98 38 92 34"}, {"d": "M28 34 C44 34 76 58 96 56"}]}
+ ]
+}

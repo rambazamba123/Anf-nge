@@ -253,7 +253,7 @@ const CSS = `
 .tw-view canvas{width:100%;height:100%;display:block}
 .tw-ctl{display:flex;gap:6px;margin:6px 0}.tw-ctl button{flex:1;padding:8px 4px;font-size:.82rem}
 .tw-low{position:relative;flex:1 1 auto;min-height:170px}.tw-low .nwrap{height:100%!important;min-height:160px}
-.tw-mini{position:absolute;inset:0}.tw-mini .ntoolbar,.tw-mini .ntip{display:none}
+.tw-mini{position:absolute;inset:0}.tw-zumboot{position:absolute;left:8px;bottom:8px;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.3)}.tw-mini .ntoolbar,.tw-mini .ntip{display:none}
 .tw-task{position:absolute;inset:0;overflow:auto;background:var(--paper,#fffaf0);border:2px solid var(--lamp,#f0b43e);border-radius:14px;padding:10px 12px;z-index:5}
 .tw-task h3{margin:0 0 4px;font-size:1rem;display:flex;justify-content:space-between;gap:8px}.tw-task p{margin:4px 0 8px}
 .tw-bar{height:6px;background:rgba(0,0,0,.1);border-radius:3px;overflow:hidden;margin:2px 0 8px}.tw-bar i{display:block;height:100%;background:var(--lamp,#f0b43e);transition:width .25s linear}
@@ -308,7 +308,7 @@ TOERN.init = async function () {
 };
 TOERN.data = () => D;
 /* Törn-Bildschirm ohne Musik (Meer, Wind und Wetter bleiben) */
-const shell = (title, html) => { gameShell(title, html); AUD.playMusic(null); };
+const shell = (title, html) => { window.TOERN_STILL = true; gameShell(title, html); AUD.playMusic(null); };
 
 /* ---------- Törnwahl ---------- */
 TOERN.open = async function () {
@@ -333,7 +333,7 @@ TOERN.open = async function () {
     ${D.stufen.filter(s => offen.some(x => x.stufe === s.id)).map(s => `<div class="tw-stufe">${esc(s.name)}</div><p class="small muted" style="margin:0">${esc(s.text)}</p>${offen.filter(x => x.stufe === s.id).map(card).join('')}`).join('')}
     ${!offen.length ? '<div class="tw-card"><h3>Alle Törns geschafft! ⚓</h3><p class="small">Du kannst jeden noch einmal fahren.</p></div>' : ''}
     ${geschafft.length ? `<details class="tw-card"><summary><b>✓ Geschafft (${geschafft.length})</b></summary>${geschafft.map(x => `<div class="tw-row"><span>✓ ${esc(x.name)} <span class="small muted">${esc(STUFE_NAME(x.stufe))}</span></span><span>${'⭐'.repeat(t.schnitt[x.id] || 1)} <button class="btn small ghost" data-start="${x.id}">Nochmal</button></span></div>`).join('')}</details>` : ''}`);
-  AUD.playMusic(null);
+  window.TOERN_STILL = true; AUD.playMusic(null);
   app.querySelectorAll('[data-start]').forEach(b => b.onclick = () => { AUD.click(); if (L && !confirm('Der laufende Törn wird abgebrochen und kostet ein Proviantpaket. Neu starten?')) return; if (L) abbrechen(true); starten(b.dataset.start); });
   if ($('#twweiter')) $('#twweiter').onclick = () => { AUD.click(); weiter(); };
   if ($('#twabbruch')) $('#twabbruch').onclick = () => { if (confirm('Törn abbrechen? Ein Proviantpaket geht verloren.')) { abbrechen(); TOERN.open(); } };
@@ -433,7 +433,8 @@ function fahrt() {
     t.prov -= 1;
     const lek = (S.navi && S.navi.lek) || {}, kursSelbst = ['L1', 'L2', 'L3', 'L4', 'L5'].every(id => lek[id] && lek[id].sterne);
     const c = {R: RL_(L), toern: tn, etappe: e, stufe: D.stufen[L.si], si: L.si, w: L.w, tz: e.tz, antrieb: L.antrieb, teile: teileSet(), used: new Set(L.used), orte: D.orte, kursSelbst};
-    L.plan = core.plan(D, c); L.used = [...c.used]; L.t = 0; L.i = 0; L.wx = L.w.wx; L.bft = L.w.bft; L.eRes = [];
+    L.plan = core.plan(D, c); L.used = [...c.used]; L.t = 0; L.i = 0; L.wx = L.w.wx; L.bft = L.w.bft; L.eRes = []; L.mini = [];
+    miniEinbauen(L, tn, e);
     const m = core.malus(tn, ctxFor(L)); if (m.schaden) { L.zustand -= m.schaden; setTimeout(() => toast(`Ohne ${m.fehlt.map(a => (D.teile.find(x => x.id === a) || {}).name || a).join(', ')} wird es hart: Boot −${m.schaden} %.`, 6000), 900); }
     save();
   }
@@ -447,6 +448,12 @@ function fahrt() {
   /* Mini-Karte: unsere Karte, folgt dem Boot */
   const pos = posNow();
   F.ctl = NAV.mountChart($('#twmini'), {tools: ['hand'], center: pos, width: 300});
+  /* V13: Die Karte folgt dem Boot in der Mitte. Wer selbst schiebt oder zoomt, behält seinen Ausschnitt, bis „Zurück zum Boot“ getippt wird. */
+  F.folgt = true; $("#twmini").insertAdjacentHTML("beforeend", '<button class="btn small tw-zumboot hidden" id="twzumboot">⌖ Zurück zum Boot</button>');
+  const losgelassen = () => { if (!F.folgt) return; F.folgt = false; $('#twzumboot').classList.remove('hidden'); };
+  F.ctl.svg.addEventListener('pointerdown', losgelassen); F.ctl.svg.addEventListener('wheel', losgelassen);
+  $('#twmini').querySelectorAll('.nzoom button').forEach(b => b.addEventListener('click', losgelassen));
+  $('#twzumboot').onclick = e => { e.stopPropagation(); F.folgt = true; F.mk = null; $('#twzumboot').classList.add('hidden'); const p = posNow(); F.ctl.center(p.lat, p.lon); };
   F.ctl.st.lines = e.wp.slice(1).map((p, k) => ({a: NAV.proj(e.wp[k][0], e.wp[k][1]), b: NAV.proj(p[0], p[1]), c: 'soll'})); F.ctl.ink(); F.ctl.tipText('');
   /* Ton */
   AUD.weather(audWx(), dayAt(), 'deck'); if (L.antrieb === 'motor') AUD.loop('motorLauf', .22);
@@ -504,7 +511,7 @@ function hud() {
   if (!F.mk || Math.abs(F.mk.x - P.x) + Math.abs(F.mk.y - P.y) > .4) {
     F.mk = P; const hi = F.ctl.svg.querySelector('#nhi');
     if (hi) hi.innerHTML = `<g transform="translate(${P.x.toFixed(1)} ${P.y.toFixed(1)}) rotate(${p.k.toFixed(0)})"><path d="M0 -12 L6 8 L0 4 L-6 8 Z" fill="#f0b43e" stroke="#2a2a6a" stroke-width="1.5"/></g>`;
-    const v = F.ctl.st.vb; if (v && (P.x < v.x + v.w * .25 || P.x > v.x + v.w * .75 || P.y < v.y + v.h * .25 || P.y > v.y + v.h * .75)) F.ctl.focus(p.lat, p.lon, v.w);
+    const v = F.ctl.st.vb; if (v && F.folgt) F.ctl.center(p.lat, p.lon);
     if (L.antrieb === 'motor' && !F.paused) { t.sprit = Math.max(0, t.sprit - .03); if (t.sprit <= 0) { L.antrieb = 'segel'; AUD.loop('motorLauf', 0); if (t.vorrat.diesel > 0) { t.vorrat.diesel--; t.sprit = 30; L.antrieb = 'motor'; toast('Tank leer: Dieselkanister nachgefüllt.'); } else toast('Sprit alle! Weiter unter Segel.'); } }
   }
 }
@@ -538,12 +545,61 @@ function vorbereiten(idx) {
   }
 }
 
+/* ---------- V14: Minispiele als Bonusrunden ----------
+   Passend zur Lage, höchstens zwei pro Etappe. Gutes Ergebnis bringt Bordkasse und Proviant, schlechtes kostet nichts.
+   Die Spiele laufen gekürzt (BONUS.runden / BONUS.sek in index.html) und zählen nicht für Rekorde. */
+const MINIS = {
+  man: {f: 'maneuverGame', name: 'Anlegen', text: 'Der Hafen ist da. Bring uns sauber an den Steg!', max: 1, sek: 120},
+  lights: {f: 'lightsGame', name: 'Lichter bei Nacht', text: 'Da draußen blinkt es überall. Wer fährt da?', max: 4, runden: 4},
+  horn: {f: 'hornQuiz', name: 'Schallsignale', text: 'Im Nebel tutet es von allen Seiten. Was bedeuten die Signale?', max: 4, runden: 4},
+  buoy: {f: 'buoyGame', name: 'Tonnen-Slalom', text: 'Enges Fahrwasser voraus. Rot an Backbord, Grün an Steuerbord!', max: 12, sek: 40},
+  lh: {f: 'lighthouseGame', name: 'Leuchtfeuer', text: 'Feuer in Sicht. Erkennst du die Kennungen?', max: 3, runden: 3},
+  motor: {f: 'motorGame', name: 'Motorkunde', text: 'Der Motor klingt komisch. Kennst du dich aus?', max: 4, runden: 4},
+  fish: {f: 'fishGame', name: 'Fischfang', text: 'Flaute. Zeit, die Angel rauszuhalten!', max: 10, sek: 40},
+};
+function miniEinbauen(L, tn, e) {
+  const tasks = L.plan.tasks, nacht = e.tz === 'nacht' || e.tz === 'abend', letzte = L.e >= tn.etappen.length - 1, pool = ['buoy'];
+  if (L.wx === 'nebel') pool.push('horn', 'horn'); if (nacht) pool.push('lights', 'lh'); if (L.antrieb === 'motor') pool.push('motor'); if (L.wx === 'flaute' || L.bft <= 1) pool.push('fish', 'fish');
+  const keys = [pool[Math.random() * pool.length | 0]];
+  if (letzte && Math.random() < .6) keys.push('man'); else if (Math.random() < .35) { const k2 = pool.filter(k => k !== keys[0]); if (k2.length) keys.push(k2[Math.random() * k2.length | 0]); }
+  keys.forEach(key => {
+    let at;
+    if (key === 'man') at = L.plan.dauer - 6;
+    else { const k = 1 + (Math.random() * Math.max(1, tasks.length - 1) | 0), a = tasks[k - 1] ? tasks[k - 1].at : 10, b = tasks[k] ? tasks[k].at : L.plan.dauer - 10; at = (a + b) / 2; }
+    tasks.push({typ: 'mini', key, at: Math.max(8, Math.min(L.plan.dauer - 4, at))});
+  });
+  tasks.sort((a, b) => a.at - b.at);
+}
+function miniAufgabe(task, idx) {
+  const L = F.L, m = MINIS[task.key]; L.card = {idx, rest: 0}; F.card = {zeit: 0, idx};
+  AUD.sfx('glocke', {vol: .35});
+  $('#twtask').innerHTML = `<div class="tw-task tw-bonus"><h3><span>🎲 Bonusrunde: ${esc(m.name)}</span></h3><p>${esc(m.text)}</p>
+    <p class="small muted" style="margin:4px 0 8px">Gut gespielt gibt es Taler und Proviant. Daneben gehen kostet nichts.</p>
+    <div class="row"><button class="btn lamp" id="twbonus">Los!</button><button class="btn ghost small" id="twbonusx">Auslassen</button></div></div>`;
+  $('#twbonusx').onclick = () => { L.card = null; F.card = null; L.i++; $('#twtask').innerHTML = ''; save(); };
+  $('#twbonus').onclick = () => {
+    AUD.click(); save(); stopFahrt(); window.TOERN_STILL = true;
+    BONUS = {key: task.key, runden: m.runden, sek: m.sek, fertig: pts => bonusZurueck(m, pts)};
+    window[m.f]();
+    setTimeout(() => ['#gback', '#quit'].forEach(sel => { const b = $(sel); if (b) b.onclick = () => bonusEnde(0); }), 60);
+  };
+}
+function bonusZurueck(m, pts) {
+  const t = T2(), L = t.lauf; if (!L) return TOERN.open();
+  const q = Math.min(1, pts / m.max), kasse = q >= .9 ? 15 : q >= .6 ? 8 : 2, prov = q >= .9 ? 1 : 0;
+  t.kasse += kasse; t.prov += prov; L.punkte += Math.round(q * 10);
+  (L.mini = L.mini || []).push({name: m.name, pts, max: m.max, kasse, prov});
+  L.card = null; L.i++; save();
+  toast(`Bonusrunde ${m.name}: ${pts} von ${m.max}. +${kasse} Taler${prov ? ', +1 Proviant' : ''}`, 4000);
+  fahrt();
+}
 /* ---------- Aufgabe zeigen ---------- */
 function zeigeAufgabe(idx, wieder) {
   const L = F.L, task = L.plan.tasks[idx];
   if (!F.wahr[idx]) { F.wahr[idx] = true; vorbereiten(idx); }
   const c = ctxFor(L), zeit = core.zeit(D, task, c);
   let A;
+  if (task.typ === 'mini') return miniAufgabe(task, idx);
   if (task.typ === 'frage') A = frageAufgabe(task, idx);
   else if (task.typ === 'gen') A = genAufgabe(task);
   else { const d = core.def(D, task); A = {titel: d.titel, q: d.q, opts: d.opts, ok: d.ok, expl: d.expl, ref: d.ref, ref2: d.ref2, signal: d.signal, gen: d.gen}; if (d.gen === 'peilung') A = peilAufgabe(task, d); }
@@ -769,6 +825,7 @@ function nachbesprechung() {
   shell('Angekommen', `<div class="card"><h2 style="margin:0 0 6px">${'⭐'.repeat(sterne)}${'☆'.repeat(3 - sterne)} ${esc(e.nach)} erreicht</h2>
     <p style="margin:0">Etappe ${L.e + 1} von ${tn.etappen.length} · ${ok} von ${n} Aufgaben richtig · ${L.punkte} Punkte</p>
     <p class="small muted" style="margin:6px 0 0">Boot ${Math.round(L.zustand)} % (nach Reparatur) · Laune ${Math.round(L.laune)} · +${L.taler || 0} Taler${L.tank ? ` · getankt für ${L.tank} Taler` : ''}${L.bonus ? ` · Törn-Prämie ${L.bonus} Taler` : ''}</p>
+    ${(L.mini || []).length ? `<p class="small" style="margin:6px 0 0">🎲 Bonusrunden: ${L.mini.map(x => `${esc(x.name)} ${x.pts}/${x.max} (+${x.kasse} Taler${x.prov ? ', +1 Proviant' : ''})`).join(' · ')}</p>` : ''}
     ${fund ? `<p class="small" style="margin:6px 0 0">🎁 Fundstück: <b>${esc(fund.name)}</b>${fund.art === 'teil' ? ' (gleich verbaut)' : ''}</p>` : ''}</div>
     ${fehlerListe(L.eRes)}
     <div class="row">${letzte ? '<button class="btn lamp" id="twfertig">Törn abschließen</button>' : '<button class="btn lamp" id="twnext">Nächste Etappe</button>'}<button class="btn ghost" id="twdeck">An Deck</button></div>`);

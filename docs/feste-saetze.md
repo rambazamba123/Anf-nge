@@ -35,3 +35,18 @@ Neue Crew-Sätze der Lektionen L10 „SKS: Peilverfahren“ und L11 „SKS: Kart
 
 ## v4.40 – 5.12 Kapitän Harms holt ab
 In `HARMS` (index.html): drei Sprüche für Kapitän Harms (`kroeger`) und je ein Satz für Käpt'n und Matrose/Matrosin, wenn sie ihn holen.
+
+## v4.44 – V3 Ton ab 12
+Geändert: Smilla „Berg- und Talfahrt … Achterbahn, ist aber nur der Rhein.“, „Der Tee ist heiß, der Käpt'n grantig …“, „Wie Seepocken am Rumpf …“; Hinnerk „Wie beim heißen Tee: Wer kippt, verbrennt sich das Maul.“; Folge Helgoland „Und einkaufen ist dort zollfrei …“. KI-Leitplanke `TONE.erw` auf „ab 12, derb, keine Anzüglichkeiten“.
+
+## v4.45 – V4 Moin-Bausteine
+`MOIN_BAU` (index.html): Hinnerk 8, Smilla 5, Klabauter 4 Varianten, dazu `MOIN_WEG` (2 Sätze nach längerer Abwesenheit). Die Kette `moinKette` setzt sie zufällig zusammen.
+
+## v4.46 – V5 Schein-Einführung
+`data/einfuehrungen.json`: `schein_sbf` (7 Sätze), `schein_sks` (6), `schein_binnen` (7). Zahlen aus den Prüfungsregeln im Code (`COURSES[...].exam`).
+
+## v4.47 – V2 Bordkatze
+Keine neuen Sätze (die Katze ist stumm).
+
+## v4.54 – V12 Knoten
+`data/einfuehrungen.json` → `knoten` (3 Sätze: Käpt'n, Matrosin, Papagei).
