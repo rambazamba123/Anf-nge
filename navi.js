@@ -147,6 +147,8 @@ NAV.mountChart = function (host, opt = {}) {
   const toChart = (cx, cy) => { const r = svg.getBoundingClientRect(), v = st.vb; return {x: v.x + (cx - r.left) / r.width * v.w, y: v.y + (cy - r.top) / r.height * v.h}; };
   const scale = () => { const r = svg.getBoundingClientRect(); return st.vb.w / r.width; };
   const focus = (lat, lon, w = 520) => { const p = proj(lat, lon); vbSet({x: p.x - w / 2, y: p.y - w * .55, w}); };
+  /* genau mittig auf einen Ort (Törn-Karte, V13) */
+  const center = (lat, lon, w = st.vb.w) => { const p = proj(lat, lon), r = svg.getBoundingClientRect(), h = w * ((r.height || 400) / (r.width || 400)); vbSet({x: p.x - w / 2, y: p.y - h / 2, w}); };
   const start = () => { const c = opt.center || {lat: 20.5, lon: 36}; focus(c.lat, c.lon, opt.width || 560); };
   start(); requestAnimationFrame(start);
   /* Zeichnen der Benutzer-Ebenen */
@@ -231,7 +233,7 @@ NAV.mountChart = function (host, opt = {}) {
   host.querySelector('[data-act="undo"]').onclick = () => { const u = st.undo.pop(); if (u) { const o = JSON.parse(u); st.lines = o.lines; st.marks = o.marks; ink(); } else if (st.zirkel) { st.zirkel = null; ink(); } };
   host.querySelectorAll('[data-z]').forEach(b => b.onclick = () => { const v = st.vb, f = +b.dataset.z > 0 ? 1 / 1.4 : 1.4, w = Math.max(90, Math.min(W * 1.2, v.w * f)); const m = {x: v.x + v.w / 2, y: v.y + v.h / 2}; vbSet({x: m.x - w / 2, y: m.y - w * v.h / v.w / 2, w}); });
   const ctl = {
-    svg, st, K, toChart, focus, ink,
+    svg, st, K, toChart, focus, center, ink,
     on(k, f) { (listeners[k] = listeners[k] || []).push(f); },
     setTool(t) {
       st.tool = t; host.querySelectorAll('[data-tool]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tool === t));

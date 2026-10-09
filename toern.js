@@ -253,7 +253,7 @@ const CSS = `
 .tw-view canvas{width:100%;height:100%;display:block}
 .tw-ctl{display:flex;gap:6px;margin:6px 0}.tw-ctl button{flex:1;padding:8px 4px;font-size:.82rem}
 .tw-low{position:relative;flex:1 1 auto;min-height:170px}.tw-low .nwrap{height:100%!important;min-height:160px}
-.tw-mini{position:absolute;inset:0}.tw-mini .ntoolbar,.tw-mini .ntip{display:none}
+.tw-mini{position:absolute;inset:0}.tw-zumboot{position:absolute;left:8px;bottom:8px;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.3)}.tw-mini .ntoolbar,.tw-mini .ntip{display:none}
 .tw-task{position:absolute;inset:0;overflow:auto;background:var(--paper,#fffaf0);border:2px solid var(--lamp,#f0b43e);border-radius:14px;padding:10px 12px;z-index:5}
 .tw-task h3{margin:0 0 4px;font-size:1rem;display:flex;justify-content:space-between;gap:8px}.tw-task p{margin:4px 0 8px}
 .tw-bar{height:6px;background:rgba(0,0,0,.1);border-radius:3px;overflow:hidden;margin:2px 0 8px}.tw-bar i{display:block;height:100%;background:var(--lamp,#f0b43e);transition:width .25s linear}
@@ -447,6 +447,12 @@ function fahrt() {
   /* Mini-Karte: unsere Karte, folgt dem Boot */
   const pos = posNow();
   F.ctl = NAV.mountChart($('#twmini'), {tools: ['hand'], center: pos, width: 300});
+  /* V13: Die Karte folgt dem Boot in der Mitte. Wer selbst schiebt oder zoomt, behält seinen Ausschnitt, bis „Zurück zum Boot“ getippt wird. */
+  F.folgt = true; $("#twmini").insertAdjacentHTML("beforeend", '<button class="btn small tw-zumboot hidden" id="twzumboot">⌖ Zurück zum Boot</button>');
+  const losgelassen = () => { if (!F.folgt) return; F.folgt = false; $('#twzumboot').classList.remove('hidden'); };
+  F.ctl.svg.addEventListener('pointerdown', losgelassen); F.ctl.svg.addEventListener('wheel', losgelassen);
+  $('#twmini').querySelectorAll('.nzoom button').forEach(b => b.addEventListener('click', losgelassen));
+  $('#twzumboot').onclick = e => { e.stopPropagation(); F.folgt = true; F.mk = null; $('#twzumboot').classList.add('hidden'); const p = posNow(); F.ctl.center(p.lat, p.lon); };
   F.ctl.st.lines = e.wp.slice(1).map((p, k) => ({a: NAV.proj(e.wp[k][0], e.wp[k][1]), b: NAV.proj(p[0], p[1]), c: 'soll'})); F.ctl.ink(); F.ctl.tipText('');
   /* Ton */
   AUD.weather(audWx(), dayAt(), 'deck'); if (L.antrieb === 'motor') AUD.loop('motorLauf', .22);
@@ -504,7 +510,7 @@ function hud() {
   if (!F.mk || Math.abs(F.mk.x - P.x) + Math.abs(F.mk.y - P.y) > .4) {
     F.mk = P; const hi = F.ctl.svg.querySelector('#nhi');
     if (hi) hi.innerHTML = `<g transform="translate(${P.x.toFixed(1)} ${P.y.toFixed(1)}) rotate(${p.k.toFixed(0)})"><path d="M0 -12 L6 8 L0 4 L-6 8 Z" fill="#f0b43e" stroke="#2a2a6a" stroke-width="1.5"/></g>`;
-    const v = F.ctl.st.vb; if (v && (P.x < v.x + v.w * .25 || P.x > v.x + v.w * .75 || P.y < v.y + v.h * .25 || P.y > v.y + v.h * .75)) F.ctl.focus(p.lat, p.lon, v.w);
+    const v = F.ctl.st.vb; if (v && F.folgt) F.ctl.center(p.lat, p.lon);
     if (L.antrieb === 'motor' && !F.paused) { t.sprit = Math.max(0, t.sprit - .03); if (t.sprit <= 0) { L.antrieb = 'segel'; AUD.loop('motorLauf', 0); if (t.vorrat.diesel > 0) { t.vorrat.diesel--; t.sprit = 30; L.antrieb = 'motor'; toast('Tank leer: Dieselkanister nachgefüllt.'); } else toast('Sprit alle! Weiter unter Segel.'); } }
   }
 }

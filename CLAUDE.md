@@ -253,6 +253,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.47 V2 Bordkatze Backbord: stumm, wechselnde Plätze in der Kajüte (`CAT_SPOTS`, `catPlace`), springt beim Antippen woanders hin; Eggs `katzewach`, `katzekarte`, `katzemaus` (32 Eggs). An Deck kommt sie mit V9.
 - [ ] V6 Stimmenpaket Teil 1: Werkzeug fertig (`tools/stimmenpaket.js --teil1`, `--probe`, `--modelle`, nur fehlende Sätze), Trockenlauf 320 Sätze / 22.234 Zeichen. **Wartet auf Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` (E5).**
 - [x] v4.48 V15 Musik im ganzen Törn gesperrt: `window.TOERN_STILL` (gesetzt in `shell`/`TOERN.open`, gelöscht in `setTab`), `AUD.playMusic` spielt dann nichts
+- [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
