@@ -505,7 +505,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.45';
+  window.__ver = '4.46';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2846,6 +2846,8 @@ function renderCabin() {
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
   if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
+  /* V5: Wer schon begrüßt wurde, hört einmal die Einführung zu seinem Schein (auch bestehende Nutzer, weil sie neu ist) */
+  else if (S.profile && S.cabinWelcome && !(S.intros || {})['schein_' + S.course]) setTimeout(() => { if (tab === 'cabin' && !cabinTalking && !$('#sheet') && !$('#stagePanel') && !$('#einf')) einfuehrung('schein_' + S.course); }, 1600);
   else if (!S.tour || !S.tour.cabin) setTimeout(() => tour('cabin'), 1600);
   pipeOnce();
   const dl = daily();
@@ -4179,9 +4181,9 @@ async function harmsKommt(via) {
 /* ---------- 5.10: Einführung beim ersten Öffnen einer Funktion ----------
    Feste Sätze aus data/einfuehrungen.json, überspringbar. S.intros[id] merkt, was schon lief. Gibt ein Promise zurück (fertig oder übersprungen). */
 let INTROS = {e: {}};
-function einfuehrung(id) {
+function einfuehrung(id, nochmal) {
   S.intros = S.intros || {};
-  const E = INTROS.e[id]; if (!E || S.intros[id] || !S.introV5) return Promise.resolve(false);
+  const E = INTROS.e[id]; if (!E || (S.intros[id] && !nochmal) || !S.introV5) return Promise.resolve(false);
   S.intros[id] = 1; save(); LOG.add('einführung', id);
   const old = $('#einf'); if (old) old.remove();
   const w = document.createElement('div'); w.id = 'einf'; w.className = 'einf';
@@ -5351,7 +5353,7 @@ async function cabinWelcome() {
     await VOX.lines(lines.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
   }
   const sp = $('#stagePanel'); if (sp) sp.remove();
-  S.cabinWelcome = true; S.intros = S.intros || {}; S.intros[S.course] = 1; save(); cabinTalking = false;
+  S.cabinWelcome = true; save(); cabinTalking = false;
   if (tab !== 'cabin') return;
   fahrplanSheet();
   if (!stop) VOX.lines(CABIN.sumEnd.map(l => ({cid: cid(l.s), t: l.t})), 'fixed');
@@ -5359,8 +5361,10 @@ async function cabinWelcome() {
 }
 function courseSheet() {
   const w = sheet(`<h2 style="margin:0 0 4px">Welcher Schein?</h2><p class="small muted" style="margin:0 0 10px">Jeder Schein hat seinen eigenen Katalog und Lernstand. Nichts wird vermischt, nichts geht verloren.</p>
-    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}${COURSES_SOON.map(c => `<button class="menuitem off" disabled aria-disabled="true"><b>${esc(c.name)}</b><small>Kommt bald</small></button>`).join('')}</div>`);
-  w.querySelectorAll('[data-m^="c:"]').forEach(b => b.onclick = () => { const id = b.dataset.m.slice(2); closeSheet(); if (id !== S.course) { switchCourse(id); toast('Jetzt lernst du für den ' + COURSES[id].name + '.'); } setTab(tab === 'deck' ? 'deck' : 'cabin'); einfuehrung(id); });
+    <div class="menu">${Object.values(COURSES).map(c => menuBtn('c:' + c.id, c.name + (c.id === S.course ? ' ✓' : ''), c.kind === 'open' ? 'Freie Antworten, Fragebogen mit 60 Punkten' : 'Multiple Choice, 30 Fragen')).join('')}${COURSES_SOON.map(c => `<button class="menuitem off" disabled aria-disabled="true"><b>${esc(c.name)}</b><small>Kommt bald</small></button>`).join('')}</div>
+    <button class="btn small ghost" id="scheininfo" style="margin-top:10px">Was erwartet mich beim ${esc(COURSE.short)}?</button>`);
+  w.querySelectorAll('[data-m^="c:"]').forEach(b => b.onclick = () => { const id = b.dataset.m.slice(2); closeSheet(); if (id !== S.course) { switchCourse(id); toast('Jetzt lernst du für den ' + COURSES[id].name + '.'); } setTab(tab === 'deck' ? 'deck' : 'cabin'); einfuehrung('schein_' + id); });
+  const ib = w.querySelector('#scheininfo'); if (ib) ib.onclick = () => { closeSheet(); einfuehrung('schein_' + S.course, true); };
 }
 
 /* ---------- Los geht's ---------- */

@@ -25,14 +25,28 @@
   "hocker": {"titel": "Hocker", "l": [
    {"s": "M", "t": "Setz dich ruhig hin. Wir schnacken im Hintergrund, und du hörst einfach zu."},
    {"s": "K", "t": "Aufstehen kannst du jederzeit. Dann ist sofort Ruhe an Bord."}]},
-  "sbf": {"titel": "SBF See", "l": [
-   {"s": "K", "t": "Der Sportbootführerschein See. Dreißig Ankreuzfragen und eine Navigationsaufgabe, dazu die praktische Prüfung."},
-   {"s": "M", "t": "Am Anfang lernst du die Fragen hier unten in der Kajüte. Wenn sie sitzen, geht es raus auf Törn."}]},
-  "sks": {"titel": "SKS", "l": [
-   {"s": "K", "t": "Der Sportküstenschifferschein. Das ist keine Badewanne mehr, das ist richtige Seefahrt. Respekt."},
-   {"s": "M", "t": "Hier gibt es keine Ankreuzfragen, du antwortest frei. Zum Üben gibt es trotzdem die Ankreuz-Runde."}]},
-  "binnen": {"titel": "SBF Binnen", "l": [
-   {"s": "K", "t": "Der Sportbootführerschein Binnen. Flüsse, Kanäle, Schleusen und jede Menge Tafelzeichen."},
-   {"s": "M", "t": "Für den Schein unter Segel kommen noch Segelfragen dazu. Das stellst du vor der Probeprüfung ein."}]}
+  "schein_sbf": {"titel": "SBF See: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein See. Den brauchst du, wenn du auf den Seeschifffahrtsstraßen ein Boot mit mehr als 15 PS fährst. Also an der Küste und davor."},
+   {"s": "M", "t": "Die Theorie ist ein Fragebogen mit 30 Ankreuzfragen: 7 Basisfragen und 23 See-Fragen. Von den Basisfragen brauchst du 5 richtig, von den See-Fragen 18."},
+   {"s": "K", "t": "Dazu kommt eine Navigationsaufgabe auf der Seekarte. Neun Punkte gibt es, sieben musst du holen. Das üben wir am Kartentisch."},
+   {"s": "M", "t": "Und dann die Praxis auf dem Wasser: ablegen, anlegen, Mensch über Bord und ein paar Knoten. Das zeigt dir keine App, aber wir machen dich fit dafür."},
+   {"s": "K", "t": "Lernen wirst du Lichter, Tonnen, Schallsignale, Ausweichregeln, Wetter und Motorkunde. Mit einer halben Stunde am Tag bist du in ein paar Wochen so weit."},
+   {"s": "T", "t": "Badewanne! Badewanne!"},
+   {"s": "K", "t": "Hör nicht auf den Vogel. Jeden Tag ein Stück, und wenn du so weit bist, prüft dich Kapitän Harms."}]},
+  "schein_sks": {"titel": "SKS: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportküstenschifferschein. Der ist freiwillig, aber wer an der Küste eine Yacht chartern will, wird oft danach gefragt."},
+   {"s": "M", "t": "Voraussetzung ist der Sportbootführerschein See. Und für die Prüfung brauchst du Erfahrung auf Yachten: mindestens 300 Seemeilen, nachgewiesen."},
+   {"s": "K", "t": "Die Theorie hat fünf Fächer: Navigation, Schifffahrtsrecht, Wetterkunde und zweimal Seemannschaft. Hier wird nicht angekreuzt, hier antwortest du frei."},
+   {"s": "M", "t": "Im Fragebogen gibt es 60 Punkte, ab 39 hast du bestanden. Dazu kommt eine Kartenaufgabe mit 30 Punkten, davon brauchst du 20."},
+   {"s": "K", "t": "Danach die Praxis auf einer Yacht, mit Manövern unter Segel oder Motor. Das ist kein Badewannen-Kram mehr. Glaub aber nicht, dass wir dich deshalb schonen."},
+   {"s": "T", "t": "Schonen? Nie! Nie!"}]},
+  "schein_binnen": {"titel": "SBF Binnen: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein Binnen. Den brauchst du auf den Binnenschifffahrtsstraßen, also auf Flüssen, Kanälen und großen Seen, sobald dein Motor mehr als 15 PS hat."},
+   {"s": "M", "t": "Es gibt ihn mit Antriebsmaschine. Wer auch segeln will, nimmt die Segelfragen dazu."},
+   {"s": "K", "t": "Der Fragebogen hat 30 Ankreuzfragen in 45 Minuten: 7 Basisfragen und 23 Binnen-Fragen. 5 und 18 davon müssen sitzen."},
+   {"s": "M", "t": "Mit Segeln kommen 7 Segelfragen dazu, davon 5 richtig, und du hast 60 Minuten Zeit. Dazu die Praxis mit Manövern und Knoten."},
+   {"s": "K", "t": "Du lernst Tafelzeichen, Schleusen, Berg- und Talfahrt, Lichter und wer wem ausweicht."},
+   {"s": "T", "t": "Schleuse! Schleuse!"},
+   {"s": "K", "t": "Klingt gemütlich, ist es auch. Bis der Frachter um die Kurve kommt."}]}
  }
 }

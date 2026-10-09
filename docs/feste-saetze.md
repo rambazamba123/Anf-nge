@@ -41,3 +41,6 @@ Geändert: Smilla „Berg- und Talfahrt … Achterbahn, ist aber nur der Rhein.�
 
 ## v4.45 – V4 Moin-Bausteine
 `MOIN_BAU` (index.html): Hinnerk 8, Smilla 5, Klabauter 4 Varianten, dazu `MOIN_WEG` (2 Sätze nach längerer Abwesenheit). Die Kette `moinKette` setzt sie zufällig zusammen.
+
+## v4.46 – V5 Schein-Einführung
+`data/einfuehrungen.json`: `schein_sbf` (7 Sätze), `schein_sks` (6), `schein_binnen` (7). Zahlen aus den Prüfungsregeln im Code (`COURSES[...].exam`).
