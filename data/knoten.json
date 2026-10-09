@@ -1,5 +1,5 @@
 {
- "about": "V12: Knoten für die praktische Prüfung (übliche Auswahl, gegen die amtliche Prüfungsrichtlinie abgleichen). Ohne Zeichnungen (die selbst gezeichneten waren nicht korrekt). Feste Sätze ohne Namen.",
+ "about": "V12: Knoten für die praktische Prüfung (übliche Auswahl, gegen die amtliche Prüfungsrichtlinie abgleichen). Ohne Zeichnungen (die schematischen waren nicht korrekt). Der Palstek steht zusätzlich als Tau-Animation drin (anim, doppelt: zählt in Wofür und Reihenfolge nicht). Feste Sätze ohne Namen.",
  "knoten": [
   {"id": "acht", "name": "Achtknoten", "wofuer": "Stopperknoten am Ende einer Leine, damit sie nicht durch Block oder Klemme rauscht.", "lage": "Die Schot soll nicht aus dem Block rutschen.",
    "schritte": ["Mit dem Ende eine Bucht legen, das Ende liegt über der stehenden Part.", "Das Ende hinter der stehenden Part herumführen.", "Das Ende von vorn durch die erste Bucht stecken.", "Festziehen. Es entsteht eine Acht."],
@@ -10,6 +10,9 @@
   {"id": "palstek", "name": "Palstek", "wofuer": "Ein festes Auge, das sich nicht zuzieht. Zum Beispiel für Festmacher über einen Poller oder als Rettungsschlinge.", "lage": "Du brauchst ein festes Auge, das sich nicht zuzieht, um den Festmacher über den Poller zu legen.",
    "schritte": ["In die stehende Part ein kleines Auge legen.", "Das Ende von unten durch das Auge stecken.", "Das Ende hinter der stehenden Part herumführen.", "Das Ende zurück durch das kleine Auge und festziehen."],
    "merk": "Die Schlange kommt aus dem See, läuft um den Baum und taucht wieder ab."},
+  {"id": "palstek-anim", "name": "Palstek (animiert)", "anim": "palstek", "doppelt": "palstek", "wofuer": "Ein festes Auge, das sich nicht zuzieht. Zum Beispiel für Festmacher über einen Poller oder als Rettungsschlinge.", "lage": "Du brauchst ein festes Auge, das sich nicht zuzieht, um den Festmacher über den Poller zu legen.",
+   "schritte": ["Kleines Auge in den festen Part legen: den Part zum losen Ende anheben und vorn über den festen Part legen. Der lose Part liegt oben.", "Das lose Ende von unten durch das kleine Auge stecken, also von hinten nach vorn.", "Das Ende hinter dem festen Part herumführen.", "Das Ende von vorn zurück durch das kleine Auge stecken, neben seinem eigenen Part. Es liegt jetzt innen im großen Auge.", "Festziehen: loses Ende und Auge zusammen festhalten und kräftig am festen Part ziehen."],
+   "merk": "Der Hase kommt aus dem Loch, läuft um den Baum und springt zurück ins Loch. Richtig gebunden liegt das lose Ende innen im Auge."},
   {"id": "schot", "name": "Schotstek", "wofuer": "Verbindet zwei unterschiedlich dicke Leinen. Doppelt gelegt hält er noch besser.", "lage": "Eine dünne Leine soll an eine dicke angesteckt werden.",
    "schritte": ["In die dickere Leine eine Bucht legen.", "Die dünnere Leine von unten durch die Bucht stecken.", "Die dünne Leine um beide Parten der Bucht herumführen.", "Unter sich selbst durchstecken, nicht durch die Bucht, und festziehen."],
    "merk": "Dick bildet die Bucht, dünn macht die Arbeit."},
