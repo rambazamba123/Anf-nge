@@ -507,7 +507,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.53';
+  window.__ver = '4.54';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2815,7 +2815,7 @@ function renderCabin() {
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
   const SPOT = {buecher: chaptersSheet, plan: planSheet, deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
-    knoten: () => toast('Das Knotenbrett wartet noch auf die Knotenfotos.'), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
+    knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
   let lampTaps = [];
@@ -3972,6 +3972,12 @@ let naviP = null;
 function loadNavi() {
   return naviP || (naviP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'navi.js?v=' + window.__ver; s.onload = () => NAV.init().then(res, rej); s.onerror = () => { naviP = null; rej(new Error('navi.js')); }; document.head.appendChild(s); }));
 }
+/* V12: Knoten (Knotenbrett und Knotenkunde) liegen in knoten.js */
+let knotenP = null;
+function loadKnoten() {
+  return knotenP || (knotenP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'knoten.js?v=' + window.__ver; s.onload = () => KNOTEN.init().then(res, rej); s.onerror = () => { knotenP = null; rej(new Error('knoten.js')); }; document.head.appendChild(s); }));
+}
+function knotenBrett() { loadKnoten().then(() => { KNOTEN.brett(); einfuehrung('knoten'); }).catch(() => { knotenP = null; toast('Das Knotenbrett ließ sich nicht laden. Prüf dein Internet.'); }); }
 /* Törn 2.0 liegt in toern.js (braucht navi.js) und wird erst am Steuer geladen */
 let toernP = null;
 function loadToern() {
@@ -4054,6 +4060,7 @@ const GAMES = [
   {k: 'nav', n: 'Kartentisch', d: 'Navigationsschule mit Karte', f: () => navSchool()},
   {k: 'motor', n: 'Motorkunde', d: 'Was ist was am Außenborder?', f: () => motorGame()},
   {k: 'parts', n: 'Bauteile', d: 'Teile des Bootes', f: () => partsGame()},
+  {k: 'knoten', n: 'Knotenkunde', d: 'Erkennen, wofür, Reihenfolge', f: () => loadKnoten().then(() => KNOTEN.spiel()).catch(() => toast('Die Knoten ließen sich nicht laden.'))},
   {k: 'fish', n: 'Fischfang', d: 'Zur Erholung', f: () => fishGame()},
   {k: 'traps', n: 'Prüfungsfallen', d: 'Die gemeinen Fragen', f: () => trapRound()},
 ];
@@ -4456,20 +4463,20 @@ function best(key, val) { S.best = S.best || {}; if (val != null && val > (S.bes
 const TROPHY = {
   horn: {u: 'richtig', t: [4, 6, 7]}, lights: {u: 'richtig', t: [5, 7, 8]}, lh: {u: 'erkannt', t: [4, 6, 7]},
   buoy: {u: 'Tore', t: [10, 25, 45]}, man: {u: 'Manöver', t: [1, 3, 6]}, nav: {u: 'bestanden', t: [1, 5, 15]},
-  motor: {u: 'richtig', t: [3, 4, 5]}, parts: {u: 'gefunden', t: [5, 7, 8]}, fish: {u: 'Fische', t: [8, 18, 30]}, traps: {u: 'richtig', t: [6, 8, 10]},
+  motor: {u: 'richtig', t: [3, 4, 5]}, parts: {u: 'gefunden', t: [5, 7, 8]}, knoten: {u: 'richtig', t: [5, 7, 8]}, fish: {u: 'Fische', t: [8, 18, 30]}, traps: {u: 'richtig', t: [6, 8, 10]},
 };
 const TROPHY_NAMES = ['', 'Bronze', 'Silber', 'Gold'];
 /* Feste Rekorde der Crew (Paradespiel jeweils ganz oben) */
 /* V1: In der Bestenliste stehen die drei Sprecher, Harms und die Bordkatze */
 const NPC_IDS = () => Object.keys(NPC_BEST).filter(id => SPRECHER.includes(id) || id === 'backbord');
 const NPC_BEST = {
-  hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7},
-  ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8},
-  smilla: {buoy: 52, man: 5, nav: 6, horn: 6, lights: 7, lh: 5, motor: 4, parts: 7, fish: 16, traps: 7},
-  piet: {motor: 5, man: 3, nav: 2, horn: 4, lights: 4, lh: 3, buoy: 30, parts: 6, fish: 22, traps: 5},
-  klabauter: {horn: 7, man: 1, nav: 0, lights: 3, lh: 4, buoy: 18, motor: 2, parts: 5, fish: 9, traps: 4},
-  backbord: {fish: 35, man: 0, nav: 0, horn: 2, lights: 2, lh: 1, buoy: 12, motor: 1, parts: 3, traps: 2},
-  kroeger: {lights: 8, traps: 10, nav: 15, horn: 7, lh: 6, man: 4, buoy: 20, motor: 4, parts: 7, fish: 6},
+  hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7, knoten: 7},
+  ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8, knoten: 8},
+  smilla: {buoy: 52, man: 5, nav: 6, horn: 6, lights: 7, lh: 5, motor: 4, parts: 7, fish: 16, traps: 7, knoten: 6},
+  piet: {motor: 5, man: 3, nav: 2, horn: 4, lights: 4, lh: 3, buoy: 30, parts: 6, fish: 22, traps: 5, knoten: 4},
+  klabauter: {horn: 7, man: 1, nav: 0, lights: 3, lh: 4, buoy: 18, motor: 2, parts: 5, fish: 9, traps: 4, knoten: 3},
+  backbord: {fish: 35, man: 0, nav: 0, horn: 2, lights: 2, lh: 1, buoy: 12, motor: 1, parts: 3, traps: 2, knoten: 1},
+  kroeger: {lights: 8, traps: 10, nav: 15, horn: 7, lh: 6, man: 4, buoy: 20, motor: 4, parts: 7, fish: 6, knoten: 8},
 };
 /* Wer überholt wird, sagt etwas (fest, ohne Namen, fürs Stimmenpaket) */
 const OVERTAKE = {
@@ -4511,6 +4518,7 @@ function recordScore(key, val) {
 }
 /* Kleine Zeichnungen für die Kacheln (flach, warm) */
 const GAME_ART = {
+  knoten: '<path d="M10 30 H24 C32 30 34 16 42 16 C52 16 54 30 44 34 C36 37 34 44 42 44 C52 44 54 30 62 30" stroke="#5a3e1e" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M10 30 H24 C32 30 34 16 42 16 C52 16 54 30 44 34 C36 37 34 44 42 44 C52 44 54 30 62 30" stroke="#e0b65a" stroke-width="4" fill="none" stroke-linecap="round"/>',
   horn: '<circle cx="18" cy="26" r="6" fill="#2b2118"/><path d="M22 26 L50 14 V38 Z" fill="#c8962e"/><path d="M54 18 q5 8 0 16 M58 14 q8 12 0 24" stroke="#5a3e2a" stroke-width="2" fill="none" stroke-linecap="round"/>',
   lights: '<rect x="0" y="0" width="64" height="48" rx="6" fill="#1d2a38"/><circle cx="16" cy="30" r="5" fill="#e2463b"/><circle cx="48" cy="30" r="5" fill="#4caf50"/><circle cx="32" cy="14" r="4" fill="#fffbe8"/><path d="M8 40 Q32 34 56 40" stroke="#6b7c8e" stroke-width="2" fill="none"/>',
   lh: '<path d="M26 44 L29 12 H35 L38 44 Z" fill="#f7f2e6"/><path d="M27.5 30 H36.5 L37 36 H27 Z M28.6 18 H35.4 L35.8 24 H28.2 Z" fill="#c2473b"/><rect x="27" y="6" width="10" height="7" rx="2" fill="#2b2118"/><path d="M37 9 L60 2 V16 Z" fill="#ffd36b" opacity=".8"/>',

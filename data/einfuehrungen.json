@@ -47,6 +47,10 @@
    {"s": "M", "t": "Mit Segeln kommen 7 Segelfragen dazu, davon 5 richtig, und du hast 60 Minuten Zeit. Dazu die Praxis mit Manövern und Knoten."},
    {"s": "K", "t": "Du lernst Tafelzeichen, Schleusen, Berg- und Talfahrt, Lichter und wer wem ausweicht."},
    {"s": "T", "t": "Schleuse! Schleuse!"},
-   {"s": "K", "t": "Klingt gemütlich, ist es auch. Bis der Frachter um die Kurve kommt."}]}
+   {"s": "K", "t": "Klingt gemütlich, ist es auch. Bis der Frachter um die Kurve kommt."}]},
+  "knoten": {"titel": "Knotenbrett", "l": [
+   {"s": "K", "t": "Knoten lernt man mit den Händen, nicht mit den Augen. Guck es dir an, und dann ran ans Tau."},
+   {"s": "M", "t": "Hat gehalten? Dann zieh noch mal kräftig dran. Was auf dem Steg hält, hält auch im Sturm."},
+   {"s": "T", "t": "Palstek! Palstek!"}]}
  }
 }

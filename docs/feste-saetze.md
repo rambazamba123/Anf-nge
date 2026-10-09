@@ -47,3 +47,6 @@ Geändert: Smilla „Berg- und Talfahrt … Achterbahn, ist aber nur der Rhein.�
 
 ## v4.47 – V2 Bordkatze
 Keine neuen Sätze (die Katze ist stumm).
+
+## v4.54 – V12 Knoten
+`data/einfuehrungen.json` → `knoten` (3 Sätze: Käpt'n, Matrosin, Papagei).

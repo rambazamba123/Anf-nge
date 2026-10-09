@@ -51,6 +51,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03b-telefon-harms', page, async () => { await ev(page, () => document.querySelector('[data-spot="telefon"]').click()); await sleep(7500); if (!await page.$('#harms')) throw new Error('Harms kommt nicht'); await ev(page, () => document.querySelector('#hgo').click()); await sleep(600); await ev(page, () => setTab('cabin')); await sleep(400); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
+  /* V12: Knotenbrett und Knotenkunde */
+  await schritt('05b-knoten', page, async () => { await ev(page, () => knotenBrett()); await sleep(1000); if (!await page.$('.knotgrid')) throw new Error('kein Knotenbrett'); await ev(page, () => { const x = document.querySelector('#einfx'); if (x) x.click(); KNOTEN.zeige('acht'); }); await sleep(500); await ev(page, () => KNOTEN.spiel()); await sleep(400); if (!await page.$('[data-o],[data-j]')) throw new Error('kein Knotenspiel'); });
   await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
