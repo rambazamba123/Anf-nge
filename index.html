@@ -294,7 +294,7 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat.detail{height:48svh;min-height:300px;max-height:460px}
 .scene.boat.ov{height:auto;min-height:0;max-height:none;aspect-ratio:400/380}.scene.boat.ov .pano{overflow:hidden}.scene.boat.ov .pano svg{width:100%;height:100%}
 .scene.boat .aboard{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;font-size:1.15rem;padding:14px 28px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.25)}.scene.boat.ov .panohint{bottom:auto;top:14px}
-.scene.boat.ov svg{cursor:zoom-in} .scene.boat.ov [data-egg]{pointer-events:none}
+
 .scene.boat svg.zoomin{transition:transform .32s ease-in,opacity .32s ease-in;transform:scale(2.4);opacity:.25}
 .scene.boat.detail .pano{animation:zfade .4s ease-out}
 @keyframes zfade{from{opacity:0;transform:scale(.9)}}
@@ -508,7 +508,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.60';
+  window.__ver = '4.61';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1523,23 +1523,27 @@ async function downloadPack(items, name) {
   return parts.length;
 }
 /* Erzeugt alle festen Sätze, die noch nicht im Paket sind (Gehörtes kommt kostenlos aus dem Gerätespeicher), und lädt sie als ZIP herunter. */
-async function buildVoicePack(status) {
+/* teil1: nur feste Sätze (ohne Folgen). Das Paket entsteht immer in hoher Qualität (Multilingual), egal was unter „Stimmqualität“ eingestellt ist. */
+async function buildVoicePack(status, teil1) {
   const say = t => { if (status) status.textContent = t; };
   if (!elKey()) return say('Dafür brauchst du den ElevenLabs-Schlüssel.');
   if (!kiOn()) return say('Schalte dafür zuerst die KI-Funktionen ein.');
+  if (!S.kiOk && !(await kiEinwilligung())) return say('Ohne Einwilligung schickt die App nichts an ElevenLabs.');
   try { await VOX.ensureVoices(); } catch (e) { return say('Die Stimmen sind gerade nicht erreichbar.'); }
   try { await loadNavi(); } catch (e) {}
   await PACK.load();
-  const lines = packLines(true).filter(l => !PACK.has(l.cid, l.t)), chars = lines.reduce((a, l) => a + l.t.length, 0);
+  const lines = packLines(!teil1).filter(l => !PACK.has(l.cid, l.t)), chars = lines.reduce((a, l) => a + l.t.length, 0);
   if (!lines.length) return say('Alle festen Sätze sind schon im Paket. Nichts zu tun.');
   if (!confirm(`${lines.length} Sätze fehlen im Paket, zusammen ${chars.toLocaleString('de-DE')} Zeichen. Schon Gehörtes kostet nichts, der Rest höchstens etwa so viele Credits (Sparsam: etwa die Hälfte). Das dauert eine Weile, lass die App offen. Los?`)) return say('Abgebrochen.');
   say('Lade das ZIP-Werkzeug…');
   if (!await loadZipLib()) return say('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
-  const items = []; let fail = 0;
+  const items = []; let fail = 0; const q0 = S.cfg.quality; S.cfg.quality = 'hoch';
+  try { if (navigator.wakeLock) await navigator.wakeLock.request('screen'); } catch (e) {}
   for (let i = 0; i < lines.length; i++) {
     const {cid: c, t} = lines[i]; say(`Satz ${i + 1} von ${lines.length}…`);
     try { const b = await VOX.clip(c, t, 'fixed'); if (b) items.push({k: PACK.key(c, t), cid: c, t, b}); else fail++; } catch (e) { fail++; if (e && e.code === 'el_quota') break; }
   }
+  S.cfg.quality = q0; save();
   const n = await downloadPack(items, 'stimmen.zip');
   say(`Fertig: ${items.length} Sätze in ${n} ZIP-Datei${n > 1 ? 'en' : ''}${fail ? `, ${fail} fehlgeschlagen (nochmal tippen holt den Rest)` : ''}. Lade sie auf GitHub in den Ordner import hoch und sag Claude Bescheid.`);
 }
@@ -2485,6 +2489,8 @@ function tapToBoard() {
     const last = S.lastDay == null ? today() - 1 : S.lastDay, gap = today() - last;
     S.lastDay = today(); save();
     LOG.add('öffnen', 'zuletzt vor ' + gap + ' Tagen');
+    /* V18: Wer schon einen Schlüssel eingetragen hat, wird einmal gefragt, bevor Stimmen von ElevenLabs kommen (sonst nur Paket oder Handystimme) */
+    if (kiOn() && (elKey() || apiKey()) && !S.kiOk) await kiEinwilligung();
     if (tab === 'cabin') { await AUD.sfx('schritte', {vol: .55, dur: 2.6}); }
     await VOX.lines(moinKette(gap), 'fixed');
     pipeOnce();
@@ -3587,8 +3593,8 @@ function renderSettings() {
   <div class="card dev"><h3 style="margin-top:0">Stimmenpaket für alle (Entwickler)</h3>
     <p class="small muted" style="margin:0 0 8px">Jeder feste Satz wird nur einmal mit ElevenLabs erzeugt und landet in <b>audio/stimmen</b> im Repo. Dann hören ihn alle Geräte gratis und offline. Das Paket legt auch die Stimmen fest. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
     <button class="btn ghost" id="vpx">Gehörtes exportieren (gratis)</button><p class="status" id="vpxr"></p>
-    <button class="btn ki" id="vpk">Fehlende Sätze erzeugen</button><p class="status" id="vpkr"></p>
-    <p class="small muted" style="margin:6px 0 0">Die ZIP-Dateien lädst du auf GitHub in den Ordner <b>import</b> hoch. Claude baut sie mit <b>tools/stimmen-import.js</b> ein. Deine eigenen Kajütenfunk-Folgen reisen mit und werden vor dem Einbau geprüft.</p>
+    <button class="btn ki" id="vpk1">Teil 1 erzeugen: feste Sätze</button> <button class="btn ki ghost" id="vpk">Alles inkl. Folgen</button><p class="status" id="vpkr"></p>
+    <p class="small muted" style="margin:6px 0 0">Dauert einige Minuten, lass das Handy dabei an. Die ZIP-Datei lädst du auf GitHub in den Hauptordner des Repos (oder in den Ordner <b>import</b>) hoch. Claude baut sie mit <b>tools/stimmen-import.js</b> ein. Deine eigenen Kajütenfunk-Folgen reisen mit und werden vor dem Einbau geprüft.</p>
   </div>
 
   <h2>Zuhören</h2>
@@ -3681,7 +3687,7 @@ function renderSettings() {
   [['#vm', 'music'], ['#va', 'amb'], ['#vs', 'sfx'], ['#vv', 'voice']].forEach(([id, k]) => $(id).oninput = () => { c[k] = +$(id).value; AUD.applyVolumes(); save(); });
   $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
-  $('#vpk').onclick = () => buildVoicePack($('#vpkr'));
+  $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
   $('#vpx').onclick = () => exportClips($('#vpxr'));
   clipStats().then(s => { const e = $('#clipst'); if (e) e.textContent = `Auf diesem Handy: ${s.all} Aufnahmen, davon ${s.fresh.length} noch nicht im Paket.`; }).catch(() => {});
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
@@ -4132,7 +4138,7 @@ const GAMES = [
   {k: 'nav', n: 'Kartentisch', d: 'Navigationsschule mit Karte', f: () => navSchool()},
   {k: 'motor', n: 'Motorkunde', d: 'Was ist was am Außenborder?', f: () => motorGame()},
   {k: 'parts', n: 'Bauteile', d: 'Teile des Bootes', f: () => partsGame()},
-  {k: 'knoten', n: 'Knotenkunde', d: 'Erkennen, wofür, Reihenfolge', f: () => loadKnoten().then(() => KNOTEN.spiel()).catch(() => toast('Die Knoten ließen sich nicht laden.'))},
+  {k: 'knoten', n: 'Knotenkunde', d: 'Wofür und in welcher Reihenfolge', f: () => loadKnoten().then(() => KNOTEN.spiel()).catch(() => toast('Die Knoten ließen sich nicht laden.'))},
   {k: 'fish', n: 'Fischfang', d: 'Zur Erholung', f: () => fishGame()},
   {k: 'traps', n: 'Prüfungsfallen', d: 'Die gemeinen Fragen', f: () => trapRound()},
 ];
@@ -4188,7 +4194,9 @@ function einfuehrung(id, nochmal) {
     let fertig = false;
     const zu = stumm => { if (fertig) return; fertig = true; if (stumm) VOX.stop('einführung'); w.remove(); res(true); };
     $('#einfx').onclick = () => zu(true); $('#einfok').onclick = () => zu(true);
-    AUD.unlock(); VOX.lines(E.l.map(l => ({cid: cid(l.s), t: l.t})), 'fixed').then(() => setTimeout(() => zu(false), 1500));
+    /* Der Kasten bleibt mindestens so lange, wie man zum Lesen braucht (etwa 60 ms je Zeichen), auch wenn keine Stimme läuft */
+    const t0 = Date.now(), lesen = E.l.reduce((n, l) => n + l.t.length, 0) * 60;
+    AUD.unlock(); VOX.lines(E.l.map(l => ({cid: cid(l.s), t: l.t})), 'fixed').then(() => setTimeout(() => zu(false), Math.max(1500, lesen - (Date.now() - t0))));
   });
 }
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */

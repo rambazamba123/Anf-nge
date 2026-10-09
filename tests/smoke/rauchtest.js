@@ -46,6 +46,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   /* 2. Hauptbereiche mit Testspielstand */
   page = await neu(stand());
   await schritt('02-deck', page, async () => { await ev(page, () => setTab('deck')); await sleep(700); });
+  /* Echte Mausklicks an Deck (nicht nur per Skript): Motor und Steuerrad müssen reagieren */
+  await schritt('02b-deck-klicks', page, async () => { for (const id of ['motor', 'horn']) { const el = await page.$('[data-egg="' + id + '"]'); const bb = await el.boundingBox(); const top = await page.evaluate(([x, y]) => { const e = document.elementFromPoint(x, y); return e && e.closest('[data-egg]') ? e.closest('[data-egg]').dataset.egg : 'nichts'; }, [bb.x + bb.width / 2, bb.y + bb.height / 2]); if (top !== id) throw new Error(id + ' nicht anklickbar (oben liegt: ' + top + ')'); }
+    const st = await page.$('[data-egg="pinne"]'), sb = await st.boundingBox(); await page.mouse.click(sb.x + sb.width / 2, sb.y + sb.height / 2); await sleep(1500); if (!await page.$('[data-start]')) throw new Error('Steuerrad öffnet den Törn nicht'); await ev(page, () => setTab('deck')); await sleep(500); });
   await schritt('03-kajuete', page, async () => { await ev(page, () => setTab('cabin')); await sleep(700); });
   /* 5.12: altes Telefon ruft Kapitän Harms, der holt zur Probeprüfung ab */
   await schritt('03b-telefon-harms', page, async () => { await ev(page, () => document.querySelector('[data-spot="telefon"]').click()); await sleep(7500); if (!await page.$('#harms')) throw new Error('Harms kommt nicht'); await ev(page, () => document.querySelector('#hgo').click()); await sleep(600); await ev(page, () => setTab('cabin')); await sleep(400); });

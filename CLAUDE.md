@@ -122,7 +122,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Kompass mit Messer kommt an den Kartentisch, die Nebelglocke in die Kajüte.
 - ✓ **V10 Steuerrad in der Bootsansicht von der Seite:** schmales Oval mit Säule.
 - ✓ **V11 Bauteile-Spiel:** Jede Stelle des richtigen Bauteils zählt, z. B. das ganze Segel. Dafür bekommt jedes Bauteil eine eigene Trefferfläche statt eines kleinen Kreises.
-- ✓ **V12 Knoten** (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
+- ◐ **V12 Knoten** (die selbst gezeichneten Knoten waren falsch und sind seit v4.61 entfernt; Knotenbrett und Spiel laufen ohne Bilder; **neuer Weg für Bilder offen**, Vorschlag: eigene Fotos je Schritt) (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
   - **Knotenbrett in der Kajüte:** Jeder Knoten wird Schritt für Schritt als Animation gezeigt, z. B. Achtknoten, Kreuzknoten, Palstek, Schotstek, Webeleinstek, Rundtörn mit zwei halben Schlägen und Belegen einer Klampe.
   - **Spiel „Knotenkunde“** in der Spielekiste mit drei Runden-Arten:
     1. Erkennen: Welcher Knoten ist das?
@@ -278,10 +278,12 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.58 V18 Rechtliches: `datenschutz.html` und `impressum.html` (Platzhalter für Name, Anschrift, E-Mail **trägt der Nutzer ein**), Einwilligung vor der ersten KI- oder ElevenLabs-Nutzung (`kiEinwilligung`, `S.kiOk`, Widerruf in den Einstellungen), Links in Einstellungen, Kennenlernen und Über die App
 - [x] v4.59 V19 Katalogfehler: SBF 285 und Binnen 253 ohne angehängten PDF-Text, SKS nav-92 Frage/Antwort getrennt, „Stand 2006“-Reste in 5 SKS-Antworten entfernt, SBF 279 doppelte Antwort entfernt (jetzt 3 Antworten), SKS recht-23 als Bildfrage ausgeblendet. **ELWIS war hier gesperrt: SBF 279 (fehlende 4. Antwort) und recht-23 (Abbildungen) bitte am Original prüfen.**
 - [x] v4.60 V16 Törn-Reste (teilweise): zwei Funk-Ereignisse aus amtlichen Fragen: Verkehrszentrale funkt (SBF 158), treibender Container melden (SKS recht-98), UKW-Funk hilft; Balancing weiter erfüllt. Offen: Standort per Landmarken-Peilung, eigene Wind-/Alarmgeräusche.
+- [x] v4.61 Korrekturen nach Handy-Test: Eggs an Deck wieder anklickbar (alte CSS-Sperre aus der Zwei-Ansichten-Zeit entfernt, Rauchtest jetzt mit echten Klicks); Einwilligung schon beim Start, wenn ein Schlüssel eingetragen ist (sonst kam statt Stimme der Ersatzton); Einführungskasten bleibt lange genug zum Lesen; Knoten ohne die falschen Zeichnungen (Spiel: Wofür und Reihenfolge); Stimmenpaket am Handy: Knopf „Teil 1 erzeugen“, immer hohe Qualität, ZIP darf in den Hauptordner
 ### Jetzt dran
-- **V6 Stimmenpaket Teil 1** wartet nur auf E5: Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` in der Cloud-Umgebung (neue Sitzung nötig). Dann: `node tools/stimmenpaket.js --modelle`, `--probe`, nach OK `--teil1 --los`.
+- **V6 Stimmenpaket Teil 1:** am einfachsten am Handy: Einstellungen → „Teil 1 erzeugen: feste Sätze“ → ZIP auf GitHub in den Hauptordner hochladen → Claude baut sie mit `tools/stimmen-import.js` ein. Alternativ in der Cloud nach E5: Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` in der Cloud-Umgebung (neue Sitzung nötig). Dann: `node tools/stimmenpaket.js --modelle`, `--probe`, nach OK `--teil1 --los`.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
+- **V12 Knotenbilder:** Weg entscheiden (eigene Fotos, Wikimedia-Grafiken mit Namensnennung oder Link nach außen).
 - Offen aus V16: Standort per Landmarken-Peilung, eigene Wind- und Alarmgeräusche. Danach V8 (Folgen) nach der Überarbeitung durch den Nutzer.
 
 ### Entscheidungen

@@ -9,9 +9,9 @@ const root = path.resolve(__dirname, '..'), dir = path.resolve(root, process.arg
 const manPath = path.join(out, 'manifest.json');
 const man = fs.existsSync(manPath) ? JSON.parse(fs.readFileSync(manPath, 'utf8')) : {};
 man.files = man.files || {}; man.texts = man.texts || {}; man.voices = man.voices || {};
-/* 5.15: Auch eine stimmen.zip direkt im Repo-Ordner wird eingebaut */
+/* 5.15: Auch stimmen*.zip direkt im Repo-Ordner wird eingebaut (vom Handy hochgeladen) */
 const zips = (fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.toLowerCase().endsWith('.zip')).sort().map(f => path.join(dir, f)) : [])
-  .concat(fs.existsSync(path.join(root, 'stimmen.zip')) ? [path.join(root, 'stimmen.zip')] : []);
+  .concat(fs.readdirSync(root).filter(f => /^stimmen.*\.zip$/i.test(f)).sort().map(f => path.join(root, f)));
 if (!zips.length) { console.log('Keine ZIP-Dateien in ' + dir + ' und keine stimmen.zip im Repo-Ordner'); process.exit(0); }
 fs.mkdirSync(dir, {recursive: true});
 let neu = 0, alt = 0, konflikt = 0;

@@ -22,7 +22,7 @@ __pycache__/
 tests/smoke/bilder/
 
 # 5.15: Stimmenpaket, wird mit tools/stimmen-import.js eingebaut
-stimmen.zip
+stimmen*.zip
 
 # Probesätze aus tools/stimmenpaket.js --probe
 import/probe/
