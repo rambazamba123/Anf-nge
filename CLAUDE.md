@@ -110,7 +110,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   Feste Sätze, überspringbar, ersetzt die heutigen Zwei-Satz-Einführungen je Schein.
 
 **Block B: Stimmenpaket**
-- ⏳ **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
+- ✓ **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
 - ✓ **V7 Werkzeug „nur Fehlendes nachliefern“** prüfen und im Bericht die Zeichenzahl nennen.
 - **V8 Teil 2 (Folgen):** erst nach der Überarbeitung durch den Nutzer.
 
@@ -207,7 +207,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
-  - `audio/stimmen/` (Stimmenpaket mit `manifest.json`; legt auch die Stimmen fest, noch leer)
+  - `audio/stimmen/` (Stimmenpaket mit `manifest.json`: 359 Sätze, 18 MB, Teil 1 vollständig; legt die Stimmen fest)
   - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`
 - **Start:**
@@ -264,7 +264,6 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.45 V4 Moin-Bausteine: `MOIN_BAU` je Figur, `moinKette` (Käpt'n ~90 %, Smilla/Klabauter je ~22 %), gezogene Moins überall gedehnt
 - [x] v4.46 V5 Schein-Einführung: `schein_sbf/sks/binnen` (was, wofür, Prüfung, Lernstoff, Praxis), einmal beim Kajütenbesuch und beim Scheinwechsel, jederzeit über „Was erwartet mich …“ in der Schein-Auswahl; `einfuehrung(id, nochmal)`
 - [x] v4.47 V2 Bordkatze Backbord: stumm, wechselnde Plätze in der Kajüte (`CAT_SPOTS`, `catPlace`), springt beim Antippen woanders hin; Eggs `katzewach`, `katzekarte`, `katzemaus` (32 Eggs). An Deck kommt sie mit V9.
-- [ ] V6 Stimmenpaket Teil 1: Werkzeug fertig (`tools/stimmenpaket.js --teil1`, `--probe`, `--modelle`, nur fehlende Sätze), Trockenlauf 320 Sätze / 22.234 Zeichen. **Wartet auf Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` (E5).**
 - [x] v4.48 V15 Musik im ganzen Törn gesperrt: `window.TOERN_STILL` (gesetzt in `shell`/`TOERN.open`, gelöscht in `setTab`), `AUD.playMusic` spielt dann nichts
 - [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
 - [x] v4.50 V10 Steuerrad in der Bootsansicht von der Seite (schmales Oval auf der Säule, Griffe oben und unten)
@@ -279,8 +278,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.59 V19 Katalogfehler: SBF 285 und Binnen 253 ohne angehängten PDF-Text, SKS nav-92 Frage/Antwort getrennt, „Stand 2006“-Reste in 5 SKS-Antworten entfernt, SBF 279 doppelte Antwort entfernt (jetzt 3 Antworten), SKS recht-23 als Bildfrage ausgeblendet. **ELWIS war hier gesperrt: SBF 279 (fehlende 4. Antwort) und recht-23 (Abbildungen) bitte am Original prüfen.**
 - [x] v4.60 V16 Törn-Reste (teilweise): zwei Funk-Ereignisse aus amtlichen Fragen: Verkehrszentrale funkt (SBF 158), treibender Container melden (SKS recht-98), UKW-Funk hilft; Balancing weiter erfüllt. Offen: Standort per Landmarken-Peilung, eigene Wind-/Alarmgeräusche.
 - [x] v4.61 Korrekturen nach Handy-Test: Eggs an Deck wieder anklickbar (alte CSS-Sperre aus der Zwei-Ansichten-Zeit entfernt, Rauchtest jetzt mit echten Klicks); Einwilligung schon beim Start, wenn ein Schlüssel eingetragen ist (sonst kam statt Stimme der Ersatzton); Einführungskasten bleibt lange genug zum Lesen; Knoten ohne die falschen Zeichnungen (Spiel: Wofür und Reihenfolge); Stimmenpaket am Handy: Knopf „Teil 1 erzeugen“, immer hohe Qualität, ZIP darf in den Hauptordner
+- [x] v4.62 V6 Stimmenpaket Teil 1 eingebaut: 359 Sätze (alle 323 festen Sätze plus 36 schon gehörte), 18 MB, Stimmen für Hinnerk, Smilla, Klabauter und Harms festgelegt; ZIPs aus dem Repo entfernt
 ### Jetzt dran
-- **V6 Stimmenpaket Teil 1:** am einfachsten am Handy: Einstellungen → „Teil 1 erzeugen: feste Sätze“ → ZIP auf GitHub in den Hauptordner hochladen → Claude baut sie mit `tools/stimmen-import.js` ein. Alternativ in der Cloud nach E5: Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` in der Cloud-Umgebung (neue Sitzung nötig). Dann: `node tools/stimmenpaket.js --modelle`, `--probe`, nach OK `--teil1 --los`.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
 - **V12 Knotenbilder:** Weg entscheiden (eigene Fotos, Wikimedia-Grafiken mit Namensnennung oder Link nach außen).

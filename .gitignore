@@ -26,3 +26,4 @@ stimmen*.zip
 
 # Probesätze aus tools/stimmenpaket.js --probe
 import/probe/
+import/geschichten-*.json
