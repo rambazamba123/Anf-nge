@@ -263,6 +263,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.56 V18 App aufs Handy: Knopf „📲 App aufs Handy“ an Deck (wenn installierbar) und in den Einstellungen (`appInstallieren`, `beforeinstallprompt`, iPhone-Hinweis), Manifest mit `id` und Beschreibung, APK-Anleitung `docs/apk-anleitung.md` (PWABuilder)
 - [x] v4.57 V17/V19 Lizenzen und Über die App: Seite „Über die App“ (`renderSources`, aus den Einstellungen erreichbar) mit Hinweis „ersetzt keine Ausbildung, Karte nicht zur Navigation“, Pixabay-Musik, Kataloge mit ELWIS-Quellenangabe, Zeichnungen, Schriften-Lizenzen `fonts/OFL-*.txt`, JSZip, KI-Anbieter; `docs/quellen-audio.md`
 - [x] v4.58 V20 Rechtliches: `datenschutz.html` und `impressum.html` (Platzhalter für Name, Anschrift, E-Mail **trägt der Nutzer ein**), Einwilligung vor der ersten KI- oder ElevenLabs-Nutzung (`kiEinwilligung`, `S.kiOk`, Widerruf in den Einstellungen), Links in Einstellungen, Kennenlernen und Über die App
+- [x] v4.59 V19 Katalogfehler: SBF 285 und Binnen 253 ohne angehängten PDF-Text, SKS nav-92 Frage/Antwort getrennt, „Stand 2006“-Reste in 5 SKS-Antworten entfernt, SBF 279 doppelte Antwort entfernt (jetzt 3 Antworten), SKS recht-23 als Bildfrage ausgeblendet. **ELWIS war hier gesperrt: SBF 279 (fehlende 4. Antwort) und recht-23 (Abbildungen) bitte am Original prüfen.**
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
