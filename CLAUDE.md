@@ -245,6 +245,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 ## 8. Status (von Claude gepflegt)
 
+### Lauf 4 (ab 09.10.2026)
+- [x] v4.43 V1 Drei Figuren: feste Crew Hinnerk, Smilla, Klabauter (+ Harms), `SPRECHER`, alte Spielstände still umgestellt, Stimmenpaket und Bestenliste nur noch mit diesen (`NPC_IDS`, Katze miaut)
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 

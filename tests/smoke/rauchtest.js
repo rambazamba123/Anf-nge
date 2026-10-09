@@ -112,8 +112,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await page.context().close();
 
   /* 6. Alter Spielstand (Törn-Light, ohne toern2) lädt ohne Fehler */
-  page = await neu(stand({toern: {i: 1, p: 2.5, art: 'segel', ev: [], prov: 3, sprit: 80, laune: 70, zustand: 90, log: [{day: 20000, t: 'Alt', art: 'segel', min: 6, ok: 3, n: 4, sterne: 2}], provDay: 20000}}));
-  await schritt('40-alter-stand', page, async () => { await ev(page, () => setTab('cabin')); await sleep(600); await ev(page, () => openToern()); await sleep(1500); });
+  page = await neu(stand({crew: {K: 'ilse', M: 'piet', T: 'backbord'}, toern: {i: 1, p: 2.5, art: 'segel', ev: [], prov: 3, sprit: 80, laune: 70, zustand: 90, log: [{day: 20000, t: 'Alt', art: 'segel', min: 6, ok: 3, n: 4, sterne: 2}], provDay: 20000}}));
+  await schritt('40-alter-stand', page, async () => { await ev(page, () => setTab('cabin')); await sleep(600); const c = await ev(page, () => S.crew.K + S.crew.M + S.crew.T); if (c !== 'hinnerksmillaklabauter') throw new Error('Crew nicht umgestellt: ' + c); await ev(page, () => openToern()); await sleep(1500); });
   await page.context().close();
 
   await browser.close(); server.close();

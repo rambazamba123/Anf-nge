@@ -505,7 +505,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.42';
+  window.__ver = '4.43';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -718,8 +718,10 @@ const CREW = {
     persona: 'Prüfer Kapitän Harms, ehemaliger Elblotse, prüft seit 25 Jahren. Streng, sachlich, kurze Sätze, heimlich nett.',
     voicePref: ['Daniel', 'Roger', 'Eric', 'Brian', 'George'], gender: 'male', age: 'middle', fx: 1, pitch: 0.9, rate: 0.98},
 };
-const ROLE_OPTIONS = {K: ['hinnerk', 'ilse'], M: ['smilla', 'piet'], T: ['klabauter', 'backbord']};
-const ROLE_NAMES = {K: "Käpt'n", M: 'Matrose', T: 'Bordtier', P: 'Prüfer'};
+/* V1: feste Crew aus drei Sprechern. Ilse und Piet bleiben nur als Daten für alte Spielstände, Backbord läuft als stumme Bordkatze mit (V2). */
+const ROLE_OPTIONS = {K: ['hinnerk'], M: ['smilla'], T: ['klabauter']};
+const SPRECHER = ['hinnerk', 'smilla', 'klabauter', 'kroeger'];
+const ROLE_NAMES = {K: "Käpt'n", M: 'Matrosin', T: 'Bordtier', P: 'Prüfer'};
 
 function charSVG(id, extraCls = '') {
   return `<svg class="ch ${extraCls}" data-ch="${id}" viewBox="0 -2 100 147" aria-hidden="true">${ART[id]()}</svg>`;
@@ -1446,7 +1448,7 @@ function packLines(withEpisodes) {
   Object.entries(TEASE).forEach(([id, o]) => (o[ageGroup()] || []).forEach(t => push(id, t)));
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
   ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
-  push('ilse', 'Ach du liebe Zeit! Wer kehrt das jetzt wieder zusammen?'); push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
+  push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
   /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
   const keep = S.crew, nv = window.NAV && NAV.data ? (NAV.data().NV || {}) : {};
   try {
@@ -1470,14 +1472,14 @@ function packLines(withEpisodes) {
       }
     }
   } finally { S.crew = keep; }
-  return out;
+  return out.filter(x => SPRECHER.includes(x.cid));
 }
 async function loadZipLib() {
   if (!window.JSZip) await new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s); }).catch(() => null);
   return !!window.JSZip;
 }
 /* Stimmen, mit denen das Paket entsteht: alle Figuren, so wie sie gerade auf diesem Gerät eingestellt sind */
-function packVoices() { const v = {}; Object.keys(CREW).forEach(id => { const x = VOX.voiceOf(id); if (x) v[id] = x; }); return v; }
+function packVoices() { const v = {}; SPRECHER.forEach(id => { const x = VOX.voiceOf(id); if (x) v[id] = x; }); return v; }
 /* ZIP(s) mit neuen MP3s, zusammengeführtem manifest.json und den eigenen Folgen herunterladen.
    Über 20 MB wird geteilt, damit jede Datei auf GitHub hochgeladen werden kann (Grenze 25 MB). */
 async function downloadPack(items, name) {
@@ -1584,7 +1586,7 @@ const VOX = (() => {
     if (!list || !list.length) return;
     S.voices = S.voices || {};
     const ids = new Set(list.map(v => v.id));
-    const order = ['hinnerk', 'smilla', 'klabauter', 'kroeger', 'ilse', 'piet', 'backbord'];
+    const order = SPRECHER;
     const used = new Set(order.map(c => S.voices[c]).filter(v => v && ids.has(v)));
     order.forEach(cid => {
       if (S.voices[cid] && ids.has(S.voices[cid])) return;
@@ -1974,7 +1976,8 @@ function load() {
   if (!v || typeof v !== 'object') v = fresh();
   v.cfg = Object.assign({}, DEFAULT_CFG, v.cfg || {});
   if (v.cfg.budget === 1500) v.cfg.budget = 6000;
-  v.crew = Object.assign({K: 'hinnerk', M: 'smilla', T: 'klabauter'}, v.crew || {});
+  /* V1: alte Spielstände mit Ilse, Piet oder Backbord in der Crew werden still auf die feste Crew umgestellt */
+  v.crew = {K: 'hinnerk', M: 'smilla', T: 'klabauter'};
   v.voices = v.voices || {}; v.qs = v.qs || {}; v.lessons = v.lessons || {}; v.mnemo = v.mnemo || {};
   /* Die erste App hat hier andere Dinge gespeichert (talk war ein Schalter, Geschichten hatten andere Figuren). */
   if (!Array.isArray(v.talk)) v.talk = [];
@@ -3434,7 +3437,7 @@ function renderSettings() {
   const slider = (id, label, val) => `<label for="${id}">${label}</label><input type="range" id="${id}" min="0" max="1" step="0.05" value="${val}">`;
   app.innerHTML = `<div class="set"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">Einstellungen</h1><button class="btn small ghost" id="back">Zurück</button></div>
   <h2>Crew</h2>
-  ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-role="${role}" data-id="${id}" aria-pressed="${S.crew[role] === id}">${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
+  ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-id="${id}" aria-pressed="true" disabled>${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
     <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
   <div class="card"><h3>${ROLE_NAMES.P}</h3><div style="display:flex;gap:12px;align-items:center">${charSVG('kroeger')}<p class="small" style="margin:0">${CREW.kroeger.story}</p></div></div>
 
@@ -4523,6 +4526,8 @@ const TROPHY = {
 };
 const TROPHY_NAMES = ['', 'Bronze', 'Silber', 'Gold'];
 /* Feste Rekorde der Crew (Paradespiel jeweils ganz oben) */
+/* V1: In der Bestenliste stehen die drei Sprecher, Harms und die Bordkatze */
+const NPC_IDS = () => Object.keys(NPC_BEST).filter(id => SPRECHER.includes(id) || id === 'backbord');
 const NPC_BEST = {
   hinnerk: {man: 7, nav: 12, horn: 5, lights: 6, lh: 5, buoy: 22, motor: 4, parts: 7, fish: 12, traps: 7},
   ilse: {lh: 7, man: 4, nav: 9, horn: 5, lights: 6, buoy: 15, motor: 3, parts: 8, fish: 20, traps: 8},
@@ -4552,7 +4557,7 @@ function rankInfo() {
   return {pts, max, name: RANKS[i][1], next: RANKS[i + 1] || null};
 }
 function leaderboard(key) {
-  return Object.keys(NPC_BEST).map(id => ({id, name: CREW[id].short, v: NPC_BEST[id][key] || 0})).concat({id: 'me', name: 'Du', v: myBest(key)}).sort((a, b) => b.v - a.v || (a.id === 'me' ? -1 : 1));
+  return NPC_IDS().map(id => ({id, name: CREW[id].short, v: NPC_BEST[id][key] || 0})).concat({id: 'me', name: 'Du', v: myBest(key)}).sort((a, b) => b.v - a.v || (a.id === 'me' ? -1 : 1));
 }
 /* Punkte melden: Rekord, Trophäe, überholte Figuren. Gibt true zurück bei neuem Rekord. */
 function recordScore(key, val) {
@@ -4561,11 +4566,11 @@ function recordScore(key, val) {
   const after = myBest(key), ta = trophyOf(key, after);
   if (after <= before) return nb;
   LOG.add('spiel', key + ': Rekord ' + after);
-  const passed = Object.keys(NPC_BEST).filter(id => { const v = NPC_BEST[id][key] || 0; return before < v && after >= v; }).sort((a, b) => NPC_BEST[b][key] - NPC_BEST[a][key]);
+  const passed = NPC_IDS().filter(id => { const v = NPC_BEST[id][key] || 0; return before < v && after >= v; }).sort((a, b) => NPC_BEST[b][key] - NPC_BEST[a][key]);
   if (ta > tb) setTimeout(() => toast(`${TROPHY_NAMES[ta]} in „${(GAMES.find(g => g.k === key) || {}).n || key}“!`), 300);
   if (passed.length) {
     const who = passed[0]; S.passed = S.passed || {}; S.passed[key + ':' + who] = today(); save();
-    setTimeout(() => { toast(`Du hast ${CREW[who].short} überholt!`); if (AUD.ready) VOX.say(who, OVERTAKE[who], 'fixed'); }, ta > tb ? 2600 : 400);
+    setTimeout(() => { toast(`Du hast ${CREW[who].short} überholt!`); if (who === 'backbord') meow(); else if (AUD.ready) VOX.say(who, OVERTAKE[who], 'fixed'); }, ta > tb ? 2600 : 400);
   }
   return nb;
 }
