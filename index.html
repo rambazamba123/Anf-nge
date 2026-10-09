@@ -306,6 +306,7 @@ button.coursechip{border:0;cursor:pointer}
 .menuitem.off,.chip.off{opacity:.45;cursor:default;filter:grayscale(1)}
 .bkatze{cursor:pointer}.bkatze .kzz{animation:kzz 2.6s ease-in-out infinite}.bkatze.blinzelt .kauge{d:path('M-17 -4 a2 2 0 1 0 4 0')}.bkatze.hops{animation:khops .45s ease-in}.bkatze.jagt{animation:kjagt 1.2s ease-in forwards}
 @keyframes kzz{0%{opacity:0;transform:translate(0,0)}40%{opacity:1}100%{opacity:0;transform:translate(6px,-12px)}}@keyframes khops{50%{transform:translateY(-14px)}100%{transform:translateY(-30px);opacity:0}}@keyframes kjagt{30%{transform:translate(-40px,-60px)}100%{transform:translate(-140px,-170px);opacity:0}}
+.instbtn{display:none}body.kanninst .instbtn{display:inline-flex}
 .einf{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:62;max-height:60svh;overflow:auto;background:rgba(30,24,18,.94);color:#fffaf0;padding:12px 14px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35)}.einf p{margin:6px 0}.einf .muted{color:#e8dcc4}.einf .row{justify-content:flex-end;margin-top:8px}.einf .btn.ghost{color:#fffaf0;border-color:rgba(255,250,240,.6);background:transparent}
 .bgpill{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(30,24,18,.92);color:#fffaf0;padding:10px 12px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);font-size:.92rem;max-width:520px;margin:0 auto}
 .scene.cabin.seated .seatglow{opacity:.5;transition:opacity .4s}
@@ -507,7 +508,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.55';
+  window.__ver = '4.56';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3513,12 +3514,29 @@ function doBackup() {
   toast('Sicherung gespeichert. Leg die Datei an einen sicheren Ort.');
 }
 
+/* ---------- V18: App aufs Handy (Icon, ohne Browserleiste, offline) ----------
+   Android/Chrome: eigener Knopf über beforeinstallprompt. iPhone: Hinweis auf „Teilen → Zum Home-Bildschirm“. */
+let installEv = null;
+const istInstalliert = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const istIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEv = e; document.body.classList.add('kanninst'); });
+window.addEventListener('appinstalled', () => { installEv = null; document.body.classList.remove('kanninst'); toast('Skipper ist installiert. Das Icon liegt jetzt auf deinem Handy.'); });
+if (istIOS() && !istInstalliert()) document.body.classList.add('kanninst');
+function appInstallieren() {
+  AUD.click();
+  if (installEv) { installEv.prompt(); installEv.userChoice.then(c => { if (c && c.outcome === 'accepted') { installEv = null; document.body.classList.remove('kanninst'); } }).catch(() => {}); return; }
+  sheet(`<h2 style="margin:0 0 6px">App aufs Handy</h2>${istInstalliert() ? '<p>Skipper ist auf diesem Gerät schon installiert. ⚓</p>' : istIOS()
+    ? '<p style="margin:0 0 8px">Tippe unten in Safari auf <b>Teilen</b> (Quadrat mit Pfeil nach oben) und dann auf <b>Zum Home-Bildschirm</b>.</p>'
+    : '<p style="margin:0 0 8px">Tippe im Browser oben rechts auf <b>⋮</b> und dann auf <b>App installieren</b> oder <b>Zum Startbildschirm hinzufügen</b>.</p>'}
+    <p class="small muted" style="margin:0">Danach hast du ein Skipper-Icon auf dem Handy. Die App startet ohne Browserleiste, läuft offline und holt sich Updates von selbst. Zum Weitergeben reicht der Link.</p>`);
+}
 /* ---------- Einstellungen ---------- */
 function renderSettings() {
   subScreen(); 
   const c = S.cfg, sel = (id, opts, val) => `<select id="${id}">${opts.map(([v, l]) => `<option value="${v}" ${String(v) === String(val) ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
   const slider = (id, label, val) => `<label for="${id}">${label}</label><input type="range" id="${id}" min="0" max="1" step="0.05" value="${val}">`;
   app.innerHTML = `<div class="set"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">Einstellungen</h1><button class="btn small ghost" id="back">Zurück</button></div>
+  <div class="card"><b>📲 App aufs Handy</b><p class="small muted" style="margin:4px 0 8px">Mit Icon, ohne Browserleiste, auch offline.</p><button class="btn small" id="instset">${istInstalliert() ? 'Schon installiert ✓' : 'App installieren'}</button></div>
   <h2>Crew</h2>
   ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-id="${id}" aria-pressed="true" disabled>${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
     <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
@@ -3662,6 +3680,7 @@ function renderSettings() {
   bindSel('#garn', v => { c.garn = +v; });
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
   app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
+  $('#instset').onclick = () => appInstallieren();
   $('#reintro').onclick = () => { S.intros = {}; save(); toast('Beim nächsten Öffnen erklärt die Crew alles nochmal.'); };
   $('#reonb').onclick = () => { S.introDone = false; S.introV5 = false; S.reOnb = true; S.cabinWelcome = false; save(); location.reload(); };
   const lv = $('#logview'); lv.textContent = LOG.all().slice(-60).map(e => e.join(' | ')).join('\n') || 'Noch leer.';
@@ -3976,11 +3995,12 @@ function renderBoat() {
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
       <button class="btn wide lamp" id="down" style="font-size:1.08rem">Runter in die Kajüte</button>
+      <button class="btn small ghost instbtn" id="inst" style="margin-top:8px">📲 App aufs Handy</button>
     </div>
     ${courseCard()}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
-  $('#down').onclick = goBelow; $('#crs').onclick = courseSheet;
+  $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
   $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
