@@ -83,13 +83,11 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 **Live-KI** (freies Gespräch, Erklärungen auf Nachfrage) lässt sich nicht vorab erzeugen. Sie bleibt hinter grauen Kostenknöpfen. Ein Tageslimit kommt später (E4).
 
 ## 5. Lizenzen (Prüfliste vor der Veröffentlichung)
-- **L1 Musik und Geräusche in `audio/`** (30 MB, etwa 40 Dateien): Die Herkunft ist im Repo nicht dokumentiert. Der Nutzer muss angeben, woher sie stammen.
-  - In Ordnung sind z. B. eigene Aufnahmen, CC0/Pixabay-Lizenz und ElevenLabs-Geräusche aus einem bezahlten Abo.
-  - Musik von Suno oder Udio darf nur mit bezahltem Abo kommerziell genutzt werden.
+- **L1 Musik und Geräusche in `audio/`** (30 MB, etwa 40 Dateien): von einer lizenzfreien Seite (Nutzer, 09.10.2026). Die Dateinamen (Künstler-Titel-Nummer) sprechen für Pixabay. Die Pixabay-Lizenz erlaubt kommerzielle Nutzung ohne Namensnennung. Freiwillige Nennung der Künstler unter „Über die App“, Liste in `docs/quellen-audio.md`.
 - **L2 Bilder aus den amtlichen Fragenkatalogen** (`img/q/`, `img/b/`) und die Fragentexte: vermutlich als amtliche Werke frei nutzbar. Das ist aber nicht sicher. Vor der Veröffentlichung bei ELWIS/WSV die Nutzungsbedingungen prüfen und in der App eine Quellenangabe machen.
 - **L3 Schriften Baloo 2 und Nunito:** frei (SIL Open Font License). Die Lizenzdatei muss mitgeliefert werden (`fonts/OFL.txt`).
-- **L4 ElevenLabs-Stimmen:** Kommerzielle Nutzung ist nur erlaubt, wenn beim Erzeugen ein bezahltes Abo bestand. Stimmen aus der „Voice Library“ können eigene Bedingungen haben. Welche Stimmen genutzt werden, steht im Manifest.
-- **L5 App-Icon** (`icon-192/512.png`): Herkunft angeben (selbst gemacht oder KI mit welchen Bedingungen?).
+- **L4 ElevenLabs-Stimmen:** bezahltes Abo vorhanden (Nutzer, 09.10.2026). Kommerzielle Nutzung ist damit erlaubt. Stimmen aus der „Voice Library“ können eigene Bedingungen haben. Welche Stimmen genutzt werden, steht im Manifest.
+- **L5 App-Icon** (`icon-192/512.png`): von Claude erstellt, in Ordnung.
 - **L6 JSZip** (von cdnjs, MIT-Lizenz) ist in Ordnung, Hinweis unter „Über die App“.
 - **L7** Alle Zeichnungen sind selbst gezeichnete SVGs im Code, die Karte ist erfunden. Beides ist in Ordnung.
 
@@ -252,10 +250,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 
 ### Entscheidungen
 - **E1 Altersfreigabe:** ab 12 (Nutzer, 09.10.2026). Ton siehe §3 und V3.
-- **E2 KI-Funktionen bei der Veröffentlichung, offen:**
-  - **(a) Empfehlung:** Die KI läuft nur mit eigenem Schlüssel. Sonst ist sie aus, und die Stimmen kommen aus dem Paket.
-  - **(b)** Supabase-Server mit Schlüssel und Tageslimit vorher bauen. Das ist in zwei Wochen knapp.
-- **E3 Veröffentlichung, offen:** zuerst als Web-App über den GitHub-Pages-Link (Empfehlung), die Store-App später.
+- **E2 KI-Funktionen bei der Veröffentlichung:** nur mit eigenem Schlüssel, sonst aus. Die Stimmen kommen aus dem Paket (Nutzer, 09.10.2026). Wunsch: auch andere Anbieter-Schlüssel (z. B. Gemini) zulassen.
+- **E3 Veröffentlichung:** als etwas zum Verschicken mit eigenem Icon auf dem Handy. Weg: Installieren-Knopf in der App (Web-App mit Icon) und zusätzlich eine Android-Datei (APK), falls mit vertretbarem Aufwand machbar (Nutzer, 09.10.2026).
 - **E4 KI-Tageslimit:** vorerst unbegrenzt (`KI_LIMIT` 0), ein Limit kommt später.
 - **E5 Stimmenpaket, offen:**
   - **(a) Empfehlung:** Secret `ELEVENLABS_API_KEY` und Domain `api.elevenlabs.io` in der Cloud-Umgebung freigeben, dann erzeugt Claude das Paket.
