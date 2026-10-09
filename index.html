@@ -507,7 +507,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.47';
+  window.__ver = '4.48';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1242,6 +1242,8 @@ const AUD = (() => {
 
   /* ---------- Musik ---------- */
   async function playMusic(name) {
+    /* V15: Solange ein Törn offen ist, gibt es keine Musik (auch nicht in Minispielen, Laden oder Ankreuz-Runde) */
+    if (window.TOERN_STILL) name = null;
     if (!ctx || music.name === name) return;
     const old = music; music = {name, src: null, gain: null};
     if (old.gain) { old.gain.gain.setTargetAtTime(0, ctx.currentTime, .8); const s = old.src; setTimeout(() => { try { s.stop(); } catch (e) {} }, 4000); }
@@ -2338,7 +2340,7 @@ function soundFor(p) {
 let tab = 'deck', examTimer = null;
 function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
-  const from = tab; stopAll(); tab = t;
+  const from = tab; stopAll(); tab = t; window.TOERN_STILL = false;
   if (t === 'cabin' && from !== 'cabin' && AUD.ready) AUD.sfx('schritte', {vol: .55});
   if (t === 'log' && from !== 'log' && AUD.ready) AUD.sfx('buchAuf', {vol: .6});
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));

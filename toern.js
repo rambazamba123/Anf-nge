@@ -308,7 +308,7 @@ TOERN.init = async function () {
 };
 TOERN.data = () => D;
 /* Törn-Bildschirm ohne Musik (Meer, Wind und Wetter bleiben) */
-const shell = (title, html) => { gameShell(title, html); AUD.playMusic(null); };
+const shell = (title, html) => { window.TOERN_STILL = true; gameShell(title, html); AUD.playMusic(null); };
 
 /* ---------- Törnwahl ---------- */
 TOERN.open = async function () {
@@ -333,7 +333,7 @@ TOERN.open = async function () {
     ${D.stufen.filter(s => offen.some(x => x.stufe === s.id)).map(s => `<div class="tw-stufe">${esc(s.name)}</div><p class="small muted" style="margin:0">${esc(s.text)}</p>${offen.filter(x => x.stufe === s.id).map(card).join('')}`).join('')}
     ${!offen.length ? '<div class="tw-card"><h3>Alle Törns geschafft! ⚓</h3><p class="small">Du kannst jeden noch einmal fahren.</p></div>' : ''}
     ${geschafft.length ? `<details class="tw-card"><summary><b>✓ Geschafft (${geschafft.length})</b></summary>${geschafft.map(x => `<div class="tw-row"><span>✓ ${esc(x.name)} <span class="small muted">${esc(STUFE_NAME(x.stufe))}</span></span><span>${'⭐'.repeat(t.schnitt[x.id] || 1)} <button class="btn small ghost" data-start="${x.id}">Nochmal</button></span></div>`).join('')}</details>` : ''}`);
-  AUD.playMusic(null);
+  window.TOERN_STILL = true; AUD.playMusic(null);
   app.querySelectorAll('[data-start]').forEach(b => b.onclick = () => { AUD.click(); if (L && !confirm('Der laufende Törn wird abgebrochen und kostet ein Proviantpaket. Neu starten?')) return; if (L) abbrechen(true); starten(b.dataset.start); });
   if ($('#twweiter')) $('#twweiter').onclick = () => { AUD.click(); weiter(); };
   if ($('#twabbruch')) $('#twabbruch').onclick = () => { if (confirm('Törn abbrechen? Ein Proviantpaket geht verloren.')) { abbrechen(); TOERN.open(); } };
