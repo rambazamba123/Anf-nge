@@ -433,7 +433,8 @@ function fahrt() {
     t.prov -= 1;
     const lek = (S.navi && S.navi.lek) || {}, kursSelbst = ['L1', 'L2', 'L3', 'L4', 'L5'].every(id => lek[id] && lek[id].sterne);
     const c = {R: RL_(L), toern: tn, etappe: e, stufe: D.stufen[L.si], si: L.si, w: L.w, tz: e.tz, antrieb: L.antrieb, teile: teileSet(), used: new Set(L.used), orte: D.orte, kursSelbst};
-    L.plan = core.plan(D, c); L.used = [...c.used]; L.t = 0; L.i = 0; L.wx = L.w.wx; L.bft = L.w.bft; L.eRes = [];
+    L.plan = core.plan(D, c); L.used = [...c.used]; L.t = 0; L.i = 0; L.wx = L.w.wx; L.bft = L.w.bft; L.eRes = []; L.mini = [];
+    miniEinbauen(L, tn, e);
     const m = core.malus(tn, ctxFor(L)); if (m.schaden) { L.zustand -= m.schaden; setTimeout(() => toast(`Ohne ${m.fehlt.map(a => (D.teile.find(x => x.id === a) || {}).name || a).join(', ')} wird es hart: Boot −${m.schaden} %.`, 6000), 900); }
     save();
   }
@@ -544,12 +545,61 @@ function vorbereiten(idx) {
   }
 }
 
+/* ---------- V14: Minispiele als Bonusrunden ----------
+   Passend zur Lage, höchstens zwei pro Etappe. Gutes Ergebnis bringt Bordkasse und Proviant, schlechtes kostet nichts.
+   Die Spiele laufen gekürzt (BONUS.runden / BONUS.sek in index.html) und zählen nicht für Rekorde. */
+const MINIS = {
+  man: {f: 'maneuverGame', name: 'Anlegen', text: 'Der Hafen ist da. Bring uns sauber an den Steg!', max: 1, sek: 120},
+  lights: {f: 'lightsGame', name: 'Lichter bei Nacht', text: 'Da draußen blinkt es überall. Wer fährt da?', max: 4, runden: 4},
+  horn: {f: 'hornQuiz', name: 'Schallsignale', text: 'Im Nebel tutet es von allen Seiten. Was bedeuten die Signale?', max: 4, runden: 4},
+  buoy: {f: 'buoyGame', name: 'Tonnen-Slalom', text: 'Enges Fahrwasser voraus. Rot an Backbord, Grün an Steuerbord!', max: 12, sek: 40},
+  lh: {f: 'lighthouseGame', name: 'Leuchtfeuer', text: 'Feuer in Sicht. Erkennst du die Kennungen?', max: 3, runden: 3},
+  motor: {f: 'motorGame', name: 'Motorkunde', text: 'Der Motor klingt komisch. Kennst du dich aus?', max: 4, runden: 4},
+  fish: {f: 'fishGame', name: 'Fischfang', text: 'Flaute. Zeit, die Angel rauszuhalten!', max: 10, sek: 40},
+};
+function miniEinbauen(L, tn, e) {
+  const tasks = L.plan.tasks, nacht = e.tz === 'nacht' || e.tz === 'abend', letzte = L.e >= tn.etappen.length - 1, pool = ['buoy'];
+  if (L.wx === 'nebel') pool.push('horn', 'horn'); if (nacht) pool.push('lights', 'lh'); if (L.antrieb === 'motor') pool.push('motor'); if (L.wx === 'flaute' || L.bft <= 1) pool.push('fish', 'fish');
+  const keys = [pool[Math.random() * pool.length | 0]];
+  if (letzte && Math.random() < .6) keys.push('man'); else if (Math.random() < .35) { const k2 = pool.filter(k => k !== keys[0]); if (k2.length) keys.push(k2[Math.random() * k2.length | 0]); }
+  keys.forEach(key => {
+    let at;
+    if (key === 'man') at = L.plan.dauer - 6;
+    else { const k = 1 + (Math.random() * Math.max(1, tasks.length - 1) | 0), a = tasks[k - 1] ? tasks[k - 1].at : 10, b = tasks[k] ? tasks[k].at : L.plan.dauer - 10; at = (a + b) / 2; }
+    tasks.push({typ: 'mini', key, at: Math.max(8, Math.min(L.plan.dauer - 4, at))});
+  });
+  tasks.sort((a, b) => a.at - b.at);
+}
+function miniAufgabe(task, idx) {
+  const L = F.L, m = MINIS[task.key]; L.card = {idx, rest: 0}; F.card = {zeit: 0, idx};
+  AUD.sfx('glocke', {vol: .35});
+  $('#twtask').innerHTML = `<div class="tw-task tw-bonus"><h3><span>🎲 Bonusrunde: ${esc(m.name)}</span></h3><p>${esc(m.text)}</p>
+    <p class="small muted" style="margin:4px 0 8px">Gut gespielt gibt es Taler und Proviant. Daneben gehen kostet nichts.</p>
+    <div class="row"><button class="btn lamp" id="twbonus">Los!</button><button class="btn ghost small" id="twbonusx">Auslassen</button></div></div>`;
+  $('#twbonusx').onclick = () => { L.card = null; F.card = null; L.i++; $('#twtask').innerHTML = ''; save(); };
+  $('#twbonus').onclick = () => {
+    AUD.click(); save(); stopFahrt(); window.TOERN_STILL = true;
+    BONUS = {key: task.key, runden: m.runden, sek: m.sek, fertig: pts => bonusZurueck(m, pts)};
+    window[m.f]();
+    setTimeout(() => ['#gback', '#quit'].forEach(sel => { const b = $(sel); if (b) b.onclick = () => bonusEnde(0); }), 60);
+  };
+}
+function bonusZurueck(m, pts) {
+  const t = T2(), L = t.lauf; if (!L) return TOERN.open();
+  const q = Math.min(1, pts / m.max), kasse = q >= .9 ? 15 : q >= .6 ? 8 : 2, prov = q >= .9 ? 1 : 0;
+  t.kasse += kasse; t.prov += prov; L.punkte += Math.round(q * 10);
+  (L.mini = L.mini || []).push({name: m.name, pts, max: m.max, kasse, prov});
+  L.card = null; L.i++; save();
+  toast(`Bonusrunde ${m.name}: ${pts} von ${m.max}. +${kasse} Taler${prov ? ', +1 Proviant' : ''}`, 4000);
+  fahrt();
+}
 /* ---------- Aufgabe zeigen ---------- */
 function zeigeAufgabe(idx, wieder) {
   const L = F.L, task = L.plan.tasks[idx];
   if (!F.wahr[idx]) { F.wahr[idx] = true; vorbereiten(idx); }
   const c = ctxFor(L), zeit = core.zeit(D, task, c);
   let A;
+  if (task.typ === 'mini') return miniAufgabe(task, idx);
   if (task.typ === 'frage') A = frageAufgabe(task, idx);
   else if (task.typ === 'gen') A = genAufgabe(task);
   else { const d = core.def(D, task); A = {titel: d.titel, q: d.q, opts: d.opts, ok: d.ok, expl: d.expl, ref: d.ref, ref2: d.ref2, signal: d.signal, gen: d.gen}; if (d.gen === 'peilung') A = peilAufgabe(task, d); }
@@ -775,6 +825,7 @@ function nachbesprechung() {
   shell('Angekommen', `<div class="card"><h2 style="margin:0 0 6px">${'⭐'.repeat(sterne)}${'☆'.repeat(3 - sterne)} ${esc(e.nach)} erreicht</h2>
     <p style="margin:0">Etappe ${L.e + 1} von ${tn.etappen.length} · ${ok} von ${n} Aufgaben richtig · ${L.punkte} Punkte</p>
     <p class="small muted" style="margin:6px 0 0">Boot ${Math.round(L.zustand)} % (nach Reparatur) · Laune ${Math.round(L.laune)} · +${L.taler || 0} Taler${L.tank ? ` · getankt für ${L.tank} Taler` : ''}${L.bonus ? ` · Törn-Prämie ${L.bonus} Taler` : ''}</p>
+    ${(L.mini || []).length ? `<p class="small" style="margin:6px 0 0">🎲 Bonusrunden: ${L.mini.map(x => `${esc(x.name)} ${x.pts}/${x.max} (+${x.kasse} Taler${x.prov ? ', +1 Proviant' : ''})`).join(' · ')}</p>` : ''}
     ${fund ? `<p class="small" style="margin:6px 0 0">🎁 Fundstück: <b>${esc(fund.name)}</b>${fund.art === 'teil' ? ' (gleich verbaut)' : ''}</p>` : ''}</div>
     ${fehlerListe(L.eRes)}
     <div class="row">${letzte ? '<button class="btn lamp" id="twfertig">Törn abschließen</button>' : '<button class="btn lamp" id="twnext">Nächste Etappe</button>'}<button class="btn ghost" id="twdeck">An Deck</button></div>`);

@@ -507,7 +507,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.52';
+  window.__ver = '4.53';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3132,7 +3132,7 @@ function bindSig(sig) {
     hornCtl.done.then(() => { hornCtl = null; const x = $('#sigPlay'); if (x) x.textContent = 'Nochmal anhören'; });
   };
 }
-function hornQuiz() { runQuiz(shuffle(SIG_QS), 'Schallsignale hören', 'horn', {scoreKey: 'horn'}); }
+function hornQuiz() { runQuiz(shuffle(SIG_QS).slice(0, bonusRunden(SIG_QS.length)), 'Schallsignale hören', 'horn', {scoreKey: 'horn'}); }
 
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
@@ -4495,6 +4495,7 @@ function leaderboard(key) {
 }
 /* Punkte melden: Rekord, Trophäe, überholte Figuren. Gibt true zurück bei neuem Rekord. */
 function recordScore(key, val) {
+  if (BONUS && BONUS.key === key) { bonusEnde(val); return false; }
   const before = myBest(key), tb = trophyOf(key, before);
   const nb = key === 'nav' ? false : best(key, val);
   const after = myBest(key), ta = trophyOf(key, after);
@@ -4556,7 +4557,7 @@ const LIGHTS = [
 const LCOL = {w: '#fff7d6', r: '#ff4a3a', g: '#3dff86', y: '#ffd23c'};
 function lightsGame() {
   const names = [...new Set(LIGHTS.map(x => x.name))];
-  const rounds = shuffle(LIGHTS).slice(0, 8); let i = 0, score = 0;
+  const rounds = shuffle(LIGHTS).slice(0, bonusRunden(8)); let i = 0, score = 0;
   gameShell('Lichter bei Nacht', `<div class="nightsea"><svg viewBox="0 0 300 150" id="lsvg"></svg></div><div class="card" id="lq"></div>`);
   const show = () => {
     if (i >= rounds.length) { const nb = recordScore('lights', score); $('#lq').innerHTML = `<h2 style="margin:0">${score} von ${rounds.length} richtig</h2><p class="muted">${nb ? 'Neuer Rekord!' : `Dein Rekord: ${(S.best && S.best.lights) || 0}`}</p><button class="btn wide lamp" id="again">Nochmal</button>`; $('#again').onclick = lightsGame; return; }
@@ -4592,7 +4593,7 @@ const BEACONS = [
   {k: 'Mo.(A) 8s', name: 'Morsefeuer', p: [[500, 500], [1500, 5500]], why: 'Morse A: kurz, lang (· –), dann Pause.'},
 ];
 function lighthouseGame() {
-  const ks = BEACONS.map(b => b.k), rounds = shuffle(BEACONS).slice(0, 7); let i = 0, score = 0, blinkT = null;
+  const ks = BEACONS.map(b => b.k), rounds = shuffle(BEACONS).slice(0, bonusRunden(7)); let i = 0, score = 0, blinkT = null;
   gameShell('Leuchtfeuer', `<div class="nightsea"><svg viewBox="0 0 300 160">
       <rect width="300" height="160" fill="#0b1626"/><rect y="124" width="300" height="36" fill="#0d2238"/>
       <path d="M140 124 L144 70 L156 70 L160 124 Z" fill="#20303f"/><rect x="141" y="58" width="18" height="12" rx="2" fill="#20303f"/>
@@ -4642,6 +4643,12 @@ function drawWater(ctx, W, H, t) {
   ctx.fillStyle = '#2f6f8f'; ctx.fillRect(0, 0, W, H); ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 2;
   for (let y = (t * .06) % 40 - 40; y < H; y += 40) { ctx.beginPath(); for (let x = 0; x <= W; x += 20) ctx.lineTo(x, y + Math.sin((x + y) / 30) * 3); ctx.stroke(); }
 }
+/* V14: Minispiel als Bonusrunde im Törn. Solange BONUS gesetzt ist, zählen die Punkte nicht für Rekorde,
+   sondern gehen über BONUS.fertig(punkte) an den Törn zurück. runden/sek kürzen das Spiel. */
+let BONUS = null;
+const bonusRunden = n => BONUS && BONUS.runden ? Math.min(n, BONUS.runden) : n;
+const bonusZeit = t0 => !!(BONUS && BONUS.sek && performance.now() - t0 > BONUS.sek * 1000);
+function bonusEnde(punkte) { const b = BONUS; if (!b) return false; BONUS = null; stopGames(); setTimeout(() => b.fertig(punkte || 0), 700); return true; }
 function gameOver(score, key, again) {
   stopGames(); const nb = recordScore(key, score), o = $('#gover'); if (!o) return;
   o.innerHTML = `<h2 style="margin:0 0 4px">${score} Punkte</h2><p class="muted" style="margin:0 0 10px">${nb ? 'Neuer Rekord!' : `Rekord: ${(S.best && S.best[key]) || 0}`}</p><button class="btn lamp" id="again">Nochmal</button>`;
@@ -4677,7 +4684,7 @@ function buoyGame() {
     drawBoatTop(ctx, boat.x, boat.y);
     ctx.fillStyle = '#fff'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${score} Punkte`, 12, 24); ctx.textAlign = 'right'; ctx.fillText('♥'.repeat(Math.max(0, lives)), W - 12, 24);
     if (msg && now - msgT < 2200) { ctx.fillStyle = 'rgba(20,30,40,.75)'; ctx.fillRect(10, H - 30, W - 20, 24); ctx.fillStyle = '#fffaf0'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(msg, W / 2, H - 13); }
-    if (lives <= 0) return gameOver(score, 'buoy', buoyGame);
+    if (lives <= 0 || bonusZeit(t0)) return gameOver(score, 'buoy', buoyGame);
     gameLoop = requestAnimationFrame(step);
   };
   gameLoop = requestAnimationFrame(step);
@@ -4707,7 +4714,7 @@ function fishGame() {
     items = items.filter(it => it.y < H + 30);
     drawBoatTop(ctx, boat.x, boat.y);
     ctx.fillStyle = '#fff'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${score} Fische`, 12, 24); ctx.textAlign = 'right'; ctx.fillText('♥'.repeat(Math.max(0, lives)), W - 12, 24);
-    if (lives <= 0) return gameOver(score, 'fish', fishGame);
+    if (lives <= 0 || bonusZeit(t0)) return gameOver(score, 'fish', fishGame);
     gameLoop = requestAnimationFrame(step);
   };
   gameLoop = requestAnimationFrame(step);
@@ -4752,7 +4759,7 @@ function motorGame() {
   app.querySelectorAll('.mpart').forEach(c => c.onclick = () => { const p = MOTOR_PARTS.find(x => x.id === c.dataset.part); AUD.click(); $('#minfo').innerHTML = `<b>${esc(p.name)}:</b> ${esc(p.t)}`; });
   $('#mquiz').onclick = () => {
     AUD.loop('motorLauf', 0);
-    const qs = shuffle(MOTOR_QUIZ); let i = 0, score = 0;
+    const qs = shuffle(MOTOR_QUIZ).slice(0, bonusRunden(MOTOR_QUIZ.length)); let i = 0, score = 0;
     const show = () => {
       if (i >= qs.length) { recordScore('motor', score); app.querySelector('.motorcard').innerHTML = `<h2 style="margin:0">${score} von ${qs.length} richtig</h2><p class="muted">Gut zu wissen für jede Fahrt mit Außenborder.</p>`; $('#mquiz').textContent = 'Nochmal'; $('#mquiz').onclick = motorGame; return; }
       const q = qs[i], opts = shuffle([q.a, ...q.o]);
@@ -4909,9 +4916,10 @@ function maneuverGame() {
     let sx = null;
     c.addEventListener('pointerdown', e => { sx = e.clientX; });
     c.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) < 18) { boat.rudder = 0; msg = 'Ruder mittschiffs'; } else { boat.rudder = Math.max(-1, Math.min(1, dx / 90)); msg = dx > 0 ? 'Ruder Steuerbord' : 'Ruder Backbord'; } msgT = performance.now(); AUD.click(); });
-    const finish = (ok, text) => { done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
+    const finish = (ok, text) => { if (BONUS && BONUS.key === 'man') { done = true; return bonusEnde(ok ? 1 : 0); } done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
     const step = now => {
       const dt = Math.min(50, now - last) / 1000; last = now; const t = now - t0;
+      if (!done && bonusZeit(t0)) return finish(false, 'Die Zeit ist um.');
       /* Fahrdynamik: Gas beschleunigt, Wasser bremst, Ruder wirkt nur mit Fahrt (rückwärts umgekehrt) */
       const pow = boat.motor ? (boat.gear > 0 ? boat.gear * 60 : boat.gear * 38) : 0; boat.v += (pow - boat.v) * (pow ? .9 : 1.2) * dt;
       const turn = boat.rudder * 1.6 * (boat.v / 60); boat.h += turn * dt; boat.turned += Math.abs(turn * dt);
