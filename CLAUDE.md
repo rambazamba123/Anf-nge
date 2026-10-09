@@ -254,6 +254,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [ ] V6 Stimmenpaket Teil 1: Werkzeug fertig (`tools/stimmenpaket.js --teil1`, `--probe`, `--modelle`, nur fehlende Sätze), Trockenlauf 320 Sätze / 22.234 Zeichen. **Wartet auf Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io` (E5).**
 - [x] v4.48 V15 Musik im ganzen Törn gesperrt: `window.TOERN_STILL` (gesetzt in `shell`/`TOERN.open`, gelöscht in `setTab`), `AUD.playMusic` spielt dann nichts
 - [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
+- [x] v4.50 V10 Steuerrad in der Bootsansicht von der Seite (schmales Oval auf der Säule, Griffe oben und unten)
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
