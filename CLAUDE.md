@@ -261,6 +261,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.54 V12 Knoten: `knoten.js` (nachgeladen, `loadKnoten`) mit `data/knoten.json` (7 Knoten, schematisch gezeichnet): Knotenbrett in der Kajüte (Animation, Schritte, Merkhilfe, Übung mit echtem Tau + Bestzeit `S.knoten`), Spiel „Knotenkunde“ (Erkennen, Wofür, Reihenfolge; Trophäen, Crew-Rekorde)
 - [x] v4.55 V17 KI-Anbieter: ein Schlüsselfeld für Anthropic (sk-ant-), Google Gemini (AIza) und OpenAI (sk-), Erkennung `kiAnbieter`, Aufruf `aiAndere` (ohne Streaming, Modelle in `ANDERE_MODELLE`), Texte und Selbsttest angepasst
 - [x] v4.56 V18 App aufs Handy: Knopf „📲 App aufs Handy“ an Deck (wenn installierbar) und in den Einstellungen (`appInstallieren`, `beforeinstallprompt`, iPhone-Hinweis), Manifest mit `id` und Beschreibung, APK-Anleitung `docs/apk-anleitung.md` (PWABuilder)
+- [x] v4.57 V17/V19 Lizenzen und Über die App: Seite „Über die App“ (`renderSources`, aus den Einstellungen erreichbar) mit Hinweis „ersetzt keine Ausbildung, Karte nicht zur Navigation“, Pixabay-Musik, Kataloge mit ELWIS-Quellenangabe, Zeichnungen, Schriften-Lizenzen `fonts/OFL-*.txt`, JSZip, KI-Anbieter; `docs/quellen-audio.md`
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 

@@ -1,0 +1,44 @@
+# Herkunft der Musik und Geräusche (`audio/`)
+
+Von Pixabay (Pixabay-Lizenz: kommerzielle Nutzung erlaubt, Namensnennung freiwillig). Laut Nutzer von einer lizenzfreien Seite; die Dateinamen haben das Pixabay-Muster Künstler-Titel-Nummer. In der App unter Einstellungen → Über die App genannt.
+
+- leberch-ambient-517427.mp3
+- Space_Ambient__leberch.mp3
+- icecodebeats-slow-down-the-boat-3-568312.mp3
+- kaazoom-slow-turn-in-the-lamplight-smooth-jazz-song-male-vocal-480995.mp3
+- soundreality-baltic-sea-beach-waves-midnight-611953.mp3
+- soundreality-wind-blowing-457954.mp3
+- storegraphic-soft-wind-477404.mp3
+- freesound_community-gentle-rain-from-window-24548.mp3
+- audiopapkin-wall-clock-ticking-308746.mp3
+- freesound_community-canvas-dropcloth-snap-1-98862.mp3
+- u_7xr5ffk4oq-opening-bell-421471.mp3
+- freesound_community-herring-gull-1-27057.mp3
+- freesound_community-065410_great-echoing-foghornaiff-40903.mp3
+- flutie8211-foghorn-1-549807.mp3
+- freesound_community-cat-meow-14536.mp3
+- freesound_community-3-avewav-45235.mp3
+- freesound_community-radio-static-2-26831.mp3
+- freesound_community-no-signal-original-interference-27598.mp3
+- u_31vnwfmzt6-bleep-126625.mp3
+- soundreality-footsteps-walking-boots-parquet-4-420133.mp3
+- dragon-studio-door-opening-397990.mp3
+- dragon-studio-knocking-door-1-397992.mp3
+- spinopel-strike-a-match-381917.mp3
+- u_xg7ssi08yr-fliptop-metal-lighter-362054.mp3
+- freesound_community-smoking1-73746.mp3
+- freesound_community-juul-smoking-28389.mp3
+- soumages-book-opening-345808.mp3
+- xpmonster-turning-page-in-a-book-419580.mp3
+- langanicolae-vant-si-valuri-9583.mp3
+- freesound_community-accelerating-out-of-the-marina-with-proceeding-waves-hitting-embankment-24896.mp3
+- freesound_community-cat-98721.mp3
+- dragon-studio-cute-cat-meow-472372.mp3
+- dragon-studio-purring-cat-401727.mp3
+- freesound_community-anchor-raising-67152.mp3
+- freesound_community-pencil-on-paper-20007.mp3
+- mpircek-f-371148.mp3
+- lesiakower-error-mistake-sound-effect-incorrect-answer-437420.mp3
+- freesound_community-rightanswer-95219.mp3
+- freesound_community-engine-start-86242.mp3
+- freesound_community-motorboatsound-32776.mp3
