@@ -505,7 +505,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.44';
+  window.__ver = '4.45';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -798,11 +798,25 @@ const GRUSS = {
 /* Wie lange du weg warst, hört man an den Worten danach. Moin und Satz sind getrennte Clips, damit beide im Stimmenpaket liegen. */
 /* 5.9: Das erste Moin ist richtig gezogen (O etwa 2–3 Sekunden). Dieser Clip wird beim Abspielen leicht gedehnt, Tonhöhe bleibt. */
 const MOIN_LANG = 'Mooooooooin!';
-const MOIN = [MOIN_LANG, 'Moin, moin!', 'Na, moin!', 'Na, moin! Lang nicht gesehen.', 'Ja, moin! Dich gibt\'s ja auch noch!'];
-function moinWord(gap) { return MOIN[gap <= 1 ? 0 : gap <= 3 ? 1 : gap <= 7 ? 2 : gap <= 14 ? 3 : 4]; }
-function moinText(gap, lead) {
-  const g = GRUSS[lead] || GRUSS.hinnerk;
-  return [moinWord(gap), g[Math.random() * g.length | 0]];
+/* V4: Moin-Bausteine je Figur. Jeder Baustein ist ein fester Satz (einmal erzeugt, im Stimmenpaket).
+   Die Begrüßung setzt sie zufällig zusammen: der Käpt'n fast immer, Smilla und Klabauter manchmal. Gezogene Moins werden beim Abspielen gedehnt. */
+const MOIN_BAU = {
+  hinnerk: ['Moin.', 'Moin, moin!', 'Mooooin!', MOIN_LANG, 'Moin, Mooooooin!', 'Moooooooooin! Moin!', 'Mooin moin!', 'Moin… moin.'],
+  smilla: ['Moin!', 'Moin, moin, moin!', 'Mooooin!', 'Na, moin!', 'Moin, Landratte!'],
+  klabauter: ['Moin! Moin! Moin!', 'Mooooin!', 'Moin! Zwieback?', 'Moooin! Böig! Böig!'],
+};
+/* Wer lange weg war, hört es am Käpt'n */
+const MOIN_WEG = {7: 'Na, moin! Lang nicht gesehen.', 14: 'Ja, moin! Dich gibt\'s ja auch noch!'};
+const MOIN = [...MOIN_BAU.hinnerk, ...Object.values(MOIN_WEG)];
+const pickOf = a => a[Math.random() * a.length | 0];
+function moinKette(gap) {
+  const out = [], kap = Math.random() < .9;
+  if (kap) out.push({cid: 'hinnerk', t: gap > 14 ? MOIN_WEG[14] : gap > 7 ? MOIN_WEG[7] : pickOf(MOIN_BAU.hinnerk)});
+  const dazu = ['smilla', 'klabauter'].filter(() => Math.random() < .22).sort(() => Math.random() - .5);
+  if (!out.length && !dazu.length) dazu.push('smilla');
+  dazu.forEach(c => out.push({cid: c, t: pickOf(MOIN_BAU[c])}));
+  if (kap) out.push({cid: 'hinnerk', t: pickOf(GRUSS.hinnerk)});
+  return out;
 }
 /* Altersgruppen für den Ton der Crew: kind (unter 16), teen (16–17), erw (ab 18) */
 const TEASE = {
@@ -1444,7 +1458,9 @@ function packLines(withEpisodes) {
   /* Sätze, die fest zu einer Figur gehören */
   Object.entries(LINES).forEach(([id, o]) => Object.values(o).forEach(v => [].concat(v).forEach(t => push(id, t))));
   HARMS.kommt.forEach(t => push('kroeger', t));
-  Object.entries(GRUSS).forEach(([id, l]) => { MOIN.forEach(t => push(id, t)); l.forEach(t => push(id, t)); });
+  Object.entries(MOIN_BAU).forEach(([id, l]) => l.forEach(t => push(id, t)));
+  Object.values(MOIN_WEG).forEach(t => push('hinnerk', t));
+  GRUSS.hinnerk.forEach(t => push('hinnerk', t));
   Object.entries(TEASE).forEach(([id, o]) => (o[ageGroup()] || []).forEach(t => push(id, t)));
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
   ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
@@ -1681,7 +1697,7 @@ const VOX = (() => {
   function playPhoneOne(text, cid) {
     return new Promise(res => {
       if (!('speechSynthesis' in window)) return res();
-      const c = CREW[cid] || {}, lang = /^mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/i, 'ooo') : text);
+      const c = CREW[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
       u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
       const v = phoneVoices.find(v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name)) || phoneVoices[0]; if (v) u.voice = v;
       let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
@@ -1706,7 +1722,7 @@ const VOX = (() => {
     hooks.start(cid, text); AUD.duck(true);
     const t0 = Date.now(), src = blob ? 'elevenlabs' : (forceFb || (S.cfg && S.cfg.fallback) || 'phone');
     log('sprechen', cid + ' · ' + src + ' · ' + text.length + ' Zeichen · „' + text.slice(0, 50) + '“');
-    if (blob) await playBlob(blob, cid, g, /^mo{4,}in/i.test(text));
+    if (blob) await playBlob(blob, cid, g, /mo{4,}in/i.test(text));
     else {
       const fb = forceFb || (S.cfg && S.cfg.fallback) || 'phone';
       if (fb === 'phone' && 'speechSynthesis' in window) await playPhone(text, cid);
@@ -2413,7 +2429,7 @@ function tapToBoard() {
     S.lastDay = today(); save();
     LOG.add('öffnen', 'zuletzt vor ' + gap + ' Tagen');
     if (tab === 'cabin') { await AUD.sfx('schritte', {vol: .55, dur: 2.6}); }
-    await VOX.lines(moinText(gap, S.crew.K).map(t => ({cid: S.crew.K, t})), 'fixed');
+    await VOX.lines(moinKette(gap), 'fixed');
     pipeOnce();
     raceTicks();
   };
