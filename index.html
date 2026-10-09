@@ -507,7 +507,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.50';
+  window.__ver = '4.51';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4885,12 +4885,36 @@ function motorGame() {
 }
 
 /* ---------- Bauteile: Wo ist was am Boot? ---------- */
+/* V11: Jedes Bauteil hat seine ganze Fläche als Treffer (f): Vieleck [[x,y],…], Linie {l:[x1,y1,x2,y2], b: halbe Breite}, Kreis {c:[x,y,r]}, Rechteck {r:[x,y,w,h]}.
+   x/y ist nur noch der Platz für die Beschriftung. Koordinaten wie in boatScene. */
 const PARTS = [
-  {n: 'Mast', x: 195, y: 180}, {n: 'Großsegel', x: 255, y: 200}, {n: 'Vorsegel (Fock)', x: 150, y: 205}, {n: 'Baum', x: 262, y: 270},
-  {n: 'Vorstag', x: 118, y: 195}, {n: 'Achterstag', x: 296, y: 210}, {n: 'Verklicker (Windanzeiger)', x: 212, y: 61}, {n: 'Dreifarbenlaterne', x: 195, y: 70},
-  {n: 'Rumpf', x: 220, y: 320}, {n: 'Bug', x: 66, y: 292}, {n: 'Heck', x: 350, y: 300}, {n: 'Steuerrad', x: 346, y: 266},
-  {n: 'Außenborder', x: 371, y: 320}, {n: 'Niedergang', x: 287, y: 270}, {n: 'Bullauge', x: 176, y: 272}, {n: 'Seitenlicht Backbord (rot)', x: 62, y: 285}, {n: 'Hecklicht', x: 364, y: 280},
+  {n: 'Mast', x: 195, y: 180, f: [{l: [195, 76, 195, 272], b: 8}]},
+  {n: 'Großsegel', x: 255, y: 200, f: [[[200, 84], [200, 266], [322, 266], [312, 228], [292, 172], [252, 120]]]},
+  {n: 'Vorsegel (Fock)', x: 150, y: 205, f: [[[188, 88], [188, 262], [86, 278], [104, 236], [132, 176], [162, 128]]]},
+  {n: 'Baum', x: 262, y: 270, f: [{l: [198, 270, 326, 270], b: 7}]},
+  {n: 'Vorstag', x: 118, y: 195, f: [{l: [195, 72, 60, 288], b: 7}]},
+  {n: 'Achterstag', x: 296, y: 210, f: [{l: [195, 72, 346, 286], b: 7}]},
+  {n: 'Verklicker (Windanzeiger)', x: 212, y: 61, f: [{r: [194, 50, 32, 18]}]},
+  {n: 'Dreifarbenlaterne', x: 195, y: 70, f: [{r: [184, 63, 22, 15]}]},
+  {n: 'Rumpf', x: 220, y: 320, f: [[[58, 284], [366, 284], [356, 330], [326, 352], [112, 354], [66, 338]]]},
+  {n: 'Bug', x: 66, y: 292, f: [{c: [72, 300, 24]}]},
+  {n: 'Heck', x: 350, y: 300, f: [{c: [346, 306, 24]}]},
+  {n: 'Steuerrad', x: 346, y: 266, f: [{r: [336, 250, 24, 38]}]},
+  {n: 'Außenborder', x: 371, y: 320, f: [{r: [354, 272, 34, 78]}]},
+  {n: 'Niedergang', x: 287, y: 270, f: [{r: [266, 246, 42, 42]}]},
+  {n: 'Bullauge', x: 176, y: 272, f: [{c: [172, 272, 15]}, {c: [222, 272, 15]}]},
+  {n: 'Seitenlicht Backbord (rot)', x: 62, y: 285, f: [{c: [62, 285, 10]}]},
+  {n: 'Hecklicht', x: 364, y: 280, f: [{c: [364, 280, 9]}]},
 ];
+function partHit(part, p) {
+  return part.f.some(f => {
+    if (Array.isArray(f)) { let inn = false; for (let i = 0, j = f.length - 1; i < f.length; j = i++) { const [xi, yi] = f[i], [xj, yj] = f[j]; if ((yi > p.y) !== (yj > p.y) && p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi) inn = !inn; } return inn; }
+    if (f.c) return Math.hypot(p.x - f.c[0], p.y - f.c[1]) <= f.c[2];
+    if (f.r) return p.x >= f.r[0] && p.x <= f.r[0] + f.r[2] && p.y >= f.r[1] && p.y <= f.r[1] + f.r[3];
+    const [x1, y1, x2, y2] = f.l, dx = x2 - x1, dy = y2 - y1, t = Math.max(0, Math.min(1, ((p.x - x1) * dx + (p.y - y1) * dy) / (dx * dx + dy * dy)));
+    return Math.hypot(p.x - x1 - t * dx, p.y - y1 - t * dy) <= f.b;
+  });
+}
 function partsGame() {
   gameShell('Bauteile', `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat parts"')}<div class="card" id="pq"></div>`);
   const sc = app.querySelector('.scene.boat'), svg = sc.querySelector('svg'); sc.querySelector('.fernglas').remove();
@@ -4904,11 +4928,12 @@ function partsGame() {
   };
   svg.addEventListener('click', e => {
     if (!waiting) return; const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
-    const target = rounds[i], near = PARTS.map(x => ({x, d: Math.hypot(x.x - p.x, x.y - p.y)})).sort((a, b) => a.d - b.d)[0];
-    const ok = near.x === target && near.d < 30; waiting = false; if (ok) score++;
+    const target = rounds[i], ok = partHit(target, p) || Math.hypot(target.x - p.x, target.y - p.y) < 14; waiting = false; if (ok) score++;
+    /* Was wurde stattdessen getroffen? Kleine Teile zuerst, der Rumpf zuletzt */
+    const statt = ok ? null : PARTS.filter(x => x !== target && partHit(x, p)).sort((a, b) => (a.n === 'Rumpf') - (b.n === 'Rumpf'))[0];
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
     labels.innerHTML = `<g><circle cx="${target.x}" cy="${target.y}" r="10" fill="none" stroke="${ok ? '#3c8c5a' : '#c2473b'}" stroke-width="3"/><text x="${target.x + 12}" y="${target.y - 8}" font-size="10" font-weight="700" fill="#2a2019" stroke="#fffaf0" stroke-width="2.5" paint-order="stroke">${esc(target.n)}</text></g>`;
-    $('#pfb').innerHTML = (ok ? '<b style="color:var(--stb)">Richtig!</b>' : `<b style="color:var(--bb)">Nicht ganz.</b> Hier ist es.`) + ' <button class="btn small" id="pnext">Weiter</button>';
+    $('#pfb').innerHTML = (ok ? '<b style="color:var(--stb)">Richtig!</b>' : `<b style="color:var(--bb)">Nicht ganz.</b> ${statt ? 'Das war: ' + esc(statt.n) + '. ' : ''}Hier ist es.`) + ' <button class="btn small" id="pnext">Weiter</button>';
     $('#pnext').onclick = () => { i++; ask(); };
   });
   ask();

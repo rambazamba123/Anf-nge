@@ -255,6 +255,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.48 V15 Musik im ganzen Törn gesperrt: `window.TOERN_STILL` (gesetzt in `shell`/`TOERN.open`, gelöscht in `setTab`), `AUD.playMusic` spielt dann nichts
 - [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
 - [x] v4.50 V10 Steuerrad in der Bootsansicht von der Seite (schmales Oval auf der Säule, Griffe oben und unten)
+- [x] v4.51 V11 Bauteile-Spiel: Trefferflächen je Bauteil (`PARTS[].f`, `partHit`: Vieleck, Linie, Kreis, Rechteck), bei Fehltipp „Das war: …“
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
