@@ -1506,7 +1506,7 @@
    "navigation"
   ],
   "sks:nav-118": [
-   "fahrwasser"
+   "navigation"
   ],
   "sks:recht-1": [
    "sicherheit",
@@ -1603,9 +1603,6 @@
   ],
   "sks:recht-22": [
    "nacht",
-   "lichter"
-  ],
-  "sks:recht-23": [
    "lichter"
   ],
   "sks:recht-24": [
@@ -2004,7 +2001,6 @@
    "umwelt"
   ],
   "sks:recht-110": [
-   "fahrwasser",
    "seemannschaft",
    "umwelt"
   ],
@@ -2325,7 +2321,6 @@
    "wetter"
   ],
   "sks:wetter-101": [
-   "fahrwasser",
    "wetter"
   ],
   "sks:see1-1": [
@@ -2914,7 +2909,7 @@
    "seemannschaft"
   ],
   "sks:see1-163": [
-   "fahrwasser"
+   "seemannschaft"
   ],
   "sks:see2-1": [
    "seemannschaft"
@@ -3444,7 +3439,7 @@
    "seemannschaft"
   ],
   "sks:see2-146": [
-   "fahrwasser"
+   "seemannschaft"
   ]
  }
 }
