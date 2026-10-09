@@ -256,6 +256,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.49 V13 Karte im Törn: folgt dem Boot genau mittig (`ctl.center`), nach eigenem Schieben/Zoomen bleibt sie stehen, Knopf „⌖ Zurück zum Boot“
 - [x] v4.50 V10 Steuerrad in der Bootsansicht von der Seite (schmales Oval auf der Säule, Griffe oben und unten)
 - [x] v4.51 V11 Bauteile-Spiel: Trefferflächen je Bauteil (`PARTS[].f`, `partHit`: Vieleck, Linie, Kreis, Rechteck), bei Fehltipp „Das war: …“
+- [x] v4.52 V9 Nur noch eine Bootsansicht: lange Ansicht (`longBoatScene`, `bindPano`, `ovToDetail`) entfernt; Rettungsring, Flaggen (Leine am Achterstag), Angel (nur bei ruhigem Wetter, 60 %), Frachter (nur nachts) und Ausrüstung (`ausrArt`) in der Übersicht; Nebelglocke, Kompass und Messer in der Kajüte; Seekrank-Egg: 7× schnell aufs Wasser tippen
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
