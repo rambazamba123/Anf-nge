@@ -259,6 +259,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.52 V9 Nur noch eine Bootsansicht: lange Ansicht (`longBoatScene`, `bindPano`, `ovToDetail`) entfernt; Rettungsring, Flaggen (Leine am Achterstag), Angel (nur bei ruhigem Wetter, 60 %), Frachter (nur nachts) und Ausrüstung (`ausrArt`) in der Übersicht; Nebelglocke, Kompass und Messer in der Kajüte; Seekrank-Egg: 7× schnell aufs Wasser tippen
 - [x] v4.53 V14 Minispiele als Bonusrunden im Törn: `MINIS`, `miniEinbauen` (1–2 je Etappe nach Lage: Nebel→Schallsignale, Nacht→Lichter/Leuchtfeuer, Motor→Motorkunde, Flaute→Fischfang, Tonnen-Slalom, letzte Etappe→Anlegen), `BONUS`/`bonusEnde` in index.html kürzen die Spiele und leiten Punkte um (kein Rekord); Ertrag 2/8/15 Taler, ab 90 % +1 Proviant; Anzeige in der Nachbesprechung; Rauchtest `23-bonusrunde`
 - [x] v4.54 V12 Knoten: `knoten.js` (nachgeladen, `loadKnoten`) mit `data/knoten.json` (7 Knoten, schematisch gezeichnet): Knotenbrett in der Kajüte (Animation, Schritte, Merkhilfe, Übung mit echtem Tau + Bestzeit `S.knoten`), Spiel „Knotenkunde“ (Erkennen, Wofür, Reihenfolge; Trophäen, Crew-Rekorde)
+- [x] v4.55 V17 KI-Anbieter: ein Schlüsselfeld für Anthropic (sk-ant-), Google Gemini (AIza) und OpenAI (sk-), Erkennung `kiAnbieter`, Aufruf `aiAndere` (ohne Streaming, Modelle in `ANDERE_MODELLE`), Texte und Selbsttest angepasst
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 

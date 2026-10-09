@@ -507,7 +507,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.54';
+  window.__ver = '4.55';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2109,6 +2109,35 @@ const MODELS = {smart: 'claude-sonnet-5-5', fast: 'claude-haiku-4-5-20251001'};
 const KEYSTORE = 'skipper-apikey';
 function apiKey() { try { return (localStorage.getItem(KEYSTORE) || '').trim(); } catch (e) { return ''; } }
 function setApiKey(k) { try { k ? localStorage.setItem(KEYSTORE, k.trim()) : localStorage.removeItem(KEYSTORE); } catch (e) {} }
+/* V17: Ein Schlüsselfeld für mehrere Anbieter. Erkannt wird am Anfang: sk-ant- = Anthropic, AIza = Google Gemini, sk- = OpenAI.
+   Die anderen Anbieter antworten ohne Streaming; Modellnamen bei Bedarf hier anpassen. */
+const KI_ANBIETER = {anthropic: 'Anthropic (Claude)', gemini: 'Google Gemini', openai: 'OpenAI'};
+const ANDERE_MODELLE = {gemini: {smart: 'gemini-2.5-flash', fast: 'gemini-2.5-flash-lite'}, openai: {smart: 'gpt-4.1-mini', fast: 'gpt-4.1-nano'}};
+const kiAnbieter = (k = apiKey()) => /^sk-ant-/.test(k) ? 'anthropic' : /^AIza/.test(k) ? 'gemini' : /^sk-/.test(k) ? 'openai' : 'anthropic';
+async function aiAndere(input, opts, key, anb) {
+  const msgs = toMessages(input), tier = opts.modelTier === 'quick' ? 'fast' : 'smart', model = ANDERE_MODELLE[anb][tier], want = opts.maxTokens || 1500;
+  let url, init;
+  if (anb === 'gemini') {
+    url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
+    const body = {contents: msgs.map(m => ({role: m.role === 'assistant' ? 'model' : 'user', parts: [{text: m.content}]})), generationConfig: {maxOutputTokens: Math.max(want, 600)}};
+    if (opts.system) body.systemInstruction = {parts: [{text: opts.system}]};
+    init = {method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify(body)};
+  } else {
+    url = 'https://api.openai.com/v1/chat/completions';
+    init = {method: 'POST', headers: {'content-type': 'application/json', authorization: 'Bearer ' + key}, body: JSON.stringify({model, max_tokens: Math.max(want, 600), messages: (opts.system ? [{role: 'system', content: opts.system}] : []).concat(msgs)})};
+  }
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 30000); let res;
+  if (opts.signal) opts.signal.addEventListener('abort', () => ctl.abort());
+  try { res = await fetch(url, {...init, signal: ctl.signal}); } catch (e) { clearTimeout(to); throw {code: e && e.name === 'AbortError' ? 'timeout' : 'network'}; }
+  clearTimeout(to);
+  let j = null; try { j = await res.json(); } catch (e) {}
+  if (!res.ok) { const msg = (j && j.error && (j.error.message || j.error.status)) || ''; LOG.add('ki', anb + ' HTTP ' + res.status + ' ' + msg); throw {code: res.status === 401 || res.status === 403 || (res.status === 400 && /key/i.test(msg)) ? 'bad_key' : res.status === 429 ? 'rate_limited' : 'http', message: msg}; }
+  const text = anb === 'gemini' ? (((j.candidates || [])[0] || {}).content || {parts: []}).parts.map(p => p.text || '').join('') : (((j.choices || [])[0] || {}).message || {}).content || '';
+  LOG.add('ki', anb + ' ' + model + ': ' + text.length + ' Zeichen');
+  if (!text.trim()) throw {code: 'empty'};
+  if (opts.onText) opts.onText(text);
+  return text;
+}
 function pickModel(o) { if (o.modelTier === 'complex') return MODELS.smart; if (o.modelTier === 'quick') return MODELS.fast; return MODELS[S.model || 'smart'] || MODELS.smart; }
 function toMessages(input) {
   const raw = typeof input === 'string' ? [{role: 'user', content: input}] : input, out = [];
@@ -2133,6 +2162,7 @@ async function ai(input, opts = {}) {
   if (!kiOn()) throw {code: 'ki_off'};
   const key = apiKey(); if (!key) throw {code: 'no_key'};
   if (!opts._counted) { const u = kiUse(); if (KI_LIMIT && u.n >= KI_LIMIT) throw {code: 'ki_limit'}; u.n++; opts._counted = true; save(); }
+  const anb = kiAnbieter(key); if (anb !== 'anthropic') return aiAndere(input, opts, key, anb);
   const model = opts.forceModel || pickModel(opts), fast = model === MODELS.fast;
   const want = opts.maxTokens || 1500;
   const body = {model, max_tokens: (thinkOff || fast || /sonnet-5-5/.test(model)) ? Math.max(want, 600) : Math.max(want, 4096), messages: toMessages(input), stream: true};
@@ -2186,8 +2216,8 @@ function aiErr(e) {
   switch (e && e.code) {
     case 'ki_off': return 'Die KI-Funktionen sind ausgeschaltet. Einschalten kannst du sie in den Einstellungen.';
     case 'ki_limit': return 'Für heute ist das KI-Kontingent aufgebraucht. Morgen geht es weiter, lernen kannst du trotzdem.';
-    case 'no_key': return 'Für Gespräche braucht die Crew deinen Anthropic-Schlüssel. Trag ihn im Logbuch unter Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
-    case 'bad_key': return 'Der Anthropic-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.';
+    case 'no_key': return 'Für Gespräche braucht die Crew einen KI-Schlüssel (Anthropic, Google Gemini oder OpenAI). Trag ihn in den Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
+    case 'bad_key': return `Der ${KI_ANBIETER[kiAnbieter()]}-Schlüssel wird nicht akzeptiert. Prüf ihn in den Einstellungen.`;
     case 'no_credit': return 'Auf deinem Anthropic-Konto ist kein Guthaben mehr. Lade es in der Anthropic-Konsole auf.';
     case 'network': return 'Keine Verbindung. Bist du online?';
     case 'timeout': return 'Die Antwort hat zu lange gedauert. Prüf deine Verbindung und versuch es nochmal.';
@@ -2472,8 +2502,8 @@ function keysStep(next) {
     <div class="chips" style="margin:0 0 10px"><button class="chip" data-kion="1" aria-pressed="${kiOn()}">Mit KI-Crew</button><button class="chip" data-kion="0" aria-pressed="${!kiOn()}">Ohne KI lernen</button></div>
     <p class="small" style="margin:0 0 8px">Ohne KI entstehen keine Kosten: Lernen, Prüfung, Erklärungen und Folgen gehen trotzdem. Mit KI kannst du die Crew alles fragen. Das läuft über graue Knöpfe ✦ und kostet ein wenig. Umstellen kannst du das jederzeit in den Einstellungen.</p>
     <div id="kkeys" class="${kiOn() ? '' : 'hidden'}"><h3 style="margin:8px 0 6px">Zwei Schlüssel für die echte Crew</h3>
-    <p class="small" style="margin:0 0 8px"><b>Anthropic</b> lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
-    <label for="k1" style="margin-top:6px">Anthropic-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' : ''}">
+    <p class="small" style="margin:0 0 8px"><b>Ein KI-Schlüssel</b> (Anthropic, Google Gemini oder OpenAI) lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
+    <label for="k1" style="margin-top:6px">KI-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…" value="${apiKey() ? '••••••••' : ''}">
     <label for="k2">ElevenLabs-Schlüssel</label><input type="password" id="k2" autocomplete="off" placeholder="sk_…" value="${elKey() ? '••••••••' : ''}">
     <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab.</p></div>
     <div class="row"><button class="btn lamp" id="ksave">Speichern und weiter</button><button class="btn ghost" id="klater">Später</button></div>`);
@@ -3497,8 +3527,9 @@ function renderSettings() {
   <h2>KI und Schlüssel</h2>
   <div class="card"><label for="kion" style="margin-top:0">KI-Funktionen</label>${sel('kion', [['1', 'An: Crew fragen, Gespräche, echte Stimmen'], ['0', 'Aus: nur lernen, keine Kosten']], kiOn() ? '1' : '0')}
     <p class="small muted" style="margin:6px 0 0">Graue Knöpfe mit ✦ können Kosten verursachen. Ist die KI aus, verschwinden sie. Lernen, Prüfungen, Erklärungen und Folgen aus dem Stimmenpaket gehen immer, auch offline. Heute genutzt: ${kiUse().n} KI-Aktionen.</p></div>
-  <div class="card ki"><label for="ak" style="margin-top:0">Anthropic-Schlüssel (für Gespräche, Lektionen, Geschichten)</label>
-    <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
+  <div class="card ki"><label for="ak" style="margin-top:0">KI-Schlüssel für Gespräche, Lektionen, Geschichten${apiKey() ? ` · erkannt: ${KI_ANBIETER[kiAnbieter()]}` : ''}</label>
+    <p class="small muted" style="margin:0 0 6px">Anthropic (sk-ant-…), Google Gemini (AIza…, bei Google AI Studio gibt es einen kostenlosen Schlüssel mit Tageslimit) oder OpenAI (sk-…). Die App erkennt den Anbieter selbst.</p>
+    <input type="password" id="ak" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…" value="${apiKey() ? '••••••••' + esc(apiKey().slice(-4)) : ''}">
     <div class="row" style="margin-top:10px"><button class="btn" id="aks">Speichern und testen</button>${apiKey() ? '<button class="btn ghost" id="akd">Entfernen</button>' : ''}</div><p class="status" id="akr"></p>
     <label for="mdl">Modell</label>${sel('mdl', [['smart', 'Gründlich (Claude Sonnet 5.5)'], ['fast', 'Schnell und günstig (Claude Haiku 4.5)']], S.model || 'smart')}
   </div>
@@ -3664,8 +3695,8 @@ async function runSelfTest(out, btn) {
   let mic = 'unbekannt'; try { mic = (await navigator.permissions.query({name: 'microphone'})).state; } catch (e) {}
   add(mic === 'granted' ? true : mic === 'denied' ? false : null, 'Mikrofon', {granted: 'Erlaubt.', denied: 'Gesperrt. Tippe in der Adresszeile auf das Schloss-Symbol und erlaube das Mikrofon.', prompt: 'Noch nicht gefragt. Der Browser fragt beim ersten Sprechen.'}[mic] || 'Status unbekannt.');
   draw('Teste den Ton…'); try { await AUD.sfx('glocke', {vol: .8}); add(null, 'Ton', 'Eben hat eine Glocke geläutet. Hast du sie gehört? Wenn nicht: Lautstärke hoch, Stummschalter aus.'); } catch (e) { add(false, 'Ton', 'Konnte nichts abspielen.'); }
-  if (!apiKey()) add(false, 'Anthropic-Schlüssel', 'Fehlt. Ohne ihn gibt es keine Gespräche, Lektionen und Geschichten.');
-  else { draw('Teste Anthropic…'); try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); add(true, 'Anthropic-Schlüssel', 'Verbindung steht.'); } catch (e) { add(false, 'Anthropic-Schlüssel', aiErr(e)); } }
+  if (!apiKey()) add(false, 'KI-Schlüssel', 'Fehlt. Ohne ihn gibt es keine Gespräche, Lektionen und Geschichten.');
+  else { const an = KI_ANBIETER[kiAnbieter()]; draw('Teste ' + an + '…'); try { await ai('Antworte nur mit: Ahoi', {modelTier: 'quick', maxTokens: 10}); add(true, 'KI-Schlüssel (' + an + ')', 'Verbindung steht.'); } catch (e) { add(false, 'KI-Schlüssel (' + an + ')', aiErr(e)); } }
   if (!elKey()) add(null, 'ElevenLabs-Schlüssel', 'Nicht eingetragen. Die Crew spricht mit der Ersatzstimme.');
   else {
     draw('Teste ElevenLabs…'); let list = null;
@@ -4189,8 +4220,8 @@ function sttErrText(err) {
     el_stt: 'Die ElevenLabs-Spracherkennung hat nicht geklappt. Prüf die Verbindung.'}[err] || `Die Spracherkennung hat nicht geklappt (${err}). Schreib unten.`;
 }
 const KEYCARD = () => `<div class="card" id="keycard"><h3>Ein Schlüssel fehlt noch</h3>
-  <p class="small" style="margin:0 0 8px">Damit die Crew mit dir redet, braucht sie deinen Anthropic-Schlüssel. Er wird nur auf diesem Handy gespeichert.</p>
-  <input type="password" id="ck" autocomplete="off" placeholder="sk-ant-…"><button class="btn wide" id="cks" style="margin-top:10px">Speichern und testen</button><p class="status" id="ckr"></p></div>`;
+  <p class="small" style="margin:0 0 8px">Damit die Crew mit dir redet, braucht sie einen KI-Schlüssel (Anthropic, Google Gemini oder OpenAI). Er wird nur auf diesem Handy gespeichert.</p>
+  <input type="password" id="ck" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…"><button class="btn wide" id="cks" style="margin-top:10px">Speichern und testen</button><p class="status" id="ckr"></p></div>`;
 function bindKeycard(after) {
   const ck = $('#cks'); if (!ck) return;
   ck.onclick = async () => {
