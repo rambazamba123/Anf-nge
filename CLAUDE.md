@@ -122,7 +122,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Kompass mit Messer kommt an den Kartentisch, die Nebelglocke in die Kajüte.
 - ✓ **V10 Steuerrad in der Bootsansicht von der Seite:** schmales Oval mit Säule.
 - ✓ **V11 Bauteile-Spiel:** Jede Stelle des richtigen Bauteils zählt, z. B. das ganze Segel. Dafür bekommt jedes Bauteil eine eigene Trefferfläche statt eines kleinen Kreises.
-- ◐ **V12 Knoten** (die selbst gezeichneten Knoten waren falsch und sind seit v4.61 entfernt; Knotenbrett und Spiel laufen ohne Bilder; **neuer Weg für Bilder offen**, Vorschlag: eigene Fotos je Schritt) (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
+- ◐ **V12 Knoten** (die schematischen Knoten waren falsch und sind seit v4.61 entfernt; seit v4.64 gibt es den **Palstek als echte Tau-Animation**; für die übrigen Knoten ist der Weg noch offen: weitere Animationen dieser Art oder eigene Fotos) (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
   - **Knotenbrett in der Kajüte:** Jeder Knoten wird Schritt für Schritt als Animation gezeigt, z. B. Achtknoten, Kreuzknoten, Palstek, Schotstek, Webeleinstek, Rundtörn mit zwei halben Schlägen und Belegen einer Klampe.
   - **Spiel „Knotenkunde“** in der Spielekiste mit drei Runden-Arten:
     1. Erkennen: Welcher Knoten ist das?
@@ -231,6 +231,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `GAMES`, `gamesHub` (Raster, `GAME_ART`), `gameShell`, `gameOver`
   - Bauteile-Spiel: Trefferflächen `PARTS[].f`, `partHit` (V11)
   - Knoten (V12): `knoten.js` (`loadKnoten`, `KNOTEN.brett/zeige/ueben/spiel`), Daten `data/knoten.json`, Bestzeiten `S.knoten`
+  - Palstek-Animation: `PAL` in `knoten.js` (Tau fester Länge als Catmull-Rom-Kurve, Ebenen `Z` für über/unter, Posen `K0/KA/KB` → `LOOSE` → `TIGHT`, großes Auge gleicht die Länge aus), `spieler(canvas, {von, bis})`; Eintrag `palstek-anim` mit `anim` und `doppelt` (zählt bei Wofür/Reihenfolge nicht); Spielrunde `schritt` („Was passiert hier?“), Test-Aufruf `KNOTEN.spiel(['schritt'])`
   - Bonusrunden im Törn (V14): `BONUS`, `bonusRunden`, `bonusZeit`, `bonusEnde` (index.html) kürzen Spiele und leiten Punkte an `toern.js` (`MINIS`, `miniEinbauen`, `miniAufgabe`, `bonusZurueck`) statt in Rekorde
   - Punkte immer über `recordScore(key, wert)`: Trophäen `TROPHY`, Crew-Rekorde `NPC_BEST`, Sprüche `OVERTAKE`, Rang `rankInfo`, `leaderSheet`, `trophyCard`
 - **Lernen und Prüfung:**
@@ -279,11 +280,12 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.60 V16 Törn-Reste (teilweise): zwei Funk-Ereignisse aus amtlichen Fragen: Verkehrszentrale funkt (SBF 158), treibender Container melden (SKS recht-98), UKW-Funk hilft; Balancing weiter erfüllt. Offen: Standort per Landmarken-Peilung, eigene Wind-/Alarmgeräusche.
 - [x] v4.61 Korrekturen nach Handy-Test: Eggs an Deck wieder anklickbar (alte CSS-Sperre aus der Zwei-Ansichten-Zeit entfernt, Rauchtest jetzt mit echten Klicks); Einwilligung schon beim Start, wenn ein Schlüssel eingetragen ist (sonst kam statt Stimme der Ersatzton); Einführungskasten bleibt lange genug zum Lesen; Knoten ohne die falschen Zeichnungen (Spiel: Wofür und Reihenfolge); Stimmenpaket am Handy: Knopf „Teil 1 erzeugen“, immer hohe Qualität, ZIP darf in den Hauptordner
 - [x] v4.62 V6 Stimmenpaket Teil 1 eingebaut: 359 Sätze (alle 323 festen Sätze plus 36 schon gehörte), 18 MB, Stimmen für Hinnerk, Smilla, Klabauter und Harms festgelegt; ZIPs aus dem Repo entfernt
+- [x] v4.64 V12 Palstek als Tau-Animation: Tau mit fester Länge, alle Kreuzungen wie beim echten Knoten (loser Part oben, von hinten durchs Auge, hinter dem festen Part herum, von vorn zurück, Ende liegt im Auge), Kardeele wandern mit dem Tau, großes Auge wird beim Durchziehen kleiner; am Ende Pfeile: ① fester Part ziehen, ② loses Ende + Auge halten; Knotenbrett mit Pause, Neustart, Schieberegler und antippbaren Schritten; neue Spielrunde „Was passiert hier?“ in der Knotenkunde
 - [x] v4.63 Törn: Schiffe von der Seite erscheinen jetzt im Bild (vorher bei 45–65° außerhalb), Fernglas schwenkt auf das Fahrzeug der Aufgabe (`F.fernZiel`, `aim`); V16 fertig: Kartenaufgabe „Wo sind wir?“ (Kreuzpeilung zweier Landmarken, `gen: 'standort'`, ab Stufe 2, 14 von 26 Etappen), eigene Geräusche `AUD.alarm` (Piepen bei Motor- und Bilgealarm) und `AUD.boe` (Bö und Gewitter), im Code erzeugt
 ### Jetzt dran
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V12 Knotenbilder:** Weg entscheiden (eigene Fotos, Wikimedia-Grafiken mit Namensnennung oder Link nach außen).
+- **V12 Knotenbilder:** Palstek ist als Animation fertig (v4.64). Für die übrigen Knoten entscheiden: weitere Animationen dieser Art (Empfehlung) oder eigene Fotos.
 - V8 (Folgen) nach der Überarbeitung durch den Nutzer. V20: Handy-Checkliste mit dem Nutzer.
 
 ### Entscheidungen
