@@ -250,6 +250,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.44 V3 Ton ab 12: KI-Leitplanke `TONE.erw` ohne Anzüglichkeiten, SBF und SKS werden beide aufgezogen, 5 feste Sätze entschärft (Liste in `docs/feste-saetze.md`)
 - [x] v4.45 V4 Moin-Bausteine: `MOIN_BAU` je Figur, `moinKette` (Käpt'n ~90 %, Smilla/Klabauter je ~22 %), gezogene Moins überall gedehnt
 - [x] v4.46 V5 Schein-Einführung: `schein_sbf/sks/binnen` (was, wofür, Prüfung, Lernstoff, Praxis), einmal beim Kajütenbesuch und beim Scheinwechsel, jederzeit über „Was erwartet mich …“ in der Schein-Auswahl; `einfuehrung(id, nochmal)`
+- [x] v4.47 V2 Bordkatze Backbord: stumm, wechselnde Plätze in der Kajüte (`CAT_SPOTS`, `catPlace`), springt beim Antippen woanders hin; Eggs `katzewach`, `katzekarte`, `katzemaus` (32 Eggs). An Deck kommt sie mit V9.
 ### Jetzt dran
 - Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 

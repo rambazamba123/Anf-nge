@@ -44,3 +44,6 @@ Geändert: Smilla „Berg- und Talfahrt … Achterbahn, ist aber nur der Rhein.�
 
 ## v4.46 – V5 Schein-Einführung
 `data/einfuehrungen.json`: `schein_sbf` (7 Sätze), `schein_sks` (6), `schein_binnen` (7). Zahlen aus den Prüfungsregeln im Code (`COURSES[...].exam`).
+
+## v4.47 – V2 Bordkatze
+Keine neuen Sätze (die Katze ist stumm).
