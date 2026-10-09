@@ -1,58 +1,170 @@
-# Skipper – Projekt-Brief für Claude Code (Version 3)
+# Skipper – Projekt-Brief für Claude Code (Version 4, 09.10.2026)
 
-> **Der Code ist die Wahrheit.** Wenn dieser Brief und der Code sich widersprechen, gilt der Code. Den Widerspruch nennst du im Bericht. Abschnitt 4 (Code-Karte) und Abschnitt 8 (Status) hältst du selbst aktuell, und zwar am Ende jedes Laufs. Einen Neustart nach einem Abbruch beginnst du immer mit Abschnitt 8.
+> **Der Code ist die Wahrheit.** Widersprechen sich Brief und Code, gilt der Code, und der Widerspruch kommt in den Bericht. Abschnitt 7 (Code-Karte) und 8 (Status) pflegt Claude am Ende jedes Laufs. Nach einem Abbruch geht es immer mit Abschnitt 8 weiter.
+> Die alte Fassung (Version 3) mit allen erledigten Konzepten liegt in `docs/archiv/claude-v3.md`. Dort stehen die Details zu Navigationsschule (5.5, 5.11), Törn 2.0 (5.14) und den Läufen 1–3.
+> **Nummern zum Kommentieren:** Regeln `R1…`, Vorhaben `V1…`, Lizenzpunkte `L1…`, Entscheidungen `E1…`. Die Nummern bleiben fest, Erledigtes wird abgehakt und nicht neu nummeriert.
 
 ## 1. Worum es geht
-„Skipper“ ist eine Lern-App für Bootsführerscheine:
-- SBF See (fertig)
-- SKS (Katalog drin)
-- SBF Binnen (fehlt)
-- später Funk (SRC/UBI) und Pyrotechnik (FKN)
+„Skipper“ ist eine Lern-App für Bootsführerscheine: SBF See, SKS und SBF Binnen sind drin. Funk (SRC/UBI) und Pyrotechnik (FKN) kommen, wenn der Nutzer die Kataloge liefert.
 
-Man lernt an Bord einer Segelyacht. Die Crew besteht aus Käpt'n, Matrose oder Matrosin und Bordtier, geprüft wird von Kapitän Harms.
+Man lernt an Bord einer Segelyacht mit drei Crew-Figuren: **Käpt'n Hinnerk**, **Matrosin Smilla** und **Papagei Klabauter**. Dazu kommt **Bordkatze Backbord** ohne Stimme, die überall herumläuft und Unsinn macht. Geprüft wird von **Kapitän Harms** (interne ID `kroeger`).
 
-Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome im Hochformat, langfristig sollen alle Plattformen laufen. Im Moment nutze nur ich die App, später testen Freunde. Einen Prüfungstermin gibt es nicht: Es geht um die App selbst.
+Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome im Hochformat.
 
-**Wann ist die App fertig?**
-- Erkunden wie bei Moorhuhn: ein langes Boot, das man waagerecht wischt.
-- Viele versteckte Easter-Eggs.
-- Unter Deck im Schnitt.
-- Ein vollständiges Lexikon mit Originalgrafiken.
-- Eine Navigationsschule, in der man Navigation wirklich lernt.
-- Ein digitaler Törn.
-- Trophäen und Scoring für alle Spiele.
-- Texte und Audios werden gespeichert, damit kaum Tokens oder Credits verbraucht werden.
+**Ziel:** In etwa zwei Wochen (ab 09.10.2026) ist die App bereit für die Veröffentlichung. Freigabe ab 12 Jahren. Bis dahin geht es um Feinschliff, Stimmen, Lizenzen und Rechtliches, nicht um große neue Bereiche.
 
-## 2. Arbeitsregeln
-- **Antworten:** kurz, auf Deutsch, laienverständlich. Ich bin GitHub-Anfänger.
-- **Ehrlichkeit:** Nichts erfinden, Unsicherheit offen sagen. Sag mir, wenn ich etwas übersehe.
-- **Selbstständig arbeiten:**
-  - Einen ganzen Lauf (Abschnitt 7) am Stück abarbeiten, ohne zwischendurch auf mein OK zu warten.
-  - Kleine Unklarheiten selbst sinnvoll entscheiden und im Bericht nennen.
-  - Nur stoppen bei echten Grundsatzfragen, bei Fehlern, die du nicht lösen kannst, oder an einem Haltepunkt.
-- **Pro Etappe:**
-  - gezielt editieren, nie ganze Dateien neu schreiben
-  - testen
-  - `__ver` und die Version in `sw.js` hochzählen
-  - lokal committen
-  - in Abschnitt 8 abhaken
-- **Testen:**
-  - Lokaler Server: Den vorhandenen Ersatz-Server nutzen, Python fehlt auf diesem Rechner.
-  - Hochformat 400×860, Konsole ohne Fehler, alte Spielstände laden ohne Fehler.
-  - Wenn möglich mit Screenshots.
-- **Spielstände nie brechen:** Speicher-Key `skipper-sbfsee-v1`, interne IDs bleiben (z. B. `kroeger` für Kapitän Harms). Neue Felder bekommen immer einen Standardwert.
-- **Prüfungsinhalte:** nur aus den amtlichen Katalogen in `quellen/`. Fachlich muss alles korrekt sein.
-- **Schlüssel:** Anthropic- und ElevenLabs-Key nie ins Repo schreiben und nie ausgeben.
-- **`quellen/`:** Der Ordner ist in `.gitignore` und wird nie hochgeladen. Die BSH-Übungskarte 49 (`quellen/0381510_h1_FS19ix.webp`) trägt den Vermerk „Alle Rechte vorbehalten“. Sie dient nur als Vorlage für Maßstab, Aufgabentypen und Symbolik. Nichts davon abpausen und nichts in die App übernehmen.
-- **Stimmen:** Feste Sätze enthalten keine Namen, damit sie ins Stimmenpaket passen. Alles, was sich wiederholt, wird gespeichert und nie neu erzeugt.
+## 2. Regeln für die Arbeit
+- **R1 Antworten:** kurz, auf Deutsch, laienverständlich. Der Nutzer ist GitHub-Anfänger.
+- **R2 Ehrlichkeit:** Nichts erfinden, Unsicherheit offen sagen und Übersehenes ansprechen.
+- **R3 Neue Wünsche:** Erst die eigene Meinung zu jedem Punkt, Ideen schärfen und Fragen stellen. Nach der Antwort den Lauf am Stück abarbeiten. Kleine Unklarheiten entscheidet Claude selbst und nennt sie im Bericht. Stoppen nur bei Grundsatzfragen oder Fehlern, die sich nicht lösen lassen.
+- **R4 Pro Etappe:** gezielt editieren (nie ganze Dateien neu schreiben), testen, `__ver` und `VERSION` in `sw.js` hochzählen, committen, in §8 abhaken.
+- **R5 Testen:** Hochformat 400×860, Konsole fehlerfrei, alte Spielstände laden ohne Fehler, wenn möglich mit Screenshots.
+  - Der Rauchtest (`tests/smoke/rauchtest.js`) läuft automatisch vor jedem Commit über `.githooks/pre-commit`, einmalig einschalten mit `git config core.hooksPath .githooks`.
+  - Commits, die nur Texte (`.md`) ändern, überspringen ihn.
+- **R6 Online stellen:** Am Ende jedes Laufs auf den Arbeitszweig pushen und per Pull Request in `main` übernehmen. Dann ist die neue Version auf GitHub Pages online, ohne dass der Nutzer etwas tun muss.
+- **R7 Spielstände nie brechen:** Der Speicher-Key `skipper-sbfsee-v1` und die internen IDs bleiben. Neue Felder bekommen immer einen Standardwert. Entfallene Figuren werden still auf die verbliebenen umgestellt.
+- **R8 Prüfungsinhalte:** nur aus den amtlichen Katalogen, fachlich korrekt.
+  - Die Originale liegen im Ordner `quellen/`. Er ist in `.gitignore`, wird nie hochgeladen und fehlt deshalb in der Cloud.
+  - Was Claude ohne `quellen/` prüfen musste, wird im Bericht markiert.
+  - Die BSH-Übungskarte 49 nie abpausen.
+- **R9 Schlüssel:** Anthropic- und ElevenLabs-Key nie ins Repo schreiben und nie ausgeben. In der Cloud nur als Secret der Umgebung.
+- **R10 Feste Sätze:** Alles, was die Crew wiederholt sagt, ist ein fester Satz ohne Namen und kommt ins Stimmenpaket (§4). Neue feste Sätze stehen in `docs/feste-saetze.md`.
+- **R11 Dateigröße:** Große neue Bereiche kommen in eigene, nachgeladene Dateien (wie `navi.js`, `toern.js`), Texte und Listen in `data/*.json`. Kleine Änderungen in `index.html` sind in Ordnung.
+- **R12 Lizenzen:** Claude meldet jede Datei, deren Herkunft oder Lizenz fraglich ist (§5). Der Nutzer tauscht sie dann aus.
+- **R13 Fernglas:** Es markiert nur Dinge mit Funktion: Niedergang, Steuerrad, Kartentisch, Spielekiste, Hocker, Telefon. Easter-Eggs nie.
+- **R14 Bericht** (kurz, immer gleich):
+  1. **Fertig und online:** was jetzt in der App neu ist.
+  2. **Bitte am Handy testen:** konkrete Handgriffe.
+  3. **Deine Entscheidung nötig:** mit Nummer.
+  4. **Hinweise:** bewusst anders entschieden, Lizenzen, was du übersehen könntest.
 
 ## 3. Stil und Ton
-- **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch. Szenen hängen von Tageszeit und Wetter ab.
-- **Crew:** witzig, herzlich, plattdeutsch angehaucht. Die Freigabe ist **so, wie sie aktuell im Code steht** (seit v4.8 immer FSK 18). Ändern nur auf meine Anweisung. Laut Nutzer (05.10.2026) ist der Ton auch für 14-Jährige in Ordnung.
-- **Rangordnung:** SBF-Lernende werden liebevoll aufgezogen und nicht ganz ernst genommen („Badewannen-Kapitän“). SKS-Lernende bekommen spürbar mehr Respekt.
+- **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch (nur der Stil, keine fremden Figuren). Szenen hängen von Tageszeit und Wetter ab.
+- **Ton:** jugendfrei ab 12, aber derb und hart, plattdeutsch angehaucht. Keine sexuellen Anspielungen, kein Alkohol als Witz über Kinder, keine Beleidigungen von Gruppen.
+- **Alle werden aufgezogen,** egal welcher Schein. SBF-Lernende sind „Badewannen-Kapitäne“. SKS-Lernende bekommen genauso Sprüche, die aber auf Augenhöhe.
+- **Die Figuren:**
+  - **Käpt'n Hinnerk:** trocken, kurz angebunden, grüßt mit „Moin“.
+  - **Smilla:** frech und schnell.
+  - **Klabauter:** wiederholt Wörter.
+  - **Backbord:** spricht nicht, macht Unsinn.
+  - **Harms:** streng und knurrig.
 
-## 4. Code-Karte
-*Stand v4.42 (Lauf 3 abgeschlossen; Törn 2.0 in v4.34; davor Architektur-Lauf, Konzept: `docs/konzept-architektur.md`).*
+## 4. Stimmen und Kosten (wichtig)
+**Grundsatz:** Jeder feste Satz wird genau einmal bei ElevenLabs erzeugt und liegt danach als MP3 in der App (`audio/stimmen/` mit `manifest.json`). Alle Nutzer hören diese Dateien. Bei 50 oder 5000 Nutzern kostet das nichts zusätzlich.
+
+**So funktioniert es heute im Code:**
+1. Die App schaut zuerst ins Stimmenpaket (`PACK.get`).
+2. Dann in den Speicher des Geräts (IndexedDB `CLIPS`). Dort landet alles, was auf diesem Gerät schon einmal erzeugt wurde.
+3. ElevenLabs fragt die App nur, wenn der Nutzer einen eigenen Schlüssel eingetragen hat.
+4. Sonst spricht die Handystimme, und das kostet nichts.
+
+**Folge:** Nutzer ohne Schlüssel hören echte Stimmen nur aus dem Stimmenpaket. Deshalb muss das Paket vollständig sein.
+
+**Aufbau des Pakets:**
+- **Teil 1, feste Sätze:** Begrüßungen, Moin-Bausteine, Einführungen, Kajüte, Eggs, Törn, Lektionen, Harms.
+  - Mit 3 Figuren plus Harms sind das heute etwa 315 Sätze mit rund 21.000 Zeichen.
+  - Wird erzeugt, sobald der Ton auf „ab 12“ umgestellt ist (V7). Sonst müsste man doppelt erzeugen.
+- **Teil 2, Folgen (Kajütenfunk):** heute rund 56.000 Zeichen für SBF. Wird erst erzeugt, wenn der Nutzer die Folgen überarbeitet hat. Teil 1 wartet nicht darauf.
+- **Nachlieferung:** Neue feste Sätze werden später gezielt nachgeliefert. Nur fehlende Sätze werden erzeugt, das Manifest wird zusammengeführt.
+
+**Moin-Bausteine:**
+- Jede Figur hat 5–6 feste Moin-Varianten, z. B. „Moin!“, „Moin, moin!“, „Mooooin!“, „Moin, Mooooooin!“, „Moooooooooin! Moin!“ und „Moin…“.
+- Bei der Begrüßung spricht der Käpt'n fast immer, Smilla und Klabauter kommen nur manchmal dazu (je etwa 20 %).
+- Die Kette besteht nur aus gespeicherten Clips und kostet nichts extra. Gezogene Varianten werden auf 0,8× gedehnt.
+
+**Wege zum Erzeugen** (Entscheidung E5):
+- **(a) In der Cloud durch Claude:**
+  - Der Nutzer legt in den Umgebungseinstellungen ein Secret `ELEVENLABS_API_KEY` an und erlaubt die Domain `api.elevenlabs.io` (Network access).
+  - Danach erzeugt Claude mit `tools/stimmenpaket.js` und legt das Paket ins Repo.
+- **(b) Am Handy durch den Nutzer:** ZIP aus der App exportieren und als `stimmen.zip` ins Repo legen. `tools/stimmen-import.js` baut es ein.
+
+**Qualität:** Das Modell „Multilingual v2“ spricht Deutsch in hoher Qualität. Vor der Erzeugung prüft Claude, ob ElevenLabs inzwischen ein besseres Modell für Deutsch anbietet (z. B. „v3“), und erzeugt zuerst drei Probesätze zum Anhören.
+
+**Live-KI** (freies Gespräch, Erklärungen auf Nachfrage) lässt sich nicht vorab erzeugen. Sie bleibt hinter grauen Kostenknöpfen. Ein Tageslimit kommt später (E4).
+
+## 5. Lizenzen (Prüfliste vor der Veröffentlichung)
+- **L1 Musik und Geräusche in `audio/`** (30 MB, etwa 40 Dateien): Die Herkunft ist im Repo nicht dokumentiert. Der Nutzer muss angeben, woher sie stammen.
+  - In Ordnung sind z. B. eigene Aufnahmen, CC0/Pixabay-Lizenz und ElevenLabs-Geräusche aus einem bezahlten Abo.
+  - Musik von Suno oder Udio darf nur mit bezahltem Abo kommerziell genutzt werden.
+- **L2 Bilder aus den amtlichen Fragenkatalogen** (`img/q/`, `img/b/`) und die Fragentexte: vermutlich als amtliche Werke frei nutzbar. Das ist aber nicht sicher. Vor der Veröffentlichung bei ELWIS/WSV die Nutzungsbedingungen prüfen und in der App eine Quellenangabe machen.
+- **L3 Schriften Baloo 2 und Nunito:** frei (SIL Open Font License). Die Lizenzdatei muss mitgeliefert werden (`fonts/OFL.txt`).
+- **L4 ElevenLabs-Stimmen:** Kommerzielle Nutzung ist nur erlaubt, wenn beim Erzeugen ein bezahltes Abo bestand. Stimmen aus der „Voice Library“ können eigene Bedingungen haben. Welche Stimmen genutzt werden, steht im Manifest.
+- **L5 App-Icon** (`icon-192/512.png`): Herkunft angeben (selbst gemacht oder KI mit welchen Bedingungen?).
+- **L6 JSZip** (von cdnjs, MIT-Lizenz) ist in Ordnung, Hinweis unter „Über die App“.
+- **L7** Alle Zeichnungen sind selbst gezeichnete SVGs im Code, die Karte ist erfunden. Beides ist in Ordnung.
+
+## 6. Fahrplan bis zur Veröffentlichung
+Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
+
+**Block A: Crew und Ton (zuerst, weil die Stimmen davon abhängen)**
+- **V1 Drei Figuren:**
+  - Hinnerk, Smilla und Klabauter, dazu Harms als Prüfer.
+  - Ilse und Piet entfallen. Spielstände mit ihnen werden still umgestellt (R7). Die Crewwahl im Kennenlernen fällt weg.
+- **V2 Bordkatze Backbord:** ohne Stimme. Sie taucht an Deck und in der Kajüte an wechselnden Stellen auf, schläft, jagt die Maus, sitzt auf dem Kartentisch und miaut beim Antippen. Ein paar ihrer Streiche sind Easter-Eggs.
+- **V3 Ton ab 12:** alle festen Sätze, die Folgen, die KI-Leitplanken (`styleRules`, `TONE`, `TEASE`) und das Kennenlernen durchgehen. Anzüglichkeiten raus, derb und hart bleibt. Alle werden aufgezogen.
+- **V4 Moin-Bausteine:** wie in §4 beschrieben.
+- **V5 Schein-Einführung durch die Crew:** Beim Wählen eines Scheins erzählt die Crew wie im Gespräch:
+  - was das für ein Schein ist und wofür man ihn braucht
+  - wie die Prüfung abläuft (Theorie, Praxis, Zeit, Bestehensgrenze)
+  - was man lernt und wie lange es etwa dauert
+  - was einen an Bord erwartet
+
+  Feste Sätze, überspringbar, ersetzt die heutigen Zwei-Satz-Einführungen je Schein.
+
+**Block B: Stimmenpaket**
+- **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
+- **V7 Werkzeug „nur Fehlendes nachliefern“** prüfen und im Bericht die Zeichenzahl nennen.
+- **V8 Teil 2 (Folgen):** erst nach der Überarbeitung durch den Nutzer.
+
+**Block C: Boot und Spiele**
+- **V9 Nur noch eine Bootsansicht:**
+  - Die lange Ansicht entfällt. Steuerrad, Niedergang und die verbauten Ausrüstungsteile liegen in der einen Ansicht.
+  - Die Eggs, die es nur in der langen Ansicht gab, ziehen um: Angel, Flaggen, Frachter, Nebelglocke, Kompass mit Messer, Rettungsring.
+  - Manche Eggs erscheinen nur manchmal: die Angel bei ruhigem Wetter, der Frachter nachts.
+  - Kompass mit Messer kommt an den Kartentisch, die Nebelglocke in die Kajüte.
+- **V10 Steuerrad in der Bootsansicht von der Seite:** schmales Oval mit Säule.
+- **V11 Bauteile-Spiel:** Jede Stelle des richtigen Bauteils zählt, z. B. das ganze Segel. Dafür bekommt jedes Bauteil eine eigene Trefferfläche statt eines kleinen Kreises.
+- **V12 Knoten** (Vorschlag, Inhalte nach der amtlichen Prüfungsrichtlinie für die praktische Prüfung). Die Knoten sind selbst gezeichnet und animiert, Fotos braucht es nicht.
+  - **Knotenbrett in der Kajüte:** Jeder Knoten wird Schritt für Schritt als Animation gezeigt, z. B. Achtknoten, Kreuzknoten, Palstek, Schotstek, Webeleinstek, Rundtörn mit zwei halben Schlägen und Belegen einer Klampe.
+  - **Spiel „Knotenkunde“** in der Spielekiste mit drei Runden-Arten:
+    1. Erkennen: Welcher Knoten ist das?
+    2. Wofür: Für eine Lage den passenden Knoten wählen, z. B. „ein festes Auge, das sich nicht zuzieht“ → Palstek.
+    3. Reihenfolge: die Schritte in die richtige Reihenfolge tippen.
+  - Punkte, Trophäen und Crew-Rekord wie bei allen Spielen.
+  - **Übung mit echtem Tau:** Die Crew stoppt die Zeit, du bewertest dich selbst.
+
+**Block D: Törn**
+- **V13 Karte im Törn:** Sie folgt dem Boot in der Mitte, bis man selbst schiebt. Dann bleibt sie stehen. Der Knopf „Zurück zum Boot“ holt sie wieder. Ein automatisches Zurückspringen gibt es nicht.
+- **V14 Minispiele als Bonusrunden:**
+  - Höchstens 1–2 pro Etappe, jeweils passend zur Lage:
+    - Anlegen → Manöver
+    - Nacht → Lichter
+    - Nebel → Schallsignale
+    - Tonnen → Slalom
+    - Feuer → Leuchtfeuer
+    - Motor → Motorkunde
+    - Flaute → Fischfang
+  - Kurzrunde von 30–60 Sekunden. Gutes Ergebnis = mehr Ertrag (Bordkasse, Proviant), schlechtes kostet kaum etwas.
+  - Zählt nicht für Rekorde.
+- **V15 Musik im ganzen Törn gesperrt:** auch in Minispielen, Ankreuz-Runde, Laden und Logbuch. Meer, Wind, Motor und Signale bleiben.
+- **V16 Kleinere Reste** (Claude entscheidet): Standort per Landmarken-Peilung, Lagemeldung der Verkehrszentrale, eigene Geräusche für Wind und Alarm.
+
+**Block E: Veröffentlichung**
+- **V17 Lizenzen klären** (§5): Der Nutzer liefert die Herkunft von L1, L4 und L5. Claude ergänzt `fonts/OFL.txt` und eine Seite „Über die App“ mit Quellen.
+- **V18 Rechtliches:** Datenschutzerklärung, Impressum (in Deutschland meist Pflicht) und eine Einwilligung vor der ersten KI-Nutzung. Konto-Löschung nur, falls es Konten gibt (E2).
+- **V19 Katalogfehler beheben:**
+  - SBF 279 (doppelte Antwort)
+  - SBF 285 und Binnen 253 (angehängter PDF-Text)
+  - SKS nav-92 (leere Antwort) und recht-23 (abgeschnittene Frage)
+  - „Stand 2006“-Reste in SKS-Antworten
+
+  Claude prüft gegen die ELWIS-Kataloge, so weit sie erreichbar sind.
+- **V20 Letzter Feinschliff:** Ladezeit, Offline-Start, Zurück-Taste, und die Handy-Checkliste (§8) mit dem Nutzer durchgehen.
+
+**Nach der Veröffentlichung:** Folgen für SKS und Binnen, Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
+
+## 7. Code-Karte
+*Stand v4.42. Ändert sich mit Block C (eine Bootsansicht) und Block A (drei Figuren).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
@@ -80,17 +192,16 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - Spielstand: `S.toern2` {`kasse`, `prov`, `sprit`, `teile[]`, `vorrat{}`, `log[]`, `seen{}`, `provDay`, `schnitt{}`, `lauf`: {`id`, `si`, `e`, `tag`, `phase`, `w`, `plan`, `t`, `i`, `card`, `zustand`, `laune`, `punkte`, `eRes[]`, `res[]`, `sterne[]`}}; Standard `null`. Der alte `S.toern` bleibt unangetastet, sein Logbuch zeigt `toernCard` mit an.
   - Am langen Boot zeigt `ausrArt()` verbaute Teile. `AUD.sfx`/`AUD.horn` können mit `pan` links/rechts klingen.
 - **Dateien:**
-  - `index.html` (Code und CSS, ~458 KB; soll nicht weiter wachsen, 5.15)
+  - `index.html` (Code und CSS, ~481 KB; große neue Bereiche in eigene Dateien, R11)
   - `sw.js` (Cache; `VERSION` immer gleich `__ver`)
   - `navi.js`, `toern.js` (nachgeladen), `data/einfuehrungen.json` (5.10)
   - `tests/smoke/rauchtest.js`, `.githooks/pre-commit` (Rauchtest vor jedem Commit)
-  - `navi.js` (Navigationsschule), `toern.js` (Törn 2.0)
   - `manifest.webmanifest`, `icon-192/512.png`
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`; legt auch die Stimmen fest, noch leer)
-  - `docs/`: Konzepte, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
+  - `docs/`: Konzepte, `archiv/` (alte Briefe), `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`
 - **Start:**
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
@@ -134,387 +245,39 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - Spiele und Funde: `best`, `nav`, `passed`, `eggs`
   - Flags: `introV5`, `cabinWelcome`, `reOnb`, `binSegel`, `tour`
 
-## 5. Konzepte (verbindlich)
+## 8. Status (von Claude gepflegt)
 
-### 5.1 Erster Start: Begrüßung mit Streit
-Beim allerersten Start zankt sich die Crew, wo Backbord ist. Dann bemerkt sie dich, stellt sich vor und geht ins Kennenlernen über.
+### Jetzt dran
+- Block A (V1–V5), danach Block B (V6, sobald E5 entschieden ist).
 
-**Fehler:** Die Szene erscheint nicht. Ursache: `boot()` setzt `introV4` sofort, und alte Spielstände haben das Flag schon.
+### Entscheidungen
+- **E1 Altersfreigabe:** ab 12 (Nutzer, 09.10.2026). Ton siehe §3 und V3.
+- **E2 KI-Funktionen bei der Veröffentlichung, offen:**
+  - **(a) Empfehlung:** Die KI läuft nur mit eigenem Schlüssel. Sonst ist sie aus, und die Stimmen kommen aus dem Paket.
+  - **(b)** Supabase-Server mit Schlüssel und Tageslimit vorher bauen. Das ist in zwei Wochen knapp.
+- **E3 Veröffentlichung, offen:** zuerst als Web-App über den GitHub-Pages-Link (Empfehlung), die Store-App später.
+- **E4 KI-Tageslimit:** vorerst unbegrenzt (`KI_LIMIT` 0), ein Limit kommt später.
+- **E5 Stimmenpaket, offen:**
+  - **(a) Empfehlung:** Secret `ELEVENLABS_API_KEY` und Domain `api.elevenlabs.io` in der Cloud-Umgebung freigeben, dann erzeugt Claude das Paket.
+  - **(b)** Export am Handy.
+- **E6 Stimmenqualität:** hoch (Nutzer). Vor der Erzeugung Modellprüfung und drei Probesätze.
+- **E7 „Weiter“-Knöpfe:** bleiben gelb-orange (Nutzer, 09.10.2026).
+- **E8 Cloudflare-Worker:** gestrichen, Supabase übernimmt das bei Bedarf (Nutzer, 09.10.2026).
+- **E9 Konten mit Supabase:** freigegeben (05.10.2026), aber erst nach der Veröffentlichung (siehe E2).
+- **E10 Folgen:** Der Nutzer überarbeitet sie selbst, danach Stimmenpaket Teil 2.
 
-**Lösung:**
-- Ein neues Flag einführen und erst am Ende des Intros setzen.
-- Die URL `?neustart` setzt die Intro-Flags zurück, zum Testen.
-- Die Knöpfe „Kennenlernen neu starten“ und „Alles zurücksetzen“ gibt es schon. Sie müssen das Intro mit Streit sicher auslösen.
-- Die neue Begrüßung am Steg und in der Kajüte (seit v4.8) sinnvoll damit verbinden, nichts doppelt abspielen.
+### Handy-Checkliste (macht der Nutzer)
+- Mikrofon im Gespräch, Zurück-Taste (App und Browser), Offline-Start, Lautstärke der Stimmen
+- Moin-Varianten, Telefon und Harms, Lesbarkeit der Karte im Törn
+- Einführungen, Minispiele im Törn (sobald gebaut)
 
-### 5.2 Fernglas und Easter-Eggs
-- Das Fernglas markiert nur Dinge mit Funktion: Niedergang, Steuer (Törn), Kartentisch, Spielekiste, Hocker.
-- Easter-Eggs werden nie markiert, die muss man selbst entdecken.
-- Gefundene Easter-Eggs zählen als Sammlung im Logbuch, angezeigt als „x von y entdeckt“.
+### Hinweise und offene Kleinigkeiten
+- Der Ordner `quellen/` fehlt in der Cloud. Die SKS-Kartenaufgabe (L11) stützt sich nur auf den SKS-Katalog in der App. Ein Abgleich mit den Original-Kartenaufgaben ist optional.
+- `tools/stimmenpaket.js` ist noch nie mit echtem Schlüssel gelaufen (nur Trockenlauf).
 
-### 5.3 Spielekiste und Scoring
-- **Aussehen:** ein Raster mit 2 Spalten statt einer Liste.
-  - Jede Kachel hat eine kleine SVG-Zeichnung zum Spiel im Stil aus Abschnitt 3.
-  - Auf der Kachel stehen Name, Trophäe und eigener Rekord.
-- **Scoring für alle Spiele:**
-  - Jedes Spiel liefert Punkte, auch Horn-Quiz, Prüfungsfallen und Kartentisch.
-  - Trophäen pro Spiel: Bronze, Silber, Gold, jeweils mit festen Schwellen.
-  - Dazu ein Gesamtrang vom Schiffsjungen bis zum Kapitän.
-- **Bestenliste pro Spiel:**
-  - Feste Rekorde aller 6 Crew-Figuren und von Kapitän Harms. Jede Figur hat ein Paradespiel.
-  - Wer eine Figur überholt, bekommt einen festen, frechen Spruch.
-  - Rekorde erscheinen auch im Logbuch.
-
-### 5.4 Bootsansichten (Lauf 3, ersetzt das bisherige 5.4)
-**Übersicht (herausgezoomt):**
-- Das ganze Boot auf einen Blick. Man kann nicht wischen oder verschieben, Details gibt es wenige.
-- Das ist das „Übermenü“: Lernfortschritt pro Schein, Einstellungen, Account- und Schlüssel-Infos, Schein wechseln.
-- Ein klarer Weg „An Bord gehen“ führt in die Detailansicht, zusätzlich geht es per Antippen.
-
-**Detailansicht (herangezoomt):**
-- Ein deutlich kleinerer Ausschnitt: Man sieht praktisch nur das Deck, höchstens etwas Reling, das Meer unten nicht.
-- Wischbar ist nur waagerecht, über das lange Boot.
-- Die Ansicht startet zwischen Steuerrad und Kajüteneingang.
-- Das Steuerrad startet den Törn (siehe 5.14).
-- Alles andere ist sinnvoll über das Boot verteilt: Niedergang, Mast, Bug, Motor, Aufgaben und Easter-Eggs.
-
-Alle vorhandenen Hotspots und Easter-Eggs ziehen mit um.
-
-### 5.5 Navigationsschule (Kartentisch)
-Man soll Navigation wirklich lernen, für SBF See und darauf aufbauend SKS.
-
-**Die Karte:** selbst gezeichnet, eine erfundene Nordsee-Flussmündung. Sie enthält Gezeiten, Tonnen, Feuer, Tiefen, eine Kompassrose mit Missweisung und einen Breiten- und Längenrand.
-
-**Drei Bereiche:**
-
-1. **Navi-Fibel**
-   - Ein Glossar mit allen Begriffen, darunter: Breite und Länge, Seemeile, Kartennull, rwK, mwK, MgK, Missweisung, Deviation mit Ablenkungstabelle, rwP, Standlinie, Kreuzpeilung, Koppelort, Gissort, KdW, KüG, FdW, FüG, Stromdreieck, Vorhaltewinkel, Abdrift, Gezeiten.
-   - Jeder Begriff hat eine Erklärung, eine kleine Animation und eine Merkhilfe.
-   - Begriffe sind überall antippbar.
-
-2. **Lernpfad**, jede Lektion gleich aufgebaut:
-   - Die Crew erklärt kurz, mit Animation.
-   - Geführte Übung mit Hilfen und konkreter Rückmeldung bei Fehlern.
-   - Freie Übung: zufällig erzeugte Aufgaben, also unbegrenzt viele.
-   - Meisterschaft: 3 Aufgaben hintereinander ohne Hilfe richtig, dann gibt es einen Stern.
-
-   Die Lektionen:
-   1. Karte lesen: Koordinaten, Symbole, Tiefen
-   2. Werkzeuge: Kursdreieck und Zirkel, Distanz am Breitenrand
-   3. Kurse umrechnen: rwK ↔ mwK ↔ MgK, mit Rechentrainer
-   4. Peilen: Peilung, Kreuzpeilung, Feuer erkennen
-   5. Koppeln: Fahrt × Zeit = Distanz, Koppelort
-   6. Strom: Stromdreieck, Vorhaltewinkel
-   7. Wind und Abdrift
-   8. Gezeiten, so weit es die amtlichen Aufgaben verlangen
-   9. Gesamtaufgaben
-
-   Die SKS-Stufe baut darauf auf. Den Umfang prüfst du anhand von `quellen/`.
-
-3. **Prüfungsmodus**
-   - Aufgaben im Format der 15 amtlichen Navigationsaufgaben, übertragen auf unsere Karte.
-   - Ohne Hilfen, mit Zeitvorgabe nach amtlicher Regel.
-   - Bewertet wird nach dem Bewertungsschlüssel mit seinen Toleranzen.
-   - Am Ende: Punkte, Fehleranalyse und welche Lektion man wiederholen sollte.
-
-**Bedienung am Handy:**
-- Karte: mit zwei Fingern zoomen, mit einem Finger verschieben. Beim Ablesen hilft eine Lupe.
-- Kursdreieck: zum Verschieben ziehen, zum Drehen am Griff fassen.
-- Zirkel: zwei Punkte setzen.
-- Bleistift: Linien ziehen, mit Rückgängig-Knopf.
-- Rechenblatt: ein Feld zum Eintragen der Werte.
-
-**Fortschritt:** Erst wenn die Lektionen 1 bis 5 geschafft sind, darf man im Törn selbst Kurse absetzen.
-
-### 5.6 Törn-Light (einfachste Variante) – **ersetzt durch 5.14 (Törn 2.0), Umsetzung läuft**
-- **Start:** Man tippt an Deck aufs Steuer. Dann kommt die Frage „Tagesetappe starten oder fortsetzen?“.
-- **Ablauf:** Man sitzt im Cockpit und steuert nicht selbst. Das Boot fährt die Route auf der Navi-Karte, die Ansicht ist eine Cockpit-Szene mit kleiner Karte.
-- **Dauer:** Eine Etappe dauert 5 bis 10 Minuten. Tag und Nacht laufen über die Schiffszeit, das Wetter wechselt.
-- **Wahl:** Unter Segel (Kurs zum Wind, Wende und Halse als Entscheidung) oder unter Motor (Sprit).
-- **Ressourcen:** Proviant, Treibstoff, Crew-Laune und Bootszustand.
-  - Proviant verdient man durch tägliches Lernen.
-  - Wer eine Etappe abbricht, verliert Proviant.
-- **Ereignisse:** zufällig und passend zum Ort, zum Teil als Minispiel aus der Spielekiste:
-  - Anlegen im Zielhafen → Manöverspiel
-  - Ein Schiff kommt entgegen → Ausweichregel wählen
-  - Begegnung bei Nacht → Lichterspiel
-  - Nebel → Schallsignale
-  - Tonne umfahren → Tonnen-Slalom
-  - Motorproblem → Motorkunde
-  - Kontrolle durch die Wasserschutzpolizei → Papiere und Fragen
-  - Mensch über Bord
-  - Wetterumschwung → reffen
-  - Verkehrstrennungsgebiet queren
-  - Leuchtfeuer erkennen
-- **Am Ziel:** Logbucheintrag und Bewertung der Etappe.
-- **Später, optional:** selbst steuern von oben, wie bei GTA 2.
-
-### 5.7 Lexikon komplett
-- **Inhalte:** alle Lichter, Signalkörper, Tonnen und Betonnung, Schallsignale mit Ton, Flaggen, Tafelzeichen und Kartensymbole.
-- **Quelle:** Originalgrafiken aus den ELWIS-PDFs in `quellen/`, ausgeschnitten nach `img/lex/`.
-- **Aufbau:** nach Thema sortiert, mit Suche. Jeder Eintrag hat eine Bedeutung und eine Merkhilfe.
-- **Querverweise:** in beide Richtungen zwischen Lexikon und Fragen.
-- **Kurse:** SBF, SKS und Binnen.
-
-### 5.8 SBF Binnen
-- Dritter Kurs aus `quellen/Fragenkatalog Binnen.pdf`, mit Bildern.
-- Daten in `data/binnen.json`.
-- Prüfungsmodus nach amtlicher Regel.
-- Auswahl beim Kennenlernen erweitern.
-
-### 5.9 Begrüßungs-Moin
-- Ein richtig gezogenes „MOOOOOOOOIN“: Das O soll 2 bis 3 Sekunden klingen.
-- Prüfen, ob ElevenLabs lange Vokale kürzt. Wenn ja, eine Lösung finden, zum Beispiel eine andere Schreibweise, langsamere Wiedergabe nur dieses Clips oder einen eigenen Clip.
-- Der Satz kommt als fester Satz ins Stimmenpaket.
-
-### 5.10 Einführung beim ersten Öffnen
-- Jede Funktion bekommt beim ersten Öffnen eine kurze Einführung durch die Crew: Navigationsschule, Törn, Spielekiste, Lexikon, Prüfung, Hocker und jeder Schein.
-- Die Einführung dauert höchstens etwa 30 Sekunden, lässt sich überspringen und besteht aus festen Sätzen.
-- Im Spielstand wird pro Funktion gemerkt, ob sie schon lief.
-- In den Einstellungen gibt es „Einführungen erneut zeigen“.
-- Die Navigationsschule kommt zuerst dran.
-
-### 5.11 Navigationsschule prüfen und ergänzen
-- **Kritisch durchgehen wie ein strenger Prüfer.** Prüfpunkte:
-  - Rechnungen
-  - Vorzeichen bei Missweisung und Deviation
-  - Strom und Wind: „wohin“ statt „woher“
-  - Ablesung am Kursdreieck
-  - Distanz nur am Breitenrand
-  - Bedienbarkeit am Handy
-
-  Gefundene Fehler beheben und im Bericht auflisten.
-- **Lesbarkeit:** Die Kartenbeschriftung muss auch bei kleinem Zoom lesbar sein.
-- **SKS-Tiefe:** Doppelpeilung, Versegelungspeilung und eine Kartenaufgabe im SKS-Stil ergänzen.
-- **Toleranz:** Die ±10° bei kleinen Besteckversetzungen bleiben vorerst.
-
-### 5.12 Prüfer holt einen ab
-- Der Zugang über die Tür passt nicht und fällt weg.
-- Neu: Man bestellt Kapitän Harms per Telefon oder Funkgerät in der Kajüte. Alternativ bittet man Smilla oder den Käpt'n, ihn zu holen.
-- Harms kommt kurz herein, mit Animation und einem Spruch, und holt einen zur Prüfungssimulation ab.
-- Das Fernglas markiert den neuen Zugang.
-
-### 5.13 Funk und Pyro als eigene Scheine (Späterphase: nur Architektur jetzt)
-- **Vorbereitung:** Zuerst prüfen, was in `quellen/` liegt, zum Beispiel SRC, UBI oder FKN.
-- **Jeder Schein wird ein eigener Kurs** wie SBF, SKS und Binnen:
-  - Katalog und Themen
-  - Lernrunden
-  - Probeprüfung nach amtlicher Regel
-  - Lexikon-Einträge
-  - Auswahl beim Kennenlernen und unter „Schein wechseln“
-- **Übungen Funk:**
-  - Buchstabiertafel
-  - MAYDAY-, PAN-PAN- und SÉCURITÉ-Meldungen zusammensetzen
-  - Kanäle und DSC
-  - englische Standardsätze, nur soweit die Unterlagen das hergeben
-- **Übungen Pyro:** Signalmittel erkennen und richtig handhaben.
-- **Daten:** in `data/*.json`, nur bei Bedarf laden.
-
-### 5.14 Törn 2.0 (ersetzt den Törn-Light aus 5.6)
-Vorerst nur Wissen aus SBF See und SKS. Binnen, Funk und Pyro kommen später und sollen sich allein durch Hinzufügen von Daten einhängen lassen.
-
-**Architektur**
-- Eigene Datei `toern.js`, nur bei Bedarf geladen (wie `navi.js`). `index.html` wächst nicht.
-- `data/toerns.json`: Törns (Name, Stufe, Etappen, Route auf unserer Karte, typische Wetterlagen, empfohlene Scheine, empfohlene Ausrüstung).
-- `data/ereignisse.json`: alle Ereignisse datengetrieben (Auslöser: Fahrgebiet/Wetter/Tageszeit/Stufe; Reaktionszeit; Art Handlung oder Frage; Folgen bei richtig/falsch/zu spät; benötigte bzw. hilfreiche Ausrüstung).
-- `data/ausruestung.json`: verbaubare Teile und Verbrauchsgüter mit Wirkung und Preis.
-- `data/tags.json`: Situations-Tags für JEDE SBF- und SKS-Frage (z. B. nacht, nebel, fahrwasser, ausweichen, lichter, schallsignale, betonnung, motor, wetter, sicherheit, recht, navigation, manoever, seemannschaft). Automatisch über Themen und Stichwörter vergeben, Kataloge selbst nicht verändern. 50 Stichproben von Hand prüfen, Fehlerquote in den Bericht.
-- Neuer Schein später = Katalog taggen + in den Pool hängen, sonst nichts.
-
-**SKS als Multiple Choice (für Törn UND Lernrunden nutzbar)**
-- `data/sks-mc.json`: pro SKS-Frage drei Antworten: 1 richtige + 2 falsche.
-- Richtige Antwort: die amtliche Antwort, kurz gefasst (max. ca. 15 Wörter), ohne den Sinn zu verändern. Wenn sie sich nicht sinnvoll kürzen lässt: amtlichen Kern wörtlich übernehmen.
-- Falsche Antworten: „glaubwürdiger Humbug“ – klingt seemännisch plausibel, gleiche Länge und gleicher Stil wie die richtige, ist aber eindeutig falsch. Sie darf NICHT teilweise richtig sein und keine echte Regel verdrehen, die anderswo im Katalog richtig ist. Gern mit leisem Augenzwinkern, aber nicht albern.
-- Reihenfolge der Antworten zufällig. Nach der Antwort immer die volle amtliche Antwort zeigen.
-- Jede Frage einmal selbst gegen den Katalog prüfen. Fragen, bei denen sich keine eindeutig falschen Antworten bauen lassen, bekommen das Kennzeichen „nur offen“ und kommen im Törn ohne Zeitlimit als Aufdecken-und-selbst-bewerten. Anzahl im Bericht.
-- Die offizielle SKS-Probeprüfung bleibt mit freien Antworten wie bisher.
-
-**Ablauf**
-1. Steuerrad in der Detailansicht an Deck antippen → Törnauswahl. **Neu (Nutzer, 09.10.2026):** Es stehen immer die nächsten drei Törns der Liste zur Wahl; geschaffte werden abgehakt (Liste „Geschafft“, dort „Nochmal“) und der nächste rückt nach. Im Törn läuft keine Musik, nur Meer und Wetter. Pro Törn: Name, Stufe, Anzahl Etappen, ungefähre Dauer, empfohlene Scheine, empfohlene Ausrüstung. Ein laufender Törn steht oben als „Fortsetzen“.
-   Stufen: Landratte → Leichtmatrose → Seebär → Kap-Hoornier → Klabautermann.
-   Törns (eigenes Revier, darf ergänzt werden):
-   - Landratte: „Kaffee im Nachbarhafen“, „Fischbrötchen-Fahrt“, „Einmal um die Ansteuerungstonne“
-   - Leichtmatrose: „Zum Leuchtturmwirt“, „Mit der Tide ins Watt“, „Abendrot vor Kliev“
-   - Seebär: „Nachtfahrt nach Süderoog“, „Nebel über der Barre“, „Quer übers Fahrwasser“
-   - Kap-Hoornier: „Gegen Wind und Tide“, „Drei Tage Nordsee“, „Rund um die Inseln“
-   - Klabautermann: „Herbststurm-Überführung“, „Nacht, Nebel, Nordwest 7“, „Die Große Runde“
-2. Start: Bildschirm wird langsam schwarz und wieder hell, man „wacht an Bord auf“ (ab dem 2. Mal überspringbar).
-3. Erste Aufgabe jedes Törntags: Seewetterbericht lesen und entscheiden: auslaufen, verschieben oder anders planen (Motor statt Segel, Reff). Bei Schietwetter liegen bleiben ist richtig und gibt Punkte.
-4. Fahrt-Bildschirm:
-   - Oben: Blick vom Steuer nach vorn. Unten im Bild das Steuerrad, darüber ein einfacher Durchblick aufs Meer mit Bug, Vorsegel und Horizont. Objekte: Tonnen, Feuer, Lichter, Signalkörper, andere Schiffe, Land. Objekte tauchen am Horizont auf und wachsen mit der Nähe. Tag/Nacht, Wetter und Seegang sichtbar. Canvas, schlicht, flüssig auf Android.
-   - Unten: unsere Karte, folgt dem Boot.
-   - Anzeige: geschätzte Restzeit der Etappe, aktuelles Wetter, Prognose, Bootszustand, Proviant, Sprit, Bordkasse.
-   - Etappe = 5–8 Minuten aktives Spiel, hohe Aufgabendichte, keine Leerlaufstrecken. Lange Törns = mehrere Etappen über mehrere Tage.
-   - Pause/Fortsetzen jederzeit, auch mitten in der Etappe. App schließen = Pause, Stand bleibt.
-5. Wetter wechselt während des Törns und bringt eigene Aufgaben: Flaute (Motor/Sprit oder warten), Starkwind (reffen), hoher Seegang (Kurs zur Welle, Sicherheit), Nebel (Schallsignale, Fahrt anpassen), Gewitter, Böen. Wind wechselt täglich.
-6. Aufgaben:
-   - Zufällig, aber passend zu Fahrgebiet, Wetter und Tageszeit. Bevorzugt Themen, die der Nutzer noch schwach kann.
-   - Etwa 60 % Handlungen, 40 % Fragen (SBF-Ankreuzfragen und SKS-MC).
-   - Reaktionszeit hängt von der AUFGABE ab, nicht von der Stufe: Motorausfall im Fahrwasser = sehr kurz; Schiff am Horizont = länger. Richtwert 15–60 Sekunden.
-   - Schwierigkeit steigt über: Nacht, Nebel, kombinierte Ereignisse, weniger Hilfen, strengere Folgen.
-   - Inhalte nur aus den amtlichen Katalogen und `quellen/`. Keine Regel erfinden; die richtige Handlung muss der amtlichen Antwort entsprechen.
-
-**Sehen und Handeln** (sinnvoll mit einfachen Mitteln umsetzen)
-- Peilen nach Augenmaß: Eine feste Marke an Reling/Want im Bild. Bleibt ein fremdes Schiff an derselben Stelle der Marke stehen, während es näher kommt = Kollisionskurs. Knopf „Peilung nehmen“ (Handpeilkompass) zeigt die Gradzahl; nach einiger Zeit erneut peilen und vergleichen. Dann richtig reagieren nach KVR: Wer ist ausweichpflichtig, wie ausweichen (Ruder legen, deutlich und früh), passende Schallsignale.
-- Nachts sieht man nur Lichter: Fahrzeugart, Fahrtrichtung und Lage aus den Lichtern erkennen.
-- Fernglas-Knopf: kurz heranzoomen, um Toppzeichen, Farben, Signalkörper oder Flaggen zu erkennen – kostet aber Reaktionszeit.
-- Tonnen und Feuer blinken in ihrer echten Kennung (Rhythmus aus unserer Karte); man zählt und bestimmt sie und findet sie auf der Karte. Toppzeichen erst aus der Nähe erkennbar.
-- Signalkörper (Ball, Kegel, Zylinder, Rhombus) und Flaggen an anderen Fahrzeugen bei Tag.
-- Nebel: Bild wird grau, man hört nur Schallsignale – gern mit Stereo-Richtung (links/rechts, Hinweis „mit Kopfhörern besser“). Eigene Nebelsignale richtig geben.
-- Landmarken an der Küstensilhouette (Kirchturm, Leuchtturm) peilen → Standort auf der Karte bestimmen (nutzt die Navi-Werkzeuge).
-- Wind und Wetter lesen: Verklicker im Masttopp, Wellenkämme, Wolkenbild, fallendes Barometer als Vorwarnung.
-- Strom erkennen: Tonne liegt schräg im Strom, Kielwasser an der Tonne.
-- Echolot piept bei abnehmender Wassertiefe.
-- Funkverkehr als Text/Ton: Lagemeldung oder Sicherheitsmeldung der Verkehrszentrale, man zieht die richtige Konsequenz (nur Wissen aus SBF/SKS, keine SRC-Prüfungsinhalte).
-- Weitere Handlungen: reffen, Motorstörung nach Checkliste beheben, Mensch-über-Bord-Manöver, Anlegen (Manöverspiel), Rettungsmittel richtig einsetzen.
-- Die Crew ruft „Wahrschau!“ als Hinweis, auf leichteren Stufen früher.
-
-**Folgen, Ressourcen, Ausrüstung**
-- Bootszustand ist das Leben. Schwere Fehler: Seenot, Abschleppen oder Abbruch; dabei gehen Proviant und Bordkasse verloren. Abbruch kostet Proviant. Proviant gibt es durchs Lernen. Dazu Sprit und Crew-Laune.
-- Bordkasse (durch Lernen und Törns) zum Kaufen. Unterwegs findet man manchmal Gegenstände: verbaubar (z. B. Radarreflektor, UKW-Funk, Reffanlage, Kartenplotter, Autopilot, Rettungsinsel) oder Verbrauchsgut (z. B. Signalmittel, Ersatz-Impeller, Diesel, Proviant). Verbaute Teile sind in der langen Detailansicht des Bootes sichtbar. Ausrüstung macht bestimmte Ereignisse leichter oder überhaupt lösbar. Wenige, spürbare Gegenstände, kein Grind.
-
-**Nachbesprechung nach jeder Etappe**
-Sterne und Punkte, jeder Fehler mit kurzer Erklärung und Link ins Lexikon bzw. zur Frage, Eintrag im Törn-Logbuch. Falsch beantwortete Fragen fließen in die normale Wiederholung im Lernplan.
-
-**Balancing (messbar)**
-Testskript, das simulierte Spieler mit 40 %, 70 % und 95 % Trefferquote jede Stufe fahren lässt. Ziel: 40 % schafft nur Landratte zuverlässig, 70 % kommt bis Seebär, Klabautermann nur mit sehr hohem Wissen und guter Ausrüstung. Werte in den Bericht.
-
-**Ton und Stimme**
-Crew kommentiert witzig wie bisher. Alle wiederkehrenden Sätze sind feste Sätze ohne Namen fürs Stimmenpaket. Geräusche: Wind, Wellen, Motor, Alarm, Schallsignale.
-
-**Nicht jetzt, aber nicht verbauen**
-Echte Reviere als Pakete mit sehr groben, selbst gezeichneten Karten (z. B. Athen → Istanbul, Bornholm); selbst steuern von oben; Binnen, Funk und Pyro im Fragen-Pool.
-
-**Tests**
-Rauchtest erweitern: Törnauswahl, kompletter Landratte-Törn, Nachtereignis, Nebelereignis, Pause/Fortsetzen, SKS-MC-Runde, alter Spielstand lädt ohne Fehler. Hochformat 400×860, Konsole fehlerfrei.
-
-**Am Ende**
-§4 und §8 aktualisieren. Bericht im festen Format: erledigt / bewusst anders entschieden / offen / Handy-Checkliste / was ich übersehen könnte / Balancing-Werte / Tag-Stichprobe / Anzahl SKS-Fragen „nur offen“ / gefundene Navigationsfehler / neue feste Sätze fürs Stimmenpaket. Dann auf das OK zum Push warten.
-
-
-### 5.15 Technik
-- **Rauchtest-Skript im Repo** (`tests/smoke`):
-  - klickt alle Kurse und Hauptbereiche durch
-  - meldet Fehler in der Konsole
-  - läuft vor jedem Commit
-- **Dateigröße:** `index.html` darf nicht weiter wachsen. Neue Bereiche kommen in eigene Dateien, die bei Bedarf geladen werden, so wie `navi.js`.
-- **Feste Sätze:** Eine Liste aller neuen festen Sätze pflegen. Am Ende eines Laufs erzeugt der Nutzer das Stimmenpaket einmal. Liegt eine `stimmen.zip` im Repo-Ordner, wird sie nach `audio/stimmen/` eingebaut.
-
-## 6. Später (nicht in den Läufen 1 und 2)
-- **Cloudflare-Worker:**
-  - Die Keys liegen im Worker statt im Browser. Tester brauchen nur ein Passwort, ein Tageslimit schützt das Guthaben.
-  - Dazu eine Anleitung Schritt für Schritt für mich.
-  - Kommt vor dem Freundestest.
-- **Folgen** für SKS und Binnen, danach das Stimmenpaket aktualisieren.
-- **Unter Deck im Schnitt:** Räume nach und nach füllen. Alle Spiele bleiben vorerst in der Spielekiste.
-- **Funk und Pyro:** erst, wenn ich die Kataloge geliefert habe.
-
-## 7. Läufe
-**Lauf 1 (am Stück, ohne Zwischenstopp):** 5.1 → 5.2 → 5.3 → 5.4 → Easter-Eggs → 5.8 → 5.7
-
-Easter-Eggs:
-- Ziel: mindestens 10 neue, ein Teil davon raffiniert und nur in mehreren Schritten zu entdecken.
-- Ideen:
-  - Kompass, dazu ein Messer → Deviation
-  - Seewasserfilter mit Krabbe
-  - Barometer mit Wetterumschwung
-  - Nebelglocke, die antwortet
-  - Frachter mit Lichterführung bei Nacht
-  - Schlingerleiste in der Kombüse
-  - Angel mit Flaschenpost
-  - Glasen zur Schiffszeit
-  - Signalflaggen buchstabieren den Namen
-
-Am Ende von Lauf 1:
-- Abschnitt 4 und 8 aktualisieren.
-- Ein **gemeinsames Konzept für 5.5 und 5.6** auf höchstens 2 Seiten schreiben, mit Datenmodell, Kartenentwurf (als Bild) und Unteretappen.
-- Bericht schreiben, dann **Haltepunkt**: Push und Konzept-Freigabe durch mich.
-
-**Lauf 2 (am Stück):** 5.5 (Karte und Werkzeuge → Fibel → Lektionen → Prüfungsmodus) → 5.6
-
-Danach: Bericht, Push, Abschnitt 8 aktualisieren.
-
-**Bericht (immer gleich aufgebaut, kurz):**
-- erledigt
-- bewusst anders entschieden, mit Grund
-- offen
-- **Handy-Checkliste:** was ich selbst prüfen muss, z. B. Mikrofon und echte Stimmen
-- was ich übersehen könnte
-
-## 8. Status (von Claude Code gepflegt)
-- [x] E0 Start-Check (v4.9: Git ok, `data/` ausgelagert, `img/q/`, `quellen/` mit `.gitignore`)
-- [x] Kataloge in `data/` ausgelagert (seit v4.6)
-- [x] 5.1 Begrüßung mit Streit und Neustart (v4.10: Flag `introV5`, `?neustart`, bekannte Nutzer ohne neue Fragen)
-- [x] 5.2 Fernglas-Regel und Easter-Egg-Sammlung (v4.11: `EGGS`, `foundEgg`, `S.eggs`, Logbuch-Karte)
-- [x] 5.3 Spielekiste, Trophäen, Bestenliste, Rang (v4.12: `TROPHY`, `NPC_BEST`, `OVERTAKE`, `recordScore`, `rankInfo`, Raster mit `GAME_ART`)
-- [x] 5.4 Panorama mit zwei Ebenen und neuem langem Boot (v4.13: `longBoatScene`, `deckView`, `ovToDetail`, Knopf „Übersicht“)
-- [x] Easter-Eggs (v4.14: 11 neue, 29 insgesamt; `EGG_LINES`, `FLAG_ART`, `glasenNow`, `wxOverride`)
-- [x] 5.8 SBF Binnen (v4.15: `data/binnen.json` 300 Fragen, 70 Bilder in `img/b/`, `COURSES.binnen`, `BIN_TOPICS`, `BIN_EXAM` motor/segel, `S.binSegel`; SBF-See-Fragen 16–30 mit Bild freigeschaltet)
-- [x] 5.7 Lexikon komplett (v4.16: `data/lexikon.json` mit Kategorie, Merkhilfe, Tonmuster; `lexEntries`, `lexOf`, `lexSheet`, `sksRelated`; SBF 84, Binnen 79 Einträge)
-- [x] Konzept 5.5 und 5.6 freigegeben (04.10.2026, inkl. Vorschläge zu Toleranzen und Zeit; `docs/konzept-navi-toern.md`)
-- [x] Lauf 1 abgeschlossen und gepusht (v4.10–v4.16)
-- [x] Lauf 2 abgeschlossen und gepusht (v4.17–v4.23)
-- [x] 5.5 Navigationsschule
-  - [x] 5.5e Prüfungsmodus (v4.21: `NAV.exam`, 25 min, Fehleranalyse mit Lektionsempfehlung, `S.navi.pruef`; Teil 3 der SBF-Probeprüfung nutzt ihn)
-  - [x] 5.5d Lektionen 6–9 (v4.20: Strom/Vorhalten, Wind/Abdrift, Gezeiten, Gesamtaufgabe `GEN.gesamt` + `NAV.multi`, Zeichnungen bleiben über die Schritte)
-  - [x] 5.5c Lektionen 1–5 (v4.19: `GEN` mit 14 Aufgabentypen, `NAV.task` Übungsmaschine, `grade` mit Toleranzen, `NAV.path/lesson/exercise`, Meisterschaft → `S.navi.lek[id].sterne`)
-  - [x] 5.5b Navi-Fibel (v4.18: 23 Begriffe in `data/navi.json`, `NAV.fibel`, `NAV.term`, `NAV.linkTerms` macht Begriffe überall antippbar)
-  - [x] 5.5a Karte und Werkzeuge (v4.17: `navi.js` nachgeladen, `data/karte.json`, Mercator, Zoom, Lupe, Kursdreieck mit Gradbogen, Zirkel, Bleistift, Rechenblatt)
-- [x] Architektur-Lauf (v4.24–v4.31, 05.10.2026, Konzept `docs/konzept-architektur.md`)
-  - [x] A1 KI-Schalter, gelbe Kostenknöpfe, keine automatischen KI-Aufrufe, Tageszähler (v4.24)
-  - [x] A3 Stimmenpaket: feste Stimmen, alle Crews, Export, Import- und Erzeugungs-Skript, eigene Folgen bleiben (v4.25)
-  - [x] A4 Offline: lokale Schriften, Offline-Vorrat, versionierter Medien-Speicher (v4.26)
-  - [x] A5 Zurück-Taste, ruhigeres Zuhören im Gespräch (v4.27)
-  - [x] A2 Fragekarten: SBF 285, Binnen 228, SKS 635 (v4.28–v4.31)
-  - [x] Kostenknöpfe grau wie „ausgegraut“ statt gelb, weil Gelb schon für Hauptknöpfe genutzt wird (v4.32, Wunsch des Nutzers)
-  - [x] Gepusht auf `claude/sweet-cori-fklbww` (live erst nach Übernahme in `main`)
-- **Entscheidungen des Nutzers (05.10.2026):** Konten mit Supabase. Stimmenpaket erst erzeugen, wenn der Nutzer die Podcastfolgen überarbeitet hat, dann in bester verfügbarer Qualität. Kostenknöpfe grau (siehe v4.32).
-- **Offene Entscheidungen (noch nicht beantwortet):**
-  - Stimmenqualität: „die beste mögliche 3“ wurde als hohe Qualität verstanden (Multilingual v2). **Bitte bestätigen.** Ob ElevenLabs inzwischen ein besseres Modell hat, wird vor der Erzeugung geprüft.
-  - „Weiter“-Knöpfe (gelb-orange, ohne Kosten): nicht geändert. **Umfärben ja/nein?**
-  - Altersfreigabe im Store: Der Ton ist FSK 18, du hast ihn für 14-Jährige als in Ordnung bezeichnet. Store-Einstufung (Apple/Google) noch offen. Entscheidung vor dem Store.
-  - Tageslimit pro Konto: `KI_LIMIT` steht auf 0 (keine Grenze). Zahl für Fragen, Gespräche und Stimmen pro Tag fehlt.
-- **Muss vor dem Store umgesetzt werden (aus dem Konzept, bisher nur dort):**
-  - Datenschutz-Einwilligung vor der ersten KI-Nutzung (Pflicht für den Store).
-  - Konto-Löschung in der App (Apple verlangt sie).
-  - Datenschutzerklärung als Seite.
-- **Nicht auf einem echten Handy getestet.** Handy-Checkliste:
-  - Mikrofon im Gespräch (Freihand und Tippen), Redepause, ob die Crew den Satz hört
-  - Zurück-Taste in der installierten App und im Browser
-  - Offline: App-Start ohne Netz, Bilder, Töne, Schriften
-  - Stimmen: ElevenLabs-Stimme oder Handystimme, Lautstärke, Abspielen der Kostenknöpfe bei KI aus
-  - Kostenknöpfe grau, verschwinden bei KI aus
-  - Zurück-Taste im Quiz, in der Karte und in den Einstellungen
-- **Werkzeuge nur als Trockenlauf geprüft:** `tools/stimmenpaket.js` ist noch nie mit echtem Schlüssel gelaufen. Erst mit der Freigabe der Podcastfolgen.
-- **Lauf 3 (Nachtrag, eingearbeitet 08.10.2026):** Plan und Unteretappen in `docs/lauf3-plan.md`. Funk und Pyro später, nur Schein-Architektur jetzt.
-- [x] **Törn 2.0 (Lauf 4, Konzept 5.14)** (v4.33–v4.34, Plan `docs/toern2-plan.md`)
-  - [x] T1 Tags (920 Fragen; Stichprobe 14 % → 10 % Fehler, systematische Fehler korrigiert)
-  - [x] T2 SKS-MC (613 Multiple Choice, 22 nur offen)
-  - [x] T3 Daten (5 Stufen, 15 Törns, 38 Ereignisse, 13 Ausrüstungsteile)
-  - [x] T4 `toern.js` mit Sicht vom Steuer, Aufgaben, Wetter, Ausrüstung, Pause, Nachbesprechung
-  - [x] T5 SKS-Ankreuzrunde in der Lernrunde
-  - [x] T6 Balancing (alle Ziele erreicht)
-  - [x] T7 altes Gerüst entfernt, Rauchtest `tests/smoke/rauchtest.js`
-  - [x] v4.35: Törnliste zeigt drei offene Törns, geschaffte abgehakt; keine Musik im Törn; Steuerrad statt Pinne an Deck (Übersicht, Nahansicht, Bauteile-Spiel)
-  - Offen: Standortbestimmung per Landmarken-Peilung als Aufgabe, Funk-Lagemeldungen als eigene Aufgabe, eigene Geräusche für Wind/Alarm (heute vorhandene Klänge), echte Handyprüfung
-- **Offen (Reihenfolge):**
-  1. Übernahme in `main`, damit GitHub Pages die neue Version zeigt
-  2. A6 Konten und Server mit Supabase (freigegeben), danach KI-Tageslimit auf dem Server
-  3. Stimmenpaket: **erst nach der Überarbeitung der Podcastfolgen durch den Nutzer**, dann in bester Qualität (Handy-ZIP oder `tools/stimmenpaket.js` mit Secret `ELEVENLABS_API_KEY` und Freigabe von `api.elevenlabs.io`)
-  4. Folgen für SKS und Binnen, danach das Stimmenpaket ergänzen
-  5. Capacitor, Datenschutz, Store, Skins mit Käufen
-  6. Unter Deck im Schnitt; Funk und Pyro (warten auf Kataloge)
-  7. Datenfehler prüfen (Originalkatalog): SBF 279 (doppelte Antwort), SBF 285 und Binnen 253 (angehängter PDF-Text), SKS nav-92 (Antwort leer), recht-23 (Frage abgeschnitten), „Stand: 01. Juli 2006“-Reste in SKS-Antworten
-  8. Widerspruch: 5.7 nennt `img/lex/`, den Ordner gibt es nicht (das Lexikon nutzt `img/q/` und `img/b/`)
-- [x] Lauf 3 (Nachtrag, v4.35–v4.42, Stand in `docs/lauf3-plan.md`)
-  - [x] L3a 5.9 Moin (v4.37: `MOIN_LANG` „Mooooooooin!“ als fester Satz, Clip wird mit `playBlob(…, dehnen)` auf 0,8× gedehnt, Tonhöhe bleibt; Handy-Test durch den Nutzer offen)
-  - [x] L3b 5.4 zwei Ansichten (v4.36: Übersicht ohne Wischen mit großem „An Bord gehen“, Rennen aller Scheine `courseCard` mit `COURSE_COLOR`, `passChanceFor`, Zielflaggen je Prüfungsdatum; Nahansicht nur Deck (viewBox 0 30 1200 305), Start zwischen Niedergang und Steuerrad, Wasser-Eggs hinter dem Boot)
-  - [x] L3c 5.10 Einführungen (v4.38: `data/einfuehrungen.json`, `einfuehrung(id)` mit Kasten und festen Sätzen, `S.intros[id]`, Knopf „Einführungen erneut zeigen“; Kartentisch, Törn, Spielekiste, Lexikon, Probeprüfung, Hocker und Schein-Wechsel)
-  - [x] L3d 5.11 Navi-Prüfung und SKS-Navi (v4.39: Rechenproben ohne Fehler; Beschriftung wächst beim Herauszoomen mit (`--lz`), Kennungen und Tiefen erst ab mittlerem Zoom; Folgefehler in der Gesamtaufgabe (`folge`); Ablenkungstabelle passt ins Hochformat; neu L10 „SKS: Peilverfahren“ (`versegelung`, `doppel`, `peilAbstand`) und L11 „SKS: Kartenaufgabe“ (`sksGesamt`, 5 von 7); Fibel +2 Begriffe)
-  - [x] L3e 5.12 Prüfer holt ab (v4.40: altes Telefon an der Kajütenwand, Spot `telefon` (Fernglas), Freizeichen `AUD.tuut`, `harmsKommt(via)` mit Klopfen, Tür, Spruch `HARMS`; Käpt'n und Matrose/Matrosin können ihn im Menü holen; Tür-Zugang entfernt)
-  - [x] L3f 5.13 Schein-Auswahl (v4.41: `COURSES_SOON` mit Funk und Pyro, ausgegraut „kommt bald“ in `courseSheet` und beiden Kennenlern-Abfragen; Weg für neue Scheine im Kommentar an `COURSES_SOON`)
-  - [x] L3g 5.15 Technik und Rauchtest (v4.42: `tests/smoke/rauchtest.js` mit 22 Schritten, `.githooks/pre-commit` (einmalig `git config core.hooksPath .githooks`), `docs/feste-saetze.md` gepflegt, `stimmen.zip` im Repo-Ordner wird von `tools/stimmen-import.js` eingebaut)
-- [x] 5.6 Törn-Light (v4.22–4.23; seit v4.33 durch Törn 2.0 ersetzt, Code aus navi.js entfernt)
-  - [x] 5.6a Gerüst: Start am Steuer (`NAV.toernStart`), 4 Etappen `ETAPPEN`, Cockpit-Szene, Mini-Karte folgt dem Boot, Segel/Motor, Kreuzen am Wind, Spielstand `S.toern` (fortsetzen)
-  - [x] 5.6b Ereignisse: Tonne, VTG, Begegnung (KVR), Nacht/Lichter, Nebel, Motor, Böe, MOB, Feuer, Polizei (Quiz), Anlegen; Wende/Halse-Entscheidung; Kurse selbst absetzen ab Sternen L1–L5
-  - [x] 5.6c Ressourcen (Proviant aus Lerntagen, Sprit, Laune, Boot), Abbruch kostet Proviant, Ankunft mit Sternen, Törn-Logbuch
+### Erledigt (Kurzfassung, Details in `docs/archiv/claude-v3.md`)
+- [x] Läufe 1–2 (v4.10–v4.23): Intro mit Streit, Fernglas, Spielekiste mit Trophäen, Easter-Eggs (29), SBF Binnen, Lexikon, Navigationsschule (Karte, Fibel, Lektionen 1–9, Prüfungsmodus)
+- [x] Architektur-Lauf (v4.24–v4.32): KI-Schalter, graue Kostenknöpfe, Stimmenpaket-Technik, Offline, Zurück-Taste, Fragekarten
+- [x] Törn 2.0 (v4.33–v4.35): Sicht vom Steuer, 15 Törns, Aufgaben, Wetter, Ausrüstung, SKS-Ankreuzfragen, Balancing, drei offene Törns in der Liste
+- [x] Lauf 3 (v4.36–v4.42): Übersicht mit Rennen aller Scheine, gezogenes Moin, Einführungen, Navi-Prüfung mit SKS-Lektionen L10/L11, Telefon für Harms, Funk/Pyro ausgegraut, Rauchtest vor jedem Commit
+- [x] v4.42: Brief neu gefasst (Version 4), alte Fassung archiviert
