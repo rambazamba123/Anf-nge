@@ -145,7 +145,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Kurzrunde von 30–60 Sekunden. Gutes Ergebnis = mehr Ertrag (Bordkasse, Proviant), schlechtes kostet kaum etwas.
   - Zählt nicht für Rekorde.
 - ✓ **V15 Musik im ganzen Törn gesperrt:** auch in Minispielen, Ankreuz-Runde, Laden und Logbuch. Meer, Wind, Motor und Signale bleiben.
-- ◐ **V16 Kleinere Reste** (Claude entscheidet): Standort per Landmarken-Peilung, Lagemeldung der Verkehrszentrale, eigene Geräusche für Wind und Alarm.
+- ✓ **V16 Kleinere Reste** (Claude entscheidet): Standort per Landmarken-Peilung, Lagemeldung der Verkehrszentrale, eigene Geräusche für Wind und Alarm.
 
 **Block E: Veröffentlichung**
 - ✓ **V17 Lizenzen klären** (§5): Der Nutzer liefert die Herkunft von L1, L4 und L5. Claude ergänzt `fonts/OFL.txt` und eine Seite „Über die App“ mit Quellen.
@@ -279,11 +279,12 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.60 V16 Törn-Reste (teilweise): zwei Funk-Ereignisse aus amtlichen Fragen: Verkehrszentrale funkt (SBF 158), treibender Container melden (SKS recht-98), UKW-Funk hilft; Balancing weiter erfüllt. Offen: Standort per Landmarken-Peilung, eigene Wind-/Alarmgeräusche.
 - [x] v4.61 Korrekturen nach Handy-Test: Eggs an Deck wieder anklickbar (alte CSS-Sperre aus der Zwei-Ansichten-Zeit entfernt, Rauchtest jetzt mit echten Klicks); Einwilligung schon beim Start, wenn ein Schlüssel eingetragen ist (sonst kam statt Stimme der Ersatzton); Einführungskasten bleibt lange genug zum Lesen; Knoten ohne die falschen Zeichnungen (Spiel: Wofür und Reihenfolge); Stimmenpaket am Handy: Knopf „Teil 1 erzeugen“, immer hohe Qualität, ZIP darf in den Hauptordner
 - [x] v4.62 V6 Stimmenpaket Teil 1 eingebaut: 359 Sätze (alle 323 festen Sätze plus 36 schon gehörte), 18 MB, Stimmen für Hinnerk, Smilla, Klabauter und Harms festgelegt; ZIPs aus dem Repo entfernt
+- [x] v4.63 Törn: Schiffe von der Seite erscheinen jetzt im Bild (vorher bei 45–65° außerhalb), Fernglas schwenkt auf das Fahrzeug der Aufgabe (`F.fernZiel`, `aim`); V16 fertig: Kartenaufgabe „Wo sind wir?“ (Kreuzpeilung zweier Landmarken, `gen: 'standort'`, ab Stufe 2, 14 von 26 Etappen), eigene Geräusche `AUD.alarm` (Piepen bei Motor- und Bilgealarm) und `AUD.boe` (Bö und Gewitter), im Code erzeugt
 ### Jetzt dran
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
 - **V12 Knotenbilder:** Weg entscheiden (eigene Fotos, Wikimedia-Grafiken mit Namensnennung oder Link nach außen).
-- Offen aus V16: Standort per Landmarken-Peilung, eigene Wind- und Alarmgeräusche. Danach V8 (Folgen) nach der Überarbeitung durch den Nutzer.
+- V8 (Folgen) nach der Überarbeitung durch den Nutzer. V20: Handy-Checkliste mit dem Nutzer.
 
 ### Entscheidungen
 - **E1 Altersfreigabe:** ab 12 (Nutzer, 09.10.2026). Ton siehe §3 und V3.

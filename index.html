@@ -508,7 +508,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.62';
+  window.__ver = '4.63';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1399,7 +1399,25 @@ const AUD = (() => {
     for (let i = 0; i < n; i++) { const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = 425; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.18, t + .03); g.gain.setValueAtTime(.18, t + 1); g.gain.linearRampToValueAtTime(0, t + 1.05); o.connect(g); g.connect(bus.sfx); o.start(t); o.stop(t + 1.1); t += 2.2; }
     return new Promise(r => setTimeout(r, (t - ctx.currentTime) * 1000));
   }
-  return {files: FILES, hush, squeak, crash, tuut, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  /* V16: eigene Geräusche, im Code erzeugt (keine Lizenzfrage) */
+  /* Alarm: schnelles Doppelpiepen, n Mal (Motoralarm, Bilgealarm) */
+  function alarm(n = 6, vol = .14) {
+    init(); if (!ctx) return;
+    let t = ctx.currentTime + .05;
+    for (let i = 0; i < n * 2; i++) { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'square'; o.frequency.value = i % 2 ? 2350 : 2800; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .01); g.gain.setValueAtTime(vol, t + .12); g.gain.linearRampToValueAtTime(0, t + .14); o.connect(g); g.connect(bus.sfx); o.start(t); o.stop(t + .16); t += i % 2 ? .45 : .18; }
+  }
+  /* Bö: gefiltertes Rauschen, das an- und abschwillt (dazu der Wind aus der Datei) */
+  function boe(dur = 5, vol = .35) {
+    init(); if (!ctx) return;
+    const len = ctx.sampleRate * dur, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0); let last = 0;
+    for (let i = 0; i < len; i++) { last = (last + .04 * (Math.random() * 2 - 1)) / 1.04; d[i] = last * 3.2; }
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(), t = ctx.currentTime; s.buffer = b; f.type = 'bandpass'; f.Q.value = .8;
+    f.frequency.setValueAtTime(300, t); f.frequency.linearRampToValueAtTime(900, t + dur * .4); f.frequency.linearRampToValueAtTime(350, t + dur);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + dur * .35); g.gain.linearRampToValueAtTime(vol * .6, t + dur * .6); g.gain.linearRampToValueAtTime(0, t + dur);
+    s.connect(f); f.connect(g); g.connect(bus.sfx); s.start(t); s.stop(t + dur);
+    sfx('wind', {vol: vol * 1.2, dur: Math.min(dur, 6)});
+  }
+  return {files: FILES, hush, squeak, crash, tuut, alarm, boe, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>

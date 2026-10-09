@@ -106,6 +106,16 @@ core.genKandidaten = (D, c) => {
   }
   /* Kurse selbst absetzen (erst mit Sternen in Lektion 1–5, CLAUDE.md 5.5): an Kursänderungspunkten */
   if (c.kursSelbst) { const L = geo.len(wp); let acc = 0; for (let k = 1; k < wp.length - 1 && k <= 2; k++) { acc += geo.kd(wp[k - 1], wp[k]).d; out.push({gen: 'kurs', leg: k, f: Math.min(.9, acc / L + .02)}); } }
+  /* V16: Standort per Kreuzpeilung zweier Landmarken (ab Stufe 2), wenn zwei in Sicht sind und sich gut schneiden */
+  if (c.si >= 1 && !nacht) {
+    const LM = ((D.K && D.K.objekte) || []).filter(o => ['turm', 'kirche', 'mast'].includes(o.typ));
+    for (const f of [.3, .45, .6, .75]) {
+      const p = geo.at(wp, f), pp = [p.lat, p.lon], nah = LM.map(o => ({o, kd: geo.kd(pp, [o.lat, o.lon])})).filter(x => x.kd.d < 12 && x.kd.d > .6);
+      let best = null;
+      for (let i = 0; i < nah.length; i++) for (let j = i + 1; j < nah.length; j++) { const w = Math.abs(((nah[i].kd.k - nah[j].kd.k + 540) % 360) - 180); if (w > 30 && w < 150 && (!best || Math.abs(w - 90) < best.w)) best = {w: Math.abs(w - 90), lm: [nah[i].o.id, nah[j].o.id]}; }
+      if (best) { out.push({gen: 'standort', lm: best.lm, f}); break; }
+    }
+  }
   if (nacht) out.push({gen: 'lichter'}, {gen: 'lichter'});
   else out.push({gen: 'signalkoerper'});
   if (['fluss', 'kueste'].includes(c.gebiet) && c.si >= 1) out.push({gen: 'strom'});
@@ -457,7 +467,12 @@ function fahrt() {
   F.ctl.st.lines = e.wp.slice(1).map((p, k) => ({a: NAV.proj(e.wp[k][0], e.wp[k][1]), b: NAV.proj(p[0], p[1]), c: 'soll'})); F.ctl.ink(); F.ctl.tipText('');
   /* Ton */
   AUD.weather(audWx(), dayAt(), 'deck'); if (L.antrieb === 'motor') AUD.loop('motorLauf', .22);
-  $('#twfern').onclick = () => { F.fern = performance.now(); AUD.click(); };
+  $('#twfern').onclick = () => {
+    /* Fernglas richtet sich auf das Fahrzeug der aktuellen Aufgabe, sonst aufs nächste Schiff in Sicht */
+    const ci = F.L.card && F.L.card.idx, sh = F.scene.filter(q => q.k === 'schiff' && !q.weg);
+    F.fernZiel = sh.find(q => q.idx === ci) || sh.sort((a, b) => Math.abs(a.rb) - Math.abs(b.rb))[0] || null;
+    F.fern = performance.now(); AUD.click();
+  };
   $('#twpeil').onclick = () => peilen();
   $('#twhorn').onclick = () => { if (F.card && F.card.signal) return; AUD.horn('●'); };
   $('#twpause').onclick = () => pause();
@@ -523,7 +538,7 @@ function vorbereiten(idx) {
   const sz = task.typ === 'ev' ? d.szene || {} : {};
   const now = performance.now() / 1000, dur = 6 * F.st.hilfe + 4 + core.zeit(D, task, ctxFor(L));
   const ship = (fz, von, extra = {}) => {
-    const rb0 = von === 'stb' ? 45 + R() * 20 : von === 'bb' ? -45 - R() * 20 : von === 'voraus' ? (R() - .5) * 10 : 160;
+    const rb0 = von === 'stb' ? 18 + R() * 12 : von === 'bb' ? -18 - R() * 12 : von === 'voraus' ? (R() - .5) * 10 : 160;
     const fog = L.wx === 'nebel';
     F.scene.push({k: 'schiff', idx, fz, rb: rb0, d0: fog ? .5 : extra.nah ? .9 : 2.2, d1: extra.kollision ? .12 : fog ? .22 : .45, t0: now, dur, drift: extra.drift || 0, aspect: extra.aspect || (von === 'stb' ? 'rot' : von === 'bb' ? 'gruen' : extra.gegen ? 'beide' : 'heck'), blau: extra.blau, ...extra});
   };
@@ -532,6 +547,8 @@ function vorbereiten(idx) {
     if (sz.typ === 'vtg') for (let i = 0; i < 3; i++) F.scene.push({k: 'schiff', idx, fz: 'motor50', rb: -30 + i * 25, d0: 3 + i * .6, d1: 2.6 + i * .5, t0: now, dur: 60, drift: 20, aspect: 'rot'});
     if (sz.typ && sz.typ !== 'schiff') F.scene.push({k: sz.typ, idx, t0: now, dur, pan: sz.pan || 0, horn: sz.horn, glocke: sz.glocke});
     if (sz.horn) setTimeout(() => AUD.horn(sz.horn, null, sz.pan || 0), 600);
+    if (sz.typ === 'alarm' && AUD.alarm) AUD.alarm(6);
+    if ((sz.typ === 'boe' || sz.typ === 'gewitter') && AUD.boe) AUD.boe(sz.typ === 'boe' ? 5 : 7, .4);
     if (sz.glocke) { const ring = () => AUD.sfx('glocke', {vol: .5, pan: sz.pan || 0, dur: 2.5}); ring(); setTimeout(ring, 3000); }
     if (d.wxNeu) { L.wx = d.wxNeu; if (d.wxNeu === 'sturm') L.bft = Math.max(L.bft, 7); if (d.wxNeu === 'windig') L.bft = Math.max(L.bft, 5); if (d.wxNeu === 'flaute') L.bft = 1; if (d.wxNeu === 'nebel') L.bft = Math.min(L.bft, 3); AUD.weather(audWx(), dayAt(), 'deck'); }
   }
@@ -748,6 +765,14 @@ function genAufgabe(task) {
     return {titel: 'Kurs selbst absetzen', q: `Gleich ändern wir den Kurs. In der Karte misst du für den nächsten Abschnitt <b>rwK ${fd(rwK)}</b>. Missweisung ${NAV.fmtSigned(mw)} (${K.mw.dir === 'E' ? 'Ost' : 'West'}), Ablenkung laut Tabelle ${NAV.fmtSigned(abl)}. Welchen Magnetkompasskurs (MgK) steuerst du?`, opts, ok: 0,
       expl: `rwK ${fd(rwK)} − Mw (${NAV.fmtSigned(mw)}) = mwK ${fd(mwK)}; mwK − Abl (${NAV.fmtSigned(abl)}) = MgK ${fd(mgK)}. Östliche Werte zieht man auf dem Weg von rw nach Mg ab.`};
   }
+  if (g === 'standort') {
+    const p = posNow(), lm = (task.lm || []).map(OBJ).filter(Boolean); if (lm.length < 2) return null;
+    const fd = v => String(Math.round(n360(v)) % 360).padStart(3, '0') + '°', pb = lm.map(o => fd(geo.kd([p.lat, p.lon], [o.lat, o.lon]).k));
+    const off = (d, w) => ({lat: p.lat + d * Math.cos(w * RAD), lon: p.lon + d * Math.sin(w * RAD) / geo.cos(p.lat)}), w0 = Math.random() * 360;
+    const opts = [p, off(1.6, w0), off(2.2, w0 + 120), off(1.9, w0 + 240)].map(x => NAV.fmtPos(x));
+    return {titel: 'Wo sind wir?', q: `Der Käpt'n will den Standort wissen. Du peilst <b>${esc(lm[0].id)}</b> in <b>${pb[0]}</b> und <b>${esc(lm[1].id)}</b> in <b>${pb[1]}</b> (rechtweisend). Zeichne beide Peilungen in die Karte: Wo schneiden sie sich?`, opts, ok: 0,
+      expl: `Kreuzpeilung: Durch jede Landmarke die Gegenpeilung (Peilung ± 180°) in die Karte zeichnen. Der Schnittpunkt der beiden Standlinien ist der beobachtete Ort, hier ${NAV.fmtPos(p)}. Am besten schneiden sich Standlinien um 90°.`};
+  }
   if (g === 'strom') {
     const o = OBJ(task.obj), rw = task.rw != null ? task.rw : 90, wohin = core.richtung(rw, true), gegen = core.richtung(rw + 180, true), quer = core.richtung(rw + 90, true);
     return {titel: 'Strom an der Tonne', q: `Die Tonne <b>${o.id}</b> liegt schräg, ihr Kielwasser zieht nach <b>${wohin}</b>. Wohin setzt der Strom?`, opts: [`Nach ${wohin}`, `Nach ${gegen}`, `Nach ${quer}`, 'Das kann man an einer Tonne nicht sehen'], ok: 0,
@@ -893,7 +918,7 @@ function draw(time, dt) {
   const Hd = F.heading, fernOn = performance.now() - F.fern < 3500, fov = fernOn ? 22 : 70, zoom = 70 / fov;
   const roll = Math.sin(time * .9) * (0.6 + bft * .45), pitch = Math.sin(time * 1.3) * (1 + bft * .7);
   const hy = H * .40 + pitch, dyDeck = H * .80;
-  const X = rb => W / 2 + rb / (fov / 2) * (W / 2), Y = d => hy + (dyDeck - hy) * Math.min(1.1, .1 / (d + .07));
+  const aim = fernOn && F.fernZiel ? clamp(rbOf(F.fernZiel, time), -60, 60) : 0, X = rb => W / 2 + (rb - aim) / (fov / 2) * (W / 2), Y = d => hy + (dyDeck - hy) * Math.min(1.1, .1 / (d + .07));
   cx.save(); cx.translate(W / 2, H * .8); cx.rotate(roll * RAD); cx.translate(-W / 2, -H * .8);
   /* Himmel */
   let g = cx.createLinearGradient(0, -20, 0, hy); g.addColorStop(0, pal.skyT); g.addColorStop(1, pal.skyB); cx.fillStyle = g; cx.fillRect(-40, -40, W + 80, hy + 41);
@@ -903,14 +928,14 @@ function draw(time, dt) {
   const sightLand = nebel ? .5 : nacht ? 9 : 14;
   if (!F.land || time - F.landT > .5) {
     F.landT = time; F.land = []; const px = p.lon * CL, py = p.lat;
-    for (let i = 0; i <= 48; i++) { const rb = -fov / 2 - 4 + (fov + 8) * i / 48; F.land.push({rb, d: rayLand(px, py, n360(Hd + rb))}); }
+    for (let i = 0; i <= 48; i++) { const rb = aim - fov / 2 - 4 + (fov + 8) * i / 48; F.land.push({rb, d: rayLand(px, py, n360(Hd + rb))}); }
   }
   cx.fillStyle = pal.land; cx.beginPath(); cx.moveTo(X(F.land[0].rb), hy);
   F.land.forEach(l => { const h = l.d < sightLand ? Math.min(46, 30 / (l.d + .5)) * zoom * .6 + 2 : 0; cx.lineTo(X(l.rb), hy - h); });
   cx.lineTo(X(F.land[F.land.length - 1].rb), hy); cx.closePath(); cx.fill();
   /* Landmarken: Leuchtturm, Kirchturm, Funkmast */
   const near = [];
-  for (const o of K.objekte) { const kd = geo.kd([p.lat, p.lon], [o.lat, o.lon]); const rb = ((kd.k - Hd + 540) % 360) - 180; if (Math.abs(rb) < fov / 2 + 4) near.push({o, rb, d: kd.d}); }
+  for (const o of K.objekte) { const kd = geo.kd([p.lat, p.lon], [o.lat, o.lon]); const rb = ((kd.k - Hd + 540) % 360) - 180; if (Math.abs(rb - aim) < fov / 2 + 4) near.push({o, rb, d: kd.d}); }
   near.filter(n => ['turm', 'kirche', 'mast'].includes(n.o.typ) && n.d < (nacht ? 16 : sightLand)).forEach(n => {
     const x = X(n.rb), hgt = Math.min(60, 40 / (n.d + .6)) * zoom * .7 + 4;
     if (!nacht && !nebel) { cx.fillStyle = n.o.typ === 'turm' ? '#c2473b' : n.o.typ === 'kirche' ? '#6b5a4a' : '#555'; if (n.o.typ === 'mast') { cx.fillRect(x - .8, hy - hgt * 1.4, 1.6, hgt * 1.4); } else { cx.fillRect(x - 2.5, hy - hgt, 5, hgt); if (n.o.typ === 'kirche') { cx.beginPath(); cx.moveTo(x - 3, hy - hgt); cx.lineTo(x, hy - hgt - 8); cx.lineTo(x + 3, hy - hgt); cx.fill(); } else { cx.fillStyle = '#fff'; cx.fillRect(x - 2.5, hy - hgt * .6, 5, hgt * .15); } } }
@@ -932,12 +957,12 @@ function draw(time, dt) {
   });
   /* Ziel-Hafen: Mole am Ende */
   const etappe = F.e, ziel = D.orte[etappe.nach];
-  if (ziel && ziel.hafen) { const kd = geo.kd([p.lat, p.lon], ziel.pos), rb = ((kd.k - Hd + 540) % 360) - 180; if (kd.d < (nebel ? .5 : 3) && Math.abs(rb) < fov / 2 + 5) { const x = X(rb), y = Y(kd.d), s = 10 / (kd.d + .2) * zoom * .5; cx.fillStyle = nacht ? '#0d1520' : '#8b8378'; cx.fillRect(x - s * 3, y - s * .6, s * 2.4, s * .6); cx.fillRect(x + s * .6, y - s * .6, s * 2.4, s * .6); if (lightOn('Iso R 4s', time) && (nacht || day === 'abend')) { glow(x - s * .7, y - s, 2.5, '#ff5a4a', 9); } if (lightOn('Iso G 4s', time + 1) && (nacht || day === 'abend')) glow(x + s * .7, y - s, 2.5, '#5dff7a', 9); } }
+  if (ziel && ziel.hafen) { const kd = geo.kd([p.lat, p.lon], ziel.pos), rb = ((kd.k - Hd + 540) % 360) - 180; if (kd.d < (nebel ? .5 : 3) && Math.abs(rb - aim) < fov / 2 + 5) { const x = X(rb), y = Y(kd.d), s = 10 / (kd.d + .2) * zoom * .5; cx.fillStyle = nacht ? '#0d1520' : '#8b8378'; cx.fillRect(x - s * 3, y - s * .6, s * 2.4, s * .6); cx.fillRect(x + s * .6, y - s * .6, s * 2.4, s * .6); if (lightOn('Iso R 4s', time) && (nacht || day === 'abend')) { glow(x - s * .7, y - s, 2.5, '#ff5a4a', 9); } if (lightOn('Iso G 4s', time + 1) && (nacht || day === 'abend')) glow(x + s * .7, y - s, 2.5, '#5dff7a', 9); } }
   /* Schiffe und Szenen der Aufgaben */
   const now = time;
   F.scene = F.scene.filter(s => !s.weg || now - s.weg < 6);
   F.scene.filter(s => s.k === 'schiff').map(s => ({s, rb: rbOf(s, now), d: dOf(s, now)})).sort((a, b) => b.d - a.d).forEach(({s, rb, d}) => {
-    if (Math.abs(rb) > fov / 2 + 8 || (nebel && d > .55)) return;
+    if (Math.abs(rb - aim) > fov / 2 + 8 || (nebel && d > .55)) return;
     drawShip(s, X(rb), Y(d), Math.max(2.4, 14 / (d + .1) * zoom * .6), nacht || (day === 'abend' && d > 1), time);
   });
   F.scene.filter(s => s.k === 'mob').forEach(s => { const x = X(-12), y = Y(.06 + (now - s.t0) * .004); cx.fillStyle = '#e8562c'; cx.beginPath(); cx.arc(x, y, 6, 0, 7); cx.fill(); cx.fillStyle = '#f2c9a0'; cx.beginPath(); cx.arc(x + 1, y - 7, 4, 0, 7); cx.fill(); });
