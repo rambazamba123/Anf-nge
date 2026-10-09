@@ -1,7 +1,7 @@
 #!/bin/sh
-# 5.15: Rauchtest vor jedem Commit. Einmal einschalten mit:  git config core.hooksPath .githooks
-# Überspringen im Notfall:  git commit --no-verify
-# Ohne Playwright gibt es nur einen Hinweis, der Commit geht trotzdem durch.
+# Rauchtest vor jedem Commit (CLAUDE.md R5). Einmal einschalten mit:  git config core.hooksPath .githooks
+# Commits, die nur .md-Dateien ändern, brauchen keinen Rauchtest. Ohne Playwright gibt es nur einen Hinweis.
+if [ -z "$(git diff --cached --name-only | grep -v '\.md$')" ]; then echo "Nur Texte geändert, Rauchtest übersprungen."; exit 0; fi
 out=$(node tests/smoke/rauchtest.js 2>&1); code=$?
 if echo "$out" | grep -q "Playwright fehlt"; then echo "Rauchtest übersprungen: Playwright fehlt."; exit 0; fi
 echo "$out" | tail -3
