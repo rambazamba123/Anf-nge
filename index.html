@@ -508,7 +508,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.57';
+  window.__ver = '4.58';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1664,6 +1664,7 @@ const VOX = (() => {
     if (!voice) { await ensureVoices(); voice = voiceOf(cid); if (!voice) return null; const b = await cached(voice); if (b) return b; }
     if (exhausted) return null;
     if (kind !== 'fixed' && !budgetOk(text.length)) { hooks.notice('budget'); return null; }
+    if (!S.kiOk) return null; /* V20: ohne Einwilligung keine neuen Stimmen von ElevenLabs */
     const b = await elFetch(voice, text, want);
     usage().all += text.length; if (kind === 'live') usage().live += text.length; save();
     /* Alles merken, auch Vorlesen und Gespräch: Derselbe Satz kostet nie zweimal. */
@@ -2153,6 +2154,21 @@ function toMessages(input) {
 /* KI-Schalter und Kostenzähler. Kosten entstehen nur über graue Knöpfe (.ki).
    KI_LIMIT: Kosten-Aktionen pro Tag und Gerät; 0 = noch keine Grenze (kommt später mit den Konten auf den Server). */
 const KI_LIMIT = 0;
+/* V20: Einwilligung, bevor zum ersten Mal Texte an einen KI-Anbieter oder an ElevenLabs gehen (S.kiOk, Standard: keine).
+   Ohne Einwilligung: keine KI-Antworten, Stimmen nur aus dem Stimmenpaket oder vom Handy. */
+let kiFrage = null;
+function kiEinwilligung() {
+  if (S.kiOk) return Promise.resolve(true);
+  return kiFrage || (kiFrage = new Promise(res => {
+    const w = sheet(`<h2 style="margin:0 0 6px">Kurz zum Datenschutz</h2>
+      <p style="margin:0 0 8px">Für Gespräche, Erklärungen und neue Stimmen schickt die App Texte an den Anbieter deines Schlüssels (Anthropic, Google oder OpenAI) bzw. an ElevenLabs. Das sind Firmen in den USA. Dein Lernstand bleibt auf dem Handy.</p>
+      <p class="small muted" style="margin:0 0 10px">Gib bitte keine sensiblen persönlichen Daten ein. Bist du unter 16, sprich das vorher mit deinen Eltern ab. Widerrufen kannst du jederzeit in den Einstellungen. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a></p>
+      <div class="row"><button class="btn lamp" id="kiok">Einverstanden</button><button class="btn ghost" id="kino">Nein danke</button></div>`);
+    const fertig = ok => { kiFrage = null; if (ok) { S.kiOk = Date.now(); save(); } closeSheet(); res(ok); };
+    w.querySelector('#kiok').onclick = () => fertig(true); w.querySelector('#kino').onclick = () => fertig(false);
+    w.querySelectorAll('[data-close]').forEach(x => x.addEventListener('click', () => { if (kiFrage) { kiFrage = null; res(false); } }));
+  }));
+}
 const kiOn = () => !(S && S.cfg && S.cfg.ki === false);
 function kiUse() { const d = today(); if (!S.kiUse || S.kiUse.day !== d) S.kiUse = {day: d, n: 0}; return S.kiUse; }
 /* Entwickler-Werkzeuge (Stimmenpaket, Stimmenwahl, Selbsttest): an, solange ein ElevenLabs-Schlüssel eingetragen ist, sonst per Einstellung */
@@ -2162,6 +2178,7 @@ let thinkOff = (() => { try { return localStorage.getItem('skipper-thinkoff') !=
 async function ai(input, opts = {}) {
   if (!kiOn()) throw {code: 'ki_off'};
   const key = apiKey(); if (!key) throw {code: 'no_key'};
+  if (!S.kiOk && !(await kiEinwilligung())) throw {code: 'no_consent'};
   if (!opts._counted) { const u = kiUse(); if (KI_LIMIT && u.n >= KI_LIMIT) throw {code: 'ki_limit'}; u.n++; opts._counted = true; save(); }
   const anb = kiAnbieter(key); if (anb !== 'anthropic') return aiAndere(input, opts, key, anb);
   const model = opts.forceModel || pickModel(opts), fast = model === MODELS.fast;
@@ -2215,6 +2232,7 @@ async function aiJson(input, opts = {}) {
 }
 function aiErr(e) {
   switch (e && e.code) {
+    case 'no_consent': return 'Ohne deine Einwilligung schickt die App nichts an die KI. Lernen, Prüfung und Stimmen aus dem Paket gehen trotzdem.';
     case 'ki_off': return 'Die KI-Funktionen sind ausgeschaltet. Einschalten kannst du sie in den Einstellungen.';
     case 'ki_limit': return 'Für heute ist das KI-Kontingent aufgebraucht. Morgen geht es weiter, lernen kannst du trotzdem.';
     case 'no_key': return 'Für Gespräche braucht die Crew einen KI-Schlüssel (Anthropic, Google Gemini oder OpenAI). Trag ihn in den Einstellungen ein. Lernen und Prüfung gehen auch ohne.';
@@ -2506,7 +2524,7 @@ function keysStep(next) {
     <p class="small" style="margin:0 0 8px"><b>Ein KI-Schlüssel</b> (Anthropic, Google Gemini oder OpenAI) lässt die Crew mit dir reden, erklären und Geschichten erzählen. <b>ElevenLabs</b> gibt ihr echte Stimmen. Ohne Schlüssel kannst du trotzdem lernen und prüfen, die Crew brabbelt dann nur.</p>
     <label for="k1" style="margin-top:6px">KI-Schlüssel</label><input type="password" id="k1" autocomplete="off" placeholder="sk-ant-… · AIza… · sk-…" value="${apiKey() ? '••••••••' : ''}">
     <label for="k2">ElevenLabs-Schlüssel</label><input type="password" id="k2" autocomplete="off" placeholder="sk_…" value="${elKey() ? '••••••••' : ''}">
-    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab.</p></div>
+    <p class="small muted" style="margin:10px 0">Datenschutz: Dein Lernstand und die Schlüssel bleiben nur auf diesem Handy. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels. Vor dem ersten Mal fragt die App dich. Bist du unter 16, sprich das bitte kurz mit deinen Eltern ab. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></p></div>
     <div class="row"><button class="btn lamp" id="ksave">Speichern und weiter</button><button class="btn ghost" id="klater">Später</button></div>`);
   p.querySelectorAll('[data-kion]').forEach(b => b.onclick = () => { S.cfg.ki = b.dataset.kion === '1'; save(); applyKi(); p.querySelectorAll('[data-kion]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); $('#kkeys').classList.toggle('hidden', !S.cfg.ki); });
   p.style.background = 'rgba(18,24,30,.45)';
@@ -3629,7 +3647,7 @@ function renderSettings() {
     <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
     <input type="file" id="bkf" accept="application/json,.json" class="hidden">
     <p class="small muted" style="margin:10px 0 0">Dein Lernstand liegt nur in diesem Browser. Speichere ab und zu eine Sicherung.</p>
-    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an Anthropic, die Stimmen kommen von ElevenLabs. App-Version ${esc(window.__ver || '?')}.</p>
+    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels, neue Stimmen kommen von ElevenLabs. Einwilligung: ${S.kiOk ? `erteilt <button class="btn small ghost" id="kiwid" style="min-height:28px;padding:0 8px">Widerrufen</button>` : 'noch nicht erteilt (die App fragt beim ersten Mal)'}. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a> · App-Version ${esc(window.__ver || '?')}.</p>
     <button class="btn ghost wide" id="rs" style="margin-top:10px;color:var(--bb)">Alles zurücksetzen</button>
   </div></div>`;
   app.querySelectorAll('.crewpick svg').forEach(s => s.style.width = '64px');
@@ -3680,6 +3698,7 @@ function renderSettings() {
   bindSel('#garn', v => { c.garn = +v; });
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
   app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
+  if ($('#kiwid')) $('#kiwid').onclick = () => { S.kiOk = 0; save(); toast('Einwilligung widerrufen. Die App schickt nichts mehr an KI oder ElevenLabs.'); renderSettings(); };
   $('#instset').onclick = () => appInstallieren(); $('#about').onclick = () => { AUD.click(); renderSources(); };
   $('#reintro').onclick = () => { S.intros = {}; save(); toast('Beim nächsten Öffnen erklärt die Crew alles nochmal.'); };
   $('#reonb').onclick = () => { S.introDone = false; S.introV5 = false; S.reOnb = true; S.cabinWelcome = false; save(); location.reload(); };
@@ -3750,7 +3769,7 @@ function renderSources() {
   subScreen();
   const files = ['leberch-ambient-517427.mp3', 'Space_Ambient__leberch.mp3', 'icecodebeats-slow-down-the-boat-3-568312.mp3', 'kaazoom-slow-turn-in-the-lamplight-smooth-jazz-song-male-vocal-480995.mp3', 'soundreality-baltic-sea-beach-waves-midnight-611953.mp3', 'soundreality-wind-blowing-457954.mp3', 'storegraphic-soft-wind-477404.mp3', 'freesound_community-gentle-rain-from-window-24548.mp3', 'audiopapkin-wall-clock-ticking-308746.mp3', 'freesound_community-canvas-dropcloth-snap-1-98862.mp3', 'u_7xr5ffk4oq-opening-bell-421471.mp3', 'freesound_community-herring-gull-1-27057.mp3', 'freesound_community-065410_great-echoing-foghornaiff-40903.mp3', 'flutie8211-foghorn-1-549807.mp3', 'freesound_community-cat-meow-14536.mp3', 'freesound_community-3-avewav-45235.mp3', 'freesound_community-radio-static-2-26831.mp3', 'freesound_community-no-signal-original-interference-27598.mp3', 'u_31vnwfmzt6-bleep-126625.mp3', 'soundreality-footsteps-walking-boots-parquet-4-420133.mp3', 'dragon-studio-door-opening-397990.mp3', 'dragon-studio-knocking-door-1-397992.mp3', 'spinopel-strike-a-match-381917.mp3', 'u_xg7ssi08yr-fliptop-metal-lighter-362054.mp3', 'freesound_community-smoking1-73746.mp3', 'freesound_community-juul-smoking-28389.mp3', 'soumages-book-opening-345808.mp3', 'xpmonster-turning-page-in-a-book-419580.mp3', 'langanicolae-vant-si-valuri-9583.mp3', 'freesound_community-accelerating-out-of-the-marina-with-proceeding-waves-hitting-embankment-24896.mp3', 'freesound_community-cat-98721.mp3', 'dragon-studio-cute-cat-meow-472372.mp3', 'dragon-studio-purring-cat-401727.mp3', 'freesound_community-anchor-raising-67152.mp3', 'freesound_community-pencil-on-paper-20007.mp3', 'mpircek-f-371148.mp3', 'lesiakower-error-mistake-sound-effect-incorrect-answer-437420.mp3', 'freesound_community-rightanswer-95219.mp3', 'freesound_community-engine-start-86242.mp3', 'freesound_community-motorboatsound-32776.mp3'];
   app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Über die App</h1><button class="btn small ghost" id="back">Zurück</button></div>
-    <div class="card"><p style="margin:0 0 6px"><b>Skipper</b> · Version ${esc(window.__ver)}</p><p class="small" style="margin:0 0 6px">Lern-App für den Sportbootführerschein See, den Sportküstenschifferschein und den Sportbootführerschein Binnen.</p><p class="small muted" style="margin:0">Die App hilft beim Lernen und ersetzt keine Ausbildung und keine amtliche Prüfung. Die Seekarte der Kliev-Mündung ist erfunden und darf nicht zur Navigation benutzt werden.</p></div>
+    <div class="card"><p style="margin:0 0 6px"><b>Skipper</b> · Version ${esc(window.__ver)}</p><p class="small" style="margin:0 0 6px">Lern-App für den Sportbootführerschein See, den Sportküstenschifferschein und den Sportbootführerschein Binnen.</p><p class="small" style="margin:0 0 6px"><a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a></p><p class="small muted" style="margin:0">Die App hilft beim Lernen und ersetzt keine Ausbildung und keine amtliche Prüfung. Die Seekarte der Kliev-Mündung ist erfunden und darf nicht zur Navigation benutzt werden.</p></div>
     <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Von Pixabay (Pixabay-Lizenz). Danke an die Künstlerinnen und Künstler. Angegeben ist jeweils der Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
     <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0 0 6px">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p><p class="small" style="margin:0 0 6px">SBF Binnen: Amtlicher Fragenkatalog für den Sportbootführerschein Binnen (ELWIS).</p><p class="small muted" style="margin:0">Die Abbildungen in den Fragen stammen aus den amtlichen Fragenkatalogen. Herausgeber: Wasserstraßen- und Schifffahrtsverwaltung des Bundes, www.elwis.de.</p></div>
     <div class="card"><h3>Zeichnungen</h3><p class="small" style="margin:0">Boot, Crew, Kajüte, Seekarte, Knoten und Spiele sind für diese App selbst gezeichnet.</p></div>
