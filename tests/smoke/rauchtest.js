@@ -60,7 +60,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('05c-palstek', page, async () => { await ev(page, () => KNOTEN.zeige('palstek')); await sleep(6500);
     const st = await ev(page, () => { const c = document.querySelector('#kanim'), li = document.querySelector('#kst li.an'); return c && c.width > 0 && li ? [...document.querySelectorAll('#kst li')].indexOf(li) : -1; });
     if (st < 1) throw new Error('Palstek-Animation läuft nicht (Schritt ' + st + ')'); await ev(page, () => { const r = document.querySelector('#kzeit'); r.value = r.max; r.oninput(); }); await sleep(300); });
-  for (const id of ['acht', 'kreuz', 'schot', 'webelein', 'rundtoern', 'klampe']) await schritt('05c-' + id, page, async () => {
+  for (const id of ['acht', 'kreuz', 'schot', 'stopper', 'webelein', 'webeleinslip', 'rundtoern', 'klampe']) await schritt('05c-' + id, page, async () => {
     await ev(page, id => KNOTEN.zeige(id), id); await sleep(2500);
     const ok = await ev(page, () => { const c = document.querySelector('#kanim'); if (!c || !c.width) return 'keine Leinwand'; const r = document.querySelector('#kzeit'); r.value = r.max; r.oninput(); return document.querySelectorAll('#kst li').length >= 3 ? '' : 'keine Schritte'; });
     if (ok) throw new Error(id + ': ' + ok); await sleep(400); });
