@@ -819,8 +819,8 @@ function spieler(cv, A, o = {}) {
 KN.brett = function () {
   returnTo = 'cabin';
   const k = K_();
-  gameShell('Knotenbrett', `${CSS}<p class="small muted" style="margin:6px 0 10px">Die Knoten für die praktische Prüfung. Antippen: Schritt für Schritt zusehen und mit echtem Tau üben.</p>
-    <div class="knotgrid">${D.knoten.map(x => `<button data-k="${x.id}"><b>${k[x.id] && k[x.id].ok ? '✓ ' : ''}${esc(x.name)}</b>${k[x.id] && k[x.id].zeit ? `<span class="small muted">Bestzeit ${k[x.id].zeit} s · </span>` : ''}<span class="small muted">${esc(x.wofuer.split('. ')[0])}.</span></button>`).join('')}</div>`);
+  gameShell('Knotenbrett', `${CSS}<p class="small muted" style="margin:6px 0 10px">Die neun Knoten der praktischen Prüfung. Antippen: Schritt für Schritt zusehen und mit echtem Tau üben. Sicher ist ein Knoten, wenn er dreimal in der Knotenkunde richtig war und du ihn einmal mit echtem Tau gebunden hast.</p>
+    <div class="knotgrid">${D.knoten.map(x => `<button data-k="${x.id}"><b>${k[x.id] && k[x.id].ok && (k[x.id].kk || 0) >= 3 ? '✓ ' : ''}${esc(x.name)}</b><span class="small muted">Knotenkunde ${Math.min(3, (k[x.id] && k[x.id].kk) || 0)} von 3 · echtes Tau ${k[x.id] && k[x.id].ok ? '✓' : 'offen'}</span>${k[x.id] && k[x.id].zeit ? `<span class="small muted">Bestzeit ${k[x.id].zeit} s · </span>` : ''}<span class="small muted">${esc(x.wofuer.split('. ')[0])}.</span></button>`).join('')}</div>`);
   $('#gback').onclick = () => setTab('cabin');
   app.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { AUD.click(); KN.zeige(b.dataset.k); });
 };
@@ -873,11 +873,11 @@ KN.spiel = function (test) {
       const nb = recordScore('knoten', score);
       gameShell('Knotenkunde', `${CSS}<div class="card"><h2 style="margin:0">${score} von ${arten.length} richtig</h2><p class="muted">${nb ? 'Neuer Rekord!' : 'Gut gebunden ist halb gesegelt.'}</p>
         <div class="row"><button class="btn lamp" id="knag">Nochmal</button><button class="btn ghost" id="knbr">Zum Knotenbrett</button></div></div>`);
-      $('#gback').onclick = () => gamesHub(); $('#knag').onclick = () => KN.spiel(); $('#knbr').onclick = () => KN.brett(); return;
+      $('#gback').onclick = () => setTab('cabin'); $('#knag').onclick = () => KN.spiel(); $('#knbr').onclick = () => KN.brett(); return;
     }
     const art = arten[i], k = art === 'schritt' ? AN[Math.random() * AN.length | 0] : KL[Math.random() * KL.length | 0], andere = shuffle(KL.filter(x => x !== k && x.verwandt !== k.id && k.verwandt !== x.id)).slice(0, 3);
     const kopf = `<p class="small muted" style="margin:6px 0">Runde ${i + 1} von ${arten.length} · ${score} richtig</p>`;
-    const weiter = (ok, text) => { if (ok) score++; AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .45 : .35}); $('#kfb').innerHTML = `<p style="margin:8px 0"><b style="color:var(${ok ? '--stb' : '--bb'})">${ok ? 'Richtig!' : 'Nicht ganz.'}</b> ${esc(text)}</p><button class="btn lamp" id="knx">Weiter</button>`; $('#knx').onclick = () => { i++; runde(); }; };
+    const weiter = (ok, text) => { if (ok) { score++; const r = K_()[k.id] = K_()[k.id] || {}; r.kk = (r.kk || 0) + 1; save(); } AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .45 : .35}); $('#kfb').innerHTML = `<p style="margin:8px 0"><b style="color:var(${ok ? '--stb' : '--bb'})">${ok ? 'Richtig!' : 'Nicht ganz.'}</b> ${esc(text)}</p><button class="btn lamp" id="knx">Weiter</button>`; $('#knx').onclick = () => { i++; runde(); }; };
     if (art === 'reihe') {
       const order = shuffle(k.schritte.map((s, j) => j)); let pos = 0, fehler = false;
       gameShell('Knotenkunde', `${CSS}${kopf}<div class="card"><p style="margin:0 0 6px"><b>${esc(k.name)}:</b> Tippe die Schritte in der richtigen Reihenfolge.</p>
@@ -908,7 +908,7 @@ KN.spiel = function (test) {
         weiter(b.dataset.o === k.id, `${k.name}: ${k.wofuer}`);
       });
     }
-    $('#gback').onclick = () => gamesHub();
+    $('#gback').onclick = () => setTab('cabin');
   };
   runde();
 };

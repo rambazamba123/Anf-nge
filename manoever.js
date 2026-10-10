@@ -27,8 +27,10 @@ const CSS = `<style>.mwrap{position:relative}.mwrap canvas{display:block;border-
 .mpad .ml{position:absolute;left:10px;right:10px;top:50%;height:2px;background:rgba(255,250,240,.55)}.mpad .mv{position:absolute;top:12px;bottom:12px;left:50%;width:2px;background:rgba(255,250,240,.22)}
 .mpad b{position:absolute;color:#fffaf0;font:700 10px sans-serif;pointer-events:none}
 .mwrap .motorbtn{right:auto;left:10px;bottom:10px}
-.mcmd{position:absolute;left:10px;right:10px;top:10px;background:rgba(255,251,240,.97);border-radius:16px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:6;max-height:calc(100% - 20px);overflow:auto}
-.mcmd h3{margin:0 0 6px;font:700 1rem var(--hfont)}.mcmd .menuitem{text-align:left}.mcmd .menuitem.richtig{border-color:#1e7f4f;box-shadow:inset 0 0 0 2px #1e7f4f}.mcmd .menuitem.falsch{border-color:#c2473b;box-shadow:inset 0 0 0 2px #c2473b}
+.mcmd{margin-top:8px;background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:10px 12px;min-height:150px}
+.mcmd.an{border-color:var(--lamp);box-shadow:0 0 0 3px rgba(240,181,62,.25)}
+.mcmd .ruhe{margin:0;color:var(--muted);font-size:.85rem}
+.mcmd h3{margin:0 0 6px;font:700 1rem var(--hfont)}.mcmd .menu{display:grid;grid-template-columns:1fr 1fr;gap:6px}.mcmd .menuitem{text-align:left;min-height:44px;padding:8px 10px;font-size:.88rem}.mcmd .menuitem.richtig{border-color:#1e7f4f;box-shadow:inset 0 0 0 2px #1e7f4f}.mcmd .menuitem.falsch{border-color:#c2473b;box-shadow:inset 0 0 0 2px #c2473b}
 .mbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 2px}.mbar .btn{min-height:40px;padding:.4em .9em}
 .mgrid{display:grid;grid-template-columns:1fr;gap:8px}.mgrid button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:10px;color:var(--ink);text-align:left}.mgrid b{display:block;font:700 1rem var(--hfont)}
 .msteps li{margin:4px 0;opacity:.45;cursor:pointer}.msteps li.an{opacity:1;font-weight:700}
@@ -41,7 +43,8 @@ function szene(id, W, H, wind) {
   if (id === 'ablegen') s.gate = {x: W * .5, y: H * .12};
   if (id === 'wenden') s.box = {x: W * .2, y: H * .28, w: W * .6, h: H * .5};
   if (id === 'aufstoppen') s.tonne = {x: W * .45 + 42, y: H * .35};
-  if (id === 'kompass') { s.tonne = {x: W * .78, y: H * .2}; s.wrap = true; }
+  /* Peiltonne links oben: rechts oben liegt die Kompassrose */
+  if (id === 'kompass') { s.tonne = {x: W * .2, y: H * .34}; s.wrap = true; }
   return s;
 }
 function tonne(ctx, x, y, t) { const w = Math.sin(t / 400) * 1.5; ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.beginPath(); ctx.ellipse(x + 2, y + 3, 9, 5, 0, 0, 7); ctx.fill(); ctx.fillStyle = '#d33a2c'; ctx.fillRect(x - 7 + w * .3, y - 9, 14, 18); ctx.fillStyle = '#fff'; ctx.fillRect(x - 7 + w * .3, y - 2, 14, 3); }
@@ -52,6 +55,7 @@ function zeichneSzene(ctx, s, t, x) {
   if (s.dock) { const d = s.dock; ctx.fillStyle = 'rgba(0,0,0,.2)'; ctx.fillRect(d.x + 3, d.y + 4, d.w, d.h); ctx.fillStyle = '#8a5a3a'; ctx.fillRect(d.x, d.y, d.w, d.h); ctx.fillStyle = '#5a3a24'; for (let y = d.y + 8; y < d.y + d.h; y += 22) ctx.fillRect(d.x, y, d.w, 3); for (const y of [d.y + 18, d.y + d.h - 18]) { ctx.fillStyle = '#3a2a1c'; ctx.beginPath(); ctx.arc(d.w - 6, y, 4, 0, 7); ctx.fill(); } }
   if (s.gate) { const g = s.gate; ctx.fillStyle = '#d33a2c'; ctx.fillRect(g.x - 50, g.y - 10, 14, 20); ctx.fillStyle = '#2e9a52'; ctx.beginPath(); ctx.moveTo(g.x + 43, g.y - 12); ctx.lineTo(g.x + 55, g.y + 10); ctx.lineTo(g.x + 31, g.y + 10); ctx.fill(); }
   if (s.tonne) tonne(ctx, s.tonne.x, s.tonne.y, t);
+  if (s.tonne && s.id === 'kompass') { ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,251,240,.92)'; ctx.fillRect(s.tonne.x - 32, s.tonne.y + 14, 64, 16); ctx.fillStyle = '#2a2019'; ctx.fillText('Peiltonne', s.tonne.x, s.tonne.y + 26); }
   if (x.person) { const p = x.person, wave = Math.sin(t / 220) * 3;
     if (x.ring) { ctx.strokeStyle = '#f07a2c'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(p.x + 14, p.y - 6, 7, 0, 7); ctx.stroke(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.setLineDash([3, 4]); ctx.stroke(); ctx.setLineDash([]); }
     ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(p.x, p.y + 2, 11, 6, 0, 0, 7); ctx.stroke();
@@ -164,17 +168,18 @@ MN.fahren = function (id, versuch = 1) {
   const d = D[id], bonus = !!(BONUS && BONUS.key === 'man');
   gameShell(d.name, `${CSS}<div class="gamewrap mwrap"><canvas id="gc"></canvas>
     <div class="mpad" id="mpad"><div class="mv"></div><div class="ml"></div><b style="top:6px;left:0;right:0;text-align:center">voraus</b><b style="top:50%;left:6px;margin-top:-16px">N</b><b style="bottom:6px;left:0;right:0;text-align:center">zurück</b><b style="top:50%;left:8px;margin-top:4px">◀</b><b style="top:50%;right:8px;margin-top:4px">▶</b><i class="mk"></i></div>
-    <button class="motorbtn" id="motbtn" aria-pressed="false">Motor<br>starten</button><div class="mcmd hidden" id="mcmd"></div><div class="gameover hidden" id="gover"></div></div>
+    <button class="motorbtn" id="motbtn" aria-pressed="false">Motor<br>starten</button><div class="gameover hidden" id="gover"></div></div>
+    <div class="mcmd" id="mcmd" aria-live="polite"></div>
     <div class="mbar">${bonus ? '' : '<button class="btn small ghost" id="mdemo">📺 So geht\'s</button>'}<span class="small muted">${steuer() === 'pinne' ? 'Pinne: Feld nach rechts, Bug dreht nach links (voraus).' : 'Steuerrad: Feld nach rechts, Bug dreht nach rechts (voraus).'} Doppeltipp: mittschiffs.</span></div>`);
   if (bonus) $('#gback').onclick = () => { VOX.stop(); bonusEnde(0); }; else $('#gback').onclick = () => { stopGames(); VOX.stop(); MN.vorher(id); };
   const db = $('#mdemo'); if (db) db.onclick = () => { stopGames(); MN.demo(id); };
   const c = $('#gc'), wrap = c.parentElement, dpr = Math.min(2, window.devicePixelRatio || 1);
-  const W = Math.min(520, wrap.clientWidth), H = Math.min(560, Math.round(window.innerHeight * .62));
+  const W = Math.min(520, wrap.clientWidth), H = Math.max(330, Math.min(520, Math.round(window.innerHeight * .52)));
   c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px'; const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
   const wind = {from: id === 'kompass' ? Math.random() * 360 : [0, 30, 330, 60, 300][Math.random() * 5 | 0], s: bonus ? .35 : .3 + Math.random() * .45};
   const s = szene(id, W, H, wind), G = {id, d, s, W, H, t: 0, fehler: 0, bumps: 0, ask: {}, fender: id === 'ablegen', msg: '', msgT: 0, ende: false, bonus, versuch};
   const b = G.b = {x: W * .5, y: H * .9, k: 0, v: 0, om: 0, dx: 0, dy: 0, g: 0, r: 0, motor: false};
-  const st = {ablegen: [46, .62 * H, 0, 0, false], anlegen: [W * .6, H * .92, .25, 15, true], mob: [W * .5, H * .9, .5, 30, true], kompass: [W * .3, H * .85, .45, 27, true], aufstoppen: [W * .45, H * .93, .5, 30, true], wenden: [W * .5, H * .56, 0, 0, false]}[id];
+  const st = {ablegen: [46, .62 * H, 0, 0, false], anlegen: [W * .6, H * .92, .25, 15, true], mob: [W * .5, H * .66, .5, 30, true], kompass: [W * .3, H * .85, .45, 27, true], aufstoppen: [W * .45, H * .93, .5, 30, true], wenden: [W * .5, H * .56, 0, 0, false]}[id];
   Object.assign(b, {x: st[0], y: st[1], g: st[2], v: st[3], motor: st[4]});
   if (id === 'kompass') { G.kurs = d.kurse[Math.random() * d.kurse.length | 0]; G.halt = 0; }
   const say = (t, ms = 2200) => { G.msg = t; G.msgT = performance.now() + ms; };
@@ -190,27 +195,29 @@ MN.fahren = function (id, versuch = 1) {
   };
   const pad = steuerfeld($('#mpad'), b, (war, g) => { AUD.click(); if (!b.motor && g) say('Der Motor läuft noch nicht'); else if (b.motor) say(!g ? 'Neutral' : g > 0 ? 'Vorwärtsgang eingelegt' : 'Rückwärtsgang eingelegt', 1400); if (G.id === 'wenden' && g < 0 && !G.ask.rueck && b.motor) G.frage('rueck'); });
   pad.setze(b.g ? b.g * .88 + .12 : 0, 0);
-  /* Kommando-Abfrage: Spiel steht, vier Antworten */
+  /* Kommando-Abfrage unter dem Fahrbild: das Boot fährt in Zeitlupe weiter, vier Antworten */
+  const ruhe = () => { const box = $('#mcmd'); if (!box) return; box.classList.remove('an'); box.innerHTML = '<p class="ruhe">📣 Hier erscheinen die Kommandos, wenn es so weit ist. Solange du wählst, läuft alles in Zeitlupe.</p>'; };
+  ruhe();
   G.frage = key => {
     if (G.ask[key]) return; G.ask[key] = true; const k = d.kommandos[key];
     if (G.bonus || !k) { const f = G.nachFrage; G.nachFrage = null; if (f) f(); return; }
     const rep = x => x.replace(/\{kurs\}/g, fmtK(G.kurs || 0)).replace(/\{falsch\}/g, fmtK((G.kurs || 0) + 180)).replace(/\{peil\}/g, fmtK(G.peil || 0)).replace(/\{p2\}/g, fmtK((G.peil || 0) + 180)).replace(/\{p3\}/g, fmtK((G.peil || 0) + 40)).replace(/\{p4\}/g, fmtK((G.peil || 0) - 40));
     const opts = shuffle([{t: rep(k.richtig), ok: 1}].concat(k.falsch.map(f => ({t: rep(f), ok: 0}))));
-    G.pause = true; AUD.sfx('glocke', {vol: .3});
-    const box = $('#mcmd'); box.classList.remove('hidden');
+    G.offen = true; AUD.sfx('glocke', {vol: .3});
+    const box = $('#mcmd'); box.classList.add('an');
     box.innerHTML = `<h3>📣 ${esc(rep(k.frage))}</h3><p class="small muted" style="margin:0 0 6px">Was rufst du?</p><div class="menu">${opts.map((o, i) => `<button class="menuitem" data-c="${i}">${esc(o.t)}</button>`).join('')}</div><div id="mcfb"></div>`;
     box.querySelectorAll('[data-c]').forEach(btn => btn.onclick = () => {
       const o = opts[+btn.dataset.c]; box.querySelectorAll('[data-c]').forEach(x => { x.disabled = true; if (opts[+x.dataset.c].ok) x.classList.add('richtig'); }); if (!o.ok) { btn.classList.add('falsch'); G.fehler++; }
       if (key === 'ring') G.ring = true; if (key === 'start' && id === 'anlegen') G.fender = true; if (key === 'frei') G.fender = false;
       AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: o.ok ? .4 : .3});
-      const weiter = () => { box.classList.add('hidden'); box.innerHTML = ''; G.pause = false; G.last = performance.now(); if (G.nachFrage) { const f = G.nachFrage; G.nachFrage = null; f(); } };
+      const weiter = () => { if (G.ende) return; ruhe(); G.offen = false; if (G.nachFrage) { const f = G.nachFrage; G.nachFrage = null; f(); } };
       if (o.ok) { VOX.say(cid('K'), rep(k.richtig), 'fixed'); $('#mcfb').innerHTML = `<p class="small" style="margin:8px 0 0;color:#1e7f4f"><b>Richtig.</b></p>`; setTimeout(weiter, 1100); }
       else { VOX.say('kroeger', rep(k.warum), 'fixed'); $('#mcfb').innerHTML = `<p class="small" style="margin:8px 0 6px"><b style="color:#c2473b">Nicht ganz.</b> ${esc(rep(k.warum))}</p><button class="btn lamp small" id="mcw">Weiter</button>`; $('#mcw').onclick = weiter; }
     });
   };
   /* Ende: Bewertung wie im Praxisprotokoll */
   const ende = (ok, text) => {
-    if (G.ende) return; G.ende = true;
+    if (G.ende) return; G.ende = true; G.offen = false; ruhe();
     if (G.bonus) return bonusEnde(ok ? 1 : 0);
     stopGames(); VOX.stop();
     const reicht = ok && G.fehler <= 1, x = M_()[id] = M_()[id] || {};
@@ -288,17 +295,21 @@ MN.fahren = function (id, versuch = 1) {
     if (!c.isConnected) return;
     const dt = Math.min(.05, (now - G.last) / 1000); G.last = now; G.dt = dt;
     if (!G.pause && !G.ende) {
+      const dt = G.offen ? G.dt * .2 : G.dt;  /* Zeitlupe, solange ein Kommando gewählt wird */
       G.t += dt; fahre(b, dt, s);
       if (id === 'ablegen' && !G.ask.leinen) Object.assign(b, {x: st[0], y: st[1], k: 0, v: 0, om: 0, dx: 0, dy: 0});  /* Leinen sind noch fest */
-      if (G.person) { const lee = (wind.from + 180) * RAD; G.person.x += Math.sin(lee) * wind.s * 4 * dt; G.person.y += -Math.cos(lee) * wind.s * 4 * dt; }
+      /* Die Person treibt langsam nach Lee, bleibt aber im Bild */
+      if (G.person) { const lee = (wind.from + 180) * RAD; G.person.x = clamp(G.person.x + Math.sin(lee) * wind.s * 2.2 * dt, 50, W - 50); G.person.y = clamp(G.person.y - Math.cos(lee) * wind.s * 2.2 * dt, 50, H - 70); }
       /* Ränder und Steg */
       if (s.wrap) { b.x = (b.x + W) % W; b.y = (b.y + H) % H; }
       else if (b.x < 16 || b.x > W - 16 || b.y < 16 || b.y > H - 16) { const kn = Math.abs(b.v) / KN; b.v *= -.3; b.x = clamp(b.x, 16, W - 16); b.y = clamp(b.y, 16, H - 16); if (kn > 1.2) { G.bumps++; AUD.crash(); say('Autsch, die Kante!'); if (G.bumps >= 3) ende(false, 'Dreimal angeeckt. Ruhig und langsam, dann klappt es.'); } }
       if (dock && inDock() && b.x < DOCK_W + 15) { const kn = Math.abs(b.v) / KN; b.x = DOCK_W + 15; b.dx = Math.max(0, b.dx); if (kn > 1.5 && G.id === 'ablegen') { G.bumps++; G.fehler++; AUD.crash(); say('Das Boot hat den Steg gerammt!'); } }
       if (bonusZeit(t0)) ende(false, 'Die Zeit ist um.');
-      if (!G.ende) regeln[id]();
+      if (!G.ende && !G.offen) regeln[id]();
     }
     zeichneSzene(ctx, s, now - t0, {person: G.person, ring: G.ring});
+    /* Beim Peilen: gestrichelte Peillinie vom Boot zur Tonne, damit klar ist, was gepeilt wird */
+    if (G.ask.peil && s.tonne) { ctx.save(); ctx.strokeStyle = 'rgba(255,251,240,.85)'; ctx.setLineDash([6, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(s.tonne.x, s.tonne.y); ctx.stroke(); ctx.restore(); }
     zeichneBoot(ctx, b, now - t0, G.fender);
     if (id === 'kompass') zeichneKompass(ctx, W, b.k, G.ask.start ? G.kurs : null);
     anzeigen(ctx, s, b, G.bonus ? '' : `${versuch}. Versuch${G.fehler ? ' · Fehler ' + G.fehler : ''}`);
