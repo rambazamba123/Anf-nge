@@ -53,3 +53,36 @@ Keine neuen Sätze (die Katze ist stumm).
 
 ## Manöverspiel (v4.66)
 Alle Sätze stehen in `data/manoever.json` (Vorführungen `demo[].sag`/`cmd`, Kommandos `richtig`/`warum`) und dazu drei Prüfer-Sätze in `manoever.js` („Ausreichend. Weiter.“, „Nicht ausreichend. Zweiter Versuch.“, „Nicht ausreichend. Das üben wir noch mal.“). `packLines` nimmt sie auf, sobald `buildVoicePack` die Daten geladen hat. Sätze mit Platzhaltern (`{kurs}`, `{peil}`) sind wechselnd und kommen nicht ins Paket. Bis zur Nachlieferung spricht die Handystimme.
+
+## V26 Grundkurs Seezeichen (data/seezeichen.json, v4.69)
+
+### Grundkurs Seezeichen
+- K: Seezeichen sind die Verkehrsschilder auf dem Wasser. Wer sie nicht lesen kann, fährt irgendwann auf Grund.
+- M: Keine Panik, das ist ein System. Wer das einmal kapiert hat, liest jede Tonne.
+- T: Tonne! Tonne!
+- K (Fahrwasser: Grün und Rot): Gedacht wird immer von See kommend, also in den Hafen hinein.
+- M (Fahrwasser: Grün und Rot): Dann liegt Grün an Steuerbord, also rechts, und Rot an Backbord, links.
+- K (Kardinalzeichen: die Himmelsrichtung): Kardinalzeichen sagen dir, auf welcher Seite der Gefahr das sichere Wasser liegt.
+- M (Kardinalzeichen: die Himmelsrichtung): Die Nordtonne liegt nördlich der Gefahr. Also fährst du nördlich an ihr vorbei.
+- T (Kardinalzeichen: die Himmelsrichtung): Norden! Norden!
+- K (Einzelgefahr, Mitte und Sperrgebiet): Zwei schwarze Bälle heißt: Hier liegt eine einzelne Gefahr, rundherum ist Wasser.
+- M (Einzelgefahr, Mitte und Sperrgebiet): Rot und weiß senkrecht gestreift ist das Gegenteil: Hier ist die Mitte, hier ist es sicher.
+- K (Leuchtfeuer und Kennungen): Nachts siehst du keine Farben an der Tonne, nur ihr Licht. Darum hat jedes Feuer seinen eigenen Takt.
+- T (Leuchtfeuer und Kennungen): Blink! Blink!
+
+### Grundkurs Zeichen Binnen
+- K: Auf Flüssen und Kanälen gelten eigene Zeichen. Das Prinzip ist ähnlich, aber die Blickrichtung ist eine andere.
+- M: Hier zählt nicht von See kommend, sondern von der Quelle zur Mündung.
+- K (Ufer, Fahrwasser und Fahrrinne): Rechts und links zählen auf Flüssen immer von der Quelle zur Mündung, also talwärts.
+- M (Ufer, Fahrwasser und Fahrrinne): Bergfahrt heißt gegen den Strom, Richtung Quelle.
+- K (Tonnen und Schwimmstangen): Rot begrenzt die Fahrrinne zum rechten Ufer, Grün zum linken. Talwärts gedacht.
+- T (Tonnen und Schwimmstangen): Talwärts! Talwärts!
+- K (Wasserstände und Ankern): Bei Hochwasser ist schnell Schluss mit Fahren. Achte auf die Hochwassermarken.
+
+## V26 Navigationsschule Lektion 0 (data/navi.json, v4.70)
+- K: Bevor wir rechnen, klären wir die Grundlagen. Ohne die hilft dir das schönste Kursdreieck nichts.
+- K: Kurse zählen in Grad, rechts herum von Nord: 0 Grad ist Nord, 90 Ost, 180 Süd, 270 West.
+- M: Und eine Minute Breite ist genau eine Seemeile. Darum misst du Distanzen immer am Breitenrand, links oder rechts.
+- T: Eine Minute, eine Meile! Eine Minute, eine Meile!
+
+Alle Sätze kommen über Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“ ins Paket.

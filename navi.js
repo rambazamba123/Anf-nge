@@ -279,6 +279,7 @@ const CSS = `
 .ntoolbar button[aria-pressed="true"]{background:#2a2a6a;color:#fff}
 .nzoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:4}
 .ntip{position:absolute;left:56px;right:56px;bottom:8px;background:rgba(255,250,240,.95);color:#2a2019;border-radius:10px;padding:6px 10px;font-size:.78rem;z-index:4}
+.ntask .nwrap{height:44svh;min-height:290px}.nschritte{list-style:none;margin:10px 0;padding:0;display:grid;gap:8px}.nschritte .menuitem{display:flex;gap:10px;align-items:center;width:100%;text-align:left}.nschritte small{display:block;color:var(--muted)}.nnr{flex:0 0 30px;height:30px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-weight:800}.menuitem.nnext{border-color:var(--lamp);box-shadow:0 0 0 3px rgba(240,181,62,.25)}.nbeg .fanim{max-width:300px}.nrech summary{cursor:pointer;min-height:40px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nhint{background:#fff8e6;border-radius:8px;padding:6px 8px}
 .nsheetgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.nsheetgrid label{margin:0;font-size:.8rem}
 .nfield{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}.nfield input{width:110px}
 .nok{color:var(--stb,#1e7f4f);font-weight:700}.nno{color:var(--bb,#c2473b);font-weight:700}
@@ -450,6 +451,20 @@ const GEN = {
     return {text: `Du fährst <b>${comma(v)} kn</b> über Grund. Welche Distanz legst du in <b>${t} Minuten</b> zurück?`, chart: null, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d}, tol: {d: .1}, hint: ['Distanz = Fahrt × Zeit. Zeit in Stunden: Minuten durch 60.'], expl: `${comma(v)} kn × ${t}/60 h = ${comma(d, 2)} sm.`}; },
   zeitDist() { const v = ri(8, 24) / 2, d = ri(15, 120) / 10, t = d / v * 60;
     return {text: `Bis zur nächsten Tonne sind es <b>${comma(d)} sm</b>. Du fährst <b>${comma(v)} kn</b> über Grund. Wie lange brauchst du?`, chart: null, fields: [{k: 't', l: 'Zeit', t: 'min'}], sol: {t}, tol: {t: 1}, hint: ['Zeit = Distanz durch Fahrt, mal 60 für Minuten.'], expl: `${comma(d)} sm : ${comma(v)} kn × 60 = ${Math.round(t)} Minuten.`}; },
+  /* Lektion 0: Grundlagen */
+  richtung() {
+    const R = [['Nord', 0], ['Nordost', 45], ['Ost', 90], ['Südost', 135], ['Süd', 180], ['Südwest', 225], ['West', 270], ['Nordwest', 315]], [name, g] = pick(R);
+    const hint = ['0° ist Nord, 90° Ost, 180° Süd, 270° West. Gezählt wird rechts herum.', 'Genau dazwischen liegen 45° Nordost, 135° Südost, 225° Südwest und 315° Nordwest.'];
+    if (Math.random() < .5) { const o4 = [name, ...R.map(r => r[0]).filter(x => x !== name).sort(() => Math.random() - .5).slice(0, 3)].sort(() => Math.random() - .5);
+      return {text: `Du steuerst rwK <b>${fmtDeg(g)}</b>. In welche Himmelsrichtung fährst du?`, chart: null, fields: [{k: 'mc', l: '', t: 'mc', opts: o4}], sol: {mc: name}, hint, expl: `${fmtDeg(g)} ist ${name}.`}; }
+    return {text: `Du willst genau nach <b>${name}</b> fahren. Welchen Kurs in Grad steuerst du?`, chart: null, fields: [{k: 'k', l: 'Kurs', t: 'deg'}], sol: {k: g}, tol: {k: 0}, hint, expl: `${name} ist ${fmtDeg(g)}.`};
+  },
+  gegenkurs() { const k = ri(1, 71) * 5, g = n360(k + 180);
+    return {text: `Du bist auf Kurs <b>${fmtDeg(k)}</b> unterwegs und musst umkehren. Welchen Kurs steuerst du zurück (Gegenkurs)?`, chart: null, fields: [{k: 'g', l: 'Gegenkurs', t: 'deg'}], sol: {g}, tol: {g: 0},
+      hint: ['Der Gegenkurs zeigt genau in die andere Richtung: Er unterscheidet sich um 180°.', 'Ist der Kurs kleiner als 180°, rechnest du plus 180°. Ist er 180° oder mehr, rechnest du minus 180°.'], expl: `${fmtDeg(k)} ${k < 180 ? '+' : '−'} 180° = ${fmtDeg(g)}.`}; },
+  minSm() { const a = ri(30, 300) / 10, b = a + ri(15, 160) / 10, d = b - a;
+    return {text: `Zwei Tonnen liegen genau nördlich voneinander: die eine auf <b>${fmtLat(a)}</b>, die andere auf <b>${fmtLat(b)}</b>. Wie weit sind sie voneinander entfernt?`, chart: null, fields: [{k: 'd', l: 'Distanz', t: 'sm'}], sol: {d}, tol: {d: .05},
+      hint: ['Eine Minute Breite ist genau eine Seemeile.', `Zieh die Minuten voneinander ab: ${comma(b % 60)} − ${comma(a % 60)}.`], expl: `${comma(d)}' Breitenunterschied sind ${comma(d)} sm.`}; },
   koppelort() {
     let a, k, v, t, z;
     for (let i = 0; i < 300; i++) { a = pick(BUOYS()); k = ri(0, 35) * 10; v = ri(10, 20) / 2; t = ri(3, 9) * 10; z = versegeln(a, k, v * t / 60); if (inSea(z)) break; }
@@ -640,13 +655,33 @@ function fieldHTML(f) {
   const ph = f.t === 'lat' || f.t === 'lon' ? 'Min., z. B. 20,4' : f.t === 'deg' ? 'z. B. 074' : f.t === 'sdeg' ? 'z. B. +3 oder −2' : '';
   return `<label class="nfield"><span style="min-width:96px">${NAV.linkTerms(esc(f.l))}</span>${pre}<input data-k="${f.k}" inputmode="${f.t === 'sdeg' ? 'text' : 'decimal'}" placeholder="${ph}" autocomplete="off">${post}</label>`;
 }
+/* Drei Hilfe-Stufen aus der Aufgabe: Tipp (erster Hinweis), Rechenweg (weitere Hinweise oder die Formel der Lektion), Lösung (Werte und Erklärung) */
+const TIPP_TYP = {deg: 'Lies den Winkel genau ab oder rechne Schritt für Schritt. Gib ihn dreistellig an, z. B. 074.', sm: 'Distanzen misst du am Breitenrand: 1 Minute = 1 Seemeile.', kn: 'Fahrt ist Strecke pro Stunde.', min: 'Zeit = Distanz : Fahrt × 60.', lat: 'Die Breite steht am linken oder rechten Kartenrand.', lon: 'Die Länge steht am oberen oder unteren Kartenrand.', pos: 'Setz mit dem Werkzeug ✕ ein Kreuz in die Karte.', mc: 'Schau dir Farbe, Form und Kennung genau an. Ein Tipp auf das Symbol in der Karte zeigt Einzelheiten.', m: 'Tiefen stehen in Metern unter Kartennull.', sdeg: 'Östlich ist plus, westlich ist minus.'};
+function hilfeStufen(task) {
+  const h = (task.hint && task.hint.length ? task.hint : task.hilfe && task.hilfe.length ? task.hilfe : GESAMT_HINTS[task.lek] || []).map(esc);
+  const tipp = h[0] || TIPP_TYP[task.fields[0].t] || 'Lies die Aufgabe noch einmal genau: Was ist gegeben, was ist gesucht?';
+  const weg = h.length > 1 ? h.slice(1).join(' ') : (GESAMT_HINTS[task.lek] || []).map(esc).join(' ') || (TIPP_TYP[task.fields[0].t] && h.length ? TIPP_TYP[task.fields[0].t] : 'Schreib dir die gegebenen Werte ins Rechenblatt unten und rechne Schritt für Schritt.');
+  const loes = task.fields.map(f => `${esc(f.l || 'Antwort')}: <b>${esc(solText(f, task.sol[f.k]))}</b>`).join(' · ') + '. ' + esc(task.expl || '');
+  return [{t: 'Tipp', html: tipp}, {t: 'Rechenweg', html: weg}, {t: 'Lösung', html: loes, loes: true}];
+}
+/* Rechenblatt direkt unter der Aufgabe (kein Umschalten): Notizfelder, bleiben in der Sitzung erhalten */
+function rechenblatt() {
+  const F = [['rwK', 'rwK'], ['mw', 'Mw'], ['mwK', 'mwK'], ['abl', 'Abl.'], ['mgk', 'MgK'], ['dist', 'Distanz sm'], ['fahrt', 'Fahrt kn'], ['zeit', 'Zeit'], ['notiz', 'Notiz']];
+  return `<details class="card nrech"${S_().rechOffen ? ' open' : ''}><summary><b>🧮 Rechenblatt</b> <span class="small muted">rwK = MgK + Abl. + Mw · Ost plus, West minus</span></summary>
+    <div class="nsheetgrid" style="margin-top:8px">${F.map(([k, n]) => `<label>${n}<input data-sv="${k}" value="${esc(sheetVals[k] || '')}" ${k === 'notiz' ? '' : 'inputmode="decimal"'}></label>`).join('')}</div></details>`;
+}
+function bindRechenblatt(root) {
+  root.querySelectorAll('[data-sv]').forEach(i => i.oninput = () => { sheetVals[i.dataset.sv] = i.value; });
+  const d = root.querySelector('.nrech'); if (d) d.addEventListener('toggle', () => { S_().rechOffen = d.open ? 1 : 0; });
+}
 /* Eine Aufgabe zeigen. opts: {title, mode:'guided'|'free'|'master'|'exam', onResult(ok,res), next} */
 NAV.task = function (task, opts) {
-  const guided = opts.mode === 'guided', exam = opts.mode === 'exam'; NAV.lastTask = task;
-  gameShell(opts.title || 'Übung', `${opts.head || ''}<div class="card small" id="xtask" style="margin-top:6px">${NAV.linkTerms(task.text)}</div>
-    ${task.chart ? '<div id="nchartbox"></div><div class="row" style="margin:6px 0;flex-wrap:wrap"><button class="btn small ghost" id="nline">Linie am Dreieck</button><button class="btn small ghost" id="nsheet">Rechenblatt</button><span class="small muted" id="xctrl"></span></div>' : '<div class="row" style="margin:6px 0"><button class="btn small ghost" id="nsheet">Rechenblatt</button></div>'}
+  const guided = opts.mode === 'guided', exam = opts.mode === 'exam', hilfeErlaubt = guided || opts.mode === 'free'; NAV.lastTask = task;
+  gameShell(opts.title || 'Übung', `<div class="ntask">${opts.head || ''}<div class="card small" id="xtask" style="margin-top:6px">${NAV.linkTerms(task.text)}</div>
+    ${task.chart ? '<div id="nchartbox"></div><div class="row" style="margin:6px 0;flex-wrap:wrap">' + ((task.chart.tools || []).includes('dreieck') ? '<button class="btn small ghost" id="nline">Linie am Dreieck</button>' : '') + '<span class="small muted" id="xctrl"></span></div>' : '<div class="row" style="margin:6px 0"><button class="btn small ghost" id="nsheet">Rechenblatt</button></div>'}
     <div class="card" id="xform">${task.fields.map(fieldHTML).join('')}
-      <div class="row" style="margin-top:8px"><button class="btn lamp" id="xcheck">${exam ? 'Weiter' : 'Prüfen'}</button>${guided ? '<button class="btn ghost" id="xhint">Hilfe</button>' : ''}</div><div id="xhints"></div><div id="xfb"></div></div>`);
+      <div class="row" style="margin-top:8px"><button class="btn lamp" id="xcheck">${exam ? 'Weiter' : 'Prüfen'}</button>${hilfeErlaubt ? '<button class="btn ghost" id="xhint">💡 Tipp</button>' : ''}</div><div id="xhints"></div><div id="xfb"></div></div>
+    ${rechenblatt()}</div>`);
   NAV.bindTerms(app);
   if (opts.back) $('#gback').onclick = opts.back;
   let ctl = null;
@@ -658,15 +693,23 @@ NAV.task = function (task, opts) {
     if (ch.hideKenn) ctl.svg.querySelectorAll('.nlab.k').forEach(e => e.remove());
     NAV.lastCtl = ctl;
     if (opts.keep) { ctl.st.lines = opts.keep.lines.slice(); ctl.st.marks = opts.keep.marks.slice(); if (opts.keep.vb) ctl.setVB(opts.keep.vb); ctl.ink(); }
-    $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck wählen.'); ctl.lineFromDreieck(); };
+    if ($('#nline')) $('#nline').onclick = () => { if (!ctl.st.dreieck) return toast('Erst das Kursdreieck wählen.'); ctl.lineFromDreieck(); };
     if (guided && task.ctrl) { const upd = () => { $('#xctrl').textContent = task.ctrl(ctl); }; ctl.on('dreieck', upd); ctl.on('zirkel', upd); }
   }
-  $('#nsheet').onclick = () => NAV.sheet();
+  bindRechenblatt(app);
   const vals = {};
   app.querySelectorAll('[data-mc]').forEach(g => g.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { vals[g.dataset.mc] = b.dataset.v; g.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
+  /* Hilfe in drei Stufen: Tipp, Rechenweg, Lösung. Sie ist nie leer; wer Hilfe nimmt, bekommt dafür keinen Meisterschaftspunkt. */
+  const stufen = hilfeStufen(task), knopf = ['💡 Tipp', '🧮 Rechenweg', '✅ Lösung zeigen'];
   let hints = 0, used = false;
-  if ($('#xhint')) $('#xhint').onclick = () => { used = true; if (hints < task.hint.length) { $('#xhints').insertAdjacentHTML('beforeend', `<p class="small" style="margin:6px 0 0">💡 ${NAV.linkTerms(esc(task.hint[hints]))}</p>`); NAV.bindTerms($('#xhints')); hints++; } };
-  if (guided) $('#xhint').click();
+  if ($('#xhint')) $('#xhint').onclick = () => {
+    if (hints >= stufen.length) return;
+    used = true; const h = stufen[hints];
+    $('#xhints').insertAdjacentHTML('beforeend', `<p class="small nhint" style="margin:6px 0 0"><b>${h.t}:</b> ${NAV.linkTerms(h.html)}</p>`); NAV.bindTerms($('#xhints'));
+    if (h.loes && ctl && task.soll) task.soll(ctl);
+    hints++; const b = $('#xhint'); if (hints >= stufen.length) { b.disabled = true; b.textContent = 'Mehr Hilfe gibt es nicht'; } else b.textContent = knopf[hints];
+  };
+  if (guided) $('#xhint').click();  /* geführt: der Tipp steht gleich da, Rechenweg und Lösung auf Wunsch */
   $('#xcheck').onclick = () => {
     app.querySelectorAll('[data-k]').forEach(i => { vals[i.dataset.k] = i.value; });
     const res = grade(task, vals, ctl), ok = task.fields.every(f => res[f.k].ok);
@@ -740,27 +783,62 @@ NAV.exam = function (o = {}) {
 };
 /* ---------- Lernpfad ---------- */
 const lekOf = id => (NV.lektionen || []).find(l => l.id === id);
-const lekState = id => { const n = S_(); return n.lek[id] = n.lek[id] || {serie: 0, sterne: 0, n: 0}; };
+const lekState = id => { const n = S_(), x = n.lek[id] = n.lek[id] || {serie: 0, sterne: 0, n: 0}; /* ältere Spielstände: wer schon Aufgaben gelöst hat, hat die ersten Schritte erledigt */ ['erkl', 'bsp', 'gef', 'frei'].forEach(k => { if (x[k] == null) x[k] = x.n ? 1 : 0; }); return x; };
 NAV.path = function () {
-  const L = NV.lektionen || [];
-  gameShell('Lernpfad', `<p class="small muted" style="margin:6px 0 10px">Jede Lektion: Die Crew erklärt, dann geführte Übung, freie Übung und Meisterschaft. Drei richtige Aufgaben ohne Hilfe in Folge geben einen Stern. Ab Lektion 5 mit Stern darfst du im Törn selbst Kurse absetzen.</p>
-    <div class="menu">${L.map((l, i) => { const s = lekState(l.id); return `<button class="menuitem" data-l="${l.id}"><b>${s.sterne ? '⭐ ' : ''}${i + 1}. ${esc(l.t)}</b><span class="small muted">${esc(l.d)}${s.n ? ` · ${s.n} Aufgaben gelöst` : ''}</span></button>`; }).join('')}</div>`);
+  const L = NV.lektionen || [], fertig = L.filter(l => lekState(l.id).sterne).length;
+  const naechste = L.find(l => !lekState(l.id).sterne);
+  gameShell('Lernpfad', `<p class="small muted" style="margin:6px 0 10px">Jede Lektion hat fünf Schritte: <b>Erklärung, Beispiel, geführte Übung, freie Übung, Meisterschaft</b>. Drei richtige Aufgaben ohne Hilfe in Folge geben einen Stern. ${fertig} von ${L.length} Lektionen mit Stern.</p>
+    <div class="menu">${L.map(l => { const s = lekState(l.id), n = SCHRITTE.filter(x => x.fertig(s)).length;
+      return `<button class="menuitem${l === naechste ? ' nnext' : ''}" data-l="${l.id}"><b>${s.sterne ? '⭐ ' : l === naechste ? '➜ ' : ''}${l.id === 'L0' ? '0' : l.id.slice(1)}. ${esc(l.t)}</b><span class="small muted">${esc(l.d)} · ${n} von 5 Schritten</span></button>`; }).join('')}</div>`);
   $('#gback').onclick = () => NAV.hub();
   app.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { AUD.click(); NAV.lesson(b.dataset.l); });
 };
+/* Die fünf Schritte jeder Lektion; erledigt wird in S.navi.lek[id] gemerkt (erkl, bsp, gef, frei, sterne; Standard 0) */
+const SCHRITTE = [
+  {k: 'erkl', t: 'Erklärung', d: 'Die Crew erklärt, die Begriffe mit Bild', fertig: s => s.erkl},
+  {k: 'bsp', t: 'Beispiel', d: 'Eine Aufgabe, Schritt für Schritt vorgerechnet', fertig: s => s.bsp},
+  {k: 'guided', t: 'Geführte Übung', d: 'Mit Tipp, Rechenweg und Lösung auf Wunsch', fertig: s => s.gef},
+  {k: 'free', t: 'Freie Übung', d: 'Zufallsaufgaben, Hilfe nur wenn nötig', fertig: s => s.frei},
+  {k: 'master', t: 'Meisterschaft', d: 'Ohne Hilfe, drei richtig in Folge', fertig: s => s.sterne}
+];
+const begriffKarte = id => { const f = (NV.fibel || []).find(x => x.id === id); return f ? `<div class="card nbeg"><b>${esc(f.t)}</b>${anim(f.a)}<p class="small" style="margin:4px 0">${esc(f.e)}</p><p class="small" style="margin:0">💡 ${esc(f.m)}</p></div>` : ''; };
 NAV.lesson = function (id) {
-  const l = lekOf(id), s = lekState(id), cid2 = r => cid(r);
-  gameShell(l.t, `<div class="card"><h2 style="margin:0 0 6px">${esc(l.t)}</h2>${l.crew.map(c => `<p style="margin:6px 0"><b>${esc(nameOf(c.s))}:</b> ${NAV.linkTerms(esc(c.t))}</p>`).join('')}
-      <button class="btn small ghost" id="lread">▶ Vorlesen lassen</button></div>
-    <div class="menu" style="margin-top:10px">
-      <button class="menuitem" data-m="guided"><b>Geführte Übung</b><span class="small muted">Mit Hilfen und Kontrollwerten</span></button>
-      <button class="menuitem" data-m="free"><b>Freie Übung</b><span class="small muted">Zufallsaufgaben, so viele du willst</span></button>
-      <button class="menuitem" data-m="master"><b>Meisterschaft ${s.sterne ? '⭐' : `(${s.serie} von 3)`}</b><span class="small muted">Ohne Hilfe, drei richtig in Folge</span></button>
-    </div>`);
-  NAV.bindTerms(app);
+  const l = lekOf(id), s = lekState(id), next = SCHRITTE.find(x => !x.fertig(s));
+  gameShell(l.t, `<div class="card"><h2 style="margin:0 0 4px">${l.id === 'L0' ? '' : 'Lektion ' + l.id.slice(1) + ': '}${esc(l.t)}</h2><p class="small muted" style="margin:0">${esc(l.d)}</p></div>
+    <ol class="nschritte">${SCHRITTE.map((x, i) => `<li><button class="menuitem${x === next ? ' nnext' : ''}" data-m="${x.k}"><span class="nnr">${x.fertig(s) ? '✓' : i + 1}</span><span><b>${x.t}${x.k === 'master' ? (s.sterne ? ' ⭐' : ` (${s.serie} von 3)`) : ''}</b><small>${x.d}</small></span></button></li>`).join('')}</ol>`);
   $('#gback').onclick = () => { VOX.stop(); NAV.path(); };
-  $('#lread').onclick = () => { AUD.unlock(); VOX.stop(); VOX.lines(l.crew.map(c => ({cid: cid2(c.s), t: c.t})), 'fixed'); };
-  app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { VOX.stop(); NAV.exercise(id, b.dataset.m); });
+  app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { AUD.click(); VOX.stop(); const m = b.dataset.m; if (m === 'erkl') NAV.erklaerung(id); else if (m === 'bsp') NAV.beispiel(id); else NAV.exercise(id, m); });
+};
+/* Schritt 1: Erklärung der Crew (vorgelesen) und die Begriffe der Lektion mit kleiner Animation */
+NAV.erklaerung = function (id) {
+  const l = lekOf(id), s = lekState(id);
+  gameShell(l.t + ': Erklärung', `<div class="card">${l.crew.map(c => `<p style="margin:6px 0"><b>${esc(nameOf(c.s))}:</b> ${NAV.linkTerms(esc(c.t))}</p>`).join('')}<button class="btn small ghost" id="lread">▶ Nochmal vorlesen</button></div>
+    ${l.seezeichen ? `<div class="card"><b>Tonnen und Feuer in der Karte</b><p class="small" style="margin:4px 0 8px">Was die Farben, Toppzeichen und Kennungen bedeuten, lernst du im Grundkurs Seezeichen, mit den Bildern aus der Prüfung.</p><button class="btn small" id="lsz">Grundkurs Seezeichen öffnen</button></div>` : ''}
+    ${(l.begriffe || []).map(begriffKarte).join('')}
+    <button class="btn lamp wide" id="lok" style="margin:10px 0 24px">Verstanden, weiter zum Beispiel</button>`);
+  NAV.bindTerms(app);
+  const lesen = () => { AUD.unlock(); VOX.stop(); VOX.lines(l.crew.map(c => ({cid: cid(c.s), t: c.t})), 'fixed'); };
+  $('#gback').onclick = () => { VOX.stop(); NAV.lesson(id); };
+  $('#lread').onclick = lesen; lesen();
+  (l.begriffe || []).forEach(b => { S_().fibel[b] = 1; });
+  const sz = $('#lsz'); if (sz) sz.onclick = () => { VOX.stop(); seezeichenKurs('see'); };
+  $('#lok').onclick = () => { VOX.stop(); s.erkl = 1; save(); NAV.beispiel(id); };
+};
+/* Schritt 2: Beispiel. Eine Aufgabe wird vorgerechnet, die Lösung ist in der Karte eingezeichnet. */
+NAV.beispiel = function (id) {
+  const l = lekOf(id), s = lekState(id), task = GEN[l.typen[0]](), steps = task.steps || [task];
+  const weg = t => { const h = (t.hint && t.hint.length ? t.hint : t.hilfe || GESAMT_HINTS[t.lek] || []); return `<ol class="small" style="margin:6px 0;padding-left:20px">${h.map(x => `<li>${NAV.linkTerms(esc(x))}</li>`).join('')}<li><b>Ergebnis:</b> ${t.fields.map(f => `${esc(f.l || 'Antwort')} ${esc(solText(f, t.sol[f.k]))}`).join(', ')}. ${NAV.linkTerms(esc(t.expl || ''))}</li></ol>`; };
+  const karte = steps.find(t => t.chart);
+  gameShell(l.t + ': Beispiel', `<div class="ntask">${task.scen ? `<div class="card small">${NAV.linkTerms(task.scen)}</div>` : ''}
+    ${karte ? '<div id="nchartbox"></div>' : ''}
+    ${steps.map((t, i) => `<div class="card small"><b>${steps.length > 1 ? 'Teil ' + (i + 1) + ': ' : 'Aufgabe: '}</b>${NAV.linkTerms(t.text)}<p style="margin:8px 0 0"><b>So wird's gemacht:</b></p>${weg(t)}</div>`).join('')}
+    <button class="btn lamp wide" id="bok" style="margin:10px 0 6px">Jetzt du: geführte Übung</button><button class="btn ghost wide" id="bnoch" style="margin-bottom:24px">Noch ein Beispiel</button></div>`);
+  NAV.bindTerms(app);
+  if (karte) { const ctl = NAV.mountChart($('#nchartbox'), {center: karte.chart.center, width: karte.chart.width || 520, tools: ['hand'], tool: 'hand'}); if (karte.chart.hi) ctl.highlight(karte.chart.hi); steps.forEach(t => { if (t.soll) t.soll(ctl); }); }
+  s.bsp = 1; save();
+  $('#gback').onclick = () => NAV.lesson(id);
+  $('#bok').onclick = () => NAV.exercise(id, 'guided');
+  $('#bnoch').onclick = () => NAV.beispiel(id);
 };
 NAV.exercise = function (id, mode) {
   const l = lekOf(id), s = lekState(id), typ = pick(l.typen), task = GEN[typ]();
@@ -770,7 +848,7 @@ NAV.exercise = function (id, mode) {
     if (mode === 'guided') task.steps.forEach(st => { st.hint = st.hilfe || GESAMT_HINTS[st.lek] || []; });
     const need = task.need || 7, all = task.steps.length;
     return NAV.multi(task, {title: l.t, mode, back: () => NAV.lesson(id), extraHead: () => mode === 'master' ? `Meisterschaft ${s.serie} von 3` : '', done: pts => {
-      const ok = pts >= need; s.n++;
+      const ok = pts >= need; s.n++; if (ok && mode === 'guided') s.gef = 1; if (ok && mode === 'free') s.frei = 1;
       if (mode === 'master') { s.serie = ok ? s.serie + 1 : 0; if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; toast(`⭐ Stern für „${l.t}“!`); } }
       save(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5});
       gameShell(l.t, `<div class="card"><h2 style="margin:0" class="${ok ? 'pass' : 'fail'}">${pts} von ${all} Punkten</h2><p class="muted">${ok ? `Bestanden: Du brauchst mindestens ${need} Punkte.` : `Noch nicht: Du brauchst mindestens ${need} von ${all} Punkten.`}</p>
@@ -780,7 +858,7 @@ NAV.exercise = function (id, mode) {
   }
   NAV.task(task, {title: l.t, mode, head, back: () => NAV.lesson(id), next: () => NAV.exercise(id, mode),
     onResult: (ok, res, t, usedHint) => {
-      if (ok) s.n++;
+      if (ok) { s.n++; if (mode === 'guided') s.gef = 1; if (mode === 'free') s.frei = 1; }
       if (mode === 'master') {
         s.serie = ok ? s.serie + 1 : 0;
         if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; setTimeout(() => { toast(`⭐ Stern für „${l.t}“!`); AUD.sfx('glocke', {vol: .5}); }, 400); LOG.add('navi', 'Stern ' + id); }
@@ -792,14 +870,17 @@ NAV.exercise = function (id, mode) {
 NAV.hub = async function () {
   await NAV.init();
   const n = S_(), stars = Object.values(n.lek).reduce((a, l) => a + (l.sterne ? 1 : 0), 0);
-  gameShell('Navigationsschule', `<p class="small muted" style="margin:6px 0 10px">Am Kartentisch der Kliev-Mündung. Die Karte ist erfunden und selbst gezeichnet, Maßstab etwa 1 : 100 000.</p>
+  const L = NV.lektionen || [], naechste = L.find(l => !lekState(l.id).sterne);
+  gameShell('Navigationsschule', `<p class="small muted" style="margin:6px 0 10px">Am Kartentisch der Kliev-Mündung. Die Karte ist erfunden und selbst gezeichnet (Maßstab etwa 1 : 100 000), gerechnet wird wie auf der echten Seekarte.</p>
+    ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${esc(naechste.t)}</button>` : ''}
     <div class="menu">
+      <button class="menuitem" data-n="path"><b>Lernpfad</b><span class="small muted">${stars} von ${L.length} Lektionen mit Stern · von den Grundlagen bis zur Gesamtaufgabe</span></button>
+      <button class="menuitem" data-n="exam"><b>Prüfungsmodus</b><span class="small muted">9 Teilaufgaben wie in der Prüfung, ohne Hilfen, 25 Minuten</span></button>
+      <button class="menuitem" data-n="fibel"><b>Navi-Fibel</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>
       <button class="menuitem" data-n="free"><b>Freie Karte</b><span class="small muted">Kursdreieck, Zirkel, Bleistift und Lupe ausprobieren</span></button>
-      ${NAV.fibel ? `<button class="menuitem" data-n="fibel"><b>Navi-Fibel</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>` : ''}
-      ${NAV.path ? `<button class="menuitem" data-n="path"><b>Lernpfad</b><span class="small muted">${stars} von ${(NV.lektionen || []).length} Lektionen mit Stern</span></button>` : ''}
-      ${NAV.exam ? `<button class="menuitem" data-n="exam"><b>Prüfungsmodus</b><span class="small muted">9 Teilaufgaben wie in der Prüfung, ohne Hilfen</span></button>` : ''}
       <button class="menuitem" data-n="old"><b>Amtliche Aufgaben</b><span class="small muted">Die 15 Originalaufgaben als Text (dafür brauchst du die BSH-Übungskarte 49)</span></button>
     </div>`);
+  const nw = $('#nweiter'); if (nw) nw.onclick = () => { AUD.click(); NAV.lesson(naechste.id); };
   app.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { AUD.click(); const k = b.dataset.n; if (k === 'free') NAV.freeChart(); else if (k === 'old') navGame(); else if (NAV[k]) NAV[k](); });
 };
 })();

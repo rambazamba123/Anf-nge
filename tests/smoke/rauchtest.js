@@ -80,6 +80,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
     await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
   /* 5.11: SKS-Stufe am Kartentisch (Versegelung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe) */
+  /* V26: Lektion 0, fünf Schritte, Hilfe in drei Stufen */
+  await schritt('08-navi-L0', page, async () => { await ev(page, () => NAV.lesson('L0')); await sleep(500); await ev(page, () => document.querySelector('[data-m=erkl]').click()); await sleep(700); await ev(page, () => { VOX.stop(); document.getElementById('lok').click(); }); await sleep(800);
+    if (!await page.$('#bok')) throw new Error('kein Beispiel'); await ev(page, () => document.getElementById('bok').click()); await sleep(800);
+    for (let k = 0; k < 2; k++) { await ev(page, () => document.getElementById('xhint').click()); await sleep(150); } if (await ev(page, () => document.querySelectorAll('.nhint').length) !== 3) throw new Error('Hilfe nicht dreistufig'); });
   for (const l of ['L10', 'L11']) await schritt('08-navi-' + l, page, async () => { await ev(page, l => NAV.exercise(l, 'guided'), l); await sleep(700); if (!await page.$('#xform')) throw new Error('keine Aufgabe'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
   /* V26: Deck mit „Kurs für heute“, Meine Prüfungen (Abschnitte, Themen, Schein wechseln), Seezeichen-Kurs, Spielekiste nur Spiele */
