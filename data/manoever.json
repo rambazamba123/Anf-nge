@@ -1,0 +1,122 @@
+{
+ "about": "Manöverspiel: Manöver nach dem Praxisprotokoll der amtlichen Prüfungsrichtlinie (Anlage 4, I. mit Antriebsmaschine). Feste Sätze ohne Namen. wer: K Käpt'n, M Matrosin, T Papagei, H Prüfer. sag als Text oder {pinne, rad} je Steuerart. Kommandos: richtig, falsch (Liste), warum. {kurs}/{falsch}/{peil} werden eingesetzt. Vorführung: x/y als Anteil der Fläche (über 1 = Pixel), h Kurs in Grad, g Gas (-1..1), r Ruderwirkung (+ = Bug nach Steuerbord bei Fahrt voraus).",
+ "manoever": {
+  "ablegen": {"name": "Ablegen", "art": "Pflichtmanöver", "ziel": "Leg mit Backbord vom Steg ab und fahr zwischen den beiden Tonnen ins Fahrwasser.",
+   "pruefer": ["Rundumblick, bevor es losgeht", "Klare Kommandos an die Crew", "Motor nur in Neutral starten, danach Kühlwasser prüfen", "Langsam ablegen, das Heck darf den Steg nicht berühren", "Fender erst rein, wenn das Boot frei ist"],
+   "kommandos": {
+    "start": {"frage": "Bevor es losgeht: Was sagst du der Crew?", "richtig": "Rundumblick: alles frei. Wir legen ab, Leinen klar zum Loswerfen!", "falsch": ["Leinen los!", "Kein Kommando", "Volle Fahrt voraus!"], "warum": "Erst schauen und ansagen, dann handeln. Leinen los kommt erst, wenn der Motor läuft."},
+    "leinen": {"frage": "Der Motor läuft im Leerlauf. Wie geht es weiter?", "richtig": "Kühlwasser kommt. Achterleine los, Vorleine los!", "falsch": ["Kein Kommando, einfach Gas geben", "Fender rein!", "Leinen fest!"], "warum": "Ohne Kühlwasser wird der Motor heiß. Und ohne Leinen los nimmst du den Steg mit."},
+    "frei": {"frage": "Das Boot ist frei vom Steg.", "richtig": "Fender rein, Leinen aufschießen!", "falsch": ["Kein Kommando", "Fender raus!", "Mensch über Bord!"], "warum": "Fender, die außenbords baumeln, sehen nach Badewannen-Kapitän aus. Rein damit, sobald du frei bist."}
+   },
+   "demo": [
+    {"t": 0, "x": 46, "y": 0.62, "h": 0, "g": 0, "r": 0, "motor": 0, "wer": "K", "sag": "Wir liegen mit Backbord am Steg. Erst mal Rundumblick: Ist das Fahrwasser frei?"},
+    {"t": 3.6, "cmd": "Wir legen ab! Leinen klar zum Loswerfen!"},
+    {"t": 5.6, "motor": 1, "wer": "K", "sag": "Motor nur in Neutral starten. Dann prüfen: Kommt der Kühlwasserstrahl?"},
+    {"t": 9, "cmd": "Achterleine los! Vorleine los!"},
+    {"t": 10.6, "x": 46, "y": 0.62, "h": 7, "wer": "M", "sag": "Ich drück den Bug vom Steg ab!"},
+    {"t": 12.4, "x": 49, "y": 0.6, "h": 12, "g": 0.2, "r": 0.6, "wer": "K", "sag": {"pinne": "Pinne zum Steg, ganz langsam voraus. Der Bug dreht ab, aber das Heck schwenkt zum Steg. Also behutsam!", "rad": "Ruder nach Steuerbord, ganz langsam voraus. Der Bug dreht ab, aber das Heck schwenkt zum Steg. Also behutsam!"}},
+    {"t": 16, "x": 74, "y": 0.5, "h": 26, "g": 0.25, "r": 0.2},
+    {"t": 18.4, "x": 0.38, "y": 0.4, "h": 18, "g": 0.3, "r": -0.15, "wer": "K", "sag": {"pinne": "Frei vom Steg. Pinne mittschiffs, Kurs auf das Fahrwasser.", "rad": "Frei vom Steg. Ruder mittschiffs, Kurs auf das Fahrwasser."}, "cmd": "Fender rein, Leinen aufschießen!"},
+    {"t": 21.6, "x": 0.5, "y": 0.22, "h": 0, "g": 0.5, "r": 0},
+    {"t": 23.4, "x": 0.5, "y": 0.1, "h": 0, "g": 0.5, "r": 0, "wer": "H", "sag": "Ich achte auf Rundumblick, klare Kommandos und dass das Heck den Steg nicht küsst."},
+    {"t": 28, "x": 0.5, "y": 0.04, "h": 0, "g": 0.5, "r": 0}
+   ]},
+  "anlegen": {"name": "Anlegen", "art": "Pflichtmanöver", "ziel": "Leg mit Backbord am Steg an: langsam, in flachem Winkel, und bleib parallel am Steg stehen.",
+   "pruefer": ["Fender und Leinen rechtzeitig klar", "Langsam anfahren, höchstens Schritttempo", "In flachem Winkel an den Steg", "Mit kurzem Rückwärtsgang aufstoppen, Boot liegt parallel am Steg", "Niemand springt, bevor das Boot steht"],
+   "kommandos": {
+    "start": {"frage": "Der Steg kommt in Sicht. Was sagst du der Crew?", "richtig": "Fender an Backbord raus, Vor- und Achterleine klarmachen!", "falsch": ["Fender an Steuerbord raus!", "Kein Kommando", "Leinen los!"], "warum": "Der Steg liegt an Backbord, also gehören die Fender nach Backbord. Und zwar bevor du ankommst."},
+    "nah": {"frage": "Gleich bist du am Steg.", "richtig": "Erst übersteigen, wenn das Boot steht! Vorleine klar zum Übergeben.", "falsch": ["Jetzt springen!", "Kein Kommando", "Volle Fahrt voraus!"], "warum": "Wer vom fahrenden Boot springt, landet zwischen Boot und Steg. Das tut weh."},
+    "fest": {"frage": "Das Boot liegt still am Steg.", "richtig": "Vorleine fest, Achterleine fest! Dann Motor aus.", "falsch": ["Motor aus, die Leinen machen wir gleich", "Kein Kommando", "Fender rein!"], "warum": "Erst festmachen, dann Motor aus. Sonst treibt das Boot wieder ab."}
+   },
+   "demo": [
+    {"t": 0, "x": 0.6, "y": 0.95, "h": 0, "g": 0.3, "r": 0, "motor": 1, "wer": "K", "sag": "Anlegen mit Backbord am Steg. Vorher wird alles klargemacht.", "cmd": "Fender an Backbord raus, Vor- und Achterleine klar!"},
+    {"t": 4.4, "x": 0.57, "y": 0.82, "h": -12, "g": 0.25, "r": -0.3, "wer": "K", "sag": "Langsam, höchstens Schritttempo. Wir laufen den Steg in flachem Winkel an."},
+    {"t": 8.4, "x": 0.41, "y": 0.66, "h": -24, "g": 0.2, "r": 0},
+    {"t": 11, "x": 0.25, "y": 0.56, "h": -22, "g": 0, "r": 0, "wer": "K", "sag": "Kurz vorm Steg auskuppeln. Das Boot gleitet noch."},
+    {"t": 13.8, "x": 64, "y": 0.5, "h": -12, "g": -0.35, "r": 0, "wer": "K", "sag": "Kurz rückwärts zum Aufstoppen. Der Radeffekt zieht das Heck nach Backbord, also schön an den Steg."},
+    {"t": 16.6, "x": 46, "y": 0.49, "h": 0, "g": 0, "r": 0, "cmd": "Erst übersteigen, wenn wir stehen!"},
+    {"t": 18.6, "cmd": "Vorleine fest! Achterleine fest!", "wer": "M", "sag": "Leinen sind fest!"},
+    {"t": 20.6, "motor": 0, "wer": "H", "sag": "Ich achte auf Schritttempo, flachen Winkel und dass keiner springt, solange das Boot fährt."},
+    {"t": 26}
+   ]},
+  "mob": {"name": "Mensch über Bord", "art": "Pflichtmanöver", "ziel": "Ruf, wirf den Ring, fahr im Bogen gegen den Wind an die Person heran und bleib mit ausgekuppeltem Motor neben ihr stehen.",
+   "pruefer": ["Sofort laut „Mensch über Bord“ mit Seite rufen", "Rettungsmittel werfen, Ausguck bestimmen, Position merken (MOB-Taste)", "Heck mit der Schraube von der Person wegdrehen", "Gegen den Wind langsam anfahren", "Vor der Person auskuppeln und neben ihr stehen bleiben"],
+   "kommandos": {
+    "start": {"frage": "Platsch! Jemand ist an Steuerbord über Bord gegangen.", "richtig": "Mensch über Bord an Steuerbord!", "falsch": ["Mensch über Bord an Backbord!", "Kein Kommando", "Alle Mann unter Deck!"], "warum": "Laut und mit Seite rufen. Dann weiß jeder an Bord sofort Bescheid."},
+    "ring": {"frage": "Und jetzt?", "richtig": "Rettungsring werfen! Ausguck: zeigen und nicht aus den Augen lassen! MOB-Taste drücken!", "falsch": ["Erst wenden, dann werfen", "Kein Kommando", "Motor aus!"], "warum": "Jede Sekunde treibt der Mensch weiter weg. Ring sofort, und einer zeigt immer drauf."},
+    "nah": {"frage": "Du bist fast bei der Person.", "richtig": "Auskuppeln! Die Schraube muss stehen, wenn die Person am Boot ist.", "falsch": ["Kein Kommando", "Rückwärts Vollgas!", "Schwimm mal zum Boot!"], "warum": "Eine drehende Schraube neben einem Menschen im Wasser ist lebensgefährlich."}
+   },
+   "person": {"x": 0.5, "dx": 26, "y": 0.78},
+   "demo": [
+    {"t": 0, "x": 0.5, "y": 0.95, "h": 0, "g": 0.5, "r": 0, "motor": 1, "wer": "K", "sag": "Wir laufen ruhig voraus. Da geht jemand an Steuerbord über Bord. Jetzt zählt jede Sekunde."},
+    {"t": 3, "x": 0.5, "y": 0.78, "h": 0, "g": 0.5, "r": 0, "mob": 1, "cmd": "Mensch über Bord an Steuerbord!"},
+    {"t": 4.4, "x": 0.52, "y": 0.73, "h": 30, "g": 0.4, "r": 1, "wer": "K", "sag": {"pinne": "Pinne hart nach Backbord. Der Bug dreht zur Person, das Heck mit der Schraube von ihr weg.", "rad": "Ruder hart nach Steuerbord. Der Bug dreht zur Person, das Heck mit der Schraube von ihr weg."}},
+    {"t": 6.4, "x": 0.6, "y": 0.69, "h": 95, "g": 0.4, "r": 1, "cmd": "Rettungsring werfen! Ausguck: zeigen! MOB-Taste!"},
+    {"t": 9, "x": 0.7, "y": 0.79, "h": 175, "g": 0.4, "r": 1, "wer": "K", "sag": "Im Bogen zurück. Wir wollen gegen den Wind auf die Person zulaufen."},
+    {"t": 11.6, "x": 0.62, "y": 0.92, "h": 255, "g": 0.35, "r": 1},
+    {"t": 14, "x": 0.5, "y": 0.92, "h": 330, "g": 0.3, "r": 0.8},
+    {"t": 16, "x": 0.5, "y": 0.86, "h": 0, "g": 0.2, "r": 0, "wer": "K", "sag": "Langsam heran. Der Wind kommt von vorn und bremst."},
+    {"t": 18, "x": 0.5, "y": 0.82, "h": 0, "g": 0, "r": 0, "cmd": "Auskuppeln!", "wer": "K", "sag": "Vorher auskuppeln. Die Schraube steht, wenn die Person am Boot ist."},
+    {"t": 20.4, "x": 0.5, "y": 0.79, "h": 0, "g": 0, "r": 0, "wer": "M", "sag": "Hab ihn! Badeleiter runter, Motor bleibt aus dem Gang."},
+    {"t": 23.4, "wer": "H", "sag": "Ich achte auf den Ruf, den Ring, den Ausguck und darauf, dass die Schraube steht, wenn der Mensch am Boot ist."},
+    {"t": 29}
+   ]},
+  "kompass": {"name": "Steuern nach Kompass", "art": "Pflichtmanöver (See)", "ziel": "Wiederhole den Kurs, steuere ihn an, halte ihn auf 5 Grad genau und peile dann die rote Tonne.",
+   "pruefer": ["Den befohlenen Kurs laut wiederholen", "Kurs zügig anliegen und melden: „Kurs liegt an“", "Mit kleinen Ruderausschlägen ruhig steuern", "Wind und Radeffekt ausgleichen, Kurs auf ±5 Grad halten", "Peilen: Richtung zur Tonne am Kompass ablesen"],
+   "kurse": [60, 120, 300, 330],
+   "kommandos": {
+    "start": {"frage": "Prüfer: „Steuern Sie {kurs} Grad!“ Was antwortest du?", "richtig": "Kurs {kurs}, verstanden!", "falsch": ["Kein Kommando", "Jawoll!", "Kurs {falsch}, verstanden!"], "warum": "Kursbefehle wiederholt man laut. So merkt jeder sofort, wenn etwas falsch verstanden wurde."},
+    "liegt": {"frage": "Der Kurs ist erreicht und du hältst ihn.", "richtig": "Kurs {kurs} liegt an!", "falsch": ["Kein Kommando", "Kurs {falsch} liegt an!", "Wir sind gleich da!"], "warum": "Melden, wenn der Kurs anliegt. Dann weiß der Prüfer, dass du bereit bist."},
+    "peil": {"frage": "Prüfer: „Peilen Sie die rote Tonne!“", "richtig": "Tonne peilt {peil} Grad!", "falsch": ["Tonne peilt {p2} Grad!", "Tonne peilt {p3} Grad!", "Tonne peilt {p4} Grad!"], "warum": "Die Tonne liegt in {peil} Grad. Peilen heißt: die Richtung vom Boot zur Tonne am Kompass ablesen."}
+   },
+   "demo": [
+    {"t": 0, "x": 0.28, "y": 0.9, "h": 0, "g": 0.45, "r": 0, "motor": 1, "wer": "H", "sag": "Steuern Sie null sechzig!"},
+    {"t": 2.4, "x": 0.28, "y": 0.84, "h": 0, "cmd": "Kurs null sechzig, verstanden!", "wer": "K", "sag": "Erst laut wiederholen. Dann Ruder legen."},
+    {"t": 5, "x": 0.31, "y": 0.75, "h": 30, "r": 0.5},
+    {"t": 7.4, "x": 0.4, "y": 0.68, "h": 56, "r": 0.1, "wer": "K", "sag": "Kurz vor dem neuen Kurs Ruder zurücknehmen, sonst schießt der Bug drüber."},
+    {"t": 10, "x": 0.52, "y": 0.61, "h": 60, "r": 0, "cmd": "Kurs null sechzig liegt an!"},
+    {"t": 12.6, "x": 0.63, "y": 0.55, "h": 61, "r": -0.06, "wer": "K", "sag": "Jetzt mit kleinen Ausschlägen halten. Der Wind drückt den Bug, du hältst dagegen."},
+    {"t": 16, "x": 0.75, "y": 0.48, "h": 60, "r": 0, "wer": "H", "sag": "Und jetzt peilen Sie die rote Tonne!"},
+    {"t": 18.6, "x": 0.8, "y": 0.45, "h": 60, "r": 0, "cmd": "Tonne peilt null zwanzig Grad!", "wer": "K", "sag": "Peilkompass auf die Tonne, Gradzahl ablesen. Die Tonne liegt in zwanzig Grad."},
+    {"t": 22, "x": 0.84, "y": 0.43, "h": 60, "r": 0, "wer": "H", "sag": "Ich achte darauf, dass Sie den Kurs wiederholen, melden und ruhig halten. Fünf Grad, mehr nicht."},
+    {"t": 27, "x": 0.88, "y": 0.41, "h": 60}
+   ], "demoPeil": 20},
+  "aufstoppen": {"name": "Kursgerechtes Aufstoppen", "art": "Sonstiges Manöver", "ziel": "Stopp das Boot auf Höhe der roten Tonne, ohne vom Kurs abzukommen.",
+   "pruefer": ["Ansage, bevor du aufstoppst", "Erst auskuppeln, dann rückwärts Gas geben", "Den Radeffekt mit dem Ruder ausgleichen, der Kurs bleibt", "Das Boot steht auf Höhe der Tonne, ohne sich zu drehen"],
+   "kommandos": {
+    "start": {"frage": "Prüfer: „Stoppen Sie auf Höhe der roten Tonne auf, ohne den Kurs zu verlieren!“", "richtig": "Aufstoppen auf Höhe der Tonne, verstanden!", "falsch": ["Kein Kommando", "Okay, Vollgas!", "Mensch über Bord!"], "warum": "Auftrag laut wiederholen, dann weiß jeder, was kommt."},
+    "vor": {"frage": "Die Tonne kommt näher.", "richtig": "Achtung, wir stoppen auf! Gut festhalten!", "falsch": ["Kein Kommando", "Fender raus!", "Leinen los!"], "warum": "Ein kräftiger Rückwärtsgang schüttelt alle durch. Deshalb vorher ansagen."}
+   },
+   "demo": [
+    {"t": 0, "x": 0.45, "y": 0.95, "h": 0, "g": 0.5, "r": 0, "motor": 1, "wer": "H", "sag": "Stoppen Sie auf Höhe der roten Tonne auf, ohne den Kurs zu verlieren!"},
+    {"t": 3.6, "x": 0.45, "y": 0.72, "h": 0, "g": 0.5, "cmd": "Achtung, wir stoppen auf! Gut festhalten!"},
+    {"t": 5.4, "x": 0.45, "y": 0.6, "h": 0, "g": 0, "r": 0, "wer": "K", "sag": "Erst auskuppeln und kurz warten. Dann rückwärts."},
+    {"t": 7.6, "x": 0.45, "y": 0.47, "h": 1, "g": -0.6, "r": 0.4, "wer": "K", "sag": {"pinne": "Kräftig rückwärts. Der Radeffekt will den Bug nach Steuerbord drehen, also Pinne etwas nach Backbord.", "rad": "Kräftig rückwärts. Der Radeffekt will den Bug nach Steuerbord drehen, also Ruder etwas nach Steuerbord, wie beim Rückwärtsfahren mit dem Auto."}},
+    {"t": 10.4, "x": 0.45, "y": 0.39, "h": 1, "g": -0.3, "r": 0.4},
+    {"t": 12, "x": 0.45, "y": 0.38, "h": 0, "g": 0, "r": 0, "wer": "K", "sag": "Das Boot steht auf Höhe der Tonne. Kurs gehalten, keine Drehung."},
+    {"t": 15, "wer": "H", "sag": "Ich achte auf die Ansage, das Auskuppeln vor dem Rückwärtsgang und darauf, dass der Bug nicht wegdreht."},
+    {"t": 20}
+   ]},
+  "wenden": {"name": "Wenden auf engem Raum", "art": "Sonstiges Manöver", "ziel": "Dreh das Boot in der gestrichelten Box um 180 Grad, mit Vor und Zurück, ohne die Box zu verlassen.",
+   "pruefer": ["Rundumblick und Ansage vor dem Manöver", "Über Steuerbord drehen, beim Rückwärtsfahren hilft dann der Radeffekt", "Zwischen vor und zurück immer kurz Neutral", "Ruder bei jedem Richtungswechsel umlegen", "Wenig Fahrt, nicht aus dem Raum fahren"],
+   "kommandos": {
+    "start": {"frage": "Du sollst auf engem Raum wenden.", "richtig": "Rundumblick: alles frei. Achtung, wir wenden!", "falsch": ["Kein Kommando", "Mensch über Bord!", "Leinen los!"], "warum": "Vor jedem Manöver schauen und ansagen."},
+    "rueck": {"frage": "Du legst den Rückwärtsgang ein. Welches Kommando gibst du?", "richtig": "Kein Kommando", "falsch": ["Achtung, wir legen ab!", "Mensch über Bord!", "Fender rein!"], "warum": "Hier brauchst du kein Kommando. Wichtig ist: kurz Neutral, Ruder umlegen, dann rückwärts."}
+   },
+   "demo": [
+    {"t": 0, "x": 0.5, "y": 0.56, "h": 0, "g": 0, "r": 0, "motor": 1, "wer": "K", "sag": "Wenden auf engem Raum. Wir drehen über Steuerbord, dann hilft uns der Radeffekt.", "cmd": "Rundumblick: frei. Achtung, wir wenden!"},
+    {"t": 3.4, "x": 0.5, "y": 0.56, "h": 0, "g": 0.4, "r": 1, "wer": "K", "sag": {"pinne": "Pinne hart nach Backbord, kurz voraus.", "rad": "Ruder hart nach Steuerbord, kurz voraus."}},
+    {"t": 6.2, "x": 0.55, "y": 0.47, "h": 62, "g": 0.4, "r": 1},
+    {"t": 7.4, "x": 0.57, "y": 0.46, "h": 72, "g": 0, "r": 1, "wer": "K", "sag": "Neutral. Kurz warten."},
+    {"t": 9, "x": 0.57, "y": 0.46, "h": 74, "g": 0, "r": -1, "wer": "K", "sag": {"pinne": "Pinne umlegen nach Steuerbord, dann rückwärts. Radeffekt und Ruder drehen den Bug weiter nach Steuerbord.", "rad": "Ruder umlegen nach Backbord, dann rückwärts. Radeffekt und Ruder drehen den Bug weiter nach Steuerbord."}},
+    {"t": 10.4, "x": 0.56, "y": 0.47, "h": 80, "g": -0.4, "r": -1},
+    {"t": 13.2, "x": 0.49, "y": 0.52, "h": 128, "g": -0.4, "r": -1},
+    {"t": 14.4, "x": 0.48, "y": 0.53, "h": 136, "g": 0, "r": -1, "wer": "K", "sag": "Neutral, Ruder wieder umlegen."},
+    {"t": 15.8, "x": 0.48, "y": 0.53, "h": 138, "g": 0, "r": 1},
+    {"t": 17, "x": 0.49, "y": 0.54, "h": 142, "g": 0.35, "r": 1, "wer": "K", "sag": "Noch einmal kurz voraus, bis der Bug genau zurück zeigt."},
+    {"t": 19.6, "x": 0.53, "y": 0.6, "h": 180, "g": 0.2, "r": 0},
+    {"t": 21, "x": 0.53, "y": 0.62, "h": 180, "g": 0, "r": 0, "wer": "H", "sag": "Ich achte auf Ansage, kurzes Neutral bei jedem Wechsel und dass Sie im Raum bleiben."},
+    {"t": 26}
+   ]}
+ }
+}

@@ -65,6 +65,16 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     const ok = await ev(page, () => { const c = document.querySelector('#kanim'); if (!c || !c.width) return 'keine Leinwand'; const r = document.querySelector('#kzeit'); r.value = r.max; r.oninput(); return document.querySelectorAll('#kst li').length >= 3 ? '' : 'keine Schritte'; });
     if (ok) throw new Error(id + ': ' + ok); await sleep(400); });
   await schritt('05d-knoten-schritt', page, async () => { await ev(page, () => KNOTEN.spiel(['schritt'])); await sleep(2500); if (!await page.$('#kanim') || !await page.$('[data-o]')) throw new Error('keine Runde „Was passiert hier?“'); });
+  /* Manöverspiel: Übersicht, Vorführung, Kommando-Abfrage, Ein-Finger-Steuerfeld */
+  await schritt('05e-manoever', page, async () => {
+    await ev(page, () => maneuverGame()); await sleep(1200); if (!await page.$('[data-m="mob"]')) throw new Error('keine Manöver-Übersicht');
+    await ev(page, () => MANOEVER.demo('mob', 6)); await sleep(800); if (!await page.$('#dst li.an')) throw new Error('Vorführung zeigt keinen Schritt');
+    await ev(page, () => MANOEVER.fahren('ablegen')); await sleep(900); if (!await page.$('#mcmd:not(.hidden) [data-c]')) throw new Error('keine Kommando-Abfrage');
+    await ev(page, () => [...document.querySelectorAll('[data-c]')].find(b => /Rundumblick/.test(b.textContent)).click()); await sleep(1500);
+    await ev(page, () => document.querySelector('#motbtn').click()); await sleep(600);
+    await ev(page, () => [...document.querySelectorAll('[data-c]')].find(b => /Kühlwasser/.test(b.textContent)).click()); await sleep(1500);
+    const bb = await (await page.$('#mpad')).boundingBox(); await page.mouse.move(bb.x + bb.width / 2, bb.y + bb.height / 2); await page.mouse.down(); await page.mouse.move(bb.x + bb.width / 2 - 40, bb.y + bb.height / 2 - 50, {steps: 6}); await page.mouse.up(); await sleep(7000);
+    if (!await page.$('#mcmd:not(.hidden) [data-c]')) throw new Error('Boot nicht vom Steg gekommen (keine Frage „frei“)'); await ev(page, () => stopGames()); });
   await schritt('06-navischule', page, async () => { await ev(page, () => navSchool()); await sleep(1500);
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());

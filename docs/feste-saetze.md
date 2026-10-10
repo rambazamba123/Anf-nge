@@ -50,3 +50,6 @@ Keine neuen Sätze (die Katze ist stumm).
 
 ## v4.54 – V12 Knoten
 `data/einfuehrungen.json` → `knoten` (3 Sätze: Käpt'n, Matrosin, Papagei).
+
+## Manöverspiel (v4.66)
+Alle Sätze stehen in `data/manoever.json` (Vorführungen `demo[].sag`/`cmd`, Kommandos `richtig`/`warum`) und dazu drei Prüfer-Sätze in `manoever.js` („Ausreichend. Weiter.“, „Nicht ausreichend. Zweiter Versuch.“, „Nicht ausreichend. Das üben wir noch mal.“). `packLines` nimmt sie auf, sobald `buildVoicePack` die Daten geladen hat. Sätze mit Platzhaltern (`{kurs}`, `{peil}`) sind wechselnd und kommen nicht ins Paket. Bis zur Nachlieferung spricht die Handystimme.

@@ -369,12 +369,8 @@ button.coursechip{border:0;cursor:pointer}
 .scene.boat .furled{opacity:0;transition:opacity .4s .6s} .scene.boat.sailsdown .furled{opacity:1}
 .gear{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,250,240,.9);color:#2a2019;display:grid;place-items:center;z-index:8;box-shadow:0 2px 0 rgba(0,0,0,.2)}
 .gear svg{width:24px;height:24px}
-.lever{position:absolute;right:14px;bottom:14px;width:46px;height:150px;border-radius:23px;background:rgba(20,30,40,.55);touch-action:none}
-.lever i{position:absolute;left:6px;width:34px;height:34px;border-radius:50%;background:#f0b53e;box-shadow:0 2px 0 rgba(0,0,0,.3);transition:top .05s}
-.lever::after{content:"";position:absolute;left:8px;right:8px;top:74px;height:2px;background:rgba(255,250,240,.5)}
 .motorbtn{position:absolute;right:68px;bottom:14px;width:62px;height:62px;border-radius:50%;border:0;background:#c2473b;color:#fffaf0;font:700 11px/1.15 var(--bfont);box-shadow:0 3px 0 rgba(0,0,0,.3)}
 .motorbtn[aria-pressed="true"]{background:#3c8c5a}
-.lever b{position:absolute;left:0;right:0;text-align:center;color:#fffaf0;font:700 10px sans-serif}
 .revlabel{position:absolute;transform:translate(-50%,-100%);background:#fffaf0;color:#2a2019;font:700 .72rem var(--bfont);padding:2px 8px;border-radius:999px;box-shadow:0 1px 0 rgba(0,0,0,.25);pointer-events:none;z-index:4;white-space:nowrap}
 .scene.reveal .spot.fn{box-shadow:0 0 0 3px #fff6b0,0 0 16px 4px rgba(240,181,62,.6)}
 .coach{position:fixed;inset:0;z-index:90}
@@ -508,7 +504,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.65';
+  window.__ver = '4.66';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1492,6 +1488,15 @@ function packLines(withEpisodes) {
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
   ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
   push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
+  /* Manöverspiel (manoever.js): Vorführungen, Kommandos, Prüfer; nur wenn die Daten geladen sind (buildVoicePack lädt sie) */
+  if (window.MAN_DATA) {
+    const fest = t => !/\{/.test(t);
+    Object.values(MAN_DATA).forEach(m => {
+      (m.demo || []).forEach(e => { if (e.cmd) push(cid('K'), e.cmd); if (e.sag) (typeof e.sag === 'string' ? [e.sag] : Object.values(e.sag)).forEach(t => push(e.wer === 'H' ? 'kroeger' : cid(e.wer), t)); });
+      Object.values(m.kommandos || {}).forEach(k => { if (fest(k.richtig)) push(cid('K'), k.richtig); if (fest(k.warum)) push('kroeger', k.warum); });
+    });
+    ['Ausreichend. Weiter.', 'Nicht ausreichend. Zweiter Versuch.', 'Nicht ausreichend. Das üben wir noch mal.'].forEach(t => push('kroeger', t));
+  }
   /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
   const keep = S.crew, nv = window.NAV && NAV.data ? (NAV.data().NV || {}) : {};
   try {
@@ -1547,6 +1552,7 @@ async function buildVoicePack(status, teil1) {
   if (!elKey()) return say('Dafür brauchst du den ElevenLabs-Schlüssel.');
   if (!kiOn()) return say('Schalte dafür zuerst die KI-Funktionen ein.');
   if (!S.kiOk && !(await kiEinwilligung())) return say('Ohne Einwilligung schickt die App nichts an ElevenLabs.');
+  try { await loadManoever(); } catch (e) {}
   try { await VOX.ensureVoices(); } catch (e) { return say('Die Stimmen sind gerade nicht erreichbar.'); }
   try { await loadNavi(); } catch (e) {}
   await PACK.load();
@@ -4152,7 +4158,7 @@ const GAMES = [
   {k: 'lights', n: 'Lichter bei Nacht', d: 'Wer fährt da im Dunkeln?', f: () => lightsGame()},
   {k: 'lh', n: 'Leuchtfeuer', d: 'Kennungen erkennen', f: () => lighthouseGame()},
   {k: 'buoy', n: 'Tonnen-Slalom', d: 'Rot an Backbord, grün an Steuerbord', f: () => buoyGame()},
-  {k: 'man', n: 'Manöver', d: 'Ablegen, Anlegen, Mensch über Bord', f: () => maneuverGame()},
+  {k: 'man', n: 'Manöver', d: 'Alle Prüfungsmanöver mit Motor', f: () => maneuverGame()},
   {k: 'nav', n: 'Kartentisch', d: 'Navigationsschule mit Karte', f: () => navSchool()},
   {k: 'motor', n: 'Motorkunde', d: 'Was ist was am Außenborder?', f: () => motorGame()},
   {k: 'parts', n: 'Bauteile', d: 'Teile des Bootes', f: () => partsGame()},
@@ -4977,86 +4983,12 @@ function navGame(opt = {}) {
 
 /* ---------- Manöver: Gashebel mit drei Stellungen, Ruder per Wischen ----------
    Aufgaben wie in der praktischen Prüfung: Ablegen, Anlegen, Mensch über Bord, Wenden auf engem Raum. */
-const MANEUVERS = [
-  {id: 'ablegen', name: 'Ablegen', tip: 'Leg vom Steg ab und fahr durch das Tor. Erst kurz rückwärts, dann vorwärts in die Mitte.', start: {x: 60, y: .62, h: -Math.PI / 2}, goal: {kind: 'gate', x: .5, y: .12}, dock: 'left'},
-  {id: 'anlegen', name: 'Anlegen', tip: 'Fahr langsam an den Steg und stoppe parallel daneben. Nicht schneller als Schritttempo!', start: {x: .5, y: .9, h: -Math.PI / 2}, goal: {kind: 'dock'}, dock: 'left'},
-  {id: 'mob', name: 'Mensch über Bord', tip: 'Jemand ist über Bord! Fahr ihn an und stopp direkt neben ihm, möglichst mit der Nase gegen den Wind.', start: {x: .5, y: .88, h: -Math.PI / 2}, goal: {kind: 'mob', x: .55, y: .3}},
-  {id: 'wenden', name: 'Wenden auf engem Raum', tip: 'Dreh das Boot in der engen Box um 180 Grad: vor und zurück, Ruder jeweils umlegen.', start: {x: .5, y: .5, h: -Math.PI / 2}, goal: {kind: 'turn'}, box: true},
-];
-function maneuverGame() {
-  let mi = S.best && S.best.manIdx ? S.best.manIdx % MANEUVERS.length : 0;
-  const run = () => {
-    const m = MANEUVERS[mi];
-    gameShell('Manöver: ' + m.name, `<div class="gamewrap"><canvas id="gc"></canvas><div class="lever" id="lever"><b style="top:6px">voll</b><b style="top:66px">neutral</b><b style="top:128px">zurück</b><i style="top:58px"></i></div><button class="motorbtn" id="motbtn" aria-pressed="false">Motor<br>starten</button><div class="gameover hidden" id="gover"></div></div>
-      <p class="small muted" style="margin:8px 2px">${esc(m.tip)} <b>Steuern:</b> Erst den Motor starten (nur in Neutral). Dann den Hebel stufenlos schieben: aus der Mitte nach oben legt den Vorwärtsgang ein, je weiter, desto mehr Gas. Nach unten rückwärts. Über das Wasser wischen legt das Ruder.</p>`);
-    const c = $('#gc'), wrap = c.parentElement, dpr = Math.min(2, window.devicePixelRatio || 1);
-    const W = Math.min(520, wrap.clientWidth), H = Math.min(560, Math.round(window.innerHeight * .62));
-    c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px'; const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
-    const boat = {x: (m.start.x < 1 ? m.start.x * W : m.start.x), y: m.start.y * H, h: m.start.h, v: 0, rudder: 0, gear: 0, turned: 0, motor: false};
-    const wind = Math.random() * Math.PI * 2, mob = m.goal.kind === 'mob' ? {x: m.goal.x * W, y: m.goal.y * H} : null;
-    const dock = m.dock ? {x: 0, y: H * .35, w: 26, h: H * .45} : null;
-    let t0 = performance.now(), last = t0, done = false, msg = '', msgT = 0, bumps = 0;
-    /* Gashebel */
-    const lever = $('#lever'), knob = lever.querySelector('i');
-    /* Stufenlos: Mitte = neutral (kleine Raste), oben bis voll voraus, unten bis voll zurück */
-    const setGear = g => {
-      const was = boat.gear; boat.gear = g; knob.style.top = (58 - g * 52) + 'px';
-      if ((was === 0) !== (g === 0)) { AUD.click(); if (boat.motor && g !== 0) { msg = g > 0 ? 'Vorwärtsgang eingelegt' : 'Rückwärtsgang eingelegt'; msgT = performance.now(); } }
-      if (!boat.motor && g !== 0 && was === 0) { msg = 'Der Motor läuft noch nicht'; msgT = performance.now(); }
-      if (boat.motor) AUD.loop('motorLauf', .18 + Math.abs(g) * .3);
-    };
-    const onLever = e => { const r = lever.getBoundingClientRect(), y = (e.clientY - r.top) / r.height; let g = Math.max(-1, Math.min(1, (.5 - y) / .4)); if (Math.abs(g) < .14) g = 0; else g = Math.sign(g) * (Math.abs(g) - .14) / .86; setGear(Math.round(g * 20) / 20); };
-    /* Motor an und aus. Starten nur in Neutral, wie auf dem echten Boot (Startsperre). */
-    const mb = $('#motbtn');
-    mb.onclick = () => {
-      if (!boat.motor) {
-        if (boat.gear !== 0) { msg = 'Erst auf Neutral, dann starten'; msgT = performance.now(); AUD.click(); return; }
-        boat.motor = true; AUD.sfx('motorStart', {vol: .45}); setTimeout(() => { if (boat.motor && !done) AUD.loop('motorLauf', .18); }, 900);
-        msg = 'Motor läuft. Kühlwasserstrahl kommt.'; msgT = performance.now();
-      } else { boat.motor = false; AUD.loop('motorLauf', 0); msg = 'Motor aus'; msgT = performance.now(); AUD.click(); }
-      mb.setAttribute('aria-pressed', String(boat.motor)); mb.innerHTML = boat.motor ? 'Motor<br>aus' : 'Motor<br>starten';
-    };
-    lever.addEventListener('pointerdown', e => { lever.setPointerCapture(e.pointerId); onLever(e); });
-    lever.addEventListener('pointermove', e => { if (e.buttons) onLever(e); });
-    /* Ruder per Wischen */
-    let sx = null;
-    c.addEventListener('pointerdown', e => { sx = e.clientX; });
-    c.addEventListener('pointerup', e => { if (sx === null) return; const dx = e.clientX - sx; sx = null; if (Math.abs(dx) < 18) { boat.rudder = 0; msg = 'Ruder mittschiffs'; } else { boat.rudder = Math.max(-1, Math.min(1, dx / 90)); msg = dx > 0 ? 'Ruder Steuerbord' : 'Ruder Backbord'; } msgT = performance.now(); AUD.click(); });
-    const finish = (ok, text) => { if (BONUS && BONUS.key === 'man') { done = true; return bonusEnde(ok ? 1 : 0); } done = true; stopGames(); AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .5}); const o = $('#gover'); o.innerHTML = `<h2 style="margin:0 0 4px">${ok ? 'Manöver geschafft!' : 'Noch mal'}</h2><p class="muted" style="margin:0 0 10px">${esc(text)}</p><div class="row"><button class="btn lamp" id="again">${ok ? 'Nächstes Manöver' : 'Nochmal'}</button></div>`; o.classList.remove('hidden'); $('#again').onclick = () => { if (ok) mi = (mi + 1) % MANEUVERS.length; S.best = S.best || {}; S.best.manIdx = mi; if (ok) recordScore('man', ((S.best && S.best.man) || 0) + 1); run(); }; };
-    const step = now => {
-      const dt = Math.min(50, now - last) / 1000; last = now; const t = now - t0;
-      if (!done && bonusZeit(t0)) return finish(false, 'Die Zeit ist um.');
-      /* Fahrdynamik: Gas beschleunigt, Wasser bremst, Ruder wirkt nur mit Fahrt (rückwärts umgekehrt) */
-      const pow = boat.motor ? (boat.gear > 0 ? boat.gear * 60 : boat.gear * 38) : 0; boat.v += (pow - boat.v) * (pow ? .9 : 1.2) * dt;
-      const turn = boat.rudder * 1.6 * (boat.v / 60); boat.h += turn * dt; boat.turned += Math.abs(turn * dt);
-      boat.x += Math.cos(boat.h) * boat.v * dt; boat.y += Math.sin(boat.h) * boat.v * dt;
-      if (boat.x < 14 || boat.x > W - 14 || boat.y < 14 || boat.y > H - 14) { boat.v *= -.3; boat.x = Math.max(14, Math.min(W - 14, boat.x)); boat.y = Math.max(14, Math.min(H - 14, boat.y)); if (!done) { bumps++; AUD.crash(); msg = 'Autsch, die Kante!'; msgT = now; if (bumps >= 3) return finish(false, 'Dreimal angeeckt. Ruhig und langsam, dann klappt es.'); } }
-      drawWater(ctx, W, H, t);
-      if (m.box) { ctx.strokeStyle = 'rgba(255,250,240,.6)'; ctx.setLineDash([6, 6]); ctx.strokeRect(W * .2, H * .25, W * .6, H * .5); ctx.setLineDash([]); }
-      if (dock) { ctx.fillStyle = '#8a5a3a'; ctx.fillRect(dock.x, dock.y, dock.w, dock.h); ctx.fillStyle = '#5a3a24'; for (let y = dock.y + 8; y < dock.y + dock.h; y += 22) ctx.fillRect(dock.x, y, dock.w, 3); }
-      if (m.goal.kind === 'gate') { ctx.fillStyle = '#d33a2c'; ctx.fillRect(W * .5 - 50, H * .12 - 10, 14, 20); ctx.fillStyle = '#2e9a52'; ctx.beginPath(); ctx.moveTo(W * .5 + 43, H * .12 - 12); ctx.lineTo(W * .5 + 55, H * .12 + 10); ctx.lineTo(W * .5 + 31, H * .12 + 10); ctx.fill(); }
-      if (mob) { ctx.fillStyle = '#f0b53e'; ctx.beginPath(); ctx.arc(mob.x, mob.y, 8, 0, 7); ctx.fill(); ctx.strokeStyle = '#2b2118'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('MOB', mob.x, mob.y - 12); }
-      /* Wind */
-      ctx.save(); ctx.translate(W - 36, 36); ctx.rotate(wind); ctx.strokeStyle = '#fffaf0'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-12, 0); ctx.lineTo(12, 0); ctx.lineTo(6, -5); ctx.moveTo(12, 0); ctx.lineTo(6, 5); ctx.stroke(); ctx.restore(); ctx.fillStyle = '#fffaf0'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Wind', W - 36, 54);
-      /* Boot von oben, in Fahrtrichtung */
-      ctx.save(); ctx.translate(boat.x, boat.y); ctx.rotate(boat.h + Math.PI / 2); ctx.fillStyle = '#fbf6ec'; ctx.beginPath(); ctx.moveTo(0, -22); ctx.quadraticCurveTo(12, -6, 10, 16); ctx.lineTo(-10, 16); ctx.quadraticCurveTo(-12, -6, 0, -22); ctx.fill(); ctx.fillStyle = '#3d5f8f'; ctx.fillRect(-6, -4, 12, 12); ctx.strokeStyle = '#5a3e2a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 16); ctx.lineTo(boat.rudder * 8, 26); ctx.stroke(); ctx.restore();
-      const speedKn = Math.abs(boat.v) / 12;
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(`${speedKn.toFixed(1)} kn  ${!boat.motor ? 'Motor aus' : boat.gear === 0 ? 'neutral' : (boat.gear > 0 ? 'vor ' : 'zurück ') + Math.round(Math.abs(boat.gear) * 100) + ' %'}  Ruder ${boat.rudder === 0 ? 'mittschiffs' : (boat.rudder > 0 ? 'Stb ' : 'Bb ') + Math.round(Math.abs(boat.rudder) * 30) + '°'}`, 12, 22);
-      if (msg && now - msgT < 1800) { ctx.fillStyle = 'rgba(20,30,40,.75)'; ctx.fillRect(10, H - 30, W - 20, 24); ctx.fillStyle = '#fffaf0'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(msg, W / 2, H - 13); }
-      /* Ziele prüfen */
-      if (!done) {
-        if (m.goal.kind === 'gate' && Math.abs(boat.y - H * .12) < 14 && Math.abs(boat.x - W * .5) < 36 && boat.v > 5) finish(true, 'Sauber abgelegt und durch das Tor. Genau so.');
-        if (m.goal.kind === 'dock' && dock && boat.x < dock.w + 34 && boat.y > dock.y && boat.y < dock.y + dock.h) { if (speedKn > 2.5) { finish(false, 'Viel zu schnell am Steg. Nicht schneller als Schritttempo.'); } else if (Math.abs(boat.v) < 6 && Math.abs(Math.abs(Math.sin(boat.h)) - 1) < .25) finish(true, 'Parallel und langsam am Steg. Prüfungsreif.'); }
-        if (mob && Math.hypot(boat.x - mob.x, boat.y - mob.y) < 30) { if (Math.abs(boat.v) < 8) { const ang = Math.abs(Math.atan2(Math.sin(boat.h - wind), Math.cos(boat.h - wind))); finish(true, ang > 2.2 ? 'Gestoppt und mit der Nase im Wind. Der Mensch ist gerettet.' : 'Gerettet. Noch besser: mit der Nase gegen den Wind stoppen, dann treibst du nicht weg.'); } else { finish(false, 'Zu schnell am Menschen vorbei. Erst stoppen, dann bergen.'); } }
-        if (m.goal.kind === 'turn' && boat.turned > Math.PI * .95 && Math.abs(boat.v) < 10) finish(true, 'Um 180 Grad gedreht, ohne anzuecken.');
-        if (m.box && (boat.x < W * .2 || boat.x > W * .8 || boat.y < H * .25 || boat.y > H * .75)) finish(false, 'Aus der Box gefahren. Kurz vor, Ruder umlegen, kurz zurück, wieder umlegen.');
-      }
-      if (!done) gameLoop = requestAnimationFrame(step);
-    };
-    gameLoop = requestAnimationFrame(step);
-  };
-  run();
+/* Manöverspiel: eigene Datei manoever.js (R11), Texte in data/manoever.json */
+let manP = null;
+function loadManoever() {
+  return manP || (manP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'manoever.js?v=' + window.__ver; s.onload = () => MANOEVER.init().then(res, rej); s.onerror = () => { manP = null; rej(new Error('manoever.js')); }; document.head.appendChild(s); }));
 }
+function maneuverGame() { loadManoever().then(() => MANOEVER.spiel()).catch(() => { manP = null; toast('Das Manöverspiel ließ sich nicht laden. Prüf dein Internet.'); if (BONUS) bonusEnde(0); }); }
 
 </script>
 <script>
