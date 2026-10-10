@@ -82,6 +82,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   /* 5.11: SKS-Stufe am Kartentisch (Versegelung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe) */
   for (const l of ['L10', 'L11']) await schritt('08-navi-' + l, page, async () => { await ev(page, l => NAV.exercise(l, 'guided'), l); await sleep(700); if (!await page.$('#xform')) throw new Error('keine Aufgabe'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
+  /* Entwurf „Mein Schein“: einschalten, Übersicht, Themen, Signal-Thema, Logbuch mit Scheinmappe, Schein wechseln, wieder aus */
+  await schritt('07b-mein-schein', page, async () => { await ev(page, () => document.getElementById('neuset').click()); await sleep(1500); if (!await page.$('#msheute')) throw new Error('Mein Schein fehlt'); });
+  await schritt('07c-themen', page, async () => { await page.click('[data-go=themen]'); await sleep(500); if (!await page.$('.mstema')) throw new Error('keine Themen'); await ev(page, () => setTab('schein')); await sleep(600); await page.click('[data-go^="sig:"]'); await sleep(400); await ev(page, () => closeSheet()); });
+  await schritt('07d-scheinmappe', page, async () => { await page.click('nav.tabs [data-tab=log]'); await sleep(1200); if (!await page.$('.msmappe')) throw new Error('keine Scheinmappe'); await page.click('nav.tabs [data-tab=cabin]'); await sleep(800); });
+  await schritt('07e-schein-wechsel', page, async () => { await page.click('nav.tabs [data-tab=schein]'); await sleep(1000); await page.click('[data-s=binnen]'); await sleep(800); await page.click('[data-s=sbf]'); await sleep(800);
+    await ev(page, () => { S.cfg.neu = false; applyNeu(); setTab('deck'); }); await sleep(600); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */
   await schritt('10-toernwahl', page, async () => { await ev(page, () => openToern()); await sleep(1500); if (!await page.$('[data-start]')) throw new Error('keine Törns'); });
