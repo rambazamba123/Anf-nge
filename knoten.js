@@ -657,8 +657,145 @@ const KLAMPE = (() => {
   return knotenAnim(def);
 })();
 
+/* Stopperstek an einer Leine unter Last (blau), Blick von vorn. Der Zug kommt von rechts, entlang der blauen Leine.
+   Der stehende Part liegt vorn an der blauen Leine (sv) und steigt links (bei S) hoch. Zwei Törns laufen nach rechts,
+   also zur Zugseite, und kreuzen dabei vorn über den stehenden Part (d1, d2). Danach führt das Ende hinten herum zur anderen
+   Seite (b2) und macht dort einen halben Schlag (f3, b3). Das Ende wird unter diesem letzten Törn durchgesteckt (tl).
+   Ebenen: hinten 1–2, blaue Leine 5, vorn 6, Törns 8. */
+const STOPPER = (() => {
+  const Y = 172;
+  const LOOSE = P([[390, 214, 'sv'], [340, 198, 'sv'], [290, 188, 'sv'], [242, 182, 'sv'], [202, 180, 'sv'], [165, 180, 'sv'], [140, 178, 'sv'], [130, 172, 'sv'], [126, 160, 'sv'],
+    [129, 147, 'b0'], [135, 142, 'b0'], [141, 146, 'b0'], [150, 163, 'b0'], [160, 183, 'b0'], [168, 198, 'b0'], [174, 203, 'd1'], [179, 197, 'd1'], [178, 182, 'd1'], [172, 164, 'd1'], [166, 150, 'd1'],
+    [168, 142, 'b1'], [174, 146, 'b1'], [182, 163, 'b1'], [192, 183, 'b1'], [200, 198, 'b1'], [206, 203, 'd2'], [211, 197, 'd2'], [210, 182, 'd2'], [205, 164, 'd2'], [199, 150, 'd2'],
+    [198, 142, 'b2'], [192, 150, 'b2'], [185, 164, 'b2'], [152, 174, 'b2'], [115, 180, 'b2'], [100, 190, 'b2'], [92, 202, 'f3'], [86, 197, 'f3'], [86, 184, 'f3'], [85, 167, 'f3'], [84, 152, 'f3'],
+    [81, 143, 'b3'], [75, 143, 'b3'], [70, 150, 'b3'], [62, 170, 'b3'], [58, 188, 'b3'], [58, 201, 'tl'], [65, 203, 'tl'], [75, 193, 'tl'], [85, 176, 'tl'], [92, 157, 'tl'], [98, 137, 'tl'],
+    [101, 114, 'tl'], [104, 90, 'end']]);
+  const last = l => LOOSE.map(p => p.l).lastIndexOf(l);
+  const IA = 6, I1 = last('d1'), I2 = last('d2'), IE = LOOSE.length - 1;
+  const TIGHT = LOOSE.map((p, i) => i <= IA ? {...p, y: lerp(p.y, Y + 4, .8)} : i <= I2 + 4 ? {x: 150 + (p.x - 150) * .85, y: Y + (p.y - Y) * .9, l: p.l} : {x: 128 + (p.x - 128) * .8, y: Y + (p.y - Y) * .9, l: p.l});
+  TIGHT[IE] = {x: TIGHT[IE].x - 2, y: TIGHT[IE].y - 6, l: 'end'};
+  const M = [marke(LOOSE, IA), marke(LOOSE, I1), marke(LOOSE, I2), marke(LOOSE, IE)];
+  /* Vorher: die Leine hängt locker unter der blauen Leine, das Ende zeigt zu ihr */
+  const K0 = P([[390, 247, 'sv'], [340, 247, 'sv'], [292, 244, 'sv'], [248, 240, 'sv'], [208, 232, 'sv'], [172, 222, 'sv'], [148, 212, 'sv']]);
+  const HOST = P([[-40, Y, 'host'], [150, Y, 'host'], [340, Y, 'host']]);
+  const def = {
+    H: 290,
+    seile: {a: {stil: 'gelb', tw: 15}, b: {stil: 'blau', tw: 36, ohneSpitze: true}},
+    z: {host: 5, sv: 6, b0: 2, d1: 8, b1: 2, d2: 8, b2: 1, f3: 8, b3: 2, tl: 6, end: 6},
+    phasen: [
+      {st: 0, d: .8, f: () => ({k: 0})},
+      {st: 0, d: 1.2, f: e => ({k: e})},
+      {st: 0, d: 2.6, f: e => ({u: lerp(M[0], M[1], e)})},
+      {st: 0, d: .5, f: () => ({u: M[1]})},
+      {st: 1, d: 2.4, f: e => ({u: lerp(M[1], M[2], e)})},
+      {st: 1, d: .5, f: () => ({u: M[2]})},
+      {st: 2, d: 3.4, f: e => ({u: lerp(M[2], M[3], e)})},
+      {st: 2, d: .8, f: () => ({u: M[3]})},
+      {st: 3, d: 1.1, f: e => ({t: 0, pfeil: e})},
+      {st: 3, d: 2, f: e => ({t: e, pfeil: 1, zug: e})},
+      {st: 3, d: .2, f: () => ({t: 1, pfeil: 1})}
+    ],
+    form(s) {
+      const b = {cp: HOST};
+      if (s.k != null) return {b, a: {cp: mitRest(lp(K0, LOOSE.slice(0, IA + 1), s.k), LOOSE), i: IA}};
+      if (s.u != null) return {b, a: {cp: LOOSE, bis: s.u}};
+      return {b, a: {cp: lp(LOOSE, TIGHT, s.t)}};
+    },
+    deko(cx, s, R) {
+      const tip = R.a.tip;
+      cx.globalAlpha = 1 - (s.pfeil || 0); pill(cx, 'Leine unter Last', 294, 112, 'right'); cx.globalAlpha = 1;
+      if (s.k != null || s.u < M[0] + 30) pill(cx, 'loses Ende', tip.x - 8, tip.y + 22, 'right');
+      if (!s.pfeil) { cx.globalAlpha = .55; pfeil(cx, 236, 226, 286, 236); cx.globalAlpha = 1; pill(cx, 'Zug kommt von hier', 290, 252, 'right'); }
+      if (s.pfeil) {
+        const zug = (s.zug || 0) * 6; cx.globalAlpha = s.pfeil;
+        pfeil(cx, tip.x + 16, tip.y + 34 - zug, tip.x + 16, tip.y - 4 - zug); pill(cx, '① Ende festziehen', tip.x + 28, tip.y + 14 - zug, 'left', '#9b2f24');
+        pfeil(cx, 226 + zug, 222, 282 + zug, 232); pill(cx, '② Zug nach rechts', 290, 250, 'right', '#9b2f24');
+        cx.globalAlpha = 1;
+      }
+    }
+  };
+  return knotenAnim(def);
+})();
+
+/* Webleinstek auf Slip an der Reling: wie der Webeleinstek, aber das Ende geht nicht ganz durch.
+   Nach dem zweiten Törn hängt das Ende unten (PRE). Dann wird statt des Endes eine Bucht unter der Kreuzung durchgesteckt (SLIP):
+   beide Schenkel der Bucht liegen unter der Schrägen (dg), das Ende bleibt draußen. Ein Zug am Ende zieht die Bucht wieder heraus.
+   Ebenen wie beim Webeleinstek: Stange 5, vorn 6/8, hinten 2. */
+const SLIP = (() => {
+  const Y = 105, R = 16, D = 45;  // gleiche Form wie der Webeleinstek, nur 45 Punkte höher (Platz für das hängende Ende)
+  const Q = a => P(a.map(([x, y, l]) => [x, y - D, l]));
+  const KNOT = [[164, 440, 'sv'], [164, 330, 'sv'], [164, 250, 'sv'], [164, 200, 'sv'], [164, 172, 'sv'], [164, 145, 'sv'], [165, 131, 'h1'], [169, 126, 'h1'], [175, 132, 'h1'],
+    [192, 151, 'h1'], [205, 167, 'h1'], [208, 174, 'dg'], [202, 173, 'dg'], [186, 165, 'dg'], [160, 152, 'dg'], [132, 139, 'dg'], [113, 130, 'dg'], [106, 126, 'h2'], [101, 131, 'h2'],
+    [96, 146, 'h2'], [91, 163, 'h2'], [91, 172, 'tl']];
+  /* Ende hängt nach dem zweiten Törn herunter */
+  const PRE = Q(KNOT.concat([...Array(18)].map((_, i) => [92 + i, 185 + i * 12.6, i === 16 ? 'end' : 'tl'])));
+  /* Bucht unter der Kreuzung durch, Ende bleibt unten */
+  const LOOSE = Q(KNOT.concat([[98, 174, 'tl'], [111, 167, 'tl'], [123, 156, 'tl'], [130, 143, 'tl'], [133, 130, 'tl'], [135, 119, 'tl'], [138, 111, 'tl'], [144, 108, 'tl'], [149, 112, 'tl'],
+    [150, 122, 'tl'], [149, 134, 'tl'], [145, 147, 'tl'], [139, 161, 'tl'], [128, 175, 'tl'], [118, 187, 'tl'], [112, 202, 'tl'], [110, 218, 'end'], [109, 234, 'end']]));
+  /* Zwischenpose: die Mitte des Endes ist zur Bucht hochgenommen und liegt unter der Kreuzung bereit */
+  const KB = Q(KNOT.concat([[95, 188, 'tl'], [100, 203, 'tl'], [107, 214, 'tl'], [115, 219, 'tl'], [123, 216, 'tl'], [128, 208, 'tl'], [131, 199, 'tl'], [135, 194, 'tl'], [139, 198, 'tl'],
+    [140, 207, 'tl'], [137, 218, 'tl'], [132, 230, 'tl'], [126, 243, 'tl'], [120, 256, 'tl'], [115, 270, 'tl'], [112, 286, 'tl'], [110, 302, 'end'], [109, 318, 'end']]));
+  const IA = 4, I1 = 11, IB = 29, IE = LOOSE.length - 1;  // IB: Scheitel der Bucht
+  const TIGHT = LOOSE.map((p, i) => i <= IA ? {...p, x: 158} : {x: 152 + (p.x - 152) * .74, y: Y + (p.y - Y) * .97, l: p.l});
+  for (let i = IE - 2; i <= IE; i++) TIGHT[i] = {x: TIGHT[i].x - 3, y: TIGHT[i].y + 6, l: TIGHT[i].l};
+  const M = [marke(PRE, IA), marke(PRE, I1), marke(PRE, PRE.length - 1)];
+  const K0 = Q([[164, 440, 'sv'], [167, 330, 'sv'], [175, 262, 'sv'], [186, 222, 'sv'], [194, 196, 'sv']]);
+  const def = {
+    H: 380,
+    seile: {a: {stil: 'gelb', tw: 13}},
+    z: {sv: 6, h1: 2, dg: 8, h2: 2, tl: 6, end: 6},
+    obj: [{z: 5, draw(cx) { /* Reling: Rohr mit zwei Stützen */
+      for (const x of [22, 278]) { const g = cx.createLinearGradient(x - 8, 0, x + 8, 0); g.addColorStop(0, '#8d949b'); g.addColorStop(.45, '#e4e8ec'); g.addColorStop(1, '#7c838a'); cx.fillStyle = g; cx.fillRect(x - 8, Y, 16, 300); cx.strokeStyle = 'rgba(40,46,52,.45)'; cx.strokeRect(x - 8, Y, 16, 300); }
+      cx.fillStyle = 'rgba(70,45,15,.16)'; cx.fillRect(0, Y - R + 4, 300, R * 2);
+      const g = cx.createLinearGradient(0, Y - R, 0, Y + R); g.addColorStop(0, '#9aa1a8'); g.addColorStop(.35, '#f1f4f6'); g.addColorStop(.6, '#c3c9cf'); g.addColorStop(1, '#6f767d');
+      cx.fillStyle = g; cx.fillRect(-2, Y - R, 304, R * 2); cx.strokeStyle = 'rgba(40,46,52,.55)'; cx.lineWidth = 1; cx.strokeRect(-2, Y - R, 304, R * 2);
+    }}],
+    phasen: [
+      {st: 0, d: .8, f: () => ({k: 0})},
+      {st: 0, d: 1.2, f: e => ({k: e})},
+      {st: 0, d: 2.4, f: e => ({u: lerp(M[0], M[1], e)})},
+      {st: 0, d: .5, f: () => ({u: M[1]})},
+      {st: 1, d: 3.4, f: e => ({u: lerp(M[1], M[2], e)})},
+      {st: 1, d: .5, f: () => ({u: M[2]})},
+      {st: 2, d: 3.2, f: e => ({b: e})},
+      {st: 2, d: .8, f: () => ({b: 1})},
+      {st: 3, d: 1.1, f: e => ({t: 0, pfeil: e})},
+      {st: 3, d: 2, f: e => ({t: e, pfeil: 1, zug: e})},
+      {st: 3, d: .6, f: () => ({t: 1, pfeil: 1})},
+      {st: 4, d: 1, f: e => ({los: 0, pf2: e})},
+      {st: 4, d: 2.4, f: e => ({los: e, pf2: 1, zug: e})},
+      {st: 4, d: .6, f: () => ({los: 1, pf2: 1})}
+    ],
+    form(s) {
+      if (s.k != null) return {a: {cp: mitRest(lp(K0, PRE.slice(0, IA + 1), s.k), PRE), i: IA}};
+      if (s.u != null) return {a: {cp: PRE, bis: s.u}};
+      if (s.b != null) return {a: {cp: posen([PRE, KB, LOOSE], s.b)}};
+      if (s.los != null) return {a: {cp: posen([TIGHT, LOOSE, KB, PRE], s.los)}};
+      return {a: {cp: lp(LOOSE, TIGHT, s.t)}};
+    },
+    deko(cx, s, R) {
+      const tip = R.a.tip;
+      if (s.k != null || s.u < M[0] + 30) pill(cx, 'loses Ende', tip.x + 12, tip.y + 4);
+      if (s.st === 2 && s.b > .6) { cx.globalAlpha = (s.b - .6) / .4; pill(cx, 'Bucht', 162, 56); pill(cx, 'Ende bleibt draußen', tip.x + 12, tip.y - 2); cx.globalAlpha = 1; }
+      if (s.st < 3) pill(cx, 'zum Fender', 176, 300);
+      if (s.pfeil) {
+        const zug = (s.zug || 0) * 6, a = R.a.pts.find(p => p.s === IB) || tip; cx.globalAlpha = s.pfeil;
+        pfeil(cx, a.x + 2, a.y - 6 - zug, a.x + 2, a.y - 40 - zug); pill(cx, '① Bucht festziehen', a.x + 14, a.y - 26 - zug, 'left', '#9b2f24');
+        pfeil(cx, 182, 210 + zug, 182, 252 + zug); pill(cx, '② Fender zieht', 192, 232 + zug, 'left', '#9b2f24');
+        cx.globalAlpha = 1;
+      }
+      if (s.pf2) {
+        const zug = (s.zug || 0) * 10; cx.globalAlpha = s.pf2;
+        pfeil(cx, tip.x - 16, tip.y - 20 + zug, tip.x - 16, tip.y + 18 + zug); pill(cx, '③ Lösen', tip.x - 26, tip.y - 2 + zug, 'right', '#9b2f24');
+        cx.globalAlpha = 1;
+      }
+    }
+  };
+  return knotenAnim(def);
+})();
+
 /* Alle Animationen nach dem Feld "anim" in data/knoten.json */
-const ANIM = {palstek: PAL, acht: ACHT, kreuz: KREUZ, schot: SCHOT, webelein: WEBE, rundtoern: RUND, klampe: KLAMPE};
+const ANIM = {palstek: PAL, acht: ACHT, kreuz: KREUZ, schot: SCHOT, webelein: WEBE, webeleinslip: SLIP, stopper: STOPPER, rundtoern: RUND, klampe: KLAMPE};
 KN.ANIM = ANIM;
 
 /* Abspieler: zeichnet eine Animation A auf eine Leinwand, hält am Ende an. o: {von, bis, auto, schritt(st), zeit(t), fertig()} */
@@ -725,7 +862,7 @@ KN.ueben = function (id) {
 };
 
 /* ---------- Spiel „Knotenkunde“: 8 Runden aus Wofür, Reihenfolge und „Was passiert hier?“ (ein Schritt einer Animation) ----------
-   Knoten mit "doppelt" zählen bei Wofür und Reihenfolge nicht mit, sonst gäbe es zwei richtige Antworten. */
+   Knoten mit "doppelt" zählen bei Wofür und Reihenfolge nicht mit, sonst gäbe es zwei richtige Antworten. Verwandte Knoten ("verwandt") stehen nie zusammen zur Wahl. */
 KN.spiel = function (test) {
   returnTo = 'cabin';
   const KL = D.knoten.filter(x => !x.doppelt), AN = D.knoten.filter(x => ANIM[x.anim]);
@@ -738,7 +875,7 @@ KN.spiel = function (test) {
         <div class="row"><button class="btn lamp" id="knag">Nochmal</button><button class="btn ghost" id="knbr">Zum Knotenbrett</button></div></div>`);
       $('#gback').onclick = () => gamesHub(); $('#knag').onclick = () => KN.spiel(); $('#knbr').onclick = () => KN.brett(); return;
     }
-    const art = arten[i], k = art === 'schritt' ? AN[Math.random() * AN.length | 0] : KL[Math.random() * KL.length | 0], andere = shuffle(KL.filter(x => x !== k)).slice(0, 3);
+    const art = arten[i], k = art === 'schritt' ? AN[Math.random() * AN.length | 0] : KL[Math.random() * KL.length | 0], andere = shuffle(KL.filter(x => x !== k && x.verwandt !== k.id && k.verwandt !== x.id)).slice(0, 3);
     const kopf = `<p class="small muted" style="margin:6px 0">Runde ${i + 1} von ${arten.length} · ${score} richtig</p>`;
     const weiter = (ok, text) => { if (ok) score++; AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .45 : .35}); $('#kfb').innerHTML = `<p style="margin:8px 0"><b style="color:var(${ok ? '--stb' : '--bb'})">${ok ? 'Richtig!' : 'Nicht ganz.'}</b> ${esc(text)}</p><button class="btn lamp" id="knx">Weiter</button>`; $('#knx').onclick = () => { i++; runde(); }; };
     if (art === 'reihe') {
