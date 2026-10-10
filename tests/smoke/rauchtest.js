@@ -80,14 +80,19 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
     await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
   /* 5.11: SKS-Stufe am Kartentisch (Versegelung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe) */
+  /* V26: Lektion 0, fünf Schritte, Hilfe in drei Stufen */
+  await schritt('08-navi-L0', page, async () => { await ev(page, () => NAV.lesson('L0')); await sleep(500); await ev(page, () => document.querySelector('[data-m=erkl]').click()); await sleep(700); await ev(page, () => { VOX.stop(); document.getElementById('lok').click(); }); await sleep(800);
+    if (!await page.$('#bok')) throw new Error('kein Beispiel'); await ev(page, () => document.getElementById('bok').click()); await sleep(800);
+    for (let k = 0; k < 2; k++) { await ev(page, () => document.getElementById('xhint').click()); await sleep(150); } if (await ev(page, () => document.querySelectorAll('.nhint').length) !== 3) throw new Error('Hilfe nicht dreistufig'); });
   for (const l of ['L10', 'L11']) await schritt('08-navi-' + l, page, async () => { await ev(page, l => NAV.exercise(l, 'guided'), l); await sleep(700); if (!await page.$('#xform')) throw new Error('keine Aufgabe'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
-  /* Entwurf „Mein Schein“: einschalten, Übersicht, Themen, Signal-Thema, Logbuch mit Scheinmappe, Schein wechseln, wieder aus */
-  await schritt('07b-mein-schein', page, async () => { await ev(page, () => document.getElementById('neuset').click()); await sleep(1500); if (!await page.$('#msheute')) throw new Error('Mein Schein fehlt'); });
-  await schritt('07c-themen', page, async () => { await page.click('[data-go=themen]'); await sleep(500); if (!await page.$('.mstema')) throw new Error('keine Themen'); await ev(page, () => setTab('schein')); await sleep(600); await page.click('[data-go^="sig:"]'); await sleep(400); await ev(page, () => closeSheet()); });
-  await schritt('07d-scheinmappe', page, async () => { await page.click('nav.tabs [data-tab=log]'); await sleep(1200); if (!await page.$('.msmappe')) throw new Error('keine Scheinmappe'); await page.click('nav.tabs [data-tab=cabin]'); await sleep(800); });
-  await schritt('07e-schein-wechsel', page, async () => { await page.click('nav.tabs [data-tab=schein]'); await sleep(1000); await page.click('[data-s=binnen]'); await sleep(800); await page.click('[data-s=sbf]'); await sleep(800);
-    await ev(page, () => { S.cfg.neu = false; applyNeu(); setTab('deck'); }); await sleep(600); });
+  /* V26: Deck mit „Kurs für heute“, Meine Prüfungen (Abschnitte, Themen, Schein wechseln), Seezeichen-Kurs, Spielekiste nur Spiele */
+  await schritt('07b-kurs-fuer-heute', page, async () => { await ev(page, () => { Object.keys(INTROS.e || {}).forEach(k => { S.intros = S.intros || {}; S.intros[k] = 1; }); setTab('deck'); }); await sleep(800); if (!await page.$('#kursheute')) throw new Error('Kurs für heute fehlt'); if (!await page.$('.standkarte')) throw new Error('Logbuch-Aufschlüsselung fehlt'); });
+  await schritt('07c-meine-pruefungen', page, async () => { await ev(page, () => { setTab('cabin'); }); await sleep(600); await page.click('#topruef'); await sleep(1500); if (!await page.$('details.mssec')) throw new Error('keine Abschnitte');
+    await page.click('details[data-sec=theorie] summary'); await sleep(300); await page.click('[data-go=themen]'); await sleep(600); if (!await page.$('.mstema')) throw new Error('keine Themen'); await page.click('#back'); await sleep(600); });
+  await schritt('07d-seezeichen', page, async () => { await page.click('details[data-sec=zeichen] summary'); await sleep(300); await page.click('[data-go=kurs]'); await sleep(1500); await page.click('[data-l=kardinal]'); await sleep(800); if (!await page.$('.szbilder img')) throw new Error('keine Originalbilder'); await ev(page, () => VOX.stop()); });
+  await schritt('07e-schein-wechsel', page, async () => { await ev(page, () => meinePruefungen('binnen')); await sleep(1200); if (await ev(page, () => S.course) !== 'binnen') throw new Error('Binnen nicht aktiv');
+    await ev(page, () => { lernHeim = null; setTab('cabin'); }); await sleep(800); if (await ev(page, () => S.course !== S.crewSchein)) throw new Error('Crew-Schein nicht zurück'); await ev(page, () => gamesHub()); await sleep(800); if (await page.$('[data-gi="5"]')) throw new Error('Kartentisch noch in der Spielekiste'); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */
   await schritt('10-toernwahl', page, async () => { await ev(page, () => openToern()); await sleep(1500); if (!await page.$('[data-start]')) throw new Error('keine Törns'); });

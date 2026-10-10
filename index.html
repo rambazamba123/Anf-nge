@@ -251,7 +251,6 @@ nav.tabs .in{max-width:560px;margin:0 auto;display:flex}
 nav.tabs button{flex:1;border:0;background:none;padding:8px 0 10px;min-height:66px;color:#e9dcc4;font:700 .82rem var(--bfont);display:flex;flex-direction:column;align-items:center;gap:3px}
 nav.tabs button[aria-current="page"]{color:var(--lamp)}
 nav.tabs svg{width:26px;height:26px}
-nav.tabs .nurneu{display:none}body.neu nav.tabs .nurneu{display:flex}body.neu nav.tabs [data-tab=deck]{display:none}body.neu.mittabs .wrap{padding-bottom:84px}
 /* Einstellungen */
 .set h2{margin-top:22px}
 .voice-row{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
@@ -355,6 +354,9 @@ button.coursechip{border:0;cursor:pointer}
 .homehead{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .homehead h1{margin:0}
 .pathmini{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
+.kursheute{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:8px;padding:.7em 1em}.kursheute small{font-weight:700;opacity:.85;font-size:.8rem}.kursheute b{font-size:1.06rem;line-height:1.25}
+.standkarte .standz{margin-top:10px}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
+.linkbtn{background:none;border:0;padding:0;color:var(--sea);font:inherit;font-size:.88rem;text-decoration:underline;cursor:pointer}
 .pathmini .dot{width:12px;height:12px;border-radius:50%;background:var(--line)} .pathmini .dot.done{background:var(--stb)}
 .pathmini .small{margin-left:4px}
 .fernglas{position:absolute;right:10px;bottom:10px;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,250,240,.92);color:#2a2019;display:grid;place-items:center;box-shadow:0 2px 0 rgba(0,0,0,.2);z-index:4;touch-action:none}
@@ -378,6 +380,7 @@ button.coursechip{border:0;cursor:pointer}
 .coachhole{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(15,20,26,.62);pointer-events:none}
 .coachtip{position:absolute;left:16px;right:16px;max-width:480px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:16px;padding:14px;box-shadow:0 4px 0 rgba(0,0,0,.2)}
 .coachtip p{margin:0 0 10px}
+.pruefkarte{display:flex;gap:12px;align-items:center;width:100%;text-align:left;cursor:pointer;color:var(--ink)}.pruefkarte .pk-ico{font-size:1.8rem}.pruefkarte b{display:block;font:700 1.1rem var(--hfont)}.pruefkarte small{color:var(--muted)}
 .pathcard .pathhead{display:flex;justify-content:space-between;align-items:baseline}
 .pbar{height:6px;border-radius:3px;background:var(--line);margin:6px 0 8px;overflow:hidden}.pbar i{display:block;height:100%;background:var(--stb)}
 .path{list-style:none;padding:0;margin:0 0 12px}
@@ -499,14 +502,13 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
   <button class="btn" id="sendBtn">Senden</button>
 </div></div>
 <nav class="tabs hidden" id="tabs" aria-label="Hauptbereiche"><div class="in">
-  <button data-tab="schein" class="nurneu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/><path d="M7 3.5 12 1l5 2.5"/></svg>Mein Schein</button>
   <button data-tab="deck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3 2 6 2 9 0s6-2 9 0M12 3v11M12 4l6 8h-6"/></svg>Deck</button>
   <button data-tab="cabin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="6"/><circle cx="12" cy="11" r="3"/><path d="M12 2v3M12 17v5"/></svg>Kajüte</button>
   <button data-tab="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11M9 8h6"/></svg>Logbuch</button>
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.68';
+  window.__ver = '4.70';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1499,6 +1501,8 @@ function packLines(withEpisodes) {
     });
     ['Ausreichend. Weiter.', 'Nicht ausreichend. Zweiter Versuch.', 'Nicht ausreichend. Das üben wir noch mal.'].forEach(t => push('kroeger', t));
   }
+  /* Grundkurs Seezeichen (nur wenn geladen; buildVoicePack lädt ihn) */
+  if (window.SEEZ_DATA) ['see', 'binnen'].forEach(a => { const D = SEEZ_DATA[a]; if (!D) return; D.intro.concat(...D.lektionen.map(l => l.crew || [])).forEach(l => push(cid(l.s), l.t)); });
   /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
   const keep = S.crew, nv = window.NAV && NAV.data ? (NAV.data().NV || {}) : {};
   try {
@@ -1555,6 +1559,7 @@ async function buildVoicePack(status, teil1) {
   if (!kiOn()) return say('Schalte dafür zuerst die KI-Funktionen ein.');
   if (!S.kiOk && !(await kiEinwilligung())) return say('Ohne Einwilligung schickt die App nichts an ElevenLabs.');
   try { await loadManoever(); } catch (e) {}
+  try { await loadSeezeichen(); } catch (e) {}
   try { await VOX.ensureVoices(); } catch (e) { return say('Die Stimmen sind gerade nicht erreichbar.'); }
   try { await loadNavi(); } catch (e) {}
   await PACK.load();
@@ -2021,11 +2026,11 @@ const INT = [0, 1, 2, 4, 7, 14]; // Lernkartei-Abstände in Tagen
 const EXP = {none: 'noch nie selbst ein Boot gefahren', guest: 'schon mitgefahren, aber nie selbst gesteuert', some: 'schon selbst ein Boot gesteuert', lots: 'viel Erfahrung auf dem Wasser'};
 const KEY = 'skipper-sbfsee-v1';
 const CFIELDS = ['qs', 'chap', 'exams', 'stories', 'storyQs', 'examHist', 'plan', 'mnemo', 'talk', 'lessons', 'start', 'talkCtx', 'lastTease'];
-const DEFAULT_CFG = {music: .35, amb: .6, sfx: .7, voice: 1, pause: 2, stt: 'phone', quality: 'sparsam', fallback: 'phone', theme: 'auto', comments: true, budget: 6000, wxSound: true, wx: 'auto', read: true, garn: 2, ki: true, neu: false};
+const DEFAULT_CFG = {music: .35, amb: .6, sfx: .7, voice: 1, pause: 2, stt: 'phone', quality: 'sparsam', fallback: 'phone', theme: 'auto', comments: true, budget: 6000, wxSound: true, wx: 'auto', read: true, garn: 2, ki: true};
 
 /* ---------- Speicher ---------- */
 var S = load();
-activateCourse(S.course);
+stashCourse(); basisZusammen(); activateCourse(S.course);
 function fresh() { return {profile: null, qs: {}, lessons: {}, chat: [], plan: null}; }
 function load() {
   let v = null; try { v = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -2044,6 +2049,7 @@ function load() {
   /* Bisheriger Lernstand gehört zum SBF See */
   if (!v.course) v.course = 'sbf';
   v.courses = v.courses || {};
+  if (!v.crewSchein) v.crewSchein = v.course;
   if (!v.courses.sbf && v.course === 'sbf') { const b = {}; CFIELDS.forEach(f => { b[f] = v[f]; }); if (v.profile) { b.exam = v.profile.exam; b.examSet = true; } v.courses.sbf = b; }
   return v;
 }
@@ -2064,11 +2070,29 @@ function activateCourse(id) {
   try { LOG.add('schein', 'aktiv: ' + COURSE.short); } catch (e) {}
 }
 function switchCourse(id) {
+  if (COURSES[id]) S.crewSchein = id;  /* Schein bewusst gewechselt: um ihn kümmert sich jetzt die Crew */
   if (!COURSES[id] || id === S.course) return;
   stashCourse(); activateCourse(id); S.plan = null; save();
 }
 function courseBucket(id) { return (S.courses && S.courses[id]) || {}; }
-function save() { S.updatedAt = Date.now(); try { stashCourse(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function save() { S.updatedAt = Date.now(); try { stashCourse(); basisTeilen(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+/* V26 Bausteine: Die 72 Basisfragen (und ihre Kapitel b1–b5) sind in SBF See und SBF Binnen gleich und werden nur einmal gelernt.
+   Der aktive Schein gibt seinen neuesten Stand an den anderen weiter. */
+const BASIS_PARTNER = {sbf: 'binnen', binnen: 'sbf'};
+function basisTeilen() {
+  const other = BASIS_PARTNER[S.course]; if (!other) return;
+  const b = S.courses[other] = S.courses[other] || {}; b.qs = b.qs || {}; b.chap = b.chap || {};
+  for (let n = 1; n <= 72; n++) { const a = S.qs[n], o = b.qs[n]; if (a && (!o || a.d > o.d || (a.d === o.d && a.b !== o.b))) b.qs[n] = {...a}; }
+  for (const k in S.chap || {}) if (/^b[1-5]-/.test(k)) b.chap[k] = {...S.chap[k]};
+}
+/* Einmalig: vorhandene Stände beider Scheine zusammenführen, die bessere Wertung je Frage gewinnt */
+function basisZusammen() {
+  if (S.basisV1) return; S.basisV1 = 1;
+  const a = (S.courses.sbf = S.courses.sbf || {}), b = (S.courses.binnen = S.courses.binnen || {}); a.qs = a.qs || {}; b.qs = b.qs || {};
+  const besser = (x, y) => !x ? y : !y ? x : x.b !== y.b ? (x.b > y.b ? x : y) : (x.d >= y.d ? x : y);
+  for (let n = 1; n <= 72; n++) { const w = besser(a.qs[n], b.qs[n]); if (w) { a.qs[n] = {...w}; b.qs[n] = {...w}; } }
+  if (S.course === 'sbf' || S.course === 'binnen') S.qs = S.courses[S.course].qs;
+}
 
 /* ---------- Datum ---------- */
 const dayNum = d => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
@@ -2423,43 +2447,43 @@ function soundFor(p) {
 let tab = 'deck', examTimer = null;
 function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
-  /* Entwurf „Mein Schein“: Lernen, das dort gestartet wurde, kehrt dorthin zurück; an Bord gilt immer der Crew-Schein */
-  if (neuOn()) {
-    if (t === 'cabin' && SCHEIN_RET) t = 'schein';
-    if (t === 'schein') scheinAktiv(S.lernSchein || S.course); else if (['deck', 'cabin', 'funk', 'talk'].includes(t)) scheinAktiv(S.crewSchein || S.course);
-    if (t === 'deck' || t === 'cabin') lastBoat = t;
-  }
+  /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
+  if (t === 'cabin' && lernHeim === 'pruef') return meinePruefungen();
+  if (t === 'cabin' && lernHeim === 'deck') t = 'deck';
+  if (t === 'deck') lernHeim = null;
+  /* An Bord gilt immer der Crew-Schein (in „Meine Prüfungen“ darf man jeden Schein lernen) */
+  if (['deck', 'cabin', 'funk', 'talk'].includes(t)) scheinAktiv(S.crewSchein);
   const from = tab; stopAll(); tab = t; window.TOERN_STILL = false;
   if (t === 'cabin' && from !== 'cabin' && AUD.ready) AUD.sfx('schritte', {vol: .55});
   if (t === 'log' && from !== 'log' && AUD.ready) AUD.sfx('buchAuf', {vol: .6});
-  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t || (t === 'deck' && b.dataset.tab === 'cabin') ? 'page' : 'false'));
-  $('#composer').classList.add('hidden');
-  const mitTabs = neuOn() && ['schein', 'deck', 'cabin', 'log'].includes(t); $('#tabs').classList.toggle('hidden', !mitTabs); document.body.classList.toggle('mittabs', mitTabs);
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
+  $('#composer').classList.add('hidden'); $('#tabs').classList.add('hidden');
   const c = $('#coach'); if (c) c.remove(); closeSheetSafe();
-  ({deck: renderBoat, cabin: renderCabin, log: renderLog, talk: renderTalk, funk: renderFunk, schein: renderSchein})[t]();
+  ({deck: renderBoat, cabin: renderCabin, log: renderLog, talk: renderTalk, funk: renderFunk})[t]();
   window.scrollTo(0, 0);
 }
-document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { AUD.click(); SCHEIN_RET = false; setTab(neuOn() && b.dataset.tab === 'cabin' ? lastBoat : b.dataset.tab); });
-/* ---------- Entwurf „Mein Schein“ (V26): neue Ordnung, in den Einstellungen umschaltbar ----------
-   Mein Schein = alles, was für die Prüfung zählt (schein.js); Boot = Deck und Kajüte; Logbuch = Stand und Scheinmappe. */
-let SCHEIN_RET = false, lastBoat = 'cabin', scheinP = null;
-const neuOn = () => !!(S && S.cfg && S.cfg.neu);
-function applyNeu() {
-  document.body.classList.toggle('neu', neuOn());
-  const b = document.querySelector('nav.tabs [data-tab=cabin]'); if (b) b.lastChild.textContent = neuOn() ? 'Boot' : 'Kajüte';
-  if (neuOn()) { S.crewSchein = S.crewSchein || S.course; S.lernSchein = S.lernSchein || S.course; S.scheine = S.scheine || {}; }
-}
-/* Einen Schein aktiv schalten, ohne den Tagesplan zu verlieren (jeder Schein hat sein eigenes Fach) */
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { AUD.click(); setTab(b.dataset.tab); });
+/* ---------- V26: Meine Prüfungen (schein.js), Crew-Schein, Lern-Heimat ----------
+   Der Crew-Schein (beim Start gewählt) ist an Bord aktiv. In „Meine Prüfungen“ kann man jeden Schein lernen (S.lernSchein). */
+let lernHeim = null, scheinP = null;
 function scheinAktiv(id) { if (id && COURSES[id] && id !== S.course) { stashCourse(); activateCourse(id); save(); } }
+const heimText = () => lernHeim === 'deck' ? 'Zurück an Deck' : lernHeim === 'pruef' ? 'Zurück zu Meine Prüfungen' : 'Zurück in die Kajüte';
 function loadSchein() {
   return scheinP || (scheinP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'schein.js?v=' + window.__ver; s.onload = () => res(); s.onerror = () => { scheinP = null; rej(new Error('schein.js')); }; document.head.appendChild(s); }));
 }
-function renderSchein() {
-  place = 'schein'; soundFor('kajuete');
-  app.innerHTML = '<div class="card" style="margin-top:18px"><p class="muted" style="margin:0">Mein Schein wird geladen …</p></div>';
-  loadSchein().then(() => { if (tab === 'schein') SCHEIN.hub(); }).catch(() => toast('„Mein Schein“ ließ sich nicht laden. Prüf dein Internet.'));
+/* Grundkurs Seezeichen (seezeichen.js, data/seezeichen.json): art 'see' oder 'binnen' */
+let seezP = null;
+function loadSeezeichen() {
+  return seezP || (seezP = fetch('data/seezeichen.json?v=' + window.__ver).then(r => { if (!r.ok) throw new Error('seezeichen.json'); return r.json(); }).then(d => { window.SEEZ_DATA = d;
+    return new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'seezeichen.js?v=' + window.__ver; s.onload = res; s.onerror = () => rej(new Error('seezeichen.js')); document.head.appendChild(s); }); }).catch(e => { seezP = null; throw e; }));
 }
-function subScreen() { stopAll(); $('#composer').classList.add('hidden'); $('#tabs').classList.add('hidden'); document.body.classList.remove('mittabs'); closeSheetSafe(); window.scrollTo(0, 0); }
+function seezeichenKurs(art) { loadSeezeichen().then(() => SEEZ.kurs(art)).catch(() => toast('Der Seezeichen-Kurs ließ sich nicht laden. Prüf dein Internet.')); }
+/* Für „Kurs für heute“: Vor dem ersten Kapitel über Betonnung kommt der Grundkurs (ohne die Daten zu laden) */
+const SZ_THEMA = {sbf: 's6', binnen: 'i2'}, SZ_LEKTIONEN = {see: ['fahrwasser', 'kardinal', 'einzel', 'feuer'], binnen: ['ufer', 'zeichen', 'wasser']};
+const szArt = id => id === 'binnen' ? 'binnen' : 'see';
+const szOffen = art => SZ_LEKTIONEN[art].filter(l => !((S.seez || {})[art] || {})[l]).length;
+function meinePruefungen(id) { loadSchein().then(() => SCHEIN.seite(id)).catch(() => toast('„Meine Prüfungen“ ließ sich nicht laden. Prüf dein Internet.')); }
+function subScreen() { stopAll(); $('#composer').classList.add('hidden'); closeSheetSafe(); window.scrollTo(0, 0); }
 function closeSheetSafe() { const s = document.getElementById('sheet'); if (s) s.remove(); }
 
 /* ==========================================================================
@@ -2487,7 +2511,6 @@ function handleBack() {
   if ($('#splashOv') || $('#stagePanel')) return true;
   if (examTimer) { if (confirm('Prüfung abbrechen? Sie wird nicht gewertet.')) { stopAll(); setTab('cabin'); } return true; }
   for (const id of BACKS) { const b = document.querySelector(id); if (b && !b.disabled && b.offsetParent !== null) { b.click(); return true; } }
-  if (neuOn()) { if ($('#msback')) { $('#msback').click(); return true; } if (tab === 'schein' || $('.tapzone')) return false; SCHEIN_RET = false; setTab('schein'); return true; }
   if (tab !== 'deck' && !$('.tapzone')) { setTab(tab === 'cabin' ? 'deck' : 'cabin'); return true; }
   return false;
 }
@@ -2530,10 +2553,7 @@ function boot() {
   /* introV5 wird erst am Ende des Intros gesetzt (endIntro). Alte Spielstände sehen den Streit so genau einmal. */
   if (!S.introV5) return splash();
   if (!S.profile) return onboardingForm();
-  /* ?neu schaltet den Entwurf „Mein Schein“ ein, ?alt wieder aus */
-  if (/[?&](neu|alt)\b/.test(location.search)) { S.cfg.neu = /[?&]neu\b/.test(location.search); save(); try { history.replaceState(null, '', location.pathname); } catch (e) {} }
-  applyNeu();
-  setTab(neuOn() ? 'schein' : 'deck'); tapToBoard();
+  setTab('deck'); tapToBoard();
 }
 /* Beim Öffnen: einmal tippen (Browser erlauben Ton erst nach einer Berührung), dann Moin. */
 function tapToBoard() {
@@ -2881,16 +2901,42 @@ function passChanceFor(id) {
 }
 const examIsoOf = id => id === S.course ? S.profile.exam : ((S.courses || {})[id] || {}).exam;
 const raceCourses = () => Object.keys(COURSES).filter(id => id === S.course || Object.keys((((S.courses || {})[id] || {}).qs) || {}).length);
+/* ---------- V26: Fortschritt je Schein, jede Anzeige bis 100 % ----------
+   Theorie: amtliche Fragen (sicher = dreimal in Folge richtig, angefangen zählt ein Drittel).
+   Navigation (SBF See, SKS): Lektionen mit Stern. Praxis: 6 Manöver und 9 Knoten, für jeden Schein gleich. */
+const NAVI_LEKTIONEN = {sbf: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9'], sks: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'], binnen: []};
+const MAN_IDS = ['ablegen', 'anlegen', 'mob', 'kompass', 'aufstoppen', 'wenden'];
+const KNOTEN_IDS = ['acht', 'kreuz', 'palstek', 'schot', 'stopper', 'webelein', 'webeleinslip', 'rundtoern', 'klampe'];
+const qsVon = id => (id === S.course ? S.qs : ((S.courses || {})[id] || {}).qs) || {};
+function fragenStand(id, filter) {
+  /* Binnen ohne Segeln: Segelfragen (ab 254) zählen nicht */
+  const qs = qsVon(id), list = COURSES[id].items().filter(filter || (id === 'binnen' && !S.binSegel ? q => q.n <= 253 : () => true));
+  let v = 0, sicher = 0; list.forEach(q => { const s = qs[q.n]; if (s) { if (s.b >= 3) { v++; sicher++; } else v += 1 / 3; } });
+  return {v: list.length ? v / list.length : 0, sicher, n: list.length};
+}
+function naviStand(id) {
+  const list = NAVI_LEKTIONEN[id] || []; if (!list.length) return null;
+  const lek = (S.navi && S.navi.lek) || {}, done = list.filter(l => lek[l] && lek[l].sterne >= 1).length;
+  return {v: done / list.length, done, n: list.length};
+}
+/* Ein Knoten ist geschafft, wenn er in der Knotenkunde dreimal richtig war (halb) und einmal mit echtem Tau gebunden wurde (halb) */
+function knotenWert(id) { const k = (S.knoten || {})[id] || {}; return Math.min(3, k.kk || 0) / 3 * .5 + (k.ok ? .5 : 0); }
+function praxisStand() {
+  const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.reduce((a, k) => a + knotenWert(k), 0), knFertig = KNOTEN_IDS.filter(k => knotenWert(k) >= 1).length;
+  return {v: (man / MAN_IDS.length + kn / KNOTEN_IDS.length) / 2, man, knoten: knFertig, manN: MAN_IDS.length, knotenN: KNOTEN_IDS.length};
+}
+function fortschritt(id = S.course) { return {theorie: fragenStand(id), navi: naviStand(id), praxis: praxisStand()}; }
+const proz = v => Math.round(v * 100) + ' %';
 function courseCard() {
   const start = S.start || (S.start = today(), save(), S.start), LEAD = .15, day = iso => { if (!iso) return today() + 60; const [y, m, d] = iso.split('-').map(Number); return dayNum(new Date(y, m - 1, d)); };
-  const rows = raceCourses().map(id => ({id, c: COURSES[id], iso: examIsoOf(id), ex: day(examIsoOf(id)), ch: passChanceFor(id), col: COURSE_COLOR[id] || '#f0b53e'}));
+  const rows = raceCourses().map(id => ({id, c: COURSES[id], iso: examIsoOf(id), ex: day(examIsoOf(id)), ch: fragenStand(id).v, col: COURSE_COLOR[id] || '#f0b53e'}));
   const end = Math.max(today() + 1, ...rows.map(r => r.ex)), pos = d => LEAD + (1 - LEAD) * Math.min(1, Math.max(0, (d - start) / Math.max(1, end - start)));
   const me = rows.find(r => r.id === S.course), next = rows.filter(r => r.ex >= today()).sort((x, y) => x.ex - y.ex)[0] || me, left = Math.max(0, next.ex - today()), multi = rows.length > 1;
   const boat = (sail, pct, label) => `<svg class="boatI" style="left:${(pct * 100).toFixed(1)}%" viewBox="0 0 26 26" role="img" aria-label="${label}"><path d="M13 3v15M13 4l7 11h-7z" fill="${sail}" stroke="${sail}" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 18h18l-3 4H7z" fill="${sail === '#8a96a3' ? '#5c6670' : '#3d5f8f'}"/></svg>`;
   const goal = (col, pct, label) => `<svg class="goal" style="left:calc(${(pct * 100).toFixed(1)}% - 11px);right:auto" viewBox="0 0 22 24" role="img" aria-label="${label}"><path d="M11 2v20" stroke="var(--muted)" stroke-width="2"/><path d="M11 3h9l-3 4 3 4h-9z" fill="${multi ? col : '#c2473b'}"/></svg>`;
   return `<section class="card" aria-label="Kurs bis zur Prüfung">
     <div class="course"><div class="big">${left === 0 ? 'Heute' : left}</div>
-      <div>${left === 0 ? `ist ${esc(next.c.short)}-Prüfungstag. Mast- und Schotbruch!` : `${left === 1 ? 'Tag' : 'Tage'} bis zur ${multi ? esc(next.c.short) + '-' : ''}Prüfung am ${fmtDate(next.iso || S.profile.exam)}`}<br><span class="muted small">Bestehenschance ${multi ? esc(me.c.short) + ' ' : ''}etwa ${Math.round(me.ch * 100)} %</span></div></div>
+      <div>${left === 0 ? `ist ${esc(next.c.short)}-Prüfungstag. Mast- und Schotbruch!` : `${left === 1 ? 'Tag' : 'Tage'} bis zur ${multi ? esc(next.c.short) + '-' : ''}Prüfung am ${fmtDate(next.iso || S.profile.exam)}`}<br><span class="muted small">Theorie ${multi ? esc(me.c.short) + ' ' : ''}${Math.round(me.ch * 100)} % gelernt</span></div></div>
     <p class="saying" data-saying="${esc(sayingFor(me.ch))}" role="button" tabindex="0" title="Antippen zum Vorlesen"><b style="color:${CREW[S.crew.K].color}">${esc(nameOf('K'))}:</b> „${esc(sayingFor(me.ch))}“</p>
     <div class="track"><div class="ln"></div><div class="done" style="width:${(pos(me.ex) * me.ch * 100).toFixed(1)}%;background:${me.col}"></div>
       ${rows.map(r => goal(r.col, pos(r.ex), 'Ziel ' + r.c.short)).join('')}${boat('#8a96a3', pos(today()), 'Prüfungsboot (heute)')}${rows.map(r => boat(r.col, pos(r.ex) * r.ch, r.c.short)).join('')}</div>
@@ -2906,18 +2952,13 @@ function renderCabin() {
   ${!courseBucket(S.course).examSet ? `<div class="card" id="datecard"><h3>Wann ist deine ${esc(COURSE.short)}-Prüfung?</h3><input type="date" id="cdate" value="${S.profile.exam}"><button class="btn wide" id="cdsave" style="margin-top:10px">Speichern</button></div>` : ''}
   ${needAge ? `<div class="card" id="agecard"><h3>Kurze Frage der Crew</h3><p class="small" style="margin:0 0 8px">Wie alt bist du? Danach richtet sich, wie frech die Crew sein darf.</p>
     <div class="chips">${[['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']].map(([k, v]) => `<button class="chip" data-age="${k}">${v}</button>`).join('')}</div></div>` : ''}
-  <div class="card pathcard" id="pathcard">
-    <div class="pathhead"><b>Heute mit ${esc(nameOf('K'))}</b><span class="small muted">${done} von ${path.length}</span></div>
-    <div class="pbar"><i style="width:${done / path.length * 100}%"></i></div>
-    <ol class="path">${path.map(s => `<li class="${s.done ? 'done' : s === next ? 'now' : ''}"><span class="tick" aria-hidden="true">${s.done ? '✓' : ''}</span>${esc(s.label)}</li>`).join('')}</ol>
-    <button class="btn wide lamp" id="pathgo" style="font-size:1.08rem">${next ? 'Weiter: ' + esc(next.label) : 'Geschafft! Noch eine Extrarunde?'}</button>
-  </div>
+  <button class="card pruefkarte" id="topruef"><span class="pk-ico" aria-hidden="true">📋</span><span><b>Meine Prüfungen</b><small>Theorie, Navigation, Praxis und Probeprüfung. Der Käpt'n führt dich durch.</small></span></button>
   <div class="row ways"><button class="btn ki" id="totalk">Mit der Crew reden</button><button class="btn ghost" id="toexam">Probeprüfung</button></div>
   <button class="btn wide ghost" id="togames" style="margin-top:10px">🎲 Spielekiste</button>
   <p class="sidelinks"><button id="tolex">Lexikon</button><button id="tofunk">Kajütenfunk</button><button id="tobooks">Kapitel</button><button id="tolog">Logbuch</button></p>`;
   $('#updeck').onclick = () => { AUD.click(); setTab('deck'); };
   $('#crs').onclick = courseSheet;
-  $('#pathgo').onclick = () => { AUD.unlock(); AUD.click(); next ? next.run() : extraRound(); };
+  $('#topruef').onclick = () => { AUD.unlock(); AUD.click(); meinePruefungen(); };
   $('#totalk').onclick = () => { AUD.unlock(); setTab('talk'); };
   $('#toexam').onclick = () => harmsKommt(); $('#togames').onclick = () => { AUD.unlock(); gamesHub(); }; $('#tofunk').onclick = () => setTab('funk'); $('#tolex').onclick = () => { returnTo = 'cabin'; renderLexikon(); }; $('#tobooks').onclick = chaptersSheet; $('#tolog').onclick = () => setTab('log');
   const cd = $('#cdsave'); if (cd) cd.onclick = () => { S.profile.exam = $('#cdate').value || S.profile.exam; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.plan = null; save(); $('#datecard').remove(); toast('Prüfungsdatum gespeichert.'); };
@@ -2925,7 +2966,7 @@ function renderCabin() {
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: () => neuOn() ? setTab('schein') : chaptersSheet(), plan: () => neuOn() ? setTab('schein') : planSheet(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -3384,7 +3425,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     const ratio = total0 ? right / total0 : 0, idx = ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2;
     app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
       <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. Falsche Fragen kommen in den nächsten Tagen öfter dran.</p></div>
-      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || 'Zurück in die Kajüte')}</button>`;
+      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>`;
     app.querySelector('svg.ch').style.width = '76px';
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
     if (opts.scoreKey) recordScore(opts.scoreKey, res.right);
@@ -3567,7 +3608,7 @@ function renderLog() {
   const days = [...Array(7)].map((_, k) => today() - 6 + k), hist = S.hist || {}, week = days.reduce((a, d) => a + (hist[d] || 0), 0), maxd = Math.max(5, ...days.map(d => hist[d] || 0));
   const weak = weakTopics()[0], wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
   const needBackup = Object.keys(S.qs).length > 20 && (!S.lastBackup || today() - S.lastBackup > 30);
-  app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="back">← Kajüte</button><b class="tbtitle">Logbuch <span class="coursechip">${esc(COURSE.short)}</span></b><button class="btn small ghost" id="set">Einstellungen</button></div>${neuOn() ? '<div id="mappe"></div>' : ''}
+  app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="back">← Kajüte</button><b class="tbtitle">Logbuch <span class="coursechip">${esc(COURSE.short)}</span></b><button class="btn small ghost" id="set">Einstellungen</button></div>
     ${needBackup ? `<div class="card" style="border-color:var(--lamp)"><b>Zeit für eine Sicherung</b><p class="small" style="margin:4px 0 8px">Dein Lernstand liegt nur in diesem Browser. Eine Sicherungsdatei schützt ihn, falls Browserdaten gelöscht werden.</p><button class="btn small lamp" id="bkup">Jetzt sichern</button></div>` : ''}
     ${courseCard()}
     <div class="card"><h3>Diese Woche</h3>
@@ -3575,7 +3616,7 @@ function renderLog() {
       <div class="weeklabels">${days.map(d => `<span>${wd[new Date(d * 864e5).getUTCDay()]}</span>`).join('')}</div>
       <p class="small" style="margin:8px 0 0">${week} Fragen beantwortet.${weak ? ` Am meisten wackelt noch: <b>${esc(weak)}</b>.` : ''}</p></div>
     <div class="card"><div style="font:700 2.2rem/1 var(--hfont)">${mastered} / ${all}</div><div class="muted">Fragen sicher (mindestens dreimal in Folge richtig). Gesehen: ${Math.round(coverage() * 100)} %.</div>
-      <p class="small muted" style="margin:10px 0 0">Die Bestehenschance ist eine Schätzung: Für jede Frage nehme ich je nach Lernstand eine Trefferwahrscheinlichkeit an und rechne damit die Prüfung nach der amtlichen Regel durch.</p></div>
+      <p class="small muted" style="margin:10px 0 0">Theorie in Prozent: Jede sichere Frage zählt voll, eine angefangene ein Drittel. 100 % heißt: alle Fragen des Katalogs sitzen. Eine Schätzung, wie die echte Prüfung ausgehen würde: etwa ${Math.round(passChance() * 100)} %.</p></div>
     ${ex.length ? `<div class="card"><h3>Letzte Probeprüfungen</h3>${ex.map(e => `<div class="row" style="justify-content:space-between;margin:4px 0"><span>${e.score} von ${e.n === 60 ? '60 Punkten' : e.n + ' richtig'}${e.nav != null ? ` · Navigation ${e.nav}/9` : ''}${e.mode === 'train' ? ' <span class="muted small">(mit Rückmeldung)</span>' : ''}</span><b class="${(e.passAll != null ? e.passAll : e.pass) ? 'pass' : 'fail'}" style="flex:0 0 auto">${(e.passAll != null ? e.passAll : e.pass) ? 'Bestanden' : e.oral ? 'Mündlich' : 'Nicht bestanden'}</b></div>`).join('')}</div>` : ''}
     ${COURSE.id === 'sbf' && S.nav && Object.keys(S.nav).length ? `<div class="card"><h3>Navigationsaufgaben</h3><p class="small" style="margin:0">${Object.entries(S.nav).map(([n, p]) => `Nr. ${n}: <b class="${p >= 7 ? 'pass' : 'fail'}">${p}/9</b>`).join(' · ')}</p></div>` : ''}
     ${trophyCard()}
@@ -3585,7 +3626,6 @@ function renderLog() {
       <p class="small muted" style="margin:6px 0 0">Grün: sicher. Gelb: in Arbeit.</p></div>
     <div class="card small muted"><p style="margin:0">${COURSE.kind === 'open' ? 'Noch nicht enthalten: die Kartenaufgabe und drei Skizzenfragen. ' : ''}App-Version ${esc(window.__ver || '?')}.</p></div>`;
   $('#back').onclick = () => setTab('cabin'); $('#set').onclick = renderSettings; bindSaying();
-  if (neuOn()) { $('#back').classList.add('hidden'); loadSchein().then(() => { const m = $('#mappe'); if (m && tab === 'log') SCHEIN.mappe(m); }).catch(() => {}); }
   const bk = $('#bkup'); if (bk) bk.onclick = () => { doBackup(); renderLog(); };
 }
 function doBackup() {
@@ -3618,7 +3658,7 @@ function renderSettings() {
   const slider = (id, label, val) => `<label for="${id}">${label}</label><input type="range" id="${id}" min="0" max="1" step="0.05" value="${val}">`;
   app.innerHTML = `<div class="set"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">Einstellungen</h1><button class="btn small ghost" id="back">Zurück</button></div>
   <div class="card"><button class="btn small ghost" id="about" style="float:right">Über die App</button><b>📲 App aufs Handy</b><p class="small muted" style="margin:4px 0 8px">Mit Icon, ohne Browserleiste, auch offline.</p><button class="btn small" id="instset">${istInstalliert() ? 'Schon installiert ✓' : 'App installieren'}</button></div>
-  <div class="card" style="border-color:var(--lamp)"><b>🧪 Entwurf: Neue Ordnung „Mein Schein“</b><p class="small muted" style="margin:4px 0 8px">Alles, was für die Prüfung zählt, an einem Ort, mit Fortschritt je Schein. Unten gibt es dann drei Bereiche: Mein Schein, Boot und Logbuch. Dein Lernstand bleibt in beiden Ansichten gleich.</p><button class="btn small${neuOn() ? ' ghost' : ' lamp'}" id="neuset">${neuOn() ? 'Zurück zur alten Ansicht' : 'Entwurf einschalten'}</button></div>
+
   <h2>Crew</h2>
   ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-id="${id}" aria-pressed="true" disabled>${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
     <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
@@ -3651,7 +3691,7 @@ function renderSettings() {
   <div class="card dev"><h3 style="margin-top:0">Stimmenpaket für alle (Entwickler)</h3>
     <p class="small muted" style="margin:0 0 8px">Jeder feste Satz wird nur einmal mit ElevenLabs erzeugt und landet in <b>audio/stimmen</b> im Repo. Dann hören ihn alle Geräte gratis und offline. Das Paket legt auch die Stimmen fest. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
     <button class="btn ghost" id="vpx">Gehörtes exportieren (gratis)</button><p class="status" id="vpxr"></p>
-    <button class="btn ki" id="vpk1">Teil 1 erzeugen: feste Sätze</button> <button class="btn ki ghost" id="vpk">Alles inkl. Folgen</button><p class="status" id="vpkr"></p>
+    <button class="btn ki lamp" id="vpk1">🎙️ Neue Sätze nachliefern</button> <button class="btn ki ghost" id="vpk">Alles inkl. Folgen</button><p class="status" id="vpkr"></p><p class="small muted" id="vpkn" style="margin:4px 0 0"></p>
     <p class="small muted" style="margin:6px 0 0">Dauert einige Minuten, lass das Handy dabei an. Die ZIP-Datei lädst du auf GitHub in den Hauptordner des Repos (oder in den Ordner <b>import</b>) hoch. Claude baut sie mit <b>tools/stimmen-import.js</b> ein. Deine eigenen Kajütenfunk-Folgen reisen mit und werden vor dem Einbau geprüft.</p>
   </div>
 
@@ -3746,6 +3786,8 @@ function renderSettings() {
   $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
   $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
+  /* Wie viele feste Sätze fehlen noch im Paket? (Daten der nachgeladenen Teile werden dafür geholt) */
+  if ($('#vpkn')) Promise.all([loadManoever().catch(() => {}), loadSeezeichen().catch(() => {}), loadNavi().catch(() => {}), PACK.load()]).then(() => { const f = packLines(false).filter(l => !PACK.has(l.cid, l.t)), z = f.reduce((a, l) => a + l.t.length, 0); const e = $('#vpkn'); if (e) e.textContent = f.length ? `Es fehlen ${f.length} feste Sätze (${z.toLocaleString('de-DE')} Zeichen). Nur diese werden erzeugt.` : 'Alle festen Sätze sind im Paket.'; }).catch(() => {});
   $('#vpx').onclick = () => exportClips($('#vpxr'));
   clipStats().then(s => { const e = $('#clipst'); if (e) e.textContent = `Auf diesem Handy: ${s.all} Aufnahmen, davon ${s.fresh.length} noch nicht im Paket.`; }).catch(() => {});
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
@@ -3763,7 +3805,7 @@ function renderSettings() {
   $('#forget').onclick = () => { S.profile.facts = []; save(); toast('Vergessen.'); renderSettings(); };
   app.querySelectorAll('[data-fx]').forEach(b => b.onclick = () => { S.profile.facts.splice(+b.dataset.fx, 1); save(); renderSettings(); });
   if ($('#kiwid')) $('#kiwid').onclick = () => { S.kiOk = 0; save(); toast('Einwilligung widerrufen. Die App schickt nichts mehr an KI oder ElevenLabs.'); renderSettings(); };
-  $('#neuset').onclick = () => { AUD.click(); S.cfg.neu = !neuOn(); save(); applyNeu(); SCHEIN_RET = false; setTab(neuOn() ? 'schein' : 'deck'); }; $('#instset').onclick = () => appInstallieren(); $('#about').onclick = () => { AUD.click(); renderSources(); };
+  $('#instset').onclick = () => appInstallieren(); $('#about').onclick = () => { AUD.click(); renderSources(); };
   $('#reintro').onclick = () => { S.intros = {}; save(); toast('Beim nächsten Öffnen erklärt die Crew alles nochmal.'); };
   $('#reonb').onclick = () => { S.introDone = false; S.introV5 = false; S.reOnb = true; S.cabinWelcome = false; save(); location.reload(); };
   const lv = $('#logview'); lv.textContent = LOG.all().slice(-60).map(e => e.join(' | ')).join('\n') || 'Noch leer.';
@@ -3886,6 +3928,8 @@ function boatScene(crew) {
     <path d="M290 262 L296 250 L330 248 L338 254 L360 255 L366 262 Z" fill="#b5563a"/><path d="M296 250 L330 248" stroke="#6a8f4a" stroke-width="2"/>
     <rect y="260" width="400" height="180" style="fill:var(--sea)"/>
     ${waves(276, 'w1', 'var(--seaD)', .45, 440)}
+    <!-- Frachter nachts rechts am Horizont: hinter dem Boot, nie hinter den Segeln -->
+    ${night ? '<g data-egg="frachter" transform="translate(346 134) scale(.6)"><path d="M44 210 L50 194 L76 194 L82 210 Z" fill="#1b232c"/><rect x="56" y="180" width="14" height="14" fill="#1b232c"/><path d="M60 194 V172 M66 194 V160" stroke="#1b232c" stroke-width="2"/><circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>' : ''}
     <g class="rocker">
       <path d="M195 72 L60 288 M195 72 L346 286" stroke="#8a8a8a" stroke-width="1"/>
       <rect x="192" y="76" width="6" height="196" rx="2" fill="#5a3e2a"/>
@@ -3927,7 +3971,6 @@ function boatScene(crew) {
       <g class="ausr">${ausrArt()}</g>
     </g>
     ${angelDa ? '<g class="bottle" aria-hidden="true"><g transform="translate(390 318) rotate(-20) scale(.7)"><rect x="-5" y="-14" width="10" height="22" rx="4" fill="#5c8f6a" opacity=".85"/><rect x="-2.5" y="-20" width="5" height="7" fill="#5c8f6a"/><rect x="-3" y="-10" width="6" height="10" fill="#f3e9cf"/></g></g>' : ''}
-    ${night ? '<g data-egg="frachter" transform="translate(74 134) scale(.6)"><path d="M44 210 L50 194 L76 194 L82 210 Z" fill="#1b232c"/><rect x="56" y="180" width="14" height="14" fill="#1b232c"/><path d="M60 194 V172 M66 194 V160" stroke="#1b232c" stroke-width="2"/><circle cx="60" cy="172" r="2.4" fill="#fffbe8"/><circle cx="66" cy="160" r="2.4" fill="#fffbe8"/><circle cx="52" cy="198" r="2.2" fill="#4caf50"/><circle cx="74" cy="198" r="2.2" fill="#e2463b"/><rect x="36" y="150" width="56" height="64" fill="transparent"/></g>' : ''}
     <g data-egg="tonne"><g transform="translate(300 404) scale(1.2)">${buoyG(0, 0)}</g><rect x="284" y="362" width="34" height="56" fill="transparent"/></g>
     <g class="seal" data-egg="seehund"><ellipse cx="62" cy="404" rx="10" ry="9" fill="#7d8790"/><circle cx="58" cy="401" r="1.4" fill="#2b2118"/><circle cx="66" cy="401" r="1.4" fill="#2b2118"/><ellipse cx="62" cy="406" rx="3" ry="2" fill="#4a5258"/><path d="M55 406 l-6 -1 M55 408 l-6 1 M69 406 l6 -1 M69 408 l6 1" stroke="#c9d0d4" stroke-width=".7"/><rect x="48" y="390" width="28" height="26" fill="transparent"/></g>
     <g class="fishwrap" data-egg="fisch"><g class="fishjump"><path d="M150 396 q10 -8 20 0 q-10 8 -20 0 Z M170 396 l7 -5 v10 Z" fill="#e8954a"/><circle cx="155" cy="394.5" r="1" fill="#2b2118"/></g><rect x="136" y="378" width="48" height="30" fill="transparent"/></g>
@@ -4072,20 +4115,41 @@ function bindFernglas(scene) {
 let fishTimer = null;
 /* V9: Es gibt nur noch eine Bootsansicht. deckView bleibt nur, damit alter Code nicht bricht. */
 let deckView = 'overview';
+/* V26: Logbuch-Aufschlüsselung an Deck: Stand je Bereich bis 100 %, was heute dran ist, was noch fehlt */
+function standKarte(path, next) {
+  const f = fortschritt(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
+  const balken = (titel, x, info) => `<div class="standz"><div class="row" style="justify-content:space-between"><b>${titel}</b><span>${proz(x.v)}</span></div><div class="pbar"><i style="width:${Math.round(x.v * 100)}%"></i></div><span class="small muted">${info}</span></div>`;
+  const offen = [];
+  if (weak) offen.push(`Wackelt noch: ${esc(weak)}`);
+  if (f.navi && f.navi.done < f.navi.n) offen.push(`Navigation: ${f.navi.n - f.navi.done} Lektionen ohne Stern`);
+  if (f.praxis.man < f.praxis.manN) offen.push(`Praxis: ${f.praxis.manN - f.praxis.man} Manöver noch nicht ausreichend`);
+  if (f.praxis.knoten < f.praxis.knotenN) offen.push(`Praxis: ${f.praxis.knotenN - f.praxis.knoten} Knoten noch nicht sicher`);
+  return `<section class="card standkarte" aria-label="Dein Stand"><div class="row" style="justify-content:space-between;align-items:baseline"><h3 style="margin:0">Logbuch · ${esc(COURSE.short)}</h3><button class="linkbtn" id="tolog2">Ganzes Logbuch</button></div>
+    ${balken('📖 Theorie', f.theorie, `${f.theorie.sicher} von ${f.theorie.n} Fragen sicher`)}
+    ${f.navi ? balken('🧭 Navigation', f.navi, `${f.navi.done} von ${f.navi.n} Lektionen mit Stern`) : ''}
+    ${balken('🪢 Praxis', f.praxis, `${f.praxis.man} von ${f.praxis.manN} Manövern · ${f.praxis.knoten} von ${f.praxis.knotenN} Knoten`)}
+    <h4 style="margin:12px 0 4px">Heute</h4><ol class="path">${path.map(s => `<li class="${s.done ? 'done' : s === next ? 'now' : ''}"><span class="tick" aria-hidden="true">${s.done ? '✓' : ''}</span>${esc(s.label)}</li>`).join('')}</ol>
+    <p class="small muted" style="margin:4px 0 0">${due} Wiederholungen fällig · ${newLeft} neue Fragen geplant</p>
+    ${offen.length ? `<h4 style="margin:12px 0 4px">Noch offen</h4><ul class="small" style="margin:0;padding-left:18px">${offen.slice(0, 4).map(o => `<li>${o}</li>`).join('')}</ul>` : ''}
+    <p class="small muted" style="margin:10px 0 0">Alles zur Prüfung, Schritt für Schritt: in der Kajüte beim Käpt'n unter „Meine Prüfungen“.</p></section>`;
+}
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
-  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length;
+  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done);
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
+      <button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${next ? esc(next.label) : 'Geschafft! Noch eine Extrarunde?'}</b></button>
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
-      <button class="btn wide lamp" id="down" style="font-size:1.08rem">Runter in die Kajüte</button>
-      <button class="btn small ghost instbtn" id="inst" style="margin-top:8px">📲 App aufs Handy</button>
+      <div class="row"><button class="btn ghost" id="down" style="flex:1">Runter in die Kajüte</button><button class="btn small ghost instbtn" id="inst">📲 App aufs Handy</button></div>
     </div>
     ${courseCard()}
+    ${standKarte(path, next)}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
   $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
+  $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next ? next.run() : extraRound({doneLabel: heimText(), onDone: () => setTab('cabin')}); };
+  $('#tolog2').onclick = () => { AUD.click(); setTab('log'); };
   $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
@@ -4121,7 +4185,7 @@ function loadToern() {
 }
 function openToern() { loadToern().then(() => { TOERN.open(); einfuehrung('toern'); }).catch(e => { toernP = null; LOG.add('törn', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Der Törn ließ sich nicht laden. Prüf dein Internet.'); }); }
 function navSchool() { returnTo = 'cabin'; loadNavi().then(() => { NAV.hub(); einfuehrung('navi'); }).catch(e => { naviP = null; LOG.add('navi', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Die Navigationsschule ließ sich nicht laden. Prüf dein Internet.'); }); }
-function goBelow() { AUD.unlock(); setTab('cabin'); }
+function goBelow() { AUD.unlock(); lernHeim = null; setTab('cabin'); }
 
 /* ---------- Überraschungen (Spiele) ---------- */
 let returnTo = 'deck';
@@ -4204,15 +4268,14 @@ function gameScore(k) {
   if (k === 'nav') { const n = Object.keys(S.nav || {}).length; return n ? n + ' von 15' : ''; }
   const v = S.best && S.best[k]; return v ? 'Rekord ' + v : '';
 }
-/* Im Entwurf „Mein Schein“ liegen die Prüfungsübungen dort, in der Spielekiste nur noch Spaß */
-const SPASS_SPIELE = ['fish', 'parts', 'motor'];
+/* V26: In der Spielekiste wird nur gespielt. Prüfungsübungen (Manöver, Kartentisch, Knotenkunde, Prüfungsfallen) liegen in „Meine Prüfungen“. */
+const PRUEF_UEBUNGEN = ['man', 'nav', 'knoten', 'traps'];
 function gamesHub() {
-  if (neuOn() && SCHEIN_RET) return setTab('schein');
   returnTo = 'cabin';
-  const liste = neuOn() ? GAMES.filter(g => SPASS_SPIELE.includes(g.k)) : GAMES;
+  const liste = GAMES.filter(g => !PRUEF_UEBUNGEN.includes(g.k));
   const r = rankInfo();
   gameShell('Spielekiste', `<div class="card rankcard"><b>${esc(r.name)}</b><span class="small muted"> · ${r.pts} von ${r.max} Trophäenpunkten${r.next ? ` · ab ${r.next[0]}: ${esc(r.next[1])}` : ''}</span><div class="rankbar"><i style="width:${Math.round(r.pts / r.max * 100)}%"></i></div></div>
-    ${neuOn() ? '<p class="small muted" style="margin:0 0 10px">Hier wird nur gespielt. Alles, was für die Prüfung zählt (Signale, Navigation, Manöver, Knoten), liegt jetzt unter <b>Mein Schein</b>.</p>' : ''}<div class="gamegrid">${liste.map(g => { const i = GAMES.indexOf(g), ok = !g.ok || g.ok(); const nm = g.k === 'traps' && COURSE.kind !== 'mc' ? 'Wackelkandidaten' : g.n; const tr = trophyOf(g.k), v = myBest(g.k);
+    <p class="small muted" style="margin:0 0 10px">Hier wird gespielt, mit Rekorden und Trophäen. Was direkt für die Prüfung zählt (Manöver, Navigation, Knoten, Prüfungsfragen), findest du in der Kajüte beim Käpt'n unter <b>Meine Prüfungen</b>.</p><div class="gamegrid">${liste.map(g => { const i = GAMES.indexOf(g), ok = !g.ok || g.ok(); const nm = g.k === 'traps' && COURSE.kind !== 'mc' ? 'Wackelkandidaten' : g.n; const tr = trophyOf(g.k), v = myBest(g.k);
       return `<div class="gtile${ok ? '' : ' off'}"><button class="gplay" data-gi="${i}" ${ok ? '' : 'aria-disabled="true"'}><svg viewBox="0 0 64 48" aria-hidden="true">${GAME_ART[g.k] || ''}</svg><b>${esc(nm)}</b><span class="small muted">${esc(ok ? g.d : g.why)}</span></button>
         <button class="glb" data-lb="${g.k}" aria-label="Bestenliste ${esc(nm)}"><i class="medal" style="background:${MEDAL[tr]}"></i>${tr ? TROPHY_NAMES[tr] : 'Noch keine'} · ${v ? 'Rekord ' + v : '–'}</button></div>`; }).join('')}</div>`);
   AUD.sfx('tuerAuf', {vol: .45});
@@ -4263,8 +4326,8 @@ function einfuehrung(id, nochmal) {
 }
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */
 const TOUR = {
-  boat: [{sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du die wichtigen Stellen an Bord. Alles andere musst du selbst entdecken. Es gibt einiges!'}],
-  cabin: [{sel: '#pathcard', text: 'Hier steht, was heute dran ist. Ein Tipp auf „Weiter“, und es geht los.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
+  boat: [{sel: '#kursheute', text: 'Kurs für heute: Hier steht, was die Crew dir heute empfiehlt. Ein Tipp, und es geht los.'}, {sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du die wichtigen Stellen an Bord. Alles andere musst du selbst entdecken. Es gibt einiges!'}],
+  cabin: [{sel: '#topruef', text: 'Meine Prüfungen: Hier liegt alles, was für die Prüfung zählt, mit deinem Stand in Prozent.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
 };
 function tour(name) {
   S.tour = S.tour || {}; if (S.tour[name]) return;
@@ -5092,7 +5155,7 @@ function runVorab(u) {
 function runAbschluss(u) {
   const miss = (S.chap[u.id] && S.chap[u.id].miss) || [];
   runQuiz(shuffle(miss.map(n => QN[n]).filter(Boolean)), 'Abschluss-Quiz', 'learn', {
-    doneLabel: 'Zurück in die Kajüte',
+    doneLabel: heimText(),
     onDone: () => { S.chap[u.id] = {...(S.chap[u.id] || {}), stage: 'fertig'}; markPath('unit'); save(); setTab('cabin'); },
   });
 }
@@ -5158,11 +5221,13 @@ function todayPath() {
   const p = S.path, cov = coverage(), last = (S.exams || []).slice(-1)[0];
   const next = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
   const examDue = cov >= .6 && (!last || today() - last.day >= 3);
-  const doneOpts = k => ({doneLabel: 'Zurück in die Kajüte', onDone: () => { markPath(k); save(); setTab('cabin'); }});
+  const doneOpts = k => ({doneLabel: heimText(), onDone: () => { markPath(k); save(); setTab('cabin'); }});
   return [
     {id: 'review', label: p.dueStart > 0 ? `Wiederholen (${due} fällig)` : 'Aufwärmen: 8 gemischte Fragen', done: p.review,
       run: () => due > 0 ? reviewSession('Wiederholung', doneOpts('review')) : warmup(doneOpts('review'))},
-    {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'), done: p.unit,
+    SZ_THEMA[S.course] && next && next.topic.id === SZ_THEMA[S.course] && szOffen(szArt(S.course))
+      ? {id: 'unit', label: 'Neu: Grundkurs ' + (S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen'), done: p.unit, run: () => { markPath('unit'); save(); seezeichenKurs(szArt(S.course)); }}
+      : {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'), done: p.unit,
       run: () => next ? startUnit(next) : trapRound(doneOpts('unit'))},
     {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge', done: p.extra,
       run: () => examDue ? harmsKommt() : setTab('funk')},
@@ -5257,13 +5322,14 @@ function charMenu(cidv) {
   if (cidv === 'backbord') meow(); else if (cidv === 'klabauter') AUD.sfx('papagei', {vol: .5}); else AUD.click();
   const head = `<div class="sheethead">${charSVG(cidv)}<div><h2 style="margin:0">${esc(c.short)}</h2><p class="small muted" style="margin:0">${esc(c.blurb)}</p></div></div><div id="msay" class="menusay hidden"></div>`;
   let items = '';
-  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung');
+  if (role === 'K') items = menuBtn('pruef', '📋 Meine Prüfungen', 'Theorie, Navigation, Praxis, Probeprüfung') + menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung');
   if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + (S.course === 'sks' ? menuBtn('mc', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten zur Auswahl') : '') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung') + menuBtn('tap', 'Sag was');
   if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '') + menuBtn('tap', 'Sag was');
   const w = sheet(head + `<div class="menu">${items}</div>`);
   const say = (t, kind = 'live') => { const m = $('#msay'); m.classList.remove('hidden'); m.textContent = t; AUD.unlock(); VOX.stop('Menü'); VOX.say(cidv, t, kind); };
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = async () => {
     const m = b.dataset.m; AUD.click();
+    if (m === 'pruef') { closeSheet(); return meinePruefungen(); }
     if (m === 'next') {
       const r = recommendNext(); say(r.say, /\d/.test(r.say) ? 'local' : 'fixed');
       const go = document.createElement('button'); go.className = 'btn lamp wide'; go.style.marginTop = '10px'; go.textContent = 'Los geht\'s: ' + r.label;

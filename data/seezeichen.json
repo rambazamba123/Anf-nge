@@ -1,0 +1,85 @@
+{
+ "about": "V26 Grundkurs Seezeichen. Karten zeigen die Originalbilder und die amtliche Antwort aus dem Fragenkatalog (q = Fragennummer), dazu eine Merkhilfe. Binnen fragt die Zeichen nur als Text ab; die Zeichnungen dort sind zur Veranschaulichung. Abgleich mit SeeSchStrO/Betonnungssystem und BinSchStrO Anlage 7/8, sobald die Quellen in quellen/ liegen. Crew-Sätze sind feste Sätze ohne Namen.",
+ "see": {
+  "titel": "Grundkurs Seezeichen",
+  "kurs": "sbf",
+  "intro": [{"s": "K", "t": "Seezeichen sind die Verkehrsschilder auf dem Wasser. Wer sie nicht lesen kann, fährt irgendwann auf Grund."}, {"s": "M", "t": "Keine Panik, das ist ein System. Wer das einmal kapiert hat, liest jede Tonne."}, {"s": "T", "t": "Tonne! Tonne!"}],
+  "lektionen": [
+   {"id": "fahrwasser", "t": "Fahrwasser: Grün und Rot",
+    "crew": [{"s": "K", "t": "Gedacht wird immer von See kommend, also in den Hafen hinein."}, {"s": "M", "t": "Dann liegt Grün an Steuerbord, also rechts, und Rot an Backbord, links."}],
+    "karten": [
+     {"q": 193, "t": "Steuerbordseite", "merk": "Grün und oben spitz: die Spitztonne. Von See kommend liegt sie rechts."},
+     {"q": 194, "t": "Backbordseite", "merk": "Rot und oben stumpf: die Stumpftonne. Von See kommend liegt sie links."},
+     {"q": 191, "t": "Pricken an Steuerbord", "merk": "Pricken sind Zweige im Watt. Die Form verrät die Seite: genau hinschauen."},
+     {"q": 192, "t": "Pricken an Backbord", "merk": "Vergleich die Form mit der Steuerbord-Pricke daneben."},
+     {"q": 195, "t": "Abzweigung, grüne Grundfarbe", "merk": "Die Grundfarbe zeigt das durchgehende Fahrwasser, das breite Band das abzweigende."},
+     {"q": 196, "t": "Abzweigung, rote Grundfarbe", "merk": "Rot mit grünem Band: durchgehend an Backbord, abzweigend an Steuerbord."}
+    ],
+    "kennungen": [{"k": "Fl G", "t": "Grünes Blitzfeuer an Steuerbord"}, {"k": "Fl R", "t": "Rotes Blitzfeuer an Backbord"}],
+    "fragen": [191, 192, 193, 194, 195, 196, 198, 199]},
+   {"id": "kardinal", "t": "Kardinalzeichen: die Himmelsrichtung",
+    "crew": [{"s": "K", "t": "Kardinalzeichen sagen dir, auf welcher Seite der Gefahr das sichere Wasser liegt."}, {"s": "M", "t": "Die Nordtonne liegt nördlich der Gefahr. Also fährst du nördlich an ihr vorbei."}, {"s": "T", "t": "Norden! Norden!"}],
+    "karten": [
+     {"q": 200, "t": "Nord", "merk": "Beide Kegel zeigen nach oben. Die Spitzen zeigen auf das Schwarz: oben schwarz, unten gelb."},
+     {"q": 201, "t": "Ost", "merk": "Spitzen auseinander, eine nach oben, eine nach unten: schwarz oben und unten, gelb in der Mitte."},
+     {"q": 202, "t": "Süd", "merk": "Beide Kegel zeigen nach unten: oben gelb, unten schwarz."},
+     {"q": 203, "t": "West", "merk": "Spitzen zueinander: gelb oben und unten, schwarz in der Mitte."},
+     {"q": 204, "t": "Feuer Nord", "merk": "Wie auf der Uhr: Nord ist 12 Uhr und funkelt ohne Pause."},
+     {"q": 205, "t": "Feuer Ost", "merk": "3 Uhr: drei Funkel, dann Pause."},
+     {"q": 206, "t": "Feuer Süd", "merk": "6 Uhr: sechs Funkel und ein langer Blitz."},
+     {"q": 207, "t": "Feuer West", "merk": "9 Uhr: neun Funkel, dann Pause."}
+    ],
+    "kennungen": [{"k": "Q", "t": "Nord: Funkeln ohne Pause"}, {"k": "Q(3)", "t": "Ost: drei Funkel"}, {"k": "Q(6)+LFl", "t": "Süd: sechs Funkel und ein langer Blitz"}, {"k": "Q(9)", "t": "West: neun Funkel"}],
+    "fragen": [200, 201, 202, 203, 204, 205, 206, 207]},
+   {"id": "einzel", "t": "Einzelgefahr, Mitte und Sperrgebiet",
+    "crew": [{"s": "K", "t": "Zwei schwarze Bälle heißt: Hier liegt eine einzelne Gefahr, rundherum ist Wasser."}, {"s": "M", "t": "Rot und weiß senkrecht gestreift ist das Gegenteil: Hier ist die Mitte, hier ist es sicher."}],
+    "karten": [
+     {"q": 208, "t": "Einzelgefahr", "merk": "Zwei schwarze Bälle übereinander, schwarz mit rotem Band. Das Feuer blitzt in Zweiergruppen."},
+     {"q": 209, "t": "Feuer der Einzelgefahr", "merk": "Zwei Blitze, Pause, zwei Blitze: wie die zwei Bälle."},
+     {"q": 190, "t": "Mitte des Fahrwassers", "merk": "Rot-weiß senkrecht gestreift: Hier ist die Mitte, hier ist sicheres Wasser."},
+     {"q": 184, "t": "Sperrgebiet", "merk": "Gelb mit rotem oder gelbem Kreuz: Hier darfst du nicht hinein."}
+    ],
+    "kennungen": [{"k": "Fl(2) W", "t": "Einzelgefahr: weiße Zweierblitze"}],
+    "fragen": [208, 209, 190, 184]},
+   {"id": "feuer", "t": "Leuchtfeuer und Kennungen",
+    "crew": [{"s": "K", "t": "Nachts siehst du keine Farben an der Tonne, nur ihr Licht. Darum hat jedes Feuer seinen eigenen Takt."}, {"s": "T", "t": "Blink! Blink!"}],
+    "karten": [
+     {"t": "Die Abkürzungen", "text": "Fl = Blitz (kurz an, lang aus). LFl = langer Blitz. Oc = unterbrochen (lang an, kurz aus). Iso = Gleichtakt (an und aus gleich lang). Q = Funkeln, VQ = schnelles Funkeln. F = Festfeuer. Die Zahl in Klammern ist die Gruppe, dann kommt die Farbe: R rot, G grün, W weiß.", "merk": "In der Seekarte steht die Kennung neben der Tonne."},
+     {"q": 215, "t": "Unterbrochenes Feuer", "merk": "Oc: Das Licht ist länger an als aus."},
+     {"q": 197, "t": "Oc (2) R. Whis.", "merk": "Erst den Takt, dann die Farbe, dann den Zusatz lesen. Whis. ist eine Heultonne."},
+     {"q": 210, "t": "Leitfeuer", "merk": "Ein Sektorenfeuer: Im weißen Sektor bist du im Fahrwasser."},
+     {"q": 212, "t": "Richtfeuer", "merk": "Ober- und Unterfeuer in Deckung bringen, dann liegst du auf der Linie."},
+     {"q": 213, "t": "Quermarkenfeuer", "merk": "Es kündigt eine Kursänderung im Fahrwasser an."}
+    ],
+    "kennungen": [{"k": "Oc(2) R", "t": "Unterbrochen, Zweiergruppe, rot"}, {"k": "Iso W", "t": "Gleichtakt, weiß"}, {"k": "LFl W", "t": "Langer Blitz, weiß"}, {"k": "VQ W", "t": "Schnelles Funkeln, weiß"}],
+    "fragen": [197, 210, 211, 212, 213, 214, 215]}
+  ]
+ },
+ "binnen": {
+  "titel": "Grundkurs Zeichen Binnen",
+  "kurs": "binnen",
+  "intro": [{"s": "K", "t": "Auf Flüssen und Kanälen gelten eigene Zeichen. Das Prinzip ist ähnlich, aber die Blickrichtung ist eine andere."}, {"s": "M", "t": "Hier zählt nicht von See kommend, sondern von der Quelle zur Mündung."}],
+  "lektionen": [
+   {"id": "ufer", "t": "Ufer, Fahrwasser und Fahrrinne",
+    "crew": [{"s": "K", "t": "Rechts und links zählen auf Flüssen immer von der Quelle zur Mündung, also talwärts."}, {"s": "M", "t": "Bergfahrt heißt gegen den Strom, Richtung Quelle."}],
+    "bild": "fluss",
+    "karten": [{"q": 94, "t": "Rechtes und linkes Ufer"}, {"q": 95, "t": "Bergfahrt auf Flüssen"}, {"q": 96, "t": "Bergfahrt auf Kanälen"}, {"q": 88, "t": "Fahrwasser"}, {"q": 89, "t": "Fahrrinne"}],
+    "fragen": [88, 89, 94, 95, 96]},
+   {"id": "zeichen", "t": "Tonnen und Schwimmstangen",
+    "crew": [{"s": "K", "t": "Rot begrenzt die Fahrrinne zum rechten Ufer, Grün zum linken. Talwärts gedacht."}, {"s": "T", "t": "Talwärts! Talwärts!"}],
+    "karten": [
+     {"q": 97, "t": "Rechte Seite der Fahrrinne", "zeichnung": "rotstumpf", "merk": "Talwärts gedacht: rechts rot und stumpf."},
+     {"q": 98, "t": "Linke Seite der Fahrrinne", "zeichnung": "gruenspitz", "merk": "Talwärts gedacht: links grün und spitz."},
+     {"q": 99, "t": "Bergfahrer an Steuerbord", "merk": "Wer bergauf fährt, hat die linke Fahrrinnenseite an Steuerbord."},
+     {"q": 100, "t": "Rot-grün gestreift"},
+     {"q": 101, "t": "Hindernisse wie Buhnen"},
+     {"q": 102, "t": "Grün-weiß gestreifte Schwimmstange"}
+    ],
+    "fragen": [97, 98, 99, 100, 101, 102]},
+   {"id": "wasser", "t": "Wasserstände und Ankern",
+    "crew": [{"s": "K", "t": "Bei Hochwasser ist schnell Schluss mit Fahren. Achte auf die Hochwassermarken."}],
+    "karten": [{"q": 91, "t": "Wasserstände vor Ort"}, {"q": 92, "t": "Hochwassermarke I"}, {"q": 93, "t": "Hochwassermarke II"}, {"q": 103, "t": "In Kanälen"}, {"q": 106, "t": "Anker, die behindern"}],
+    "fragen": [90, 91, 92, 93, 103, 104, 105, 106]}
+  ]
+ }
+}
