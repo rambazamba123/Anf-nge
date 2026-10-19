@@ -349,25 +349,36 @@ const ACHT = (() => {
 })();
 
 /* Kreuzknoten: zwei Reffbändsel (gelb von links, blau von rechts) kommen aus dem gerefften Segel.
-   1. Halbknoten: rechts (blau) über links (gelb), hinten herum (c1 blau über, c2 blau unter).
-   2. Halbknoten: links (gelb) über rechts (blau), hinten herum (c3 gelb über, c4 gelb unter).
-   Gegenläufiger Drehsinn = Kreuzknoten (gleicher Drehsinn wäre ein Altweiberknoten). Jedes Ende kommt neben seiner eigenen Part heraus. */
+   Fertig sind es zwei Buchten, die ineinandergreifen: Gelb bildet die Bucht rechts, Blau die Bucht links.
+   Jedes Ende liegt neben seiner eigenen Part (gelb links, blau rechts). Von unten nach oben liegen die Schenkel:
+   blaue Part, gelbe Part, blaues Ende, gelbes Ende. Kreuzungen: blaue Bucht über die gelbe Part (Schritt 1, rechts über links),
+   gelbe Bucht über das blaue Ende (Schritt 2, links über rechts). */
 const KREUZ = (() => {
-  const A = P([[95, 372, 'as'], [98, 330, 'as'], [102, 300, 'as'], [114, 278, 'as'], [126, 262, 'au'], [131, 251, 'au'], [134, 244, 'ao'], [137, 236, 'ao'], [140, 224, 'ao'],
-    [146, 216, 'ac'], [157, 209, 'ac'], [168, 203, 'ac'], [174, 197, 'ab'], [166, 191, 'ab'], [155, 189, 'ab'], [140, 186, 'at'], [124, 178, 'at'], [106, 169, 'at'], [88, 163, 'end']]);
-  const B = P([[205, 372, 'bs'], [202, 330, 'bs'], [198, 300, 'bs'], [186, 278, 'bs'], [168, 266, 'bc'], [148, 257, 'bc'], [131, 251, 'bc'], [118, 248, 'bc'], [112, 243, 'bb'], [120, 239, 'bb'],
-    [137, 238, 'bb'], [150, 234, 'bb'], [156, 224, 'bu'], [157, 209, 'bu'], [157, 200, 'bo'], [157, 191, 'bo'], [162, 181, 'bt'], [176, 171, 'bt'], [194, 164, 'bt'], [212, 160, 'end']]);
-  const IA = 11, IB = 7;  // Spitze von gelb nach „über blau gelegt“, von blau nach „über gelb gelegt“
-  /* Anfang: beide Enden stehen nach oben */
-  const A0 = A.slice(0, 9).concat(P([[141, 210, 'ac'], [142, 194, 'ac'], [143, 178, 'ac']]));
-  const B0 = P([[205, 372, 'bs'], [202, 330, 'bs'], [198, 300, 'bs'], [192, 280, 'bs'], [190, 262, 'bc'], [189, 246, 'bc'], [189, 230, 'bc'], [190, 214, 'bc']]);
-  const C = {x: 146, y: 222}, fest = (cp, von, aus) => cp.map((p, i) => i < von ? {...p} : {x: C.x + (p.x - C.x) * .68 + (i >= aus ? (p.x < C.x ? -10 : 10) : 0), y: C.y + (p.y - C.y) * .62 + (i >= aus ? -4 : 0), l: p.l});
-  const AT = fest(A, 3, 15), BT = fest(B, 3, 16);
+  /* gelb: Part aus dem Segel (gs), unterer Schenkel (gl), Bucht rechts (gb), oberer Schenkel (gu), Ende nach links oben (ge) */
+  const A = P([[62, 380, 'gs'], [60, 340, 'gs'], [58, 300, 'gs'], [60, 268, 'gs'], [66, 246, 'gs'], [76, 232, 'gs'], [90, 227, 'gl'], [110, 226, 'gl'], [130, 226, 'gl'], [152, 226, 'gl'],
+    [176, 226, 'gl'], [196, 226, 'gb'], [212, 221, 'gb'], [220, 206, 'gb'], [212, 191, 'gb'], [196, 186, 'gu'], [172, 186, 'gu'], [146, 186, 'gu'], [120, 186, 'gu'], [98, 185, 'gu'],
+    [82, 180, 'ge'], [70, 168, 'ge'], [62, 150, 'ge'], [58, 128, 'ge'], [57, 106, 'end']]);
+  /* blau: Part aus dem Segel (bs), unterer Schenkel (bl), Bucht links (bb), oberer Schenkel (bu), Ende nach rechts oben (be) */
+  const B = P([[238, 380, 'bs'], [240, 340, 'bs'], [242, 300, 'bs'], [240, 270, 'bs'], [232, 254, 'bs'], [218, 247, 'bl'], [196, 246, 'bl'], [172, 246, 'bl'], [148, 246, 'bl'],
+    [124, 246, 'bl'], [104, 246, 'bb'], [88, 241, 'bb'], [80, 226, 'bb'], [88, 211, 'bb'], [104, 206, 'bu'], [128, 206, 'bu'], [154, 206, 'bu'], [180, 206, 'bu'], [204, 206, 'bu'],
+    [222, 206, 'bu'], [236, 202, 'be'], [246, 190, 'be'], [252, 170, 'be'], [254, 148, 'be'], [255, 124, 'end']]);
+  const IA = 9, IB = 9;  /* Anfang: gelbes Ende liegt nach rechts (bis 152), blaues nach links (bis 124) */
   const MA = [marke(A, IA), marke(A, A.length - 1)], MB = [marke(B, IB), marke(B, B.length - 1)];
+  /* Vorher: beide Enden zeigen noch nach oben */
+  const A0 = A.slice(0, 6).concat(P([[86, 214, 'gl'], [96, 196, 'gl'], [104, 178, 'gl'], [110, 160, 'gl']]));
+  const B0 = B.slice(0, 5).concat(P([[224, 236, 'bl'], [214, 218, 'bl'], [204, 200, 'bl'], [196, 180, 'bl'], [190, 160, 'bl']]));
+  /* Festgezogen: Schenkel eng (14 statt 20), Buchten kleiner, Parten und Enden nach außen gezogen */
+  const C = {x: 150, y: 216};
+  const fest = cp => cp.map((p, i) => { const y = C.y + (p.y - C.y) * .7, x = C.x + (p.x - C.x) * .82; return {x, y, l: p.l}; });
+  const AT = fest(A), BT = fest(B);
+  for (let i = 0; i < 4; i++) { AT[i] = {...A[i]}; BT[i] = {...B[i]}; }
+  AT[4] = {x: 70, y: 244, l: 'gs'}; AT[5] = {x: 82, y: 232, l: 'gs'}; BT[4] = {x: 232, y: 250, l: 'bs'};
+  for (let i = A.length - 4; i < A.length; i++) AT[i] = {x: AT[i].x - (i - A.length + 5) * 5, y: AT[i].y - 6, l: A[i].l};
+  for (let i = B.length - 4; i < B.length; i++) BT[i] = {x: BT[i].x + (i - B.length + 5) * 5, y: BT[i].y - 6, l: B[i].l};
   const def = {
     H: 380,
-    seile: {a: {stil: 'gelb', tw: 10}, b: {stil: 'blau', tw: 10}},
-    z: {as: 4, au: 2, ao: 6, ac: 7, ab: 1, at: 4, bs: 4, bc: 7, bb: 1, bu: 2, bo: 6, bt: 4, end: 4},
+    seile: {a: {stil: 'gelb', tw: 11}, b: {stil: 'blau', tw: 11}},
+    z: {gs: 4, gl: 4, gb: 7, gu: 4, ge: 4, bs: 4, bl: 4, bb: 6, bu: 3, be: 3, end: 4},
     obj: [{z: 9, draw(cx) { /* gerefftes Segel: Tuchwulst mit Falten */
       cx.fillStyle = 'rgba(70,45,15,.16)'; cx.beginPath(); cx.roundRect(14, 306, 280, 80, 30); cx.fill();
       const g = cx.createLinearGradient(0, 300, 0, 380); g.addColorStop(0, '#fbfaf6'); g.addColorStop(.5, '#e6e2d8'); g.addColorStop(1, '#bdb7aa');
@@ -377,15 +388,15 @@ const KREUZ = (() => {
     }}],
     phasen: [
       {st: 0, d: .8, f: () => ({ka: 0, kb: 0})},
-      {st: 0, d: 1.4, f: e => ({ka: 0, kb: e})},
-      {st: 0, d: 2.8, f: e => ({ka: 0, ub: lerp(MB[0], MB[1], e)})},
-      {st: 0, d: .6, f: () => ({ka: 0, ub: MB[1]})},
-      {st: 1, d: 1.4, f: e => ({ka: e, ub: MB[1]})},
-      {st: 1, d: 2.6, f: e => ({ua: lerp(MA[0], MA[1], e), ub: MB[1]})},
+      {st: 0, d: 1.2, f: e => ({ka: e, kb: e})},
+      {st: 0, d: .4, f: () => ({ka: 1, kb: 1})},
+      {st: 0, d: 3.4, f: e => ({ka: 1, ub: lerp(MB[0], MB[1], e)})},
+      {st: 0, d: .6, f: () => ({ka: 1, ub: MB[1]})},
+      {st: 1, d: 3.4, f: e => ({ua: lerp(MA[0], MA[1], e), ub: MB[1]})},
       {st: 1, d: .8, f: () => ({ua: MA[1], ub: MB[1]})},
       {st: 2, d: 1.1, f: e => ({t: 0, pfeil: e})},
       {st: 2, d: 2.2, f: e => ({t: e, pfeil: 1, zug: e})},
-      {st: 2, d: .2, f: () => ({t: 1, pfeil: 1})}
+      {st: 2, d: .3, f: () => ({t: 1, pfeil: 1})}
     ],
     form(s) {
       if (s.t != null) return {a: {cp: lp(A, AT, s.t)}, b: {cp: lp(B, BT, s.t)}};
@@ -394,11 +405,11 @@ const KREUZ = (() => {
       return {a, b};
     },
     deko(cx, s, R) {
-      if (s.st === 0 && s.ub == null) { pill(cx, 'linkes Ende', R.a.tip.x - 8, R.a.tip.y - 16, 'right'); pill(cx, 'rechtes Ende', R.b.tip.x + 8, R.b.tip.y - 14, 'left'); }
+      if (s.st === 0 && s.ub == null) { pill(cx, 'linkes Ende', R.a.tip.x - 10, R.a.tip.y - 14, 'right'); pill(cx, 'rechtes Ende', R.b.tip.x + 10, R.b.tip.y - 12, 'left'); }
       if (s.pfeil) {
         const zug = (s.zug || 0) * 7, a = R.a.tip, b = R.b.tip; cx.globalAlpha = s.pfeil;
-        pfeil(cx, a.x - 4 + zug * -1, a.y - 14, a.x - 40 - zug, a.y - 26); pill(cx, '① links ziehen', a.x - 14 - zug, a.y - 44, 'center', '#9b2f24');
-        pfeil(cx, b.x + 4 + zug, b.y - 14, b.x + 40 + zug, b.y - 26); pill(cx, '② rechts ziehen', b.x + 14 + zug, b.y - 44, 'center', '#9b2f24');
+        pfeil(cx, a.x + 6, a.y + 8, a.x - 14 - zug, a.y - 26 - zug); pill(cx, '① links ziehen', a.x - 4, a.y - 44 - zug, 'left', '#9b2f24');
+        pfeil(cx, b.x - 6, b.y + 8, b.x + 14 + zug, b.y - 26 - zug); pill(cx, '② rechts ziehen', b.x + 4, b.y - 44 - zug, 'right', '#9b2f24');
         cx.globalAlpha = 1;
       }
     }
