@@ -85,4 +85,9 @@ Alle Sätze stehen in `data/manoever.json` (Vorführungen `demo[].sag`/`cmd`, Ko
 - M: Und eine Minute Breite ist genau eine Seemeile. Darum misst du Distanzen immer am Breitenrand, links oder rechts.
 - T: Eine Minute, eine Meile! Eine Minute, eine Meile!
 
+## Lob und Tagespensum (index.html, v4.71)
+- M (Lob, alles richtig): Alles richtig! Da staunt sogar der Käpt'n.
+- K (Pensum geschafft, Neues empfohlen): Pensum geschafft. Wenn du noch Lust hast, nimm ruhig was Neues dazu.
+- K (Pensum geschafft, Festigen empfohlen): Für heute hast du dein Pensum geschafft. Wenn du noch Lust hast, festigen wir, was noch wackelt.
+
 Alle Sätze kommen über Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“ ins Paket.

@@ -83,8 +83,24 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   /* V26: Lektion 0, fünf Schritte, Hilfe in drei Stufen */
   await schritt('08-navi-L0', page, async () => { await ev(page, () => NAV.lesson('L0')); await sleep(500); await ev(page, () => document.querySelector('[data-m=erkl]').click()); await sleep(700); await ev(page, () => { VOX.stop(); document.getElementById('lok').click(); }); await sleep(800);
     if (!await page.$('#bok')) throw new Error('kein Beispiel'); await ev(page, () => document.getElementById('bok').click()); await sleep(800);
-    for (let k = 0; k < 2; k++) { await ev(page, () => document.getElementById('xhint').click()); await sleep(150); } if (await ev(page, () => document.querySelectorAll('.nhint').length) !== 3) throw new Error('Hilfe nicht dreistufig'); });
+    for (let k = 0; k < 2; k++) { await ev(page, () => document.getElementById('xhint').click()); await sleep(150); } if (await ev(page, () => document.querySelectorAll('#xhints .nhint').length) !== 3) throw new Error('Hilfe nicht dreistufig'); });
   for (const l of ['L10', 'L11']) await schritt('08-navi-' + l, page, async () => { await ev(page, l => NAV.exercise(l, 'guided'), l); await sleep(700); if (!await page.$('#xform')) throw new Error('keine Aufgabe'); });
+  /* Navi-Facelift: Arbeitsblatt unten, eigene Zahlentasten, Zirkel an den Breitenrand mit Ablese-Fenster, Rückgängig und Wiederholen, Werte wandern in die nächste Teilaufgabe */
+  await schritt('08c-navi-arbeitsblatt', page, async () => {
+    await ev(page, () => { window.__t = NAV.GEN.distMessen(); NAV.task(window.__t, {mode: 'guided', title: 'Test', next() {}}); }); await sleep(700);
+    if (!await page.$('.nt2 .ntsheet [data-tab=rechen]')) throw new Error('Arbeitsblatt fehlt');
+    await page.click('[data-k=d]'); await sleep(150); if (!await page.$('#nkeys:not(.hidden)')) throw new Error('Zahlentasten fehlen');
+    for (const k of ['3', ',', '5']) await page.click(`[data-key="${k}"]`);
+    if (await ev(page, () => document.querySelector('[data-k=d]').value) !== '3,5') throw new Error('Zahlentasten tippen nicht');
+    await ev(page, () => { const c = NAV.lastCtl, K = NAV.data().K, o = id => { const x = K.objekte.find(y => y.id === id); return NAV.proj(x.lat, x.lon); }; c.st.zirkel = {a: o(window.__t.chart.hi[0]), b: o(window.__t.chart.hi[1]), done: true, n: 1}; c.ink(); c.zirkelAnRand(); }); await sleep(800);
+    const sichtbar = () => ev(page, () => !document.querySelector('.nablese').classList.contains('hidden'));
+    if (!await sichtbar()) throw new Error('Ablese-Fenster fehlt');
+    await page.click('[data-act=undo]'); await sleep(200); if (await sichtbar()) throw new Error('Rückgängig wirkt nicht');
+    await page.click('[data-act=redo]'); await sleep(200); if (!await sichtbar()) throw new Error('Wiederholen wirkt nicht');
+    await ev(page, () => NAV.exercise('L9', 'guided')); await sleep(900);
+    await ev(page, () => { document.querySelector('[data-k=k]').value = '090'; document.getElementById('xcheck').click(); }); await sleep(300);
+    await ev(page, () => document.getElementById('xnext').click()); await sleep(900);
+    if (!await ev(page, () => /rwK 090/.test(document.querySelector('.nbisher').textContent) && document.querySelector('[data-sv=rwk]').value === '090')) throw new Error('Werte aus Teil 1 fehlen'); });
   await schritt('07-einstellungen', page, async () => { await ev(page, () => renderSettings()); await sleep(600); });
   /* V26: Deck mit „Kurs für heute“, Meine Prüfungen (Abschnitte, Themen, Schein wechseln), Seezeichen-Kurs, Spielekiste nur Spiele */
   await schritt('07b-kurs-fuer-heute', page, async () => { await ev(page, () => { Object.keys(INTROS.e || {}).forEach(k => { S.intros = S.intros || {}; S.intros[k] = 1; }); setTab('deck'); }); await sleep(800); if (!await page.$('#kursheute')) throw new Error('Kurs für heute fehlt'); if (!await page.$('.standkarte')) throw new Error('Logbuch-Aufschlüsselung fehlt'); });

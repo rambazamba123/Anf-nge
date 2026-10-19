@@ -354,6 +354,7 @@ button.coursechip{border:0;cursor:pointer}
 .homehead{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .homehead h1{margin:0}
 .pathmini{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
+.extrawahl .btn{flex-direction:column;gap:2px;line-height:1.25;padding:.6em .7em}.extrawahl .btn small{font-weight:700;opacity:.85;font-size:.78rem}.extrawahl .btn b{font-size:.98rem}
 .kursheute{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:8px;padding:.7em 1em}.kursheute small{font-weight:700;opacity:.85;font-size:.8rem}.kursheute b{font-size:1.06rem;line-height:1.25}
 .standkarte .standz{margin-top:10px}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
 .linkbtn{background:none;border:0;padding:0;color:var(--sea);font:inherit;font-size:.88rem;text-decoration:underline;cursor:pointer}
@@ -508,7 +509,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.70';
+  window.__ver = '4.71';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -764,12 +765,12 @@ const LINES = {
   smilla: {
     tap: ['Ich sag nur: Tonne 10. Es gibt zwei davon. Merk dir das!', 'Wenn ich die Prüfung bestanden hab, segle ich nach Skagen.', 'Der Käpt\'n erzählt gleich wieder vom Sturm. Wetten?'],
     right: ['Klar Schiff!', 'Jawoll!', 'Genau so!', 'Sitzt!'],
-    praise: ['Wow, das war stark! Fast alles richtig.', 'Gute Runde! Ein paar Wackler, aber das wird.', 'Puh, das war rau. Aber genau dafür üben wir ja.'],
+    praise: ['Wow, das war stark! Fast alles richtig.', 'Gute Runde! Ein paar Wackler, aber das wird.', 'Puh, das war rau. Aber genau dafür üben wir ja.', 'Alles richtig! Da staunt sogar der Käpt\'n.'],
   },
   piet: {
     tap: ['Darf ich mal steuern? Nur ganz kurz?', 'Ich hab ein Video gesehen, da ist einer rückwärts angelegt. Krass.', 'Wie viele Knoten kannst du schon?'],
     right: ['Krass, richtig!', 'Yes!', 'Voll gut!', 'Stimmt!'],
-    praise: ['Boah, fast alles richtig!', 'Gar nicht schlecht! Ein paar gingen daneben.', 'Das war schwer, oder? Ich hätte das auch nicht gewusst.'],
+    praise: ['Boah, fast alles richtig!', 'Gar nicht schlecht! Ein paar gingen daneben.', 'Das war schwer, oder? Ich hätte das auch nicht gewusst.', 'Alles richtig! Krass!'],
   },
   klabauter: {
     tap: ['Tuuuut! Tuuuut!', 'Deutsche Bucht: West fünf bis sechs, böig!', 'Zwieback! Zwieback!'],
@@ -1492,6 +1493,7 @@ function packLines(withEpisodes) {
   Object.entries(OVERTAKE).forEach(([id, t]) => push(id, t));
   ROLE_OPTIONS.K.forEach(id => { SAYINGS.forEach(t => push(id, t)); });
   push('hinnerk', 'Na super. Wer macht das jetzt wieder heile?');
+  ROLE_OPTIONS.K.forEach(id => ['Pensum geschafft. Wenn du noch Lust hast, nimm ruhig was Neues dazu.', 'Für heute hast du dein Pensum geschafft. Wenn du noch Lust hast, festigen wir, was noch wackelt.'].forEach(t => push(id, t)));
   /* Manöverspiel (manoever.js): Vorführungen, Kommandos, Prüfer; nur wenn die Daten geladen sind (buildVoicePack lädt sie) */
   if (window.MAN_DATA) {
     const fest = t => !/\{/.test(t);
@@ -3422,9 +3424,10 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
   }
   async function finish() {
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
-    const ratio = total0 ? right / total0 : 0, idx = ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2;
-    app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
-      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. Falsche Fragen kommen in den nächsten Tagen öfter dran.</p></div>
+    /* Lob in vier Stufen: alles richtig, ab 80 %, ab 50 %, darunter (praise[3] ist die Stufe „alles richtig“) */
+    const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2;
+    app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${alles ? 'Fehlerfrei!' : idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
+      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p></div>
       <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>`;
     app.querySelector('svg.ch').style.width = '76px';
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
@@ -4115,6 +4118,26 @@ function bindFernglas(scene) {
 let fishTimer = null;
 /* V9: Es gibt nur noch eine Bootsansicht. deckView bleibt nur, damit alter Code nicht bricht. */
 let deckView = 'overview';
+/* Tagespensum geschafft: freiwillig weiter mit „Noch was Neues“ (nächstes Kapitel, eine Portion) oder „Festigen“ (die wackligsten Fragen).
+   Die Crew empfiehlt Festigen, wenn viele Fragen wackeln (angefangen, aber noch nicht sicher), sonst Neues. Alles durch: nur Festigen. */
+function nachPensum() {
+  const neu = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
+  const wackel = Q.filter(q => { const s = st(q.n); return s && s.b < 3; }).length;
+  const empf = !neu || wackel >= 15 ? 'fest' : 'neu';
+  const grund = !neu ? 'Alle Kapitel hast du schon gesehen. Jetzt geht es ums Festigen.' : empf === 'fest' ? `${wackel} Fragen wackeln noch. Erst festigen, dann Neues.` : wackel ? `Nur ${wackel} Fragen wackeln. Du kannst gut Neues nehmen.` : 'Nichts wackelt. Nimm ruhig Neues dazu.';
+  return {neu, wackel, empf, grund};
+}
+function extraWahlHtml() {
+  const w = nachPensum();
+  return `<div class="extrawahl"><p class="small" style="margin:8px 0 6px"><b>⛵ Kurs für heute geschafft!</b> Freiwillig weiter?</p>
+    <div class="row">${w.neu ? `<button class="btn ${w.empf === 'neu' ? 'lamp' : 'ghost'}" id="xneu" style="flex:1"><small>✨ Noch was Neues</small><b>${esc(w.neu.label)}</b></button>` : ''}<button class="btn ${w.empf === 'fest' ? 'lamp' : 'ghost'}" id="xfest" style="flex:1"><small>🔁 Festigen</small><b>${w.wackel ? Math.min(10, w.wackel) + ' wacklige Fragen' : 'Gemischte Runde'}</b></button></div>
+    <p class="small muted" style="margin:6px 0 0"><b>${esc(nameOf('K'))}:</b> ${esc(w.grund)}</p></div>`;
+}
+function bindExtraWahl() {
+  const w = nachPensum(), los = f => () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; f(); };
+  const n = $('#xneu'); if (n) n.onclick = los(() => startUnit(w.neu));
+  const f = $('#xfest'); if (f) f.onclick = los(() => extraRound({doneLabel: heimText(), onDone: () => setTab('cabin')}));
+}
 /* V26: Logbuch-Aufschlüsselung an Deck: Stand je Bereich bis 100 %, was heute dran ist, was noch fehlt */
 function standKarte(path, next) {
   const f = fortschritt(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
@@ -4139,7 +4162,7 @@ function renderBoat() {
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
-      <button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${next ? esc(next.label) : 'Geschafft! Noch eine Extrarunde?'}</b></button>
+      ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
       <div class="row"><button class="btn ghost" id="down" style="flex:1">Runter in die Kajüte</button><button class="btn small ghost instbtn" id="inst">📲 App aufs Handy</button></div>
     </div>
@@ -4148,7 +4171,8 @@ function renderBoat() {
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
   $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
-  $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next ? next.run() : extraRound({doneLabel: heimText(), onDone: () => setTab('cabin')}); };
+  if (next) $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next.run(); };
+  else bindExtraWahl();
   $('#tolog2').onclick = () => { AUD.click(); setTab('log'); };
   $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
@@ -5239,7 +5263,8 @@ function warmup(opts = {}) {
 }
 function extraRound(opts = {}) {
   const pool = Q.filter(q => st(q.n)); if (!pool.length) return startUnit(UNITS[0]);
-  runQuiz(shuffle(pool).sort((a, b) => st(b.n).w - st(a.n).w).slice(0, 10), 'Extrarunde', 'learn', opts);
+  /* Festigen: zuerst, was noch nicht sicher sitzt, dann die mit den meisten Fehlern */
+  runQuiz(shuffle(pool).sort((a, b) => (st(a.n).b >= 3) - (st(b.n).b >= 3) || st(b.n).w - st(a.n).w).slice(0, 10), 'Festigen', 'learn', opts);
 }
 /* Prüfungsfallen: Fragen, deren falsche Antworten der richtigen zum Verwechseln ähneln */
 function trapRound(opts = {}) {
@@ -5261,7 +5286,9 @@ function recommendNext() {
   if (next && dl.answered < cap) return {label: `Neu: ${next.label}`, say: `Als Nächstes nehmen wir uns ${next.label} vor. Erst rätst du, dann erkläre ich dir den Rest.`, run: () => startUnit(next)};
   if (due > 0) return {label: `${due} Wiederholungen`, say: `Bevor Feierabend ist: ${due} Fragen wollen noch einmal wiederholt werden.`, run: () => reviewSession()};
   if (!next) return COURSE.kind === 'mc' ? {label: 'Prüfungsfallen üben', say: 'Alle Kapitel hast du durch. Jetzt üben wir die gemeinen Fallen, bei denen die falschen Antworten fast gleich klingen.', run: trapRound} : {label: 'Wackelkandidaten üben', say: 'Alle Kapitel hast du durch. Jetzt nehmen wir uns die Fragen vor, die noch wackeln.', run: trapRound};
-  return {label: 'Feierabend oder Extrarunde', say: `Für heute hast du dein Pensum geschafft. Wenn du noch Lust hast, machen wir eine Extrarunde.`, run: extraRound};
+  const w = nachPensum();
+  if (w.empf === 'neu' && w.neu) return {label: 'Noch was Neues: ' + w.neu.label, say: 'Pensum geschafft. Wenn du noch Lust hast, nimm ruhig was Neues dazu.', run: () => startUnit(w.neu)};
+  return {label: 'Festigen: Extrarunde', say: `Für heute hast du dein Pensum geschafft. Wenn du noch Lust hast, festigen wir, was noch wackelt.`, run: extraRound};
 }
 
 /* ---------- Auswahl der Prüfungsfragen: zuletzt gezeigte meiden, Schwächen etwas öfter ---------- */
