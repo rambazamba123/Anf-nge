@@ -230,7 +230,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `datenschutz.html`, `impressum.html`, `fonts/OFL-*.txt`; Über die App: `renderSources` (Einstellungen)
   - Musik im Törn gesperrt über `window.TOERN_STILL` (V15); Törn-Karte `ctl.center`, Knopf „Zurück zum Boot“ (V13)
   - `tests/smoke/rauchtest.js`, `.githooks/pre-commit` (Rauchtest vor jedem Commit)
-  - `manifest.webmanifest`, `icon-192/512.png`
+  - `manifest.webmanifest`, `icon-192/512.png`, `.nojekyll` (GitHub Pages liefert alle Dateien unverändert aus, auch `.md`)
   - `data/`: `sbf.json`, `sks.json`, `binnen.json`, `nav.json`, `folgen.json`, `lexikon.json`
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
@@ -329,6 +329,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] Podcast, vierte Fassung (nur Doku): Leitfaden im Grunde angenommen, Route bestätigt, Anreden angenommen (Audio einmal erzeugen, auch in der App nutzen; geplant in `docs/feste-saetze.md`), der Bayer schon bei SBF See, Harms erklärt am Anfang die Prüfung. Vorschläge fürs Überthema, Bootsnamen, Heimathafen und den Bayern in `PODCAST_STATUS.md` VS31–VS36. Erkenntnisse aus der v4-Doku in Bible §14.13.
 - [x] v4.73 Podcast, fünfte Fassung und Hörprobe: Entscheidungen B59–B69 (Überthema „Die Wette“, Quirin, Heimathafen Flensburg, Smilla mit beiden Scheinen, Finale ohne Prüfung, Klabauter-Anreden, Großschreibung im Test), Leitfaden und Ausspracheverzeichnis angepasst; Testskript `podcast/skripte/test-01.md` (etwa 2 Minuten, 2 Anfragen) und Entwickler-Knopf „🎧 Podcast-Hörprobe“ (`hoerprobe.js`)
 - [x] v4.74 Hörprobe neu: Testszene mit Flüstern, Lachen, Rufen, Seufzen, Pausen, Tempo und Möwen-Geräusch; Tags für `[[INTENTION]]`, `[[PAUSE]]`, `[[TEMPO]]`, `[[AUDIO]]` in `podcast/audio_config.json`, umgesetzt in `hoerprobe.js` und `tools/podcast-pruefen.js`; Vorschläge Bootsname (VS37) und Klabauter-Nebengeschichte (VS38)
+- [x] v4.75 Hörprobe meldete „Skript fehlt“: GitHub Pages (Jekyll) wandelte `.md`-Dateien mit Kopfteil in HTML um, `podcast/skripte/test-01.md` gab es online nicht. Neu: leere Datei `.nojekyll` im Hauptordner (Seite wird unverändert ausgeliefert), Fehlermeldung nennt den HTTP-Status
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.

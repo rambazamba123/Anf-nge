@@ -35,7 +35,7 @@
     if (!elKey()) return sag('Kein ElevenLabs-Schlüssel eingetragen.');
     if (!(await kiEinwilligung())) return sag('Ohne Einwilligung kein Test.');
     sag('Lade Skript …');
-    const [cfg, txt] = await Promise.all([fetch('podcast/audio_config.json?v=' + Date.now()).then(r => r.json()), fetch('podcast/skripte/' + skript + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error('Skript fehlt'); return r.text(); })]);
+    const [cfg, txt] = await Promise.all([fetch('podcast/audio_config.json?v=' + Date.now()).then(r => r.json()), fetch('podcast/skripte/' + skript + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Skript fehlt (HTTP ${r.status})`); return r.text(); })]);
     const {teile, fehler} = zerlege(txt, cfg);
     if (fehler.length) return sag(fehler.join(' · '));
     const zeichen = teile.reduce((s, t) => s + t.reduce((a, b) => a + b.text.length, 0), 0);
