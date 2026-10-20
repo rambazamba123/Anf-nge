@@ -12,6 +12,7 @@ Man lernt an Bord einer Segelyacht mit drei Crew-Figuren: **Käpt'n Hinnerk**, *
 Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome im Hochformat.
 
 **Ziel:** In etwa zwei Wochen (ab 09.10.2026) ist die App bereit für die Veröffentlichung. Freigabe ab 12 Jahren. Bis dahin geht es um Feinschliff, Stimmen, Lizenzen und Rechtliches, nicht um große neue Bereiche.
+**Veröffentlichung verschoben** (Nutzer, 20.10.2026). Ein neuer Termin ist offen.
 
 ## 2. Regeln für die Arbeit
 - **R1 Antworten:** kurz, auf Deutsch, laienverständlich. Der Nutzer ist GitHub-Anfänger.
@@ -37,10 +38,14 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   2. **Bitte am Handy testen:** konkrete Handgriffe.
   3. **Deine Entscheidung nötig:** mit Nummer.
   4. **Hinweise:** bewusst anders entschieden, Lizenzen, was du übersehen könntest.
+- **R15 Podcast (Kajütenfunk):** Vor jeder Arbeit an Podcastinhalten liest Claude `PODCAST_BIBLE.md` und wendet sie an, bei Bedarf auch `PODCAST_STATUS.md`.
+  - Die Bible ist das verbindliche Regelwerk für die Folgen. Sie geht älteren Angaben zu den Folgen in dieser Datei vor.
+  - Dort dokumentierte Entscheidungen ändert Claude nie stillschweigend: erst vorschlagen, dann die Bestätigung des Nutzers einholen, dann eintragen.
+  - Offene Fragen aus `PODCAST_STATUS.md` entscheidet Claude nicht selbst (R3 gilt dafür nicht).
 
 ## 3. Stil und Ton
 - **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch (nur der Stil, keine fremden Figuren). Szenen hängen von Tageszeit und Wetter ab.
-- **Ton:** jugendfrei ab 12, aber derb und hart, plattdeutsch angehaucht. Keine sexuellen Anspielungen, kein Alkohol als Witz über Kinder, keine Beleidigungen von Gruppen.
+- **Ton:** jugendfrei ab 12, aber derb und hart, plattdeutsch angehaucht. Keine sexuellen Anspielungen, kein Alkohol als Witz über Kinder, keine Beleidigungen von Gruppen. **Ausnahme Podcast:** doppeldeutige Anspielungen nach `PODCAST_BIBLE.md` §8 (Nutzer, 20.10.2026).
 - **Alle werden aufgezogen,** egal welcher Schein. SBF-Lernende sind „Badewannen-Kapitäne“. SKS-Lernende bekommen genauso Sprüche, die aber auf Augenhöhe.
 - **Die Figuren:**
   - **Käpt'n Hinnerk:** trocken, kurz angebunden, grüßt mit „Moin“.
@@ -64,7 +69,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Teil 1, feste Sätze:** Begrüßungen, Moin-Bausteine, Einführungen, Kajüte, Eggs, Törn, Lektionen, Harms.
   - Mit 3 Figuren plus Harms sind das heute etwa 315 Sätze mit rund 21.000 Zeichen.
   - Wird erzeugt, sobald der Ton auf „ab 12“ umgestellt ist (V7). Sonst müsste man doppelt erzeugen.
-- **Teil 2, Folgen (Kajütenfunk):** heute rund 56.000 Zeichen für SBF. Wird erst erzeugt, wenn der Nutzer die Folgen überarbeitet hat. Teil 1 wartet nicht darauf.
+- **Teil 2, Folgen (Kajütenfunk):** Die Folgen werden völlig neu geschrieben, die Regeln stehen in `PODCAST_BIBLE.md`. Erzeugt wird erst, wenn die Folgen ausgereift sind, und zuerst nur ein Teil einer Folge als Test (Nutzer, 20.10.2026).
 - **Nachlieferung:** Neue feste Sätze werden später gezielt nachgeliefert. Nur fehlende Sätze werden erzeugt, das Manifest wird zusammengeführt.
 
 **Moin-Bausteine:**
@@ -112,7 +117,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 **Block B: Stimmenpaket**
 - ✓ **V6 Teil 1 erzeugen:** feste Sätze und Moin, mit Probe vorab (§4). Danach liegen die Stimmen für alle Nutzer in der App.
 - ✓ **V7 Werkzeug „nur Fehlendes nachliefern“** prüfen und im Bericht die Zeichenzahl nennen.
-- **V8 Teil 2 (Folgen):** erst nach der Überarbeitung durch den Nutzer.
+- **V8 Teil 2 (Folgen):** ersetzt durch V33.
 
 **Block C: Boot und Spiele**
 - ✓ **V9 Nur noch eine Bootsansicht:**
@@ -162,7 +167,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - ✓ **V21 KI-Schlüssel anderer Anbieter** (E2): Anthropic, Google Gemini oder OpenAI in einem Feld.
 - ✓ **V22 App aufs Handy** (E3): Installieren-Knopf, iPhone-Hinweis, APK-Anleitung `docs/apk-anleitung.md`.
 - ✓ **V23 Manöverspiel nach der Prüfungsrichtlinie** (Nutzer, 10.10.2026): alle fahrbaren Manöver mit Motor (Ablegen, Anlegen, Mensch über Bord, Steuern nach Kompass mit Peilen, Kursgerechtes Aufstoppen, Wenden auf engem Raum), Vorführung „So geht's“ mit Crew-Erklärungen und Prüfer-Hinweisen, Kommandos als Auswahl (auch „Kein Kommando“), Ein-Finger-Steuerfeld wie am Außenborder (Pinne umgekehrt, rückwärts umgekehrt, Hebel bleibt stehen), umschaltbar auf Steuerrad, Radeffekt und Wind, zwei Versuche mit Bewertung „ausreichend“.
-- **V24 Podcast-Folge zur praktischen Prüfung** (Nutzer, 10.10.2026): nach dem Manöverspiel. Grundlage: Richtlinie Anlage 4 (Praxisprotokoll).
+- **V24 Podcast-Folge zur praktischen Prüfung** (Nutzer, 10.10.2026): nach dem Manöverspiel. Grundlage: Richtlinie Anlage 4 (Praxisprotokoll). Wie die Folge in V33 aufgeht, ist offen (`PODCAST_STATUS.md` O12).
 - ✓ **V26 Neue Ordnung** (Nutzer, 10.10.2026):
   - Start ist das Deck: Boot, Rennen (Theorie in Prozent), „⛵ Kurs für heute“ (Tagesempfehlung) und darunter die Logbuch-Aufschlüsselung (Theorie, Navigation, Praxis je bis 100 %, heute, noch offen).
   - „📋 Meine Prüfungen“ in der Kajüte beim Käpt'n: aufgebaut wie die Prüfung (Theorie, Seezeichen und Signale, Navigation, Praxis, Probeprüfung), Abschnitte eingeklappt, jeder Schein lernbar, „bestanden“ selbst eintragen.
@@ -179,8 +184,9 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Eigene Zahlentasten (Komma, ±, E/W), Rückgängig und Wiederholen für alles, Aufteilung: Aufgabe oben, Karte in der Mitte, Arbeitsblatt unten.
 - ✓ **V31 Lob und Wiederholung** (Nutzer, 19.10.2026): eigene Lobstufe bei 100 %; nach dem Tagespensum die Wahl „✨ Noch was Neues“ oder „🔁 Festigen“ mit Empfehlung der Crew.
 - **V32 Katalogbilder in Farbe** (Nutzer, 19.10.2026): Etwa 54 Binnen- und 31 SBF-Bilder liegen nur in Graustufen vor (Lichter-Bilder sind so kaum lesbar). Sie werden aus den Original-PDFs ersetzt, die der Nutzer im nächsten Lauf liefert.
+- **V33 Kajütenfunk neu als Hörkurs** (Nutzer, 19./20.10.2026): eine spannende Podcastreihe, in der alle Prüfungsfragen und die Praxis vorkommen. Das Regelwerk steht in `PODCAST_BIBLE.md`, Entscheidungen und offene Fragen in `PODCAST_STATUS.md` (R15).
 
-**Nach der Veröffentlichung:** Folgen für SKS und Binnen, Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
+**Nach der Veröffentlichung:** Folgen für SKS und Binnen (jetzt Teil von V33, Reihenfolge offen), Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
 
 ## 7. Code-Karte
 *Stand v4.72 (Lauf 4). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
@@ -229,6 +235,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `img/q/` (SBF-Bilder), `img/b/` (Binnen-Bilder, auch SBF 16–30)
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`: 359 Sätze, 18 MB, Teil 1 vollständig; legt die Stimmen fest)
+  - `PODCAST_BIBLE.md` (Regelwerk Kajütenfunk) und `PODCAST_STATUS.md` (Entscheidungen, offene Fragen), siehe R15
   - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`, `knoten-pruefen.js` (Jones-Polynom: Kreuzknoten oder Altweiberknoten)
 - **Start:**
@@ -266,7 +273,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Themen: `SBF_TOPICS`, `BIN_TOPICS`, `SKS_TOPICS`
   - Binnen-Prüfung: `BIN_EXAM.motor` / `.segel`, Wahl über `S.binSegel`
 - **Lexikon:** `LEX` (aus `lexikon.json`), `lexEntries`, `renderLexikon` (Kategorien, Suche), `lexSheet`, `lexOf(q)` (Knopf in der Lernrunde nach dem Antworten), `sksRelated`
-- **Folgen:** `EPISODES`, `SHORTS`, `playEpisode`, `epFill`, `showStory`
+- **Folgen:** `EPISODES`, `SHORTS`, `playEpisode`, `epFill`, `showStory` (alter Stand, wird durch V33 ersetzt; Ausgangslage in `PODCAST_STATUS.md` §7)
 - **Stimme:**
   - `VOX` (`say`, `lines`, `clip`)
   - `CLIPS` (IndexedDB `skipper-audio` v2: Stores `clips` und `meta`)
@@ -314,13 +321,15 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.70 V28 Navigationsschule: Lektion 0 Grundlagen, fünf Schritte je Lektion, Hilfe in drei Stufen (der Hilfe-Knopf tat bei „Karte lesen“ nichts mehr, weil der einzige Tipp schon stand), Rechenblatt auf demselben Bildschirm; Stimmen: „🎙️ Neue Sätze nachliefern“ mit Zählung; `docs/quellen.md`, `tools/quellen-check.js`
 - [x] v4.71 V31 Lob „Fehlerfrei!“ bei 100 % und Wahl „Noch was Neues“/„Festigen“ nach dem Tagespensum (`nachPensum`, `extraWahlHtml`; Festigen nimmt zuerst, was noch nicht sicher sitzt); Kreuzknoten neu als zwei ineinandergreifende Buchten bis zum fertigen Knoten; V30 Navi-Facelift (Zirkel mit Griffen und Einrasten, „An den Breitenrand“ und Ablese-Fenster, Arbeitsblatt mit Antwort/Rechenblatt/Hilfe, gegebene und übernommene Werte, 📌 übernehmen, eigene Zahlentasten, ↶ ↷ für alles); Rauchtest `08c-navi-arbeitsblatt`
 - [x] v4.72 Kreuzknoten neu (Nutzer: „Schau dir Beispiele an, besser gegenüber starten“): Leinen von links und rechts, zwei gegenläufige Halbknoten (rechts über links, links über rechts), festziehen; mathematisch geprüft (`tools/knoten-pruefen.js`, im pre-commit). Die Fassung aus v4.71 war fachlich falsch: zwei eingehakte Buchten ohne die beiden Halbknoten (Prüfung: kein Kreuzknoten).
+- [x] Podcast-Regelwerk (nur Doku, kein App-Code): `PODCAST_BIBLE.md` und `PODCAST_STATUS.md` aus dem Gespräch vom 19.–20.10.2026. Verweise in CLAUDE.md: R15, §1, §3, §4, V8, V24, V33, E5, E10.
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- V24 Podcast-Folge zur praktischen Prüfung. V8 (Folgen) nach der Überarbeitung durch den Nutzer. V20: Handy-Checkliste mit dem Nutzer.
+- **V33 Kajütenfunk:** zuerst die offenen Fragen aus `PODCAST_STATUS.md` (Abschnitt 2) mit dem Nutzer klären, dann das große Rätsel und eine Geschichte je Folge. V24 gehört dazu.
+- V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 
 ### Entscheidungen
@@ -331,11 +340,12 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - **E5 Stimmenpaket, offen:**
   - **(a) Empfehlung:** Secret `ELEVENLABS_API_KEY` und Domain `api.elevenlabs.io` in der Cloud-Umgebung freigeben, dann erzeugt Claude das Paket.
   - **(b)** Export am Handy.
+  - **Für den Podcast entschieden:** (a), sobald die Folgen ausgereift sind, zuerst nur ein Teil einer Folge als Test (Nutzer, 20.10.2026, `PODCAST_STATUS.md` B16).
 - **E6 Stimmenqualität:** hoch (Nutzer). Vor der Erzeugung Modellprüfung und drei Probesätze.
 - **E7 „Weiter“-Knöpfe:** bleiben gelb-orange (Nutzer, 09.10.2026).
 - **E8 Cloudflare-Worker:** gestrichen, Supabase übernimmt das bei Bedarf (Nutzer, 09.10.2026).
 - **E9 Konten mit Supabase:** freigegeben (05.10.2026), aber erst nach der Veröffentlichung (siehe E2).
-- **E10 Folgen:** Der Nutzer überarbeitet sie selbst, danach Stimmenpaket Teil 2.
+- **E10 Folgen:** Ersetzt (Nutzer, 20.10.2026): Die Folgen werden völlig neu geschrieben, siehe `PODCAST_BIBLE.md` (V33). Früher galt: Der Nutzer überarbeitet sie selbst, danach kommt Stimmenpaket Teil 2.
 
 ### Handy-Checkliste (macht der Nutzer)
 - Mikrofon im Gespräch, Zurück-Taste (App und Browser), Offline-Start, Lautstärke der Stimmen
