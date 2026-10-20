@@ -1,48 +1,53 @@
 # Leitfaden der Geschichte – Kajütenfunk SBF See
 
-> **Status: Entwurf von Claude vom 20.10.2026. Der Nutzer findet ihn „im Grunde gut“ (B52), die Route ist bestätigt (B53).**
+> **Status: Entwurf von Claude vom 20.10.2026, angepasst an die Entscheidungen B59–B69 (`PODCAST_STATUS.md`).** Der Nutzer findet ihn „im Grunde gut“ (B52), die Route ist bestätigt (B53).
 > **Noch offen:**
-> - das Wort „Schlei“ beziehungsweise der Heimathafen (O34, VS32),
-> - der Bootsname (O35),
-> - der Bayer ab Folge 6 (O36),
-> - Harms ab Folge 1 (O13, VS34),
-> - das Überthema (O4, VS35).
+> - der Bootsname (O35, Vorschläge VS37),
+> - Klabauters Nebengeschichte (O37),
+> - Harms' Prolog im Detail, sobald die Prüfungsordnung da ist (F3).
 >
-> Diese Punkte arbeitet Claude erst nach der Entscheidung des Nutzers ein.
 > - Es gelten die Regeln aus `PODCAST_BIBLE.md`.
-> - Das große Überthema liefert der Nutzer (B42). Es ist hier bewusst nicht enthalten.
 > - SBF Binnen kommt später als eigene Staffel.
 
-## Der Rahmen: eine Saison an der Schlei
+## Der Rahmen: eine Saison ab Flensburg
 - **Zeitraum:** eine Segelsaison, vom Einkranen im Frühjahr bis zum Auskranen im Herbst.
-- **Heimathafen:** Kappeln an der Schlei.
-- **Route:** Schlei, Kieler Bucht, Nord-Ostsee-Kanal, Elbe, Helgoland, Wattenmeer und zurück. Auf der Ostsee erwischt sie ein Herbststurm.
+- **Heimathafen:** Flensburg (B63).
+- **Route:** Flensburger Förde, Kieler Bucht, Nord-Ostsee-Kanal, Elbe, Helgoland, Wattenmeer und zurück. Auf der Ostsee erwischt sie ein Herbststurm.
 - **Warum eine Saison:**
   - Die trockenen Themen (Werft, Motor, Papiere) kommen natürlich am Anfang.
   - Die Gefahren wachsen mit der Saison.
   - Für die Gezeiten führt die Reise ins Watt.
 - **Du** bist neu an Bord und wirst die ganze Saison geneckt. Am Ende gehörst du dazu.
-- **Das Überthema** (kommt vom Nutzer) läuft darüber. Jede Folge hat einen ruhigen Moment und einen Schluss, an dem es andocken kann.
+- **Das Überthema „Die Wette“** (B59): Harms wettet mit Hinnerk, dass er keine Saison ohne Regelverstoß schafft. Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot.
+  - Jeder Irrtum Hinnerks kann die Wette kosten. Smilla rettet ihn, die Hörer erkennen Verstöße oft zuerst.
+  - Wegen der Wette verschweigt Hinnerk auch seine schlechte Nachtsicht.
+- **Keine Prüfung im Finale** (B66): Geprüft wird erst der Nutzer selbst. Nach allen Folgen lernt man am Boot weiter und ruft Harms zur Probeprüfung, wenn man bereit ist.
 - **Umfang:** 16 Folgen zu je 25 Minuten, zusammen etwa 6 Stunden 40 Minuten. Im Schnitt sind das 18 Katalogfragen pro Folge.
 
 ## Figurenbögen
 - **Hinnerk** kennt jede Welle, aber nachts erkennt er die Lichter nicht mehr richtig und gibt es nicht zu.
   - Deshalb redet er bei Lichtern so oft Unsinn.
   - In Folge 14 gibt er nachts das Ruder ab. Das passt zur Prüfungsfrage: Wer körperlich nicht sicher führen kann, darf nicht führen (`sbf:2`).
-- **Smilla** weiß alles aus den Büchern.
+- **Smilla** weiß alles aus den Büchern und hat SBF See und SBF Binnen schon (B62).
   - Hinnerk verspricht ihr in Folge 1: Geht die Saison gut, bringt sie das Boot im Herbst als Schiffsführerin heim.
   - Im Sturm erstarrt sie einmal, Hinnerk holt sie mit seiner Ruhe zurück.
-  - In Folge 16 legt sie in Kappeln an.
+  - In Folge 16 legt sie in Flensburg an.
+- **Quirin** (B61, ab Folge 6) ist Bergführer aus dem Chiemgau und segelt auf dem Chiemsee und kleineren Seen. Auf dem Meer wird er seekrank und lacht selbst am lautesten darüber.
+  - Grummel trifft Sonnenschein: Er nennt Hinnerk „Hinni“, und Hinnerk hasst das. Garn-Duell Berg gegen See, Smilla berichtigt beide.
+  - Im Sturm (Folge 15) glänzt er einmal: Sicherungsleinen und Einpicken kennt er vom Berg.
+- **Harms** kommt im Prolog von Folge 1 (Wette, Erklärung der Prüfung) und später kurz, etwa am Telefon.
+- **Klabauter** bekommt eine eigene Nebengeschichte, die noch gesucht wird (O37).
 - **Klabauter und Backbord** führen eine Dauerfehde, Papagei gegen Katze. Im Sturm verkriechen sie sich zusammen unter der Koje.
 
 ## Die 16 Folgen
 
 ### Frühjahr: Werft, Hafen und Papiere
-1. **Die Spritztour** (Werft an der Schlei, Einkranen)
+1. **Die Spritztour** (Werft in Flensburg, Einkranen)
+   - *Prolog:* Harms schaut als alter Bekannter vorbei, erklärt, wie er am Ende prüft, und schließt mit Hinnerk die Wette.
    - Am Morgen nach dem Einkranen ist der Motor warm, und die Dreifarbenlaterne brennt. Jemand war nachts draußen.
    - *Rätsel:* Wer unter Motor fährt, braucht die Lichter eines Maschinenfahrzeugs. Wer das nicht weiß, war es. Smilla überführt einen jungen Spritztourer ohne Führerschein.
    - *Ende:* Hinnerks Versprechen an Smilla.
-2. **Der Motor kocht** (Hafen Kappeln)
+2. **Der Motor kocht** (Hafen Flensburg)
    - Bei der ersten Probefahrt steigt die Temperatur. Unten riecht es nach Gas, und Backbord will nicht in die Kajüte.
    - *Rätsel:* Warum kocht der Motor, und warum bleibt die Katze oben? Das Seeventil ist zu, und Gas ist schwerer als Luft.
 3. **Hinnerks Karten von 1987** (Ausflug an Land nach Kiel)
@@ -50,15 +55,16 @@
    - *Rätsel:* Warum darf die Laterne nicht an Bord, und warum stimmt die Karte nicht mehr?
 
 ### Sommer: Ostsee
-4. **Die Brücke von Kappeln** (Schlei)
-   - Die erste Fahrt auf der engen Schlei: Klappbrücke, Badestellen, Schilder am Ufer, ein Raser mit Sog und Wellenschlag.
+4. **Volle Förde** (Flensburger Förde)
+   - Die erste Fahrt auf der vollen Innenförde: Hafenbetrieb, Badestellen, Schilder am Ufer, ein Raser mit Sog und Wellenschlag.
    - Hinnerk glänzt beim Anlegen.
    - *Rätsel:* Was verlangen die Schilder?
-5. **Rot an Steuerbord** (Schleimünde)
+5. **Rot an Steuerbord** (Ausfahrt aus der Förde)
    - Smilla will die rote Tonne an Backbord lassen, Hinnerk widerspricht.
    - *Rätsel:* Wer hat recht? Ausnahmsweise Hinnerk, denn sie fahren hinaus, nicht herein.
 6. **Kieler Woche** (Kieler Förde)
    - Regattagewühl. Ein Segler brüllt „Segel vor Motor!“, aber sein Motor läuft.
+   - Quirin kommt als Mitsegler an Bord („Servus, Hinni!“) und bleibt bis zum Schluss.
    - *Rätsel:* Wer muss ausweichen?
 7. **Anhalten!** (Kieler Bucht)
    - Die Wasserschutzpolizei stoppt sie. An der Küste zeigt ein Schießgebiet seine Signale.
@@ -94,10 +100,11 @@
     - Das Barometer fällt, auf die Starkwindwarnung folgt der Sturm. Sie reffen, ziehen Sicherheitsleinen, ein Mensch geht über Bord.
     - Smilla erstarrt kurz, Hinnerk bleibt ruhig.
     - *Rätsel:* Was sagt die Wetterkarte, und was kommt jetzt zuerst?
-16. **Rote Sterne** (vor Schleimünde)
+16. **Rote Sterne** (vor der Flensburger Förde)
     - Eine rote Leuchtrakete: Ein anderes Boot ist in Seenot.
     - *Rätsel:* Was bedeuten die Signale, und was muss die Crew jetzt tun?
-    - *Finale:* Smilla bringt das Boot als Schiffsführerin nach Kappeln. Dann wird ausgekrant, die Saison ist vorbei.
+    - *Finale:* Smilla bringt das Boot als Schiffsführerin nach Flensburg. Hinnerk hat die Wette gewonnen und weiß, dass es nur dank Smilla war. Dann wird ausgekrant, die Saison ist vorbei.
+    - *Übergang:* Harms erinnert dich daran, dass du jetzt dran bist: weiter am Boot lernen und ihn rufen, wenn du bereit bist.
 
 ## Stoffplan (Katalogfragen und Praxis je Folge)
 
@@ -128,4 +135,4 @@ Grobe Zuordnung, damit die Abdeckung von Anfang an stimmt. Jede der 285 Fragen i
 - der Rahmen einer ganzen Saison,
 - die Figurenbögen,
 - die Fälle mit Rätsel,
-- kein Krimi-Überthema von Claude.
+- das Überthema „Die Wette“ statt eines Krimis.

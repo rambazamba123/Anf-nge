@@ -20,7 +20,7 @@
   "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Gaststimmen kommen nach Entscheidung des Nutzers dazu (O14). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
   "aussprache": {
     "datei": "podcast/pronunciation_dictionary.md",
-    "version": 1,
+    "version": 2,
     "elevenlabs_woerterbuch": null
   },
   "chunking": {
@@ -41,6 +41,7 @@
     "erleichtert": {"tag": "[relieved]", "status": "experimentell"},
     "seufzend": {"tag": "[sighs]", "status": "experimentell"}
   },
+  "grossschreibung_betonung": {"status": "test", "max_pro_skript": 3, "hinweis": "Großschreibung als Betonung, vom Nutzer zum Test freigegeben (VS36, B67). Wörter in Großbuchstaben, die nicht im Ausspracheverzeichnis stehen, gelten dann als Betonung."},
   "text_normalisierung": null,
   "seed": null,
   "ausgabe_format": null,

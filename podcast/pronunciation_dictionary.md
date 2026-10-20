@@ -1,6 +1,6 @@
 # Ausspracheverzeichnis Kajütenfunk
 
-Version: 1
+Version: 2
 
 Zentrales Verzeichnis für alle Folgen (PODCAST_BIBLE.md A17–A21). `tools/podcast-pruefen.js` liest die Tabellen.
 
@@ -78,6 +78,8 @@ Zentrales Verzeichnis für alle Folgen (PODCAST_BIBLE.md A17–A21). `tools/podc
 | Trawler | Trohler | alias | offen | englisches Lehnwort |
 | Rhombus | Rhombus | literal | offen | Signalkörper |
 | Isobaren | Isobaren | literal | offen |  |
+| Dreifarbenlaterne | Dreifarbenlaterne | literal | offen | in der Testszene |
+| Achterstag | Achterstag | literal | offen | in der Testszene |
 
 ## Namen der Figuren
 
@@ -87,6 +89,8 @@ Zentrales Verzeichnis für alle Folgen (PODCAST_BIBLE.md A17–A21). `tools/podc
 | Smilla | Smilla | literal | offen |  |
 | Klabauter | Klabauter | literal | offen |  |
 | Harms | Harms | literal | offen |  |
+| Quirin | Quirin | literal | offen | der Bayer |
+| Hinni | Hinni | literal | offen | so nennt Quirin den Käpt'n |
 
 ## Orte
 
@@ -97,8 +101,7 @@ Hier stehen nur Orte, die im Leitfaden vorkommen oder bekannte Stolperstellen si
 | Cuxhaven | Kuxhafen | alias | offen | v wie f |
 | Laboe | Laböh | alias | offen | oe wie ö |
 | Büsum | Büsum | literal | offen |  |
-| Kappeln | Kappeln | literal | offen |  |
-| Schleimünde | Schleimünde | literal | offen |  |
+| Flensburg | Flensburg | literal | offen | Heimathafen |
 | Holtenau | Holtenau | literal | offen |  |
 | Brunsbüttel | Brunsbüttel | literal | offen |  |
 | Helgoland | Helgoland | literal | offen |  |

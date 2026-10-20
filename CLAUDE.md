@@ -236,7 +236,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`: 359 Sätze, 18 MB, Teil 1 vollständig; legt die Stimmen fest)
   - `PODCAST_BIBLE.md` (Regelwerk Kajütenfunk) und `PODCAST_STATUS.md` (Entscheidungen, offene Fragen), siehe R15
-  - `podcast/`: `audio_config.json` (Modell, Voice-IDs, Wörterbuchversion, Chunking), `pronunciation_dictionary.md` (Ausspracheverzeichnis), `leitfaden-sbf-see.md` (Entwurf der Geschichte), später `skripte/`
+  - `podcast/`: `audio_config.json` (Modell, Voice-IDs, Wörterbuchversion, Chunking), `pronunciation_dictionary.md` (Ausspracheverzeichnis), `leitfaden-sbf-see.md` (Entwurf der Geschichte), `skripte/` (Skripte, zuerst `test-01.md` für den Hörtest)
+  - `hoerprobe.js` (nachgeladen, Entwickler): Karte „🎧 Podcast-Hörprobe“ in den Einstellungen spricht `podcast/skripte/test-01.md` über ElevenLabs Text to Dialogue mit dem Schlüssel auf dem Gerät (`HOERPROBE.zerlege`, `erzeuge`; Eleven v4 oder v3), Ergebnis anhören und als MP3 speichern
   - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`, `knoten-pruefen.js` (Jones-Polynom: Kreuzknoten oder Altweiberknoten), `podcast-pruefen.js` (prüft Podcast-Skripte vor jeder Generierung, `--entwurf` beim Schreiben; läuft im pre-commit, wenn `podcast/` geändert ist)
 - **Start:**
@@ -326,13 +327,14 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] Podcast-Regelwerk, zweite Fassung (nur Doku): Antworten des Nutzers eingearbeitet (SBF See, danach Binnen als Zusatz, 12–25 Folgen; neckende Anrede; Fragen überspringbar; „nur zuhören“ bleibt; V24 entfällt; ein witziger Bayer ohne Bayern-Witze). Neu ist Bible §14 Sprechregie, Aussprache und Audioproduktion, aus dem Regelwerk des Nutzers kritisch übernommen; ElevenLabs-Angaben per Websuche geprüft.
 - [x] Podcast-Werkzeuge (kein App-Code): `podcast/audio_config.json`, `podcast/pronunciation_dictionary.md` (alle Einträge noch `offen`), `tools/podcast-pruefen.js` (im pre-commit), Skriptform A33; Entwurf `podcast/leitfaden-sbf-see.md` (Saison an der Schlei, 16 Folgen, alle 285 Fragen zugeordnet, wartet auf den Nutzer). Anreden geschlechtsneutral (ohne „Matrose“ und „Moses“).
 - [x] Podcast, vierte Fassung (nur Doku): Leitfaden im Grunde angenommen, Route bestätigt, Anreden angenommen (Audio einmal erzeugen, auch in der App nutzen; geplant in `docs/feste-saetze.md`), der Bayer schon bei SBF See, Harms erklärt am Anfang die Prüfung. Vorschläge fürs Überthema, Bootsnamen, Heimathafen und den Bayern in `PODCAST_STATUS.md` VS31–VS36. Erkenntnisse aus der v4-Doku in Bible §14.13.
+- [x] v4.73 Podcast, fünfte Fassung und Hörprobe: Entscheidungen B59–B69 (Überthema „Die Wette“, Quirin, Heimathafen Flensburg, Smilla mit beiden Scheinen, Finale ohne Prüfung, Klabauter-Anreden, Großschreibung im Test), Leitfaden und Ausspracheverzeichnis angepasst; Testskript `podcast/skripte/test-01.md` (etwa 2 Minuten, 2 Anfragen) und Entwickler-Knopf „🎧 Podcast-Hörprobe“ (`hoerprobe.js`)
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** Der Nutzer wählt aus `PODCAST_STATUS.md` VS31–VS36: Überthema, Heimathafen statt „Schlei“, Bootsname, den Bayern, Harms und die Klabauter-Anreden. Er lädt außerdem die Prüfungsordnung hoch (für Harms). Danach werden der Leitfaden angepasst und die Testszene (A27) geschrieben.
+- **V33 Kajütenfunk:** Hörprobe am Handy (Einstellungen → „🎧 Podcast-Hörprobe“, je Modell etwa 1.900 Credits), MP3 in `import/` hochladen und Eindruck melden. Offen: Bootsname (VS37), Klabauters Nebengeschichte (O37), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 
