@@ -28,6 +28,8 @@ for (const [id, f] of Object.entries(FIG)) {
 }
 const MAX = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
 const KATS = new Set(cfg.regie_kategorien || []), INT = cfg.intentionen || {};
+/* PAUSE, TEMPO, AUDIO: wird der Wert zu einem Audio-Tag, muss der Tag freigegeben sein (A14) */
+const tagPruef = (map, kat, wert, ort) => { const e = (map || {})[wert.trim()]; if (e && e.status !== 'freigegeben') S(ort, `Audio-Tag ${e.tag} für [[${kat}: ${wert.trim()}]] ist noch nicht freigegeben (${e.status}, A14)`); };
 const GROSS = cfg.grossschreibung_betonung && cfg.grossschreibung_betonung.status !== 'aus' ? cfg.grossschreibung_betonung : null;
 
 /* Ausspracheverzeichnis */
@@ -99,8 +101,9 @@ for (const datei of dateien) {
         const e = INT[wert.trim()];
         if (!e) W(ort, `[[INTENTION: ${wert}]] hat keinen Audio-Tag und wirkt nur über die Textgestaltung (A6)`);
         else if (e.status !== 'freigegeben') S(ort, `Audio-Tag ${e.tag} für „${wert}“ ist noch nicht freigegeben (${e.status}, A14)`);
-      } else if (kat === 'PAUSE') { if (!(cfg.pause_werte || []).includes(wert.trim())) F(ort, `[[PAUSE: ${wert}]] – erlaubt: ${(cfg.pause_werte || []).join(', ')}`); }
-      else if (kat === 'TEMPO') { if (!(cfg.tempo_werte || []).includes(wert.trim())) F(ort, `[[TEMPO: ${wert}]] – erlaubt: ${(cfg.tempo_werte || []).join(', ')}`); }
+      } else if (kat === 'PAUSE') { if (!(cfg.pause_werte || []).includes(wert.trim())) F(ort, `[[PAUSE: ${wert}]] – erlaubt: ${(cfg.pause_werte || []).join(', ')}`); else tagPruef(cfg.pause_tags, kat, wert, ort); }
+      else if (kat === 'TEMPO') { if (!(cfg.tempo_werte || []).includes(wert.trim())) F(ort, `[[TEMPO: ${wert}]] – erlaubt: ${(cfg.tempo_werte || []).join(', ')}`); else tagPruef(cfg.tempo_tags, kat, wert, ort); }
+      else if (kat === 'AUDIO') tagPruef(cfg.audio_tags, kat, wert, ort);
       else if (kat === 'FIGUR') { if (!FIG[wert.trim()]) F(ort, `[[FIGUR: ${wert}]] ist keine Figur der Konfiguration`); }
       else if (kat === 'FRAGE') {
         for (const id of wert.split(',').map(x => x.trim()).filter(Boolean)) {

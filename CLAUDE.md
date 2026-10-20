@@ -328,13 +328,14 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] Podcast-Werkzeuge (kein App-Code): `podcast/audio_config.json`, `podcast/pronunciation_dictionary.md` (alle Einträge noch `offen`), `tools/podcast-pruefen.js` (im pre-commit), Skriptform A33; Entwurf `podcast/leitfaden-sbf-see.md` (Saison an der Schlei, 16 Folgen, alle 285 Fragen zugeordnet, wartet auf den Nutzer). Anreden geschlechtsneutral (ohne „Matrose“ und „Moses“).
 - [x] Podcast, vierte Fassung (nur Doku): Leitfaden im Grunde angenommen, Route bestätigt, Anreden angenommen (Audio einmal erzeugen, auch in der App nutzen; geplant in `docs/feste-saetze.md`), der Bayer schon bei SBF See, Harms erklärt am Anfang die Prüfung. Vorschläge fürs Überthema, Bootsnamen, Heimathafen und den Bayern in `PODCAST_STATUS.md` VS31–VS36. Erkenntnisse aus der v4-Doku in Bible §14.13.
 - [x] v4.73 Podcast, fünfte Fassung und Hörprobe: Entscheidungen B59–B69 (Überthema „Die Wette“, Quirin, Heimathafen Flensburg, Smilla mit beiden Scheinen, Finale ohne Prüfung, Klabauter-Anreden, Großschreibung im Test), Leitfaden und Ausspracheverzeichnis angepasst; Testskript `podcast/skripte/test-01.md` (etwa 2 Minuten, 2 Anfragen) und Entwickler-Knopf „🎧 Podcast-Hörprobe“ (`hoerprobe.js`)
+- [x] v4.74 Hörprobe neu: Testszene mit Flüstern, Lachen, Rufen, Seufzen, Pausen, Tempo und Möwen-Geräusch; Tags für `[[INTENTION]]`, `[[PAUSE]]`, `[[TEMPO]]`, `[[AUDIO]]` in `podcast/audio_config.json`, umgesetzt in `hoerprobe.js` und `tools/podcast-pruefen.js`; Vorschläge Bootsname (VS37) und Klabauter-Nebengeschichte (VS38)
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** Hörprobe am Handy (Einstellungen → „🎧 Podcast-Hörprobe“, je Modell etwa 1.900 Credits), MP3 in `import/` hochladen und Eindruck melden. Offen: Bootsname (VS37), Klabauters Nebengeschichte (O37), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
+- **V33 Kajütenfunk:** Hörprobe am Handy (Einstellungen → „🎧 Podcast-Hörprobe“, je Modell etwa 1.900 Credits), MP3 in `import/` hochladen und Eindruck melden. Offen: Bootsname (VS37), Klabauters Nebengeschichte (VS38), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 
