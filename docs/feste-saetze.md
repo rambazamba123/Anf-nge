@@ -108,4 +108,4 @@ Vom Nutzer am 20.10.2026 beschlossen (`PODCAST_STATUS.md` B54, B55). Alle Anrede
 | Matrosin | Seegurke | beschlossen |
 | Matrosin | Bordküken | beschlossen |
 | Bordtier | Grünschnabel! Grünschnabel! | beschlossen |
-| Bordtier | zwei weitere, Vorschlag „Nesthocker! Nesthocker!“ und „Federlos! Federlos!“ | wartet auf den Nutzer (VS31) |
+| Bordtier | „Nesthocker! Nesthocker!“ und „Federlos! Federlos!“ | beschlossen (B67) |

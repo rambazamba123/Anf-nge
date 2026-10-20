@@ -36,6 +36,7 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. g) | Entscheidungen des Nutzers am 20.10.2026: Überthema „Die Wette“, Quirin, Flensburg, Smillas Scheine, Harms und die Probeprüfung, Großschreibung, Hörprobe |
 | (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
 | (CLAUDE.md …) | bestehende Projektregel |
@@ -113,7 +114,8 @@
   Der Nutzer sagt selbst, dass A „nicht immer“ passt, vor allem bei trockenen Themen. Deshalb ist A bevorzugt und nicht Pflicht für jede Folge.
 - **P29 BEVORZUGT – Reise (Variante B, „B finde ich auch sehr stark!“, *N 20.10. b*):** Eine durchgehende Fahrt, jede Folge ist eine Etappe. Spannung kommt aus Wetter, Zeit und Gefahr. Das Wissen braucht man, um durchzukommen.
 - **P30 PFLICHT – Großes Rätsel:** Es gibt ein großes Rätsel über die Staffel („dass es eins gibt ist gut“, *N 20.10. b*).
-  - Der Inhalt ist offen und muss besser sein als der Vorschlag „Lütt Deern“ („muss ein besseres sein“) (O4).
+  - **Beschlossen: „Die Wette“** *(N 20.10. g: „wir nehmen version 1“)*: Harms wettet mit Hinnerk, dass er keine Saison ohne Regelverstoß schafft. Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot. Hinnerks Irrtümer gefährden die Wette, Smilla rettet ihn. Die Hörer erkennen Verstöße oft zuerst. Hinnerk verschweigt auch deshalb seine schlechte Nachtsicht. Im Finale merkt er, dass er nur dank Smilla gewonnen hat, und übergibt ihr das Ruder (Einzelheiten der Auflösung: Vorschlag VS35, beim Schreiben mit dem Nutzer abstimmen).
+  - Klabauter bekommt eine eigene Nebengeschichte, sie ist noch offen (O37). Der Vorschlag „Klabauters Vergangenheit“ ist nicht gewählt.
   - Die späteren Vorschläge vom 20.10. sind ebenfalls verworfen (G6).
 - **P31 PFLICHT – Trockene Themen müssen auch vorkommen** („diese müssen eben auch mal rein“, *N 20.10. b*). Erlaubte Wege, alle **OPTIONAL** und vom Nutzer genannt:
   - ein paar ruhigere Folgen („ggf gibt es auch einfach ein paar langweilige folgen“),
@@ -121,7 +123,7 @@
   - trockene Themen am Anfang der Reise,
   - bei schlechtem Wetter oder Flaute unter Deck über trockenere Themen plaudern.
 - **P32 PFLICHT:** Jede Folge hat eine richtige Geschichte, „damit das wirklich sinn macht“ *(N 20.10. b)*. Abgeleitet: Das gilt auch für die ruhigeren Folgen aus P31, sie haben ebenfalls eine Handlung. Beides steht in derselben Nachricht.
-- **P33 PFLICHT – Echte Orte:** Die Reise spielt an echten Orten (Antwort auf die Frage nach einer Reise als Rahmen: „7. falls es so ist, dann echte orte“, *N 20.10. a*). Für den SBF Binnen ist der Chiemsee genannt *(N 20.10. b)*. Ob die erfundene Übungskarte der App (Kliev-Mündung) eine Rolle spielt, ist offen (O25).
+- **P33 PFLICHT – Echte Orte:** Die Reise spielt an echten Orten (Antwort auf die Frage nach einer Reise als Rahmen: „7. falls es so ist, dann echte orte“, *N 20.10. a*). Für den SBF Binnen ist der Chiemsee genannt *(N 20.10. b)*. **Heimathafen der See-Staffel ist Flensburg** *(N 20.10. g)*, das Wort „Schlei“ entfällt. Ob die erfundene Übungskarte der App (Kliev-Mündung) eine Rolle spielt, ist offen (O25).
 
 ## 6. Aufbau und Dramaturgie einer Folge
 
@@ -147,6 +149,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - PFLICHT: Sie weiß die Fakten, „man merkt, dass sie es drauf hat“ *(N 19.10.)*.
   - PFLICHT: Sie berichtigt Hinnerks Kauderwelsch (P22).
   - Aus CLAUDE.md §3: frech und schnell.
+  - Sie hat **SBF See und SBF Binnen schon** *(N 20.10. g)*. Deshalb darf sie das Boot als Schiffsführerin fahren, ohne selbst geprüft zu werden.
 - **P43 Papagei Klabauter:**
   - PFLICHT: Er hat eine witzige Rolle und wiederholt wichtige Infos. Er macht entweder einen Witz oder sagt Wichtiges, Prüfungsrelevantes, und man merkt an ihm, welches von beiden *(N 19.10.)*.
   - Aus CLAUDE.md §3: Er wiederholt Wörter.
@@ -157,13 +160,17 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - PFLICHT (mit „ggf.“): Ganz am Anfang erklärt er, wie er am Ende prüft und was man wissen muss *(N 20.10. f)*.
   - Grundlage ist die Prüfungsordnung, die der Nutzer hochlädt (F3). Ohne sie schreibt Claude diese Erklärung nicht.
   - Sonst trifft man ihn, „wenn es passt“.
-  - Ob das Staffelfinale seine Prüfung ist, ist offen (O13, Vorschlag VS34).
+  - **Das Staffelfinale ist keine Prüfung.** Die Prüfung ist die des Nutzers *(N 20.10. g)*: Nach allen Folgen lernt man am Boot weiter und ruft Harms zur Probeprüfung, wenn man bereit ist (das gibt es in der App schon: Telefon und Crew-Menü „Hol Kapitän Harms“).
+  - In der Wette (P30) ist er Hinnerks Gegenspieler.
 - **P46 Gastrollen:** PFLICHT: Es gibt Gastrollen, dafür auch **zusätzliche eigene Stimmen** („gastrollen sind top“, „3. gerne zusätzlichen“, *N 20.10. b*). Der Nutzer hat diese Beispiele begrüßt: Hafenmeister, Funkstimme, Fischer. Figuren, Namen und Anzahl sind offen (O14).
 - **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*.
   - Er kommt **schon bei SBF See** vor *(N 20.10. f)*.
   - Er ist **selbst eine witzige Figur**. Es gibt **keine Witze über Bayern** („keine bayern witze. ein witziger bayer.“, *N 20.10. d*).
   - Er **macht sich über sich selbst lustig** und nimmt sich nicht so ernst *(N 20.10. f)*.
-  - Er bekommt einen besseren Namen als im verworfenen Vorschlag. Name, Charakter und Verhältnis zu Hinnerk sind offen (O36, VS34).
+  - **Name: Quirin** *(N 20.10. g)*.
+  - **Charakter:** Bergführer aus dem Chiemgau, wie in VS34 vorgeschlagen *(N 20.10. g: „4. ja“)*. Er **kann segeln, aber nur auf dem Chiemsee und kleineren Seen**. Auf dem Meer wird er seekrank.
+  - **Verhältnis zu Hinnerk: „Grummel trifft Sonnenschein“** *(N 20.10. g)*. Quirin nennt ihn **„Hinni“**, und Hinnerk mag das gar nicht.
+  - Einsatz ab Folge 6 (Kieler Woche) wie in VS34; das Weitere klärt der Leitfaden.
   - Der Humor kommt aus seiner Persönlichkeit und den Situationen, nicht aus seiner Herkunft.
   - Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
 - **P48 Perspektive und Anrede:**
@@ -174,7 +181,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
       - „hey du“,
       - Hinnerk: „Landratte“, „Schietbüdel“, „Dösbaddel“, „Kielschwein“,
       - Smilla: „Frischling“, „Landei“, „Seegurke“, „Bordküken“,
-      - Klabauter: „Grünschnabel! Grünschnabel!“ und zwei weitere (Vorschlag VS31).
+      - Klabauter: „Grünschnabel! Grünschnabel!“, „Nesthocker! Nesthocker!“, „Federlos! Federlos!“ *(N 20.10. g: „6. passt“)*.
     - Die Anreden sind feste Sätze. Ihr Audio wird **einmal erzeugt** und auch bei anderen Gelegenheiten in der App verwendet *(N 20.10. f, R10, `docs/feste-saetze.md`)*. Dafür dieselben Stimmen wie im Podcast verwenden (P49).
   - Die Häufigkeit ist offen (O7). Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
@@ -245,7 +252,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 ## 12. Produktion (Text, Ton, Einbau)
 
 - **P63 PFLICHT:** Zuerst reifen die Texte aus. ElevenLabs kommt erst, „wenn die folgen ausgereift sind“ *(N 20.10. a)*.
-- **P64 PFLICHT:** Der erste Tontest umfasst **nur einen Teil einer Folge** („aber erstmal 'nur' einen teil einer folge als test“, *N 20.10. a*).
+- **P64 PFLICHT:** Der erste Tontest umfasst **nur einen Teil einer Folge**. Er findet auf Wunsch des Nutzers **schon jetzt** statt, vor den ausgereiften Folgen *(N 20.10. g: „gerne will ich als nächsten Schritt einen kleinen Ausschnitt sprechen lassen“)*: Testszene `podcast/skripte/test-01.md`, abgespielt über die Hörprobe in der App (Entwickler) mit dem Schlüssel auf dem Handy. Ursprünglich („aber erstmal 'nur' einen teil einer folge als test“, *N 20.10. a*).
 - **P65 PFLICHT:** Danach darf Claude den ElevenLabs-Schlüssel verwenden („du darfst es dann verwenden“, *N 20.10. a*).
   - Der Schlüssel liegt nur als Secret der Cloud-Umgebung vor und wird nie ins Repo geschrieben oder ausgegeben *(R9, CLAUDE.md E5 Weg a)*.
   - Das Secret richtet der Nutzer ein (F2).
@@ -463,7 +470,8 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
 - **A23 PFLICHT** (AR 8.2): Für jede wichtige Abkürzung festlegen: buchstabiert, als Wort, ausgeschrieben oder anders, je nach fachlichem Gebrauch und Verständlichkeit. Das Ergebnis kommt ins Verzeichnis.
 - **A24 PFLICHT** (AR 8.3, 10.3, 10.4): Regie und Betonung dürfen Katalogaussagen nicht verändern.
   - Besondere Vorsicht bei Verneinungen, Richtungen (Steuerbord, Backbord), Ausweich- und Vorfahrtsregeln, Zahlen, Bedingungen und Ausnahmen und bei ähnlichen Begriffen.
-  - Betonung entsteht durch Satzbau, nicht durch Großschreibung oder Sonderzeichen.
+  - Betonung entsteht vor allem durch Satzbau, nicht durch Sonderzeichen.
+  - **Großschreibung einzelner Wörter** ist zum Test freigegeben *(N 20.10. g, VS36)*: höchstens 3 pro Skript, ob sie bleibt, entscheidet der Hörtest. Das Prüfwerkzeug meldet sie als Warnung (`grossschreibung_betonung` in der Konfiguration).
   - Die Audioerzeugung fügt nichts hinzu. Fachlich Unklares geht zurück in die Redaktion.
 
 ### 14.10 Figuren: Stimme und Sprech-DNA

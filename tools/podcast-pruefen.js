@@ -28,6 +28,7 @@ for (const [id, f] of Object.entries(FIG)) {
 }
 const MAX = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
 const KATS = new Set(cfg.regie_kategorien || []), INT = cfg.intentionen || {};
+const GROSS = cfg.grossschreibung_betonung && cfg.grossschreibung_betonung.status !== 'aus' ? cfg.grossschreibung_betonung : null;
 
 /* Ausspracheverzeichnis */
 const METHODEN = new Set(['literal', 'alias', 'dictionary', 'native_ipa', 'manual_review']), STATI = new Set(['offen', 'geprüft', 'freigegeben']);
@@ -73,13 +74,14 @@ for (const datei of dateien) {
   const D = rel(datei);
   if (!fs.existsSync(datei)) { F(D, 'Datei fehlt'); continue; }
   const zeilen = fs.readFileSync(datei, 'utf8').split('\n');
-  let i = 0, kopf = {};
+  let i = 0, kopf = {}, schnitt = false;
   if (zeilen[0] && zeilen[0].trim() === '---') {
     for (i = 1; i < zeilen.length && zeilen[i].trim() !== '---'; i++) { const m = zeilen[i].match(/^(\w+):\s*(.*)$/); if (m) kopf[m[1]] = m[2]; }
     i++;
   }
   if (!kopf.folge) W(D, 'Kopf ohne „folge:“');
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
+  const betont = [];
   for (; i < zeilen.length; i++) {
     const roh = zeilen[i], ort = `${D}:${i + 1}`, z = roh.trim();
     if (!z || z.startsWith('#') || /^<!--.*-->$/.test(z)) continue;
@@ -110,6 +112,7 @@ for (const datei of dateien) {
       }
     }
     if (!m) {
+      if (/\[\[\s*PAUSE\s*:\s*dramatisch\s*\]\]/.test(z)) schnitt = true;   /* dramatische Pause = Grenze zwischen zwei Anfragen (A11) */
       if (z.replace(CODE, '').trim()) F(ort, 'Zeile ist weder Sprecherzeile („FIGUR: Text“) noch Regiecode');
       continue;
     }
@@ -124,14 +127,20 @@ for (const datei of dateien) {
     if (new RegExp(`(^|\\s)(${Object.keys(FIG).join('|')})\\s*:`, 'i').test(text)) W(ort, 'Sprecherlabel im Sprechtext (A25)');
     if (text.length > MAX) F(ort, `Beitrag mit ${text.length} Zeichen ist länger als eine Anfrage (${MAX}, A11)`);
     for (const [b, re] of LEXRE) { re.lastIndex = 0; if (re.test(text) && LEX.get(b).status !== 'freigegeben') offeneBegriffe.set(b, (offeneBegriffe.get(b) || 0) + 1); }
-    for (const a of text.matchAll(ABK)) if (!LEX.has(a[0])) fehlAbk.set(a[0], ort);
-    beitraege.push({wer, n: text.length});
+    for (const a of text.matchAll(ABK)) {
+      if (LEX.has(a[0])) continue;
+      if (GROSS && /^[A-ZÄÖÜ]+$/.test(a[0])) { betont.push(`${ort} „${a[0]}“`); continue; }   /* Großschreibung als Betonung (A24, VS36) */
+      fehlAbk.set(a[0], ort);
+    }
+    beitraege.push({wer, n: text.length, schnitt}); schnitt = false;
   }
   for (const [b, n] of offeneBegriffe) S(D, `„${b}“ (${n}×) – Aussprache noch nicht freigegeben (${LEX.get(b).status}, A31)`);
+  if (betont.length) W(D, `Großschreibung als Betonung (${betont.length}×): ${betont.join(', ')} – im Hörtest prüfen (A24)`);
+  if (GROSS && betont.length > (GROSS.max_pro_skript || 3)) F(D, `zu viel Großschreibung als Betonung (${betont.length}, höchstens ${GROSS.max_pro_skript || 3})`);
   for (const [a, ort] of fehlAbk) S(ort, `„${a}“ sieht aus wie eine Abkürzung ohne Eintrag im Ausspracheverzeichnis (A23)`);
   /* Anfragen schätzen: Beiträge der Reihe nach bündeln, nie einen Beitrag teilen */
   let anfragen = 0, cur = 0;
-  for (const b of beitraege) { if (!anfragen || cur + b.n > MAX) { anfragen++; cur = 0; } cur += b.n; }
+  for (const b of beitraege) { if (!anfragen || b.schnitt || cur + b.n > MAX) { anfragen++; cur = 0; } cur += b.n; }
   const zeichen = beitraege.reduce((s, b) => s + b.n, 0), min = zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60;
   console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen`);
 }
