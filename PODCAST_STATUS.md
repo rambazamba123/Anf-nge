@@ -1,6 +1,6 @@
 # PODCAST_STATUS.md – Stand der Entscheidungen zum Kajütenfunk
 
-> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 20.10.2026.
+> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 20.10.2026, zweite Fassung mit den Antworten des Nutzers zu den offenen Punkten und dem Audio-Regelwerk.
 > **Was hier als offen (O), Widerspruch (W) oder Vorschlag (VS) steht, ist keine Regel.** Claude entscheidet es nicht eigenmächtig, sondern fragt den Nutzer. Beschlossenes wird in die Bible übernommen.
 
 ---
@@ -16,6 +16,8 @@
   - `data/folgen.json`, `data/sbf.json`, `data/binnen.json`, `data/sks.json`,
   - `audio/stimmen/manifest.json` mit Messung der Sprechdauer,
   - der Kajütenfunk-Code in `index.html` (`renderFunk`, `showStory`, `playEpisode`).
+- **Antworten des Nutzers auf die offenen Punkte (20.10. d)** und sein **Audio-Regelwerk „Sprechregie, Aussprache und Audioproduktion“ (AR)**. Das AR wurde kritisch geprüft und angepasst übernommen (Abschnitt 9).
+- **Websuche am 20.10.2026** zu ElevenLabs: Eleven v4, Text-to-Dialogue-API und ihre Parameter. Die Seiten von elevenlabs.io sind aus der Cloud nicht direkt abrufbar (Adresse wird nicht aufgelöst). Die Angaben stammen deshalb aus Suchergebnissen mit Verweisen auf die offizielle Doku. Vor der Produktion erneut prüfen (F9).
 
 ## 1. Endgültig beschlossene Entscheidungen
 
@@ -53,37 +55,44 @@
 | B30 | Die Folgen werden einmal erzeugt und in die App gelegt, nicht pro Gerät neu. | 05.10., 09.10. | „kajütenfunk immer neu generieren wäre wahnsinn“ – „wir MÜSSEN es in die app legen“ | P66, X12 |
 | B31 | Die Folgen laufen offline und ohne KI-Schlüssel. | 05.10. | `docs/konzept-architektur.md` §1.1 (entschieden): „Lernen, Prüfen, Erklärungen, Lexikon, Folgen … funktionieren offline und ohne Schlüssel.“ | P67 |
 | B32 | Die Crew und die Podcastfolgen behandeln den Schein, den man am Anfang angibt. | 10.10. | „den schein, den man am anfang angibt behandelt die crew. also die podcastfolgen, etc.“ | P10 |
-| B33 | Es gibt eine Podcastfolge zur praktischen Prüfung (V24). | 10.10. | „es soll eine podcast-folge zur praktischen prüfung geben“ | P20 |
+| B33 | ~~Es gibt eine Podcastfolge zur praktischen Prüfung (V24).~~ **Aufgehoben durch B40.** | 10.10. | „es soll eine podcast-folge zur praktischen prüfung geben“ | P20 (entfällt) |
 | B34 | Die Freigabe ist ab 12 (E1), der Ton jugendfrei, derb und hart (aufgelockert für den Podcast durch B19). | 09.10. | „kein fsk 18, alles jugendfrei. aber derb und hart.“ – „39. soll ab 12 sein.“ | P11 |
 | B35 | Hohe Stimmqualität (E6). | 09.10. | „ich will hohe qualität“ | P68 |
 | B36 | Prüfungsinhalte sehen wie in der Prüfung aus (Bilder kopiert, nicht nachgezeichnet). | 10.10. | „alle die in der prüfunk vorkommen müssen genau wie in der prüfung aussehen (nicht selbst gezeichnet, sondern kopiert)“ | P58 |
+| B37 | Zuerst SBF See, danach Binnen als Zusatz, ca. 12–25 Folgen. | 20.10. d | „SBF see und dann noch zusatz: binnen. ca. 12-25 folgen.“ | P15, P16 |
+| B38 | Die Crew spricht den Hörer neckend an, z. B. „hey Matrose“, „hey du“. Der Nutzer bittet um weitere Ideen. | 20.10. d | „crew spricht mich so an: hey martrose, hey du, was fällt dir noch ein, etwas neckend?“ | P48 |
+| B39 | Die Fragen am Ende lassen sich überspringen, man geht gleich zur nächsten Folge. Der Schalter „nur zuhören“ bleibt. | 20.10. d | „ja man kann die fragen am ende überspringen und gleich zur nächsten folge gehen. ja der nur zuhören schalter bleibt.“ | P55 |
+| B40 | V24 (eigene Folge zur praktischen Prüfung) entfällt. | 20.10. d | „V24 kommt weg.“ | P20 |
+| B41 | Keine Witze über Bayern, sondern ein witziger Bayer. | 20.10. d | „keine bayern witze. ein witziger bayer.“ | P47, X4 |
+| B42 | Das große Überthema denkt sich der Nutzer selbst aus, es bleibt ein offener Punkt. | 20.10. d | „großes rätsel: also großes überthema denke ich mir noch etwas aus. las das noch als offenen punkt.“ | P30, O4 |
+| B43 | Das Audio-Regelwerk kritisch prüfen, nur Sinnvolles sinnvoll übernehmen. | 20.10. d | „schau dir das kritisch an, und übernehme nur das, was du als sinvoll erachtest. implementiere es sinvoll in die datei.“ | Bible §14, Status §9 |
 
 ## 2. Offene Fragen
 
 | Nr | Frage | Stand und Vorschläge |
 |---|---|---|
-| O1 | Welche Scheine bekommen eine Reihe, und in welcher Reihenfolge (SBF See, SBF Binnen, SKS)? | Am 19.10. nicht beantwortet. Vorschlag VS1: SBF See zuerst. B24 (Bayer beim Binnen am Chiemsee) setzt eine Binnen-Reihe voraus. |
-| O2 | Wie viele Folgen, welche Gesamtdauer innerhalb von 4–40 h? | Nur Schätzungen (VS1). |
+| O1 | ~~Welche Scheine, welche Reihenfolge?~~ | **Erledigt durch B37:** SBF See, danach Binnen als Zusatz. **Noch offen:** Gibt es später auch SKS-Folgen? Dazu gibt es keinen Beschluss. |
+| O2 | Wie viele Folgen genau? Gelten die „ca. 12–25 Folgen“ für SBF See allein oder einschließlich Binnen-Zusatz? | Teilweise erledigt durch B37. Siehe W17 zur Stoffdichte. |
 | O3 | Wie viel Geplauder neben dem Stoff? | Stufen in VS4, nicht beantwortet. |
-| O4 | Was ist das große Rätsel? Ist das Finale die Prüfung bei Harms als Auflösung? | „Lütt Deern“ ist verworfen, ebenso die Vorschläge vom 20.10. Das Finale stand in der Beschreibung von C (VS25), ist aber nicht einzeln bestätigt. |
+| O4 | Was ist das große Rätsel beziehungsweise Überthema? Ist das Finale die Prüfung bei Harms als Auflösung? | **Der Nutzer denkt sich das Überthema selbst aus (B42).** Claude macht dazu keine Vorschläge, bis der Nutzer danach fragt. „Lütt Deern“ und die Vorschläge vom 20.10. sind verworfen. Das Finale (VS25) ist nicht einzeln bestätigt. |
 | O5 | Wie werden die Rollen geschärft? Wie oft irrt Hinnerk? | Der Nutzer will es „deutlich geschärft“. Vorschläge in VS3 und VS21. |
 | O6 | Welches Erkennungszeichen hat Klabauter für „Wichtiges“? Gibt es ein Merkheft in der App? | Vorschlag: Schiffsglocke und „Krrah! Merken!“, höchstens acht Wörter, dazu ein Merkheft (VS3). In der gelobten Referenzszene verwendet, aber nicht einzeln bestätigt. |
-| O7 | Spricht die Crew den Hörer an, und wie („Neuer“, „Moses“, „Badewannen-Kapitän“)? | Am 19.10. gefragt, nicht beantwortet. |
-| O8 | Gibt es noch einen Schalter „nur zuhören“ oder „mit Fragen“? Kann man die Fragen am Ende überspringen, und was zählt dann? | Die Zwischenfragen samt Einstellung vom 19.10. sind durch B15 ersetzt. Ob die Wahl bleibt, ist offen. Vorschlag VS18: Übersprungene Fragen zählen als „noch nicht gehört“. |
+| O7 | Welche Anreden außer „hey Matrose“ und „hey du“? Wie oft und an welchen Stellen spricht die Crew den Hörer an? | Grundsatz erledigt durch B38 (neckend). Ideen in VS27, Häufigkeit offen. |
+| O8 | ~~Schalter und Überspringen~~ | **Erledigt durch B39.** Zu bestätigen bleibt die Deutung in P55: Mit „nur zuhören“ kommen keine Fragen am Ende, übersprungene Fragen zählen nicht als falsch. |
 | O9 | Heißt „alle“ in B15 alle in der Folge behandelten Katalogfragen? | So in P56 gedeutet, bitte bestätigen. |
 | O10 | Zählen die Fragen am Ende in die 25 Minuten? | Offen. |
 | O11 | Wie viel Abweichung von 25 Minuten ist erlaubt? | Offen. |
-| O12 | Wie wird die Praxis behandelt? Ist V24 eine eigene Folge oder auf mehrere verteilt? Gehört die Navigationsaufgabe des SBF See zu „alle Prüfungsfragen“? Wie weit ersetzt der Podcast den Kurs bei der Praxis? | Vorschlag VS8: Knoten, Manöver und Navigation im Podcast erklären, üben im Knotenbrett, Manöverspiel und in der Navigationsschule. |
+| O12 | Wie wird die Praxis in der Reihe behandelt? Gehört die Navigationsaufgabe des SBF See zu „alle Prüfungsfragen“? Wie weit ersetzt der Podcast den Kurs bei der Praxis? | Eine eigene Praxisfolge (V24) entfällt (B40). Vorschlag VS8: Knoten, Manöver und Navigation im Podcast erklären, üben im Knotenbrett, Manöverspiel und in der Navigationsschule. |
 | O13 | Welche Rolle hat Harms im Podcast? | Vorschlag VS3: in den Prüfungsfolgen am Ende. VS25: das Finale. |
-| O14 | Welche Gastfiguren, welche Namen, wie viele neue Stimmen? Kommt der Bayer auch beim SBF See vor? Wie stark ist sein Dialekt? | Begrüßte Beispiele: Hafenmeister, Funkstimme, Fischer. Weiteres offen. |
-| O15 | Wie werden Szenen hörbar? Nur Dialog mit Geräuschen, oder ein Erzähler? Gibt es Musik, Jingle oder Hintergrundgeräusche? | Die Beispielszenen nutzen Regieanweisungen (Geräusche, „Musik“). Beschlossen ist nichts. |
+| O14 | Welche Gastfiguren, welche Namen, wie viele neue Stimmen? Kommt der Bayer auch beim SBF See vor? Wie stark ist sein Dialekt? | Begrüßte Beispiele: Hafenmeister, Funkstimme, Fischer. Der Bayer ist selbst witzig, keine Bayern-Witze (B41). Weiteres offen. |
+| O15 | Gibt es einen Erzähler, oder nur Dialog mit Geräuschen? Entstehen Geräusche in der Audiodatei oder mischt die App sie dazu? Gibt es Musik oder einen Jingle? | Teilweise geregelt durch A26 (Geräusche nur mit dramaturgischem Zweck, keine Dauerkulisse). Der Rest ist offen. Das AR lässt einen Erzähler ausdrücklich offen. |
 | O16 | Gibt es Regeln für Einleitung, Übergänge, Kapitel und Schluss außer Hinweis und Cliffhanger? | Vorschläge VS2, VS5, VS20. |
 | O17 | Wie lautet der Hinweis in „Über die App“ (heute: „ersetzt keine Ausbildung“)? | Antwort vom 20.10.: „13. denk drüber nach.“ Formulierungen in VS9. |
 | O18 | Was wird aus den KI-Knöpfen „Eigene Folge erzeugen“ und „Weiterreden“ und aus „Fragen dazu üben“ im Kajütenfunk? | Nicht besprochen. Am 05.10. hieß es, KI-Folgen müssen gespeichert werden (umgesetzt). |
 | O19 | Zeigt die App während der Folge Bilder, etwa Lichter und Tonnen? | Vorschlag VS7. |
 | O20 | Wie hängt der Podcast mit „Kurs für heute“ und dem Lernplan zusammen? | Vorschlag VS18. |
 | O21 | Wo liegen die Audiodateien? Wie laufen alle Folgen offline (B31) bei mehreren hundert MB? Werden Folgen einzeln geladen? | Vorschlag VS12. Siehe W11. |
-| O22 | Welches Abo, wie viele Credits im Monat? Einzelsätze mit dem bisherigen Modell oder ganze Dialoge mit einem neueren Modell? Welche Bitrate? | Am 19.10. gefragt, Antwort nur B16. Vorschläge VS11 und VS12. |
+| O22 | Welches Abo, wie viele Credits im Monat? Welche Bitrate? | Die Modellwahl regelt jetzt A9 (Hörtest, Kandidaten Eleven v4 und v3, Dialog über Text to Dialogue). Credits und Bitrate sind offen (F1, VS12). Zusatz: Bei einem Drittanbieter sind für Eleven v4 40 $ pro Million Zeichen angegeben. Der Preis im ElevenLabs-Abo ist nicht geprüft. |
 | O23 | Was ist mit „ich will auch.“ (20.10. b, direkt nach „der kapitän erzählt auch von meerjungfrauen etc.“) gemeint? | Unklar. Vielleicht: Der Nutzer will selbst Ideen oder Witze beisteuern, oder er will mehr solche Witze. Bitte klären. |
 | O24 | Dürfen gute alte Kurzgeschichten als Hinnerks Garn wiederverwendet werden? | Am 19.10. gefragt. Die Antwort „ja wird alles völlig neu“ spricht eher dagegen. Bitte bestätigen. |
 | O25 | Kommt die erfundene Übungskarte der App (Kliev-Mündung) neben den echten Orten vor? | Am 19.10. vorgeschlagen: echte Orte nur im Garn, Aufgaben im erfundenen Revier. Der Nutzer antwortete „dann echte orte“ (B14). Der Umgang mit der Karte ist offen. |
@@ -91,7 +100,10 @@
 | O27 | Teilen sich SBF See und Binnen die Folgen zu den 72 Basisfragen? | Vorschlag vom 19.10. (VS1), nicht beantwortet. |
 | O28 | Wie werden Hinnerks Irrtümer gebaut? Darf er falsche Katalogantworten aussprechen? Gilt bei Sicherheitsthemen nur offensichtlicher Unsinn? | Vorschlag VS6, nicht beantwortet. |
 | O29 | Stimmen die abgeleiteten Kriterien und Deutungen der Bible mit dem Gemeinten überein? | Bitte prüfen: P14, P17, P18, P22, P23, P32, P34, P35, P43, P56, P58, P59, P62, X1, X8, X9, X10. Dazu: P27/P36 übernehmen die Beschreibung von C wörtlich (Hinweis und Cliffhanger in jeder Folge), P52 deutet „ja genau“ als Zustimmung zu den derben Einzelheiten. |
-| O30 | Wo liegen die Skripte, in welchem Format, und wie gibt der Nutzer sie frei (lesen, Handystimme, Stichprobe)? | Vorschlag VS14. |
+| O30 | Wo liegen Autorenskripte, Audio-Konfiguration (A8) und Ausspracheverzeichnis (A18), in welchem Format? Wie gibt der Nutzer Skripte frei (lesen, Handystimme, Stichprobe)? | Vorschläge VS14 und VS29. Für das Verzeichnis ist JSON festgelegt (A18). |
+| O31 | Wie viel hört der Nutzer selbst ab, bevor eine Folge freigegeben wird? | Claude kann Audio nicht hören (A30). Jede Folge ganz abzuhören wären bei 12–25 Folgen etwa 5 bis 10,5 Stunden. Vorschlag VS28: automatische Rückschrift als Hilfe. |
+| O32 | Gelten die neckenden Anreden für alle Hörer gleich, auch für Hörerinnen (z. B. „Matrose“)? | Die Tonaufnahmen sind für alle gleich (R10), eine Anrede nach Geschlecht bräuchte zwei Fassungen. Nicht besprochen. |
+| O33 | Wer prüft die Aussprache schwieriger Begriffe (Plattdeutsch, Bairisch, Fachwörter, Ortsnamen), wenn sie unklar ist? | A19 verlangt eine verlässliche Quelle. Claude kann Aussprache nur aus Wissen und Nachschlagen bestimmen, nicht anhören. |
 
 ## 3. Widersprüchliche Aussagen
 
@@ -101,18 +113,23 @@
 | W2 | CLAUDE.md §3 beschreibt Hinnerk als „trocken, kurz angebunden“, B5 sagt „erzählt viel Kauderwelsch“. | Offen. Vorschlag vom 19.10.: trocken im Ton, beim Erzählen redselig. Gehört zu O5. |
 | W3 | „viel Kauderwelsch“ (19.10.) gegen „der kaptn irrt nicht immer“ (20.10.). | Gelöst durch die spätere Aussage: Er irrt oft, aber nicht immer. Wie oft, ist offen (O5). |
 | W4 | Zwischenfragen mit Einstellung (19.10.) gegen Fragen erst am Ende (20.10.). | Gelöst durch die spätere Aussage (B15). Der Schalter ist offen (O8). |
-| W5 | „unabhängig der prüfung“ (B4) gegen eine Podcastfolge zur praktischen Prüfung (B33) und ein mögliches Prüfungsfinale mit Harms (VS25). | Offen. Wie dürfen Prüfung und Prüfer in der Geschichte vorkommen? |
+| W5 | „unabhängig der prüfung“ (B4) gegen ein mögliches Prüfungsfinale mit Harms (VS25). | Teilweise gelöst: Die Praxisfolge V24 entfällt (B40). Offen bleibt, wie Prüfung und Prüfer in der Geschichte vorkommen dürfen. |
 | W6 | CLAUDE.md E10, V8 und §4 „Teil 2“ (Nutzer überarbeitet die alten Folgen, danach Stimmen) gegen B17 (alles völlig neu). | Gelöst durch B17. CLAUDE.md verweist jetzt auf die Bible. |
 | W7 | CLAUDE.md §1 (in etwa zwei Wochen bereit zur Veröffentlichung) gegen B18 (verschoben). | Gelöst. CLAUDE.md §1 hat einen Vermerk bekommen. Ein neuer Termin ist offen. |
-| W8 | Bayer als Witzfigur (B24) gegen CLAUDE.md §3 „keine Beleidigungen von Gruppen“. | Offen. Zum Beispiel: Wird die Figur aufgezogen und nicht „die Bayern“? Nicht besprochen. |
+| W8 | Bayer als Witzfigur (B24) gegen CLAUDE.md §3 „keine Beleidigungen von Gruppen“. | **Gelöst durch B41:** keine Bayern-Witze, der Bayer ist selbst witzig. |
 | W9 | CLAUDE.md R10 (neue feste Sätze in `docs/feste-saetze.md` eintragen) gegen die Menge an Podcasttext (Tausende Zeilen). | Offen. Naheliegend wäre: Die Skripte selbst sind die Liste. Nicht beschlossen. |
 | W10 | CLAUDE.md R3 (kleine Unklarheiten entscheidet Claude selbst) gegen den Auftrag vom 20.10. (offene Fragen nicht eigenmächtig entscheiden). | Offen. Bis zur Klärung entscheidet Claude beim Podcast keine Punkte aus Abschnitt 2 selbst. Handwerkliche Entscheidungen innerhalb eines Skripts (Wortwahl, Szenendetails) fallen darunter nur, wenn sie keine Regel und keine offene Frage berühren. |
 | W11 | Alle Folgen offline (B31) gegen die Datenmenge (geschätzt 130–260 MB für 9 Stunden). | Offen (O21). |
 | W12 | `docs/konzept-architektur.md` §1.6 sagt „Ton … ab 14“, CLAUDE.md E1 sagt „ab 12“. | E1 ist später und gilt. Das Konzeptdokument ist nicht geändert. |
 | W13 | CLAUDE.md E5 stand auf „offen“, B16 erlaubt den Schlüssel für den Podcast. | Für den Podcast gelöst. CLAUDE.md E5 hat einen Vermerk bekommen. |
-| W14 | CLAUDE.md „Nach der Veröffentlichung: Folgen für SKS und Binnen“ gegen B24 (Binnen am Chiemsee) und die verschobene Veröffentlichung. | Die Reihenfolge ist offen (O1). |
+| W14 | CLAUDE.md „Nach der Veröffentlichung: Folgen für SKS und Binnen“ gegen B24 (Binnen am Chiemsee) und die verschobene Veröffentlichung. | **Gelöst durch B37:** Binnen kommt als Zusatz nach SBF See. CLAUDE.md ist angepasst, für SKS gibt es keinen Beschluss (O1). |
 | W15 | Die gelobte Referenzszene (B25) verwendet den verworfenen Namen „Lütt Deern“ (B22). | In Anhang A der Bible vermerkt. |
 | W16 | CLAUDE.md §4 nennt „Teil 2 rund 56.000 Zeichen“, gemessen sind heute 37.191 Zeichen (27.862 in Folgen und 9.329 in Kurzgeschichten, ohne eingesetzte Katalogantworten). | Durch B17 ohne Bedeutung, nur zur Information. |
+| W17 | **Stoffdichte:** 12–25 Folgen zu je 25 Minuten (etwa 5 bis 10,5 Stunden) gegen alle Fragen und Praxis (B3) als spannende Geschichte mit Geplauder (B4, B11). | **Offen, wichtig.** SBF See hat 285 Fragen, Binnen bringt etwa 228 eigene dazu (300 minus 72 gemeinsame Basisfragen), zusammen rund 513. Daraus folgt: Bei 12 Folgen kommen etwa 43 Fragen auf eine Folge, also etwa 35 Sekunden pro Frage, und für Geschichte und Geplauder bleibt kaum Platz. Bei 25 Folgen sind es etwa 21 Fragen pro Folge. Gelten die 12–25 nur für SBF See, liegen die Werte bei 11 bis 24 Fragen pro Folge. Nicht entschieden. Claude empfiehlt, die Zahl erst nach dem Stoffplan festzulegen. |
+| W18 | Das AR spricht von „zwölf Folgen“, B37 von „ca. 12–25 Folgen“. | In der Bible auf „alle Folgen“ verallgemeinert. |
+| W19 | Das AR sieht grundsätzlich nur drei Charakterstimmen vor, B23 verlangt Gastrollen mit eigenen Stimmen, dazu kommen Harms und der Bayer. | In A25 angepasst: Jede Figur, auch Gäste, hat eine feste Stimme. Laut Doku sind bis zu 10 Stimmen pro Anfrage möglich. |
+| W20 | Das AR verlangt, Beiträge ohne Funktion zu streichen und Wiederholungen zu vermeiden. Gewollt sind aber Geplauder (B4) und Klabauters Wiederholungen (B6). | In A3 und A4 angepasst: Humor, Figur und Atmosphäre zählen als Funktion, Klabauters Wiederholungen und Rückgriffe sind erlaubt. |
+| W21 | Das AR verlangt mehrfach, die Ausgabe „abzuhören“. Claude kann Audio nicht hören. | In A30 angepasst: Claude prüft automatisch, der Nutzer hört ab. Der Umfang ist offen (O31). |
 
 ## 4. Fehlende Informationen
 
@@ -126,6 +143,7 @@
 | F6 | Am 20.10. von Claude erbeten, noch nicht beantwortet: eigene Anekdoten, Hörspiele oder Podcasts, deren Ton dem Nutzer gefällt, das Heimatrevier. | Nutzer, freiwillig |
 | F7 | Wie sich doppeldeutige Anspielungen auf die Altersfreigabe im Store auswirken (Fragebogen der Anbieter) | später beim Store-Eintrag |
 | F8 | Lizenzbedingungen der zusätzlichen Gaststimmen (L4) | bei der Stimmenwahl |
+| F9 | Vor der Produktion in der aktuellen ElevenLabs-Doku bestätigen: genaue Modell-ID von Eleven v4; ob v4 SSML-Pausen, Aussprachewörterbücher und IPA unterstützt; ob es für den Dialog-Endpunkt Kontextparameter und Audioeffekte gibt; aktuelle Grenzen und Preise. Die Doku war am 20.10. aus der Cloud nicht direkt abrufbar. | Claude, sobald `api.elevenlabs.io` und die Doku erreichbar sind (F2) |
 
 ## 5. Vorschläge, die noch nicht bestätigt wurden
 
@@ -133,7 +151,7 @@ Alle hier aufgeführten Vorschläge stammen von Claude. Sie gelten nicht als Reg
 
 | Nr | Vorschlag | Datum | Stand |
 |---|---|---|---|
-| VS1 | **Umfangsschätzung:** etwa 1 Minute pro Frage im Gespräch. SBF See 9–10 h mit etwa 23 Folgen, Binnen-Zusatz etwa 10 Folgen (4–5 h), SKS etwa 15 h, zusammen etwa 30 h. SBF See zuerst, die Basis-Folgen gelten auch für Binnen. | 19.10. | Unbeantwortet. Der dazugehörige Themenplan ist verworfen (Abschnitt 6). |
+| VS1 | **Umfangsschätzung:** etwa 1 Minute pro Frage im Gespräch. SBF See 9–10 h mit etwa 23 Folgen, Binnen-Zusatz etwa 10 Folgen (4–5 h), SKS etwa 15 h, zusammen etwa 30 h. SBF See zuerst, die Basis-Folgen gelten auch für Binnen. | 19.10. | Überholt durch B37 (ca. 12–25 Folgen, SBF See und Binnen). Der Themenplan ist verworfen (Abschnitt 6). Offen bleibt, ob die Basis-Folgen für Binnen mitgelten (O27). |
 | VS2 | 4–5 Kapitel pro Folge, damit man unterbrechen kann. | 19.10. | Unbeantwortet |
 | VS3 | **Figurendetails** (siehe Liste unter der Tabelle) | 19.10. | Grundsätzlich gut befunden („Rollenverteilung ist auch gut“), Details unbestätigt, Schärfung gewünscht |
 | VS4 | **Geplauder-Stufen:** kompakt etwa 15 % (rund 7 h), ausgewogen etwa 30 % (rund 9 h, damals empfohlen), gemütlich etwa 45 % (rund 12 h). Auch Geplauder soll möglichst etwas zeigen. Reines Geplauder höchstens 1–2 Minuten pro Kapitel. | 19.10. | Unbeantwortet |
@@ -159,6 +177,9 @@ Alle hier aufgeführten Vorschläge stammen von Claude. Sie gelten nicht als Reg
 | VS24 | **Beispielszene „Nebel“** (Text unten) | 19.10. | Vom Nutzer nicht ausdrücklich bewertet |
 | VS25 | **Staffelfinale:** Die Prüfung mit Harms ist zugleich die Auflösung des großen Rätsels. | 20.10. a | Gehörte zur Beschreibung von C, nicht einzeln bestätigt (O4, W5) |
 | VS26 | **Probe:** Die erste Szene (Kaltstart und erster Akt, etwa 4 Minuten) wird ausformuliert und mit der kostenlosen Handystimme angehört. | 20.10. a | Unbeantwortet. B16 regelt nur den ElevenLabs-Test. |
+| VS27 | **Neckende Anreden** neben „hey Matrose“ und „hey du“, möglichst geschlechtsneutral. Hinnerk: „Moses“ (alter Seemannsausdruck für den Jüngsten an Bord), „Landratte“, „Badewannen-Kapitän“ (CLAUDE.md §3), „Sonntagssegler“. Smilla: „Frischling“, „Kapitän Ahnungslos“, beim Binnen „Süßwassermatrose“. Klabauter: „Grünschnabel! Grünschnabel!“ (ein Papagei, der andere Grünschnabel nennt). | 20.10. d | Vorschlag auf die Frage „was fällt dir noch ein“ |
+| VS28 | **Automatische Rückschrift:** Das fertige Audio wird per Spracherkennung zurück in Text verwandelt und mit dem Skript verglichen. Das findet fehlende oder verschluckte Wörter und hörbare Codes. Natürlichkeit und Betonung findet es nicht. | 20.10. d | Unbeantwortet (O31). Kostet je nach Dienst Credits oder braucht ein lokales Programm. |
+| VS29 | **Ablage:** Autorenskripte, Konfiguration und Ausspracheverzeichnis in einem eigenen Ordner, z. B. `data/podcast/` (Skripte je Folge, `aussprache.json`, `audio-konfig.json`). Die fertigen Audiodateien getrennt vom Stimmenpaket. | 20.10. d | Unbeantwortet (O30) |
 
 **VS3 im Einzelnen (Figurenvorschlag vom 19.10.):**
 - **Hinnerk („kennt das Meer“):**
@@ -214,6 +235,8 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 - **Die alten Folgen und Kurzgeschichten** in `data/folgen.json`. Werden ersetzt (B17).
 - **E10** (der Nutzer überarbeitet die alten Folgen selbst) und **V8** in der alten Form (Stimmen Teil 2 nach dieser Überarbeitung). Ersetzt durch B16 und B17.
 - **Veröffentlichung mit der ersten Folge** (VS15). Überholt durch B18.
+- **Eigene Podcastfolge zur praktischen Prüfung (V24).** Entfällt (B40). Die Praxis wird trotzdem in der Reihe behandelt (P19).
+- **Teile des Audio-Regelwerks, die nicht übernommen wurden.** Siehe Abschnitt 9.
 
 ## 7. Ausgangslage im Code (unverändert, nur zur Information)
 
@@ -241,3 +264,36 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 | Datum | Änderung |
 |---|---|
 | 20.10.2026 | Bible und Status erstmals angelegt aus dem Podcast-Gespräch vom 19.–20.10.2026, früheren Aussagen des Nutzers (05.–10.10.) und den Projektdateien. Die Vorschläge aus Claudes Nachricht vom 20.10. nach der A/B/C-Bewertung wurden auf Wunsch des Nutzers weggelassen. App-Code ist nicht geändert. |
+| 20.10.2026 | Zweite Fassung mit den Antworten des Nutzers (B37–B43).<br>Geändert in der Bible: P15, P16, P20 (entfällt), P47, P48, P55, X4, X9, P61, P68 und die Prüfliste.<br>Neu ist Bible §14 „Sprechregie, Aussprache und Audioproduktion“ (A1–A31) aus dem Audio-Regelwerk des Nutzers. Es wurde kritisch geprüft und angepasst, die Abweichungen stehen in Abschnitt 9.<br>ElevenLabs-Angaben per Websuche geprüft.<br>App-Code ist nicht geändert. |
+
+## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
+
+Der Nutzer hat das Regelwerk „Sprechregie, Aussprache und Audioproduktion“ geliefert, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (B43). Ergebnis:
+
+| AR-Abschnitt | Ergebnis | Begründung |
+|---|---|---|
+| 1 Rangfolge, 1.1 Schreiben fürs Ohr | übernommen (A1, A2) | passt zu B4 und R8 |
+| 2.1 Drei Ebenen | übernommen (A5) | trennt Redaktion und Technik sauber, Ebene B entsteht durch ein Werkzeug |
+| 2.2 Keine erfundenen Befehle | übernommen (A6) | entspricht R2 |
+| 3 Konfiguration | übernommen (A8), angepasst | Schlüssel nur als Secret (R9). Voice-IDs für alle Figuren, nicht nur drei (W19) |
+| 3.1 Modellstrategie v4/v3 | übernommen (A9), ersetzt für den Podcast die „drei Probesätze“ aus CLAUDE.md §4 | Eleven v4 gibt es laut Websuche seit Ende September oder Anfang Oktober 2026, die Dialog-Doku empfiehlt es. „v4 Turbo“ kann keinen Dialog. |
+| 3.2 Text to Dialogue | übernommen (A10), ergänzt | Laut Doku bis zu 10 Stimmen pro Anfrage. Ohne Angabe nimmt der Endpunkt `eleven_v3`, deshalb das Modell immer setzen. |
+| 3.3 etwa 2.000 Zeichen | übernommen (A11) | laut Doku eine weiche Grenze |
+| 3.4 Kontinuität | übernommen (A12), korrigiert | „future_text“ ist für den Dialog-Endpunkt nicht belegt, `seed` laut Doku nur „best effort“ |
+| 4 Interne Regiecodes | übernommen (A7), ergänzt | Kategorie `FRAGE` hinzugefügt, damit die Fragenzuordnung (P17) maschinenlesbar ist |
+| 5 Audio-Tags | übernommen (A14) | Kandidatenliste bleibt experimentell bis zum Test |
+| 6 Pausen | übernommen (A15) | SSML-Pausen bei v3 nicht unterstützt, bei v4 nicht bestätigt |
+| 7 Aussprache | übernommen (A17–A21), angepasst | JSON statt YAML (R11). Plattdeutsch und Bairisch ergänzt. „Zwölf Folgen“ auf „alle Folgen“ verallgemeinert (W18). Unterstützung von Wörterbüchern und IPA bei v4 nicht bestätigt (F9). |
+| 8 Zahlen, Abkürzungen, Prüfungswissen | übernommen (A22–A24) | Der AR-Punkt zu „gesprochenen Prüfungsfragen“ gilt hier für Kataloginhalte im Dialog. Die Fragen am Folgenende erscheinen als Text in der App (P58). |
+| 9 Charakterprofile | übernommen (A25), angepasst | Das Profil-Raster ist übernommen. Die Inhalte gehören zur offenen Schärfung (O5), Claude setzt sie nicht eigenmächtig fest. Gäste haben auch feste Stimmen (W19). |
+| 10.1 Jeder Beitrag mit Funktion | angepasst (A3) | Humor, Figur und Atmosphäre zählen als Funktion, sonst würde das gewollte Geplauder gestrichen (W20) |
+| 10.2 Keine Wiederholungen | angepasst (A4) | Klabauters Wiederholungen und Rückgriffe sind gewollt (B6, W20) |
+| 10.3, 10.4 Betonung, Fachwissen | übernommen (A24) | – |
+| 11 Tempo und Laufzeit | übernommen (A15, A16) | P14 bleibt Richtwert fürs Schreiben, gemessen wird am Audio |
+| 12 Geräusche | übernommen (A26) | `audio_effects` am 20.10. nicht in der Doku gefunden. Die Frage nach einem Erzähler bleibt offen (O15). |
+| 13 Ablauf im Werkzeug | übernommen, in A5, A13 und A30 eingearbeitet | Ergänzt um A13: nur geänderte Abschnitte neu erzeugen, spart Credits |
+| 14 Tests | übernommen (A27–A29) | Der Testumfang ist zugleich der „Teil einer Folge“ aus B16 |
+| 15 Freigabe | übernommen (A31), angepasst (A30) | Claude kann nicht hören, das Abhören übernimmt der Nutzer (W21) |
+| 16 Schlussregel | übernommen (A6) | – |
+| Kopf: „Claude Opus“, „drei wiederkehrende Charaktere“, „zwölf Folgen“ | nicht übernommen | Kein Modellname in Projektdateien. Gäste, Harms und 12–25 Folgen sind beschlossen (W18, W19). |
+| Beispiel-JSON mit `"model_id": "eleven_v4"` | nur als Schema verstanden, nicht übernommen | Die genaue Modell-ID ist nicht bestätigt (F9, A9) |
