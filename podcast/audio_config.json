@@ -6,6 +6,8 @@
     "id": null,
     "status": "offen",
     "kandidaten": ["Eleven v4", "Eleven v3"],
+    "bekannte_ids": {"Eleven v4": "eleven_v4", "Eleven v3": "eleven_v3"},
+    "bekannte_ids_hinweis": "Laut Websuche zur Doku vom 20.10.2026. v4 Turbo (eleven_v4_turbo) kann keinen Dialog. Gesetzt wird id erst nach dem Hörtest (A9).",
     "hinweis": "Genaue Modell-ID vor der Produktion aus der aktuellen Doku übernehmen und per Hörtest mit der Testszene wählen (A9, A27, F9). Ohne Angabe nimmt der Endpunkt eleven_v3."
   },
   "sprache": "de",
