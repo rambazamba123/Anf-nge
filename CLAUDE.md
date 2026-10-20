@@ -236,8 +236,9 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `audio/`
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`: 359 Sätze, 18 MB, Teil 1 vollständig; legt die Stimmen fest)
   - `PODCAST_BIBLE.md` (Regelwerk Kajütenfunk) und `PODCAST_STATUS.md` (Entscheidungen, offene Fragen), siehe R15
+  - `podcast/`: `audio_config.json` (Modell, Voice-IDs, Wörterbuchversion, Chunking), `pronunciation_dictionary.md` (Ausspracheverzeichnis), `leitfaden-sbf-see.md` (Entwurf der Geschichte), später `skripte/`
   - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
-  - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`, `knoten-pruefen.js` (Jones-Polynom: Kreuzknoten oder Altweiberknoten)
+  - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`, `knoten-pruefen.js` (Jones-Polynom: Kreuzknoten oder Altweiberknoten), `podcast-pruefen.js` (prüft Podcast-Skripte vor jeder Generierung, `--entwurf` beim Schreiben; läuft im pre-commit, wenn `podcast/` geändert ist)
 - **Start:**
   - `startApp` → `loadData` (alle `data/`-Dateien) → `boot` → `splash` → `runIntro` (Streit, `INTRO`) → `convoOnboarding` (Knöpfe plus Textfeld; `ONB`, `ONB2`, `ONB2_OPTS`, `NICKS`) → `keysStep` → `endIntro`
   - Flag `introV5` wird erst in `endIntro` gesetzt. `?neustart` setzt die Intro-Flags zurück, `S.reOnb` erzwingt neue Fragen.
@@ -323,13 +324,14 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.72 Kreuzknoten neu (Nutzer: „Schau dir Beispiele an, besser gegenüber starten“): Leinen von links und rechts, zwei gegenläufige Halbknoten (rechts über links, links über rechts), festziehen; mathematisch geprüft (`tools/knoten-pruefen.js`, im pre-commit). Die Fassung aus v4.71 war fachlich falsch: zwei eingehakte Buchten ohne die beiden Halbknoten (Prüfung: kein Kreuzknoten).
 - [x] Podcast-Regelwerk (nur Doku, kein App-Code): `PODCAST_BIBLE.md` und `PODCAST_STATUS.md` aus dem Gespräch vom 19.–20.10.2026. Verweise in CLAUDE.md: R15, §1, §3, §4, V8, V24, V33, E5, E10.
 - [x] Podcast-Regelwerk, zweite Fassung (nur Doku): Antworten des Nutzers eingearbeitet (SBF See, danach Binnen als Zusatz, 12–25 Folgen; neckende Anrede; Fragen überspringbar; „nur zuhören“ bleibt; V24 entfällt; ein witziger Bayer ohne Bayern-Witze). Neu ist Bible §14 Sprechregie, Aussprache und Audioproduktion, aus dem Regelwerk des Nutzers kritisch übernommen; ElevenLabs-Angaben per Websuche geprüft.
+- [x] Podcast-Werkzeuge (kein App-Code): `podcast/audio_config.json`, `podcast/pronunciation_dictionary.md` (alle Einträge noch `offen`), `tools/podcast-pruefen.js` (im pre-commit), Skriptform A33; Entwurf `podcast/leitfaden-sbf-see.md` (Saison an der Schlei, 16 Folgen, alle 285 Fragen zugeordnet, wartet auf den Nutzer). Anreden geschlechtsneutral (ohne „Matrose“ und „Moses“).
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** zuerst die offenen Fragen aus `PODCAST_STATUS.md` (Abschnitt 2) mit dem Nutzer klären, besonders die Stoffdichte (W17). Das Überthema liefert der Nutzer. Danach eine Geschichte je Folge.
+- **V33 Kajütenfunk:** Der Nutzer prüft den Leitfaden `podcast/leitfaden-sbf-see.md` und liefert das Überthema. Danach folgen die Testszene (A27) und eine Geschichte je Folge. Offene Fragen stehen in `PODCAST_STATUS.md` Abschnitt 2.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 

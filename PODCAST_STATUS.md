@@ -66,18 +66,26 @@
 | B41 | Keine Witze über Bayern, sondern ein witziger Bayer. | 20.10. d | „keine bayern witze. ein witziger bayer.“ | P47, X4 |
 | B42 | Das große Überthema denkt sich der Nutzer selbst aus, es bleibt ein offener Punkt. | 20.10. d | „großes rätsel: also großes überthema denke ich mir noch etwas aus. las das noch als offenen punkt.“ | P30, O4 |
 | B43 | Das Audio-Regelwerk kritisch prüfen, nur Sinnvolles sinnvoll übernehmen. | 20.10. d | „schau dir das kritisch an, und übernehme nur das, was du als sinvoll erachtest. implementiere es sinvoll in die datei.“ | Bible §14, Status §9 |
+| B44 | Anreden müssen geschlechtsneutral sein. „Matrose“ ist nicht neutral genug, „Moses“ entfällt. | 20.10. e | „stimmt matrose ist nicht neutral genug. gitb es gute genderneutrale anreden die necken?“ – „moses würde ich weglassen“ | P48 |
+| B45 | Ein eigenes Ausspracheverzeichnis `pronunciation_dictionary.md`, nicht in der langen Regeldatei versteckt. | 20.10. e | „Ein eigenes pronunciation_dictionary.md mit allen geprüften nautischen Begriffen, Abkürzungen und Namen.“ | A17, A18 |
+| B46 | Eine maschinenlesbare Konfiguration für Modell-ID, Voice-IDs, Wörterbuchversion und Chunking. | 20.10. e | „Dadurch vermeidest du, dass Claude bei jeder Folge andere Annahmen trifft.“ | A8 |
+| B47 | Eine automatische Prüfung vor jeder Generierung: unbekannte Regiecodes, fehlende Voice-IDs, nicht freigegebene Aussprache. | 20.10. e | „Ein automatisierter Validierungsschritt vor jeder Generierung …“ | A32 |
+| B48 | Zuerst nur eine kurze Testszene mit allen drei Figuren und schwierigen nautischen Begriffen. Wenn das funktioniert, dieselbe geprüfte Verarbeitung auf alle Folgen anwenden. | 20.10. e | „Lass Claude Opus zunächst nur eine kurze Testszene mit allen drei Figuren und einigen schwierigen nautischen Begriffen erzeugen.“ | A27 |
+| B49 | Die Zahl der Folgen ergibt sich erst aus dem Aufbau der Geschichte. | 20.10. e | „die anzahl der folgen wird erst klar, wenn wir wissen wie die geschichte etc. aufgebaut ist.“ | P15 |
+| B50 | Als Nächstes ein grober Leitfaden der Geschichte, zuerst nur SBF See. Binnen kommt eigens. | 20.10. e | „wir brauchen als nächstes einen groben leitfaden der Geschichte. erstmal nur SBF See, SBF Binnen kommt dann extra.“ | P16, VS30 |
+| B51 | Die offiziellen Referenzen für die Technik: Audio-Tags, Text to Dialogue API, Text-to-Speech Best Practices, Aussprachewörterbücher. | 20.10. e | „Die offiziellen Referenzen für die technische Umsetzung sind …“ | Bible §14.13 |
 
 ## 2. Offene Fragen
 
 | Nr | Frage | Stand und Vorschläge |
 |---|---|---|
 | O1 | ~~Welche Scheine, welche Reihenfolge?~~ | **Erledigt durch B37:** SBF See, danach Binnen als Zusatz. **Noch offen:** Gibt es später auch SKS-Folgen? Dazu gibt es keinen Beschluss. |
-| O2 | Wie viele Folgen genau? Gelten die „ca. 12–25 Folgen“ für SBF See allein oder einschließlich Binnen-Zusatz? | Teilweise erledigt durch B37. Siehe W17 zur Stoffdichte. |
+| O2 | Wie viele Folgen genau? | Die Zahl ergibt sich aus dem Aufbau der Geschichte (B49). Der Leitfaden-Entwurf (VS30) sieht für SBF See 16 Folgen vor, im Schnitt 18 Fragen pro Folge. Binnen wird eigens geplant (B50). |
 | O3 | Wie viel Geplauder neben dem Stoff? | Stufen in VS4, nicht beantwortet. |
 | O4 | Was ist das große Rätsel beziehungsweise Überthema? Ist das Finale die Prüfung bei Harms als Auflösung? | **Der Nutzer denkt sich das Überthema selbst aus (B42).** Claude macht dazu keine Vorschläge, bis der Nutzer danach fragt. „Lütt Deern“ und die Vorschläge vom 20.10. sind verworfen. Das Finale (VS25) ist nicht einzeln bestätigt. |
 | O5 | Wie werden die Rollen geschärft? Wie oft irrt Hinnerk? | Der Nutzer will es „deutlich geschärft“. Vorschläge in VS3 und VS21. |
 | O6 | Welches Erkennungszeichen hat Klabauter für „Wichtiges“? Gibt es ein Merkheft in der App? | Vorschlag: Schiffsglocke und „Krrah! Merken!“, höchstens acht Wörter, dazu ein Merkheft (VS3). In der gelobten Referenzszene verwendet, aber nicht einzeln bestätigt. |
-| O7 | Welche Anreden außer „hey Matrose“ und „hey du“? Wie oft und an welchen Stellen spricht die Crew den Hörer an? | Grundsatz erledigt durch B38 (neckend). Ideen in VS27, Häufigkeit offen. |
+| O7 | Welche neutralen, neckenden Anreden neben „hey du“? Wie oft und an welchen Stellen spricht die Crew den Hörer an? | Grundsatz erledigt durch B38 und B44 (neckend, geschlechtsneutral). Neue Ideen in VS27, Auswahl und Häufigkeit offen. |
 | O8 | ~~Schalter und Überspringen~~ | **Erledigt durch B39.** Zu bestätigen bleibt die Deutung in P55: Mit „nur zuhören“ kommen keine Fragen am Ende, übersprungene Fragen zählen nicht als falsch. |
 | O9 | Heißt „alle“ in B15 alle in der Folge behandelten Katalogfragen? | So in P56 gedeutet, bitte bestätigen. |
 | O10 | Zählen die Fragen am Ende in die 25 Minuten? | Offen. |
@@ -100,9 +108,9 @@
 | O27 | Teilen sich SBF See und Binnen die Folgen zu den 72 Basisfragen? | Vorschlag vom 19.10. (VS1), nicht beantwortet. |
 | O28 | Wie werden Hinnerks Irrtümer gebaut? Darf er falsche Katalogantworten aussprechen? Gilt bei Sicherheitsthemen nur offensichtlicher Unsinn? | Vorschlag VS6, nicht beantwortet. |
 | O29 | Stimmen die abgeleiteten Kriterien und Deutungen der Bible mit dem Gemeinten überein? | Bitte prüfen: P14, P17, P18, P22, P23, P32, P34, P35, P43, P56, P58, P59, P62, X1, X8, X9, X10. Dazu: P27/P36 übernehmen die Beschreibung von C wörtlich (Hinweis und Cliffhanger in jeder Folge), P52 deutet „ja genau“ als Zustimmung zu den derben Einzelheiten. |
-| O30 | Wo liegen Autorenskripte, Audio-Konfiguration (A8) und Ausspracheverzeichnis (A18), in welchem Format? Wie gibt der Nutzer Skripte frei (lesen, Handystimme, Stichprobe)? | Vorschläge VS14 und VS29. Für das Verzeichnis ist JSON festgelegt (A18). |
+| O30 | Passt die Form der Autorenskripte (A33)? Wie gibt der Nutzer Skripte frei (lesen, Handystimme, Stichprobe)? | Teilweise erledigt: Konfiguration in `podcast/audio_config.json` (B46), Verzeichnis in `podcast/pronunciation_dictionary.md` (B45). Die Skriptform `podcast/skripte/*.md` hat Claude für das Prüfwerkzeug festgelegt (A33), bitte bestätigen. Der Freigabeweg ist offen (VS14). |
 | O31 | Wie viel hört der Nutzer selbst ab, bevor eine Folge freigegeben wird? | Claude kann Audio nicht hören (A30). Jede Folge ganz abzuhören wären bei 12–25 Folgen etwa 5 bis 10,5 Stunden. Vorschlag VS28: automatische Rückschrift als Hilfe. |
-| O32 | Gelten die neckenden Anreden für alle Hörer gleich, auch für Hörerinnen (z. B. „Matrose“)? | Die Tonaufnahmen sind für alle gleich (R10), eine Anrede nach Geschlecht bräuchte zwei Fassungen. Nicht besprochen. |
+| O32 | ~~Gelten die Anreden auch für Hörerinnen?~~ | **Erledigt durch B44:** Alle Anreden sind geschlechtsneutral. |
 | O33 | Wer prüft die Aussprache schwieriger Begriffe (Plattdeutsch, Bairisch, Fachwörter, Ortsnamen), wenn sie unklar ist? | A19 verlangt eine verlässliche Quelle. Claude kann Aussprache nur aus Wissen und Nachschlagen bestimmen, nicht anhören. |
 
 ## 3. Widersprüchliche Aussagen
@@ -125,7 +133,7 @@
 | W14 | CLAUDE.md „Nach der Veröffentlichung: Folgen für SKS und Binnen“ gegen B24 (Binnen am Chiemsee) und die verschobene Veröffentlichung. | **Gelöst durch B37:** Binnen kommt als Zusatz nach SBF See. CLAUDE.md ist angepasst, für SKS gibt es keinen Beschluss (O1). |
 | W15 | Die gelobte Referenzszene (B25) verwendet den verworfenen Namen „Lütt Deern“ (B22). | In Anhang A der Bible vermerkt. |
 | W16 | CLAUDE.md §4 nennt „Teil 2 rund 56.000 Zeichen“, gemessen sind heute 37.191 Zeichen (27.862 in Folgen und 9.329 in Kurzgeschichten, ohne eingesetzte Katalogantworten). | Durch B17 ohne Bedeutung, nur zur Information. |
-| W17 | **Stoffdichte:** 12–25 Folgen zu je 25 Minuten (etwa 5 bis 10,5 Stunden) gegen alle Fragen und Praxis (B3) als spannende Geschichte mit Geplauder (B4, B11). | **Offen, wichtig.** SBF See hat 285 Fragen, Binnen bringt etwa 228 eigene dazu (300 minus 72 gemeinsame Basisfragen), zusammen rund 513. Daraus folgt: Bei 12 Folgen kommen etwa 43 Fragen auf eine Folge, also etwa 35 Sekunden pro Frage, und für Geschichte und Geplauder bleibt kaum Platz. Bei 25 Folgen sind es etwa 21 Fragen pro Folge. Gelten die 12–25 nur für SBF See, liegen die Werte bei 11 bis 24 Fragen pro Folge. Nicht entschieden. Claude empfiehlt, die Zahl erst nach dem Stoffplan festzulegen. |
+| W17 | **Stoffdichte:** 12–25 Folgen zu je 25 Minuten gegen alle Fragen und Praxis (B3) als spannende Geschichte mit Geplauder (B4, B11). | **Entschärft durch B49 und B50:** Die Zahl ergibt sich aus der Geschichte, Binnen wird eigens geplant. Der Leitfaden für SBF See (VS30) kommt auf 16 Folgen mit 11 bis 23 Fragen, im Schnitt 18. Ob das in 25 Minuten mit Geschichte und Geplauder passt, zeigt erst das erste ausgeschriebene Skript. |
 | W18 | Das AR spricht von „zwölf Folgen“, B37 von „ca. 12–25 Folgen“. | In der Bible auf „alle Folgen“ verallgemeinert. |
 | W19 | Das AR sieht grundsätzlich nur drei Charakterstimmen vor, B23 verlangt Gastrollen mit eigenen Stimmen, dazu kommen Harms und der Bayer. | In A25 angepasst: Jede Figur, auch Gäste, hat eine feste Stimme. Laut Doku sind bis zu 10 Stimmen pro Anfrage möglich. |
 | W20 | Das AR verlangt, Beiträge ohne Funktion zu streichen und Wiederholungen zu vermeiden. Gewollt sind aber Geplauder (B4) und Klabauters Wiederholungen (B6). | In A3 und A4 angepasst: Humor, Figur und Atmosphäre zählen als Funktion, Klabauters Wiederholungen und Rückgriffe sind erlaubt. |
@@ -177,9 +185,10 @@ Alle hier aufgeführten Vorschläge stammen von Claude. Sie gelten nicht als Reg
 | VS24 | **Beispielszene „Nebel“** (Text unten) | 19.10. | Vom Nutzer nicht ausdrücklich bewertet |
 | VS25 | **Staffelfinale:** Die Prüfung mit Harms ist zugleich die Auflösung des großen Rätsels. | 20.10. a | Gehörte zur Beschreibung von C, nicht einzeln bestätigt (O4, W5) |
 | VS26 | **Probe:** Die erste Szene (Kaltstart und erster Akt, etwa 4 Minuten) wird ausformuliert und mit der kostenlosen Handystimme angehört. | 20.10. a | Unbeantwortet. B16 regelt nur den ElevenLabs-Test. |
-| VS27 | **Neckende Anreden** neben „hey Matrose“ und „hey du“, möglichst geschlechtsneutral. Hinnerk: „Moses“ (alter Seemannsausdruck für den Jüngsten an Bord), „Landratte“, „Badewannen-Kapitän“ (CLAUDE.md §3), „Sonntagssegler“. Smilla: „Frischling“, „Kapitän Ahnungslos“, beim Binnen „Süßwassermatrose“. Klabauter: „Grünschnabel! Grünschnabel!“ (ein Papagei, der andere Grünschnabel nennt). | 20.10. d | Vorschlag auf die Frage „was fällt dir noch ein“ |
+| VS27 | **Neckende, geschlechtsneutrale Anreden** neben „hey du“ (zweite Fassung nach B44). Diese Wörter werden für alle verwendet, egal welches grammatische Geschlecht sie haben.<br>Hinnerk: „Landratte“, „Schietbüdel“ (Plattdeutsch, liebevoll derb), „Dösbaddel“ (Plattdeutsch), „Kielschwein“ (ein Bauteil im Rumpf).<br>Smilla: „Frischling“, „Landei“, „Seegurke“, „Bordküken“.<br>Klabauter: „Grünschnabel! Grünschnabel!“ (ein Papagei, der andere Grünschnabel nennt).<br>Gestrichen: „Moses“ (B44), „Matrose“ (B44), „Badewannen-Kapitän“, „Sonntagssegler“, „Kapitän Ahnungslos“ und „Süßwassermatrose“ (nicht neutral). | 20.10. e | Vorschlag auf die Frage „gibt es gute genderneutrale anreden die necken?“ |
 | VS28 | **Automatische Rückschrift:** Das fertige Audio wird per Spracherkennung zurück in Text verwandelt und mit dem Skript verglichen. Das findet fehlende oder verschluckte Wörter und hörbare Codes. Natürlichkeit und Betonung findet es nicht. | 20.10. d | Unbeantwortet (O31). Kostet je nach Dienst Credits oder braucht ein lokales Programm. |
-| VS29 | **Ablage:** Autorenskripte, Konfiguration und Ausspracheverzeichnis in einem eigenen Ordner, z. B. `data/podcast/` (Skripte je Folge, `aussprache.json`, `audio-konfig.json`). Die fertigen Audiodateien getrennt vom Stimmenpaket. | 20.10. d | Unbeantwortet (O30) |
+| VS29 | **Ablage:** Autorenskripte, Konfiguration und Ausspracheverzeichnis in einem eigenen Ordner. Die fertigen Audiodateien getrennt vom Stimmenpaket. | 20.10. d | Mit B45 bis B47 umgesetzt als Ordner `podcast/`. Der Ort der Audiodateien ist offen (O21). |
+| VS30 | **Leitfaden der Geschichte SBF See** in `podcast/leitfaden-sbf-see.md`.<br>Rahmen: eine Saison an der Schlei vom Einkranen bis zum Auskranen. Route Schlei, Kieler Bucht, Nord-Ostsee-Kanal, Elbe, Helgoland, Watt und zurück. 16 Folgen mit je einem Fall und Rätsel.<br>Figurenbögen: Hinnerks schlechte Nachtsicht bis zur Übergabe des Ruders, Smilla wird Schiffsführerin, Papagei gegen Katze.<br>Grober Stoffplan: alle 285 Fragen genau einmal zugeordnet, alle sechs Prüfungsmanöver und die Knoten verteilt. Das Überthema ist bewusst offen gelassen (B42). | 20.10. e | Entwurf, wartet auf den Nutzer |
 
 **VS3 im Einzelnen (Figurenvorschlag vom 19.10.):**
 - **Hinnerk („kennt das Meer“):**
@@ -265,6 +274,7 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 |---|---|
 | 20.10.2026 | Bible und Status erstmals angelegt aus dem Podcast-Gespräch vom 19.–20.10.2026, früheren Aussagen des Nutzers (05.–10.10.) und den Projektdateien. Die Vorschläge aus Claudes Nachricht vom 20.10. nach der A/B/C-Bewertung wurden auf Wunsch des Nutzers weggelassen. App-Code ist nicht geändert. |
 | 20.10.2026 | Zweite Fassung mit den Antworten des Nutzers (B37–B43).<br>Geändert in der Bible: P15, P16, P20 (entfällt), P47, P48, P55, X4, X9, P61, P68 und die Prüfliste.<br>Neu ist Bible §14 „Sprechregie, Aussprache und Audioproduktion“ (A1–A31) aus dem Audio-Regelwerk des Nutzers. Es wurde kritisch geprüft und angepasst, die Abweichungen stehen in Abschnitt 9.<br>ElevenLabs-Angaben per Websuche geprüft.<br>App-Code ist nicht geändert. |
+| 20.10.2026 | Dritte Fassung (B44–B51).<br>Neu angelegt:<br>• `podcast/audio_config.json` (A8),<br>• `podcast/pronunciation_dictionary.md` mit Version 1 und allen Einträgen auf `offen` (A17, A18),<br>• `tools/podcast-pruefen.js` (A32), mit Probeskripten getestet; die Entwurfsprüfung läuft im pre-commit,<br>• Skriptform festgelegt (A33),<br>• Leitfaden-Entwurf `podcast/leitfaden-sbf-see.md` (VS30).<br>In der Bible geändert: P15, P16, P48, A8, A18, A27, neu ist §14.13. App-Code ist nicht geändert. |
 
 ## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
 
@@ -283,7 +293,7 @@ Der Nutzer hat das Regelwerk „Sprechregie, Aussprache und Audioproduktion“ g
 | 4 Interne Regiecodes | übernommen (A7), ergänzt | Kategorie `FRAGE` hinzugefügt, damit die Fragenzuordnung (P17) maschinenlesbar ist |
 | 5 Audio-Tags | übernommen (A14) | Kandidatenliste bleibt experimentell bis zum Test |
 | 6 Pausen | übernommen (A15) | SSML-Pausen bei v3 nicht unterstützt, bei v4 nicht bestätigt |
-| 7 Aussprache | übernommen (A17–A21), angepasst | JSON statt YAML (R11). Plattdeutsch und Bairisch ergänzt. „Zwölf Folgen“ auf „alle Folgen“ verallgemeinert (W18). Unterstützung von Wörterbüchern und IPA bei v4 nicht bestätigt (F9). |
+| 7 Aussprache | übernommen (A17–A21), angepasst | Statt YAML erst JSON (R11), nach Wunsch des Nutzers (B45) dann eine eigene Markdown-Datei mit Tabellen, die das Prüfwerkzeug liest. Plattdeutsch und Bairisch ergänzt. „Zwölf Folgen“ auf „alle Folgen“ verallgemeinert (W18). Unterstützung von Wörterbüchern und IPA bei v4 nicht bestätigt (F9). |
 | 8 Zahlen, Abkürzungen, Prüfungswissen | übernommen (A22–A24) | Der AR-Punkt zu „gesprochenen Prüfungsfragen“ gilt hier für Kataloginhalte im Dialog. Die Fragen am Folgenende erscheinen als Text in der App (P58). |
 | 9 Charakterprofile | übernommen (A25), angepasst | Das Profil-Raster ist übernommen. Die Inhalte gehören zur offenen Schärfung (O5), Claude setzt sie nicht eigenmächtig fest. Gäste haben auch feste Stimmen (W19). |
 | 10.1 Jeder Beitrag mit Funktion | angepasst (A3) | Humor, Figur und Atmosphäre zählen als Funktion, sonst würde das gewollte Geplauder gestrichen (W20) |
