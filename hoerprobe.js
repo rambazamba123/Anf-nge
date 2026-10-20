@@ -21,7 +21,7 @@
       const m = z.match(/^([A-ZÄÖÜ][A-ZÄÖÜ0-9_]*):\s*(.*)$/);
       if (!m) { if (/\[\[\s*PAUSE\s*:\s*dramatisch\s*\]\]/.test(z) && teile[teile.length - 1].length) { teile.push([]); n = 0; vorweg = tagVon('PAUSE', 'dramatisch'); } continue; }
       const f = fig[m[1]];
-      if (!f || !f.voice_id) { fehler.push(`Zeile ${i + 1}: keine Stimme für ${m[1]}`); continue; }
+      if (!f || !f.voice_id) { if (!fehler.includes(m[1])) fehler.push(m[1]); continue; }
       let text = m[2].replace(CODE, (_, kat, wert) => ' ' + tagVon(kat, wert) + ' ').replace(/\s+/g, ' ').trim();
       if (!text) continue;
       if (vorweg) { text = vorweg + ' ' + text; vorweg = ''; }
@@ -36,8 +36,10 @@
     if (!(await kiEinwilligung())) return sag('Ohne Einwilligung kein Test.');
     sag('Lade Skript …');
     const [cfg, txt] = await Promise.all([fetch('podcast/audio_config.json?v=' + Date.now()).then(r => r.json()), fetch('podcast/skripte/' + skript + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Skript fehlt (HTTP ${r.status})`); return r.text(); })]);
+    /* Stimmen aus dem Casting auf diesem Gerät gehen vor (S.cfg.casting, casting.js) */
+    for (const [id, v] of Object.entries((S.cfg && S.cfg.casting) || {})) if (v && v.id) cfg.figuren[id] = {...(cfg.figuren[id] || {}), voice_id: v.id};
     const {teile, fehler} = zerlege(txt, cfg);
-    if (fehler.length) return sag(fehler.join(' · '));
+    if (fehler.length) return sag(`Noch keine Stimme für: ${fehler.join(', ')}. Bitte erst im Stimmen-Casting zuordnen.`);
     const zeichen = teile.reduce((s, t) => s + t.reduce((a, b) => a + b.text.length, 0), 0);
     if (!confirm(`Hörprobe mit ${modell}: ${teile.length} Anfragen, etwa ${zeichen} Zeichen (so viele Credits ungefähr). Erzeugen?`)) return sag('Abgebrochen.');
     const blobs = [];

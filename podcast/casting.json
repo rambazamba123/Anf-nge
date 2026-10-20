@@ -1,17 +1,88 @@
 {
-  "_hinweis": "Stimmen-Casting für den Kajütenfunk (PODCAST_STATUS.md B76). Jede Rolle stellt sich mit einem kurzen Satz vor. Eine Stimme, die neu vorsprechen soll, sagt vorher ihren Namen (vorspann). Audio-Tags in eckigen Klammern sind Eleven-v4-Kandidaten. Gastrollen sind Vorschläge (O14).",
+  "_hinweis": "Stimmen-Casting für den Kajütenfunk (PODCAST_STATUS.md B76). Jede Rolle stellt sich mit einem kurzen Satz vor. Eine Stimme, die neu vorsprechen soll, sagt vorher ihren Namen (vorspann). Audio-Tags in eckigen Klammern sind Eleven-v4-Kandidaten. Gastrollen sind Vorschläge (O14). wunsch = vom Nutzer am 20.10. ausgesuchte Stimme (B95).",
   "vorspann": "Hier spricht die Stimme {name}.",
   "rollen": [
-    {"id": "HINNERK", "name": "Käpt'n Hinnerk", "art": "Crew", "satz": "Moin. Ich bin Käpt'n Hinnerk. Auf dem Boot bin ich für alles zuständig. [sighs] Vor allem für das, was die anderen kaputt machen."},
-    {"id": "SMILLA", "name": "Smilla", "art": "Crew", "satz": "Ich bin Smilla. Ich bin für die Karten, die Regeln und den Käpt'n zuständig. [laughs] Einer muss ja aufpassen, dass er nicht auf Grund läuft."},
-    {"id": "KLABAUTER", "name": "Klabauter", "art": "Crew", "satz": "[excited] Klabauter! Klabauter! Ich bin der Bordpapagei. Zuständig für Krach und Kekse! [whispers] Und ich höre alles. Alles!"},
-    {"id": "HARMS", "name": "Kapitän Harms", "art": "Prüfer", "satz": "Harms. Ich bin der Prüfer. [pause] Ich bin dafür zuständig, dass niemand mit Halbwissen aufs Wasser kommt. Noch Fragen?"},
-    {"id": "QUIRIN", "name": "Quirin", "art": "Mitsegler", "satz": "[laughs] Servus! Ich bin der Quirin, Bergführer vom Chiemsee. An Bord bin ich fürs gute Wetter zuständig. [gulps] Wobei, mir ist grad a bissl schlecht."},
-    {"id": "SPRITZTOURER", "name": "Der Spritztourer (Folge 1)", "art": "Gast", "satz": "Äh, hallo. Ich bin der, der nachts … also, ich hab mir das Boot nur kurz geliehen. [nervous] Ist doch nix passiert, oder?"},
-    {"id": "POLIZEI", "name": "Wasserschutzpolizei (Folge 7)", "art": "Gast", "satz": "Wasserschutzpolizei, guten Tag. Ich bin hier für die Kontrolle zuständig. [pause] Den Führerschein und die Bootspapiere, bitte."},
-    {"id": "FISCHER", "name": "Fischer (Folge 9)", "art": "Gast", "satz": "Moin. Ich fahr den Kutter da drüben. Zuständig für Netze, Fisch und schlechte Laune. [shouts] Und jetzt runter von meinen Netzen!"},
-    {"id": "FUNK", "name": "Verkehrszentrale über Funk (Folge 11)", "art": "Gast", "satz": "Hier spricht die Verkehrszentrale. Ich bin für die Lageberichte auf dem Revier zuständig. Die Sicht ist schlecht. Alle Fahrzeuge fahren bitte mit äußerster Vorsicht."},
-    {"id": "HAFENMEISTER", "name": "Hafenmeister", "art": "Gast", "satz": "Ich bin hier der Hafenmeister. Zuständig für Liegeplätze und Hafengeld. [sarcastic] Und für Segler, die in die falsche Box fahren."},
-    {"id": "ERZAEHLER", "name": "Erzählstimme (nur falls gewünscht, O15)", "art": "Erzähler", "satz": "Flensburg, im Frühjahr. Die Saison hat noch nicht begonnen. Aber auf der Werft ist schon jemand wach. [whispers] Viel zu wach."}
+    {
+      "id": "HINNERK",
+      "name": "Käpt'n Hinnerk",
+      "art": "Crew",
+      "satz": "Moin. Ich bin Käpt'n Hinnerk. Auf dem Boot bin ich für alles zuständig. [sighs] Vor allem für das, was die anderen kaputt machen.",
+      "wunsch": "Bill"
+    },
+    {
+      "id": "SMILLA",
+      "name": "Smilla",
+      "art": "Crew",
+      "satz": "Ich bin Smilla. Ich bin für die Karten, die Regeln und den Käpt'n zuständig. [laughs] Einer muss ja aufpassen, dass er nicht auf Grund läuft.",
+      "wunsch": "Lily"
+    },
+    {
+      "id": "KLABAUTER",
+      "name": "Klabauter",
+      "art": "Crew",
+      "satz": "[excited] Klabauter! Klabauter! Ich bin der Bordpapagei. Zuständig für Krach und Kekse! [whispers] Und ich höre alles. Alles!",
+      "wunsch": "Wally"
+    },
+    {
+      "id": "HARMS",
+      "name": "Kapitän Harms",
+      "art": "Prüfer",
+      "satz": "Harms. Ich bin der Prüfer. [pause] Ich bin dafür zuständig, dass niemand mit Halbwissen aufs Wasser kommt. Noch Fragen?"
+    },
+    {
+      "id": "QUIRIN",
+      "name": "Quirin",
+      "art": "Mitsegler",
+      "satz": "[laughs] Servus! Ich bin der Quirin, Bergführer vom Chiemsee. An Bord bin ich fürs gute Wetter zuständig. [gulps] Wobei, mir ist grad a bissl schlecht.",
+      "wunsch": "George"
+    },
+    {
+      "id": "FRIEDA",
+      "name": "Frieda (Hinnerks Frieda, Kneipenwirtin)",
+      "art": "Crew an Land",
+      "satz": "Moin, min Jung. Ich bin Frieda. Ich bin für die Kneipe zuständig, für den Grog und für Hinnerk. [laughs] Das Letzte ist der härteste Job.",
+      "wunsch": null
+    },
+    {
+      "id": "SPRITZTOURER",
+      "name": "Der Spritztourer (Folge 1)",
+      "art": "Gast",
+      "satz": "Äh, hallo. Ich bin der, der nachts … also, ich hab mir das Boot nur kurz geliehen. [nervous] Ist doch nix passiert, oder?"
+    },
+    {
+      "id": "POLIZEI",
+      "name": "Wasserschutzpolizistin (Folge 7)",
+      "art": "Gast",
+      "satz": "Wasserschutzpolizei, guten Tag. Ich bin hier für die Kontrolle zuständig. [pause] Den Führerschein und die Bootspapiere, bitte.",
+      "wunsch": "Selena"
+    },
+    {
+      "id": "FISCHER",
+      "name": "Fischer (Folge 10)",
+      "art": "Gast",
+      "satz": "Moin. Ich fahr den Kutter da drüben. Zuständig für Netze, Fisch und schlechte Laune. [shouts] Und jetzt runter von meinen Netzen!",
+      "wunsch": "Dr. von Quirky"
+    },
+    {
+      "id": "FUNK",
+      "name": "Verkehrszentrale über Funk (Folge 14)",
+      "art": "Gast",
+      "satz": "Hier spricht die Verkehrszentrale. Ich bin für die Lageberichte auf dem Revier zuständig. Die Sicht ist schlecht. Alle Fahrzeuge fahren bitte mit äußerster Vorsicht.",
+      "wunsch": "Mats"
+    },
+    {
+      "id": "HAFENMEISTER",
+      "name": "Hafenmeisterin",
+      "art": "Gast",
+      "satz": "Ich bin hier die Hafenmeisterin. Zuständig für Liegeplätze und Hafengeld. [sarcastic] Und für Segler, die in die falsche Box fahren.",
+      "wunsch": "Lucinda"
+    },
+    {
+      "id": "ERZAEHLER",
+      "name": "Erzählstimme (Reserve, eigentlich kein Erzähler)",
+      "art": "Erzähler",
+      "satz": "Flensburg, im Frühjahr. Die Saison hat noch nicht begonnen. Aber auf der Werft ist schon jemand wach. [whispers] Viel zu wach.",
+      "wunsch": "Severin"
+    }
   ]
 }

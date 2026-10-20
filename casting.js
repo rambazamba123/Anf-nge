@@ -42,13 +42,14 @@
     const r = cast.rollen.find(x => x.id === rolle), a = ist(r.id);
     const eigen = stimmen.slice().sort((x, y) => (a && y.id === a.id) - (a && x.id === a.id) || x.name.localeCompare(y.name));
     w.querySelector('#cst').innerHTML = `<p class="small" style="margin:6px 0"><b>${esc(r.name)}</b>: „${esc(r.satz.replace(/\[[^\]]*\]\s*/g, ''))}“</p>
-      <p class="small muted" style="margin:0 0 6px">Jetzt: <b>${a ? esc(a.name === 'bisher' ? (stimmen.find(v => v.id === a.id) || {name: 'Stimme aus dem Paket'}).name : a.name) : 'noch keine'}</b></p>
+      <p class="small muted" style="margin:0 0 6px">Jetzt: <b>${a ? esc(a.name === 'bisher' ? (stimmen.find(v => v.id === a.id) || {name: 'Stimme aus dem Paket'}).name : a.name) : 'noch keine'}</b>${r.wunsch ? ` · Wunsch: <b>${esc(r.wunsch)}</b>` + (stimmen.some(v => v.name.toLowerCase().startsWith(r.wunsch.toLowerCase())) ? '' : ` <button class="btn ghost small" data-such="${esc(r.wunsch)}">🔎 in der Bibliothek suchen</button>`) : ''}</p>
       ${eigen.map(v => zeile(v, r)).join('') || '<p class="small muted">Keine Stimmen im Konto gefunden.</p>'}`;
     w.querySelectorAll('[data-pr]').forEach(b => b.onclick = async () => {
       const v = stimmen.find(x => x.id === b.dataset.pr);
       try { const url = await probe(r, v, t => info(w, t)); info(w, ''); rolleSeite(w); await spiel(url); }
       catch (e) { info(w, e.message === 'abgebrochen' ? '' : 'Ging nicht: ' + (e.message || e.code)); }
     });
+    w.querySelectorAll('[data-such]').forEach(b => b.onclick = () => { w.querySelector('#cbq').value = b.dataset.such; w.querySelector('details').open = true; bibliothek(w); w.querySelector('#cbib').scrollIntoView({behavior: 'smooth'}); });
     w.querySelectorAll('[data-nimm]').forEach(b => b.onclick = () => {
       const v = stimmen.find(x => x.id === b.dataset.nimm); zuord()[r.id] = {id: v.id, name: v.name}; save(); rolleSeite(w); chips(w);
     });
@@ -72,10 +73,11 @@
   /* Deutsche Stimmen aus der ElevenLabs-Bibliothek: Hörbeispiel gratis, auf Wunsch ins Konto holen */
   async function bibliothek(w, seite = 0) {
     const el = w.querySelector('#cbib'); el.innerHTML = '<p class="small muted">Lade …</p>';
-    const g = w.querySelector('#cbg').value;
-    const r = await fetchT(`${EL_BASE}/v1/shared-voices?language=de&page_size=20&page=${seite}${g ? '&gender=' + g : ''}`, {headers: {'xi-api-key': elKey()}}, 20000);
+    const g = w.querySelector('#cbg').value, q = w.querySelector('#cbq').value.trim();
+    const r = await fetchT(`${EL_BASE}/v1/shared-voices?language=de&page_size=20&page=${seite}${g ? '&gender=' + g : ''}${q ? '&search=' + encodeURIComponent(q) : ''}`, {headers: {'xi-api-key': elKey()}}, 20000);
     if (!r.ok) { const d = await errDetail(r); el.innerHTML = `<p class="small">Bibliothek ging nicht: HTTP ${r.status} ${esc(d.msg || '')}</p>`; return; }
     bib = (await r.json()).voices || [];
+    if (!bib.length) { el.innerHTML = `<p class="small">Nichts gefunden${q ? ` für „${esc(q)}“` : ''}.</p>`; return; }
     el.innerHTML = bib.map((v, i) => `<div style="margin:6px 0;padding:8px;border-radius:12px;border:1px solid var(--line)"><b>${esc(v.name)}</b> <small class="muted">${esc([v.gender, v.age, v.accent, v.use_case, (v.description || '').slice(0, 80)].filter(Boolean).join(' · '))}</small>
       <div style="display:flex;gap:6px;margin-top:6px">${v.preview_url ? `<button class="btn ghost small" style="flex:1" data-bh="${i}">▶ gratis</button>` : ''}<button class="btn ghost small" style="flex:1" data-bn="${i}">➕ holen</button></div></div>`).join('')
       + `<div class="row"><button class="btn ghost small" id="cbw">Weitere Stimmen</button></div>`;
@@ -84,7 +86,7 @@
       const v = bib[+b.dataset.bn];
       const q = await fetchT(`${EL_BASE}/v1/voices/add/${v.public_owner_id}/${v.voice_id}`, {method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json'}, body: JSON.stringify({new_name: v.name})}, 20000);
       if (!q.ok) { const d = await errDetail(q); b.textContent = 'ging nicht'; LOG.add('casting', `holen HTTP ${q.status} ${d.msg}`); info(w, `Holen ging nicht: HTTP ${q.status} ${d.msg || ''}`); return; }
-      b.textContent = '✔ geholt'; stimmen = await VOX.listVoices(true); if (rolle) rolleSeite(w);
+      b.textContent = '✔ geholt'; stimmen = await VOX.listVoices(true); if (rolle) rolleSeite(w); info(w, `${v.name} ist jetzt in deinem Konto. Oben bei der Rolle „nehmen“ tippen.`);
     });
     el.querySelector('#cbw').onclick = () => bibliothek(w, seite + 1);
   }
@@ -102,6 +104,7 @@
       <div class="row" style="margin-top:10px"><button class="btn ki" id="crunde">▶ Vorstellungsrunde aller Zugeordneten</button></div>
       <details style="margin-top:10px"><summary><b>Mehr deutsche Stimmen aus der ElevenLabs-Bibliothek</b></summary>
         <p class="small muted">Hörbeispiele sind gratis. „Holen“ legt die Stimme in dein Konto, danach steht sie oben zur Auswahl.</p>
+        <input id="cbq" placeholder="Name suchen, z. B. Wally" style="width:100%;margin-bottom:6px">
         <select id="cbg"><option value="">alle</option><option value="male">männlich</option><option value="female">weiblich</option></select>
         <button class="btn ghost small" id="cbl">Laden</button><div id="cbib"></div></details>
       <h4>Zuordnung an Claude schicken</h4><textarea id="ctx" rows="6" style="width:100%" readonly></textarea>

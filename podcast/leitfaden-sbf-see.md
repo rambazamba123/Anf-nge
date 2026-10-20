@@ -5,7 +5,7 @@
 > **Abdeckung geprüft:** Alle 285 Katalogfragen sind genau einer Folge zugeordnet (Tabelle unten, Prüfskript in diesem Lauf).
 
 ## 1. Die Idee in fünf Sätzen
-1. Eine Segelsaison mit der alten Yacht **Frieda**: von Flensburg über Kiel, den Nord-Ostsee-Kanal, die Elbe, Helgoland und das Wattenmeer und zurück nach Flensburg.
+1. Eine Segelsaison mit der alten Yacht **Frieda**, benannt nach Hinnerks Frieda, die in Flensburg eine Kneipe hat: von Flensburg über Kiel, den Nord-Ostsee-Kanal, die Elbe, Helgoland und das Wattenmeer und zurück nach Flensburg.
 2. Am Anfang wettet Kapitän Harms mit Käpt'n Hinnerk, dass er keine Saison ohne Regelverstoß schafft. Smillas **Logbuch** ist der Schiedsrichter.
 3. Jede Folge ist ein eigener kleiner Fall mit Rätsel zum Mitraten. Das Wissen, das man zum Lösen braucht, sind genau die Prüfungsinhalte.
 4. Über allem hängt eine zweite Frage: **Woher weiß Harms immer, was an Bord passiert?** Die Antwort ist fair versteckt: Klabauter plappert am Telefon alles nach.
@@ -41,7 +41,7 @@
 - **Mitraten ist fair:** Jedes Rätsel lässt sich mit Wissen lösen, das vorher gesagt wurde. Hörer erkennen Hinnerks Verstöße oft vor Smilla.
 - **Drei Merkhilfen:**
   - Klabauters „Krrah! Merken!“ mit Schiffsglocke, kurz und immer richtig (P43).
-  - Mudder Friedas Sprüche: Hinnerk zitiert seine Mutter, nach der das Boot heißt. Ihre plattdeutschen Sprüche sind oft echte Merksätze, z. B. „Rot to Rot, Gröön to Gröön, denn is allens schöön“ für Begegnungen bei Nacht. Sie werden fachlich geprüft.
+  - **Friedas Tresensprüche:** Frieda, Hinnerks Frau oder Freundin, nach der das Boot heißt, gibt der Crew Sprüche mit auf den Weg, am Telefon oder vorher in der Kneipe. Hinnerk zitiert sie ständig. Ihre plattdeutschen Sprüche sind oft echte Merksätze, z. B. „Rot to Rot, Gröön to Gröön, denn is allens schöön“ für Begegnungen bei Nacht. Jeder wird fachlich geprüft.
   - Smillas drei Logbuch-Merksätze am Ende.
 - **Hinnerk darf irren** (B88), auch mit falschen Katalogantworten. Smilla berichtigt in derselben Szene. Bei Sicherheit irrt er nur offensichtlich.
 - **Praxis:** Manöver und Knoten kommen als Szenen vor. Geübt wird in der App (Manöverspiel, Knotenbrett), am Ende der Folge mit Hinweis darauf.
@@ -49,7 +49,7 @@
 ## 5. Die großen Bögen
 
 ### Die Wette (Hauptbogen)
-- **Folge 1:** Harms kommt auf die Werft, erklärt kurz, wie er prüft, und wettet. Einsatz: Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot (beschlossen). Was Harms bei einer Niederlage leisten muss, ist noch offen. Das Logbuch muss ehrlich sein.
+- **Folge 1:** Harms kommt auf die Werft, erklärt kurz, wie er prüft. Am Abend wird in Friedas Kneipe gewettet. Einsatz: Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot (beschlossen). Was Harms bei einer Niederlage leisten muss, ist noch offen (Vorschläge VS45). Das Logbuch muss ehrlich sein.
 - **Steigerung:** In jeder Folge gibt es einen Moment, an dem die Wette wackelt. Die gefährlichsten:
   - Polizei (7)
   - Fischernetz (10)
@@ -77,7 +77,7 @@
 - Kennt jede Welle und jeden Hafen. Er kann Manöver, Wetter vom Gefühl her und Garn, aber nachts sieht er schlecht und verschweigt es wegen der Wette.
 - **Saat:** In Folge 1 kneift er vor der Laterne die Augen zusammen, in Folge 9 verwechselt er Lichter. In Folge 19 gesteht er.
 - **Garn pro Folge:** eine Meerjungfrau, ein Klabautermann oder ein Geisterschiff, doppeldeutig erzählt, von Smilla geerdet.
-- **Mudder Frieda:** Seine Mutter, nach der das Boot heißt, war Fischerfrau in Flensburg. Hinnerk zitiert sie ständig.
+- **Frieda:** Hinnerks Frau oder Freundin (B93). Sie bleibt lieber an Land und betreibt in Flensburg eine Kneipe. Dort wird die Wette geschlossen, dort endet die Staffel. Unterwegs ruft sie an. Sie ist der warme Gegenpol zu Harms und durchschaut Hinnerk sofort.
 
 ### Smilla
 - Hat SBF See und Binnen, weiß alles aus den Büchern, frech und schnell. Ihr fehlt die Erfahrung mit echtem Mist.
@@ -106,16 +106,16 @@ Akt I **Frühjahr in Flensburg** (1–5) · Akt II **Sommer auf der Ostsee** (6�
 | 1 | Die Spritztour | Werft Flensburg, Einkranen | Der Motor ist warm, die Dreifarbenlaterne brennt. Wer war nachts mit der Frieda draußen? Wer die Lichter falsch setzt, verrät sich. | Schiffsführer, in Fahrt, Fahrerlaubnis, Luv und Lee, Lichter Grundlagen, Segler mit Motor | – | Harms' Prolog und die Wette. Der Spritztourer wird überführt. Haken: Harms ruft an und weiß schon davon. |
 | 2 | Der Motor kocht | Hafen Flensburg, Probefahrt | Die Temperatur steigt, es riecht nach Gas, Backbord will nicht in die Kajüte. Zwei Rätsel, ein Täter: das Seeventil. | Motorüberwachung, Störungen, Tanken, Gasanlage, Quickstopp, Boot verlassen, Sicherheitseinweisung | Sicherheitseinweisung | Erste Wette-Gefahr. Haken: Hinnerk will mit 1987er Karten los. |
 | 3 | Hinnerks Karten von 1987 | Regentag beim Schiffsausrüster | Hinnerk kauft billig eine Laterne im Internet und navigiert nach alten Karten. Warum ist beides verboten bzw. gefährlich? | Seekarten berichtigen, Tiefen, Karte 1, Handbücher, Leuchtfeuerverzeichnis, KVR und Seeschifffahrtsstraßen-Ordnung, BSH-Baumuster, Rettungsmittel, Antifouling | – | Harms' Spion-Spur 1. Haken: Ablegen morgen. |
-| 4 | Volle Förde | Flensburger Hafen und Innenförde | Hinnerk legt immer nur an Backbord an, „weil Mudder das so wollte“. Er hat recht, nur aus anderem Grund. | Radeffekt, Propeller, Anlegen (Winkel, gegen Wind und Strom), Ruderwirkung, Sog und Schwell, Begegnen in engem Fahrwasser | Ablegen, Anlegen; Webeleinstek, Klampe belegen | Hinnerk glänzt. Pommes taucht auf. |
+| 4 | Volle Förde | Flensburger Hafen und Innenförde | Hinnerk legt immer nur an Backbord an, „weil Frieda das so will“. Er hat recht, nur aus anderem Grund. | Radeffekt, Propeller, Anlegen (Winkel, gegen Wind und Strom), Ruderwirkung, Sog und Schwell, Begegnen in engem Fahrwasser | Ablegen, Anlegen; Webeleinstek, Klampe belegen | Hinnerk glänzt. Pommes taucht auf. |
 | 5 | Rot an Steuerbord | Ausfahrt aus der Förde | Smilla will Rot an Backbord lassen, Hinnerk widerspricht. Wer hat recht? Hinnerk, denn sie fahren hinaus. | Fahrwasser, Betonnung lateral, Abzweigungen, Mitte-Tonne, Feuerfarben, Vorfahrt im Fahrwasser | Achtknoten (Schoten) | Erste Segel. Haken: Kieler Woche. |
 | 6 | Kieler Woche | Kieler Förde | Regattagewühl. Ein Segler brüllt „Segel vor Motor!“, aber sein Motor läuft. Wer muss wem ausweichen? | Ausweichregeln: Kurshalter, Ausweichpflicht, Überholen, Manöver des letzten Augenblicks, Peilung steht, Segler untereinander | – | **Quirin kommt an Bord** („Servus, Hinni!“). Haken: Die Polizei folgt ihnen. |
 | 7 | Anhalten! | Kieler Bucht, Schießgebiet | Ein Polizeiboot fordert zum Anhalten auf. Warum? Daneben schießt die Marine. | Behördenfahrzeuge, Anhaltesignal, Sperr- und Warngebiete, Schießgebiet, Gefahr- und Warnsignal, Sperrung | Kursgerechtes Aufstoppen | Knappste Wette-Gefahr bisher. Spion-Spur 2. |
 | 8 | Die Badebucht | Ankerbucht an der Ostseeküste | Ein Wassermotorrad rast durch die Badestelle, Öl schillert, und Quirin ankert mitten im Weg. | Ankern (wo nicht, hält er?), Ankerlicht, Badebetrieb und Tempo, Wassersport, Überholverbot, Umwelt und Abfall, Schilf | Webeleinstek auf Slip (Beiboot) | Garn: die Meerjungfrau von der Bucht. |
 | 9 | Nachtfahrt | Kieler Bucht, Nacht | Ringsum Lichter, und Hinnerk liegt zu oft daneben. Schiff für Schiff an den Lichtern erkennen. | Lichter: Maschinenfahrzeuge, Schleppverbände, Segler, Ankerlieger, Grundsitzer, kleine Boote | – | Smilla ahnt etwas über Hinnerks Augen. |
 | 10 | Grün über Weiß | Kieler Bucht, Morgengrauen | Ein Fischer brüllt, ein Bagger blinkt, wer weicht hier wem aus? | Fischer (Lichter, Signalkörper), Baggerschiffe, manövrierbehindert, Ausweichen gegenüber Fischern und Behinderten | – | Fast in die Netze, Wette wackelt. Pommes klaut Fisch. |
-| 11 | Ohne Ruder | Kieler Bucht, Wind frischt auf | Ein Frachter treibt mit zwei roten Lichtern. Was ist los? Dann folgt eine Kollision zweier anderer Boote. | Manövrierunfähig, Grundsitzer am Tag, tiefgangbehindert, sichere Durchfahrt nicht behindern, Pflichten nach einem Zusammenstoß, Wrack melden | – | Die Crew hilft. Haken: Der Kanal wartet. |
-| 12 | Warten auf Weiß | Schleuse Kiel-Holtenau | Stundenlanges Warten. Wann dürfen Sportboote in die Schleuse? Hinnerk erzählt von der Meerjungfrau im Kanal. | Schleusensignale, Tafel- und Lichtzeichen, Sperrungen, Gefahrgut, Schallsignale an Brücken und Schleusen | Wenden auf engem Raum (Vorhafen); Palstek | Spion-Spur 3 (Telefon). |
-| 13 | Feuer im Kanal | Nord-Ostsee-Kanal | Kombüsenbrand bei voller Fahrt, und überall Schilder. Was tun, und was sagen die Tafeln? | Tafelzeichen (Überholverbot, Begegnungsverbot, Sog, Abstand, Ankern und Festmachen verboten, Ende), Kanalgeschwindigkeit, Weichensignale, Feuerlöscher | Rundtörn mit zwei halben Schlägen | Quirins Bratkartoffeln brennen, Wette wackelt. |
+| 11 | Ohne Ruder | Kieler Bucht, Wind frischt auf | Ein Frachter treibt mit zwei roten Lichtern. Was ist los, und wem muss man wie ausweichen? | Manövrierunfähig, Grundsitzer am Tag, tiefgangbehindert, sichere Durchfahrt nicht behindern | – | Die Crew hilft. Haken: Der Kanal wartet. |
+| 12 | Warten auf Weiß | Schleuse Kiel-Holtenau | Stundenlanges Warten. Wann dürfen Sportboote in die Schleuse? Hinnerk erzählt von der Meerjungfrau im Kanal. | Schleusensignale, Tafel- und Lichtzeichen, Sperrungen, Gefahrgut, Schallsignale an Brücken und Schleusen, Dauer kurzer und langer Töne | Wenden auf engem Raum (Vorhafen); Palstek | Spion-Spur 3 (Telefon). |
+| 13 | Feuer im Kanal | Nord-Ostsee-Kanal | Kombüsenbrand bei voller Fahrt, und überall Schilder. Was tun, und was sagen die Tafeln? | Tafelzeichen (Überholverbot, Begegnungsverbot, Sog, Abstand, Ankern und Festmachen verboten, Ende), Kanalgeschwindigkeit, Weichensignale, Feuerlöscher, Gasanlage außer Betrieb setzen | Rundtörn mit zwei halben Schlägen | Quirins Bratkartoffeln brennen, Wette wackelt. |
 | 14 | Nebel auf der Elbe | Brunsbüttel bis Cuxhaven | Dichter Nebel, kein Radar. Wer ist da draußen? Nur die Töne verraten es. | Schallsignale bei verminderter Sicht, Ton-Längen, Ankerglocke, Verhalten ohne Radar | – | Beinahe-Kollision. Haken: zwei lange Töne ganz nah. **(Vorgeschmack)** |
 | 15 | Kurs Helgoland | Deutsche Bucht | Sie müssen ein Verkehrstrennungsgebiet queren. Hinnerk will diagonal, „spart Zeit“. | Verkehrstrennungsgebiete, Verkehrszentrale und Funk, AIS, sichere Geschwindigkeit | – | Querung, Wette wackelt. Spion-Spur 4. |
 | 16 | Wo sind wir? | Deutsche Bucht, dann Helgoland | Plotter und Strom fallen aus, es gibt nur Kompass und Bleistift. Wo ist die Frieda? | Seemeile, Knoten, Kompass und Deviation, Peilung, Standlinie, Strom- und Windversetzung, Koppelort, NfS | Steuern nach Kompass mit Peilen | Pommes verschwindet auf Helgoland. |
@@ -124,36 +124,36 @@ Akt I **Frühjahr in Flensburg** (1–5) · Akt II **Sommer auf der Ostsee** (6�
 | 19 | Sektorenfeuer | Ansteuerung bei Nacht | Leitfeuer, Richtfeuer, blinkende Tonnen. Hinnerk verwechselt ein Feuer. | Feuerarten (Blink, Blitz, Funkel, Gleichtakt, unterbrochen), Wiederkehr, Leit-, Richt- und Quermarkenfeuer | – | **Tiefpunkt:** Hinnerks Geständnis, Smilla übernimmt. |
 | 20 | Das Barometer fällt | Hafentag in Kiel | Das Wetter hält sie fest. Die Wetterkarte liegt auf dem Tisch. Und Smilla stellt dem Spion eine Falle. | Wetterkarte, Isobaren, Hoch und Tief, Beaufort, Warnungen, frischer Wind bis Orkan | – | **Spion enttarnt: Klabauter.** Haken: Sturm angesagt. |
 | 21 | Sechs Beaufort und steigend | Westliche Ostsee | Der Sturm kommt. Was zuerst? Dann geht jemand über Bord. | Vorbereitung auf schweres Wetter, Fahrt vermindern, Treibanker, Sicherheitsleinen, Mensch an Bord nehmen, Kentern, seemännische Sorgfalt | Mensch über Bord; Kreuzknoten (Reffen), Stopperstek | Smilla erstarrt, Hinnerk und Quirin helfen. |
-| 22 | Rote Sterne | Vor der Flensburger Förde | Eine rote Leuchtrakete: Ein anderes Boot ist in Seenot. Was bedeuten die Signale, was muss die Crew tun? | Notsignale (Rakete, Handfackel, NC, SOS, Nebelsignal), wann Notsignale, Schleppen | Schotstek (Schleppleine) | **Finale:** Smilla führt heim, Pommes ist zurück, Harms liest das Logbuch, Quirin lädt an den Chiemsee ein. Harms an dich: „Ruf mich an, wenn du so weit bist.“ |
+| 22 | Rote Sterne | Vor der Flensburger Förde | Eine rote Leuchtrakete: Ein anderes Boot ist nach einem Zusammenstoß in Seenot und sinkt. Was bedeuten die Signale, was muss die Crew tun? | Notsignale (Rakete, Handfackel, NC, SOS, Nebelsignal), wann Notsignale, Pflichten nach einem Zusammenstoß, Wrack melden, Schleppen | Schotstek (Schleppleine) | **Finale:** Smilla führt heim, Pommes ist zurück, Harms liest in Friedas Kneipe das Logbuch, Quirin lädt an den Chiemsee ein. Harms an dich: „Ruf mich an, wenn du so weit bist.“ |
 
 ## 7. Stoffplan (Katalogfragen je Folge)
 
 | Folge | Fragen (`sbf:`) | Zahl |
 |---|---|---|
 | 1 | 1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 59, 75, 76 | 14 |
-| 2 | 42, 49, 52, 53, 54, 55, 56, 57, 60, 62, 63, 64, 65, 66, 78 | 15 |
-| 3 | 38, 58, 67, 73, 74, 85, 86, 152, 153, 231, 234, 235, 236, 237, 238 | 15 |
+| 2 | 42, 49, 52, 53, 54, 55, 56, 57, 60, 62, 63, 64, 65, 78 | 14 |
+| 3 | 38, 58, 67, 73, 74, 85, 86, 152, 153, 231, 234, 235, 237, 238 | 14 |
 | 4 | 34, 35, 36, 37, 40, 41, 44, 45, 46, 47, 48, 50, 51, 61 | 14 |
 | 5 | 156, 157, 165, 166, 167, 190, 191, 192, 193, 194, 195, 196, 198, 199 | 14 |
-| 6 | 14, 15, 79, 80, 81, 89, 125, 126, 127, 128, 135, 136, 137, 139, 140 | 15 |
+| 6 | 14, 15, 79, 80, 81, 125, 126, 127, 128, 135, 136, 137, 139, 140 | 14 |
 | 7 | 154, 155, 162, 163, 164, 177, 182, 183, 184, 185, 186, 187, 188, 189 | 14 |
 | 8 | 31, 32, 33, 39, 43, 114, 168, 169, 170, 171, 179, 180, 181, 230 | 14 |
 | 9 | 91, 92, 93, 94, 95, 96, 105, 107, 113, 115, 159, 160 | 12 |
 | 10 | 102, 103, 104, 110, 111, 112, 130, 131, 132, 148, 149, 150 | 12 |
-| 11 | 70, 82, 83, 97, 98, 99, 100, 101, 106, 108, 109, 129, 133, 134, 172 | 15 |
-| 12 | 16, 21, 24, 27, 28, 29, 30, 151, 161, 173, 174, 178 | 12 |
-| 13 | 17, 18, 19, 20, 22, 23, 25, 26, 68, 69, 175, 176 | 12 |
-| 14 | 4, 5, 84, 116, 117, 118, 119, 120, 121, 122, 123, 124, 138, 141, 271 | 15 |
-| 15 | 87, 88, 90, 142, 143, 144, 145, 146, 147, 158, 272, 273, 274 | 13 |
-| 16 | 232, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248 | 11 |
+| 11 | 82, 83, 97, 98, 99, 100, 101, 106, 108, 109, 129, 133, 134 | 13 |
+| 12 | 4, 5, 16, 21, 24, 27, 28, 29, 30, 151, 161, 173, 174, 178 | 14 |
+| 13 | 17, 18, 19, 20, 22, 23, 25, 26, 66, 68, 69, 175, 176 | 13 |
+| 14 | 84, 116, 117, 118, 119, 120, 121, 122, 123, 124, 138, 141, 271 | 13 |
+| 15 | 87, 88, 89, 90, 142, 143, 144, 145, 146, 147, 158, 272, 273, 274 | 14 |
+| 16 | 232, 236, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248 | 12 |
 | 17 | 216, 217, 218, 219, 225, 226, 233, 249, 250, 251, 252, 253, 254, 255 | 14 |
 | 18 | 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 227, 228, 229 | 13 |
 | 19 | 197, 210, 211, 212, 213, 214, 215, 220, 221, 222, 223, 224 | 12 |
 | 20 | 71, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270 | 12 |
 | 21 | 77, 258, 259, 275, 276, 277, 278 | 7 |
-| 22 | 72, 256, 257, 279, 280, 281, 282, 283, 284, 285 | 10 |
+| 22 | 70, 72, 172, 256, 257, 279, 280, 281, 282, 283, 284, 285 | 12 |
 
-Folge 21 und 22 haben bewusst weniger Fragen, weil dort die großen Bögen zusammenlaufen.
+Keine Folge hat mehr als 14 Fragen. Folge 21 hat bewusst nur 7, weil dort die großen Bögen zusammenlaufen. Dauer und Dichte prüft Abschnitt 10.
 
 **Praxis über alle Folgen:**
 - **Manöver:**
@@ -186,6 +186,20 @@ Folge 21 und 22 haben bewusst weniger Fragen, weil dort die großen Bögen zusam
 ## 9. Was noch offen ist
 - Bildfragen in der Fragerunde (VS44)
 - Harms als Vorleser (VS43)
-- was Harms einsetzt, wenn er die Wette verliert
+- was Harms einsetzt, wenn er die Wette verliert (VS45)
 - Namen der Gäste
-- Mudder Friedas Sprüche (Liste folgt beim Schreiben, jede fachlich geprüft)
+- Friedas Tresensprüche (Liste folgt beim Schreiben, jede fachlich geprüft)
+- Frau oder Freundin, Name der Kneipe
+
+## 10. Gesamtdauer und Dichte (geprüft am 20.10.2026)
+- **Geschichte:** 22 Folgen zu je 25 Minuten ergeben etwa **9 Stunden 10 Minuten**.
+- **Fragerunden:** Eine Frage samt vier Antworten vorzulesen dauert im Schnitt etwa 32 Sekunden (447 Zeichen bei 13,9 Zeichen pro Sekunde). Mit Antwortzeit und Ton sind es etwa 40 Sekunden. Für 285 Fragen ergibt das etwa **3 Stunden 10 Minuten**, also gut 8 Minuten je Folge.
+- **Zusammen:** etwa **12 Stunden 20 Minuten**. Das liegt in dem Rahmen von 4–40 Stunden, den der Nutzer anfangs genannt hat.
+- **Dichte:**
+  - Von 25 Minuten bleiben nach Rückblick, Titel, Logbuch-Eintrag und Haken etwa 21 Minuten Geschichte, rund 2.800 Wörter.
+  - Im Schnitt hat eine Folge 13 Fragen (höchstens 14), also etwa eine alle 95 Sekunden.
+  - Eine Frage braucht in der Geschichte etwa 60–90 Wörter, meist als Hinweis oder als Streit zwischen Hinnerk und Smilla.
+  - Damit sind rund 30–40 % einer Folge Stoff und 60–70 % Geschichte, Witz und Spannung.
+- **Viele Fragen hängen zusammen:** Mehrere Fragen erzählen dieselbe Regel, z. B. 14 und 127, 128 bis 131, die vier Kardinalzeichen 200 bis 207 oder 245 und 246. Je Folge bleiben so etwa 8–10 echte „Lernmomente“. Das passt in eine Geschichte.
+- **Vergleich mit dem Vorgeschmack:** Er bringt 9 Fragen in 2,3 Minuten, absichtlich sehr dicht. In der echten Folge hat derselbe Stoff gut sechsmal so viel Platz.
+- **Schwachstelle:** Lichter, Tonnen und Tafelzeichen (Folgen 5, 9, 10, 12, 13, 18) muss man sehen. Im Hörspiel werden sie in Worten beschrieben, mit Merkhilfen, die jede fachlich geprüft werden. Die Bilder kommen in der Fragerunde (VS44). Vorschlag: Die App zeigt während dieser Szenen das passende Bild (O19).

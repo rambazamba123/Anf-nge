@@ -23,7 +23,7 @@ const FIG = cfg.figuren || {};
 let manifest = {};
 try { manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'audio/stimmen/manifest.json'), 'utf8')).voices || {}; } catch (e) { W(K, 'audio/stimmen/manifest.json nicht lesbar, Stimmen nicht abgeglichen'); }
 for (const [id, f] of Object.entries(FIG)) {
-  if (!f.voice_id) F(K, `Figur ${id} hat keine voice_id`);
+  if (!f.voice_id) W(K, `Figur ${id} hat noch keine voice_id${f.wunsch ? ' (Wunsch: ' + f.wunsch + ')' : ''}`);
   else if (f.paket_id && manifest[f.paket_id] && manifest[f.paket_id] !== f.voice_id) W(K, `Figur ${id}: voice_id weicht vom Stimmenpaket ab (${f.paket_id})`);
 }
 const MAX = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
@@ -121,7 +121,7 @@ for (const datei of dateien) {
     }
     const wer = m[1], text = m[2].replace(CODE, ' ').replace(/\s+/g, ' ').trim();
     if (!FIG[wer]) { F(ort, `Sprecher ${wer} steht nicht in der Konfiguration`); continue; }
-    if (!FIG[wer].voice_id) F(ort, `Sprecher ${wer} hat keine voice_id`);
+    if (!FIG[wer].voice_id) S(ort, `Sprecher ${wer} hat noch keine voice_id (im Casting zuordnen)`);
     if (!text) { F(ort, `Beitrag von ${wer} ohne Sprechtext`); continue; }
     if (/[[\]]/.test(text)) F(ort, 'eckige Klammern im Sprechtext; Audio-Tags entstehen nur aus [[INTENTION]] (A5, A14)');
     if (/<[^>]+>/.test(text)) F(ort, 'SSML oder HTML im Sprechtext (A15)');
