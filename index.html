@@ -509,7 +509,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.78';
+  window.__ver = '4.79';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3693,7 +3693,7 @@ function renderSettings() {
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎧 Podcast-Hörprobe (Entwickler)</h3>
     <p class="small muted" style="margin:0 0 8px">Spricht ein Skript aus <b>podcast/skripte</b> mit Eleven v4 als Dialog (2–3 Minuten, rund 2.000–2.400 Credits). Sag Claude, was gut und was falsch klang.</p>
-    <select id="hpskr" style="margin-bottom:8px"><option value="vorstellung.md">Wer ist wer? Alle stellen sich vor</option><option value="vorgeschmack-14.md">Vorgeschmack Folge 14: Nebel auf der Elbe</option><option value="test-01.md">Testszene Folge 1: Die Spritztour</option></select>
+    <select id="hpskr" style="margin-bottom:8px"><option value="vorstellung.md">Wer ist wer? Alle stellen sich vor</option><option value="folge-01.md">Folge 1: Die Spritztour (ganze Folge, ca. 17.000 Credits)</option><option value="vorgeschmack-14.md">Vorgeschmack Folge 14: Nebel auf der Elbe</option><option value="test-01.md">Testszene Folge 1: Die Spritztour</option></select>
     <div class="row"><button class="btn ki lamp" id="hpv4">Hörprobe erzeugen</button></div><p class="status" id="hpr"></p><div id="hpaus"></div>
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎭 Stimmen-Casting (Entwickler)</h3>
