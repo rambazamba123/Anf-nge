@@ -35,6 +35,7 @@
 | (N 20.10. b) | Zweite Antwort des Nutzers am 20.10.2026 (Varianten A/B/C, Bayer, Ton) |
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
+| (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
 | (CLAUDE.md …) | bestehende Projektregel |
 | **abgeleitet** | Claude hat eine Nutzeraussage in ein prüfbares Kriterium übersetzt. Es gilt wie die Aussage selbst. Trifft es das Gemeinte nicht, gilt die Aussage, und das Kriterium wird nach Rückfrage korrigiert (siehe `PODCAST_STATUS.md`, O29). |
@@ -72,13 +73,13 @@
   - Dazu kommen 6,2 Zeichen pro Wort in den bisherigen Texten. Das ergibt etwa 134 Wörter pro Minute.
   - Nach dem ersten Tontest (P62) wird nachgemessen.
   - Die erlaubte Abweichung ist offen (O11). Offen ist auch, ob die Fragen am Ende in die 25 Minuten zählen (O10).
-- **P15 Umfang:** Der erste Rahmen waren 4 bis 40 Stunden Redezeit *(N 19.10.)*. Beschlossen sind jetzt **ca. 12–25 Folgen** *(N 20.10. d)*, bei 25 Minuten also etwa 5 bis 10,5 Stunden. Ob die Zahl den Binnen-Zusatz einschließt und wie hoch sie genau wird, ist offen (O2, W17).
+- **P15 Umfang:** Der erste Rahmen waren 4 bis 40 Stunden Redezeit *(N 19.10.)*, danach **ca. 12–25 Folgen** *(N 20.10. d)*. **Die genaue Zahl ergibt sich erst aus dem Aufbau der Geschichte** *(N 20.10. e: „die anzahl der folgen wird erst klar, wenn wir wissen wie die geschichte etc. aufgebaut ist“)*. Der Leitfaden-Entwurf für SBF See sieht 16 Folgen vor (VS30, O2).
 
 ## 4. Inhalt, Abdeckung, Fakten und Quellen
 
 - **P16 PFLICHT:** Jede Katalogfrage des behandelten Scheins kommt in mindestens einer Folge vor *(N 19.10.)*.
   - Bestand in der App: SBF See 285 Fragen (`data/sbf.json`), SBF Binnen 300 (`data/binnen.json`), SKS 638 Einträge (`data/sks.json`).
-  - **Scheine:** zuerst **SBF See**, danach **Binnen als Zusatz** *(N 20.10. d: „SBF see und dann noch zusatz: binnen“)*. Für SKS gibt es keinen Beschluss (O1).
+  - **Scheine:** zuerst **SBF See**, danach **Binnen als Zusatz** *(N 20.10. d: „SBF see und dann noch zusatz: binnen“)*. Binnen wird eigens geplant, wenn SBF See steht („erstmal nur SBF See, SBF Binnen kommt dann extra“, *N 20.10. e*). Für SKS gibt es keinen Beschluss (O1).
 - **P17 PFLICHT (abgeleitet aus P16 und P53):** Zu jeder Folge ist festgehalten, welche Katalogfragen sie behandelt (Fragen-IDs wie `sbf:120`).
   - Über alle Folgen zusammen ist jede Frage mindestens einmal zugeordnet.
   - Die Zuordnung ist maschinenlesbar, damit Abdeckung und Fragen am Folgenende geprüft werden können.
@@ -159,8 +160,10 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
 - **P48 Perspektive und Anrede:**
   - PFLICHT: Die drei unterhalten sich miteinander (P1, P5).
-  - PFLICHT: Sprechen sie den Hörer an, dann **neckend**. Der Nutzer nannte „hey Matrose“ und „hey du“ als Beispiele *(N 20.10. d)*.
-  - Weitere Anreden, die Häufigkeit und der Umgang mit Hörerinnen sind offen (O7, O32, Ideen in VS27). Die Anrede ist ein fester Text ohne Namen (X10).
+  - PFLICHT: Sprechen sie den Hörer an, dann **neckend** *(N 20.10. d)* und **geschlechtsneutral**.
+    - „Matrose“ ist dem Nutzer nicht neutral genug, „Moses“ entfällt („moses würde ich weglassen“, *N 20.10. e*).
+    - Bestätigt ist bisher nur „hey du“.
+  - Weitere neutrale Anreden und die Häufigkeit sind offen (O7, Ideen in VS27). Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
 
 ## 8. Ton und Sprache
@@ -351,7 +354,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Widersprüchliche Regie wird vor der Audioerzeugung geklärt.
 
 ### 14.5 Modell und Konfiguration
-- **A8 PFLICHT** (AR 3): Die Konfiguration steht außerhalb des Dialogtexts in einer Projektdatei (Ort offen, O30). Sie enthält:
+- **A8 PFLICHT** (AR 3, *N 20.10. e*): Die Konfiguration steht maschinenlesbar in **`podcast/audio_config.json`**, außerhalb des Dialogtexts. So trifft Claude nicht bei jeder Folge andere Annahmen. Sie enthält:
   - Modell-ID und Endpunkt,
   - die Sprache (`de`),
   - die Voice-ID jeder Figur einschließlich Gästen und Harms,
@@ -419,7 +422,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Status (`offen`, `geprüft` oder `freigegeben`),
   - Notiz.
 
-  Format ist JSON wie bei den übrigen Projektdaten (R11). Das AR schlug YAML vor. Der Ort ist offen (O30).
+  Das Verzeichnis ist die eigene Datei **`podcast/pronunciation_dictionary.md`** *(N 20.10. e: eigene Datei, nicht in der langen Regeldatei versteckt)*. Es besteht aus Markdown-Tabellen in fester Form, die das Prüfwerkzeug liest (A32). Das ersetzt die frühere Festlegung auf JSON. Die Version im Kopf der Datei muss zur Konfiguration passen.
 - **A19 PFLICHT** (AR 7.3): Bei falscher Aussprache gilt diese Reihenfolge, immer nur eine Methode auf einmal:
   1. Schreibweise und Kontext prüfen.
   2. Die Aussprache aus einer verlässlichen Quelle bestimmen.
@@ -482,6 +485,8 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - einen Übergang zwischen zwei Teilstücken.
 
   Dieselben Szenen werden für jeden Modellkandidaten verwendet (A9).
+
+  **Zuerst nur diese kurze Testszene** mit allen drei Figuren und einigen schwierigen nautischen Begriffen *(N 20.10. e)*. Erst wenn Aussprache, Regie und Sprecherzuordnung funktionieren, wird dieselbe geprüfte Verarbeitung auf alle Folgen angewendet.
 - **A28 PFLICHT** (AR 14.2): Jeder Test wird bewertet nach Fachlichkeit, Aussprache, Natürlichkeit, Verständlichkeit, Figurenkontinuität, Emotion, Pausen und Rhythmus, Klang und Übergängen. Fehler werden mit Textstelle, Sprecher, Ursache und Maßnahme dokumentiert.
 - **A29 OPTIONAL** (AR 14.3): Bei wichtigen Szenen mehrere Generationen erzeugen und vergleichen. Die Auswahl richtet sich nach Hörqualität und Fachlichkeit. Jede Generation kostet Credits.
 - **A30 PFLICHT** (AR 5.5, 13, 15, angepasst): **Claude kann Audio nicht hören.**
@@ -506,6 +511,43 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Die ganze Folge ist auf kritische Fehler kontrolliert (A30).
 
   Sonst bleibt sie auf `REVIEW_REQUIRED`. Ein erfolgreicher API-Aufruf ist keine Freigabe. Ein kritischer Fachfehler wird nie durch eine gute Gesamtwertung ausgeglichen.
+
+### 14.13 Werkzeuge und Dateien
+- **A32 PFLICHT – automatische Prüfung vor jeder Generierung** *(N 20.10. e)*: `node tools/podcast-pruefen.js` (ohne `--entwurf`) muss für die betroffenen Skripte ohne Fehler enden, sonst wird nichts erzeugt.
+  - **Fehler** sind:
+    - unbekannte Regiecodes und unzulässige Werte,
+    - Sprecher ohne Eintrag oder ohne Voice-ID,
+    - Aussprache-Begriffe, die nicht `freigegeben` sind,
+    - Abkürzungen ohne Eintrag,
+    - nicht freigegebene Audio-Tags,
+    - fehlende Modell-ID,
+    - eckige Klammern oder SSML im Sprechtext,
+    - zu lange Beiträge,
+    - unbekannte Fragen-IDs,
+    - eine Verzeichnisversion, die nicht zur Konfiguration passt.
+  - **Warnungen** sind runde Klammern, Markdown-Zeichen und Sprecherlabels im Sprechtext sowie Absichten ohne Tag.
+  - **Ausgabe:** Zeichen, geschätzte Minuten, die Mindestzahl der Anfragen und die Abdeckung der Katalogfragen.
+  - **Beim Schreiben** prüft `--entwurf`. Dabei sind nicht Freigegebenes, Aussprache und fehlendes Modell nur Warnungen.
+  - **Im pre-commit:** Die Entwurfsprüfung läuft automatisch, wenn etwas unter `podcast/` geändert ist.
+- **A33 PFLICHT – Form der Autorenskripte (Ebene A):** Ein Skript ist eine Markdown-Datei in `podcast/skripte/`.
+  - Der Kopf steht zwischen zwei `---`-Zeilen (`folge:`, `titel:`, `status:`).
+  - Jede weitere Zeile ist eines von:
+    - eine Überschrift oder ein Kommentar (`#`, `<!-- … -->`),
+    - ein Regiecode allein (`[[SZENE: …]]`),
+    - eine Sprecherzeile `FIGUR: Text` mit der Figur-ID aus der Konfiguration (`HINNERK`, `SMILLA`, `KLABAUTER`, `HARMS`). Regiecodes dürfen darin stehen.
+  - Die Fragen-Zuordnung steht als `[[FRAGE: sbf:120, sbf:121]]` (P17).
+
+  Diese Form hat Claude für das Prüfwerkzeug festgelegt. Sie ist änderbar und noch vom Nutzer zu bestätigen (O30).
+- **Offizielle Referenzen** *(vom Nutzer genannt, N 20.10. e)*. Vor der Produktion jeweils den aktuellen Stand lesen (F9):
+  - [Audio-Tags](https://elevenlabs.io/blog/elevenlabs-audio-tags-list)
+  - [Text to Dialogue (Übersicht)](https://elevenlabs.io/docs/overview/capabilities/text-to-dialogue) und [Text to Dialogue API](https://elevenlabs.io/docs/api-reference/text-to-dialogue/convert)
+  - [Text-to-Speech Best Practices](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/best-practices) mit den Unterseiten [Aussprache](https://elevenlabs.io/docs/best-practices/prompting/pronunciation) und [Eleven v3](https://elevenlabs.io/docs/best-practices/prompting/eleven-v3)
+  - [Aussprachewörterbücher](https://elevenlabs.io/docs/conversational-ai/customization/voice/pronunciation-dictionary)
+
+  Stand der Websuche am 20.10.2026:
+  - Laut der neueren Best-Practices-Seite unterstützen weder v3 noch v4 SSML-Pausen.
+  - Ob Eleven v4 Phonem-Einträge in Aussprachewörterbüchern unterstützt, geben zwei Fassungen der Doku verschieden an.
+  - IPA im Text funktioniert bei v3 laut Doku zu etwa 80–90 %.
 
 ---
 

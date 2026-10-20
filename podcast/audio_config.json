@@ -1,0 +1,46 @@
+{
+  "_hinweis": "Maschinenlesbare Audio-Konfiguration für den Kajütenfunk (PODCAST_BIBLE.md A8). tools/podcast-pruefen.js liest sie. Hier steht nie ein API-Schlüssel (R9). Änderungen nur nach Bestätigung durch den Nutzer (R15).",
+  "konfig_version": 1,
+  "endpunkt": "text-to-dialogue",
+  "modell": {
+    "id": null,
+    "status": "offen",
+    "kandidaten": ["Eleven v4", "Eleven v3"],
+    "hinweis": "Genaue Modell-ID vor der Produktion aus der aktuellen Doku übernehmen und per Hörtest mit der Testszene wählen (A9, A27, F9). Ohne Angabe nimmt der Endpunkt eleven_v3."
+  },
+  "sprache": "de",
+  "figuren": {
+    "HINNERK": {"name": "Käpt'n Hinnerk", "voice_id": "pqHfZKP75CvOlQylNhV4", "paket_id": "hinnerk"},
+    "SMILLA": {"name": "Smilla", "voice_id": "pFZP5JQG7iQjIQuC4Bku", "paket_id": "smilla"},
+    "KLABAUTER": {"name": "Klabauter", "voice_id": "N2lVS1w4EtoT3dr4eOWO", "paket_id": "klabauter"},
+    "HARMS": {"name": "Kapitän Harms", "voice_id": "onwK4e9ZLuTAKqWW03F9", "paket_id": "kroeger"}
+  },
+  "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Gaststimmen kommen nach Entscheidung des Nutzers dazu (O14). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
+  "aussprache": {
+    "datei": "podcast/pronunciation_dictionary.md",
+    "version": 1,
+    "elevenlabs_woerterbuch": null
+  },
+  "chunking": {
+    "max_zeichen": 2000,
+    "nie_im_satz_trennen": true,
+    "sprecherwechsel_zusammenhalten": true
+  },
+  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE"],
+  "pause_werte": ["kurz", "nachdenklich", "dramatisch"],
+  "tempo_werte": ["langsam", "normal", "zügig"],
+  "intentionen": {
+    "neugierig": {"tag": "[curious]", "status": "experimentell"},
+    "nachdenklich": {"tag": "[thoughtful]", "status": "experimentell"},
+    "überrascht": {"tag": "[surprised]", "status": "experimentell"},
+    "beruhigend": {"tag": "[reassuring]", "status": "experimentell"},
+    "flüsternd": {"tag": "[whispering]", "status": "experimentell"},
+    "humorvoll": {"tag": "[playfully]", "status": "experimentell"},
+    "erleichtert": {"tag": "[relieved]", "status": "experimentell"},
+    "seufzend": {"tag": "[sighs]", "status": "experimentell"}
+  },
+  "text_normalisierung": null,
+  "seed": null,
+  "ausgabe_format": null,
+  "sprechtempo_zeichen_pro_sekunde": 13.9
+}
