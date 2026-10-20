@@ -509,7 +509,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.75';
+  window.__ver = '4.76';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3692,8 +3692,12 @@ function renderSettings() {
     <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr">Gespeicherte Sätze löschen</button></div><p class="status" id="clrr"></p>
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎧 Podcast-Hörprobe (Entwickler)</h3>
-    <p class="small muted" style="margin:0 0 8px">Spricht die Testszene aus <b>podcast/skripte/test-01.md</b> mit ElevenLabs als Dialog (etwa 2 Minuten, kostet rund 1.900 Credits pro Modell). Vergleiche beide Modelle und sag Claude, was gut und was falsch klang.</p>
-    <div class="row"><button class="btn ki lamp" id="hpv4">Mit Eleven v4</button><button class="btn ki ghost" id="hpv3">Mit Eleven v3</button></div><p class="status" id="hpr"></p><div id="hpaus"></div>
+    <p class="small muted" style="margin:0 0 8px">Spricht die Testszene aus <b>podcast/skripte/test-01.md</b> mit Eleven v4 als Dialog (knapp 3 Minuten, rund 2.400 Credits). Sag Claude, was gut und was falsch klang.</p>
+    <div class="row"><button class="btn ki lamp" id="hpv4">Hörprobe erzeugen</button></div><p class="status" id="hpr"></p><div id="hpaus"></div>
+  </div>
+  <div class="card dev"><h3 style="margin-top:0">🎭 Stimmen-Casting (Entwickler)</h3>
+    <p class="small muted" style="margin:0 0 8px">Jede Rolle des Kajütenfunks stellt sich kurz vor, mit Stimmen aus deinem ElevenLabs-Konto oder der deutschen Stimmenbibliothek. Du ordnest zu und schickst Claude die Liste.</p>
+    <button class="btn ki lamp" id="cast">Casting öffnen</button><p class="status" id="castr"></p>
   </div>
   <div class="card dev"><h3 style="margin-top:0">Stimmenpaket für alle (Entwickler)</h3>
     <p class="small muted" style="margin:0 0 8px">Jeder feste Satz wird nur einmal mit ElevenLabs erzeugt und landet in <b>audio/stimmen</b> im Repo. Dann hören ihn alle Geräte gratis und offline. Das Paket legt auch die Stimmen fest. Im Paket gerade: ${PACK.size} Sätze. <span id="clipst"></span></p>
@@ -3794,7 +3798,8 @@ function renderSettings() {
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
   $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
   { let hpP = null; const hp = m => (hpP || (hpP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'hoerprobe.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { hpP = null; rej(); }; document.head.appendChild(sc); }))).then(() => HOERPROBE.erzeuge('test-01.md', m, $('#hpr'), $('#hpaus'))).catch(e => { $('#hpr').textContent = 'Hörprobe ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); });
-    $('#hpv4').onclick = () => hp('eleven_v4'); $('#hpv3').onclick = () => hp('eleven_v3'); }
+    $('#hpv4').onclick = () => hp('eleven_v4'); }
+  { let caP = null; $('#cast').onclick = () => (caP || (caP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'casting.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { caP = null; rej(); }; document.head.appendChild(sc); }))).then(() => CASTING.oeffnen()).catch(e => { $('#castr').textContent = 'Casting ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); }); }
   /* Wie viele feste Sätze fehlen noch im Paket? (Daten der nachgeladenen Teile werden dafür geholt) */
   if ($('#vpkn')) Promise.all([loadManoever().catch(() => {}), loadSeezeichen().catch(() => {}), loadNavi().catch(() => {}), PACK.load()]).then(() => { const f = packLines(false).filter(l => !PACK.has(l.cid, l.t)), z = f.reduce((a, l) => a + l.t.length, 0); const e = $('#vpkn'); if (e) e.textContent = f.length ? `Es fehlen ${f.length} feste Sätze (${z.toLocaleString('de-DE')} Zeichen). Nur diese werden erzeugt.` : 'Alle festen Sätze sind im Paket.'; }).catch(() => {});
   $('#vpx').onclick = () => exportClips($('#vpxr'));

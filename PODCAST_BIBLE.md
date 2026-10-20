@@ -36,6 +36,7 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. i) | Ergebnis des Nutzers nach der Hörprobe am 20.10.2026: v4 gewählt, Hörspiel als Ziel, Geräusche liefert der Nutzer, Klabauter braucht eine neue Stimme, Stimmen-Casting |
 | (N 20.10. h) | Wunsch des Nutzers am 20.10.2026: Hörprobe mit allen Regie-Mitteln, Varianten für Klabauter, weitere Bootsnamen |
 | (N 20.10. g) | Entscheidungen des Nutzers am 20.10.2026: Überthema „Die Wette“, Quirin, Flensburg, Smillas Scheine, Harms und die Probeprüfung, Großschreibung, Hörprobe |
 | (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
@@ -392,6 +393,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Kandidaten Stand 20.10.2026: **Eleven v4** (Modell-ID laut v4-Doku `eleven_v4`). Die Text-to-Dialogue-Doku empfiehlt es laut Websuche für Dialoge. Die Variante „v4 Turbo“ kann nur einzelne Sprache, keinen Dialog.
   - Zweiter Kandidat ist **Eleven v3**.
   - Die genaue Modell-ID wird aus Doku oder API übernommen, nie geraten.
+  - **Entschieden** *(N 20.10. i: „V4 ist viel besser als v3. Wir machen alles mit V4.“)*: **Eleven v4** (`eleven_v4`) für alle Folgen. In der Konfiguration eingetragen.
 - **A10 PFLICHT** (AR 3.2): Text to Dialogue:
   - Jeder Beitrag besteht aus Text und `voice_id`. Sprecher werden nur über die `voice_id` zugeordnet, nie über Namen im gesprochenen Text.
   - Laut Doku sind höchstens 10 verschiedene Stimmen pro Anfrage möglich.
