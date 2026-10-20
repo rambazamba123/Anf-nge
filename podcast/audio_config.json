@@ -3,8 +3,8 @@
   "konfig_version": 1,
   "endpunkt": "text-to-dialogue",
   "modell": {
-    "id": null,
-    "status": "offen",
+    "id": "eleven_v4",
+    "status": "gewählt (Hörtest des Nutzers am 20.10.2026: „V4 ist viel besser als v3. Wir machen alles mit V4.“, B73)",
     "kandidaten": ["Eleven v4", "Eleven v3"],
     "bekannte_ids": {"Eleven v4": "eleven_v4", "Eleven v3": "eleven_v3"},
     "bekannte_ids_hinweis": "Laut Websuche zur Doku vom 20.10.2026. v4 Turbo (eleven_v4_turbo) kann keinen Dialog. Gesetzt wird id erst nach dem Hörtest (A9).",

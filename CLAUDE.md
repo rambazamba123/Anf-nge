@@ -237,6 +237,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - `audio/stimmen/` (Stimmenpaket mit `manifest.json`: 359 Sätze, 18 MB, Teil 1 vollständig; legt die Stimmen fest)
   - `PODCAST_BIBLE.md` (Regelwerk Kajütenfunk) und `PODCAST_STATUS.md` (Entscheidungen, offene Fragen), siehe R15
   - `podcast/`: `audio_config.json` (Modell, Voice-IDs, Wörterbuchversion, Chunking), `pronunciation_dictionary.md` (Ausspracheverzeichnis), `leitfaden-sbf-see.md` (Entwurf der Geschichte), `skripte/` (Skripte, zuerst `test-01.md` für den Hörtest)
+  - `casting.js` (nachgeladen, Entwickler): Karte „🎭 Stimmen-Casting“, `CASTING.oeffnen` (Rollen aus `podcast/casting.json`, Probe je Rolle und Stimme über Text to Dialogue mit `eleven_v4`, Vorstellungsrunde, Bibliothek `/v1/shared-voices` mit Hörbeispiel und `/v1/voices/add`, Zuordnung in `S.cfg.casting`, Text zum Kopieren); `podcast/soundeffekte.md` (Geräusche, die der Nutzer liefert)
   - `hoerprobe.js` (nachgeladen, Entwickler): Karte „🎧 Podcast-Hörprobe“ in den Einstellungen spricht `podcast/skripte/test-01.md` über ElevenLabs Text to Dialogue mit dem Schlüssel auf dem Gerät (`HOERPROBE.zerlege`, `erzeuge`; Eleven v4 oder v3), Ergebnis anhören und als MP3 speichern
   - `docs/`: Konzepte, `archiv/` (alte Briefe), `apk-anleitung.md`, `quellen-audio.md`, `toern2-plan.md`, `lauf3-plan.md`, `feste-saetze.md`
   - `tests/`: `smoke/rauchtest.js` (Rauchtest mit eigenem Server), `toern-daten.js`, `balancing.js`; `tools/`: `tag-fragen.js`, `sks-mc-pruefen.js`, `json-kompakt.js`, `knoten-pruefen.js` (Jones-Polynom: Kreuzknoten oder Altweiberknoten), `podcast-pruefen.js` (prüft Podcast-Skripte vor jeder Generierung, `--entwurf` beim Schreiben; läuft im pre-commit, wenn `podcast/` geändert ist)
@@ -330,13 +331,14 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.73 Podcast, fünfte Fassung und Hörprobe: Entscheidungen B59–B69 (Überthema „Die Wette“, Quirin, Heimathafen Flensburg, Smilla mit beiden Scheinen, Finale ohne Prüfung, Klabauter-Anreden, Großschreibung im Test), Leitfaden und Ausspracheverzeichnis angepasst; Testskript `podcast/skripte/test-01.md` (etwa 2 Minuten, 2 Anfragen) und Entwickler-Knopf „🎧 Podcast-Hörprobe“ (`hoerprobe.js`)
 - [x] v4.74 Hörprobe neu: Testszene mit Flüstern, Lachen, Rufen, Seufzen, Pausen, Tempo und Möwen-Geräusch; Tags für `[[INTENTION]]`, `[[PAUSE]]`, `[[TEMPO]]`, `[[AUDIO]]` in `podcast/audio_config.json`, umgesetzt in `hoerprobe.js` und `tools/podcast-pruefen.js`; Vorschläge Bootsname (VS37) und Klabauter-Nebengeschichte (VS38)
 - [x] v4.75 Hörprobe meldete „Skript fehlt“: GitHub Pages (Jekyll) wandelte `.md`-Dateien mit Kopfteil in HTML um, `podcast/skripte/test-01.md` gab es online nicht. Neu: leere Datei `.nojekyll` im Hauptordner (Seite wird unverändert ausgeliefert), Fehlermeldung nennt den HTTP-Status
+- [x] v4.76 Podcast: Eleven v4 gewählt (Konfiguration, Hörprobe nur noch mit v4); Stimmen-Casting in den Einstellungen (`casting.js`, Rollen und Vorstellungssätze in `podcast/casting.json`, Stimmen aus dem Konto oder der deutschen ElevenLabs-Bibliothek, Zuordnung `S.cfg.casting` zum Kopieren); Soundeffekt-Liste `podcast/soundeffekte.md`; Vorschlag Hörspiel-Bauplan (VS39)
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** Hörprobe am Handy (Einstellungen → „🎧 Podcast-Hörprobe“, je Modell etwa 1.900 Credits), MP3 in `import/` hochladen und Eindruck melden. Offen: Bootsname (VS37), Klabauters Nebengeschichte (VS38), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
+- **V33 Kajütenfunk:** Stimmen-Casting am Handy (Einstellungen → „🎭 Stimmen-Casting“), Zuordnung an Claude schicken; Soundeffekte aus `podcast/soundeffekte.md` in `import/` hochladen. Offen: Bootsname (VS37), Klabauters Nebengeschichte (VS38), Hörspiel-Bauplan (VS39), Klabauter-Stimme auch in der App (O38), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 
