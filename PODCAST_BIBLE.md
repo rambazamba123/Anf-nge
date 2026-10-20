@@ -36,6 +36,7 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. l) | Antworten des Nutzers am 20.10.2026: Frieda als Hinnerks Frau oder Freundin mit Kneipe, 22 Folgen, Harms liest die Fragen, Bildfragen, Stimmenwünsche, Vorstellungsszene |
 | (N 20.10. k) | Antworten des Nutzers am 20.10.2026: Klabauter Petze und Möwe, Boot Frieda, mehr Folgen, Fragerunde mit Spracheingabe, Logbuch, Hörer, Hinnerks Irrtümer, runde Sache, Chiemsee |
 | (N 20.10. j) | Wunsch des Nutzers am 20.10.2026: kein Erzähler, gut zu folgen, nicht zu schnell, Geschichte perfektionieren |
 | (N 20.10. i) | Ergebnis des Nutzers nach der Hörprobe am 20.10.2026: v4 gewählt, Hörspiel als Ziel, Geräusche liefert der Nutzer, Klabauter braucht eine neue Stimme, Stimmen-Casting |
@@ -120,7 +121,7 @@
 - **P30 PFLICHT – Großes Rätsel:** Es gibt ein großes Rätsel über die Staffel („dass es eins gibt ist gut“, *N 20.10. b*).
   - **Beschlossen: „Die Wette“** *(N 20.10. g: „wir nehmen version 1“)*: Harms wettet mit Hinnerk, dass er keine Saison ohne Regelverstoß schafft. Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot. Hinnerks Irrtümer gefährden die Wette, Smilla rettet ihn. Die Hörer erkennen Verstöße oft zuerst. Hinnerk verschweigt auch deshalb seine schlechte Nachtsicht. Im Finale merkt er, dass er nur dank Smilla gewonnen hat, und übergibt ihr das Ruder (Einzelheiten der Auflösung: Vorschlag VS35, beim Schreiben mit dem Nutzer abstimmen).
   - **Klabauters Nebengeschichte** *(N 20.10. k: „Klabauter 1 und 4“)*: **die Petze** (er plappert alles nach und ist der Spion, der Harms alles verrät) und **die Möwe** (er verliebt sich in eine Möwe). Der Vorschlag „Klabauters Vergangenheit“ ist nicht gewählt.
-  - **Das Boot heißt „Frieda“**, nach Hinnerks Mutter *(N 20.10. k)*.
+  - **Das Boot heißt „Frieda“**, nach Hinnerks Frau oder Freundin Frieda. Sie bleibt lieber an Land und betreibt in Flensburg eine Kneipe *(N 20.10. l, ersetzt „Mutter“ aus N 20.10. k)*.
   - **Kein Erzähler** *(N 20.10. j)*. Orientierung über Smillas Logbuch: Rückblick am Anfang, drei Merksätze am Ende; das Logbuch ist auch der Schiedsrichter der Wette *(N 20.10. k: „3. Ja gute Idee“)*. Die Geschichte muss gut zu folgen sein und darf nicht zu schnell gehen *(N 20.10. j)*.
   - Die Folgen sollen sich als runde Sache anfühlen, nicht wie abgearbeitete Themen. Trockene Themen sind erlaubt und bekommen einen Rahmen in der Geschichte, z. B. „Flaute, die Crew sitzt an Deck und unterhält sich mit einem Gesetzbuch“ *(N 20.10. k)*.
   - Am Ende der See-Staffel lädt Quirin an den Chiemsee ein („unbedingt“, *N 20.10. k*).
