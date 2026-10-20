@@ -18,6 +18,7 @@
     "HARMS": {"name": "Kapitän Harms", "voice_id": "onwK4e9ZLuTAKqWW03F9", "paket_id": "kroeger"},
     "QUIRIN": {"name": "Quirin", "voice_id": "JBFqnCBsd6RMkjVDRZzb", "stimme": "George", "hinweis": "ID der ElevenLabs-Standardstimme George aus Claudes Wissen, vom Nutzer noch nicht bestätigt"},
     "FRIEDA": {"name": "Frieda (Kneipenwirtin)", "voice_id": null, "wunsch": null},
+    "SPRITZTOURER": {"name": "Jonte, der Spritztourer (Folge 1)", "voice_id": null},
     "POLIZEI": {"name": "Wasserschutzpolizistin", "voice_id": "2aL479c8D3QMIPExj0tw", "stimme": "Selena – Deep Charisma"},
     "FISCHER": {"name": "Fischer", "voice_id": "yjJ45q8TVCrtMhEKurxY", "stimme": "Dr. von Quirky"},
     "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": "4FAKwoQRvqLfJJP6W6Qp", "stimme": "Mats – Warm, Genuine"},
