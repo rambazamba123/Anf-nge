@@ -14,17 +14,17 @@
   "figuren": {
     "HINNERK": {"name": "Käpt'n Hinnerk", "voice_id": "pqHfZKP75CvOlQylNhV4", "paket_id": "hinnerk"},
     "SMILLA": {"name": "Smilla", "voice_id": "pFZP5JQG7iQjIQuC4Bku", "paket_id": "smilla"},
-    "KLABAUTER": {"name": "Klabauter", "voice_id": "N2lVS1w4EtoT3dr4eOWO", "paket_id": "klabauter", "wunsch": "Wally"},
+    "KLABAUTER": {"name": "Klabauter", "voice_id": "aHb0rsWUX1Fsr1L8EX7f", "paket_id": "klabauter", "stimme": "Wally", "app_stimme_bisher": "N2lVS1w4EtoT3dr4eOWO"},
     "HARMS": {"name": "Kapitän Harms", "voice_id": "onwK4e9ZLuTAKqWW03F9", "paket_id": "kroeger"},
-    "QUIRIN": {"name": "Quirin", "voice_id": null, "wunsch": "George"},
+    "QUIRIN": {"name": "Quirin", "voice_id": "JBFqnCBsd6RMkjVDRZzb", "stimme": "George", "hinweis": "ID der ElevenLabs-Standardstimme George aus Claudes Wissen, vom Nutzer noch nicht bestätigt"},
     "FRIEDA": {"name": "Frieda (Kneipenwirtin)", "voice_id": null, "wunsch": null},
-    "POLIZEI": {"name": "Wasserschutzpolizistin", "voice_id": null, "wunsch": "Selena – Deep Charisma"},
-    "FISCHER": {"name": "Fischer", "voice_id": null, "wunsch": "Dr. von Quirky"},
-    "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": null, "wunsch": "Mats – Warm, Genuine"},
-    "HAFENMEISTER": {"name": "Hafenmeisterin", "voice_id": null, "wunsch": "Lucinda – Earthy"},
-    "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": null, "wunsch": "Severin – Powerful"}
+    "POLIZEI": {"name": "Wasserschutzpolizistin", "voice_id": "2aL479c8D3QMIPExj0tw", "stimme": "Selena – Deep Charisma"},
+    "FISCHER": {"name": "Fischer", "voice_id": "yjJ45q8TVCrtMhEKurxY", "stimme": "Dr. von Quirky"},
+    "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": "4FAKwoQRvqLfJJP6W6Qp", "stimme": "Mats – Warm, Genuine"},
+    "HAFENMEISTER": {"name": "Hafenmeisterin", "voice_id": "fs3nd19KF2GO2hLTzkBm", "stimme": "Lucinda – Earthy"},
+    "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": "ib8aaABAPZQpTo6hx8Jr", "stimme": "Severin – Powerful"}
   },
-  "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). wunsch = Stimme, die der Nutzer am 20.10. ausgesucht hat (B95); voice_id wird eingetragen, sobald die Zuordnung aus dem Casting kommt. Klabauter bekommt Wally (B95), die ID fehlt noch. Auf dem Gerät nutzt die Hörprobe die Casting-Zuordnung (S.cfg.casting). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
+  "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Voice-IDs vom Nutzer am 20.10. (B97). Klabauter spricht im Podcast mit Wally; die App nutzt bis zur Entscheidung O38 noch die alte Stimme (app_stimme_bisher). Frieda hat noch keine Stimme. Auf dem Gerät nutzt die Hörprobe die Casting-Zuordnung (S.cfg.casting). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
   "aussprache": {
     "datei": "podcast/pronunciation_dictionary.md",
     "version": 2,
