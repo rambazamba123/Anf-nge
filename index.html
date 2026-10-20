@@ -509,7 +509,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.76';
+  window.__ver = '4.77';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3692,7 +3692,8 @@ function renderSettings() {
     <div class="row" style="margin-top:12px"><button class="btn ghost" id="clr">Gespeicherte Sätze löschen</button></div><p class="status" id="clrr"></p>
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎧 Podcast-Hörprobe (Entwickler)</h3>
-    <p class="small muted" style="margin:0 0 8px">Spricht die Testszene aus <b>podcast/skripte/test-01.md</b> mit Eleven v4 als Dialog (knapp 3 Minuten, rund 2.400 Credits). Sag Claude, was gut und was falsch klang.</p>
+    <p class="small muted" style="margin:0 0 8px">Spricht ein Skript aus <b>podcast/skripte</b> mit Eleven v4 als Dialog (2–3 Minuten, rund 2.000–2.400 Credits). Sag Claude, was gut und was falsch klang.</p>
+    <select id="hpskr" style="margin-bottom:8px"><option value="vorgeschmack-14.md">Vorgeschmack Folge 14: Nebel auf der Elbe</option><option value="test-01.md">Testszene Folge 1: Die Spritztour</option></select>
     <div class="row"><button class="btn ki lamp" id="hpv4">Hörprobe erzeugen</button></div><p class="status" id="hpr"></p><div id="hpaus"></div>
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎭 Stimmen-Casting (Entwickler)</h3>
@@ -3797,7 +3798,7 @@ function renderSettings() {
   $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
   $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
-  { let hpP = null; const hp = m => (hpP || (hpP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'hoerprobe.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { hpP = null; rej(); }; document.head.appendChild(sc); }))).then(() => HOERPROBE.erzeuge('test-01.md', m, $('#hpr'), $('#hpaus'))).catch(e => { $('#hpr').textContent = 'Hörprobe ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); });
+  { let hpP = null; const hp = m => (hpP || (hpP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'hoerprobe.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { hpP = null; rej(); }; document.head.appendChild(sc); }))).then(() => HOERPROBE.erzeuge($('#hpskr').value, m, $('#hpr'), $('#hpaus'))).catch(e => { $('#hpr').textContent = 'Hörprobe ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); });
     $('#hpv4').onclick = () => hp('eleven_v4'); }
   { let caP = null; $('#cast').onclick = () => (caP || (caP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'casting.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { caP = null; rej(); }; document.head.appendChild(sc); }))).then(() => CASTING.oeffnen()).catch(e => { $('#castr').textContent = 'Casting ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); }); }
   /* Wie viele feste Sätze fehlen noch im Paket? (Daten der nachgeladenen Teile werden dafür geholt) */

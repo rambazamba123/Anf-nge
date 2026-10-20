@@ -36,6 +36,8 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. k) | Antworten des Nutzers am 20.10.2026: Klabauter Petze und Möwe, Boot Frieda, mehr Folgen, Fragerunde mit Spracheingabe, Logbuch, Hörer, Hinnerks Irrtümer, runde Sache, Chiemsee |
+| (N 20.10. j) | Wunsch des Nutzers am 20.10.2026: kein Erzähler, gut zu folgen, nicht zu schnell, Geschichte perfektionieren |
 | (N 20.10. i) | Ergebnis des Nutzers nach der Hörprobe am 20.10.2026: v4 gewählt, Hörspiel als Ziel, Geräusche liefert der Nutzer, Klabauter braucht eine neue Stimme, Stimmen-Casting |
 | (N 20.10. h) | Wunsch des Nutzers am 20.10.2026: Hörprobe mit allen Regie-Mitteln, Varianten für Klabauter, weitere Bootsnamen |
 | (N 20.10. g) | Entscheidungen des Nutzers am 20.10.2026: Überthema „Die Wette“, Quirin, Flensburg, Smillas Scheine, Harms und die Probeprüfung, Großschreibung, Hörprobe |
@@ -77,7 +79,7 @@
   - Dazu kommen 6,2 Zeichen pro Wort in den bisherigen Texten. Das ergibt etwa 134 Wörter pro Minute.
   - Nach dem ersten Tontest (P62) wird nachgemessen.
   - Die erlaubte Abweichung ist offen (O11). Offen ist auch, ob die Fragen am Ende in die 25 Minuten zählen (O10).
-- **P15 Umfang:** Der erste Rahmen waren 4 bis 40 Stunden Redezeit *(N 19.10.)*, danach **ca. 12–25 Folgen** *(N 20.10. d)*. **Die genaue Zahl ergibt sich erst aus dem Aufbau der Geschichte** *(N 20.10. e: „die anzahl der folgen wird erst klar, wenn wir wissen wie die geschichte etc. aufgebaut ist“)*. Der Leitfaden-Entwurf für SBF See sieht 16 Folgen vor (VS30, O2).
+- **P15 Umfang:** Der erste Rahmen waren 4 bis 40 Stunden Redezeit *(N 19.10.)*, danach **ca. 12–25 Folgen** *(N 20.10. d)*. **Die genaue Zahl ergibt sich erst aus dem Aufbau der Geschichte** *(N 20.10. e: „die anzahl der folgen wird erst klar, wenn wir wissen wie die geschichte etc. aufgebaut ist“)*. Der Leitfaden für SBF See (Fassung 2) sieht **22 Folgen** mit im Schnitt 13 Fragen vor, denn „lieber mehr Folgen als zu gehetzt“ *(N 20.10. k)*.
 
 ## 4. Inhalt, Abdeckung, Fakten und Quellen
 
@@ -117,7 +119,11 @@
 - **P29 BEVORZUGT – Reise (Variante B, „B finde ich auch sehr stark!“, *N 20.10. b*):** Eine durchgehende Fahrt, jede Folge ist eine Etappe. Spannung kommt aus Wetter, Zeit und Gefahr. Das Wissen braucht man, um durchzukommen.
 - **P30 PFLICHT – Großes Rätsel:** Es gibt ein großes Rätsel über die Staffel („dass es eins gibt ist gut“, *N 20.10. b*).
   - **Beschlossen: „Die Wette“** *(N 20.10. g: „wir nehmen version 1“)*: Harms wettet mit Hinnerk, dass er keine Saison ohne Regelverstoß schafft. Verliert Hinnerk, schleift er den ganzen Winter Harms' Boot. Hinnerks Irrtümer gefährden die Wette, Smilla rettet ihn. Die Hörer erkennen Verstöße oft zuerst. Hinnerk verschweigt auch deshalb seine schlechte Nachtsicht. Im Finale merkt er, dass er nur dank Smilla gewonnen hat, und übergibt ihr das Ruder (Einzelheiten der Auflösung: Vorschlag VS35, beim Schreiben mit dem Nutzer abstimmen).
-  - Klabauter bekommt eine eigene Nebengeschichte, sie ist noch offen (O37). Der Vorschlag „Klabauters Vergangenheit“ ist nicht gewählt.
+  - **Klabauters Nebengeschichte** *(N 20.10. k: „Klabauter 1 und 4“)*: **die Petze** (er plappert alles nach und ist der Spion, der Harms alles verrät) und **die Möwe** (er verliebt sich in eine Möwe). Der Vorschlag „Klabauters Vergangenheit“ ist nicht gewählt.
+  - **Das Boot heißt „Frieda“**, nach Hinnerks Mutter *(N 20.10. k)*.
+  - **Kein Erzähler** *(N 20.10. j)*. Orientierung über Smillas Logbuch: Rückblick am Anfang, drei Merksätze am Ende; das Logbuch ist auch der Schiedsrichter der Wette *(N 20.10. k: „3. Ja gute Idee“)*. Die Geschichte muss gut zu folgen sein und darf nicht zu schnell gehen *(N 20.10. j)*.
+  - Die Folgen sollen sich als runde Sache anfühlen, nicht wie abgearbeitete Themen. Trockene Themen sind erlaubt und bekommen einen Rahmen in der Geschichte, z. B. „Flaute, die Crew sitzt an Deck und unterhält sich mit einem Gesetzbuch“ *(N 20.10. k)*.
+  - Am Ende der See-Staffel lädt Quirin an den Chiemsee ein („unbedingt“, *N 20.10. k*).
   - Die späteren Vorschläge vom 20.10. sind ebenfalls verworfen (G6).
 - **P31 PFLICHT – Trockene Themen müssen auch vorkommen** („diese müssen eben auch mal rein“, *N 20.10. b*). Erlaubte Wege, alle **OPTIONAL** und vom Nutzer genannt:
   - ein paar ruhigere Folgen („ggf gibt es auch einfach ein paar langweilige folgen“),
@@ -147,6 +153,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - PFLICHT: Er erzählt auch von Meerjungfrauen und Ähnlichem, im doppeldeutigen Ton aus Abschnitt 8 *(N 20.10. b)*.
   - Aus CLAUDE.md §3: Käpt'n, grüßt mit „Moin“, trocken. Der Widerspruch „kurz angebunden“ gegenüber „erzählt viel“ ist offen (W2).
   - VERBOTEN (abgeleitet): Hinnerk liegt in jeder fachlichen Aussage falsch.
+  - ERLAUBT: Er darf auch falsche Katalogantworten aussprechen *(N 20.10. k: „5. Ja darf er“)*; Smilla berichtigt in derselben Szene (P22).
 - **P42 Matrosin Smilla:**
   - PFLICHT: Sie weiß die Fakten, „man merkt, dass sie es drauf hat“ *(N 19.10.)*.
   - PFLICHT: Sie berichtigt Hinnerks Kauderwelsch (P22).
@@ -184,6 +191,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
       - Hinnerk: „Landratte“, „Schietbüdel“, „Dösbaddel“, „Kielschwein“,
       - Smilla: „Frischling“, „Landei“, „Seegurke“, „Bordküken“,
       - Klabauter: „Grünschnabel! Grünschnabel!“, „Nesthocker! Nesthocker!“, „Federlos! Federlos!“ *(N 20.10. g: „6. passt“)*.
+    - **Der Hörer wird gefragt und antwortet** (am Ende der Folge), sonst nicht direkt; Antworten nur per Multiple Choice, damit keine Credits nötig sind *(N 20.10. k)*.
     - Die Anreden sind feste Sätze. Ihr Audio wird **einmal erzeugt** und auch bei anderen Gelegenheiten in der App verwendet *(N 20.10. f, R10, `docs/feste-saetze.md`)*. Dafür dieselben Stimmen wie im Podcast verwenden (P49).
   - Die Häufigkeit ist offen (O7). Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
@@ -223,7 +231,8 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 
 ## 10. Fragen am Ende jeder Folge und Lernfortschritt
 
-- **P55 PFLICHT:** Fragen kommen erst am Ende jeder Folge („fragen doch erst am ende je folge“, *N 20.10. a*). Das ersetzt die ursprüngliche Idee vom 19.10., die Crew stelle ab und zu Zwischenfragen.
+- **P55 PFLICHT:** Fragen kommen erst **nach** der Folge *(N 20.10. k: „Lieber nach der Folge die Fragen. Sie werden vorgelesen.“)*. Ablauf: Die Frage wird vorgelesen, dann „Antwort A ist: …, B: …“ usw. Man kann jederzeit A, B, C oder D „reinrufen“; die Spracherkennung erkennt es und gibt es an die App, dann folgt ein Geräusch für richtig oder falsch und die nächste Frage. Die Sprachfunktion lässt sich ausschalten, dann tippt man. Im Auto-Modus laufen die Folgen durch. Technik siehe `PODCAST_STATUS.md` VS43, Bildfragen VS44.
+  - Früher: Fragen kommen erst am Ende jeder Folge („fragen doch erst am ende je folge“, *N 20.10. a*). Das ersetzt die ursprüngliche Idee vom 19.10., die Crew stelle ab und zu Zwischenfragen.
   - **Überspringen:** Man kann die Fragen am Ende überspringen und gleich zur nächsten Folge gehen *(N 20.10. d)*. Abgeleitet: Übersprungene Fragen gelten als nicht beantwortet und werden nicht als falsch gezählt.
   - **Schalter „nur zuhören“:** Er bleibt *(N 20.10. d)*. Abgeleitet: Ist er an, kommen am Folgenende keine Fragen, und die Folgen laufen nacheinander. Diese Deutung bitte bestätigen (O8).
 - **P56 PFLICHT:** „dann klickt man alle als multible coice durch“ *(N 20.10. a)*. Abgeleitet: „alle“ heißt alle Katalogfragen, die in dieser Folge behandelt wurden (P17). Diese Deutung muss noch bestätigt werden (O9).
