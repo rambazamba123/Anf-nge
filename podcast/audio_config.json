@@ -31,15 +31,39 @@
   "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE"],
   "pause_werte": ["kurz", "nachdenklich", "dramatisch"],
   "tempo_werte": ["langsam", "normal", "zügig"],
+  "tags_hinweis": "Alle Tags sind Kandidaten für den Hörtest (A14, A27). quelle: doku = in ElevenLabs-Unterlagen bzw. Bible A14 genannt; unbestaetigt = Claude kennt den Tag, hat ihn aber am 20.10. nicht in der Doku gefunden. Freigegeben wird erst nach dem Hörtest.",
   "intentionen": {
-    "neugierig": {"tag": "[curious]", "status": "experimentell"},
-    "nachdenklich": {"tag": "[thoughtful]", "status": "experimentell"},
-    "überrascht": {"tag": "[surprised]", "status": "experimentell"},
-    "beruhigend": {"tag": "[reassuring]", "status": "experimentell"},
-    "flüsternd": {"tag": "[whispering]", "status": "experimentell"},
-    "humorvoll": {"tag": "[playfully]", "status": "experimentell"},
-    "erleichtert": {"tag": "[relieved]", "status": "experimentell"},
-    "seufzend": {"tag": "[sighs]", "status": "experimentell"}
+    "neugierig": {"tag": "[curious]", "status": "experimentell", "quelle": "doku"},
+    "nachdenklich": {"tag": "[thoughtful]", "status": "experimentell", "quelle": "doku"},
+    "überrascht": {"tag": "[surprised]", "status": "experimentell", "quelle": "doku"},
+    "beruhigend": {"tag": "[reassuring]", "status": "experimentell", "quelle": "doku"},
+    "flüsternd": {"tag": "[whispers]", "status": "experimentell", "quelle": "doku"},
+    "humorvoll": {"tag": "[playfully]", "status": "experimentell", "quelle": "doku"},
+    "erleichtert": {"tag": "[relieved]", "status": "experimentell", "quelle": "doku"},
+    "seufzend": {"tag": "[sighs]", "status": "experimentell", "quelle": "doku"},
+    "ausatmend": {"tag": "[exhales]", "status": "experimentell", "quelle": "doku"},
+    "rufend": {"tag": "[shouts]", "status": "experimentell", "quelle": "doku"},
+    "lachend": {"tag": "[laughs]", "status": "experimentell", "quelle": "doku"},
+    "losprustend": {"tag": "[starts laughing]", "status": "experimentell", "quelle": "doku"},
+    "aufgeregt": {"tag": "[excited]", "status": "experimentell", "quelle": "doku"},
+    "sarkastisch": {"tag": "[sarcastic]", "status": "experimentell", "quelle": "doku"},
+    "verschmitzt": {"tag": "[mischievously]", "status": "experimentell", "quelle": "doku"},
+    "gähnend": {"tag": "[yawns]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "trocken": {"tag": "[deadpan]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "genervt": {"tag": "[annoyed]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "schnaubend": {"tag": "[snorts]", "status": "experimentell", "quelle": "unbestaetigt"}
+  },
+  "pause_tags": {
+    "kurz": {"tag": "[short pause]", "status": "experimentell", "quelle": "doku"},
+    "nachdenklich": {"tag": "[pause]", "status": "experimentell", "quelle": "doku"},
+    "dramatisch": {"tag": "[long pause]", "status": "experimentell", "quelle": "doku", "hinweis": "Schnitt zwischen zwei Anfragen; der Tag steht am Anfang der neuen Anfrage."}
+  },
+  "tempo_tags": {
+    "langsam": {"tag": "[slows down]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "zügig": {"tag": "[rushed]", "status": "experimentell", "quelle": "unbestaetigt"}
+  },
+  "audio_tags": {
+    "Möwen": {"tag": "[seagulls]", "status": "experimentell", "quelle": "unbestaetigt", "hinweis": "Geräusch-Tags gibt es laut ElevenLabs bei v3; ob dieser wirkt, zeigt der Test (A26)."}
   },
   "grossschreibung_betonung": {"status": "test", "max_pro_skript": 3, "hinweis": "Großschreibung als Betonung, vom Nutzer zum Test freigegeben (VS36, B67). Wörter in Großbuchstaben, die nicht im Ausspracheverzeichnis stehen, gelten dann als Betonung."},
   "text_normalisierung": null,

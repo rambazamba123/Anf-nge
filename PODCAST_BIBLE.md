@@ -36,6 +36,7 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. h) | Wunsch des Nutzers am 20.10.2026: Hörprobe mit allen Regie-Mitteln, Varianten für Klabauter, weitere Bootsnamen |
 | (N 20.10. g) | Entscheidungen des Nutzers am 20.10.2026: Überthema „Die Wette“, Quirin, Flensburg, Smillas Scheine, Harms und die Probeprüfung, Großschreibung, Hörprobe |
 | (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
@@ -416,7 +417,8 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
     - Flüstern bei prüfungswichtiger Information,
     - ständiges Pendeln zwischen Extremen,
     - Tags als Ersatz für schlechten Dialog.
-  - **Kandidaten** (experimentell, bis sie mit der jeweiligen Stimme getestet sind): neugierig `[curious]`, nachdenklich `[thoughtful]`, überrascht `[surprised]`, beruhigend `[reassuring]`, flüsternd `[whispering]`, humorvoll `[playfully]`, erleichtert `[relieved]`, seufzend `[sighs]`.
+  - **Kandidaten** (experimentell, bis sie mit der jeweiligen Stimme getestet sind): neugierig `[curious]`, nachdenklich `[thoughtful]`, überrascht `[surprised]`, beruhigend `[reassuring]`, flüsternd `[whispers]`, humorvoll `[playfully]`, erleichtert `[relieved]`, seufzend `[sighs]`.
+  - **Für den Hörtest erweitert** *(N 20.10. h: „nicht nur dick gedruckte worte, sondern auch flüstern etc. alles was es so gibt mit einbauen“)*: ausatmend, rufend, lachend, losprustend, aufgeregt, sarkastisch, verschmitzt, gähnend, trocken, genervt, schnaubend; dazu Tags für `[[PAUSE]]` (kurz, nachdenklich, dramatisch), `[[TEMPO]]` (langsam, zügig) und ein Geräusch über `[[AUDIO]]`. Die Liste mit Tag und Herkunft (`doku` oder `unbestaetigt`) steht in `podcast/audio_config.json`. Was der Hörtest nicht bestätigt, fliegt wieder raus. Die Verbote oben gelten weiter, auch in der Testszene (kein Flüstern bei Prüfungsstoff).
   - Freigegebene Tags stehen in der Konfiguration (A8).
 
 ### 14.7 Pausen, Tempo und Laufzeit

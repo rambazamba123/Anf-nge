@@ -1,26 +1,30 @@
 /* Podcast-Hörprobe (Entwickler): spricht ein Testskript aus podcast/skripte/ mit ElevenLabs Text to Dialogue
    (PODCAST_BIBLE.md A27). Nutzt den Schlüssel auf dem Gerät, kostet Credits. Das Ergebnis lässt sich anhören und
    als MP3 speichern, damit der Nutzer es ins Repo (Ordner import/) hochladen kann.
-   Regie: [[INTENTION]] wird zum Audio-Tag aus podcast/audio_config.json (Kandidaten, genau dafür ist der Test),
-   alle anderen Codes fallen weg; Anfragen werden an [[PAUSE: dramatisch]] und spätestens bei max_zeichen geteilt.
+   Regie: [[INTENTION]], [[PAUSE]], [[TEMPO]] und [[AUDIO]] werden zu Audio-Tags aus podcast/audio_config.json
+   (Kandidaten, genau dafür ist der Test), alle anderen Codes fallen weg; Anfragen werden an [[PAUSE: dramatisch]]
+   und spätestens bei max_zeichen geteilt, die neue Anfrage beginnt dann mit dem Pausen-Tag.
    Aussprache: Originalschreibweise (erster Schritt aus A19). */
 (function () {
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   /* Skript (Ebene A) → Anfragen (Ebene C): [[{text, voice_id}]] */
   function zerlege(txt, cfg) {
-    const fig = cfg.figuren || {}, intent = cfg.intentionen || {}, max = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
+    const fig = cfg.figuren || {}, max = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
     let zeilen = txt.split('\n'), i = 0;
     if (zeilen[0] && zeilen[0].trim() === '---') { i = 1; while (i < zeilen.length && zeilen[i].trim() !== '---') i++; i++; }
-    const teile = [[]]; let n = 0, fehler = [];
+    const TAGS = {INTENTION: cfg.intentionen, PAUSE: cfg.pause_tags, TEMPO: cfg.tempo_tags, AUDIO: cfg.audio_tags};
+    const tagVon = (kat, wert) => { const e = (TAGS[kat] || {})[(wert || '').trim()]; return e ? e.tag : ''; };
+    const teile = [[]]; let n = 0, fehler = [], vorweg = '';
     for (; i < zeilen.length; i++) {
       const z = zeilen[i].trim();
       if (!z || z.startsWith('#') || /^<!--.*-->$/.test(z)) continue;
       const m = z.match(/^([A-ZÄÖÜ][A-ZÄÖÜ0-9_]*):\s*(.*)$/);
-      if (!m) { if (/\[\[\s*PAUSE\s*:\s*dramatisch\s*\]\]/.test(z) && teile[teile.length - 1].length) { teile.push([]); n = 0; } continue; }
+      if (!m) { if (/\[\[\s*PAUSE\s*:\s*dramatisch\s*\]\]/.test(z) && teile[teile.length - 1].length) { teile.push([]); n = 0; vorweg = tagVon('PAUSE', 'dramatisch'); } continue; }
       const f = fig[m[1]];
       if (!f || !f.voice_id) { fehler.push(`Zeile ${i + 1}: keine Stimme für ${m[1]}`); continue; }
-      const text = m[2].replace(CODE, (_, kat, wert) => kat === 'INTENTION' && intent[(wert || '').trim()] ? intent[wert.trim()].tag + ' ' : ' ').replace(/\s+/g, ' ').trim();
+      let text = m[2].replace(CODE, (_, kat, wert) => ' ' + tagVon(kat, wert) + ' ').replace(/\s+/g, ' ').trim();
       if (!text) continue;
+      if (vorweg) { text = vorweg + ' ' + text; vorweg = ''; }
       if (n && n + text.length > max) { teile.push([]); n = 0; }
       teile[teile.length - 1].push({text, voice_id: f.voice_id}); n += text.length;
     }
