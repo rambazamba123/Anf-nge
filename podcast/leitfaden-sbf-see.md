@@ -1,6 +1,14 @@
 # Leitfaden der Geschichte – Kajütenfunk SBF See
 
-> **Status: Entwurf, Vorschlag von Claude vom 20.10.2026, vom Nutzer noch nicht bestätigt** (`PODCAST_STATUS.md` VS30).
+> **Status: Entwurf von Claude vom 20.10.2026. Der Nutzer findet ihn „im Grunde gut“ (B52), die Route ist bestätigt (B53).**
+> **Noch offen:**
+> - das Wort „Schlei“ beziehungsweise der Heimathafen (O34, VS32),
+> - der Bootsname (O35),
+> - der Bayer ab Folge 6 (O36),
+> - Harms ab Folge 1 (O13, VS34),
+> - das Überthema (O4, VS35).
+>
+> Diese Punkte arbeitet Claude erst nach der Entscheidung des Nutzers ein.
 > - Es gelten die Regeln aus `PODCAST_BIBLE.md`.
 > - Das große Überthema liefert der Nutzer (B42). Es ist hier bewusst nicht enthalten.
 > - SBF Binnen kommt später als eigene Staffel.

@@ -36,6 +36,7 @@
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
 | (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
 | (N 20.10. e) | Nachricht des Nutzers am 20.10.2026: neutrale Anreden, Ausspracheverzeichnis, Konfiguration, Prüfwerkzeug, Testszene zuerst, Leitfaden der Geschichte |
+| (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
 | (CLAUDE.md …) | bestehende Projektregel |
 | **abgeleitet** | Claude hat eine Nutzeraussage in ein prüfbares Kriterium übersetzt. Es gilt wie die Aussage selbst. Trifft es das Gemeinte nicht, gilt die Aussage, und das Kriterium wird nach Rückfrage korrigiert (siehe `PODCAST_STATUS.md`, O29). |
@@ -152,18 +153,30 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - PFLICHT (abgeleitet): Jede Äußerung ist eindeutig Witz oder Wichtiges. Für „Wichtiges“ gibt es ein gleichbleibendes, hörbares Erkennungszeichen, in allen Folgen dasselbe. Welches Zeichen, ist offen (O6). In Anhang A sind es Schiffsglocke und „Krrah! Merken!“.
   - VERBOTEN (abgeleitet): Im Modus „Wichtiges“ wiederholt er etwas Falsches.
 - **P44 Bordkatze Backbord:** PFLICHT: Sie spricht nicht *(CLAUDE.md V2, §3)*. OPTIONAL: Geräusche wie Miauen und Herumspringen, wie in Anhang A.
-- **P45 Kapitän Harms** (Prüfer, interne ID `kroeger`): Laut CLAUDE.md §3 streng und knurrig. Seine Rolle im Podcast ist offen (O13).
+- **P45 Kapitän Harms** (Prüfer, interne ID `kroeger`): Laut CLAUDE.md §3 streng und knurrig.
+  - PFLICHT (mit „ggf.“): Ganz am Anfang erklärt er, wie er am Ende prüft und was man wissen muss *(N 20.10. f)*.
+  - Grundlage ist die Prüfungsordnung, die der Nutzer hochlädt (F3). Ohne sie schreibt Claude diese Erklärung nicht.
+  - Sonst trifft man ihn, „wenn es passt“.
+  - Ob das Staffelfinale seine Prüfung ist, ist offen (O13, Vorschlag VS34).
 - **P46 Gastrollen:** PFLICHT: Es gibt Gastrollen, dafür auch **zusätzliche eigene Stimmen** („gastrollen sind top“, „3. gerne zusätzlichen“, *N 20.10. b*). Der Nutzer hat diese Beispiele begrüßt: Hafenmeister, Funkstimme, Fischer. Figuren, Namen und Anzahl sind offen (O14).
 - **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*.
+  - Er kommt **schon bei SBF See** vor *(N 20.10. f)*.
   - Er ist **selbst eine witzige Figur**. Es gibt **keine Witze über Bayern** („keine bayern witze. ein witziger bayer.“, *N 20.10. d*).
+  - Er **macht sich über sich selbst lustig** und nimmt sich nicht so ernst *(N 20.10. f)*.
+  - Er bekommt einen besseren Namen als im verworfenen Vorschlag. Name, Charakter und Verhältnis zu Hinnerk sind offen (O36, VS34).
   - Der Humor kommt aus seiner Persönlichkeit und den Situationen, nicht aus seiner Herkunft.
   - Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
 - **P48 Perspektive und Anrede:**
   - PFLICHT: Die drei unterhalten sich miteinander (P1, P5).
   - PFLICHT: Sprechen sie den Hörer an, dann **neckend** *(N 20.10. d)* und **geschlechtsneutral**.
     - „Matrose“ ist dem Nutzer nicht neutral genug, „Moses“ entfällt („moses würde ich weglassen“, *N 20.10. e*).
-    - Bestätigt ist bisher nur „hey du“.
-  - Weitere neutrale Anreden und die Häufigkeit sind offen (O7, Ideen in VS27). Die Anrede ist ein fester Text ohne Namen (X10).
+    - **Beschlossen** *(N 20.10. f: „alle gut“)*:
+      - „hey du“,
+      - Hinnerk: „Landratte“, „Schietbüdel“, „Dösbaddel“, „Kielschwein“,
+      - Smilla: „Frischling“, „Landei“, „Seegurke“, „Bordküken“,
+      - Klabauter: „Grünschnabel! Grünschnabel!“ und zwei weitere (Vorschlag VS31).
+    - Die Anreden sind feste Sätze. Ihr Audio wird **einmal erzeugt** und auch bei anderen Gelegenheiten in der App verwendet *(N 20.10. f, R10, `docs/feste-saetze.md`)*. Dafür dieselben Stimmen wie im Podcast verwenden (P49).
+  - Die Häufigkeit ist offen (O7). Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
 
 ## 8. Ton und Sprache
@@ -190,7 +203,10 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **X6 VERBOTEN:** Klabauter ist mehrdeutig (Witz oder wichtig?), oder er sagt im Modus „Wichtiges“ etwas Falsches (P43).
 - **X7 VERBOTEN:** Hinnerk irrt immer (P41).
 - **X8 VERBOTEN (abgeleitet aus „fragen doch erst am ende je folge“, *N 20.10. a*):** Multiple-Choice-Fragen an den Hörer mitten in der Folge. Fragen, die sich die Figuren innerhalb der Geschichte stellen, sind erlaubt.
-- **X9 VERBOTEN (abgeleitet aus P5 „unabhängig der prüfung“):** Die Figuren begründen Stoff mit der Prüfung, etwa „das kommt in der Prüfung dran“. V24 entfällt. Offen ist nur noch, wie sich das mit einem möglichen Harms-Finale verträgt (W5).
+- **X9 VERBOTEN (abgeleitet aus P5 „unabhängig der prüfung“):** Die Figuren begründen Stoff mit der Prüfung, etwa „das kommt in der Prüfung dran“. V24 entfällt.
+  - **Ausnahme:** Harms darf erklären, wie er prüft (P45, *N 20.10. f*).
+  - Die drei reden untereinander weiter als Seeleute, nicht über die Prüfung.
+  - Offen ist nur noch das Finale (W5, O13).
 - **X10 VERBOTEN:** Der Name des Nutzers in Podcasttexten. Abgeleitet aus CLAUDE.md R10: Alles, was die Crew wiederholt sagt, ist ein fester Satz ohne Namen.
 - **X11 VERBOTEN:** API-Schlüssel ins Repo schreiben oder ausgeben *(CLAUDE.md R9)*.
 - **X12 VERBOTEN:** Podcastaudio pro Gerät oder bei jedem Abspielen neu erzeugen („kajütenfunk immer neu generieren wäre wahnsinn“, *N 05.10.*; „wir MÜSSEN es in die app legen“, *N 09.10.*).
@@ -365,7 +381,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
 
   Der API-Schlüssel steht nie darin, er liegt nur als Secret vor (R9, P65).
 - **A9 PFLICHT** (AR 3.1): Das Modell wird durch einen Hörtest mit denselben Szenen gewählt (A27), nicht nach Beschreibung.
-  - Kandidaten Stand 20.10.2026: **Eleven v4**. Die Text-to-Dialogue-Doku empfiehlt es laut Websuche für Dialoge. Die Variante „v4 Turbo“ kann nur einzelne Sprache, keinen Dialog.
+  - Kandidaten Stand 20.10.2026: **Eleven v4** (Modell-ID laut v4-Doku `eleven_v4`). Die Text-to-Dialogue-Doku empfiehlt es laut Websuche für Dialoge. Die Variante „v4 Turbo“ kann nur einzelne Sprache, keinen Dialog.
   - Zweiter Kandidat ist **Eleven v3**.
   - Die genaue Modell-ID wird aus Doku oder API übernommen, nie geraten.
 - **A10 PFLICHT** (AR 3.2): Text to Dialogue:
@@ -402,6 +418,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Auslassungspunkte sparsam, sie bedeuten auch Zögern.
   - `[[PAUSE]]` und `[[TEMPO]]` sind nur Regie. Wirkt eine Stelle zu schnell, zuerst Satzbau und Informationsdichte ändern.
   - Eine genaue Stille in Sekunden entsteht erst beim Schnitt nach der Erzeugung.
+  - Laut Doku (Websuche 20.10.) gibt es einen Audio-Tag `[pause]`, und doppelte Gedankenstriche („-- --“) verlängern Pausen. Beides gilt als Kandidat und wird erst im Test freigegeben (A14, A27).
   - Kein „Ähm“, Räuspern oder Seufzen ohne Grund in Figur und Lage.
 - **A16 PFLICHT** (AR 11.1): Die 25 Minuten (P13) werden an der tatsächlichen Audiodauer gemessen. P14 ist nur ein Richtwert fürs Schreiben.
 
@@ -548,6 +565,17 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Laut der neueren Best-Practices-Seite unterstützen weder v3 noch v4 SSML-Pausen.
   - Ob Eleven v4 Phonem-Einträge in Aussprachewörterbüchern unterstützt, geben zwei Fassungen der Doku verschieden an.
   - IPA im Text funktioniert bei v3 laut Doku zu etwa 80–90 %.
+- **Lernquellen für die Skriptarbeit** *(vom Nutzer genannt, N 20.10. f)*: [Eleven v4](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/eleven-v4) und [Best practices](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/best-practices). Die Seiten sind aus der Cloud nicht direkt abrufbar. Laut Websuche vom 20.10.2026 steht dort:
+  - Modell-ID `eleven_v4` (dazu `eleven_v4_turbo`).
+  - Höchstens 10.000 Zeichen pro Text-to-Speech-Anfrage. Für den Dialog-Endpunkt gilt weiter etwa 2.000 (A11).
+  - Nur die Einstellungen **Stability** und **Similarity**, keine Regler für Stil und Tempo.
+  - **Kein SSML.**
+  - **Audio-Tags sind das wichtigste Steuermittel**, z. B. `[pause]`, `[whispers]`, `[excited]`. Ob auch v4 Turbo alle Tags kann, ist widersprüchlich angegeben.
+  - Komma und Punkt erzeugen kurze Pausen, Gedankenstriche und Auslassungspunkte längere. Auslassungspunkte bringen oft Zögern oder Nervosität hinein.
+  - **Großschreibung** kann ein Wort betonen. Das steht im Widerspruch zu A24, Vorschlag VS36.
+  - Der Zusammenhang um einen Tag wirkt stärker als der Tag allein.
+
+  Vor dem Testlauf liest Claude die Seiten noch einmal direkt (F9).
 
 ---
 

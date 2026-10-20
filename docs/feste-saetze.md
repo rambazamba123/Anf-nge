@@ -91,3 +91,21 @@ Alle Sätze stehen in `data/manoever.json` (Vorführungen `demo[].sag`/`cmd`, Ko
 - K (Pensum geschafft, Festigen empfohlen): Für heute hast du dein Pensum geschafft. Wenn du noch Lust hast, festigen wir, was noch wackelt.
 
 Alle Sätze kommen über Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“ ins Paket.
+
+## Geplant: neckende Anreden (Kajütenfunk V33 und App, noch nicht im Code)
+
+Vom Nutzer am 20.10.2026 beschlossen (`PODCAST_STATUS.md` B54, B55). Alle Anreden sind geschlechtsneutral. Das Audio wird einmal erzeugt und im Podcast und bei anderen Gelegenheiten in der App verwendet. Die genaue Satzform (z. B. „Hey, Landratte!“) wird beim Einbau festgelegt.
+
+| Figur | Anrede | Status |
+|---|---|---|
+| alle | Hey du! | beschlossen |
+| Käpt'n | Landratte | beschlossen |
+| Käpt'n | Schietbüdel | beschlossen |
+| Käpt'n | Dösbaddel | beschlossen |
+| Käpt'n | Kielschwein | beschlossen |
+| Matrosin | Frischling | beschlossen |
+| Matrosin | Landei | beschlossen |
+| Matrosin | Seegurke | beschlossen |
+| Matrosin | Bordküken | beschlossen |
+| Bordtier | Grünschnabel! Grünschnabel! | beschlossen |
+| Bordtier | zwei weitere, Vorschlag „Nesthocker! Nesthocker!“ und „Federlos! Federlos!“ | wartet auf den Nutzer (VS31) |
