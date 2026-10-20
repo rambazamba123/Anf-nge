@@ -83,7 +83,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - Danach erzeugt Claude mit `tools/stimmenpaket.js` und legt das Paket ins Repo.
 - **(b) Am Handy durch den Nutzer:** ZIP aus der App exportieren und als `stimmen.zip` ins Repo legen. `tools/stimmen-import.js` baut es ein.
 
-**Qualität:** Das Modell „Multilingual v2“ spricht Deutsch in hoher Qualität. Vor der Erzeugung prüft Claude, ob ElevenLabs inzwischen ein besseres Modell für Deutsch anbietet (z. B. „v3“), und erzeugt zuerst drei Probesätze zum Anhören.
+**Qualität:** Das Modell „Multilingual v2“ spricht Deutsch in hoher Qualität. Vor der Erzeugung prüft Claude, ob ElevenLabs inzwischen ein besseres Modell für Deutsch anbietet (z. B. „v3“), und erzeugt zuerst drei Probesätze zum Anhören. Für den Podcast gilt stattdessen `PODCAST_BIBLE.md` §14.
 
 **Live-KI** (freies Gespräch, Erklärungen auf Nachfrage) lässt sich nicht vorab erzeugen. Sie bleibt hinter grauen Kostenknöpfen. Ein Tageslimit kommt später (E4).
 
@@ -167,7 +167,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - ✓ **V21 KI-Schlüssel anderer Anbieter** (E2): Anthropic, Google Gemini oder OpenAI in einem Feld.
 - ✓ **V22 App aufs Handy** (E3): Installieren-Knopf, iPhone-Hinweis, APK-Anleitung `docs/apk-anleitung.md`.
 - ✓ **V23 Manöverspiel nach der Prüfungsrichtlinie** (Nutzer, 10.10.2026): alle fahrbaren Manöver mit Motor (Ablegen, Anlegen, Mensch über Bord, Steuern nach Kompass mit Peilen, Kursgerechtes Aufstoppen, Wenden auf engem Raum), Vorführung „So geht's“ mit Crew-Erklärungen und Prüfer-Hinweisen, Kommandos als Auswahl (auch „Kein Kommando“), Ein-Finger-Steuerfeld wie am Außenborder (Pinne umgekehrt, rückwärts umgekehrt, Hebel bleibt stehen), umschaltbar auf Steuerrad, Radeffekt und Wind, zwei Versuche mit Bewertung „ausreichend“.
-- **V24 Podcast-Folge zur praktischen Prüfung** (Nutzer, 10.10.2026): nach dem Manöverspiel. Grundlage: Richtlinie Anlage 4 (Praxisprotokoll). Wie die Folge in V33 aufgeht, ist offen (`PODCAST_STATUS.md` O12).
+- **V24 Podcast-Folge zur praktischen Prüfung:** entfällt (Nutzer, 20.10.2026: „V24 kommt weg“). Die Praxis kommt trotzdem in der Reihe V33 vor.
 - ✓ **V26 Neue Ordnung** (Nutzer, 10.10.2026):
   - Start ist das Deck: Boot, Rennen (Theorie in Prozent), „⛵ Kurs für heute“ (Tagesempfehlung) und darunter die Logbuch-Aufschlüsselung (Theorie, Navigation, Praxis je bis 100 %, heute, noch offen).
   - „📋 Meine Prüfungen“ in der Kajüte beim Käpt'n: aufgebaut wie die Prüfung (Theorie, Seezeichen und Signale, Navigation, Praxis, Probeprüfung), Abschnitte eingeklappt, jeder Schein lernbar, „bestanden“ selbst eintragen.
@@ -184,9 +184,9 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Eigene Zahlentasten (Komma, ±, E/W), Rückgängig und Wiederholen für alles, Aufteilung: Aufgabe oben, Karte in der Mitte, Arbeitsblatt unten.
 - ✓ **V31 Lob und Wiederholung** (Nutzer, 19.10.2026): eigene Lobstufe bei 100 %; nach dem Tagespensum die Wahl „✨ Noch was Neues“ oder „🔁 Festigen“ mit Empfehlung der Crew.
 - **V32 Katalogbilder in Farbe** (Nutzer, 19.10.2026): Etwa 54 Binnen- und 31 SBF-Bilder liegen nur in Graustufen vor (Lichter-Bilder sind so kaum lesbar). Sie werden aus den Original-PDFs ersetzt, die der Nutzer im nächsten Lauf liefert.
-- **V33 Kajütenfunk neu als Hörkurs** (Nutzer, 19./20.10.2026): eine spannende Podcastreihe, in der alle Prüfungsfragen und die Praxis vorkommen. Das Regelwerk steht in `PODCAST_BIBLE.md`, Entscheidungen und offene Fragen in `PODCAST_STATUS.md` (R15).
+- **V33 Kajütenfunk neu als Hörkurs** (Nutzer, 19./20.10.2026): eine spannende Podcastreihe, in der alle Prüfungsfragen und die Praxis vorkommen. Zuerst SBF See, danach Binnen als Zusatz, ca. 12–25 Folgen zu je 25 Minuten. Das Regelwerk steht in `PODCAST_BIBLE.md`, Entscheidungen und offene Fragen in `PODCAST_STATUS.md` (R15).
 
-**Nach der Veröffentlichung:** Folgen für SKS und Binnen (jetzt Teil von V33, Reihenfolge offen), Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
+**Nach der Veröffentlichung:** Folgen für Binnen (jetzt Teil von V33 als Zusatz nach SBF See), Folgen für SKS (kein Beschluss), Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
 
 ## 7. Code-Karte
 *Stand v4.72 (Lauf 4). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
@@ -322,13 +322,14 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.71 V31 Lob „Fehlerfrei!“ bei 100 % und Wahl „Noch was Neues“/„Festigen“ nach dem Tagespensum (`nachPensum`, `extraWahlHtml`; Festigen nimmt zuerst, was noch nicht sicher sitzt); Kreuzknoten neu als zwei ineinandergreifende Buchten bis zum fertigen Knoten; V30 Navi-Facelift (Zirkel mit Griffen und Einrasten, „An den Breitenrand“ und Ablese-Fenster, Arbeitsblatt mit Antwort/Rechenblatt/Hilfe, gegebene und übernommene Werte, 📌 übernehmen, eigene Zahlentasten, ↶ ↷ für alles); Rauchtest `08c-navi-arbeitsblatt`
 - [x] v4.72 Kreuzknoten neu (Nutzer: „Schau dir Beispiele an, besser gegenüber starten“): Leinen von links und rechts, zwei gegenläufige Halbknoten (rechts über links, links über rechts), festziehen; mathematisch geprüft (`tools/knoten-pruefen.js`, im pre-commit). Die Fassung aus v4.71 war fachlich falsch: zwei eingehakte Buchten ohne die beiden Halbknoten (Prüfung: kein Kreuzknoten).
 - [x] Podcast-Regelwerk (nur Doku, kein App-Code): `PODCAST_BIBLE.md` und `PODCAST_STATUS.md` aus dem Gespräch vom 19.–20.10.2026. Verweise in CLAUDE.md: R15, §1, §3, §4, V8, V24, V33, E5, E10.
+- [x] Podcast-Regelwerk, zweite Fassung (nur Doku): Antworten des Nutzers eingearbeitet (SBF See, danach Binnen als Zusatz, 12–25 Folgen; neckende Anrede; Fragen überspringbar; „nur zuhören“ bleibt; V24 entfällt; ein witziger Bayer ohne Bayern-Witze). Neu ist Bible §14 Sprechregie, Aussprache und Audioproduktion, aus dem Regelwerk des Nutzers kritisch übernommen; ElevenLabs-Angaben per Websuche geprüft.
 ### Jetzt dran
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** zuerst die offenen Fragen aus `PODCAST_STATUS.md` (Abschnitt 2) mit dem Nutzer klären, dann das große Rätsel und eine Geschichte je Folge. V24 gehört dazu.
+- **V33 Kajütenfunk:** zuerst die offenen Fragen aus `PODCAST_STATUS.md` (Abschnitt 2) mit dem Nutzer klären, besonders die Stoffdichte (W17). Das Überthema liefert der Nutzer. Danach eine Geschichte je Folge.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
 
@@ -341,7 +342,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - **(a) Empfehlung:** Secret `ELEVENLABS_API_KEY` und Domain `api.elevenlabs.io` in der Cloud-Umgebung freigeben, dann erzeugt Claude das Paket.
   - **(b)** Export am Handy.
   - **Für den Podcast entschieden:** (a), sobald die Folgen ausgereift sind, zuerst nur ein Teil einer Folge als Test (Nutzer, 20.10.2026, `PODCAST_STATUS.md` B16).
-- **E6 Stimmenqualität:** hoch (Nutzer). Vor der Erzeugung Modellprüfung und drei Probesätze.
+- **E6 Stimmenqualität:** hoch (Nutzer). Vor der Erzeugung Modellprüfung und drei Probesätze. Für den Podcast gilt stattdessen `PODCAST_BIBLE.md` §14: Hörtest mit Testszene, Kandidaten Eleven v4 und v3.
 - **E7 „Weiter“-Knöpfe:** bleiben gelb-orange (Nutzer, 09.10.2026).
 - **E8 Cloudflare-Worker:** gestrichen, Supabase übernimmt das bei Bedarf (Nutzer, 09.10.2026).
 - **E9 Konten mit Supabase:** freigegeben (05.10.2026), aber erst nach der Veröffentlichung (siehe E2).

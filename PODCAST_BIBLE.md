@@ -1,8 +1,12 @@
 # PODCAST_BIBLE.md – Regelwerk für den Kajütenfunk
 
-> **Verbindliches Regelwerk für alle Podcastfolgen („Kajütenfunk“) der App Skipper.** Stand: 20.10.2026.
+> **Verbindliches Regelwerk für alle Podcastfolgen („Kajütenfunk“) der App Skipper.** Stand: 20.10.2026, zweite Fassung. Darin sind die Entscheidungen zu den offenen Punkten und das Audio-Regelwerk (Abschnitt 14) eingearbeitet.
 > Offene Fragen, Widersprüche, fehlende Informationen, unbestätigte Vorschläge und der Verlauf der Entscheidungen stehen in **`PODCAST_STATUS.md`**.
-> Diese Datei enthält nur, was der Nutzer beschlossen hat, was aus bestehenden Projektregeln (CLAUDE.md) folgt, und prüfbare Kriterien, die Claude daraus abgeleitet hat. Abgeleitete Kriterien sind als solche gekennzeichnet.
+> Diese Datei enthält nur:
+> - was der Nutzer beschlossen hat,
+> - was aus bestehenden Projektregeln (CLAUDE.md) folgt,
+> - die Teile seines Audio-Regelwerks, die Claude in seinem Auftrag nach Prüfung übernommen hat,
+> - prüfbare Kriterien, die Claude daraus abgeleitet hat. Diese sind als solche gekennzeichnet.
 
 ---
 
@@ -11,7 +15,7 @@
 - **G1** Vor jeder Arbeit an Podcastinhalten liest Claude diese Datei und wendet sie an. Das gilt für Konzept, Handlung, Skript, Fragenzuordnung, Ton, Aufnahme und Einbau. Bei Unklarheiten liest Claude zusätzlich `PODCAST_STATUS.md`.
 - **G2** Die hier dokumentierten Entscheidungen sind die verbindliche Grundlage der Podcastproduktion. Claude ändert sie nicht stillschweigend. Änderungen schlägt Claude vor und trägt sie erst nach Bestätigung des Nutzers ein. *(Nutzer, 20.10.2026)*
 - **G3** Offene Fragen aus `PODCAST_STATUS.md` entscheidet Claude nicht eigenmächtig. Was dort als offen oder als Vorschlag steht, ist **keine** Regel.
-- **G4** Bei Widerspruch zu älteren Angaben über die Folgen in CLAUDE.md gilt diese Datei, weil sie die späteren Beschlüsse enthält. Betroffen sind §3 „keine sexuellen Anspielungen“ (nur für den Podcast), §4 „Teil 2“, V8, E10 und der Termin in §1. Alle übrigen Projektregeln aus CLAUDE.md gelten weiter, besonders R2, R7, R8, R9, R10, R12, E1 und E6.
+- **G4** Bei Widerspruch zu älteren Angaben über die Folgen in CLAUDE.md gilt diese Datei, weil sie die späteren Beschlüsse enthält. Betroffen sind §3 „keine sexuellen Anspielungen“ (nur für den Podcast), §4 „Teil 2“ und „Qualität“ (für den Podcast gilt Abschnitt 14), V8, V24, E10 und der Termin in §1. Alle übrigen Projektregeln aus CLAUDE.md gelten weiter, besonders R2, R7, R8, R9, R10, R12, E1 und E6.
 - **G5** Eine spätere, ausdrücklich beschlossene Änderung ersetzt eine ältere Regel. Den Verlauf hält `PODCAST_STATUS.md` fest (Abschnitt 8).
 - **G6** Die Vorschläge aus Claudes Nachricht vom 20.10.2026 nach der Bewertung der Varianten A/B/C sind vom Nutzer verworfen. Dazu gehören das große Rätsel, der Staffelplan mit 23 Folgen, die Verdächtigen, die Gastnamen und die Galionsfigur. Sie werden nicht verwendet, auch nicht in Teilen, außer der Nutzer fragt ausdrücklich danach.
 
@@ -30,6 +34,8 @@
 | (N 20.10. a) | Erste Antwort des Nutzers am 20.10.2026 (Geschichte statt Themen, Antworten 7–13) |
 | (N 20.10. b) | Zweite Antwort des Nutzers am 20.10.2026 (Varianten A/B/C, Bayer, Ton) |
 | (N 20.10. c) | Dokumentationsauftrag des Nutzers am 20.10.2026 |
+| (N 20.10. d) | Antworten des Nutzers auf die offenen Punkte am 20.10.2026 |
+| (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
 | (CLAUDE.md …) | bestehende Projektregel |
 | **abgeleitet** | Claude hat eine Nutzeraussage in ein prüfbares Kriterium übersetzt. Es gilt wie die Aussage selbst. Trifft es das Gemeinte nicht, gilt die Aussage, und das Kriterium wird nach Rückfrage korrigiert (siehe `PODCAST_STATUS.md`, O29). |
 
@@ -66,19 +72,19 @@
   - Dazu kommen 6,2 Zeichen pro Wort in den bisherigen Texten. Das ergibt etwa 134 Wörter pro Minute.
   - Nach dem ersten Tontest (P62) wird nachgemessen.
   - Die erlaubte Abweichung ist offen (O11). Offen ist auch, ob die Fragen am Ende in die 25 Minuten zählen (O10).
-- **P15 Rahmen:** Für den Gesamtumfang nannte der Nutzer 4 bis 40 Stunden Redezeit („gesamt können wir denke ich zwischen 4-40h redezeit treffen“, *N 19.10.*). Die Zahl der Folgen und die Gesamtdauer sind offen (O2).
+- **P15 Umfang:** Der erste Rahmen waren 4 bis 40 Stunden Redezeit *(N 19.10.)*. Beschlossen sind jetzt **ca. 12–25 Folgen** *(N 20.10. d)*, bei 25 Minuten also etwa 5 bis 10,5 Stunden. Ob die Zahl den Binnen-Zusatz einschließt und wie hoch sie genau wird, ist offen (O2, W17).
 
 ## 4. Inhalt, Abdeckung, Fakten und Quellen
 
 - **P16 PFLICHT:** Jede Katalogfrage des behandelten Scheins kommt in mindestens einer Folge vor *(N 19.10.)*.
   - Bestand in der App: SBF See 285 Fragen (`data/sbf.json`), SBF Binnen 300 (`data/binnen.json`), SKS 638 Einträge (`data/sks.json`).
-  - Welche Scheine eine Reihe bekommen und in welcher Reihenfolge, ist offen (O1).
+  - **Scheine:** zuerst **SBF See**, danach **Binnen als Zusatz** *(N 20.10. d: „SBF see und dann noch zusatz: binnen“)*. Für SKS gibt es keinen Beschluss (O1).
 - **P17 PFLICHT (abgeleitet aus P16 und P53):** Zu jeder Folge ist festgehalten, welche Katalogfragen sie behandelt (Fragen-IDs wie `sbf:120`).
   - Über alle Folgen zusammen ist jede Frage mindestens einmal zugeordnet.
   - Die Zuordnung ist maschinenlesbar, damit Abdeckung und Fragen am Folgenende geprüft werden können.
 - **P18 PFLICHT (abgeleitet):** „Behandelt“ heißt: Der Inhalt der richtigen amtlichen Antwort wird in der Folge ausgesprochen und ist als richtig erkennbar. Er wird zum Beispiel von Smilla bestätigt oder steht unwidersprochen am Ende der Szene.
-- **P19 PFLICHT:** Die Praxis wird mindestens einmal behandelt *(N 19.10.)*. Grundlage ist die Richtlinie zur praktischen Prüfung, besonders Anlage 4 (Praxisprotokoll) *(CLAUDE.md V24)*. Die Richtlinie liegt derzeit nur als Upload in der Cloud-Sitzung (F3).
-- **P20 PFLICHT:** Es gibt eine Podcast-Folge zur praktischen Prüfung („es soll eine podcast-folge zur praktischen prüfung geben“, *N 10.10.*, CLAUDE.md V24). Wie sie in die neue Reihe passt, ist offen (O12, W5).
+- **P19 PFLICHT:** Die Praxis wird mindestens einmal behandelt *(N 19.10.)*. Grundlage ist die Richtlinie zur praktischen Prüfung, besonders Anlage 4 (Praxisprotokoll), wie sie schon für V24 und V23 genannt war. Die Richtlinie liegt derzeit nur als Upload in der Cloud-Sitzung (F3).
+- **P20 entfällt:** Eine eigene Podcast-Folge zur praktischen Prüfung (V24, *N 10.10.*) gibt es nicht mehr („V24 kommt weg“, *N 20.10. d*). Die Praxis wird trotzdem nach P19 in der Reihe behandelt.
 - **P21 PFLICHT:** Prüfungsinhalte stammen nur aus den amtlichen Katalogen und sind fachlich korrekt *(CLAUDE.md R8)*.
   - Arbeitsgrundlage sind die Katalogdaten der App in `data/*.json`. Die Originale liegen im Ordner `quellen/` und fehlen in der Cloud.
   - Was Claude ohne `quellen/` prüfen musste, wird im Bericht markiert *(R8)*.
@@ -147,8 +153,14 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **P44 Bordkatze Backbord:** PFLICHT: Sie spricht nicht *(CLAUDE.md V2, §3)*. OPTIONAL: Geräusche wie Miauen und Herumspringen, wie in Anhang A.
 - **P45 Kapitän Harms** (Prüfer, interne ID `kroeger`): Laut CLAUDE.md §3 streng und knurrig. Seine Rolle im Podcast ist offen (O13).
 - **P46 Gastrollen:** PFLICHT: Es gibt Gastrollen, dafür auch **zusätzliche eigene Stimmen** („gastrollen sind top“, „3. gerne zusätzlichen“, *N 20.10. b*). Der Nutzer hat diese Beispiele begrüßt: Hafenmeister, Funkstimme, Fischer. Figuren, Namen und Anzahl sind offen (O14).
-- **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*. Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
-- **P48 Perspektive:** PFLICHT: Die drei unterhalten sich miteinander (P1, P5). Ob und wie sie den Hörer direkt ansprechen, ist offen (O7).
+- **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*.
+  - Er ist **selbst eine witzige Figur**. Es gibt **keine Witze über Bayern** („keine bayern witze. ein witziger bayer.“, *N 20.10. d*).
+  - Der Humor kommt aus seiner Persönlichkeit und den Situationen, nicht aus seiner Herkunft.
+  - Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
+- **P48 Perspektive und Anrede:**
+  - PFLICHT: Die drei unterhalten sich miteinander (P1, P5).
+  - PFLICHT: Sprechen sie den Hörer an, dann **neckend**. Der Nutzer nannte „hey Matrose“ und „hey du“ als Beispiele *(N 20.10. d)*.
+  - Weitere Anreden, die Häufigkeit und der Umgang mit Hörerinnen sind offen (O7, O32, Ideen in VS27). Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
 
 ## 8. Ton und Sprache
@@ -170,12 +182,12 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **X1 VERBOTEN:** Trockenes Dozieren *(N 19.10.: „nicht so trocken“)*. Abgeleitet: Die bisherigen Folgen sind das Gegenbeispiel. Dort hält Hinnerk etwa 70 % des Textes als Vortrag, und auf eine Frage kommen etwa 7 Sekunden (`PODCAST_STATUS.md`, Abschnitt 7).
 - **X2 VERBOTEN:** Ausdrückliche sexuelle Inhalte und Anspielungen ohne harmlose Lesart *(N 20.10. a: „aber eben doppeldeutig“)*.
 - **X3 VERBOTEN:** Anspielungen auf Körper von Kindern, Drastisches und Alkohol als Witz über Kinder (Tonregel vom 20.10. und CLAUDE.md §3).
-- **X4 VERBOTEN:** Beleidigungen von Gruppen *(CLAUDE.md §3)*. Wie das zu Witzen mit dem Bayern passt, ist offen (W8).
+- **X4 VERBOTEN:** Beleidigungen von Gruppen *(CLAUDE.md §3)* und Witze über Bayern *(N 20.10. d, P47)*.
 - **X5 VERBOTEN:** Unberichtigte fachliche Fehler (P22) und erfundene Sachangaben, die als Tatsache dargestellt werden (P23).
 - **X6 VERBOTEN:** Klabauter ist mehrdeutig (Witz oder wichtig?), oder er sagt im Modus „Wichtiges“ etwas Falsches (P43).
 - **X7 VERBOTEN:** Hinnerk irrt immer (P41).
 - **X8 VERBOTEN (abgeleitet aus „fragen doch erst am ende je folge“, *N 20.10. a*):** Multiple-Choice-Fragen an den Hörer mitten in der Folge. Fragen, die sich die Figuren innerhalb der Geschichte stellen, sind erlaubt.
-- **X9 VERBOTEN (abgeleitet aus P5 „unabhängig der prüfung“):** Die Figuren begründen Stoff mit der Prüfung, etwa „das kommt in der Prüfung dran“. Offen ist, wie sich das mit V24 und einer möglichen Harms-Folge verträgt (W5).
+- **X9 VERBOTEN (abgeleitet aus P5 „unabhängig der prüfung“):** Die Figuren begründen Stoff mit der Prüfung, etwa „das kommt in der Prüfung dran“. V24 entfällt. Offen ist nur noch, wie sich das mit einem möglichen Harms-Finale verträgt (W5).
 - **X10 VERBOTEN:** Der Name des Nutzers in Podcasttexten. Abgeleitet aus CLAUDE.md R10: Alles, was die Crew wiederholt sagt, ist ein fester Satz ohne Namen.
 - **X11 VERBOTEN:** API-Schlüssel ins Repo schreiben oder ausgeben *(CLAUDE.md R9)*.
 - **X12 VERBOTEN:** Podcastaudio pro Gerät oder bei jedem Abspielen neu erzeugen („kajütenfunk immer neu generieren wäre wahnsinn“, *N 05.10.*; „wir MÜSSEN es in die app legen“, *N 09.10.*).
@@ -183,7 +195,9 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 
 ## 10. Fragen am Ende jeder Folge und Lernfortschritt
 
-- **P55 PFLICHT:** Fragen kommen erst am Ende jeder Folge („fragen doch erst am ende je folge“, *N 20.10. a*). Das ersetzt die ursprüngliche Idee vom 19.10., die Crew stelle ab und zu Zwischenfragen und das sei einstellbar. Ob es noch einen Schalter gibt, ist offen (O8).
+- **P55 PFLICHT:** Fragen kommen erst am Ende jeder Folge („fragen doch erst am ende je folge“, *N 20.10. a*). Das ersetzt die ursprüngliche Idee vom 19.10., die Crew stelle ab und zu Zwischenfragen.
+  - **Überspringen:** Man kann die Fragen am Ende überspringen und gleich zur nächsten Folge gehen *(N 20.10. d)*. Abgeleitet: Übersprungene Fragen gelten als nicht beantwortet und werden nicht als falsch gezählt.
+  - **Schalter „nur zuhören“:** Er bleibt *(N 20.10. d)*. Abgeleitet: Ist er an, kommen am Folgenende keine Fragen, und die Folgen laufen nacheinander. Diese Deutung bitte bestätigen (O8).
 - **P56 PFLICHT:** „dann klickt man alle als multible coice durch“ *(N 20.10. a)*. Abgeleitet: „alle“ heißt alle Katalogfragen, die in dieser Folge behandelt wurden (P17). Diese Deutung muss noch bestätigt werden (O9).
 - **P57 PFLICHT:** Die Antworten werden für den Lernfortschritt gemerkt *(N 20.10. a)*. Ziel: „so könnte man theoretisch: erst alle folgen hören, dann hat die app schon einen überblick, was man eher weiß.“
 - **P58 PFLICHT:** Die Fragen erscheinen wie in der Prüfung, also im amtlichen Wortlaut aus `data/*.json` und mit dem Originalbild, wenn die Frage eins hat. Das folgt aus dem Grundsatz des Nutzers: Grafiken „müssen genau wie in der prüfung aussehen“ und Signale werden gelernt, wie sie in der Prüfung abgefragt werden *(N 10.10.)*. Für SKS sind die Katalogfragen offene Fragen. Wie dort Multiple Choice entsteht, ist offen (O26).
@@ -196,6 +210,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - das große Rätsel (P30),
   - Hinnerks Meerjungfrauen-Geschichten (P41),
   - der Bayer, vor allem beim Binnen (P47),
+  - die neckende Anrede des Hörers (P48),
   - Gastrollen (P46),
   - die Fragen am Folgenende (P55).
 
@@ -217,7 +232,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Das Secret richtet der Nutzer ein (F2).
 - **P66 PFLICHT:** Jede Folge wird genau einmal erzeugt und liegt danach in der App, also im Repo, für alle Nutzer *(N 05.10., N 09.10., CLAUDE.md §4)*.
 - **P67 PFLICHT:** Die Folgen laufen offline und ohne Claude, ElevenLabs oder Internet (`docs/konzept-architektur.md` §1.1, entschieden 05.10.: „Folgen … funktionieren offline und ohne Schlüssel“). Wie das bei der Datenmenge umgesetzt wird, ist offen (O21).
-- **P68 PFLICHT:** Die Stimmen haben hohe Qualität *(CLAUDE.md E6)*. Vor der Erzeugung prüft Claude, ob ElevenLabs ein besseres Modell für Deutsch anbietet, und erzeugt zuerst Probesätze *(CLAUDE.md §4)*. Der Test aus P64 erfüllt diese Probe.
+- **P68 PFLICHT:** Die Stimmen haben hohe Qualität *(CLAUDE.md E6)*. Modellwahl, Test und Freigabe richten sich nach Abschnitt 14 (A9, A27–A31). Das ersetzt für den Podcast die „drei Probesätze“ aus CLAUDE.md §4.
 - **P69 PFLICHT:** Lizenzen von zusätzlichen Gaststimmen werden vor der Nutzung geprüft und gemeldet. Stimmen aus der Voice Library können eigene Bedingungen haben *(CLAUDE.md R12, L4)*.
 - **P70 PFLICHT:** Spielstände dürfen nicht brechen *(CLAUDE.md R7)*. Der Hörstand der alten Folgen (`S.heard` mit IDs wie `sbf-01` und `s-01`) darf beim Ersetzen keine Fehler auslösen. Neue Felder bekommen einen Standardwert.
 - **P71 PFLICHT:** Große neue Bereiche kommen in eigene, nachgeladene Dateien, Texte und Listen nach `data/*.json` *(CLAUDE.md R11)*.
@@ -244,6 +259,253 @@ Vor „fertig“ prüft Claude jede Folge gegen diese Liste und nennt Abweichung
 | 14 | Nichts widerspricht früheren Folgen, und die Folgenakte nach P62 ist aktualisiert. | P59, P62 |
 | 15 | Ohne `quellen/` Geprüftes ist im Bericht markiert, Unsicheres ist benannt. | P21, P24 |
 | 16 | Kein verworfener Vorschlag wird ohne neue Zustimmung verwendet. | G6, X13 |
+| 17 | Das Skript ist fürs Ohr geschrieben, jeder Beitrag hat eine Funktion. Regiecodes sind gültig und sparsam, Aussprache und Zahlen sind geklärt. | A2–A4, A7, A17–A24 |
+
+Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigaberegeln A30 und A31.
+
+## 14. Sprechregie, Aussprache und Audioproduktion
+
+**Grundlage:** das Regelwerk „Sprechregie, Aussprache und Audioproduktion“ des Nutzers vom 20.10.2026 (AR). Der Auftrag war, es kritisch zu prüfen und nur Sinnvolles zu übernehmen.
+- Was angepasst oder weggelassen wurde, steht mit Begründung in `PODCAST_STATUS.md` §9.
+- Angaben zu ElevenLabs hat Claude am 20.10.2026 per Websuche geprüft (die Doku selbst ist aus der Cloud nicht abrufbar). Sie gelten nur, solange sie zum Zeitpunkt der Produktion noch in der aktuellen Doku stehen (A6).
+
+### 14.1 Rangfolge
+- **A1 PFLICHT** (AR 1): Bei Zielkonflikten gilt diese Reihenfolge:
+  1. fachliche Richtigkeit,
+  2. korrekte Aussprache von Fachbegriffen, Abkürzungen, Zahlen und Eigennamen,
+  3. natürliches, verständliches Deutsch,
+  4. klar unterscheidbare Figuren,
+  5. glaubwürdige Emotion und Dramaturgie,
+  6. Konsistenz über alle Folgen,
+  7. effiziente, reproduzierbare Produktion.
+
+  Kein Effekt, keine Emotion und keine Regie darf eine fachliche Aussage verfälschen.
+
+### 14.2 Schreiben fürs Ohr
+- **A2 PFLICHT** (AR 1.1): Der Dialog wird fürs Hören geschrieben.
+  - Natürliche Satzmelodie und Umgangssprache, ohne fachliche Genauigkeit zu verlieren.
+  - Gut sprechbare Sätze, keine Schachtelsätze und keine langen Ketten von Nebensätzen.
+  - Schwierige Inhalte auf mehrere Gesprächsbeiträge verteilen.
+  - Satzzeichen bewusst für Rhythmus und Gliederung setzen.
+  - Kein Theater, keine künstliche Begeisterung, kein mechanisches Vorlesen.
+  - Die Figuren klingen wie Menschen in einer glaubwürdigen Lage, nicht wie Sprecher eines Lehrbuchs.
+- **A3 PFLICHT** (AR 10.1, angepasst): Jeder Beitrag erfüllt mindestens eine Funktion:
+  - eine Frage aufwerfen,
+  - eine Lage beschreiben,
+  - Wissen vermitteln,
+  - einen Irrtum berichtigen,
+  - eine Erkenntnis ermöglichen,
+  - eine praktische Folge zeigen,
+  - die Geschichte weiterführen,
+  - **oder Figur, Humor und Atmosphäre tragen** (Geplauder ist gewollt, P53).
+
+  Ein Beitrag ohne jede dieser Funktionen wird gestrichen.
+- **A4 PFLICHT** (AR 10.2 und 11.3, angepasst):
+  - Keine unnötig wiederholte gleiche Erklärung.
+  - Keine künstlichen Zustimmungsschleifen.
+  - Keine übertriebenen Reaktionen auf gewöhnliches Prüfungswissen.
+  - Erlaubt bleiben Klabauters Wiederholungen (P43) und bewusste Rückgriffe auf frühere Folgen (P59).
+  - Keine Wiederholungen und keine Pausen, nur um die Laufzeit zu füllen. Die Geschichte füllt die Zeit.
+
+### 14.3 Drei Ebenen
+- **A5 PFLICHT** (AR 2.1, 13): Die Produktion trennt drei Ebenen.
+  - **Ebene A, Autorenskript:**
+    - Inhalt: Dialog, Sprecher-ID, Szene, Fachinhalt, interne Regie, Aussprachehinweise, Prüf- und Produktionsangaben.
+    - Es ist die redaktionelle Referenz. Hier gelten die Prüfliste (§13) und die Fragenzuordnung (P17).
+  - **Ebene B, verarbeitetes Dialogskript:** Ein Werkzeug erzeugt es aus Ebene A, nicht von Hand.
+    - Es ordnet jeder Sprecher-ID die Voice-ID zu.
+    - Es übersetzt freigegebene Regie in freigegebene Audio-Tags und setzt die freigegebene Aussprache ein.
+    - Es teilt den Text in Anfragen auf.
+    - Als Fehler meldet es: fehlende oder unbekannte Voice-IDs, unbekannte Codes, nicht freigegebene Aussprache und widersprüchliche Regie.
+    - Alle Änderungen gegenüber Ebene A werden protokolliert. Der fachliche Inhalt bleibt unverändert.
+  - **Ebene C, tatsächliche ElevenLabs-Eingabe:** nur Text, freigegebene Tags und API-Felder. Interne Codes (`[[…]]`) dürfen nie hörbar werden.
+- **A6 PFLICHT** (AR 2.2, 16): Keine erfundenen ElevenLabs-Funktionen, Audio-Tags oder Aussprachemechanismen.
+  - Jede interne Anweisung wird auf genau einem dieser Wege behandelt:
+    - in eine dokumentierte Funktion übersetzt,
+    - durch Textgestaltung umgesetzt,
+    - über eine eigene, unterstützte Funktion verarbeitet,
+    - oder als „nicht automatisch umsetzbar“ gekennzeichnet.
+  - Unbekannte Codes werden nie still übergangen.
+  - Claude unterscheidet immer: was die Figur sagt, wie sie es sagt, und was ElevenLabs tatsächlich kann.
+
+### 14.4 Interne Regiecodes
+- **A7 PFLICHT** (AR 4): Im Autorenskript stehen Regiecodes in der Form `[[KATEGORIE: Wert]]`. Zulässige Kategorien:
+
+| Kategorie | Zweck |
+|---|---|
+| `PRON` | geprüfte Aussprache eines Ausdrucks (Verweis aufs Ausspracheverzeichnis) |
+| `INTENTION` | Gesprächsabsicht und Grundhaltung |
+| `PAUSE` | gedankliche Zäsur (kurz, nachdenklich, dramatisch) |
+| `TEMPO` | relative Geschwindigkeit, nur als Regiehinweis (A15) |
+| `BETONUNG` | fachlich wichtige Stelle (A24) |
+| `SZENE` | Kontext für die Deutung, erzeugt keine Geräusche (A26) |
+| `FIGUR` | interne Sprecheridentität |
+| `PRUEFUNG` | Kontrollhinweis für fachliche oder didaktische Inhalte |
+| `AUDIO` | Geräusch oder andere Produktionsanforderung |
+| `FRAGE` | Katalogfragen dieser Stelle, z. B. `[[FRAGE: sbf:120]]`. Diese Kategorie hat Claude ergänzt, sie wird für P17 gebraucht. |
+
+  Weitere Regeln:
+  - Eine unbekannte Kategorie ist ein Validierungsfehler.
+  - Codes werden nie vorgelesen und nie ungeprüft als eckige Klammern an ElevenLabs gegeben.
+  - So wenige Codes wie nötig.
+  - Widersprüchliche Regie wird vor der Audioerzeugung geklärt.
+
+### 14.5 Modell und Konfiguration
+- **A8 PFLICHT** (AR 3): Die Konfiguration steht außerhalb des Dialogtexts in einer Projektdatei (Ort offen, O30). Sie enthält:
+  - Modell-ID und Endpunkt,
+  - die Sprache (`de`),
+  - die Voice-ID jeder Figur einschließlich Gästen und Harms,
+  - das Aussprachewörterbuch mit Version,
+  - die freigegebenen Audio-Tags,
+  - die Aufteilungsregeln,
+  - das Ausgabeformat und eventuelle Effekte.
+
+  Der API-Schlüssel steht nie darin, er liegt nur als Secret vor (R9, P65).
+- **A9 PFLICHT** (AR 3.1): Das Modell wird durch einen Hörtest mit denselben Szenen gewählt (A27), nicht nach Beschreibung.
+  - Kandidaten Stand 20.10.2026: **Eleven v4**. Die Text-to-Dialogue-Doku empfiehlt es laut Websuche für Dialoge. Die Variante „v4 Turbo“ kann nur einzelne Sprache, keinen Dialog.
+  - Zweiter Kandidat ist **Eleven v3**.
+  - Die genaue Modell-ID wird aus Doku oder API übernommen, nie geraten.
+- **A10 PFLICHT** (AR 3.2): Text to Dialogue:
+  - Jeder Beitrag besteht aus Text und `voice_id`. Sprecher werden nur über die `voice_id` zugeordnet, nie über Namen im gesprochenen Text.
+  - Laut Doku sind höchstens 10 verschiedene Stimmen pro Anfrage möglich.
+  - Ohne Angabe nimmt der Endpunkt `eleven_v3`. Das Modell wird deshalb immer ausdrücklich gesetzt.
+- **A11 PFLICHT** (AR 3.3): Höchstens etwa **2.000 Zeichen Text pro Anfrage**. Laut Doku ist das eine weiche Grenze, darüber drohen Abbruch oder Fehler.
+  - Eine 25-Minuten-Folge mit etwa 20.900 Zeichen braucht also mindestens 11 Anfragen.
+  - Das Aufteilen übernimmt das Werkzeug, nicht die Textgenerierung.
+  - Nie mitten im Satz trennen, zusammengehörige Sprecherwechsel zusammenhalten.
+- **A12 PFLICHT** (AR 3.4): Über alle Teilstücke gleiche Stimmen und gleiche Aussprache.
+  - Übergänge werden nach dem Zusammenfügen geprüft.
+  - Kontextparameter nur verwenden, wenn sie für Modell und Endpunkt dokumentiert sind. Für den Dialog-Endpunkt wurden am 20.10. keine gefunden. Das im AR genannte „future_text“ ist dort nicht belegt.
+  - `seed` ist laut Doku nur „best effort“ und garantiert keine gleichen Ergebnisse.
+- **A13 BEVORZUGT** (Ergänzung von Claude, aus CLAUDE.md §4 „nur Fehlendes erzeugen“ und AR 13): Jede Generation gehört zu einem Abschnitt und einer Skriptversion. Nach Korrekturen werden nur die geänderten Abschnitte neu erzeugt, das spart Credits.
+
+### 14.6 Audio-Tags
+- **A14 PFLICHT** (AR 5): Tags in eckigen Klammern sind Anweisungen an ein generatives Modell, keine garantierten Schalter. Laut ElevenLabs sind sie noch in Entwicklung, die Ergebnisse schwanken.
+  - Ein Tag steht nur dort, wo er hörbar etwas bringt, und direkt vor dem Text, den er betrifft.
+  - **Sinnvoll** bei: echter Überraschung, begründeter Neugier, ruhiger Erklärung, kurzer Unsicherheit, Erleichterung, einem echten Witz, Flüstern, wenn die Lage es verlangt, einem kurzen Seufzen.
+  - **VERBOTEN:**
+    - widersprüchliche Tags an derselben Stelle,
+    - übertriebene Emotion bei Sachlichem,
+    - Lachen nach fast jeder Pointe,
+    - Flüstern bei prüfungswichtiger Information,
+    - ständiges Pendeln zwischen Extremen,
+    - Tags als Ersatz für schlechten Dialog.
+  - **Kandidaten** (experimentell, bis sie mit der jeweiligen Stimme getestet sind): neugierig `[curious]`, nachdenklich `[thoughtful]`, überrascht `[surprised]`, beruhigend `[reassuring]`, flüsternd `[whispering]`, humorvoll `[playfully]`, erleichtert `[relieved]`, seufzend `[sighs]`.
+  - Freigegebene Tags stehen in der Konfiguration (A8).
+
+### 14.7 Pausen, Tempo und Laufzeit
+- **A15 PFLICHT** (AR 6, 11.2): Keine SSML-Pausen (`<break>`) für Eleven v3 oder v4 einplanen. Für v3 werden sie nicht unterstützt, für v4 ist es nicht bestätigt.
+  - Pausen entstehen durch Satzzeichen, kurze Sätze, Beitragsgrenzen und den Wechsel von Frage und Antwort.
+  - Auslassungspunkte sparsam, sie bedeuten auch Zögern.
+  - `[[PAUSE]]` und `[[TEMPO]]` sind nur Regie. Wirkt eine Stelle zu schnell, zuerst Satzbau und Informationsdichte ändern.
+  - Eine genaue Stille in Sekunden entsteht erst beim Schnitt nach der Erzeugung.
+  - Kein „Ähm“, Räuspern oder Seufzen ohne Grund in Figur und Lage.
+- **A16 PFLICHT** (AR 11.1): Die 25 Minuten (P13) werden an der tatsächlichen Audiodauer gemessen. P14 ist nur ein Richtwert fürs Schreiben.
+
+### 14.8 Aussprache
+- **A17 PFLICHT** (AR 7.1): Es gibt ein zentrales Ausspracheverzeichnis für alle Folgen. Es enthält:
+  - nautische Begriffe,
+  - Abkürzungen,
+  - Schiffs- und Fahrzeugarten,
+  - Lichter und Schallsignale,
+  - Ortsnamen und Figurennamen,
+  - Zahlen und Einheiten, wo nötig,
+  - Wörter, die eine Stimme wiederholt falsch spricht,
+  - plattdeutsche und bairische Wörter der Figuren (Ergänzung, P50, P54).
+- **A18 PFLICHT** (AR 7.2): Jeder Eintrag hat diese Felder:
+  - Originalbegriff,
+  - gesprochene Form,
+  - Methode (`dictionary`, `alias`, `native_ipa`, `literal` oder `manual_review`),
+  - Status (`offen`, `geprüft` oder `freigegeben`),
+  - Notiz.
+
+  Format ist JSON wie bei den übrigen Projektdaten (R11). Das AR schlug YAML vor. Der Ort ist offen (O30).
+- **A19 PFLICHT** (AR 7.3): Bei falscher Aussprache gilt diese Reihenfolge, immer nur eine Methode auf einmal:
+  1. Schreibweise und Kontext prüfen.
+  2. Die Aussprache aus einer verlässlichen Quelle bestimmen.
+  3. Mit der Originalschreibweise testen.
+  4. Aussprachewörterbuch versuchen.
+  5. Ersatzschreibweise (Alias) versuchen.
+  6. IPA nur, wenn es für das Modell dokumentiert ist.
+  7. Die beste Lösung dokumentieren und für alle Folgen freigeben.
+
+  Unklare Aussprache wird nie geraten, der Eintrag bleibt auf `manual_review`.
+- **A20 PFLICHT** (AR 7.4): Die fachlich richtige Schreibweise bleibt im Autorenskript. Ersatzschreibweisen gibt es nur in Ebene B und C, und sie werden protokolliert.
+- **A21 PFLICHT** (AR 7.5, 7.6): Aussprachewörterbücher nur, wenn Modell und Endpunkt sie unterstützen.
+  - Der Dialog-Endpunkt nimmt laut Doku bis zu 3 `pronunciation_dictionary_locators`.
+  - Ob Eleven v4 Wörterbücher und IPA unterstützt, war am 20.10. nicht bestätigt.
+  - Keine SSML-Phonem-Tags aus anderen Systemen, kein IPA im gesprochenen Text.
+
+### 14.9 Zahlen, Abkürzungen und Prüfungsinhalte
+- **A22 PFLICHT** (AR 8.1): Vor der Erzeugung prüfen, ob Ziffern, Jahreszahlen, Uhrzeiten, Maße und Dezimalzahlen richtig gelesen werden und ihre Bedeutung behalten. Beispiele: „22,5 Grad“, „0,5 Promille“, „4 bis 6 Sekunden“.
+  - `apply_text_normalization` (`auto`, `on` oder `off`) an typischen Texten testen.
+  - Die Einstellung ersetzt keine fachliche Prüfung.
+- **A23 PFLICHT** (AR 8.2): Für jede wichtige Abkürzung festlegen: buchstabiert, als Wort, ausgeschrieben oder anders, je nach fachlichem Gebrauch und Verständlichkeit. Das Ergebnis kommt ins Verzeichnis.
+- **A24 PFLICHT** (AR 8.3, 10.3, 10.4): Regie und Betonung dürfen Katalogaussagen nicht verändern.
+  - Besondere Vorsicht bei Verneinungen, Richtungen (Steuerbord, Backbord), Ausweich- und Vorfahrtsregeln, Zahlen, Bedingungen und Ausnahmen und bei ähnlichen Begriffen.
+  - Betonung entsteht durch Satzbau, nicht durch Großschreibung oder Sonderzeichen.
+  - Die Audioerzeugung fügt nichts hinzu. Fachlich Unklares geht zurück in die Redaktion.
+
+### 14.10 Figuren: Stimme und Sprech-DNA
+- **A25 PFLICHT** (AR 9, angepasst): Jede Figur, auch Gäste und Harms, hat eine feste Voice-ID (P49) und eine eigene Sprechweise. Das Profil wird vor der Produktion festgelegt und enthält:
+  - Charakter-ID und Voice-ID,
+  - Rolle und Grundhaltung,
+  - typische Satzlänge, Wortwahl und Sprachebene,
+  - Umgang mit Fachbegriffen,
+  - Gesprächsverhalten und Humor,
+  - Reaktion auf Unsicherheit und auf neue Erkenntnisse,
+  - Verbotenes.
+
+  Die Inhalte für Hinnerk, Smilla und Klabauter gehören zur offenen Schärfung der Rollen (O5) und brauchen die Zustimmung des Nutzers.
+  - Keine Stimmenwechsel ohne ausdrückliche Entscheidung.
+  - Keine Sprecherlabels wie „Hinnerk:“ im gesprochenen Text.
+  - Dieselbe Lage dürfen die Figuren verschieden erleben.
+
+### 14.11 Geräusche und Szenen
+- **A26 PFLICHT** (AR 12): `[[SZENE]]` erzeugt keine Geräusche.
+  - Hintergrundgeräusche nur mit dramaturgischem Nutzen, keine Dauerkulisse ohne erzählerischen Zweck.
+  - Fachliches bleibt verständlich, Übergänge werden eigens geplant.
+  - Keine nicht unterstützten Effekte oder Parameter. Einen Parameter `audio_effects` fand Claude am 20.10. in der Doku nicht.
+  - Offen sind, wie Geräusche technisch entstehen (in der Datei oder von der App dazugemischt), und ob es einen Erzähler gibt (O15).
+
+### 14.12 Test, Prüfung und Freigabe
+- **A27 PFLICHT** (AR 14.1 und B16): Der erste ElevenLabs-Test („ein Teil einer Folge“, P64) enthält mindestens:
+  - einen Dialog aller drei Figuren,
+  - einen schwierigen Fachbegriff,
+  - eine Abkürzung,
+  - einen Satz mit entscheidender Verneinung,
+  - eine längere Erklärung über mehrere Sätze,
+  - eine neugierige Rückfrage,
+  - eine ruhige, sachliche Erklärung,
+  - eine kurze witzige Stelle,
+  - eine dramaturgische Pause,
+  - einen Übergang zwischen zwei Teilstücken.
+
+  Dieselben Szenen werden für jeden Modellkandidaten verwendet (A9).
+- **A28 PFLICHT** (AR 14.2): Jeder Test wird bewertet nach Fachlichkeit, Aussprache, Natürlichkeit, Verständlichkeit, Figurenkontinuität, Emotion, Pausen und Rhythmus, Klang und Übergängen. Fehler werden mit Textstelle, Sprecher, Ursache und Maßnahme dokumentiert.
+- **A29 OPTIONAL** (AR 14.3): Bei wichtigen Szenen mehrere Generationen erzeugen und vergleichen. Die Auswahl richtet sich nach Hörqualität und Fachlichkeit. Jede Generation kostet Credits.
+- **A30 PFLICHT** (AR 5.5, 13, 15, angepasst): **Claude kann Audio nicht hören.**
+  - Claude prüft automatisch:
+    - ob die Datei vollständig ist,
+    - die gemessene Laufzeit,
+    - die Zuordnung der Stimmen,
+    - dass in Ebene C keine internen Codes stehen,
+    - die dokumentierten Grenzen der Teilstücke.
+  - Hören und Bewerten übernimmt der Nutzer: Natürlichkeit, Aussprache, Emotion, Übergänge.
+  - Wie viel er abhört und ob eine automatische Rückschrift hilft, ist offen (O31, VS28).
+- **A31 PFLICHT** (AR 15): Eine Folge ist erst freigegeben, wenn alles davon erfüllt ist:
+  - Fachliches ist geprüft.
+  - Kritische Ausspracheeinträge sind freigegeben.
+  - Die Stimmen stimmen.
+  - Die Sprechweise ist natürlich und konsistent.
+  - Keine Codes sind hörbar.
+  - Es sind nur getestete Tags verwendet.
+  - Es werden keine nicht unterstützten SSML- oder API-Funktionen vorausgesetzt.
+  - Die Übergänge der Teilstücke sind unauffällig.
+  - Die Laufzeit ist gemessen.
+  - Die ganze Folge ist auf kritische Fehler kontrolliert (A30).
+
+  Sonst bleibt sie auf `REVIEW_REQUIRED`. Ein erfolgreicher API-Aufruf ist keine Freigabe. Ein kritischer Fachfehler wird nie durch eine gute Gesamtwertung ausgeglichen.
 
 ---
 
