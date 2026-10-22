@@ -513,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.85';
+  window.__ver = '4.86';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2552,6 +2552,7 @@ function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop();
 function setTab(t) {
   /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
   if (window.MANOEVER && MANOEVER.vollAus) MANOEVER.vollAus();
+  pfadZurueck = null;
   if (t === 'cabin' && lernHeim === 'pruef') return meinePruefungen();
   if (t === 'cabin' && lernHeim === 'deck') t = 'deck';
   if (t === 'deck') lernHeim = null;
@@ -5401,6 +5402,9 @@ const wackelig = () => Q.filter(q => { const s = st(q.n); return s && (!sitzt(s)
 /* Praxis-Happen für den Tag: nächste Navigationslektion, ein Knoten oder ein Manöver, das noch fehlt */
 const KNOTEN_NAMEN = {acht: 'Achtknoten', kreuz: 'Kreuzknoten', palstek: 'Palstek', schot: 'Schotstek', stopper: 'Stopperstek', webelein: 'Webeleinstek', webeleinslip: 'Webeleinstek auf Slip', rundtoern: 'Rundtörn mit zwei halben Schlägen', klampe: 'Klampe belegen'};
 const MAN_NAMEN = {ablegen: 'Ablegen', anlegen: 'Anlegen', mob: 'Mensch über Bord', kompass: 'Steuern nach Kompass', aufstoppen: 'Kursgerechtes Aufstoppen', wenden: 'Wenden auf engem Raum'};
+/* Kommt man über einen Praxis-Happen aus dem Kurs für heute, führt „Zurück“ wieder dorthin (nicht in die Übersicht des Moduls) */
+let pfadZurueck = null;
+function pfadHeim() { const f = pfadZurueck; pfadZurueck = null; if (!f) return false; f(); return true; }
 function praxisHappen() {
   const lek = (S.navi && S.navi.lek) || {}, man = S.man || {}, fehlt = () => toast('Das ließ sich nicht laden. Prüf dein Internet.');
   const nl = (NAVI_LEKTIONEN[S.course] || []).find(l => !(lek[l] && lek[l].sterne));
@@ -5432,7 +5436,7 @@ function todayPath() {
     p.dueStart > BLOCK ? {id: 'review2', label: `Wiederholen, 2. Block: ${Math.min(BLOCK, p.dueStart - BLOCK)} Fragen`, run: () => due > 0 ? reviewSession('Wiederholung, 2. Block', doneOpts('review2')) : extraRound(doneOpts('review2'))}
       : ruhe === 'neu' ? {id: 'review2', label: 'Neu: ' + next.label, run: () => { markPath('review2'); save(); startUnit(next); }}
       : ruhe === 'fest' ? {id: 'review2', label: `Festigen: ${Math.min(BLOCK, wackelig().length)} Wackelkandidaten`, run: () => extraRound(doneOpts('review2'))} : null,
-    (() => { const h = praxisHappen(); return h || p.praxis ? {id: 'praxis', label: h ? h.label : 'Praxis-Happen', run: () => { markPath('praxis'); save(); h.run(); }} : null; })(),
+    (() => { const h = praxisHappen(); return h || p.praxis ? {id: 'praxis', label: h ? h.label : 'Praxis-Happen', run: () => { markPath('praxis'); save(); h.run(); pfadZurueck = () => setTab('cabin'); }} : null; })(),
     {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge',
       run: () => examDue ? harmsKommt() : setTab('funk')},
   ].filter(Boolean);

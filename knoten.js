@@ -831,7 +831,7 @@ KN.zeige = function (id) {
     <ol class="knotsteps${anim ? ' tipp' : ''}" id="kst">${k.schritte.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
     <p class="small" style="margin:6px 0 0">💡 ${esc(k.merk)}</p><p class="small muted" style="margin:6px 0 0"><b>Wofür:</b> ${esc(k.wofuer)}</p></div>
     <div class="row" style="margin-top:10px"><button class="btn lamp" id="kueb">🪢 Mit echtem Tau üben</button></div>`);
-  $('#gback').onclick = () => KN.brett();
+  $('#gback').onclick = () => { if (window.pfadHeim && pfadHeim()) return; KN.brett(); };
   const lis = [...app.querySelectorAll('#kst li')];
   $('#kueb').onclick = () => KN.ueben(id);
   if (!anim) { lis.forEach(li => li.classList.add('an')); return; }
