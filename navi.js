@@ -148,7 +148,7 @@ NAV.mountChart = function (host, opt = {}) {
   const zeichnen = TOOLS.some(t => t[0] !== 'hand');
   host.innerHTML = `<div class="nwrap"><svg class="nsvg" xmlns="http://www.w3.org/2000/svg">${chartSVG()}<g id="nlines"></g><g id="nmarks"></g><g id="nhi"></g><g id="ntools"></g></svg>
     <div class="nlens hidden"><svg><use href="#nchart"/><use href="#nlines"/><use href="#nmarks"/><use href="#ntools"/></svg><i></i></div>
-    ${zeichnen ? `<div class="ntoolbar">${TOOLS.map(([id, ic, n]) => `<button data-tool="${id}" aria-label="${n}" title="${n}">${ic}</button>`).join('')}<span class="nsp"></span><button data-act="undo" aria-label="Rückgängig" title="Rückgängig">↶</button><button data-act="redo" aria-label="Wiederholen" title="Wiederholen">↷</button></div>` : ''}
+    ${zeichnen ? `<div class="ntoolbar">${TOOLS.map(([id, ic, n]) => `<button data-tool="${id}" aria-label="${n}" title="${n}">${ic}</button>`).join('')}<span class="nsp"></span><button data-act="undo" aria-label="Rückgängig" title="Rückgängig">↶</button><button data-act="redo" aria-label="Wiederholen" title="Wiederholen">↷</button>${opt.hilfeKnopf === false ? '' : '<button data-act="hilfe" aria-label="Werkzeuge erklärt" title="Werkzeuge erklärt">?</button>'}</div>` : ''}
     <div class="ntop"><div class="ntip hidden"></div><div class="nctx"></div></div><div class="nablese hidden"></div>
     <div class="nzoom"><button data-z="1" aria-label="Vergrößern">+</button><button data-z="-1" aria-label="Verkleinern">−</button></div></div>`;
   const svg = host.querySelector('.nsvg'), lens = host.querySelector('.nlens'), lsvg = lens.querySelector('svg'), tip = host.querySelector('.ntip'), ctxEl = host.querySelector('.nctx'), ablEl = host.querySelector('.nablese');
@@ -300,6 +300,7 @@ NAV.mountChart = function (host, opt = {}) {
   const ub = host.querySelector('[data-act="undo"]'), rb = host.querySelector('[data-act="redo"]');
   if (ub) ub.onclick = () => { if (!st.undo.length) return; st.redo.push(stand()); zurueck(st.undo.pop()); };
   if (rb) rb.onclick = () => { if (!st.redo.length) return; st.undo.push(stand()); zurueck(st.redo.pop()); };
+  const hb = host.querySelector('[data-act="hilfe"]'); if (hb) hb.onclick = () => { AUD.click(); werkzeugHilfe(); };
   host.querySelectorAll('[data-z]').forEach(b => b.onclick = () => { const v = st.vb, f = +b.dataset.z > 0 ? 1 / 1.4 : 1.4, w = Math.max(90, Math.min(W * 1.2, v.w * f)); const m = {x: v.x + v.w / 2, y: v.y + v.h / 2}; vbSet({x: m.x - w / 2, y: m.y - w * v.h / v.w / 2, w}); });
   let tipT = 0; tip.onclick = () => tip.classList.add('hidden');
   const ctl = {
@@ -364,7 +365,7 @@ const CSS = `
 .nlens svg{width:100%;height:100%}.nlens i{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border:1px solid #d6332c;border-radius:50%}
 .ntoolbar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:6px;z-index:4;pointer-events:none}.ntoolbar button{pointer-events:auto}.ntoolbar .nsp{flex:1}
 .ntoolbar button,.nzoom button{width:42px;height:42px;padding:0;border-radius:10px;border:1px solid #9aa;background:rgba(255,255,255,.94);font-size:20px;line-height:1;color:#2a2a6a;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.ntoolbar button[aria-pressed="true"]{background:#2a2a6a;color:#fff}.ntoolbar button:disabled{opacity:.35}
+.ntoolbar button{flex:0 1 42px;min-width:32px}.ntoolbar button[aria-pressed="true"]{background:#2a2a6a;color:#fff}.ntoolbar button.nblink:not([aria-pressed="true"]){animation:nblink 1.1s ease-in-out infinite}@keyframes nblink{50%{box-shadow:0 0 0 4px #f0b53e}}.ntoolbar button:disabled{opacity:.35}
 .nzoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:4}
 .ntop{position:absolute;left:8px;right:58px;top:8px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:4;pointer-events:none}.ntop>*{pointer-events:auto}
 .ntip{background:rgba(255,250,240,.96);color:#2a2019;border-radius:10px;padding:6px 10px;font-size:.78rem;box-shadow:0 2px 6px rgba(0,0,0,.15)}
@@ -975,6 +976,66 @@ NAV.exam = function (o = {}) {
     if (left <= 0) { clearInterval(NAV._timer); toast('Die Zeit ist um.'); run.finish(); }
   }, 1000);
 };
+/* ---------- V40: Werkzeugkunde zum Mitmachen (vor Lektion 1, jederzeit über „?“ in jeder Karte) ----------
+   Jeder Schritt ist erst geschafft, wenn man ihn selbst gemacht hat. Gemerkt wird S.navi.werkzeug (Standard: fehlt). */
+const WERKZEUGE = [
+  ['✋', 'Verschieben', 'Ein Finger schiebt die Karte, zwei Finger oder + und − zoomen. Eine Tonne oder ein Feuer antippen zeigt Farbe, Kennung und Position.'],
+  ['✕', 'Kreuz', 'Antippen setzt ein Kreuz, zum Beispiel deinen Standort. Es rastet an Schnittpunkten ein. Beim Setzen zeigt die Lupe die Stelle vergrößert.'],
+  ['✎', 'Bleistift', 'Linie ziehen. Anfang und Ende rasten an Tonnen, Kreuzen und Schnittpunkten ein.'],
+  ['◺', 'Kursdreieck', 'Verschieben, am gelben Griff drehen. Leg die Kante an deine Linie. Abgelesen wird, wo die rote Meridianlinie den Gradbogen schneidet. „⟋ Linie am Dreieck“ zeichnet entlang der Kante.'],
+  ['⋀', 'Zirkel', 'Zwei Punkte antippen. Mit den runden Griffen verstellst du die Spitzen, am Gelenk verschiebst du ihn. Am Breitenrand stellt er sich senkrecht, das Ablese-Fenster zeigt die Minuten: 1 Minute Breite = 1 Seemeile.'],
+  ['↶ ↷', 'Rückgängig und Wiederholen', 'Gilt für alles: Linien, Kreuze, Zirkel und Dreieck.']];
+const wkZuerst = l => l && l.id !== 'L0' && !S_().werkzeug;
+const wkEintrag = naechste => `<button class="menuitem${wkZuerst(naechste) ? ' nnext' : ''}" data-wk><b>${S_().werkzeug ? '✓ ' : wkZuerst(naechste) ? '➜ ' : ''}🧰 Werkzeugkunde</b><span class="small muted">Zum Mitmachen: Kreuz, Bleistift, Kursdreieck, Zirkel</span></button>`;
+function werkzeugHilfe() {
+  const w = sheet(`<h2 style="margin:0 0 8px">Die Werkzeuge</h2>${WERKZEUGE.map(([i, n, t]) => `<p class="small" style="margin:0 0 8px"><b style="font-size:1.05rem">${i}</b> <b>${n}:</b> ${t}</p>`).join('')}
+    <button class="btn small ghost" id="wkgo">🧰 Werkzeugkunde zum Mitmachen</button><p class="small muted" style="margin:4px 0 0">Beendet die Aufgabe, an der du gerade bist.</p>`);
+  w.querySelector('#wkgo').onclick = () => { closeSheet(); stopAll(); NAV.werkzeugkunde(); };
+}
+NAV.werkzeugkunde = function (danach) {
+  clearInterval(NAV._timer);  /* kommt man aus dem Prüfungsmodus, läuft dessen Uhr nicht weiter */
+  const ev = {tonne: 0, mark: 0, line: 0, dreieck: 0, zirkel: 0};
+  const SCHRITT = [
+    {t: 'Moin! Ich zeig dir die Werkzeuge. Schieb die Karte erst mal mit einem Finger herum und zoom mit zwei Fingern oder mit + und −.', ok: c => c.bewegt},
+    {t: 'Jetzt tipp eine Tonne an. Dann siehst du unten Farbe, Kennung und Position.', ok: () => ev.tonne},
+    {t: 'Wähl unten ✕ und setz ein Kreuz irgendwo ins Wasser. So markierst du später deinen Standort.', ok: () => ev.mark, tool: 'punkt'},
+    {t: 'Nimm den Bleistift ✎ und zieh eine Linie, zum Beispiel von deinem Kreuz zu einer Tonne. Die Enden rasten ein.', ok: () => ev.line, tool: 'stift'},
+    {t: 'Jetzt das Kursdreieck ◺: Verschieb es auf deine Linie und dreh es am gelben Griff, bis die Kante auf der Linie liegt.', ok: () => ev.dreieck >= 3, tool: 'dreieck'},
+    {t: 'Den Kurs liest du ab, wo die rote Meridianlinie den Gradbogen schneidet. Probier auch „⟋ Linie am Dreieck“. Dann nimm den Zirkel ⋀ und tipp zwei Punkte an, etwa die Enden deiner Linie.', ok: c => c.zirkel, tool: 'zirkel'},
+    {t: 'Die Strecke misst du am Breitenrand: Zieh den Zirkel am Gelenk an den linken oder rechten Kartenrand oder tipp „⇤ An den Breitenrand“. Im Ablese-Fenster gilt: 1 Minute Breite = 1 Seemeile.', ok: c => c.rand},
+    {t: 'Letzter Trick: ↶ nimmt den letzten Schritt zurück, ↷ holt ihn wieder. Tipp einmal ↶.', ok: c => c.redo},
+  ];
+  gameShell('Werkzeugkunde', `<div class="card" style="margin-bottom:8px"><div style="display:flex;gap:10px;align-items:flex-start"><span id="wkfig"></span><div style="flex:1"><div class="tag" id="wkn"></div><p id="wkt" style="margin:4px 0 0"></p></div></div><div class="pbar"><i id="wkp" style="width:0"></i></div><div class="row" id="wkbtn" style="margin-top:4px"><button class="btn small ghost" id="wkskip">Überspringen</button></div></div>
+    <div id="nchartbox"></div><div class="card small" id="ninfo" style="margin-top:8px">Tippe eine Tonne oder ein Feuer an.</div>`);
+  $('#wkfig').innerHTML = charSVG(cid('M')); const fig = $('#wkfig svg'); if (fig) fig.style.width = '46px';
+  $('#gback').onclick = () => { clearInterval(tmr); danach ? NAV.lesson(danach) : NAV.hub(); };
+  const ctl = NAV.mountChart($('#nchartbox'), {hilfen: true, hilfeKnopf: false, onTap: t => { if (t.obj) ev.tonne++; $('#ninfo').innerHTML = t.obj ? infoCard(t.obj) : 'Position: <b>' + fmtPos(t.ll) + '</b>'; }});
+  ['mark', 'line', 'dreieck', 'zirkel'].forEach(k => ctl.on(k, () => { ev[k]++; }));
+  let i = 0, vb0 = null; const tmr = setInterval(() => {
+    if (!document.getElementById('wkt')) return clearInterval(tmr);
+    const v = ctl.st.vb; if (!vb0 && v) vb0 = {...v};
+    const lage = {bewegt: vb0 && v && (Math.abs(v.w - vb0.w) > vb0.w * .05 || Math.hypot(v.x - vb0.x, v.y - vb0.y) > 25), zirkel: ctl.zirkelSm() != null, rand: !!document.querySelector('#nchartbox .nablese:not(.hidden)'), redo: ctl.st.redo.length > 0};
+    if (i < SCHRITT.length && SCHRITT[i].ok(lage)) { AUD.sfx('richtig', {vol: .35}); weiter(); }
+  }, 300);
+  const zeige = () => {
+    $('#wkp').style.width = Math.round(i / SCHRITT.length * 100) + '%';
+    if (i >= SCHRITT.length) {
+      clearInterval(tmr); S_().werkzeug = 1; save();
+      $('#wkn').textContent = 'Geschafft'; $('#wkt').textContent = 'Sauber! Jetzt kennst du alle Werkzeuge. Wenn du mal was vergisst: Das „?“ unten in jeder Karte erklärt sie nochmal.';
+      $('#wkbtn').innerHTML = `<button class="btn small lamp" id="wkok">${danach ? 'Weiter zur Lektion' : 'Weiter lernen'}</button><button class="btn small ghost" id="wkhub">Zur Navigationsschule</button>`;
+      $('#wkok').onclick = () => { AUD.click(); if (danach) return NAV.lesson(danach); const n = (NV.lektionen || []).find(l => !lekState(l.id).sterne); n ? NAV.lesson(n.id) : NAV.hub(); };
+      $('#wkhub').onclick = () => { AUD.click(); NAV.hub(); };
+      return;
+    }
+    const s = SCHRITT[i]; $('#wkn').textContent = `Schritt ${i + 1} von ${SCHRITT.length}`; $('#wkt').textContent = s.t;
+    if (s.tool) host().querySelectorAll('[data-tool]').forEach(b => b.classList.toggle('nblink', b.dataset.tool === s.tool));
+    else host().querySelectorAll('.nblink').forEach(b => b.classList.remove('nblink'));
+  };
+  const host = () => $('#nchartbox');
+  const weiter = () => { i++; zeige(); };
+  $('#wkskip').onclick = () => { AUD.click(); weiter(); };
+  zeige();
+};
 /* ---------- Lernpfad ---------- */
 const lekOf = id => (NV.lektionen || []).find(l => l.id === id);
 const lekState = id => { const n = S_(), x = n.lek[id] = n.lek[id] || {serie: 0, sterne: 0, n: 0}; /* ältere Spielstände: wer schon Aufgaben gelöst hat, hat die ersten Schritte erledigt */ ['erkl', 'bsp', 'gef', 'frei'].forEach(k => { if (x[k] == null) x[k] = x.n ? 1 : 0; }); return x; };
@@ -983,9 +1044,10 @@ NAV.path = function () {
   const naechste = L.find(l => !lekState(l.id).sterne);
   gameShell('Lernpfad', `<p class="small muted" style="margin:6px 0 10px">Jede Lektion hat fünf Schritte: <b>Erklärung, Beispiel, geführte Übung, freie Übung, Meisterschaft</b>. Drei richtige Aufgaben ohne Hilfe in Folge geben einen Stern. ${fertig} von ${L.length} Lektionen mit Stern.</p>
     <div class="menu">${L.map(l => { const s = lekState(l.id), n = SCHRITTE.filter(x => x.fertig(s)).length;
-      return `<button class="menuitem${l === naechste ? ' nnext' : ''}" data-l="${l.id}"><b>${s.sterne ? '⭐ ' : l === naechste ? '➜ ' : ''}${l.id === 'L0' ? '0' : l.id.slice(1)}. ${esc(l.t)}</b><span class="small muted">${esc(l.d)} · ${n} von 5 Schritten</span></button>`; }).join('')}</div>`);
+      return (l.id === 'L1' ? wkEintrag(naechste) : '') + `<button class="menuitem${l === naechste && !(wkZuerst(naechste)) ? ' nnext' : ''}" data-l="${l.id}"><b>${s.sterne ? '⭐ ' : l === naechste && !wkZuerst(naechste) ? '➜ ' : ''}${l.id === 'L0' ? '0' : l.id.slice(1)}. ${esc(l.t)}</b><span class="small muted">${esc(l.d)} · ${n} von 5 Schritten</span></button>`; }).join('')}</div>`);
   $('#gback').onclick = () => NAV.hub();
   app.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { AUD.click(); NAV.lesson(b.dataset.l); });
+  const wk = $('[data-wk]'); if (wk) wk.onclick = () => { AUD.click(); NAV.werkzeugkunde(); };
 };
 /* Die fünf Schritte jeder Lektion; erledigt wird in S.navi.lek[id] gemerkt (erkl, bsp, gef, frei, sterne; Standard 0) */
 const SCHRITTE = [
@@ -998,9 +1060,10 @@ const SCHRITTE = [
 const begriffKarte = id => { const f = (NV.fibel || []).find(x => x.id === id); return f ? `<div class="card nbeg"><b>${esc(f.t)}</b>${anim(f.a)}<p class="small" style="margin:4px 0">${esc(f.e)}</p><p class="small" style="margin:0">💡 ${esc(f.m)}</p></div>` : ''; };
 NAV.lesson = function (id) {
   const l = lekOf(id), s = lekState(id), next = SCHRITTE.find(x => !x.fertig(s));
-  gameShell(l.t, `<div class="card"><h2 style="margin:0 0 4px">${l.id === 'L0' ? '' : 'Lektion ' + l.id.slice(1) + ': '}${esc(l.t)}</h2><p class="small muted" style="margin:0">${esc(l.d)}</p></div>
+  gameShell(l.t, `${id !== 'L0' && !S_().werkzeug ? `<div class="card" style="border-color:var(--lamp)"><b>🧰 Erst die Werkzeugkunde?</b><p class="small" style="margin:4px 0 8px">Bevor es mit der Karte losgeht: In drei Minuten probierst du Kreuz, Bleistift, Kursdreieck und Zirkel einmal selbst aus.</p><button class="btn small lamp" id="lwk">Werkzeugkunde starten</button></div>` : ''}<div class="card"><h2 style="margin:0 0 4px">${l.id === 'L0' ? '' : 'Lektion ' + l.id.slice(1) + ': '}${esc(l.t)}</h2><p class="small muted" style="margin:0">${esc(l.d)}</p></div>
     <ol class="nschritte">${SCHRITTE.map((x, i) => `<li><button class="menuitem${x === next ? ' nnext' : ''}" data-m="${x.k}"><span class="nnr">${x.fertig(s) ? '✓' : i + 1}</span><span><b>${x.t}${x.k === 'master' ? (s.sterne ? ' ⭐' : ` (${s.serie} von 3)`) : ''}</b><small>${x.d}</small></span></button></li>`).join('')}</ol>`);
   $('#gback').onclick = () => { VOX.stop(); NAV.path(); };
+  const lwk = $('#lwk'); if (lwk) lwk.onclick = () => { AUD.click(); NAV.werkzeugkunde(id); };
   app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { AUD.click(); VOX.stop(); const m = b.dataset.m; if (m === 'erkl') NAV.erklaerung(id); else if (m === 'bsp') NAV.beispiel(id); else NAV.exercise(id, m); });
 };
 /* Schritt 1: Erklärung der Crew (vorgelesen) und die Begriffe der Lektion mit kleiner Animation */
@@ -1066,15 +1129,16 @@ NAV.hub = async function () {
   const n = S_(), stars = Object.values(n.lek).reduce((a, l) => a + (l.sterne ? 1 : 0), 0);
   const L = NV.lektionen || [], naechste = L.find(l => !lekState(l.id).sterne);
   gameShell('Navigationsschule', `<p class="small muted" style="margin:6px 0 10px">Am Kartentisch der Kliev-Mündung. Die Karte ist erfunden und selbst gezeichnet (Maßstab etwa 1 : 100 000), gerechnet wird wie auf der echten Seekarte.</p>
-    ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${esc(naechste.t)}</button>` : ''}
+    ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${wkZuerst(naechste) ? 'Werkzeugkunde' : esc(naechste.t)}</button>` : ''}
     <div class="menu">
       <button class="menuitem" data-n="path"><b>Lernpfad</b><span class="small muted">${stars} von ${L.length} Lektionen mit Stern · von den Grundlagen bis zur Gesamtaufgabe</span></button>
       <button class="menuitem" data-n="exam"><b>Prüfungsmodus</b><span class="small muted">9 Teilaufgaben wie in der Prüfung, ohne Hilfen, 25 Minuten</span></button>
       <button class="menuitem" data-n="fibel"><b>Navi-Fibel</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>
+      <button class="menuitem" data-n="werkzeugkunde"><b>${n.werkzeug ? '✓ ' : ''}Werkzeugkunde</b><span class="small muted">Kreuz, Bleistift, Kursdreieck und Zirkel Schritt für Schritt ausprobieren</span></button>
       <button class="menuitem" data-n="free"><b>Freie Karte</b><span class="small muted">Kursdreieck, Zirkel, Bleistift und Lupe ausprobieren</span></button>
       <button class="menuitem" data-n="old"><b>Amtliche Aufgaben</b><span class="small muted">Die 15 Originalaufgaben als Text (dafür brauchst du die BSH-Übungskarte 49)</span></button>
     </div>`);
-  const nw = $('#nweiter'); if (nw) nw.onclick = () => { AUD.click(); NAV.lesson(naechste.id); };
+  const nw = $('#nweiter'); if (nw) nw.onclick = () => { AUD.click(); wkZuerst(naechste) ? NAV.werkzeugkunde() : NAV.lesson(naechste.id); };
   app.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { AUD.click(); const k = b.dataset.n; if (k === 'free') NAV.freeChart(); else if (k === 'old') navGame(); else if (NAV[k]) NAV[k](); });
 };
 })();
