@@ -358,6 +358,7 @@ button.coursechip{border:0;cursor:pointer}
 .homehead h1{margin:0}
 .pathmini{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
 .extrawahl .btn{flex-direction:column;gap:2px;line-height:1.25;padding:.6em .7em}.extrawahl .btn small{font-weight:700;opacity:.85;font-size:.78rem}.extrawahl .btn b{font-size:.98rem}
+.phasezeile{display:block;margin:6px auto 0;font-size:.82rem;text-align:center}
 .kursheute{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:8px;padding:.7em 1em}.kursheute small{font-weight:700;opacity:.85;font-size:.8rem}.kursheute b{font-size:1.06rem;line-height:1.25}
 .standkarte .standz{margin-top:10px;display:flex;gap:10px;align-items:center}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
 .linkbtn{background:none;border:0;padding:0;color:var(--sea);font:inherit;font-size:.88rem;text-decoration:underline;cursor:pointer}
@@ -512,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.80';
+  window.__ver = '4.81';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3511,11 +3512,12 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
   async function finish() {
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
     /* Lob in vier Stufen: alles richtig, ab 80 %, ab 50 %, darunter (praise[3] ist die Stufe „alles richtig“) */
-    const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2;
+    const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2, mehr = opts.mehr && opts.mehr();
     app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${alles ? 'Fehlerfrei!' : idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
       <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p></div>
-      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>`;
+      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>${mehr ? `<button class="btn wide ghost" id="mehr" style="margin-top:8px">${esc(mehr.label)}</button>` : ''}`;
     app.querySelector('svg.ch').style.width = '76px';
+    if (mehr) $('#mehr').onclick = () => { VOX.stop('noch ein Block'); AUD.click(); mehr.run(); };
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
     if (opts.scoreKey) recordScore(opts.scoreKey, res.right);
     $('#home').onclick = () => { VOX.stop('weiter nach Quiz'); opts.onDone ? opts.onDone(res) : setTab('cabin'); };
@@ -4220,15 +4222,15 @@ let deckView = 'overview';
    Die Crew empfiehlt Festigen, wenn viele Fragen wackeln (angefangen, aber noch nicht sicher), sonst Neues. Alles durch: nur Festigen. */
 function nachPensum() {
   const neu = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
-  const wackel = Q.filter(q => { const s = st(q.n); return s && s.b < 3; }).length;
-  const empf = !neu || wackel >= 15 ? 'fest' : 'neu';
+  const wackel = wackelig().length, ph = lernPhase().id;
+  const empf = !neu || ph === 'reife' || (ph === 'festigen' ? wackel >= 5 : wackel >= 15) ? 'fest' : 'neu';
   const grund = !neu ? 'Alle Kapitel hast du schon gesehen. Jetzt geht es ums Festigen.' : empf === 'fest' ? `${wackel} Fragen wackeln noch. Erst festigen, dann Neues.` : wackel ? `Nur ${wackel} Fragen wackeln. Du kannst gut Neues nehmen.` : 'Nichts wackelt. Nimm ruhig Neues dazu.';
   return {neu, wackel, empf, grund};
 }
 function extraWahlHtml() {
   const w = nachPensum();
   return `<div class="extrawahl"><p class="small" style="margin:8px 0 6px"><b>⛵ Kurs für heute geschafft!</b> Freiwillig weiter?</p>
-    <div class="row">${w.neu ? `<button class="btn ${w.empf === 'neu' ? 'lamp' : 'ghost'}" id="xneu" style="flex:1"><small>✨ Noch was Neues</small><b>${esc(w.neu.label)}</b></button>` : ''}<button class="btn ${w.empf === 'fest' ? 'lamp' : 'ghost'}" id="xfest" style="flex:1"><small>🔁 Festigen</small><b>${w.wackel ? Math.min(10, w.wackel) + ' wacklige Fragen' : 'Gemischte Runde'}</b></button></div>
+    <div class="row">${w.neu ? `<button class="btn ${w.empf === 'neu' ? 'lamp' : 'ghost'}" id="xneu" style="flex:1"><small>✨ Noch was Neues</small><b>${esc(w.neu.label)}</b></button>` : ''}<button class="btn ${w.empf === 'fest' ? 'lamp' : 'ghost'}" id="xfest" style="flex:1"><small>🔁 Festigen</small><b>${w.wackel ? Math.min(BLOCK, w.wackel) + ' wacklige Fragen' : 'Gemischte Runde'}</b></button></div>
     <p class="small muted" style="margin:6px 0 0"><b>${esc(nameOf('K'))}:</b> ${esc(w.grund)}</p></div>`;
 }
 function bindExtraWahl() {
@@ -4256,12 +4258,13 @@ function standKarte(path, next) {
 }
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
-  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done);
+  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done), ph = lernPhase();
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
-      <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
+      <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
+      <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
       <div class="row"><button class="btn ghost" id="down" style="flex:1">Runter in die Kajüte</button><button class="btn small ghost instbtn" id="inst">📲 App aufs Handy</button></div>
     </div>
     ${courseCard()}
@@ -4272,6 +4275,7 @@ function renderBoat() {
   if (next) $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next.run(); };
   else bindExtraWahl();
   $('#tolog2').onclick = () => { AUD.click(); setTab('log'); };
+  $('#phase').onclick = () => { AUD.click(); phasenSheet(); };
   $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
@@ -5329,40 +5333,82 @@ function openQuestion(question, miss) {
     $('#oasend').disabled = false;
   };
 }
+/* V37: Fragen kommen in kleinen Blöcken. Ohne Tagespfad bietet das Ende „Noch ein Block“ an. */
+const BLOCK = 8;
 function reviewSession(title = 'Wiederholung', opts = {}) {
-  const due = shuffle(Q.filter(q => isDue(q.n))).slice(0, Math.max(10, computePlan().cap));
+  const due = faellig().slice(0, BLOCK);
   if (!due.length) return extraRound(opts);
-  runQuiz(due, title, 'learn', opts);
+  runQuiz(due, title, 'learn', opts.onDone ? opts : {...opts, mehr: () => { const r = faellig().length; return r ? {label: `🔁 Noch ein Block (${r} fällig)`, run: () => reviewSession(title, opts)} : null; }});
 }
-/* Tagespfad: drei Etappen pro Tag, ein "Weiter" */
+/* ---------- V37: drei Lernphasen (docs/entwurf-lauf5.md B3) ---------- */
+function lernPhase() {
+  const f = farbStand(Q), n = Math.max(1, f.n), gruen = f.gruen / n;
+  if (f.z.grau / n > .1) return {id: 'rundgang', nr: 1, name: 'Rundgang', info: `noch ${f.z.grau} Fragen nie gesehen`, f};
+  if (gruen < .7) return {id: 'festigen', nr: 2, name: 'Festigen', info: `${Math.round(gruen * 100)} % grün, Ziel 70 %`, f};
+  return {id: 'reife', nr: 3, name: 'Prüfungsreife', info: `Prüfungsreife ${Math.round(f.reife * 100)} %`, f};
+}
+function phasenSheet() {
+  const ph = lernPhase(), P = [['Rundgang', 'Jede Frage einmal sehen. Fehler sind ausdrücklich erlaubt, die Crew will wissen, wo du stehst. Täglich: Wiederholen, ein neues Kapitel, ein Praxis-Happen.'],
+    ['Festigen', 'Ab hier geht es um Grün. Zuerst kommen Rot und Orange, dann Gelb und alles, was du „Tricky“ fandest. Neues nur, solange noch Graues übrig ist.'],
+    ['Prüfungsreife', 'Fällige Wiederholungen, Prüfungsfallen und Probeprüfungen bei Kapitän Harms. Ab etwa 80 % Prüfungsreife ruft dich Harms.']];
+  sheet(`<h2 style="margin:0 0 6px">Deine Lernphase</h2><p class="small muted" style="margin:0 0 10px">Die Crew stellt den Kurs für heute nach deiner Phase zusammen. Du bist in Phase ${ph.nr}: ${esc(ph.info)}.</p>
+    ${P.map(([t, x], i) => `<div class="card" style="margin:6px 0;${i + 1 === ph.nr ? 'border-color:var(--lamp)' : 'opacity:.75'}"><b>${i + 1}. ${t}${i + 1 === ph.nr ? ' ⬅ du bist hier' : ''}</b><p class="small" style="margin:4px 0 0">${x}</p></div>`).join('')}
+    <p class="small muted" style="margin:8px 0 0">Wechsel: Rundgang bis 90 % der Fragen gesehen sind, Festigen bis 70 % grün sind.</p>`);
+}
+/* Fällige Fragen, die wackligsten zuerst; „wacklig“ = nicht grün oder als Tricky markiert */
+const RANG = {rot: 0, orange: 1, gelb: 2, hellgruen: 3, dunkelgruen: 4, grau: 5};
+const faellig = () => shuffle(Q.filter(q => isDue(q.n))).sort((a, b) => RANG[farbe(st(a.n))] - RANG[farbe(st(b.n))]);
+const wackelig = () => Q.filter(q => { const s = st(q.n); return s && (!sitzt(s) || s.t); });
+/* Praxis-Happen für den Tag: nächste Navigationslektion, ein Knoten oder ein Manöver, das noch fehlt */
+const KNOTEN_NAMEN = {acht: 'Achtknoten', kreuz: 'Kreuzknoten', palstek: 'Palstek', schot: 'Schotstek', stopper: 'Stopperstek', webelein: 'Webeleinstek', webeleinslip: 'Webeleinstek auf Slip', rundtoern: 'Rundtörn mit zwei halben Schlägen', klampe: 'Klampe belegen'};
+const MAN_NAMEN = {ablegen: 'Ablegen', anlegen: 'Anlegen', mob: 'Mensch über Bord', kompass: 'Steuern nach Kompass', aufstoppen: 'Kursgerechtes Aufstoppen', wenden: 'Wenden auf engem Raum'};
+function praxisHappen() {
+  const lek = (S.navi && S.navi.lek) || {}, man = S.man || {}, fehlt = () => toast('Das ließ sich nicht laden. Prüf dein Internet.');
+  const nl = (NAVI_LEKTIONEN[S.course] || []).find(l => !(lek[l] && lek[l].sterne));
+  const kn = KNOTEN_IDS.find(k => knotenWert(k) < 1), mn = MAN_IDS.find(m => !(man[m] && man[m].ok));
+  const wahl = [nl && {label: '🧭 Navigation: ' + (nl === 'L0' ? 'Grundlagen' : 'Lektion ' + nl.slice(1)), run: () => { returnTo = 'cabin'; loadNavi().then(() => NAV.lesson(nl)).catch(fehlt); }},
+    kn && {label: '🪢 Knoten: ' + KNOTEN_NAMEN[kn], run: () => loadKnoten().then(() => KNOTEN.zeige(kn)).catch(fehlt)},
+    mn && {label: '⚓ Manöver: ' + MAN_NAMEN[mn], run: () => loadManoever().then(() => MANOEVER.vorher(mn)).catch(fehlt)}].filter(Boolean);
+  return wahl.length ? wahl[today() % wahl.length] : null;
+}
+/* Tagespfad (V37): 4 bis 5 kleine Happen statt einer langen Runde, Fragen in Blöcken zu je 8 */
 const coverage = () => Q.length ? Q.filter(q => st(q.n)).length / Q.length : 0;
 function markPath(k) { todayPath(); S.path[k] = true; }
 function todayPath() {
   const d = today(), due = Q.filter(q => isDue(q.n)).length;
   if (!S.path || S.path.day !== d || S.path.course !== S.course) S.path = {day: d, course: S.course, dueStart: due, review: false, unit: false, extra: false};
-  const p = S.path, cov = coverage(), last = (S.exams || []).slice(-1)[0];
+  const p = S.path, ph = lernPhase(), last = (S.exams || []).slice(-1)[0];
+  p.lab = p.lab || {};
   const next = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
-  const examDue = cov >= .6 && (!last || today() - last.day >= 3);
+  const examDue = (ph.id === 'reife' || coverage() >= .6) && (!last || today() - last.day >= 3);
   const doneOpts = k => ({doneLabel: heimText(), onDone: () => { markPath(k); save(); setTab('cabin'); }});
-  return [
-    {id: 'review', label: p.dueStart > 0 ? `Wiederholen (${due} fällig)` : 'Aufwärmen: 8 gemischte Fragen', done: p.review,
+  const ruhe = p.dueStart > BLOCK ? null : ph.id === 'rundgang' && next && p.unit ? 'neu' : wackelig().length ? 'fest' : null;
+  const schritte = [
+    {id: 'review', label: p.dueStart > 0 ? `Wiederholen: ${Math.min(BLOCK, p.dueStart)} fällige Fragen` : `Aufwärmen: ${BLOCK} gemischte Fragen`,
       run: () => due > 0 ? reviewSession('Wiederholung', doneOpts('review')) : warmup(doneOpts('review'))},
     SZ_THEMA[S.course] && next && next.topic.id === SZ_THEMA[S.course] && szOffen(szArt(S.course))
-      ? {id: 'unit', label: 'Neu: Grundkurs ' + (S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen'), done: p.unit, run: () => { markPath('unit'); save(); seezeichenKurs(szArt(S.course)); }}
-      : {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'), done: p.unit,
+      ? {id: 'unit', label: 'Neu: Grundkurs ' + (S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen'), run: () => { markPath('unit'); save(); seezeichenKurs(szArt(S.course)); }}
+      : {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'),
       run: () => next ? startUnit(next) : trapRound(doneOpts('unit'))},
-    {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge', done: p.extra,
+    p.dueStart > BLOCK ? {id: 'review2', label: `Wiederholen, 2. Block: ${Math.min(BLOCK, p.dueStart - BLOCK)} Fragen`, run: () => due > 0 ? reviewSession('Wiederholung, 2. Block', doneOpts('review2')) : extraRound(doneOpts('review2'))}
+      : ruhe === 'neu' ? {id: 'review2', label: 'Neu: ' + next.label, run: () => { markPath('review2'); save(); startUnit(next); }}
+      : ruhe === 'fest' ? {id: 'review2', label: `Festigen: ${Math.min(BLOCK, wackelig().length)} Wackelkandidaten`, run: () => extraRound(doneOpts('review2'))} : null,
+    (() => { const h = praxisHappen(); return h || p.praxis ? {id: 'praxis', label: h ? h.label : 'Praxis-Happen', run: () => { markPath('praxis'); save(); h.run(); }} : null; })(),
+    {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge',
       run: () => examDue ? harmsKommt() : setTab('funk')},
-  ];
+  ].filter(Boolean);
+  /* Erledigtes behält seinen Namen, auch wenn sich danach das nächste Kapitel ändert */
+  return schritte.map(s => ({...s, done: !!p[s.id], label: p[s.id] && p.lab[s.id] || s.label, run: () => { p.lab[s.id] = s.label; save(); s.run(); }}));
 }
 function warmup(opts = {}) {
-  const seen = Q.filter(q => st(q.n)), pool = seen.length >= 8 ? seen : Q;
-  runQuiz(shuffle(pool).slice(0, 8), 'Aufwärmen', 'learn', opts);
+  const seen = Q.filter(q => st(q.n)), pool = seen.length >= BLOCK ? seen : Q;
+  runQuiz(shuffle(pool).slice(0, BLOCK), 'Aufwärmen', 'learn', opts);
 }
 function extraRound(opts = {}) {
   const pool = Q.filter(q => st(q.n)); if (!pool.length) return startUnit(UNITS[0]);
-  /* Festigen: zuerst, was noch nicht sicher sitzt, dann die mit den meisten Fehlern */
-  runQuiz(shuffle(pool).sort((a, b) => sitzt(st(a.n)) - sitzt(st(b.n)) || (st(b.n).t ? 1 : 0) - (st(a.n).t ? 1 : 0) || st(b.n).w - st(a.n).w).slice(0, 10), 'Festigen', 'learn', opts);
+  /* Festigen: Fälliges zuerst, dann nach Farbe (Rot, Orange, Gelb), Tricky etwas vor, dann die mit den meisten Fehlern */
+  const rang = q => (isDue(q.n) ? 0 : 10) + RANG[farbe(st(q.n))] - (st(q.n).t ? .5 : 0);
+  runQuiz(shuffle(pool).sort((a, b) => rang(a) - rang(b) || st(b.n).w - st(a.n).w).slice(0, BLOCK), 'Festigen', 'learn', opts);
 }
 /* Prüfungsfallen: Fragen, deren falsche Antworten der richtigen zum Verwechseln ähneln */
 function trapRound(opts = {}) {
@@ -5379,8 +5425,11 @@ function recommendNext() {
   const next = UNITS.find(u => unitStage(u) === 'neu');
   const last = (S.exams || []).slice(-1)[0];
   if (open) return {label: `${open.label} zu Ende bringen`, say: `Wir haben ${open.label} angefangen. Das bringen wir erst sauber zu Ende, halbe Sachen gibt es auf See nicht.`, run: () => startUnit(open)};
-  if (due >= 12) return {label: `${due} Wiederholungen`, say: `Erst wird aufgeklart: ${due} Fragen wollen wiederholt werden. Danach gibt es Neues.`, run: () => reviewSession()};
+  const ph = lernPhase(), wk = wackelig().length;
+  if (due >= 12) return {label: `Wiederholen: ${BLOCK} von ${due} fälligen`, say: `Erst wird aufgeklart: ${due} Fragen wollen wiederholt werden. Wir nehmen sie in Happen zu ${BLOCK}.`, run: () => reviewSession()};
   if (left <= 10 && coverage() >= .6 && chance < .95 && (!last || today() - last.day >= 2)) return {label: 'Probeprüfung bei Kapitän Harms', say: `Noch ${left} Tage bis zur Prüfung. Zeit, dass Kapitän Harms dich mal richtig prüft.`, run: examIntro};
+  if (ph.id === 'reife' && ph.f.reife >= .8 && (!last || today() - last.day >= 2)) return {label: 'Ruf Kapitän Harms an', say: `Prüfungsreife ${Math.round(ph.f.reife * 100)} Prozent. Das reicht für eine Probeprüfung. Ruf Harms an, das Telefon hängt an der Wand.`, run: () => harmsKommt()};
+  if (ph.id === 'festigen' && wk >= BLOCK) return {label: `Festigen: ${BLOCK} Wackelkandidaten`, say: `${wk} Fragen wackeln noch. Erst festigen wir, was rot und orange ist, dann gibt es Neues.`, run: extraRound};
   if (next && dl.answered < cap) return {label: `Neu: ${next.label}`, say: `Als Nächstes nehmen wir uns ${next.label} vor. Erst rätst du, dann erkläre ich dir den Rest.`, run: () => startUnit(next)};
   if (due > 0) return {label: `${due} Wiederholungen`, say: `Bevor Feierabend ist: ${due} Fragen wollen noch einmal wiederholt werden.`, run: () => reviewSession()};
   if (!next) return COURSE.kind === 'mc' ? {label: 'Prüfungsfallen üben', say: 'Alle Kapitel hast du durch. Jetzt üben wir die gemeinen Fallen, bei denen die falschen Antworten fast gleich klingen.', run: trapRound} : {label: 'Wackelkandidaten üben', say: 'Alle Kapitel hast du durch. Jetzt nehmen wir uns die Fragen vor, die noch wackeln.', run: trapRound};
