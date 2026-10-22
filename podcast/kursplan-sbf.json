@@ -1,0 +1,879 @@
+{
+ "_hinweis": "Kursplan Kajütenfunk SBF See, Fassung 3 (Prüfbericht vom 22.10.2026 eingearbeitet). Jede Katalogfrage steht in genau einer Lektion (tools/kursplan-pruefen.js). Vergleichslektionen in Kapitel 9 haben keine eigenen Fragen, sondern einen Bezug. Bausteine wechseln von Lektion zu Lektion. minuten = Zielwert.",
+ "schein": "sbf",
+ "fassung": 3,
+ "stand": "2026-10-22",
+ "bausteine": {
+  "garn": "Hinnerks Garn (60–90 s): wahre oder klar als Garn markierte Geschichte, die den Stoff trägt",
+  "stichprobe": "Harms’ Stichprobe (30 s): eine harte Prüfungsfrage, knurrige Auflösung",
+  "detektiv": "Fehler-Detektiv: Hinnerk erzählt eine kurze Fahrt mit Fehlern, der Hörer findet sie",
+  "tonlabor": "Ton-Labor: echte Signale hören, benennen, vergleichen",
+  "gast": "Gast am Funk oder an Bord: eine Fachperson zum Thema",
+  "streit": "Streitgespräch: Hinnerk und Smilla vertreten zwei Fälle, die man verwechselt; der Hörer entscheidet",
+  "kopfkino": "Kopfkino: geführte Vorstellung („Du stehst am Ruder, es ist Nacht …“)"
+ },
+ "kapitel": [
+  {
+   "nr": 0,
+   "titel": "Willkommen an Bord",
+   "auftakt": false,
+   "lektionen": [
+    {
+     "id": "0",
+     "titel": "Willkommen an Bord: der Kurs und die Prüfung",
+     "typ": "einfuehrung",
+     "fragen": [],
+     "minuten": 6,
+     "braucht": [
+      "Prüfungsordnung (F3)"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 1,
+   "titel": "Grundlagen: Verantwortung und Begriffe",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "1.1",
+     "titel": "Wer hat an Bord das Sagen?",
+     "typ": "lektion",
+     "fragen": [
+      1,
+      2,
+      59,
+      75,
+      76,
+      77,
+      78
+     ],
+     "minuten": 9,
+     "baustein": "gast",
+     "gast": "POLIZEI"
+    },
+    {
+     "id": "1.2",
+     "titel": "Die Sprache der Seeleute",
+     "typ": "lektion",
+     "fragen": [
+      3,
+      6,
+      8,
+      9,
+      89
+     ],
+     "minuten": 7,
+     "baustein": "kopfkino"
+    }
+   ]
+  },
+  {
+   "nr": 2,
+   "titel": "Das Boot: Technik, Sicherheit, Manövrieren",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "2.1",
+     "titel": "Propeller, Ruder und Radeffekt",
+     "typ": "lektion",
+     "fragen": [
+      41,
+      44,
+      45,
+      46,
+      47,
+      48,
+      50,
+      51
+     ],
+     "minuten": 10,
+     "baustein": "garn",
+     "binnen_kandidat": true
+    },
+    {
+     "id": "2.2",
+     "titel": "Der Motor: überwachen, Störungen, tanken",
+     "typ": "lektion",
+     "fragen": [
+      42,
+      43,
+      49,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      60
+     ],
+     "minuten": 12,
+     "baustein": "detektiv",
+     "binnen_kandidat": true
+    },
+    {
+     "id": "2.3",
+     "titel": "Gas, Feuer und Rettungsmittel",
+     "typ": "lektion",
+     "fragen": [
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69
+     ],
+     "minuten": 10,
+     "baustein": "stichprobe",
+     "binnen_kandidat": true
+    },
+    {
+     "id": "2.4",
+     "titel": "Anlegen, Begegnen, Sog und Schwell",
+     "typ": "lektion",
+     "fragen": [
+      34,
+      35,
+      36,
+      37,
+      40,
+      61
+     ],
+     "minuten": 8,
+     "baustein": "gast",
+     "gast": "HAFENMEISTER"
+    },
+    {
+     "id": "2.5",
+     "titel": "Ankern, Baden und Wassersport",
+     "typ": "lektion",
+     "fragen": [
+      25,
+      39,
+      169,
+      170,
+      171,
+      179,
+      180,
+      181
+     ],
+     "minuten": 10,
+     "baustein": "streit"
+    },
+    {
+     "id": "2.6",
+     "titel": "Die praktische Prüfung: Manöver und Knoten",
+     "typ": "praxis",
+     "fragen": [],
+     "minuten": 10,
+     "baustein": "kopfkino",
+     "braucht": [
+      "Prüfungsrichtlinie in quellen/"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 3,
+   "titel": "Wer weicht wem aus?",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "3.1",
+     "titel": "Welche Regeln gelten, und wann wird es gefährlich?",
+     "typ": "lektion",
+     "fragen": [
+      73,
+      74,
+      90,
+      125,
+      272,
+      273
+     ],
+     "minuten": 8,
+     "baustein": "garn"
+    },
+    {
+     "id": "3.2",
+     "titel": "Begegnen, Kreuzen, Überholen, Segeln",
+     "typ": "lektion",
+     "fragen": [
+      14,
+      15,
+      81,
+      126,
+      127,
+      137
+     ],
+     "minuten": 12,
+     "baustein": "streit"
+    },
+    {
+     "id": "3.3",
+     "titel": "Wer hat Vorrang? Die Rangfolge",
+     "typ": "lektion",
+     "fragen": [
+      82,
+      83,
+      128,
+      129,
+      130,
+      131,
+      132
+     ],
+     "minuten": 9,
+     "baustein": "stichprobe"
+    },
+    {
+     "id": "3.4",
+     "titel": "Kurshalter, Ausweichpflichtiger und der letzte Augenblick",
+     "typ": "lektion",
+     "fragen": [
+      4,
+      5,
+      79,
+      80,
+      135,
+      136,
+      139,
+      140,
+      162,
+      163,
+      164
+     ],
+     "minuten": 13,
+     "baustein": "tonlabor"
+    }
+   ]
+  },
+  {
+   "nr": 4,
+   "titel": "Wer ist das da draußen? Lichter, Signalkörper, Schallsignale",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "4.1",
+     "titel": "Die Sprache der Lichter",
+     "typ": "lektion",
+     "fragen": [
+      7,
+      10,
+      11,
+      12,
+      13,
+      85,
+      86,
+      91,
+      92,
+      113,
+      159,
+      160
+     ],
+     "minuten": 14,
+     "baustein": "kopfkino",
+     "bilder": true
+    },
+    {
+     "id": "4.2",
+     "titel": "Vor Anker, auf Grund, im Schlepp",
+     "typ": "lektion",
+     "fragen": [
+      93,
+      94,
+      95,
+      96,
+      105,
+      106,
+      107,
+      114,
+      115
+     ],
+     "minuten": 11,
+     "baustein": "stichprobe",
+     "bilder": true
+    },
+    {
+     "id": "4.3",
+     "titel": "Manövrierunfähig und manövrierbehindert",
+     "typ": "lektion",
+     "fragen": [
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      148,
+      149,
+      150
+     ],
+     "minuten": 13,
+     "baustein": "streit",
+     "bilder": true
+    },
+    {
+     "id": "4.4",
+     "titel": "Tiefgangbehinderte und Fischer",
+     "typ": "lektion",
+     "fragen": [
+      108,
+      109,
+      110,
+      111,
+      112,
+      133,
+      134
+     ],
+     "minuten": 9,
+     "baustein": "gast",
+     "gast": "FISCHER",
+     "bilder": true
+    },
+    {
+     "id": "4.5",
+     "titel": "Hören statt sehen: Schallsignale bei verminderter Sicht",
+     "typ": "lektion",
+     "fragen": [
+      84,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      138,
+      141,
+      274
+     ],
+     "minuten": 15,
+     "baustein": "tonlabor",
+     "zwei_sitzungen": true
+    }
+   ]
+  },
+  {
+   "nr": 5,
+   "titel": "Fahrwasser, Tonnen und Feuer",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "5.1",
+     "titel": "Wie Feuer sprechen: Kennungen",
+     "typ": "lektion",
+     "fragen": [
+      215,
+      220,
+      221,
+      222,
+      223,
+      224
+     ],
+     "minuten": 8,
+     "baustein": "kopfkino"
+    },
+    {
+     "id": "5.2",
+     "titel": "Das Fahrwasser und seine Tonnen",
+     "typ": "lektion",
+     "fragen": [
+      156,
+      157,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199
+     ],
+     "minuten": 13,
+     "baustein": "garn",
+     "bilder": true
+    },
+    {
+     "id": "5.3",
+     "titel": "Gefahrenstellen: Kardinal- und Einzelgefahrenzeichen",
+     "typ": "lektion",
+     "fragen": [
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209
+     ],
+     "minuten": 12,
+     "baustein": "detektiv",
+     "bilder": true
+    },
+    {
+     "id": "5.4",
+     "titel": "Leit-, Richt- und Quermarkenfeuer",
+     "typ": "lektion",
+     "fragen": [
+      210,
+      211,
+      212,
+      213,
+      214
+     ],
+     "minuten": 8,
+     "baustein": "kopfkino"
+    },
+    {
+     "id": "5.5",
+     "titel": "Regeln im Fahrwasser",
+     "typ": "lektion",
+     "fragen": [
+      24,
+      152,
+      153,
+      161,
+      165,
+      166,
+      167,
+      168,
+      271
+     ],
+     "minuten": 11,
+     "baustein": "stichprobe"
+    }
+   ]
+  },
+  {
+   "nr": 6,
+   "titel": "Zeichen, Sperrungen und besondere Wasserstraßen",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "6.1",
+     "titel": "Tafelzeichen",
+     "typ": "lektion",
+     "fragen": [
+      17,
+      18,
+      19,
+      20,
+      22,
+      23,
+      26,
+      27,
+      182
+     ],
+     "minuten": 11,
+     "baustein": "detektiv",
+     "bilder": true
+    },
+    {
+     "id": "6.2",
+     "titel": "Behörden, Sperr- und Warngebiete",
+     "typ": "lektion",
+     "fragen": [
+      16,
+      151,
+      154,
+      155,
+      177,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189
+     ],
+     "minuten": 14,
+     "baustein": "tonlabor",
+     "bilder": true
+    },
+    {
+     "id": "6.3",
+     "titel": "Brücken, Schleusen und der Nord-Ostsee-Kanal",
+     "typ": "lektion",
+     "fragen": [
+      21,
+      28,
+      29,
+      30,
+      173,
+      174,
+      175,
+      176,
+      178
+     ],
+     "minuten": 11,
+     "baustein": "kopfkino",
+     "bilder": true
+    },
+    {
+     "id": "6.4",
+     "titel": "Verkehrstrennungsgebiete und Verkehrszentralen",
+     "typ": "lektion",
+     "fragen": [
+      87,
+      88,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      158
+     ],
+     "minuten": 11,
+     "baustein": "gast",
+     "gast": "FUNK"
+    }
+   ]
+  },
+  {
+   "nr": 7,
+   "titel": "Navigation, Gezeiten und Naturschutz",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "7.1",
+     "titel": "Seekarte, nautische Bücher und wer was herausgibt",
+     "typ": "lektion",
+     "fragen": [
+      58,
+      216,
+      217,
+      231,
+      232,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239
+     ],
+     "minuten": 12,
+     "baustein": "streit"
+    },
+    {
+     "id": "7.2",
+     "titel": "Kurs, Peilung, Standort",
+     "typ": "lektion",
+     "fragen": [
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247,
+      248
+     ],
+     "minuten": 11,
+     "baustein": "kopfkino"
+    },
+    {
+     "id": "7.3",
+     "titel": "Ebbe und Flut",
+     "typ": "lektion",
+     "fragen": [
+      233,
+      249,
+      250,
+      251,
+      252,
+      253,
+      254,
+      255
+     ],
+     "minuten": 10,
+     "baustein": "garn"
+    },
+    {
+     "id": "7.4",
+     "titel": "Naturschutz und Umwelt",
+     "typ": "lektion",
+     "fragen": [
+      31,
+      32,
+      33,
+      38,
+      218,
+      219,
+      225,
+      226,
+      227,
+      228,
+      229,
+      230
+     ],
+     "minuten": 12,
+     "baustein": "detektiv",
+     "gast": "RANGERIN",
+     "binnen_kandidat": true
+    },
+    {
+     "id": "7.5",
+     "titel": "Die Kartenaufgabe: so läuft sie, so denkst du",
+     "typ": "kartenaufgabe",
+     "fragen": [],
+     "minuten": 10,
+     "baustein": "stichprobe",
+     "braucht": [
+      "Prüfungsrichtlinie in quellen/"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 8,
+   "titel": "Wetter, Seemannschaft und Notfall",
+   "auftakt": true,
+   "lektionen": [
+    {
+     "id": "8.1",
+     "titel": "Wetter verstehen",
+     "typ": "lektion",
+     "fragen": [
+      71,
+      260,
+      261,
+      262,
+      263,
+      264,
+      265,
+      266,
+      267,
+      268,
+      269,
+      270
+     ],
+     "minuten": 14,
+     "baustein": "garn",
+     "bilder": true
+    },
+    {
+     "id": "8.2",
+     "titel": "Wenn es ernst wird: schweres Wetter, Mensch über Bord, Kentern",
+     "typ": "lektion",
+     "fragen": [
+      256,
+      257,
+      258,
+      259,
+      275,
+      276,
+      277,
+      278
+     ],
+     "minuten": 10,
+     "baustein": "kopfkino"
+    },
+    {
+     "id": "8.3",
+     "titel": "Notsignale und Pflichten nach einem Unfall",
+     "typ": "lektion",
+     "fragen": [
+      70,
+      72,
+      172,
+      279,
+      280,
+      281,
+      282,
+      283,
+      284,
+      285
+     ],
+     "minuten": 12,
+     "baustein": "streit",
+     "bilder": true
+    }
+   ]
+  },
+  {
+   "nr": 9,
+   "titel": "Prüfungsreife: was man verwechselt",
+   "auftakt": true,
+   "auftakt_von": "HARMS",
+   "lektionen": [
+    {
+     "id": "9.1",
+     "titel": "Hörprüfung: alle Schallsignale im Vergleich",
+     "typ": "vergleich",
+     "fragen": [],
+     "minuten": 10,
+     "baustein": "tonlabor",
+     "bezug": [
+      4,
+      5,
+      16,
+      24,
+      84,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      138,
+      139,
+      140,
+      141,
+      161,
+      162,
+      163,
+      164,
+      178,
+      186,
+      188,
+      281,
+      282
+     ]
+    },
+    {
+     "id": "9.2",
+     "titel": "Lichter und Signalkörper im Vergleich",
+     "typ": "vergleich",
+     "fragen": [],
+     "minuten": 9,
+     "baustein": "streit",
+     "bezug": [
+      7,
+      10,
+      11,
+      12,
+      13,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      133,
+      134,
+      148,
+      149,
+      150,
+      151,
+      154,
+      155,
+      159,
+      160
+     ]
+    },
+    {
+     "id": "9.3",
+     "titel": "Wer weicht wo aus? Freie See, Fahrwasser, Verkehrstrennungsgebiet",
+     "typ": "vergleich",
+     "fragen": [],
+     "minuten": 8,
+     "baustein": "detektiv",
+     "bezug": [
+      14,
+      15,
+      81,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      165,
+      166,
+      167,
+      168,
+      36,
+      271
+     ]
+    },
+    {
+     "id": "9.4",
+     "titel": "Zahlen und Behörden, die man verwechselt",
+     "typ": "vergleich",
+     "fragen": [],
+     "minuten": 8,
+     "baustein": "stichprobe",
+     "bezug": [
+      2,
+      31,
+      38,
+      58,
+      59,
+      67,
+      68,
+      75,
+      86,
+      153,
+      179,
+      181,
+      183,
+      216,
+      217,
+      219,
+      229,
+      231,
+      232,
+      236,
+      237,
+      238,
+      240,
+      241,
+      255,
+      261,
+      267,
+      268,
+      269,
+      270
+     ]
+    }
+   ]
+  }
+ ]
+}

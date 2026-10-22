@@ -2,7 +2,8 @@
 # Rauchtest vor jedem Commit (CLAUDE.md R5). Einmal einschalten mit:  git config core.hooksPath .githooks
 # Commits, die nur .md-Dateien ändern, brauchen keinen Rauchtest. Ohne Playwright gibt es nur einen Hinweis.
 # Podcast-Skripte, Konfiguration und Ausspracheverzeichnis prüfen (PODCAST_BIBLE.md A32), wenn unter podcast/ etwas geändert ist
-if git diff --cached --name-only | grep -q '^podcast/'; then node tools/podcast-pruefen.js --entwurf || { echo "Podcast-Prüfung fehlgeschlagen."; exit 1; }; fi
+# Kursplan des Hörkurses: jede Katalogfrage in genau einer Lektion (docs/konzept-kajuetenfunk.md)
+if git diff --cached --name-only | grep -q '^podcast/'; then node tools/podcast-pruefen.js --entwurf || { echo "Podcast-Prüfung fehlgeschlagen."; exit 1; }; node tools/kursplan-pruefen.js || { echo "Kursplan-Prüfung fehlgeschlagen."; exit 1; }; fi
 if [ -z "$(git diff --cached --name-only | grep -v '\.md$')" ]; then echo "Nur Texte geändert, Rauchtest übersprungen."; exit 0; fi
 # Kreuzknoten mathematisch prüfen (echter Kreuzknoten, kein Altweiberknoten), wenn knoten.js geändert ist
 if git diff --cached --name-only | grep -q '^knoten\.js$'; then node tools/knoten-pruefen.js || { echo "Kreuzknoten-Prüfung fehlgeschlagen."; exit 1; }; fi

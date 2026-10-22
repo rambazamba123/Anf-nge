@@ -23,7 +23,8 @@
     "FISCHER": {"name": "Fischer", "voice_id": "yjJ45q8TVCrtMhEKurxY", "stimme": "Dr. von Quirky"},
     "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": "4FAKwoQRvqLfJJP6W6Qp", "stimme": "Mats – Warm, Genuine"},
     "HAFENMEISTER": {"name": "Hafenmeisterin", "voice_id": "fs3nd19KF2GO2hLTzkBm", "stimme": "Lucinda – Earthy"},
-    "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": "ib8aaABAPZQpTo6hx8Jr", "stimme": "Severin – Powerful"}
+    "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": "ib8aaABAPZQpTo6hx8Jr", "stimme": "Severin – Powerful"},
+    "RANGERIN": {"name": "Rangerin im Nationalpark (Gast, Lektion 7.4)", "voice_id": null, "hinweis": "neue Gastrolle aus dem Prüfbericht vom 22.10.2026; Stimme im Casting wählen"}
   },
   "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Voice-IDs vom Nutzer am 20.10. (B97). Klabauter spricht im Podcast mit Wally; die App nutzt bis zur Entscheidung O38 noch die alte Stimme (app_stimme_bisher). Frieda hat noch keine Stimme. Auf dem Gerät nutzt die Hörprobe die Casting-Zuordnung (S.cfg.casting). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
   "aussprache": {
@@ -36,7 +37,19 @@
     "nie_im_satz_trennen": true,
     "sprecherwechsel_zusammenhalten": true
   },
-  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE"],
+  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL"],
+  "lektion_regeln": {
+    "_hinweis": "Regeln für Lektionsskripte des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 3, Abschnitt 9). tools/podcast-pruefen.js wendet sie an, sobald im Kopf „lektion:“ steht.",
+    "revier_werte": ["frei", "fahrwasser", "vtg", "nok", "hafen", "watt", "schleuse", "an Land"],
+    "denkpause_sekunden": ["4", "6", "8"],
+    "denkpause_umsetzung": "Stille wird beim Zusammenfügen in die MP3 geschnitten (kein Audio-Tag); davor ein leiser Signalton „jetzt du“",
+    "irrtum_berichtigung_max_sekunden": 20,
+    "merkhilfen_max": 3,
+    "stimmen_je_szene_max": 3,
+    "denkpausen_min": 2,
+    "rueckblick_min_lektionen": 2,
+    "katalog_treffer_min": 0.8
+  },
   "pause_werte": ["kurz", "nachdenklich", "dramatisch"],
   "tempo_werte": ["langsam", "normal", "zügig"],
   "tags_hinweis": "Alle Tags sind Kandidaten für den Hörtest (A14, A27). quelle: doku = in ElevenLabs-Unterlagen bzw. Bible A14 genannt; unbestaetigt = Claude kennt den Tag, hat ihn aber am 20.10. nicht in der Doku gefunden. Freigegeben wird erst nach dem Hörtest.",
