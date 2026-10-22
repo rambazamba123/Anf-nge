@@ -39,12 +39,16 @@ const CSS = `<style>
 .mpk .mstema{border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0;background:var(--paper)}
 .mpk .mstema.tipp{border-color:var(--lamp)}
 .mpk .mstema .einh{display:grid;gap:6px;margin-top:8px}
+.mpk .mstema .tkopf{display:flex;align-items:center;gap:10px}
+.mpk .tkliste{display:grid;gap:4px;margin-top:10px}
+.mpk .tk{display:flex;align-items:center;gap:10px;text-align:left;border:0;border-top:1px dashed var(--line);background:none;padding:6px 2px;color:var(--ink);font:600 .9rem var(--bfont);min-height:44px}
+.mpk .tk:first-child{border-top:0}.mpk .tk span{flex:1}.mpk .tk small{display:block;color:var(--muted);font-weight:600;font-size:.76rem}
 </style>`;
 
 const fach = id => id === S.course ? S : ((S.courses || {})[id] || {});
 const bestanden = id => S.scheine && S.scheine[id] && S.scheine[id].ok;
 const begonnen = id => id === S.course || id === S.crewSchein || Object.keys(qsVon(id)).length > 0;
-const farbe = id => COURSE_COLOR[id] || '#f0b53e';
+const scheinFarbe = id => COURSE_COLOR[id] || '#f0b53e';
 function ring(v, size, col, txt) {
   const r = size / 2 - 5, u = 2 * Math.PI * r;
   return `<svg class="msring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--line)" stroke-width="6"/>
@@ -64,9 +68,12 @@ function seite(id) {
   subScreen(); place = 'pruef';
   const cur = S.course, C = COURSE, f = fortschritt(cur), pr = probe(cur), ok = bestanden(cur), partner = PARTNER[cur];
   const chip = c => { const g = begonnen(c) ? gesamt(c) : 0;
-    return `<button class="schip" data-s="${c}" aria-pressed="${c === cur}">${ring(bestanden(c) ? 1 : g, 40, farbe(c))}<span>${esc(COURSES[c].short)} ${c === S.crewSchein ? '⚓' : ''}${bestanden(c) ? '🎓' : ''}<small>${bestanden(c) ? 'bestanden' : begonnen(c) ? proz(g) : 'noch nicht begonnen'}</small></span></button>`; };
+    return `<button class="schip" data-s="${c}" aria-pressed="${c === cur}">${ring(bestanden(c) ? 1 : g, 40, scheinFarbe(c))}<span>${esc(COURSES[c].short)} ${c === S.crewSchein ? '⚓' : ''}${bestanden(c) ? '🎓' : ''}<small>${bestanden(c) ? 'bestanden' : begonnen(c) ? proz(g) : 'noch nicht begonnen'}</small></span></button>`; };
   const zeile = (key, label, info) => `<button class="menuitem" data-go="${key}"><span>${label}</span>${info ? `<small>${esc(info)}</small>` : ''}</button>`;
-  const sek = (k, ico, titel, wert, inhalt) => `<details class="card mssec" data-sec="${k}"${offen[k] ? ' open' : ''}><summary><span class="ico" aria-hidden="true">${ico}</span><h2>${esc(titel)}</h2>${wert != null ? ring(wert, 42, 'var(--stb)', Math.round(wert * 100)) : ''}<span class="pf" aria-hidden="true">›</span></summary>${inhalt}</details>`;
+  const sek = (k, ico, titel, z, inhalt) => `<details class="card mssec" data-sec="${k}"${offen[k] ? ' open' : ''}><summary><span class="ico" aria-hidden="true">${ico}</span><h2>${esc(titel)}</h2>${z ? kuchen(z, 40) : ''}<span class="pf" aria-hidden="true">›</span></summary>${inhalt}</details>`;
+  /* Kernfortschritt im Detail: ein Kuchen je Theoriethema und je Praxisthema (V35) */
+  const pf = praxisFarben(cur), tk = (key, z, name, info) => `<button class="tk" data-go="${key}">${kuchen(z, 34)}<span>${esc(name)}<small>${esc(info)}</small></span><b aria-hidden="true">›</b></button>`;
+  const anzahl = (z, ids) => ids.reduce((a, k) => a + z[k], 0);
   const items = C.items(), sigT = signalThemen(cur);
   /* Bausteine der Theorie: Basis gemeinsam mit dem Partner-Schein, dann die eigenen Zusätze */
   const bau = [];
@@ -84,19 +91,23 @@ function seite(id) {
     ${ok ? `<div class="card" style="border-color:var(--stb)"><p style="margin:0"><span class="mstempel">BESTANDEN</span> am <b>${fmtDate(ok)}</b>. ${esc(C.short)} ist in der Tasche!</p>
       <p class="small muted" style="margin:6px 0 8px">Dein Lernstand bleibt, hier kannst du jederzeit auffrischen.</p>${NAECHSTER[cur] && !bestanden(NAECHSTER[cur]) ? `<button class="btn small" data-s="${NAECHSTER[cur]}">Als Nächstes: ${esc(COURSES[NAECHSTER[cur]].short)}</button>` : ''}</div>` : ''}
     <section class="card"><h3 style="margin:0 0 8px">Dein Stand · ${esc(C.short)}</h3><div class="stand">
-      <div>${ring(f.theorie.v, 74, farbe(cur), proz(f.theorie.v))}<b>Theorie</b><small>${f.theorie.sicher} von ${f.theorie.n} sicher</small></div>
-      ${f.navi ? `<div>${ring(f.navi.v, 74, farbe(cur), proz(f.navi.v))}<b>Navigation</b><small>${f.navi.done} von ${f.navi.n} Lektionen</small></div>` : ''}
-      <div>${ring(f.praxis.v, 74, farbe(cur), proz(f.praxis.v))}<b>Praxis</b><small>${f.praxis.man}/${f.praxis.manN} Manöver · ${f.praxis.knoten}/${f.praxis.knotenN} Knoten</small></div></div>
-      <p class="small muted" style="margin:8px 0 0">Jede Anzeige geht bis 100 %. Theorie: Eine Frage zählt voll, wenn sie dreimal in Folge richtig war. Praxis zählt für jeden Schein, du lernst sie nur einmal.</p></section>
-    ${sek('theorie', '📖', 'Theorie', f.theorie.v, `<p class="pr">${prText}</p>${bau.join('')}<div class="menu" style="margin-top:8px">${zeile('themen', 'Themen frei wählen', C.topics.length + ' Themen')}${zeile('wdh', 'Wiederholen', todayNumbers().due + ' fällig')}${zeile('fallen', C.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten', 'die gemeinen Fragen')}${C.kind === 'mc' ? zeile('lex', 'Lexikon', 'Bilder und Tonfolgen') : ''}</div>`)}
-    ${sek('zeichen', '🚩', cur === 'sks' ? 'Seezeichen (Auffrischen)' : 'Seezeichen und Signale', sigT.length ? fragenStand(cur, q => sigT.some(t => t.has(q))).v : null,
+      <div>${kuchen(f.theorie.f.z, 74, Math.round(f.theorie.v * 100))}<b>Theorie</b><small>${f.theorie.sicher} von ${f.theorie.n} sitzen</small></div>
+      ${f.navi ? `<div>${kuchen(pf.navi, 74, Math.round(f.navi.v * 100))}<b>Navigation</b><small>${f.navi.done} von ${f.navi.n} Lektionen</small></div>` : ''}
+      <div>${kuchen(pf.praxis, 74, Math.round(f.praxis.v * 100))}<b>Praxis</b><small>${f.praxis.man}/${f.praxis.manN} Manöver · ${f.praxis.knoten}/${f.praxis.knotenN} Knoten</small></div></div>
+      ${farbLegende()}
+      <p class="small muted" style="margin:8px 0 0">Die Zahl in der Mitte ist die Prüfungsreife in Prozent. Theorie: Hellgrün nach 2 richtigen Antworten in Folge, Dunkelgrün nach 4 in Folge an mindestens 2 Tagen. Mit „Easy“ und „Tricky“ sagst du selbst, wie sicher du warst. Praxis zählt für jeden Schein, du lernst sie nur einmal.</p></section>
+    ${sek('theorie', '📖', 'Theorie', f.theorie.f.z, `<p class="pr">${prText}</p>${bau.join('')}
+      <div class="tkliste">${TOPICS.map(th => { const s = topicStats(th); return tk('sig:' + th.id, s.f.z, th.name, `${s.m} von ${s.total} sitzen${s.f.z.rot ? ' · ' + s.f.z.rot + ' Baustellen' : ''}`); }).join('')}</div>
+      <div class="menu" style="margin-top:8px">${zeile('themen', 'Themen frei wählen', C.topics.length + ' Themen')}${zeile('wdh', 'Wiederholen', todayNumbers().due + ' fällig')}${zeile('fallen', C.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten', 'die gemeinen Fragen')}${C.kind === 'mc' ? zeile('lex', 'Lexikon', 'Bilder und Tonfolgen') : ''}</div>`)}
+    ${sek('zeichen', '🚩', cur === 'sks' ? 'Seezeichen (Auffrischen)' : 'Seezeichen und Signale', sigT.length ? fragenStand(cur, q => sigT.some(t => t.has(q))).f.z : null,
       `<p class="pr">${cur === 'sks' ? 'Für den SKS setzt die Prüfung die Seezeichen des SBF See voraus. Hier frischst du sie auf.' : 'In der Prüfung: Bild, Zeichen oder Tonfolge, dazu die richtige Bedeutung ankreuzen. Erst der Grundkurs, dann die Prüfungsfragen.'}</p>
-      <div class="menu">${zeile('kurs', '⭐ ' + (cur === 'binnen' ? 'Grundkurs Zeichen Binnen' : 'Grundkurs Seezeichen'), cur === 'binnen' ? '3 Lektionen' : 'Originalbilder')}${sigT.map(th => { const st2 = fragenStand(cur, th.has); return zeile('sig:' + th.id, esc(th.name), st2.sicher + ' von ' + st2.n + ' sicher'); }).join('')}</div>
+      <div class="menu">${zeile('kurs', '⭐ ' + (cur === 'binnen' ? 'Grundkurs Zeichen Binnen' : 'Grundkurs Seezeichen'), cur === 'binnen' ? '3 Lektionen' : 'Originalbilder')}${sigT.map(th => { const st2 = fragenStand(cur, th.has); return tk('sig:' + th.id, st2.f.z, th.name, st2.sicher + ' von ' + st2.n + ' sitzen'); }).join('')}</div>
       <p class="small muted" style="margin:8px 0 0">${cur === 'binnen' ? 'Die Spiele in der Spielekiste zeigen die Regeln auf See. Für Binnen zählen die Prüfungsfragen hier.' : 'Zum Hören und Sehen wie in echt gibt es Spiele in der Spielekiste (Schallsignale, Lichter, Leuchtfeuer, Tonnen-Slalom).'}</p>`)}
-    ${f.navi ? sek('navi', '🧭', 'Navigation', f.navi.v, `<p class="pr">${cur === 'sks' ? 'In der Prüfung: Kartenaufgabe mit 30 Punkten, bestanden ab 20.' : 'In der Prüfung: Navigationsaufgabe auf der Übungskarte, mindestens 7 von 9 Punkten.'} Gelernt wird mit einer erfundenen Übungskarte, gerechnet wird wie auf der echten.</p>
-      <div class="menu">${zeile('navi', 'Navigationsschule', f.navi.done + ' von ' + f.navi.n + ' Lektionen mit Stern')}</div>`) : ''}
-    ${sek('praxis', '🪢', 'Praxis', f.praxis.v, `<p class="pr">${cur === 'sks' ? 'Im SKS wird unter Segeln und mit Motor geprüft. Hier übst du die Motor-Manöver und die Knoten.' : 'In der praktischen Prüfung: Manöver mit Motor und Knoten. Von den 9 Knoten werden 7 verlangt, 6 müssen sitzen.'}</p>
-      <div class="menu">${zeile('man', 'Manöver fahren', f.praxis.man + ' von ' + f.praxis.manN + ' ausreichend')}${zeile('knoten', 'Knotenbrett', f.praxis.knoten + ' von ' + f.praxis.knotenN + ' sicher')}${zeile('knotenkunde', 'Knotenkunde', 'Erkennen, Wofür, Reihenfolge')}</div>`)}
+    ${f.navi ? sek('navi', '🧭', 'Navigation', pf.navi, `<p class="pr">${cur === 'sks' ? 'In der Prüfung: Kartenaufgabe mit 30 Punkten, bestanden ab 20.' : 'In der Prüfung: Navigationsaufgabe auf der Übungskarte, mindestens 7 von 9 Punkten.'} Gelernt wird mit einer erfundenen Übungskarte, gerechnet wird wie auf der echten.</p>
+      <div class="tkliste">${tk('navi', pf.navi, 'Navigationsschule', f.navi.done + ' von ' + f.navi.n + ' Lektionen mit Stern')}</div>`) : ''}
+    ${sek('praxis', '🪢', 'Praxis', pf.praxis, `<p class="pr">${cur === 'sks' ? 'Im SKS wird unter Segeln und mit Motor geprüft. Hier übst du die Motor-Manöver und die Knoten.' : 'In der praktischen Prüfung: Manöver mit Motor und Knoten. Von den 9 Knoten werden 7 verlangt, 6 müssen sitzen.'}</p>
+      <div class="tkliste">${tk('man', pf.man, 'Manöver fahren', f.praxis.man + ' von ' + f.praxis.manN + ' ausreichend' + (pf.man.orange ? ' · ' + pf.man.orange + ' noch nicht geschafft' : ''))}${tk('knoten', pf.knoten, 'Knotenbrett', f.praxis.knoten + ' von ' + f.praxis.knotenN + ' sicher (Knotenkunde und echtes Tau)')}</div>
+      <div class="menu" style="margin-top:6px">${zeile('knotenkunde', 'Knotenkunde', 'Erkennen, Wofür, Reihenfolge')}</div>`)}
     ${sek('pruefung', '🎓', 'Probeprüfung', null, `<p class="pr">Wie in der echten Prüfung: gleiche Fragenzahl, gleiche Zeit, gleiche Bestehensregel. ${esc(C.exam.rule.split('. ')[0])}.</p>
       <div class="menu">${zeile('harms', 'Kapitän Harms prüft dich', pr.alle.length ? 'zuletzt: ' + pr.letzte.map(e => e.pass ? '✓' : '✗').join(' ') : 'noch keine')}${f.navi ? zeile('naviexam', 'Navigationsaufgabe auf Zeit', 'ohne Hilfen') : ''}</div>`)}
     <div class="card"><b>${ok ? 'Eintrag ändern' : 'Echte Prüfung bestanden?'}</b><p class="small muted" style="margin:4px 0 8px">${ok ? 'Falls du dich vertippt hast.' : 'Trag es hier ein. Der Schein bekommt ein 🎓, dein Lernstand bleibt.'}</p><button class="btn small${ok ? ' ghost' : ''}" id="msok">${ok ? 'Eintrag löschen' : 'Bestanden eintragen'}</button></div></div>`;
@@ -122,16 +133,16 @@ function themen() {
   subScreen(); place = 'pruef';
   const tipp = naechstesThema(), partner = PARTNER[S.course];
   app.innerHTML = `${CSS}<div class="mpk"><div class="topbar"><button class="btn small ghost" id="back">← Meine Prüfungen</button><b class="tbtitle">Theorie · ${esc(COURSE.short)}</b><span></span></div>
-    <p class="small muted" style="margin:10px 2px">Die Reihenfolge ist ein Vorschlag der Crew, der Stern zeigt das nächste Thema. Du darfst jedes Thema jederzeit wählen. Jedes Kapitel: erst raten, dann erklären lassen, dann nochmal.</p>
+    <p class="small muted" style="margin:10px 2px">Die Reihenfolge ist ein Vorschlag der Crew, der Stern zeigt das nächste Thema. Du darfst jedes Thema jederzeit wählen. Jedes Kapitel: erst raten, dann erklären lassen, dann nochmal.</p>${farbLegende()}
     ${TOPICS.map(th => { const s = topicStats(th), basis = partner && th.to && th.to <= 72;
-      return `<div class="mstema${th === tipp ? ' tipp' : ''}"><div class="row" style="justify-content:space-between"><b>${th === tipp ? '⭐ ' : ''}${esc(th.name)}${basis ? ' 🔗' : ''}</b><small class="muted">${s.m} von ${s.total} sicher</small></div>
-      ${basis ? `<small class="muted">Basis: gilt auch für ${esc(COURSES[partner].short)}</small>` : ''}<div class="msbar"><i style="width:${s.total ? Math.round(s.m / s.total * 100) : 0}%"></i></div><div class="einh">${einheiten(th)}</div></div>`; }).join('')}</div>`;
+      return `<div class="mstema${th === tipp ? ' tipp' : ''}"><div class="tkopf">${kuchen(s.f.z, 40)}<div style="flex:1;min-width:0"><b>${th === tipp ? '⭐ ' : ''}${esc(th.name)}${basis ? ' 🔗' : ''}</b><br><small class="muted">${s.m} von ${s.total} sitzen${s.f.z.rot ? ' · ' + s.f.z.rot + ' Baustellen' : ''}${s.f.z.grau ? ' · ' + s.f.z.grau + ' neu' : ''}</small>
+      ${basis ? `<br><small class="muted">Basis: gilt auch für ${esc(COURSES[partner].short)}</small>` : ''}</div></div><div class="einh">${einheiten(th)}</div></div>`; }).join('')}</div>`;
   $('#back').onclick = () => { AUD.click(); seite(); };
   bindUnits(app);
 }
 function themaSheet(th) {
   if (!th) return;
-  const s = topicStats(th), w = sheet(`${CSS}<div class="mpk"><h2 style="margin:0 0 4px">${esc(th.name)}</h2><p class="small muted" style="margin:0 0 8px">${s.m} von ${s.total} Fragen sicher. Gefragt wird wie in der Prüfung.</p><div class="menu">${einheiten(th)}</div></div>`);
+  const s = topicStats(th), w = sheet(`${CSS}<div class="mpk"><div class="tkopf" style="display:flex;gap:12px;align-items:center">${kuchen(s.f.z, 56)}<div><h2 style="margin:0 0 4px">${esc(th.name)}</h2><p class="small muted" style="margin:0">${s.m} von ${s.total} Fragen sitzen. Gefragt wird wie in der Prüfung.</p></div></div>${farbLegende()}<div class="menu" style="margin-top:8px">${einheiten(th)}</div></div>`);
   bindUnits(w);
 }
 

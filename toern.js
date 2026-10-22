@@ -687,7 +687,7 @@ function markWrong(fr) {
   try {
     if (fr.s === S.course) return record(fr.n, false);
     S.courses = S.courses || {}; const b = S.courses[fr.s] = S.courses[fr.s] || {}; b.qs = b.qs || {};
-    const s = b.qs[fr.n] || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w = (s.w || 0) + 1; s.d = today(); b.qs[fr.n] = s;
+    b.qs[fr.n] = fehlerMerken(b.qs[fr.n]);
   } catch (e) {}
 }
 

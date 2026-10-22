@@ -221,6 +221,7 @@ MN.fahren = function (id, versuch = 1) {
     if (G.bonus) return bonusEnde(ok ? 1 : 0);
     stopGames(); VOX.stop();
     const reicht = ok && G.fehler <= 1, x = M_()[id] = M_()[id] || {};
+    if (!reicht) x.nok = (x.nok || 0) + 1;
     if (reicht) { x.ok = 1; S.best = S.best || {}; recordScore('man', ((S.best && S.best.man) || 0) + 1); }
     save(); AUD.sfx(reicht ? 'richtig' : 'falsch', {vol: .5});
     const grund = ok && !reicht ? `Gefahren hast du gut, aber ${G.fehler} falsche Kommandos sind zu viel.` : text;

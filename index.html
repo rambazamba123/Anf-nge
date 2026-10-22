@@ -60,6 +60,9 @@ textarea{min-height:80px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:.45em .9em;font-weight:600}
 .chip[aria-pressed="true"]{border-color:var(--sea);background:var(--sea);color:var(--sea-ink)}
+.selbst{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px} .selbst .chip{font-size:.9rem;padding:.35em .8em}
+.kuchen{flex:none;display:block}
+.flegende{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.78rem;color:var(--muted,#6b5a4a);margin:6px 0 0} .flegende span{display:inline-flex;align-items:center;gap:4px} .flegende i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .status{min-height:1.4em;font-size:.92rem;margin:8px 0 0}
 .status.ok{color:var(--stb)} .status.err{color:var(--bb)}
 
@@ -356,7 +359,7 @@ button.coursechip{border:0;cursor:pointer}
 .pathmini{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
 .extrawahl .btn{flex-direction:column;gap:2px;line-height:1.25;padding:.6em .7em}.extrawahl .btn small{font-weight:700;opacity:.85;font-size:.78rem}.extrawahl .btn b{font-size:.98rem}
 .kursheute{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:8px;padding:.7em 1em}.kursheute small{font-weight:700;opacity:.85;font-size:.8rem}.kursheute b{font-size:1.06rem;line-height:1.25}
-.standkarte .standz{margin-top:10px}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
+.standkarte .standz{margin-top:10px;display:flex;gap:10px;align-items:center}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
 .linkbtn{background:none;border:0;padding:0;color:var(--sea);font:inherit;font-size:.88rem;text-decoration:underline;cursor:pointer}
 .pathmini .dot{width:12px;height:12px;border-radius:50%;background:var(--line)} .pathmini .dot.done{background:var(--stb)}
 .pathmini .small{margin-left:4px}
@@ -509,7 +512,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.79';
+  window.__ver = '4.80';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2127,17 +2130,79 @@ function recordQ(n, quality) {
   if (quality >= 2) return record(n, true);
   if (quality <= 0) return record(n, false);
   const s = st(n) || {b: 0, d: today(), w: 0, c: 0}, wasNew = !st(n);
+  /* Teilweise gewusst: zählt als angefangen (gelb) */
+  s.r = Math.min(st(n) ? serieVon(s) : 0, 1); s.l = true;
   s.b = Math.max(1, s.b); s.d = today(); S.qs[n] = s; const p = computePlan(); if (wasNew) p.newDone++; else p.revDone++; countAnswer(); save();
 }
+/* V36: Selbsteinschätzung nach der Antwort, wiegt schwerer als der Klick (Regeln in docs/entwurf-lauf5.md B2) */
+function selbstEinschaetzung(n, ok, vor, nach, wahl) {
+  let s = {...nach};
+  if (wahl === 'easy' && ok) { s.r = serieVon(nach) + 1; s.b = Math.min(5, nach.b + 1); s.t = 0; }
+  else if (wahl === 'tricky' && ok) { s.r = Math.min(serieVon(nach), 1); s.b = 1; s.t = 1; }
+  else if (wahl === 'easy') {
+    /* Vertippt: Stand von vor der Antwort, aber spätestens morgen fällig und einmal zu bestätigen */
+    s = vor ? {...vor} : {b: 1, d: today(), w: 0, c: 0, r: 0, l: true};
+    s.b = Math.min(Math.max(1, s.b), 4); s.d = Math.min(s.d, today() + 1 - INT[s.b]); s.pr = 1;
+  } else if (wahl === 'tricky') s.t = 1;
+  S.qs[n] = s; save();
+}
 function record(n, ok) {
-  const s = st(n) || {b: 0, d: today(), w: 0, c: 0}, wasNew = !st(n);
+  const alt = st(n), s = alt || {b: 0, d: today(), w: 0, c: 0}, wasNew = !alt, r0 = alt ? serieVon(alt) : 0, tg0 = alt ? tageVon(alt) : 0;
   s.b = ok ? Math.min(5, s.b + 1) : 1; if (!ok) s.w++; else s.c++; s.d = today();
+  serieSetzen(s, ok, r0, tg0); delete s.pr;
   S.qs[n] = s; const p = computePlan(); if (wasNew) p.newDone++; else p.revDone++; countAnswer(); save();
 }
+/* ---------- V35: Farbe je Frage ----------
+   Neue Felder (R7, fehlen sie, werden sie aus b und w abgeleitet): r richtig in Folge, l letzte Antwort richtig,
+   tg Tage mit richtiger Antwort in der Serie, td zuletzt gezählter Tag, t „Tricky“, pr wartet auf Bestätigung (V36). */
+const zuletztFalsch = s => s.l != null ? !s.l : s.b === 1 && s.w > 0;
+function serieVon(s) { if (s.r != null) return s.r; return zuletztFalsch(s) ? 0 : s.w > 0 ? Math.max(0, s.b - 1) : s.b; }
+function tageVon(s) { if (s.tg != null) return s.tg; const r = serieVon(s); return r >= 4 ? 2 : r > 0 ? 1 : 0; }
+function serieSetzen(s, ok, r0, tg0) {
+  s.l = ok; s.r = ok ? r0 + 1 : 0;
+  if (ok) { if (s.td !== today()) { s.tg = tg0 + 1; s.td = today(); } else s.tg = Math.max(1, tg0); if (s.t) s.t = 0; }
+  else { s.tg = 0; s.td = 0; }
+}
+/* Fehler aus Prüfung oder Törn ohne Zählung im Tagesplan */
+function fehlerMerken(s) { s = s || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w = (s.w || 0) + 1; s.d = today(); serieSetzen(s, false, 0, 0); return s; }
+const FARBEN = [
+  {id: 'dunkelgruen', name: 'fest verankert', col: '#2e7d32', wert: 1, info: 'mindestens 4 richtig in Folge, an 2 Tagen'},
+  {id: 'hellgruen', name: 'sitzt', col: '#8bc34a', wert: .7, info: '2 bis 3 richtig in Folge'},
+  {id: 'gelb', name: 'angefangen', col: '#f2c230', wert: .4, info: 'einmal richtig oder „Tricky“'},
+  {id: 'orange', name: 'wackelt', col: '#ec8a2c', wert: .1, info: 'zuletzt falsch'},
+  {id: 'rot', name: 'Baustelle', col: '#d2483a', wert: .1, info: 'zuletzt falsch, schon 3 Fehler'},
+  {id: 'grau', name: 'noch nicht gesehen', col: '#d9d0bf', wert: 0, info: 'neu'},
+];
+function farbe(s) {
+  if (!s) return 'grau';
+  if (zuletztFalsch(s)) return s.w >= 3 ? 'rot' : 'orange';
+  const r = serieVon(s);
+  if (s.t || r < 2) return 'gelb';
+  return r >= 4 && tageVon(s) >= 2 ? 'dunkelgruen' : 'hellgruen';
+}
+const sitzt = s => /gruen/.test(farbe(s));
+/* Verteilung einer Fragenliste auf die Farben, dazu die Prüfungsreife (0 bis 1) */
+function farbStand(list, qs = S.qs) {
+  const z = {}; FARBEN.forEach(f => { z[f.id] = 0; });
+  list.forEach(q => { z[farbe(qs[q.n])]++; });
+  const n = list.length, reife = n ? FARBEN.reduce((a, f) => a + z[f.id] * f.wert, 0) / n : 0;
+  return {z, n, reife, gruen: z.dunkelgruen + z.hellgruen};
+}
+/* Kuchendiagramm: Stücke im echten Anteil, Reihenfolge wie FARBEN (Grün oben rechts beginnend) */
+function kuchen(z, size = 56, txt) {
+  const n = FARBEN.reduce((a, f) => a + (z[f.id] || 0), 0), c = size / 2, r = c - 2;
+  let a0 = -Math.PI / 2, teile = '';
+  if (!n) teile = `<circle cx="${c}" cy="${c}" r="${r}" fill="${FARBEN[5].col}"/>`;
+  else FARBEN.forEach(f => { const k = z[f.id] || 0; if (!k) return;
+    if (k === n) { teile += `<circle cx="${c}" cy="${c}" r="${r}" fill="${f.col}"/>`; return; }
+    const a1 = a0 + k / n * 2 * Math.PI, gross = a1 - a0 > Math.PI ? 1 : 0;
+    teile += `<path d="M${c} ${c}L${(c + r * Math.cos(a0)).toFixed(2)} ${(c + r * Math.sin(a0)).toFixed(2)}A${r} ${r} 0 ${gross} 1 ${(c + r * Math.cos(a1)).toFixed(2)} ${(c + r * Math.sin(a1)).toFixed(2)}Z" fill="${f.col}"/>`; a0 = a1; });
+  return `<svg class="kuchen" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">${teile}<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="rgba(0,0,0,.15)"/>${txt != null ? `<circle cx="${c}" cy="${c}" r="${r * .46}" fill="var(--paper,#fff)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" style="font:700 ${Math.round(size * .2)}px var(--hfont,sans-serif)">${txt}</text>` : ''}</svg>`;
+}
+const farbLegende = () => `<div class="flegende">${FARBEN.map(f => `<span><i style="background:${f.col}"></i>${esc(f.name)}</span>`).join('')}</div>`;
 function topicStats(t) {
-  const list = Q.filter(t.has); let m = 0, l = 0;
-  list.forEach(q => { const s = st(q.n); if (s) { if (s.b >= 3) m++; else l++; } });
-  return {total: list.length, m, l};
+  const list = Q.filter(t.has), f = farbStand(list);
+  return {total: list.length, m: f.gruen, l: f.n - f.gruen - f.z.grau, f};
 }
 function weakTopics() {
   return TOPICS.map(t => { const list = Q.filter(q => t.has(q) && st(q.n)); const w = list.reduce((a, q) => a + st(q.n).w, 0); return {t, r: list.length ? w / list.length : 0}; })
@@ -2913,8 +2978,8 @@ const qsVon = id => (id === S.course ? S.qs : ((S.courses || {})[id] || {}).qs) 
 function fragenStand(id, filter) {
   /* Binnen ohne Segeln: Segelfragen (ab 254) zählen nicht */
   const qs = qsVon(id), list = COURSES[id].items().filter(filter || (id === 'binnen' && !S.binSegel ? q => q.n <= 253 : () => true));
-  let v = 0, sicher = 0; list.forEach(q => { const s = qs[q.n]; if (s) { if (s.b >= 3) { v++; sicher++; } else v += 1 / 3; } });
-  return {v: list.length ? v / list.length : 0, sicher, n: list.length};
+  const f = farbStand(list, qs);
+  return {v: f.reife, sicher: f.gruen, n: list.length, f};
 }
 function naviStand(id) {
   const list = NAVI_LEKTIONEN[id] || []; if (!list.length) return null;
@@ -2926,6 +2991,15 @@ function knotenWert(id) { const k = (S.knoten || {})[id] || {}; return Math.min(
 function praxisStand() {
   const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.reduce((a, k) => a + knotenWert(k), 0), knFertig = KNOTEN_IDS.filter(k => knotenWert(k) >= 1).length;
   return {v: (man / MAN_IDS.length + kn / KNOTEN_IDS.length) / 2, man, knoten: knFertig, manN: MAN_IDS.length, knotenN: KNOTEN_IDS.length};
+}
+/* V35: Farben auch für Navigation (je Lektion) und Praxis (je Manöver und Knoten) */
+function praxisFarben(id = S.course) {
+  const zaehle = ids => { const z = {}; FARBEN.forEach(f => { z[f.id] = 0; }); ids.forEach(c => { z[c]++; }); return z; };
+  const lek = (S.navi && S.navi.lek) || {}, man = S.man || {};
+  const nav = (NAVI_LEKTIONEN[id] || []).map(l => { const x = lek[l]; return !x ? 'grau' : x.sterne ? 'dunkelgruen' : x.frei ? 'hellgruen' : x.n || x.erkl || x.bsp || x.gef ? 'gelb' : 'grau'; });
+  const mn = MAN_IDS.map(m => { const x = man[m]; return !x ? 'grau' : x.ok ? 'dunkelgruen' : x.nok ? 'orange' : x.seen ? 'gelb' : 'grau'; });
+  const kn = KNOTEN_IDS.map(k => { const w = knotenWert(k); return w >= 1 ? 'dunkelgruen' : w >= .5 ? 'hellgruen' : w > 0 ? 'gelb' : 'grau'; });
+  return {navi: zaehle(nav), man: zaehle(mn), knoten: zaehle(kn), praxis: zaehle(mn.concat(kn))};
 }
 function fortschritt(id = S.course) { return {theorie: fragenStand(id), navi: naviStand(id), praxis: praxisStand()}; }
 const proz = v => Math.round(v * 100) + ' %';
@@ -3376,12 +3450,16 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .55 : .35});
     app.querySelectorAll('.ans').forEach(b => { b.disabled = true; const kk = +b.dataset.k; if (kk === 0) b.classList.add('ok'); else if (kk === k) b.classList.add('no'); });
     if (ok && !retry) right++; if (!ok) wrong.push({q, k});
-    if (!retry) record(q.n, ok);
+    /* V36: Ein „Vertippt“ (Easy trotz falsch) wird bei der Wiederholung bestätigt */
+    const vor = st(q.n) ? {...st(q.n)} : null, zaehlt = !retry || !!(vor && vor.pr);
+    if (zaehlt) record(q.n, ok);
+    const nach = zaehlt ? {...S.qs[q.n]} : null;
     if (!ok && !retry && !opts.noRequeue) { requeued.add(q.n); queue.push(q); }
     if (mode === 'horn') { const t = document.querySelector('.tones'); if (t) t.innerHTML = AUD.parseSig(sigOf(q)).map(x => x.type === 'short' ? '●' : '▬').join(' '); }
     let diff = '';
     if (!ok) { const d = diffWords(q.a[k], q.a[0]); if (d.sim >= .45) diff = `<div class="diff"><div class="tag" style="margin-bottom:4px">Der feine Unterschied</div><div class="w">Deine: ${d.a}</div><div class="r">Richtig: ${d.b}</div></div>`; }
     $('#after').innerHTML = `<div class="fb">${ok ? '<p style="margin:6px 0 0"><strong style="color:var(--stb)">Richtig.</strong></p>' : '<p style="margin:6px 0 0"><strong style="color:var(--bb)">Nicht ganz.</strong> Grün ist die Katalogantwort. Die Frage kommt am Ende noch einmal.</p>'}
+      ${nach ? `<div class="selbst"><span class="small muted">Wie war's für dich?</span><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button></div><p class="small muted" id="etinfo" style="margin:4px 0 0"></p>` : ''}
       ${diff}
       <div id="expl" class="lesson" style="margin-top:8px"></div>
       <div class="row" style="margin-top:10px"><button class="btn ${cardOf(q) ? 'ghost' : 'ki'}" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ${localMn(q) || S.mnemo[q.n] ? 'ghost' : 'ki'}" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}${lexOf(q) ? '<button class="btn ghost" id="lexq">Lexikon</button>' : ''}</div>
@@ -3390,6 +3468,14 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     const lx = $('#lexq'); if (lx) lx.onclick = () => lexSheet(lexOf(q));
     $('#why').onclick = () => explain(q, k);
     const mn = $('#mn'); if (mn) mn.onclick = () => mnemonic(q);
+    if (nach) app.querySelectorAll('[data-et]').forEach(b => b.onclick = () => {
+      const wahl = b.getAttribute('aria-pressed') === 'true' ? null : b.dataset.et;
+      app.querySelectorAll('[data-et]').forEach(x => x.setAttribute('aria-pressed', x.dataset.et === wahl));
+      selbstEinschaetzung(q.n, ok, vor, nach, wahl);
+      $('#etinfo').textContent = !wahl ? '' : ok ? (wahl === 'easy' ? 'Easy: zählt doppelt, die Frage kommt erst später wieder.' : 'Tricky: zählt nur als Glückstreffer, die Frage kommt morgen wieder.')
+        : wahl === 'easy' ? `Vertippt: zählt nicht als Fehler. Die Frage kommt ${opts.noRequeue ? 'in der nächsten Wiederholung' : 'am Ende'} noch einmal zur Bestätigung.` : 'Tricky: echte Lücke. Lies die Erklärung, die Frage kommt öfter.';
+      if (wahl === 'tricky' && !ok && !$('#why').disabled) explain(q, k);
+    });
     $('#nxt').scrollIntoView({block: 'nearest', behavior: 'smooth'});
     if (S.cfg.comments && !opts.noRequeue && AUD.ready) {
       if (ok && Math.random() < .3) { const w = Math.random() < .75 ? M : T; VOX.say(w, lineOf(w, 'right'), 'fixed'); }
@@ -3503,7 +3589,7 @@ function startExam(mode) {
     const res = qs.map((q, k) => ({q, k: answers[k], ok: answers[k] === 0}));
     const score = res.filter(r => r.ok).length, pr = parts.map(p => ({p, ok: res.filter(r => r.ok && p.has(r.q)).length}));
     const basis = pr[0].ok, see = pr[1].ok, passed = pr.every(x => x.ok >= x.p.min);
-    res.filter(r => !r.ok).forEach(r => { const s = st(r.q.n) || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w++; s.d = today(); S.qs[r.q.n] = s; });
+    res.filter(r => !r.ok).forEach(r => { S.qs[r.q.n] = fehlerMerken(st(r.q.n)); });
     S.exams = (S.exams || []).concat({day: today(), score, n: N, pass: passed, basis, see, parts: pr.map(x => x.ok), mode}); markPath('extra'); save();
     const wrongs = res.filter(r => !r.ok);
     app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von ${N} richtig</div><div class="small muted">${pr.map(x => `${x.p.name} ${x.ok} von ${x.p.count} (nötig ${x.p.min})`).join(' · ')}.${COURSE.id === 'sbf' ? ' Teil 3, die Navigationsaufgabe, folgt unten.' : ''}</div></div></div>
@@ -3607,7 +3693,7 @@ function startExamOpen() {
 /* ---------- Logbuch ---------- */
 function renderLog() {
   place = 'log';
-  const all = Q.length, mastered = Q.filter(q => st(q.n) && st(q.n).b >= 3).length, ex = (S.exams || []).slice(-6).reverse();
+  const all = Q.length, mastered = Q.filter(q => sitzt(st(q.n))).length, ex = (S.exams || []).slice(-6).reverse();
   const days = [...Array(7)].map((_, k) => today() - 6 + k), hist = S.hist || {}, week = days.reduce((a, d) => a + (hist[d] || 0), 0), maxd = Math.max(5, ...days.map(d => hist[d] || 0));
   const weak = weakTopics()[0], wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
   const needBackup = Object.keys(S.qs).length > 20 && (!S.lastBackup || today() - S.lastBackup > 30);
@@ -4152,17 +4238,17 @@ function bindExtraWahl() {
 }
 /* V26: Logbuch-Aufschlüsselung an Deck: Stand je Bereich bis 100 %, was heute dran ist, was noch fehlt */
 function standKarte(path, next) {
-  const f = fortschritt(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
-  const balken = (titel, x, info) => `<div class="standz"><div class="row" style="justify-content:space-between"><b>${titel}</b><span>${proz(x.v)}</span></div><div class="pbar"><i style="width:${Math.round(x.v * 100)}%"></i></div><span class="small muted">${info}</span></div>`;
+  const f = fortschritt(), pf = praxisFarben(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
+  const balken = (titel, x, z, info) => `<div class="standz">${kuchen(z, 40)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b>${titel}</b><span>${proz(x.v)}</span></div><span class="small muted">${info}</span></div></div>`;
   const offen = [];
   if (weak) offen.push(`Wackelt noch: ${esc(weak)}`);
   if (f.navi && f.navi.done < f.navi.n) offen.push(`Navigation: ${f.navi.n - f.navi.done} Lektionen ohne Stern`);
   if (f.praxis.man < f.praxis.manN) offen.push(`Praxis: ${f.praxis.manN - f.praxis.man} Manöver noch nicht ausreichend`);
   if (f.praxis.knoten < f.praxis.knotenN) offen.push(`Praxis: ${f.praxis.knotenN - f.praxis.knoten} Knoten noch nicht sicher`);
   return `<section class="card standkarte" aria-label="Dein Stand"><div class="row" style="justify-content:space-between;align-items:baseline"><h3 style="margin:0">Logbuch · ${esc(COURSE.short)}</h3><button class="linkbtn" id="tolog2">Ganzes Logbuch</button></div>
-    ${balken('📖 Theorie', f.theorie, `${f.theorie.sicher} von ${f.theorie.n} Fragen sicher`)}
-    ${f.navi ? balken('🧭 Navigation', f.navi, `${f.navi.done} von ${f.navi.n} Lektionen mit Stern`) : ''}
-    ${balken('🪢 Praxis', f.praxis, `${f.praxis.man} von ${f.praxis.manN} Manövern · ${f.praxis.knoten} von ${f.praxis.knotenN} Knoten`)}
+    ${balken('📖 Theorie', f.theorie, f.theorie.f.z, `${f.theorie.sicher} von ${f.theorie.n} Fragen sitzen`)}
+    ${f.navi ? balken('🧭 Navigation', f.navi, pf.navi, `${f.navi.done} von ${f.navi.n} Lektionen mit Stern`) : ''}
+    ${balken('🪢 Praxis', f.praxis, pf.praxis, `${f.praxis.man} von ${f.praxis.manN} Manövern · ${f.praxis.knoten} von ${f.praxis.knotenN} Knoten`)}
     <h4 style="margin:12px 0 4px">Heute</h4><ol class="path">${path.map(s => `<li class="${s.done ? 'done' : s === next ? 'now' : ''}"><span class="tick" aria-hidden="true">${s.done ? '✓' : ''}</span>${esc(s.label)}</li>`).join('')}</ol>
     <p class="small muted" style="margin:4px 0 0">${due} Wiederholungen fällig · ${newLeft} neue Fragen geplant</p>
     ${offen.length ? `<h4 style="margin:12px 0 4px">Noch offen</h4><ul class="small" style="margin:0;padding-left:18px">${offen.slice(0, 4).map(o => `<li>${o}</li>`).join('')}</ul>` : ''}
@@ -5276,7 +5362,7 @@ function warmup(opts = {}) {
 function extraRound(opts = {}) {
   const pool = Q.filter(q => st(q.n)); if (!pool.length) return startUnit(UNITS[0]);
   /* Festigen: zuerst, was noch nicht sicher sitzt, dann die mit den meisten Fehlern */
-  runQuiz(shuffle(pool).sort((a, b) => (st(a.n).b >= 3) - (st(b.n).b >= 3) || st(b.n).w - st(a.n).w).slice(0, 10), 'Festigen', 'learn', opts);
+  runQuiz(shuffle(pool).sort((a, b) => sitzt(st(a.n)) - sitzt(st(b.n)) || (st(b.n).t ? 1 : 0) - (st(a.n).t ? 1 : 0) || st(b.n).w - st(a.n).w).slice(0, 10), 'Festigen', 'learn', opts);
 }
 /* Prüfungsfallen: Fragen, deren falsche Antworten der richtigen zum Verwechseln ähneln */
 function trapRound(opts = {}) {
@@ -5349,7 +5435,7 @@ let lastMeow = -1;
 function meow() { let k; do { k = Math.random() * 3 | 0; } while (k === lastMeow); lastMeow = k; AUD.sfx(['katze', 'katze2', 'katze3'][k], {vol: .6}); }
 /* Lernstrategie ohne KI: aus Plan und Lernstand */
 function stratText() {
-  const sure = Q.filter(q => st(q.n) && st(q.n).b >= 3).length, due = Q.filter(q => isDue(q.n)).length, d = daysLeft(), p = computePlan();
+  const sure = Q.filter(q => sitzt(st(q.n))).length, due = Q.filter(q => isDue(q.n)).length, d = daysLeft(), p = computePlan();
   const open = UNITS.filter(u => unitStage(u) !== 'fertig').length;
   const a = d > 0 ? `Bis zur Prüfung sind es noch ${d} Tage.` : 'Die Prüfung ist heute oder schon vorbei. Ein neues Datum trägst du in den Einstellungen ein.';
   const b = `${sure} von ${Q.length} Fragen sitzen schon sicher${due ? `, und ${due} Wiederholungen sind fällig. Die zuerst, die gehen schnell und bringen am meisten` : ''}.`;
