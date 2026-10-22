@@ -11,6 +11,9 @@ Man lernt an Bord einer Segelyacht mit drei Crew-Figuren: **Käpt'n Hinnerk**, *
 
 Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome im Hochformat.
 
+**Lernen in der Kajüte** (Nutzer, 22.10.2026): Alles, was man zum Lernen braucht, hängt in der Kajüte und lässt sich antippen: Seekarte an der Wand (Navigation), Manöverbrett (Manöver), Knotenbrett (Knoten), Bücher und Kartentisch (Meine Prüfungen), Telefon (Harms prüft). Den Fortschritt je Thema zeigt die Übersicht „Meine Prüfungen“, nicht die Kajüte.
+**Kajütenfunk** (Nutzer, 22.10.2026): Die drei sind dein persönliches Coaching-Team und bringen dich so schnell wie möglich und mit Humor durch die Prüfung. Eine durchgehende Geschichte gibt es nicht mehr. Das Grundkonzept wird noch abgestimmt (V41).
+
 **Ziel:** In etwa zwei Wochen (ab 09.10.2026) ist die App bereit für die Veröffentlichung. Freigabe ab 12 Jahren. Bis dahin geht es um Feinschliff, Stimmen, Lizenzen und Rechtliches, nicht um große neue Bereiche.
 **Veröffentlichung verschoben** (Nutzer, 20.10.2026). Ein neuer Termin ist offen.
 
@@ -32,7 +35,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **R10 Feste Sätze:** Alles, was die Crew wiederholt sagt, ist ein fester Satz ohne Namen und kommt ins Stimmenpaket (§4). Neue feste Sätze stehen in `docs/feste-saetze.md`.
 - **R11 Dateigröße:** Große neue Bereiche kommen in eigene, nachgeladene Dateien (wie `navi.js`, `toern.js`), Texte und Listen in `data/*.json`. Kleine Änderungen in `index.html` sind in Ordnung.
 - **R12 Lizenzen:** Claude meldet jede Datei, deren Herkunft oder Lizenz fraglich ist (§5). Der Nutzer tauscht sie dann aus.
-- **R13 Fernglas:** Es markiert nur Dinge mit Funktion: Niedergang, Steuerrad, Kartentisch, Spielekiste, Hocker, Telefon. Easter-Eggs nie.
+- **R13 Fernglas:** Es markiert nur Dinge mit Funktion: Niedergang, Steuerrad, Kartentisch, Spielekiste, Hocker, Telefon, Seekarte, Manöverbrett, Knotenbrett. Easter-Eggs nie.
 - **R14 Bericht** (kurz, immer gleich):
   1. **Fertig und online:** was jetzt in der App neu ist.
   2. **Bitte am Handy testen:** konkrete Handgriffe.
@@ -42,6 +45,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - Die Bible ist das verbindliche Regelwerk für die Folgen. Sie geht älteren Angaben zu den Folgen in dieser Datei vor.
   - Dort dokumentierte Entscheidungen ändert Claude nie stillschweigend: erst vorschlagen, dann die Bestätigung des Nutzers einholen, dann eintragen.
   - Offene Fragen aus `PODCAST_STATUS.md` entscheidet Claude nicht selbst (R3 gilt dafür nicht).
+  - Seit 22.10.2026 gilt das Coaching-Konzept (V41) statt der Geschichte. Bible und Status werden neu gefasst, sobald das Grundkonzept (`docs/konzept-kajuetenfunk.md`) freigegeben ist. Bis dahin gelten ihre Regeln zu Ton, Fakten, Aussprache und Audioproduktion weiter, die zur Geschichte nicht.
 
 ## 3. Stil und Ton
 - **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch (nur der Stil, keine fremden Figuren). Szenen hängen von Tageszeit und Wetter ab.
@@ -69,7 +73,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
 - **Teil 1, feste Sätze:** Begrüßungen, Moin-Bausteine, Einführungen, Kajüte, Eggs, Törn, Lektionen, Harms.
   - Mit 3 Figuren plus Harms sind das heute etwa 315 Sätze mit rund 21.000 Zeichen.
   - Wird erzeugt, sobald der Ton auf „ab 12“ umgestellt ist (V7). Sonst müsste man doppelt erzeugen.
-- **Teil 2, Folgen (Kajütenfunk):** Die Folgen werden völlig neu geschrieben, die Regeln stehen in `PODCAST_BIBLE.md`. Erzeugt wird erst, wenn die Folgen ausgereift sind, und zuerst nur ein Teil einer Folge als Test (Nutzer, 20.10.2026).
+- **Teil 2, Kajütenfunk (V41):** Coaching-Folgen, die Fragerunde liest Harms. Alles wird einmal erzeugt und liegt im Paket. Vorher gibt es einen Hörtest mit einer Probe-Folge. Wie die Folgen technisch aufgeteilt werden, regelt das Grundkonzept (`docs/konzept-kajuetenfunk.md`).
 - **Nachlieferung:** Neue feste Sätze werden später gezielt nachgeliefert. Nur fehlende Sätze werden erzeugt, das Manifest wird zusammengeführt.
 
 **Moin-Bausteine:**
@@ -184,9 +188,43 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
   - Eigene Zahlentasten (Komma, ±, E/W), Rückgängig und Wiederholen für alles, Aufteilung: Aufgabe oben, Karte in der Mitte, Arbeitsblatt unten.
 - ✓ **V31 Lob und Wiederholung** (Nutzer, 19.10.2026): eigene Lobstufe bei 100 %; nach dem Tagespensum die Wahl „✨ Noch was Neues“ oder „🔁 Festigen“ mit Empfehlung der Crew.
 - **V32 Katalogbilder in Farbe** (Nutzer, 19.10.2026): Etwa 54 Binnen- und 31 SBF-Bilder liegen nur in Graustufen vor (Lichter-Bilder sind so kaum lesbar). Sie werden aus den Original-PDFs ersetzt, die der Nutzer im nächsten Lauf liefert.
-- **V33 Kajütenfunk neu als Hörkurs** (Nutzer, 19./20.10.2026): eine spannende Podcastreihe, in der alle Prüfungsfragen und die Praxis vorkommen. Zuerst SBF See, danach Binnen als Zusatz, ca. 12–25 Folgen zu je 25 Minuten. Das Regelwerk steht in `PODCAST_BIBLE.md`, Entscheidungen und offene Fragen in `PODCAST_STATUS.md` (R15).
+- **V33 Kajütenfunk als Geschichte:** ersetzt durch V41 (Nutzer, 22.10.2026). Leitfaden, Entwurf Folge 1 und Vorgeschmack bleiben vorerst als Material liegen. Weiter genutzt werden Stoffplan (Reihenfolge und Fragenverteilung), Stimmen, Casting und Hörprobe.
 
-**Nach der Veröffentlichung:** Folgen für Binnen (jetzt Teil von V33 als Zusatz nach SBF See), Folgen für SKS (kein Beschluss), Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
+**Block F: Lernen in der Kajüte (Lauf 5, freigegeben am 22.10.2026)**
+- **V34 Lernstationen in der Kajüte:**
+  - Seekarte schematisch an der Wand → Navigationsschule.
+  - Manöverbrett wie ein Brettspiel mit Boot und Tonnen an der Wand → Manöverspiel.
+  - Knotenbrett verbessert: Anfangs hängt ein großer Knoten darauf, gelernte Knoten kommen nach und nach dazu. Die Farbe bleibt immer gleich.
+  - Kartentisch und Bücher → Meine Prüfungen.
+  - In der Kajüte gibt es keine Fortschrittsringe.
+- **V35 Farben für den Lernstand:**
+  - Jede Frage hat eine Farbe (E11): grau (neu), rot (zuletzt falsch, ab 3 Fehlern), orange (zuletzt falsch), gelb (einmal richtig oder „Tricky“), hellgrün (2–3 in Folge), dunkelgrün (ab 4 in Folge, an mindestens 2 Tagen).
+  - Die Übersicht „Meine Prüfungen“ zeigt je Theoriethema und je Praxisthema (Navigation, Manöver, Knoten) ein Kuchendiagramm mit echten Anteilen.
+  - Prüfungsreife in Prozent: dunkelgrün 100 %, hellgrün 70 %, gelb 40 %, orange und rot 10 %.
+- **V36 Selbsteinschätzung „Easy“ und „Tricky“:**
+  - Nach jeder Antwort, richtig oder falsch, wählbar. Die Einschätzung wiegt schwerer als der Klick.
+  - Richtig + Easy: zählt doppelt. Richtig + Tricky: Glückstreffer, bleibt gelb, kommt morgen wieder.
+  - Falsch + Easy: „vertippt“, zählt nicht als Fehler, kommt aber einmal zur Bestätigung.
+  - Falsch + Tricky: echte Lücke, kommt öfter.
+- **V37 Lernen in drei Phasen und kleinen Happen:**
+  - Phasen: Rundgang (bis kaum noch Grau), Festigen (Rot, Orange, Gelb werden grün), Prüfungsreife (Probeprüfungen, Fallen).
+  - „Kurs für heute“ besteht aus 4–5 kleinen Aufgaben. Fragen kommen in Blöcken von etwa 8, nie 30 am Stück.
+  - Empfehlungen und „Noch was Neues/Festigen“ richten sich nach den Farben.
+- **V38 Smilla treibt an:** Nach der Wiederholung der eigenen Fehler lobt Smilla nicht, sondern erkennt an, neckt mit seemännischen Schimpfwörtern und treibt an. Klabauter redet ab und zu mit. Feste Sätze (R10).
+- **V39 Manöverspiel:**
+  - Bei Kommandofragen hält das Spiel an, statt in Zeitlupe weiterzulaufen.
+  - Die Kamera ist näher dran und folgt dem Boot.
+  - Das Spiel läuft als Vollbild-Spielbildschirm.
+  - Die Crew erklärt vorher besser, was zu tun ist und worauf der Prüfer achtet.
+- **V40 Karten-Tutorial:** geführte Werkzeugkunde zum Mitmachen vor Lektion 1, jederzeit wieder über einen „?“-Knopf.
+- **V41 Kajütenfunk als Coaching** (Priorität beim Podcast, Grundkonzept wird noch besprochen):
+  - Ein perfekter Theoriekurs zum Hören: smooth, lehrreich, didaktisch top, mit guter Heranführung.
+  - Jedes Thema beginnt mit einem Überblick. Die aufeinander aufbauende Reihenfolge des Stoffplans bleibt.
+  - Gäste sind möglich, etwa die Wasserschutzpolizei beim Recht, aber nicht alle.
+  - Die Nachhilfe-Folge aus den eigenen Wackelkandidaten kommt dazu, die Folgen dürfen dadurch aber nicht abgehackt wirken.
+  - Konzept: `docs/konzept-kajuetenfunk.md`.
+
+**Nach der Veröffentlichung:** Folgen für Binnen (Teil von V41 als Zusatz nach SBF See), Folgen für SKS (kein Beschluss), Unter Deck im Schnitt, Funk und Pyro (sobald Kataloge da sind), Konten und KI-Tageslimit, Store-App (Capacitor).
 
 ## 7. Code-Karte
 *Stand v4.72 (Lauf 4). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
@@ -337,15 +375,26 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] Podcast-Stimmen fest eingetragen (B97): Klabauter (Wally), Polizistin, Fischer, Hafenmeisterin, Verkehrszentrale, Reserve-Erzähler mit den IDs des Nutzers, Quirin mit George (ID unbestätigt); Hörprobe `podcast/skripte/vorstellung.md` nach Wichtigkeit (Frieda fehlt bis zur Stimmwahl)
 - [x] v4.79 Kajütenfunk Folge 1 „Die Spritztour“ als erster Entwurf (`podcast/skripte/folge-01.md`, gut 20 Minuten Sprechtext, 14 Fragen, Platzhalter für Harms' Prüfungserklärung bis F3), in der Hörprobe wählbar; Figur `SPRITZTOURER` (Jonte) in der Konfiguration
 ### Jetzt dran
-- **Lauf 5 wartet auf Freigabe:** Entwurf `docs/entwurf-lauf5.md` (Lernstationen in der Kajüte, Farbsystem mit Kuchendiagrammen, Easy/Tricky, drei Lernphasen, Smilla treibt an, Manöverspiel mit Stopp und Vollbild, Karten-Tutorial, Kajütenfunk als Coaching statt Geschichte). Nichts davon ist umgesetzt; erst nach Freigabe CLAUDE.md, Bible und Code ändern.
+- **Lauf 5:** V35/V36 → V37 → V38 → V34 → V39 → V40 (freigegeben 22.10.2026). V41 wird erst grundsätzlich besprochen (`docs/konzept-kajuetenfunk.md`).
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
 - **Vom Nutzer auszufüllen:** Name, Anschrift und E-Mail in `impressum.html` und `datenschutz.html` (gelb markierte Platzhalter).
 - **Am Original prüfen** (ELWIS war gesperrt): SBF 279 (jetzt 3 Antworten, die 4. fehlte), SKS recht-23 (braucht die Abbildungen, ausgeblendet).
-- **V33 Kajütenfunk:** Stimmen-Casting am Handy (Einstellungen → „🎭 Stimmen-Casting“), Zuordnung an Claude schicken; Soundeffekte aus `podcast/soundeffekte.md` in `import/` hochladen. Nutzer liest Folge 1 (Entwurf) gegen; Stimmen für Frieda und Jonte fehlen noch, Quirins ID (George) bestätigen. Offen: Funkwörter (VS43), Einsatz von Harms bei der Wette (VS45), Friedas Stimme, Klabauter-Stimme auch in der App (O38), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
+- **Kajütenfunk (früher V33, jetzt V41):** Stimmen-Casting am Handy (Einstellungen → „🎭 Stimmen-Casting“), Zuordnung an Claude schicken; Soundeffekte aus `podcast/soundeffekte.md` in `import/` hochladen. Nutzer liest Folge 1 (Entwurf) gegen; Stimmen für Frieda und Jonte fehlen noch, Quirins ID (George) bestätigen. Offen: Funkwörter (VS43), Einsatz von Harms bei der Wette (VS45), Friedas Stimme, Klabauter-Stimme auch in der App (O38), Prüfungsordnung für Harms (F3). Danach Folge 1 ausschreiben.
 - V20: Handy-Checkliste mit dem Nutzer.
 - Die Prüfungsrichtlinie (PDF vom Nutzer, 10.10.2026) bitte zusätzlich in `quellen/` ablegen; in der Cloud lag sie nur als Upload vor.
+
+### Geplant, noch nicht umgesetzt (Kajütenfunk und Audio)
+- **Fragerunde nach jeder Folge:** Harms liest Frage und Antworten vor. Antworten per Zuruf über die Spracherkennung des Browsers (kostenlos, braucht Internet; während des Vorlesens zählen nur die Funkwörter Alfa bis Delta, danach auch A bis D), per Tippen oder gar nicht (Auto-Modus). Bildfragen zeigen das Bild auf dem Bildschirm, im Auto-Modus werden sie übersprungen (`PODCAST_STATUS.md` VS43, VS44).
+- **Geräusche:** Die Liste `podcast/soundeffekte.md` wird für das Coaching gekürzt (Titelmusik, Übergang, richtig/falsch, wenige Atmos). Der Nutzer liefert, Claude mischt.
+- **Aussprache:** `podcast/pronunciation_dictionary.md` nach dem Hörtest Eintrag für Eintrag freigeben.
+- **Klabauters neue Stimme (Wally) auch in der App:** 53 feste Sätze neu erzeugen, etwa 1.100 Zeichen (O38).
+- **Speicher:** Kajütenfunk offline etwa 200–250 MB, Folgen einzeln laden (O21).
+- **Bilder beim Hören:** Bei Lichtern, Tonnen und Tafelzeichen zeigt die App das Katalogbild (O19).
+- **Anreden** wie „Landratte“ oder „Grünschnabel“ als feste Sätze ins Stimmenpaket (`docs/feste-saetze.md`).
+- **Harms erklärt die Prüfung:** erst mit der Prüfungsordnung (F3).
+- **Später:** Folgen für Binnen und SKS.
 
 ### Entscheidungen
 - **E1 Altersfreigabe:** ab 12 (Nutzer, 09.10.2026). Ton siehe §3 und V3.
@@ -360,6 +409,8 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - **E7 „Weiter“-Knöpfe:** bleiben gelb-orange (Nutzer, 09.10.2026).
 - **E8 Cloudflare-Worker:** gestrichen, Supabase übernimmt das bei Bedarf (Nutzer, 09.10.2026).
 - **E9 Konten mit Supabase:** freigegeben (05.10.2026), aber erst nach der Veröffentlichung (siehe E2).
+- **E11 Farben für den Lernstand** (Nutzer, 22.10.2026): Rot ab 3 Fehlern, Dunkelgrün ab 4 richtig in Folge an mindestens 2 Tagen. Die Selbsteinschätzung Easy/Tricky wiegt schwerer als der Klick.
+- **E12 Kajütenfunk als Coaching** (Nutzer, 22.10.2026): keine durchgehende Geschichte, Crew als Coaching-Team, Gäste möglich (nicht alle). Folgenlänge etwa 12 Minuten pro Thema, im Grundkonzept noch zu bestätigen.
 - **E10 Folgen:** Ersetzt (Nutzer, 20.10.2026): Die Folgen werden völlig neu geschrieben, siehe `PODCAST_BIBLE.md` (V33). Früher galt: Der Nutzer überarbeitet sie selbst, danach kommt Stimmenpaket Teil 2.
 
 ### Handy-Checkliste (macht der Nutzer)
