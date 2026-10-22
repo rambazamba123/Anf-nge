@@ -467,7 +467,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
   .scene.cabin .lamp-sw{transform-box:view-box;transform-origin:200px -30px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.5s}
   .scene.cabin[data-wx="windig"] .lamp-sw{animation:lamp1 4.6s ease-in-out infinite;animation-delay:-.4s}
   .scene.cabin[data-wx="sturm"] .lamp-sw{animation:lamp2 3.4s ease-in-out infinite;animation-delay:-.3s}
-  .scene.cabin .hang2{transform-box:view-box;transform-origin:27px 92px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.6s}
+  .scene.cabin .hang2{transform-box:view-box;transform-origin:23px 78px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.6s}
   .scene.cabin[data-wx="windig"] .hang2,.scene.cabin[data-wx="sturm"] .hang2{animation:hang 4s ease-in-out infinite}
   .scene.cabin .lamp-sw.kick{animation:kick .9s ease-out}
   .scene.cabin .lamp-sw.fallen{animation:lampfall .9s cubic-bezier(.5,0,1,.6) forwards}
@@ -513,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.82';
+  window.__ver = '4.83';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1080,17 +1080,47 @@ function deckScene(crew, o = {}) {
 
 /* ---------- Kajüte: der Mittelpunkt. Jedes Ding ist eine Funktion. ---------- */
 const CABIN_SPOTS = [
-  {id: 'buecher', label: 'Bücher', x: 14.5, y: 25.5},
-  {id: 'plan', label: 'Plan', x: 33.5, y: 21},
+  {id: 'buecher', label: 'Bücher: Meine Prüfungen', x: 14.5, y: 22},
   {id: 'deck', label: 'An Deck', x: 88, y: 25, fn: 1},
-  {id: 'knoten', label: 'Knoten', x: 2, y: 49, side: 'l'},
+  /* V34: Lernstationen an der Wand */
+  {id: 'karte', label: 'Seekarte: Navigationsschule', x: 34.3, y: 23.4, fn: 1},
+  {id: 'manoever', label: 'Manöverbrett: Manöver fahren', x: 50, y: 26.5, fn: 1},
+  {id: 'knoten', label: 'Knotenbrett', x: 1, y: 40.5, side: 'l', fn: 1},
   {id: 'funk', label: 'Funk', x: 13, y: 56},
-  {id: 'karte', label: 'Kartentisch', x: 47, y: 71.5, fn: 1},
+  {id: 'tisch', label: 'Kartentisch: Meine Prüfungen', x: 47, y: 71.5, fn: 1},
   {id: 'logbuch', label: 'Logbuch', x: 66, y: 71.5},
   {id: 'telefon', label: 'Telefon: Kapitän Harms', x: 63.3, y: 24.4, fn: 1},
   {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86, fn: 1},
   {id: 'hocker', label: 'Hinsetzen', x: 54, y: 88, fn: 1},
 ];
+/* ---------- V34: Lernstationen an der Wand (ohne Fortschrittsringe, der Stand zeigt sich an den Dingen selbst) ----------
+   Seekarte: die rote Kurslinie wächst mit den Navigationslektionen. Manöverbrett: die Spielfigur rückt je geschafftem Manöver ein Feld weiter.
+   Knotenbrett: anfangs hängt ein großer Knoten, jeder gelernte Knoten kommt an einen Haken dazu (immer dieselbe Tau-Farbe). */
+function lernWand() {
+  const TAU = '#e6d3a8', TAU_D = '#a88f62', lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] && NAVI_LEKTIONEN[S.course].length ? NAVI_LEKTIONEN[S.course] : NAVI_LEKTIONEN.sbf;
+  const kurs = Math.round(nl.filter(l => lek[l] && lek[l].sterne).length / nl.length * 100);
+  const manN = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, gelernt = KNOTEN_IDS.filter(k => knotenWert(k) >= .5);
+  const seil = (d, w = 3.2) => `<path d="${d}" stroke="${TAU_D}" stroke-width="${w + 1.4}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${TAU}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${TAU_D}" stroke-width=".7" stroke-dasharray="1.4 2.6" fill="none"/>`;
+  const GLYPH = ['M0 0 V3 C-4 4 -4 10 0 10 C4 10 4 4 0 3', 'M0 0 C-4 2 4 4 0 6 C-4 8 4 10 0 11', 'M-3 0 V7 Q0 10 3 7 V0'];
+  const haken = KNOTEN_IDS.map((k, i) => { const x = 12 + (i % 2) * 17, y = 66 + Math.floor(i / 2) * 10; return `<circle cx="${x}" cy="${y}" r="1.1" fill="#c8962e"/>`; }).join('');
+  const kleine = gelernt.map((k, i) => { const x = 12 + (i % 2) * 17, y = 66 + Math.floor(i / 2) * 10; return `<g transform="translate(${x} ${y}) scale(.75)">${seil(GLYPH[KNOTEN_IDS.indexOf(k) % 3], 2.4)}</g>`; }).join('');
+  const feld = [[194, 112], [185, 101], [185, 87], [196, 78], [211, 79], [219, 92], [209, 103]], [bx, by] = feld[Math.min(manN, 6)];
+  return `<g class="hang2"><g transform="translate(3 84)"><path d="M20 -6 L5 0 M20 -6 L35 0" stroke="#5a3a24" stroke-width="1.2"/><circle cx="20" cy="-6" r="1.8" fill="#8a6420"/><rect width="40" height="118" rx="3" fill="#8a5a3a" stroke="#5a3a24" stroke-width="1.2"/><path d="M2 40 H38 M2 80 H38" stroke="#000" stroke-opacity=".08"/>
+        <circle cx="20" cy="5" r="2" fill="#5a3a24"/><g transform="translate(20 5)">${seil('M0 0 V17 M-1 17 C-7 19 -7 25 0 26 C7 27 6 21 2 19 M-3 26 C-15 32 -13 56 0 56 C13 56 15 32 3 26 M2 25 Q8 30 6 38')}</g>
+        ${haken}${kleine}</g></g>
+      <g class="wandkarte"><circle cx="137" cy="63" r="1.6" fill="#8a6420"/><rect x="104" y="64" width="66" height="40" rx="2" fill="#6e452c"/><rect x="107" y="67" width="60" height="34" fill="#cfe3ea"/>
+        <path d="M107 67 H140 Q135 73 141 79 Q133 86 123 83 Q115 91 107 89 Z" fill="#efe2c2" stroke="#8a6420" stroke-width=".6"/><path d="M107 94 Q121 91 131 99 M146 101 Q152 95 167 96" stroke="#9cc2d2" stroke-width=".7" fill="none"/>
+        <circle cx="146" cy="77" r="1.7" fill="#c2473b"/><circle cx="152" cy="85" r="1.7" fill="#3e8a5a"/><path d="M160 71 l1.4 -3 1.4 3z" fill="#2b2118"/><circle cx="124" cy="78" r="1.2" fill="#c8962e"/>
+        <path d="M125 87 Q138 92 149 81 Q156 74 162 76" stroke="#7a6a58" stroke-width=".8" stroke-dasharray="1.6 1.6" fill="none"/><path d="M125 87 Q138 92 149 81 Q156 74 162 76" pathLength="100" stroke="#c0392b" stroke-width="1.3" stroke-dasharray="${kurs} 100" fill="none"/>
+        <g transform="translate(159 92)"><circle r="5" fill="none" stroke="#3d5f8f" stroke-width=".6"/><path d="M0 -6 L1.2 0 L0 6 L-1.2 0Z" fill="#3d5f8f"/><path d="M-6 0 L0 1.2 L6 0 L0 -1.2Z" fill="#3d5f8f" opacity=".55"/></g></g>
+      <g class="manbrett"><circle cx="202" cy="67" r="1.6" fill="#8a6420"/><rect x="174" y="68" width="56" height="54" rx="3" fill="#8a5a3a" stroke="#4a2e1d" stroke-width="1.5"/><rect x="178" y="72" width="48" height="46" fill="#9cc7d6"/>
+        <path d="M190 72V118M202 72V118M214 72V118M178 84H226M178 96H226M178 108H226" stroke="#fff" stroke-opacity=".4" stroke-width=".6"/><rect x="178" y="113" width="30" height="5" fill="#b98a5a"/><path d="M182 113 v5 M190 113 v5 M198 113 v5" stroke="#6e452c" stroke-width="1"/>
+        <path d="${feld.map((p, i) => (i ? 'L' : 'M') + p.join(' ')).join(' ')}" stroke="#2b2118" stroke-width=".7" stroke-dasharray="1.5 1.5" fill="none"/>
+        ${feld.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="2.3" fill="${i && i <= manN ? '#f0b53e' : '#fbf6ea'}" stroke="#2b2118" stroke-width=".5"/>`).join('')}
+        <circle cx="185" cy="80" r="2" fill="#c2473b"/><circle cx="221" cy="80" r="2" fill="#3e8a5a"/><circle cx="217" cy="104" r="2.4" fill="none" stroke="#e8823a" stroke-width="1.3"/>
+        <g transform="translate(${bx} ${by - 1})"><path d="M0 -6 Q3.4 -1.5 2.8 4 H-2.8 Q-3.4 -1.5 0 -6Z" fill="#fbf6ea" stroke="#2b2118" stroke-width=".8"/><path d="M0 -4 V3" stroke="#c2473b" stroke-width="1"/></g>
+        <g transform="translate(219 110)"><rect width="7" height="7" rx="1.5" fill="#fbf6ea" stroke="#2b2118" stroke-width=".6"/><circle cx="2" cy="2" r=".7" fill="#2b2118"/><circle cx="3.5" cy="3.5" r=".7" fill="#2b2118"/><circle cx="5" cy="5" r=".7" fill="#2b2118"/></g></g>`;
+}
 function cabinScene(crew) {
   const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
   const sh = shipHour(), hr = (sh % 12) * 30, mn = (sh % 1) * 360;
@@ -1122,8 +1152,7 @@ function cabinScene(crew) {
       <rect x="24" y="54" width="9" height="22" fill="#a8473a"/><rect x="35" y="58" width="8" height="18" fill="#3e6b5a"/><rect x="45" y="52" width="10" height="24" fill="#c8962e"/><rect x="57" y="60" width="7" height="16" fill="#3d5f8f"/>
       <g class="mouse" data-tap="mouse"><path d="M64 76 q4 6 -1 10" stroke="#8a8078" stroke-width="1" fill="none"/><ellipse cx="70" cy="72" rx="5.5" ry="4" fill="#a59b92"/><circle cx="67" cy="68.5" r="2" fill="#c9bfb6"/><circle cx="73" cy="68.5" r="2" fill="#c9bfb6"/><circle cx="70.5" cy="72" r=".8" fill="#2b2118"/><circle cx="74.6" cy="73.4" r=".9" fill="#e08a8a"/></g>
       <circle cx="86" cy="68" r="8" fill="#3e6b5a"/><path d="M86 60 Q90 52 86 48" stroke="#6aa06a" stroke-width="2" fill="none"/>
-      <g class="hang2"><g transform="translate(10 98)"><path d="M17 -6 L4 0 M17 -6 L30 0" stroke="#5a3a24" stroke-width="1.2"/><circle cx="17" cy="-6" r="1.8" fill="#8a6420"/><rect width="34" height="70" rx="3" fill="#8a5a3a"/><circle cx="17" cy="6" r="2" fill="#5a3a24"/>
-        <path d="M17 8 C6 22 28 26 17 36 C8 44 26 50 17 58" stroke="#e6d3a8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 h16" stroke="#e6d3a8" stroke-width="2.5"/><circle cx="17" cy="62" r="3.5" fill="none" stroke="#e6d3a8" stroke-width="2.5"/></g></g>
+      ${lernWand()}
       <g transform="translate(0 -14)"><g class="galley" data-tap="galley"><path d="M40 58 H110" stroke="#7a4e33" stroke-width="4"/><path d="M40 50 H110" stroke="#b98a5a" stroke-width="2"/><path d="M42 50 V58 M108 50 V58" stroke="#b98a5a" stroke-width="2"/>
         <g class="pot"><rect x="50" y="44" width="18" height="12" rx="2" fill="#8a8a8a"/><path d="M48 46 h22" stroke="#5c5c5c" stroke-width="2"/></g><g class="pot"><rect x="78" y="40" width="14" height="16" rx="3" fill="#c2473b"/><path d="M92 46 h5" stroke="#7a2a22" stroke-width="2"/></g>
         <rect x="36" y="34" width="78" height="28" fill="transparent"/></g></g>
@@ -3047,7 +3076,7 @@ function renderCabin() {
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => meinePruefungen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -4460,7 +4489,7 @@ function einfuehrung(id, nochmal) {
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */
 const TOUR = {
   boat: [{sel: '#kursheute', text: 'Kurs für heute: Hier steht, was die Crew dir heute empfiehlt. Ein Tipp, und es geht los.'}, {sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du die wichtigen Stellen an Bord. Alles andere musst du selbst entdecken. Es gibt einiges!'}],
-  cabin: [{sel: '#topruef', text: 'Meine Prüfungen: Hier liegt alles, was für die Prüfung zählt, mit deinem Stand in Prozent.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
+  cabin: [{sel: '[data-spot="manoever"]', text: 'An der Wand hängen deine Lernstationen: die Seekarte für die Navigation, das Manöverbrett und links das Knotenbrett. Tippe sie einfach an.'}, {sel: '#topruef', text: 'Meine Prüfungen: Hier liegt alles, was für die Prüfung zählt, mit deinem Stand in Prozent.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
 };
 function tour(name) {
   S.tour = S.tour || {}; if (S.tour[name]) return;

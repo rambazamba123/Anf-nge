@@ -129,4 +129,3 @@ Im Code: `LINES.smilla.treiben`, `LINES.smilla.treibenNoch`, `LINES.klabauter.na
 | danach | Klabauter | Zwieback erst morgen! Morgen! |
 | danach | Klabauter | Nochmal! Nochmal! |
 
-Dazu zwei Sätze des Käpt'ns aus der Empfehlung (V37), die über `recommendNext` gesprochen werden, wenn die Empfehlung vorgelesen wird: Sie enthalten Zahlen und sind deshalb keine festen Sätze.
