@@ -5,7 +5,9 @@
    Mitte = neutral (Raste), seitlich = Pinne bzw. Ruder. Alles bleibt stehen, wo man loslässt (wie in echt).
    Physik: Außenborder lenkt mit dem Schub (auch bei wenig Fahrt), Radeffekt rückwärts (Bug nach Steuerbord),
    Wind drückt das Boot nach Lee und lässt den Bug bei wenig Fahrt abfallen.
-   Kommandos: an festen Punkten Auswahl mit vier Antworten (auch „Kein Kommando“), das Spiel steht so lange.
+   Kommandos: an festen Punkten Auswahl mit vier Antworten (auch „Kein Kommando“), das Spiel steht so lange still.
+   Ansicht (V39): Die Welt (W × H) bleibt fest, die Kamera folgt dem Boot herangezoomt (S.cfg.manZoom, Standard an),
+   Vollbild auf Wunsch (S.cfg.manVoll, body.mvoll); Pfeile am Rand zeigen auf das Ziel, wenn es nicht im Bild ist.
    Vorführung „So geht's“: Schlüsselbilder aus der JSON-Datei, weich verbunden, mit Crew-Erklärungen.
    ========================================================================== */
 (() => {
@@ -15,7 +17,15 @@ MN.init = () => D ? Promise.resolve() : fetch('data/manoever.json?v=' + window._
 const LISTE = ['ablegen', 'anlegen', 'mob', 'kompass', 'aufstoppen', 'wenden'];
 const RAD = Math.PI / 180, n360 = a => ((a % 360) + 360) % 360, dw = (a, b) => ((a - b + 540) % 360) - 180, clamp = (v, a, b) => Math.max(a, Math.min(b, v)), lerp = (a, b, e) => a + (b - a) * e;
 const V_VOR = 60, V_RUECK = 32, KN = 12;  // Pixel je Sekunde; 12 px/s = 1 kn
-const DOCK_W = 26, BS = 1.4;  // Bootsgröße
+const DOCK_W = 26, BS = 1.4, ZOOM = 1.45;  // Bootsgröße, Zoom der Kamera
+const voll = () => document.body.classList.contains('mvoll');
+function vollAn() { document.body.classList.add('mvoll'); try { const d = document.documentElement; if (!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen().catch(() => {}); } catch (e) {} }
+function vollAus() { if (!voll()) return; document.body.classList.remove('mvoll'); try { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); } catch (e) {} }
+MN.vollAus = vollAus;
+/* Ansicht neu messen, wenn sich Bildschirm oder Vollbild ändern (nur das gerade laufende Manöver) */
+const neuMessen = () => setTimeout(() => { if (MN._groesse) MN._groesse(); }, 120);
+window.addEventListener('resize', neuMessen);
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) document.body.classList.remove('mvoll'); neuMessen(); });
 const steuer = () => (S.cfg && S.cfg.steuer) || 'pinne';
 const sagT = s => typeof s === 'string' ? s : s ? s[steuer()] : '';
 const wer = w => w === 'H' ? 'kroeger' : cid(w);
@@ -34,7 +44,11 @@ const CSS = `<style>.mwrap{position:relative}.mwrap canvas{display:block;border-
 .mbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 2px}.mbar .btn{min-height:40px;padding:.4em .9em}
 .mgrid{display:grid;grid-template-columns:1fr;gap:8px}.mgrid button{border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:10px;color:var(--ink);text-align:left}.mgrid b{display:block;font:700 1rem var(--hfont)}
 .msteps li{margin:4px 0;opacity:.45;cursor:pointer}.msteps li.an{opacity:1;font-weight:700}
-.mpruef li{margin:3px 0}</style>`;
+.mpruef li{margin:3px 0}
+.mbrief h3{margin:12px 0 4px;font:700 .98rem var(--hfont)}.mbrief ol,.mbrief ul{margin:0;padding-left:20px}.mbrief li{margin:3px 0}
+.mcrew{display:flex;gap:10px;align-items:flex-start;margin-top:6px}.mcrew svg.ch{width:50px;height:auto;flex:none}.mcrew .sb{background:var(--bg);border-radius:12px;padding:8px 10px;flex:1}
+.mbrief details summary{cursor:pointer;font-weight:700;min-height:40px;display:flex;align-items:center}
+body.mvoll .tabs{display:none!important}body.mvoll #app{padding-bottom:12px}body.mvoll .topbar{margin-bottom:4px}body.mvoll .mcmd{min-height:120px}</style>`;
 
 /* ---------- Szene: Wasser, Steg, Tonnen, Box, Person, Kompass, Boot, Anzeigen ---------- */
 const P = (v, L) => v > 1 ? v : v * L;  // Anteil oder Pixel
@@ -142,6 +156,7 @@ function steuerfeld(el, b, onGang) {
 /* ---------- Übersicht: alle Manöver ---------- */
 MN.spiel = function () {
   if (BONUS && BONUS.key === 'man') return MN.fahren('anlegen');
+  vollAus();
   returnTo = returnTo || 'cabin';
   const m = M_();
   gameShell('Manöver', `${CSS}<p class="small muted" style="margin:6px 2px 10px">Die Manöver der praktischen Prüfung mit Motor. Erst „So geht's“ ansehen, dann selbst fahren. Für jedes Manöver hast du zwei Versuche, wie in der Prüfung.</p>
@@ -153,14 +168,33 @@ MN.spiel = function () {
   $('#msteuer').onclick = () => { S.cfg.steuer = steuer() === 'pinne' ? 'rad' : 'pinne'; save(); AUD.click(); MN.spiel(); };
 };
 /* Vor dem Manöver: Ziel, worauf der Prüfer achtet, So geht's oder selbst fahren */
+/* Vor dem Manöver: Einweisung der Crew (V39). Alles aus data/manoever.json: Aufgabe, Ablauf aus der Vorführung,
+   die Kommandos, auf die es ankommt, worauf Harms achtet, und wie man steuert. */
+const platzhalter = t => t.replace(/\{(kurs|falsch|peil|p2|p3|p4)\}/g, '…');
 MN.vorher = function (id) {
-  const d = D[id], x = M_()[id] || {};
-  gameShell(d.name, `${CSS}<div class="card"><p class="small muted" style="margin:0">${esc(d.art)}</p><p style="margin:6px 0 8px">${esc(d.ziel)}</p>
-    <p class="small" style="margin:0 0 4px"><b>Darauf achtet der Prüfer:</b></p><ul class="small mpruef" style="margin:0;padding-left:18px">${d.pruefer.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>
-    <div class="row" style="margin-top:10px"><button class="btn ${x.seen ? 'ghost' : 'lamp'}" id="mdemo">📺 So geht's</button><button class="btn ${x.seen ? 'lamp' : 'ghost'}" id="mlos">Selbst fahren</button></div>`);
-  $('#gback').onclick = () => MN.spiel();
-  $('#mdemo').onclick = () => { AUD.click(); MN.demo(id); };
-  $('#mlos').onclick = () => { AUD.click(); MN.fahren(id); };
+  vollAus();
+  const d = D[id], x = M_()[id] || {}, K = cid('K');
+  const ablauf = (d.demo || []).filter(e => e.sag && e.wer !== 'H').map(e => ({w: e.wer, t: sagT(e.sag)})).filter(e => e.t);
+  const kom = Object.values(d.kommandos || {});
+  const bedien = steuer() === 'pinne'
+    ? 'Steuerfeld rechts unten mit einem Finger: hoch = voraus (je weiter, desto mehr Gas), Mitte = neutral, runter = zurück. Zur Seite = Pinne: Feld nach rechts, der Bug dreht nach links. Rückwärts ist es umgekehrt.'
+    : 'Steuerfeld rechts unten mit einem Finger: hoch = voraus (je weiter, desto mehr Gas), Mitte = neutral, runter = zurück. Zur Seite = Steuerrad: Feld nach rechts, der Bug dreht nach rechts.';
+  gameShell(d.name, `${CSS}<div class="card mbrief"><p class="small muted" style="margin:0">${esc(d.art)} · Einweisung der Crew</p>
+    <div class="mcrew">${charSVG(K)}<div class="sb"><b>${esc(nameOf('K'))}:</b> ${esc(d.ziel)}</div></div>
+    <h3>So gehst du vor</h3><ol class="small">${ablauf.map(e => `<li>${esc(e.t)}</li>`).join('')}</ol>
+    <h3>Diese Kommandos musst du kennen</h3><p class="small muted" style="margin:0 0 4px">Im Manöver hält alles an, und du wählst das richtige Kommando. Mehr als ein falsches, und es reicht nicht.</p>
+    <ul class="small">${kom.map(k => `<li>${esc(platzhalter(k.frage))} <b>„${esc(platzhalter(k.richtig))}“</b></li>`).join('')}</ul>
+    <div class="mcrew" style="margin-top:12px">${charSVG('kroeger')}<div class="sb"><b>Kapitän Harms achtet auf:</b><ul class="small mpruef">${d.pruefer.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></div>
+    <details><summary>🕹️ So steuerst du</summary><p class="small" style="margin:0 0 6px">${bedien} Loslassen: Hebel und ${steuer() === 'pinne' ? 'Pinne' : 'Ruder'} bleiben stehen, wie in echt. Doppeltipp: mittschiffs. „Motor starten“ links unten, nur in Neutral.</p>
+      <p class="small" style="margin:0">Zwei Versuche wie in der Prüfung. 🔍 schaltet zwischen nah und weit, ⛶ macht Vollbild.</p></details></div>
+    <div class="row" style="margin-top:10px"><button class="btn ${x.seen ? 'ghost' : 'lamp'}" id="mdemo">📺 So geht's</button><button class="btn ${x.seen ? 'lamp' : 'ghost'}" id="mlos">Selbst fahren</button><button class="btn ghost" id="mvor">🔊 Vorlesen</button></div>`);
+  app.querySelectorAll('.mcrew svg.ch').forEach(s => { s.style.width = '50px'; });
+  $('#gback').onclick = () => { VOX.stop(); MN.spiel(); };
+  $('#mdemo').onclick = () => { AUD.click(); VOX.stop(); MN.demo(id); };
+  $('#mlos').onclick = () => { AUD.click(); VOX.stop(); MN.fahren(id); };
+  /* Vorlesen: Käpt'n sagt die Aufgabe, Harms die Prüfpunkte (feste Sätze, siehe packLines) */
+  $('#mvor').onclick = async () => { AUD.unlock(); VOX.stop('einweisung'); const b = $('#mvor'); b.disabled = true;
+    await VOX.say(K, d.ziel, 'fixed'); for (const t of d.pruefer) { if (!b.isConnected) return; await VOX.say('kroeger', t, 'fixed'); } if (b.isConnected) b.disabled = false; };
 };
 
 /* ---------- Selbst fahren ---------- */
@@ -170,12 +204,19 @@ MN.fahren = function (id, versuch = 1) {
     <div class="mpad" id="mpad"><div class="mv"></div><div class="ml"></div><b style="top:6px;left:0;right:0;text-align:center">voraus</b><b style="top:50%;left:6px;margin-top:-16px">N</b><b style="bottom:6px;left:0;right:0;text-align:center">zurück</b><b style="top:50%;left:8px;margin-top:4px">◀</b><b style="top:50%;right:8px;margin-top:4px">▶</b><i class="mk"></i></div>
     <button class="motorbtn" id="motbtn" aria-pressed="false">Motor<br>starten</button><div class="gameover hidden" id="gover"></div></div>
     <div class="mcmd" id="mcmd" aria-live="polite"></div>
-    <div class="mbar">${bonus ? '' : '<button class="btn small ghost" id="mdemo">📺 So geht\'s</button>'}<span class="small muted">${steuer() === 'pinne' ? 'Pinne: Feld nach rechts, Bug dreht nach links (voraus).' : 'Steuerrad: Feld nach rechts, Bug dreht nach rechts (voraus).'} Doppeltipp: mittschiffs.</span></div>`);
-  if (bonus) $('#gback').onclick = () => { VOX.stop(); bonusEnde(0); }; else $('#gback').onclick = () => { stopGames(); VOX.stop(); MN.vorher(id); };
+    <div class="mbar">${bonus ? '' : '<button class="btn small ghost" id="mdemo">📺 So geht\'s</button>'}<button class="btn small ghost" id="mzoom" aria-pressed="${S.cfg.manZoom !== 0}">🔍 ${S.cfg.manZoom !== 0 ? 'Nah' : 'Weit'}</button><button class="btn small ghost" id="mvoll" aria-pressed="${!!S.cfg.manVoll}">⛶ Vollbild</button><span class="small muted">${steuer() === 'pinne' ? 'Pinne: Feld nach rechts, Bug dreht nach links (voraus).' : 'Steuerrad: Feld nach rechts, Bug dreht nach rechts (voraus).'} Doppeltipp: mittschiffs.</span></div>`);
+  if (bonus) $('#gback').onclick = () => { VOX.stop(); vollAus(); bonusEnde(0); }; else $('#gback').onclick = () => { stopGames(); VOX.stop(); MN.vorher(id); };
+  if (S.cfg.manVoll) vollAn();
   const db = $('#mdemo'); if (db) db.onclick = () => { stopGames(); MN.demo(id); };
   const c = $('#gc'), wrap = c.parentElement, dpr = Math.min(2, window.devicePixelRatio || 1);
   const W = Math.min(520, wrap.clientWidth), H = Math.max(330, Math.min(520, Math.round(window.innerHeight * .52)));
-  c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px'; const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+  /* Ansicht V: Größe auf dem Bildschirm, Zoom z und Kameramitte (cx, cy) in Weltkoordinaten */
+  const ctx = c.getContext('2d'), V = {w: W, h: H, z: 1, cx: null, cy: null};
+  const groesse = () => { if (!c.isConnected) return; const vw = Math.min(voll() ? 900 : 520, wrap.clientWidth || W), vh = voll() ? Math.max(300, window.innerHeight - 270) : H;
+    Object.assign(V, {w: vw, h: vh}); c.width = vw * dpr; c.height = vh * dpr; c.style.width = vw + 'px'; c.style.height = vh + 'px'; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  groesse(); MN._groesse = groesse;
+  $('#mzoom').onclick = e => { S.cfg.manZoom = S.cfg.manZoom === 0 ? 1 : 0; save(); AUD.click(); e.currentTarget.setAttribute('aria-pressed', S.cfg.manZoom !== 0); e.currentTarget.textContent = '🔍 ' + (S.cfg.manZoom !== 0 ? 'Nah' : 'Weit'); };
+  $('#mvoll').onclick = e => { S.cfg.manVoll = !voll(); save(); AUD.click(); S.cfg.manVoll ? vollAn() : vollAus(); e.currentTarget.setAttribute('aria-pressed', S.cfg.manVoll); neuMessen(); setTimeout(neuMessen, 400); };
   const wind = {from: id === 'kompass' ? Math.random() * 360 : [0, 30, 330, 60, 300][Math.random() * 5 | 0], s: bonus ? .35 : .3 + Math.random() * .45};
   const s = szene(id, W, H, wind), G = {id, d, s, W, H, t: 0, fehler: 0, bumps: 0, ask: {}, fender: id === 'ablegen', msg: '', msgT: 0, ende: false, bonus, versuch};
   const b = G.b = {x: W * .5, y: H * .9, k: 0, v: 0, om: 0, dx: 0, dy: 0, g: 0, r: 0, motor: false};
@@ -195,8 +236,8 @@ MN.fahren = function (id, versuch = 1) {
   };
   const pad = steuerfeld($('#mpad'), b, (war, g) => { AUD.click(); if (!b.motor && g) say('Der Motor läuft noch nicht'); else if (b.motor) say(!g ? 'Neutral' : g > 0 ? 'Vorwärtsgang eingelegt' : 'Rückwärtsgang eingelegt', 1400); if (G.id === 'wenden' && g < 0 && !G.ask.rueck && b.motor) G.frage('rueck'); });
   pad.setze(b.g ? b.g * .88 + .12 : 0, 0);
-  /* Kommando-Abfrage unter dem Fahrbild: das Boot fährt in Zeitlupe weiter, vier Antworten */
-  const ruhe = () => { const box = $('#mcmd'); if (!box) return; box.classList.remove('an'); box.innerHTML = '<p class="ruhe">📣 Hier erscheinen die Kommandos, wenn es so weit ist. Solange du wählst, läuft alles in Zeitlupe.</p>'; };
+  /* Kommando-Abfrage unter dem Fahrbild: das Spiel hält an, bis gewählt ist (V39), vier Antworten */
+  const ruhe = () => { const box = $('#mcmd'); if (!box) return; box.classList.remove('an'); box.innerHTML = '<p class="ruhe">📣 Hier erscheinen die Kommandos, wenn es so weit ist. Solange du wählst, steht alles still.</p>'; };
   ruhe();
   G.frage = key => {
     if (G.ask[key]) return; G.ask[key] = true; const k = d.kommandos[key];
@@ -204,7 +245,7 @@ MN.fahren = function (id, versuch = 1) {
     const rep = x => x.replace(/\{kurs\}/g, fmtK(G.kurs || 0)).replace(/\{falsch\}/g, fmtK((G.kurs || 0) + 180)).replace(/\{peil\}/g, fmtK(G.peil || 0)).replace(/\{p2\}/g, fmtK((G.peil || 0) + 180)).replace(/\{p3\}/g, fmtK((G.peil || 0) + 40)).replace(/\{p4\}/g, fmtK((G.peil || 0) - 40));
     const opts = shuffle([{t: rep(k.richtig), ok: 1}].concat(k.falsch.map(f => ({t: rep(f), ok: 0}))));
     G.offen = true; AUD.sfx('glocke', {vol: .3});
-    const box = $('#mcmd'); box.classList.add('an');
+    const box = $('#mcmd'); box.classList.add('an'); if (voll()) box.scrollIntoView({block: 'nearest', behavior: 'smooth'});
     box.innerHTML = `<h3>📣 ${esc(rep(k.frage))}</h3><p class="small muted" style="margin:0 0 6px">Was rufst du?</p><div class="menu">${opts.map((o, i) => `<button class="menuitem" data-c="${i}">${esc(o.t)}</button>`).join('')}</div><div id="mcfb"></div>`;
     box.querySelectorAll('[data-c]').forEach(btn => btn.onclick = () => {
       const o = opts[+btn.dataset.c]; box.querySelectorAll('[data-c]').forEach(x => { x.disabled = true; if (opts[+x.dataset.c].ok) x.classList.add('richtig'); }); if (!o.ok) { btn.classList.add('falsch'); G.fehler++; }
@@ -293,10 +334,10 @@ MN.fahren = function (id, versuch = 1) {
   /* Schleife */
   const t0 = performance.now(); G.last = t0;
   const step = now => {
-    if (!c.isConnected) return;
+    if (!c.isConnected) { if (!document.getElementById('gc')) vollAus(); return; }
     const dt = Math.min(.05, (now - G.last) / 1000); G.last = now; G.dt = dt;
     if (!G.pause && !G.ende) {
-      const dt = G.offen ? G.dt * .2 : G.dt;  /* Zeitlupe, solange ein Kommando gewählt wird */
+      const dt = G.offen ? 0 : G.dt;  /* Stillstand, solange ein Kommando gewählt wird */
       G.t += dt; fahre(b, dt, s);
       if (id === 'ablegen' && !G.ask.leinen) Object.assign(b, {x: st[0], y: st[1], k: 0, v: 0, om: 0, dx: 0, dy: 0});  /* Leinen sind noch fest */
       /* Die Person treibt langsam nach Lee, bleibt aber im Bild */
@@ -308,13 +349,26 @@ MN.fahren = function (id, versuch = 1) {
       if (bonusZeit(t0)) ende(false, 'Die Zeit ist um.');
       if (!G.ende && !G.offen) regeln[id]();
     }
+    /* Kamera: folgt dem Boot weich, bleibt aber in der Welt */
+    const z = V.z = (S.cfg.manZoom === 0 ? 1 : ZOOM) * V.w / W, hw = V.w / z / 2, hh = V.h / z / 2;
+    const tx = hw * 2 >= W ? W / 2 : clamp(b.x, hw, W - hw), ty = hh * 2 >= H ? H / 2 : clamp(b.y, hh, H - hh);
+    if (V.cx == null) { V.cx = tx; V.cy = ty; } else { const f = Math.min(1, 5 * dt); V.cx += (tx - V.cx) * f; V.cy += (ty - V.cy) * f; }
+    ctx.fillStyle = '#24566f'; ctx.fillRect(0, 0, V.w, V.h);
+    ctx.save(); ctx.translate(V.w / 2, V.h / 2); ctx.scale(z, z); ctx.translate(-V.cx, -V.cy);
     zeichneSzene(ctx, s, now - t0, {person: G.person, ring: G.ring});
     /* Beim Peilen: gestrichelte Peillinie vom Boot zur Tonne, damit klar ist, was gepeilt wird */
     if (G.ask.peil && s.tonne) { ctx.save(); ctx.strokeStyle = 'rgba(255,251,240,.85)'; ctx.setLineDash([6, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(s.tonne.x, s.tonne.y); ctx.stroke(); ctx.restore(); }
     zeichneBoot(ctx, b, now - t0, G.fender);
-    if (id === 'kompass') zeichneKompass(ctx, W, b.k, G.ask.start ? G.kurs : null);
-    anzeigen(ctx, s, b, G.bonus ? '' : `${versuch}. Versuch${G.fehler ? ' · Fehler ' + G.fehler : ''}`);
-    if (G.msg && now < G.msgT) { ctx.fillStyle = 'rgba(20,30,40,.78)'; ctx.fillRect(10, H - 56, W - 180, 24); ctx.fillStyle = '#fffaf0'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(G.msg, 10 + (W - 180) / 2, H - 39); }
+    ctx.restore();
+    /* Ziel außerhalb des Bildes: Pfeil am Rand */
+    const zl = s.gate || (s.dock && id === 'anlegen' ? {x: s.dock.w, y: s.dock.y + s.dock.h / 2} : null) || G.person || s.tonne;
+    if (zl) { const px = (zl.x - V.cx) * z + V.w / 2, py = (zl.y - V.cy) * z + V.h / 2, m = 22;
+      if (px < 0 || px > V.w || py < 0 || py > V.h) { const ax = clamp(px, m, V.w - m), ay = clamp(py, m + 50, V.h - m), a = Math.atan2(py - ay, px - ax);
+        ctx.save(); ctx.translate(ax, ay); ctx.rotate(a); ctx.fillStyle = 'rgba(240,181,62,.95)'; ctx.strokeStyle = '#2b2118'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(-8, -9); ctx.lineTo(-4, 0); ctx.lineTo(-8, 9); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); } }
+    if (id === 'kompass') zeichneKompass(ctx, V.w, b.k, G.ask.start ? G.kurs : null);
+    anzeigen(ctx, {...s, W: V.w, H: V.h}, b, G.bonus ? '' : `${versuch}. Versuch${G.fehler ? ' · Fehler ' + G.fehler : ''}`);
+    if (G.msg && now < G.msgT) { ctx.fillStyle = 'rgba(20,30,40,.78)'; ctx.fillRect(10, 100, V.w - 20, 24); ctx.fillStyle = '#fffaf0'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(G.msg, V.w / 2, 117); }
+    if (G.offen && !G.ende) { ctx.fillStyle = 'rgba(20,30,40,.35)'; ctx.fillRect(0, 0, V.w, V.h); ctx.fillStyle = 'rgba(20,30,40,.85)'; ctx.fillRect(V.w / 2 - 100, 60, 200, 34); ctx.fillStyle = '#fffaf0'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Pause: Kommando wählen ↓', V.w / 2, 82); }
     if (!G.ende) gameLoop = requestAnimationFrame(step);
   };
   gameLoop = requestAnimationFrame(step);
@@ -337,6 +391,7 @@ function bahn(demo) {
   return {wert, ort, ende: demo[demo.length - 1].t};
 }
 MN.demo = function (id, ab) {
+  vollAus();
   const d = D[id], x = M_()[id] = M_()[id] || {}; x.seen = 1; save();
   const schritte = d.demo.filter(e => e.sag);
   gameShell(d.name, `${CSS}<div class="gamewrap mwrap"><canvas id="gc"></canvas></div>

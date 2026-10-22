@@ -513,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.83';
+  window.__ver = '4.84';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1539,6 +1539,8 @@ function packLines(withEpisodes) {
       Object.values(m.kommandos || {}).forEach(k => { if (fest(k.richtig)) push(cid('K'), k.richtig); if (fest(k.warum)) push('kroeger', k.warum); });
     });
     ['Ausreichend. Weiter.', 'Nicht ausreichend. Zweiter Versuch.', 'Nicht ausreichend. Das üben wir noch mal.'].forEach(t => push('kroeger', t));
+    /* V39: Einweisung zum Vorlesen: Aufgabe (Käpt'n) und Prüfpunkte (Harms) */
+    Object.values(MAN_DATA).forEach(m => { push(cid('K'), m.ziel); (m.pruefer || []).forEach(t => push('kroeger', t)); });
   }
   /* Grundkurs Seezeichen (nur wenn geladen; buildVoicePack lädt ihn) */
   if (window.SEEZ_DATA) ['see', 'binnen'].forEach(a => { const D = SEEZ_DATA[a]; if (!D) return; D.intro.concat(...D.lektionen.map(l => l.crew || [])).forEach(l => push(cid(l.s), l.t)); });
@@ -2549,6 +2551,7 @@ let tab = 'deck', examTimer = null;
 function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
   /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
+  if (window.MANOEVER && MANOEVER.vollAus) MANOEVER.vollAus();
   if (t === 'cabin' && lernHeim === 'pruef') return meinePruefungen();
   if (t === 'cabin' && lernHeim === 'deck') t = 'deck';
   if (t === 'deck') lernHeim = null;

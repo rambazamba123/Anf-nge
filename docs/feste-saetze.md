@@ -129,3 +129,7 @@ Im Code: `LINES.smilla.treiben`, `LINES.smilla.treibenNoch`, `LINES.klabauter.na
 | danach | Klabauter | Zwieback erst morgen! Morgen! |
 | danach | Klabauter | Nochmal! Nochmal! |
 
+## v4.84 – V39 Einweisung im Manöverspiel (Vorlesen)
+
+Der Knopf „🔊 Vorlesen“ in der Einweisung lässt den Käpt'n die Aufgabe (`ziel`) und Kapitän Harms die Prüfpunkte (`pruefer`) sprechen. Die Texte stehen in `data/manoever.json` und werden nicht doppelt gepflegt. `packLines` sammelt sie, sobald das Manöverspiel geladen ist: 6 Aufgaben und 29 Prüfpunkte, zusammen etwa 1834 Zeichen. Sie fehlen noch im Stimmenpaket.
+
