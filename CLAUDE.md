@@ -337,6 +337,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] Podcast-Stimmen fest eingetragen (B97): Klabauter (Wally), Polizistin, Fischer, Hafenmeisterin, Verkehrszentrale, Reserve-Erzähler mit den IDs des Nutzers, Quirin mit George (ID unbestätigt); Hörprobe `podcast/skripte/vorstellung.md` nach Wichtigkeit (Frieda fehlt bis zur Stimmwahl)
 - [x] v4.79 Kajütenfunk Folge 1 „Die Spritztour“ als erster Entwurf (`podcast/skripte/folge-01.md`, gut 20 Minuten Sprechtext, 14 Fragen, Platzhalter für Harms' Prüfungserklärung bis F3), in der Hörprobe wählbar; Figur `SPRITZTOURER` (Jonte) in der Konfiguration
 ### Jetzt dran
+- **Lauf 5 wartet auf Freigabe:** Entwurf `docs/entwurf-lauf5.md` (Lernstationen in der Kajüte, Farbsystem mit Kuchendiagrammen, Easy/Tricky, drei Lernphasen, Smilla treibt an, Manöverspiel mit Stopp und Vollbild, Karten-Tutorial, Kajütenfunk als Coaching statt Geschichte). Nichts davon ist umgesetzt; erst nach Freigabe CLAUDE.md, Bible und Code ändern.
 - **V32 Katalogbilder in Farbe:** sobald der Nutzer die Fragenkatalog-PDFs schickt; die Bilder werden aus den Originalen übernommen, nicht verändert.
 - **V29 Etappe 2:** sobald die Quellen in `quellen/` liegen (`node tools/quellen-check.js`), siehe `docs/quellen.md`.
 - **Stimmen nachliefern** (Nutzer, am Handy): Einstellungen → Stimmenpaket → „🎙️ Neue Sätze nachliefern“, ZIP in den Ordner `import` hochladen.
