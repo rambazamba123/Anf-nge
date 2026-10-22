@@ -78,6 +78,13 @@
       "wunsch": "Lucinda"
     },
     {
+      "id": "RANGERIN",
+      "name": "Rangerin im Nationalpark (Lektion 7.4)",
+      "art": "Gast",
+      "satz": "Moin. Ich bin hier Rangerin im Nationalpark Wattenmeer. Zuständig für Seehunde, Vögel und für Leute, die nur mal kurz ein Foto machen wollen. [sighs] Abstand, bitte.",
+      "wunsch": null
+    },
+    {
       "id": "ERZAEHLER",
       "name": "Erzählstimme (Reserve, eigentlich kein Erzähler)",
       "art": "Erzähler",
