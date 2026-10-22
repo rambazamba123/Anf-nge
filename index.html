@@ -513,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.81';
+  window.__ver = '4.82';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -770,6 +770,9 @@ const LINES = {
     tap: ['Ich sag nur: Tonne 10. Es gibt zwei davon. Merk dir das!', 'Wenn ich die Prüfung bestanden hab, segle ich nach Skagen.', 'Der Käpt\'n erzählt gleich wieder vom Sturm. Wetten?'],
     right: ['Klar Schiff!', 'Jawoll!', 'Genau so!', 'Sitzt!'],
     praise: ['Wow, das war stark! Fast alles richtig.', 'Gute Runde! Ein paar Wackler, aber das wird.', 'Puh, das war rau. Aber genau dafür üben wir ja.', 'Alles richtig! Da staunt sogar der Käpt\'n.'],
+    /* V38: nach der Wiederholung der eigenen Fehler kein Lob, sondern anerkennen, necken, antreiben (docs/entwurf-lauf5.md B4) */
+    treiben: ['Na also, Seegurke. Geht doch. Aber dass du zwei Anläufe brauchst, schreib ich mir auf.', 'Jetzt sitzt es. Morgen will ich das ohne Nachsitzen sehen, du Badewannen-Kapitän.', 'Nicht schlecht für ein Landei. Aber nicht schlecht besteht keine Prüfung.', 'Na, Planktonhirn, hat\'s geklickt? Dann halt es auch über Nacht fest.'],
+    treibenNoch: ['Immer noch daneben. Das ist kein Segeln, das ist Treibenlassen. Nochmal!', 'Hafenbecken-Admiral! Fehler wiederholen ist Pflicht, nicht Kür. Weiter!', 'Du segelst wie eine Bilgenratte im Waschgang. Konzentrier dich!', 'So kommst du nicht mal aus dem Hafen, Bordküken. Noch eine Runde.'],
   },
   piet: {
     tap: ['Darf ich mal steuern? Nur ganz kurz?', 'Ich hab ein Video gesehen, da ist einer rückwärts angelegt. Krass.', 'Wie viele Knoten kannst du schon?'],
@@ -780,6 +783,7 @@ const LINES = {
     tap: ['Tuuuut! Tuuuut!', 'Deutsche Bucht: West fünf bis sechs, böig!', 'Zwieback! Zwieback!'],
     wrong: ['Falsch! Falsch! Tuuut!', 'Uiuiui! Nochmal!', 'Kawumm! Daneben!'],
     right: ['Richtig! Richtig!', 'Zwieback für dich!'],
+    nachsitzen: ['Nachsitzen! Nachsitzen!', 'Landei! Landei!', 'Zwieback erst morgen! Morgen!', 'Nochmal! Nochmal!'],
   },
   backbord: {
     tap: ['Mrrr. Von mir aus links ist rot. Merk dir das, Schätzchen.', 'Schnurr. Rot ist Backbord. Wie ich.', 'Ich putz mich jetzt.'],
@@ -3366,7 +3370,7 @@ function hornQuiz() { runQuiz(shuffle(SIG_QS).slice(0, bonusRunden(SIG_QS.length
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
   subScreen(); place = 'quiz'; soundFor('quiz');
-  let i = 0, right = 0; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
+  let i = 0, right = 0, nachOk = 0, nachNo = 0; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
   const M = S.crew.M, T = S.crew.T;
   function show() {
     if (i >= queue.length) return finish();
@@ -3438,7 +3442,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
       app.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
         const r = +b.dataset.r;
         AUD.sfx(r === 2 ? 'richtig' : 'falsch', {vol: r === 2 ? .55 : .3});
-        if (!retry) { recordQ(q.n, r); if (r === 2) right++; }
+        if (!retry) { recordQ(q.n, r); if (r === 2) right++; } else if (r === 2) nachOk++; else nachNo++;
         if (r < 2) wrong.push({q, k: null});
         if (r === 0 && !retry && !opts.noRequeue) { requeued.add(q.n); queue.push(q); }
         if (S.cfg.comments && !opts.noRequeue && AUD.ready && Math.random() < .3) { const w = r === 2 ? M : T; VOX.say(w, lineOf(w, r === 2 ? 'right' : 'wrong'), 'fixed'); }
@@ -3450,7 +3454,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     const ok = k === 0, retry = requeued.has(q.n);
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .55 : .35});
     app.querySelectorAll('.ans').forEach(b => { b.disabled = true; const kk = +b.dataset.k; if (kk === 0) b.classList.add('ok'); else if (kk === k) b.classList.add('no'); });
-    if (ok && !retry) right++; if (!ok) wrong.push({q, k});
+    if (ok && !retry) right++; if (!ok) wrong.push({q, k}); if (retry) ok ? nachOk++ : nachNo++;
     /* V36: Ein „Vertippt“ (Easy trotz falsch) wird bei der Wiederholung bestätigt */
     const vor = st(q.n) ? {...st(q.n)} : null, zaehlt = !retry || !!(vor && vor.pr);
     if (zaehlt) record(q.n, ok);
@@ -3513,15 +3517,18 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
     /* Lob in vier Stufen: alles richtig, ab 80 %, ab 50 %, darunter (praise[3] ist die Stufe „alles richtig“) */
     const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2, mehr = opts.mehr && opts.mehr();
+    /* V38: Gab es eine Wiederholung der eigenen Fehler, treibt Smilla an statt zu loben; Klabauter legt manchmal nach */
+    const treib = nachOk + nachNo > 0 ? lineOf(M, nachNo ? 'treibenNoch' : 'treiben') : '', kl = treib && Math.random() < .35 ? lineOf(T, 'nachsitzen') : '';
+    const zeile = (w, t) => t ? `<p class="small" style="margin:8px 0 0"><b style="color:${CREW[w] ? CREW[w].color : 'inherit'}">${esc(CREW[w] ? CREW[w].short : '')}:</b> „${esc(t)}“</p>` : '';
     app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${alles ? 'Fehlerfrei!' : idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
-      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p></div>
+      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p>${treib ? `<p class="small muted" style="margin:6px 0 0">Beim Nachsitzen: ${nachOk} von ${nachOk + nachNo} richtig.</p>` : ''}${zeile(M, treib)}${zeile(T, kl)}</div>
       <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>${mehr ? `<button class="btn wide ghost" id="mehr" style="margin-top:8px">${esc(mehr.label)}</button>` : ''}`;
     app.querySelector('svg.ch').style.width = '76px';
     if (mehr) $('#mehr').onclick = () => { VOX.stop('noch ein Block'); AUD.click(); mehr.run(); };
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
     if (opts.scoreKey) recordScore(opts.scoreKey, res.right);
     $('#home').onclick = () => { VOX.stop('weiter nach Quiz'); opts.onDone ? opts.onDone(res) : setTab('cabin'); };
-    if (AUD.ready) VOX.say(M, lineOf(M, 'praise', idx), 'fixed');
+    if (AUD.ready) { if (treib) VOX.say(M, treib, 'fixed').then(() => { if (kl && place === 'quiz') VOX.say(T, kl, 'fixed'); }); else VOX.say(M, lineOf(M, 'praise', idx), 'fixed'); }
   }
   show();
 }
