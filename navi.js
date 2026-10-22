@@ -365,7 +365,7 @@ const CSS = `
 .nlens svg{width:100%;height:100%}.nlens i{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border:1px solid #d6332c;border-radius:50%}
 .ntoolbar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:6px;z-index:4;pointer-events:none}.ntoolbar button{pointer-events:auto}.ntoolbar .nsp{flex:1}
 .ntoolbar button,.nzoom button{width:42px;height:42px;padding:0;border-radius:10px;border:1px solid #9aa;background:rgba(255,255,255,.94);font-size:20px;line-height:1;color:#2a2a6a;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.ntoolbar button{flex:0 1 42px;min-width:32px}.ntoolbar button[aria-pressed="true"]{background:#2a2a6a;color:#fff}.ntoolbar button.nblink:not([aria-pressed="true"]){animation:nblink 1.1s ease-in-out infinite}@keyframes nblink{50%{box-shadow:0 0 0 4px #f0b53e}}.ntoolbar button:disabled{opacity:.35}
+.ntoolbar button{flex:0 1 42px;min-width:32px}.nwktop{flex:0 0 auto;max-height:36%;overflow-y:auto;padding:8px 16px 8px;background:var(--paper);border-bottom:1px solid var(--line)}.nwktop #wkt{font-size:.95rem;line-height:1.35}.ntoolbar button[aria-pressed="true"]{background:#2a2a6a;color:#fff}.ntoolbar button.nblink:not([aria-pressed="true"]){animation:nblink 1.1s ease-in-out infinite}@keyframes nblink{50%{box-shadow:0 0 0 4px #f0b53e}}.ntoolbar button:disabled{opacity:.35}
 .nzoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:4}
 .ntop{position:absolute;left:8px;right:58px;top:8px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;z-index:4;pointer-events:none}.ntop>*{pointer-events:auto}
 .ntip{background:rgba(255,250,240,.96);color:#2a2019;border-radius:10px;padding:6px 10px;font-size:.78rem;box-shadow:0 2px 6px rgba(0,0,0,.15)}
@@ -1005,8 +1005,9 @@ NAV.werkzeugkunde = function (danach) {
     {t: 'Die Strecke misst du am Breitenrand: Zieh den Zirkel am Gelenk an den linken oder rechten Kartenrand oder tipp „⇤ An den Breitenrand“. Im Ablese-Fenster gilt: 1 Minute Breite = 1 Seemeile.', ok: c => c.rand},
     {t: 'Letzter Trick: ↶ nimmt den letzten Schritt zurück, ↷ holt ihn wieder. Tipp einmal ↶.', ok: c => c.redo},
   ];
-  gameShell('Werkzeugkunde', `<div class="card" style="margin-bottom:8px"><div style="display:flex;gap:10px;align-items:flex-start"><span id="wkfig"></span><div style="flex:1"><div class="tag" id="wkn"></div><p id="wkt" style="margin:4px 0 0"></p></div></div><div class="pbar"><i id="wkp" style="width:0"></i></div><div class="row" id="wkbtn" style="margin-top:4px"><button class="btn small ghost" id="wkskip">Überspringen</button></div></div>
-    <div id="nchartbox"></div><div class="card small" id="ninfo" style="margin-top:8px">Tippe eine Tonne oder ein Feuer an.</div>`);
+  /* Feste Aufteilung (wie NAV.task): oben Smillas Text (scrollt, wenn er lang ist), darunter die Karte; die Werkzeugleiste bleibt immer sichtbar */
+  gameShell('Werkzeugkunde', `<div class="nt2 nwk"><div class="nwktop"><div style="display:flex;gap:10px;align-items:flex-start"><span id="wkfig"></span><div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between;align-items:center;gap:6px"><span class="tag" id="wkn"></span><span id="wkbtn"><button class="btn small ghost" id="wkskip">Überspringen</button></span></div><p id="wkt" style="margin:4px 0 0"></p><p class="small muted" id="ninfo" style="margin:4px 0 0"></p></div></div><div class="pbar" style="margin:6px 0 0"><i id="wkp" style="width:0"></i></div></div>
+    <div class="ntmid"><div id="nchartbox"></div></div></div>`);
   $('#wkfig').innerHTML = charSVG(cid('M')); const fig = $('#wkfig svg'); if (fig) fig.style.width = '46px';
   $('#gback').onclick = () => { clearInterval(tmr); danach ? NAV.lesson(danach) : NAV.hub(); };
   const ctl = NAV.mountChart($('#nchartbox'), {hilfen: true, hilfeKnopf: false, onTap: t => { if (t.obj) ev.tonne++; $('#ninfo').innerHTML = t.obj ? infoCard(t.obj) : 'Position: <b>' + fmtPos(t.ll) + '</b>'; }});
@@ -1022,7 +1023,7 @@ NAV.werkzeugkunde = function (danach) {
     if (i >= SCHRITT.length) {
       clearInterval(tmr); S_().werkzeug = 1; save();
       $('#wkn').textContent = 'Geschafft'; $('#wkt').textContent = 'Sauber! Jetzt kennst du alle Werkzeuge. Wenn du mal was vergisst: Das „?“ unten in jeder Karte erklärt sie nochmal.';
-      $('#wkbtn').innerHTML = `<button class="btn small lamp" id="wkok">${danach ? 'Weiter zur Lektion' : 'Weiter lernen'}</button><button class="btn small ghost" id="wkhub">Zur Navigationsschule</button>`;
+      $('#wkbtn').innerHTML = ''; $('#wkt').insertAdjacentHTML('afterend', `<div class="row" style="margin-top:6px"><button class="btn small lamp" id="wkok">${danach ? 'Weiter zur Lektion' : 'Weiter lernen'}</button><button class="btn small ghost" id="wkhub">Zur Navigationsschule</button></div>`);
       $('#wkok').onclick = () => { AUD.click(); if (danach) return NAV.lesson(danach); const n = (NV.lektionen || []).find(l => !lekState(l.id).sterne); n ? NAV.lesson(n.id) : NAV.hub(); };
       $('#wkhub').onclick = () => { AUD.click(); NAV.hub(); };
       return;
@@ -1062,7 +1063,7 @@ NAV.lesson = function (id) {
   const l = lekOf(id), s = lekState(id), next = SCHRITTE.find(x => !x.fertig(s));
   gameShell(l.t, `${id !== 'L0' && !S_().werkzeug ? `<div class="card" style="border-color:var(--lamp)"><b>🧰 Erst die Werkzeugkunde?</b><p class="small" style="margin:4px 0 8px">Bevor es mit der Karte losgeht: In drei Minuten probierst du Kreuz, Bleistift, Kursdreieck und Zirkel einmal selbst aus.</p><button class="btn small lamp" id="lwk">Werkzeugkunde starten</button></div>` : ''}<div class="card"><h2 style="margin:0 0 4px">${l.id === 'L0' ? '' : 'Lektion ' + l.id.slice(1) + ': '}${esc(l.t)}</h2><p class="small muted" style="margin:0">${esc(l.d)}</p></div>
     <ol class="nschritte">${SCHRITTE.map((x, i) => `<li><button class="menuitem${x === next ? ' nnext' : ''}" data-m="${x.k}"><span class="nnr">${x.fertig(s) ? '✓' : i + 1}</span><span><b>${x.t}${x.k === 'master' ? (s.sterne ? ' ⭐' : ` (${s.serie} von 3)`) : ''}</b><small>${x.d}</small></span></button></li>`).join('')}</ol>`);
-  $('#gback').onclick = () => { VOX.stop(); NAV.path(); };
+  $('#gback').onclick = () => { VOX.stop(); if (window.pfadHeim && pfadHeim()) return; NAV.path(); };
   const lwk = $('#lwk'); if (lwk) lwk.onclick = () => { AUD.click(); NAV.werkzeugkunde(id); };
   app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { AUD.click(); VOX.stop(); const m = b.dataset.m; if (m === 'erkl') NAV.erklaerung(id); else if (m === 'bsp') NAV.beispiel(id); else NAV.exercise(id, m); });
 };

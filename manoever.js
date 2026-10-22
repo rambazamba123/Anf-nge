@@ -189,7 +189,7 @@ MN.vorher = function (id) {
       <p class="small" style="margin:0">Zwei Versuche wie in der Prüfung. 🔍 schaltet zwischen nah und weit, ⛶ macht Vollbild.</p></details></div>
     <div class="row" style="margin-top:10px"><button class="btn ${x.seen ? 'ghost' : 'lamp'}" id="mdemo">📺 So geht's</button><button class="btn ${x.seen ? 'lamp' : 'ghost'}" id="mlos">Selbst fahren</button><button class="btn ghost" id="mvor">🔊 Vorlesen</button></div>`);
   app.querySelectorAll('.mcrew svg.ch').forEach(s => { s.style.width = '50px'; });
-  $('#gback').onclick = () => { VOX.stop(); MN.spiel(); };
+  $('#gback').onclick = () => { VOX.stop(); if (window.pfadHeim && pfadHeim()) return; MN.spiel(); };
   $('#mdemo').onclick = () => { AUD.click(); VOX.stop(); MN.demo(id); };
   $('#mlos').onclick = () => { AUD.click(); VOX.stop(); MN.fahren(id); };
   /* Vorlesen: Käpt'n sagt die Aufgabe, Harms die Prüfpunkte (feste Sätze, siehe packLines) */
