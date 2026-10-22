@@ -109,3 +109,27 @@ Vom Nutzer am 20.10.2026 beschlossen (`PODCAST_STATUS.md` B54, B55). Alle Anrede
 | Matrosin | Bordküken | beschlossen |
 | Bordtier | Grünschnabel! Grünschnabel! | beschlossen |
 | Bordtier | „Nesthocker! Nesthocker!“ und „Federlos! Federlos!“ | beschlossen (B67) |
+
+## v4.82 – V38 Smilla treibt an (nach der Wiederholung der eigenen Fehler)
+
+Im Code: `LINES.smilla.treiben`, `LINES.smilla.treibenNoch`, `LINES.klabauter.nachsitzen`. Sie kommen nur, wenn in einer Lernrunde falsche Fragen am Ende noch einmal drankamen. In anderen Runden bleibt das bisherige Lob (`praise`). Fehlen im Stimmenpaket: über „🎙️ Neue Sätze nachliefern“ erzeugen.
+
+| Anlass | Figur | Satz |
+|---|---|---|
+| alles korrigiert | Smilla | Na also, Seegurke. Geht doch. Aber dass du zwei Anläufe brauchst, schreib ich mir auf. |
+| alles korrigiert | Smilla | Jetzt sitzt es. Morgen will ich das ohne Nachsitzen sehen, du Badewannen-Kapitän. |
+| alles korrigiert | Smilla | Nicht schlecht für ein Landei. Aber nicht schlecht besteht keine Prüfung. |
+| alles korrigiert | Smilla | Na, Planktonhirn, hat's geklickt? Dann halt es auch über Nacht fest. |
+| noch Fehler | Smilla | Immer noch daneben. Das ist kein Segeln, das ist Treibenlassen. Nochmal! |
+| noch Fehler | Smilla | Hafenbecken-Admiral! Fehler wiederholen ist Pflicht, nicht Kür. Weiter! |
+| noch Fehler | Smilla | Du segelst wie eine Bilgenratte im Waschgang. Konzentrier dich! |
+| noch Fehler | Smilla | So kommst du nicht mal aus dem Hafen, Bordküken. Noch eine Runde. |
+| danach (etwa jedes dritte Mal) | Klabauter | Nachsitzen! Nachsitzen! |
+| danach | Klabauter | Landei! Landei! |
+| danach | Klabauter | Zwieback erst morgen! Morgen! |
+| danach | Klabauter | Nochmal! Nochmal! |
+
+## v4.84 – V39 Einweisung im Manöverspiel (Vorlesen)
+
+Der Knopf „🔊 Vorlesen“ in der Einweisung lässt den Käpt'n die Aufgabe (`ziel`) und Kapitän Harms die Prüfpunkte (`pruefer`) sprechen. Die Texte stehen in `data/manoever.json` und werden nicht doppelt gepflegt. `packLines` sammelt sie, sobald das Manöverspiel geladen ist: 6 Aufgaben und 29 Prüfpunkte, zusammen etwa 1834 Zeichen. Sie fehlen noch im Stimmenpaket.
+

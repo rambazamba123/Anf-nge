@@ -60,6 +60,9 @@ textarea{min-height:80px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:.45em .9em;font-weight:600}
 .chip[aria-pressed="true"]{border-color:var(--sea);background:var(--sea);color:var(--sea-ink)}
+.selbst{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px} .selbst .chip{font-size:.9rem;padding:.35em .8em}
+.kuchen{flex:none;display:block}
+.flegende{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.78rem;color:var(--muted,#6b5a4a);margin:6px 0 0} .flegende span{display:inline-flex;align-items:center;gap:4px} .flegende i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .status{min-height:1.4em;font-size:.92rem;margin:8px 0 0}
 .status.ok{color:var(--stb)} .status.err{color:var(--bb)}
 
@@ -355,8 +358,9 @@ button.coursechip{border:0;cursor:pointer}
 .homehead h1{margin:0}
 .pathmini{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
 .extrawahl .btn{flex-direction:column;gap:2px;line-height:1.25;padding:.6em .7em}.extrawahl .btn small{font-weight:700;opacity:.85;font-size:.78rem}.extrawahl .btn b{font-size:.98rem}
+.phasezeile{display:block;margin:6px auto 0;font-size:.82rem;text-align:center}
 .kursheute{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:8px;padding:.7em 1em}.kursheute small{font-weight:700;opacity:.85;font-size:.8rem}.kursheute b{font-size:1.06rem;line-height:1.25}
-.standkarte .standz{margin-top:10px}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
+.standkarte .standz{margin-top:10px;display:flex;gap:10px;align-items:center}.standkarte .pbar{margin:4px 0 2px}.standkarte ol.path{margin:0}
 .linkbtn{background:none;border:0;padding:0;color:var(--sea);font:inherit;font-size:.88rem;text-decoration:underline;cursor:pointer}
 .pathmini .dot{width:12px;height:12px;border-radius:50%;background:var(--line)} .pathmini .dot.done{background:var(--stb)}
 .pathmini .small{margin-left:4px}
@@ -463,7 +467,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
   .scene.cabin .lamp-sw{transform-box:view-box;transform-origin:200px -30px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.5s}
   .scene.cabin[data-wx="windig"] .lamp-sw{animation:lamp1 4.6s ease-in-out infinite;animation-delay:-.4s}
   .scene.cabin[data-wx="sturm"] .lamp-sw{animation:lamp2 3.4s ease-in-out infinite;animation-delay:-.3s}
-  .scene.cabin .hang2{transform-box:view-box;transform-origin:27px 92px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.6s}
+  .scene.cabin .hang2{transform-box:view-box;transform-origin:23px 78px;animation:lamp0 6s ease-in-out infinite;animation-delay:-.6s}
   .scene.cabin[data-wx="windig"] .hang2,.scene.cabin[data-wx="sturm"] .hang2{animation:hang 4s ease-in-out infinite}
   .scene.cabin .lamp-sw.kick{animation:kick .9s ease-out}
   .scene.cabin .lamp-sw.fallen{animation:lampfall .9s cubic-bezier(.5,0,1,.6) forwards}
@@ -509,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.79';
+  window.__ver = '4.85';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -766,6 +770,9 @@ const LINES = {
     tap: ['Ich sag nur: Tonne 10. Es gibt zwei davon. Merk dir das!', 'Wenn ich die Prüfung bestanden hab, segle ich nach Skagen.', 'Der Käpt\'n erzählt gleich wieder vom Sturm. Wetten?'],
     right: ['Klar Schiff!', 'Jawoll!', 'Genau so!', 'Sitzt!'],
     praise: ['Wow, das war stark! Fast alles richtig.', 'Gute Runde! Ein paar Wackler, aber das wird.', 'Puh, das war rau. Aber genau dafür üben wir ja.', 'Alles richtig! Da staunt sogar der Käpt\'n.'],
+    /* V38: nach der Wiederholung der eigenen Fehler kein Lob, sondern anerkennen, necken, antreiben (docs/entwurf-lauf5.md B4) */
+    treiben: ['Na also, Seegurke. Geht doch. Aber dass du zwei Anläufe brauchst, schreib ich mir auf.', 'Jetzt sitzt es. Morgen will ich das ohne Nachsitzen sehen, du Badewannen-Kapitän.', 'Nicht schlecht für ein Landei. Aber nicht schlecht besteht keine Prüfung.', 'Na, Planktonhirn, hat\'s geklickt? Dann halt es auch über Nacht fest.'],
+    treibenNoch: ['Immer noch daneben. Das ist kein Segeln, das ist Treibenlassen. Nochmal!', 'Hafenbecken-Admiral! Fehler wiederholen ist Pflicht, nicht Kür. Weiter!', 'Du segelst wie eine Bilgenratte im Waschgang. Konzentrier dich!', 'So kommst du nicht mal aus dem Hafen, Bordküken. Noch eine Runde.'],
   },
   piet: {
     tap: ['Darf ich mal steuern? Nur ganz kurz?', 'Ich hab ein Video gesehen, da ist einer rückwärts angelegt. Krass.', 'Wie viele Knoten kannst du schon?'],
@@ -776,6 +783,7 @@ const LINES = {
     tap: ['Tuuuut! Tuuuut!', 'Deutsche Bucht: West fünf bis sechs, böig!', 'Zwieback! Zwieback!'],
     wrong: ['Falsch! Falsch! Tuuut!', 'Uiuiui! Nochmal!', 'Kawumm! Daneben!'],
     right: ['Richtig! Richtig!', 'Zwieback für dich!'],
+    nachsitzen: ['Nachsitzen! Nachsitzen!', 'Landei! Landei!', 'Zwieback erst morgen! Morgen!', 'Nochmal! Nochmal!'],
   },
   backbord: {
     tap: ['Mrrr. Von mir aus links ist rot. Merk dir das, Schätzchen.', 'Schnurr. Rot ist Backbord. Wie ich.', 'Ich putz mich jetzt.'],
@@ -1072,17 +1080,47 @@ function deckScene(crew, o = {}) {
 
 /* ---------- Kajüte: der Mittelpunkt. Jedes Ding ist eine Funktion. ---------- */
 const CABIN_SPOTS = [
-  {id: 'buecher', label: 'Bücher', x: 14.5, y: 25.5},
-  {id: 'plan', label: 'Plan', x: 33.5, y: 21},
+  {id: 'buecher', label: 'Bücher: Meine Prüfungen', x: 14.5, y: 22},
   {id: 'deck', label: 'An Deck', x: 88, y: 25, fn: 1},
-  {id: 'knoten', label: 'Knoten', x: 2, y: 49, side: 'l'},
+  /* V34: Lernstationen an der Wand */
+  {id: 'karte', label: 'Seekarte: Navigationsschule', x: 34.3, y: 23.4, fn: 1},
+  {id: 'manoever', label: 'Manöverbrett: Manöver fahren', x: 50, y: 26.5, fn: 1},
+  {id: 'knoten', label: 'Knotenbrett', x: 1, y: 40.5, side: 'l', fn: 1},
   {id: 'funk', label: 'Funk', x: 13, y: 56},
-  {id: 'karte', label: 'Kartentisch', x: 47, y: 71.5, fn: 1},
+  {id: 'tisch', label: 'Kartentisch: Meine Prüfungen', x: 47, y: 71.5, fn: 1},
   {id: 'logbuch', label: 'Logbuch', x: 66, y: 71.5},
   {id: 'telefon', label: 'Telefon: Kapitän Harms', x: 63.3, y: 24.4, fn: 1},
   {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86, fn: 1},
   {id: 'hocker', label: 'Hinsetzen', x: 54, y: 88, fn: 1},
 ];
+/* ---------- V34: Lernstationen an der Wand (ohne Fortschrittsringe, der Stand zeigt sich an den Dingen selbst) ----------
+   Seekarte: die rote Kurslinie wächst mit den Navigationslektionen. Manöverbrett: die Spielfigur rückt je geschafftem Manöver ein Feld weiter.
+   Knotenbrett: anfangs hängt ein großer Knoten, jeder gelernte Knoten kommt an einen Haken dazu (immer dieselbe Tau-Farbe). */
+function lernWand() {
+  const TAU = '#e6d3a8', TAU_D = '#a88f62', lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] && NAVI_LEKTIONEN[S.course].length ? NAVI_LEKTIONEN[S.course] : NAVI_LEKTIONEN.sbf;
+  const kurs = Math.round(nl.filter(l => lek[l] && lek[l].sterne).length / nl.length * 100);
+  const manN = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, gelernt = KNOTEN_IDS.filter(k => knotenWert(k) >= .5);
+  const seil = (d, w = 3.2) => `<path d="${d}" stroke="${TAU_D}" stroke-width="${w + 1.4}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${TAU}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${TAU_D}" stroke-width=".7" stroke-dasharray="1.4 2.6" fill="none"/>`;
+  const GLYPH = ['M0 0 V3 C-4 4 -4 10 0 10 C4 10 4 4 0 3', 'M0 0 C-4 2 4 4 0 6 C-4 8 4 10 0 11', 'M-3 0 V7 Q0 10 3 7 V0'];
+  const haken = KNOTEN_IDS.map((k, i) => { const x = 12 + (i % 2) * 17, y = 66 + Math.floor(i / 2) * 10; return `<circle cx="${x}" cy="${y}" r="1.1" fill="#c8962e"/>`; }).join('');
+  const kleine = gelernt.map((k, i) => { const x = 12 + (i % 2) * 17, y = 66 + Math.floor(i / 2) * 10; return `<g transform="translate(${x} ${y}) scale(.75)">${seil(GLYPH[KNOTEN_IDS.indexOf(k) % 3], 2.4)}</g>`; }).join('');
+  const feld = [[194, 112], [185, 101], [185, 87], [196, 78], [211, 79], [219, 92], [209, 103]], [bx, by] = feld[Math.min(manN, 6)];
+  return `<g class="hang2"><g transform="translate(3 84)"><path d="M20 -6 L5 0 M20 -6 L35 0" stroke="#5a3a24" stroke-width="1.2"/><circle cx="20" cy="-6" r="1.8" fill="#8a6420"/><rect width="40" height="118" rx="3" fill="#8a5a3a" stroke="#5a3a24" stroke-width="1.2"/><path d="M2 40 H38 M2 80 H38" stroke="#000" stroke-opacity=".08"/>
+        <circle cx="20" cy="5" r="2" fill="#5a3a24"/><g transform="translate(20 5)">${seil('M0 0 V17 M-1 17 C-7 19 -7 25 0 26 C7 27 6 21 2 19 M-3 26 C-15 32 -13 56 0 56 C13 56 15 32 3 26 M2 25 Q8 30 6 38')}</g>
+        ${haken}${kleine}</g></g>
+      <g class="wandkarte"><circle cx="137" cy="63" r="1.6" fill="#8a6420"/><rect x="104" y="64" width="66" height="40" rx="2" fill="#6e452c"/><rect x="107" y="67" width="60" height="34" fill="#cfe3ea"/>
+        <path d="M107 67 H140 Q135 73 141 79 Q133 86 123 83 Q115 91 107 89 Z" fill="#efe2c2" stroke="#8a6420" stroke-width=".6"/><path d="M107 94 Q121 91 131 99 M146 101 Q152 95 167 96" stroke="#9cc2d2" stroke-width=".7" fill="none"/>
+        <circle cx="146" cy="77" r="1.7" fill="#c2473b"/><circle cx="152" cy="85" r="1.7" fill="#3e8a5a"/><path d="M160 71 l1.4 -3 1.4 3z" fill="#2b2118"/><circle cx="124" cy="78" r="1.2" fill="#c8962e"/>
+        <path d="M125 87 Q138 92 149 81 Q156 74 162 76" stroke="#7a6a58" stroke-width=".8" stroke-dasharray="1.6 1.6" fill="none"/><path d="M125 87 Q138 92 149 81 Q156 74 162 76" pathLength="100" stroke="#c0392b" stroke-width="1.3" stroke-dasharray="${kurs} 100" fill="none"/>
+        <g transform="translate(159 92)"><circle r="5" fill="none" stroke="#3d5f8f" stroke-width=".6"/><path d="M0 -6 L1.2 0 L0 6 L-1.2 0Z" fill="#3d5f8f"/><path d="M-6 0 L0 1.2 L6 0 L0 -1.2Z" fill="#3d5f8f" opacity=".55"/></g></g>
+      <g class="manbrett"><circle cx="202" cy="67" r="1.6" fill="#8a6420"/><rect x="174" y="68" width="56" height="54" rx="3" fill="#8a5a3a" stroke="#4a2e1d" stroke-width="1.5"/><rect x="178" y="72" width="48" height="46" fill="#9cc7d6"/>
+        <path d="M190 72V118M202 72V118M214 72V118M178 84H226M178 96H226M178 108H226" stroke="#fff" stroke-opacity=".4" stroke-width=".6"/><rect x="178" y="113" width="30" height="5" fill="#b98a5a"/><path d="M182 113 v5 M190 113 v5 M198 113 v5" stroke="#6e452c" stroke-width="1"/>
+        <path d="${feld.map((p, i) => (i ? 'L' : 'M') + p.join(' ')).join(' ')}" stroke="#2b2118" stroke-width=".7" stroke-dasharray="1.5 1.5" fill="none"/>
+        ${feld.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="2.3" fill="${i && i <= manN ? '#f0b53e' : '#fbf6ea'}" stroke="#2b2118" stroke-width=".5"/>`).join('')}
+        <circle cx="185" cy="80" r="2" fill="#c2473b"/><circle cx="221" cy="80" r="2" fill="#3e8a5a"/><circle cx="217" cy="104" r="2.4" fill="none" stroke="#e8823a" stroke-width="1.3"/>
+        <g transform="translate(${bx} ${by - 1})"><path d="M0 -6 Q3.4 -1.5 2.8 4 H-2.8 Q-3.4 -1.5 0 -6Z" fill="#fbf6ea" stroke="#2b2118" stroke-width=".8"/><path d="M0 -4 V3" stroke="#c2473b" stroke-width="1"/></g>
+        <g transform="translate(219 110)"><rect width="7" height="7" rx="1.5" fill="#fbf6ea" stroke="#2b2118" stroke-width=".6"/><circle cx="2" cy="2" r=".7" fill="#2b2118"/><circle cx="3.5" cy="3.5" r=".7" fill="#2b2118"/><circle cx="5" cy="5" r=".7" fill="#2b2118"/></g></g>`;
+}
 function cabinScene(crew) {
   const day = dayPart(), wx = weatherToday(), p = palette(day, wx);
   const sh = shipHour(), hr = (sh % 12) * 30, mn = (sh % 1) * 360;
@@ -1114,8 +1152,7 @@ function cabinScene(crew) {
       <rect x="24" y="54" width="9" height="22" fill="#a8473a"/><rect x="35" y="58" width="8" height="18" fill="#3e6b5a"/><rect x="45" y="52" width="10" height="24" fill="#c8962e"/><rect x="57" y="60" width="7" height="16" fill="#3d5f8f"/>
       <g class="mouse" data-tap="mouse"><path d="M64 76 q4 6 -1 10" stroke="#8a8078" stroke-width="1" fill="none"/><ellipse cx="70" cy="72" rx="5.5" ry="4" fill="#a59b92"/><circle cx="67" cy="68.5" r="2" fill="#c9bfb6"/><circle cx="73" cy="68.5" r="2" fill="#c9bfb6"/><circle cx="70.5" cy="72" r=".8" fill="#2b2118"/><circle cx="74.6" cy="73.4" r=".9" fill="#e08a8a"/></g>
       <circle cx="86" cy="68" r="8" fill="#3e6b5a"/><path d="M86 60 Q90 52 86 48" stroke="#6aa06a" stroke-width="2" fill="none"/>
-      <g class="hang2"><g transform="translate(10 98)"><path d="M17 -6 L4 0 M17 -6 L30 0" stroke="#5a3a24" stroke-width="1.2"/><circle cx="17" cy="-6" r="1.8" fill="#8a6420"/><rect width="34" height="70" rx="3" fill="#8a5a3a"/><circle cx="17" cy="6" r="2" fill="#5a3a24"/>
-        <path d="M17 8 C6 22 28 26 17 36 C8 44 26 50 17 58" stroke="#e6d3a8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M9 30 h16" stroke="#e6d3a8" stroke-width="2.5"/><circle cx="17" cy="62" r="3.5" fill="none" stroke="#e6d3a8" stroke-width="2.5"/></g></g>
+      ${lernWand()}
       <g transform="translate(0 -14)"><g class="galley" data-tap="galley"><path d="M40 58 H110" stroke="#7a4e33" stroke-width="4"/><path d="M40 50 H110" stroke="#b98a5a" stroke-width="2"/><path d="M42 50 V58 M108 50 V58" stroke="#b98a5a" stroke-width="2"/>
         <g class="pot"><rect x="50" y="44" width="18" height="12" rx="2" fill="#8a8a8a"/><path d="M48 46 h22" stroke="#5c5c5c" stroke-width="2"/></g><g class="pot"><rect x="78" y="40" width="14" height="16" rx="3" fill="#c2473b"/><path d="M92 46 h5" stroke="#7a2a22" stroke-width="2"/></g>
         <rect x="36" y="34" width="78" height="28" fill="transparent"/></g></g>
@@ -1502,6 +1539,8 @@ function packLines(withEpisodes) {
       Object.values(m.kommandos || {}).forEach(k => { if (fest(k.richtig)) push(cid('K'), k.richtig); if (fest(k.warum)) push('kroeger', k.warum); });
     });
     ['Ausreichend. Weiter.', 'Nicht ausreichend. Zweiter Versuch.', 'Nicht ausreichend. Das üben wir noch mal.'].forEach(t => push('kroeger', t));
+    /* V39: Einweisung zum Vorlesen: Aufgabe (Käpt'n) und Prüfpunkte (Harms) */
+    Object.values(MAN_DATA).forEach(m => { push(cid('K'), m.ziel); (m.pruefer || []).forEach(t => push('kroeger', t)); });
   }
   /* Grundkurs Seezeichen (nur wenn geladen; buildVoicePack lädt ihn) */
   if (window.SEEZ_DATA) ['see', 'binnen'].forEach(a => { const D = SEEZ_DATA[a]; if (!D) return; D.intro.concat(...D.lektionen.map(l => l.crew || [])).forEach(l => push(cid(l.s), l.t)); });
@@ -2127,17 +2166,79 @@ function recordQ(n, quality) {
   if (quality >= 2) return record(n, true);
   if (quality <= 0) return record(n, false);
   const s = st(n) || {b: 0, d: today(), w: 0, c: 0}, wasNew = !st(n);
+  /* Teilweise gewusst: zählt als angefangen (gelb) */
+  s.r = Math.min(st(n) ? serieVon(s) : 0, 1); s.l = true;
   s.b = Math.max(1, s.b); s.d = today(); S.qs[n] = s; const p = computePlan(); if (wasNew) p.newDone++; else p.revDone++; countAnswer(); save();
 }
+/* V36: Selbsteinschätzung nach der Antwort, wiegt schwerer als der Klick (Regeln in docs/entwurf-lauf5.md B2) */
+function selbstEinschaetzung(n, ok, vor, nach, wahl) {
+  let s = {...nach};
+  if (wahl === 'easy' && ok) { s.r = serieVon(nach) + 1; s.b = Math.min(5, nach.b + 1); s.t = 0; }
+  else if (wahl === 'tricky' && ok) { s.r = Math.min(serieVon(nach), 1); s.b = 1; s.t = 1; }
+  else if (wahl === 'easy') {
+    /* Vertippt: Stand von vor der Antwort, aber spätestens morgen fällig und einmal zu bestätigen */
+    s = vor ? {...vor} : {b: 1, d: today(), w: 0, c: 0, r: 0, l: true};
+    s.b = Math.min(Math.max(1, s.b), 4); s.d = Math.min(s.d, today() + 1 - INT[s.b]); s.pr = 1;
+  } else if (wahl === 'tricky') s.t = 1;
+  S.qs[n] = s; save();
+}
 function record(n, ok) {
-  const s = st(n) || {b: 0, d: today(), w: 0, c: 0}, wasNew = !st(n);
+  const alt = st(n), s = alt || {b: 0, d: today(), w: 0, c: 0}, wasNew = !alt, r0 = alt ? serieVon(alt) : 0, tg0 = alt ? tageVon(alt) : 0;
   s.b = ok ? Math.min(5, s.b + 1) : 1; if (!ok) s.w++; else s.c++; s.d = today();
+  serieSetzen(s, ok, r0, tg0); delete s.pr;
   S.qs[n] = s; const p = computePlan(); if (wasNew) p.newDone++; else p.revDone++; countAnswer(); save();
 }
+/* ---------- V35: Farbe je Frage ----------
+   Neue Felder (R7, fehlen sie, werden sie aus b und w abgeleitet): r richtig in Folge, l letzte Antwort richtig,
+   tg Tage mit richtiger Antwort in der Serie, td zuletzt gezählter Tag, t „Tricky“, pr wartet auf Bestätigung (V36). */
+const zuletztFalsch = s => s.l != null ? !s.l : s.b === 1 && s.w > 0;
+function serieVon(s) { if (s.r != null) return s.r; return zuletztFalsch(s) ? 0 : s.w > 0 ? Math.max(0, s.b - 1) : s.b; }
+function tageVon(s) { if (s.tg != null) return s.tg; const r = serieVon(s); return r >= 4 ? 2 : r > 0 ? 1 : 0; }
+function serieSetzen(s, ok, r0, tg0) {
+  s.l = ok; s.r = ok ? r0 + 1 : 0;
+  if (ok) { if (s.td !== today()) { s.tg = tg0 + 1; s.td = today(); } else s.tg = Math.max(1, tg0); if (s.t) s.t = 0; }
+  else { s.tg = 0; s.td = 0; }
+}
+/* Fehler aus Prüfung oder Törn ohne Zählung im Tagesplan */
+function fehlerMerken(s) { s = s || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w = (s.w || 0) + 1; s.d = today(); serieSetzen(s, false, 0, 0); return s; }
+const FARBEN = [
+  {id: 'dunkelgruen', name: 'fest verankert', col: '#2e7d32', wert: 1, info: 'mindestens 4 richtig in Folge, an 2 Tagen'},
+  {id: 'hellgruen', name: 'sitzt', col: '#8bc34a', wert: .7, info: '2 bis 3 richtig in Folge'},
+  {id: 'gelb', name: 'angefangen', col: '#f2c230', wert: .4, info: 'einmal richtig oder „Tricky“'},
+  {id: 'orange', name: 'wackelt', col: '#ec8a2c', wert: .1, info: 'zuletzt falsch'},
+  {id: 'rot', name: 'Baustelle', col: '#d2483a', wert: .1, info: 'zuletzt falsch, schon 3 Fehler'},
+  {id: 'grau', name: 'noch nicht gesehen', col: '#d9d0bf', wert: 0, info: 'neu'},
+];
+function farbe(s) {
+  if (!s) return 'grau';
+  if (zuletztFalsch(s)) return s.w >= 3 ? 'rot' : 'orange';
+  const r = serieVon(s);
+  if (s.t || r < 2) return 'gelb';
+  return r >= 4 && tageVon(s) >= 2 ? 'dunkelgruen' : 'hellgruen';
+}
+const sitzt = s => /gruen/.test(farbe(s));
+/* Verteilung einer Fragenliste auf die Farben, dazu die Prüfungsreife (0 bis 1) */
+function farbStand(list, qs = S.qs) {
+  const z = {}; FARBEN.forEach(f => { z[f.id] = 0; });
+  list.forEach(q => { z[farbe(qs[q.n])]++; });
+  const n = list.length, reife = n ? FARBEN.reduce((a, f) => a + z[f.id] * f.wert, 0) / n : 0;
+  return {z, n, reife, gruen: z.dunkelgruen + z.hellgruen};
+}
+/* Kuchendiagramm: Stücke im echten Anteil, Reihenfolge wie FARBEN (Grün oben rechts beginnend) */
+function kuchen(z, size = 56, txt) {
+  const n = FARBEN.reduce((a, f) => a + (z[f.id] || 0), 0), c = size / 2, r = c - 2;
+  let a0 = -Math.PI / 2, teile = '';
+  if (!n) teile = `<circle cx="${c}" cy="${c}" r="${r}" fill="${FARBEN[5].col}"/>`;
+  else FARBEN.forEach(f => { const k = z[f.id] || 0; if (!k) return;
+    if (k === n) { teile += `<circle cx="${c}" cy="${c}" r="${r}" fill="${f.col}"/>`; return; }
+    const a1 = a0 + k / n * 2 * Math.PI, gross = a1 - a0 > Math.PI ? 1 : 0;
+    teile += `<path d="M${c} ${c}L${(c + r * Math.cos(a0)).toFixed(2)} ${(c + r * Math.sin(a0)).toFixed(2)}A${r} ${r} 0 ${gross} 1 ${(c + r * Math.cos(a1)).toFixed(2)} ${(c + r * Math.sin(a1)).toFixed(2)}Z" fill="${f.col}"/>`; a0 = a1; });
+  return `<svg class="kuchen" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">${teile}<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="rgba(0,0,0,.15)"/>${txt != null ? `<circle cx="${c}" cy="${c}" r="${r * .46}" fill="var(--paper,#fff)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" style="font:700 ${Math.round(size * .2)}px var(--hfont,sans-serif)">${txt}</text>` : ''}</svg>`;
+}
+const farbLegende = () => `<div class="flegende">${FARBEN.map(f => `<span><i style="background:${f.col}"></i>${esc(f.name)}</span>`).join('')}</div>`;
 function topicStats(t) {
-  const list = Q.filter(t.has); let m = 0, l = 0;
-  list.forEach(q => { const s = st(q.n); if (s) { if (s.b >= 3) m++; else l++; } });
-  return {total: list.length, m, l};
+  const list = Q.filter(t.has), f = farbStand(list);
+  return {total: list.length, m: f.gruen, l: f.n - f.gruen - f.z.grau, f};
 }
 function weakTopics() {
   return TOPICS.map(t => { const list = Q.filter(q => t.has(q) && st(q.n)); const w = list.reduce((a, q) => a + st(q.n).w, 0); return {t, r: list.length ? w / list.length : 0}; })
@@ -2450,6 +2551,7 @@ let tab = 'deck', examTimer = null;
 function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
   /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
+  if (window.MANOEVER && MANOEVER.vollAus) MANOEVER.vollAus();
   if (t === 'cabin' && lernHeim === 'pruef') return meinePruefungen();
   if (t === 'cabin' && lernHeim === 'deck') t = 'deck';
   if (t === 'deck') lernHeim = null;
@@ -2913,8 +3015,8 @@ const qsVon = id => (id === S.course ? S.qs : ((S.courses || {})[id] || {}).qs) 
 function fragenStand(id, filter) {
   /* Binnen ohne Segeln: Segelfragen (ab 254) zählen nicht */
   const qs = qsVon(id), list = COURSES[id].items().filter(filter || (id === 'binnen' && !S.binSegel ? q => q.n <= 253 : () => true));
-  let v = 0, sicher = 0; list.forEach(q => { const s = qs[q.n]; if (s) { if (s.b >= 3) { v++; sicher++; } else v += 1 / 3; } });
-  return {v: list.length ? v / list.length : 0, sicher, n: list.length};
+  const f = farbStand(list, qs);
+  return {v: f.reife, sicher: f.gruen, n: list.length, f};
 }
 function naviStand(id) {
   const list = NAVI_LEKTIONEN[id] || []; if (!list.length) return null;
@@ -2926,6 +3028,15 @@ function knotenWert(id) { const k = (S.knoten || {})[id] || {}; return Math.min(
 function praxisStand() {
   const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.reduce((a, k) => a + knotenWert(k), 0), knFertig = KNOTEN_IDS.filter(k => knotenWert(k) >= 1).length;
   return {v: (man / MAN_IDS.length + kn / KNOTEN_IDS.length) / 2, man, knoten: knFertig, manN: MAN_IDS.length, knotenN: KNOTEN_IDS.length};
+}
+/* V35: Farben auch für Navigation (je Lektion) und Praxis (je Manöver und Knoten) */
+function praxisFarben(id = S.course) {
+  const zaehle = ids => { const z = {}; FARBEN.forEach(f => { z[f.id] = 0; }); ids.forEach(c => { z[c]++; }); return z; };
+  const lek = (S.navi && S.navi.lek) || {}, man = S.man || {};
+  const nav = (NAVI_LEKTIONEN[id] || []).map(l => { const x = lek[l]; return !x ? 'grau' : x.sterne ? 'dunkelgruen' : x.frei ? 'hellgruen' : x.n || x.erkl || x.bsp || x.gef ? 'gelb' : 'grau'; });
+  const mn = MAN_IDS.map(m => { const x = man[m]; return !x ? 'grau' : x.ok ? 'dunkelgruen' : x.nok ? 'orange' : x.seen ? 'gelb' : 'grau'; });
+  const kn = KNOTEN_IDS.map(k => { const w = knotenWert(k); return w >= 1 ? 'dunkelgruen' : w >= .5 ? 'hellgruen' : w > 0 ? 'gelb' : 'grau'; });
+  return {navi: zaehle(nav), man: zaehle(mn), knoten: zaehle(kn), praxis: zaehle(mn.concat(kn))};
 }
 function fortschritt(id = S.course) { return {theorie: fragenStand(id), navi: naviStand(id), praxis: praxisStand()}; }
 const proz = v => Math.round(v * 100) + ' %';
@@ -2968,7 +3079,7 @@ function renderCabin() {
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => meinePruefungen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -3291,7 +3402,7 @@ function hornQuiz() { runQuiz(shuffle(SIG_QS).slice(0, bonusRunden(SIG_QS.length
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
   subScreen(); place = 'quiz'; soundFor('quiz');
-  let i = 0, right = 0; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
+  let i = 0, right = 0, nachOk = 0, nachNo = 0; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
   const M = S.crew.M, T = S.crew.T;
   function show() {
     if (i >= queue.length) return finish();
@@ -3363,7 +3474,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
       app.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
         const r = +b.dataset.r;
         AUD.sfx(r === 2 ? 'richtig' : 'falsch', {vol: r === 2 ? .55 : .3});
-        if (!retry) { recordQ(q.n, r); if (r === 2) right++; }
+        if (!retry) { recordQ(q.n, r); if (r === 2) right++; } else if (r === 2) nachOk++; else nachNo++;
         if (r < 2) wrong.push({q, k: null});
         if (r === 0 && !retry && !opts.noRequeue) { requeued.add(q.n); queue.push(q); }
         if (S.cfg.comments && !opts.noRequeue && AUD.ready && Math.random() < .3) { const w = r === 2 ? M : T; VOX.say(w, lineOf(w, r === 2 ? 'right' : 'wrong'), 'fixed'); }
@@ -3375,13 +3486,17 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     const ok = k === 0, retry = requeued.has(q.n);
     AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .55 : .35});
     app.querySelectorAll('.ans').forEach(b => { b.disabled = true; const kk = +b.dataset.k; if (kk === 0) b.classList.add('ok'); else if (kk === k) b.classList.add('no'); });
-    if (ok && !retry) right++; if (!ok) wrong.push({q, k});
-    if (!retry) record(q.n, ok);
+    if (ok && !retry) right++; if (!ok) wrong.push({q, k}); if (retry) ok ? nachOk++ : nachNo++;
+    /* V36: Ein „Vertippt“ (Easy trotz falsch) wird bei der Wiederholung bestätigt */
+    const vor = st(q.n) ? {...st(q.n)} : null, zaehlt = !retry || !!(vor && vor.pr);
+    if (zaehlt) record(q.n, ok);
+    const nach = zaehlt ? {...S.qs[q.n]} : null;
     if (!ok && !retry && !opts.noRequeue) { requeued.add(q.n); queue.push(q); }
     if (mode === 'horn') { const t = document.querySelector('.tones'); if (t) t.innerHTML = AUD.parseSig(sigOf(q)).map(x => x.type === 'short' ? '●' : '▬').join(' '); }
     let diff = '';
     if (!ok) { const d = diffWords(q.a[k], q.a[0]); if (d.sim >= .45) diff = `<div class="diff"><div class="tag" style="margin-bottom:4px">Der feine Unterschied</div><div class="w">Deine: ${d.a}</div><div class="r">Richtig: ${d.b}</div></div>`; }
     $('#after').innerHTML = `<div class="fb">${ok ? '<p style="margin:6px 0 0"><strong style="color:var(--stb)">Richtig.</strong></p>' : '<p style="margin:6px 0 0"><strong style="color:var(--bb)">Nicht ganz.</strong> Grün ist die Katalogantwort. Die Frage kommt am Ende noch einmal.</p>'}
+      ${nach ? `<div class="selbst"><span class="small muted">Wie war's für dich?</span><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button></div><p class="small muted" id="etinfo" style="margin:4px 0 0"></p>` : ''}
       ${diff}
       <div id="expl" class="lesson" style="margin-top:8px"></div>
       <div class="row" style="margin-top:10px"><button class="btn ${cardOf(q) ? 'ghost' : 'ki'}" id="why">Erklär's mir</button>${ok ? '' : `<button class="btn ${localMn(q) || S.mnemo[q.n] ? 'ghost' : 'ki'}" id="mn">Merkspruch von ${esc(CREW[T].short)}</button>`}${lexOf(q) ? '<button class="btn ghost" id="lexq">Lexikon</button>' : ''}</div>
@@ -3390,6 +3505,14 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
     const lx = $('#lexq'); if (lx) lx.onclick = () => lexSheet(lexOf(q));
     $('#why').onclick = () => explain(q, k);
     const mn = $('#mn'); if (mn) mn.onclick = () => mnemonic(q);
+    if (nach) app.querySelectorAll('[data-et]').forEach(b => b.onclick = () => {
+      const wahl = b.getAttribute('aria-pressed') === 'true' ? null : b.dataset.et;
+      app.querySelectorAll('[data-et]').forEach(x => x.setAttribute('aria-pressed', x.dataset.et === wahl));
+      selbstEinschaetzung(q.n, ok, vor, nach, wahl);
+      $('#etinfo').textContent = !wahl ? '' : ok ? (wahl === 'easy' ? 'Easy: zählt doppelt, die Frage kommt erst später wieder.' : 'Tricky: zählt nur als Glückstreffer, die Frage kommt morgen wieder.')
+        : wahl === 'easy' ? `Vertippt: zählt nicht als Fehler. Die Frage kommt ${opts.noRequeue ? 'in der nächsten Wiederholung' : 'am Ende'} noch einmal zur Bestätigung.` : 'Tricky: echte Lücke. Lies die Erklärung, die Frage kommt öfter.';
+      if (wahl === 'tricky' && !ok && !$('#why').disabled) explain(q, k);
+    });
     $('#nxt').scrollIntoView({block: 'nearest', behavior: 'smooth'});
     if (S.cfg.comments && !opts.noRequeue && AUD.ready) {
       if (ok && Math.random() < .3) { const w = Math.random() < .75 ? M : T; VOX.say(w, lineOf(w, 'right'), 'fixed'); }
@@ -3425,15 +3548,19 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
   async function finish() {
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
     /* Lob in vier Stufen: alles richtig, ab 80 %, ab 50 %, darunter (praise[3] ist die Stufe „alles richtig“) */
-    const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2;
+    const ratio = total0 ? right / total0 : 0, alles = total0 > 0 && right >= total0, idx = alles ? 3 : ratio >= .8 ? 0 : ratio >= .5 ? 1 : 2, mehr = opts.mehr && opts.mehr();
+    /* V38: Gab es eine Wiederholung der eigenen Fehler, treibt Smilla an statt zu loben; Klabauter legt manchmal nach */
+    const treib = nachOk + nachNo > 0 ? lineOf(M, nachNo ? 'treibenNoch' : 'treiben') : '', kl = treib && Math.random() < .35 ? lineOf(T, 'nachsitzen') : '';
+    const zeile = (w, t) => t ? `<p class="small" style="margin:8px 0 0"><b style="color:${CREW[w] ? CREW[w].color : 'inherit'}">${esc(CREW[w] ? CREW[w].short : '')}:</b> „${esc(t)}“</p>` : '';
     app.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-end;margin:18px 0 10px">${charSVG(M)}<div><h1 style="margin:0">${alles ? 'Fehlerfrei!' : idx === 0 ? 'Klar Schiff!' : idx === 1 ? 'Gute Fahrt!' : 'Raue See heute.'}</h1></div></div>
-      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p></div>
-      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>`;
+      <div class="card"><div style="font:700 2.4rem/1 var(--hfont)">${Math.min(right, total0)} von ${total0}</div><p class="muted" style="margin:6px 0 0">beim ersten Versuch richtig. ${alles ? 'Alles gesessen, sauber gesegelt!' : 'Falsche Fragen kommen in den nächsten Tagen öfter dran.'}</p>${treib ? `<p class="small muted" style="margin:6px 0 0">Beim Nachsitzen: ${nachOk} von ${nachOk + nachNo} richtig.</p>` : ''}${zeile(M, treib)}${zeile(T, kl)}</div>
+      <button class="btn wide lamp" id="home">${esc(opts.doneLabel || heimText())}</button>${mehr ? `<button class="btn wide ghost" id="mehr" style="margin-top:8px">${esc(mehr.label)}</button>` : ''}`;
     app.querySelector('svg.ch').style.width = '76px';
+    if (mehr) $('#mehr').onclick = () => { VOX.stop('noch ein Block'); AUD.click(); mehr.run(); };
     const res = {right: Math.min(right, total0), total: total0, wrong: [...new Set(wrong.map(w => w.q.n))]};
     if (opts.scoreKey) recordScore(opts.scoreKey, res.right);
     $('#home').onclick = () => { VOX.stop('weiter nach Quiz'); opts.onDone ? opts.onDone(res) : setTab('cabin'); };
-    if (AUD.ready) VOX.say(M, lineOf(M, 'praise', idx), 'fixed');
+    if (AUD.ready) { if (treib) VOX.say(M, treib, 'fixed').then(() => { if (kl && place === 'quiz') VOX.say(T, kl, 'fixed'); }); else VOX.say(M, lineOf(M, 'praise', idx), 'fixed'); }
   }
   show();
 }
@@ -3503,7 +3630,7 @@ function startExam(mode) {
     const res = qs.map((q, k) => ({q, k: answers[k], ok: answers[k] === 0}));
     const score = res.filter(r => r.ok).length, pr = parts.map(p => ({p, ok: res.filter(r => r.ok && p.has(r.q)).length}));
     const basis = pr[0].ok, see = pr[1].ok, passed = pr.every(x => x.ok >= x.p.min);
-    res.filter(r => !r.ok).forEach(r => { const s = st(r.q.n) || {b: 0, d: today(), w: 0, c: 0}; s.b = 1; s.w++; s.d = today(); S.qs[r.q.n] = s; });
+    res.filter(r => !r.ok).forEach(r => { S.qs[r.q.n] = fehlerMerken(st(r.q.n)); });
     S.exams = (S.exams || []).concat({day: today(), score, n: N, pass: passed, basis, see, parts: pr.map(x => x.ok), mode}); markPath('extra'); save();
     const wrongs = res.filter(r => !r.ok);
     app.innerHTML = `<div class="result" style="margin-top:16px">${charSVG('kroeger')}<div><div class="big ${passed ? 'pass' : 'fail'}">${passed ? 'Bestanden' : 'Nicht bestanden'}</div><div style="font:700 1.4rem var(--hfont)">${score} von ${N} richtig</div><div class="small muted">${pr.map(x => `${x.p.name} ${x.ok} von ${x.p.count} (nötig ${x.p.min})`).join(' · ')}.${COURSE.id === 'sbf' ? ' Teil 3, die Navigationsaufgabe, folgt unten.' : ''}</div></div></div>
@@ -3607,7 +3734,7 @@ function startExamOpen() {
 /* ---------- Logbuch ---------- */
 function renderLog() {
   place = 'log';
-  const all = Q.length, mastered = Q.filter(q => st(q.n) && st(q.n).b >= 3).length, ex = (S.exams || []).slice(-6).reverse();
+  const all = Q.length, mastered = Q.filter(q => sitzt(st(q.n))).length, ex = (S.exams || []).slice(-6).reverse();
   const days = [...Array(7)].map((_, k) => today() - 6 + k), hist = S.hist || {}, week = days.reduce((a, d) => a + (hist[d] || 0), 0), maxd = Math.max(5, ...days.map(d => hist[d] || 0));
   const weak = weakTopics()[0], wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
   const needBackup = Object.keys(S.qs).length > 20 && (!S.lastBackup || today() - S.lastBackup > 30);
@@ -4134,15 +4261,15 @@ let deckView = 'overview';
    Die Crew empfiehlt Festigen, wenn viele Fragen wackeln (angefangen, aber noch nicht sicher), sonst Neues. Alles durch: nur Festigen. */
 function nachPensum() {
   const neu = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
-  const wackel = Q.filter(q => { const s = st(q.n); return s && s.b < 3; }).length;
-  const empf = !neu || wackel >= 15 ? 'fest' : 'neu';
+  const wackel = wackelig().length, ph = lernPhase().id;
+  const empf = !neu || ph === 'reife' || (ph === 'festigen' ? wackel >= 5 : wackel >= 15) ? 'fest' : 'neu';
   const grund = !neu ? 'Alle Kapitel hast du schon gesehen. Jetzt geht es ums Festigen.' : empf === 'fest' ? `${wackel} Fragen wackeln noch. Erst festigen, dann Neues.` : wackel ? `Nur ${wackel} Fragen wackeln. Du kannst gut Neues nehmen.` : 'Nichts wackelt. Nimm ruhig Neues dazu.';
   return {neu, wackel, empf, grund};
 }
 function extraWahlHtml() {
   const w = nachPensum();
   return `<div class="extrawahl"><p class="small" style="margin:8px 0 6px"><b>⛵ Kurs für heute geschafft!</b> Freiwillig weiter?</p>
-    <div class="row">${w.neu ? `<button class="btn ${w.empf === 'neu' ? 'lamp' : 'ghost'}" id="xneu" style="flex:1"><small>✨ Noch was Neues</small><b>${esc(w.neu.label)}</b></button>` : ''}<button class="btn ${w.empf === 'fest' ? 'lamp' : 'ghost'}" id="xfest" style="flex:1"><small>🔁 Festigen</small><b>${w.wackel ? Math.min(10, w.wackel) + ' wacklige Fragen' : 'Gemischte Runde'}</b></button></div>
+    <div class="row">${w.neu ? `<button class="btn ${w.empf === 'neu' ? 'lamp' : 'ghost'}" id="xneu" style="flex:1"><small>✨ Noch was Neues</small><b>${esc(w.neu.label)}</b></button>` : ''}<button class="btn ${w.empf === 'fest' ? 'lamp' : 'ghost'}" id="xfest" style="flex:1"><small>🔁 Festigen</small><b>${w.wackel ? Math.min(BLOCK, w.wackel) + ' wacklige Fragen' : 'Gemischte Runde'}</b></button></div>
     <p class="small muted" style="margin:6px 0 0"><b>${esc(nameOf('K'))}:</b> ${esc(w.grund)}</p></div>`;
 }
 function bindExtraWahl() {
@@ -4152,17 +4279,17 @@ function bindExtraWahl() {
 }
 /* V26: Logbuch-Aufschlüsselung an Deck: Stand je Bereich bis 100 %, was heute dran ist, was noch fehlt */
 function standKarte(path, next) {
-  const f = fortschritt(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
-  const balken = (titel, x, info) => `<div class="standz"><div class="row" style="justify-content:space-between"><b>${titel}</b><span>${proz(x.v)}</span></div><div class="pbar"><i style="width:${Math.round(x.v * 100)}%"></i></div><span class="small muted">${info}</span></div>`;
+  const f = fortschritt(), pf = praxisFarben(), {due, newLeft} = todayNumbers(), weak = weakTopics()[0];
+  const balken = (titel, x, z, info) => `<div class="standz">${kuchen(z, 40)}<div style="flex:1;min-width:0"><div class="row" style="justify-content:space-between"><b>${titel}</b><span>${proz(x.v)}</span></div><span class="small muted">${info}</span></div></div>`;
   const offen = [];
   if (weak) offen.push(`Wackelt noch: ${esc(weak)}`);
   if (f.navi && f.navi.done < f.navi.n) offen.push(`Navigation: ${f.navi.n - f.navi.done} Lektionen ohne Stern`);
   if (f.praxis.man < f.praxis.manN) offen.push(`Praxis: ${f.praxis.manN - f.praxis.man} Manöver noch nicht ausreichend`);
   if (f.praxis.knoten < f.praxis.knotenN) offen.push(`Praxis: ${f.praxis.knotenN - f.praxis.knoten} Knoten noch nicht sicher`);
   return `<section class="card standkarte" aria-label="Dein Stand"><div class="row" style="justify-content:space-between;align-items:baseline"><h3 style="margin:0">Logbuch · ${esc(COURSE.short)}</h3><button class="linkbtn" id="tolog2">Ganzes Logbuch</button></div>
-    ${balken('📖 Theorie', f.theorie, `${f.theorie.sicher} von ${f.theorie.n} Fragen sicher`)}
-    ${f.navi ? balken('🧭 Navigation', f.navi, `${f.navi.done} von ${f.navi.n} Lektionen mit Stern`) : ''}
-    ${balken('🪢 Praxis', f.praxis, `${f.praxis.man} von ${f.praxis.manN} Manövern · ${f.praxis.knoten} von ${f.praxis.knotenN} Knoten`)}
+    ${balken('📖 Theorie', f.theorie, f.theorie.f.z, `${f.theorie.sicher} von ${f.theorie.n} Fragen sitzen`)}
+    ${f.navi ? balken('🧭 Navigation', f.navi, pf.navi, `${f.navi.done} von ${f.navi.n} Lektionen mit Stern`) : ''}
+    ${balken('🪢 Praxis', f.praxis, pf.praxis, `${f.praxis.man} von ${f.praxis.manN} Manövern · ${f.praxis.knoten} von ${f.praxis.knotenN} Knoten`)}
     <h4 style="margin:12px 0 4px">Heute</h4><ol class="path">${path.map(s => `<li class="${s.done ? 'done' : s === next ? 'now' : ''}"><span class="tick" aria-hidden="true">${s.done ? '✓' : ''}</span>${esc(s.label)}</li>`).join('')}</ol>
     <p class="small muted" style="margin:4px 0 0">${due} Wiederholungen fällig · ${newLeft} neue Fragen geplant</p>
     ${offen.length ? `<h4 style="margin:12px 0 4px">Noch offen</h4><ul class="small" style="margin:0;padding-left:18px">${offen.slice(0, 4).map(o => `<li>${o}</li>`).join('')}</ul>` : ''}
@@ -4170,12 +4297,13 @@ function standKarte(path, next) {
 }
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
-  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done);
+  const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done), ph = lernPhase();
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
-      <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Etappen`}</span></div>
+      <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
+      <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
       <div class="row"><button class="btn ghost" id="down" style="flex:1">Runter in die Kajüte</button><button class="btn small ghost instbtn" id="inst">📲 App aufs Handy</button></div>
     </div>
     ${courseCard()}
@@ -4186,6 +4314,7 @@ function renderBoat() {
   if (next) $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next.run(); };
   else bindExtraWahl();
   $('#tolog2').onclick = () => { AUD.click(); setTab('log'); };
+  $('#phase').onclick = () => { AUD.click(); phasenSheet(); };
   $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); }; bindSaying();
   bindFernglas(sc);
   sc.querySelectorAll('[data-go="kajuete"]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); goBelow(); }));
@@ -4363,7 +4492,7 @@ function einfuehrung(id, nochmal) {
 /* ---------- Einführungstour: drei kurze Hinweise ---------- */
 const TOUR = {
   boat: [{sel: '#kursheute', text: 'Kurs für heute: Hier steht, was die Crew dir heute empfiehlt. Ein Tipp, und es geht los.'}, {sel: '.scene.boat .hatch', text: 'Hier geht es runter in die Kajüte. Da sitzt die Crew und lernt mit dir.'}, {sel: '#fernglas', text: 'Halt das Fernglas gedrückt: Dann siehst du die wichtigen Stellen an Bord. Alles andere musst du selbst entdecken. Es gibt einiges!'}],
-  cabin: [{sel: '#topruef', text: 'Meine Prüfungen: Hier liegt alles, was für die Prüfung zählt, mit deinem Stand in Prozent.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
+  cabin: [{sel: '[data-spot="manoever"]', text: 'An der Wand hängen deine Lernstationen: die Seekarte für die Navigation, das Manöverbrett und links das Knotenbrett. Tippe sie einfach an.'}, {sel: '#topruef', text: 'Meine Prüfungen: Hier liegt alles, was für die Prüfung zählt, mit deinem Stand in Prozent.'}, {sel: '.scene.cabin [data-ch]', text: 'Tippe die Crew an, wenn du etwas Bestimmtes willst. Der Käpt\'n weiß immer, was als Nächstes sinnvoll ist.'}],
 };
 function tour(name) {
   S.tour = S.tour || {}; if (S.tour[name]) return;
@@ -5243,40 +5372,82 @@ function openQuestion(question, miss) {
     $('#oasend').disabled = false;
   };
 }
+/* V37: Fragen kommen in kleinen Blöcken. Ohne Tagespfad bietet das Ende „Noch ein Block“ an. */
+const BLOCK = 8;
 function reviewSession(title = 'Wiederholung', opts = {}) {
-  const due = shuffle(Q.filter(q => isDue(q.n))).slice(0, Math.max(10, computePlan().cap));
+  const due = faellig().slice(0, BLOCK);
   if (!due.length) return extraRound(opts);
-  runQuiz(due, title, 'learn', opts);
+  runQuiz(due, title, 'learn', opts.onDone ? opts : {...opts, mehr: () => { const r = faellig().length; return r ? {label: `🔁 Noch ein Block (${r} fällig)`, run: () => reviewSession(title, opts)} : null; }});
 }
-/* Tagespfad: drei Etappen pro Tag, ein "Weiter" */
+/* ---------- V37: drei Lernphasen (docs/entwurf-lauf5.md B3) ---------- */
+function lernPhase() {
+  const f = farbStand(Q), n = Math.max(1, f.n), gruen = f.gruen / n;
+  if (f.z.grau / n > .1) return {id: 'rundgang', nr: 1, name: 'Rundgang', info: `noch ${f.z.grau} Fragen nie gesehen`, f};
+  if (gruen < .7) return {id: 'festigen', nr: 2, name: 'Festigen', info: `${Math.round(gruen * 100)} % grün, Ziel 70 %`, f};
+  return {id: 'reife', nr: 3, name: 'Prüfungsreife', info: `Prüfungsreife ${Math.round(f.reife * 100)} %`, f};
+}
+function phasenSheet() {
+  const ph = lernPhase(), P = [['Rundgang', 'Jede Frage einmal sehen. Fehler sind ausdrücklich erlaubt, die Crew will wissen, wo du stehst. Täglich: Wiederholen, ein neues Kapitel, ein Praxis-Happen.'],
+    ['Festigen', 'Ab hier geht es um Grün. Zuerst kommen Rot und Orange, dann Gelb und alles, was du „Tricky“ fandest. Neues nur, solange noch Graues übrig ist.'],
+    ['Prüfungsreife', 'Fällige Wiederholungen, Prüfungsfallen und Probeprüfungen bei Kapitän Harms. Ab etwa 80 % Prüfungsreife ruft dich Harms.']];
+  sheet(`<h2 style="margin:0 0 6px">Deine Lernphase</h2><p class="small muted" style="margin:0 0 10px">Die Crew stellt den Kurs für heute nach deiner Phase zusammen. Du bist in Phase ${ph.nr}: ${esc(ph.info)}.</p>
+    ${P.map(([t, x], i) => `<div class="card" style="margin:6px 0;${i + 1 === ph.nr ? 'border-color:var(--lamp)' : 'opacity:.75'}"><b>${i + 1}. ${t}${i + 1 === ph.nr ? ' ⬅ du bist hier' : ''}</b><p class="small" style="margin:4px 0 0">${x}</p></div>`).join('')}
+    <p class="small muted" style="margin:8px 0 0">Wechsel: Rundgang bis 90 % der Fragen gesehen sind, Festigen bis 70 % grün sind.</p>`);
+}
+/* Fällige Fragen, die wackligsten zuerst; „wacklig“ = nicht grün oder als Tricky markiert */
+const RANG = {rot: 0, orange: 1, gelb: 2, hellgruen: 3, dunkelgruen: 4, grau: 5};
+const faellig = () => shuffle(Q.filter(q => isDue(q.n))).sort((a, b) => RANG[farbe(st(a.n))] - RANG[farbe(st(b.n))]);
+const wackelig = () => Q.filter(q => { const s = st(q.n); return s && (!sitzt(s) || s.t); });
+/* Praxis-Happen für den Tag: nächste Navigationslektion, ein Knoten oder ein Manöver, das noch fehlt */
+const KNOTEN_NAMEN = {acht: 'Achtknoten', kreuz: 'Kreuzknoten', palstek: 'Palstek', schot: 'Schotstek', stopper: 'Stopperstek', webelein: 'Webeleinstek', webeleinslip: 'Webeleinstek auf Slip', rundtoern: 'Rundtörn mit zwei halben Schlägen', klampe: 'Klampe belegen'};
+const MAN_NAMEN = {ablegen: 'Ablegen', anlegen: 'Anlegen', mob: 'Mensch über Bord', kompass: 'Steuern nach Kompass', aufstoppen: 'Kursgerechtes Aufstoppen', wenden: 'Wenden auf engem Raum'};
+function praxisHappen() {
+  const lek = (S.navi && S.navi.lek) || {}, man = S.man || {}, fehlt = () => toast('Das ließ sich nicht laden. Prüf dein Internet.');
+  const nl = (NAVI_LEKTIONEN[S.course] || []).find(l => !(lek[l] && lek[l].sterne));
+  const kn = KNOTEN_IDS.find(k => knotenWert(k) < 1), mn = MAN_IDS.find(m => !(man[m] && man[m].ok));
+  const wahl = [nl && {label: '🧭 Navigation: ' + (nl === 'L0' ? 'Grundlagen' : 'Lektion ' + nl.slice(1)), run: () => { returnTo = 'cabin'; loadNavi().then(() => NAV.lesson(nl)).catch(fehlt); }},
+    kn && {label: '🪢 Knoten: ' + KNOTEN_NAMEN[kn], run: () => loadKnoten().then(() => KNOTEN.zeige(kn)).catch(fehlt)},
+    mn && {label: '⚓ Manöver: ' + MAN_NAMEN[mn], run: () => loadManoever().then(() => MANOEVER.vorher(mn)).catch(fehlt)}].filter(Boolean);
+  return wahl.length ? wahl[today() % wahl.length] : null;
+}
+/* Tagespfad (V37): 4 bis 5 kleine Happen statt einer langen Runde, Fragen in Blöcken zu je 8 */
 const coverage = () => Q.length ? Q.filter(q => st(q.n)).length / Q.length : 0;
 function markPath(k) { todayPath(); S.path[k] = true; }
 function todayPath() {
   const d = today(), due = Q.filter(q => isDue(q.n)).length;
   if (!S.path || S.path.day !== d || S.path.course !== S.course) S.path = {day: d, course: S.course, dueStart: due, review: false, unit: false, extra: false};
-  const p = S.path, cov = coverage(), last = (S.exams || []).slice(-1)[0];
+  const p = S.path, ph = lernPhase(), last = (S.exams || []).slice(-1)[0];
+  p.lab = p.lab || {};
   const next = UNITS.find(u => ['vorab', 'erklaert'].includes(unitStage(u))) || UNITS.find(u => unitStage(u) === 'neu');
-  const examDue = cov >= .6 && (!last || today() - last.day >= 3);
+  const examDue = (ph.id === 'reife' || coverage() >= .6) && (!last || today() - last.day >= 3);
   const doneOpts = k => ({doneLabel: heimText(), onDone: () => { markPath(k); save(); setTab('cabin'); }});
-  return [
-    {id: 'review', label: p.dueStart > 0 ? `Wiederholen (${due} fällig)` : 'Aufwärmen: 8 gemischte Fragen', done: p.review,
+  const ruhe = p.dueStart > BLOCK ? null : ph.id === 'rundgang' && next && p.unit ? 'neu' : wackelig().length ? 'fest' : null;
+  const schritte = [
+    {id: 'review', label: p.dueStart > 0 ? `Wiederholen: ${Math.min(BLOCK, p.dueStart)} fällige Fragen` : `Aufwärmen: ${BLOCK} gemischte Fragen`,
       run: () => due > 0 ? reviewSession('Wiederholung', doneOpts('review')) : warmup(doneOpts('review'))},
     SZ_THEMA[S.course] && next && next.topic.id === SZ_THEMA[S.course] && szOffen(szArt(S.course))
-      ? {id: 'unit', label: 'Neu: Grundkurs ' + (S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen'), done: p.unit, run: () => { markPath('unit'); save(); seezeichenKurs(szArt(S.course)); }}
-      : {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'), done: p.unit,
+      ? {id: 'unit', label: 'Neu: Grundkurs ' + (S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen'), run: () => { markPath('unit'); save(); seezeichenKurs(szArt(S.course)); }}
+      : {id: 'unit', label: next ? (unitStage(next) === 'neu' ? 'Neu: ' : 'Weiter: ') + next.label : (COURSE.kind === 'mc' ? 'Prüfungsfallen' : 'Wackelkandidaten'),
       run: () => next ? startUnit(next) : trapRound(doneOpts('unit'))},
-    {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge', done: p.extra,
+    p.dueStart > BLOCK ? {id: 'review2', label: `Wiederholen, 2. Block: ${Math.min(BLOCK, p.dueStart - BLOCK)} Fragen`, run: () => due > 0 ? reviewSession('Wiederholung, 2. Block', doneOpts('review2')) : extraRound(doneOpts('review2'))}
+      : ruhe === 'neu' ? {id: 'review2', label: 'Neu: ' + next.label, run: () => { markPath('review2'); save(); startUnit(next); }}
+      : ruhe === 'fest' ? {id: 'review2', label: `Festigen: ${Math.min(BLOCK, wackelig().length)} Wackelkandidaten`, run: () => extraRound(doneOpts('review2'))} : null,
+    (() => { const h = praxisHappen(); return h || p.praxis ? {id: 'praxis', label: h ? h.label : 'Praxis-Happen', run: () => { markPath('praxis'); save(); h.run(); }} : null; })(),
+    {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge',
       run: () => examDue ? harmsKommt() : setTab('funk')},
-  ];
+  ].filter(Boolean);
+  /* Erledigtes behält seinen Namen, auch wenn sich danach das nächste Kapitel ändert */
+  return schritte.map(s => ({...s, done: !!p[s.id], label: p[s.id] && p.lab[s.id] || s.label, run: () => { p.lab[s.id] = s.label; save(); s.run(); }}));
 }
 function warmup(opts = {}) {
-  const seen = Q.filter(q => st(q.n)), pool = seen.length >= 8 ? seen : Q;
-  runQuiz(shuffle(pool).slice(0, 8), 'Aufwärmen', 'learn', opts);
+  const seen = Q.filter(q => st(q.n)), pool = seen.length >= BLOCK ? seen : Q;
+  runQuiz(shuffle(pool).slice(0, BLOCK), 'Aufwärmen', 'learn', opts);
 }
 function extraRound(opts = {}) {
   const pool = Q.filter(q => st(q.n)); if (!pool.length) return startUnit(UNITS[0]);
-  /* Festigen: zuerst, was noch nicht sicher sitzt, dann die mit den meisten Fehlern */
-  runQuiz(shuffle(pool).sort((a, b) => (st(a.n).b >= 3) - (st(b.n).b >= 3) || st(b.n).w - st(a.n).w).slice(0, 10), 'Festigen', 'learn', opts);
+  /* Festigen: Fälliges zuerst, dann nach Farbe (Rot, Orange, Gelb), Tricky etwas vor, dann die mit den meisten Fehlern */
+  const rang = q => (isDue(q.n) ? 0 : 10) + RANG[farbe(st(q.n))] - (st(q.n).t ? .5 : 0);
+  runQuiz(shuffle(pool).sort((a, b) => rang(a) - rang(b) || st(b.n).w - st(a.n).w).slice(0, BLOCK), 'Festigen', 'learn', opts);
 }
 /* Prüfungsfallen: Fragen, deren falsche Antworten der richtigen zum Verwechseln ähneln */
 function trapRound(opts = {}) {
@@ -5293,8 +5464,11 @@ function recommendNext() {
   const next = UNITS.find(u => unitStage(u) === 'neu');
   const last = (S.exams || []).slice(-1)[0];
   if (open) return {label: `${open.label} zu Ende bringen`, say: `Wir haben ${open.label} angefangen. Das bringen wir erst sauber zu Ende, halbe Sachen gibt es auf See nicht.`, run: () => startUnit(open)};
-  if (due >= 12) return {label: `${due} Wiederholungen`, say: `Erst wird aufgeklart: ${due} Fragen wollen wiederholt werden. Danach gibt es Neues.`, run: () => reviewSession()};
+  const ph = lernPhase(), wk = wackelig().length;
+  if (due >= 12) return {label: `Wiederholen: ${BLOCK} von ${due} fälligen`, say: `Erst wird aufgeklart: ${due} Fragen wollen wiederholt werden. Wir nehmen sie in Happen zu ${BLOCK}.`, run: () => reviewSession()};
   if (left <= 10 && coverage() >= .6 && chance < .95 && (!last || today() - last.day >= 2)) return {label: 'Probeprüfung bei Kapitän Harms', say: `Noch ${left} Tage bis zur Prüfung. Zeit, dass Kapitän Harms dich mal richtig prüft.`, run: examIntro};
+  if (ph.id === 'reife' && ph.f.reife >= .8 && (!last || today() - last.day >= 2)) return {label: 'Ruf Kapitän Harms an', say: `Prüfungsreife ${Math.round(ph.f.reife * 100)} Prozent. Das reicht für eine Probeprüfung. Ruf Harms an, das Telefon hängt an der Wand.`, run: () => harmsKommt()};
+  if (ph.id === 'festigen' && wk >= BLOCK) return {label: `Festigen: ${BLOCK} Wackelkandidaten`, say: `${wk} Fragen wackeln noch. Erst festigen wir, was rot und orange ist, dann gibt es Neues.`, run: extraRound};
   if (next && dl.answered < cap) return {label: `Neu: ${next.label}`, say: `Als Nächstes nehmen wir uns ${next.label} vor. Erst rätst du, dann erkläre ich dir den Rest.`, run: () => startUnit(next)};
   if (due > 0) return {label: `${due} Wiederholungen`, say: `Bevor Feierabend ist: ${due} Fragen wollen noch einmal wiederholt werden.`, run: () => reviewSession()};
   if (!next) return COURSE.kind === 'mc' ? {label: 'Prüfungsfallen üben', say: 'Alle Kapitel hast du durch. Jetzt üben wir die gemeinen Fallen, bei denen die falschen Antworten fast gleich klingen.', run: trapRound} : {label: 'Wackelkandidaten üben', say: 'Alle Kapitel hast du durch. Jetzt nehmen wir uns die Fragen vor, die noch wackeln.', run: trapRound};
@@ -5349,7 +5523,7 @@ let lastMeow = -1;
 function meow() { let k; do { k = Math.random() * 3 | 0; } while (k === lastMeow); lastMeow = k; AUD.sfx(['katze', 'katze2', 'katze3'][k], {vol: .6}); }
 /* Lernstrategie ohne KI: aus Plan und Lernstand */
 function stratText() {
-  const sure = Q.filter(q => st(q.n) && st(q.n).b >= 3).length, due = Q.filter(q => isDue(q.n)).length, d = daysLeft(), p = computePlan();
+  const sure = Q.filter(q => sitzt(st(q.n))).length, due = Q.filter(q => isDue(q.n)).length, d = daysLeft(), p = computePlan();
   const open = UNITS.filter(u => unitStage(u) !== 'fertig').length;
   const a = d > 0 ? `Bis zur Prüfung sind es noch ${d} Tage.` : 'Die Prüfung ist heute oder schon vorbei. Ein neues Datum trägst du in den Einstellungen ein.';
   const b = `${sure} von ${Q.length} Fragen sitzen schon sicher${due ? `, und ${due} Wiederholungen sind fällig. Die zuerst, die gehen schnell und bringen am meisten` : ''}.`;

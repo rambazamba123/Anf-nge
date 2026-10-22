@@ -109,6 +109,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('07d-seezeichen', page, async () => { await page.click('details[data-sec=zeichen] summary'); await sleep(300); await page.click('[data-go=kurs]'); await sleep(1500); await page.click('[data-l=kardinal]'); await sleep(800); if (!await page.$('.szbilder img')) throw new Error('keine Originalbilder'); await ev(page, () => VOX.stop()); });
   await schritt('07e-schein-wechsel', page, async () => { await ev(page, () => meinePruefungen('binnen')); await sleep(1200); if (await ev(page, () => S.course) !== 'binnen') throw new Error('Binnen nicht aktiv');
     await ev(page, () => { lernHeim = null; setTab('cabin'); }); await sleep(800); if (await ev(page, () => S.course !== S.crewSchein)) throw new Error('Crew-Schein nicht zurück'); await ev(page, () => gamesHub()); await sleep(800); if (await page.$('[data-gi="5"]')) throw new Error('Kartentisch noch in der Spielekiste'); });
+  /* Lauf 5: Easy/Tricky (V36), Kuchendiagramme (V35), Lernwand in der Kajüte (V34), Werkzeugkunde (V40) */
+  await schritt('07f-easy-tricky', page, async () => { await ev(page, () => { switchCourse('sbf'); runQuiz([Q[0]], 'Test'); }); await sleep(500); await ev(page, () => document.querySelector('.ans:not([data-k="0"])').click()); await sleep(300);
+    if (!await page.$('[data-et="easy"]')) throw new Error('kein Easy/Tricky'); await ev(page, () => document.querySelector('[data-et="easy"]').click()); await sleep(200);
+    if (!await ev(page, () => S.qs[Q[0].n] && S.qs[Q[0].n].pr === 1)) throw new Error('Vertippt nicht gemerkt'); await ev(page, () => document.querySelector('#nxt').click()); await sleep(300);
+    await ev(page, () => document.querySelector('.ans[data-k="0"]').click()); await sleep(200); if (await ev(page, () => S.qs[Q[0].n].pr)) throw new Error('Bestätigung nicht gezählt'); });
+  await schritt('07g-lernwand', page, async () => { await ev(page, () => { lernHeim = null; setTab('cabin'); }); await sleep(700); for (const k of ['.wandkarte', '.manbrett', '[data-spot="manoever"]', '[data-spot="tisch"]']) if (!await page.$(k)) throw new Error('fehlt: ' + k);
+    if (await page.$('.scene.cabin .msring')) throw new Error('Fortschrittsring in der Kajüte'); await page.click('[data-spot="manoever"]'); await sleep(1200); if (!await page.$('[data-m="mob"]')) throw new Error('Manöverbrett öffnet das Spiel nicht');
+    await ev(page, () => MANOEVER.vorher('mob')); await sleep(400); if (!await page.$('.mbrief')) throw new Error('keine Einweisung'); });
+  await schritt('07h-kuchen', page, async () => { await ev(page, () => meinePruefungen('sbf')); await sleep(1200); if (!await page.$('.kuchen')) throw new Error('keine Kuchendiagramme'); });
+  await schritt('07i-werkzeugkunde', page, async () => { await ev(page, () => loadNavi().then(() => NAV.werkzeugkunde())); await sleep(1200); if (!await page.$('#wkt')) throw new Error('keine Werkzeugkunde');
+    await ev(page, () => { for (let k = 0; k < 8; k++) document.querySelector('#wkskip').click(); }); await sleep(300); if (!await ev(page, () => S.navi.werkzeug)) throw new Error('Werkzeugkunde nicht gemerkt'); });
 
   /* 3. Törnwahl und kompletter Landratte-Törn (Zeit vorgespult, jede Aufgabe mit erster Antwort) */
   await schritt('10-toernwahl', page, async () => { await ev(page, () => openToern()); await sleep(1500); if (!await page.$('[data-start]')) throw new Error('keine Törns'); });

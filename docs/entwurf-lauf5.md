@@ -1,6 +1,6 @@
 # Entwurf Lauf 5 – Lernstationen, Farbsystem, Coaching-Podcast (Stand 22.10.2026)
 
-> **Status: Entwurf von Claude, noch nicht freigegeben.** Der Nutzer bearbeitet ihn und gibt ihn frei. Erst danach ändert Claude `CLAUDE.md`, die Podcast-Regeln (`PODCAST_BIBLE.md`, `PODCAST_STATUS.md`) und den Code.
+> **Status: freigegeben am 22.10.2026 mit Änderungen, die gültige Fassung steht in `CLAUDE.md` Block F (V34–V41).** Abweichungen: keine Fortschrittsringe in der Kajüte, die Knoten auf dem Brett behalten ihre Farbe (anfangs ein großer Knoten, gelernte kommen dazu), 4–5 kleine Tagesaufgaben mit Blöcken von etwa 8 Fragen, im Manöverspiel eine bessere Einweisung durch die Crew, der Kajütenfunk wird noch grundsätzlich besprochen. Ursprünglich: Der Nutzer bearbeitet ihn und gibt ihn frei. Erst danach ändert Claude `CLAUDE.md`, die Podcast-Regeln (`PODCAST_BIBLE.md`, `PODCAST_STATUS.md`) und den Code.
 > Grundlage ist die Nachricht des Nutzers vom 22.10.2026 (Kajüte, Lernübersicht, Easy/Tricky, Coaching statt Geschichte, Smilla treibt an, Manöverspiel, Karten-Tutorial).
 
 ---
