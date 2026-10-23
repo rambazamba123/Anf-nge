@@ -513,7 +513,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.86';
+  window.__ver = '4.87';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -693,7 +693,7 @@ const CREW = {
   hinnerk: {name: "Käpt'n Hinnerk", short: 'Hinnerk', role: 'K', color: '#3d5f8f',
     blurb: '38 Jahre Kapitän der Helgoland-Fähre, nie eine Fahrt verpasst.',
     story: 'Hinnerk ist 63 und fuhr 38 Jahre lang die Fähre nach Helgoland, ohne eine einzige Fahrt zu verpassen. Sein Lieblingsthema ist der große Sturm von 87, bei dem die Wellen mit jedem Erzählen höher werden. Seekrank wird er nur im Aufzug.',
-    persona: 'Käpt\'n Hinnerk, 63, war 38 Jahre Kapitän der Helgoland-Fähre. Brummig-herzlich, gemütlich, ruhig und weise wie ein alter Handwerksmeister, trocken-humorvoll. Spricht leicht norddeutsch ("Moin", "nö", "Mensch", "klönen", "Butter bei die Fische"), bleibt aber gut verständlich. Running Gag: der große Sturm von 87, die Wellen werden mit jedem Erzählen höher. Wird nur im Aufzug seekrank.',
+    persona: 'Käpt\'n Hinnerk, 63, war 38 Jahre Kapitän der Helgoland-Fähre. Brummig-herzlich, gemütlich, ruhig und weise wie ein alter Handwerksmeister, trocken-humorvoll. Spricht kräftig norddeutsch mit Platt-Brocken ("Moin", "nich", "wat", "klönen", "Butter bei die Fische", "Wat mutt, dat mutt"); Regeln sagt er immer klar auf Hochdeutsch. Running Gag: der große Sturm von 87, die Wellen werden mit jedem Erzählen höher. Wird nur im Aufzug seekrank.',
     voicePref: ['Bill', 'George', 'Brian', 'Arnold', 'Clyde', 'Roger'], gender: 'male', age: 'old', fx: 0.98, pitch: 0.75, rate: 0.95},
   ilse: {name: 'Oma Ilse', short: 'Ilse', role: 'K', color: '#3f6e8c',
     blurb: 'Ex-Krabbenfischerin aus Büsum, strickt immer.',
@@ -701,9 +701,9 @@ const CREW = {
     persona: 'Oma Ilse, 71, Ex-Krabbenfischerin aus Büsum. Strickt ständig, erklärt die härtesten Regeln im sanftesten Ton und lässt nie locker, bis es sitzt. Sagt "mien Jung" oder "mien Deern", leicht norddeutsch, warm und bestimmt.',
     voicePref: ['Matilda', 'Alice', 'Sarah', 'Laura', 'Dorothy'], gender: 'female', age: 'old', fx: 0.96, pitch: 1.05, rate: 0.93},
   smilla: {name: 'Matrosin Smilla', short: 'Smilla', role: 'M', color: '#d9a21c',
-    blurb: 'Fischerstochter von Föhr, kennt jede Prüfungsfalle.',
-    story: 'Smilla ist 24 und Fischerstochter von Föhr. Beim ersten Versuch ist sie in der Navigation durchgefallen, weil sie die falsche Tonne 10 erwischt hat. Seitdem kennt sie jede Prüfungsfalle. Sie träumt von einer Reise nach Skagen und malt Krickelmännchen ins Logbuch.',
-    persona: 'Matrosin Smilla, 24, Fischerstochter von Föhr. Flink, frech, modern, erklärt knapp und anschaulich. Ist beim ersten Mal in der Navigation durchgefallen, weil sie die falsche Tonne 10 erwischt hat, und kennt deshalb jede Prüfungsfalle. Träumt von einer Reise nach Skagen, malt Krickelmännchen ins Logbuch, frotzelt gern mit dem Käpt\'n.',
+    blurb: 'Vom Rhein aufs Meer, kennt jede Prüfungsfalle.',
+    story: 'Smilla ist 24 und in Köln am Rhein aufgewachsen. Schon als Kind wollte sie von dort aufs Meer. Alles hat sie sich selbst beigebracht, erst den Binnenschein auf dem Rhein, dann den für die See. Beim ersten Versuch ist sie in der Navigation durchgefallen, weil sie die falsche Tonne 10 erwischt hat. Seitdem kennt sie jede Prüfungsfalle. Sie träumt von einer Reise nach Skagen und malt Krickelmännchen ins Logbuch.',
+    persona: 'Matrosin Smilla, 24, aus Köln am Rhein; hat sich alles selbst beigebracht, erst den Binnenschein, dann den für die See, und wollte schon als Kind vom Rhein aufs Meer. Flink, frech, modern, erklärt knapp und anschaulich, mit einem Hauch Rheinisch ("ne?"). Ist beim ersten Mal in der Navigation durchgefallen, weil sie die falsche Tonne 10 erwischt hat, und kennt deshalb jede Prüfungsfalle. Träumt von einer Reise nach Skagen, malt Krickelmännchen ins Logbuch, frotzelt gern mit dem Käpt\'n.',
     voicePref: ['Lily', 'Charlotte', 'Jessica', 'Laura', 'Aria', 'Sarah'], gender: 'female', age: 'young', fx: 1.02, pitch: 1.2, rate: 1.04},
   piet: {name: 'Hafenjunge Piet', short: 'Piet', role: 'M', color: '#3c8c5a',
     blurb: 'Zwölf, hängt am Steg und fragt, was sich keiner traut.',
@@ -3821,7 +3821,7 @@ function renderSettings() {
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎧 Podcast-Hörprobe (Entwickler)</h3>
     <p class="small muted" style="margin:0 0 8px">Spricht ein Skript aus <b>podcast/skripte</b> mit Eleven v4 als Dialog (2–3 Minuten, rund 2.000–2.400 Credits). Sag Claude, was gut und was falsch klang.</p>
-    <select id="hpskr" style="margin-bottom:8px"><option value="vorstellung.md">Wer ist wer? Alle stellen sich vor</option><option value="folge-01.md">Folge 1: Die Spritztour (ganze Folge, ca. 17.000 Credits)</option><option value="vorgeschmack-14.md">Vorgeschmack Folge 14: Nebel auf der Elbe</option><option value="test-01.md">Testszene Folge 1: Die Spritztour</option></select>
+    <select id="hpskr" style="margin-bottom:8px"><option value="vorstellung.md">Wer ist wer? Alle stellen sich vor</option><option value="test-01.md">Testszene: Stimmen und Regie</option></select>
     <div class="row"><button class="btn ki lamp" id="hpv4">Hörprobe erzeugen</button></div><p class="status" id="hpr"></p><div id="hpaus"></div>
   </div>
   <div class="card dev"><h3 style="margin-top:0">🎭 Stimmen-Casting (Entwickler)</h3>

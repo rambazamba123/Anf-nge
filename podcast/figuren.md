@@ -1,8 +1,8 @@
 # Die Figuren des Kajütenfunks
 
-> **Entwurf zur Überarbeitung durch den Nutzer** (Stand 23.10.2026). Nutzer, 23.10.2026: „Schärfe dann die Charaktere … Schlag alles selbst vor … Der Kapitän soll einen stärkeren Dialekt haben, Smilla weniger und ggf. einen anderen … Quirin sehr bayerisch.“
+> **Vom Nutzer am 23.10.2026 bestätigt** („Passt alles so“), mit einer Änderung: Smilla ist nicht vom Meer, sondern kommt von einem großen Fluss und hat sich alles selbst angeeignet. Erster Entwurf vom selben Tag. Nutzer, 23.10.2026: „Schärfe dann die Charaktere … Schlag alles selbst vor … Der Kapitän soll einen stärkeren Dialekt haben, Smilla weniger und ggf. einen anderen … Quirin sehr bayerisch.“
 > Kennzeichen: **[fest]** steht schon fest (App-Code `CREW` in `index.html`, `PODCAST_BIBLE.md` oder CLAUDE.md, Quelle in Klammern). **[neu]** ist ein Vorschlag von Claude: streichen, ändern, ergänzen erwünscht.
-> Verbindlich wird der Entwurf erst nach deiner Bestätigung. Dann wandert er als Figurenprofil nach Bible §7 und §14.10 (Raster A25) und erledigt die offenen Punkte O5 und W2 (R15).
+> Bei der Neufassung der Bible nach K1 wandert die Datei als Figurenprofil nach Bible §7 und §14.10 (Raster A25) und erledigt die offenen Punkte O5 und W2 (R15). Die Kennzeichen [fest] und [neu] zeigen weiter, woher eine Angabe stammt.
 > Wörter und Sprüche kommen aus `podcast/wortschatz.md`, dort stehen Bedeutung und Quelle.
 
 ---
@@ -14,7 +14,7 @@
 | Figur | Sprache | Dialekt-Stärke |
 |---|---|---|
 | Hinnerk | Hochdeutsch mit viel Platt gemischt, in Garn und Gefühl ganze Platt-Sätze | stark |
-| Smilla | schnelles, modernes Hochdeutsch, ein paar Wörter Fering (Föhrer Friesisch) | wenig, und ein anderer |
+| Smilla | schnelles, modernes Hochdeutsch mit einem Hauch Rheinisch („ne?“, mal ein kölscher Spruch) | wenig, und ein anderer |
 | Quirin | Bairisch, wo es geht | sehr stark |
 | Harms | knappes, hanseatisches Hochdeutsch | kaum |
 | Klabauter | plappert nach, was er hört: Platt von Hinnerk, Bairisch von Quirin, Wetterbericht | gemischt |
@@ -24,7 +24,7 @@
 - Wenn **Hinnerk** plötzlich Hochdeutsch spricht, wird es ernst. Alle hören zu.
 - Wenn **Quirin** eine Regel sagt, klingt er wie aus dem Lehrbuch. Smilla zieht ihn damit auf.
 
-**Redeanteile in einer Lektion** [neu]: Smilla etwa 40 %, Hinnerk 25 %, Quirin 15 %, Klabauter 10 %, Harms oder Gast 10 %.
+**Redeanteile in einer Folge** [neu]: Smilla etwa 40 %, Hinnerk 25 %, Quirin 15 %, Klabauter 10 %, Harms oder Gast 10 %.
 
 **Gilt weiter** [fest]: höchstens drei Stimmen je Szene; Hinnerks Irrtum wird innerhalb von 20 Sekunden berichtigt; Klabauter ist immer eindeutig Witz oder Wichtiges; der Hörer wird nur mit den beschlossenen, geschlechtsneutralen Anreden angesprochen; kein Nutzername; derb ja, doppeldeutig nur mit harmloser Lesart; keine Witze über Bayern (Bible P41–P48, §8, §9, Konzept §5).
 
@@ -35,12 +35,12 @@
 **Steckbrief**
 - **Alter, Beruf:** 63, war 38 Jahre Kapitän der Helgoland-Fähre und hat nie eine Fahrt verpasst. [fest] (App)
 - **Herkunft:** in Cuxhaven aufgewachsen, Sohn eines Krabbenfischers. Platt ist seine Muttersprache, Hochdeutsch hat er „in der Schule gelernt, aber nie gemocht“. [neu]
-- **Heute:** Rentner, lebt mehr an Bord als an Land. Heimathafen Flensburg [fest] (Bible B62, noch aus der Geschichte; bitte bestätigen).
+- **Heute:** Rentner, lebt mehr an Bord als an Land. Heimathafen Flensburg [fest] (Bible B62, bestätigt am 23.10.2026).
 - **Stimme:** Bill [fest] (`podcast/audio_config.json`)
 
 **Rolle im Kurs**
 - Experte für alles, was man mit den Händen und dem Bauch lernt: Seemannschaft, Manöver, Wetter, Sicherheit, Garn [fest] (Konzept §5).
-- Er irrt nur bei **gefühlten Regeln** („Ich war zuerst da“), **nie bei Praxis und Sicherheit** [fest] (Bible P41, Konzept §5). Etwa ein Irrtum alle zwei Lektionen [neu].
+- Er irrt nur bei **gefühlten Regeln** („Ich war zuerst da“), **nie bei Praxis und Sicherheit** [fest] (Bible P41, Konzept §5). Etwa ein Irrtum alle zwei Folgen [neu].
 - Nach Smillas Berichtigung sagt er die richtige Fassung selbst, mit „Sag ich doch.“ [fest] (Konzept §5) und [neu] als Running Gag.
 
 **Haltung** [neu]: „Die See verzeiht nix. Aber Angst brauchst du nich haben, wenn du weißt, wat du tust.“ Sicherheit geht ihm über Stolz. Er mag keine Hektik, keine Angeber und kein Gerede.
@@ -65,7 +65,7 @@
 - **Backbord:** Die Katze darf alles. Sonst niemand.
 
 **Nie**
-- falsch bei Praxis und Sicherheit; in jeder Lektion falsch [fest] (Bible X7)
+- falsch bei Praxis und Sicherheit; in jeder Folge falsch [fest] (Bible X7)
 - Dialekt im Regelsatz oder im amtlichen Antwortsatz
 - Witze über Bayern (über Quirin als Person ja, über seine Herkunft nein) [fest] (Bible X4)
 - Alkohol als Witz (Rasmus, Schlagseite nur wörtlich)
@@ -91,10 +91,11 @@
 ## Smilla – der Kopf und die Trainerin
 
 **Steckbrief**
-- **Alter, Herkunft:** 24, Fischerstochter von Föhr [fest] (App).
+- **Alter, Herkunft:** 24 [fest] (App). Nicht vom Meer, sondern von einem großen Fluss [fest] (Nutzer, 23.10.2026): aufgewachsen in Köln am Rhein [neu]. Keine Seefahrerfamilie; als Kind hat sie am Ufer die Schiffe gezählt und davon geträumt, vom Rhein bis aufs Meer zu fahren.
+- **Selbst angeeignet** [fest] (Nutzer, 23.10.2026): Bücher, Jollen auf dem Baggersee, Mitfahren, wo es ging [neu]. Erst der Binnenschein auf dem Rhein, dann der für die See [neu].
 - **Scheine:** hat SBF See und SBF Binnen [fest] (Bible P42). Ist beim ersten Mal in der Navigation durchgefallen, weil sie die falsche Tonne 10 erwischt hat, und kennt deshalb jede Prüfungsfalle [fest] (App).
 - **Träume und Macken:** will einmal nach Skagen segeln, malt Krickelmännchen ins Logbuch [fest] (App).
-- **Föhr** [neu]: Die Insel war jahrhundertelang eine Insel der Seefahrer, erst Walfang, dann Handelsschifffahrt mit eigenen Navigationsschulen ([travelbook.de](https://www.travelbook.de/ziele/inseln/iinsel-foehr-new-york-verbindung)). Ihre Oma spricht Fering, Smilla nur noch ein paar Wörter.
+- **Der Rhein** [neu]: die verkehrsreichste Binnenwasserstraße Europas, von Köln bis zu den Seehäfen Rotterdam, Amsterdam und Antwerpen (Recherche R40). Darum kennt sie Sog und Schwell großer Schiffe, Schleusen und Binnenzeichen aus dem Alltag; im späteren Binnen-Teil ist sie zu Hause.
 - **Stimme:** Lily [fest] (`podcast/audio_config.json`)
 
 **Rolle im Kurs**
@@ -107,25 +108,26 @@
 **Sprechweise** [neu, Nutzerwunsch „weniger und ggf. einen anderen Dialekt“]
 - Klares, schnelles, modernes Hochdeutsch, kurze Sätze.
 - Erklärt in drei Schritten: Regel, Warum, Bild im Kopf.
-- Wenig Dialekt, und zwar einen anderen als Hinnerk: ein paar Wörter **Fering** von ihrer Oma. „Gudai!“ zur Begrüßung, „Adjis!“ zum Abschied, mal ein „Moin“. Kein Platt. (Aussprache und Schreibweise vor der Vertonung von jemandem prüfen lassen, der Fering spricht.)
+- Wenig Dialekt, und zwar einen anderen als Hinnerk: ein Hauch **Rheinisch**. Ein „ne?“ am Satzende, „Tschö!“ zum Abschied, ab und zu ein Satz aus dem Kölschen Grundgesetz: „Et es wie et es“, „Et kütt wie et kütt“. Kein Platt.
+- Ihr Lieblingsspruch mit Lehre: „Et hätt noch immer jot jejange. Sagt man bei uns. Auf dem Wasser verlass ich mich da nicht drauf.“ So wird aus dem Spruch eine Sicherheitsregel (Recherche R57).
 - Erklärt jeden neuen Fachbegriff beim ersten Auftreten in Alltagssprache.
 
 **Humor** [neu]: frech und schnell, Wortwitz, neckt den Hörer mit den beschlossenen Anreden (Frischling, Landei, Seegurke, Bordküken) und Hinnerk mit seinem Garn: „Käpt'n, die Welle von 87 war letzte Woche noch acht Meter.“
 
-**Schwächen** [neu]: ungeduldig; ein bisschen Klookschieter; empfindlich beim Thema Tonne 10. Die alte Idee „wenig Praxis“ (Status VS3) passt nicht zur Fischerstochter mit zwei Scheinen und entfällt.
+**Schwächen** [neu]: ungeduldig; ein bisschen Klookschieter; empfindlich beim Thema Tonne 10. Weil sie alles aus Büchern und eigener Erfahrung hat, will sie manchmal zu viel auf einmal erklären; Hinnerk bremst sie mit „Nu man sinnig“. Die alte Idee „wenig Praxis“ (Status VS3) entfällt.
 
-**Wenn sie etwas nicht weiß** [neu]: sagt sie es offen („Weiß ich nicht genau, schlag ich nach.“) und kommt in derselben Lektion mit der Antwort zurück. So lernt der Hörer: Nachschlagen ist keine Schande.
+**Wenn sie etwas nicht weiß** [neu]: sagt sie es offen („Weiß ich nicht genau, schlag ich nach.“) und kommt in derselben Folge mit der Antwort zurück. So lernt der Hörer: Nachschlagen ist keine Schande.
 
 **Beziehungen** [neu]
 - **Hinnerk:** respektiert seine Praxis, berichtigt seine Regeln. Streit ja, nie von oben herab [fest] (Bible VS3, bestätigt im Grundsatz).
 - **Klabauter:** ihr Verbündeter für Merksätze.
-- **Quirin:** gleiche Generation; sie trainiert ihn, zieht ihn mit seiner Seekrankheit auf und ist stolz, wenn er etwas kann.
+- **Quirin:** gleiche Generation, beide vom Süßwasser: sie vom Fluss, er vom See. Hinnerk nennt sie deshalb beide „Süßwassermatrosen“. Sie trainiert ihn, zieht ihn mit seiner Seekrankheit auf und ist stolz, wenn er etwas kann.
 - **Harms:** Respekt und ein bisschen Angst. Er war damals ihr Prüfer bei Tonne 10.
 
 **Nie** [neu]: herablassend; lobt mit großen Worten; erklärt etwas, ohne das Warum zu nennen; falsche Fakten.
 
 **Typische Sätze** [neu]
-1. „Gudai! Heute drei Dinge: …“ (Landkarte der Lektion)
+1. „Moin! Heute drei Dinge: …“ (Landkarte der Folge; das Moin hat sie sich an der Küste angewöhnt, das Tschö ist vom Rhein geblieben)
 2. „Nee, Käpt'n.“ (So beginnt jede Berichtigung.)
 3. „Tipp mal. Die Auflösung kommt.“ (Vorab-Frage)
 4. „Für alle ohne Platt: Er meint …“
@@ -136,9 +138,11 @@
 9. „Sag jetzt nichts zu Tonne zehn.“
 10. „Käpt'n, das ist Tünkram.“
 11. „Klar zur Wende? Klar.“
-12. „Adjis! Und morgen ohne Nachsitzen.“
+12. „Tschö! Und morgen ohne Nachsitzen.“
+13. „Et kütt wie et kütt? Nicht auf See. Da kommt, was du vorher geplant hast.“ (Törnplanung, Wetterbericht)
+14. „Auf dem Rhein hab ich das jeden Tag gesehen, ne?“ (Sog, Schwell, Schleuse, große Schiffe)
 
-**Aus dem Wortschatz:** Gudai, Gud maaren, Gud inj, Adjis, Moin, Klar, Wahrschau, Klar zur Wende – Ree, klar Schiff machen, den Wind aus den Segeln nehmen, auf dem falschen Dampfer sein, Seemannsgarn spinnen, ins Schlepptau nehmen, aus dem Ruder laufen, Tünkram, Mast- und Schotbruch (vor der Prüfung), Anreden Frischling, Landei, Seegurke, Bordküken, aus der App Badewannen-Kapitän, Planktonhirn, Hafenbecken-Admiral, Bilgenratte.
+**Aus dem Wortschatz:** Moin, Tschö, „ne?“, Kölsches Grundgesetz (Et es wie et es, Et kütt wie et kütt, Et hätt noch immer jot jejange), Klar, Wahrschau, Klar zur Wende – Ree, klar Schiff machen, den Wind aus den Segeln nehmen, auf dem falschen Dampfer sein, Seemannsgarn spinnen, ins Schlepptau nehmen, aus dem Ruder laufen, Tünkram, Mast- und Schotbruch (vor der Prüfung), Anreden Frischling, Landei, Seegurke, Bordküken, aus der App Badewannen-Kapitän, Planktonhirn, Hafenbecken-Admiral, Bilgenratte.
 
 ---
 
@@ -152,7 +156,7 @@
 - **Stimme:** Wally [fest] (`podcast/audio_config.json`)
 
 **Rolle im Kurs**
-- Liefert die Merksätze und am Lektionsende die Kernsätze [fest] (Konzept §5).
+- Liefert die Merksätze und am Ende jeder Folge die Kernsätze [fest] (Konzept §5).
 - Jede Äußerung ist eindeutig Witz oder Wichtiges, und im Modus „Wichtig“ sagt er nie etwas Falsches [fest] (Bible P43, X6).
 
 **Zwei Modi** [neu, das Erkennungszeichen ist offen: Bible O6]
@@ -175,7 +179,7 @@
 7. „Wahrschau! Wahrschau!“
 8. „Hinni! Hinni!“
 9. „Banane! Unglück! Unglück!“
-10. „Land in Sicht! Land in Sicht!“ (wenn eine Lektion fast geschafft ist)
+10. „Land in Sicht! Land in Sicht!“ (wenn eine Folge fast geschafft ist)
 
 **Aus dem Wortschatz:** Ahoi, Wahrschau, Smutje, Land in Sicht, Sabbel nich, Obacht, Hinni, alles aus Abschnitt 10, Anreden Grünschnabel, Nesthocker, Federlos.
 
@@ -187,7 +191,7 @@
 - **Beruf, Herkunft:** Bergführer aus dem Chiemgau [fest] (Bible P47).
 - **Segeln:** kann segeln, aber nur auf dem Chiemsee und kleineren Seen; auf dem Meer wird er seekrank [fest] (Bible P47). Er macht jetzt den SBF See [fest] (Konzept §5).
 - **Alter:** 34 [neu].
-- **Stimme:** George, unbestätigt [fest] (`podcast/audio_config.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können; das ist beim Casting zu prüfen [neu].
+- **Stimme:** George, unbestätigt [fest] (`podcast/audio_config.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können. Die Stimmen überarbeitet der Nutzer selbst (Nutzer, 23.10.2026).
 
 **Rolle im Kurs**
 - Der Mitlerner: Er fragt, was der Hörer denkt, und irrt wie ein Anfänger [fest] (Konzept §5).
@@ -201,7 +205,7 @@
 - Bairisch, wo es geht: „Servus mitanand!“, „Griaß eich!“, „fei“, „gell“, „a bisserl“, „Mei!“, „Bassd scho“, „Obacht!“, „Do legst di nieda!“, „Pack ma's!“, „So a Schmarrn!“, „Pfiat eich!“
 - Lange, begeisterte Sätze, viele Ausrufe.
 - Wenn er eine Regel aufsagt, wechselt er in sauberes Hochdeutsch wie aus dem Lehrbuch. Smilla: „Sehr schön auswendig gelernt. Und jetzt mit Warum?“
-- Bairische Schreibweise und Aussprache vor der Vertonung von jemandem aus Bayern prüfen lassen.
+- Bairische Schreibweise und Aussprache prüft vor der Vertonung ein Bekannter des Nutzers aus Bayern [fest] (Nutzer, 23.10.2026).
 
 **Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. **Keine** Klischees wie Lederhose, Weißwurst oder Bier [fest] (Status VS34, angenommen mit B65).
 
@@ -241,8 +245,8 @@
 - Duzt den Hörer, wie in der App („Ach, du.“) [fest].
 
 **Rolle im Kurs**
-- Stichprobe und Fallen-Check, in mindestens jeder zweiten Lektion kurz [fest] (Konzept §3).
-- Erklärt in Lektion 0, wie die Prüfung abläuft, aber erst mit der Prüfungsordnung (F3) [fest] (Bible P45).
+- Stichprobe und Fallen-Check, in mindestens jeder zweiten Folge kurz [fest] (Konzept §7).
+- Erklärt in Folge G0, wie die Prüfung abläuft, aber erst mit der Prüfungsordnung (F3) [fest] (Bible P45).
 - Am Telefon in der Kajüte für die Probeprüfung [fest] (App).
 
 **Haltung** [neu]: „Ich frag nicht, was du meinst. Ich frag, was gilt.“ Fair, aber er schenkt nichts. Wer rät, fällt auf.
@@ -278,13 +282,13 @@
 
 ## Gäste
 
-| Gast | Lektion (Kursplan) | Stimme | Art zu sprechen [neu] |
+| Gast | Folge (Kursplan) | Stimme | Art zu sprechen [neu] |
 |---|---|---|---|
-| Wasserschutzpolizistin | 1.1 Verantwortung | Selena [fest] | sachlich, freundlich, bestimmt; erzählt aus echten Kontrollen, nennt Regeln ohne Drohung |
-| Hafenmeisterin | 2.4 Anlegen | Lucinda [fest] | resolut, praktisch, leicht norddeutsch; „Fender raus, bevor du bei mir anlegst.“ |
-| Fischer | 4.4 Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
-| Verkehrszentrale | 6.4 Verkehrstrennungsgebiete | Mats [fest] | ruhige Funksprache, formal, deutlich |
-| Rangerin | 7.4 Naturschutz | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
+| Wasserschutzpolizistin | G1.1 Wer führt das Boot? und S6.3 Behörden und Gefahrgut | Selena [fest] | sachlich, freundlich, bestimmt; erzählt aus echten Kontrollen, nennt Regeln ohne Drohung |
+| Hafenmeisterin | G3.1 Anlegen und Ankern | Lucinda [fest] | resolut, praktisch, leicht norddeutsch; „Fender raus, bevor du bei mir anlegst.“ |
+| Fischer | S3.6 Tiefgangbehinderte und Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
+| Verkehrszentrale | S6.6 Verkehrstrennungsgebiete und Verkehrszentralen | Mats [fest] | ruhige Funksprache, formal, deutlich |
+| Rangerin | S8.1 Wattenmeer und Nationalparks | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
 
 ---
 
@@ -310,11 +314,13 @@ Nur zum Hören der Figuren, nicht für den Kurs geschrieben. Fachlich nach Katal
 
 ---
 
-## Offen für dich
+## Entschieden am 23.10.2026
 
-1. Passen Hinnerks Herkunft (Cuxhaven, Krabbenfischer-Sohn) und der Heimathafen Flensburg?
-2. Fering für Smilla, oder lieber ein anderer Dialekt (zum Beispiel Hamburger Schnack)?
-3. Quirins Alter (34) und seine Stimme: George ist eine englische Standardstimme. Für „sehr bayerisch“ wäre eine bairische Stimme aus der Bibliothek besser.
-4. Klabauters Merk-Zeichen: Schiffsglocke plus „Krrah! Merken!“ (Bible O6)?
-5. Harms und Smillas Tonne 10: War er damals ihr Prüfer?
-6. Hinnerks App-Beschreibung sagt bisher „leicht norddeutsch“. Soll die App (Live-KI) seinen stärkeren Dialekt übernehmen?
+Antworten des Nutzers auf die offenen Punkte des Entwurfs („Passt alles so, nur folgendes ändern“):
+
+1. Hinnerks Herkunft (Cuxhaven, Krabbenfischer-Sohn) und der Heimathafen Flensburg: passen.
+2. Smilla ist nicht vom Meer. Sie kommt von einem großen Fluss, hat sich alles selbst angeeignet und immer davon geträumt, von dort aufs Meer zu fahren. Köln am Rhein und der Hauch Rheinisch sind Claudes Vorschlag dazu und lassen sich noch ändern. Fering entfällt.
+3. Stimmen überarbeitet der Nutzer selbst. Das Bairische prüft ein Bekannter des Nutzers. Quirins Alter (34) passt.
+4. Klabauters Merk-Zeichen: Schiffsglocke plus „Krrah! Merken!“ passt (schließt Bible O6 bei der Neufassung nach K1).
+5. Harms war damals Smillas Prüfer bei Tonne 10: passt.
+6. In der App (Live-KI, `CREW` in `index.html`) spricht Hinnerk seit v4.87 kräftiger norddeutsch, Smilla kommt vom Rhein.

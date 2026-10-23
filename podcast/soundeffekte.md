@@ -107,4 +107,4 @@ Diese Dateien lassen sich vermutlich auch für die Folgen verwenden. Ob sie im H
 | `stinger-loesung` | „Aha“-Ton bei der Auflösung | B |
 | `musik-fragen` | leise Musik für die Fragerunde am Ende | B |
 
-Der Plan richtet sich nach dem Leitfaden (`podcast/leitfaden-sbf-see.md`). Kommen beim Schreiben neue Szenen dazu, ergänzt Claude die Liste.
+Der Plan richtete sich nach dem Leitfaden der Geschichte (jetzt im Archiv: `podcast/archiv/leitfaden-sbf-see.md`). Für den Hörkurs wird die Liste gekürzt (Konzept `docs/konzept-kajuetenfunk.md` §10.6): wenige Geräusche je Revier, nie Signaltöne als Kulisse.
