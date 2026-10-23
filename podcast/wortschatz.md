@@ -1,17 +1,17 @@
 # Wortschatz an Bord
 
 > Gemeinsamer Vorrat an Wörtern, Sprüchen, Rufen und Redewendungen rund ums Boot. Alle Figuren dürfen daraus schöpfen. Welche Figur was bevorzugt, steht in `podcast/figuren.md`.
-> Stand: 23.10.2026, erster Entwurf (Nutzer, 23.10.2026: „Lege eine Liste an … aus dieser Liste können alle Charaktere bei Bedarf schöpfen“). Wird laufend ergänzt.
+> Stand: 23.10.2026, erster Entwurf (Nutzer, 23.10.2026: „Lege eine Liste an … aus dieser Liste können alle Charaktere bei Bedarf schöpfen“). Am selben Tag angepasst: Smilla kommt vom Rhein, Fering entfällt. Wird laufend ergänzt.
 
 ## So wird die Liste benutzt
 
 - **Wer:** H = Hinnerk, S = Smilla, K = Klabauter, Q = Quirin, Ha = Harms, G = Gäste, alle = jede Figur.
 - **Quelle:** Ein Link heißt: Die Bedeutung ist dort nachgelesen. „allgemein“ heißt: geläufig, aber hier nicht einzeln geprüft. Vor dem Einsatz im Skript gegenlesen (Konzept §9, K2).
 - **Dialekt nie im Regelsatz:** Regel, amtlicher Antwortsatz und Denkfrage sind immer klares Hochdeutsch, bei allen Figuren (Konzept §5). Dialekt gehört in Einstieg, Garn, Übergänge, Anreden, Flüche und Abschiede.
-- **Aussprache:** Wörter mit 🔊 kommen vor der Vertonung ins Ausspracheverzeichnis (`podcast/pronunciation_dictionary.md`). Ob die Stimmen Platt, Fering und Bairisch überzeugend sprechen, ist ungeprüft (Bible P54, F5).
+- **Aussprache:** Wörter mit 🔊 kommen vor der Vertonung ins Ausspracheverzeichnis (`podcast/pronunciation_dictionary.md`). Ob die Stimmen Platt, Rheinisch und Bairisch überzeugend sprechen, ist ungeprüft (Bible P54, F5).
 - **Ton ab 12** (CLAUDE.md §3, Bible §8–9): derb ja, doppeldeutig nur mit harmloser Lesart, keine Gruppenbeleidigung, keine Witze über Bayern, kein Alkohol als Witz über Kinder. Einträge mit ⚠ haben eine Falle, die in der Spalte „Hinweis“ steht.
 - **Aberglaube und Garn** sind immer als Garn erkennbar. Smilla oder die Lage stellt klar, was wirklich gilt (Bible X5).
-- **Schreibweise:** Platt, Fering und Bairisch haben keine feste Rechtschreibung. Hier steht jeweils eine gängige, gut vorlesbare Form.
+- **Schreibweise:** Platt, Kölsch und Bairisch haben keine feste Rechtschreibung. Hier steht jeweils eine gängige, gut vorlesbare Form.
 
 ---
 
@@ -21,11 +21,13 @@
 |---|---|---|---|---|
 | Moin! / Moin, moin! / Mooooin! | norddeutscher Gruß zu jeder Tageszeit | H, S, Ha, alle | Moin-Bausteine liegen schon im Stimmenpaket (CLAUDE.md §4). Harms sagt nur „Moin.“ | allgemein |
 | Tschüss | Abschied | alle | | allgemein |
-| Hol di fuchtig! | Platt: „Mach's gut, bleib gesund, halt die Ohren steif“ | H | schöner Abschied am Lektionsende 🔊 | [kuechenfibel.de](https://www.kuechenfibel.de/faq/wie-schreibt-man-hol-di-fuchtig), [wandernundmehr.at](https://www.wandernundmehr.at/faq/was-heit-hol-di-stief) |
-| Kiek mol wedder in! | Platt: „Schau mal wieder rein!“ | H | Ausblick auf die nächste Lektion | [hamburg-tourism.de](https://www.hamburg-tourism.de/magazin/norddeutsch-fuer-anfaenger-plattdeutsche-redewendungen-und-ihre-bedeutung/) |
-| Gudai! | Fering (Föhrer Friesisch): „Guten Tag, hallo“ | S | 🔊 Schreibweise nicht genormt, von jemandem bestätigen lassen, der Fering spricht | [omniglot.com](https://omniglot.com/language/phrases/northfrisian-fohr.htm) |
-| Gud maaren! / Gud inj! | Fering: „Guten Morgen!“ / „Guten Abend!“ | S | 🔊 wie oben | [omniglot.com](https://omniglot.com/language/phrases/northfrisian-fohr.htm) |
-| Adjis! | Fering: „Tschüss, auf Wiedersehen“ | S | 🔊 wie oben | [omniglot.com](https://omniglot.com/language/phrases/northfrisian-fohr.htm) |
+| Hol di fuchtig! | Platt: „Mach's gut, bleib gesund, halt die Ohren steif“ | H | schöner Abschied am Ende einer Folge 🔊 | [kuechenfibel.de](https://www.kuechenfibel.de/faq/wie-schreibt-man-hol-di-fuchtig), [wandernundmehr.at](https://www.wandernundmehr.at/faq/was-heit-hol-di-stief) |
+| Kiek mol wedder in! | Platt: „Schau mal wieder rein!“ | H | Ausblick auf die nächste Folge | [hamburg-tourism.de](https://www.hamburg-tourism.de/magazin/norddeutsch-fuer-anfaenger-plattdeutsche-redewendungen-und-ihre-bedeutung/) |
+| Tschö! | rheinisch und kölsch: „Tschüss“ | S | Smillas Abschied vom Rhein; das Moin hat sie sich an der Küste angewöhnt | allgemein |
+| …, ne? | rheinisch: „…, nicht wahr?“ am Satzende | S | sparsam, höchstens ein paar Mal je Folge | allgemein |
+| Et es wie et es. | Kölsches Grundgesetz, Artikel 1: „Es ist, wie es ist“ | S | passt zu Regeln, die man einfach lernen muss | [leinetal24.de](https://www.leinetal24.de/welt/regeln-brauhaus-speisekarte-stadt-koeln-eigenes-grundgesetz-artikel-zr-93278334.html), [koeln.de](https://www.koeln.de/?p=71799) |
+| Et kütt wie et kütt. | Kölsches Grundgesetz, Artikel 2: „Es kommt, wie es kommt“ | S | ⚠ auf See nur als Gegenbeispiel: Wer plant, muss nicht hoffen | wie oben |
+| Et hätt noch immer jot jejange. | Kölsches Grundgesetz, Artikel 3: „Es ist noch immer gut gegangen“ | S | ⚠ nur mit Lehre: „Auf dem Wasser verlass ich mich da nicht drauf.“ (Recherche R57) | wie oben |
 | Servus! | bairisch: „Hallo“ und „Tschüss“ | Q | | [wandernundmehr.at](https://www.wandernundmehr.at/faq/wo-sagt-man-servas) |
 | Griaß di! / Griaß eich! | bairisch: „Grüß dich!“ / „Grüßt euch!“ | Q | 🔊 | [kuechenfibel.de](https://www.kuechenfibel.de/faq/was-heit-auf-bayrisch-wie-gehts-dir) |
 | Pfiat di! / Pfiat eich! | bairisch: „Behüt dich (Gott)“, also „Tschüss“ | Q | 🔊 | [kuechenfibel.de](https://www.kuechenfibel.de/faq/was-bedeutet-pfiati) |
@@ -213,5 +215,5 @@ Quirin macht Witze über sich selbst. Niemand macht Witze über Bayern (Bible P4
 ## Quellenlage
 
 - Alle Bedeutungen wurden am 23.10.2026 per Websuche nachgesehen; die Seiten selbst ließen sich in dieser Umgebung nicht öffnen. Bei Wörterbüchern (Duden, Wiktionary, Plattmakers) ist das verlässlich, bei FAQ-Seiten (kuechenfibel.de, wandernundmehr.at) nur ein Hinweis.
-- Gute Quellen zum Nachschlagen: Plattmakers (plattdeutsches Wörterbuch), Ferring-Stiftung und das „Lexikon der friesischen Redewendungen von Föhr und Amrum“ (Fering), Bayerisches Wörterbuch der Bayerischen Akademie der Wissenschaften (Bairisch).
-- **Fering und Bairisch sollte vor der Vertonung jemand gegenlesen, der die Sprache spricht.**
+- Gute Quellen zum Nachschlagen: Plattmakers (plattdeutsches Wörterbuch), Akademie för uns kölsche Sproch (Kölsch), Bayerisches Wörterbuch der Bayerischen Akademie der Wissenschaften (Bairisch).
+- **Bairisch liest vor der Vertonung ein Bekannter des Nutzers gegen (Nutzer, 23.10.2026). Platt und Kölsch sollte ebenfalls jemand gegenlesen, der die Sprache spricht.**

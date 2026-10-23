@@ -1,15 +1,15 @@
-# Kajütenfunk SBF See: alle Fragen je Lektion
+# Kajütenfunk: alle Fragen je Folge
 
-Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt) und `podcast/kursplan-sbf.json` erzeugt mit `node tools/kursplan-pruefen.js --fragen`. **✓** ist die richtige Antwort, **✗** sind die amtlichen Falschantworten (Grundlage für Fallen und Fallen-Check). [Bild] heißt: Zur Frage gehört eine Abbildung. Tonfolgen: ● kurz, ▬ lang.
+Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt) und `podcast/kursplan-sbf.json` (Fassung 4) erzeugt mit `node tools/kursplan-pruefen.js --fragen`. **✓** ist die richtige Antwort, **✗** sind die amtlichen Falschantworten (Grundlage für Fallen und Fallen-Check). [Bild] heißt: Zur Frage gehört eine Abbildung. Tonfolgen: ● kurz, ▬ lang. Teil G (Basisfragen) gilt auch für SBF Binnen.
 
-## Kapitel 0: Willkommen an Bord
+## G0 Willkommen an Bord
 
-### 0 Willkommen an Bord: der Kurs und die Prüfung
+### G0 Leinen los: So funktioniert dein Kurs
 (keine Katalogfragen)
 
-## Kapitel 1: Grundlagen: Verantwortung und Begriffe
+## G1 An Bord: wer führt, wer spricht wie
 
-### 1.1 Wer hat an Bord das Sagen?
+### G1.1 Wer führt das Boot?
 
 **1.** Was ist zu tun, wenn vor Antritt der Fahrt nicht feststeht, wer Schiffsführer ist?
 - ✓ Der verantwortliche Schiffsführer muss bestimmt werden.
@@ -17,7 +17,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein Inhaber eines Sportbootführerscheins muss die Fahrzeugführung übernehmen.
 - ✗ Ein Inhaber eines Sportbootführerscheins muss die Verantwortung übernehmen.
 
-**2.** In welchen Fällen darf weder ein Sportboot geführt noch dessen Kurs oder Geschwindigkeit selbstständig bestimmt werden?
+**2.** (Schwerpunkt) In welchen Fällen darf weder ein Sportboot geführt noch dessen Kurs oder Geschwindigkeit selbstständig bestimmt werden?
 - ✓ Wenn man infolge körperlicher oder geistiger Mängel oder infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel in der sicheren Führung behindert ist oder wenn eine Blutalkoholkonzentration von 0,5 ‰ oder mehr im Körper vorhanden ist.
 - ✗ Wenn man infolge körperlicher oder geistiger Mängel oder infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel in der sicheren Führung behindert ist oder wenn eine Blutalkoholkonzentration von 0,8 ‰ oder mehr im Körper vorhanden ist.
 - ✗ Wenn man infolge körperlicher oder geistiger Mängel oder infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel in der sicheren Führung behindert ist oder wenn eine Blutalkoholkonzentration von 1,0 ‰ oder mehr im Körper vorhanden ist.
@@ -29,45 +29,21 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Bis zu einer Antriebsleistung von 11,03 Kilowatt Betriebsart S1 (Dauerbetrieb).
 - ✗ Es darf nie ohne Fahrerlaubnis geführt werden, unabhängig von der Antriebsleistung.
 
-**75.** Welche Sportboote sind von der Fahrerlaubnispflicht auf den Seeschifffahrtsstraßen ausgenommen?
-- ✓ Sportboote ohne Antriebsmaschine oder solche mit einer größten, nicht überschreitbaren Nutzleistung von 11,03 Kilowatt (15 PS) bei Verwendung eines Verbrennungsmotors bzw. 7,5 Kilowatt bei Verwendung eines Elektromotors Betriebsart S1 (Dauerbetrieb) oder weniger.
-- ✗ Sportboote unter Segel mit einer Rumpflänge unter 20 m und solche deren Antriebsmaschine nicht benutzt wird.
-- ✗ Sportboote mit Antriebsmaschine mit einer größeren Nutzleistung als 11,03 Kilowatt (15 PS) bei Verwendung eines Verbrennungsmotors bzw. 7,5 Kilowatt bei Verwendung eines Elektromotors Betriebsart S1 (Dauerbetrieb).
-- ✗ Sportboote, die entweder vor Anker liegen oder an Land festgemacht sind oder auf Grund sitzen.
+### G1.2 Die Sprache an Bord
 
-**76.** Wer ist für die Befolgung der Verkehrsvorschriften verantwortlich?
-- ✓ Der Fahrzeugführer oder sein Stellvertreter.
-- ✗ Der Fahrzeugführer und sein Stellvertreter.
-- ✗ Der Fahrzeugführer und jeder sonst Verantwortliche.
-- ✗ Der Fahrzeugführer oder jeder sonst Verantwortliche.
-
-**77.** Was bedeutet "seemännische Sorgfaltspflicht"?
-- ✓ Die Verpflichtung zur Beachtung von Vorsichtsmaßregeln über die Verkehrsvorschriften hinaus, die Seemannsbrauch oder besondere Umstände des Falles erfordern.
-- ✗ Die Verpflichtung zur Beachtung der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO), der Kollisionsverhütungsregeln (KVR), der Grundregeln für das Verhalten im Verkehr und der Ausweichregeln mit dem Manöver des letzten Augenblicks.
-- ✗ Die Verpflichtung zur Beachtung der Vorsichtsmaßregeln und Sicherheitsregeln der Verkehrsvorschriften und der Grundregeln für das Verhalten im Verkehr.
-- ✗ Die Verpflichtung zur Beachtung von Vorsichtsmaßregeln der Kollisionsverhütungsregeln (KVR), der Grundregeln für das Verhalten im Verkehr und der Ausweichregeln mit dem Manöver des letzten Augenblicks.
-
-**78.** Welche Sicherheitsmaßnahmen hat der Fahrzeugführer im Rahmen seiner seemännischen Sorgfaltspflicht vor Fahrtantritt zum Schutze und für die Sicherheit der Personen an Bord zu treffen?
-- ✓ Der Fahrzeugführer hat die Besatzungsmitglieder und Gäste über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
-- ✗ Der Fahrzeugführer muss die Besatzungsmitglieder und Gäste anweisen, dass sie sich über die Sicherheitsvorkehrungen an Bord informieren, sich die Gebrauchsanweisungen der Rettungs- und Feuerlöschmittel ansehen und auf geeignete Maßnahmen gegen das Überbordfallen achten, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
-- ✗ Der Fahrzeugführer hat die verantwortlichen Besatzungsmitglieder über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
-- ✗ Der Fahrzeugführer hat die Gäste an Bord über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
-
-### 1.2 Die Sprache der Seeleute
-
-**3.** Wann ist ein Fahrzeug in Fahrt?
+**3.** (Schwerpunkt) Wann ist ein Fahrzeug in Fahrt?
 - ✓ Wenn es weder vor Anker liegt noch an Land festgemacht ist noch auf Grund sitzt.
 - ✗ Wenn es weder vor Anker liegt noch an Land festgemacht ist noch Fahrt über Grund macht.
 - ✗ Wenn es weder auf Grund sitzt noch vor Anker liegt noch manövrierbehindert oder manövrierunfähig ist.
 - ✗ Wenn es weder an Land festgemacht ist noch vor Anker liegt noch Fahrt durchs Wasser macht.
 
-**6.** Wann gilt ein Fahrzeug unter Segel als Maschinenfahrzeug?
+**6.** (Schwerpunkt) Wann gilt ein Fahrzeug unter Segel als Maschinenfahrzeug?
 - ✓ Wenn es gleichzeitig mit Maschinenkraft fährt.
 - ✗ Wenn es mit einer Antriebsmaschine ausgerüstet ist.
 - ✗ Wenn es durch das Segeln keine Fahrt durchs Wasser macht.
 - ✗ Wenn es durch das Segeln keine Fahrt über Grund macht.
 
-**8.** Welche Seite wird als Luvseite bezeichnet?
+**8.** (Schwerpunkt) Welche Seite wird als Luvseite bezeichnet?
 - ✓ Die dem Wind zugekehrte Seite.
 - ✗ Die dem Wind abgewandte Seite.
 - ✗ Die Seite in Fahrtrichtung rechts.
@@ -79,17 +55,11 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Die Seite in Fahrtrichtung rechts.
 - ✗ Die Seite in Fahrtrichtung links.
 
-**89.** Was bedeutet "in Sicht befindlich"?
-- ✓ Wenn jedes Fahrzeug vom anderen optisch wahrgenommen werden kann.
-- ✗ Wenn jeder Fahrzeugführer vom anderen optisch wahrgenommen werden kann.
-- ✗ Wenn beide Fahrzeuge optisch wahrgenommen werden können.
-- ✗ Wenn jedes Fahrzeug auch bei unsichtigem Wetter optisch wahrgenommen werden kann.
+## G2 Boot, Antrieb und Motor
 
-## Kapitel 2: Das Boot: Technik, Sicherheit, Manövrieren
+### G2.1 Propeller, Ruder und Radeffekt
 
-### 2.1 Propeller, Ruder und Radeffekt
-
-**41.** Wie verhält sich im Allgemeinen das Schiff im Rückwärtsgang bei einem rechtsdrehenden Propeller?
+**41.** (Schwerpunkt) Wie verhält sich im Allgemeinen das Schiff im Rückwärtsgang bei einem rechtsdrehenden Propeller?
 - ✓ Das Heck dreht nach Backbord.
 - ✗ Das Heck dreht nach Steuerbord.
 - ✗ Der Kurs des Schiffes ändert sich nicht.
@@ -107,7 +77,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Von achtern gesehen in Vorausfahrt Drehung des Propellers im Uhrzeigersinn.
 - ✗ Von vorne gesehen in Rückwärtsfahrt Drehung des Propellers im Uhrzeigersinn.
 
-**46.** Was ist unter der indirekten Ruderwirkung (Radeffekt) des Propellers zu verstehen?
+**46.** (Schwerpunkt) Was ist unter der indirekten Ruderwirkung (Radeffekt) des Propellers zu verstehen?
 - ✓ Das seitliche Versetzen des Hecks.
 - ✗ Das Versetzen nach vorne.
 - ✗ Das Versetzen nach hinten.
@@ -119,7 +89,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Sie hilft beim Überholen.
 - ✗ Sie hilft beim Begegnen.
 
-**48.** Welche Anlegeseite ist mit rechtsdrehendem Propeller empfehlenswert und warum?
+**48.** (Schwerpunkt) Welche Anlegeseite ist mit rechtsdrehendem Propeller empfehlenswert und warum?
 - ✓ Die Backbordseite - der Radeffekt zieht das Fahrzeug an die Pier.
 - ✗ Die Steuerbordseite - der Radeffekt zieht das Fahrzeug an die Pier.
 - ✗ Die Steuerbord- oder Backbordseite je nach Ruderlage.
@@ -137,7 +107,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Durch den Abstand von Propeller und Ruderblatt.
 - ✗ Weil sich durch den Radeffekt ein Unterdruck am Ruder entwickelt.
 
-### 2.2 Der Motor: überwachen, Störungen, tanken
+### G2.2 Den Motor im Blick
 
 **42.** Was bewirkt der Quickstopp?
 - ✓ Unterbrechung von Zündkontakt bzw. Kraftstoffzufuhr.
@@ -145,25 +115,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Kurze Unterbrechung des Motorlaufs.
 - ✗ Automatische Schubumkehr.
 
-**43.** Was ist zu unternehmen, wenn Treibstoff oder Öl in die Bilge gelangt?
-- ✓ Mit Lappen aufnehmen und umweltgerecht entsorgen.
-- ✗ Räume lüften und abwarten.
-- ✗ Gleichmäßig verteilen.
-- ✗ Mit entsprechendem Mittel neutralisieren.
-
-**49.** Was muss beim Tanken beachtet werden?
-- ✓ Motor abstellen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
-- ✗ Motor in Leerlaufstellung, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
-- ✗ Fenster schließen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
-- ✗ Motor abstellen, Feuerlöscher bereithalten, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
-
-**52.** Während der Fahrt sollte die Maschinenanlage ständig überwacht werden. Worauf muss besonders geachtet werden?
+**52.** (Schwerpunkt) Während der Fahrt sollte die Maschinenanlage ständig überwacht werden. Worauf muss besonders geachtet werden?
 - ✓ Motortemperatur, Öldruck, Ladekontrolle.
 - ✗ Kühlwasseraustritt, Drehzahlmesser, Keilriemenspannung.
 - ✗ Schraubendrehzahl, Getriebeöltemperatur, Öldruck.
 - ✗ Druck der Einspritzpumpe, Impellerpumpe, Ölpumpe.
 
-**53.** Die Temperatur der Antriebsmaschine überschreitet die zulässigen Grenzwerte. Was könnte die mögliche Ursache sein?
+**53.** (Schwerpunkt) Die Temperatur der Antriebsmaschine überschreitet die zulässigen Grenzwerte. Was könnte die mögliche Ursache sein?
 - ✓ Defektes Thermostat, defekte Impellerpumpe, geschlossenes Seeventil, zu niedriger Kühlwasserstand.
 - ✗ Zu viel Motoröl, defekte Impellerpumpe, geschlossenes Seeventil, zu niedriger Kühlwasserstand.
 - ✗ Defektes Thermostat, defekte Impellerpumpe, geschlossenes Seeventil, zu hohe Batteriespannung.
@@ -187,7 +145,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Verschmutzter Ölfilter.
 - ✗ Verschmutzter Luftfilter.
 
-**57.** Ein Außenborder mit gefülltem Tank bleibt während der Fahrt stehen. Was könnten die Ursachen sein?
+**57.** (Schwerpunkt) Ein Außenborder mit gefülltem Tank bleibt während der Fahrt stehen. Was könnten die Ursachen sein?
 - ✓ Belüftungsschraube geschlossen; verstopfte Kraftstoffleitung.
 - ✗ Ansaugdüsen zu groß bzw. zu klein.
 - ✗ Tankdeckel ist offen.
@@ -199,7 +157,69 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Tagestank schließen und Kraftstofffilter entwässern.
 - ✗ Fahrzeug seefest hinterlassen und den Hafenmeister verständigen.
 
-### 2.3 Gas, Feuer und Rettungsmittel
+## G3 Manövrieren
+
+### G3.1 Anlegen und Ankern
+
+**35.** (Schwerpunkt) Warum soll man möglichst gegen Strom und Wind anlegen?
+- ✓ Weil sich das Fahrzeug dabei sicherer manövrieren lässt.
+- ✗ Weil dadurch Sog und Wellenschlag vermieden wird.
+- ✗ Weil dadurch Einflüsse von Wellen und Wassertiefe ausgeglichen werden.
+- ✗ Weil dies die Steuerwirkung der Schraube erhöht.
+
+**39.** Woran kann man erkennen, ob der Anker hält?
+- ✓ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und sich die Ankerpeilung nicht ändert.
+- ✗ Wenn Ankerkette oder -leine nicht vibrieren und sich der anliegende Magnetkompasskurs nicht verändert.
+- ✗ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und das Fahrzeug nicht schwojt.
+- ✗ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und sich die Ankerpeilung ändert.
+
+**40.** (Schwerpunkt) Welches ist der günstigste Anlaufwinkel beim Anlegen?
+- ✓ Ein möglichst spitzer Winkel.
+- ✗ Ein Winkel von 90° bis 100°.
+- ✗ Ein möglichst stumpfer Winkel.
+- ✗ Ein Winkel von 60° bis 70°.
+
+### G3.2 Große Schiffe, kleine Boote
+
+**34.** (Schwerpunkt) Warum soll ein kleines Fahrzeug nicht dicht an ein großes in Fahrt befindliches Fahrzeug heranfahren?
+- ✓ Es kann durch dessen Bug- oder Heckwelle kentern oder durch den Sog mit dem Fahrzeug kollidieren.
+- ✗ Dichtes Heranfahren ist ein Verstoß gegen die Grundregeln für das Verhalten im Verkehr.
+- ✗ Da es dem großen in Fahrt befindlichen Fahrzeug sonst nicht ausweichen kann.
+- ✗ Es kann durch dessen Bug- oder Heckwelle Seeschlag erleiden.
+
+**36.** Wie verhält man sich beim Begegnen mit anderen Fahrzeugen in einem engen Fahrwasser?
+- ✓ Geschwindigkeit herabsetzen und ausreichenden Passierabstand halten.
+- ✗ Geschwindigkeit erhöhen, um das Begegnungsmanöver zügig durchzuführen.
+- ✗ Das gegen den Strom fahrende Fahrzeug ist ausweichpflichtig.
+- ✗ Das mit dem Strom fahrende Fahrzeug hat aufzustoppen.
+
+**37.** (Schwerpunkt) Welche Gefahren können entstehen, wenn ein kleines von einem größeren Fahrzeug überholt wird?
+- ✓ Das kleinere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
+- ✗ Das größere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
+- ✗ Das kleinere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder kentern, in flachen Gewässern extrem versetzt werden.
+- ✗ Das größere Fahrzeug kann durch Wellenbildung aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
+
+**61.** Wie ist ein enges Gewässer zu befahren, wenn man sich am Ufer festgemachten Fahrzeugen nähert?
+- ✓ Verringerung der Geschwindigkeit, um schädlichen Sog und Wellenschlag zu vermeiden.
+- ✗ Beibehaltung der Geschwindigkeit, um durch Gleitfahrt schädlichen Sog und Wellenschlag auszuschließen.
+- ✗ Verringerung der Geschwindigkeit und nötigenfalls vom Rechtsfahrgebot abweichen.
+- ✗ Auf Höhe der festgemachten Fahrzeuge aufstoppen und überprüfen, dass kein Dritter behindert oder geschädigt wird.
+
+## G4 Sicherheit an Bord
+
+### G4.1 Sprit und Gas: was sich in der Bilge sammelt
+
+**43.** Was ist zu unternehmen, wenn Treibstoff oder Öl in die Bilge gelangt?
+- ✓ Mit Lappen aufnehmen und umweltgerecht entsorgen.
+- ✗ Räume lüften und abwarten.
+- ✗ Gleichmäßig verteilen.
+- ✗ Mit entsprechendem Mittel neutralisieren.
+
+**49.** (Schwerpunkt) Was muss beim Tanken beachtet werden?
+- ✓ Motor abstellen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
+- ✗ Motor in Leerlaufstellung, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
+- ✗ Fenster schließen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
+- ✗ Motor abstellen, Feuerlöscher bereithalten, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.
 
 **62.** Wo sollen die Gasbehälter einer Flüssiggasanlage gelagert werden?
 - ✓ Möglichst an Deck, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat.
@@ -207,13 +227,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Möglichst auf dem Vorschiff, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat.
 - ✗ Möglichst an Deck, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der oben belüftet ist.
 
-**63.** Warum sind die Flüssiggase Propan und Butan an Bord besonders gefährlich?
+**63.** (Schwerpunkt) Warum sind die Flüssiggase Propan und Butan an Bord besonders gefährlich?
 - ✓ Beide Gase sind schwerer als Luft und bilden mit Luft ein explosives Gemisch.
 - ✗ Beide Gase sind leichter als Luft und bilden mit Luft ein explosives Gemisch.
 - ✗ Beide Gase sind schwerer als Wasser und bilden mit Wasser ein explosives Gemisch.
 - ✗ Beide Gase sind schwerer als Luft und bilden mit Wasser ein explosives Gemisch.
 
-**64.** Was ist zu tun, wenn Flüssiggas in das Innere des Bootes gelangt?
+**64.** (Schwerpunkt) Was ist zu tun, wenn Flüssiggas in das Innere des Bootes gelangt?
 - ✓ Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keinen Funk und keine Mobiltelefone benutzen.
 - ✗ Gasleitung entleeren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keine Telefone benutzen.
 - ✗ Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und per Telefon Hilfe holen.
@@ -231,6 +251,8 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Gasflasche fachgerecht entsorgen.
 - ✗ Der Flüssiggasbehälter ist vollständig zu entleeren.
 
+### G4.2 Feuer, Westen und der Ernstfall
+
 **67.** Wie oft muss man aufblasbare Rettungsmittel warten lassen?
 - ✓ Entsprechend der Herstellerangabe, mindestens alle 2 Jahre.
 - ✗ Jährlich und nach jedem Einsatz oder Übungsgebrauch.
@@ -243,51 +265,143 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ CO2-Feuerlöscher, mindestens alle 2 Jahre.
 - ✗ ABC-Pulverlöscher, mindestens einmal pro Jahr.
 
-**69.** Welche Maßnahmen muss man ergreifen, um einen Brand mit dem Feuerlöscher wirksam zu bekämpfen?
+**69.** (Schwerpunkt) Welche Maßnahmen muss man ergreifen, um einen Brand mit dem Feuerlöscher wirksam zu bekämpfen?
 - ✓ Luftzufuhr verhindern, Feuerlöscher erst am Brandherd einsetzen und das Feuer möglichst von unten bekämpfen.
 - ✗ Rauchabzug sicherstellen und Feuerlöscher rechtzeitig einsetzen, dabei den Löschstrahl möglichst in die lodernden Flammen halten.
 - ✗ Luftzufuhr verhindern und den Feuerlöscher mit sparsamen Löschstrahlstößen einsetzen, dabei das Feuer möglichst von oben bekämpfen.
 - ✗ Handhabungshinweise durchlesen und den Feuerlöscher sofort einsetzen, dabei das Feuer möglichst von unten bekämpfen.
 
-### 2.4 Anlegen, Begegnen, Sog und Schwell
+**70.** (Schwerpunkt) Wie hat man sich nach einem Zusammenstoß zu verhalten?
+- ✓ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; alle erforderlichen Daten austauschen.
+- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; die Wasserschutzpolizei benachrichtigen.
+- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; Notsignal geben.
+- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; Verschlusszustand herstellen.
 
-**34.** Warum soll ein kleines Fahrzeug nicht dicht an ein großes in Fahrt befindliches Fahrzeug heranfahren?
-- ✓ Es kann durch dessen Bug- oder Heckwelle kentern oder durch den Sog mit dem Fahrzeug kollidieren.
-- ✗ Dichtes Heranfahren ist ein Verstoß gegen die Grundregeln für das Verhalten im Verkehr.
-- ✗ Da es dem großen in Fahrt befindlichen Fahrzeug sonst nicht ausweichen kann.
-- ✗ Es kann durch dessen Bug- oder Heckwelle Seeschlag erleiden.
+**72.** (Schwerpunkt) In welcher Situation dürfen Notsignale gegeben werden?
+- ✓ Wenn Gefahr für Leib oder Leben von Personen besteht und daher Hilfe benötigt wird.
+- ✗ Wenn Gefahr für Leib oder Leben von Personen besteht oder das Schiff nicht mehr sicher manövriert werden kann.
+- ✗ Wenn Gefahr für Leib oder Leben von Personen oder erhebliche Sachwerte besteht und daher Hilfe benötigt wird.
+- ✗ Wenn Gefahr für Leib oder Leben von Personen, erhebliche Sachwerte oder die maritime Umwelt besteht.
 
-**35.** Warum soll man möglichst gegen Strom und Wind anlegen?
-- ✓ Weil sich das Fahrzeug dabei sicherer manövrieren lässt.
-- ✗ Weil dadurch Sog und Wellenschlag vermieden wird.
-- ✗ Weil dadurch Einflüsse von Wellen und Wassertiefe ausgeglichen werden.
-- ✗ Weil dies die Steuerwirkung der Schraube erhöht.
+## G5 Grundregeln unterwegs
 
-**36.** Wie verhält man sich beim Begegnen mit anderen Fahrzeugen in einem engen Fahrwasser?
-- ✓ Geschwindigkeit herabsetzen und ausreichenden Passierabstand halten.
-- ✗ Geschwindigkeit erhöhen, um das Begegnungsmanöver zügig durchzuführen.
-- ✗ Das gegen den Strom fahrende Fahrzeug ist ausweichpflichtig.
-- ✗ Das mit dem Strom fahrende Fahrzeug hat aufzustoppen.
+### G5.1 Lichter: Wer bin ich, wohin fahre ich?
 
-**37.** Welche Gefahren können entstehen, wenn ein kleines von einem größeren Fahrzeug überholt wird?
-- ✓ Das kleinere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
-- ✗ Das größere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
-- ✗ Das kleinere Fahrzeug kann durch Stau, Sog oder Schwell aus dem Kurs laufen und kollidieren oder kentern, in flachen Gewässern extrem versetzt werden.
-- ✗ Das größere Fahrzeug kann durch Wellenbildung aus dem Kurs laufen und kollidieren oder querschlagen, in flachen Gewässern auf Grund laufen.
+**7.** Welches Signal führt ein Fahrzeug unter Segel, das als Maschinenfahrzeug gilt, zusätzlich am Tage?
+- ✓ Einen schwarzen Kegel, Spitze unten.
+- ✗ Einen schwarzen Kegel, Spitze oben.
+- ✗ Einen schwarzen Rhombus.
+- ✗ Zwei schwarze Bälle senkrecht übereinander.
 
-**40.** Welches ist der günstigste Anlaufwinkel beim Anlegen?
-- ✓ Ein möglichst spitzer Winkel.
-- ✗ Ein Winkel von 90° bis 100°.
-- ✗ Ein möglichst stumpfer Winkel.
-- ✗ Ein Winkel von 60° bis 70°.
+**10.** Wann müssen die Lichter von Fahrzeugen geführt oder gezeigt werden?
+- ✓ Von Sonnenuntergang bis Sonnenaufgang und bei verminderter Sicht.
+- ✗ Von Sonnenaufgang bis Sonnenuntergang und bei verminderter Sicht.
+- ✗ Von abends 18:00 Uhr bis morgens 06:00 Uhr und bei verminderter Sicht.
+- ✗ Bei Dunkelheit, schlechtem Wetter und verminderter Sicht.
 
-**61.** Wie ist ein enges Gewässer zu befahren, wenn man sich am Ufer festgemachten Fahrzeugen nähert?
-- ✓ Verringerung der Geschwindigkeit, um schädlichen Sog und Wellenschlag zu vermeiden.
-- ✗ Beibehaltung der Geschwindigkeit, um durch Gleitfahrt schädlichen Sog und Wellenschlag auszuschließen.
-- ✗ Verringerung der Geschwindigkeit und nötigenfalls vom Rechtsfahrgebot abweichen.
-- ✗ Auf Höhe der festgemachten Fahrzeuge aufstoppen und überprüfen, dass kein Dritter behindert oder geschädigt wird.
+**11.** (Schwerpunkt) Wozu dient die Lichterführung?
+- ✓ Sie zeigt Fahrtrichtung und Lage eines Fahrzeugs an.
+- ✗ Sie zeigt Kurs und Geschwindigkeit eines Fahrzeugs an.
+- ✗ Sie zeigt Fahrtrichtung und Position eines Fahrzeugs an.
+- ✗ Sie zeigt Fahrtrichtung und Kurs eines Fahrzeugs an.
 
-### 2.5 Ankern, Baden und Wassersport
+**12.** (Schwerpunkt) Was für eine Laterne kann ein Segelfahrzeug von weniger als 20 m Länge anstelle der Seitenlichter und des Hecklichtes führen?
+- ✓ Eine Dreifarbenlaterne an oder nahe der Mastspitze.
+- ✗ Eine Zweifarbenlaterne an gut sichtbarer Stelle.
+- ✗ Eine Dreifarbenlaterne an gut sichtbarer Stelle.
+- ✗ Eine Zweifarbenlaterne an oder nahe der Mastspitze.
+
+**13.** (Schwerpunkt) Welche Lichter muss ein Fahrzeug unter Segel, das gleichzeitig mit Maschinenkraft fährt, führen?
+- ✓ Die für ein Maschinenfahrzeug vorgeschriebenen Lichter.
+- ✗ Die für ein Segelfahrzeug vorgeschriebenen Lichter.
+- ✗ Zwei rote Rundumlichter senkrecht übereinander.
+- ✗ Seitenlichter rot und grün und ein rotes Rundumlicht.
+
+### G5.2 Wer weicht aus? Die zwei Grundregeln
+
+**14.** (Schwerpunkt) Wie weichen zwei Motorboote aus, die sich auf entgegengesetzten Kursen nähern?
+- ✓ Jedes Fahrzeug muss seinen Kurs nach Steuerbord ändern.
+- ✗ Jedes Fahrzeug muss seinen Kurs nach Backbord ändern.
+- ✗ Es muss das luvwärtige Fahrzeug dem leewärtigen Fahrzeug ausweichen.
+- ✗ Es muss das leewärtige Fahrzeug dem luvwärtigen Fahrzeug ausweichen.
+
+**15.** (Schwerpunkt) Zwei Motorboote nähern sich auf kreuzenden Kursen. Es besteht die Gefahr eines Zusammenstoßes. Wer ist ausweichpflichtig?
+- ✓ Dasjenige Fahrzeug muss ausweichen, welches das Andere an seiner Steuerbordseite hat.
+- ✗ Dasjenige Fahrzeug muss ausweichen, welches das Andere an seiner Backbordseite hat.
+- ✗ Es muss das luvwärtige Fahrzeug dem leewärtigen Fahrzeug ausweichen.
+- ✗ Es muss das leewärtige Fahrzeug dem luvwärtigen Fahrzeug ausweichen.
+
+## G6 Zeichen am Ufer
+
+### G6.1 Verbote: was die roten Tafeln sagen
+
+**17.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Überholverbot.
+- ✗ Begegnungsverbot.
+- ✗ Überholverbot für Fahrzeuge unter 20 m Länge.
+- ✗ Begegnungsverbot für Fahrzeuge über 20 m Länge.
+
+**18.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Begegnungsverbot an einer Engstelle.
+- ✗ Begegnungsverbot für Fahrzeuge über 12 m Länge.
+- ✗ Überholverbot; mit Gegenverkehr muss gerechnet werden.
+- ✗ Überholverbot für alle Fahrzeuge.
+
+**19.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Sog und Wellenschlag vermeiden.
+- ✗ Gefährdeter Strandbereich, Überspülungsgefahr; Mindestpassierabstand 100 m.
+- ✗ Wasserstraße, die jederzeit sicher befahren werden kann; keine Gefahr durch Seegang.
+- ✗ Wasserstraße, die nicht jederzeit sicher befahren werden kann; Gefahr durch Seegang.
+
+**22.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Ankern verboten für alle Fahrzeuge.
+- ✗ Ankern verboten für Kleinfahrzeuge unter 12 m Länge.
+- ✗ Ankern verboten für Kleinfahrzeuge ab 12 m Länge.
+- ✗ Ankern und Festmachen verboten.
+
+**23.** Welche Bedeutung haben folgende Tafelzeichen? [Bild]
+- ✓ Festmache- und Liegeverbot.
+- ✗ Festmache- und Liegeverbot für Sportboote.
+- ✗ Festmache- und Liegeverbot für Sportboote über 12 m Länge.
+- ✗ Festmache- und Liegeverbot für gewerbliche Schiffe.
+
+**27.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Verbot der Durchfahrt und Sperrung der Schifffahrt.
+- ✗ Verbot der Durchfahrt und Sperrung für Kleinfahrzeuge.
+- ✗ Verbot der Durchfahrt, jedoch für Kleinfahrzeuge ohne laufende Antriebsmaschine befahrbar.
+- ✗ Verbot der Durchfahrt, jedoch für Kleinfahrzeuge ohne Antriebsmaschine befahrbar.
+
+### G6.2 Gebote, Hinweise und die Länge eines Tons
+
+**4.** (Schwerpunkt) Wie lang ist die Dauer eines kurzen Tons (●)?
+- ✓ Etwa 1 Sekunde.
+- ✗ Etwa 2 Sekunden.
+- ✗ Weniger als 1 Sekunde.
+- ✗ Weniger als 4 Sekunden.
+
+**5.** (Schwerpunkt) Wie lang ist die Dauer eines langen Tons (▬)?
+- ✓ Etwa 4 - 6 Sekunden.
+- ✗ Etwa 2 - 6 Sekunden.
+- ✗ Etwa 1 - 2 Sekunden.
+- ✗ Etwa 6 - 8 Sekunden.
+
+**16.** (Schwerpunkt) Welche Bedeutung hat folgendes Schallsignal? [Bild]
+- ✓ Bleib-weg-Signal, Gefahrenbereich sofort verlassen.
+- ✗ Allgemeines Gefahr- und Warnsignal.
+- ✗ Ankerlieger über 100 m Länge.
+- ✗ Manövrierbehinderter Schleppverband über 200 m Länge.
+
+**20.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Mindestabstand in Metern, der in der nachfolgenden Strecke vom Aufstellungsort der Tafel an eingehalten werden muss.
+- ✗ Maximalgeschwindigkeit in km/h, die auf der in Fahrtrichtung rechten Fahrwasserseite nicht überschritten werden darf.
+- ✗ Maximalabstand in Metern, der in der nachfolgenden Strecke vom Aufstellungsort der Tafel an eingehalten werden muss.
+- ✗ Verengung des Fahrwassers auf 40 m.
+
+**24.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Abgabe eines langen Tons.
+- ✗ Abgabe eines kurzen Tons.
+- ✗ Abgabe von zwei langen Tönen.
+- ✗ Abgabe eines kurzen und eines langen Tons.
 
 **25.** Welche Bedeutung haben folgende Tafelzeichen? [Bild]
 - ✓ Wasserflächen, auf denen mit Wasserski oder Wassermotorrädern gefahren werden darf.
@@ -295,74 +409,154 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Fahren mit Wasserski oder Wassermotorrädern erlaubt. Wasserskiläufer und Wassermotorräder haben Vorfahrt.
 - ✗ Genehmigungsfreie Übungsstrecke für das Fahren mit Wasserski oder Wassermotorrädern.
 
-**39.** Woran kann man erkennen, ob der Anker hält?
-- ✓ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und sich die Ankerpeilung nicht ändert.
-- ✗ Wenn Ankerkette oder -leine nicht vibrieren und sich der anliegende Magnetkompasskurs nicht verändert.
-- ✗ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und das Fahrzeug nicht schwojt.
-- ✗ Wenn beim Handauflegen auf die Ankerkette oder -leine kein Rucken zu verspüren ist und sich die Ankerpeilung ändert.
+**26.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Ende einer Gebots- oder Verbotsstrecke.
+- ✗ Streckenabschnitt für eine nicht frei fahrende Fähre.
+- ✗ Queren des Fahrwassers ist gestattet.
+- ✗ Wechseln der Fahrwasserseite ist gestattet.
 
-**169.** Wo darf Wasserski gelaufen, Wassermotorrad gefahren oder mit einem Segelsurfbrett gefahren werden?
-- ✓ Außerhalb des Fahrwassers, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Im Fahrwasser auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
-- ✗ Außerhalb der Seeschifffahrtsstraße, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Innerhalb der Seeschifffahrtsstraße auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
-- ✗ Auf der hohen See und auf den mit dieser zusammenhängenden, von Seeschiffen befahrbaren Gewässern, sofern dabei ein Abstand von mindestens 100 m zum Ufer eingehalten wird.
-- ✗ Im Fahrwasser, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Außerhalb des Fahrwassers auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
+### G6.3 Brücken und Schleusen
 
-**170.** Wie haben sich Führer von Zugbooten der Wasserskiläufer bzw. Wassermotorradfahrer und Segelsurfer bei der Annäherung an andere Fahrzeuge zu verhalten?
-- ✓ Sie haben auszuweichen.
-- ✗ Sie haben bei Annäherung an andere Fahrzeuge aufzustoppen und Sog und Wellenschlag zu vermeiden.
-- ✗ Sie haben Vorfahrt und müssen vor dem Bug des anderen Fahrzeugs kreuzen.
-- ✗ Sie müssen Kurs und Geschwindigkeit beibehalten.
+**21.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+- ✓ Haltegebot vor beweglichen Brücken, Sperrwerken und Schleusen.
+- ✗ Dauernde Sperrung einer Teilstrecke der Wasserstraße.
+- ✗ Gebot zur Abgabe eines langen Signaltons.
+- ✗ Weiterfahrt für Sportfahrzeuge verboten.
 
-**171.** Wo ist das Ankern verboten?
-- ✓ Im Fahrwasser, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Wracks und sonstigen Schifffahrtshindernissen, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals; innerhalb von Fährund Brückenstrecken; 300 m vor und hinter Ankerverbotszeichen.
-- ✗ Im Fahrwasser, auf Seeschifffahrtsstraßen, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Wracks und sonstigen Schifffahrtshindernissen, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals; innerhalb von Fähr- und Brückenstrecken; 300 m vor und hinter Ankerverbotszeichen.
-- ✗ Im Fahrwasser, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals und in Vogelschutz- und Naturschutzgebieten sowie generell innerhalb von Nationalparks.
-- ✗ Im Fahrwasser, wenn es durch die Generaldirektion Wasserstraßen und Schifffahrt (GDWS) bekanntgemacht worden ist. Außerhalb des Fahrwassers auf Abschnitten, die durch die GDWS bekanntgemacht oder durch entsprechende Sichtzeichen bezeichnet sind.
+**28.** Welche Bedeutung haben folgende Schifffahrtszeichen? [Bild]
+- ✓ Brücke, Sperrwerk oder Schleuse geschlossen.
+- ✗ Anlage dauerhaft gesperrt.
+- ✗ Stoppsignal für alle Fahrzeuge.
+- ✗ Außergewöhnliche Schifffahrtsbehinderung.
 
-**179.** Welche Bedeutung hat folgendes Sichtzeichen? [Bild]
-- ✓ Geschwindigkeit von 8 km/h Fahrt durch das Wasser, die innerhalb eines Bereiches von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
-- ✗ Kennzeichnung besonderer Gebiete und Stellen, z. B. Warngebiete; die Bedeutung kann der Seekarte entnommen und aus der Beschriftung des Schifffahrtszeichens erkannt werden.
-- ✗ Geschwindigkeit von 8 sm/h Fahrt durch das Wasser, die innerhalb eines Mindestabstandes von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
-- ✗ Buhnenbauwerk, Gefahr durch Sog und Wellenschlag. Insbesondere auf Badebetrieb und Schwimmer achten.
+**29.** Welche Bedeutung haben folgende Schifffahrtszeichen? [Bild]
+- ✓ Anlage dauerhaft gesperrt.
+- ✗ Brücke, Sperrwerk oder Schleuse geschlossen.
+- ✗ Stoppsignal für alle Fahrzeuge.
+- ✗ Außergewöhnliche Schifffahrtsbehinderung.
 
-**180.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
-- ✓ Gesperrt für alle Maschinenfahrzeuge und Wassermotorräder wegen Badebetriebs.
-- ✗ Höchstgeschwindigkeit von 4,3 Knoten Fahrt durch das Wasser, die innerhalb von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
-- ✗ Einzelgefahrenstelle, erkennbar an ihrer Farbgebung, die an allen Seiten mit einer maximalen Geschwindigkeit von 4,3 Knoten passiert werden kann.
-- ✗ Kennzeichnung besonderer Gebiete und Stellen, z. B. Warngebiet.
+**30.** (Schwerpunkt) Was bedeuten diese Lichter vor einer Schleuse? [Bild]
+- ✓ Einfahrt frei, Gegenverkehr gesperrt.
+- ✗ Einfahrt frei, Schleusentor öffnet.
+- ✗ Schleuse in Betrieb, auf Einfahrtsignal gemäß Reihenfolge warten.
+- ✗ Schleuse in Betrieb, auf Ausfahrtsignal gemäß Reihenfolge warten.
 
-**181.** Welche Höchstgeschwindigkeit darf vor Stellen mit erkennbarem Badebetrieb - außerhalb des Fahrwassers - in einem Abstand von 500 m und weniger vom Ufer nicht überschritten werden?
-- ✓ 4,3 Knoten.
-- ✗ 3,4 Knoten.
-- ✗ 4,8 Knoten.
-- ✗ 3,8 Knoten.
+## G7 Natur und Wetter
 
-### 2.6 Die praktische Prüfung: Manöver und Knoten
-(keine Katalogfragen)
+### G7.1 Natur schützen, Wetter lesen
 
-## Kapitel 3: Wer weicht wem aus?
+**31.** Welches Merkblatt enthält Hinweise für das Verhalten zum Schutz seltener Tiere und Pflanzen sowie zur Reinhaltung der Gewässer?
+- ✓ Die 10 goldenen Regeln für Wassersportler.
+- ✗ Die 15 goldenen Regeln für Wassersportler.
+- ✗ Die 10 Grundregeln für Wassersportler.
+- ✗ Die 15 Verhaltensregeln für Wassersportler.
 
-### 3.1 Welche Regeln gelten, und wann wird es gefährlich?
+**32.** Wie kann mitgeholfen werden, die Lebensmöglichkeiten der Pflanzen- und Tierwelt in Gewässern und Feuchtgebieten zu bewahren und zu fördern?
+- ✓ Durch umweltbewusstes Verhalten und Beachtung der "Zehn goldenen Regeln für das Verhalten von Wassersportlern in der Natur".
+- ✗ Durch umweltbewusstes Verhalten und Beachtung der "Zehn Grundregeln für den Wassersport".
+- ✗ Durch umsichtiges Verhalten und Beachtung der Verkehrsvorschriften.
+- ✗ Durch vorausschauendes Fahren und Ausweichen entsprechend der Verkehrsvorschriften.
 
-**73.** Wo gelten die Kollisionsverhütungsregeln (KVR)?
+**33.** (Schwerpunkt) Warum sollte man sich von Schilf- und Röhrichtzonen sowie von dicht bewachsenen Uferzonen möglichst weit fernhalten?
+- ✓ Weil diese Zonen vielfach Rast- und Brutplätze besonders schutzwürdiger Vögel oder Fischlaichplätze sind.
+- ✗ Weil in diesen Zonen die Gefahr von Grundberührungen besteht.
+- ✗ Weil durch die Pflanzen der Propeller blockiert werden könnte.
+- ✗ Weil in diesen Zonen badende Personen schwer zu erkennen sind.
+
+**38.** Wo finden Sie Informationen über umweltfreundliche Farben, Lacke und Antifouling-Beschichtungen für Ihr Boot?
+- ✓ Beim Umweltbundesamt.
+- ✗ Beim Bundesministerium für Digitales und Verkehr.
+- ✗ In der Sportbootführerscheinverordnung.
+- ✗ In der Sportbootvermietungsverordnung.
+
+**58.** Welche Veröffentlichungen enthalten wichtige Regeln und Tipps für Wassersportler, Empfehlungen zur Ausrüstung von Sportbooten sowie Hinweise zu umweltgerechtem Verhalten auf dem Wasser?
+- ✓ Nautische Publikationen wie „Sicherheit auf dem Wasser“ und „Sicher auf See".
+- ✗ Verordnung über die Sicherung der Seefahrt und nautische Publikationen wie „Sicher auf See".
+- ✗ Nautische Publikation wie „Sicherheit auf dem Wasser“ und Internationales Signalbuch.
+- ✗ Internationales Signalbuch und Verordnung über die Sicherung der Seefahrt.
+
+**71.** (Schwerpunkt) Welche Faktoren sind hauptsächlich für das Wettergeschehen, also für Wind und Niederschläge, ausschlaggebend?
+- ✓ Luftdruckänderung, Luftfeuchtigkeit und Temperatur.
+- ✗ Luftdruckänderung, Sonneneinstrahlung und Höhenlage.
+- ✗ Luftdruckänderung, Luftfeuchtigkeit und Jahreszeit.
+- ✗ Luftdruckänderung, Tageszeit und Temperatur.
+
+## G8 Grundkurs-Check
+
+### G8 Grundkurs-Check mit Harms
+Wiederholung, Bezug auf: 2, 4–6, 10, 12–17, 21, 27, 30, 33–35, 40, 41, 46, 48, 49, 63, 64, 68, 69, 71, 72
+
+## S1 Recht auf See
+
+### S1.1 Welche Regeln gelten wo?
+
+**73.** (Schwerpunkt) Wo gelten die Kollisionsverhütungsregeln (KVR)?
 - ✓ Auf der Hohen See und auf den mit dieser zusammenhängenden, von Seeschiffen befahrbaren Gewässern.
 - ✗ Auf der Hohen See und den deutschen Seeschifffahrtsstraßen, die von Seeschiffen befahren werden.
 - ✗ Auf den Seeschifffahrtsstraßen und den küstennahen deutschen Seegewässern, die von Seeschiffen befahren werden.
 - ✗ Auf der Hohen See und den von Seeschiffen befahrbaren Randmeeren, mit Ausnahme der Verkehrstrennungsgebiete.
 
-**74.** Was gilt, wenn eine Bestimmung der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) mit den Kollisionsverhütungsregeln (KVR) im Widerspruch steht?
+**74.** (Schwerpunkt) Was gilt, wenn eine Bestimmung der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) mit den Kollisionsverhütungsregeln (KVR) im Widerspruch steht?
 - ✓ Die Vorschrift der Seeschifffahrtsstraßen-Ordnung.
 - ✗ Die Vorschrift der Kollisionsverhütungsregeln (KVR).
 - ✗ Die Grundregeln für das Verhalten im Verkehr.
 - ✗ Die Vorschrift der Schifffahrtsordnung Emsmündung.
 
-**90.** Was bedeutet sichere Geschwindigkeit?
+**152.** Wo ist festgelegt, welche Wasserflächen Seeschifffahrtsstraßen sind?
+- ✓ Seeschifffahrtsstraßen-Ordnung und Schifffahrtsordnung Emsmündung.
+- ✗ Seeschifffahrtsstraßen-Ordnung und Kollisionsverhütungsregeln.
+- ✗ Kollisionsverhütungsregeln und Schifffahrtsordnung Emsmündung.
+- ✗ Kollisionsverhütungsregeln und Seeaufgabengesetz.
+
+**153.** Welche örtlichen Sondervorschriften zusätzlich zur Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und zur Schifffahrtsordnung Emsmündung (EmsSchO) gibt es und was ist darin geregelt?
+- ✓ Die Bekanntmachungen der Generaldirektion Wasserstraßen und Schifffahrt (GDWS), die besondere örtliche Regelungen enthalten und Hinweise für die einzelnen Seeschifffahrtsstraßen geben.
+- ✗ Die Nachrichten für Seefahrer (NfS), herausgegeben vom Bundesamt für Seeschifffahrt und Hydrographie, sowie die Bekanntmachungen für Seefahrer (BfS) der örtlich zuständigen Wasserstraßen- und Schifffahrtsämter, die auf alle Veränderungen hinsichtlich Betonnung, Befeuerung, Wracks und Untiefen sowie auf die Schifffahrt betreffende Maßnahmen und Ereignisse hinweisen.
+- ✗ Die Bekanntmachung der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) sowie die nautische Veröffentlichung "Sicherheit auf dem Wasser", herausgegeben durch das Bundesministerium für Digitales und Verkehr (BMDV), mit wichtigen Regeln und Tipps für Wassersportler.
+- ✗ Das Seesicherheitsuntersuchungsgesetz sowie die Verordnung über die Sicherung der Seefahrt, die jeweils wichtige Vorschriften über das Verhalten nach einem Zusammenstoß auf den jeweiligen Seeschifffahrtsstraßen enthalten.
+
+### S1.2 Fahrerlaubnis, Verantwortung, Sorgfalt
+
+**75.** Welche Sportboote sind von der Fahrerlaubnispflicht auf den Seeschifffahrtsstraßen ausgenommen?
+- ✓ Sportboote ohne Antriebsmaschine oder solche mit einer größten, nicht überschreitbaren Nutzleistung von 11,03 Kilowatt (15 PS) bei Verwendung eines Verbrennungsmotors bzw. 7,5 Kilowatt bei Verwendung eines Elektromotors Betriebsart S1 (Dauerbetrieb) oder weniger.
+- ✗ Sportboote unter Segel mit einer Rumpflänge unter 20 m und solche deren Antriebsmaschine nicht benutzt wird.
+- ✗ Sportboote mit Antriebsmaschine mit einer größeren Nutzleistung als 11,03 Kilowatt (15 PS) bei Verwendung eines Verbrennungsmotors bzw. 7,5 Kilowatt bei Verwendung eines Elektromotors Betriebsart S1 (Dauerbetrieb).
+- ✗ Sportboote, die entweder vor Anker liegen oder an Land festgemacht sind oder auf Grund sitzen.
+
+**76.** Wer ist für die Befolgung der Verkehrsvorschriften verantwortlich?
+- ✓ Der Fahrzeugführer oder sein Stellvertreter.
+- ✗ Der Fahrzeugführer und sein Stellvertreter.
+- ✗ Der Fahrzeugführer und jeder sonst Verantwortliche.
+- ✗ Der Fahrzeugführer oder jeder sonst Verantwortliche.
+
+**77.** (Schwerpunkt) Was bedeutet "seemännische Sorgfaltspflicht"?
+- ✓ Die Verpflichtung zur Beachtung von Vorsichtsmaßregeln über die Verkehrsvorschriften hinaus, die Seemannsbrauch oder besondere Umstände des Falles erfordern.
+- ✗ Die Verpflichtung zur Beachtung der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO), der Kollisionsverhütungsregeln (KVR), der Grundregeln für das Verhalten im Verkehr und der Ausweichregeln mit dem Manöver des letzten Augenblicks.
+- ✗ Die Verpflichtung zur Beachtung der Vorsichtsmaßregeln und Sicherheitsregeln der Verkehrsvorschriften und der Grundregeln für das Verhalten im Verkehr.
+- ✗ Die Verpflichtung zur Beachtung von Vorsichtsmaßregeln der Kollisionsverhütungsregeln (KVR), der Grundregeln für das Verhalten im Verkehr und der Ausweichregeln mit dem Manöver des letzten Augenblicks.
+
+**78.** (Schwerpunkt) Welche Sicherheitsmaßnahmen hat der Fahrzeugführer im Rahmen seiner seemännischen Sorgfaltspflicht vor Fahrtantritt zum Schutze und für die Sicherheit der Personen an Bord zu treffen?
+- ✓ Der Fahrzeugführer hat die Besatzungsmitglieder und Gäste über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
+- ✗ Der Fahrzeugführer muss die Besatzungsmitglieder und Gäste anweisen, dass sie sich über die Sicherheitsvorkehrungen an Bord informieren, sich die Gebrauchsanweisungen der Rettungs- und Feuerlöschmittel ansehen und auf geeignete Maßnahmen gegen das Überbordfallen achten, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
+- ✗ Der Fahrzeugführer hat die verantwortlichen Besatzungsmitglieder über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
+- ✗ Der Fahrzeugführer hat die Gäste an Bord über die Sicherheitsvorkehrungen an Bord zu unterrichten, in die Handhabung der Rettungs- und Feuerlöschmittel einzuweisen und auf geeignete Maßnahmen gegen das Überbordfallen hinzuweisen, zudem darauf, dass ständig angelegte Rettungswesten die Überlebenschancen im Wasser erhöhen.
+
+**89.** Was bedeutet "in Sicht befindlich"?
+- ✓ Wenn jedes Fahrzeug vom anderen optisch wahrgenommen werden kann.
+- ✗ Wenn jeder Fahrzeugführer vom anderen optisch wahrgenommen werden kann.
+- ✗ Wenn beide Fahrzeuge optisch wahrgenommen werden können.
+- ✗ Wenn jedes Fahrzeug auch bei unsichtigem Wetter optisch wahrgenommen werden kann.
+
+**90.** (Schwerpunkt) Was bedeutet sichere Geschwindigkeit?
 - ✓ Die Geschwindigkeit muss der Verkehrslage, den Sicht- und Witterungsverhältnissen angepasst sein und es muss jederzeit aufgestoppt werden können.
 - ✗ Die Geschwindigkeit muss der Verkehrslage, den Sicht- und Witterungsverhältnissen angepasst sein und der Verkehr darf nicht behindert werden.
 - ✗ Die Geschwindigkeit muss der Verkehrslage, den Sicht- und Witterungsverhältnissen und dem Treibstoffverbrauch angepasst sein.
 - ✗ Die Geschwindigkeit muss der Verkehrslage, dem Verkehrsaufkommen, den Seegangs- und Windverhältnissen angepasst sein, so dass kein Sog und Wellenschlag entsteht.
 
-**125.** Woran kann man feststellen, ob die Möglichkeit der Gefahr eines Zusammenstoßes besteht?
+## S2 Ausweichen auf See
+
+### S2.1 Wann wird es gefährlich? Peilung, Ausguck, AIS
+
+**125.** (Schwerpunkt) Woran kann man feststellen, ob die Möglichkeit der Gefahr eines Zusammenstoßes besteht?
 - ✓ Wenn sich der Abstand zum anderen Fahrzeug verringert und sich die Peilung nicht oder nicht merklich ändert.
 - ✗ Wenn sich der Abstand zum anderen Fahrzeug verringert und sich der Kurs nicht oder nicht merklich ändert.
 - ✗ Wenn sich der Abstand zum anderen Fahrzeug verringert und sich die Kompasspeilung ändert.
@@ -380,27 +574,15 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Schiffsdaten (statisch), reisebezogene Daten.
 - ✗ Schiffsdaten (dynamisch), Wetterdaten.
 
-### 3.2 Begegnen, Kreuzen, Überholen, Segeln
+### S2.2 Begegnen, Kreuzen, Überholen, Segeln
 
-**14.** Wie weichen zwei Motorboote aus, die sich auf entgegengesetzten Kursen nähern?
-- ✓ Jedes Fahrzeug muss seinen Kurs nach Steuerbord ändern.
-- ✗ Jedes Fahrzeug muss seinen Kurs nach Backbord ändern.
-- ✗ Es muss das luvwärtige Fahrzeug dem leewärtigen Fahrzeug ausweichen.
-- ✗ Es muss das leewärtige Fahrzeug dem luvwärtigen Fahrzeug ausweichen.
-
-**15.** Zwei Motorboote nähern sich auf kreuzenden Kursen. Es besteht die Gefahr eines Zusammenstoßes. Wer ist ausweichpflichtig?
-- ✓ Dasjenige Fahrzeug muss ausweichen, welches das Andere an seiner Steuerbordseite hat.
-- ✗ Dasjenige Fahrzeug muss ausweichen, welches das Andere an seiner Backbordseite hat.
-- ✗ Es muss das luvwärtige Fahrzeug dem leewärtigen Fahrzeug ausweichen.
-- ✗ Es muss das leewärtige Fahrzeug dem luvwärtigen Fahrzeug ausweichen.
-
-**81.** Wann gilt ein Fahrzeug als überholendes Fahrzeug?
+**81.** (Schwerpunkt) Wann gilt ein Fahrzeug als überholendes Fahrzeug?
 - ✓ Wenn es sich einem anderen Fahrzeug aus einer Richtung von mehr als 22,5° achterlicher als querab (Bereich des Hecklichtes) nähert.
 - ✗ Wenn es sich einem anderen Fahrzeug aus einer Richtung von mehr als 112,5° achterlicher als querab (Bereich der Seitenlichter) nähert.
 - ✗ Wenn es sich einem anderen Fahrzeug gegenüber in einer Richtung von mehr als 22,5° achterlicher als querab (Bereich des Hecklichtes) befindet.
 - ✗ Wenn es an einem anderen Fahrzeug aus einer achterlichen Richtung von mehr als 22,5° querab kommend (Bereich des Topplichtes) vorbeifährt.
 
-**126.** Zwei in Sicht befindliche Segelfahrzeuge nähern sich im freien Seeraum oder außerhalb des Fahrwassers so, dass die Möglichkeit der Gefahr eines Zusammenstoßes besteht. Welches Fahrzeug muss dem anderen ausweichen, wenn sie den Wind von derselben Seite haben?
+**126.** (Schwerpunkt) Zwei in Sicht befindliche Segelfahrzeuge nähern sich im freien Seeraum oder außerhalb des Fahrwassers so, dass die Möglichkeit der Gefahr eines Zusammenstoßes besteht. Welches Fahrzeug muss dem anderen ausweichen, wenn sie den Wind von derselben Seite haben?
 - ✓ Das luvwärtige Fahrzeug dem leewärtigen Fahrzeug.
 - ✗ Das leewärtige Fahrzeug dem luvwärtigen Fahrzeug.
 - ✗ Dasjenige Fahrzeug, das den Wind von Backbord hat.
@@ -412,21 +594,21 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es muss das luvwärtige Fahrzeug dem leewärtigen Fahrzeug ausweichen.
 - ✗ Es muss das leewärtige Fahrzeug dem luvwärtigen Fahrzeug ausweichen.
 
-**137.** Wie hat sich ein überholendes Fahrzeug zu verhalten?
+**137.** (Schwerpunkt) Wie hat sich ein überholendes Fahrzeug zu verhalten?
 - ✓ Es hat dem zu überholenden Fahrzeug auszuweichen.
 - ✗ Es muss den größtmöglichen Abstand zum überholten Fahrzeug einhalten und Sog und Wellenschlag vermeiden.
 - ✗ Es darf die sichere Durchfahrt des zu überholenden Fahrzeugs nicht behindern.
 - ✗ Es muss vor dem Überholen ein Schallsignal abgeben, um die Zustimmung des zu überholenden Fahrzeugs einzuholen.
 
-### 3.3 Wer hat Vorrang? Die Rangfolge
+### S2.3 Wer hat Vorrang? Die Rangfolge
 
-**82.** Wann ist ein Fahrzeug manövrierunfähig?
+**82.** (Schwerpunkt) Wann ist ein Fahrzeug manövrierunfähig?
 - ✓ Wenn es wegen außergewöhnlicher Umstände, z. B. Ausfall der Ruder- oder Maschinenanlage, nicht so wie vorgeschrieben manövrieren und daher einem anderen Fahrzeug nicht ausweichen kann.
 - ✗ Wenn es wegen der Art seines Einsatzes behindert ist und deshalb nicht so wie vorgeschrieben manövrieren und daher einem anderen Fahrzeug nicht ausweichen kann.
 - ✗ Wenn es wegen seines Tiefgangs im Verhältnis zu der vorhandenen Tiefe und Breite des befahrbaren Gewässers erheblich behindert ist, von seinem zu verfolgenden Kurs abzuweichen.
 - ✗ Wenn es mit Netzen, Leinen, Schleppnetzen oder anderen Fanggeräten fischt, welche die Manövrierfähigkeit einschränken.
 
-**83.** Wann ist ein Fahrzeug manövrierbehindert?
+**83.** (Schwerpunkt) Wann ist ein Fahrzeug manövrierbehindert?
 - ✓ Wenn es wegen der Art seines Einsatzes behindert ist und deshalb nicht so wie vorgeschrieben manövrieren und daher einem anderen Fahrzeug nicht ausweichen kann.
 - ✗ Wenn es wegen außergewöhnlicher Umstände, z. B. Ausfall der Ruder- oder Maschinenanlage, nicht so wie vorgeschrieben manövrieren und daher einem anderen Fahrzeug nicht ausweichen kann.
 - ✗ Wenn es wegen seines Tiefgangs im Verhältnis zu der vorhandenen Tiefe und Breite des befahrbaren Gewässers erheblich behindert ist, von seinem zu verfolgenden Kurs abzuweichen.
@@ -456,25 +638,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Das Maschinenfahrzeug muss seinen Kurs nach Steuerbord ändern.
 - ✗ Das Maschinenfahrzeug muss vorsichtig manövrieren, bis die Gefahr vorüber ist.
 
-**132.** Wie hat sich ein Segelfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegenüber einem in Sicht befindlichen fischenden Fahrzeug zu verhalten, wenn die Möglichkeit der Gefahr eines Zusammenstoßes besteht?
+**132.** (Schwerpunkt) Wie hat sich ein Segelfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegenüber einem in Sicht befindlichen fischenden Fahrzeug zu verhalten, wenn die Möglichkeit der Gefahr eines Zusammenstoßes besteht?
 - ✓ Das Segelfahrzeug muss ausweichen.
 - ✗ Das Segelfahrzeug muss seinen Kurs nach Steuerbord ändern.
 - ✗ Das Segelfahrzeug darf die sichere Durchfahrt nicht behindern.
 - ✗ Das Segelfahrzeug muss Kurs und Geschwindigkeit zunächst beibehalten.
 
-### 3.4 Kurshalter, Ausweichpflichtiger und der letzte Augenblick
-
-**4.** Wie lang ist die Dauer eines kurzen Tons (●)?
-- ✓ Etwa 1 Sekunde.
-- ✗ Etwa 2 Sekunden.
-- ✗ Weniger als 1 Sekunde.
-- ✗ Weniger als 4 Sekunden.
-
-**5.** Wie lang ist die Dauer eines langen Tons (▬)?
-- ✓ Etwa 4 - 6 Sekunden.
-- ✗ Etwa 2 - 6 Sekunden.
-- ✗ Etwa 1 - 2 Sekunden.
-- ✗ Etwa 6 - 8 Sekunden.
+### S2.4 Kurshalter und der letzte Augenblick
 
 **79.** Was bedeutet das "Manöver des letzten Augenblicks"?
 - ✓ Ausweichmanöver des Kurshalters.
@@ -488,19 +658,19 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es muss im letzten Augenblick von jedem durchgeführt werden, wenn ein Zusammenstoß sonst nicht mehr vermieden werden kann.
 - ✗ Es muss kurz vor der Kollision durchgeführt werden, wenn sonst ein Zusammenstoß durch Manöver des Kurshalters allein nicht mehr vermieden werden kann.
 
-**135.** Wie verhält sich der Kurshaltepflichtige vor Einleitung des Manövers des letzten Augenblicks gegenüber einem ausweichpflichtigen Fahrzeug?
+**135.** (Schwerpunkt) Wie verhält sich der Kurshaltepflichtige vor Einleitung des Manövers des letzten Augenblicks gegenüber einem ausweichpflichtigen Fahrzeug?
 - ✓ Kurs und Geschwindigkeit zunächst beibehalten und dem Ausweichpflichtigen besondere Aufmerksamkeit widmen.
 - ✗ Kurs oder Geschwindigkeit anpassen und dem Ausweichpflichtigen besondere Aufmerksamkeit widmen.
 - ✗ Kurs nach Steuerbord ändern. Geschwindigkeit verringern und dem Ausweichpflichtigen besondere Aufmerksamkeit widmen.
 - ✗ Kurs nach Steuerbord ändern, Geschwindigkeit zunächst beibehalten und dem Ausweichpflichtigen besondere Aufmerksamkeit widmen.
 
-**136.** Wie muss sich ein Ausweichpflichtiger gegenüber einem Kurshalter verhalten?
+**136.** (Schwerpunkt) Wie muss sich ein Ausweichpflichtiger gegenüber einem Kurshalter verhalten?
 - ✓ Das Ausweichmanöver muss frühzeitig, durchgreifend und klar erkennbar durchgeführt werden.
 - ✗ Der Kurs muss bei Annäherung an den Kurshalter Schritt für Schritt so angepasst werden, dass das Heck des Anderen sicher umfahren wird.
 - ✗ Das Manöver des letzten Augenblicks ist durchzuführen. Es muss so ausgewichen werden, wie es zur Vermeidung eines Zusammenstoßes am dienlichsten ist.
 - ✗ Die Fahrt ist auf das für die Steuerfähigkeit erforderliche Mindestmaß zu reduzieren; im Zweifelsfall muss ganz aufgestoppt werden.
 
-**139.** Wie verhält man sich als Kurshalter, wenn man feststellt, dass ein anderes Fahrzeug seiner Ausweichpflicht nicht nachkommt und die Gefahr einer unmittelbaren Kollision bevorsteht?
+**139.** (Schwerpunkt) Wie verhält man sich als Kurshalter, wenn man feststellt, dass ein anderes Fahrzeug seiner Ausweichpflicht nicht nachkommt und die Gefahr einer unmittelbaren Kollision bevorsteht?
 - ✓ Man gibt mindestens fünf kurze Töne mit der Pfeife ab und führt das "Manöver des letzten Augenblicks" durch. Dabei ist so zu manövrieren, wie es zur Vermeidung eines Zusammenstoßes am dienlichsten ist.
 - ✗ Man gibt ein Schallsignal (vier kurze Töne) ab und verlangsamt die Fahrt soweit, dass die Steuerfähigkeit noch erhalten bleibt. Erforderlichenfalls ist ganz aufzustoppen. In jedem Fall ist vorsichtig zu manövrieren, bis die Gefahr eines Zusammenstoßes vorüber ist.
 - ✗ Man gibt mindestens fünf kurze Töne mit der Pfeife ab und reduziert die Geschwindigkeit, um Sog und Wellenschlag zu vermeiden.
@@ -512,57 +682,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Bleib-Weg-Signal, Explosionsgefahr durch gefährliche Güter. Sofort den Gefahrenbereich verlassen. Feuer und Zündfunken vermeiden.
 - ✗ Seeschifffahrtsstraße gesperrt. Weiterfahrt verboten, sofort aufstoppen.
 
-**162.** Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ▬ ● ● ● ●   ▬ ● ● ● ●]
-- ✓ Allgemeines "Gefahr- und Warnsignal".
-- ✗ Sperrung der Seeschifffahrtsstraße.
-- ✗ Sofort anhalten (Fahrzeug des öffentlichen Dienstes).
-- ✗ Brücke/Schleuse kann vorübergehend nicht geöffnet werden.
+## S3 Lichter und Signalkörper
 
-**163.** Wie lautet das "allgemeine Gefahr- und Warnsignal"?
-- ✓ Zwei Gruppen von je einem langen und vier kurzen Tönen.
-- ✗ Zwei Gruppen von je drei langen Tönen.
-- ✗ Zwei Gruppen von je vier kurzen Tönen.
-- ✗ Zwei Gruppen von je einem kurzen und vier langen Tönen.
-
-**164.** Wann ist das "allgemeine Gefahr- und Warnsignal" zu geben?
-- ✓ Wenn ein Fahrzeug ein anderes Fahrzeug gefährdet oder durch dieses selbst gefährdet wird.
-- ✗ Wenn ein Fahrzeug ein anderes Fahrzeug im Fahrwasser an Steuerbord überholen will.
-- ✗ Wenn ein Fahrzeug einem anderen Fahrzeug nicht ausweichen kann.
-- ✗ Wenn ein Fahrzeug ein anderes Fahrzeug zur Hilfeleistung auffordert.
-
-## Kapitel 4: Wer ist das da draußen? Lichter, Signalkörper, Schallsignale
-
-### 4.1 Die Sprache der Lichter
-
-**7.** Welches Signal führt ein Fahrzeug unter Segel, das als Maschinenfahrzeug gilt, zusätzlich am Tage?
-- ✓ Einen schwarzen Kegel, Spitze unten.
-- ✗ Einen schwarzen Kegel, Spitze oben.
-- ✗ Einen schwarzen Rhombus.
-- ✗ Zwei schwarze Bälle senkrecht übereinander.
-
-**10.** Wann müssen die Lichter von Fahrzeugen geführt oder gezeigt werden?
-- ✓ Von Sonnenuntergang bis Sonnenaufgang und bei verminderter Sicht.
-- ✗ Von Sonnenaufgang bis Sonnenuntergang und bei verminderter Sicht.
-- ✗ Von abends 18:00 Uhr bis morgens 06:00 Uhr und bei verminderter Sicht.
-- ✗ Bei Dunkelheit, schlechtem Wetter und verminderter Sicht.
-
-**11.** Wozu dient die Lichterführung?
-- ✓ Sie zeigt Fahrtrichtung und Lage eines Fahrzeugs an.
-- ✗ Sie zeigt Kurs und Geschwindigkeit eines Fahrzeugs an.
-- ✗ Sie zeigt Fahrtrichtung und Position eines Fahrzeugs an.
-- ✗ Sie zeigt Fahrtrichtung und Kurs eines Fahrzeugs an.
-
-**12.** Was für eine Laterne kann ein Segelfahrzeug von weniger als 20 m Länge anstelle der Seitenlichter und des Hecklichtes führen?
-- ✓ Eine Dreifarbenlaterne an oder nahe der Mastspitze.
-- ✗ Eine Zweifarbenlaterne an gut sichtbarer Stelle.
-- ✗ Eine Dreifarbenlaterne an gut sichtbarer Stelle.
-- ✗ Eine Zweifarbenlaterne an oder nahe der Mastspitze.
-
-**13.** Welche Lichter muss ein Fahrzeug unter Segel, das gleichzeitig mit Maschinenkraft fährt, führen?
-- ✓ Die für ein Maschinenfahrzeug vorgeschriebenen Lichter.
-- ✗ Die für ein Segelfahrzeug vorgeschriebenen Lichter.
-- ✗ Zwei rote Rundumlichter senkrecht übereinander.
-- ✗ Seitenlichter rot und grün und ein rotes Rundumlicht.
+### S3.1 Das Lichtersystem
 
 **85.** Welche Vorschriften regeln die Ausrüstung, Anordnung und Anbringung der Positionslaternen, Sichtzeichen und Schallsignalanlagen auf Fahrzeugen?
 - ✓ Die Kollisionsverhütungsregeln (KVR), die Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und die Schifffahrtsordnung Emsmündung (EmsSchO).
@@ -576,19 +698,19 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Solche, die gemäß der Kollisionsverhütungsregeln (KVR), der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und der Schifffahrtsordnung Emsmündung (EmsSchO) vorgeschrieben sind und ein CE-Zeichen haben.
 - ✗ Solche, die vom Technischen Überwachungsverein (TÜV) geprüft und mit dem Zeichen für geprüfte Sicherheit (GS) versehen sind.
 
-**91.** Welches Fahrzeug führt diese Lichter? [Bild]
+**91.** (Schwerpunkt) Welches Fahrzeug führt diese Lichter? [Bild]
 - ✓ Maschinenfahrzeug in Fahrt von weniger als 50 m Länge.
 - ✗ Maschinenfahrzeug in Fahrt von 50 und mehr Meter Länge.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein manövrierbehindertes Fahrzeug mit Fahrt durchs Wasser von 50 und mehr Meter Länge.
 
-**92.** Welches Fahrzeug muss diese Lichter führen? [Bild]
+**92.** (Schwerpunkt) Welches Fahrzeug muss diese Lichter führen? [Bild]
 - ✓ Maschinenfahrzeug in Fahrt von 50 und mehr Meter Länge.
 - ✗ Maschinenfahrzeug in Fahrt von weniger als 50 m Länge.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein manövrierbehindertes Fahrzeug mit Fahrt durchs Wasser von 50 und mehr Meter Länge.
 
-**113.** Welche Fahrzeuge führen nur Seitenlichter rot und grün und ein weißes Hecklicht?
+**113.** (Schwerpunkt) Welche Fahrzeuge führen nur Seitenlichter rot und grün und ein weißes Hecklicht?
 - ✓ Segelfahrzeuge, Ruderboote und geschleppte Fahrzeuge.
 - ✗ Segelfahrzeuge, Ruderboote und Maschinenfahrzeuge in Fahrt von weniger als 50 m Länge.
 - ✗ Segelfahrzeuge, fischende Fahrzeuge und geschleppte Fahrzeuge.
@@ -606,33 +728,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es darf in der Zeit, in der die Lichterführung vorgeschrieben ist, nur dann fahren, wenn ein betriebsbedingtes Signalhorn an Bord ist.
 - ✗ Es darf in der Zeit zwischen Sonnenuntergang und Sonnenaufgang nicht fahren.
 
-### 4.2 Vor Anker, auf Grund, im Schlepp
+### S3.2 Vor Anker und auf Grund
 
-**93.** Welches Fahrzeug führt diese Lichter? [Bild]
-- ✓ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger.
-- ✗ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge.
-- ✗ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger, ohne Fahrt durchs Wasser.
-- ✗ Ein manövrierbehindertes Fahrzeug mit Fahrt durchs Wasser von 50 und mehr Meter Länge.
-
-**94.** Welches Fahrzeug führt diese Lichter? [Bild]
-- ✓ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge.
-- ✗ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger.
-- ✗ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge, ohne Fahrt durch das Wasser.
-- ✗ Ein manövrierbehindertes Fahrzeug, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert.
-
-**95.** Welche Lichter führen geschleppte Fahrzeuge?
-- ✓ Seitenlichter rot und grün und ein weißes Hecklicht.
-- ✗ Seitenlichter rot und grün und ein weißes Rundumlicht.
-- ✗ Seitenlichter rot und grün und zwei rote Rundumlichter senkrecht übereinander.
-- ✗ Seitenlichter rot und grün und ein rotes Rundumlicht senkrecht über einem weißen Rundumlicht.
-
-**96.** Was bedeutet es, wenn jedes Fahrzeug eines Schleppverbandes einen schwarzen Rhombus führt?
-- ✓ Schleppverband von mehr als 200 m Länge.
-- ✗ Schleppverband von mehr als 100 m Länge.
-- ✗ Schleppverband von mehr als 50 m Länge.
-- ✗ Schleppverband von weniger als 50 m Länge.
-
-**105.** Welches Fahrzeug führt diese Lichter? [Bild]
+**105.** (Schwerpunkt) Welches Fahrzeug führt diese Lichter? [Bild]
 - ✓ Ein Grundsitzer von weniger als 50 m Länge.
 - ✗ Ein manövrierbehindertes Fahrzeug.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
@@ -650,7 +748,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein Grundsitzer von weniger als 50 m Länge.
 
-**114.** Was für ein Licht muss ein Ankerlieger von weniger als 50 m Länge führen?
+**114.** (Schwerpunkt) Was für ein Licht muss ein Ankerlieger von weniger als 50 m Länge führen?
 - ✓ Ein weißes Rundumlicht an gut sichtbarer Stelle.
 - ✗ Ein rotes Rundumlicht an gut sichtbarer Stelle.
 - ✗ Zwei weiße Rundumlichter an gut sichtbarer Stelle.
@@ -662,7 +760,33 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein manövrierbehindertes Fahrzeug, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert.
 - ✗ Ein Grundsitzer von 200 und mehr Meter Länge.
 
-### 4.3 Manövrierunfähig und manövrierbehindert
+### S3.3 Schlepper und Schleppverbände
+
+**93.** (Schwerpunkt) Welches Fahrzeug führt diese Lichter? [Bild]
+- ✓ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger.
+- ✗ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge.
+- ✗ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger, ohne Fahrt durchs Wasser.
+- ✗ Ein manövrierbehindertes Fahrzeug mit Fahrt durchs Wasser von 50 und mehr Meter Länge.
+
+**94.** Welches Fahrzeug führt diese Lichter? [Bild]
+- ✓ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge.
+- ✗ Manövrierbehinderter Schleppverband in Fahrt von 200 m Länge oder weniger.
+- ✗ Manövrierbehinderter Schleppverband in Fahrt von mehr als 200 m Länge, ohne Fahrt durch das Wasser.
+- ✗ Ein manövrierbehindertes Fahrzeug, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert.
+
+**95.** Welche Lichter führen geschleppte Fahrzeuge?
+- ✓ Seitenlichter rot und grün und ein weißes Hecklicht.
+- ✗ Seitenlichter rot und grün und ein weißes Rundumlicht.
+- ✗ Seitenlichter rot und grün und zwei rote Rundumlichter senkrecht übereinander.
+- ✗ Seitenlichter rot und grün und ein rotes Rundumlicht senkrecht über einem weißen Rundumlicht.
+
+**96.** (Schwerpunkt) Was bedeutet es, wenn jedes Fahrzeug eines Schleppverbandes einen schwarzen Rhombus führt?
+- ✓ Schleppverband von mehr als 200 m Länge.
+- ✗ Schleppverband von mehr als 100 m Länge.
+- ✗ Schleppverband von mehr als 50 m Länge.
+- ✗ Schleppverband von weniger als 50 m Länge.
+
+### S3.4 Manövrierunfähig
 
 **97.** Welches Fahrzeug führt diese Lichter? [Bild]
 - ✓ Ein manövrierunfähiges Fahrzeug in Fahrt.
@@ -682,19 +806,21 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein fischendes Fahrzeug in Fahrt.
 - ✗ Ein Grundsitzer von 50 und mehr Meter Länge.
 
-**100.** Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt, ohne Fahrt durch das Wasser?
+**100.** (Schwerpunkt) Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt, ohne Fahrt durch das Wasser?
 - ✓ Zwei rote Rundumlichter senkrecht übereinander.
 - ✗ Zwei rote Rundumlichter senkrecht übereinander und zusätzlich die Seitenlichter und das Hecklicht.
 - ✗ Drei rote Rundumlichter senkrecht übereinander.
 - ✗ Drei rote Rundumlichter senkrecht übereinander und zusätzlich die Seitenlichter und das Hecklicht.
 
-**101.** Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt mit Fahrt durch das Wasser?
+**101.** (Schwerpunkt) Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt mit Fahrt durch das Wasser?
 - ✓ Zwei rote Rundumlichter senkrecht übereinander und zusätzlich die Seitenlichter und das Hecklicht.
 - ✗ Zwei rote Rundumlichter senkrecht übereinander.
 - ✗ Drei rote Rundumlichter senkrecht übereinander.
 - ✗ Drei rote Rundumlichter senkrecht übereinander und zusätzlich die Seitenlichter und das Hecklicht.
 
-**102.** Welches Fahrzeug führt diese Lichter? [Bild]
+### S3.5 Manövrierbehindert und Bagger
+
+**102.** (Schwerpunkt) Welches Fahrzeug führt diese Lichter? [Bild]
 - ✓ Ein manövrierbehindertes Fahrzeug in Fahrt.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein fischendes Fahrzeug in Fahrt.
@@ -712,7 +838,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein fischendes Fahrzeug in Fahrt.
 - ✗ Ein Grundsitzer von weniger als 50 m Länge.
 
-**148.** Was ist das für ein Fahrzeug und was ist zu beachten? [Bild]
+**148.** (Schwerpunkt) Was ist das für ein Fahrzeug und was ist zu beachten? [Bild]
 - ✓ Ein manövrierbehindertes Fahrzeug, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert. Es ist an der Seite zu passieren, an der zwei schwarze Rhomben senkrecht übereinander angeordnet sind.
 - ✗ Ein manövrierbehindertes Fahrzeug, das die Schifffahrt behindert. Es ist an der Seite zu passieren, an der zwei schwarze Bälle senkrecht übereinander angeordnet sind.
 - ✗ Ein manövrierbehindertes Fahrzeug, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert. Es ist an der Seite zu passieren, die in meiner Fahrtrichtung rechts liegt.
@@ -730,7 +856,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein manövrierbehindertes Fahrzeug ohne Fahrt durchs Wasser, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert. Es ist an der Seite zu passieren, die in Fahrtrichtung links liegt.
 - ✗ Ein manövrierbehindertes Fahrzeug ohne Fahrt durchs Wasser, das baggert oder Unterwasserarbeiten ausführt und dabei die Schifffahrt behindert. Es ist an der Steuerbordseite des Fahrwassers (Rechtsfahrgebot) zu passieren.
 
-### 4.4 Tiefgangbehinderte und Fischer
+### S3.6 Tiefgangbehinderte und Fischer
 
 **108.** Welches Fahrzeug muss diese Lichter führen? [Bild]
 - ✓ Ein tiefgangbehindertes Fahrzeug von 50 und mehr Meter Länge in Fahrt.
@@ -744,13 +870,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein Grundsitzer von weniger als 50 Meter Länge.
 
-**110.** Welches Fahrzeug muss diese Lichter führen? [Bild]
+**110.** (Schwerpunkt) Welches Fahrzeug muss diese Lichter führen? [Bild]
 - ✓ Ein fischender Trawler (Fischereifahrzeug) mit Fahrt durch das Wasser von 50 und mehr Meter Länge.
 - ✗ Ein fischendes Fahrzeug in Fahrt, das nicht trawlt, z. B. Treibnetzfischer.
 - ✗ Ein Behördenfahrzeug im Einsatz.
 - ✗ Ein manövrierbehindertes Fahrzeug in Fahrt.
 
-**111.** Welches Fahrzeug führt diese Lichter? [Bild]
+**111.** (Schwerpunkt) Welches Fahrzeug führt diese Lichter? [Bild]
 - ✓ Ein fischendes Fahrzeug in Fahrt oder vor Anker, das nicht trawlt, z. B. Treibnetzfischer.
 - ✗ Ein Lotsenfahrzeug im Einsatz.
 - ✗ Ein manövrierbehindertes Fahrzeug in Fahrt.
@@ -762,7 +888,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt.
 - ✗ Ein Grundsitzer von weniger als 50 m Länge.
 
-**133.** Wie muss man sich gegenüber diesem Fahrzeug verhalten? [Bild]
+**133.** (Schwerpunkt) Wie muss man sich gegenüber diesem Fahrzeug verhalten? [Bild]
 - ✓ Die sichere Durchfahrt des Fahrzeugs darf nicht behindert werden.
 - ✗ Das Fahrzeug muss an Steuerbord passiert werden.
 - ✗ Sog und Wellenschlag vermeiden.
@@ -774,27 +900,43 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Sog und Wellenschlag vermeiden.
 - ✗ Kurs und Geschwindigkeit beibehalten.
 
-### 4.5 Hören statt sehen: Schallsignale bei verminderter Sicht
+## S4 Hören statt sehen
 
-**84.** Welche besonderen Maßnahmen sind bei verminderter Sicht zu treffen?
+### S4.1 Nebel: langsam, horchen, Ausguck
+
+**84.** (Schwerpunkt) Welche besonderen Maßnahmen sind bei verminderter Sicht zu treffen?
 - ✓ Es muss mit sicherer, den verminderten Sichtverhältnissen angepasster Geschwindigkeit gefahren werden, es müssen Schallsignale gegeben werden, es müssen Positionslichter eingeschaltet werden und es muss gehörig Ausguck gegangen werden.
 - ✗ Es muss mit sicherer, den verminderten Sichtverhältnissen angepasster Geschwindigkeit gefahren werden, es müssen Schallsignale gegeben werden, das Radargerät muss eingeschaltet werden und es muss Ausguck gegangen werden.
 - ✗ Es muss mit sicherer, den verminderten Sichtverhältnissen angepasster Geschwindigkeit gefahren werden, es müssen Schallsinale gegeben werden, es müssen Positionslichter eingeschaltet werden und es muss der Radarreflektor eingesetzt werden.
 - ✗ Es muss mit verminderter Geschwindigkeit gefahren werden, es müssen Schallsignale gegeben werden, es müssen Positionslichter eingeschaltet werden und es muss das AIS (Automatic Identifikation System) eingeschaltet werden.
 
-**116.** Sie hören bei verminderter Sicht mindestens alle zwei Minuten einen langen Ton mit der Pfeife (▬). Welches Fahrzeug gibt dieses Signal?
+**138.** (Schwerpunkt) Wie hat man sich zu verhalten, wenn man bei verminderter Sicht anscheinend vorlicher als querab das Schallsignal eines anderen Fahrzeugs hört?
+- ✓ Es ist ebenfalls ein Schallsignal abzugeben und die Fahrt soweit zu verlangsamen, dass die Steuerfähigkeit noch erhalten bleibt. Erforderlichenfalls ist ganz aufzustoppen. In jedem Fall ist vorsichtig zu manövrieren, bis die Gefahr eines Zusammenstoßes vorüber ist.
+- ✗ Es ist ebenfalls ein Schallsignal abzugeben und frühzeitig, durchgreifend und klar erkennbar auszuweichen.
+- ✗ Es sind mindestens fünf kurze Töne mit der Pfeife abzugeben und das Manöver des letzten Augenblicks durchzuführen. Dabei ist so zu manövrieren, wie es zur Vermeidung eines Zusammenstoßes am dienlichsten ist.
+- ✗ Es ist ebenfalls ein Schallsignal abzugeben. Kurs und Geschwindigkeit sind so lange beizubehalten, bis das andere Fahrzeug in Sicht kommt. Dann ist die Ausweichsituation nach KVR zu prüfen und man muss sich entsprechend verhalten.
+
+**274.** Welche Sicherheitsmaßnahmen sind an Bord aufgrund der seemännischen Sorgfaltspflicht neben den in den Kollisionsverhütungsregeln vorgeschriebenen Verhaltensmaßregeln bei verminderter Sicht zu treffen?
+- ✓ Insbesondere alle Navigationsanlagen sorgfältig gebrauchen, die Sichtbarkeit des eigenen Fahrzeugs erhöhen (z. B. Radarreflektor, AIS) und in einem Revier mit Landradarberatung die Radarberatung über UKW-Sprechfunk mithören.
+- ✗ Insbesondere alle technischen Anlagen, z. B. Radar, AIS, Echolot, Selbststeueranlage einschalten und in einem Revier mit Landradarberatung die Radarberatung über UKW-Sprechfunk anfordern.
+- ✗ Insbesondere alle Navigationsanlagen sorgfältig gebrauchen, die Sichtbarkeit des eigenen Fahrzeugs erhöhen (z. B. Radarreflektor, AIS) und die Verkehrszentrale ständig über Kurs und Geschwindigkeit informieren.
+- ✗ Insbesondere alle technischen Anlagen, z. B. Radar, Echolot, AIS, Selbststeueranlage, einschalten und die Verkehrszentrale ständig über Kurs und Geschwindigkeit informieren.
+
+### S4.2 Wer tutet da? Nebelsignale in Fahrt
+
+**116.** (Schwerpunkt) Sie hören bei verminderter Sicht mindestens alle zwei Minuten einen langen Ton mit der Pfeife (▬). Welches Fahrzeug gibt dieses Signal?
 - ✓ Ein Maschinenfahrzeug, das Fahrt durchs Wasser macht.
 - ✗ Ein geschlepptes Fahrzeug oder das letzte bemannte Fahrzeug eines Schleppverbandes in Fahrt.
 - ✗ Ein Fahrzeug mit gefährlicher Ladung vor Anker von weniger als 100 m Länge.
 - ✗ Ein vor Anker liegendes Fahrzeug von 100 und mehr Meter Länge.
 
-**117.** Sie hören bei verminderter Sicht mindestens alle zwei Minuten zwei aufeinander folgende lange Töne mit der Pfeife (▬ ▬). Welches Fahrzeug gibt dieses Signal?
+**117.** (Schwerpunkt) Sie hören bei verminderter Sicht mindestens alle zwei Minuten zwei aufeinander folgende lange Töne mit der Pfeife (▬ ▬). Welches Fahrzeug gibt dieses Signal?
 - ✓ Ein Maschinenfahrzeug in Fahrt, das seine Maschine gestoppt hat und keine Fahrt durchs Wasser macht.
 - ✗ Ein geschlepptes Fahrzeug oder das letzte bemannte Fahrzeug eines Schleppverbandes in Fahrt.
 - ✗ Ein Fahrzeug mit gefährlicher Ladung vor Anker von weniger als 100 m Länge.
 - ✗ Ein vor Anker liegendes Fahrzeug von 100 und mehr Meter Länge.
 
-**118.** Welche Fahrzeuge geben bei verminderter Sicht mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, kurz, kurz?
+**118.** (Schwerpunkt) Welche Fahrzeuge geben bei verminderter Sicht mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, kurz, kurz?
 - ✓ Ein manövrierunfähiges Fahrzeug in Fahrt, ein manövrierbehindertes Fahrzeug in Fahrt oder vor Anker, ein tiefgangbehindertes Fahrzeug in Fahrt, ein Segelfahrzeug in Fahrt, ein schleppendes oder schiebendes Fahrzeug in Fahrt, ein fischendes Fahrzeug in Fahrt oder vor Anker.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt, ein manövrierbehindertes Fahrzeug in Fahrt oder vor Anker, ein tiefgangbehindertes Fahrzeug in Fahrt, ein Maschinenfahrzeug in Fahrt, das Fahrt durchs Wasser macht, ein schleppendes oder schiebendes Fahrzeug in Fahrt, ein fischendes Fahrzeug in Fahrt oder vor Anker.
 - ✗ Ein manövrierunfähiges Fahrzeug in Fahrt, ein manövrierbehindertes Fahrzeug in Fahrt oder vor Anker, ein tiefgangbehindertes Fahrzeug in Fahrt, ein Segelfahrzeug in Fahrt, ein schleppendes oder schiebendes Fahrzeug in Fahrt, ein fischendes Fahrzeug in Fahrt oder vor Anker, ein Maschinenfahrzeug in Fahrt, das seine Maschine gestoppt hat und keine Fahrt durchs Wasser macht.
@@ -806,7 +948,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein Fahrzeug mit gefährlicher Ladung vor Anker von weniger als 100 m Länge.
 - ✗ Ein manövrierunfähiges Fahrzeug von weniger als 100 m Länge.
 
-**120.** Was für ein Schallsignal muss ein Segelfahrzeug in Fahrt von 12 und mehr Meter Länge bei verminderter Sicht geben?
+**120.** (Schwerpunkt) Was für ein Schallsignal muss ein Segelfahrzeug in Fahrt von 12 und mehr Meter Länge bei verminderter Sicht geben?
 - ✓ Mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, kurz, kurz
 - ✗ Mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, lang, kurz
 - ✗ Mindestens alle zwei Minuten ein kräftiges Schallsignal, das mit den vorgeschriebenen nicht verwechselt werden kann.
@@ -818,7 +960,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, lang, kurz.
 - ✗ Mit der Pfeife kurz, lang, kurz.
 
-**122.** Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang rasches Läuten der Glocke? [Bild]
+### S4.3 Glocke, Gong und Warnsignale
+
+**122.** (Schwerpunkt) Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang rasches Läuten der Glocke? [Bild]
 - ✓ Ein Fahrzeug vor Anker von weniger als 100 m Länge.
 - ✗ Ein Fahrzeug vor Anker von 100 und mehr Meter Länge.
 - ✗ Ein geschlepptes Fahrzeug oder das letzte bemannte Fahrzeug eines Schleppverbandes in Fahrt.
@@ -836,41 +980,47 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, kurz, kurz.
 - ✗ Mindestens alle zwei Minuten drei aufeinander folgende Töne mit der Pfeife, und zwar lang, lang, kurz.
 
-**138.** Wie hat man sich zu verhalten, wenn man bei verminderter Sicht anscheinend vorlicher als querab das Schallsignal eines anderen Fahrzeugs hört?
-- ✓ Es ist ebenfalls ein Schallsignal abzugeben und die Fahrt soweit zu verlangsamen, dass die Steuerfähigkeit noch erhalten bleibt. Erforderlichenfalls ist ganz aufzustoppen. In jedem Fall ist vorsichtig zu manövrieren, bis die Gefahr eines Zusammenstoßes vorüber ist.
-- ✗ Es ist ebenfalls ein Schallsignal abzugeben und frühzeitig, durchgreifend und klar erkennbar auszuweichen.
-- ✗ Es sind mindestens fünf kurze Töne mit der Pfeife abzugeben und das Manöver des letzten Augenblicks durchzuführen. Dabei ist so zu manövrieren, wie es zur Vermeidung eines Zusammenstoßes am dienlichsten ist.
-- ✗ Es ist ebenfalls ein Schallsignal abzugeben. Kurs und Geschwindigkeit sind so lange beizubehalten, bis das andere Fahrzeug in Sicht kommt. Dann ist die Ausweichsituation nach KVR zu prüfen und man muss sich entsprechend verhalten.
-
 **141.** Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ● ▬ ●]
 - ✓ Ein Ankerlieger macht ein sich näherndes Fahrzeug auf eine gefährliche Annäherung aufmerksam.
 - ✗ Die Maschine des Fahrzeugs läuft rückwärts.
 - ✗ Schutzbedürftige Anlage; Geschwindigkeit reduzieren, Sog und Wellenschlag vermeiden.
 - ✗ Maschinenfahrzeug, das seine Maschinen gestoppt hat und keine Fahrt durchs Wasser macht.
 
-**274.** Welche Sicherheitsmaßnahmen sind an Bord aufgrund der seemännischen Sorgfaltspflicht neben den in den Kollisionsverhütungsregeln vorgeschriebenen Verhaltensmaßregeln bei verminderter Sicht zu treffen?
-- ✓ Insbesondere alle Navigationsanlagen sorgfältig gebrauchen, die Sichtbarkeit des eigenen Fahrzeugs erhöhen (z. B. Radarreflektor, AIS) und in einem Revier mit Landradarberatung die Radarberatung über UKW-Sprechfunk mithören.
-- ✗ Insbesondere alle technischen Anlagen, z. B. Radar, AIS, Echolot, Selbststeueranlage einschalten und in einem Revier mit Landradarberatung die Radarberatung über UKW-Sprechfunk anfordern.
-- ✗ Insbesondere alle Navigationsanlagen sorgfältig gebrauchen, die Sichtbarkeit des eigenen Fahrzeugs erhöhen (z. B. Radarreflektor, AIS) und die Verkehrszentrale ständig über Kurs und Geschwindigkeit informieren.
-- ✗ Insbesondere alle technischen Anlagen, z. B. Radar, Echolot, AIS, Selbststeueranlage, einschalten und die Verkehrszentrale ständig über Kurs und Geschwindigkeit informieren.
+**162.** Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ▬ ● ● ● ●   ▬ ● ● ● ●]
+- ✓ Allgemeines "Gefahr- und Warnsignal".
+- ✗ Sperrung der Seeschifffahrtsstraße.
+- ✗ Sofort anhalten (Fahrzeug des öffentlichen Dienstes).
+- ✗ Brücke/Schleuse kann vorübergehend nicht geöffnet werden.
 
-## Kapitel 5: Fahrwasser, Tonnen und Feuer
+**163.** (Schwerpunkt) Wie lautet das "allgemeine Gefahr- und Warnsignal"?
+- ✓ Zwei Gruppen von je einem langen und vier kurzen Tönen.
+- ✗ Zwei Gruppen von je drei langen Tönen.
+- ✗ Zwei Gruppen von je vier kurzen Tönen.
+- ✗ Zwei Gruppen von je einem kurzen und vier langen Tönen.
 
-### 5.1 Wie Feuer sprechen: Kennungen
+**164.** (Schwerpunkt) Wann ist das "allgemeine Gefahr- und Warnsignal" zu geben?
+- ✓ Wenn ein Fahrzeug ein anderes Fahrzeug gefährdet oder durch dieses selbst gefährdet wird.
+- ✗ Wenn ein Fahrzeug ein anderes Fahrzeug im Fahrwasser an Steuerbord überholen will.
+- ✗ Wenn ein Fahrzeug einem anderen Fahrzeug nicht ausweichen kann.
+- ✗ Wenn ein Fahrzeug ein anderes Fahrzeug zur Hilfeleistung auffordert.
 
-**215.** Was versteht man unter einem unterbrochenen Feuer?
+## S5 Tonnen und Feuer
+
+### S5.1 Wie Feuer sprechen: Kennungen
+
+**215.** (Schwerpunkt) Was versteht man unter einem unterbrochenen Feuer?
 - ✓ Die Lichterscheinung ist stets länger als die Verdunkelung.
 - ✗ Die Lichterscheinung ist stets kürzer als die Verdunkelung.
 - ✗ Die Lichterscheinung ist stets gleich lang wie die Verdunkelung.
 - ✗ Die Lichterscheinung ist stets kürzer als 2 Sekunden.
 
-**220.** Was versteht man unter einem Blinkfeuer?
+**220.** (Schwerpunkt) Was versteht man unter einem Blinkfeuer?
 - ✓ Lichterscheinung kürzer als Verdunkelung, Blink mindestens 2 s lang.
 - ✗ Lichterscheinung kürzer als Verdunkelung, Blink weniger als 2 s lang.
 - ✗ Lichterscheinung länger als Verdunkelung, Blink mindestens 2 s lang.
 - ✗ Lichterscheinung länger als Verdunkelung, Blink weniger als 2 s lang.
 
-**221.** Was versteht man unter einem Blitzfeuer?
+**221.** (Schwerpunkt) Was versteht man unter einem Blitzfeuer?
 - ✓ Lichterscheinung kürzer als Verdunkelung, Blitz weniger als 2 s lang.
 - ✗ Lichterscheinung kürzer als Verdunkelung, Blitz länger als 2 s lang.
 - ✗ Lichterscheinung länger als Verdunkelung, Blitz mindestens 2 s lang.
@@ -894,7 +1044,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Zeitraum vom Einsetzen der Taktkennung bis zum Ende der nächsten gleichen Taktkennung.
 - ✗ Zeitraum vom Einsetzen der Taktkennung bis zum Ende der Taktkennung.
 
-### 5.2 Das Fahrwasser und seine Tonnen
+### S5.2 Das Fahrwasser und seine Seiten
 
 **156.** Was sind Fahrwasser im Sinne der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und der Schifffahrtsordnung Emsmündung (EmsSchO)?
 - ✓ Es sind Wasserflächen, die durchgehend durch Fahrwasserseitenbezeichnung begrenzt oder gekennzeichnet sind, binnenwärts der Flussmündungen auch nicht gekennzeichnete Wasserflächen, die für die durchgehende Schifffahrt bestimmt sind.
@@ -902,7 +1052,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es sind Wasserflächen, die durchgehend durch Fahrwasserseitenbezeichnung begrenzt oder gekennzeichnet sind und auf denen das Wasserskifahren sowie das Fahren mit Wassermotorrädern erlaubt ist, sofern die durchgehende Schifffahrt nicht behindert wird.
 - ✗ Es sind Wasserflächen, die durchgehend durch Fahrwasserseitenbezeichnung begrenzt oder gekennzeichnet sind und auf denen die Sportbootführerscheinverordnung Gültigkeit hat.
 
-**157.** Welches ist - außer in Wattgebieten - die Steuerbordseite eines Fahrwassers?
+**157.** (Schwerpunkt) Welches ist - außer in Wattgebieten - die Steuerbordseite eines Fahrwassers?
 - ✓ Es ist die Seite, die ein von See kommendes Schiff an seiner Steuerbordseite hat.
 - ✗ Es ist die Seite, die ein von See kommendes Schiff an seiner Backbordseite hat.
 - ✗ Es ist die Seite, die von See kommend mit roten Tonnen bezeichnet ist.
@@ -914,13 +1064,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Kennzeichnung einer Reede.
 - ✗ Kennzeichnung der Backbordseite eines Fahrwassers.
 
-**191.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
+**191.** (Schwerpunkt) Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
 - ✓ Die Steuerbordseite des Fahrwassers.
 - ✗ Die Backbordseite des Fahrwassers.
 - ✗ Die Mitte eines Schifffahrtsweges.
 - ✗ Die Kennzeichnung von Hindernissen.
 
-**192.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
+**192.** (Schwerpunkt) Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
 - ✓ Die Backbordseite des Fahrwassers.
 - ✗ Die Steuerbordseite des Fahrwassers.
 - ✗ Die Mitte eines Wattfahrwassers.
@@ -938,7 +1088,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Die Mitte eines Wattfahrwassers.
 - ✗ Die Kennzeichnung eines Hindernisses im Wattfahrwasser.
 
-**195.** Welche Bedeutung hat folgende Tonne? [Bild]
+### S5.3 Abzweigungen und Leuchttonnen
+
+**195.** (Schwerpunkt) Welche Bedeutung hat folgende Tonne? [Bild]
 - ✓ Steuerbordseite des durchgehenden Fahrwassers/Backbordseite des abzweigenden oder einmündenden Fahrwassers.
 - ✗ Backbordseite des durchgehenden Fahrwassers/Steuerbordseite des abzweigenden oder einmündenden Fahrwassers.
 - ✗ Steuerbordseite des durchgehenden Fahrwassers.
@@ -956,7 +1108,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Blink (2) rot, Glockentonne.
 - ✗ Leitfeuer rot, zwei Warnsektoren.
 
-**198.** Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Steuerbordseite des Fahrwassers?
+**198.** (Schwerpunkt) Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Steuerbordseite des Fahrwassers?
 - ✓ Grünes Blitzfeuer, Funkelfeuer oder unterbrochenes Feuer in Gruppen.
 - ✗ Grünes Blitzfeuer, Funkelfeuer oder Festfeuer.
 - ✗ Grünes Blitzfeuer, Funkelfeuer oder schnelles Funkelfeuer.
@@ -968,9 +1120,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Rotes Blitzfeuer, Funkelfeuer oder schnelles Funkelfeuer.
 - ✗ Rotes Blitzfeuer, Funkelfeuer oder Blinkfeuer.
 
-### 5.3 Gefahrenstellen: Kardinal- und Einzelgefahrenzeichen
+### S5.4 Kardinalzeichen: die Uhr im Wasser
 
-**200.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
+**200.** (Schwerpunkt) Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
 - ✓ Kennzeichnung einer allgemeinen Gefahrenstelle, Nordquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Südquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Westquadrant.
@@ -994,7 +1146,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Nordquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Südquadrant.
 
-**204.** Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
+**204.** (Schwerpunkt) Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
 - ✓ Kennzeichnung einer allgemeinen Gefahrenstelle, die nördlich zu passieren ist.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, die südlich zu passieren ist.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, die östlich zu passieren ist.
@@ -1006,19 +1158,21 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, die südlich zu passieren ist.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, die westlich zu passieren ist.
 
-**206.** Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
+**206.** (Schwerpunkt) Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
 - ✓ Kennzeichnung einer allgemeinen Gefahrenstelle, Südquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Westquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Ostquadrant.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Nordquadrant.
 
-**207.** Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
+**207.** (Schwerpunkt) Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? [Bild]
 - ✓ Kennzeichnung einer allgemeinen Gefahrenstelle, Westquadrant. Sie ist westlich zu passieren.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Südquadrant. Sie ist südlich zu passieren.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Ostquadrant. Sie ist östlich zu passieren.
 - ✗ Kennzeichnung einer allgemeinen Gefahrenstelle, Nordquadrant. Sie ist nördlich zu passieren.
 
-**208.** Was kennzeichnet eines der folgenden Schifffahrtszeichen und welches Verhalten wird gefordert? [Bild]
+### S5.5 Einzelgefahr, Leit-, Richt- und Quermarkenfeuer
+
+**208.** (Schwerpunkt) Was kennzeichnet eines der folgenden Schifffahrtszeichen und welches Verhalten wird gefordert? [Bild]
 - ✓ Eine Einzelgefahrenstelle, die an allen Seiten passiert werden kann.
 - ✗ Den nördlichen Quadranten einer allgemeinen Gefahrenstelle, die nördlich passiert werden muss.
 - ✗ Den südlichen Quadranten einer allgemeinen Gefahrenstelle, die südlich passiert werden muss.
@@ -1030,21 +1184,19 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Südlicher Quadrant einer allgemeinen Gefahrenstelle, die südlich passiert werden muss.
 - ✗ Westlicher Quadrant einer allgemeinen Gefahrenstelle, die westlich passiert werden muss.
 
-### 5.4 Leit-, Richt- und Quermarkenfeuer
-
 **210.** Was versteht man unter einem Leitfeuer?
 - ✓ Sektorenfeuer, das ein Fahrwasser bezeichnet.
 - ✗ Sektorenfeuer, das auf eine Kursänderung im Fahrwasser hinweist.
 - ✗ Ober- und Unterfeuer, die in Deckung zu bringen sind.
 - ✗ Ober- und Unterfeuer mit unterschiedlichen Farbsektoren.
 
-**211.** Wie navigiert man mittels eines Leitfeuers?
+**211.** (Schwerpunkt) Wie navigiert man mittels eines Leitfeuers?
 - ✓ In Fahrtrichtung an der rechten Seite des weißen Leitsektors halten.
 - ✗ In Fahrtrichtung an der linken Seite des weißen Leitsektors halten.
 - ✗ In Fahrtrichtung in der Mitte des weißen Leitsektors halten.
 - ✗ In Fahrtrichtung Ober- und Unterfeuer in Deckung halten.
 
-**212.** Was versteht man unter einem Richtfeuer?
+**212.** (Schwerpunkt) Was versteht man unter einem Richtfeuer?
 - ✓ Ober- und Unterfeuer, die in Deckung zu bringen sind.
 - ✗ Sektorenfeuer, das ein Fahrwasser bezeichnet.
 - ✗ Sektorenfeuer, das auf eine Kursänderung im Fahrwasser hinweist.
@@ -1062,25 +1214,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Beim Erreichen des Kursänderungssektors den Kurs beibehalten.
 - ✗ Beim Erreichen des Ankündigungssektors Ober- und Unterfeuer in Deckung halten.
 
-### 5.5 Regeln im Fahrwasser
+## S6 Fahrwasser und besondere Gebiete
 
-**24.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Abgabe eines langen Tons.
-- ✗ Abgabe eines kurzen Tons.
-- ✗ Abgabe von zwei langen Tönen.
-- ✗ Abgabe eines kurzen und eines langen Tons.
-
-**152.** Wo ist festgelegt, welche Wasserflächen Seeschifffahrtsstraßen sind?
-- ✓ Seeschifffahrtsstraßen-Ordnung und Schifffahrtsordnung Emsmündung.
-- ✗ Seeschifffahrtsstraßen-Ordnung und Kollisionsverhütungsregeln.
-- ✗ Kollisionsverhütungsregeln und Schifffahrtsordnung Emsmündung.
-- ✗ Kollisionsverhütungsregeln und Seeaufgabengesetz.
-
-**153.** Welche örtlichen Sondervorschriften zusätzlich zur Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und zur Schifffahrtsordnung Emsmündung (EmsSchO) gibt es und was ist darin geregelt?
-- ✓ Die Bekanntmachungen der Generaldirektion Wasserstraßen und Schifffahrt (GDWS), die besondere örtliche Regelungen enthalten und Hinweise für die einzelnen Seeschifffahrtsstraßen geben.
-- ✗ Die Nachrichten für Seefahrer (NfS), herausgegeben vom Bundesamt für Seeschifffahrt und Hydrographie, sowie die Bekanntmachungen für Seefahrer (BfS) der örtlich zuständigen Wasserstraßen- und Schifffahrtsämter, die auf alle Veränderungen hinsichtlich Betonnung, Befeuerung, Wracks und Untiefen sowie auf die Schifffahrt betreffende Maßnahmen und Ereignisse hinweisen.
-- ✗ Die Bekanntmachung der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) sowie die nautische Veröffentlichung "Sicherheit auf dem Wasser", herausgegeben durch das Bundesministerium für Digitales und Verkehr (BMDV), mit wichtigen Regeln und Tipps für Wassersportler.
-- ✗ Das Seesicherheitsuntersuchungsgesetz sowie die Verordnung über die Sicherung der Seefahrt, die jeweils wichtige Vorschriften über das Verhalten nach einem Zusammenstoß auf den jeweiligen Seeschifffahrtsstraßen enthalten.
+### S6.1 Regeln im Fahrwasser
 
 **161.** Welches Schallsignal ist beim Einlaufen in Fahrwasser und Häfen zu geben, wenn die Verkehrslage es erfordert?
 - ✓ Ein langer Ton.
@@ -1088,7 +1224,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Ein kurzer und ein langer Ton.
 - ✗ Ein langer und ein kurzer Ton.
 
-**165.** Wie haben sich Fahrzeuge zu verhalten, die in ein Fahrwasser einlaufen, ein Fahrwasser queren, im Fahrwasser drehen oder ihre Anker- und Liegeplätze verlassen?
+**165.** (Schwerpunkt) Wie haben sich Fahrzeuge zu verhalten, die in ein Fahrwasser einlaufen, ein Fahrwasser queren, im Fahrwasser drehen oder ihre Anker- und Liegeplätze verlassen?
 - ✓ Sie haben die Vorfahrt der dem Fahrwasserverlauf folgenden Fahrzeuge zu beachten.
 - ✗ Sie haben die Vorfahrt vor den Fahrzeugen im Fahrwasser.
 - ✗ Sie haben einen kurzen Ton als Achtungssignal abzugeben.
@@ -1100,7 +1236,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Sie haben untereinander nach den Regeln der Schifffahrtsordnung Emsmündung auszuweichen, wenn sie dadurch vorfahrtberechtigte Fahrzeuge nicht gefährden oder behindern.
 - ✗ Sie haben untereinander nach den Regeln der Binnenschifffahrtsstraßen-Ordnung auszuweichen, wenn sie dadurch vorfahrtberechtigte Fahrzeuge nicht gefährden oder behindern.
 
-**167.** Welche Ausweichregeln gelten außerhalb des Fahrwassers?
+**167.** (Schwerpunkt) Welche Ausweichregeln gelten außerhalb des Fahrwassers?
 - ✓ Die Regeln der KVR.
 - ✗ Die Regeln der Seeschifffahrtsstraßen-Ordnung.
 - ✗ Die Regeln der Schifffahrtsordnung Emsmündung.
@@ -1112,63 +1248,49 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ An Engstellen, unübersichtlichen Krümmungen, in Schleusenbereichen, innerhalb durch Überholverbotszeichen gekennzeichneter Strecken, in der Nähe nicht frei fahrender Fähren in Fahrt, und in Verkehrstrennungsgebieten.
 - ✗ An Engstellen, unübersichtlichen Krümmungen, innerhalb durch Überholverbotszeichen gekennzeichneter Strecken und in Nationalparks und besonders ausgewiesenen Naturschutzgebieten.
 
-**271.** Wie hat man seine Fahrweise im Fahrwasser bei verminderter Sicht aufgrund seemännischer Sorgfaltspflicht einzurichten, wenn das Fahrzeug nicht über die technische Ausrüstung, insbesondere zur Ortung anderer Fahrzeuge, verfügt?
+**271.** (Schwerpunkt) Wie hat man seine Fahrweise im Fahrwasser bei verminderter Sicht aufgrund seemännischer Sorgfaltspflicht einzurichten, wenn das Fahrzeug nicht über die technische Ausrüstung, insbesondere zur Ortung anderer Fahrzeuge, verfügt?
 - ✓ Das Fahrwasser verlassen und wenn möglich, Flachwassergebiet aufsuchen und ankern. Wenn dies nicht möglich ist, im Fahrwasser äußerst rechts halten.
 - ✗ Unverzüglich die Fahrt einstellen und ankern, wenn dies nicht möglich ist, vorsichtig weiterfahren und möglichst im Kielwasser eines vorausfahrenden Fahrzeugs halten.
 - ✗ Umsichtig, aber zügig weiterfahren, um den übrigen Verkehr nicht zu behindern. Beim Hören fremder Nebelsignale aufstoppen und abwarten, dabei fortlaufend die Wassertiefe loten.
 - ✗ Im Fahrwasser äußerst rechts halten und den nächstgelegenen Hafen oder Liegeplatz anlaufen. Im Zweifel andere Fahrzeuge nach Position und richtigem Kurs fragen.
 
-## Kapitel 6: Zeichen, Sperrungen und besondere Wasserstraßen
+### S6.2 Baden, Wasserski und Ankerverbot
 
-### 6.1 Tafelzeichen
+**169.** Wo darf Wasserski gelaufen, Wassermotorrad gefahren oder mit einem Segelsurfbrett gefahren werden?
+- ✓ Außerhalb des Fahrwassers, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Im Fahrwasser auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
+- ✗ Außerhalb der Seeschifffahrtsstraße, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Innerhalb der Seeschifffahrtsstraße auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
+- ✗ Auf der hohen See und auf den mit dieser zusammenhängenden, von Seeschiffen befahrbaren Gewässern, sofern dabei ein Abstand von mindestens 100 m zum Ufer eingehalten wird.
+- ✗ Im Fahrwasser, wenn es nicht von der Generaldirektion Wasserstraßen und Schifffahrt (GDWS) durch Bekanntmachung verboten ist. Außerhalb des Fahrwassers auf Abschnitten, die durch die GDWS bekanntgemacht oder durch blaue Tafeln mit dem weißen Symbol eines Wasserskiläufers, eines Wassermotorrades oder eines Segelsurfers bezeichnet sind.
 
-**17.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Überholverbot.
-- ✗ Begegnungsverbot.
-- ✗ Überholverbot für Fahrzeuge unter 20 m Länge.
-- ✗ Begegnungsverbot für Fahrzeuge über 20 m Länge.
+**170.** Wie haben sich Führer von Zugbooten der Wasserskiläufer bzw. Wassermotorradfahrer und Segelsurfer bei der Annäherung an andere Fahrzeuge zu verhalten?
+- ✓ Sie haben auszuweichen.
+- ✗ Sie haben bei Annäherung an andere Fahrzeuge aufzustoppen und Sog und Wellenschlag zu vermeiden.
+- ✗ Sie haben Vorfahrt und müssen vor dem Bug des anderen Fahrzeugs kreuzen.
+- ✗ Sie müssen Kurs und Geschwindigkeit beibehalten.
 
-**18.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Begegnungsverbot an einer Engstelle.
-- ✗ Begegnungsverbot für Fahrzeuge über 12 m Länge.
-- ✗ Überholverbot; mit Gegenverkehr muss gerechnet werden.
-- ✗ Überholverbot für alle Fahrzeuge.
+**171.** (Schwerpunkt) Wo ist das Ankern verboten?
+- ✓ Im Fahrwasser, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Wracks und sonstigen Schifffahrtshindernissen, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals; innerhalb von Fährund Brückenstrecken; 300 m vor und hinter Ankerverbotszeichen.
+- ✗ Im Fahrwasser, auf Seeschifffahrtsstraßen, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Wracks und sonstigen Schifffahrtshindernissen, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals; innerhalb von Fähr- und Brückenstrecken; 300 m vor und hinter Ankerverbotszeichen.
+- ✗ Im Fahrwasser, an Engstellen und in unübersichtlichen Krümmungen; im Umkreis von 300 m von schwimmenden Geräten, Kabeltonnen und sonstigen Stellen für militärische und zivile Zwecke; vor Hafeneinfahrten, Schleusen, Anlegestellen und Sielen sowie in den Zufahrten des Nord-Ostsee-Kanals und in Vogelschutz- und Naturschutzgebieten sowie generell innerhalb von Nationalparks.
+- ✗ Im Fahrwasser, wenn es durch die Generaldirektion Wasserstraßen und Schifffahrt (GDWS) bekanntgemacht worden ist. Außerhalb des Fahrwassers auf Abschnitten, die durch die GDWS bekanntgemacht oder durch entsprechende Sichtzeichen bezeichnet sind.
 
-**19.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Sog und Wellenschlag vermeiden.
-- ✗ Gefährdeter Strandbereich, Überspülungsgefahr; Mindestpassierabstand 100 m.
-- ✗ Wasserstraße, die jederzeit sicher befahren werden kann; keine Gefahr durch Seegang.
-- ✗ Wasserstraße, die nicht jederzeit sicher befahren werden kann; Gefahr durch Seegang.
+**179.** Welche Bedeutung hat folgendes Sichtzeichen? [Bild]
+- ✓ Geschwindigkeit von 8 km/h Fahrt durch das Wasser, die innerhalb eines Bereiches von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
+- ✗ Kennzeichnung besonderer Gebiete und Stellen, z. B. Warngebiete; die Bedeutung kann der Seekarte entnommen und aus der Beschriftung des Schifffahrtszeichens erkannt werden.
+- ✗ Geschwindigkeit von 8 sm/h Fahrt durch das Wasser, die innerhalb eines Mindestabstandes von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
+- ✗ Buhnenbauwerk, Gefahr durch Sog und Wellenschlag. Insbesondere auf Badebetrieb und Schwimmer achten.
 
-**20.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Mindestabstand in Metern, der in der nachfolgenden Strecke vom Aufstellungsort der Tafel an eingehalten werden muss.
-- ✗ Maximalgeschwindigkeit in km/h, die auf der in Fahrtrichtung rechten Fahrwasserseite nicht überschritten werden darf.
-- ✗ Maximalabstand in Metern, der in der nachfolgenden Strecke vom Aufstellungsort der Tafel an eingehalten werden muss.
-- ✗ Verengung des Fahrwassers auf 40 m.
+**180.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
+- ✓ Gesperrt für alle Maschinenfahrzeuge und Wassermotorräder wegen Badebetriebs.
+- ✗ Höchstgeschwindigkeit von 4,3 Knoten Fahrt durch das Wasser, die innerhalb von 500 m von der jeweiligen Uferlinie wegen Badebetriebs nicht überschritten werden darf.
+- ✗ Einzelgefahrenstelle, erkennbar an ihrer Farbgebung, die an allen Seiten mit einer maximalen Geschwindigkeit von 4,3 Knoten passiert werden kann.
+- ✗ Kennzeichnung besonderer Gebiete und Stellen, z. B. Warngebiet.
 
-**22.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Ankern verboten für alle Fahrzeuge.
-- ✗ Ankern verboten für Kleinfahrzeuge unter 12 m Länge.
-- ✗ Ankern verboten für Kleinfahrzeuge ab 12 m Länge.
-- ✗ Ankern und Festmachen verboten.
-
-**23.** Welche Bedeutung haben folgende Tafelzeichen? [Bild]
-- ✓ Festmache- und Liegeverbot.
-- ✗ Festmache- und Liegeverbot für Sportboote.
-- ✗ Festmache- und Liegeverbot für Sportboote über 12 m Länge.
-- ✗ Festmache- und Liegeverbot für gewerbliche Schiffe.
-
-**26.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Ende einer Gebots- oder Verbotsstrecke.
-- ✗ Streckenabschnitt für eine nicht frei fahrende Fähre.
-- ✗ Queren des Fahrwassers ist gestattet.
-- ✗ Wechseln der Fahrwasserseite ist gestattet.
-
-**27.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Verbot der Durchfahrt und Sperrung der Schifffahrt.
-- ✗ Verbot der Durchfahrt und Sperrung für Kleinfahrzeuge.
-- ✗ Verbot der Durchfahrt, jedoch für Kleinfahrzeuge ohne laufende Antriebsmaschine befahrbar.
-- ✗ Verbot der Durchfahrt, jedoch für Kleinfahrzeuge ohne Antriebsmaschine befahrbar.
+**181.** (Schwerpunkt) Welche Höchstgeschwindigkeit darf vor Stellen mit erkennbarem Badebetrieb - außerhalb des Fahrwassers - in einem Abstand von 500 m und weniger vom Ufer nicht überschritten werden?
+- ✓ 4,3 Knoten.
+- ✗ 3,4 Knoten.
+- ✗ 4,8 Knoten.
+- ✗ 3,8 Knoten.
 
 **182.** Welche Bedeutung hat folgendes Schifffahrtszeichen? [Bild]
 - ✓ Kennzeichnung von besonderen Gebieten und Stellen.
@@ -1176,13 +1298,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Kennzeichnung von Schießgebieten.
 - ✗ Kennzeichnung von Badegebieten.
 
-### 6.2 Behörden, Sperr- und Warngebiete
-
-**16.** Welche Bedeutung hat folgendes Schallsignal? [Bild]
-- ✓ Bleib-weg-Signal, Gefahrenbereich sofort verlassen.
-- ✗ Allgemeines Gefahr- und Warnsignal.
-- ✗ Ankerlieger über 100 m Länge.
-- ✗ Manövrierbehinderter Schleppverband über 200 m Länge.
+### S6.3 Behörden und Gefahrgut: wer da kommt
 
 **151.** Was ist das für ein Fahrzeug und was ist zu beachten? [Bild]
 - ✓ Fahrzeug mit gefährlichen Gütern, Abstand halten, Rauchen und offenes Feuer verboten.
@@ -1190,7 +1306,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Fahrzeug in Seenot. Hilfe leisten bzw. weitere Hilfe anfordern.
 - ✗ Fahrzeug mit Taucher im Einsatz. Großen Abstand halten.
 
-**154.** Was ist das für ein Fahrzeug und was ist zu beachten? [Bild]
+**154.** (Schwerpunkt) Was ist das für ein Fahrzeug und was ist zu beachten? [Bild]
 - ✓ Fahrzeug des öffentlichen Dienstes im Einsatz. Es darf von den Verkehrsvorschriften abweichen.
 - ✗ Fahrzeug der Bundesmarine im Einsatz. Es hat Munition oder andere Gefahrgüter an Bord.
 - ✗ Lotsenfahrzeug mit Sonderrechten im Einsatz. Es darf vom Rechtsfahrgebot abweichen.
@@ -1201,6 +1317,20 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Fahrzeug, das mit Netzen, Leinen, Schleppnetzen oder anderen Fanggeräten fischt und auf sich aufmerksam macht. Ausreichenden Abstand halten.
 - ✗ Fahrzeug in Seenot, das auf sich aufmerksam macht. Hilfe leisten, ggf. weitere Hilfe anfordern.
 - ✗ Maschinenfahrzeug über 50 m Länge bei der Anforderung eines Lotsen. Man behält Kurs und Geschwindigkeit bei.
+
+**185.** Welche Bedeutung hat folgendes Flaggensignal? [Bild]
+- ✓ Anhalten.
+- ✗ Seenotsignal.
+- ✗ Anker behindert Schifffahrt.
+- ✗ Schleppverband, länger als 200 m
+
+**186.** (Schwerpunkt) Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ● ▬ ● ●]
+- ✓ Polizeifahrzeug fordert zum Anhalten auf.
+- ✗ Ankerlieger macht auf gefährliche Annäherung aufmerksam.
+- ✗ Letzter bemannter Anhang eines Schleppverbandes.
+- ✗ Manövrierbehindertes Fahrzeug blockiert das Fahrwasser.
+
+### S6.4 Gesperrt! Sperr- und Warngebiete
 
 **177.** Welche Bedeutung haben folgende Sichtzeichen? [Bild]
 - ✓ Schutzbedürftige Anlage.
@@ -1220,25 +1350,13 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Sperrgebiet wegen Aquakulturen und Muschelzuchtanlagen.
 - ✗ Schießgebiet.
 
-**185.** Welche Bedeutung hat folgendes Flaggensignal? [Bild]
-- ✓ Anhalten.
-- ✗ Seenotsignal.
-- ✗ Anker behindert Schifffahrt.
-- ✗ Schleppverband, länger als 200 m
-
-**186.** Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ● ▬ ● ●]
-- ✓ Polizeifahrzeug fordert zum Anhalten auf.
-- ✗ Ankerlieger macht auf gefährliche Annäherung aufmerksam.
-- ✗ Letzter bemannter Anhang eines Schleppverbandes.
-- ✗ Manövrierbehindertes Fahrzeug blockiert das Fahrwasser.
-
-**187.** Welche Bedeutung haben folgende Sichtzeichen? [Bild]
+**187.** (Schwerpunkt) Welche Bedeutung haben folgende Sichtzeichen? [Bild]
 - ✓ Dauernde Sperrung der Seeschifffahrtsstraße. Weiterfahrt verboten.
 - ✗ Schutzbedürftige Anlage. Sog und Wellenschlag vermeiden.
 - ✗ Außergewöhnliche Schifffahrtsbehinderung. Vorsichtig passieren.
 - ✗ Ende einer Gebots- oder Verbotsstrecke. Freie Weiterfahrt.
 
-**188.** Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ▬ ▬ ▬     ▬ ▬ ▬]
+**188.** (Schwerpunkt) Welche Bedeutung hat folgendes Schallsignal? [Tonfolge: ▬ ▬ ▬     ▬ ▬ ▬]
 - ✓ Sperrung der Seeschifffahrtsstraße, Weiterfahrt verboten.
 - ✗ Einfahrt in Schleuse oder Anlage gesperrt, auf Freigabe warten.
 - ✗ Ein Ankerlieger bei schlechter Sicht, vorsichtig weiter navigieren.
@@ -1250,33 +1368,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Schutzbedürftige Anlage.
 - ✗ Zeitweilige Sperrung der Seeschifffahrtsstraße.
 
-### 6.3 Brücken, Schleusen und der Nord-Ostsee-Kanal
+### S6.5 Der Nord-Ostsee-Kanal, Brücken und Schleusen
 
-**21.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
-- ✓ Haltegebot vor beweglichen Brücken, Sperrwerken und Schleusen.
-- ✗ Dauernde Sperrung einer Teilstrecke der Wasserstraße.
-- ✗ Gebot zur Abgabe eines langen Signaltons.
-- ✗ Weiterfahrt für Sportfahrzeuge verboten.
-
-**28.** Welche Bedeutung haben folgende Schifffahrtszeichen? [Bild]
-- ✓ Brücke, Sperrwerk oder Schleuse geschlossen.
-- ✗ Anlage dauerhaft gesperrt.
-- ✗ Stoppsignal für alle Fahrzeuge.
-- ✗ Außergewöhnliche Schifffahrtsbehinderung.
-
-**29.** Welche Bedeutung haben folgende Schifffahrtszeichen? [Bild]
-- ✓ Anlage dauerhaft gesperrt.
-- ✗ Brücke, Sperrwerk oder Schleuse geschlossen.
-- ✗ Stoppsignal für alle Fahrzeuge.
-- ✗ Außergewöhnliche Schifffahrtsbehinderung.
-
-**30.** Was bedeuten diese Lichter vor einer Schleuse? [Bild]
-- ✓ Einfahrt frei, Gegenverkehr gesperrt.
-- ✗ Einfahrt frei, Schleusentor öffnet.
-- ✗ Schleuse in Betrieb, auf Einfahrtsignal gemäß Reihenfolge warten.
-- ✗ Schleuse in Betrieb, auf Ausfahrtsignal gemäß Reihenfolge warten.
-
-**173.** Bei welchem Signal dürfen Sportfahrzeuge in die Schleusen des Nord-Ostsee-Kanals einfahren?
+**173.** (Schwerpunkt) Bei welchem Signal dürfen Sportfahrzeuge in die Schleusen des Nord-Ostsee-Kanals einfahren?
 - ✓ Wenn ein weißes unterbrochenes Licht gezeigt wird.
 - ✗ Wenn ein weißes Funkellicht gezeigt wird.
 - ✗ Wenn zwei grüne Lichter nebeneinander gezeigt werden.
@@ -1294,7 +1388,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Dauernde Sperrung der Seeschifffahrtsstraße; Weiterfahrt verboten.
 - ✗ Dauernde Sperrung einer Teilstrecke der Seeschifffahrtsstraße; Weiterfahrt in der Teilstrecke verboten.
 
-**176.** Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
+**176.** (Schwerpunkt) Welche Bedeutung hat folgendes Tafelzeichen? [Bild]
 - ✓ Die Geschwindigkeit durch das Wasser in km/h, auf dem Nord-Ostsee-Kanal (NOK) über Grund in km/h, die nicht überschritten werden darf.
 - ✗ Mindestabstand in Metern, der in der nachfolgenden Strecke vom Aufstellungsort der Tafel an eingehalten werden muss.
 - ✗ Die Geschwindigkeit durch das Wasser in sm/h (Knoten) auf dem Nord-Ostsee-Kanal (NOK) über Grund in sm/h, die nicht überschritten werden darf.
@@ -1306,7 +1400,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Bleib-weg-Signal, Gefahr durch gefährliche Ladung; sofort den Gefahrenbereich verlassen. Offenes Feuer vermeiden (Explosionsgefahr).
 - ✗ Brücke, Sperrwerk, Schleuse wird zur Öffnung vorbereitet; Fahrt fortsetzen.
 
-### 6.4 Verkehrstrennungsgebiete und Verkehrszentralen
+### S6.6 Verkehrstrennungsgebiete und Verkehrszentralen
 
 **87.** Was sind "Verkehrstrennungsgebiete"?
 - ✓ Es sind bekannt gemachte Schifffahrtswege, die durch Trennlinien oder Trennzonen in Einbahnwege geteilt sind.
@@ -1314,7 +1408,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es sind bekannt gemachte Seeschifffahrtsstraßen, die durch Trennlinien oder Trennzonen in Einbahnwege geteilt sind.
 - ✗ Es sind bekannt gemachte Bundeswasserstraßen, die durch Trennlinien oder Trennzonen in Einbahnwege geteilt sind.
 
-**88.** Wie sind Verkehrstrennungsgebiete zu befahren?
+**88.** (Schwerpunkt) Wie sind Verkehrstrennungsgebiete zu befahren?
 - ✓ Sie dürfen jeweils nur in der allgemeinen Verkehrsrichtung rechts der Trennlinie oder Trennzone befahren werden.
 - ✗ Sie dürfen jeweils nur in Fahrtrichtung links der Trennlinie oder Trennzone befahren werden.
 - ✗ Sie dürfen innerhalb der äußeren Trennlinien nur in einer Fahrtrichtung befahren werden.
@@ -1326,7 +1420,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Die Benutzung von Verkehrstrennungsgebieten ist für Segelfahrzeuge sowie für Maschinenfahrzeuge unter 20 m Länge nicht gestattet. Diese Fahrzeuge haben sich soweit wie möglich von Verkehrstrennungsgebieten klar zu halten und müssen durch ihren Kurs klar zu erkennen geben, dass sie ein Verkehrstrennungsgebiet nicht benutzen.
 - ✗ Auf den entsprechenden Einbahnwegen in der allgemeinen Verkehrsrichtung fahrende Fahrzeuge müssen sich soweit wie möglich von der Trennzone/Trennlinie klar halten und haben Vorfahrt gegenüber allen Fahrzeugen, die in ein Verkehrstrennungsgebiet einlaufen oder ein solches queren.
 
-**143.** Was ist hinsichtlich des Querens eines Verkehrstrennungsgebietes zu beachten?
+**143.** (Schwerpunkt) Was ist hinsichtlich des Querens eines Verkehrstrennungsgebietes zu beachten?
 - ✓ Das Queren ist möglichst zu vermeiden. Falls gequert werden muss, hat dies möglichst mit der Kielrichtung im rechten Winkel zur allgemeinen Verkehrsrichtung zu erfolgen. Die Kielrichtung des querenden Fahrzeugs muss auch dann einen rechten Winkel zur allgemeinen Verkehrsrichtung bilden, wenn das Fahrzeug durch Wind oder Strom versetzt wird.
 - ✗ Das Queren ist möglichst zu vermeiden. Falls gequert werden muss, hat dies möglichst mit einem rechtweisenden Kurs zur allgemeinen Verkehrsrichtung zu erfolgen. Der rechtweisende Kurs des querenden Fahrzeugs muss auch dann einen rechten Winkel zur allgemeinen Verkehrsrichtung bilden, wenn das Fahrzeug durch Wind oder Strom versetzt wird.
 - ✗ Das Queren von Verkehrstrennungsgebieten ist für Segelfahrzeuge sowie für Maschinenfahrzeuge unter 20 m Länge verboten. Diese Fahrzeuge haben sich soweit wie möglich von den Enden der Verkehrstrennungsgebiete klar zu halten und müssen durch ihren Kurs zu erkennen geben, dass sie ein Verkehrstrennungsgebiet nicht queren.
@@ -1350,7 +1444,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Es muss warten. Alle dem Einbahnweg folgenden Fahrzeuge haben Vorfahrt.
 - ✗ Es hat Vorfahrt. Alle dem Einbahnweg folgenden Fahrzeuge müssen warten.
 
-**147.** Wie haben sich Fahrzeuge von weniger als 20 m Länge oder Segelfahrzeuge in Verkehrstrennungsgebieten zu verhalten?
+**147.** (Schwerpunkt) Wie haben sich Fahrzeuge von weniger als 20 m Länge oder Segelfahrzeuge in Verkehrstrennungsgebieten zu verhalten?
 - ✓ Sie dürfen die sichere Durchfahrt eines dem Einbahnweg folgenden Maschinenfahrzeugs nicht behindern.
 - ✗ Sie gelten als Kleinfahrzeuge und dürfen Verkehrstrennungsgebiete nicht befahren.
 - ✗ Sie gelten als Kleinfahrzeuge und dürfen Verkehrstrennungsgebiete nur am Tage und bei guter Sicht befahren.
@@ -1362,27 +1456,9 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Er ist verpflichtet, bei verminderter Sicht regelmäßig seinen Schiffsnamen und seine Position der Verkehrszentrale mitzuteilen.
 - ✗ Er ist verpflichtet, die Funkanlage während der Fahrt in Betrieb zu halten und alle sein Fahrzeug betreffenden Mitteilungen im Schiffslogbuch festzuhalten.
 
-## Kapitel 7: Navigation, Gezeiten und Naturschutz
+## S7 Navigation und Gezeiten
 
-### 7.1 Seekarte, nautische Bücher und wer was herausgibt
-
-**58.** Welche Veröffentlichungen enthalten wichtige Regeln und Tipps für Wassersportler, Empfehlungen zur Ausrüstung von Sportbooten sowie Hinweise zu umweltgerechtem Verhalten auf dem Wasser?
-- ✓ Nautische Publikationen wie „Sicherheit auf dem Wasser“ und „Sicher auf See".
-- ✗ Verordnung über die Sicherung der Seefahrt und nautische Publikationen wie „Sicher auf See".
-- ✗ Nautische Publikation wie „Sicherheit auf dem Wasser“ und Internationales Signalbuch.
-- ✗ Internationales Signalbuch und Verordnung über die Sicherung der Seefahrt.
-
-**216.** Wo findet man die Grenzen der Naturschutzgebiete auf See?
-- ✓ In Seekarten und Sportschifffahrtskarten des Bundesamtes für Seeschifffahrt und Hydrographie.
-- ✗ Im Bundesnaturschutzgesetz.
-- ✗ In der Seeschifffahrtsstraßen-Ordnung.
-- ✗ In den Kollisionsverhütungsregeln.
-
-**217.** Wo findet man auszugsweise Hinweise zu Befahrensmöglichkeiten der Naturschutzgebiete in Küstengewässern?
-- ✓ In Seekarten und Sportschifffahrtskarten des Bundesamtes für Seeschifffahrt und Hydrographie.
-- ✗ Im Bundesnaturschutzgesetz.
-- ✗ In der Seeschifffahrtsstraßen-Ordnung.
-- ✗ In den Kollisionsverhütungsregeln.
+### S7.1 Seekarte und nautische Bücher
 
 **231.** Welche amtlichen nautischen Veröffentlichungen geben Aufschluss über das Fahrtgebiet?
 - ✓ Seekarten, Leuchtfeuerverzeichnis, Seehandbücher, Gezeitentafeln oder -kalender, Funkdienst für die Klein- und Sportschifffahrt, Nachrichten für Seefahrer (NfS), Bekanntmachungen für Seefahrer (BfS).
@@ -1390,7 +1466,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Seeschifffahrtsstraßen-Ordnung, Leuchtfeuerverzeichnis, Seehandbücher, Verordnung über die Sicherung der Seefahrt, Gezeitentafeln oder -kalender, Bekanntmachungen der Generaldirektion Wasserstraßen und Schifffahrt (GDWS).
 - ✗ Schifffahrtspolizeiliche Anordnungen, Gezeitentafeln oder Funkdienst für die Klein- und Sportschifffahrt, Nachrichten für Seefahrer (NfS), Bekanntmachungen für Seefahrer (BfS).
 
-**232.** Welche Angaben enthalten die Nachrichten für Seefahrer (NfS) und die Bekanntmachungen für Seefahrer (BfS)?
+**232.** (Schwerpunkt) Welche Angaben enthalten die Nachrichten für Seefahrer (NfS) und die Bekanntmachungen für Seefahrer (BfS)?
 - ✓ Sie enthalten alle Veränderungen hinsichtlich Betonnung, Befeuerung, Wracks, Untiefen sowie andere die Schifffahrt betreffende Maßnahmen und Ereignisse.
 - ✗ Sie enthalten alle Veränderungen hinsichtlich Betonnung, Befeuerung, Wracks, Untiefen sowie andere Änderungen der Seeschifffahrtsstraßen-Ordnung.
 - ✗ Sie enthalten alle Veränderungen hinsichtlich Betonnung, Befeuerung, Wracks sowie die aktuellen Wasserstände.
@@ -1402,7 +1478,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Im Nautischen Revierfunkdienst.
 - ✗ In der Seekarte INT1.
 
-**235.** Wovon sollte man sich vor Gebrauch einer Seekarte überzeugen?
+**235.** (Schwerpunkt) Wovon sollte man sich vor Gebrauch einer Seekarte überzeugen?
 - ✓ Dass die Karte auf den neuesten Stand berichtigt ist.
 - ✗ Dass die Nummerierung mit dem Katalog übereinstimmt.
 - ✗ Dass die Seekarte auf mittleres Tidehochwasser bezogen ist.
@@ -1426,15 +1502,15 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Leuchtfeuerverzeichnis, Seehandbuch, Kollisionsverhütungsregeln.
 - ✗ Leuchtfeuerverzeichnis, Seehandbuch, Gezeitenatlas.
 
-**239.** Wo entnimmt man in der Seekarte die Seemeilen?
+**239.** (Schwerpunkt) Wo entnimmt man in der Seekarte die Seemeilen?
 - ✓ Am rechten oder linken Kartenrand in Höhe des Standortes.
 - ✗ Am oberen oder unteren Kartenrand in Höhe des Standortes.
 - ✗ An der in der Seekarte abgebildeten Kompassrose.
 - ✗ Aus der in der Seekarte abgebildeten Entfernungstabelle.
 
-### 7.2 Kurs, Peilung, Standort
+### S7.2 Seemeile, Knoten, Kompass, Peilung
 
-**240.** Was versteht man unter einer Seemeile und wie lang ist eine Seemeile (in Metern)?
+**240.** (Schwerpunkt) Was versteht man unter einer Seemeile und wie lang ist eine Seemeile (in Metern)?
 - ✓ Die Länge einer Bogenminute auf einem größten Kreis der Erdkugel, 1.852 m.
 - ✗ Die Länge einer Bogenminute auf einem Breitenparallel, 1.652 m.
 - ✗ Die Länge einer Bogenminute auf dem Nullmeridian, 18,52 km.
@@ -1452,19 +1528,27 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Aus dem Betriebshandbuch des Kompassherstellers.
 - ✗ Aus der Kompassrose der aktuellen Seekarte.
 
-**243.** Was versteht man in der terrestrischen Navigation unter einer Peilung?
+**243.** (Schwerpunkt) Was versteht man in der terrestrischen Navigation unter einer Peilung?
 - ✓ Das Feststellen der Richtung eines bekannten feststehenden Objektes durch Winkelmessung.
 - ✗ Das Feststellen der Abweichung des Steuerkompasses vom Peilkompass.
 - ✗ Das Feststellen des Koppelortes durch Winkelmessung.
 - ✗ Das Feststellen der Entfernung zu einem bekannten feststehenden Objekt.
 
-**244.** Wie erhält man eine Standlinie?
+**244.** (Schwerpunkt) Wie erhält man eine Standlinie?
 - ✓ Durch die Peilung eines bekannten feststehenden Objektes und Eintragung der rechtweisenden Peilung in die Seekarte.
 - ✗ Durch Eintragen des rechtweisenden Kurses in die Seekarte.
 - ✗ Durch mehrmaliges Peilen eines anderen Fahrzeugs.
 - ✗ Durch Eintragung der Peilung in die Seekarte ohne Berücksichtigung der Fehlweisung.
 
-**245.** Was versteht man unter Stromversetzung?
+**248.** Was ist bei der Aufstellung eines Magnetkompasses an Bord zu beachten?
+- ✓ Der Steuerstrich muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbar sein und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
+- ✗ Der Kompass muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbar sein und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
+- ✗ Der Steuerstrich muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbare Zahlen aufweisen und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
+- ✗ Der Kompass muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbare Zahlen aufweisen und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
+
+### S7.3 Koppeln, Versetzung und die Kartenaufgabe
+
+**245.** (Schwerpunkt) Was versteht man unter Stromversetzung?
 - ✓ Die Versetzung des Schiffes über Grund in Richtung und Distanz.
 - ✗ Die Versetzung des Schiffes vom Magnetkompasskurs.
 - ✗ Die Versetzung des Schiffes durch das Wasser in Richtung und Distanz.
@@ -1476,21 +1560,15 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Die Versetzung des Schiffes durch das Wasser in Richtung und Distanz.
 - ✗ Die Richtung und Stärke des Windes und der Windsee.
 
-**247.** Was versteht man unter einem Koppelort?
+**247.** (Schwerpunkt) Was versteht man unter einem Koppelort?
 - ✓ Schiffsort, der unter Berücksichtigung der gesteuerten Kurse und zurückgelegten Distanzen und aller vorhersehbaren Einflüsse rechnerisch und zeichnerisch ermittelt wird.
 - ✗ Schiffsort, der ermittelt wird durch Peilung zweier feststehender und bekannter Objekte, die in einem möglichst rechten Winkel (90 Grad) zueinander stehen.
 - ✗ Schiffsort, der durch Eintragung der rechtweisenden Peilungen zweier feststehender und bekannter Objekte als Standlinien in die Seekarte ermittelt wird; ihr Schnittpunkt ist der Standort.
 - ✗ Schiffsort, der unter Berücksichtigung der gesteuerten Kurse und zurückgelegten Distanzen infolge mehrerer Peilungen ermittelt wird.
 
-**248.** Was ist bei der Aufstellung eines Magnetkompasses an Bord zu beachten?
-- ✓ Der Steuerstrich muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbar sein und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
-- ✗ Der Kompass muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbar sein und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
-- ✗ Der Steuerstrich muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbare Zahlen aufweisen und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
-- ✗ Der Kompass muss parallel zur Kiellinie verlaufen. Der Kompass muss gut ablesbare Zahlen aufweisen und darf nicht in der Nähe von Eisenteilen aufgestellt werden.
+### S7.4 Ebbe und Flut
 
-### 7.3 Ebbe und Flut
-
-**233.** Welchen Effekt können Wind und gegenläufiger Tidenstrom im Bereich von Seegaten haben?
+**233.** (Schwerpunkt) Welchen Effekt können Wind und gegenläufiger Tidenstrom im Bereich von Seegaten haben?
 - ✓ Steile und aufbäumende Seen (Brecher).
 - ✗ Der Tidenstrom wird durch den Wind verstärkt.
 - ✗ Keinen.
@@ -1526,51 +1604,41 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Eintritt des niedrigsten Wasserstands beim Übergang vom Fallen zum Steigen.
 - ✗ Fallen des Wassers nach Eintritt des höchsten Wasserstands.
 
-**254.** Was versteht man unter "Tidenhub"?
+**254.** (Schwerpunkt) Was versteht man unter "Tidenhub"?
 - ✓ Unterschied zwischen den Höhen des Hoch- und des Niedrigwassers.
 - ✗ Unterschied zwischen den Höhen zweier aufeinanderfolgender Hochwasser.
 - ✗ Der Zeitraum zwischen einem Niedrigwasser und dem nächstfolgenden Hochwasser.
 - ✗ Der Zeitraum zwischen einem Niedrigwasser und dem nächstfolgenden Niedrigwasser.
 
-**255.** Wo sind für einen bestimmten Ort die Angaben über Hoch- und Niedrigwasserzeiten und den Tidenhub zu finden?
+**255.** (Schwerpunkt) Wo sind für einen bestimmten Ort die Angaben über Hoch- und Niedrigwasserzeiten und den Tidenhub zu finden?
 - ✓ In den Gezeitentafeln oder dem Gezeitenkalender des Bundesamtes für Seeschifffahrt und Hydrographie.
 - ✗ In der Flutvorhersage des Bundesamtes für Seeschifffahrt und Hydrographie.
 - ✗ Im Gezeitenatlas des Bundesamtes für Seeschifffahrt und Hydrographie.
 - ✗ Im Mondphasenkalender der Bundesanstalt für Gewässerkunde.
 
-### 7.4 Naturschutz und Umwelt
+## S8 Natur auf See
 
-**31.** Welches Merkblatt enthält Hinweise für das Verhalten zum Schutz seltener Tiere und Pflanzen sowie zur Reinhaltung der Gewässer?
-- ✓ Die 10 goldenen Regeln für Wassersportler.
-- ✗ Die 15 goldenen Regeln für Wassersportler.
-- ✗ Die 10 Grundregeln für Wassersportler.
-- ✗ Die 15 Verhaltensregeln für Wassersportler.
+### S8.1 Wattenmeer und Nationalparks
 
-**32.** Wie kann mitgeholfen werden, die Lebensmöglichkeiten der Pflanzen- und Tierwelt in Gewässern und Feuchtgebieten zu bewahren und zu fördern?
-- ✓ Durch umweltbewusstes Verhalten und Beachtung der "Zehn goldenen Regeln für das Verhalten von Wassersportlern in der Natur".
-- ✗ Durch umweltbewusstes Verhalten und Beachtung der "Zehn Grundregeln für den Wassersport".
-- ✗ Durch umsichtiges Verhalten und Beachtung der Verkehrsvorschriften.
-- ✗ Durch vorausschauendes Fahren und Ausweichen entsprechend der Verkehrsvorschriften.
+**216.** Wo findet man die Grenzen der Naturschutzgebiete auf See?
+- ✓ In Seekarten und Sportschifffahrtskarten des Bundesamtes für Seeschifffahrt und Hydrographie.
+- ✗ Im Bundesnaturschutzgesetz.
+- ✗ In der Seeschifffahrtsstraßen-Ordnung.
+- ✗ In den Kollisionsverhütungsregeln.
 
-**33.** Warum sollte man sich von Schilf- und Röhrichtzonen sowie von dicht bewachsenen Uferzonen möglichst weit fernhalten?
-- ✓ Weil diese Zonen vielfach Rast- und Brutplätze besonders schutzwürdiger Vögel oder Fischlaichplätze sind.
-- ✗ Weil in diesen Zonen die Gefahr von Grundberührungen besteht.
-- ✗ Weil durch die Pflanzen der Propeller blockiert werden könnte.
-- ✗ Weil in diesen Zonen badende Personen schwer zu erkennen sind.
+**217.** Wo findet man auszugsweise Hinweise zu Befahrensmöglichkeiten der Naturschutzgebiete in Küstengewässern?
+- ✓ In Seekarten und Sportschifffahrtskarten des Bundesamtes für Seeschifffahrt und Hydrographie.
+- ✗ Im Bundesnaturschutzgesetz.
+- ✗ In der Seeschifffahrtsstraßen-Ordnung.
+- ✗ In den Kollisionsverhütungsregeln.
 
-**38.** Wo finden Sie Informationen über umweltfreundliche Farben, Lacke und Antifouling-Beschichtungen für Ihr Boot?
-- ✓ Beim Umweltbundesamt.
-- ✗ Beim Bundesministerium für Digitales und Verkehr.
-- ✗ In der Sportbootführerscheinverordnung.
-- ✗ In der Sportbootvermietungsverordnung.
-
-**218.** Weshalb sollte das Anlaufen von Seehundbänken im Bereich der Watten vermieden werden?
+**218.** (Schwerpunkt) Weshalb sollte das Anlaufen von Seehundbänken im Bereich der Watten vermieden werden?
 - ✓ Die Tiere sollen nicht gestört oder vertrieben werden.
 - ✗ Im Bereich von Seehundbänken ist mit Untiefen zu rechnen.
 - ✗ Tiefenangaben zu Seehundbänken sind im Kartenwerk nicht verzeichnet.
 - ✗ Seehundbänke sind gesperrte Wasserflächen.
 
-**219.** Welcher Abstand sollte gemäß den "10 Goldenen Regeln" für das Verhalten von Wassersportlern mindestens zu Liegeplätzen von Seehunden und zu Vogelansammlungen eingehalten werden?
+**219.** (Schwerpunkt) Welcher Abstand sollte gemäß den "10 Goldenen Regeln" für das Verhalten von Wassersportlern mindestens zu Liegeplätzen von Seehunden und zu Vogelansammlungen eingehalten werden?
 - ✓ 300 m bis 500 m.
 - ✗ 150 m bis 200 m.
 - ✗ 100 m bis 300 m.
@@ -1581,6 +1649,8 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Befahrensregelungen beachten und sich bei der Nationalparkverwaltung anmelden.
 - ✗ Befahrensregelungen beachten sowie Wasserschutzpolizei und Wasserstraßen- und Schifffahrtsamt informieren.
 - ✗ Befahrensregelungen sowie Festlegungen der Ordnungsämter beachten.
+
+### S8.2 Befahrensregeln und saubere See
 
 **226.** Welche Sondervorschriften enthalten die örtlichen Befahrensregelungen in den Naturschutzgebieten und Nationalparks?
 - ✓ Befahrensverbote, Befahrensbeschränkungen, Geschwindigkeitsbeschränkungen, besondere Regelungen für das Wasserskilaufen, das Fahren mit Wassermotorrädern und das Segelsurfen.
@@ -1600,30 +1670,21 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Wasserflächen zum Starten und Landen von Wasserflugzeugen.
 - ✗ Wasserflächen, von denen Taucher 500 m Abstand halten müssen.
 
-**229.** Wie hoch, soweit die Nordsee-Befahrens-Verordnung (NordSBefV) nicht ausdrücklich etwas anderes bestimmt, ist die maximale Geschwindigkeit, die ein Maschinenfahrzeug in Nationalparken im Bereich der Nordsee fahren darf?
+**229.** (Schwerpunkt) Wie hoch, soweit die Nordsee-Befahrens-Verordnung (NordSBefV) nicht ausdrücklich etwas anderes bestimmt, ist die maximale Geschwindigkeit, die ein Maschinenfahrzeug in Nationalparken im Bereich der Nordsee fahren darf?
 - ✓ 12 Knoten über Grund.
 - ✗ 12 Knoten Fahrt durchs Wasser.
 - ✗ 10 Knoten Fahrt über Grund.
 - ✗ 10 Knoten Fahrt durchs Wasser.
 
-**230.** Welche Verpflichtung hat man als Bootsführer, um einen Beitrag zur Reinhaltung der Gewässer zu leisten?
+**230.** (Schwerpunkt) Welche Verpflichtung hat man als Bootsführer, um einen Beitrag zur Reinhaltung der Gewässer zu leisten?
 - ✓ Sämtliche Abfälle einschließlich Öle und Betriebsstoffe an Bord in geeigneten Behältern sammeln und an Land vorschriftsmäßig entsorgen.
 - ✗ Abfälle und Öle nur auf offener See entsorgen.
 - ✗ Nur Bioabfälle und restentleerte Behälter auf See entsorgen.
 - ✗ Abwässer in Ufer- und Strandnähe sowie in Häfen einleiten.
 
-### 7.5 Die Kartenaufgabe: so läuft sie, so denkst du
-(keine Katalogfragen)
+## S9 Wetter, Seemannschaft und Seenot
 
-## Kapitel 8: Wetter, Seemannschaft und Notfall
-
-### 8.1 Wetter verstehen
-
-**71.** Welche Faktoren sind hauptsächlich für das Wettergeschehen, also für Wind und Niederschläge, ausschlaggebend?
-- ✓ Luftdruckänderung, Luftfeuchtigkeit und Temperatur.
-- ✗ Luftdruckänderung, Sonneneinstrahlung und Höhenlage.
-- ✗ Luftdruckänderung, Luftfeuchtigkeit und Jahreszeit.
-- ✗ Luftdruckänderung, Tageszeit und Temperatur.
+### S9.1 Hoch, Tief und die Wetterkarte
 
 **260.** Was bedeutet folgendes Zeichen? [Bild]
 - ✓ Wind aus Richtung Nordwest; Stärke: Bft. 3; wolkenlos.
@@ -1631,25 +1692,19 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Strom aus Richtung Nordwest; Stärke: 3 Knoten; Tidegebiet.
 - ✗ Strom in Richtung Nordwest; Stärke: 3 Knoten; Tidegebiet.
 
-**261.** Welche Angaben liefert die Beaufort-Skala?
-- ✓ Windstärken von 0 bis 12 und die Auswirkungen auf die See.
-- ✗ Windstärken von 0 bis 12 und die Auswirkungen auf die Küste.
-- ✗ Den Tidenhub an der Küste bei Vollmond und bei Neumond.
-- ✗ Die Wellenhöhe und die Windgeschwindigkeit bei Sturmstärke.
-
 **262.** Wie werden Orte gleichen Luftdrucks in der Wetterkarte dargestellt und in welcher Maßeinheit wird der Luftdruck angegeben?
 - ✓ Durch Isobaren und in Hektopascal.
 - ✗ Durch Isobaren und in Millipascal.
 - ✗ Durch Isoklinen und in Hektopascal.
 - ✗ Durch Isoklinen und in Dezipascal.
 
-**263.** Womit muss bei rasch fallendem Luftdruck gerechnet werden?
+**263.** (Schwerpunkt) Womit muss bei rasch fallendem Luftdruck gerechnet werden?
 - ✓ Mit Starkwind oder Sturm.
 - ✗ Mit Schwachwind oder Windstille.
 - ✗ Mit einer Wetterbesserung.
 - ✗ Mit einer Wetterverschlechterung.
 
-**264.** Was bedeuten die in der Wetterkarte abgebildeten Isobaren?
+**264.** (Schwerpunkt) Was bedeuten die in der Wetterkarte abgebildeten Isobaren?
 - ✓ Orte gleichen Luftdrucks.
 - ✗ Orte gleicher Windstärke.
 - ✗ Orte gleicher Wolkenbildung.
@@ -1661,19 +1716,27 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Abbildung eines Hochdruckgebietes auf der Nordhalbkugel, Isobaren mit Angabe des Luftdrucks in hPa, Zugrichtung Nordwest.
 - ✗ Abbildung eines Hochdruckgebietes auf der Südhalbkugel, Isobaren mit Angabe des Luftdrucks in hPa, Zugrichtung Südwest.
 
-**266.** Was zeigt die folgende Abbildung? [Bild]
+**266.** (Schwerpunkt) Was zeigt die folgende Abbildung? [Bild]
 - ✓ Abbildung eines Tiefdruckgebietes auf der Nordhalbkugel mit Warm- und Kaltfront, Isobaren mit Angabe des Luftdrucks in hPa, warme und kalte Luftströmung.
 - ✗ Abbildung eines Tiefdruckgebietes auf der Südhalbkugel mit Kalt- und Warmfront, Isobaren mit Angabe des Luftdrucks in hPa, kalte und warme Luftströmung.
 - ✗ Abbildung eines Tiefdruckgebietes auf der Nordhalbkugel mit Kaltfront vor der Warmfront, Angabe des Luftdrucks in hPa, Warmfront südlich, Kaltfront nördlich des Zentrums.
 - ✗ Abbildung eines Tiefdruckgebietes auf der Südhalbkugel mit Warmfront vor der Kaltfront, Angabe des Luftdrucks in hPa, Darstellung des Kalt- und Warmluftstroms.
 
-**267.** Für welche Windstärken wird eine Starkwindwarnung herausgegeben?
+### S9.2 Wind in Zahlen: Beaufort und Warnungen
+
+**261.** Welche Angaben liefert die Beaufort-Skala?
+- ✓ Windstärken von 0 bis 12 und die Auswirkungen auf die See.
+- ✗ Windstärken von 0 bis 12 und die Auswirkungen auf die Küste.
+- ✗ Den Tidenhub an der Küste bei Vollmond und bei Neumond.
+- ✗ Die Wellenhöhe und die Windgeschwindigkeit bei Sturmstärke.
+
+**267.** (Schwerpunkt) Für welche Windstärken wird eine Starkwindwarnung herausgegeben?
 - ✓ Windstärke 6 und 7 der Beaufortskala.
 - ✗ Windstärke 5 und 6 der Beaufortskala.
 - ✗ Windstärke 4 bis 5 der Beaufortskala.
 - ✗ Windstärke 7 bis 8 der Beaufortskala.
 
-**268.** Für welche Windstärken wird eine Sturmwarnung herausgegeben?
+**268.** (Schwerpunkt) Für welche Windstärken wird eine Sturmwarnung herausgegeben?
 - ✓ Windstärke 8 und mehr der Beaufortskala.
 - ✗ Windstärke 6 und mehr der Beaufortskala.
 - ✗ Windstärke 9 und mehr der Beaufortskala.
@@ -1691,7 +1754,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Windstärken 11, 12 und 13 der Beaufortskala.
 - ✗ Windstärken 8, 9 und 10 der Beaufortskala.
 
-### 8.2 Wenn es ernst wird: schweres Wetter, Mensch über Bord, Kentern
+### S9.3 Schweres Wetter und Schleppen
 
 **256.** Wie lang sollte eine Schleppleine bei starkem Seegang sein?
 - ✓ Mindestens zwei- oder dreifache Wellenlänge.
@@ -1711,57 +1774,47 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Mit achteraus ausgebrachtem Treibanker oder ähnlichen schwimmfähigen Gegenständen.
 - ✗ Mit vorn und achtern ausgebrachten Treibankern oder anderen geeigneten schwimmfähigen Gegenständen.
 
-**259.** Warum sollte bei starkem Seegang die Fahrt vermindert werden?
+**259.** (Schwerpunkt) Warum sollte bei starkem Seegang die Fahrt vermindert werden?
 - ✓ Um Schäden durch Seeschlag zu vermeiden.
 - ✗ Um das Austauchen der Schraube zu vermeiden und Kraftstoff zu sparen.
 - ✗ Um die Schlinger- und Rollbewegungen zu minimieren.
 - ✗ Um Schiffs- und Wellenlänge nicht in Resonanz zu bringen.
 
-**275.** Welche Sicherheitsmaßnahmen sind auf See vor Eintritt von schwerem Wetter (Starkwind, Sturm) zu treffen?
+**275.** (Schwerpunkt) Welche Sicherheitsmaßnahmen sind auf See vor Eintritt von schwerem Wetter (Starkwind, Sturm) zu treffen?
 - ✓ Verschlusszustand herbeiführen, lose Gegenstände festzurren, Rettungsweste anlegen und andere Rettungsmittel bereithalten; wenn erforderlich und möglich Schutzhafen anlaufen.
 - ✗ Verschlusszustand herbeiführen, lose Gegenstände festzurren, Rettungsweste und andere Rettungsmittel bereithalten, Seenotsignalmittel zum Einsatz vorbereiten.
 - ✗ Türen schließen, lose Gegenstände festzurren, Rettungsweste und andere Rettungsmittel bereithalten, Radar, Ruder und UKW besetzen.
 - ✗ Türen schließen, lose Gegenstände festzurren, Rettungsweste und andere Rettungsmittel bereithalten, Seenotsignalmittel zum Einsatz vorbereiten.
 
-**276.** Mit welchen Hilfsmitteln kann eine im Wasser treibende Person schnell und sicher an Bord genommen werden?
+### S9.4 Mensch über Bord und Kentern
+
+**276.** (Schwerpunkt) Mit welchen Hilfsmitteln kann eine im Wasser treibende Person schnell und sicher an Bord genommen werden?
 - ✓ Leinenverbindung, Rettungsschlaufe, Bergenetz, Talje, Badeleiter, Großbaum.
 - ✗ Leinenverbindung, Badeleiter, Treibanker, Rettungsschlaufe, Bergenetz, Talje.
 - ✗ Leinenverbindung, Großbaum, Ankerkette, Talje, Badeleiter, Rettungsschlaufe.
 - ✗ Leinenverbindung, Badeleiter, Rettungsboje, Bergenetz, Großbaum, Talje.
 
-**277.** Was ist zu tun, wenn das Fahrzeug gekentert ist?
+**277.** (Schwerpunkt) Was ist zu tun, wenn das Fahrzeug gekentert ist?
 - ✓ Möglichst am Fahrzeug bleiben und die Besatzung zusammenhalten; unnötigen Kräfteverschleiß vermeiden und Aufmerksamkeit zur Hilfeleistung erregen.
 - ✗ Möglichst am Fahrzeug bleiben und Seenotsignale geben. Die Besatzung zusammenhalten und unnötigen Kräfteverschleiß vermeiden.
 - ✗ Möglichst am Fahrzeug bleiben und Unfallstelle kennzeichnen; unnötigen Kräfteverschleiß vermeiden und Aufmerksamkeit zur Hilfeleistung erregen.
 - ✗ Möglichst am Fahrzeug bleiben und die Besatzung zusammenhalten; Wertgegenstände und Seetagebuch bergen.
 
-**278.** Wie verhindert man das Überbordfallen von Personen bei starkem Seegang?
+**278.** (Schwerpunkt) Wie verhindert man das Überbordfallen von Personen bei starkem Seegang?
 - ✓ Sicherheitsleinen bzw. -gurte spannen, Sicherheitsgurt anlegen und an den dafür vorgesehenen Stellen einpicken.
 - ✗ Sicherheitsleinen bzw. -gurte spannen, Besatzung an Deck sammeln. Rettungswesten anlegen.
 - ✗ Sicherheitsleinen bzw. -gurte aufschießen, Sicherheitsgurt anlegen und in die Reling einpicken.
 - ✗ Besatzung in der Plicht versammeln, Rettungswesten anlegen, Sicherheitsleinen bzw. -gurte spannen.
 
-### 8.3 Notsignale und Pflichten nach einem Unfall
+### S9.5 Seenot: Notsignale und Pflichten
 
-**70.** Wie hat man sich nach einem Zusammenstoß zu verhalten?
-- ✓ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; alle erforderlichen Daten austauschen.
-- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; die Wasserschutzpolizei benachrichtigen.
-- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; Notsignal geben.
-- ✗ Hilfe leisten und so lange am Unfallort bleiben, bis ein weiterer Beistand nicht mehr erforderlich ist; Verschlusszustand herstellen.
-
-**72.** In welcher Situation dürfen Notsignale gegeben werden?
-- ✓ Wenn Gefahr für Leib oder Leben von Personen besteht und daher Hilfe benötigt wird.
-- ✗ Wenn Gefahr für Leib oder Leben von Personen besteht oder das Schiff nicht mehr sicher manövriert werden kann.
-- ✗ Wenn Gefahr für Leib oder Leben von Personen oder erhebliche Sachwerte besteht und daher Hilfe benötigt wird.
-- ✗ Wenn Gefahr für Leib oder Leben von Personen, erhebliche Sachwerte oder die maritime Umwelt besteht.
-
-**172.** Was ist zu unternehmen, um die Schifffahrt zu warnen, wenn das eigene Fahrzeug gesunken ist und ein Schifffahrtshindernis darstellt?
+**172.** (Schwerpunkt) Was ist zu unternehmen, um die Schifffahrt zu warnen, wenn das eigene Fahrzeug gesunken ist und ein Schifffahrtshindernis darstellt?
 - ✓ Man informiert die Schifffahrtspolizeibehörde und gibt nach Möglichkeit die Position an.
 - ✗ Man informiert die Deutsche Gesellschaft zur Rettung Schiffbrüchiger, damit das Hindernis gekennzeichnet werden kann.
 - ✗ Man gibt ein Seenotsignal ab.
 - ✗ Man informiert das Bundesamt für Seeschifffahrt und Hydrographie und gibt nach Möglichkeit die Position an.
 
-**279.** Welche Notsignale können gegeben werden?
+**279.** (Schwerpunkt) Welche Notsignale können gegeben werden?
 - ✓ Leuchtrakete mit rotem Leuchtstern oder rot brennende Handfackel, anhaltendes Ertönen eines Nebelsignalgerätes, dreimaliges Geben per Licht oder Ton, dreimal das Wort MAYDAY über Sprechfunk, seitliches Heben und Senken der Arme, Flaggensignal NC, EPIRB, DSC, Radartransponder.
 - ✗ Leuchtrakete mit rotem Leuchtstern oder rot brennende Handfackel, anhaltendes Ertönen eines Nebelsignalgerätes, dreimaliges Geben per Licht oder Ton, Seewasserfärber, seitliches Heben und Senken der Arme, Ball über oder unter Flaggensignal NC, EPIRB, DSC, Radartransponder.
 - ✗ Leuchtrakete mit orangem Leuchtstern oder orange brennende Handfackel, rotes Rauchsignal, anhaltendes Ertönen eines Nebelsignalgerätes, dreimaliges Geben per Licht oder Ton, dreimal das Wort MAYDAY über Sprechfunk, seitliches Heben und Senken der Arme, Flaggensignal NC, EPIRB, DSC, Radartransponder.
@@ -1778,7 +1831,7 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Bleib-weg-Signal.
 - ✗ Achtungssignal.
 
-**282.** Was bedeutet das folgende durch Licht oder Schallsignal gegebene Morsesignal? [Tonfolge: ● ● ● ▬ ▬ ▬ ● ● ●]
+**282.** (Schwerpunkt) Was bedeutet das folgende durch Licht oder Schallsignal gegebene Morsesignal? [Tonfolge: ● ● ● ▬ ▬ ▬ ● ● ●]
 - ✓ Seenotsignal.
 - ✗ Nebelsignal.
 - ✗ Bleib-weg-Signal.
@@ -1802,16 +1855,27 @@ Aus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt)
 - ✗ Fahrzeug mit gefährlichen Gütern.
 - ✗ Fahrzeug vor Anker mit mehr als 100 m Länge.
 
-## Kapitel 9: Prüfungsreife: was man verwechselt
+## S10 Die praktische Prüfung
 
-### 9.1 Hörprüfung: alle Schallsignale im Vergleich
-Wiederholung, Bezug auf: 4, 5, 16, 24, 84, 116–124, 138–141, 161–164, 178, 186, 188, 281, 282
+### S10.1 Knoten für die Prüfung
+(keine Katalogfragen)
 
-### 9.2 Lichter und Signalkörper im Vergleich
-Wiederholung, Bezug auf: 7, 10–13, 91–115, 133, 134, 148–151, 154, 155, 159, 160
+### S10.2 Manöver für die Prüfung
+(keine Katalogfragen)
 
-### 9.3 Wer weicht wo aus? Freie See, Fahrwasser, Verkehrstrennungsgebiet
-Wiederholung, Bezug auf: 14, 15, 36, 81, 125–137, 142–147, 165–168, 271
+## S11 Prüfungsreife
 
-### 9.4 Zahlen und Behörden, die man verwechselt
-Wiederholung, Bezug auf: 2, 31, 38, 58, 59, 67, 68, 75, 86, 153, 179, 181, 183, 216, 217, 219, 229, 231, 232, 236–238, 240, 241, 255, 261, 267–270
+### S11.1 Hörprüfung: alle Schallsignale
+Wiederholung, Bezug auf: 4, 5, 16, 116–124, 139–141, 161–164, 178, 186, 188, 281, 282
+
+### S11.2 Lichter und Signalkörper im Vergleich
+Wiederholung, Bezug auf: 7, 10, 12, 13, 91–115, 148–150, 159
+
+### S11.3 Wer weicht wo aus?
+Wiederholung, Bezug auf: 14, 15, 81, 125–132, 135–137, 142, 143, 145–147, 165–167
+
+### S11.4 Zahlen, Fristen, Behörden
+Wiederholung, Bezug auf: 5, 59, 67, 68, 75, 152, 153, 160, 176, 179, 181, 219, 229, 231, 232, 236, 240, 241, 255, 261, 267–270
+
+### S11.5 Generalprobe mit Harms
+Wiederholung, Bezug auf: 1, 14, 63, 72, 81, 92, 100, 120, 157, 163, 181, 200, 212, 221, 235, 247, 254, 263, 267, 279

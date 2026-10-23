@@ -37,49 +37,36 @@
       "wunsch": "George"
     },
     {
-      "id": "FRIEDA",
-      "name": "Frieda (Hinnerks Frieda, Kneipenwirtin)",
-      "art": "Crew an Land",
-      "satz": "Moin, min Jung. Ich bin Frieda. Ich bin für die Kneipe zuständig, für den Grog und für Hinnerk. [laughs] Das Letzte ist der härteste Job.",
-      "wunsch": null
-    },
-    {
-      "id": "SPRITZTOURER",
-      "name": "Der Spritztourer (Folge 1)",
-      "art": "Gast",
-      "satz": "Äh, hallo. Ich bin der, der nachts … also, ich hab mir das Boot nur kurz geliehen. [nervous] Ist doch nix passiert, oder?"
-    },
-    {
       "id": "POLIZEI",
-      "name": "Wasserschutzpolizistin (Folge 7)",
+      "name": "Wasserschutzpolizistin (Gast in G1.1 und S6.3)",
       "art": "Gast",
       "satz": "Wasserschutzpolizei, guten Tag. Ich bin hier für die Kontrolle zuständig. [pause] Den Führerschein und die Bootspapiere, bitte.",
       "wunsch": "Selena"
     },
     {
       "id": "FISCHER",
-      "name": "Fischer (Folge 10)",
+      "name": "Fischer (Gast in S3.6)",
       "art": "Gast",
       "satz": "Moin. Ich fahr den Kutter da drüben. Zuständig für Netze, Fisch und schlechte Laune. [shouts] Und jetzt runter von meinen Netzen!",
       "wunsch": "Dr. von Quirky"
     },
     {
       "id": "FUNK",
-      "name": "Verkehrszentrale über Funk (Folge 14)",
+      "name": "Verkehrszentrale über Funk (Gast in S6.6)",
       "art": "Gast",
       "satz": "Hier spricht die Verkehrszentrale. Ich bin für die Lageberichte auf dem Revier zuständig. Die Sicht ist schlecht. Alle Fahrzeuge fahren bitte mit äußerster Vorsicht.",
       "wunsch": "Mats"
     },
     {
       "id": "HAFENMEISTER",
-      "name": "Hafenmeisterin",
+      "name": "Hafenmeisterin (Gast in G3.1)",
       "art": "Gast",
       "satz": "Ich bin hier die Hafenmeisterin. Zuständig für Liegeplätze und Hafengeld. [sarcastic] Und für Segler, die in die falsche Box fahren.",
       "wunsch": "Lucinda"
     },
     {
       "id": "RANGERIN",
-      "name": "Rangerin im Nationalpark (Lektion 7.4)",
+      "name": "Rangerin im Nationalpark (Gast in S8.1)",
       "art": "Gast",
       "satz": "Moin. Ich bin hier Rangerin im Nationalpark Wattenmeer. Zuständig für Seehunde, Vögel und für Leute, die nur mal kurz ein Foto machen wollen. [sighs] Abstand, bitte.",
       "wunsch": null

@@ -1,879 +1,180 @@
 {
- "_hinweis": "Kursplan Kajütenfunk SBF See, Fassung 3 (Prüfbericht vom 22.10.2026 eingearbeitet). Jede Katalogfrage steht in genau einer Lektion (tools/kursplan-pruefen.js). Vergleichslektionen in Kapitel 9 haben keine eigenen Fragen, sondern einen Bezug. Bausteine wechseln von Lektion zu Lektion. minuten = Zielwert.",
- "schein": "sbf",
- "fassung": 3,
- "stand": "2026-10-22",
- "bausteine": {
-  "garn": "Hinnerks Garn (60–90 s): wahre oder klar als Garn markierte Geschichte, die den Stoff trägt",
-  "stichprobe": "Harms’ Stichprobe (30 s): eine harte Prüfungsfrage, knurrige Auflösung",
-  "detektiv": "Fehler-Detektiv: Hinnerk erzählt eine kurze Fahrt mit Fehlern, der Hörer findet sie",
-  "tonlabor": "Ton-Labor: echte Signale hören, benennen, vergleichen",
-  "gast": "Gast am Funk oder an Bord: eine Fachperson zum Thema",
-  "streit": "Streitgespräch: Hinnerk und Smilla vertreten zwei Fälle, die man verwechselt; der Hörer entscheidet",
-  "kopfkino": "Kopfkino: geführte Vorstellung („Du stehst am Ruder, es ist Nacht …“)"
- },
- "kapitel": [
-  {
-   "nr": 0,
-   "titel": "Willkommen an Bord",
-   "auftakt": false,
-   "lektionen": [
-    {
-     "id": "0",
-     "titel": "Willkommen an Bord: der Kurs und die Prüfung",
-     "typ": "einfuehrung",
-     "fragen": [],
-     "minuten": 6,
-     "braucht": [
-      "Prüfungsordnung (F3)"
-     ]
-    }
-   ]
+  "_hinweis": "Kursplan Kajütenfunk, Fassung 4 (finales Konzept, docs/konzept-kajuetenfunk.md). Teil G Grundkurs enthält genau die 72 Basisfragen (für SBF See und Binnen gemeinsam), Teil S die 213 See-Fragen. Jede Katalogfrage steht in genau einer Folge. schwerpunkt = Fragen, die ausführlich erklärt werden; die übrigen kurz mitgenommen oder in der Fragenstrecke genannt. Vergleichsfolgen haben keine eigenen Fragen, sondern einen Bezug auf frühere. recherche verweist auf docs/recherche-kajuetenfunk.md. Geprüft mit node tools/kursplan-pruefen.js.",
+  "schein": "sbf",
+  "fassung": 4,
+  "stand": "2026-10-23",
+  "laenge": {"folge_ziel_min": 12, "folge_ziel_max": 15, "folge_grenze": 17, "abschnitt_min": 3, "abschnitt_max": 5},
+  "formen": {
+    "system": "Erst das System: das Prinzip verstehen, dann gebündelt durch die Katalogfragen (Fragenstrecke)",
+    "regel": "Regel für Regel: jede Regel mit Warum, Bild im Kopf, Katalogsatz und Denkfrage",
+    "einfuehrung": "Einführung in Kurs und Prüfung, ohne Katalogfragen",
+    "praxis": "Praktische Prüfung: Knoten und Manöver, mit Verweis auf die Übungen der App",
+    "kartenaufgabe": "Navigationsaufgabe der Prüfung: Ablauf, Denkweise, typische Fehler",
+    "vergleich": "Prüfungsreife: Verwechselbares direkt nebeneinander, verschachtelt geübt"
   },
-  {
-   "nr": 1,
-   "titel": "Grundlagen: Verantwortung und Begriffe",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "1.1",
-     "titel": "Wer hat an Bord das Sagen?",
-     "typ": "lektion",
-     "fragen": [
-      1,
-      2,
-      59,
-      75,
-      76,
-      77,
-      78
-     ],
-     "minuten": 9,
-     "baustein": "gast",
-     "gast": "POLIZEI"
-    },
-    {
-     "id": "1.2",
-     "titel": "Die Sprache der Seeleute",
-     "typ": "lektion",
-     "fragen": [
-      3,
-      6,
-      8,
-      9,
-      89
-     ],
-     "minuten": 7,
-     "baustein": "kopfkino"
-    }
-   ]
+  "bausteine": {
+    "garn": "Hinnerks Garn (60–90 s): wahre oder klar als Garn markierte Geschichte, die den Stoff trägt",
+    "stichprobe": "Harms’ Stichprobe (30–60 s): eine harte Prüfungsfrage, knurrige Auflösung",
+    "detektiv": "Fehler-Detektiv: eine kurze Fahrt mit Fehlern, der Hörer findet sie",
+    "tonlabor": "Ton-Labor: echte Signale hören, benennen, vergleichen",
+    "gast": "Gast an Bord oder am Funk: eine Fachperson zum Thema",
+    "streit": "Streitgespräch: zwei Fälle, die man verwechselt, werden gegeneinander gestellt; der Hörer entscheidet",
+    "kopfkino": "Kopfkino: geführte Vorstellung („Du stehst am Ruder, es ist Nacht …“)"
   },
-  {
-   "nr": 2,
-   "titel": "Das Boot: Technik, Sicherheit, Manövrieren",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "2.1",
-     "titel": "Propeller, Ruder und Radeffekt",
-     "typ": "lektion",
-     "fragen": [
-      41,
-      44,
-      45,
-      46,
-      47,
-      48,
-      50,
-      51
-     ],
-     "minuten": 10,
-     "baustein": "garn",
-     "binnen_kandidat": true
-    },
-    {
-     "id": "2.2",
-     "titel": "Der Motor: überwachen, Störungen, tanken",
-     "typ": "lektion",
-     "fragen": [
-      42,
-      43,
-      49,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      60
-     ],
-     "minuten": 12,
-     "baustein": "detektiv",
-     "binnen_kandidat": true
-    },
-    {
-     "id": "2.3",
-     "titel": "Gas, Feuer und Rettungsmittel",
-     "typ": "lektion",
-     "fragen": [
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69
-     ],
-     "minuten": 10,
-     "baustein": "stichprobe",
-     "binnen_kandidat": true
-    },
-    {
-     "id": "2.4",
-     "titel": "Anlegen, Begegnen, Sog und Schwell",
-     "typ": "lektion",
-     "fragen": [
-      34,
-      35,
-      36,
-      37,
-      40,
-      61
-     ],
-     "minuten": 8,
-     "baustein": "gast",
-     "gast": "HAFENMEISTER"
-    },
-    {
-     "id": "2.5",
-     "titel": "Ankern, Baden und Wassersport",
-     "typ": "lektion",
-     "fragen": [
-      25,
-      39,
-      169,
-      170,
-      171,
-      179,
-      180,
-      181
-     ],
-     "minuten": 10,
-     "baustein": "streit"
-    },
-    {
-     "id": "2.6",
-     "titel": "Die praktische Prüfung: Manöver und Knoten",
-     "typ": "praxis",
-     "fragen": [],
-     "minuten": 10,
-     "baustein": "kopfkino",
-     "braucht": [
-      "Prüfungsrichtlinie in quellen/"
-     ]
-    }
-   ]
+  "gaeste": {
+    "POLIZEI": "Wasserschutzpolizistin",
+    "HAFENMEISTER": "Hafenmeisterin",
+    "FISCHER": "Fischer",
+    "FUNK": "Verkehrszentrale",
+    "RANGERIN": "Rangerin im Nationalpark"
   },
-  {
-   "nr": 3,
-   "titel": "Wer weicht wem aus?",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "3.1",
-     "titel": "Welche Regeln gelten, und wann wird es gefährlich?",
-     "typ": "lektion",
-     "fragen": [
-      73,
-      74,
-      90,
-      125,
-      272,
-      273
-     ],
-     "minuten": 8,
-     "baustein": "garn"
-    },
-    {
-     "id": "3.2",
-     "titel": "Begegnen, Kreuzen, Überholen, Segeln",
-     "typ": "lektion",
-     "fragen": [
-      14,
-      15,
-      81,
-      126,
-      127,
-      137
-     ],
-     "minuten": 12,
-     "baustein": "streit"
-    },
-    {
-     "id": "3.3",
-     "titel": "Wer hat Vorrang? Die Rangfolge",
-     "typ": "lektion",
-     "fragen": [
-      82,
-      83,
-      128,
-      129,
-      130,
-      131,
-      132
-     ],
-     "minuten": 9,
-     "baustein": "stichprobe"
-    },
-    {
-     "id": "3.4",
-     "titel": "Kurshalter, Ausweichpflichtiger und der letzte Augenblick",
-     "typ": "lektion",
-     "fragen": [
-      4,
-      5,
-      79,
-      80,
-      135,
-      136,
-      139,
-      140,
-      162,
-      163,
-      164
-     ],
-     "minuten": 13,
-     "baustein": "tonlabor"
-    }
-   ]
+  "reviere": ["frei", "fahrwasser", "vtg", "nok", "hafen", "watt", "schleuse", "an Land", "fluss", "binnensee"],
+  "animationen": {
+    "boot": {"titel": "Das Boot und seine Seiten", "zeigt": "Bug, Heck, Backbord, Steuerbord, achtern, mittschiffs", "baut_auf": "neu (SVG im Stil der App)", "prio": 1},
+    "wind": {"titel": "Wind und Segel", "zeigt": "Luv und Lee, Wind von Backbord oder Steuerbord, Lee vor Luv", "baut_auf": "neu (SVG)", "prio": 1},
+    "radeffekt": {"titel": "Radeffekt", "zeigt": "das Heck versetzt bei Rückwärtsfahrt, Anlegen an Backbord", "baut_auf": "Fahrphysik des Manöverspiels (manoever.js)", "prio": 2},
+    "motor": {"titel": "Die vier Kreisläufe des Motors", "zeigt": "Kühlwasser (Seeventil, Filter, Impeller, Auspuff), Öl, Strom, Kraftstoff", "baut_auf": "neu (Schema)", "prio": 3},
+    "anlegen": {"titel": "Anlegen", "zeigt": "spitzer Anlaufwinkel, gegen Wind oder Strom, Leinen", "baut_auf": "Vorführung des Manöverspiels (manoever.js, demo)", "prio": 2},
+    "sog": {"titel": "Sog und Schwell", "zeigt": "Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben", "baut_auf": "neu (Canvas)", "prio": 2},
+    "gas": {"titel": "Gas sinkt nach unten", "zeigt": "Gas und Benzindampf sammeln sich in der Bilge", "baut_auf": "neu (Schema)", "prio": 3},
+    "wetter": {"titel": "Warum der Wind weht", "zeigt": "Luftdruckunterschied, Wind vom Hoch zum Tief", "baut_auf": "neu (Schema)", "prio": 3},
+    "lichterkarussell": {"titel": "Lichterkarussell", "zeigt": "ein Schiff dreht sich; je nach Blickwinkel sieht man Topplicht, Seitenlichter, Hecklicht", "baut_auf": "Schiffe mit Lichtern aus dem Törn (toern.js, drawShip)", "prio": 1},
+    "lichtertafel": {"titel": "Lichter und Signalkörper je Fahrzeug", "zeigt": "Nachtbild und Tagbild umschaltbar, dazu das Katalogbild; auch Signalmasten, Flaggen und Tonnen bei Sperrungen", "baut_auf": "Katalogbilder (img/q) und drawShip", "prio": 1},
+    "begegnung": {"titel": "Begegnung von oben", "zeigt": "zwei Fahrzeuge, die Peilung bleibt stehen, wer ausweicht, Überholsektor; bei Nebel der Bereich vorlicher als querab", "baut_auf": "neu (Canvas)", "prio": 1},
+    "rangleiter": {"titel": "Die Rangfolge", "zeigt": "Leiter von manövrierunfähig bis Maschinenfahrzeug", "baut_auf": "neu (SVG)", "prio": 2},
+    "schallleiste": {"titel": "Schallsignale sichtbar", "zeigt": "● und ▬ laufen mit dem Ton mit", "baut_auf": "neu (einfach), Zeichen wie in den Katalogfragen", "prio": 1},
+    "kennung": {"titel": "Feuer im Takt", "zeigt": "Blink, Blitz, Funkel, unterbrochen, Gleichtakt in echter Taktung", "baut_auf": "blinkende Kennungen des Seezeichen-Kurses (seezeichen.js, takt)", "prio": 1},
+    "lateral": {"titel": "Fahrwasser von See kommend", "zeigt": "rote und grüne Tonnen, Nummern, Abzweigungen, Mitte", "baut_auf": "Seezeichen-Kurs und Karte der Navigationsschule", "prio": 1},
+    "kardinal": {"titel": "Kardinalzeichen als Uhr", "zeigt": "Gefahrenstelle mit vier Tonnen, Toppzeichen, Blitze wie Uhrzeiten", "baut_auf": "neu und Katalogbilder", "prio": 1},
+    "sektorenfeuer": {"titel": "Leit-, Richt- und Quermarkenfeuer", "zeigt": "weißer Leitsektor, Richtfeuer in Deckung, Ankündigungssektor", "baut_auf": "Feuer der erfundenen Übungskarte (data/karte.json)", "prio": 2},
+    "tafeln": {"titel": "Tafelzeichen nach Familien", "zeigt": "Verbot, Gebot, Hinweis nebeneinander, Katalogbild groß", "baut_auf": "Katalogbilder (img/b, img/q)", "prio": 1},
+    "vtg": {"titel": "Verkehrstrennungsgebiet", "zeigt": "Einbahnwege, Trennzone, Queren im rechten Winkel, Küstenverkehrszone", "baut_auf": "Karte der Navigationsschule", "prio": 2},
+    "revierkarte": {"titel": "Wo gilt was?", "zeigt": "Hohe See, Seeschifffahrtsstraße, Fahrwasser, Verkehrstrennungsgebiet: welche Regeln wo gelten", "baut_auf": "Karte der Navigationsschule", "prio": 2},
+    "karte": {"titel": "Auf der Seekarte", "zeigt": "Peilung, Standlinie, Koppelort, Versetzung", "baut_auf": "Karte der Navigationsschule (NAV.mountChart)", "prio": 1},
+    "gezeiten": {"titel": "Ebbe und Flut", "zeigt": "Wasserstandskurve, Hoch- und Niedrigwasser, Tidenhub", "baut_auf": "neu (Canvas)", "prio": 2},
+    "wetterkarte": {"titel": "Wetterkarte", "zeigt": "Hoch und Tief, Isobaren, Wind, Fronten", "baut_auf": "neu (SVG) und Katalogbilder", "prio": 2},
+    "beaufort": {"titel": "Beaufort-Skala", "zeigt": "Windstärken mit Seegang, Warnschwellen 6–7 und ab 8", "baut_auf": "neu (Tafel)", "prio": 3},
+    "mob": {"titel": "Mensch über Bord", "zeigt": "Manöver und Bergung", "baut_auf": "Vorführung des Manöverspiels (manoever.js)", "prio": 2},
+    "notsignale": {"titel": "Notsignale", "zeigt": "Rakete, Flagge mit Ball, NC, SOS, Dauerton", "baut_auf": "Katalogbilder und Schallleiste", "prio": 2},
+    "knoten": {"titel": "Prüfungsknoten", "zeigt": "Tau-Animationen der Knoten", "baut_auf": "vorhanden (knoten.js)", "prio": 1},
+    "manoever": {"titel": "Prüfungsmanöver", "zeigt": "Vorführung je Manöver", "baut_auf": "vorhanden (manoever.js)", "prio": 1}
   },
-  {
-   "nr": 4,
-   "titel": "Wer ist das da draußen? Lichter, Signalkörper, Schallsignale",
-   "auftakt": true,
-   "lektionen": [
+  "teile": [
     {
-     "id": "4.1",
-     "titel": "Die Sprache der Lichter",
-     "typ": "lektion",
-     "fragen": [
-      7,
-      10,
-      11,
-      12,
-      13,
-      85,
-      86,
-      91,
-      92,
-      113,
-      159,
-      160
-     ],
-     "minuten": 14,
-     "baustein": "kopfkino",
-     "bilder": true
+      "id": "G",
+      "titel": "Grundkurs",
+      "fuer": ["SBF See", "SBF Binnen"],
+      "fragen_bereich": [1, 72],
+      "kapitel": [
+        {"id": "G0", "titel": "Willkommen an Bord", "ueberblick": "Wie der Kurs funktioniert und wer an Bord ist.", "folgen": [
+          {"id": "G0", "titel": "Leinen los: So funktioniert dein Kurs", "form": "einfuehrung", "minuten": 10, "fragen": [], "baustein": "garn", "revier": "hafen", "ort": "Heimathafen Flensburg, am Steg", "animation": [], "praxis": "Die Crew stellt sich vor. Wie man mit dem Kurs lernt: Auto- und interaktiver Modus, Denkpausen, Fragen nach jeder Folge, Nachhilfe, Schnellspur. Woran man Garn erkennt und woran einen Merksatz (Klabauters Glocke). Harms erklärt die Prüfung, sobald der Ablauf am Original geprüft ist. Der Kurs ersetzt keine praktische Ausbildung.", "recherche": ["R1", "R2", "R3", "R48"], "braucht": "Prüfungsablauf am Original (SpFV Anlage 3, F3)"}
+        ]},
+        {"id": "G1", "titel": "An Bord: wer führt, wer spricht wie", "ueberblick": "Wer ein Boot führen darf, wer verantwortlich ist und welche Wörter man an Bord braucht.", "folgen": [
+          {"id": "G1.1", "titel": "Wer führt das Boot?", "form": "regel", "minuten": 13, "fragen": [1, 2, 59], "schwerpunkt": [2], "baustein": "gast", "gast": "POLIZEI", "revier": "hafen", "ort": "Kontrolle am Steg", "animation": [], "praxis": "Vor dem Ablegen den Schiffsführer festlegen. Nüchtern fahren (Promillegrenze am Original prüfen). Papiere griffbereit, Rettungswesten an Bord und tragen. Die Polizistin erzählt, was bei Kontrollen auffällt.", "recherche": ["R14", "R15", "R16"]},
+          {"id": "G1.2", "titel": "Die Sprache an Bord", "form": "system", "minuten": 14, "fragen": [3, 6, 8, 9], "schwerpunkt": [3, 6, 8], "baustein": "kopfkino", "revier": "frei", "ort": "Flensburger Förde", "animation": ["boot", "wind"], "praxis": "Vortraining für den ganzen Kurs: Bug, Heck, Backbord, Steuerbord, achtern, Luv und Lee. Backbord ist rot wie Portwein; Luv ist, wo die Luft herkommt. Ein Segelboot mit laufendem Motor ist ein Maschinenfahrzeug.", "recherche": ["R41", "R42", "R49"]}
+        ]},
+        {"id": "G2", "titel": "Boot, Antrieb und Motor", "ueberblick": "Wie ein Boot sich bewegt und lenkt, und wie man den Motor behandelt, damit er nicht streikt.", "folgen": [
+          {"id": "G2.1", "titel": "Propeller, Ruder und Radeffekt", "form": "system", "minuten": 15, "fragen": [41, 44, 45, 46, 47, 48, 50, 51], "schwerpunkt": [41, 46, 48], "baustein": "detektiv", "revier": "hafen", "ort": "Hafenbecken an der Schlei", "animation": ["radeffekt"], "praxis": "Den Radeffekt am eigenen Boot testen: aus dem Stand kräftig rückwärts. Ein rechtsdrehender Propeller versetzt das Heck rückwärts nach Backbord, daher Anlegen an Backbord. Außenborder lenken über den Schraubenstrom; bei starrer Welle wirkt das Ruder rückwärts erst mit Anströmung.", "recherche": ["R21"]},
+          {"id": "G2.2", "titel": "Den Motor im Blick", "form": "system", "minuten": 15, "fragen": [42, 52, 53, 54, 55, 56, 57, 60], "schwerpunkt": [52, 53, 57], "baustein": "garn", "revier": "frei", "ort": "Ostsee vor Laboe", "animation": ["motor"], "praxis": "Vier Kreisläufe: Kühlwasser, Öl, Strom, Kraftstoff. Nach dem Start Kühlwasser am Auspuff prüfen; Seewasserfilter und Impeller kennen; die Quickstopp-Leine anlegen. Motorprobleme sind der häufigste Grund, warum die Seenotretter zu Wassersportlern fahren. Beim Verlassen Seeventile zu, Hauptschalter aus.", "recherche": ["R9", "R22"]}
+        ]},
+        {"id": "G3", "titel": "Manövrieren", "ueberblick": "Anlegen, Ankern und was passiert, wenn große Schiffe vorbeikommen.", "folgen": [
+          {"id": "G3.1", "titel": "Anlegen und Ankern", "form": "regel", "minuten": 14, "fragen": [35, 39, 40], "schwerpunkt": [35, 40], "baustein": "gast", "gast": "HAFENMEISTER", "revier": "hafen", "ort": "Stadthafen Eckernförde", "animation": ["anlegen"], "praxis": "Fender und Leinen klar, bevor man in den Hafen fährt. Gegen Wind oder Strom und in spitzem Winkel anlegen, den Radeffekt nutzen. Ankern: als grobe Regel drei- bis fünfmal so viel Kette wie Wassertiefe, bei Wind mehr; Hand auf die Kette: ruckt sie nicht, hält der Anker.", "recherche": ["R21", "R24"]},
+          {"id": "G3.2", "titel": "Große Schiffe, kleine Boote", "form": "system", "minuten": 13, "fragen": [34, 36, 37, 61], "schwerpunkt": [34, 37], "baustein": "kopfkino", "revier": "fluss", "ort": "Rhein bei Köln (Smillas Heimat)", "animation": ["sog"], "praxis": "Bug- und Heckwelle, Sog und Stau großer Schiffe. Abstand halten, in engem Fahrwasser langsam begegnen, langsam an festgemachten Booten vorbei. Smilla kennt das vom Rhein, der verkehrsreichsten Binnenwasserstraße Europas.", "recherche": ["R40"]}
+        ]},
+        {"id": "G4", "titel": "Sicherheit an Bord", "ueberblick": "Was an Bord brennen oder explodieren kann, wie man es verhindert und was im Ernstfall zählt.", "folgen": [
+          {"id": "G4.1", "titel": "Sprit und Gas: was sich in der Bilge sammelt", "form": "system", "minuten": 15, "fragen": [43, 49, 62, 63, 64, 65, 66], "schwerpunkt": [49, 63, 64], "baustein": "stichprobe", "revier": "hafen", "ort": "Bootstankstelle", "animation": ["gas"], "praxis": "Gas und Benzindämpfe sind schwerer als Luft und sammeln sich unten im Boot; schon wenige Prozent in der Luft sind explosionsfähig. Beim Tanken Motor aus, keine Schalter, Luken zu. Gasflaschen an Deck. Bei Gasgeruch Hahn zu und lüften. Öl in der Bilge mit Lappen aufnehmen und an Land entsorgen.", "recherche": ["R23"]},
+          {"id": "G4.2", "titel": "Feuer, Westen und der Ernstfall", "form": "regel", "minuten": 15, "fragen": [67, 68, 69, 70, 72], "schwerpunkt": [69, 70, 72], "baustein": "garn", "revier": "frei", "ort": "Kieler Bucht", "animation": [], "praxis": "Rettungsweste tragen, nicht nur an Bord haben: Der Kälteschock in der ersten Minute ist die größte Gefahr. Hilfe rufen: Kanal 16 (mit Funkzeugnis) oder 124 124 per Handy in Küstennähe. Hinnerks Geschichte: wie die Seenotretter nach dem Untergang der Bark „Johanne“ entstanden.", "recherche": ["R10", "R11", "R12", "R13", "R14"]}
+        ]},
+        {"id": "G5", "titel": "Grundregeln unterwegs", "ueberblick": "Wie Schiffe nachts zeigen, wer sie sind, und die zwei Ausweichregeln, die für alle gelten.", "folgen": [
+          {"id": "G5.1", "titel": "Lichter: Wer bin ich, wohin fahre ich?", "form": "system", "minuten": 15, "fragen": [7, 10, 11, 12, 13], "schwerpunkt": [11, 12, 13], "baustein": "kopfkino", "revier": "frei", "ort": "Nachts vor Fehmarn", "animation": ["lichterkarussell"], "praxis": "Rot links, grün rechts, weiß hinten und bei Maschine oben: Aus den Farben liest man Richtung und Art des Fahrzeugs. Backbords Halsband mit rotem und grünem Lämpchen als Merkhilfe. Motor an heißt Maschinenfahrzeug, auch unter Segeln: Dreifarbenlaterne aus, am Tag Kegel Spitze unten.", "recherche": ["R41"]},
+          {"id": "G5.2", "titel": "Wer weicht aus? Die zwei Grundregeln", "form": "regel", "minuten": 13, "fragen": [14, 15], "schwerpunkt": [14, 15], "baustein": "streit", "revier": "frei", "ort": "Kieler Förde, außerhalb des Fahrwassers", "animation": ["begegnung"], "praxis": "Entgegen: beide nach Steuerbord. Kreuzen: Wer den anderen rechts hat, weicht aus. Früh und deutlich ausweichen, hinter dem Heck vorbei. Merkhilfe mit Geltungsbereich: Siehst du Rot, musst du handeln (kreuzende Maschinenfahrzeuge).", "recherche": ["R43"]}
+        ]},
+        {"id": "G6", "titel": "Zeichen am Ufer", "ueberblick": "Tafeln, Lichter und Töne, mit denen die Wasserstraße zu dir spricht.", "folgen": [
+          {"id": "G6.1", "titel": "Verbote: was die roten Tafeln sagen", "form": "system", "minuten": 13, "fragen": [17, 18, 19, 22, 23, 27], "schwerpunkt": [17, 19, 27], "baustein": "detektiv", "revier": "fahrwasser", "ort": "Kanal mit Engstelle", "animation": ["tafeln"], "praxis": "Die Logik der Tafeln: weiße Tafel mit rotem Rand und rotem Schrägstrich verbietet (Überholen, Begegnen, Sog und Wellenschlag, Ankern, Festmachen und Liegen). Die Ausnahme ist die rote Tafel mit weißem Querbalken: Durchfahrt verboten, die Schifffahrt ist gesperrt. Wer die Logik kennt, muss nicht jede Tafel einzeln pauken.", "recherche": ["R29"]},
+          {"id": "G6.2", "titel": "Gebote, Hinweise und die Länge eines Tons", "form": "system", "minuten": 14, "fragen": [4, 5, 16, 20, 24, 25, 26], "schwerpunkt": [4, 5, 16, 24], "baustein": "tonlabor", "revier": "fahrwasser", "ort": "Flussabschnitt mit Tafeln", "animation": ["tafeln", "schallleiste"], "praxis": "Kurz ist etwa eine Sekunde, lang vier bis sechs. Gebote haben einen roten Rand ohne Schrägstrich: Schallzeichen geben (ein langer Ton), Mindestabstand in Metern einhalten. Das Bleib-weg-Signal (im Katalogbild kurz, lang, fünfmal) heißt: sofort den Gefahrenbereich verlassen. Blaue Tafeln weisen hin: Flächen für Wasserski und Wassermotorräder; blau mit weißem Schrägstrich ist das Ende einer Gebots- oder Verbotsstrecke.", "recherche": ["R29"]},
+          {"id": "G6.3", "titel": "Brücken und Schleusen", "form": "regel", "minuten": 12, "fragen": [21, 28, 29, 30], "schwerpunkt": [21, 30], "baustein": "kopfkino", "revier": "schleuse", "ort": "Schleuse am Kanal", "animation": ["tafeln"], "praxis": "Vor beweglichen Brücken, Sperrwerken und Schleusen am Haltegebot warten, die Lichter vor der Schleuse lesen, Fender und Leinen vorher klar. Smilla kennt Schleusen vom Fluss.", "recherche": ["R40"]}
+        ]},
+        {"id": "G7", "titel": "Natur und Wetter", "ueberblick": "Rücksicht auf Tiere und Pflanzen, und warum man das Wetter vor jeder Fahrt prüft.", "folgen": [
+          {"id": "G7.1", "titel": "Natur schützen, Wetter lesen", "form": "regel", "minuten": 15, "fragen": [31, 32, 33, 38, 58, 71], "schwerpunkt": [33, 71], "baustein": "garn", "revier": "binnensee", "ort": "Schilfufer an einem See", "animation": ["wetter"], "praxis": "Schilf und Röhricht sind Brut- und Rastplätze: weit weg bleiben. Die „10 goldenen Regeln“ für Wassersportler. Wetter entsteht aus Luftdruck, Feuchte und Temperatur; vor jeder Fahrt den Wetterbericht prüfen, bei Gewitter früh in den Hafen. Abendrot und Morgenrot sind nur Faustregeln.", "recherche": ["R19", "R38"]}
+        ]},
+        {"id": "G8", "titel": "Grundkurs-Check", "ueberblick": "Alles aus dem Grundkurs, gemischt und im Vergleich.", "folgen": [
+          {"id": "G8", "titel": "Grundkurs-Check mit Harms", "form": "vergleich", "minuten": 12, "fragen": [], "bezug": [2, 6, 10, 12, 13, 14, 15, 4, 5, 16, 41, 46, 48, 49, 63, 64, 68, 69, 72, 17, 21, 27, 30, 35, 40, 34, 33, 71], "baustein": "stichprobe", "revier": "an Land", "ort": "Harms am Telefon", "animation": ["tafeln", "lichterkarussell"], "praxis": "Verschachtelt üben: ähnliche Fragen aus allen Kapiteln direkt nacheinander. Danach sitzen die Basisfragen der Prüfung.", "recherche": ["R1", "R52"]}
+        ]}
+      ]
     },
     {
-     "id": "4.2",
-     "titel": "Vor Anker, auf Grund, im Schlepp",
-     "typ": "lektion",
-     "fragen": [
-      93,
-      94,
-      95,
-      96,
-      105,
-      106,
-      107,
-      114,
-      115
-     ],
-     "minuten": 11,
-     "baustein": "stichprobe",
-     "bilder": true
-    },
-    {
-     "id": "4.3",
-     "titel": "Manövrierunfähig und manövrierbehindert",
-     "typ": "lektion",
-     "fragen": [
-      97,
-      98,
-      99,
-      100,
-      101,
-      102,
-      103,
-      104,
-      148,
-      149,
-      150
-     ],
-     "minuten": 13,
-     "baustein": "streit",
-     "bilder": true
-    },
-    {
-     "id": "4.4",
-     "titel": "Tiefgangbehinderte und Fischer",
-     "typ": "lektion",
-     "fragen": [
-      108,
-      109,
-      110,
-      111,
-      112,
-      133,
-      134
-     ],
-     "minuten": 9,
-     "baustein": "gast",
-     "gast": "FISCHER",
-     "bilder": true
-    },
-    {
-     "id": "4.5",
-     "titel": "Hören statt sehen: Schallsignale bei verminderter Sicht",
-     "typ": "lektion",
-     "fragen": [
-      84,
-      116,
-      117,
-      118,
-      119,
-      120,
-      121,
-      122,
-      123,
-      124,
-      138,
-      141,
-      274
-     ],
-     "minuten": 15,
-     "baustein": "tonlabor",
-     "zwei_sitzungen": true
+      "id": "S",
+      "titel": "See",
+      "fuer": ["SBF See"],
+      "fragen_bereich": [73, 285],
+      "kapitel": [
+        {"id": "S1", "titel": "Recht auf See", "ueberblick": "Welche Regeln auf See gelten, wer verantwortlich ist und was Sorgfalt heißt.", "folgen": [
+          {"id": "S1.1", "titel": "Welche Regeln gelten wo?", "form": "system", "minuten": 13, "fragen": [73, 74, 152, 153], "schwerpunkt": [73, 74], "baustein": "garn", "revier": "fahrwasser", "ort": "Ansteuerung Kieler Förde", "animation": ["revierkarte"], "praxis": "Auf der Hohen See und den angrenzenden Gewässern gelten die Kollisionsverhütungsregeln, auf den Seeschifffahrtsstraßen geht die SeeSchStrO vor. Örtliche Sonderregeln stehen in Bekanntmachungen. Hinnerk erzählt, seit wann es die internationalen Regeln gibt.", "recherche": ["R26"]},
+          {"id": "S1.2", "titel": "Fahrerlaubnis, Verantwortung, Sorgfalt", "form": "regel", "minuten": 15, "fragen": [75, 76, 77, 78, 89, 90], "schwerpunkt": [77, 78, 90], "baustein": "stichprobe", "revier": "hafen", "ort": "Vor dem Ablegen in Flensburg", "animation": [], "praxis": "Sicherheitseinweisung vor jeder Fahrt: Westen, Feuerlöscher, Notsignale, Ablauf bei Mensch über Bord. Sichere Geschwindigkeit heißt: anhalten können, bevor es eng wird.", "recherche": ["R14", "R16"]}
+        ]},
+        {"id": "S2", "titel": "Ausweichen auf See", "ueberblick": "Woran man Kollisionsgefahr erkennt, wer ausweicht, wer Kurs hält und was im letzten Augenblick zu tun ist.", "folgen": [
+          {"id": "S2.1", "titel": "Wann wird es gefährlich? Peilung, Ausguck, AIS", "form": "system", "minuten": 13, "fragen": [125, 272, 273], "schwerpunkt": [125], "baustein": "kopfkino", "revier": "frei", "ort": "Kieler Bucht", "animation": ["begegnung"], "praxis": "Bleibt die Peilung stehen und wird der Abstand kleiner, droht ein Zusammenstoß. Peilen mit dem Handpeilkompass oder über eine feste Marke an Bord, etwa eine Want. AIS hilft, ersetzt aber nicht den Blick nach draußen.", "recherche": []},
+          {"id": "S2.2", "titel": "Begegnen, Kreuzen, Überholen, Segeln", "form": "regel", "minuten": 15, "fragen": [81, 126, 127, 137], "schwerpunkt": [81, 126, 137], "baustein": "streit", "revier": "frei", "ort": "Kieler Förde zur Kieler Woche", "animation": ["begegnung", "wind"], "praxis": "Der Überholer weicht immer aus, auch der Segler gegenüber dem Motorboot. Lee vor Luv, weil das luvwärtige Boot dem anderen sonst den Wind aus den Segeln nimmt. Wind von verschiedenen Seiten: Wer den Wind von Backbord hat, weicht aus.", "recherche": ["R39", "R42"]},
+          {"id": "S2.3", "titel": "Wer hat Vorrang? Die Rangfolge", "form": "system", "minuten": 15, "fragen": [82, 83, 128, 129, 130, 131, 132], "schwerpunkt": [82, 83, 132], "baustein": "detektiv", "revier": "frei", "ort": "Ostsee vor der Kieler Förde", "animation": ["rangleiter"], "praxis": "Je weniger ein Fahrzeug ausweichen kann, desto weiter oben steht es: manövrierunfähig, manövrierbehindert, fischend, Segler, Maschinenfahrzeug; die Durchfahrt Tiefgangbehinderter darf man nicht behindern. Gilt im freien Seeraum und außerhalb des Fahrwassers.", "recherche": []},
+          {"id": "S2.4", "titel": "Kurshalter und der letzte Augenblick", "form": "regel", "minuten": 15, "fragen": [79, 80, 135, 136, 139, 140], "schwerpunkt": [135, 136, 139], "baustein": "tonlabor", "revier": "frei", "ort": "Westliche Ostsee", "animation": ["begegnung", "schallleiste"], "praxis": "Der Ausweichpflichtige handelt früh, durchgreifend und klar erkennbar. Der Kurshalter hält erst Kurs und Fahrt, warnt mit mindestens fünf kurzen Tönen und weicht im letzten Augenblick selbst aus.", "recherche": []}
+        ]},
+        {"id": "S3", "titel": "Lichter und Signalkörper", "ueberblick": "Wer nachts und tagsüber welche Zeichen führt und was sie über die Lage verraten.", "folgen": [
+          {"id": "S3.1", "titel": "Das Lichtersystem", "form": "system", "minuten": 15, "fragen": [85, 86, 91, 92, 113, 159, 160], "schwerpunkt": [91, 92, 113], "baustein": "kopfkino", "revier": "frei", "ort": "Nachts in der Lübecker Bucht", "animation": ["lichterkarussell"], "praxis": "Topplicht, Seitenlichter und Hecklicht decken zusammen den ganzen Kreis ab (Sektoren nach KVR Regel 21, am Original prüfen). Ab 50 Meter Länge ein zweites Topplicht. Wer nur Seitenlichter und Hecklicht zeigt, ist Segler, Ruderboot oder geschleppt.", "recherche": ["R26"]},
+          {"id": "S3.2", "titel": "Vor Anker und auf Grund", "form": "system", "minuten": 14, "fragen": [105, 106, 107, 114, 115], "schwerpunkt": [105, 114], "baustein": "stichprobe", "revier": "frei", "ort": "Ankerplatz vor Heiligenhafen", "animation": ["lichtertafel"], "praxis": "Ankerlieger zeigen ein weißes Rundumlicht, große mehr; Grundsitzer zusätzlich zwei rote Rundumlichter, am Tag drei Bälle. Grundberührung ist der zweithäufigste Grund für Einsätze der Seenotretter bei Wassersportlern.", "recherche": ["R9"]},
+          {"id": "S3.3", "titel": "Schlepper und Schleppverbände", "form": "regel", "minuten": 13, "fragen": [93, 94, 95, 96], "schwerpunkt": [93, 96], "baustein": "garn", "revier": "fahrwasser", "ort": "Elbe vor Brunsbüttel", "animation": ["lichtertafel"], "praxis": "Lange Schleppverbände sind schwer zu erkennen und nicht wendig: nie zwischen Schlepper und Anhang durchfahren. Hinnerk erzählt aus 38 Jahren Fähre.", "recherche": ["R35"]},
+          {"id": "S3.4", "titel": "Manövrierunfähig", "form": "regel", "minuten": 14, "fragen": [97, 98, 99, 100, 101], "schwerpunkt": [100, 101], "baustein": "detektiv", "revier": "frei", "ort": "Nachts in der Kadetrinne", "animation": ["lichtertafel"], "praxis": "Zwei rote Rundumlichter übereinander heißen manövrierunfähig, nicht Seenot (verbreitete Falle). Macht es Fahrt durchs Wasser, kommen Seitenlichter und Hecklicht dazu; am Tag zwei Bälle.", "recherche": ["R47"]},
+          {"id": "S3.5", "titel": "Manövrierbehindert und Bagger", "form": "system", "minuten": 15, "fragen": [102, 103, 104, 148, 149, 150], "schwerpunkt": [102, 148], "baustein": "streit", "revier": "fahrwasser", "ort": "Baggerschiff in der Elbe", "animation": ["lichtertafel"], "praxis": "Rot-weiß-rot heißt manövrierbehindert, am Tag Ball, Rhombus, Ball. Bei Baggern zeigen zwei rote Lichter oder Bälle die Seite mit dem Hindernis, zwei grüne Lichter oder Rhomben die Seite, an der man vorbeifahren darf.", "recherche": []},
+          {"id": "S3.6", "titel": "Tiefgangbehinderte und Fischer", "form": "regel", "minuten": 15, "fragen": [108, 109, 110, 111, 112, 133, 134], "schwerpunkt": [110, 111, 133], "baustein": "gast", "gast": "FISCHER", "revier": "frei", "ort": "Ostsee vor Fehmarn", "animation": ["lichtertafel"], "praxis": "Trawler: grün über weiß; andere Fischer: rot über weiß; am Tag zwei Kegel Spitze an Spitze. Tiefgangbehinderte: drei rote Rundumlichter, am Tag ein Zylinder; ihre Durchfahrt nicht behindern. Der Fischer erklärt Stellnetze und Fähnchen in der Ostsee.", "recherche": ["R25"]}
+        ]},
+        {"id": "S4", "titel": "Hören statt sehen", "ueberblick": "Was bei Nebel gilt und wie man Fahrzeuge an ihren Tönen erkennt.", "folgen": [
+          {"id": "S4.1", "titel": "Nebel: langsam, horchen, Ausguck", "form": "regel", "minuten": 13, "fragen": [84, 138, 274], "schwerpunkt": [84, 138], "baustein": "kopfkino", "revier": "frei", "ort": "Nebel vor der Elbmündung", "animation": ["begegnung"], "praxis": "Sichere Geschwindigkeit, Ausguck mit Augen und Ohren, Lichter an. Hört man ein Signal anscheinend vorlicher als querab, selbst ein Signal geben und die Fahrt auf das Mindeste verringern.", "recherche": []},
+          {"id": "S4.2", "titel": "Wer tutet da? Nebelsignale in Fahrt", "form": "system", "minuten": 15, "fragen": [116, 117, 118, 119, 120, 121], "schwerpunkt": [116, 117, 118, 120], "baustein": "tonlabor", "revier": "frei", "ort": "Nebel in der Deutschen Bucht", "animation": ["schallleiste"], "praxis": "Ein langer Ton: Maschinenfahrzeug mit Fahrt durchs Wasser; zwei lange: gestoppt. Lang, kurz, kurz: die Eingeschränkten (Segler, Fischer, manövrierunfähig, manövrierbehindert, tiefgangbehindert, Schlepper). Eine häufige Prüfungsfalle.", "recherche": ["R5", "R44"]},
+          {"id": "S4.3", "titel": "Glocke, Gong und Warnsignale", "form": "system", "minuten": 14, "fragen": [122, 123, 124, 141, 162, 163, 164], "schwerpunkt": [122, 163, 164], "baustein": "stichprobe", "revier": "frei", "ort": "Ankerplatz im Nebel", "animation": ["schallleiste"], "praxis": "Ankerlieger läuten die Glocke, große zusätzlich den Gong; ein Ankerlieger darf mit kurz, lang, kurz warnen. Das allgemeine Gefahr- und Warnsignal: zwei Gruppen aus je einem langen und vier kurzen Tönen.", "recherche": []}
+        ]},
+        {"id": "S5", "titel": "Tonnen und Feuer", "ueberblick": "Wie Leuchtfeuer sprechen und wie Tonnen den Weg zeigen.", "folgen": [
+          {"id": "S5.1", "titel": "Wie Feuer sprechen: Kennungen", "form": "system", "minuten": 14, "fragen": [215, 220, 221, 222, 223, 224], "schwerpunkt": [215, 220, 221], "baustein": "kopfkino", "revier": "frei", "ort": "Nachts vor der Küste", "animation": ["kennung"], "praxis": "Erst schauen, was länger ist: Licht oder Dunkel. Unterbrochen: Licht länger. Blink und Blitz: Licht kürzer (Blink mindestens zwei Sekunden, Blitz kürzer). Gleichtakt: gleich lang. Das Blinkfeuer ist eine der häufigsten Prüfungsfallen.", "recherche": ["R5"]},
+          {"id": "S5.2", "titel": "Das Fahrwasser und seine Seiten", "form": "system", "minuten": 15, "fragen": [156, 157, 190, 191, 192, 193, 194], "schwerpunkt": [157, 191, 192], "baustein": "streit", "revier": "fahrwasser", "ort": "Einfahrt in die Flensburger Förde", "animation": ["lateral"], "praxis": "Von See kommend: rot an Backbord, grün an Steuerbord, ungerade Nummern an Steuerbord. In anderen Teilen der Welt ist es umgekehrt. Die Mitte von Schifffahrtswegen zeigt eine rot-weiße Tonne.", "recherche": ["R30"]},
+          {"id": "S5.3", "titel": "Abzweigungen und Leuchttonnen", "form": "regel", "minuten": 13, "fragen": [195, 196, 197, 198, 199], "schwerpunkt": [195, 198], "baustein": "stichprobe", "revier": "fahrwasser", "ort": "Abzweigung in der Kieler Förde", "animation": ["lateral", "kennung"], "praxis": "Die Grundfarbe zeigt das durchgehende Fahrwasser, der Streifen das abzweigende. Leuchttonnen tragen die Farbe ihrer Seite; Kennungen wie „Oc (2) R“ liest man Stück für Stück.", "recherche": ["R30"]},
+          {"id": "S5.4", "titel": "Kardinalzeichen: die Uhr im Wasser", "form": "system", "minuten": 15, "fragen": [200, 201, 202, 203, 204, 205, 206, 207], "schwerpunkt": [200, 204, 206, 207], "baustein": "garn", "revier": "frei", "ort": "Untiefe vor der Küste", "animation": ["kardinal"], "praxis": "Ein Kardinalzeichen nennt die Seite, an der man vorbeifährt. Toppzeichen: Nord Spitzen oben, Süd unten, Ost Basis an Basis, West Spitze an Spitze. Feuer wie eine Uhr: Ost drei, Süd sechs plus ein langer, West neun Blitze, Nord ohne Pause. Süd und West werden oft verwechselt.", "recherche": ["R31", "R45"]},
+          {"id": "S5.5", "titel": "Einzelgefahr, Leit-, Richt- und Quermarkenfeuer", "form": "system", "minuten": 15, "fragen": [208, 209, 210, 211, 212, 213, 214], "schwerpunkt": [208, 211, 212], "baustein": "detektiv", "revier": "fahrwasser", "ort": "Nachts in der Einfahrt zur Schlei", "animation": ["sektorenfeuer", "kennung"], "praxis": "Einzelgefahr: rundum passierbar, Blitze in Zweiergruppen. Leitfeuer: in Fahrtrichtung an der rechten Seite des weißen Sektors bleiben. Richtfeuer: Ober- und Unterfeuer in Deckung bringen. Quermarkenfeuer kündigen die Kursänderung an.", "recherche": []}
+        ]},
+        {"id": "S6", "titel": "Fahrwasser und besondere Gebiete", "ueberblick": "Was im Fahrwasser anders ist, wo man nicht hin darf und wie Kanal und Verkehrstrennungsgebiet funktionieren.", "folgen": [
+          {"id": "S6.1", "titel": "Regeln im Fahrwasser", "form": "regel", "minuten": 15, "fragen": [161, 165, 166, 167, 168, 271], "schwerpunkt": [165, 167, 271], "baustein": "streit", "revier": "fahrwasser", "ort": "Fahrwasser der Kieler Förde", "animation": ["lateral", "begegnung", "revierkarte"], "praxis": "Wer dem Fahrwasser folgt, hat Vorfahrt vor allen, die einlaufen, queren oder wenden. Außerhalb des Fahrwassers gelten die KVR. Bei verminderter Sicht ohne Ortungsgerät (Radar): das Fahrwasser verlassen, möglichst ins flache Wasser und ankern; geht das nicht, im Fahrwasser äußerst rechts halten.", "recherche": []},
+          {"id": "S6.2", "titel": "Baden, Wasserski und Ankerverbot", "form": "regel", "minuten": 14, "fragen": [169, 170, 171, 179, 180, 181, 182], "schwerpunkt": [171, 181], "baustein": "kopfkino", "revier": "frei", "ort": "Badestrand an der Ostsee", "animation": ["tafeln"], "praxis": "Vor Badestellen außerhalb des Fahrwassers höchstens 4,3 Knoten. Im Fahrwasser, an Engstellen und in Kurven nicht ankern. Wasserski und Wassermotorräder nur außerhalb des Fahrwassers und nicht, wo es verboten ist.", "recherche": []},
+          {"id": "S6.3", "titel": "Behörden und Gefahrgut: wer da kommt", "form": "regel", "minuten": 13, "fragen": [151, 154, 155, 185, 186], "schwerpunkt": [154, 186], "baustein": "gast", "gast": "POLIZEI", "revier": "fahrwasser", "ort": "Elbe, Polizeiboot im Einsatz", "animation": ["lichtertafel", "schallleiste"], "praxis": "Fahrzeuge mit gefährlicher Ladung zeigen am Tag eine rote Flagge, nachts ein rotes Rundumlicht: Abstand halten, kein Rauchen, kein offenes Feuer. Fahrzeuge des öffentlichen Dienstes im Einsatz zeigen ein blaues Funkellicht und dürfen von den Verkehrsvorschriften abweichen. Zweimal L heißt Anhalten: die gelb-schwarze Flagge L und der Ton kurz, lang, kurz, kurz (Morse-L) vom Polizeiboot. Sofort folgen.", "recherche": ["R16"]},
+          {"id": "S6.4", "titel": "Gesperrt! Sperr- und Warngebiete", "form": "system", "minuten": 13, "fragen": [177, 183, 184, 187, 188, 189], "schwerpunkt": [187, 188], "baustein": "detektiv", "revier": "frei", "ort": "Schießgebiet vor der Küste", "animation": ["lichtertafel", "schallleiste"], "praxis": "Sperrungen und Behinderungen zeigt ein Signalmast: am Tag Signalkörper, nachts Lichter (Katalogbilder nebeneinander). Sperrgebiete tragen gelbe Tonnen mit rotem Band und der Aufschrift Sperrgebiet, gelbe Zeichen allein kennzeichnen besondere Gebiete. Militärische Warngebiete erkennt man an Tag- und Nachtsignalen. Bei Sperrung ist die Weiterfahrt verboten, auch wenn man sie nur hört: zwei Gruppen aus je drei langen Tönen.", "recherche": []},
+          {"id": "S6.5", "titel": "Der Nord-Ostsee-Kanal, Brücken und Schleusen", "form": "regel", "minuten": 13, "fragen": [173, 174, 175, 176, 178], "schwerpunkt": [173, 176], "baustein": "garn", "revier": "nok", "ort": "Schleuse Kiel-Holtenau", "animation": ["tafeln"], "praxis": "Sportboote fahren nur zur Durchfahrt, nur tagsüber und bei guter Sicht durch den Kanal; Segeln ist verboten. In die Schleuse erst bei weißem unterbrochenem Licht. Hinnerks Garn: der Kanal seit 1895, die meistbefahrene künstliche Wasserstraße der Welt.", "recherche": ["R28"]},
+          {"id": "S6.6", "titel": "Verkehrstrennungsgebiete und Verkehrszentralen", "form": "system", "minuten": 16, "fragen": [87, 88, 142, 143, 144, 145, 146, 147, 158], "schwerpunkt": [88, 143, 147], "baustein": "gast", "gast": "FUNK", "revier": "vtg", "ort": "Verkehrstrennungsgebiet vor der Kieler Förde", "animation": ["vtg"], "praxis": "Einbahnwege wie auf der Autobahn. Queren möglichst vermeiden, sonst mit der Kielrichtung im rechten Winkel, ohne Vorhalten. Kleine Fahrzeuge und Segler dürfen die Durchfahrt nicht behindern. Die Verkehrszentrale gibt Informationen, die man beachten muss.", "recherche": ["R26", "R27", "R12"]}
+        ]},
+        {"id": "S7", "titel": "Navigation und Gezeiten", "ueberblick": "Seekarte, Kompass, Peilung, Koppeln, Gezeiten und wie die Kartenaufgabe der Prüfung abläuft.", "folgen": [
+          {"id": "S7.1", "titel": "Seekarte und nautische Bücher", "form": "system", "minuten": 14, "fragen": [231, 232, 234, 235, 236, 237, 238, 239], "schwerpunkt": [232, 235, 239], "baustein": "stichprobe", "revier": "an Land", "ort": "Kartentisch in der Kajüte", "animation": ["karte"], "praxis": "Nur eine berichtigte Karte ist eine gute Karte: Berichtigungen erscheinen wöchentlich. Tiefen in Meter und Dezimeter; Seemeilen am Seitenrand in Höhe des Standorts abgreifen; die Zeichen erklärt die Karte 1.", "recherche": ["R32"]},
+          {"id": "S7.2", "titel": "Seemeile, Knoten, Kompass, Peilung", "form": "system", "minuten": 14, "fragen": [240, 241, 242, 243, 244, 248], "schwerpunkt": [240, 243, 244], "baustein": "kopfkino", "revier": "frei", "ort": "Peilung auf der Flensburger Förde", "animation": ["karte"], "praxis": "Eine Seemeile ist eine Bogenminute, 1852 Meter; ein Knoten ist eine Seemeile pro Stunde. Die Ablenkung steht in der Deviationstabelle des eigenen Schiffs. Eine Peilung ergibt eine Standlinie, zwei ergeben den Ort. Verweis auf die Navigationsschule der App.", "recherche": []},
+          {"id": "S7.3", "titel": "Koppeln, Versetzung und die Kartenaufgabe", "form": "kartenaufgabe", "minuten": 15, "fragen": [245, 246, 247], "schwerpunkt": [245, 247], "baustein": "detektiv", "revier": "an Land", "ort": "Kartentisch, dann Prüfungsraum", "animation": ["karte"], "praxis": "Koppelort aus Kurs und Distanz; Strom und Wind versetzen. Die Kartenaufgabe der Prüfung: Teilaufgaben, Bestehensgrenze und erlaubte Hilfsmittel nach dem Original. Typischer Fehler: die falsche Tonne 10, genau Smillas Fehler.", "recherche": ["R1", "R2", "R6"], "braucht": "Prüfungsablauf am Original (SpFV Anlage 3)"},
+          {"id": "S7.4", "titel": "Ebbe und Flut", "form": "system", "minuten": 15, "fragen": [233, 249, 250, 251, 252, 253, 254, 255], "schwerpunkt": [233, 254, 255], "baustein": "garn", "revier": "watt", "ort": "Wattfahrwasser vor Büsum", "animation": ["gezeiten"], "praxis": "Nordsee zwei bis vier Meter Tidenhub, Ostsee nur Zentimeter. Hoch- und Niedrigwasserzeiten stehen in den Gezeitentafeln. Wind gegen Strom im Seegat macht steile Brecher. Hinnerks Garn: einmal trockengefallen.", "recherche": ["R33", "R9"]}
+        ]},
+        {"id": "S8", "titel": "Natur auf See", "ueberblick": "Nationalpark Wattenmeer, Schutzgebiete und was man für saubere Gewässer tut.", "folgen": [
+          {"id": "S8.1", "titel": "Wattenmeer und Nationalparks", "form": "regel", "minuten": 14, "fragen": [216, 217, 218, 219, 225], "schwerpunkt": [218, 219], "baustein": "gast", "gast": "RANGERIN", "revier": "watt", "ort": "Seehundbank vor Amrum", "animation": [], "praxis": "Seehundbänke meiden; die Nationalparks empfehlen 500 Meter Abstand, der Katalog nennt 300 bis 500 Meter. Grenzen und Befahrensregeln stehen in Seekarten und Sportschifffahrtskarten.", "recherche": ["R34"]},
+          {"id": "S8.2", "titel": "Befahrensregeln und saubere See", "form": "regel", "minuten": 12, "fragen": [226, 227, 228, 229, 230], "schwerpunkt": [229, 230], "baustein": "stichprobe", "revier": "frei", "ort": "Nordsee vor Sylt", "animation": [], "praxis": "In den Nationalparks gelten Befahrensverbote, Beschränkungen und Höchstgeschwindigkeiten; Schnellfahrkorridore sind für den gewerblichen Verkehr. Alle Abfälle, auch Öl, an Bord sammeln und an Land entsorgen.", "recherche": ["R34"]}
+        ]},
+        {"id": "S9", "titel": "Wetter, Seemannschaft und Seenot", "ueberblick": "Wetter lesen, schweres Wetter vorbereiten, Mensch über Bord und was in Seenot zählt.", "folgen": [
+          {"id": "S9.1", "titel": "Hoch, Tief und die Wetterkarte", "form": "system", "minuten": 14, "fragen": [260, 262, 263, 264, 265, 266], "schwerpunkt": [263, 264, 266], "baustein": "kopfkino", "revier": "frei", "ort": "Das Barometer fällt, Ostsee", "animation": ["wetterkarte"], "praxis": "Isobaren verbinden Orte gleichen Luftdrucks; je enger sie liegen, desto mehr Wind. Rasch fallender Luftdruck kündigt Starkwind oder Sturm an. Abendrot ist nur eine Faustregel.", "recherche": ["R38"]},
+          {"id": "S9.2", "titel": "Wind in Zahlen: Beaufort und Warnungen", "form": "regel", "minuten": 14, "fragen": [261, 267, 268, 269, 270], "schwerpunkt": [267, 268], "baustein": "garn", "revier": "hafen", "ort": "Seewetterbericht im Hafen", "animation": ["beaufort"], "praxis": "Starkwindwarnung bei 6 und 7, Sturmwarnung ab 8: die am häufigsten falsch beantwortete Frage des SBF See. Frischer Wind ist 5. Hinnerk erzählt, wie Beaufort seine Skala an den Segeln seines Schiffes maß. Bei Gewitter früh in den Hafen.", "recherche": ["R5", "R36", "R19"]},
+          {"id": "S9.3", "titel": "Schweres Wetter und Schleppen", "form": "regel", "minuten": 14, "fragen": [256, 257, 258, 259, 275], "schwerpunkt": [275, 259], "baustein": "detektiv", "revier": "frei", "ort": "Starkwind in der Kieler Bucht", "animation": [], "praxis": "Vor schwerem Wetter: Luken zu, lose Teile festzurren, Westen und Lifebelts an. Bei starkem Seegang Fahrt verringern. Die Schleppleine lang genug und dem Seegang angepasst.", "recherche": ["R14"]},
+          {"id": "S9.4", "titel": "Mensch über Bord und Kentern", "form": "regel", "minuten": 14, "fragen": [276, 277, 278], "schwerpunkt": [276, 277, 278], "baustein": "kopfkino", "revier": "frei", "ort": "Ostsee bei frischem Wind", "animation": ["mob"], "praxis": "Lifebelt und Sicherheitsleine verhindern das Überbordfallen. Die Bergung ist oft schwerer als das Ansteuern, deshalb Bergehilfen an Bord und üben. Kälteschock in der ersten Minute. Gekentert: am Boot bleiben.", "recherche": ["R13", "R17", "R18"]},
+          {"id": "S9.5", "titel": "Seenot: Notsignale und Pflichten", "form": "system", "minuten": 15, "fragen": [172, 279, 280, 281, 282, 283, 284, 285], "schwerpunkt": [279, 282, 172], "baustein": "garn", "revier": "frei", "ort": "Seenotfall vor Rügen", "animation": ["notsignale", "schallleiste"], "praxis": "Notsignale nur bei Gefahr für Leib und Leben: rote Leuchtrakete, SOS, NC, Dauerton, Flagge mit Ball. Hilfe: Kanal 16, in Küstennähe 124 124. Hinnerks Garn: wie SOS 1906 in Berlin entstand.", "recherche": ["R10", "R11", "R37"]}
+        ]},
+        {"id": "S10", "titel": "Die praktische Prüfung", "ueberblick": "Knoten und Manöver, wie sie in der Prüfung verlangt werden, mit der App zum Üben.", "folgen": [
+          {"id": "S10.1", "titel": "Knoten für die Prüfung", "form": "praxis", "minuten": 13, "fragen": [], "baustein": "kopfkino", "revier": "hafen", "ort": "Am Steg", "animation": ["knoten"], "praxis": "Die Prüfungsknoten mit ihrer Verwendung; jeder Knoten im Knotenbrett der App. Welche und wie viele abgefragt werden, steht in der Prüfungsrichtlinie.", "recherche": ["R7"], "braucht": "Prüfungsrichtlinie in quellen/ (G2)"},
+          {"id": "S10.2", "titel": "Manöver für die Prüfung", "form": "praxis", "minuten": 15, "fragen": [], "baustein": "stichprobe", "revier": "hafen", "ort": "Prüfungsboot im Hafen", "animation": ["manoever"], "praxis": "Ablegen, Anlegen, Mensch über Bord, Steuern nach Kompass, Peilen, Aufstoppen, Wenden auf engem Raum: Kommandos und worauf der Prüfer achtet. Üben im Manöverspiel der App.", "recherche": ["R7", "R17"], "braucht": "Prüfungsrichtlinie in quellen/ (G2)"}
+        ]},
+        {"id": "S11", "titel": "Prüfungsreife", "ueberblick": "Was man verwechselt, im direkten Vergleich, und eine Generalprobe mit Harms.", "folgen": [
+          {"id": "S11.1", "titel": "Hörprüfung: alle Schallsignale", "form": "vergleich", "minuten": 14, "fragen": [], "bezug": [4, 5, 16, 116, 117, 118, 119, 120, 121, 122, 123, 124, 139, 140, 141, 161, 162, 163, 164, 178, 186, 188, 281, 282], "baustein": "tonlabor", "revier": "frei", "ort": "Nebel, alles durcheinander", "animation": ["schallleiste"], "praxis": "Alle Töne nacheinander und gemischt: erst hören, dann benennen.", "recherche": ["R44", "R52"]},
+          {"id": "S11.2", "titel": "Lichter und Signalkörper im Vergleich", "form": "vergleich", "minuten": 14, "fragen": [], "bezug": [7, 10, 12, 13, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 148, 149, 150, 159], "baustein": "kopfkino", "revier": "frei", "ort": "Nachtfahrt", "animation": ["lichtertafel"], "praxis": "Ähnliche Bilder direkt nebeneinander: zwei rote, rot-weiß-rot, drei rote, grün über weiß, rot über weiß.", "recherche": ["R47", "R52"]},
+          {"id": "S11.3", "titel": "Wer weicht wo aus?", "form": "vergleich", "minuten": 13, "fragen": [], "bezug": [14, 15, 81, 125, 126, 127, 128, 129, 130, 131, 132, 135, 136, 137, 142, 143, 145, 146, 147, 165, 166, 167], "baustein": "streit", "revier": "frei", "ort": "Freie See, Fahrwasser, Verkehrstrennungsgebiet", "animation": ["begegnung", "vtg", "revierkarte"], "praxis": "Dieselbe Begegnung in drei Revieren: freie See (KVR), Fahrwasser (Vorfahrt der Fahrwasserfolger), Verkehrstrennungsgebiet (Durchfahrt nicht behindern).", "recherche": ["R52"]},
+          {"id": "S11.4", "titel": "Zahlen, Fristen, Behörden", "form": "vergleich", "minuten": 12, "fragen": [], "bezug": [5, 59, 67, 68, 75, 152, 153, 160, 176, 179, 181, 219, 229, 231, 232, 236, 240, 241, 255, 261, 267, 268, 269, 270], "baustein": "detektiv", "revier": "an Land", "ort": "Kajüte, Hinnerks Zahlensalat", "animation": [], "praxis": "Alle Zahlen und Zuständigkeiten, die man leicht verwechselt: Hinnerk bringt sie durcheinander, der Hörer berichtigt.", "recherche": ["R5", "R52"]},
+          {"id": "S11.5", "titel": "Generalprobe mit Harms", "form": "vergleich", "minuten": 15, "fragen": [], "bezug": [1, 14, 63, 72, 81, 92, 100, 120, 157, 163, 181, 200, 212, 221, 235, 247, 254, 263, 267, 279], "baustein": "stichprobe", "revier": "an Land", "ort": "Prüfungsraum", "animation": [], "praxis": "Harms fragt quer durch den Kurs wie in der Prüfung. Danach: was am Prüfungstag zu tun ist (nach dem Original). Hinweis auf Probeprüfung und Kartenaufgabe in der App.", "recherche": ["R1", "R2"], "braucht": "Prüfungsablauf am Original (F3)"}
+        ]}
+      ]
     }
-   ]
-  },
-  {
-   "nr": 5,
-   "titel": "Fahrwasser, Tonnen und Feuer",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "5.1",
-     "titel": "Wie Feuer sprechen: Kennungen",
-     "typ": "lektion",
-     "fragen": [
-      215,
-      220,
-      221,
-      222,
-      223,
-      224
-     ],
-     "minuten": 8,
-     "baustein": "kopfkino"
-    },
-    {
-     "id": "5.2",
-     "titel": "Das Fahrwasser und seine Tonnen",
-     "typ": "lektion",
-     "fragen": [
-      156,
-      157,
-      190,
-      191,
-      192,
-      193,
-      194,
-      195,
-      196,
-      197,
-      198,
-      199
-     ],
-     "minuten": 13,
-     "baustein": "garn",
-     "bilder": true
-    },
-    {
-     "id": "5.3",
-     "titel": "Gefahrenstellen: Kardinal- und Einzelgefahrenzeichen",
-     "typ": "lektion",
-     "fragen": [
-      200,
-      201,
-      202,
-      203,
-      204,
-      205,
-      206,
-      207,
-      208,
-      209
-     ],
-     "minuten": 12,
-     "baustein": "detektiv",
-     "bilder": true
-    },
-    {
-     "id": "5.4",
-     "titel": "Leit-, Richt- und Quermarkenfeuer",
-     "typ": "lektion",
-     "fragen": [
-      210,
-      211,
-      212,
-      213,
-      214
-     ],
-     "minuten": 8,
-     "baustein": "kopfkino"
-    },
-    {
-     "id": "5.5",
-     "titel": "Regeln im Fahrwasser",
-     "typ": "lektion",
-     "fragen": [
-      24,
-      152,
-      153,
-      161,
-      165,
-      166,
-      167,
-      168,
-      271
-     ],
-     "minuten": 11,
-     "baustein": "stichprobe"
-    }
-   ]
-  },
-  {
-   "nr": 6,
-   "titel": "Zeichen, Sperrungen und besondere Wasserstraßen",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "6.1",
-     "titel": "Tafelzeichen",
-     "typ": "lektion",
-     "fragen": [
-      17,
-      18,
-      19,
-      20,
-      22,
-      23,
-      26,
-      27,
-      182
-     ],
-     "minuten": 11,
-     "baustein": "detektiv",
-     "bilder": true
-    },
-    {
-     "id": "6.2",
-     "titel": "Behörden, Sperr- und Warngebiete",
-     "typ": "lektion",
-     "fragen": [
-      16,
-      151,
-      154,
-      155,
-      177,
-      183,
-      184,
-      185,
-      186,
-      187,
-      188,
-      189
-     ],
-     "minuten": 14,
-     "baustein": "tonlabor",
-     "bilder": true
-    },
-    {
-     "id": "6.3",
-     "titel": "Brücken, Schleusen und der Nord-Ostsee-Kanal",
-     "typ": "lektion",
-     "fragen": [
-      21,
-      28,
-      29,
-      30,
-      173,
-      174,
-      175,
-      176,
-      178
-     ],
-     "minuten": 11,
-     "baustein": "kopfkino",
-     "bilder": true
-    },
-    {
-     "id": "6.4",
-     "titel": "Verkehrstrennungsgebiete und Verkehrszentralen",
-     "typ": "lektion",
-     "fragen": [
-      87,
-      88,
-      142,
-      143,
-      144,
-      145,
-      146,
-      147,
-      158
-     ],
-     "minuten": 11,
-     "baustein": "gast",
-     "gast": "FUNK"
-    }
-   ]
-  },
-  {
-   "nr": 7,
-   "titel": "Navigation, Gezeiten und Naturschutz",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "7.1",
-     "titel": "Seekarte, nautische Bücher und wer was herausgibt",
-     "typ": "lektion",
-     "fragen": [
-      58,
-      216,
-      217,
-      231,
-      232,
-      234,
-      235,
-      236,
-      237,
-      238,
-      239
-     ],
-     "minuten": 12,
-     "baustein": "streit"
-    },
-    {
-     "id": "7.2",
-     "titel": "Kurs, Peilung, Standort",
-     "typ": "lektion",
-     "fragen": [
-      240,
-      241,
-      242,
-      243,
-      244,
-      245,
-      246,
-      247,
-      248
-     ],
-     "minuten": 11,
-     "baustein": "kopfkino"
-    },
-    {
-     "id": "7.3",
-     "titel": "Ebbe und Flut",
-     "typ": "lektion",
-     "fragen": [
-      233,
-      249,
-      250,
-      251,
-      252,
-      253,
-      254,
-      255
-     ],
-     "minuten": 10,
-     "baustein": "garn"
-    },
-    {
-     "id": "7.4",
-     "titel": "Naturschutz und Umwelt",
-     "typ": "lektion",
-     "fragen": [
-      31,
-      32,
-      33,
-      38,
-      218,
-      219,
-      225,
-      226,
-      227,
-      228,
-      229,
-      230
-     ],
-     "minuten": 12,
-     "baustein": "detektiv",
-     "gast": "RANGERIN",
-     "binnen_kandidat": true
-    },
-    {
-     "id": "7.5",
-     "titel": "Die Kartenaufgabe: so läuft sie, so denkst du",
-     "typ": "kartenaufgabe",
-     "fragen": [],
-     "minuten": 10,
-     "baustein": "stichprobe",
-     "braucht": [
-      "Prüfungsrichtlinie in quellen/"
-     ]
-    }
-   ]
-  },
-  {
-   "nr": 8,
-   "titel": "Wetter, Seemannschaft und Notfall",
-   "auftakt": true,
-   "lektionen": [
-    {
-     "id": "8.1",
-     "titel": "Wetter verstehen",
-     "typ": "lektion",
-     "fragen": [
-      71,
-      260,
-      261,
-      262,
-      263,
-      264,
-      265,
-      266,
-      267,
-      268,
-      269,
-      270
-     ],
-     "minuten": 14,
-     "baustein": "garn",
-     "bilder": true
-    },
-    {
-     "id": "8.2",
-     "titel": "Wenn es ernst wird: schweres Wetter, Mensch über Bord, Kentern",
-     "typ": "lektion",
-     "fragen": [
-      256,
-      257,
-      258,
-      259,
-      275,
-      276,
-      277,
-      278
-     ],
-     "minuten": 10,
-     "baustein": "kopfkino"
-    },
-    {
-     "id": "8.3",
-     "titel": "Notsignale und Pflichten nach einem Unfall",
-     "typ": "lektion",
-     "fragen": [
-      70,
-      72,
-      172,
-      279,
-      280,
-      281,
-      282,
-      283,
-      284,
-      285
-     ],
-     "minuten": 12,
-     "baustein": "streit",
-     "bilder": true
-    }
-   ]
-  },
-  {
-   "nr": 9,
-   "titel": "Prüfungsreife: was man verwechselt",
-   "auftakt": true,
-   "auftakt_von": "HARMS",
-   "lektionen": [
-    {
-     "id": "9.1",
-     "titel": "Hörprüfung: alle Schallsignale im Vergleich",
-     "typ": "vergleich",
-     "fragen": [],
-     "minuten": 10,
-     "baustein": "tonlabor",
-     "bezug": [
-      4,
-      5,
-      16,
-      24,
-      84,
-      116,
-      117,
-      118,
-      119,
-      120,
-      121,
-      122,
-      123,
-      124,
-      138,
-      139,
-      140,
-      141,
-      161,
-      162,
-      163,
-      164,
-      178,
-      186,
-      188,
-      281,
-      282
-     ]
-    },
-    {
-     "id": "9.2",
-     "titel": "Lichter und Signalkörper im Vergleich",
-     "typ": "vergleich",
-     "fragen": [],
-     "minuten": 9,
-     "baustein": "streit",
-     "bezug": [
-      7,
-      10,
-      11,
-      12,
-      13,
-      91,
-      92,
-      93,
-      94,
-      95,
-      96,
-      97,
-      98,
-      99,
-      100,
-      101,
-      102,
-      103,
-      104,
-      105,
-      106,
-      107,
-      108,
-      109,
-      110,
-      111,
-      112,
-      113,
-      114,
-      115,
-      133,
-      134,
-      148,
-      149,
-      150,
-      151,
-      154,
-      155,
-      159,
-      160
-     ]
-    },
-    {
-     "id": "9.3",
-     "titel": "Wer weicht wo aus? Freie See, Fahrwasser, Verkehrstrennungsgebiet",
-     "typ": "vergleich",
-     "fragen": [],
-     "minuten": 8,
-     "baustein": "detektiv",
-     "bezug": [
-      14,
-      15,
-      81,
-      125,
-      126,
-      127,
-      128,
-      129,
-      130,
-      131,
-      132,
-      133,
-      134,
-      135,
-      136,
-      137,
-      142,
-      143,
-      144,
-      145,
-      146,
-      147,
-      165,
-      166,
-      167,
-      168,
-      36,
-      271
-     ]
-    },
-    {
-     "id": "9.4",
-     "titel": "Zahlen und Behörden, die man verwechselt",
-     "typ": "vergleich",
-     "fragen": [],
-     "minuten": 8,
-     "baustein": "stichprobe",
-     "bezug": [
-      2,
-      31,
-      38,
-      58,
-      59,
-      67,
-      68,
-      75,
-      86,
-      153,
-      179,
-      181,
-      183,
-      216,
-      217,
-      219,
-      229,
-      231,
-      232,
-      236,
-      237,
-      238,
-      240,
-      241,
-      255,
-      261,
-      267,
-      268,
-      269,
-      270
-     ]
-    }
-   ]
-  }
- ]
+  ]
 }
