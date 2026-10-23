@@ -401,6 +401,24 @@ Er erklärt noch nichts. Er ordnet und macht neugierig.
 - **K7 Zielgruppe und Hörsituation:** Lernen die meisten neben einer Bootsschule oder allein? Wird eher unterwegs oder zu Hause gehört?
 - **K8 Aufräumen:** Gehen Leitfaden der Geschichte, Folge 1, Vorgeschmack und die Figuren Frieda und Jonte ins Archiv? Neu wäre die Gastrolle Rangerin. Ihre Stimme wählst du im Casting.
 
+**Antworten des Nutzers (22. und 23.10.2026), eingearbeitet in Fassung 4:**
+- **K1:** noch offen, nach Fassung 4.
+- **K2:** Erst verfeinern wir selbst, dann liest jemand gegen.
+- **K3:** So viele Zeichen wie nötig, auch über mehrere Sitzungen. Erzeugt wird erst, wenn die Skripte fertig sind.
+- **K4:** Erst im Repo und in der App, getestet nur vom Nutzer. Server oder Cloud vielleicht später.
+- **K5 und K9:** Drei Blöcke: **Grundkurs** (die 72 Basisfragen, für See und Binnen gemeinsam), **See**, später **Binnen** (Zusatz, mit Quirin).
+- **K6:** Kein Hörtest, wir sind noch beim Konzept. Die Probe besteht nur aus Skripten zum Lesen.
+- **K7:** Gelernt wird nur in der App. Gemacht zum Hören, mit Auto-Modus und interaktivem Modus.
+- **K8:** Ja, die Geschichte kommt ins Archiv.
+- **K10:** Im interaktiven Modus hält die App an den Entscheidungs-Denkpausen an und zeigt Antwortknöpfe.
+- **K11 und K12:** Die Figuren schlägt Claude vor: Hinnerk mit stärkerem Dialekt, Smilla mit weniger und einem anderen, Quirin sehr bayerisch. Entwurf: `podcast/figuren.md`, Wortschatz: `podcast/wortschatz.md`.
+- **Neu dazu:**
+  - Nicht jede Frage einzeln erklären: zwei Lektionsformen („Erst das System“ mit gebündelter Fragenstrecke, „Regel für Regel“).
+  - Das Revier muss man hören, im Satz oder an eindeutigen Geräuschen. Es bleibt ein Hörspiel, nur konzentriert.
+  - Im interaktiven Modus erscheinen Bilder und Animationen zum Ton. Claude schlägt die Themen vor.
+  - Vor dem ersten Skript recherchiert Claude in guten Quellen, was vermittelt werden muss: Praxis-Grundlagen, wichtige Punkte, Anekdoten.
+  - Denkpausen und die Rangerin bleiben.
+
 ---
 
 ## Anhang A: Ablaufplan Lektion 3.2 „Begegnen, Kreuzen, Überholen, Segeln“ (etwa 12 Minuten)
