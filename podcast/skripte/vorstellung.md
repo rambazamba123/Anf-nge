@@ -19,7 +19,7 @@ KLABAUTER: [[INTENTION: flüsternd]] Alles. Alles.
 [[AUDIO: tuer-auf]]
 HARMS: [[INTENTION: trocken]] Harms. Ich bin der Prüfer. Ich bin dafür zuständig, dass keiner mit Halbwissen aufs Wasser kommt. Am Ende jeder Folge frage ich nach. Und ich merke mir alles.
 HINNERK: [[INTENTION: seufzend]] Leider.
-QUIRIN: [[INTENTION: lachend]] Servus beinand! Ich bin der Quirin, Bergführer vom Chiemsee. Segeln kann ich auch, auf dem See. Auf dem Meer bin ich zuständig für die Fische. Die füttere ich über die Reling.
+QUIRIN: [[INTENTION: lachend]] Servus beinand! I bin der Quirin aus Kelheim. Aufgwachsn bin i auf am Binnenschiff, heit fahr i a Ausflugsschiff auf da Donau. Auf dem Meer bin i zuständig für d' Fisch. De fuatter i über d' Reling.
 HINNERK: Und er sagt Hinni zu mir.
 QUIRIN: Weil du mein Hinni bist, Hinni!
 [[PAUSE: dramatisch]]

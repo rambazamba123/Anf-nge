@@ -1,6 +1,6 @@
 # Kajütenfunk – der Hörkurs zum Sportbootführerschein
 
-**Finales Konzept, Fassung 5** · Stand: 23.10.2026 · Status: deine Korrekturen vom 23.10.2026 sind eingearbeitet; wartet auf deinen Startschuss für die Probefolge (§21)
+**Finales Konzept, Fassung 5** · Stand: 23.10.2026 · Status: Startschuss gegeben am 24.10.2026 (K1). Deine Antworten vom 24.10. sind eingearbeitet; die Probefolge ist gebaut (Anhang H)
 
 > **Wozu diese Datei:** Sie beschreibt den ganzen Hörkurs so genau, dass danach jede Folge geschrieben werden kann. Wer eine Folge schreibt, liest zuerst den Bauplan (§7), den Rahmen der Folge (§6.2), den Steckbrief der Folge (§14), die Figuren (`podcast/figuren.md`) und die Vorlage (`podcast/folgen/VORLAGE.md`).
 >
@@ -171,6 +171,15 @@ So sagt es die Crew in G0, und so steht es in der App:
 | O38 | Klabauters neue Stimme auch in der App, aber erst nach der Freigabe. Alle App-Stimmen werden dann mit v4 neu gesprochen. | 23.10. | §18 |
 | O33 | Schwierige Aussprache prüfst du. | 23.10. | §16.5 |
 | – | Probefolge nach deinem Startschuss: Ausschnitt mit dem Anfang einer Folge, 5–10 Minuten, höchstens etwa 6.000 Credits, alles Testenswerte drin; Geräusche dürfen fehlen; Animationen kommen später; anklickbar über den Stuhl in der Kajüte. | 23.10. | Anhang H |
+| K1 | Startschuss für Fassung 5 („K1 ok“) | 24.10. | ganzes Konzept |
+| O41 | Probefolge G6.3, gemischt mit Quirins Vorstellung, gekürzt auf etwa 4–6 Minuten, prüft Funktion und Stimmung, in der App erzeugt | 24.10. | Anhang H |
+| O39 | Quirin ist an einer Binnenschifffahrtsstraße groß geworden (Kelheim, Sohn eines Binnenschiffers, Schiffsführer, heute Ausflugsschiff); Berge nur als Hobby | 24.10. | §9, `podcast/figuren.md` |
+| O40 | Klischees erlaubt; Quirin trinkt nur Bier kleiner, erfundener Brauereien, kein „Fernsehbier“ | 24.10. | §9.5 |
+| O42 | Revier für Teil B: Main-Donau-Kanal, weil er zu Binnen passt | 24.10. | §19.1 |
+| – | Quirin bekommt eine andere Stimme; Claude schlägt drei vor | 24.10. | §9, `podcast/casting.json` |
+| X4, X8 | X4 bleibt gestrichen; Antwortknöpfe mitten in der Folge sind im interaktiven Modus gewünscht | 24.10. | §9.5, §10.2 |
+| V42 | Lernminuten als Auswahl; die Crew kommentiert mit festen Textblöcken, wie gelernt wird, ob es reicht, und was sie empfiehlt | 24.10. | §3.5 |
+| O43 | Leitplanken der Live-KI vorerst nicht anpassen, später vielleicht | 24.10. | – |
 
 ### 2.2 Was weiter gilt
 
@@ -199,7 +208,7 @@ Was du am 23.10.2026 ausdrücklich entschieden hast, steht schon in der Bible (d
 | P1, P5, P26–P36, P39 | Geschichte (Variante C), großes Rätsel „Die Wette“, Reise, Hinweis und Cliffhanger in jeder Folge | Hörkurs im Coaching-Stil. Jede Folge ist ein konzentriertes Hörspiel an einem echten Ort, ohne Fortsetzungshandlung. Spannung kommt aus Kaltstart-Lagen, Vorab-Fragen, Fallen und Garn. | E12, K8 |
 | P13–P15, A16 | 25 Minuten je Folge; 12–25, zuletzt 22 Folgen | 12–15 Minuten (höchstens 17), 60 Folgen für G und S, zusammen knapp 14 Stunden | dein Wunsch vom 23.10., R53 |
 | P30 | Boot „Frieda“, Frieda mit Kneipe, Klabauter als Petze und verliebt in eine Möwe, Logbuch als Schiedsrichter, Quirins Einladung an den Chiemsee | entfällt mit der Geschichte. Quirins Einladung bleibt als Karte, die Smilla am Ende von S11.5 vorliest, und führt nach Bayern; wohin genau, hängt am Revier für Teil B (§19.1). Ein Bootsname ist nicht nötig. | K8, dein Hinweis vom 23.10. |
-| P47 | Quirin, Bergführer aus dem Chiemgau, segelt nur auf Seen, keine Witze über Bayern, kommt auch bei SBF See vor | Er bleibt Bergführer aus dem Chiemgau und auf dem Meer seekrank, ist aber auf Binnengewässern ein Profi. Bei SBF See kommt er zweimal zu Besuch (G6.3, S6.5), in Teil B ist er Hauptfigur. Witze über Bayern sind erlaubt. | 23.10. |
+| P47 | Quirin, Bergführer aus dem Chiemgau, segelt nur auf Seen, keine Witze über Bayern, kommt auch bei SBF See vor | Seit 24.10.: an einer Binnenschifffahrtsstraße groß geworden (Kelheim, Binnenschiffer), Berge nur Hobby, auf dem Meer seekrank. Bisher stand hier: Er bleibt Bergführer aus dem Chiemgau und auf dem Meer seekrank, ist aber auf Binnengewässern ein Profi. Bei SBF See kommt er zweimal zu Besuch (G6.3, S6.5), in Teil B ist er Hauptfigur. Witze über Bayern sind erlaubt. | 23.10. |
 | X3, X4 | keine Beleidigungen von Gruppen, keine Witze über Bayern, kein Alkohol als Witz über Kinder | gestrichen; weiter verboten bleiben Anspielungen auf Körper von Kindern und Drastisches (X3 Rest) | 23.10. |
 | P48, O7 | Häufigkeit der Anreden offen | höchstens drei je Folge | 23.10. |
 | P38 | keine Regeln für Einleitung und Schluss | fester Bauplan (§7) | |
@@ -341,7 +350,20 @@ Dein Wunsch vom 23.10.2026: Ganz am Anfang wählt man die Scheine, ihre Termine 
 - **Schnell** (wenn die Zeit knapp ist): Folgen im Auto-Modus am Stück, Fragerunden und Kapitel-Checks in der App, vor der Prüfung die Schnellspur.
 - **Nachsitzen:** nur die Nachhilfe-Folge und „Im Kurs nachhören“ bei Fehlern.
 
-**In der App heute:** Es gibt schon Scheine (`S.course`, `S.crewSchein`), ein Prüfungsdatum je Schein und die Lernzeit (Einstellungen, Kennenlernen). Neu wären die getrennten Termine für Theorie und Praxis, mehrere Scheine auf einmal im Kennenlernen und die Rechnung „Reicht die Zeit?“. Vorschlag: als eigenes Vorhaben V42 in der App umsetzen, mit neuem Feld `S.ziele` und Standardwert aus den alten Angaben (R7). Wann, entscheidest du (§21).
+**In der App heute:** Es gibt schon Scheine (`S.course`, `S.crewSchein`), ein Prüfungsdatum je Schein und die Lernzeit (Einstellungen, Kennenlernen). Neu wären die getrennten Termine für Theorie und Praxis, mehrere Scheine auf einmal im Kennenlernen und die Rechnung „Reicht die Zeit?“. Vorschlag: als eigenes Vorhaben V42 in der App umsetzen, mit neuem Feld `S.ziele` und Standardwert aus den alten Angaben (R7). Gebaut wird es nach der Probefolge (Claudes Vorschlag).
+
+**Deine Vorgaben vom 24.10.2026:** Die Minuten pro Tag wählt man aus einer Auswahl, zum Beispiel 15, 30, 45, 60 oder 90 Minuten. Die Crew kommentiert die Wahl, sagt, wie dann gelernt wird, ob es bis zur Prüfung reicht, und empfiehlt gegebenenfalls etwas anderes. Dafür gibt es feste Textblöcke, die sich je nach Lage zusammensetzen:
+
+| Baustein | Wann | Beispiel (wer spricht) |
+|---|---|---|
+| A Kommentar zur Wahl | je Minutenstufe | Hinnerk zu 15 Minuten: „Viertelstunde. Kurz, aber jeden Tag. Dat geiht.“ |
+| B So lernst du | je Minutenstufe | Smilla: „Bei dir heißt das: eine Folge mit Fragerunde, dazu ein kleiner Block Wiederholen.“ |
+| C Reicht es? | ja, knapp oder nein, aus Tagen bis zur Prüfung und Stoff | Smilla: „Das reicht locker, du hast sogar Luft für Probeprüfungen.“ / „Das wird knapp.“ / „Das reicht nicht.“ |
+| D Empfehlung | nur bei knapp oder nein | Smilla: „Nimm fünfzehn Minuten mehr.“ / Hinnerk: „Oder hör die Folgen im Auto, dann zählt die Fahrt mit.“ / „Schieb den Termin, wenn es geht.“ |
+| E Abschluss | immer | Klabauter: „Leinen los! Leinen los!“ |
+
+- Etwa vier Varianten je Stufe und Lage, damit es nicht immer gleich klingt.
+- Alle Blöcke sind feste Sätze ohne Namen und Zahlen, die sich ändern (R10). Zahlen wie „achtzehn Tage“ stehen nur auf dem Bildschirm.
 
 ---
 
@@ -709,7 +731,7 @@ Danach kommt **Anwenden** (1–2 Minuten): die Regeln der Folge gemischt, mit En
 | Fischer (`FISCHER`) | S3.6 | Dr. von Quirky | Lichter der Fischer, Stellnetze; spricht Platt, Smilla übersetzt |
 | Verkehrszentrale (`FUNK`) | S6.6 | Mats | Funk, Verkehrstrennungsgebiet |
 | Rangerin (`RANGERIN`) | S8.1 | noch offen | Wattenmeer, Seehunde, Schutzgebiete |
-| Quirin zu Besuch (`QUIRIN`) | G6.3, S6.5 | George (unbestätigt) | Schleusen-Profi von Donau und Main-Donau-Kanal; in Teil B Hauptfigur |
+| Quirin zu Besuch (`QUIRIN`) | G6.3, S6.5 | neue Stimme (Vorschläge Alexander, Benjamin, Rudolf) | Schleusen-Profi von Donau und Main-Donau-Kanal; in Teil B Hauptfigur |
 
 - Fachlich sagen Gäste nur, was Katalog und Dossier tragen.
 - Gäste sprechen Hochdeutsch, außer dem Fischer.
@@ -2112,12 +2134,12 @@ Die Werkzeuge dafür (zum Beispiel `tools/kurs-erzeugen.js`) entstehen, wenn die
   - Die Regeln, die der Katalog meistens abfragt, stehen in der Binnenschifffahrtsstraßen-Ordnung. Sie gilt auf den Bundeswasserstraßen **außer** Rhein, Mosel und Donau (R60).
   - Auf der Donau von Kelheim bis Jochenstein gilt die Donauschifffahrtspolizeiverordnung (Binnen-Frage 85, R61). Ein Entwurf von 2024 will die Donauregeln als eigenes Kapitel in die Binnenschifffahrtsstraßen-Ordnung holen; ob er in Kraft ist, prüft Claude vor dem Schreiben.
   - Der Chiemsee ist ein Landesgewässer, dort gilt die bayerische Schifffahrtsordnung (R62). Das passt genau zu Binnen-Frage 231 über Landesgewässer, aber nicht zu den übrigen Regeln.
-- **Vorschlag: Main-Donau-Kanal mit Altmühltal, Ausflüge an Donau und Chiemsee.**
-  - Der Main-Donau-Kanal ist 171 km lang, führt von Bamberg nach Kelheim und hat 16 Schleusen (R63). Dort gilt die Binnenschifffahrtsstraßen-Ordnung, er liegt ganz in Bayern, und es gibt Schleusen, Brücken, Berufsschifffahrt und Fahrgastschiffe. Quirins Boot liegt in Kelheim.
+- **Entschieden am 24.10.2026: Main-Donau-Kanal mit Altmühltal, Ausflüge an Donau und Chiemsee** (deine Antwort: „wenn es zu binnen passt, dann ja!“; es passt, weil dort die Binnenschifffahrtsstraßen-Ordnung gilt).
+  - Der Main-Donau-Kanal ist 171 km lang, führt von Bamberg nach Kelheim und hat 16 Schleusen (R63). Dort gilt die Binnenschifffahrtsstraßen-Ordnung, er liegt ganz in Bayern, und es gibt Schleusen, Brücken, Berufsschifffahrt und Fahrgastschiffe. Quirin stammt aus Kelheim.
   - Für die Regeln der Donau (Frage 85) eine Fahrt ab Kelheim donauabwärts, für Landesgewässer (Frage 231) ein Abstecher an den Chiemsee, für Rheinregeln (Fragen 79, 84, 228) ein Besuch bei Smilla in Köln.
   - **Andere Möglichkeiten:** der Main (Würzburg, Bamberg), ebenfalls Binnenschifffahrtsstraßen-Ordnung und Bayern; oder Berlin und Brandenburg, wo auch Segeln eine Fahrerlaubnis braucht (Binnen-Frage 226), aber ohne Bayern.
 - **Segelfragen** gelten als die schwersten (R5). Sie bekommen ein eigenes Kapitel mit viel Animation (`wind`).
-- Geplant wird Teil B, wenn Teil S steht (Bible P16). Das Revier entscheidest du vorher (§21).
+- Geplant wird Teil B, wenn Teil S steht (Bible P16). Das Revier ist entschieden.
 
 ### 19.2 Später
 
@@ -2143,19 +2165,12 @@ Die Werkzeuge dafür (zum Beispiel `tools/kurs-erzeugen.js`) entstehen, wenn die
 
 ## 21. Offene Punkte und deine Entscheidungen
 
-**Für die Probefolge wichtig (bitte mit dem Startschuss beantworten):**
-- **K1 Startschuss** für Fassung 5, zusammen mit den Bible-Änderungen in §2.3 und den kleinen Entscheidungen in §2.4.
-- **Welche Folge:** Vorschlag ist der Anfang von G6.3 „Brücken und Schleusen“ mit Quirins erstem Besuch (Anhang H). Darin kommt alles vor, was getestet werden muss: alle Stimmen mit ihren Dialekten, ein Hörspiel vor der Schleuse, ein Schallsignal, Antwortknöpfe mit Vertiefung, Katalogsätze, Merksätze, eine Falle, ein doppeldeutiger Witz. Oder lieber eine See-Folge ohne Quirin?
-- **Quirins Herkunft** (Status O39): Vorschlag A (Bergführer aus dem Chiemgau, fährt seit seiner Jugend sein Boot auf Donau und Main-Donau-Kanal, Boot in Kelheim) oder B (aus Kelheim, Sohn eines Binnenschiffers, später Bergführer)?
-- **ElevenLabs in der Cloud** (E5, F2): Für die Vertonung brauche ich deinen Schlüssel als Secret der Cloud-Umgebung (`ELEVENLABS_API_KEY`) und die Freigabe der Domain `api.elevenlabs.io` unter „Network access“. Das stellst du in den Umgebungseinstellungen ein; es wirkt erst in einer neuen Sitzung. Den Schlüssel bitte nie in den Chat schreiben.
-- **Stimmen für die Probe:** Hinnerk (Bill), Smilla (Lily), Klabauter (Wally), Harms (Stimme aus dem Stimmenpaket), Quirin (George, unbestätigt). Passt das, oder hast du im Casting schon andere gewählt?
+**Geklärt am 24.10.2026:** K1 (Startschuss), O39 (Quirin als Binnenschiffer), O40 (Klischees, erfundene Biermarken), O41 (Probefolge), O42 (Main-Donau-Kanal), X4, X8, V42-Gestaltung; O43 (Leitplanken der Live-KI) ist vertagt.
 
-**Später, nicht für die Probe:**
-- O15: Erkennungston am Folgenanfang und bei richtiger Antwort, so richtig verstanden (§10.6)?
-- Revier für Teil B: Main-Donau-Kanal mit Ausflügen an Donau und Chiemsee (§19.1)?
-- O40: Dürfen nach dem Streichen der Bayern-Regel auch die Klischees Lederhose, Weißwurst und Bier vorkommen?
-- V42 (Scheine, Termine, Lernzeit in der App, §3.5): vor oder nach dem Player bauen?
-- Die Leitplanken der Live-KI in der App (`TONE`) folgen noch der alten Tonregel. Sollen sie zum neuen Ton passen?
+**Noch offen:**
+- **Quirins Stimme:** Bitte im Casting anhören und wählen. Vorschläge: Alexander, Benjamin, Rudolf. Ohne Stimme lässt sich die Probefolge nicht erzeugen.
+- **O15 Erkennungston:** So verstanden: Er kommt am Anfang jeder Folge und bei jeder richtigen Antwort. Stimmt das?
+- **O44 (wann V42 gebaut wird):** Claudes Vorschlag ist direkt nach der Probefolge.
 
 **Fehlende Quellen:**
 - F3 Prüfungsordnung und Prüfungsrichtlinie (bitte in `quellen/`),
@@ -2163,7 +2178,7 @@ Die Werkzeuge dafür (zum Beispiel `tools/kurs-erzeugen.js`) entstehen, wenn die
 - Promillegrenze,
 - SBF-Frage 279.
 
-**Stimmen:** Die Rangerin hat noch keine Stimme, Quirins Stimme (George) ist unbestätigt. Die Stimmen überarbeitest du selbst.
+**Stimmen:** Die Rangerin hat noch keine Stimme, Quirin bekommt eine neue. Die Stimmen wählst du selbst im Casting.
 
 ---
 
@@ -2387,36 +2402,24 @@ Recherchiert wurde am 23.10.2026 per Websuche. Webseiten direkt zu öffnen war i
 
 **Was du dir gewünscht hast:** ein Ausschnitt mit dem Anfang einer Beispielfolge, eine repräsentative Stelle, in der alles vorkommt, was getestet werden muss, etwa 5 bis 10 Minuten, höchstens etwa 6.000 ElevenLabs-Credits, fehlende Geräusche sind in Ordnung, Animationen kommen später, anklickbar über den Stuhl in der Kajüte. Erst nach deinem Startschuss.
 
-**Vorschlag: der Anfang von G6.3 „Brücken und Schleusen“**, etwa 7 Minuten.
-- **Warum diese Folge:** Sie hat alle Stimmen mit allen Dialekten (Quirin ist zu Besuch), ein echtes Hörspiel vor einer Schleuse, Katalogbilder (Tafel und Schleusenlichter) und im Rückblick ein Schallsignal aus dem Code. Antwortknöpfe, Vertiefung, Merksätze, Katalogsätze, Falle, Garn und ein doppeldeutiger Witz passen hinein. Und Quirins Bairisch kann dein Bekannter gleich mitprüfen.
-- **Rahmen:** Teil G, Kapitel G6, Form „Regel für Regel“, Rahmen Besuch, Baustein Kopfkino, Revier Schleuse. Fragen 21, 28, 29, 30.
-- **Ort:** vor einer Schleuse am Main-Donau-Kanal bei Kelheim, in Quirins Revier. Die Crew ist bei ihm zu Besuch.
+**Deine Vorgaben vom 24.10.2026:** „O41 OK“; „Mach die Probefolge als eine Mischung aus Folge und Hörprobe von Quirin. Verkürze sie. Man soll hier Funktion und Vibe der Folge prüfen.“ Etwa vier bis sechs Minuten, „in der App generiert“.
 
-| Zeit | Abschnitt, Teil | Inhalt | getestet wird |
-|---|---|---|---|
-| 0:00–0:05 | Erkennungston | kurz, falls du einen lieferst; sonst zwei Schläge der Schiffsglocke aus `audio/` (Klabauters Merk-Zeichen ist ein einzelner Schlag) | Erkennungston (O15) |
-| 0:05–1:15 | 1 Einstieg: Hörspiel | Motor im Leerlauf, Wasser rauscht am Schleusentor. Hinnerk am Ruder, auf dem Kanal sichtlich unwohl: „Zwei rote Lampen nebeneinander. Und nu? Auf See hab ich so wat nich.“ Quirin, gut gelaunt: „Servus, Hinni. Do wartst.“ – „Hinnerk. Mit zwei n.“ **Vorab-Frage:** Zwei rote Lichter nebeneinander vor der Schleuse: Was heißt das? | Hörspiel, Revier hörbar, Platt und Bairisch, v4-Emotionen, Vorab-Knöpfe (5 s, zählen nicht) |
-| 1:15–2:00 | Begrüßung, Rückblick | Harms ruft an und fragt: (1) ein Schallsignal aus dem Code, kurz-lang immer wieder (Frage 16, G6.2): „Bleib – weeeg!“; (2) Wann müssen die Lichter geführt werden? (Frage 10, G5.1). Je 3 s, dann die Antwort mit Merksatz. | Signal aus dem Code, Harms' Stimme, Denkpausen mit Ticken |
-| 2:00–2:15 | Landkarte | Smilla: „Heute zwei Dinge: das Haltegebot und die Lichter vor der Schleuse.“ | Smillas Kölsch-Hauch |
-| 2:15–4:15 | 2 Regel 1: Haltegebot (21) | Quirin zeigt auf die Tafel am Ufer: weiß, rot umrandet, ein schwarzer Balken. Warum man vor beweglichen Brücken, Sperrwerken und Schleusen hält. Merksatz der App: die Haltelinie an der Ampel. Katalogsatz. Hinnerk fragt: „Und wenn keiner kommt?“ Quirin: „Dann wartst trotzdem.“ **Antwortknöpfe** (`sbf:21`) mit Vertiefung. | Katalogbild, Antwortknöpfe mit Statistik, Vertiefung, Merksatz |
-| 4:15–4:45 | Zwischenspiel | Klabauter im Quatsch-Modus („Hinni! Hinni!“, Zwieback), Backbord maunzt auf dem Kajütdach. | Klabauters zwei Modi, Geräusche |
-| 4:45–6:45 | 3 Regel 2: Lichter vor der Schleuse (28, 29, 30) | Kopfkino mit Smilla: Nebeneinander wie eine Schranke (gerade zu), übereinander wie eine Mauer (dauerhaft gesperrt), zwei Grüne (Einfahrt frei, Gegenverkehr gesperrt). Quirins kurzes Garn von einem langen Warten an einer Schleuse. Ein Ausflugsschiff kommt aus der Kammer; Hinnerk: „Wat für 'n Heck.“ Smilla: „Wir reden über ein Schiff, Käpt'n.“ – „Ich auch.“ Auflösung der Vorab-Frage. Klabauter mit Glocke: „Nebeneinander: Schranke! Übereinander: Mauer!“ **Antwortknöpfe** (`sbf:29`) mit Vertiefung. | Kopfkino, Garn, doppeldeutiger Witz, Glocke, Katalogbilder |
-| 6:45–7:15 | Falle | Harms: „Stimmt's? Zwei rote Lichter übereinander heißen: Brücke, Sperrwerk oder Schleuse geschlossen.“ 3 s. „Falsch. Übereinander heißt: Anlage dauerhaft gesperrt.“ | echte amtliche Falschantwort |
-| 7:15–7:45 | kurzer Abschluss | Smilla: „Nenn die drei Lichter.“ 6 s. Klabauter mit Glocke, Hinnerk mit einem Praxissatz. | Abschluss, 6-Sekunden-Pause |
-| danach | Hörkarte zu Frage 30 | eigener Clip, 20–25 s | Hörkarte |
+**Die Probefolge:** `podcast/folgen/probe-G6-3.md` (Kopf `status: probe`), der Anfang von G6.3 „Brücken und Schleusen“ vor einer Schleuse am Main-Donau-Kanal. Quirin stellt sich dabei vor. Etwa fünf Minuten mit Denkpausen.
 
-- **Länge und Kosten:** etwa 5.000 bis 5.500 Zeichen Sprechtext (mit zwei Vertiefungen und einer Hörkarte). Ein Credit entspricht bei Eleven v4 etwa einem Zeichen; das prüfe ich vor dem Start auf der Preisseite. Ziel: höchstens 6.000 Credits, mit Reserve für eine Wiederholung einzelner Stellen. Über 6.000 gehe ich nicht ohne deine Zustimmung.
-- **Geräusche:** aus `audio/` (Motor, Wellen, Möwe, Glocke, Katze, Papagei, richtig, falsch; Lizenz L1). Ein Schleusentor gibt es nicht, es darf fehlen.
-- **Nicht dabei:** Animationen (kommen später), Titelmusik, die volle Fragerunde.
+| Abschnitt | Inhalt | getestet wird |
+|---|---|---|
+| Anfang | Erkennungston (Ersatz: zwei Glockenschläge) | Erkennungston (O15) |
+| 1 Vor der Schleuse | Hinnerk ist im Kanal unwohl, Quirin stellt sich vor (Kelheim, Binnenschiffer, Ausflugsschiff). Vorab-Frage zu den zwei roten Lichtern. | Hörspiel, Revier hörbar, Platt und Bairisch, Gefühle in der Stimme, Vorab-Knöpfe |
+| 2 Das Haltegebot (Frage 21) | Tafel als Katalogbild, Merksatz Haltelinie, Katalogsatz, Quirins Bier vom „Schleusenbräu“ statt „Fernsehbier“, Antwortknöpfe mit Vertiefung | Bild, Antwortknöpfe mit Statistik, Vertiefung, Erkennungston bei richtiger Antwort |
+| 3 Die Lichter (Fragen 28, 29, 30) | Kopfkino Schranke und Mauer, Klabauter mit Merk-Glocke, das Tor geht auf, ein doppeldeutiger Witz, Quirins kurzes Garn, Antwortknöpfe zu Frage 29 mit Vertiefung | Kopfkino, Glocke, Witz, Garn |
+| 4 Harms | Rückblick mit Schallsignal aus dem Code (Frage 16), Falle zu Frage 28, Kernsätze mit sechs Sekunden Denkpause | Signal, Falle, Denkpausen mit Ticken |
+| danach | Hörkarte zu Frage 21 | Hörkarte |
 
-**So entsteht sie:**
-1. Skript `podcast/folgen/G6-3.md` mit Kopf `status: probe`, geprüft mit `tools/podcast-pruefen.js`.
-2. Ein Werkzeug `tools/kurs-erzeugen.js`: Text to Dialogue mit Eleven v4 und Zeitmarken, je Abschnitt; Denkpausen, Ticken und Schallsignale baut `ffmpeg` ein (ist im Container vorhanden); Lautheit angleichen; MP3 mit 64 kbit/s Mono; Ablaufdatei mit Marken für Antwortknöpfe, Vertiefungen und Bilder.
-3. Dateien nach `audio/kurs/probe/`.
-4. In der App ein einfacher Player in eigener Datei (`kurs.js`, R11): Abschnitte als Kapitel, Auto- und interaktiver Modus, Antwortknöpfe, Vertiefung, Katalogbilder, Tempo. Erreichbar über den Hocker in der Kajüte („🎧 Kajütenfunk: Probefolge“).
-5. Rauchtest, dann veröffentlichen. Du hörst am Handy, in beiden Modi.
+**So funktioniert es in der App** (`kurs.js`, über den Hocker in der Kajüte):
+1. Hocker antippen → „🎧 Kajütenfunk: Probefolge“.
+2. Beim ersten Mal „Probefolge erzeugen“: Die App spricht das Skript mit deinem ElevenLabs-Schlüssel (Eleven v4), Abschnitt für Abschnitt, und zeigt vorher die Kosten (etwa 4.500 bis 5.000 Credits). Fertige Teile bleiben auf dem Handy; nach einer Skriptänderung wird nur Neues erzeugt.
+3. Abspielen im **Auto-Modus** (läuft durch, Denkpausen mit Ticken, danach die Lösung) oder im **interaktiven Modus** (hält an den Fragen an, Antwortknöpfe, Vertiefung nach falscher Antwort, Katalogbilder). Die Antworten zählen in deiner Statistik.
+4. Das Revier hört man: Unter der Schleusen-Szene laufen leise Motor und Wasser aus `audio/`. Geräusche, die fehlen, fehlen.
+5. **Für alle bereitstellen:** „📦 ZIP speichern“ und die Datei auf GitHub in den Ordner `import` hochladen. Claude baut sie mit `tools/kurs-import.js` nach `audio/kurs/probe/` ein. Danach hört jeder die Folge ohne eigenen Schlüssel.
 
-**Was du dafür tun musst:**
-- den Startschuss geben (§21),
-- in den Umgebungseinstellungen das Secret `ELEVENLABS_API_KEY` anlegen und die Domain `api.elevenlabs.io` erlauben; danach eine neue Sitzung starten,
-- auf Wunsch einen Erkennungston liefern.
+**Nicht dabei:** Animationen (kommen später), die volle Fragerunde, Titelmusik.

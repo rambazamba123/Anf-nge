@@ -1,6 +1,6 @@
 # PODCAST_STATUS.md – Stand der Entscheidungen zum Kajütenfunk
 
-> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 23.10.2026, dreizehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
+> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 24.10.2026, vierzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
 > **Was hier als offen (O), Widerspruch (W) oder Vorschlag (VS) steht, ist keine Regel.** Claude entscheidet es nicht eigenmächtig, sondern fragt den Nutzer. Beschlossenes wird in die Bible übernommen.
 
 ---
@@ -154,6 +154,16 @@
 | B120 | Schwierige Aussprache prüft der Nutzer (O33). | 23.10. | „O33 wer schwierige Aussprache prüft.ich.“ | P90 |
 | B121 | Probefolge nach dem Startschuss: Ausschnitt vom Anfang einer Beispielfolge, 5–10 Minuten, höchstens etwa 6.000 Credits, repräsentativ, fehlende Geräusche ok, Animationen später, anklickbar über den Stuhl in der Kajüte. | 23.10. | „Dann erstelle einen Ausschnitt (mit dem Anfang der Folge) einer Beispielfolge. … max circa. 6k elevenlabs Credits. Dann veröffentliche die Folge. Man soll sie dann bereits über dem Stuhl in der kajüte anklicken können.“ | P92 |
 | B122 | Reihenfolge: erst Dokumente ändern, offene Aufgaben erledigen, Konzept überarbeiten, die wichtigen offenen Fragen stellen; dann gibt der Nutzer den Startschuss. | 23.10. | „Bevor du startest mit den Folgen: die Dokumente ändern. alle anderen offenen Aufgaben die man jetzt erledigen kann erledigen. Und das Konzept überarbeiten. Dann eben nochmal die offenen Fragen die dafür wichtig sind stellen. Danach gebe ich den Startschuss …“ | P92 |
+| B123 | Startschuss: Konzept Fassung 5 gilt, mit den Bible-Änderungen (Konzept §2.3) und Claudes kleinen Entscheidungen (§2.4). | 24.10. | „K1 ok.“ | P94, O45 |
+| B124 | Probefolge: G6.3, gemischt mit Quirins Vorstellung, gekürzt auf etwa 4–6 Minuten, zum Prüfen von Funktion und Stimmung; in der App erzeugt. | 24.10. | „O41 OK“; „Mach die Probefolge als eine Mischung aus folge und Hörprobe von quirin. Verkürze sie. Man soll hier Funktion und vibe der Folge prüfen.“; „vllt 4-6 min. Als in der App generiert.“ | P95, O41 |
+| B125 | Quirin ist an einer Binnenschifffahrtsstraße groß geworden oder lange dort beruflich tätig gewesen. Umsetzung nach Claudes Vorschlag: aus Kelheim, Sohn eines Binnenschiffers, Ausbildung mit sechzehn, Schiffsführer, heute Ausflugsschiff (Alter 34 bleibt); Berge nur als Hobby; auf dem Meer seekrank. | 24.10. | „er soll an einer binnenseefahrtsstraße groß geworden sein! Oder lange beruflich tätig. Damit er unser binnen Profi sein kann.“; „Trage alles ein.“ | P47, O39 |
+| B126 | Klischees (Lederhose, Weißwurst, Bier) erlaubt. Quirin trinkt nur Bier kleiner Brauereien, mag kein „Fernsehbier“; die Marken sind erfunden. | 24.10. | „O40 ja gern. Aber: er mag nur Bier von kleinen Brauereien.“; „Dein Biervorschlag ist gut, also erfundene Marken und mag kein Fernsehbier.“ | P47, O40 |
+| B127 | Revier für Teil B: Main-Donau-Kanal, weil er zu Binnen passt (Binnenschifffahrtsstraßen-Ordnung). | 24.10. | „O42: wenn es zu binnen passt, dann ja!“ | P96, O42 |
+| B128 | Quirin bekommt eine andere Stimme; Claude schlägt drei vor. | 24.10. | „Quirin bekommt noch eine andere stimme.“; „3 Schlag welche vor.“ | P97 |
+| B129 | V42: Lernminuten als Auswahl; die Crew kommentiert, wie gelernt wird, ob es reicht, und empfiehlt gegebenenfalls anders; feste Textblöcke in verschiedenen Kombinationen. | 24.10. | „Minuten als multiple choice. Die Crew kommentiert, sagt wie dann gelernt wird, ob es reicht und empfiehlt ggf anders. Hier feste textblöcke erzeugen die zusammen in verschiedenen Konstellationen die Empfehlung geben.“ | P98, O44 |
+| B130 | X4 bleibt gestrichen; Antwortknöpfe (Multiple Choice) mitten in der Folge sind im interaktiven Modus gewünscht. | 24.10. | „X4 weg. X8: im interaktiven Modus sind multible choice während der Folge gewünscht.“ | X4, X8 |
+| B131 | Leitplanken der Live-KI (`TONE`) vorerst nicht anpassen, später ja, vielleicht entfällt es ganz. | 24.10. | „O43 erstmal nicht, später ja. Ggf entfällt sie komplett.“ | O43 |
+| B132 | Bei Rückfragen mit Nummern immer konkret sagen, was gemeint ist (mindestens ein Beispiel oder Stichpunkt). Kein „So habe ich dich verstanden“ vorweg. | 24.10. | „Bitte benennen bei solchen Fragen immer konkret was gemeint ist.“; „6. Nein Dan wie bisher.“ | CLAUDE.md R14 |
 
 ## 2. Offene Fragen
 
@@ -197,13 +207,13 @@
 | O37 | Welche Nebengeschichte bekommt Klabauter? | Nicht seine Vergangenheit aus VS35 (B60). Fünf Vorschläge in VS40. |
 | O38 | ~~Bekommt Klabauter die neue Stimme auch in der App (Stimmenpaket)?~~ | **Erledigt durch B119: ja, nach der Freigabe; dann alle App-Stimmen neu mit v4.** P49 verlangt dieselbe Stimme in Podcast und App. Dann müssten seine 53 festen Sätze neu erzeugt werden, etwa 1.100 Zeichen. Claudes Empfehlung: ja. |
 | O33 | ~~Wer prüft die Aussprache schwieriger Begriffe (Plattdeutsch, Bairisch, Fachwörter, Ortsnamen), wenn sie unklar ist?~~ | **Erledigt durch B120: Der Nutzer prüft.** A19 verlangt eine verlässliche Quelle. Claude kann Aussprache nur aus Wissen und Nachschlagen bestimmen, nicht anhören. |
-| O39 | Quirins Herkunft: Vorschlag A (Bergführer aus dem Chiemgau, fährt seit seiner Jugend sein Boot auf Donau und Main-Donau-Kanal, Boot in Kelheim) oder B (aus Kelheim, Sohn eines Binnenschiffers, später Bergführer)? | `podcast/figuren.md`; A behält alles Bestätigte (P47). |
-| O40 | Dürfen nach dem Streichen der Bayern-Regel (B113) auch die Klischees Lederhose, Weißwurst und Bier vorkommen (bisher ausgeschlossen, VS34/B65)? | Bis zur Antwort sparsam und nur, wenn Quirin selbst darüber lacht. |
-| O41 | Welche Folge wird die Probefolge? | Vorschlag: der Anfang von G6.3 „Brücken und Schleusen“ mit Quirins Besuch (Konzept Anhang H). |
-| O42 | Revier für Teil B (Binnen)? | Vorschlag: Main-Donau-Kanal mit Altmühltal, Ausflüge an Donau (Frage 85) und Chiemsee (Frage 231), Rheinregeln bei Smilla in Köln (Konzept §19.1, R60–R63). |
-| O43 | Sollen die Leitplanken der Live-KI in der App (`TONE`, `styleRules`) an den neuen Ton angepasst werden? | Bisher unverändert; die gestrichenen Regeln betreffen ausdrücklich den Podcast. |
-| O44 | Wann wird V42 gebaut (Scheine, Termine für Theorie und Praxis, Lernzeit in der App)? | Konzept §3.5. |
-| O45 | Startschuss (K1) für Konzept Fassung 5 mit Claudes kleinen Entscheidungen (Konzept §2.4) | Damit gilt auch, was nur im Konzept steht (P13, X9, P56 u. a.). |
+| O39 | ~~Quirins Herkunft: Vorschlag A (Bergführer aus dem Chiemgau, fährt seit seiner Jugend sein Boot auf Donau und Main-Donau-Kanal, Boot in Kelheim) oder B (aus Kelheim, Sohn eines Binnenschiffers, später Bergführer)?~~ | **Erledigt durch B125:** an der Binnenschifffahrtsstraße groß geworden (Kelheim, Binnenschiffer). |
+| O40 | ~~Dürfen nach dem Streichen der Bayern-Regel (B113) auch die Klischees Lederhose, Weißwurst und Bier vorkommen (bisher ausgeschlossen, VS34/B65)?~~ | **Erledigt durch B126:** ja, Bier nur von kleinen, erfundenen Brauereien. |
+| O41 | ~~Welche Folge wird die Probefolge?~~ | **Erledigt durch B124:** G6.3 mit Quirins Vorstellung, 4–6 Minuten, in der App erzeugt. |
+| O42 | ~~Revier für Teil B (Binnen)?~~ | **Erledigt durch B127:** Main-Donau-Kanal. |
+| O43 | ~~Sollen die Leitplanken der Live-KI in der App (`TONE`, `styleRules`) an den neuen Ton angepasst werden?~~ | **Vertagt durch B131:** später, vielleicht entfällt es. |
+| O44 | Wann wird V42 gebaut (Scheine, Termine für Theorie und Praxis, Lernzeit in der App)? | **Teilweise geklärt durch B129** (Gestaltung). Zeitpunkt: Claudes Vorschlag direkt nach der Probefolge. |
+| O45 | ~~Startschuss (K1) für Konzept Fassung 5 mit Claudes kleinen Entscheidungen (Konzept §2.4)~~ | **Erledigt durch B123:** Startschuss gegeben. |
 
 ## 3. Widersprüchliche Aussagen
 
@@ -392,6 +402,7 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 | 20.10.2026 | Vierte Fassung (B52–B58): Leitfaden im Grunde angenommen, Route bestätigt, Anreden angenommen und Audio wird mehrfach genutzt (auch in `docs/feste-saetze.md` eingetragen), der Bayer schon bei SBF See, Harms erklärt am Anfang die Prüfung. Neue offene Punkte O34–O36, Vorschläge VS31–VS36. Erkenntnisse aus der v4-Doku in Bible §14.13, `eleven_v4` als bekannte Modell-ID in der Konfiguration (gewählt wird erst per Hörtest). App-Code ist nicht geändert. |
 
 | 23.10.2026 | Dreizehnte Fassung (B99–B122): Beschlüsse vom 22. und 23.10. nachgetragen (Hörkurs statt Geschichte, K2–K12, Figuren, Korrekturen zu Konzept Fassung 4). Erledigt: O3, O5, O6, O7, O11, O14, O16, O17, O19, O20, O21, O22, O27, O33, O38, VS43; O15 weitgehend. Neu offen: O39–O45. Bible dritte Fassung (Entwurf) mit §15 (P72–P93), X3 und X4 geändert, X8 geändert, Geschichte als „Entfällt (E12)“ markiert. Konzept Fassung 5, Kursplan mit Rahmen und Lage, 285 neue Merksätze, Figuren, Wortschatz (Abschnitt 11), Prüfwerkzeuge, Haftungsausschluss in der App (v4.88), Geräuschliste `podcast/soundeffekte.md` für den Kurs gekürzt (alte Liste im Archiv). |
+| 24.10.2026 | Vierzehnte Fassung (B123–B132): Startschuss K1, Probefolge (G6.3 mit Quirins Vorstellung, in der App erzeugt), Quirin als Binnenschiffer aus Kelheim, erfundene Biermarken, Revier Main-Donau-Kanal, neue Stimme für Quirin, V42-Gestaltung, X4 und X8 bestätigt, O43 vertagt. Erledigt: O39, O40, O41, O42, O45; O44 teilweise. Bible: P47, X4, X8, P94–P98. |
 
 ## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
 

@@ -514,7 +514,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.88';
+  window.__ver = '4.89';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3082,7 +3082,7 @@ function renderCabin() {
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
   const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => meinePruefungen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
-    knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => bgSit(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
+    knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => hockerWahl(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
   let lampTaps = [];
@@ -3929,7 +3929,7 @@ function renderSettings() {
   $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
   { let hpP = null; const hp = m => (hpP || (hpP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'hoerprobe.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { hpP = null; rej(); }; document.head.appendChild(sc); }))).then(() => HOERPROBE.erzeuge($('#hpskr').value, m, $('#hpr'), $('#hpaus'))).catch(e => { $('#hpr').textContent = 'Hörprobe ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); });
     $('#hpv4').onclick = () => hp('eleven_v4'); }
-  { let caP = null; $('#cast').onclick = () => (caP || (caP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'casting.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { caP = null; rej(); }; document.head.appendChild(sc); }))).then(() => CASTING.oeffnen()).catch(e => { $('#castr').textContent = 'Casting ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); }); }
+  { $('#cast').onclick = () => castingOeffnen().catch(e => { $('#castr').textContent = 'Casting ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); }); }
   /* Wie viele feste Sätze fehlen noch im Paket? (Daten der nachgeladenen Teile werden dafür geholt) */
   if ($('#vpkn')) Promise.all([loadManoever().catch(() => {}), loadSeezeichen().catch(() => {}), loadNavi().catch(() => {}), PACK.load()]).then(() => { const f = packLines(false).filter(l => !PACK.has(l.cid, l.t)), z = f.reduce((a, l) => a + l.t.length, 0); const e = $('#vpkn'); if (e) e.textContent = f.length ? `Es fehlen ${f.length} feste Sätze (${z.toLocaleString('de-DE')} Zeichen). Nur diese werden erzeugt.` : 'Alle festen Sätze sind im Paket.'; }).catch(() => {});
   $('#vpx').onclick = () => exportClips($('#vpxr'));
@@ -4730,6 +4730,16 @@ function bgStop(silent) {
   if (!bgChat) return; const b = bgChat; bgChat = null; window.VOXDIM = 1;
   if (!silent) VOX.stop('aufgestanden'); const p = $('#bgpill'); if (p) p.remove();
   document.querySelectorAll('.scene.cabin').forEach(sc => sc.classList.remove('seated')); b.done = true;
+}
+/* Nachgeladene Teile (R11): einmal laden; schlägt es fehl, beim nächsten Mal neu versuchen */
+const NACH = {};
+function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = datei + '?v=' + window.__ver; sc.onload = res; sc.onerror = () => { delete NACH[datei]; rej(new Error(datei + ' ließ sich nicht laden')); }; document.head.appendChild(sc); })); }
+function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()); }
+/* Hocker: Kajütenfunk hören (V41, Probefolge in kurs.js) oder der Crew zuhören */
+function hockerWahl() {
+  if (bgChat) return bgStop();
+  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3>${menuBtn('kurs', '🎧 Kajütenfunk: Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 5 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Was die drei gerade erzählen')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'crew') return bgSit(); nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });
 }
 async function bgSit() {
   if (bgChat) return bgStop();

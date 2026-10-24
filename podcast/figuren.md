@@ -203,12 +203,15 @@
 ## Quirin – der Binnen-Profi aus Bayern
 
 **Steckbrief**
-- **Beruf, Herkunft:** Bergführer aus dem Chiemgau [fest] (Bible P47).
-- **Segeln:** segelt auf dem Chiemsee und kleineren Seen; auf dem Meer wird er seekrank [fest] (Bible P47).
-- **Auf Binnengewässern ein Profi** [fest] (Nutzer, 23.10.2026: „Auf den Binnengewässern ist er super Profi“). Wie genau, ist ein Vorschlag [neu, Vorschlag A]: Seit er sechzehn ist, fährt er mit seinem Motorboot Donau, Main-Donau-Kanal und Main, durch alle Schleusen, einmal sogar bis zum Rhein zu Smilla. Sein Boot liegt in Kelheim, wo Altmühl, Kanal und Donau zusammenkommen. Er hat den SBF Binnen und das Sportschifferzeugnis, das man für Boote von 20 bis 25 Metern braucht (Binnen-Frage 229). Er kennt Schleusen, Strömung, Brücken und die Berufsschifffahrt aus dem Alltag.
-  - **Vorschlag B** (wenn dir A zu konstruiert ist): Er stammt aus Kelheim an der Donau, sein Vater war Binnenschiffer mit eigenem Schiff (Partikulier), und er ist auf dem Schiff groß geworden. Bergführer im Chiemgau wurde er später. Dann wäre „aus dem Chiemgau“ (P47) zu ändern.
+- **Herkunft und Beruf** [fest] (Nutzer, 24.10.2026: „er soll an einer Binnenschifffahrtsstraße groß geworden sein! Oder lange beruflich tätig. Damit er unser Binnen-Profi sein kann.“; umgesetzt nach Claudes Vorschlag):
+  - Er stammt aus **Kelheim**, wo Altmühl, Main-Donau-Kanal und Donau zusammenkommen.
+  - Sein Vater war Binnenschiffer mit eigenem Schiff (Partikulier). Quirin ist **auf dem Schiff groß geworden**: Donau, Kanal, Main, einmal sogar bis an den Rhein zu Smilla.
+  - Mit sechzehn hat er die Ausbildung zum Binnenschiffer gemacht, danach hatte er das Schifferpatent und fuhr als **Schiffsführer** auf Donau, Main und Kanal.
+  - Heute fährt er in Kelheim ein **Ausflugsschiff**. Schleusen, Strömung, Brücken, Fähren und Berufsschifffahrt sind sein Alltag.
+  - **Die Berge sind nur sein Hobby** (Klettern am Wochenende). Den Bergführer gibt es nicht mehr, er hätte vom Binnen-Profi abgelenkt.
+- **Auf dem Meer wird er seekrank** [fest] (Bible P47).
 - **Alter:** 34 [neu, bestätigt].
-- **Stimme:** George, unbestätigt [fest] (`podcast/audio_config.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können. Die Stimmen überarbeitet der Nutzer selbst (Nutzer, 23.10.2026).
+- **Stimme:** nicht mehr George (Nutzer, 24.10.2026: „Quirin bekommt noch eine andere Stimme“). Claudes Vorschläge zum Anhören im Casting: Alexander, Benjamin, Rudolf (`podcast/casting.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können, und sie soll nach Mitte dreißig klingen. Die Stimmen wählt der Nutzer selbst.
 
 **Rolle im Kurs** [fest] (Nutzer, 23.10.2026), Einzelheiten [neu]
 - **Teil G und S:** nur zweimal zu Besuch, beide Male da, wo er Profi ist:
@@ -217,7 +220,7 @@
   - Am Ende von Teil S (S11.5) liest Smilla seine Karte vor: die Einladung nach Bayern, als Brücke zu Teil B.
 - **Teil B (Binnen):** Hauptfigur neben Smilla, der Praxis-Profi wie Hinnerk auf See: Schleusen, Bergfahrt und Talfahrt, Strömung, Fähren, Brücken, Berufsschifffahrt. Er irrt dort nicht bei Praxis und Sicherheit. Hinnerk ist dann der, der fragt.
 - **Kein Mitlerner mehr:** Er irrt nicht wie ein Anfänger (das galt in Fassung 4 und ist vom Nutzer berichtigt). Auf See ist er vorsichtig und fragt nach, wenn er etwas nicht weiß, aber er ist kein Dummer.
-- Bringt Vergleiche vom Berg mit: Wetterumschwung, Verantwortung für die Seilschaft [fest] (Konzept §5). Dazu [neu]: Den Webeleinstek kennt er schon, beim Klettern heißt er Mastwurf. Den Achter kennt er vom Anseilen.
+- Bringt Vergleiche vom Berg mit, aus seinem Hobby: Wetterumschwung, Verantwortung für die Seilschaft [fest] (Konzept §5). Dazu [neu]: Den Webeleinstek kennt er schon, beim Klettern heißt er Mastwurf. Den Achter kennt er vom Anseilen.
 - **Sein Lieblingswort** [neu]: „Bergfahrt“. Auf dem Fluss heißt so die Fahrt in Richtung Quelle (Binnen-Frage 95), „und da will i ja immer hin, in d' Berg“. Die Fahrt flussabwärts heißt Talfahrt.
 - Sicherheit vom Berg aufs Wasser [neu]: „Ohne Gurt geh i a ned in d' Wand“, also trägt er die Rettungsweste.
 
@@ -229,7 +232,9 @@
 - Wenn er eine Regel aufsagt, wechselt er in sauberes Hochdeutsch wie aus dem Lehrbuch. Smilla: „Sehr schön auswendig gelernt. Und jetzt mit Warum?“
 - Bairische Schreibweise und Aussprache prüft vor der Vertonung ein Bekannter des Nutzers aus Bayern [fest] (Nutzer, 23.10.2026).
 
-**Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. Seit 23.10.2026 sind Witze über Bayern erlaubt (Nutzer): Hinnerk frotzelt, Quirin gibt zurück („Fischkopp“, „Preiß“). Ob auch die Klischees Lederhose, Weißwurst und Bier vorkommen dürfen, war bisher ausgeschlossen (Status VS34, angenommen mit B65) und ist jetzt deine Entscheidung (Status O40).
+**Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. Seit 23.10.2026 sind Witze über Bayern erlaubt (Nutzer): Hinnerk frotzelt, Quirin gibt zurück („Fischkopp“, „Preiß“). Die Klischees Lederhose, Weißwurst und Bier sind erlaubt (Nutzer, 24.10.2026, O40).
+
+**Bier** [fest] (Nutzer, 24.10.2026): Quirin trinkt nur Bier von kleinen Brauereien und mag kein „Fernsehbier“ von den großen Konzernen. Die Brauereien sind **erfunden**, damit keine echte Marke beworben wird (Jugendschutz, App ab 12). Vorschläge: „Schleusenbräu Kelheim“, „Altmühltaler Klosterbräu“, „Bräu z'Riedmühl“, „Treidlerbräu“. Er schwärmt davon, getrunken wird an Bord nie während der Fahrt (Frage 2, Promille).
 
 **Wenn er etwas nicht weiß** [neu]: Auf See fragt er offen nach: „Warum eigentlich?“. Das ist die Frage, die der Hörer auch hat. Auf dem Fluss stellt er die Fragen, und Hinnerk muss antworten.
 
@@ -313,7 +318,7 @@
 | Fischer | S3.6 Tiefgangbehinderte und Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
 | Verkehrszentrale | S6.6 Verkehrstrennungsgebiete und Verkehrszentralen | Mats [fest] | ruhige Funksprache, formal, deutlich |
 | Rangerin | S8.1 Wattenmeer und Nationalparks | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
-| Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | George, unbestätigt | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
+| Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | neue Stimme, Vorschläge Alexander, Benjamin, Rudolf | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
 
 ---
 
@@ -356,3 +361,10 @@ Antworten des Nutzers auf die offenen Punkte des Entwurfs („Passt alles so, nu
 2. Gestrichen: „keine Gruppenbeleidigung“, „keine Witze über Bayern“, „kein Alkohol als Witz über Kinder“. Offen: ob damit auch die Klischees Lederhose, Weißwurst und Bier erlaubt sind (Status O40).
 3. Höchstens drei Anreden je Folge (O7).
 4. Doppeldeutige Seemannsbegriffe mit harmloser Lesart sind den Figuren zugeordnet (`podcast/wortschatz.md`, Abschnitt 11).
+
+## Entschieden am 24.10.2026
+
+1. Quirin ist an einer Binnenschifffahrtsstraße groß geworden: Kelheim, Sohn eines Binnenschiffers, Ausbildung mit sechzehn, Schiffsführer, heute Ausflugsschiff. Berge nur als Hobby. Auf dem Meer seekrank (Status B125).
+2. Klischees erlaubt; Bier nur von kleinen, erfundenen Brauereien, kein „Fernsehbier“ (B126).
+3. Quirin bekommt eine andere Stimme; Claude schlägt drei vor (B128).
+4. Die Probefolge mischt den Anfang von G6.3 mit Quirins Vorstellung (B124).
