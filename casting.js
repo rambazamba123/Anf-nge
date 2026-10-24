@@ -7,7 +7,10 @@
   const cache = new Map();   /* Rolle|Stimme → Blob-URL, nochmal hören kostet nichts */
   let cfg = null, cast = null, stimmen = [], rolle = null, bib = null, laeuft = null, okKosten = false;
   const zuord = () => (S.cfg.casting = S.cfg.casting || {});
-  const ist = id => zuord()[id] || (cfg.figuren[id] && {id: cfg.figuren[id].voice_id, name: 'bisher'}) || null;
+  /* Die Wahl auf dem Gerät gilt, solange die Konfiguration seitdem gleich geblieben ist (Feld cfg). Hat Claude eine neuere Stimme
+     eingetragen (z. B. Quirin = Alexander), gewinnt die Konfiguration. Ältere Einträge ohne cfg gelten nur, wo die Konfiguration nichts hat. */
+  const gilt = (z, k) => z && z.id && (!k || z.cfg === k);
+  const ist = id => { const k = cfg.figuren[id] && cfg.figuren[id].voice_id, z = zuord()[id]; return gilt(z, k) ? z : (k ? {id: k, name: 'bisher'} : null); };
 
   async function laden() {
     if (!cast) [cfg, cast] = await Promise.all(['podcast/audio_config.json', 'podcast/casting.json'].map(u => fetch(u + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`${u} fehlt (HTTP ${r.status})`); return r.json(); })));
@@ -43,7 +46,8 @@
     const eigen = stimmen.slice().sort((x, y) => (a && y.id === a.id) - (a && x.id === a.id) || x.name.localeCompare(y.name));
     w.querySelector('#cst').innerHTML = `<p class="small" style="margin:6px 0"><b>${esc(r.name)}</b>: „${esc(r.satz.replace(/\[[^\]]*\]\s*/g, ''))}“</p>
       <p class="small muted" style="margin:0 0 6px">Jetzt: <b>${a ? esc(a.name === 'bisher' ? (stimmen.find(v => v.id === a.id) || {name: 'Stimme aus dem Paket'}).name : a.name) : 'noch keine'}</b>${r.wunsch ? ` · Wunsch: <b>${esc(r.wunsch)}</b>` + (stimmen.some(v => v.name.toLowerCase().startsWith(r.wunsch.toLowerCase())) ? '' : ` <button class="btn ghost small" data-such="${esc(r.wunsch)}">🔎 in der Bibliothek suchen</button>`) : ''}${(r.vorschlaege || []).length ? ` · Vorschläge: ${r.vorschlaege.map(n => `<button class="btn ghost small" data-such="${esc(n)}">🔎 ${esc(n)}</button>`).join(' ')}` : ''}</p>
-      ${eigen.map(v => zeile(v, r)).join('') || '<p class="small muted">Keine Stimmen im Konto gefunden.</p>'}`;
+      ${eigen.map(v => zeile(v, r)).join('') || '<p class="small muted">Keine Stimmen im Konto gefunden.</p>'}
+      <button class="btn ghost small" data-idein="1" style="margin-top:6px">🆔 Stimme per ID eintragen</button>`;
     w.querySelectorAll('[data-pr]').forEach(b => b.onclick = async () => {
       const v = stimmen.find(x => x.id === b.dataset.pr);
       try { const url = await probe(r, v, t => info(w, t)); info(w, ''); rolleSeite(w); await spiel(url); }
@@ -51,11 +55,15 @@
     });
     w.querySelectorAll('[data-such]').forEach(b => b.onclick = () => { w.querySelector('#cbq').value = b.dataset.such; w.querySelector('details').open = true; bibliothek(w); w.querySelector('#cbib').scrollIntoView({behavior: 'smooth'}); });
     w.querySelectorAll('[data-nimm]').forEach(b => b.onclick = () => {
-      const v = stimmen.find(x => x.id === b.dataset.nimm); zuord()[r.id] = {id: v.id, name: v.name}; save(); rolleSeite(w); chips(w);
+      const v = stimmen.find(x => x.id === b.dataset.nimm); zuord()[r.id] = {id: v.id, name: v.name, cfg: (cfg.figuren[r.id] || {}).voice_id || null}; save(); rolleSeite(w); chips(w);
     });
+    const idb = w.querySelector('[data-idein]'); if (idb) idb.onclick = () => {
+      const id = (prompt('Voice-ID der Stimme (aus ElevenLabs, z. B. hJAaR77ekN23CNyp0byH):') || '').trim(); if (!/^\w{10,40}$/.test(id)) return;
+      zuord()[r.id] = {id, name: (stimmen.find(x => x.id === id) || {name: 'ID ' + id.slice(0, 6)}).name, cfg: (cfg.figuren[r.id] || {}).voice_id || null}; save(); rolleSeite(w); chips(w);
+    };
   }
   function chips(w) {
-    w.querySelector('#crl').innerHTML = cast.rollen.map(r => `<button class="chip" aria-pressed="${r.id === rolle}" data-rl="${r.id}" style="margin:2px">${S.cfg.casting && S.cfg.casting[r.id] ? '✔ ' : ''}${esc(r.name.replace(/ \(.*\)$/, ''))}</button>`).join('');
+    w.querySelector('#crl').innerHTML = cast.rollen.map(r => `<button class="chip" aria-pressed="${r.id === rolle}" data-rl="${r.id}" style="margin:2px">${gilt(zuord()[r.id], (cfg.figuren[r.id] || {}).voice_id) ? '✔ ' : ''}${esc(r.name.replace(/ \(.*\)$/, ''))}</button>`).join('');
     w.querySelectorAll('[data-rl]').forEach(b => b.onclick = () => { rolle = b.dataset.rl; chips(w); rolleSeite(w); });
   }
   const info = (w, t) => { const e = w.querySelector('#csi'); if (e) e.textContent = t; };
