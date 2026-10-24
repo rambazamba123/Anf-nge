@@ -514,7 +514,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.92';
+  window.__ver = '4.93';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4750,7 +4750,7 @@ function bgStop(silent) {
 /* Nachgeladene Teile (R11): einmal laden; schlägt es fehl, beim nächsten Mal neu versuchen */
 const NACH = {};
 function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = datei + '?v=' + window.__ver; sc.onload = res; sc.onerror = () => { delete NACH[datei]; rej(new Error(datei + ' ließ sich nicht laden')); }; document.head.appendChild(sc); })); }
-function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()); }
+function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
 /* V42: Scheine, Termine, Lernzeit (ziele.js) */
 function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }
 /* V42: In den drei Wochen vor dem Praxistermin bekommt die Praxis mehr Gewicht im Kurs für heute */

@@ -158,7 +158,27 @@
     }
     return out;
   }
-  const stimmenHtml = l => l.map(x => `${x.ok ? '✅' : x.ok === false ? '❌' : '❔'} <b>${esc(NAMEN[x.w] || x.w)}:</b> ${esc(x.txt)}`).join('<br>');
+  const stimmenHtml = l => l.map(x => `${x.ok ? '✅' : x.ok === false ? '❌' : '❔'} <b>${esc(NAMEN[x.w] || x.w)}:</b> ${esc(x.txt)}${x.ok === false && /nicht gefunden/.test(x.txt) ? ` <button class="btn small ghost" data-hol="${esc(x.w)}">➕ aus der Bibliothek ins Konto holen</button>` : ''}`).join('<br>');
+  /* Stimme aus der ElevenLabs-Bibliothek ins eigene Konto holen (kostenlos): suchen nach Name, die mit der ID der Konfiguration
+     nehmen (sonst den gleichen Namen), dann /v1/voices/add. Bekommt sie im Konto eine neue ID, merkt sich das Gerät diese (S.cfg.casting). */
+  async function holen(st, w) {
+    const f = st.cfg.figuren[w] || {}, id = f.voice_id, name = (f.stimme || f.wunsch || '').trim();
+    if (!name) return `Für ${NAMEN[w] || w} steht kein Stimmenname in der Konfiguration.`;
+    let treffer = null;
+    for (const such of [name, name.split(' - ')[0]]) {
+      const r = await fetchT(`${EL_BASE}/v1/shared-voices?page_size=100&search=${encodeURIComponent(such)}`, {headers: {'xi-api-key': elKey()}}, 20000);
+      if (!r.ok) { const d = await errDetail(r); return `Bibliothek ging nicht: HTTP ${r.status} ${d.msg || ''}`; }
+      const l = (await r.json()).voices || [];
+      treffer = l.find(v => v.voice_id === id) || l.find(v => (v.name || '').trim().toLowerCase() === name.toLowerCase());
+      if (treffer) break;
+    }
+    if (!treffer) return `„${name}“ ist in der ElevenLabs-Bibliothek nicht (mehr) zu finden. Bitte im Stimmen-Casting eine andere Stimme wählen.`;
+    const q = await fetchT(`${EL_BASE}/v1/voices/add/${treffer.public_owner_id}/${treffer.voice_id}`, {method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json'}, body: JSON.stringify({new_name: treffer.name})}, 20000);
+    if (!q.ok) { const d = await errDetail(q); return `Holen ging nicht: HTTP ${q.status} ${d.msg || d.status || ''}`; }
+    const neu = ((await q.json().catch(() => ({}))).voice_id) || treffer.voice_id;
+    if (neu !== id) { (S.cfg.casting = S.cfg.casting || {})[w] = {id: neu, name: treffer.name, cfg: id || null}; save(); st.cfg.figuren[w] = {...f, voice_id: neu}; st.stimmen[w] = neu; }
+    return '';
+  }
   const sprecher = st => [...new Set(st.items.filter(it => it.t === 'rede').flatMap(it => it.wer))];
 
   /* ---------- Erzeugen (kostet Credits) ---------- */
@@ -481,6 +501,14 @@
       ginfo('Prüfe die Stimmen …'); const pr = await stimmenPruefen(st, sprecher(st));
       $('#kvoiceinfo').innerHTML = stimmenHtml(pr);
       ginfo(pr.every(x => x.ok) ? 'Alle Stimmen gefunden. Es kann losgehen.' : 'Nicht alle Stimmen gefunden, siehe oben.');
+    };
+    $('#kvoiceinfo').onclick = async e => {
+      const b = e.target.closest('[data-hol]'); if (!b) return; b.disabled = true; ginfo('Hole die Stimme ins Konto …');
+      let fehler; try { fehler = await holen(st, b.dataset.hol); } catch (x) { fehler = 'Ging nicht: ' + (x.message || x.code || x); }
+      if (fehler) { b.disabled = false; return ginfo(fehler); }
+      /* Neue ID? Dann den Ablauf neu laden, damit die Sprachteile die richtige Stimme bekommen */
+      try { st = await laden(id); await neu(); } catch (x) {}
+      $('#kvoice').click();
     };
     $('#kzip').onclick = () => zipSpeichern(st, ginfo).catch(e => ginfo('Ging nicht: ' + (e.message || e)));
     $('#kcast').onclick = () => { stop(); probeAus(); if (typeof castingOeffnen === 'function') castingOeffnen(); else renderSettings(); };
