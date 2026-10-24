@@ -46,6 +46,7 @@
 | (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
 | (N 22.10.) | Beschlüsse des Nutzers am 22.10.2026: Kajütenfunk als Coaching ohne Geschichte (E12, V41), Revier aus dem Audio, Bilder und Animationen, Denkpausen, Rangerin, Antworten K2–K8 |
 | (N 23.10. a) | Antworten des Nutzers am 23.10.2026 zu Konzept Fassung 3 und den Figuren: K9–K12, „Passt alles so“, Smilla vom großen Fluss, sechs Stunden sind zu wenig |
+| (N 24.10. b) | Zweite Nachricht des Nutzers am 24.10.2026: Quirins Stimme Alexander, kein Ton am Anfang (O15), V42 jetzt bauen, Geräusche mit erzeugen, Frage nach dem besten Modell |
 | (N 24.10.) | Antworten des Nutzers am 24.10.2026: K1 ok, Probefolge G6.3 gemischt mit Quirins Vorstellung, 4–6 Minuten, in der App erzeugt; Quirin an einer Binnenschifffahrtsstraße groß geworden; erfundene Biermarken; X4 weg; X8 Antwortknöpfe gewünscht; Revier Main-Donau-Kanal; Lernzeit als Auswahl mit festen Textblöcken der Crew; O43 später |
 | (N 23.10. b) | Antworten des Nutzers am 23.10.2026 zu Konzept Fassung 4: Denkpausen, Vertiefung, Binnen-Revier, Hörspiel, Ton, gestrichene Verbote, Antworten in der Statistik, Scheine und Termine, Abwechslung, Quirin, Merkhilfen, O7, O15, VS43, O17, O22, O38, O33, Probefolge |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
@@ -633,7 +634,7 @@ Diese Regeln hat der Nutzer ausdrücklich beschlossen. Wie sie umgesetzt werden,
 - **P83 PFLICHT – Figuren:** Die Figuren schlägt Claude vor; Hinnerk mit stärkerem Dialekt, Smilla mit weniger und einem anderen; Quirin sehr bayerisch *(K11, K12)*. Der Entwurf ist bestätigt („Passt alles so“), Smilla kommt von einem großen Fluss und hat sich alles selbst angeeignet *(N 23.10. a)*. Grundlage ist `podcast/figuren.md`. Quirin siehe P47.
 - **P84 PFLICHT – Ton:** derb wie in §8, verbunden mit der Seemannssprache und geprüften doppeldeutigen Begriffen (P52, P51). Gestrichen sind X4 und der Alkohol-Teil von X3. *(N 23.10. b)*
 - **P85 PFLICHT – Scheine, Termine, Zeit:** siehe P10. *(N 23.10. b)*
-- **P86 Erkennungston (O15):** „Titelmusik oder Erkennungston, (bei Frage richtig? Dann erkennungston)“ *(N 23.10. b)*. Abgeleitet (bitte bestätigen): ein kurzer Erkennungston statt Titelmusik, derselbe Ton bei jeder richtigen Antwort.
+- **P86 Erkennungston (O15):** „Titelmusik oder Erkennungston, (bei Frage richtig? Dann erkennungston)“ *(N 23.10. b)*. Abgeleitet (bitte bestätigen): ein kurzer Erkennungston statt Titelmusik, derselbe Ton bei jeder richtigen Antwort. **Geändert (N 24.10. b):** „O15 anfangs kein Ton.“ Am Anfang einer Folge kommt kein Erkennungston. Bei richtiger Antwort bleibt der kurze Ton.
 - **P87 PFLICHT – Haftungsausschluss (O17):** In „Über die App“ steht eine Klausel, dass man hier nicht sicher alles richtig lernt, sich in den bekannten Veröffentlichungen belesen soll und der Herausgeber nicht für Fehler haftet, so sicher, wie es das Gesetz erlaubt. *(N 23.10. b)* Umgesetzt in v4.88.
 - **P88 Abo, Credits, Bitrate (O22, F1):** bleiben vorerst, wie sie sind. *(N 23.10. b)*
 - **P89 PFLICHT – App-Stimmen mit v4 (O38):** Klabauters neue Stimme kommt auch in die App, aber erst nach der Freigabe; dann werden alle festen Sätze mit Eleven v4 neu gesprochen, „da die V4 der Stimmen viel besser ist mit den Emotionen, flüstern etc.“ *(N 23.10. b)*
@@ -644,8 +645,10 @@ Diese Regeln hat der Nutzer ausdrücklich beschlossen. Wie sie umgesetzt werden,
 - **P94 PFLICHT – Startschuss (K1):** „K1 ok“ *(N 24.10.)*. Das Konzept Fassung 5 gilt, zusammen mit den Änderungen an dieser Datei (Konzept §2.3) und Claudes kleinen Entscheidungen (Konzept §2.4).
 - **P95 PFLICHT – Probefolge (O41):** „O41 OK“; „Mach die Probefolge als eine Mischung aus Folge und Hörprobe von Quirin. Verkürze sie. Man soll hier Funktion und Vibe der Folge prüfen.“ Länge „vllt 4–6 min“, „in der App generiert“ *(N 24.10.)*. Umsetzung: der Anfang von G6.3 vor der Schleuse mit Quirins Vorstellung, erzeugt mit dem Schlüssel auf dem Gerät, abspielbar über den Hocker.
 - **P96 PFLICHT – Revier für Teil B (O42):** „wenn es zu binnen passt, dann ja!“ *(N 24.10.)*. Auf dem Main-Donau-Kanal gilt die Binnenschifffahrtsstraßen-Ordnung, auf der der Binnen-Katalog aufbaut; es passt (Konzept §19.1).
-- **P97 Quirins Stimme:** Quirin bekommt eine andere Stimme als George *(N 24.10.)*. Claude schlägt Stimmen vor, der Nutzer wählt im Casting.
+- **P97 Quirins Stimme:** Quirin bekommt eine andere Stimme als George *(N 24.10.)*: **„Alexander - Sharp and Informal“** aus der ElevenLabs-Bibliothek (männlich, mittleres Alter, bairisch) *(N 24.10. b)*.
 - **P98 PFLICHT – Lernzeit und Empfehlung (V42, App):** Die Minuten pro Tag wählt man aus einer Auswahl. Die Crew kommentiert die Wahl, sagt, wie dann gelernt wird, ob es bis zur Prüfung reicht, und empfiehlt gegebenenfalls etwas anderes. Dafür gibt es feste Textblöcke, die sich je nach Lage zu einer Empfehlung zusammensetzen *(N 24.10.)*. Sie sind feste Sätze ohne Namen (CLAUDE.md R10).
+
+- **P99 Geräusche erzeugen:** Die nötigen Geräusche einer Folge (zum Beispiel das Schleusentor) erzeugt die App mit ElevenLabs Sound Effects, zusammen mit der Folge *(N 24.10. b)*. Liste: `podcast/geraeusche.json`. Prüfungssignale kommen weiter aus dem Code (§10.5 im Konzept).
 
 ## Anhang A – Referenzszene „Das Licht vor Fehmarn“
 

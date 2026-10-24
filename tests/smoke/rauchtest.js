@@ -52,6 +52,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03-kajuete', page, async () => { await ev(page, () => setTab('cabin')); await sleep(700); });
   /* 5.12: altes Telefon ruft Kapitän Harms, der holt zur Probeprüfung ab */
   await schritt('03b-telefon-harms', page, async () => { await ev(page, () => document.querySelector('[data-spot="telefon"]').click()); await sleep(7500); if (!await page.$('#harms')) throw new Error('Harms kommt nicht'); await ev(page, () => document.querySelector('#hgo').click()); await sleep(600); await ev(page, () => setTab('cabin')); await sleep(400); });
+  /* V42: Scheine, Termine, Lernzeit mit Kommentar der Crew */
+  await schritt('03d-ziele', page, async () => { await ev(page, () => zieleOeffnen()); await sleep(1200); if (!await page.$('#zform [data-s]')) throw new Error('Ziele öffnen nicht'); await ev(page, () => document.querySelector('[data-m="45"]').click()); await sleep(300); if (!/Theorie|Termin/.test(await page.textContent('#zlage'))) throw new Error('keine Lage'); await ev(page, () => { VOX.stop(); setTab('cabin'); }); await sleep(400); });
   /* V41: Hocker → Kajütenfunk-Probefolge (ohne Erzeugen, kostet nichts) */
   await schritt('03c-kajuetenfunk', page, async () => { await ev(page, () => hockerWahl()); await sleep(300); await ev(page, () => document.querySelector('[data-m="kurs"]').click()); await sleep(1800); if (!await page.$('#kursplayer [data-ab]')) throw new Error('Kajütenfunk öffnet nicht'); await ev(page, () => setTab('cabin')); await sleep(400); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
