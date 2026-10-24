@@ -174,7 +174,7 @@
     }
     if (!treffer) return `„${name}“ ist in der ElevenLabs-Bibliothek nicht (mehr) zu finden. Bitte im Stimmen-Casting eine andere Stimme wählen.`;
     const q = await fetchT(`${EL_BASE}/v1/voices/add/${treffer.public_owner_id}/${treffer.voice_id}`, {method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json'}, body: JSON.stringify({new_name: treffer.name})}, 20000);
-    if (!q.ok) { const d = await errDetail(q); return `Holen ging nicht: HTTP ${q.status} ${d.msg || d.status || ''}`; }
+    if (!q.ok) { const d = await errDetail(q); return d.perm ? 'Deinem ElevenLabs-Schlüssel fehlt das Recht „Voices: Schreiben“. Auf elevenlabs.io → API Keys → Schlüssel bearbeiten → bei Voices „Write“ erlauben. Oder die Stimme auf der Website in der Voice Library mit „Add to my voices“ holen.' : `Holen ging nicht: HTTP ${q.status} ${d.msg || d.status || ''}`; }
     const neu = ((await q.json().catch(() => ({}))).voice_id) || treffer.voice_id;
     if (neu !== id) { (S.cfg.casting = S.cfg.casting || {})[w] = {id: neu, name: treffer.name, cfg: id || null}; save(); st.cfg.figuren[w] = {...f, voice_id: neu}; st.stimmen[w] = neu; }
     return '';

@@ -93,7 +93,7 @@
     el.querySelectorAll('[data-bn]').forEach(b => b.onclick = async () => {
       const v = bib[+b.dataset.bn];
       const q = await fetchT(`${EL_BASE}/v1/voices/add/${v.public_owner_id}/${v.voice_id}`, {method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json'}, body: JSON.stringify({new_name: v.name})}, 20000);
-      if (!q.ok) { const d = await errDetail(q); b.textContent = 'ging nicht'; LOG.add('casting', `holen HTTP ${q.status} ${d.msg}`); info(w, `Holen ging nicht: HTTP ${q.status} ${d.msg || ''}`); return; }
+      if (!q.ok) { const d = await errDetail(q); b.textContent = 'ging nicht'; LOG.add('casting', `holen HTTP ${q.status} ${d.msg}`); info(w, d.perm ? 'Deinem ElevenLabs-Schlüssel fehlt das Recht „Voices: Schreiben“. Auf elevenlabs.io → API Keys → Schlüssel bearbeiten → bei Voices „Write“ erlauben. Oder die Stimme auf der Website in der Voice Library mit „Add to my voices“ holen.' : `Holen ging nicht: HTTP ${q.status} ${d.msg || ''}`); return; }
       b.textContent = '✔ geholt'; stimmen = await VOX.listVoices(true); if (rolle) rolleSeite(w); info(w, `${v.name} ist jetzt in deinem Konto. Oben bei der Rolle „nehmen“ tippen.`);
     });
     el.querySelector('#cbw').onclick = () => bibliothek(w, seite + 1);
