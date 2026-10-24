@@ -211,7 +211,7 @@
   - **Die Berge sind nur sein Hobby** (Klettern am Wochenende). Den Bergführer gibt es nicht mehr, er hätte vom Binnen-Profi abgelenkt.
 - **Auf dem Meer wird er seekrank** [fest] (Bible P47).
 - **Alter:** 34 [neu, bestätigt].
-- **Stimme:** „Alexander - Sharp and Informal“ aus der ElevenLabs-Bibliothek (männlich, mittleres Alter, bairisch), vom Nutzer gewählt am 24.10.2026.
+- **Stimme:** „Alexander - Sharp and Informal“ aus der ElevenLabs-Bibliothek (männlich, mittleres Alter, bairisch), vom Nutzer gewählt am 24.10.2026, Voice-ID `hJAaR77ekN23CNyp0byH`.
 
 **Rolle im Kurs** [fest] (Nutzer, 23.10.2026), Einzelheiten [neu]
 - **Teil G und S:** nur zweimal zu Besuch, beide Male da, wo er Profi ist:
@@ -234,7 +234,7 @@
 
 **Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. Seit 23.10.2026 sind Witze über Bayern erlaubt (Nutzer): Hinnerk frotzelt, Quirin gibt zurück („Fischkopp“, „Preiß“). Die Klischees Lederhose, Weißwurst und Bier sind erlaubt (Nutzer, 24.10.2026, O40).
 
-**Bier** [fest] (Nutzer, 24.10.2026): Quirin trinkt nur Bier von kleinen Brauereien und mag kein „Fernsehbier“ von den großen Konzernen. Die Brauereien sind **erfunden**, damit keine echte Marke beworben wird (Jugendschutz, App ab 12). Vorschläge: „Schleusenbräu Kelheim“, „Altmühltaler Klosterbräu“, „Bräu z'Riedmühl“, „Treidlerbräu“. Er schwärmt davon, getrunken wird an Bord nie während der Fahrt (Frage 2, Promille).
+**Bier** [fest] (Nutzer, 24.10.2026): Quirin trinkt nur Bier von kleinen Brauereien und mag kein „Fernsehbier“ von den großen Konzernen. Die Brauereien sind **erfunden**, damit keine echte Marke beworben wird (Jugendschutz, App ab 12). Im Einsatz: **„Treidlerbräu“** (Probefolge; Treideln heißt, ein Schiff vom Ufer aus an Leinen ziehen). Entfallen sind „Schleusenbräu“ (es gibt eine echte Schleusenbrauerei in Woltersdorf), „Altmühltaler Klosterbräu“ (Altmühltaler ist ein echter Mineralbrunnen) und „Bräu z'Riedmühl“ (zu nah an Riedenburg am Kanal mit echter Brauerei); geprüft per Websuche am 24.10.2026. Neue Namen vorher genauso prüfen. Er schwärmt davon, getrunken wird an Bord nie während der Fahrt (Frage 2, Promille).
 
 **Wenn er etwas nicht weiß** [neu]: Auf See fragt er offen nach: „Warum eigentlich?“. Das ist die Frage, die der Hörer auch hat. Auf dem Fluss stellt er die Fragen, und Hinnerk muss antworten.
 
