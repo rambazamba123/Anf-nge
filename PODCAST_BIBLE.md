@@ -1,6 +1,6 @@
 # PODCAST_BIBLE.md – Regelwerk für den Kajütenfunk
 
-> **Verbindliches Regelwerk für alle Podcastfolgen („Kajütenfunk“) der App Skipper.** Stand: 20.10.2026, zweite Fassung. Darin sind die Entscheidungen zu den offenen Punkten und das Audio-Regelwerk (Abschnitt 14) eingearbeitet.
+> **Verbindliches Regelwerk für alle Podcastfolgen („Kajütenfunk“) der App Skipper.** Stand: 23.10.2026, dritte Fassung (Entwurf). Seit dem 22.10.2026 ist der Kajütenfunk ein Hörkurs im Coaching-Stil statt einer Geschichte (E12). Die ausdrücklichen Beschlüsse des Nutzers vom 22. und 23.10.2026 sind eingearbeitet (§15, P72 ff.). Regeln der Geschichte sind mit **Entfällt (E12)** markiert. Was nur im Konzept steht (`docs/konzept-kajuetenfunk.md`, Fassung 5) und noch nicht ausdrücklich beschlossen ist, gilt mit dem Startschuss des Nutzers (K1).
 > Offene Fragen, Widersprüche, fehlende Informationen, unbestätigte Vorschläge und der Verlauf der Entscheidungen stehen in **`PODCAST_STATUS.md`**.
 > Diese Datei enthält nur:
 > - was der Nutzer beschlossen hat,
@@ -15,6 +15,7 @@
 - **G1** Vor jeder Arbeit an Podcastinhalten liest Claude diese Datei und wendet sie an. Das gilt für Konzept, Handlung, Skript, Fragenzuordnung, Ton, Aufnahme und Einbau. Bei Unklarheiten liest Claude zusätzlich `PODCAST_STATUS.md`.
 - **G2** Die hier dokumentierten Entscheidungen sind die verbindliche Grundlage der Podcastproduktion. Claude ändert sie nicht stillschweigend. Änderungen schlägt Claude vor und trägt sie erst nach Bestätigung des Nutzers ein. *(Nutzer, 20.10.2026)*
 - **G3** Offene Fragen aus `PODCAST_STATUS.md` entscheidet Claude nicht eigenmächtig. Was dort als offen oder als Vorschlag steht, ist **keine** Regel.
+- **G7** Seit 22.10.2026 gilt das Coaching-Konzept (E12). Für das Schreiben einer Folge sind das finale Konzept (`docs/konzept-kajuetenfunk.md`), die Figuren (`podcast/figuren.md`) und der Kursplan (`podcast/kursplan-sbf.json`) die Arbeitsgrundlage; diese Datei regelt Ton, Fakten, Verbote, Aussprache und Audio und hält die Beschlüsse fest. *(N 22.10., N 23.10. b)*
 - **G4** Bei Widerspruch zu älteren Angaben über die Folgen in CLAUDE.md gilt diese Datei, weil sie die späteren Beschlüsse enthält. Betroffen sind §3 „keine sexuellen Anspielungen“ (nur für den Podcast), §4 „Teil 2“ und „Qualität“ (für den Podcast gilt Abschnitt 14), V8, V24, E10 und der Termin in §1. Alle übrigen Projektregeln aus CLAUDE.md gelten weiter, besonders R2, R7, R8, R9, R10, R12, E1 und E6.
 - **G5** Eine spätere, ausdrücklich beschlossene Änderung ersetzt eine ältere Regel. Den Verlauf hält `PODCAST_STATUS.md` fest (Abschnitt 8).
 - **G6** Die Vorschläge aus Claudes Nachricht vom 20.10.2026 nach der Bewertung der Varianten A/B/C sind vom Nutzer verworfen. Dazu gehören das große Rätsel, der Staffelplan mit 23 Folgen, die Verdächtigen, die Gastnamen und die Galionsfigur. Sie werden nicht verwendet, auch nicht in Teilen, außer der Nutzer fragt ausdrücklich danach.
@@ -43,6 +44,9 @@
 | (N 20.10. h) | Wunsch des Nutzers am 20.10.2026: Hörprobe mit allen Regie-Mitteln, Varianten für Klabauter, weitere Bootsnamen |
 | (N 20.10. g) | Entscheidungen des Nutzers am 20.10.2026: Überthema „Die Wette“, Quirin, Flensburg, Smillas Scheine, Harms und die Probeprüfung, Großschreibung, Hörprobe |
 | (N 20.10. f) | Antwort des Nutzers auf den Leitfaden am 20.10.2026: Schlei, Anreden, Bayer, Harms, Route, ElevenLabs-Seiten, Bitte um Vorschläge fürs Überthema |
+| (N 22.10.) | Beschlüsse des Nutzers am 22.10.2026: Kajütenfunk als Coaching ohne Geschichte (E12, V41), Revier aus dem Audio, Bilder und Animationen, Denkpausen, Rangerin, Antworten K2–K8 |
+| (N 23.10. a) | Antworten des Nutzers am 23.10.2026 zu Konzept Fassung 3 und den Figuren: K9–K12, „Passt alles so“, Smilla vom großen Fluss, sechs Stunden sind zu wenig |
+| (N 23.10. b) | Antworten des Nutzers am 23.10.2026 zu Konzept Fassung 4: Denkpausen, Vertiefung, Binnen-Revier, Hörspiel, Ton, gestrichene Verbote, Antworten in der Statistik, Scheine und Termine, Abwechslung, Quirin, Merkhilfen, O7, O15, VS43, O17, O22, O38, O33, Probefolge |
 | (AR x) | Abschnitt x des Regelwerks „Sprechregie, Aussprache und Audioproduktion“, das der Nutzer am 20.10.2026 geliefert hat, mit dem Auftrag, es kritisch zu prüfen und nur Sinnvolles zu übernehmen (Abschnitt 14, Abweichungen in `PODCAST_STATUS.md` §9) |
 | (CLAUDE.md …) | bestehende Projektregel |
 | **abgeleitet** | Claude hat eine Nutzeraussage in ein prüfbares Kriterium übersetzt. Es gilt wie die Aussage selbst. Trifft es das Gemeinte nicht, gilt die Aussage, und das Kriterium wird nach Rückfrage korrigiert (siehe `PODCAST_STATUS.md`, O29). |
@@ -64,6 +68,7 @@
 ## 2. Zielgruppe und gewünschte Wirkung
 
 - **P10 PFLICHT:** Die Hörer sind Nutzer der App, die auf einen Bootsführerschein lernen. Die Crew und damit auch die Podcastfolgen behandeln den Schein, den man am Anfang angibt (Crew-Schein). Wörtlich: „den schein, den man am anfang angibt behandelt die crew. also die podcastfolgen, etc.“ *(N 10.10.)*
+  - **Erweitert (N 23.10. b):** Ganz am Anfang, in den Einstellungen änderbar, wählt man einen oder mehrere Scheine, ihre Termine (Theorie und Praxis, Binnen und See, getrennt) und die tägliche Lernzeit. Danach richten sich Kurs und Empfehlung (P85, Konzept §3.5).
 - **P11 PFLICHT:** Die Freigabe ist ab 12 Jahren *(CLAUDE.md E1)*. Witze wirken auf zwei Ebenen: Erwachsene verstehen die Anspielung, ein 12-Jähriger versteht etwas Harmloses *(N 20.10. a)*. Einzelheiten stehen in Abschnitt 8.
 - **P12 PFLICHT (gewünschte Wirkung):**
   1. Kursersatz (P2).
@@ -74,7 +79,7 @@
 
 ## 3. Umfang, Länge, Wortzahl
 
-- **P13 PFLICHT:** Eine Folge dauert **25 Minuten**. *(N 20.10. a: „25 min folgen finde ich gut“)*
+- **P13 PFLICHT:** Eine Folge dauert **25 Minuten**. *(N 20.10. a: „25 min folgen finde ich gut“)* **Wird mit K1 ersetzt:** Im Hörkurs dauert eine Folge 12–15 Minuten (höchstens 17); der Kurs SBF See hat 60 Folgen und knapp 14 Stunden (Konzept §4, P75).
 - **P14 Richtwert (abgeleitet aus Messung):** 25 Minuten entsprechen etwa **20.900 Zeichen** oder **3.350 Wörtern** gesprochenen Textes.
   - Grundlage ist das gemessene Sprechtempo des Stimmenpakets: im Schnitt 13,9 Zeichen pro Sekunde (Hinnerk 13,6, Smilla 15,5, Klabauter 10,6, Harms 13,6).
   - Dazu kommen 6,2 Zeichen pro Wort in den bisherigen Texten. Das ergibt etwa 134 Wörter pro Minute.
@@ -103,6 +108,8 @@
 
 ## 5. Grundstruktur der Reihe
 
+> **Entfällt (E12, N 22.10.):** Der Kajütenfunk hat keine durchgehende Geschichte mehr. P26 bis P30, P32 und P36 gelten nicht mehr; Ersatz sind die Formen, Rahmen und der Bauplan im Konzept (§6, §7). Weiter gelten im Hörkurs P31 (trockene Themen bekommen einen Rahmen), P33 (echte Orte), P34 (Spannung, jetzt im Rahmen Hörspiel) und P35 (Mitdenken, jetzt mit Vorab-Frage und Antwortknöpfen). Das Material der Geschichte liegt im Archiv (`podcast/archiv/`, K8).
+
 - **P26 PFLICHT – Geschichte statt Themenreihe:** Der Nutzer bevorzugt die spannende Geschichte *(N 20.10. a)*. Wörtlich: „alle fragen zuerst auf den tisch werfen und eine tolle geschichte daraus machen. unabhängig von themenkategorien. alles kommt vor, wenn es gerade sinn macht.“ Die Variante, Themen gegliedert der Reihe nach abzuarbeiten, ist nicht gewählt.
 - **P27 PFLICHT – Grundstruktur ist Variante C** („C ist ein sehr guter kompromiss“, *N 20.10. b*). So wurde C am 20.10. vorgestellt:
   - Jede Folge ist ein eigener Fall (Variante A) auf einer Etappe einer durchgehenden Reise (Variante B).
@@ -124,7 +131,7 @@
   - **Das Boot heißt „Frieda“**, nach Hinnerks Frau oder Freundin Frieda. Sie bleibt lieber an Land und betreibt in Flensburg eine Kneipe *(N 20.10. l, ersetzt „Mutter“ aus N 20.10. k)*.
   - **Kein Erzähler** *(N 20.10. j)*. Orientierung über Smillas Logbuch: Rückblick am Anfang, drei Merksätze am Ende; das Logbuch ist auch der Schiedsrichter der Wette *(N 20.10. k: „3. Ja gute Idee“)*. Die Geschichte muss gut zu folgen sein und darf nicht zu schnell gehen *(N 20.10. j)*.
   - Die Folgen sollen sich als runde Sache anfühlen, nicht wie abgearbeitete Themen. Trockene Themen sind erlaubt und bekommen einen Rahmen in der Geschichte, z. B. „Flaute, die Crew sitzt an Deck und unterhält sich mit einem Gesetzbuch“ *(N 20.10. k)*.
-  - Am Ende der See-Staffel lädt Quirin an den Chiemsee ein („unbedingt“, *N 20.10. k*).
+  - Am Ende der See-Staffel lädt Quirin an den Chiemsee ein („unbedingt“, *N 20.10. k*). **Geändert (N 23.10. b):** Der Chiemsee ist keine Schifffahrtsstraße; die Einladung führt nach Bayern, wohin genau, hängt am Revier für Teil B (O42). Im Konzept liest Smilla am Ende von S11.5 Quirins Karte vor.
   - Die späteren Vorschläge vom 20.10. sind ebenfalls verworfen (G6).
 - **P31 PFLICHT – Trockene Themen müssen auch vorkommen** („diese müssen eben auch mal rein“, *N 20.10. b*). Erlaubte Wege, alle **OPTIONAL** und vom Nutzer genannt:
   - ein paar ruhigere Folgen („ggf gibt es auch einfach ein paar langweilige folgen“),
@@ -155,6 +162,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Aus CLAUDE.md §3: Käpt'n, grüßt mit „Moin“, trocken. Der Widerspruch „kurz angebunden“ gegenüber „erzählt viel“ ist offen (W2).
   - VERBOTEN (abgeleitet): Hinnerk liegt in jeder fachlichen Aussage falsch.
   - ERLAUBT: Er darf auch falsche Katalogantworten aussprechen *(N 20.10. k: „5. Ja darf er“)*; Smilla berichtigt in derselben Szene (P22).
+  - Er irrt nur bei gefühlten Regeln, nie bei Praxis und Sicherheit (`podcast/figuren.md`, bestätigt *N 23.10. a*). Auf Binnengewässern, wo Quirin der Profi ist, fragt er nach, statt zu irren (folgt aus *N 23.10. b*).
 - **P42 Matrosin Smilla:**
   - PFLICHT: Sie weiß die Fakten, „man merkt, dass sie es drauf hat“ *(N 19.10.)*.
   - PFLICHT: Sie berichtigt Hinnerks Kauderwelsch (P22).
@@ -171,18 +179,19 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Grundlage ist die Prüfungsordnung, die der Nutzer hochlädt (F3). Ohne sie schreibt Claude diese Erklärung nicht.
   - Sonst trifft man ihn, „wenn es passt“.
   - **Das Staffelfinale ist keine Prüfung.** Die Prüfung ist die des Nutzers *(N 20.10. g)*: Nach allen Folgen lernt man am Boot weiter und ruft Harms zur Probeprüfung, wenn man bereit ist (das gibt es in der App schon: Telefon und Crew-Menü „Hol Kapitän Harms“).
-  - In der Wette (P30) ist er Hinnerks Gegenspieler.
+  - In der Wette (P30) ist er Hinnerks Gegenspieler. **Entfällt (E12).** Im Hörkurs prüft er in Stichprobe, Fallen-Check und Fragerunde (Konzept §8.3).
 - **P46 Gastrollen:** PFLICHT: Es gibt Gastrollen, dafür auch **zusätzliche eigene Stimmen** („gastrollen sind top“, „3. gerne zusätzlichen“, *N 20.10. b*). Der Nutzer hat diese Beispiele begrüßt: Hafenmeister, Funkstimme, Fischer. Figuren, Namen und Anzahl sind offen (O14).
 - **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*.
   - Er kommt **schon bei SBF See** vor *(N 20.10. f)*.
-  - Er ist **selbst eine witzige Figur**. Es gibt **keine Witze über Bayern** („keine bayern witze. ein witziger bayer.“, *N 20.10. d*).
+  - Er ist **selbst eine witzige Figur**. ~~Es gibt keine Witze über Bayern~~ („keine bayern witze. ein witziger bayer.“, *N 20.10. d*). **Gestrichen (N 23.10. b):** „Diese Regeln komplett streichen: keine Gruppenbeleidigung, keine Witze über Bayern, kein Alkohol als Witz über Kinder.“ Witze über Bayern sind erlaubt.
   - Er **macht sich über sich selbst lustig** und nimmt sich nicht so ernst *(N 20.10. f)*.
   - **Name: Quirin** *(N 20.10. g)*.
   - **Charakter:** Bergführer aus dem Chiemgau, wie in VS34 vorgeschlagen *(N 20.10. g: „4. ja“)*. Er **kann segeln, aber nur auf dem Chiemsee und kleineren Seen**. Auf dem Meer wird er seekrank.
+  - **Binnen-Profi (N 23.10. b):** „du sagst, dass quirin immer irrt. Das ist nicht so. Auf den binnengewässern ist er super Profi. Kommt aber nur für die Binnenfragen dazu und ein oder zweimal davor zu Besuch.“ Er irrt nicht wie ein Anfänger. Im Konzept: Besuche in G6.3 und S6.5, Hauptfigur in Teil B. Wie er Binnen-Profi wurde, ist offen (O39).
   - **Verhältnis zu Hinnerk: „Grummel trifft Sonnenschein“** *(N 20.10. g)*. Quirin nennt ihn **„Hinni“**, und Hinnerk mag das gar nicht.
-  - Einsatz ab Folge 6 (Kieler Woche) wie in VS34; das Weitere klärt der Leitfaden.
+  - ~~Einsatz ab Folge 6 (Kieler Woche) wie in VS34; das Weitere klärt der Leitfaden.~~ Entfällt (E12), ersetzt durch die Besuche oben.
   - Der Humor kommt aus seiner Persönlichkeit und den Situationen, nicht aus seiner Herkunft.
-  - Ob er auch beim SBF See vorkommt und wie stark der Dialekt ist, ist offen (O14).
+  - Er kommt beim SBF See vor, aber nur zu Besuch (N 23.10. b); sein Dialekt ist sehr bayerisch (K12, *N 23.10. a*).
 - **P48 Perspektive und Anrede:**
   - PFLICHT: Die drei unterhalten sich miteinander (P1, P5).
   - PFLICHT: Sprechen sie den Hörer an, dann **neckend** *(N 20.10. d)* und **geschlechtsneutral**.
@@ -194,7 +203,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
       - Klabauter: „Grünschnabel! Grünschnabel!“, „Nesthocker! Nesthocker!“, „Federlos! Federlos!“ *(N 20.10. g: „6. passt“)*.
     - **Der Hörer wird gefragt und antwortet** (am Ende der Folge), sonst nicht direkt; Antworten nur per Multiple Choice, damit keine Credits nötig sind *(N 20.10. k)*.
     - Die Anreden sind feste Sätze. Ihr Audio wird **einmal erzeugt** und auch bei anderen Gelegenheiten in der App verwendet *(N 20.10. f, R10, `docs/feste-saetze.md`)*. Dafür dieselben Stimmen wie im Podcast verwenden (P49).
-  - Die Häufigkeit ist offen (O7). Die Anrede ist ein fester Text ohne Namen (X10).
+  - **Häufigkeit: höchstens drei Anreden je Folge** *(N 23.10. b: „O7 … (Vorschlag: höchstens drei je Folge) ist gut.“)*. Die Anrede ist ein fester Text ohne Namen (X10).
 - **P49 Stimmen (abgeleitet aus CLAUDE.md §4 und P46):** Die festen Stimmen für hinnerk, smilla, klabauter und kroeger legt `audio/stimmen/manifest.json` fest. Gaststimmen kommen als weitere feste Stimmen dazu. Jede Figur behält in allen Folgen dieselbe Stimme.
 
 ## 8. Ton und Sprache
@@ -208,6 +217,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Beleidigungen unter den Dreien,
   - Garn aus der Hafenkneipe,
   - Wörter wie „Klookschieter“. Gefragt war am 19.10., ob das zu derb ist, die Antwort war „so derb wie geht“.
+  - **Seemannssprache (N 23.10. b):** „Verbunden aus der Bibel: derb und die neuen Sprüche aus dem Seemanns sprech. Ggf seemännische Begriffe zusätzlich auf Doppeldeutigkeit prüfen oder ob man daraus Anspielungen etc. machen kann. Dann den Charakteren zuweisen.“ Umgesetzt in `podcast/wortschatz.md` (Abschnitt 11) und `podcast/figuren.md`; Prüfregel bleibt P51.
 - **P53 PFLICHT:** Es soll wie ein Gespräch wirken, mit Geschichten und Geplauder *(N 19.10.)*. Wie viel Geplauder, ist offen (O3).
 - **P54 Sprache:** Deutsch. Der Bayer spricht als Bayer (P47). Die genaue Dialektform ist offen (O14). Ob die Stimmen Platt- oder Bairisch-Färbung überzeugend sprechen, ist ungeprüft (F5).
 
@@ -215,12 +225,12 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 
 - **X1 VERBOTEN:** Trockenes Dozieren *(N 19.10.: „nicht so trocken“)*. Abgeleitet: Die bisherigen Folgen sind das Gegenbeispiel. Dort hält Hinnerk etwa 70 % des Textes als Vortrag, und auf eine Frage kommen etwa 7 Sekunden (`PODCAST_STATUS.md`, Abschnitt 7).
 - **X2 VERBOTEN:** Ausdrückliche sexuelle Inhalte und Anspielungen ohne harmlose Lesart *(N 20.10. a: „aber eben doppeldeutig“)*.
-- **X3 VERBOTEN:** Anspielungen auf Körper von Kindern, Drastisches und Alkohol als Witz über Kinder (Tonregel vom 20.10. und CLAUDE.md §3).
-- **X4 VERBOTEN:** Beleidigungen von Gruppen *(CLAUDE.md §3)* und Witze über Bayern *(N 20.10. d, P47)*.
+- **X3 VERBOTEN:** Anspielungen auf Körper von Kindern und Drastisches (Tonregel vom 20.10. und CLAUDE.md §3). ~~Alkohol als Witz über Kinder~~ gestrichen *(N 23.10. b)*. Abgeleitet aus X2 und X3: Eine Anspielung meint nie den Hörer selbst, denn er kann zwölf sein.
+- **X4** ~~VERBOTEN: Beleidigungen von Gruppen und Witze über Bayern~~ **Gestrichen** *(N 23.10. b: „Diese Regeln komplett streichen: keine Gruppenbeleidigung, keine Witze über Bayern, kein Alkohol als Witz über Kinder.“)*. Necken und Frotzeln über Gruppen ist erlaubt.
 - **X5 VERBOTEN:** Unberichtigte fachliche Fehler (P22) und erfundene Sachangaben, die als Tatsache dargestellt werden (P23).
 - **X6 VERBOTEN:** Klabauter ist mehrdeutig (Witz oder wichtig?), oder er sagt im Modus „Wichtiges“ etwas Falsches (P43).
 - **X7 VERBOTEN:** Hinnerk irrt immer (P41).
-- **X8 VERBOTEN (abgeleitet aus „fragen doch erst am ende je folge“, *N 20.10. a*):** Multiple-Choice-Fragen an den Hörer mitten in der Folge. Fragen, die sich die Figuren innerhalb der Geschichte stellen, sind erlaubt.
+- **X8** ~~VERBOTEN (abgeleitet aus „fragen doch erst am ende je folge“, *N 20.10. a*): Multiple-Choice-Fragen an den Hörer mitten in der Folge.~~ **Geändert:** Im interaktiven Modus gibt es Antwortknöpfe an den Entscheidungs-Denkpausen (K10, *N 22./23.10.*), und **die Antworten zählen wie Fragen in der Statistik** *(N 23.10. b: „X8 die Antworten zählen wie fragen in die Statistik mit ein.“)*. Im Auto-Modus bleibt die kurze Denkpause, danach die Lösung (P77).
 - **X9 VERBOTEN (abgeleitet aus P5 „unabhängig der prüfung“):** Die Figuren begründen Stoff mit der Prüfung, etwa „das kommt in der Prüfung dran“. V24 entfällt.
   - **Ausnahme:** Harms darf erklären, wie er prüft (P45, *N 20.10. f*).
   - Die drei reden untereinander weiter als Seeleute, nicht über die Prüfung.
@@ -276,6 +286,8 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **P71 PFLICHT:** Große neue Bereiche kommen in eigene, nachgeladene Dateien, Texte und Listen nach `data/*.json` *(CLAUDE.md R11)*.
 
 ## 13. Prüfliste je Folge
+
+> **Für Folgen des Hörkurses gilt die Prüfliste im Konzept §16.3.** Aus der Liste unten entfallen die Punkte 1, 3, 4 und 11 (Geschichte, Rätsel, 25 Minuten, keine Fragen mitten in der Folge; E12, X8 geändert). Die übrigen Punkte gelten weiter; Punkt 10 prüft jetzt nur X2 und X3.
 
 Vor „fertig“ prüft Claude jede Folge gegen diese Liste und nennt Abweichungen im Bericht.
 
@@ -600,6 +612,33 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   Vor dem Testlauf liest Claude die Seiten noch einmal direkt (F9).
 
 ---
+
+## 15. Hörkurs: Beschlüsse vom 22. und 23.10.2026
+
+Diese Regeln hat der Nutzer ausdrücklich beschlossen. Wie sie umgesetzt werden, steht im Konzept (`docs/konzept-kajuetenfunk.md`, Fassung 5).
+
+- **P72 PFLICHT – Hörkurs statt Geschichte:** Die drei sind das persönliche Coaching-Team und bringen den Hörer so schnell wie möglich und mit Humor durch die Prüfung. Eine durchgehende Geschichte gibt es nicht. Gäste sind möglich, aber nicht alle. *(N 22.10., E12)*
+- **P73 PFLICHT – Ein Theoriekurs zum Hören:** „smooth, lehrreich, didaktisch top, mit guter Heranführung“; jedes Thema beginnt mit einem Überblick; die aufeinander aufbauende Reihenfolge des Stoffplans bleibt; dazu die Nachhilfe-Folge aus den eigenen Wackelkandidaten, ohne dass die Folgen abgehackt wirken. *(N 22.10., V41)*
+- **P74 PFLICHT – Drei Blöcke:** Grundkurs mit den 72 Basisfragen (für See und Binnen), See, später Binnen. *(K5, K9)*
+- **P75 PFLICHT – Länge:** Sechs Stunden sind zu wenig; es soll „wirklich wie guter Unterricht“ sein, mit dem Wissen aus der Recherche. *(N 23.10. a)* Im Konzept: 60 Folgen, knapp 14 Stunden (gilt mit K1).
+- **P76 PFLICHT – Zwei Modi:** Gelernt wird in der App; gemacht zum Hören, mit Auto-Modus und interaktivem Modus. Im interaktiven Modus hält die App an den Entscheidungsfragen an und zeigt Antwortknöpfe. *(K7, K10)*
+- **P77 PFLICHT – Denkpausen auch im Auto-Modus,** „nicht zu lange“; nach der Denkpause wird die Lösung gesagt. *(N 23.10. b)* Im Konzept: 3, 5 und 6 Sekunden.
+- **P78 PFLICHT – Vertiefung:** „Beim interaktiven Modus wird tiefer erklärt, wenn man falsch antwortet.“ *(N 23.10. b)*
+- **P79 PFLICHT – Antworten zählen in der Statistik** wie Fragen (X8). *(N 23.10. b)* Ausgenommen ist im Konzept nur der Tipp bei der Vorab-Frage (Claudes Vorschlag, gilt mit K1).
+- **P80 PFLICHT – Revier und Hörspiel:** Das Revier muss aus dem Audio kommen, es bleibt ein Hörspiel, konzentriert auf den Stoff *(N 22.10.)*. „Es dürfen schon Szenarien beschrieben werden. Also die Crew haben ein Problem mit dem Motor, segeln und müssen ausweichen und diskutieren darüber etc. Generell gerne wie ein Hörspiel wo es passt.“ *(N 23.10. b)*
+- **P81 PFLICHT – Abwechslung:** „Wichtig ist schon, dass es nicht monoton nach dem selben Schema immer wieder abläuft. Frage, Falle, etc. Sondern abwechslungsreich, wie gesagt nach Bedarf und zu den Fragen passend. Themen gebündelt manchmal ist mehr Vorgeschichte besser etc. Fragen zusammengefasst und so weiter, Anekdoten der Crew.“ *(N 23.10. b)* Dazu: Nicht jede Frage wird im Detail erklärt; manchmal erst alle Grundlagen, dann gebündelt zu den Fragen *(N 22.10.)*.
+- **P82 PFLICHT – Merkhilfen:** „Die Merkhilfen müssen ausgebaut werden. Sie müssen wirklich sehr gut passen und Sinn machen. Und mehr sein. Hier nochmal spezifisch Wissen aus Literatur und Internet durchleuchten. Merksätze für jede Frage generieren, da sie in der App generell genutzt werden sollen.“ *(N 23.10. b)* Umgesetzt für SBF See in `data/karten-sbf.json`; App und Kurs nutzen dieselben Merksätze.
+- **P83 PFLICHT – Figuren:** Die Figuren schlägt Claude vor; Hinnerk mit stärkerem Dialekt, Smilla mit weniger und einem anderen; Quirin sehr bayerisch *(K11, K12)*. Der Entwurf ist bestätigt („Passt alles so“), Smilla kommt von einem großen Fluss und hat sich alles selbst angeeignet *(N 23.10. a)*. Grundlage ist `podcast/figuren.md`. Quirin siehe P47.
+- **P84 PFLICHT – Ton:** derb wie in §8, verbunden mit der Seemannssprache und geprüften doppeldeutigen Begriffen (P52, P51). Gestrichen sind X4 und der Alkohol-Teil von X3. *(N 23.10. b)*
+- **P85 PFLICHT – Scheine, Termine, Zeit:** siehe P10. *(N 23.10. b)*
+- **P86 Erkennungston (O15):** „Titelmusik oder Erkennungston, (bei Frage richtig? Dann erkennungston)“ *(N 23.10. b)*. Abgeleitet (bitte bestätigen): ein kurzer Erkennungston statt Titelmusik, derselbe Ton bei jeder richtigen Antwort.
+- **P87 PFLICHT – Haftungsausschluss (O17):** In „Über die App“ steht eine Klausel, dass man hier nicht sicher alles richtig lernt, sich in den bekannten Veröffentlichungen belesen soll und der Herausgeber nicht für Fehler haftet, so sicher, wie es das Gesetz erlaubt. *(N 23.10. b)* Umgesetzt in v4.88.
+- **P88 Abo, Credits, Bitrate (O22, F1):** bleiben vorerst, wie sie sind. *(N 23.10. b)*
+- **P89 PFLICHT – App-Stimmen mit v4 (O38):** Klabauters neue Stimme kommt auch in die App, aber erst nach der Freigabe; dann werden alle festen Sätze mit Eleven v4 neu gesprochen, „da die V4 der Stimmen viel besser ist mit den Emotionen, flüstern etc.“ *(N 23.10. b)*
+- **P90 Aussprache (O33):** Schwierige Aussprache prüft der Nutzer. *(N 23.10. b)*
+- **P91 PFLICHT – Funkwörter (VS43):** In der Fragerunde zählen während des Vorlesens die Funkwörter Alfa bis Delta; der Nutzer testet die Funktion. *(N 23.10. b)*
+- **P92 PFLICHT – Probefolge:** Nach dem Startschuss entsteht ein Ausschnitt mit dem Anfang einer Beispielfolge, etwa 5–10 Minuten, höchstens etwa 6.000 ElevenLabs-Credits, eine repräsentative Stelle mit allem, was getestet werden muss; fehlende Geräusche sind in Ordnung; Animationen kommen später; anklickbar über den Stuhl (Hocker) in der Kajüte. Vorher werden die Dokumente geändert, das Konzept überarbeitet und die wichtigen offenen Fragen gestellt. *(N 23.10. b)*
+- **P93 Weitere Beschlüsse vom 22. und 23.10.:** erst verfeinern wir selbst, dann liest jemand gegen (K2); so viele Zeichen wie nötig, auch über mehrere Sitzungen (K3); Audio zuerst im Repo und in der App, getestet nur vom Nutzer (K4); die Geschichte kommt ins Archiv (K8); vor dem ersten Skript in guten Quellen recherchieren *(N 22.10.)*; die Stimmen überarbeitet der Nutzer selbst, das Bairische prüft ein Bekannter des Nutzers *(N 23.10. a)*.
 
 ## Anhang A – Referenzszene „Das Licht vor Fehmarn“
 

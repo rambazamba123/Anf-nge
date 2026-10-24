@@ -1,110 +1,72 @@
 # Soundeffekte für den Kajütenfunk
 
-Stand: 20.10.2026. Der Nutzer stellt die Geräusche bereit (`PODCAST_STATUS.md` B75). Claude mischt sie später zu den Stimmen dazu. Die ElevenLabs-Stimmen machen keine Geräusche, außer im Test mit `[seagulls]`.
+Stand: 23.10.2026, gekürzt für den Hörkurs (Konzept `docs/konzept-kajuetenfunk.md` §10.5 und §10.6). Die lange Liste für die frühere Geschichte liegt in `podcast/archiv/soundeffekte-geschichte.md`. Der Nutzer stellt die Geräusche bereit (`PODCAST_STATUS.md` B75). Claude mischt sie zu den Stimmen dazu.
+
+## Grundsätze
+- **Wenig, mit Zweck:** Ein Geräusch sagt, wo wir sind (Revier), oder es gibt dem Hörer ein Zeichen (richtig, falsch, nachdenken).
+- **Nie unter Erklärungen:** kurz am Anfang einer Szene, dann leise oder weg.
+- **Prüfungssignale kommen aus dem Code,** mit genauer Dauer (kurz etwa 1 s, lang 5 s). Hörner aus Geräusch-Bibliotheken nie dafür nehmen (§10.5).
+- **Die Töne des Kurses** (Erkennungston, falsch, Ticken, Merk-Glocke) klingen deutlich anders als jedes Prüfungssignal: kein Horn, keine Pfeife.
+- **Probefolge:** Was schon in `audio/` liegt, reicht. Fehlende Geräusche dürfen fehlen.
 
 ## So lieferst du
 - **Format:** MP3, gern 44,1 kHz. Kein Hall, keine Musik darunter.
 - **Länge:**
   - **Atmo** (Hintergrund) 1–3 Minuten. Sie soll sich schleifen lassen: Anfang und Ende ohne harten Schnitt.
   - **Einzelgeräusche** sind kurz. Davor und danach so wenig Stille wie möglich.
-- **Dateiname:** genau die ID aus der Tabelle, z. B. `atmo-werft.mp3`.
-- **Ablage:** auf GitHub in den Ordner `import` hochladen. Claude räumt sie nach `audio/podcast/` und prüft sie.
+- **Dateiname:** genau die ID aus der Tabelle, z. B. `atmo-hafen.mp3`.
+- **Ablage:** auf GitHub in den Ordner `import` hochladen. Claude räumt sie nach `podcast/geraeusche/` und prüft sie. Das ist Rohmaterial zum Mischen; in der App landen nur die fertigen Folgen.
 - **Lizenz** (CLAUDE.md R12): nur Geräusche, die du nutzen darfst, z. B. von Pixabay (frei, auch kommerziell) oder selbst aufgenommen. Schreib mir die Quelle dazu, dann kommt sie unter „Über die App“.
-- **Priorität:** **A** = für die Testszene und Folge 1, **B** = für die ersten Folgen, **C** = später.
+- **Priorität:** **A** = für die Probefolge und den Grundkurs (Teil G), **B** = für Teil S, **C** = später oder nur, wenn es leicht zu finden ist.
 
-## Schon vorhanden (aus der App, `audio/`)
+## Die Töne des Kurses
 
-Diese Dateien lassen sich vermutlich auch für die Folgen verwenden. Ob sie im Hörspiel gut klingen, zeigt der erste Mix.
-
-| Datei | Länge | Taugt für |
-|---|---|---|
-| `moewe.mp3` | 33 s | Hafen, Werft (Testszene) |
-| `wellen.mp3` | 134 s | Wasser am Rumpf, ruhige See |
-| `wind.mp3`, `wind-leise.mp3` | 43 s, 8 s | Wind an Deck |
-| `sturm.mp3` | 273 s | Folge 15 |
-| `regen.mp3` | 134 s | Regen |
-| `motor-start.mp3`, `motor-lauf.mp3` | 6 s, 61 s | Motor (Folge 1 und 2) |
-| `motorboot.mp3` | 148 s | Wasserschutzpolizei naht (Folge 7) |
-| `anker.mp3` | 36 s | Ankerkette |
-| `nebelhorn.mp3`, `nebelhorn-fern.mp3` | 5 s, 6 s | Schallsignal (Folge 11), Länge prüfen (kurzer Ton etwa 1 s, langer Ton 4–6 s) |
-| `glocke.mp3` | 1 s | Schiffsglocke |
-| `funk-rauschen.mp3`, `funk-suchen.mp3` | 60 s | UKW-Funk (Folge 11) |
-| `katze.mp3`, `katze2.mp3`, `katze3.mp3`, `schnurren.mp3` | kurz | Backbord |
-| `papagei.mp3` | 2 s | Klabauter |
-| `schritte.mp3` | 11 s | Schritte (Untergrund prüfen) |
-| `tuer-auf.mp3`, `klopfen.mp3` | kurz | Kajüte |
-| `blaettern.mp3`, `bleistift.mp3`, `buch-auf.mp3` | kurz | Karte, Zettel (Testszene) |
-| `segel.mp3` | 1 s | kurzes Segelschlagen |
-| `uhr.mp3` | 31 s | Ticken, Warten (Folge 10) |
-| `musik-intro.mp3` | 124 s | vielleicht Titelmusik (siehe unten) |
-
-## Fehlt noch
-
-### Atmo (Hintergrund, 1–3 Minuten)
-
-| ID | Was | Folgen | Prio |
+| ID | Was | Bis dahin (aus `audio/`) | Prio |
 |---|---|---|---|
-| `atmo-werft` | Werft am frühen Morgen: Möwen, entferntes Hämmern, ein Kran, Wasser | 1 (Testszene) | A |
-| `atmo-hafen-tag` | Yachthafen tagsüber: Fallen klappern am Mast, Wasser plätschert, Leute in der Ferne | 1, 2, 4, 16 | A |
-| `atmo-kajuete` | unter Deck: Holz knarzt leise, Wasser gluckert am Rumpf | alle | A |
-| `atmo-segeln-ruhig` | an Deck unter Segeln, leichter Wind: Bugwelle, Segel steht, Rigg summt | 5, 6, 9, 12 | B |
-| `atmo-segeln-stark` | Starkwind: Gischt, Segel killt, Rigg pfeift, Wellen schlagen gegen den Rumpf | 15 | B |
-| `atmo-nacht-see` | nachts auf See, ruhig: leises Wasser, Wind, sonst Stille | 8, 14 | B |
-| `atmo-regatta` | Kieler Woche: viele Boote, Rufe, Lautsprecher in der Ferne, Startsignal | 6 | B |
-| `atmo-stadt` | Stadt und Laden (Schiffsausrüster): Straße, Ladentür mit Glocke | 3 | C |
-| `atmo-schleuse` | Schleuse Holtenau: rauschendes Wasser, Schleusentor, große Schiffsmotoren | 10 | C |
-| `atmo-nebel` | Nebel auf der Elbe: gedämpftes Wasser, ferne schwere Motoren | 11 | C |
-| `atmo-watt` | Watt bei Niedrigwasser: Knistern und Blubbern im Schlick, Austernfischer | 13 | C |
+| `kennung` | Erkennungston am Anfang jeder Folge, 2–5 s, maritim und frech. Dazu eine Kurzfassung unter 1 s, die bei jeder richtigen Antwort erklingt (O15) | Anfang: zwei Schläge `glocke.mp3` wie beim Glasen; richtig: `richtig.mp3` (0,4 s) | A |
+| `falsch-dunkel` | dunkler, weicher Ton bei falscher Antwort, unter 1 s, kein Hupen | `falsch.mp3` (1,8 s) | A |
+| `ticken` | leises Ticken in den Denkpausen (3, 5 oder 6 s) | Ausschnitt aus `uhr.mp3` | A |
+| `uebergang` | kurzer Übergang zwischen zwei Abschnitten, 1–3 s | ohne | B |
+| `abspann` | Ausklang am Ende der Folge, höchstens 10 s | ohne | C |
 
-### Einzelgeräusche
+- Klabauters Merk-Glocke ist ein einzelner Schlag von `glocke.mp3` (O6). Darum hat der Ersatz-Erkennungston zwei Schläge.
+- Lange Titelmusik gibt es nicht (O15). Die Musik in `audio/` bleibt der App vorbehalten.
 
-| ID | Was | Folgen | Prio |
-|---|---|---|---|
-| `kran` | Kranmotor, Boot setzt ins Wasser | 1 | A |
-| `motor-aus` | Dieselmotor wird abgestellt | 1, 2 | A |
-| `niedergang` | Schritte auf der Holztreppe nach unten, Knarzen | alle | A |
-| `schiebeluk` | Schiebeluk auf und zu | alle | A |
-| `deck-schritte` | Schritte auf dem Holzdeck (barfuß bzw. Bootsschuh) | alle | A |
-| `zettel` | Papier knistert, wird vom Draht abgezogen | 1 (Testszene) | A |
-| `katze-faucht` | Katze faucht | 1, oft | A |
-| `papagei-fluegel` | Flügelschlag, Papagei landet | oft | A |
-| `papagei-kreischt` | lautes Kreischen | oft | B |
-| `winsch` | Winsch mit Ratsche (Klicken) | 4, 5, 15 | B |
-| `fall-setzen` | Segel wird gesetzt: Leine läuft durch den Block, Segel flattert und steht | 5 | B |
-| `fender-quietscht` | Fender quietscht am Steg | 4 | B |
-| `leine-wurf` | Festmacher wird geworfen und belegt | 4, 16 | B |
-| `kuehlwasser` | Kühlwasser plätschert aus dem Auspuff | 2 | B |
-| `seeventil` | Hebel des Seeventils, metallisch | 2 | B |
-| `gaswarner` | Gaswarner piept | 2 | B |
-| `alarm-motor` | Motoralarm piept dauernd | 2 | B (es gibt `AUD.alarm` im Code) |
-| `blaulicht-sirene` | kurzes „Wuup“ eines Polizeiboots | 7 | B |
-| `megafon-klick` | Megafon an und aus | 7 | B |
-| `schuesse-fern` | entfernte Schüsse vom Schießgebiet | 7 | C |
-| `typhon-kurz` | Schiffshorn, ein kurzer Ton (etwa 1 s) | 11 | B |
-| `typhon-lang` | Schiffshorn, ein langer Ton (4–6 s) | 11 | B |
-| `gong` | Gong (Ankerlieger im Nebel, achtern) | 11 | C |
-| `funk-klick` | Sprechtaste am Funkgerät (Klick und kurzes Rauschen) | 11, 16 | B |
-| `barometer-klopfen` | Finger klopft ans Barometerglas | 15 | C |
-| `donner` | Donner, nah und fern | 15 | C |
-| `brecher` | Welle bricht über Deck | 15 | C |
-| `platsch` | Mensch oder Rettungsring fällt ins Wasser | 15 | B |
-| `rakete` | Leuchtrakete: Zischen, Knall | 16 | B |
-| `handfackel` | Handfackel brennt und zischt | 16 | C |
-| `grundberuehrung` | Kiel schrammt über Sand, das Boot ruckt | 13 | C |
-| `seehunde` | Seehunde rufen | 13 | C |
-| `telefon` | altes Telefon klingelt (Harms ruft an) | 1, später | B |
-| `auto-kies` | Auto auf Kies, Tür zu (Harms kommt zur Werft) | 1 | A |
-| `tee` | Tee wird eingegossen, Becher auf dem Tisch | Kajüte | C |
+## Atmo je Revier
 
-### Musik (nur mit passender Lizenz)
+Eine Atmo je Revier reicht. Sie läuft am Anfang einer Szene kurz an und wird dann leise. Länge 1–3 Minuten, schleifbar: Anfang und Ende ohne harten Schnitt.
 
-| ID | Was | Prio |
-|---|---|---|
-| `musik-titel` | Titelmusik 10–15 Sekunden, maritim und frech (vielleicht aus `musik-intro.mp3` geschnitten) | A |
-| `musik-abspann` | Abspann, 10–20 Sekunden | B |
-| `stinger-szene` | kurzer Übergang zwischen zwei Szenen (2–4 Sekunden) | A |
-| `stinger-raetsel` | Spannungston, wenn das Rätsel auftaucht | B |
-| `stinger-loesung` | „Aha“-Ton bei der Auflösung | B |
-| `musik-fragen` | leise Musik für die Fragerunde am Ende | B |
+| Revier im Kursplan | Folgen | Was man hört | Schon da (`audio/`) | Fehlt noch | Prio |
+|---|---|---|---|---|---|
+| `frei` | 29 | Wasser am Rumpf, Wind, Segel | `wellen.mp3`, `wind.mp3`, `wind-leise.mp3`, `segel.mp3` | – | – |
+| `fahrwasser` | 10 | dazu ein großes Schiff in der Nähe | `wellen.mp3`, `motorboot.mp3` | `grossschiff`: tiefes Maschinenbrummen, kommt näher und zieht vorbei | B |
+| `hafen` | 9 | Fallen klappern am Mast, Wasser plätschert, Möwen | `moewe.mp3` | `atmo-hafen` | A |
+| `an Land` | 5 | Kajüte und Kartentisch: Holz knarzt, Wasser gluckert, Papier raschelt | `blaettern.mp3`, `bleistift.mp3`, `buch-auf.mp3` | `atmo-kajuete` | A |
+| `schleuse` | 1 (G6.3, Probefolge) | Motor im Leerlauf, Wasser rauscht am Tor | `motor-lauf.mp3` | `schleusentor`: Tor bewegt sich, Wasser rauscht | B, darf in der Probe fehlen |
+| `nok` | 1 (S6.5) | Schleuse Kiel-Holtenau, große Schiffsmotoren | `motor-lauf.mp3` | wie `schleuse` und `grossschiff` | – |
+| `vtg` | 1 (S6.6) | Funk, ein großes Schiff | `funk-rauschen.mp3` | `funk-klick` (unten) | B |
+| `fluss` | 1 (G3.2) | Strömung, ein Schubverband zieht vorbei | `wellen.mp3` | wie `grossschiff` | – |
+| `watt` | 2 | Knistern und Blubbern im Schlick, Austernfischer | – | `atmo-watt` | C |
+| `binnensee` | 1 (G7.1) | Schilf raschelt, Wasservögel | – | `atmo-schilf` | C |
 
-Der Plan richtete sich nach dem Leitfaden der Geschichte (jetzt im Archiv: `podcast/archiv/leitfaden-sbf-see.md`). Für den Hörkurs wird die Liste gekürzt (Konzept `docs/konzept-kajuetenfunk.md` §10.6): wenige Geräusche je Revier, nie Signaltöne als Kulisse.
+## Einzelgeräusche (nur wo sie etwas erzählen)
+
+| ID | Was | Wo | Schon da (`audio/`) | Prio |
+|---|---|---|---|---|
+| – | Motor starten und laufen | Hörspiel-Fälle | `motor-start.mp3`, `motor-lauf.mp3` | – |
+| `motor-stottern` | Motor stottert und geht aus | Hörspiel-Fälle („Motor stottert“) | – | B |
+| – | Ankerkette | Ankern | `anker.mp3` | – |
+| – | Bordkatze Backbord, Papagei Klabauter | überall | `katze.mp3`, `katze2.mp3`, `katze3.mp3`, `schnurren.mp3`, `papagei.mp3` | – |
+| `papagei-fluegel` | Flügelschlag, Klabauter landet | oft | – | B |
+| – | Schritte, Tür, Klopfen | Kajüte | `schritte.mp3`, `tuer-auf.mp3`, `klopfen.mp3` | – |
+| – | Gaswarner piept | G4.1 (Bootstankstelle) | `piep.mp3` | – |
+| `telefon` | altes Telefon klingelt kurz, höchstens 2 s (Harms ruft an), nicht in jeder Folge | Rückblick, Fallen-Check | – | B |
+| `funk-klick` | Sprechtaste am Funkgerät: Klick und kurzes Rauschen | Verkehrszentrale (S6.6), Notfall | `funk-rauschen.mp3` | B |
+| `platsch` | Rettungsring oder Mensch fällt ins Wasser | Mensch über Bord (S10.2) | – | B |
+| `megafon-klick` | Megafon an und aus | Wasserschutzpolizei (G1.1) | `motorboot.mp3` für die Anfahrt | C |
+| `winsch` | Winsch mit Ratsche | Segeln | – | C |
+| `rakete` | Leuchtrakete: Zischen, Knall | Notsignale | – | C |
+
+Was hier nicht steht, braucht der Kurs vorerst nicht. Ideen aus der alten Liste dürfen zurückkommen, wenn eine Folge sie wirklich braucht.
+
+**Kurz gesagt, das Wichtigste zuerst:** `kennung` (falls du einen eigenen Ton willst), `atmo-hafen`, `atmo-kajuete`. Alles andere hat einen Ersatz oder kann warten.

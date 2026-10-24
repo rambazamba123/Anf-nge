@@ -2,8 +2,9 @@
    Findet unbekannte Regiecodes, fehlende Voice-IDs, nicht freigegebene Aussprache, Abkürzungen ohne Eintrag,
    Klammern und SSML im Sprechtext und zu lange Beiträge. Schätzt Länge und Zahl der Anfragen.
    Folgenskripte des Hörkurses (Kopf „folge: S2.2“, Ordner podcast/folgen/) prüft es zusätzlich nach den Regeln des finalen
-   Konzepts (Fassung 4, Anhang A): Katalogsatz je Frage, echte Falschantworten im Fallen-Check, Berichtigung nach jedem Irrtum,
-   Revier je Szene (und hörbar), Denkpausen, Antwortknöpfe [[WAHL]], Animationen [[ANIM]], Merkhilfen, Stimmen je Szene, Rückblick,
+   Konzepts (Fassung 5, Anhang A): Katalogsatz je Frage, echte Falschantworten im Fallen-Check, Berichtigung nach jedem Irrtum,
+   Revier je Szene (und hörbar), Denkpausen, Antwortknöpfe [[WAHL]] mit Fragen-ID (zählen in der Statistik), Vertiefung
+   [[VERTIEFUNG]] nach falscher Antwort, Animationen [[ANIM]], Merkhilfen, Stimmen je Szene, Rückblick,
    Zahlen in Worten, Baustein und Dauer laut Kursplan (podcast/kursplan-sbf.json), Hörkarten [[HOERKARTE]] je Frage der Folge.
    Aufruf: node tools/podcast-pruefen.js [--entwurf] [skript.md ...]
      ohne Dateien: alle Skripte in podcast/skripte/ und podcast/folgen/
@@ -114,7 +115,8 @@ for (const datei of dateien) {
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
   const betont = [];
   /* Folgenprüfung (nur mit „folge: G…/S…/B…“ im Kopf) */
-  const L = {katalog: new Set(), offen: null, irrtum: new Map(), merk: 0, denk: 0, rueck: new Set(), baustein: null, revier: false, stimmen: new Set(), schritte: 0, zahlen: [], ohneRevier: [], szeneText: '', szeneRevier: null, szeneOrt: null, wahl: 0, wahlOffen: null, karte: null, karten: new Map()};
+  const L = {katalog: new Set(), offen: null, irrtum: new Map(), merk: 0, denk: 0, rueck: new Set(), baustein: null, revier: false, stimmen: new Set(), schritte: 0, zahlen: [], ohneRevier: [], szeneText: '', szeneRevier: null, szeneOrt: null, wahl: 0, wahlOffen: null, vorab: null, wahlIds: new Map(), vert: null, verts: new Map(), karte: null, karten: new Map()};
+  const ENTSCH = LR.denkpause_entscheidung || '5';
   const szeneNeu = ort => {
     if (lek && L.stimmen.size > (LR.stimmen_je_szene_max || 3)) S(ort, `${L.stimmen.size} Stimmen in einer Szene (höchstens ${LR.stimmen_je_szene_max || 3}): ${[...L.stimmen].join(', ')}`);
     if (lek && L.szeneRevier && REVIER_WORTE[L.szeneRevier] && L.szeneText && !REVIER_WORTE[L.szeneRevier].test(L.szeneText)) W(L.szeneOrt, `Revier „${L.szeneRevier}“ wird in der Szene nicht ausgesprochen; das Revier muss man hören (Konzept §10)`);
@@ -142,34 +144,49 @@ for (const datei of dateien) {
       else if (kat === 'AUDIO') tagPruef(cfg.audio_tags, kat, wert, ort);
       else if (kat === 'FIGUR') { if (!FIG[wert.trim()]) F(ort, `[[FIGUR: ${wert}]] ist keine Figur der Konfiguration`); }
       else if (kat === 'FRAGE') IDS(wert, ort, fragen).forEach(id => alleFragen.add(id));
-      else if (kat === 'SZENE' || kat === 'SCHRITT' || kat === 'ABSCHNITT') { szeneNeu(ort); if (kat !== 'SZENE') { L.schritte++; L.karte = null; } }
+      else if (kat === 'SZENE' || kat === 'SCHRITT' || kat === 'ABSCHNITT') { if (L.vert) { F(L.vert.ort, `[[VERTIEFUNG: ${L.vert.id}]] nicht mit [[VERTIEFUNG: ende]] geschlossen`); L.vert = null; } szeneNeu(ort); if (kat !== 'SZENE') { L.schritte++; L.karte = null; } }
       else if (kat === 'HOERKARTE') {
         /* Hörkarte zu einer Frage: steht nach der Folge, eigener kurzer Clip (Konzept §12.3); zählt nicht zur Länge der Folge */
+        if (L.vert) { F(L.vert.ort, `[[VERTIEFUNG: ${L.vert.id}]] nicht mit [[VERTIEFUNG: ende]] geschlossen`); L.vert = null; }
         szeneNeu(ort); const [id] = IDS(wert, ort);
         if (id) { if (L.karten.has(id)) F(ort, `Hörkarte ${id} doppelt`); L.karten.set(id, {ort, zeichen: 0, stimmen: new Set(), kat: new Set()}); L.karte = id; }
       }
       else if (kat === 'REVIER') { if (!REVIERE.includes(wert.trim())) F(ort, `[[REVIER: ${wert}]] – erlaubt: ${REVIERE.join(', ')}`); L.revier = true; L.szeneRevier = wert.trim(); L.szeneOrt = ort; }
       else if (kat === 'WAHL') {
-        /* Antwortknöpfe im interaktiven Modus: eine Katalogfrage (sbf:123) oder eigene Antworten, die richtige mit * markiert */
-        if (/^(sbf|bin):\d+$/.test(wert.trim())) IDS(wert, ort);
-        else { const opt = wert.split('|').map(x => x.trim()).filter(Boolean); if (opt.length < 2 || opt.length > 4) F(ort, `[[WAHL]] braucht 2 bis 4 Antworten (oder eine Katalogfrage sbf:123)`); else if (opt.filter(o => o.startsWith('*')).length !== 1) F(ort, `[[WAHL]]: genau eine Antwort mit * als richtig markieren`); }
-        L.wahl++; L.wahlOffen = ort;
+        /* Antwortknöpfe im interaktiven Modus (Fassung 5): [[WAHL: sbf:123]] zeigt die vier amtlichen Antworten,
+           [[WAHL: sbf:123 | Antwort | *richtige Antwort]] eigene kurze Antworten. Die Fragen-ID ist Pflicht, denn die Antwort zählt
+           in der Statistik wie eine Quizantwort (Nutzer, 23.10.2026). Ausnahme: die Wahl nach [[VORAB]] (Tipp, zählt nicht). */
+        const teile = wert.split('|').map(x => x.trim()).filter(Boolean), idTeil = /^(sbf|bin):\d+$/.test(teile[0] || '') ? teile.shift() : null;
+        const id = idTeil ? IDS(idTeil, ort)[0] : null;
+        if (teile.length) { if (teile.length < 2 || teile.length > 4) F(ort, `[[WAHL]] braucht 2 bis 4 Antworten (oder nur die Katalogfrage sbf:123)`); else if (teile.filter(o => o.startsWith('*')).length !== 1) F(ort, `[[WAHL]]: genau eine Antwort mit * als richtig markieren`); }
+        else if (!idTeil) F(ort, `[[WAHL]] ohne Antworten und ohne Fragen-ID`);
+        const vorab = !!L.vorab;
+        if (!idTeil && !vorab && lek) S(ort, `[[WAHL]] ohne Fragen-ID: Die Antwort zählt sonst nicht in der Statistik. Form: [[WAHL: sbf:123 | … | *…]]`);
+        if (id && !vorab && lek && !L.wahlIds.has(id)) L.wahlIds.set(id, ort);
+        L.vorab = null; L.wahl++; L.wahlOffen = ort;
+      }
+      else if (kat === 'VERTIEFUNG') {
+        /* Tiefer erklären, nur im interaktiven Modus nach falscher Antwort; eigener Clip, zählt nicht zur Länge der Folge */
+        if (wert.trim() === 'ende') { if (!L.vert) F(ort, '[[VERTIEFUNG: ende]] ohne Anfang'); else { L.verts.set(L.vert.id, L.vert); L.vert = null; } }
+        else { if (L.vert) F(L.vert.ort, `[[VERTIEFUNG: ${L.vert.id}]] nicht geschlossen`); const [id] = IDS(wert, ort);
+          if (id) { if (!L.wahlIds.has(id)) F(ort, `[[VERTIEFUNG: ${id}]] ohne vorherige [[WAHL]] zu dieser Frage`); if (L.verts.has(id)) W(ort, `zweite Vertiefung zu ${id}`); L.vert = {id, ort, zeichen: 0, stimmen: new Set()}; } }
       }
       else if (kat === 'ANIM') { const a = wert.split(',')[0].trim(); if (ANIMS && !ANIMS.has(a)) F(ort, `[[ANIM: ${a}]] steht nicht in den Animationen des Kursplans`); }
       else if (kat === 'DENKPAUSE') {
         if (!(LR.denkpause_sekunden || []).includes(wert.trim())) F(ort, `[[DENKPAUSE: ${wert}]] – erlaubt: ${(LR.denkpause_sekunden || []).join(', ')} Sekunden`);
         L.denk++;
-        if (L.wahlOffen && wert.trim() !== '6') W(ort, 'Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von 6 Sekunden');
-        if (lek && !L.wahlOffen && !L.karte && wert.trim() === '6') W(ort, 'Entscheidungs-Denkpause (6 s) ohne [[WAHL]]: Im interaktiven Modus erscheinen dort keine Antwortknöpfe (K10)');
+        if (L.wahlOffen && wert.trim() !== ENTSCH) W(ort, `Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von ${ENTSCH} Sekunden`);
+        if (lek && !L.wahlOffen && !L.karte && wert.trim() === ENTSCH) W(ort, `Entscheidungs-Denkpause (${ENTSCH} s) ohne [[WAHL]]: Im interaktiven Modus erscheinen dort keine Antwortknöpfe (K10)`);
         L.wahlOffen = null;
       }
       else if (kat === 'MERKHILFE') L.merk++;
       else if (kat === 'BAUSTEIN') L.baustein = wert.trim();
-      else if (kat === 'KATALOG' || kat === 'FALLE') { const ids = IDS(wert, ort, fragen); ids.forEach(id => alleFragen.add(id)); if (ids.length) L.offen = {kat, ids, ort}; if (kat === 'KATALOG') ids.forEach(id => (L.karte ? L.karten.get(L.karte).kat.add(id) : L.katalog.add(id))); }
+      else if (kat === 'KATALOG' || kat === 'FALLE') { const ids = IDS(wert, ort, fragen); ids.forEach(id => alleFragen.add(id)); if (ids.length) L.offen = {kat, ids, ort}; if (kat === 'KATALOG') ids.forEach(id => (L.karte ? L.karten.get(L.karte).kat.add(id) : L.vert ? null : L.katalog.add(id))); }
       else if (kat === 'IRRTUM') IDS(wert, ort).forEach(id => L.irrtum.set(id, {ort, zeichen: 0}));
       else if (kat === 'BERICHTIGUNG') IDS(wert, ort).forEach(id => { const o = L.irrtum.get(id); if (!o) F(ort, `[[BERICHTIGUNG: ${id}]] ohne vorherigen [[IRRTUM: ${id}]]`); else { const max = (LR.irrtum_berichtigung_max_sekunden || 20) * (cfg.sprechtempo_zeichen_pro_sekunde || 13.9); if (o.zeichen > max) F(ort, `Berichtigung zu ${id} kommt erst nach etwa ${Math.round(o.zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9))} s (höchstens ${LR.irrtum_berichtigung_max_sekunden || 20} s)`); L.irrtum.delete(id); } });
       else if (kat === 'RUECKBLICK') IDS(wert, ort).forEach(id => L.rueck.add(id + '|' + ort));
-      else if (kat === 'VORAB' || kat === 'BILD') IDS(wert, ort);
+      else if (kat === 'VORAB') { const ids = IDS(wert, ort); if (ids.length) L.vorab = ids; }
+      else if (kat === 'BILD') IDS(wert, ort);
       else if (kat === 'SIGNAL') { if (!/^[●▬\s]+$/.test(wert.trim())) F(ort, `[[SIGNAL: ${wert}]] – nur ● (kurz) und ▬ (lang)`); }
     }
     if (!m) {
@@ -195,8 +212,9 @@ for (const datei of dateien) {
     }
     if (lek) {
       if (L.karte) { const k = L.karten.get(L.karte); k.zeichen += text.length; k.stimmen.add(wer); }
+      else if (L.vert) { L.vert.zeichen += text.length; L.vert.stimmen.add(wer); }
       else { L.stimmen.add(wer); L.szeneText += ' ' + text; if (!L.revier) L.ohneRevier.push(ort); }
-      if (L.wahlOffen) { W(L.wahlOffen, '[[WAHL]] ohne folgende [[DENKPAUSE: 6]]: Im interaktiven Modus hält die App dort an'); L.wahlOffen = null; }
+      if (L.wahlOffen) { W(L.wahlOffen, `[[WAHL]] ohne folgende [[DENKPAUSE: ${ENTSCH}]]: Im interaktiven Modus hält die App dort an`); L.wahlOffen = null; }
       for (const o of L.irrtum.values()) o.zeichen += text.length;
       if (/\d|°|%|‰|§/.test(text)) L.zahlen.push(ort);
       if (L.offen) {
@@ -209,10 +227,11 @@ for (const datei of dateien) {
         L.offen = null;
       }
     }
-    beitraege.push({wer, n: text.length, schnitt, karte: !!(lek && L.karte)}); schnitt = false;
+    beitraege.push({wer, n: text.length, schnitt, karte: !!(lek && L.karte), vert: !!(lek && L.vert)}); schnitt = false;
   }
   if (lek) {
     szeneNeu(D);
+    if (L.vert) F(L.vert.ort, `[[VERTIEFUNG: ${L.vert.id}]] nicht mit [[VERTIEFUNG: ende]] geschlossen`);
     for (const [id, o] of L.irrtum) F(o.ort, `[[IRRTUM: ${id}]] wird nie berichtigt`);
     if (L.offen) F(L.offen.ort, `[[${L.offen.kat}]] ohne folgenden Sprechsatz`);
     if (L.ohneRevier.length) S(L.ohneRevier[0], `Sprechtext ohne [[REVIER: …]] in der Szene (${L.ohneRevier.length}×); jede Szene braucht eine Revier-Angabe`);
@@ -229,8 +248,16 @@ for (const datei of dateien) {
       for (const r of L.rueck) { const [id, ort] = r.split('|'), l = PLAN.get(FRAGE_LEK.get(id)); if (!l) continue; if (l.i >= P.i) F(ort, `[[RUECKBLICK: ${id}]] stammt aus Folge ${l.id}, die noch nicht dran war`); else frueher.add(l.id); }
       if (P.i > 2 && frueher.size < (LR.rueckblick_min_lektionen || 2)) S(D, `Rückblick ruft nur ${frueher.size} frühere Folge(n) ab (mindestens ${LR.rueckblick_min_lektionen || 2})`);
       if (['system', 'regel'].includes(P.form) && !L.wahl) W(D, 'keine [[WAHL]]: Im interaktiven Modus gibt es dann keine Antwortknöpfe');
+      /* Vertiefung je Antwortknopf zu einer Frage dieser Folge; Fragen früherer Folgen haben schon ihre Hörkarte */
+      for (const [id, ort] of L.wahlIds) if (FRAGE_LEK.get(id) === P.id && !L.verts.has(id)) S(ort, `[[WAHL]] zu ${id} ohne [[VERTIEFUNG: ${id}]]: Wer falsch antwortet, bekommt im interaktiven Modus eine tiefere Erklärung`);
       const ohneKarte = P.fragen.map(n => 'sbf:' + n).filter(id => !L.karten.has(id));
       if (ohneKarte.length) S(D, `Hörkarte fehlt für ${ohneKarte.length} Fragen der Folge: ${ohneKarte.join(', ')}`);
+    }
+    for (const [id, v] of L.verts) {
+      if (v.stimmen.size > 2) W(v.ort, `Vertiefung ${id} mit ${v.stimmen.size} Stimmen (höchstens zwei)`);
+      const vmax = LR.vertiefung_max_zeichen || 600;
+      if (v.zeichen > vmax) W(v.ort, `Vertiefung ${id}: ${v.zeichen} Zeichen, etwa ${Math.round(v.zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9))} s (höchstens ${vmax} Zeichen)`);
+      if (!v.zeichen) F(v.ort, `Vertiefung ${id} ohne Sprechtext`);
     }
     for (const [id, k] of L.karten) {
       if (!k.kat.has(id)) S(k.ort, `Hörkarte ${id} ohne Katalogsatz ([[KATALOG: ${id}]])`);
@@ -247,10 +274,11 @@ for (const datei of dateien) {
   /* Anfragen schätzen: Beiträge der Reihe nach bündeln, nie einen Beitrag teilen */
   let anfragen = 0, cur = 0;
   for (const b of beitraege) { if (!anfragen || b.schnitt || cur + b.n > MAX) { anfragen++; cur = 0; } cur += b.n; }
-  const zeichen = beitraege.filter(b => !b.karte).reduce((s, b) => s + b.n, 0), min = zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60;
+  const zeichen = beitraege.filter(b => !b.karte && !b.vert).reduce((s, b) => s + b.n, 0), min = zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60;
+  const vertZeichen = beitraege.filter(b => b.vert).reduce((s, b) => s + b.n, 0);
   const kartenZeichen = beitraege.filter(b => b.karte).reduce((s, b) => s + b.n, 0);
   if (P && P.minuten && (min < P.minuten * .7 || min > P.minuten * 1.3)) W(D, `etwa ${min.toFixed(1)} Minuten Sprechtext, geplant sind ${P.minuten} (ohne Denkpausen und Geräusche)`);
-  console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen${lek ? `, ${L.schritte} Abschnitte, ${L.denk} Denkpausen, ${L.wahl} Antwortknöpfe, ${L.merk} Merkhilfen, ${L.karten.size} Hörkarten (${kartenZeichen} Zeichen)` : ''}`);
+  console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen${lek ? `, ${L.schritte} Abschnitte, ${L.denk} Denkpausen, ${L.wahl} Antwortknöpfe, ${L.verts.size} Vertiefungen (${vertZeichen} Zeichen), ${L.merk} Merkhilfen, ${L.karten.size} Hörkarten (${kartenZeichen} Zeichen)` : ''}`);
 }
 if (dateien.length) console.log(`Abdeckung SBF See: ${[...alleFragen].filter(x => x.startsWith('sbf:')).length} von ${KAT.sbf.size} Fragen`);
 for (const w of warn) console.log(`Warnung  ${w}`);

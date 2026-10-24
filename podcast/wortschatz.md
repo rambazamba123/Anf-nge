@@ -1,7 +1,7 @@
 # Wortschatz an Bord
 
 > Gemeinsamer Vorrat an Wörtern, Sprüchen, Rufen und Redewendungen rund ums Boot. Alle Figuren dürfen daraus schöpfen. Welche Figur was bevorzugt, steht in `podcast/figuren.md`.
-> Stand: 23.10.2026, erster Entwurf (Nutzer, 23.10.2026: „Lege eine Liste an … aus dieser Liste können alle Charaktere bei Bedarf schöpfen“). Am selben Tag angepasst: Smilla kommt vom Rhein, Fering entfällt. Wird laufend ergänzt.
+> Stand: 23.10.2026, erster Entwurf (Nutzer, 23.10.2026: „Lege eine Liste an … aus dieser Liste können alle Charaktere bei Bedarf schöpfen“). Am selben Tag angepasst: Smilla kommt vom Rhein, Fering entfällt. Zweite Anpassung am selben Tag (Nutzer: „derb und die neuen Sprüche aus dem Seemannssprech verbinden … seemännische Begriffe auf Doppeldeutigkeit prüfen … den Charakteren zuweisen“): neuer Abschnitt 11 mit doppeldeutigen Begriffen, Binnenwörter für Quirin, gestrichene Tonregeln. Wird laufend ergänzt.
 
 ## So wird die Liste benutzt
 
@@ -9,7 +9,7 @@
 - **Quelle:** Ein Link heißt: Die Bedeutung ist dort nachgelesen. „allgemein“ heißt: geläufig, aber hier nicht einzeln geprüft. Vor dem Einsatz im Skript gegenlesen (Konzept §9, K2).
 - **Dialekt nie im Regelsatz:** Regel, amtlicher Antwortsatz und Denkfrage sind immer klares Hochdeutsch, bei allen Figuren (Konzept §5). Dialekt gehört in Einstieg, Garn, Übergänge, Anreden, Flüche und Abschiede.
 - **Aussprache:** Wörter mit 🔊 kommen vor der Vertonung ins Ausspracheverzeichnis (`podcast/pronunciation_dictionary.md`). Ob die Stimmen Platt, Rheinisch und Bairisch überzeugend sprechen, ist ungeprüft (Bible P54, F5).
-- **Ton ab 12** (CLAUDE.md §3, Bible §8–9): derb ja, doppeldeutig nur mit harmloser Lesart, keine Gruppenbeleidigung, keine Witze über Bayern, kein Alkohol als Witz über Kinder. Einträge mit ⚠ haben eine Falle, die in der Spalte „Hinweis“ steht.
+- **Ton ab 12** (CLAUDE.md §3, Bible §8–9): derb ja; doppeldeutig mit harmloser Lesart („harmlos vorgelesen, doppeldeutig gehört“, Bible P51). Gestrichen am 23.10.2026 (Nutzer): „keine Gruppenbeleidigung“, „keine Witze über Bayern“, „kein Alkohol als Witz über Kinder“. Necken und Frotzeln über Gruppen ist damit erlaubt, Alkohol darf Witz sein; die Regeln dazu (0,5 Promille) bleiben ernst. Weiter nie: Anspielungen auf Körper von Kindern und Anspielungen, die den Hörer selbst meinen (Konzept §9.5). Einträge mit ⚠ haben eine Falle, die in der Spalte „Hinweis“ steht.
 - **Aberglaube und Garn** sind immer als Garn erkennbar. Smilla oder die Lage stellt klar, was wirklich gilt (Bible X5).
 - **Schreibweise:** Platt, Kölsch und Bairisch haben keine feste Rechtschreibung. Hier steht jeweils eine gängige, gut vorlesbare Form.
 
@@ -85,7 +85,7 @@ Die Prüfungsbegriffe (Luv, Lee, Backbord, Steuerbord …) erklärt der Kurs sel
 | aus dem Ruder laufen | außer Kontrolle geraten | S | | allgemein |
 | jemanden ins Schlepptau nehmen | jemanden mitnehmen und führen | S über Q | | allgemein |
 | Land in Sicht! | das Ende ist absehbar | K | | allgemein |
-| Schlagseite haben | wörtlich: Das Schiff liegt schief; übertragen: betrunken | H | ⚠ nur wörtlich verwenden (Alkohol) | allgemein |
+| Schlagseite haben | wörtlich: Das Schiff liegt schief; übertragen: betrunken | H | doppeldeutig erlaubt (seit 23.10.2026); passt zur Promille-Regel (Frage 2), die selbst ernst bleibt | allgemein |
 
 ## 5. Plattdeutsch und Norddeutsch (vor allem Hinnerk)
 
@@ -105,7 +105,7 @@ Die Prüfungsbegriffe (Luv, Lee, Backbord, Steuerbord …) erklärt der Kurs sel
 | Büx | Hose | H | | [plattmakers.de](https://plattmakers.de/en/15520/Stoffbüx) |
 | Tüddelkram | unnützes Zeug, Kleinkram (norddeutsch) | H | | [Duden Synonyme](https://www.duden.de/synonyme/Tueddelkram) |
 | Tünkram | dummes, frei erfundenes Zeug | H, S | | [t-online.de](https://www.t-online.de/nachrichten/deutschland/id_100553906/scholz-uebersetzt-tuenkram-frei-erfundenes-zeug-.html) |
-| Rasmus | seemännische Figur für die stürmische See (südliche Ostsee); „Rasmus kommt“ = eine Welle kommt über | H | ⚠ Früher besänftigte man ihn auch mit Schnaps: nicht als Witz verwenden | [plattmakers.de](https://plattmakers.de/en/12221/Rasmus), [Uni Marburg](https://www.uni-marburg.de/de/fb03/ivk/fachgebiete/religionswissenschaft/religion-am-mittwoch/vortragsreihe-religion-am-mittwoch/copy_of_relami_oktober_2016) |
+| Rasmus | seemännische Figur für die stürmische See (südliche Ostsee); „Rasmus kommt“ = eine Welle kommt über | H | Früher besänftigte man ihn auch mit Schnaps; als Witz erlaubt (seit 23.10.2026) | [plattmakers.de](https://plattmakers.de/en/12221/Rasmus), [Uni Marburg](https://www.uni-marburg.de/de/fb03/ivk/fachgebiete/religionswissenschaft/religion-am-mittwoch/vortragsreihe-religion-am-mittwoch/copy_of_relami_oktober_2016) |
 
 **Schimpfwörter und Necknamen**
 
@@ -131,7 +131,10 @@ Die Prüfungsbegriffe (Luv, Lee, Backbord, Steuerbord …) erklärt der Kurs sel
 
 | Wort | gemeint | Wer zu wem | Hinweis |
 |---|---|---|---|
-| Süßwassermatrose | jemand, der nur auf Seen segelt | H zu Q | zielt auf den See, nicht auf Bayern |
+| Süßwassermatrose | jemand, der nur auf Flüssen und Seen fährt | H zu Q und S | Quirin und Smilla tragen es mit Stolz |
+| Fischkopp | Spitzname für Norddeutsche | Q zu H | Retourkutsche, seit 23.10.2026 erlaubt |
+| Preiß (Preuße) | bairisch für alle, die nicht aus Bayern kommen | Q zu H und S | liebevoll-frech |
+| Bergziege | jemand aus den Bergen | H zu Q | |
 | Sonntagssegler / Schönwettersegler | segelt nur bei schönem Wetter | H zu Q | |
 | Klookschieter | Besserwisser | H zu S | |
 | Grantler | Griesgram | Q zu H | siehe Abschnitt 9 |
@@ -165,7 +168,7 @@ Immer als Garn kennzeichnen. Wer daran glaubt, ist meistens Hinnerk; Smilla ordn
 
 ## 9. Bairisch (Quirin, sehr bayerisch)
 
-Quirin macht Witze über sich selbst. Niemand macht Witze über Bayern (Bible P47, X4). Keine Klischees wie Lederhose, Weißwurst oder Bier.
+Quirin lacht am lautesten über sich selbst. Witze über Bayern sind seit 23.10.2026 erlaubt (Nutzer). Ob auch die Klischees Lederhose, Weißwurst und Bier vorkommen dürfen, ist offen (Status O40); bis dahin sparsam und nur, wenn Quirin selbst darüber lacht.
 
 | Bairisch | Hochdeutsch | Hinweis | Quelle |
 |---|---|---|---|
@@ -180,11 +183,27 @@ Quirin macht Witze über sich selbst. Niemand macht Witze über Bayern (Bible P4
 | Spezl | guter Kumpel, vertrauter Freund | „Hinni, mei Spezl!“ | [Wiktionary Spezi](https://de.wiktionary.org/wiki/Spezi), [mitvergnuegen.com](https://muenchen.mitvergnuegen.com/2019/bayerische-woerter-uebersetzen/) |
 | Grantler / grantig | Griesgram / mürrisch | sein Wort für Hinnerk („Grummel trifft Sonnenschein“) | [Duden](https://www.duden.de/rechtschreibung/Grantler) |
 | Schlawiner | Schlingel, meist liebevoll | für Klabauter | [Schimpfwörterbuch (Auszug)](https://staff.deervalley.com/ProductPdf/u34C0H/244764/Das%20Bayerische%20Schimpfworterbuch.pdf) |
-| Depp | Dummkopf | ⚠ nur über sich selbst: „I Depp!“ | wie oben |
+| Depp | Dummkopf | derb; über sich selbst („I Depp!“) oder andere Figuren, nie zum Hörer (die Anreden sind festgelegt, Bible P48) | wie oben |
 | Brotzeit | Pause mit Essen; auch das Essen selbst | | [Duden](https://www.duden.de/rechtschreibung/Brotzeit) |
 | bliamerant (hochdeutsch: blümerant) | flau, unwohl, übel | für seine Seekrankheit; die bairische Lautform ist nicht nachgelesen | [Duden](https://www.duden.de/rechtschreibung/bluemerant) |
 | Herrgott! / Sakra! / Zefix! | milde Flüche; „Zefix“ ist eine Kurzform von „Kruzifix“ | ⚠ religiöse Herkunft, sparsam | [Falter](https://www.falter.at/zeitung/20231121/sakra-und-andere-wilde-sachen), [münchenwiki](https://www.muenchenwiki.de/wiki/Bairisch-Lexikon_Z) |
 | a bisserl, gell, ned, des, i, mia, dahoam | ein bisschen, nicht wahr, nicht, das, ich, wir/mir, daheim | Grundton seiner Sätze 🔊 | allgemein |
+
+**Binnenwörter (Quirin, vor allem Teil B)**
+
+Die Prüfungsbegriffe erklärt der Kurs selbst (Binnen-Katalog). Hier stehen Wörter, die nach Fluss, Kanal und Schleuse klingen.
+
+| Wort | Bedeutung | Brücke zum Kurs | Quelle |
+|---|---|---|---|
+| Bergfahrt, zu Berg | auf Flüssen die Fahrt in Richtung Quelle | Binnen-Frage 95; Quirins Lieblingswort („in d' Berg“) | Binnen-Katalog |
+| Talfahrt, zu Tal | die Fahrt flussabwärts, Richtung Mündung | Gegenstück zur Bergfahrt; doppeldeutig (Abschnitt 11) | Binnen-Katalog (Frage 218) |
+| Oberwasser, Unterwasser | Wasser oberhalb und unterhalb einer Schleuse oder Staustufe | Binnen-Frage 119; Redewendung „Oberwasser haben“ | Binnen-Katalog |
+| Drempel | Schwelle am Schleusentor, auf die ein Boot beim Leeren der Kammer nicht aufsetzen darf | Binnen-Frage 119 | Binnen-Katalog |
+| Schleusenkammer | das Becken zwischen den Toren | | allgemein |
+| Schubverband | Schubschiff, das unmotorisierte Leichter vor sich herschiebt | Sog und Schwell (G3.2), Lichter in Teil B | allgemein |
+| Buhne | quer zum Ufer gebauter Damm im Fluss | Strömung am Ufer, Teil B | allgemein |
+| Treideln | ein Schiff vom Ufer aus an Leinen ziehen | erklärt „Leine ziehen“ (Abschnitt 4) | [Wiktionary](https://de.wiktionary.org/wiki/Leine_ziehen) |
+| Partikulier | selbstständiger Binnenschiffer mit eigenem Schiff | nur für Quirins Vorschlag B (Figuren) | allgemein, vor Einsatz nachschlagen |
 
 **Bergwörter für Quirins Vergleiche**
 
@@ -212,8 +231,42 @@ Quirin macht Witze über sich selbst. Niemand macht Witze über Bayern (Bible P4
 | „Wahrschau! Wahrschau!“ | warnt, wie der Klabautermann | |
 | Verhörer („Steuerbrot!“) | Modus „Quatsch“, deutlich als Witz | nie bei einem Begriff, den man gerade lernt |
 
+## 11. Doppeldeutiges und Wortspiele aus der Seemannssprache
+
+Nutzer, 23.10.2026: „derb und die neuen Sprüche aus dem Seemannssprech verbinden. Ggf seemännische Begriffe zusätzlich auf Doppeldeutigkeit prüfen oder ob man daraus Anspielungen etc. machen kann. Dann den Charakteren zuweisen.“ Regel dafür ist Bible P51: **harmlos vorgelesen, doppeldeutig gehört.** Jeder Eintrag hat eine echte seemännische Bedeutung, die ein Kind versteht; die zweite Lesart hören Erwachsene.
+
+**So wird es eingesetzt:**
+- Höchstens zwei doppeldeutige Stellen je Folge, nie im Regelsatz, im Katalogsatz, in einer Denkpause oder im Fallen-Check.
+- Die Anspielung meint immer ein Schiff, die Figuren selbst oder Garn, nie den Hörer (er kann zwölf sein).
+- Die Pointe macht meist die zweite Figur: Hinnerk sagt es ernst, Smilla rollt hörbar mit den Augen („Wir reden über ein Schiff, Käpt'n.“ – „Ich auch.“), Klabauter plappert nach.
+- Klabauter benutzt solche Wörter nur im Modus „Quatsch“, ohne Glocke.
+
+| Begriff | seemännisch (harmlose Lesart) | zweite Lesart | Wer | Hinweis | Quelle |
+|---|---|---|---|---|---|
+| Lümmelbeschlag | Beschlag, der den Großbaum gelenkig mit dem Mast verbindet | „Lümmel“ | H; K plappert „Lümmel! Lümmel!“ (harmlos: Flegel) | passt zu G1.2 (Teile am Boot) und Garn über einen gebrochenen Baum | [yacht.de](https://www.yacht.de/diy/lifehacks/lesertipp-der-woche-zusaetzliche-baumsicherung-beim-luemmelbeschlag-bruch/) |
+| eine steife Brise | kräftiger Wind; „steif“ heißt seemännisch stark | „steif“ | H | Wetterfolgen (S9) | allgemein |
+| „Was für ein Heck!“ / „schöner Rumpf“ | Lob für die Form eines Schiffs | Lob für einen Körper | H | Muster aus Bible Anhang A: „Wir reden über ein Schiff.“ – „Ich auch.“ | Bible Anhang A |
+| aufgetakelt, eine aufgetakelte Fregatte | ein Schiff mit voller Takelage | übertrieben zurechtgemacht | H über eine protzige Yacht | ⚠ nur über Schiffe | allgemein (Duden „auftakeln“) |
+| Jungfernfahrt | erste Fahrt eines neuen Schiffs | – | H über Schiffe (die Helgoland-Fähre damals) | ⚠ nie über den Hörer oder eine Person | allgemein |
+| Hand gegen Koje | mitsegeln und dafür an Bord arbeiten, statt zu bezahlen | „Koje“ ist ein Bett | S erzählt, so hat sie segeln gelernt | passt zu „selbst angeeignet“ | allgemein, vor Einsatz nachschlagen |
+| ablegen / anlegen | vom Steg losfahren / festmachen; die Rettungsweste anlegen | Kleidung ablegen; sich mit jemandem anlegen | S, H | „Erst Weste anlegen, dann ablegen.“ (Fragen 78, 275) | allgemein |
+| dichtholen, dicht sein | Schot anziehen, bis das Segel dicht steht | „dicht“ heißt betrunken | S über H („Er meint die Schot, nicht sich.“) | Alkohol als Witz seit 23.10.2026 erlaubt; die Promille-Regel bleibt ernst | allgemein |
+| Schlagseite | das Schiff liegt schief | betrunken | H | siehe Abschnitt 4 | allgemein |
+| eine Schote erzählen | Wortspiel mit der Schot (Leine am Segel) | „Schote“ heißt lustige Geschichte | S über Hinnerks Garn | kein anzüglicher Witz, nur Wortspiel | allgemein (Duden „Schote“) |
+| aufkreuzen | gegen den Wind im Zickzack vorankommen | unerwartet auftauchen | S, H („Gleich kreuzt Harms auf.“) | | allgemein |
+| Topp | Spitze des Masts | „topp“ heißt super | K („Topp! Topp!“) | | allgemein |
+| Fock | Vorsegel | klingt wie ein englisches Schimpfwort | K im Modus „Quatsch“ („Fock! Fock!“) | ⚠ nie im Regelsatz, nie bei Smilla oder Harms | allgemein |
+| Der Knoten ist geplatzt | Wortspiel mit Knoten (Tau und Geschwindigkeit) | „endlich verstanden“ | S zum Hörer | harmlos, auch zum Hörer erlaubt | allgemein |
+| in den Hafen der Ehe einlaufen, vor Anker gehen | einlaufen, ankern | heiraten, sesshaft werden | S neckt H | | allgemein |
+| Landgang | Ausgang der Besatzung an Land | die Nacht in der Hafenstadt | H im Garn | | allgemein |
+| Mast legen | Binnen: den Mast vor niedrigen Brücken umlegen | – | Q, H („Nur über meine Leiche.“) | ⚠ nur Teil B, wo es fachlich hingehört | allgemein |
+| Oberwasser haben | Wasser oberhalb der Schleuse | im Vorteil sein | Q (Teil B) | Binnen-Frage 119 | allgemein |
+| Talfahrt | Fahrt flussabwärts | es geht bergab | Q, H | Binnen-Frage 218 | Binnen-Katalog |
+
+**Bewusst weggelassen:** Wörter, deren zweite Lesart nur grob und ohne Witz wäre, und alles, was nur als Anspielung auf Kinder oder auf den Hörer funktioniert. Die echte seemännische Bedeutung wird vor dem Einsatz im Skript nachgeschlagen (Quellenlage unten).
+
 ## Quellenlage
 
-- Alle Bedeutungen wurden am 23.10.2026 per Websuche nachgesehen; die Seiten selbst ließen sich in dieser Umgebung nicht öffnen. Bei Wörterbüchern (Duden, Wiktionary, Plattmakers) ist das verlässlich, bei FAQ-Seiten (kuechenfibel.de, wandernundmehr.at) nur ein Hinweis.
+- Die Bedeutungen in den Abschnitten 1 bis 10 wurden am 23.10.2026 per Websuche nachgesehen, Abschnitt 11 nur teilweise (Lümmelbeschlag); bei „allgemein“ vor dem Einsatz im Duden nachschlagen; die Seiten selbst ließen sich in dieser Umgebung nicht öffnen. Bei Wörterbüchern (Duden, Wiktionary, Plattmakers) ist das verlässlich, bei FAQ-Seiten (kuechenfibel.de, wandernundmehr.at) nur ein Hinweis.
 - Gute Quellen zum Nachschlagen: Plattmakers (plattdeutsches Wörterbuch), Akademie för uns kölsche Sproch (Kölsch), Bayerisches Wörterbuch der Bayerischen Akademie der Wissenschaften (Bairisch).
 - **Bairisch liest vor der Vertonung ein Bekannter des Nutzers gegen (Nutzer, 23.10.2026). Platt und Kölsch sollte ebenfalls jemand gegenlesen, der die Sprache spricht.**
