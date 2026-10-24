@@ -2018,7 +2018,7 @@ Aus dem Katalog (richtige und amtliche Falschantworten) und der Recherche (R5, R
 - **Erst verfeinern wir selbst:** Claude schreibt, du liest und änderst, Claude arbeitet ein.
 - **Dann liest jemand gegen:** am besten jemand mit SBF-Ausbildungserfahrung, vor dem Vertonen. Gelesen wird gegen `docs/kurs-fragen-sbf.md`.
 - **Dialekte:** Das Bairische prüft dein Bekannter. Für Platt und Kölsch wäre jemand gut, der die Sprache spricht.
-- **Stimmen:** Die überarbeitest du selbst. Die Rangerin hat noch keine Stimme, Quirins Stimme ist unbestätigt.
+- **Stimmen:** Die überarbeitest du selbst. Die Rangerin hat noch keine Stimme. Quirin spricht mit „Alexander - Sharp and Informal“ (ID vom Nutzer, 24.10.2026).
 
 ### 16.5 Später beim Vertonen
 
@@ -2401,23 +2401,24 @@ Recherchiert wurde am 23.10.2026 per Websuche. Webseiten direkt zu öffnen war i
 
 **Was du dir gewünscht hast:** ein Ausschnitt mit dem Anfang einer Beispielfolge, eine repräsentative Stelle, in der alles vorkommt, was getestet werden muss, etwa 5 bis 10 Minuten, höchstens etwa 6.000 ElevenLabs-Credits, fehlende Geräusche sind in Ordnung, Animationen kommen später, anklickbar über den Stuhl in der Kajüte. Erst nach deinem Startschuss.
 
-**Deine Vorgaben vom 24.10.2026:** „O41 OK“; „Mach die Probefolge als eine Mischung aus Folge und Hörprobe von Quirin. Verkürze sie. Man soll hier Funktion und Vibe der Folge prüfen.“ Etwa vier bis sechs Minuten, „in der App generiert“.
+**Deine Vorgaben vom 24.10.2026:** „O41 OK“; „Mach die Probefolge als eine Mischung aus Folge und Hörprobe von Quirin. Verkürze sie. Man soll hier Funktion und Vibe der Folge prüfen.“ Etwa vier bis sechs Minuten, „in der App generiert“. Später am selben Tag: „Kürze den Text nicht. Ich will ja einen Eindruck bekommen, wie der Rhythmus, die Info-Dichte etc. ist. Wenn dann lässt du einen Teil des Schlusses weg oder so.“ Dazu: Claude schreibt die Folge mit maximalem Aufwand, die App vertont nur, erst die Geräusche (zum Herunterladen), und vor dem Start wird geprüft, ob Quirins Stimme da ist.
 
-**Die Probefolge:** `podcast/folgen/probe-G6-3.md` (Kopf `status: probe`), der Anfang von G6.3 „Brücken und Schleusen“ vor einer Schleuse am Main-Donau-Kanal. Quirin stellt sich dabei vor. Etwa fünf Minuten mit Denkpausen.
+**Die Probefolge:** `podcast/folgen/probe-G6-3.md` (Kopf `status: probe`), zweite Fassung vom 24.10.2026. Der Anfang von G6.3 „Brücken und Schleusen“ an der Schleuse am Main-Donau-Kanal bei Kelheim; Quirin kommt an Bord und stellt sich vor. Sie hat die echte Dichte einer Folge und ist darum länger als geplant: etwa sieben Minuten im Auto-Modus, rund 6.300 Credits Sprache plus 800 Credits Geräusche. Erzeugt wird Abschnitt für Abschnitt; so kannst du den letzten Abschnitt weglassen und hörst trotzdem alles davor in echter Länge.
 
-| Abschnitt | Inhalt | getestet wird |
-|---|---|---|
-| 1 Vor der Schleuse | Hinnerk ist im Kanal unwohl, Quirin stellt sich vor (Kelheim, Binnenschiffer, Ausflugsschiff). Vorab-Frage zu den zwei roten Lichtern. | Hörspiel, Revier hörbar, Platt und Bairisch, Gefühle in der Stimme, Vorab-Knöpfe |
-| 2 Das Haltegebot (Frage 21) | Tafel als Katalogbild, Merksatz Haltelinie, Katalogsatz, Quirins Bier vom „Schleusenbräu“ statt „Fernsehbier“, Antwortknöpfe mit Vertiefung | Bild, Antwortknöpfe mit Statistik, Vertiefung, Erkennungston bei richtiger Antwort |
-| 3 Die Lichter (Fragen 28, 29, 30) | Kopfkino Schranke und Mauer, Klabauter mit Merk-Glocke, das Tor geht auf, ein doppeldeutiger Witz, Quirins kurzes Garn, Antwortknöpfe zu Frage 29 mit Vertiefung | Kopfkino, Glocke, Witz, Garn |
-| 4 Harms | Rückblick mit Schallsignal aus dem Code (Frage 16), Falle zu Frage 28, Kernsätze mit sechs Sekunden Denkpause | Signal, Falle, Denkpausen mit Ticken |
-| danach | Hörkarte zu Frage 21 | Hörkarte |
+| Abschnitt | Inhalt | getestet wird | Dauer, Credits |
+|---|---|---|---|
+| 1 Vor der Schleuse | Hinnerk ist im Kanal „nur Passagier“, Vorab-Frage zu den zwei roten Lichtern; Quirin kommt über den Wartesteg an Bord („Hinni“), Klabauter plappert es nach; Quirin stellt sich vor (Kelheim, Binnenschiffer, Ausflugsschiff), Smilla übersetzt und kommt vom Rhein, Weißwurst-Witz, Landkarte | Hörspiel, Revier hörbar, Platt und Bairisch, Gefühle in der Stimme, Vorab-Knöpfe, Schritte und Flügelschlag | 1:45, etwa 1.370 |
+| 2 Das Haltegebot (Frage 21) | Tafel als Katalogbild, Quirin sagt den Katalogsatz wie aus dem Lehrbuch, Smilla will das Warum, Treidlerbräu statt „Fernsehbier“, Merksatz Haltelinie, Rückblick auf die rote Sperrtafel (Frage 27, G6.1) mit Hinnerk, Antwortknöpfe mit Vertiefung | Bild, Rückblick, Antwortknöpfe mit Statistik, Vertiefung, Erkennungston bei richtiger Antwort | 1:43, etwa 1.740 |
+| 3 Die Lichter an der Schleuse (Fragen 28, 29, 30) | Kopfkino Schranke und Mauer mit Auflösung der Vorab-Frage (die App zeigt deinen Tipp), Klabauter mit Merk-Glocke; das Tor geht auf, Ausflugsschiff „Resi“ mit dem doppeldeutigen Heck-Witz, Quirins Garn vom Sepp, zwei Grüne mit Warum, Hinnerk gibt Quirin das Ruder | Kopfkino, Glocke, Geräusche unter dem Gespräch, Witz, Garn | 1:52, etwa 1.530 |
+| 4 Harms ruft an | in der Schleusenkammer: Rückblick mit Schallsignal aus dem Code (Frage 16), Frage 30 mit den vier amtlichen Antworten wie in der Prüfung, Falle zu Frage 28 an Hinnerk („Hm. Geht.“), Kernsätze mit sechs Sekunden Denkpause, Klabauter, Abschied | Signal, amtliche Antwortknöpfe, Falle, Denkpausen mit Ticken | 1:55, etwa 1.340 (kann wegfallen) |
+| danach | Hörkarte zu Frage 21 | Hörkarte | 0:26, etwa 310 |
 
 **So funktioniert es in der App** (`kurs.js`, über den Hocker in der Kajüte):
 1. Hocker antippen → „🎧 Kajütenfunk: Probefolge“.
-2. Beim ersten Mal „Probefolge erzeugen“: Die App spricht das Skript mit deinem ElevenLabs-Schlüssel (Eleven v4), Abschnitt für Abschnitt, und zeigt vorher die Kosten (etwa 4.500 bis 5.000 Credits). Fertige Teile bleiben auf dem Handy; nach einer Skriptänderung wird nur Neues erzeugt.
-3. Abspielen im **Auto-Modus** (läuft durch, Denkpausen mit Ticken, danach die Lösung) oder im **interaktiven Modus** (hält an den Fragen an, Antwortknöpfe, Vertiefung nach falscher Antwort, Katalogbilder). Die Antworten zählen in deiner Statistik.
-4. Das Revier hört man: Die Geräusche der Folge erzeugt die App mit (Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon, Flügelschlag; `podcast/geraeusche.json`, etwa 800 Credits). Zusammen mit der Sprache etwa 4.700 Credits.
-5. **Für alle bereitstellen:** „📦 ZIP speichern“ und die Datei auf GitHub in den Ordner `import` hochladen. Claude baut sie mit `tools/kurs-import.js` nach `audio/kurs/probe/` ein. Danach hört jeder die Folge ohne eigenen Schlüssel.
+2. **Stimmen prüfen** (kostenlos): Die App fragt ElevenLabs, ob es alle Stimmen kennt, und zeigt ihre Namen. Das läuft vor dem Erzeugen der Sprache auch von selbst; fehlt eine Stimme, wird nichts erzeugt und nichts berechnet.
+3. **Geräusche erzeugen** (etwa 800 Credits): Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon, Flügelschlag (`podcast/geraeusche.json`). Jedes lässt sich anhören (▶) und herunterladen (⬇), alle zusammen als ZIP. Lädst du das ZIP auf GitHub in den Ordner `import` hoch, legt `tools/kurs-import.js` die Geräusche nach `podcast/geraeusche/`; dann nimmt die App diese Dateien und niemand muss sie neu erzeugen.
+4. **Sprache erzeugen, Abschnitt für Abschnitt** (Eleven v4): Jeder Abschnitt zeigt vorher seine Credits. Fertige Teile bleiben auf dem Handy; nach einer Skriptänderung wird nur Neues erzeugt. Das Abspielen endet vor dem ersten Abschnitt, der noch fehlt.
+5. Abspielen im **Auto-Modus** (läuft durch, Denkpausen mit Ticken, danach die Lösung) oder im **interaktiven Modus** (hält an den Fragen an, Antwortknöpfe, Vertiefung nach falscher Antwort, Katalogbilder, dein Tipp bei der Auflösung). Die Antworten zählen in deiner Statistik. Die Atmo wird unter der Sprache leiser.
+6. **Für alle bereitstellen:** „📦 ZIP speichern“ (geht auch mit einem Teil der Abschnitte) und die Datei auf GitHub in den Ordner `import` hochladen. Claude baut sie mit `tools/kurs-import.js` nach `audio/kurs/probe/` ein. Danach hört jeder die Folge ohne eigenen Schlüssel.
 
 **Nicht dabei:** Animationen (kommen später), die volle Fragerunde, Titelmusik.

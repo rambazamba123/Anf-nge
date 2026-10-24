@@ -4,7 +4,9 @@ Stand: 23.10.2026, gekürzt für den Hörkurs (Konzept `docs/konzept-kajuetenfun
 
 ## Neu am 24.10.2026: Geräusche erzeugt die App
 
-Du musst Geräusche nicht mehr selbst suchen. Die App erzeugt sie mit ElevenLabs Sound Effects zusammen mit der Folge (Liste mit Beschreibung, Länge und Schleife in `podcast/geraeusche.json`). Für die Probefolge: Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon und Flügelschlag, zusammen etwa 800 Credits. Eigene Dateien aus der Liste unten gehen weiterhin und haben Vorrang, wenn du welche lieferst. Am Anfang einer Folge kommt kein Erkennungston (O15).
+Du musst Geräusche nicht mehr selbst suchen. Die App erzeugt sie mit ElevenLabs Sound Effects (Liste mit Beschreibung, Länge und Schleife in `podcast/geraeusche.json`). Für die Probefolge: Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon und Flügelschlag, zusammen etwa 800 Credits. Am Anfang einer Folge kommt kein Erkennungston (O15).
+
+**So geht's (seit v4.91):** Im Kajütenfunk unter „Erzeugen“ zuerst „🔊 Geräusche erzeugen“. Danach lässt sich jedes Geräusch anhören (▶) und herunterladen (⬇), alle zusammen mit „⬇ Alle als ZIP“ (`geraeusche-probe.zip`). Lädst du dieses ZIP auf GitHub in den Ordner `import` hoch, legt `tools/kurs-import.js` die Dateien nach `podcast/geraeusche/` und trägt sie in `podcast/geraeusche.json` ein (Feld `datei`). Dann nimmt die App diese Dateien, für alle und ohne neue Credits. Eigene Dateien gehen genauso: MP3 mit dem Namen aus `podcast/geraeusche.json` (zum Beispiel `schleusentor.mp3`) in ein ZIP namens `geraeusche-….zip`.
 
 ## Grundsätze
 - **Wenig, mit Zweck:** Ein Geräusch sagt, wo wir sind (Revier), oder es gibt dem Hörer ein Zeichen (richtig, falsch, nachdenken).

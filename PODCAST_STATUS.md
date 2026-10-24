@@ -1,6 +1,6 @@
 # PODCAST_STATUS.md – Stand der Entscheidungen zum Kajütenfunk
 
-> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 24.10.2026, fünfzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
+> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 24.10.2026, sechzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
 > **Was hier als offen (O), Widerspruch (W) oder Vorschlag (VS) steht, ist keine Regel.** Claude entscheidet es nicht eigenmächtig, sondern fragt den Nutzer. Beschlossenes wird in die Bible übernommen.
 
 ---
@@ -168,6 +168,10 @@
 | B134 | Quirins Stimme: „Alexander - Sharp and Informal“ aus der ElevenLabs-Bibliothek. | 24.10. b | „Nim den für quirin: Alexander - Sharp and Informal male · middle-aged · bavarian“ | P97 |
 | B135 | V42 (Scheine, Termine, Lernzeit) jetzt bauen, vor dem Erzeugen der Probefolge. | 24.10. b | „O44: ja jetzt implementieren. Bevor du jetzt die Folge erzeugst.“ | O44 |
 | B136 | Die nötigen Geräusche der Folge werden mit erzeugt (ElevenLabs Sound Effects). | 24.10. b | „Kannst du das tor-geräusch und alle nötigen geräusche für die Folge mit-generieren?“ | P99 |
+| B137 | Quirins Stimmen-ID ist `hJAaR77ekN23CNyp0byH` (Alexander), eingetragen in `podcast/audio_config.json`. | 24.10. c | „hJAaR77ekN23CNyp0byH das ist die Stimmen ID von Alexander.“ | P97 |
+| B138 | Die Folgen schreibt Claude mit dem stärksten Modell und maximalem Aufwand, den der Nutzer im Chat einstellt; die App vertont nur noch (Sprache und Geräusche). | 24.10. c | „Ich will die Folge mit Opus maximal erzeugen. Das stelle ich hier im Chat ein … In der App wird nur noch vertont, richtig?“ | P92, P95 |
+| B139 | Erst die Geräusche erzeugen; der Nutzer lädt sie herunter. Vor dem Start prüft die App, ob die Stimmen da sind. | 24.10. c | „Vertone dann zuerst die Geräusche etc. Die lade ich dann herunter. Teste vor dem Start, ob du die Stimme von Alex jetzt hast.“ | P99 |
+| B140 | Die Probefolge wird nicht gekürzt: Rhythmus und Informationsdichte sollen echt sein. Wenn nötig, fällt ein Teil vom Schluss weg (umgesetzt: Erzeugen Abschnitt für Abschnitt, das Abspielen endet vor dem ersten fehlenden Abschnitt). | 24.10. c | „Kürze den Text nicht. Ich will ja einen Eindruck bekommen, wie der Rhythmus, die Info-Dichte etc. ist. Wenn dann lässt du einen Teil des Schlusses weg oder so.“ (im Original „Schlüssels“, gelesen als „Schlusses“) | P92, P95 |
 
 ## 2. Offene Fragen
 
@@ -408,6 +412,7 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 | 23.10.2026 | Dreizehnte Fassung (B99–B122): Beschlüsse vom 22. und 23.10. nachgetragen (Hörkurs statt Geschichte, K2–K12, Figuren, Korrekturen zu Konzept Fassung 4). Erledigt: O3, O5, O6, O7, O11, O14, O16, O17, O19, O20, O21, O22, O27, O33, O38, VS43; O15 weitgehend. Neu offen: O39–O45. Bible dritte Fassung (Entwurf) mit §15 (P72–P93), X3 und X4 geändert, X8 geändert, Geschichte als „Entfällt (E12)“ markiert. Konzept Fassung 5, Kursplan mit Rahmen und Lage, 285 neue Merksätze, Figuren, Wortschatz (Abschnitt 11), Prüfwerkzeuge, Haftungsausschluss in der App (v4.88), Geräuschliste `podcast/soundeffekte.md` für den Kurs gekürzt (alte Liste im Archiv). |
 | 24.10.2026 | Vierzehnte Fassung (B123–B132): Startschuss K1, Probefolge (G6.3 mit Quirins Vorstellung, in der App erzeugt), Quirin als Binnenschiffer aus Kelheim, erfundene Biermarken, Revier Main-Donau-Kanal, neue Stimme für Quirin, V42-Gestaltung, X4 und X8 bestätigt, O43 vertagt. Erledigt: O39, O40, O41, O42, O45; O44 teilweise. Bible: P47, X4, X8, P94–P98. |
 | 24.10.2026 | Fünfzehnte Fassung (B133–B136): kein Ton am Anfang (O15 erledigt), Quirins Stimme Alexander, V42 gebaut (O44 erledigt), Geräusche werden mit erzeugt. Bible: P86, P97, P99. |
+| 24.10.2026 | Sechzehnte Fassung (B137–B140): Quirins Stimmen-ID, Folgen schreibt Claude mit maximalem Aufwand und die App vertont nur, erst die Geräusche (zum Herunterladen) und eine kostenlose Stimmenprüfung vor dem Start, Probefolge ungekürzt (zweite Fassung, etwa sieben Minuten) und abschnittsweise erzeugt. Biermarke „Schleusenbräu“ ersetzt durch „Treidlerbräu“, weil es eine echte Schleusenbrauerei gibt (Claudes kleine Entscheidung). Bible: P95, P97, P99. |
 
 ## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
 
