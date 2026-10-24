@@ -1,6 +1,6 @@
 # PODCAST_STATUS.md – Stand der Entscheidungen zum Kajütenfunk
 
-> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 24.10.2026, vierzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
+> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 24.10.2026, fünfzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
 > **Was hier als offen (O), Widerspruch (W) oder Vorschlag (VS) steht, ist keine Regel.** Claude entscheidet es nicht eigenmächtig, sondern fragt den Nutzer. Beschlossenes wird in die Bible übernommen.
 
 ---
@@ -164,6 +164,10 @@
 | B130 | X4 bleibt gestrichen; Antwortknöpfe (Multiple Choice) mitten in der Folge sind im interaktiven Modus gewünscht. | 24.10. | „X4 weg. X8: im interaktiven Modus sind multible choice während der Folge gewünscht.“ | X4, X8 |
 | B131 | Leitplanken der Live-KI (`TONE`) vorerst nicht anpassen, später ja, vielleicht entfällt es ganz. | 24.10. | „O43 erstmal nicht, später ja. Ggf entfällt sie komplett.“ | O43 |
 | B132 | Bei Rückfragen mit Nummern immer konkret sagen, was gemeint ist (mindestens ein Beispiel oder Stichpunkt). Kein „So habe ich dich verstanden“ vorweg. | 24.10. | „Bitte benennen bei solchen Fragen immer konkret was gemeint ist.“; „6. Nein Dan wie bisher.“ | CLAUDE.md R14 |
+| B133 | Kein Erkennungston am Anfang einer Folge; bei richtiger Antwort bleibt der kurze Ton. | 24.10. b | „O15 anfangs kein Ton.“ | P86, O15 |
+| B134 | Quirins Stimme: „Alexander - Sharp and Informal“ aus der ElevenLabs-Bibliothek. | 24.10. b | „Nim den für quirin: Alexander - Sharp and Informal male · middle-aged · bavarian“ | P97 |
+| B135 | V42 (Scheine, Termine, Lernzeit) jetzt bauen, vor dem Erzeugen der Probefolge. | 24.10. b | „O44: ja jetzt implementieren. Bevor du jetzt die Folge erzeugst.“ | O44 |
+| B136 | Die nötigen Geräusche der Folge werden mit erzeugt (ElevenLabs Sound Effects). | 24.10. b | „Kannst du das tor-geräusch und alle nötigen geräusche für die Folge mit-generieren?“ | P99 |
 
 ## 2. Offene Fragen
 
@@ -183,7 +187,7 @@
 | O12 | Wie wird die Praxis in der Reihe behandelt? Gehört die Navigationsaufgabe des SBF See zu „alle Prüfungsfragen“? Wie weit ersetzt der Podcast den Kurs bei der Praxis? | Eine eigene Praxisfolge (V24) entfällt (B40). Vorschlag VS8: Knoten, Manöver und Navigation im Podcast erklären, üben im Knotenbrett, Manöverspiel und in der Navigationsschule. |
 | O13 | ~~Welche Rolle hat Harms genau?~~ | **Erledigt durch B57, B59 und B66:** Prolog in Folge 1 mit der Wette und der Erklärung der Prüfung, später Kurzauftritte; geprüft wird erst der Nutzer in der App. Für den Prolog fehlt noch die Prüfungsordnung (F3). |
 | O14 | ~~Welche Gastfiguren, welche Namen, wie viele neue Stimmen? Kommt der Bayer auch beim SBF See vor? Wie stark ist sein Dialekt?~~ | **Erledigt durch B99, B101 und B111: fünf Gäste (Konzept §8.2), Quirin zu Besuch und in Teil B, sehr bayerisch (K12).** Begrüßte Beispiele: Hafenmeister, Funkstimme, Fischer. Der Bayer ist selbst witzig, keine Bayern-Witze (B41). Weiteres offen. |
-| **Weitgehend erledigt durch B115:** Erkennungston statt Titelmusik, derselbe Ton bei richtiger Antwort (Deutung bitte bestätigen); kein Erzähler (B77). O15 | Gibt es einen Erzähler, oder nur Dialog mit Geräuschen? Gibt es Musik oder einen Jingle? | **Teilweise geregelt:** Geräusche liefert der Nutzer als Dateien (B75), Claude mischt sie dazu (Liste `podcast/soundeffekte.md`). Offen sind Erzähler und Titelmusik. Vorschlag in VS39. |
+| **Erledigt durch B115 und B133** (kein Ton am Anfang, kurzer Ton bei richtiger Antwort): Erkennungston statt Titelmusik, derselbe Ton bei richtiger Antwort (Deutung bitte bestätigen); kein Erzähler (B77). O15 | Gibt es einen Erzähler, oder nur Dialog mit Geräuschen? Gibt es Musik oder einen Jingle? | **Teilweise geregelt:** Geräusche liefert der Nutzer als Dateien (B75), Claude mischt sie dazu (Liste `podcast/soundeffekte.md`). Offen sind Erzähler und Titelmusik. Vorschlag in VS39. |
 | O16 | ~~Gibt es Regeln für Einleitung, Übergänge, Kapitel und Schluss außer Hinweis und Cliffhanger?~~ | **Erledigt durch das Konzept (Bauplan §7, Rahmen §6), gilt mit K1.** Vorschläge VS2, VS5, VS20. |
 | O17 | ~~Wie lautet der Hinweis in „Über die App“ (heute: „ersetzt keine Ausbildung“)?~~ | **Erledigt durch B117: Haftungsklausel in „Über die App“ und im Impressum (v4.88).** Antwort vom 20.10.: „13. denk drüber nach.“ Formulierungen in VS9. |
 | O18 | Was wird aus den KI-Knöpfen „Eigene Folge erzeugen“ und „Weiterreden“ und aus „Fragen dazu üben“ im Kajütenfunk? | Nicht besprochen. Am 05.10. hieß es, KI-Folgen müssen gespeichert werden (umgesetzt). |
@@ -212,7 +216,7 @@
 | O41 | ~~Welche Folge wird die Probefolge?~~ | **Erledigt durch B124:** G6.3 mit Quirins Vorstellung, 4–6 Minuten, in der App erzeugt. |
 | O42 | ~~Revier für Teil B (Binnen)?~~ | **Erledigt durch B127:** Main-Donau-Kanal. |
 | O43 | ~~Sollen die Leitplanken der Live-KI in der App (`TONE`, `styleRules`) an den neuen Ton angepasst werden?~~ | **Vertagt durch B131:** später, vielleicht entfällt es. |
-| O44 | Wann wird V42 gebaut (Scheine, Termine für Theorie und Praxis, Lernzeit in der App)? | **Teilweise geklärt durch B129** (Gestaltung). Zeitpunkt: Claudes Vorschlag direkt nach der Probefolge. |
+| O44 | ~~Wann wird V42 gebaut (Scheine, Termine für Theorie und Praxis, Lernzeit in der App)?~~ | **Erledigt durch B135:** gebaut in v4.90. |
 | O45 | ~~Startschuss (K1) für Konzept Fassung 5 mit Claudes kleinen Entscheidungen (Konzept §2.4)~~ | **Erledigt durch B123:** Startschuss gegeben. |
 
 ## 3. Widersprüchliche Aussagen
@@ -403,6 +407,7 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 
 | 23.10.2026 | Dreizehnte Fassung (B99–B122): Beschlüsse vom 22. und 23.10. nachgetragen (Hörkurs statt Geschichte, K2–K12, Figuren, Korrekturen zu Konzept Fassung 4). Erledigt: O3, O5, O6, O7, O11, O14, O16, O17, O19, O20, O21, O22, O27, O33, O38, VS43; O15 weitgehend. Neu offen: O39–O45. Bible dritte Fassung (Entwurf) mit §15 (P72–P93), X3 und X4 geändert, X8 geändert, Geschichte als „Entfällt (E12)“ markiert. Konzept Fassung 5, Kursplan mit Rahmen und Lage, 285 neue Merksätze, Figuren, Wortschatz (Abschnitt 11), Prüfwerkzeuge, Haftungsausschluss in der App (v4.88), Geräuschliste `podcast/soundeffekte.md` für den Kurs gekürzt (alte Liste im Archiv). |
 | 24.10.2026 | Vierzehnte Fassung (B123–B132): Startschuss K1, Probefolge (G6.3 mit Quirins Vorstellung, in der App erzeugt), Quirin als Binnenschiffer aus Kelheim, erfundene Biermarken, Revier Main-Donau-Kanal, neue Stimme für Quirin, V42-Gestaltung, X4 und X8 bestätigt, O43 vertagt. Erledigt: O39, O40, O41, O42, O45; O44 teilweise. Bible: P47, X4, X8, P94–P98. |
+| 24.10.2026 | Fünfzehnte Fassung (B133–B136): kein Ton am Anfang (O15 erledigt), Quirins Stimme Alexander, V42 gebaut (O44 erledigt), Geräusche werden mit erzeugt. Bible: P86, P97, P99. |
 
 ## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
 

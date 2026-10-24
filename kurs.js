@@ -4,7 +4,9 @@
    (ZIP aus „📦 ZIP speichern“, eingebaut mit tools/kurs-import.js). Nach einer Skriptänderung wird nur Neues erzeugt.
    Auto-Modus: läuft durch, Denkpausen mit leisem Ticken, danach die Lösung.
    Interaktiv: hält an [[WAHL]] an, die Antwort zählt in der Statistik (record), nach falscher Antwort die Vertiefung,
-   Katalogbilder bei [[BILD]]. Das Revier hört man: leise Geräusche aus audio/ je [[REVIER]]. */
+   Katalogbilder bei [[BILD]]. Das Revier hört man: leise Geräusche aus audio/ je [[REVIER]].
+   Geräusche aus podcast/geraeusche.json erzeugt die App mit ElevenLabs Sound Effects (Schlüssel „sfx:…“) und spielt sie bei
+   [[AUDIO: <name>]] oder als Atmo des Reviers. Kein Erkennungston am Anfang (Nutzer, 24.10.2026, O15). */
 (function () {
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'}};
@@ -21,7 +23,7 @@
 
   /* Skript → Ablauf: [{t: 'abschnitt'|'revier'|'rede'|'pause'|'wahl'|'bild'|'signal'|'ton', …, bereich?}]
      Sprecherzeilen hintereinander werden zu einer Anfrage (höchstens max_zeichen), Regiecodes trennen. */
-  function zerlege(txt, cfg) {
+  function zerlege(txt, cfg, ger = {}) {
     const fig = cfg.figuren || {}, max = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
     const TAGS = {INTENTION: cfg.intentionen, PAUSE: cfg.pause_tags, TEMPO: cfg.tempo_tags};
     const tagVon = (kat, wert) => { const e = (TAGS[kat] || {})[(wert || '').trim()]; return e ? e.tag : ''; };
@@ -54,6 +56,7 @@
       else if (kat === 'HOERKARTE') { schluss(); bereich = {art: 'karte', id: wert}; items.push({t: 'abschnitt', titel: 'Hörkarte', bereich}); }
       else if (kat === 'BILD') dazu({t: 'bild', id: wert});
       else if (kat === 'SIGNAL') dazu({t: 'signal', muster: wert});
+      else if (kat === 'AUDIO' && ger[wert]) dazu({t: 'ton', gen: ger[wert].id, parallel: !!ger[wert].parallel});
       else if (kat === 'AUDIO' && TOENE[wert]) dazu({t: 'ton', name: TOENE[wert]});
     };
     for (; i < zeilen.length; i++) {
@@ -71,15 +74,17 @@
     return {items, fehlt: [...fehlt]};
   }
   const schluessel = (modell, it) => 'kurs:' + hash(modell + '|' + FORMAT + '|' + JSON.stringify(it.inputs));
+  const sfxSchluessel = (modell, g) => 'sfx:' + hash([modell, FORMAT, g.prompt, g.sekunden, !!g.loop, g.einfluss].join('|'));
 
   /* ---------- Laden ---------- */
   async function laden(id) {
     const f = FOLGEN[id];
-    const [cfg, txt, pub] = await Promise.all([
+    const [cfg, txt, pub, gd] = await Promise.all([
       fetch('podcast/audio_config.json?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Konfiguration fehlt (HTTP ${r.status})`); return r.json(); }),
       fetch(f.datei + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Skript fehlt (HTTP ${r.status})`); return r.text(); }),
       /* Bereitgestellte Folgen stehen in audio/kurs/index.json; nur dann gibt es ablauf.json (spart eine 404 in der Konsole) */
-      fetch('audio/kurs/index.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).then(x => x.folgen && x.folgen[id] ? fetch(`audio/kurs/${id}/ablauf.json?v=` + Date.now()).then(r => r.ok ? r.json() : null) : null).catch(() => null)]);
+      fetch('audio/kurs/index.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).then(x => x.folgen && x.folgen[id] ? fetch(`audio/kurs/${id}/ablauf.json?v=` + Date.now()).then(r => r.ok ? r.json() : null) : null).catch(() => null),
+      fetch('podcast/geraeusche.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}))]);
     /* Stimmen: Was für alle bereitliegt, legt sie fest. Sonst die Konfiguration, darüber das Casting auf diesem Gerät. */
     const stimmen = {};
     for (const [k, v] of Object.entries(cfg.figuren || {})) stimmen[k] = v.voice_id;
@@ -87,9 +92,14 @@
     else for (const [k, v] of Object.entries((window.S && S.cfg && S.cfg.casting) || {})) if (v && v.id) stimmen[k] = v.id;
     for (const [k, v] of Object.entries(stimmen)) cfg.figuren[k] = {...(cfg.figuren[k] || {}), voice_id: v};
     const modell = (pub && pub.modell) || (cfg.modell && cfg.modell.id) || 'eleven_v4';
-    const {items, fehlt} = zerlege(txt, cfg);
-    items.forEach(it => { if (it.t === 'rede') it.key = schluessel(modell, it); });
-    return {id, f, cfg, items, fehlt, pub, modell, stimmen};
+    /* Geräusche: nur die, die das Skript nennt, und die Atmo der Reviere darin */
+    const sfxModell = gd.modell || 'eleven_text_to_sound_v2', alle = Object.entries(gd.geraeusche || {}).map(([gid, g]) => ({...g, id: gid, key: sfxSchluessel(sfxModell, g)}));
+    const ger = {}; alle.forEach(g => { if (g.name) ger[g.name] = g; });
+    const {items, fehlt} = zerlege(txt, cfg, ger);
+    items.forEach(it => { if (it.t === 'rede') it.key = schluessel(modell, it); if (it.t === 'ton' && it.gen) it.key = alle.find(g => g.id === it.gen).key; });
+    const reviere = new Set(items.filter(it => it.t === 'revier').map(it => it.wert));
+    const sfx = alle.filter(g => items.some(it => it.gen === g.id) || (g.revier && reviere.has(g.revier)));
+    return {id, f, cfg, items, fehlt, pub, modell, stimmen, sfx, sfxModell};
   }
   async function blobVon(st, it) {
     if (st.pub && st.pub.dateien && st.pub.dateien[it.key]) {
@@ -97,10 +107,14 @@
     }
     return (await CLIPS.get(it.key)) || null;
   }
+  const istDa = async (st, key) => !!((st.pub && st.pub.dateien && st.pub.dateien[key]) || await CLIPS.get(key));
   async function bestand(st) {
-    const reden = st.items.filter(it => it.t === 'rede'); let da = 0; const offen = [];
-    for (const it of reden) { if ((st.pub && st.pub.dateien && st.pub.dateien[it.key]) || await CLIPS.get(it.key)) da++; else offen.push(it); }
-    return {gesamt: reden.length, da, offen, zeichen: offen.reduce((s, it) => s + it.zeichen, 0)};
+    const reden = st.items.filter(it => it.t === 'rede'); let da = 0; const offen = [], offenSfx = [];
+    for (const it of reden) { if (await istDa(st, it.key)) da++; else offen.push(it); }
+    for (const g of st.sfx) { if (await istDa(st, g.key)) da++; else offenSfx.push(g); }
+    /* Geräusche: etwa 20 Credits je Sekunde bei fester Dauer (ElevenLabs-Doku, podcast/geraeusche.json) */
+    const sfxCredits = offenSfx.reduce((s, g) => s + Math.round((g.sekunden || 5) * 20), 0);
+    return {gesamt: reden.length + st.sfx.length, da, offen, offenSfx, zeichen: offen.reduce((s, it) => s + it.zeichen, 0), sfxCredits};
   }
 
   /* ---------- Erzeugen (kostet Credits) ---------- */
@@ -109,9 +123,10 @@
     if (st.fehlt.length) return info(`Noch keine Stimme für: ${st.fehlt.map(w => NAMEN[w] || w).join(', ')}. Bitte erst im Stimmen-Casting zuordnen.`);
     if (!(await kiEinwilligung())) return info('Ohne Einwilligung wird nichts erzeugt.');
     const b = await bestand(st);
-    if (!b.offen.length) return info('Alles schon erzeugt.');
-    if (!confirm(`Kajütenfunk erzeugen mit ${st.modell}: ${b.offen.length} Teile, etwa ${b.zeichen} Zeichen, also ungefähr so viele Credits. Weiter?`)) return info('Abgebrochen.');
-    if (b.zeichen > 6000 && !confirm(`Das sind mehr als 6.000 Credits. Wirklich?`)) return info('Abgebrochen.');
+    if (!b.offen.length && !b.offenSfx.length) return info('Alles schon erzeugt.');
+    const summe = b.zeichen + b.sfxCredits;
+    if (!confirm(`Kajütenfunk erzeugen: ${b.offen.length} Sprachteile mit ${st.modell} (etwa ${b.zeichen} Zeichen = Credits) und ${b.offenSfx.length} Geräusche (etwa ${b.sfxCredits} Credits). Zusammen ungefähr ${summe} Credits. Weiter?`)) return info('Abgebrochen.');
+    if (summe > 6000 && !confirm(`Das sind mehr als 6.000 Credits. Wirklich?`)) return info('Abgebrochen.');
     for (const [k, it] of b.offen.entries()) {
       info(`Erzeuge Teil ${k + 1} von ${b.offen.length} …`);
       const body = {inputs: it.inputs, model_id: st.modell, language_code: 'de'};
@@ -121,6 +136,15 @@
       if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return info(`Fehler bei Teil ${k + 1}: HTTP ${r.status} ${d.msg || d.status || ''}. Fertige Teile bleiben gespeichert.`); }
       await CLIPS.put(it.key, await r.blob(), {kind: 'kurs', t: it.zeilen.map(z => z.text).join(' ').slice(0, 80), at: Date.now()});
     }
+    for (const [k, g] of b.offenSfx.entries()) {
+      info(`Erzeuge Geräusch ${k + 1} von ${b.offenSfx.length}: ${g.name || g.id} …`);
+      const body = {text: g.prompt, duration_seconds: g.sekunden, prompt_influence: g.einfluss == null ? .3 : g.einfluss, model_id: st.sfxModell, ...(g.loop ? {loop: true} : {})};
+      const url = `${EL_BASE}/v1/sound-generation?output_format=${FORMAT}`, opt = () => ({method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)});
+      let r = await fetchT(url, opt(), 120000);
+      if (r.status === 400 || r.status === 422) { delete body.model_id; delete body.loop; r = await fetchT(url, opt(), 120000); }   /* älteres Modell ohne loop */
+      if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `Geräusch HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return info(`Fehler beim Geräusch ${g.name || g.id}: HTTP ${r.status} ${d.msg || d.status || ''}. Fertige Teile bleiben gespeichert.`); }
+      await CLIPS.put(g.key, await r.blob(), {kind: 'kurs', t: 'Geräusch ' + (g.name || g.id), at: Date.now()});
+    }
     info('Fertig erzeugt. Viel Spaß beim Hören!');
   }
 
@@ -129,8 +153,8 @@
     info('Lade das ZIP-Werkzeug …');
     if (!await loadZipLib()) return info('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
     const zip = new JSZip(), dateien = {};
-    for (const it of st.items) {
-      if (it.t !== 'rede' || dateien[it.key]) continue;
+    for (const it of st.items.filter(x => x.t === 'rede').concat(st.sfx)) {
+      if (dateien[it.key]) continue;
       const b = await blobVon(st, it); if (!b) return info('Es fehlen noch Teile. Erst alles erzeugen.');
       dateien[it.key] = it.key.replace(':', '-') + '.mp3'; zip.file(dateien[it.key], b);
     }
@@ -143,9 +167,24 @@
   /* ---------- Abspielen ---------- */
   let lauf = null;
   const cfgK = () => (S.cfg.kurs = S.cfg.kurs || {modus: 'interaktiv', tempo: 1, mitlesen: false, ticken: true});
-  function atmo(wert) { const v = ATMO[wert] || {}; ATMO_ALLE.forEach(n => AUD.loop(n, v[n] || 0)); }
-  function atmoAus() { ATMO_ALLE.forEach(n => AUD.loop(n, 0)); }
-  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
+  const sfxLaut = f => Math.max(0, Math.min(1, f * (S.cfg.sfx == null ? .7 : S.cfg.sfx)));
+  /* Atmo des Reviers: erzeugtes Geräusch in Schleife, sonst die Geräusche der App */
+  let atmoA = null;
+  async function atmo(st, wert) {
+    const g = st && st.sfx.find(x => x.revier === wert), b = g && await blobVon(st, g);
+    if (atmoA && atmoA.wert === wert) return;
+    atmoAus();
+    if (b) { const a = atmoA = new Audio(URL.createObjectURL(b)); a.wert = wert; a.loop = true; a.volume = sfxLaut(.35); a.play().catch(() => {}); return; }
+    const v = ATMO[wert] || {}; ATMO_ALLE.forEach(n => AUD.loop(n, v[n] || 0));
+  }
+  function atmoAus() { ATMO_ALLE.forEach(n => AUD.loop(n, 0)); if (atmoA) { atmoA.pause(); URL.revokeObjectURL(atmoA.src); atmoA = null; } }
+  async function geraeusch(st, it, me) {
+    const b = await blobVon(st, it); if (!b) return;
+    const a = new Audio(URL.createObjectURL(b)); a.volume = sfxLaut(.9); me.neben.push(a);
+    const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
+    if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
+  }
+  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
   async function warten(me, ms) { const ende = Date.now() + ms; while (!me.aus && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
   async function rede(st, it, me) {
@@ -197,14 +236,12 @@
       });
     });
   }
-  async function kennung(me) { AUD.sfx('glocke', {vol: .8}); await warten(me, 650); AUD.sfx('glocke', {vol: .8}); await warten(me, 1500); }
   async function spiele(st, ab = 0) {
     stop();
-    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, falsch: new Set()};
+    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, falsch: new Set(), neben: []};
     AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
-    if (ab === 0) await kennung(me);
     /* Revier der Stelle, an der es losgeht */
-    for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { atmo(st.items[k].wert); break; }
+    for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
     const interaktiv = cfgK().modus === 'interaktiv';
     for (let k = ab; k < st.items.length && !me.aus; k++) {
       const it = st.items[k];
@@ -213,10 +250,11 @@
       if (me.aus) break;
       markiere(st, k);
       if (it.t === 'abschnitt') { const b = ui('#kbild'); if (b) b.innerHTML = ''; if (it.bereich && it.bereich.art === 'karte') atmoAus(); }
-      else if (it.t === 'revier') atmo(it.wert);
+      else if (it.t === 'revier') await atmo(st, it.wert);
       else if (it.t === 'rede') await rede(st, it, me);
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') bild(it.id);
+      else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { await AUD.sfx(it.name, {vol: .8, dur: it.name === 'glocke' ? 1.2 : 3}); }
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
       else if (it.t === 'wahl' && interaktiv) { await wahl(st, it, me); if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++; }
@@ -268,11 +306,12 @@
     const neu = async () => {
       const b = await bestand(st);
       $('#kab').innerHTML = st.items.map((it, i) => it.t === 'abschnitt' ? `<button class="chip" data-ab="${i}">${esc(it.titel)}</button>` : '').join('');
-      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { if (b.offen.length) return info('Erst erzeugen.'); spiele(st, +x.dataset.ab); });
-      $('#kbest').textContent = b.offen.length ? `${b.da} von ${b.gesamt} Teilen sind fertig. Es fehlen etwa ${b.zeichen} Zeichen (ungefähr so viele Credits).${st.fehlt.length ? ` Noch ohne Stimme: ${st.fehlt.map(w => NAMEN[w] || w).join(', ')}.` : ''}` : `Alle ${b.gesamt} Teile sind da${st.pub ? ' (für alle bereitgestellt)' : ' (auf diesem Handy)'}.`;
-      $('#kgen').style.display = b.offen.length ? '' : 'none';
-      $('#kzip').style.display = !b.offen.length && !st.pub ? '' : 'none';
-      if (b.offen.length) { info(st.pub ? 'Für diese Fassung fehlen Teile.' : 'Die Folge ist noch nicht erzeugt. Unten auf „Probefolge erzeugen“ tippen.'); $('#kplay').innerHTML = ''; }
+      const fehltWas = b.offen.length + b.offenSfx.length;
+      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { if (fehltWas) return info('Erst erzeugen.'); spiele(st, +x.dataset.ab); });
+      $('#kbest').textContent = fehltWas ? `${b.da} von ${b.gesamt} Teilen sind fertig. Es fehlen ${b.offen.length} Sprachteile (etwa ${b.zeichen} Zeichen) und ${b.offenSfx.length} Geräusche (etwa ${b.sfxCredits} Credits).${st.fehlt.length ? ` Noch ohne Stimme: ${st.fehlt.map(w => NAMEN[w] || w).join(', ')}.` : ''}` : `Alle ${b.gesamt} Teile sind da${st.pub ? ' (für alle bereitgestellt)' : ' (auf diesem Handy)'}.`;
+      $('#kgen').style.display = fehltWas ? '' : 'none';
+      $('#kzip').style.display = !fehltWas && !st.pub ? '' : 'none';
+      if (fehltWas) { info(st.pub ? 'Für diese Fassung fehlen Teile.' : 'Die Folge ist noch nicht erzeugt. Unten auf „Probefolge erzeugen“ tippen.'); $('#kplay').innerHTML = ''; }
       else { info('Bereit.'); zeigeSteuerung(st, false); }
     };
     await neu();

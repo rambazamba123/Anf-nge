@@ -133,3 +133,40 @@ Im Code: `LINES.smilla.treiben`, `LINES.smilla.treibenNoch`, `LINES.klabauter.na
 
 Der Knopf „🔊 Vorlesen“ in der Einweisung lässt den Käpt'n die Aufgabe (`ziel`) und Kapitän Harms die Prüfpunkte (`pruefer`) sprechen. Die Texte stehen in `data/manoever.json` und werden nicht doppelt gepflegt. `packLines` sammelt sie, sobald das Manöverspiel geladen ist: 6 Aufgaben und 29 Prüfpunkte, zusammen etwa 1834 Zeichen. Sie fehlen noch im Stimmenpaket.
 
+## v4.90 – V42 Scheine, Termine, Lernzeit
+
+Die Crew kommentiert die Wahl in „🎯 Scheine und Termine“ und im Kennenlernen. Die Bausteine stehen in `data/ziele.json` und setzen sich je nach Lage zusammen (`ziele.js`, `kommentar`). Sie sind im Stimmenpaket (`packLines`) und fehlen dort noch, bis sie nachgeliefert werden.
+
+| Wann | Wer | Satz |
+|---|---|---|
+| Kommentar 15 Minuten | Hinnerk | Eine Viertelstunde. Kurz, aber jeden Tag. Dat geiht. |
+| Kommentar 15 Minuten | Smilla | Eine Viertelstunde? Sportlich. Dann aber wirklich jeden Tag, keine Ausreden. |
+| Kommentar 30 Minuten | Hinnerk | Eine halbe Stunde am Tag. Damit kommst du gut vorwärts. |
+| Kommentar 30 Minuten | Smilla | Halbe Stunde. Das ist ein ehrliches Pensum. Gefällt mir. |
+| Kommentar 45 Minuten | Hinnerk | Dreiviertelstunde. Da hat jemand Wind in den Segeln. |
+| Kommentar 45 Minuten | Smilla | Dreiviertelstunde am Tag. Damit schaffst du richtig was. |
+| Kommentar 60 Minuten | Hinnerk | Eine Stunde am Tag. Respekt. Halt das mal durch. |
+| Kommentar 60 Minuten | Smilla | Eine ganze Stunde? Dann machen wir richtig Strecke. |
+| Kommentar 90 Minuten | Hinnerk | Anderthalb Stunden. Du willst es wissen, wa? |
+| Kommentar 90 Minuten | Smilla | Anderthalb Stunden am Tag. Pass auf, dass dein Kopf nicht überläuft. Pausen gehören dazu. |
+| So lernst du, 15 Minuten | Smilla | So lernst du: jeden Tag ein kurzer Happen. Mal eine Folge Kajütenfunk, mal ein Block Fragen. Wiederholen geht immer vor. |
+| So lernst du, 30 Minuten | Smilla | So lernst du: eine Folge Kajütenfunk mit Fragerunde, dazu ein Block Wiederholen. Das ist dein Kurs für heute. |
+| So lernst du, 45 Minuten | Smilla | So lernst du: eine Folge mit Fragerunde, ein Block Wiederholen und ein Happen Praxis. Knoten, Manöver oder Seekarte. |
+| So lernst du, 60 Minuten | Smilla | So lernst du: zwei Folgen oder eine Folge und Praxis, dazu Wiederholen. Vor der Prüfung kommen Probeprüfungen bei Harms dazu. |
+| So lernst du, 90 Minuten | Smilla | So lernst du: Folgen, Wiederholen, Praxis und Navigation an jedem Tag. Und regelmäßig eine Probeprüfung bei Harms. |
+| mehrere Scheine | Smilla | Mehrere Scheine auf einmal? Gut. Die Basisfragen gelten für See und Binnen, die lernst du nur einmal. Wir fangen mit dem Schein an, dessen Prüfung zuerst kommt. |
+| reicht es: ok | Hinnerk | Reicht dicke. Du hast sogar Luft für Probeprüfungen. |
+| reicht es: ok | Smilla | Das reicht locker. Wenn du dranbleibst, gehst du entspannt in die Prüfung. |
+| reicht es: knapp | Smilla | Das wird knapp. Machbar, aber nur, wenn du keinen Tag auslässt. |
+| reicht es: knapp | Hinnerk | Knapp. Wie Anlegen bei Seitenwind. Geht, aber nur mit Konzentration. |
+| reicht es: nein | Smilla | Ehrlich gesagt: Das reicht nicht. Mit dieser Zeit schaffst du nicht alles bis zur Prüfung. |
+| reicht es: nein | Hinnerk | Dat langt nich. Da müssen wir was ändern. |
+| reicht es: offen | Smilla | Noch kein Termin? Auch gut. Dann lernen wir in Ruhe. Sobald du einen Termin hast, trägst du ihn ein, und ich rechne nach. |
+| Empfehlung: mehrZeit | Smilla | Mein Tipp: Nimm eine Viertelstunde am Tag dazu. Das macht am Ende den Unterschied. |
+| Empfehlung: auto | Hinnerk | Oder hör den Kajütenfunk unterwegs. Im Auto oder beim Spazierengehen zählt jede Folge mit. |
+| Empfehlung: wackel | Smilla | Und kurz vor der Prüfung nur noch deine Wackelkandidaten. Rot und Orange zuerst. |
+| Empfehlung: termin | Smilla | Wenn es geht, schieb den Termin ein paar Wochen nach hinten. Lieber einmal bestehen als zweimal hingehen. |
+| Praxis: bald | Hinnerk | Die Praxisprüfung kommt bald. Dann nehmen wir Knoten und Manöver jeden Tag mit dazu. |
+| Praxis: offen | Hinnerk | Für die Praxis hast du noch keinen Termin. Kein Problem, Knoten üben wir trotzdem nebenbei. |
+| Abschluss | Klabauter | Leinen los! Leinen los! |
+| Abschluss | Klabauter | Kurs steht! Kurs steht! |

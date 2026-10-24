@@ -2,6 +2,10 @@
 
 Stand: 23.10.2026, gekürzt für den Hörkurs (Konzept `docs/konzept-kajuetenfunk.md` §10.5 und §10.6). Die lange Liste für die frühere Geschichte liegt in `podcast/archiv/soundeffekte-geschichte.md`. Der Nutzer stellt die Geräusche bereit (`PODCAST_STATUS.md` B75). Claude mischt sie zu den Stimmen dazu.
 
+## Neu am 24.10.2026: Geräusche erzeugt die App
+
+Du musst Geräusche nicht mehr selbst suchen. Die App erzeugt sie mit ElevenLabs Sound Effects zusammen mit der Folge (Liste mit Beschreibung, Länge und Schleife in `podcast/geraeusche.json`). Für die Probefolge: Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon und Flügelschlag, zusammen etwa 800 Credits. Eigene Dateien aus der Liste unten gehen weiterhin und haben Vorrang, wenn du welche lieferst. Am Anfang einer Folge kommt kein Erkennungston (O15).
+
 ## Grundsätze
 - **Wenig, mit Zweck:** Ein Geräusch sagt, wo wir sind (Revier), oder es gibt dem Hörer ein Zeichen (richtig, falsch, nachdenken).
 - **Nie unter Erklärungen:** kurz am Anfang einer Szene, dann leise oder weg.

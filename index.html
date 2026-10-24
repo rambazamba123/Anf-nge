@@ -514,7 +514,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.89';
+  window.__ver = '4.90';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1543,6 +1543,8 @@ function packLines(withEpisodes) {
     /* V39: Einweisung zum Vorlesen: Aufgabe (Käpt'n) und Prüfpunkte (Harms) */
     Object.values(MAN_DATA).forEach(m => { push(cid('K'), m.ziel); (m.pruefer || []).forEach(t => push('kroeger', t)); });
   }
+  /* V42: Bausteine zu Scheinen, Terminen und Lernzeit */
+  if (ZIEL_TEXTE) { const Z = ZIEL_TEXTE, alle = v => Array.isArray(v) ? v : v && typeof v === 'object' ? Object.values(v).flatMap(alle) : []; ['kommentar', 'soLernst', 'mehrere', 'reicht', 'empfehlung', 'praxis', 'abschluss'].forEach(k => alle(Z[k]).forEach(l => l && l.s && push(cid(l.s), l.t))); }
   /* Grundkurs Seezeichen (nur wenn geladen; buildVoicePack lädt ihn) */
   if (window.SEEZ_DATA) ['see', 'binnen'].forEach(a => { const D = SEEZ_DATA[a]; if (!D) return; D.intro.concat(...D.lektionen.map(l => l.crew || [])).forEach(l => push(cid(l.s), l.t)); });
   /* Sätze nach Rolle: für jede Crew-Zusammenstellung, mit eingesetzten Namen */
@@ -2861,25 +2863,38 @@ async function convoOnboarding() {
   const n = await ask(ONB.nameAsk, [], {value: nick, ph: 'Name oder Spitzname'});
   prof.name = (n.text || nick).slice(0, 24);
   await react('nameOk');
-  /* Schein */
-  const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /binnen|fluss|flüsse|kanal/i.test(t) ? 'binnen' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
-  const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]).concat(COURSES_SOON.map(x => [x.id, x.name, 1])));
-  let course = c.k || parseCourse(c.text);
-  if (!course) { await freeReply('Zum Schein', ONB.courseAsk.t, c.text); course = S.course || 'sbf'; }
-  if (course !== S.course) { switchCourse(course); const bk = courseBucket(course); prof.exam = bk.examSet ? bk.exam : null; }
-  await react(ONB2[course] ? course : 'sbf');
-  /* Prüfungstermin */
-  const e = await ask(ONB2.examAsk[0], [['14', 'In 2 Wochen'], ['30', 'In einem Monat'], ['60', 'In 2 Monaten'], ['90', 'In 3 Monaten oder später'], ['none', 'Noch kein Termin']], {ph: 'Oder ein Datum, z. B. 12.12.2026'});
-  let ex = null;
-  if (e.k) ex = e.k === 'none' ? null : inDays(+e.k);
-  else if (!/kein|nein|noch nicht|weiß nicht|egal/i.test(e.text)) { ex = parseDate(e.text); if (!ex) await freeReply('Zum Prüfungstermin', ONB2.examAsk[0].t, e.text); }
-  if (ex) { prof.exam = ex; prof.examReal = true; await react(dayNum(new Date(ex + 'T12:00')) - today() <= 21 ? 'examSoon' : 'examSet'); }
-  else { prof.exam = inDays(42); prof.examReal = false; await react('examNone'); }
-  /* Lernzeit */
-  const m = await ask(ONB.minutesAsk, [15, 30, 45, 60, 90].map(x => [x, x + ' Minuten']), {ph: 'Oder selbst, z. B. eine Stunde'});
-  const min = m.k ? +m.k : parseMinutes(m.text);
-  if (min) { prof.minutes = min; await react(min <= 15 ? 'min_short' : min <= 45 ? 'min_mid' : 'min_long'); }
-  else { prof.minutes = prof.minutes || 30; await freeReply('Zur Lernzeit pro Tag', ONB.minutesAsk.t, m.text); }
+  /* V42: Scheine, Termine (Theorie und Praxis) und Lernzeit in einem Formular, danach kommentiert die Crew.
+     Lässt sich ziele.js nicht laden (offline beim ersten Start), gelten die alten Fragen. */
+  const ZL = await nachladen('ziele.js').then(() => window.ZIELE).catch(() => null);
+  if (ZL) {
+    await say(ONB.courseAsk);
+    const z = await ZL.imGespraech();
+    ZL.anwenden(z);
+    const course = S.course, th = (z.scheine[course] || {}).theorie;
+    prof.exam = th || inDays(42); prof.examReal = !!th; prof.minutes = z.minuten;
+    await react(ONB2[course] ? course : 'sbf');
+    for (const l of ZL.kommentar(z)) await say(l);
+  } else {
+    /* Schein */
+    const parseCourse = t => /küsten|kuesten|sks|skipper/i.test(t) ? 'sks' : /binnen|fluss|flüsse|kanal/i.test(t) ? 'binnen' : /sportboot|sbf|bootsführer|\bsee\b/i.test(t) ? 'sbf' : null;
+    const c = await ask(ONB.courseAsk, Object.values(COURSES).map(x => [x.id, x.name]).concat(COURSES_SOON.map(x => [x.id, x.name, 1])));
+    let course = c.k || parseCourse(c.text);
+    if (!course) { await freeReply('Zum Schein', ONB.courseAsk.t, c.text); course = S.course || 'sbf'; }
+    if (course !== S.course) { switchCourse(course); const bk = courseBucket(course); prof.exam = bk.examSet ? bk.exam : null; }
+    await react(ONB2[course] ? course : 'sbf');
+    /* Prüfungstermin */
+    const e = await ask(ONB2.examAsk[0], [['14', 'In 2 Wochen'], ['30', 'In einem Monat'], ['60', 'In 2 Monaten'], ['90', 'In 3 Monaten oder später'], ['none', 'Noch kein Termin']], {ph: 'Oder ein Datum, z. B. 12.12.2026'});
+    let ex = null;
+    if (e.k) ex = e.k === 'none' ? null : inDays(+e.k);
+    else if (!/kein|nein|noch nicht|weiß nicht|egal/i.test(e.text)) { ex = parseDate(e.text); if (!ex) await freeReply('Zum Prüfungstermin', ONB2.examAsk[0].t, e.text); }
+    if (ex) { prof.exam = ex; prof.examReal = true; await react(dayNum(new Date(ex + 'T12:00')) - today() <= 21 ? 'examSoon' : 'examSet'); }
+    else { prof.exam = inDays(42); prof.examReal = false; await react('examNone'); }
+    /* Lernzeit */
+    const m = await ask(ONB.minutesAsk, [15, 30, 45, 60, 90].map(x => [x, x + ' Minuten']), {ph: 'Oder selbst, z. B. eine Stunde'});
+    const min = m.k ? +m.k : parseMinutes(m.text);
+    if (min) { prof.minutes = min; await react(min <= 15 ? 'min_short' : min <= 45 ? 'min_mid' : 'min_long'); }
+    else { prof.minutes = prof.minutes || 30; await freeReply('Zur Lernzeit pro Tag', ONB.minutesAsk.t, m.text); }
+  }
   /* Erfahrung */
   const x = await ask(ONB.expAsk, Object.entries(EXP).map(([k, v]) => [k, v[0].toUpperCase() + v.slice(1)]));
   if (x.k) { prof.exp = x.k; await react('exp_' + x.k); }
@@ -3064,7 +3079,7 @@ function renderCabin() {
   const needAge = false, path = todayPath(), next = path.find(s => !s.done), done = path.filter(s => s.done).length;
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="updeck">↑ An Deck</button><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
   ${cabinScene(S.crew)}
-  ${!courseBucket(S.course).examSet ? `<div class="card" id="datecard"><h3>Wann ist deine ${esc(COURSE.short)}-Prüfung?</h3><input type="date" id="cdate" value="${S.profile.exam}"><button class="btn wide" id="cdsave" style="margin-top:10px">Speichern</button></div>` : ''}
+  ${!courseBucket(S.course).examSet ? `<div class="card" id="datecard"><h3>Wann ist deine ${esc(COURSE.short)}-Prüfung?</h3><p class="small muted" style="margin:0 0 8px">Theorie und Praxis, für einen oder mehrere Scheine. Die Crew sagt dir, ob deine Zeit reicht.</p><button class="btn wide" id="cdsave">🎯 Termine eintragen</button></div>` : ''}
   ${needAge ? `<div class="card" id="agecard"><h3>Kurze Frage der Crew</h3><p class="small" style="margin:0 0 8px">Wie alt bist du? Danach richtet sich, wie frech die Crew sein darf.</p>
     <div class="chips">${[['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']].map(([k, v]) => `<button class="chip" data-age="${k}">${v}</button>`).join('')}</div></div>` : ''}
   <button class="card pruefkarte" id="topruef"><span class="pk-ico" aria-hidden="true">📋</span><span><b>Meine Prüfungen</b><small>Theorie, Navigation, Praxis und Probeprüfung. Der Käpt'n führt dich durch.</small></span></button>
@@ -3076,7 +3091,7 @@ function renderCabin() {
   $('#topruef').onclick = () => { AUD.unlock(); AUD.click(); meinePruefungen(); };
   $('#totalk').onclick = () => { AUD.unlock(); setTab('talk'); };
   $('#toexam').onclick = () => harmsKommt(); $('#togames').onclick = () => { AUD.unlock(); gamesHub(); }; $('#tofunk').onclick = () => setTab('funk'); $('#tolex').onclick = () => { returnTo = 'cabin'; renderLexikon(); }; $('#tobooks').onclick = chaptersSheet; $('#tolog').onclick = () => setTab('log');
-  const cd = $('#cdsave'); if (cd) cd.onclick = () => { S.profile.exam = $('#cdate').value || S.profile.exam; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.plan = null; save(); $('#datecard').remove(); toast('Prüfungsdatum gespeichert.'); };
+  const cd = $('#cdsave'); if (cd) cd.onclick = () => zieleOeffnen(() => setTab('deck'));
   app.querySelectorAll('[data-age]').forEach(b => b.onclick = () => { S.profile.ageGroup = b.dataset.age; save(); const c = $('#agecard'); if (c) c.remove(); toast('Danke! Die Crew weiß jetzt Bescheid.'); });
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
@@ -3875,10 +3890,9 @@ function renderSettings() {
   <div class="card">
     <label for="course" style="margin-top:0">Worauf bereitest du dich vor?</label>${sel('course', Object.values(COURSES).map(c => [c.id, c.name + ' (' + c.short + ')']), S.course)}
     <p class="small muted" style="margin:6px 0 0">Jeder Schein hat seinen eigenen Katalog und seinen eigenen Lernstand. Beim Wechsel geht nichts verloren.</p>
-    <label for="ex2">Prüfungsdatum ${esc(COURSE.short)}</label><input type="date" id="ex2" value="${S.profile.exam}">
-    <label for="mi2">Lernzeit pro Tag</label>${sel('mi2', [15, 30, 45, 60, 90].map(m => [m, m + ' Minuten']), S.profile.minutes)}
+    <p class="small" style="margin:10px 0 0">Prüfung ${esc(COURSE.short)}: <b>${courseBucket(S.course).examSet && S.profile.examReal !== false ? fmtDate(S.profile.exam) : 'noch offen'}</b> · Lernzeit: <b>${S.profile.minutes} Minuten</b> am Tag</p>
     <p class="small" style="margin:10px 0 0"><b>Amtliche Regel ${esc(COURSE.short)}:</b> ${esc(COURSE.exam.rule)}</p>
-    <button class="btn" id="sv" style="margin-top:12px">Speichern</button>
+    <button class="btn" id="sv" style="margin-top:12px">🎯 Scheine, Termine und Lernzeit</button>
   </div>
 
   <h2 class="dev">Selbsttest</h2>
@@ -3935,7 +3949,7 @@ function renderSettings() {
   $('#vpx').onclick = () => exportClips($('#vpxr'));
   clipStats().then(s => { const e = $('#clipst'); if (e) e.textContent = `Auf diesem Handy: ${s.all} Aufnahmen, davon ${s.fresh.length} noch nicht im Paket.`; }).catch(() => {});
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
-  $('#sv').onclick = () => { S.profile.exam = $('#ex2').value || S.profile.exam; S.profile.minutes = +$('#mi2').value; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.plan = null; save(); toast('Gespeichert.'); };
+  $('#sv').onclick = () => zieleOeffnen();
   $('#course').onchange = () => { const v = $('#course').value; switchCourse(v); LOG.add('schein', 'gewechselt zu ' + COURSES[v].short); toast('Jetzt lernst du für den ' + COURSES[v].name + '.'); renderSettings(); };
   $('#intro').onclick = () => { stopAll(); S.introDone = false; save(); AUD.unlock(); runIntro(); };
   $('#src').onclick = renderSources;
@@ -4024,7 +4038,7 @@ function renderSources() {
     <div class="card"><h3>Musik und Geräusche</h3><p class="small muted">Von Pixabay (Pixabay-Lizenz). Danke an die Künstlerinnen und Künstler. Angegeben ist jeweils der Dateiname der Vorlage (Künstler, Titel, Nummer).</p><ul class="credits small">${files.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
     <div class="card"><h3>Fragen und Regeln</h3><p class="small" style="margin:0 0 6px">SBF See: Amtlicher Fragenkatalog für den Sportbootführerschein See, Stand 1. August 2023, und Bewertungsschlüssel, Wasserstraßen- und Schifffahrtsverwaltung des Bundes (ELWIS).</p><p class="small" style="margin:0 0 6px">SKS: Amtlicher Fragen- und Antwortenkatalog für den Sportküstenschifferschein (ELWIS) und Durchführungsrichtlinien zur Sportseeschifferscheinverordnung.</p><p class="small" style="margin:0 0 6px">SBF Binnen: Amtlicher Fragenkatalog für den Sportbootführerschein Binnen (ELWIS).</p><p class="small muted" style="margin:0">Die Abbildungen in den Fragen stammen aus den amtlichen Fragenkatalogen. Herausgeber: Wasserstraßen- und Schifffahrtsverwaltung des Bundes, www.elwis.de.</p></div>
     <div class="card"><h3>Zeichnungen</h3><p class="small" style="margin:0">Boot, Crew, Kajüte, Seekarte, Knoten und Spiele sind für diese App selbst gezeichnet.</p></div>
-    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0 0 6px">Schriften Baloo 2 und Nunito, SIL Open Font License 1.1, lokal mitgeliefert (<a href="fonts/OFL-Baloo2.txt" target="_blank" rel="noopener">Lizenz Baloo 2</a>, <a href="fonts/OFL-Nunito.txt" target="_blank" rel="noopener">Lizenz Nunito</a>).</p><p class="small" style="margin:0 0 6px">Stimmen der Crew: ElevenLabs. Gespräche nur mit eigenem Schlüssel: Anthropic (Claude), Google (Gemini) oder OpenAI.</p><p class="small" style="margin:0">JSZip (MIT-Lizenz) zum Packen des Stimmenpakets. Schallsignale und Freizeichen erzeugt die App selbst.</p></div>`;
+    <div class="card"><h3>Schriften und Technik</h3><p class="small" style="margin:0 0 6px">Schriften Baloo 2 und Nunito, SIL Open Font License 1.1, lokal mitgeliefert (<a href="fonts/OFL-Baloo2.txt" target="_blank" rel="noopener">Lizenz Baloo 2</a>, <a href="fonts/OFL-Nunito.txt" target="_blank" rel="noopener">Lizenz Nunito</a>).</p><p class="small" style="margin:0 0 6px">Stimmen der Crew und einige Geräusche im Kajütenfunk: ElevenLabs. Gespräche nur mit eigenem Schlüssel: Anthropic (Claude), Google (Gemini) oder OpenAI.</p><p class="small" style="margin:0">JSZip (MIT-Lizenz) zum Packen des Stimmenpakets. Schallsignale und Freizeichen erzeugt die App selbst.</p></div>`;
   $('#back').onclick = renderSettings;
 }
 
@@ -4475,6 +4489,8 @@ async function harmsKommt(via) {
 /* ---------- 5.10: Einführung beim ersten Öffnen einer Funktion ----------
    Feste Sätze aus data/einfuehrungen.json, überspringbar. S.intros[id] merkt, was schon lief. Gibt ein Promise zurück (fertig oder übersprungen). */
 let INTROS = {e: {}};
+/* V42: feste Textbausteine der Crew zu Scheinen, Terminen und Lernzeit (data/ziele.json, ziele.js) */
+let ZIEL_TEXTE = null;
 function einfuehrung(id, nochmal) {
   S.intros = S.intros || {};
   const E = INTROS.e[id]; if (!E || (S.intros[id] && !nochmal) || !S.introV5) return Promise.resolve(false);
@@ -4735,6 +4751,10 @@ function bgStop(silent) {
 const NACH = {};
 function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = datei + '?v=' + window.__ver; sc.onload = res; sc.onerror = () => { delete NACH[datei]; rej(new Error(datei + ' ließ sich nicht laden')); }; document.head.appendChild(sc); })); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()); }
+/* V42: Scheine, Termine, Lernzeit (ziele.js) */
+function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }
+/* V42: In den drei Wochen vor dem Praxistermin bekommt die Praxis mehr Gewicht im Kurs für heute */
+function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
 /* Hocker: Kajütenfunk hören (V41, Probefolge in kurs.js) oder der Crew zuhören */
 function hockerWahl() {
   if (bgChat) return bgStop();
@@ -5417,14 +5437,14 @@ const MAN_NAMEN = {ablegen: 'Ablegen', anlegen: 'Anlegen', mob: 'Mensch über Bo
 /* Kommt man über einen Praxis-Happen aus dem Kurs für heute, führt „Zurück“ wieder dorthin (nicht in die Übersicht des Moduls) */
 let pfadZurueck = null;
 function pfadHeim() { const f = pfadZurueck; pfadZurueck = null; if (!f) return false; f(); return true; }
-function praxisHappen() {
+function praxisHappen(versatz = 0) {
   const lek = (S.navi && S.navi.lek) || {}, man = S.man || {}, fehlt = () => toast('Das ließ sich nicht laden. Prüf dein Internet.');
   const nl = (NAVI_LEKTIONEN[S.course] || []).find(l => !(lek[l] && lek[l].sterne));
   const kn = KNOTEN_IDS.find(k => knotenWert(k) < 1), mn = MAN_IDS.find(m => !(man[m] && man[m].ok));
   const wahl = [nl && {label: '🧭 Navigation: ' + (nl === 'L0' ? 'Grundlagen' : 'Lektion ' + nl.slice(1)), run: () => { returnTo = 'cabin'; loadNavi().then(() => NAV.lesson(nl)).catch(fehlt); }},
     kn && {label: '🪢 Knoten: ' + KNOTEN_NAMEN[kn], run: () => loadKnoten().then(() => KNOTEN.zeige(kn)).catch(fehlt)},
     mn && {label: '⚓ Manöver: ' + MAN_NAMEN[mn], run: () => loadManoever().then(() => MANOEVER.vorher(mn)).catch(fehlt)}].filter(Boolean);
-  return wahl.length ? wahl[today() % wahl.length] : null;
+  return wahl.length ? wahl[(today() + versatz) % wahl.length] : null;
 }
 /* Tagespfad (V37): 4 bis 5 kleine Happen statt einer langen Runde, Fragen in Blöcken zu je 8 */
 const coverage = () => Q.length ? Q.filter(q => st(q.n)).length / Q.length : 0;
@@ -5449,6 +5469,8 @@ function todayPath() {
       : ruhe === 'neu' ? {id: 'review2', label: 'Neu: ' + next.label, run: () => { markPath('review2'); save(); startUnit(next); }}
       : ruhe === 'fest' ? {id: 'review2', label: `Festigen: ${Math.min(BLOCK, wackelig().length)} Wackelkandidaten`, run: () => extraRound(doneOpts('review2'))} : null,
     (() => { const h = praxisHappen(); return h || p.praxis ? {id: 'praxis', label: h ? h.label : 'Praxis-Happen', run: () => { markPath('praxis'); save(); h.run(); pfadZurueck = () => setTab('cabin'); }} : null; })(),
+    /* V42: Praxistermin in Sicht, dann ein zweiter Praxis-Happen */
+    (() => { if (!praxisBald() && !p.praxis2) return null; const h = praxisHappen(1); return h || p.praxis2 ? {id: 'praxis2', label: '⏰ Vor der Praxisprüfung: ' + (h ? h.label : 'Praxis'), run: () => { markPath('praxis2'); save(); h.run(); pfadZurueck = () => setTab('cabin'); }} : null; })(),
     {id: 'extra', label: examDue ? 'Probeprüfung bei Kapitän Harms' : 'Kajütenfunk: eine Folge',
       run: () => examDue ? harmsKommt() : setTab('funk')},
   ].filter(Boolean);
@@ -5698,6 +5720,7 @@ async function loadData() {
   const cards = await Promise.all(['sbf', 'bin', 'sks'].map(c => get('karten-' + c + '.json').catch(() => ({k: {}}))));
   KARTEN = Object.assign({}, ...cards.map(c => (c && c.k) || {}));
   INTROS = await get('einfuehrungen.json').catch(() => ({e: {}}));
+  ZIEL_TEXTE = await get('ziele.json').catch(() => null);
   useCourse(S.course);
 }
 function startApp() {

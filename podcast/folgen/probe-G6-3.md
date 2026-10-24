@@ -7,6 +7,7 @@ status: probe
 # Sie prüft Funktion und Stimmung, nicht die ganze Folge (Konzept Anhang H). Erzeugt wird sie in der App: Hocker in der Kajüte → Kajütenfunk.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/probe-G6-3.md
 # Bairisch bitte gegenlesen lassen (Bekannter des Nutzers). Biermarken sind erfunden (Nutzer, 24.10.2026).
+# Kein Erkennungston am Anfang (O15). Geräusche: [[AUDIO: …]] mit Namen aus podcast/geraeusche.json, erzeugt in der App; die Schleusen-Atmo kommt über [[REVIER: schleuse]].
 
 [[ABSCHNITT: Vor der Schleuse]]
 [[SZENE: Main-Donau-Kanal bei Kelheim, vor einer Schleuse. Motor im Leerlauf, Wasser rauscht am Tor. Quirin ist zu Besuch.]]
@@ -21,6 +22,7 @@ QUIRIN: [[INTENTION: seufzend]] Do werd ma ganz bliamerant. Aber da herinnen am 
 
 [[SZENE: Smilla meldet sich vom Vorschiff, Klabauter sitzt auf dem Kajütdach.]]
 [[REVIER: schleuse]]
+[[AUDIO: Flügel]]
 SMILLA: Bevor Quirin es verrät: Zwei rote Lichter nebeneinander an der Schleuse. Was heißt das? Tipp mal, die Auflösung kommt gleich.
 [[VORAB: sbf:28]]
 [[WAHL: *Schleuse gerade geschlossen | Anlage dauerhaft gesperrt | Einfahrt frei]]
@@ -70,10 +72,12 @@ KLABAUTER: [[AUDIO: Schiffsglocke]] Krrah! Merken! Nebeneinander: Schranke! Übe
 
 [[SZENE: Das Tor geht auf, ein Ausflugsschiff fährt aus der Schleusenkammer.]]
 [[REVIER: schleuse]]
+[[AUDIO: Schleusentor]]
 QUIRIN: Obacht, jetzt geht des Tor von da Schleusn auf. Und schaut's, zwoa Grüne nebeneinander.
 [[BILD: sbf:30]]
 [[KATALOG: sbf:30]]
 QUIRIN: Einfahrt frei, Gegenverkehr gesperrt. Aber zerst lass ma die Großen raus.
+[[AUDIO: Ausflugsschiff]]
 HINNERK: [[INTENTION: verschmitzt]] Wat für 'n Heck.
 SMILLA: Wir reden über ein Schiff, Käpt'n.
 HINNERK: Ich auch.
@@ -93,6 +97,7 @@ SMILLA: Übereinander, die Mauer. Anlage dauerhaft gesperrt. Und dein Tipp von v
 [[ABSCHNITT: Harms prüft]]
 [[SZENE: Harms ruft an, die Crew wartet noch vor der Schleuse.]]
 [[REVIER: schleuse]]
+[[AUDIO: Telefon]]
 HARMS: Harms. Ihr hängt vor einer Schleuse, hör ich. Gut. Dann frag ich. Erst was von neulich.
 [[RUECKBLICK: sbf:16]]
 [[SIGNAL: ● ▬ ● ▬ ● ▬]]

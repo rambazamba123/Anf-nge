@@ -211,7 +211,7 @@
   - **Die Berge sind nur sein Hobby** (Klettern am Wochenende). Den Bergführer gibt es nicht mehr, er hätte vom Binnen-Profi abgelenkt.
 - **Auf dem Meer wird er seekrank** [fest] (Bible P47).
 - **Alter:** 34 [neu, bestätigt].
-- **Stimme:** nicht mehr George (Nutzer, 24.10.2026: „Quirin bekommt noch eine andere Stimme“). Claudes Vorschläge zum Anhören im Casting: Alexander, Benjamin, Rudolf (`podcast/casting.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können, und sie soll nach Mitte dreißig klingen. Die Stimmen wählt der Nutzer selbst.
+- **Stimme:** „Alexander - Sharp and Informal“ aus der ElevenLabs-Bibliothek (männlich, mittleres Alter, bairisch), vom Nutzer gewählt am 24.10.2026.
 
 **Rolle im Kurs** [fest] (Nutzer, 23.10.2026), Einzelheiten [neu]
 - **Teil G und S:** nur zweimal zu Besuch, beide Male da, wo er Profi ist:
@@ -318,7 +318,7 @@
 | Fischer | S3.6 Tiefgangbehinderte und Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
 | Verkehrszentrale | S6.6 Verkehrstrennungsgebiete und Verkehrszentralen | Mats [fest] | ruhige Funksprache, formal, deutlich |
 | Rangerin | S8.1 Wattenmeer und Nationalparks | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
-| Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | neue Stimme, Vorschläge Alexander, Benjamin, Rudolf | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
+| Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | Alexander (Bibliothek) | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
 
 ---
 

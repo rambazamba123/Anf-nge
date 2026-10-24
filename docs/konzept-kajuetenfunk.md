@@ -350,7 +350,7 @@ Dein Wunsch vom 23.10.2026: Ganz am Anfang wählt man die Scheine, ihre Termine 
 - **Schnell** (wenn die Zeit knapp ist): Folgen im Auto-Modus am Stück, Fragerunden und Kapitel-Checks in der App, vor der Prüfung die Schnellspur.
 - **Nachsitzen:** nur die Nachhilfe-Folge und „Im Kurs nachhören“ bei Fehlern.
 
-**In der App heute:** Es gibt schon Scheine (`S.course`, `S.crewSchein`), ein Prüfungsdatum je Schein und die Lernzeit (Einstellungen, Kennenlernen). Neu wären die getrennten Termine für Theorie und Praxis, mehrere Scheine auf einmal im Kennenlernen und die Rechnung „Reicht die Zeit?“. Vorschlag: als eigenes Vorhaben V42 in der App umsetzen, mit neuem Feld `S.ziele` und Standardwert aus den alten Angaben (R7). Gebaut wird es nach der Probefolge (Claudes Vorschlag).
+**In der App heute:** Es gibt schon Scheine (`S.course`, `S.crewSchein`), ein Prüfungsdatum je Schein und die Lernzeit (Einstellungen, Kennenlernen). Neu wären die getrennten Termine für Theorie und Praxis, mehrere Scheine auf einmal im Kennenlernen und die Rechnung „Reicht die Zeit?“. Vorschlag: als eigenes Vorhaben V42 in der App umsetzen, mit neuem Feld `S.ziele` und Standardwert aus den alten Angaben (R7). Gebaut in v4.90 (`ziele.js`, Texte in `data/ziele.json`), vor der Probefolge (deine Entscheidung vom 24.10.2026).
 
 **Deine Vorgaben vom 24.10.2026:** Die Minuten pro Tag wählt man aus einer Auswahl, zum Beispiel 15, 30, 45, 60 oder 90 Minuten. Die Crew kommentiert die Wahl, sagt, wie dann gelernt wird, ob es bis zur Prüfung reicht, und empfiehlt gegebenenfalls etwas anderes. Dafür gibt es feste Textblöcke, die sich je nach Lage zusammensetzen:
 
@@ -937,7 +937,7 @@ Wahre Geschichten mit Zahlen (etwa Einsätze der Seenotretter) kommen nur mit Qu
 - Die Geräusche lieferst du (B75), Claude mischt sie dazu. Sparsam und mit Zweck (A26).
 - Nie unter Erklärungen: kurz am Anfang einer Szene, dann leise oder weg.
 - **Erkennungston** (O15, deine Antwort vom 23.10.2026: „Titelmusik oder Erkennungston, (bei Frage richtig? Dann erkennungston)“). So setzt Claude es um, bitte bestätigen:
-  - Jede Folge beginnt mit einem kurzen Erkennungston (höchstens 5 Sekunden, nie unter Sprache), keine lange Titelmusik.
+  - **Geändert am 24.10.2026 (O15):** Am Anfang einer Folge kommt kein Ton. Keine Titelmusik.
   - Derselbe Ton, kurz, erklingt bei jeder richtigen Antwort (Antwortknöpfe, Fragerunde). So verbindet man den Kurs mit dem Gefühl „richtig“.
   - Bei falscher Antwort kommt ein anderer, dunkler Ton, nie ein Prüfungssignal.
   - Den Ton lieferst du oder wir nehmen einen lizenzfreien (L1). Für die Probefolge darf er fehlen.
@@ -2169,8 +2169,7 @@ Die Werkzeuge dafür (zum Beispiel `tools/kurs-erzeugen.js`) entstehen, wenn die
 
 **Noch offen:**
 - **Quirins Stimme:** Bitte im Casting anhören und wählen. Vorschläge: Alexander, Benjamin, Rudolf. Ohne Stimme lässt sich die Probefolge nicht erzeugen.
-- **O15 Erkennungston:** So verstanden: Er kommt am Anfang jeder Folge und bei jeder richtigen Antwort. Stimmt das?
-- **O44 (wann V42 gebaut wird):** Claudes Vorschlag ist direkt nach der Probefolge.
+- Erledigt am 24.10.2026: O15 (kein Ton am Anfang), O44 (V42 ist in v4.90 gebaut), Quirins Stimme (Alexander).
 
 **Fehlende Quellen:**
 - F3 Prüfungsordnung und Prüfungsrichtlinie (bitte in `quellen/`),
@@ -2408,7 +2407,6 @@ Recherchiert wurde am 23.10.2026 per Websuche. Webseiten direkt zu öffnen war i
 
 | Abschnitt | Inhalt | getestet wird |
 |---|---|---|
-| Anfang | Erkennungston (Ersatz: zwei Glockenschläge) | Erkennungston (O15) |
 | 1 Vor der Schleuse | Hinnerk ist im Kanal unwohl, Quirin stellt sich vor (Kelheim, Binnenschiffer, Ausflugsschiff). Vorab-Frage zu den zwei roten Lichtern. | Hörspiel, Revier hörbar, Platt und Bairisch, Gefühle in der Stimme, Vorab-Knöpfe |
 | 2 Das Haltegebot (Frage 21) | Tafel als Katalogbild, Merksatz Haltelinie, Katalogsatz, Quirins Bier vom „Schleusenbräu“ statt „Fernsehbier“, Antwortknöpfe mit Vertiefung | Bild, Antwortknöpfe mit Statistik, Vertiefung, Erkennungston bei richtiger Antwort |
 | 3 Die Lichter (Fragen 28, 29, 30) | Kopfkino Schranke und Mauer, Klabauter mit Merk-Glocke, das Tor geht auf, ein doppeldeutiger Witz, Quirins kurzes Garn, Antwortknöpfe zu Frage 29 mit Vertiefung | Kopfkino, Glocke, Witz, Garn |
@@ -2419,7 +2417,7 @@ Recherchiert wurde am 23.10.2026 per Websuche. Webseiten direkt zu öffnen war i
 1. Hocker antippen → „🎧 Kajütenfunk: Probefolge“.
 2. Beim ersten Mal „Probefolge erzeugen“: Die App spricht das Skript mit deinem ElevenLabs-Schlüssel (Eleven v4), Abschnitt für Abschnitt, und zeigt vorher die Kosten (etwa 4.500 bis 5.000 Credits). Fertige Teile bleiben auf dem Handy; nach einer Skriptänderung wird nur Neues erzeugt.
 3. Abspielen im **Auto-Modus** (läuft durch, Denkpausen mit Ticken, danach die Lösung) oder im **interaktiven Modus** (hält an den Fragen an, Antwortknöpfe, Vertiefung nach falscher Antwort, Katalogbilder). Die Antworten zählen in deiner Statistik.
-4. Das Revier hört man: Unter der Schleusen-Szene laufen leise Motor und Wasser aus `audio/`. Geräusche, die fehlen, fehlen.
+4. Das Revier hört man: Die Geräusche der Folge erzeugt die App mit (Schleusen-Atmo, Schleusentor, Ausflugsschiff, Telefon, Flügelschlag; `podcast/geraeusche.json`, etwa 800 Credits). Zusammen mit der Sprache etwa 4.700 Credits.
 5. **Für alle bereitstellen:** „📦 ZIP speichern“ und die Datei auf GitHub in den Ordner `import` hochladen. Claude baut sie mit `tools/kurs-import.js` nach `audio/kurs/probe/` ein. Danach hört jeder die Folge ohne eigenen Schlüssel.
 
 **Nicht dabei:** Animationen (kommen später), die volle Fragerunde, Titelmusik.
