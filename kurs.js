@@ -97,7 +97,8 @@
     const stimmen = {};
     for (const [k, v] of Object.entries(cfg.figuren || {})) stimmen[k] = v.voice_id;
     if (pub && pub.stimmen) Object.assign(stimmen, pub.stimmen);
-    else for (const [k, v] of Object.entries((window.S && S.cfg && S.cfg.casting) || {})) if (v && v.id) stimmen[k] = v.id;
+    /* Wahl auf dem Gerät nur, solange die Konfiguration seitdem gleich ist (wie casting.js); sonst gilt die neuere Konfiguration */
+    else for (const [k, v] of Object.entries((window.S && S.cfg && S.cfg.casting) || {})) if (v && v.id && (!stimmen[k] || v.cfg === stimmen[k])) stimmen[k] = v.id;
     for (const [k, v] of Object.entries(stimmen)) cfg.figuren[k] = {...(cfg.figuren[k] || {}), voice_id: v};
     const modell = (pub && pub.modell) || (cfg.modell && cfg.modell.id) || 'eleven_v4';
     /* Geräusche: nur die, die das Skript nennt, und die Atmo der Reviere darin */
