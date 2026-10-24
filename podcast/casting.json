@@ -32,9 +32,10 @@
     {
       "id": "QUIRIN",
       "name": "Quirin",
-      "art": "Mitsegler",
-      "satz": "[laughs] Servus! Ich bin der Quirin, Bergführer vom Chiemsee. An Bord bin ich fürs gute Wetter zuständig. [gulps] Wobei, mir ist grad a bissl schlecht.",
-      "wunsch": "George"
+      "art": "Binnen-Profi",
+      "satz": "[laughs] Servus mitanand! I bin der Quirin aus Kelheim. Aufgwachsn bin i auf am Binnenschiff, und heit fahr i a Ausflugsschiff auf da Donau. [sighs] Bloß aufm Meer, do werd ma ganz bliamerant.",
+      "vorschlaege": ["Alexander", "Benjamin", "Rudolf"],
+      "hinweis": "Neue Stimme gesucht (Nutzer, 24.10.2026). Vorschläge aus der Bibliothek mit bairischem Einschlag; sie soll nach Mitte dreißig klingen."
     },
     {
       "id": "POLIZEI",

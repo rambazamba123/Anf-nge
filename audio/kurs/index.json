@@ -1,0 +1,4 @@
+{
+ "_hinweis": "Kajütenfunk-Folgen, die für alle bereitliegen (tools/kurs-import.js trägt sie ein). Je Folge: Ordner audio/kurs/<folge>/ mit ablauf.json und MP3s.",
+ "folgen": {}
+}

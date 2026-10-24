@@ -42,7 +42,7 @@
     const r = cast.rollen.find(x => x.id === rolle), a = ist(r.id);
     const eigen = stimmen.slice().sort((x, y) => (a && y.id === a.id) - (a && x.id === a.id) || x.name.localeCompare(y.name));
     w.querySelector('#cst').innerHTML = `<p class="small" style="margin:6px 0"><b>${esc(r.name)}</b>: „${esc(r.satz.replace(/\[[^\]]*\]\s*/g, ''))}“</p>
-      <p class="small muted" style="margin:0 0 6px">Jetzt: <b>${a ? esc(a.name === 'bisher' ? (stimmen.find(v => v.id === a.id) || {name: 'Stimme aus dem Paket'}).name : a.name) : 'noch keine'}</b>${r.wunsch ? ` · Wunsch: <b>${esc(r.wunsch)}</b>` + (stimmen.some(v => v.name.toLowerCase().startsWith(r.wunsch.toLowerCase())) ? '' : ` <button class="btn ghost small" data-such="${esc(r.wunsch)}">🔎 in der Bibliothek suchen</button>`) : ''}</p>
+      <p class="small muted" style="margin:0 0 6px">Jetzt: <b>${a ? esc(a.name === 'bisher' ? (stimmen.find(v => v.id === a.id) || {name: 'Stimme aus dem Paket'}).name : a.name) : 'noch keine'}</b>${r.wunsch ? ` · Wunsch: <b>${esc(r.wunsch)}</b>` + (stimmen.some(v => v.name.toLowerCase().startsWith(r.wunsch.toLowerCase())) ? '' : ` <button class="btn ghost small" data-such="${esc(r.wunsch)}">🔎 in der Bibliothek suchen</button>`) : ''}${(r.vorschlaege || []).length ? ` · Vorschläge: ${r.vorschlaege.map(n => `<button class="btn ghost small" data-such="${esc(n)}">🔎 ${esc(n)}</button>`).join(' ')}` : ''}</p>
       ${eigen.map(v => zeile(v, r)).join('') || '<p class="small muted">Keine Stimmen im Konto gefunden.</p>'}`;
     w.querySelectorAll('[data-pr]').forEach(b => b.onclick = async () => {
       const v = stimmen.find(x => x.id === b.dataset.pr);

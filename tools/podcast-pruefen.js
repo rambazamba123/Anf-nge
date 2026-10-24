@@ -74,7 +74,7 @@ try {
   ANIMS = new Set(Object.keys(kp.animationen || {})); if (kp.reviere) REVIERE = kp.reviere;
 } catch (e) { W(K, 'podcast/kursplan-sbf.json nicht lesbar, Folgen werden ohne Kursplan geprüft'); }
 /* Revier hörbar machen: Wo die Regel vom Revier abhängt, muss es in der Szene ausgesprochen werden (Konzept §10) */
-const REVIER_WORTE = {fahrwasser: /fahrwasser/i, vtg: /verkehrstrennungsgebiet|einbahnweg/i, nok: /kanal/i, frei: /frei(e[nmr]?)?\s+(see|seeraum)|offene[nmr]? see|außerhalb des fahrwassers|weg vom fahrwasser/i, watt: /watt|priel/i, schleuse: /schleuse/i,
+const REVIER_WORTE = {fahrwasser: /fahrwasser/i, vtg: /verkehrstrennungsgebiet|einbahnweg/i, nok: /kanal/i, frei: /frei(e[nmr]?)?\s+(see|seeraum)|offene[nmr]? see|außerhalb des fahrwassers|weg vom fahrwasser/i, watt: /watt|priel/i, schleuse: /schleuse|schleusn/i,
   hafen: /hafen|steg|pier|liegeplatz|box|anleger|kai/i, 'an Land': /kajüte|kartentisch|telefon|an land|prüfung|büro/i, fluss: /fluss|rhein|elbe|strom|ufer|binnenschiff/i, binnensee: /\bsee\b|binnensee|schilf|badestelle|ufer/i};
 /* „Enthält der Sprechtext diesen Katalogsatz?“: Anteil der Wörter (ohne Zahlen und Zeichen), die vorkommen */
 const woerter = t => t.toLowerCase().replace(/[^\p{L}\s]/gu, ' ').split(/\s+/).filter(w => w.length > 2);
@@ -111,6 +111,8 @@ for (const datei of dateien) {
   const fid = kopf.folge && /^[GSB]\d/.test(String(kopf.folge).trim()) ? String(kopf.folge).trim() : null;
   const lek = fid || (kopf.lektion ? String(kopf.lektion).trim() : null), P = lek ? PLAN.get(lek) : null;
   if (!kopf.folge && !lek) W(D, 'Kopf ohne „folge:“');
+  /* Probefolge (Kopf „status: probe“, Konzept Anhang H): gekürzt, darum sind fehlende Teile der vollen Folge nur Warnungen */
+  const PROBE = kopf.status === 'probe', SV = PROBE ? W : S;
   if (lek && PLAN.size && !P) F(D, `Folge ${lek} steht nicht im Kursplan`);
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
   const betont = [];
@@ -240,18 +242,18 @@ for (const datei of dateien) {
     if (L.denk < (LR.denkpausen_min || 2)) S(D, `nur ${L.denk} Denkpausen (mindestens ${LR.denkpausen_min || 2})`);
     if (P) {
       const fehlt = P.fragen.map(n => 'sbf:' + n).filter(id => !L.katalog.has(id));
-      if (fehlt.length) S(D, `Katalogsatz fehlt für ${fehlt.length} Fragen der Folge: ${fehlt.join(', ')}`);
+      if (fehlt.length) SV(D, `Katalogsatz fehlt für ${fehlt.length} Fragen der Folge: ${fehlt.join(', ')}`);
       [...L.katalog].filter(id => FRAGE_LEK.get(id) !== P.id).forEach(id => W(D, `[[KATALOG: ${id}]] gehört laut Kursplan zu Folge ${FRAGE_LEK.get(id) || '?'}`));
       if (P.baustein && L.baustein && L.baustein !== P.baustein) W(D, `Baustein „${L.baustein}“, laut Kursplan „${P.baustein}“`);
       if (P.baustein && !L.baustein) S(D, `[[BAUSTEIN: …]] fehlt (laut Kursplan „${P.baustein}“)`);
       const frueher = new Set();
       for (const r of L.rueck) { const [id, ort] = r.split('|'), l = PLAN.get(FRAGE_LEK.get(id)); if (!l) continue; if (l.i >= P.i) F(ort, `[[RUECKBLICK: ${id}]] stammt aus Folge ${l.id}, die noch nicht dran war`); else frueher.add(l.id); }
-      if (P.i > 2 && frueher.size < (LR.rueckblick_min_lektionen || 2)) S(D, `Rückblick ruft nur ${frueher.size} frühere Folge(n) ab (mindestens ${LR.rueckblick_min_lektionen || 2})`);
+      if (P.i > 2 && frueher.size < (LR.rueckblick_min_lektionen || 2)) SV(D, `Rückblick ruft nur ${frueher.size} frühere Folge(n) ab (mindestens ${LR.rueckblick_min_lektionen || 2})`);
       if (['system', 'regel'].includes(P.form) && !L.wahl) W(D, 'keine [[WAHL]]: Im interaktiven Modus gibt es dann keine Antwortknöpfe');
       /* Vertiefung je Antwortknopf zu einer Frage dieser Folge; Fragen früherer Folgen haben schon ihre Hörkarte */
       for (const [id, ort] of L.wahlIds) if (FRAGE_LEK.get(id) === P.id && !L.verts.has(id)) S(ort, `[[WAHL]] zu ${id} ohne [[VERTIEFUNG: ${id}]]: Wer falsch antwortet, bekommt im interaktiven Modus eine tiefere Erklärung`);
       const ohneKarte = P.fragen.map(n => 'sbf:' + n).filter(id => !L.karten.has(id));
-      if (ohneKarte.length) S(D, `Hörkarte fehlt für ${ohneKarte.length} Fragen der Folge: ${ohneKarte.join(', ')}`);
+      if (ohneKarte.length) SV(D, `Hörkarte fehlt für ${ohneKarte.length} Fragen der Folge: ${ohneKarte.join(', ')}`);
     }
     for (const [id, v] of L.verts) {
       if (v.stimmen.size > 2) W(v.ort, `Vertiefung ${id} mit ${v.stimmen.size} Stimmen (höchstens zwei)`);
@@ -277,7 +279,7 @@ for (const datei of dateien) {
   const zeichen = beitraege.filter(b => !b.karte && !b.vert).reduce((s, b) => s + b.n, 0), min = zeichen / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60;
   const vertZeichen = beitraege.filter(b => b.vert).reduce((s, b) => s + b.n, 0);
   const kartenZeichen = beitraege.filter(b => b.karte).reduce((s, b) => s + b.n, 0);
-  if (P && P.minuten && (min < P.minuten * .7 || min > P.minuten * 1.3)) W(D, `etwa ${min.toFixed(1)} Minuten Sprechtext, geplant sind ${P.minuten} (ohne Denkpausen und Geräusche)`);
+  if (P && P.minuten && !PROBE && (min < P.minuten * .7 || min > P.minuten * 1.3)) W(D, `etwa ${min.toFixed(1)} Minuten Sprechtext, geplant sind ${P.minuten} (ohne Denkpausen und Geräusche)`);
   console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen${lek ? `, ${L.schritte} Abschnitte, ${L.denk} Denkpausen, ${L.wahl} Antwortknöpfe, ${L.verts.size} Vertiefungen (${vertZeichen} Zeichen), ${L.merk} Merkhilfen, ${L.karten.size} Hörkarten (${kartenZeichen} Zeichen)` : ''}`);
 }
 if (dateien.length) console.log(`Abdeckung SBF See: ${[...alleFragen].filter(x => x.startsWith('sbf:')).length} von ${KAT.sbf.size} Fragen`);
