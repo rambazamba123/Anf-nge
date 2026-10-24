@@ -1,6 +1,7 @@
 # Die Figuren des Kajütenfunks
 
-> **Vom Nutzer am 23.10.2026 bestätigt** („Passt alles so“), mit einer Änderung: Smilla ist nicht vom Meer, sondern kommt von einem großen Fluss und hat sich alles selbst angeeignet. Erster Entwurf vom selben Tag. Nutzer, 23.10.2026: „Schärfe dann die Charaktere … Schlag alles selbst vor … Der Kapitän soll einen stärkeren Dialekt haben, Smilla weniger und ggf. einen anderen … Quirin sehr bayerisch.“
+> **Vom Nutzer am 23.10.2026 bestätigt** („Passt alles so“), mit einer Änderung: Smilla ist nicht vom Meer, sondern kommt von einem großen Fluss und hat sich alles selbst angeeignet. Erster Entwurf vom selben Tag.
+> **Zweite Änderung am 23.10.2026** (Nutzer): Quirin irrt nicht wie ein Anfänger, sondern ist „auf den Binnengewässern super Profi“. Er kommt nur für die Binnenfragen dazu (Teil B) und „ein oder zweimal davor zu Besuch“. Gestrichen sind die Regeln „keine Gruppenbeleidigung, keine Witze über Bayern, kein Alkohol als Witz über Kinder“. Höchstens drei Anreden je Folge (O7). Was daraus folgt, steht unten mit [neu]. Nutzer, 23.10.2026: „Schärfe dann die Charaktere … Schlag alles selbst vor … Der Kapitän soll einen stärkeren Dialekt haben, Smilla weniger und ggf. einen anderen … Quirin sehr bayerisch.“
 > Kennzeichen: **[fest]** steht schon fest (App-Code `CREW` in `index.html`, `PODCAST_BIBLE.md` oder CLAUDE.md, Quelle in Klammern). **[neu]** ist ein Vorschlag von Claude: streichen, ändern, ergänzen erwünscht.
 > Bei der Neufassung der Bible nach K1 wandert die Datei als Figurenprofil nach Bible §7 und §14.10 (Raster A25) und erledigt die offenen Punkte O5 und W2 (R15). Die Kennzeichen [fest] und [neu] zeigen weiter, woher eine Angabe stammt.
 > Wörter und Sprüche kommen aus `podcast/wortschatz.md`, dort stehen Bedeutung und Quelle.
@@ -15,7 +16,7 @@
 |---|---|---|
 | Hinnerk | Hochdeutsch mit viel Platt gemischt, in Garn und Gefühl ganze Platt-Sätze | stark |
 | Smilla | schnelles, modernes Hochdeutsch mit einem Hauch Rheinisch („ne?“, mal ein kölscher Spruch) | wenig, und ein anderer |
-| Quirin | Bairisch, wo es geht | sehr stark |
+| Quirin | Bairisch, wo es geht (in Teil G und S nur zu Besuch) | sehr stark |
 | Harms | knappes, hanseatisches Hochdeutsch | kaum |
 | Klabauter | plappert nach, was er hört: Platt von Hinnerk, Bairisch von Quirin, Wetterbericht | gemischt |
 | Gäste | Hochdeutsch; der Fischer spricht Platt | je nach Gast |
@@ -24,9 +25,21 @@
 - Wenn **Hinnerk** plötzlich Hochdeutsch spricht, wird es ernst. Alle hören zu.
 - Wenn **Quirin** eine Regel sagt, klingt er wie aus dem Lehrbuch. Smilla zieht ihn damit auf.
 
-**Redeanteile in einer Folge** [neu]: Smilla etwa 40 %, Hinnerk 25 %, Quirin 15 %, Klabauter 10 %, Harms oder Gast 10 %.
+**Redeanteile in einer Folge** [neu]:
+- Teil G und S: Smilla etwa 45 %, Hinnerk 30 %, Klabauter 10 %, Harms oder Gast 15 %. Bei Quirins zwei Besuchen (G6.3, S6.5) hat er den Anteil des Gasts.
+- Teil B (Binnen): Smilla etwa 35 %, Quirin 30 %, Hinnerk 15 %, Klabauter 10 %, Harms oder Gast 10 %.
 
-**Gilt weiter** [fest]: höchstens drei Stimmen je Szene; Hinnerks Irrtum wird innerhalb von 20 Sekunden berichtigt; Klabauter ist immer eindeutig Witz oder Wichtiges; der Hörer wird nur mit den beschlossenen, geschlechtsneutralen Anreden angesprochen; kein Nutzername; derb ja, doppeldeutig nur mit harmloser Lesart; keine Witze über Bayern (Bible P41–P48, §8, §9, Konzept §5).
+**Wer stellt die Fragen des Hörers?** [neu] Einen Mitlerner gibt es nicht mehr, Quirin ist Profi. Die Fragen, die der Hörer hat, kommen so in die Folge:
+- Smilla spricht sie aus: „Du fragst dich jetzt bestimmt …“
+- Hinnerk liefert die gefühlten Irrtümer (P41), etwa in jeder zweiten Folge.
+- Smilla erzählt ihre eigenen Fehler von früher: „Genau darüber bin ich damals gestolpert.“
+- Gäste bringen Fragen aus der Praxis mit, etwa die Polizistin: „Das fragen mich bei Kontrollen alle.“
+- Die Vorab-Frage und die Antwortknöpfe stellen dem Hörer die Frage direkt.
+- In Teil B wird Hinnerk der, der fragt: Auf Flüssen, Kanälen und in Schleusen ist er ungeübt.
+
+**Gilt weiter** [fest]: höchstens drei Stimmen je Szene; ein Irrtum wird innerhalb von 20 Sekunden berichtigt; Klabauter ist immer eindeutig Witz oder Wichtiges; der Hörer wird nur mit den beschlossenen, geschlechtsneutralen Anreden angesprochen, höchstens dreimal je Folge (O7, entschieden am 23.10.2026); kein Nutzername; derb ja, doppeldeutig nur mit harmloser Lesart (Bible P41–P48, §8, §9, Konzept §5 und §9).
+
+**Gestrichen am 23.10.2026** (Nutzer): „keine Gruppenbeleidigung“, „keine Witze über Bayern“, „kein Alkohol als Witz über Kinder“. Necken, Frotzeln und derbe Sprüche über Gruppen sind damit erlaubt: Bayern, Nordlichter, Rheinländer, Segler, Motorbootfahrer, Landratten. Was weiter nie vorkommt, steht im Konzept §9.5: Anspielungen auf Körper von Kindern und Anspielungen, die den Hörer selbst meinen (er kann zwölf sein).
 
 ---
 
@@ -44,6 +57,8 @@
 - Nach Smillas Berichtigung sagt er die richtige Fassung selbst, mit „Sag ich doch.“ [fest] (Konzept §5) und [neu] als Running Gag.
 
 **Haltung** [neu]: „Die See verzeiht nix. Aber Angst brauchst du nich haben, wenn du weißt, wat du tust.“ Sicherheit geht ihm über Stolz. Er mag keine Hektik, keine Angeber und kein Gerede.
+
+**Auf Binnengewässern** [neu, folgt aus Quirins neuer Rolle]: Flüsse, Kanäle und Schleusen sind nicht seine Welt. In G6.3, S6.5 und in Teil B fragt er nach, statt sich zu irren, denn bei Praxis und Sicherheit liegt er nie falsch (P41). Zugeben mag er das nicht: „Ich bin hier nur Passagier.“ Bei einer Schleuse wird er still, und Quirin genießt das.
 
 **Sprechweise**
 - Grüßt mit „Moin“, trocken [fest] (CLAUDE.md §3).
@@ -67,8 +82,8 @@
 **Nie**
 - falsch bei Praxis und Sicherheit; in jeder Folge falsch [fest] (Bible X7)
 - Dialekt im Regelsatz oder im amtlichen Antwortsatz
-- Witze über Bayern (über Quirin als Person ja, über seine Herkunft nein) [fest] (Bible X4)
-- Alkohol als Witz (Rasmus, Schlagseite nur wörtlich)
+
+**Erlaubt seit 23.10.2026** (Nutzer, die Verbote X4 und der Alkohol-Teil von X3 sind gestrichen): Er frotzelt über Bayern und Berge („Süßwassermatrose“, „Bergziege“), Quirin gibt es zurück („Fischkopp“, „Preiß“). Rum, Rasmus und Schlagseite dürfen Witz sein. Die Promille-Regel selbst bleibt ernst (Frage 2).
 
 **Typische Sätze** [neu]
 1. „Moin.“ (Meistens reicht das.)
@@ -84,7 +99,7 @@
 11. „Dor kannst nich meckern.“
 12. „Hol di fuchtig.“ (Abschied)
 
-**Aus dem Wortschatz:** Moin, Hol di fuchtig, Kiek mol wedder in, Wahrschau, Leinen los, Fender raus, Pütz, Schapp, Persenning, glasen, Hundewache, Klönschnack, Butter bei die Fische, Wat mutt dat mutt, Sabbel nich dat geit, Nu man sinnig, Dor kannst nich meckern, Schiet, Tüddelkram, Tünkram, Rasmus, Klookschieter, Schietbüx (zu Quirin), Süßwassermatrose (zu Quirin), Federvieh (zu Klabauter), Anreden Landratte, Schietbüdel, Dösbaddel, Kielschwein, Aberglaube aus Abschnitt 7.
+**Aus dem Wortschatz:** Moin, Hol di fuchtig, Kiek mol wedder in, Wahrschau, Leinen los, Fender raus, Pütz, Schapp, Persenning, glasen, Hundewache, Klönschnack, Butter bei die Fische, Wat mutt dat mutt, Sabbel nich dat geit, Nu man sinnig, Dor kannst nich meckern, Schiet, Tüddelkram, Tünkram, Rasmus, Klookschieter, Schietbüx (zu Quirin), Süßwassermatrose (zu Quirin), Federvieh (zu Klabauter), Anreden Landratte, Schietbüdel, Dösbaddel, Kielschwein, Aberglaube aus Abschnitt 7. **Doppeldeutiges** (Abschnitt 11): Lümmelbeschlag, aufgetakelte Fregatte, steife Brise, „Was für ein Heck“, schöner Rumpf, Schlagseite, Jungfernfahrt (nur über Schiffe).
 
 ---
 
@@ -121,7 +136,7 @@
 **Beziehungen** [neu]
 - **Hinnerk:** respektiert seine Praxis, berichtigt seine Regeln. Streit ja, nie von oben herab [fest] (Bible VS3, bestätigt im Grundsatz).
 - **Klabauter:** ihr Verbündeter für Merksätze.
-- **Quirin:** gleiche Generation, beide vom Süßwasser: sie vom Fluss, er vom See. Hinnerk nennt sie deshalb beide „Süßwassermatrosen“. Sie trainiert ihn, zieht ihn mit seiner Seekrankheit auf und ist stolz, wenn er etwas kann.
+- **Quirin:** gleiche Generation, beide vom Süßwasser: sie vom Rhein, er von Donau und Main-Donau-Kanal. Über Main und Kanal sind ihre Flüsse sogar verbunden. Hinnerk nennt sie deshalb beide „Süßwassermatrosen“. Auf Binnengewässern sind sie Kollegen auf Augenhöhe, auf See zieht sie ihn mit seiner Seekrankheit auf [neu, 23.10.2026].
 - **Harms:** Respekt und ein bisschen Angst. Er war damals ihr Prüfer bei Tonne 10.
 
 **Nie** [neu]: herablassend; lobt mit großen Worten; erklärt etwas, ohne das Warum zu nennen; falsche Fakten.
@@ -142,7 +157,7 @@
 13. „Et kütt wie et kütt? Nicht auf See. Da kommt, was du vorher geplant hast.“ (Törnplanung, Wetterbericht)
 14. „Auf dem Rhein hab ich das jeden Tag gesehen, ne?“ (Sog, Schwell, Schleuse, große Schiffe)
 
-**Aus dem Wortschatz:** Moin, Tschö, „ne?“, Kölsches Grundgesetz (Et es wie et es, Et kütt wie et kütt, Et hätt noch immer jot jejange), Klar, Wahrschau, Klar zur Wende – Ree, klar Schiff machen, den Wind aus den Segeln nehmen, auf dem falschen Dampfer sein, Seemannsgarn spinnen, ins Schlepptau nehmen, aus dem Ruder laufen, Tünkram, Mast- und Schotbruch (vor der Prüfung), Anreden Frischling, Landei, Seegurke, Bordküken, aus der App Badewannen-Kapitän, Planktonhirn, Hafenbecken-Admiral, Bilgenratte.
+**Aus dem Wortschatz:** Moin, Tschö, „ne?“, Kölsches Grundgesetz (Et es wie et es, Et kütt wie et kütt, Et hätt noch immer jot jejange), Klar, Wahrschau, Klar zur Wende – Ree, klar Schiff machen, den Wind aus den Segeln nehmen, auf dem falschen Dampfer sein, Seemannsgarn spinnen, ins Schlepptau nehmen, aus dem Ruder laufen, Tünkram, Mast- und Schotbruch (vor der Prüfung), Anreden Frischling, Landei, Seegurke, Bordküken, aus der App Badewannen-Kapitän, Planktonhirn, Hafenbecken-Admiral, Bilgenratte. **Doppeldeutiges** (Abschnitt 11): Hand gegen Koje (so hat sie segeln gelernt), ablegen und anlegen, dichtholen (über Hinnerk), eine Schote erzählen, aufkreuzen, „Der Knoten ist geplatzt“ (zum Hörer, harmlos).
 
 ---
 
@@ -181,25 +196,32 @@
 9. „Banane! Unglück! Unglück!“
 10. „Land in Sicht! Land in Sicht!“ (wenn eine Folge fast geschafft ist)
 
-**Aus dem Wortschatz:** Ahoi, Wahrschau, Smutje, Land in Sicht, Sabbel nich, Obacht, Hinni, alles aus Abschnitt 10, Anreden Grünschnabel, Nesthocker, Federlos.
+**Aus dem Wortschatz:** Ahoi, Wahrschau, Smutje, Land in Sicht, Sabbel nich, Obacht, Hinni, alles aus Abschnitt 10, Anreden Grünschnabel, Nesthocker, Federlos. **Doppeldeutiges** (Abschnitt 11, nur im Modus „Quatsch“): „Fock! Fock!“, „Lümmel! Lümmel!“, „Topp! Topp!“.
 
 ---
 
-## Quirin – der Mitlerner aus den Bergen
+## Quirin – der Binnen-Profi aus Bayern
 
 **Steckbrief**
 - **Beruf, Herkunft:** Bergführer aus dem Chiemgau [fest] (Bible P47).
-- **Segeln:** kann segeln, aber nur auf dem Chiemsee und kleineren Seen; auf dem Meer wird er seekrank [fest] (Bible P47). Er macht jetzt den SBF See [fest] (Konzept §5).
-- **Alter:** 34 [neu].
+- **Segeln:** segelt auf dem Chiemsee und kleineren Seen; auf dem Meer wird er seekrank [fest] (Bible P47).
+- **Auf Binnengewässern ein Profi** [fest] (Nutzer, 23.10.2026: „Auf den Binnengewässern ist er super Profi“). Wie genau, ist ein Vorschlag [neu, Vorschlag A]: Seit er sechzehn ist, fährt er mit seinem Motorboot Donau, Main-Donau-Kanal und Main, durch alle Schleusen, einmal sogar bis zum Rhein zu Smilla. Sein Boot liegt in Kelheim, wo Altmühl, Kanal und Donau zusammenkommen. Er hat den SBF Binnen und das Sportschifferzeugnis, das man für Boote von 20 bis 25 Metern braucht (Binnen-Frage 229). Er kennt Schleusen, Strömung, Brücken und die Berufsschifffahrt aus dem Alltag.
+  - **Vorschlag B** (wenn dir A zu konstruiert ist): Er stammt aus Kelheim an der Donau, sein Vater war Binnenschiffer mit eigenem Schiff (Partikulier), und er ist auf dem Schiff groß geworden. Bergführer im Chiemgau wurde er später. Dann wäre „aus dem Chiemgau“ (P47) zu ändern.
+- **Alter:** 34 [neu, bestätigt].
 - **Stimme:** George, unbestätigt [fest] (`podcast/audio_config.json`). Für „sehr bayerisch“ muss die Stimme Bairisch können. Die Stimmen überarbeitet der Nutzer selbst (Nutzer, 23.10.2026).
 
-**Rolle im Kurs**
-- Der Mitlerner: Er fragt, was der Hörer denkt, und irrt wie ein Anfänger [fest] (Konzept §5).
-- Bringt Vergleiche vom Berg mit: Wetterumschwung, Verantwortung für die Seilschaft [fest] (Konzept §5). Dazu [neu]: Den Webeleinstek kennt er schon, beim Klettern heißt er Mastwurf. Den Achter kennt er vom Anseilen. Den Halbmastwurf verwechselt er mit dem Mastwurf, und Smilla berichtigt ihn.
+**Rolle im Kurs** [fest] (Nutzer, 23.10.2026), Einzelheiten [neu]
+- **Teil G und S:** nur zweimal zu Besuch, beide Male da, wo er Profi ist:
+  - G6.3 „Brücken und Schleusen“: Er wartet mit der Crew vor einer Schleuse und erklärt Haltegebot und Schleusenlichter.
+  - S6.5 „Der Nord-Ostsee-Kanal, Brücken und Schleusen“: Er besucht die Crew an der Schleuse Kiel-Holtenau.
+  - Am Ende von Teil S (S11.5) liest Smilla seine Karte vor: die Einladung nach Bayern, als Brücke zu Teil B.
+- **Teil B (Binnen):** Hauptfigur neben Smilla, der Praxis-Profi wie Hinnerk auf See: Schleusen, Bergfahrt und Talfahrt, Strömung, Fähren, Brücken, Berufsschifffahrt. Er irrt dort nicht bei Praxis und Sicherheit. Hinnerk ist dann der, der fragt.
+- **Kein Mitlerner mehr:** Er irrt nicht wie ein Anfänger (das galt in Fassung 4 und ist vom Nutzer berichtigt). Auf See ist er vorsichtig und fragt nach, wenn er etwas nicht weiß, aber er ist kein Dummer.
+- Bringt Vergleiche vom Berg mit: Wetterumschwung, Verantwortung für die Seilschaft [fest] (Konzept §5). Dazu [neu]: Den Webeleinstek kennt er schon, beim Klettern heißt er Mastwurf. Den Achter kennt er vom Anseilen.
+- **Sein Lieblingswort** [neu]: „Bergfahrt“. Auf dem Fluss heißt so die Fahrt in Richtung Quelle (Binnen-Frage 95), „und da will i ja immer hin, in d' Berg“. Die Fahrt flussabwärts heißt Talfahrt.
 - Sicherheit vom Berg aufs Wasser [neu]: „Ohne Gurt geh i a ned in d' Wand“, also trägt er die Rettungsweste.
-- Er ist die Brücke zum späteren Binnen-Teil: Am Ende lädt er an den Chiemsee ein [fest] (Bible B89, noch aus der Geschichte; passt zum Plan Grundkurs, See, später Binnen).
 
-**Haltung** [neu]: Sonnenschein. Er nimmt sich nicht so ernst, lacht am lautesten über sich selbst [fest] (Bible P47) und lässt sich von Hinnerks Brummeln nicht kränken.
+**Haltung** [neu]: Sonnenschein. Er nimmt sich nicht so ernst, lacht am lautesten über sich selbst [fest] (Bible P47) und lässt sich von Hinnerks Brummeln nicht kränken. Auf dem Fluss ist er ruhig und sicher, auf dem Meer demütig.
 
 **Sprechweise** [neu, Nutzerwunsch „sehr bayerisch“]
 - Bairisch, wo es geht: „Servus mitanand!“, „Griaß eich!“, „fei“, „gell“, „a bisserl“, „Mei!“, „Bassd scho“, „Obacht!“, „Do legst di nieda!“, „Pack ma's!“, „So a Schmarrn!“, „Pfiat eich!“
@@ -207,17 +229,17 @@
 - Wenn er eine Regel aufsagt, wechselt er in sauberes Hochdeutsch wie aus dem Lehrbuch. Smilla: „Sehr schön auswendig gelernt. Und jetzt mit Warum?“
 - Bairische Schreibweise und Aussprache prüft vor der Vertonung ein Bekannter des Nutzers aus Bayern [fest] (Nutzer, 23.10.2026).
 
-**Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. **Keine** Klischees wie Lederhose, Weißwurst oder Bier [fest] (Status VS34, angenommen mit B65).
+**Humor** [neu]: über sich selbst. Seekrankheit („Mir is scho wieder ganz bliamerant.“), „I Depp!“, Brotzeit statt Fischbrötchen, Begeisterung bei jedem Sonnenuntergang. Seit 23.10.2026 sind Witze über Bayern erlaubt (Nutzer): Hinnerk frotzelt, Quirin gibt zurück („Fischkopp“, „Preiß“). Ob auch die Klischees Lederhose, Weißwurst und Bier vorkommen dürfen, war bisher ausgeschlossen (Status VS34, angenommen mit B65) und ist jetzt deine Entscheidung (Status O40).
 
-**Wenn er etwas nicht weiß** [neu]: Er fragt sofort „Warum eigentlich?“. Das ist die Frage, die der Hörer auch hat.
+**Wenn er etwas nicht weiß** [neu]: Auf See fragt er offen nach: „Warum eigentlich?“. Das ist die Frage, die der Hörer auch hat. Auf dem Fluss stellt er die Fragen, und Hinnerk muss antworten.
 
 **Beziehungen**
-- **Hinnerk:** „Grummel trifft Sonnenschein“, nennt ihn „Hinni“ [fest] (Bible P47) und „mei Spezl“, wenn er ihn ärgern will auch „du oider Grantler“ [neu].
-- **Smilla:** seine Trainerin; er bewundert sie und widerspricht ihr nie, außer bei Bergen [neu].
+- **Hinnerk:** „Grummel trifft Sonnenschein“, nennt ihn „Hinni“ [fest] (Bible P47) und „mei Spezl“, wenn er ihn ärgern will auch „du oider Grantler“ [neu]. Vor der Schleuse dreht sich alles um: Da ist Hinnerk still, und Quirin genießt es.
+- **Smilla:** gleiche Generation, Kollegen auf Augenhöhe auf dem Süßwasser; auf See ist sie seine Trainerin [neu].
 - **Klabauter:** liebt ihn und nennt ihn „Schlawiner“ [neu].
 - **Backbord:** ignoriert ihn [neu] (Status VS34).
 
-**Nie** [fest]: Witze über Bayern, von wem auch immer; Klischees. Dazu [neu]: Dialekt im Regelsatz; Alkohol als Witz.
+**Nie** [neu]: Dialekt im Regelsatz; falsch bei Praxis und Sicherheit auf Binnengewässern.
 
 **Typische Sätze** [neu]
 1. „Servus mitanand!“
@@ -226,14 +248,16 @@
 4. „Warum eigentlich?“
 5. „Am Berg hoaßt des Seilschaft. Da passt oaner auf den andern auf.“
 6. „Den Knoten kenn i! Beim Klettern hoaßt der Mastwurf.“
-7. „Mir is ganz bliamerant.“
+7. „Mir is ganz bliamerant.“ (auf See)
 8. „I Depp, i.“
 9. „Mei, bassd scho.“
 10. „Do legst di nieda!“
 11. „Pack ma's!“
-12. „Pfiat eich, und kimmt's amoi an Chiemsee!“
+12. „Bergfahrt, des is mei Lieblingswort.“
+13. „Vor da Schleusn wartst, Hinni. Und mir Kloane fahrn als Letzte nei.“ (Kleinfahrzeuge fahren nach den großen ein, Binnen-Frage 118)
+14. „Pfiat eich, und kimmt's amoi zu mir nach Bayern!“
 
-**Aus dem Wortschatz:** alles aus Abschnitt 9 (Bairisch und Bergwörter), Klar, in einem Boot sitzen.
+**Aus dem Wortschatz:** alles aus Abschnitt 9 (Bairisch und Bergwörter), Klar, in einem Boot sitzen. **Binnenwörter** (Abschnitt 9): Bergfahrt, Talfahrt, Oberwasser, Unterwasser, Drempel, Schleusenkammer, Schubverband, Buhne, Treideln. **Doppeldeutiges** (Abschnitt 11): Mast legen (nur Teil B), Oberwasser haben, Talfahrt.
 
 ---
 
@@ -289,12 +313,13 @@
 | Fischer | S3.6 Tiefgangbehinderte und Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
 | Verkehrszentrale | S6.6 Verkehrstrennungsgebiete und Verkehrszentralen | Mats [fest] | ruhige Funksprache, formal, deutlich |
 | Rangerin | S8.1 Wattenmeer und Nationalparks | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
+| Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | George, unbestätigt | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
 
 ---
 
 ## Zwei kurze Beispielszenen [neu]
 
-Nur zum Hören der Figuren, nicht für den Kurs geschrieben. Fachlich nach Katalog: Frage 15 (kreuzende Kurse); Webeleinstek und Mastwurf sind derselbe Knoten (`podcast/wortschatz.md`, Abschnitt 9).
+Nur zum Hören der Figuren, nicht für den Kurs geschrieben. Szene B zeigt Quirins Ton; im Kurs kommt er nur in G6.3, S6.5 und Teil B vor. Fachlich nach Katalog: Frage 15 (kreuzende Kurse); Webeleinstek und Mastwurf sind derselbe Knoten (`podcast/wortschatz.md`, Abschnitt 9).
 
 **Szene A: Kieler Bucht, unter Motor, ein Motorboot kommt von rechts**
 - HINNERK: Moin. Kiek mol, da kommt einer von rechts. Ich war zuerst da, also fahr ich.
@@ -324,3 +349,10 @@ Antworten des Nutzers auf die offenen Punkte des Entwurfs („Passt alles so, nu
 4. Klabauters Merk-Zeichen: Schiffsglocke plus „Krrah! Merken!“ passt (schließt Bible O6 bei der Neufassung nach K1).
 5. Harms war damals Smillas Prüfer bei Tonne 10: passt.
 6. In der App (Live-KI, `CREW` in `index.html`) spricht Hinnerk seit v4.87 kräftiger norddeutsch, Smilla kommt vom Rhein.
+
+## Entschieden am 23.10.2026, zweite Nachricht
+
+1. Quirin ist auf Binnengewässern „super Profi“, kommt nur für die Binnenfragen dazu (Teil B) und „ein oder zweimal davor zu Besuch“. Claude schlägt G6.3 und S6.5 vor, beide mit Schleusen. Der Mitlerner entfällt; seine Aufgaben verteilen sich (oben „Wer stellt die Fragen des Hörers?“). Offen: Vorschlag A oder B für seine Herkunft (Status O39).
+2. Gestrichen: „keine Gruppenbeleidigung“, „keine Witze über Bayern“, „kein Alkohol als Witz über Kinder“. Offen: ob damit auch die Klischees Lederhose, Weißwurst und Bier erlaubt sind (Status O40).
+3. Höchstens drei Anreden je Folge (O7).
+4. Doppeldeutige Seemannsbegriffe mit harmloser Lesart sind den Figuren zugeordnet (`podcast/wortschatz.md`, Abschnitt 11).

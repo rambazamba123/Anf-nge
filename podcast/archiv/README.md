@@ -7,6 +7,7 @@ Hier liegt das Material aus der Zeit, als der Kajütenfunk eine durchgehende Ges
 | `leitfaden-sbf-see.md` | Leitfaden der Geschichte, Fassung 2: 22 Folgen, „Die Wette“, Boot Frieda, Frieda mit Kneipe, Klabauter als Petze |
 | `skripte/folge-01.md` | erster Entwurf Folge 1 „Die Spritztour“ (mit Frieda und Jonte) |
 | `skripte/vorgeschmack-14.md` | Vorgeschmack auf Folge 14 (Nebel auf der Elbe) |
+| `soundeffekte-geschichte.md` | lange Geräuschliste für die Geschichte (abgelöst am 23.10.2026 durch `podcast/soundeffekte.md`) |
 
 - Die Dateien werden von den Werkzeugen nicht mehr geprüft und nicht vertont.
 - Die Figuren Frieda und Jonte (`SPRITZTOURER`) sind aus `podcast/audio_config.json` und `podcast/casting.json` entfernt.

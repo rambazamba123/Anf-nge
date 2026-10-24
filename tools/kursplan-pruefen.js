@@ -1,8 +1,8 @@
-/* Prüft den Kursplan des Kajütenfunks (podcast/kursplan-sbf.json, Fassung 4) gegen den Katalog und das finale Konzept
+/* Prüft den Kursplan des Kajütenfunks (podcast/kursplan-sbf.json, Fassung 5) gegen den Katalog und das finale Konzept
    (docs/konzept-kajuetenfunk.md). Teile → Kapitel → Folgen. Prüft:
    - jede Katalogfrage in genau einer Folge; Teil G enthält genau seinen Fragenbereich (Basisfragen 1–72), Teil S den Rest
    - Form, Baustein, Gast, Revier, Animationen und Recherche-Nummern (docs/recherche-kajuetenfunk.md) gibt es
-   - der Baustein wechselt von Folge zu Folge; Schwerpunktfragen gehören zur Folge; Länge im Rahmen
+   - der Baustein und der Rahmen (Dramaturgie) wechseln von Folge zu Folge, jede Folge hat eine Lage; Schwerpunktfragen gehören zur Folge; Länge im Rahmen
    - Vergleichsfolgen beziehen sich nur auf Fragen früherer Folgen
    - die erzeugten Abschnitte im Konzept sind aktuell (sonst Warnung)
    Aufruf: node tools/kursplan-pruefen.js              Prüfung und Übersicht
@@ -10,7 +10,7 @@
            node tools/kursplan-pruefen.js --steckbriefe  Folgen-Steckbriefe (Markdown)
            node tools/kursplan-pruefen.js --umfang     Umfang je Kapitel: Folgen, Minuten, Fragen (Markdown)
            node tools/kursplan-pruefen.js --animationen  Animationskatalog mit den Folgen, die ihn nutzen (Markdown)
-           node tools/kursplan-pruefen.js --fragen     alle Fragen je Folge mit allen amtlichen Antworten (docs/kurs-fragen-sbf.md)
+           node tools/kursplan-pruefen.js --fragen     alle Fragen je Folge mit allen amtlichen Antworten und dem Merksatz der App (docs/kurs-fragen-sbf.md)
            node tools/kursplan-pruefen.js --konzept    schreibt Umfang, Übersicht, Animationen und Steckbriefe ins Konzept (zwischen den Markierungen) */
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..'), args = process.argv.slice(2);
@@ -18,11 +18,14 @@ const KONZEPT = path.join(ROOT, 'docs/konzept-kajuetenfunk.md');
 const plan = JSON.parse(fs.readFileSync(path.join(ROOT, 'podcast/kursplan-sbf.json'), 'utf8'));
 const kat = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/sbf.json'), 'utf8')).filter(q => !q.skip);
 const QN = new Map(kat.map(q => [q.n, q]));
+let KARTE = {};   /* Merksätze der App (Feld m), dieselben gelten im Kajütenfunk */
+try { KARTE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/karten-sbf.json'), 'utf8')).k || {}; } catch (e) {}
 const fehler = [], warn = [];
 const RECH = new Set((fs.existsSync(path.join(ROOT, 'docs/recherche-kajuetenfunk.md')) ? fs.readFileSync(path.join(ROOT, 'docs/recherche-kajuetenfunk.md'), 'utf8') : '').match(/^\| (R\d+) \|/gm)?.map(z => z.slice(2, -2)) || []);
 let FIG = {};
 try { FIG = JSON.parse(fs.readFileSync(path.join(ROOT, 'podcast/audio_config.json'), 'utf8')).figuren || {}; } catch (e) { warn.push('podcast/audio_config.json nicht lesbar, Gäste nicht abgeglichen'); }
 const L = plan.laenge || {}, FORM = {system: 'System zuerst', regel: 'Regel für Regel', einfuehrung: 'Einführung', praxis: 'Praxis', kartenaufgabe: 'Kartenaufgabe', vergleich: 'Vergleich'};
+const RAHMEN = {hoerspiel: 'Hörspiel', toern: 'Törn', unterricht: 'Unterricht', garnabend: 'Garn-Abend', duell: 'Duell', besuch: 'Besuch'};
 const NAME = {garn: 'Garn', stichprobe: 'Stichprobe', detektiv: 'Fehler-Detektiv', tonlabor: 'Ton-Labor', gast: 'Gast', streit: 'Streitgespräch', kopfkino: 'Kopfkino'};
 
 /* Folgen der Reihe nach, mit Teil und Kapitel */
@@ -46,6 +49,12 @@ folgen.forEach((f, i) => {
   const vor = folgen[i - 1];
   if (vor && f.baustein && vor.baustein === f.baustein) fehler.push(`Folge ${f.id}: gleicher Baustein wie ${vor.id} (${f.baustein})`);
   if (f.baustein === 'gast' && !f.gast) fehler.push(`Folge ${f.id}: Baustein Gast ohne Gast`);
+  /* Abwechslung (Fassung 5): jede Folge hat einen Rahmen und eine Lage, nie zweimal derselbe Rahmen hintereinander */
+  if (!f.rahmen) fehler.push(`Folge ${f.id} ohne Rahmen`);
+  else if (!(plan.rahmen || {})[f.rahmen]) fehler.push(`Folge ${f.id}: unbekannter Rahmen „${f.rahmen}“`);
+  if (vor && f.rahmen && vor.rahmen === f.rahmen) fehler.push(`Folge ${f.id}: gleicher Rahmen wie ${vor.id} (${f.rahmen})`);
+  if (!f.lage) warn.push(`Folge ${f.id} ohne Lage`);
+  if (f.rahmen === 'besuch' && !f.gast) warn.push(`Folge ${f.id}: Rahmen Besuch ohne Gast`);
   if (f.gast && !plan.gaeste[f.gast]) fehler.push(`Folge ${f.id}: unbekannter Gast „${f.gast}“`);
   if (f.gast && Object.keys(FIG).length && !FIG[f.gast]) warn.push(`Folge ${f.id}: Gast ${f.gast} fehlt in podcast/audio_config.json`);
   if (!(plan.reviere || []).includes(f.revier)) fehler.push(`Folge ${f.id}: unbekanntes Revier „${f.revier}“`);
@@ -73,14 +82,15 @@ function uebersicht() {
     const tf = folgen.filter(f => f.teil === t);
     z.push(`\n### Teil ${t.id}: ${t.titel} (für ${t.fuer.join(' und ')}; ${tf.length} Folgen, ${hm(summe(tf))})`);
     for (const k of t.kapitel) {
-      z.push(`\n**${k.id} ${k.titel}** – ${k.ueberblick}\n`, '| Folge | Titel | Form | Fragen | Bild/Ton | Baustein | Revier | Min. |', '|---|---|---|---|---|---|---|---|');
+      z.push(`\n**${k.id} ${k.titel}** – ${k.ueberblick}\n`, '| Folge | Titel | Form | Rahmen | Fragen | Bild/Ton | Baustein | Revier | Min. |', '|---|---|---|---|---|---|---|---|---|');
       for (const f of k.folgen) {
         const fr = f.fragen.length ? kurz(f.fragen) : f.form === 'vergleich' ? `Bezug: ${f.bezug.length} Fragen` : '–';
-        z.push(`| ${f.id} | ${f.titel} | ${FORM[f.form]} | ${fr} | ${f.fragen.length ? bildTon(f) : '–'} | ${NAME[f.baustein] || '–'}${f.gast ? ` (${plan.gaeste[f.gast]})` : ''} | ${f.revier} | ${f.minuten} |`);
+        z.push(`| ${f.id} | ${f.titel} | ${FORM[f.form]} | ${RAHMEN[f.rahmen] || '–'} | ${fr} | ${f.fragen.length ? bildTon(f) : '–'} | ${NAME[f.baustein] || '–'}${f.gast ? ` (${plan.gaeste[f.gast]})` : ''} | ${f.revier} | ${f.minuten} |`);
       }
     }
   }
-  z.push(`\n**Zusammen:** ${folgen.length} Folgen, ${hm(summe(folgen))}; ${wo.size} von ${kat.length} Katalogfragen.`);
+  const rz = Object.keys(RAHMEN).map(r => `${RAHMEN[r]} ${folgen.filter(f => f.rahmen === r).length}`).join(', ');
+  z.push(`\n**Zusammen:** ${folgen.length} Folgen, ${hm(summe(folgen))}; ${wo.size} von ${kat.length} Katalogfragen. **Rahmen:** ${rz}.`);
   return z.join('\n').trim();
 }
 
@@ -91,7 +101,8 @@ function steckbriefe() {
     for (const k of t.kapitel) {
       z.push(`\n#### Kapitel ${k.id}: ${k.titel}\n\n*Kapitelüberblick (Anfang der ersten Folge):* ${k.ueberblick}`);
       for (const f of k.folgen) {
-        z.push(`\n**${f.id} ${f.titel}** · ${FORM[f.form]} · ${f.minuten} min`);
+        z.push(`\n**${f.id} ${f.titel}** · ${FORM[f.form]} · ${RAHMEN[f.rahmen] || '–'} · ${f.minuten} min`);
+        if (f.lage) z.push(`- **Lage:** ${f.lage}`);
         if (f.fragen.length) z.push(`- **Fragen (${f.fragen.length}):** ${f.fragen.map(n => `${n} ${frageKurz(n)} → ${ziel(n, 55)}`).join(' · ')}`);
         if ((f.schwerpunkt || []).length) z.push(`- **Ausführlich erklären:** ${f.schwerpunkt.join(', ')}; die übrigen kurz mitnehmen oder in der Fragenstrecke nennen.`);
         if ((f.bezug || []).length) z.push(`- **Bezug (Wiederholung):** ${kurz(f.bezug)}`);
@@ -127,7 +138,7 @@ function animationen() {
 }
 
 function fragenliste() {
-  const out = ['# Kajütenfunk: alle Fragen je Folge\n\nAus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt) und `podcast/kursplan-sbf.json` (Fassung 4) erzeugt mit `node tools/kursplan-pruefen.js --fragen`. **✓** ist die richtige Antwort, **✗** sind die amtlichen Falschantworten (Grundlage für Fallen und Fallen-Check). [Bild] heißt: Zur Frage gehört eine Abbildung. Tonfolgen: ● kurz, ▬ lang. Teil G (Basisfragen) gilt auch für SBF Binnen.'];
+  const out = ['# Kajütenfunk: alle Fragen je Folge\n\nAus `data/sbf.json` (amtlicher Fragenkatalog SBF See, wie in der App hinterlegt) und `podcast/kursplan-sbf.json` (Fassung 4) erzeugt mit `node tools/kursplan-pruefen.js --fragen`. **✓** ist die richtige Antwort, **✗** sind die amtlichen Falschantworten (Grundlage für Fallen und Fallen-Check), 💡 ist der Merksatz aus der App (`data/karten-sbf.json`, gilt auch im Kajütenfunk). [Bild] heißt: Zur Frage gehört eine Abbildung. Tonfolgen: ● kurz, ▬ lang. Teil G (Basisfragen) gilt auch für SBF Binnen.'];
   for (const t of plan.teile) for (const k of t.kapitel) {
     out.push(`\n## ${k.id} ${k.titel}`);
     for (const f of k.folgen) {
@@ -135,7 +146,8 @@ function fragenliste() {
       if (!f.fragen.length) { out.push(f.bezug ? `Wiederholung, Bezug auf: ${kurz(f.bezug)}` : '(keine Katalogfragen)'); continue; }
       for (const n of f.fragen) {
         const q = QN.get(n), zus = q.img ? ' [Bild]' : q.sig ? ` [Tonfolge: ${q.sig}]` : '';
-        out.push(`\n**${n}.**${(f.schwerpunkt || []).includes(n) ? ' (Schwerpunkt)' : ''} ${q.q.replace(/\s+/g, ' ')}${zus}\n- ✓ ${q.a[0]}${q.a.slice(1).map(a => `\n- ✗ ${a}`).join('')}`);
+        const m = (KARTE['sbf:' + n] || {}).m;
+        out.push(`\n**${n}.**${(f.schwerpunkt || []).includes(n) ? ' (Schwerpunkt)' : ''} ${q.q.replace(/\s+/g, ' ')}${zus}\n- ✓ ${q.a[0]}${q.a.slice(1).map(a => `\n- ✗ ${a}`).join('')}${m ? `\n- 💡 ${m}` : ''}`);
       }
     }
   }
@@ -170,6 +182,7 @@ else if (args.includes('--konzept')) {
   console.log(`Kursplan ${plan.schein.toUpperCase()}, Fassung ${plan.fassung}: ${plan.teile.length} Teile, ${plan.teile.reduce((a, t) => a + t.kapitel.length, 0)} Kapitel, ${folgen.length} Folgen, ${wo.size} von ${kat.length} Fragen zugeordnet`);
   for (const t of plan.teile) { const tf = folgen.filter(f => f.teil === t); console.log(`  Teil ${t.id} ${t.titel}: ${tf.length} Folgen, ${hm(summe(tf))}, ${tf.reduce((a, f) => a + f.fragen.length, 0)} Fragen`); }
   console.log(`Dauer zusammen: ${hm(summe(folgen))}; Folgen im Schnitt ${(summe(folgen) / folgen.length).toFixed(1)} min`);
+  console.log(`Rahmen: ${Object.keys(RAHMEN).map(r => `${RAHMEN[r]} ${folgen.filter(f => f.rahmen === r).length}`).join(', ')}`);
   const wartet = folgen.filter(f => f.braucht);
   if (wartet.length) console.log(`Wartet auf Quellen: ${wartet.map(f => f.id).join(', ')}`);
   if (fs.existsSync(KONZEPT)) { const {veraltet} = konzeptAbschnitte(fs.readFileSync(KONZEPT, 'utf8'), false); if (veraltet.length) warn.push(`docs/konzept-kajuetenfunk.md: erzeugte Abschnitte nicht aktuell (${veraltet.join(', ')}); node tools/kursplan-pruefen.js --konzept`); }

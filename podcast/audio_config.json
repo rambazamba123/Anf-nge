@@ -35,19 +35,22 @@
     "nie_im_satz_trennen": true,
     "sprecherwechsel_zusammenhalten": true
   },
-  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL", "ABSCHNITT", "WAHL", "ANIM", "HOERKARTE"],
+  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL", "ABSCHNITT", "WAHL", "ANIM", "HOERKARTE", "VERTIEFUNG"],
   "lektion_regeln": {
-    "_hinweis": "Regeln für Folgenskripte des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 4, §7, §10, §16 und Anhang A). tools/podcast-pruefen.js wendet sie an, sobald im Kopf „folge:“ (oder aus Fassung 3 „lektion:“) steht.",
+    "_hinweis": "Regeln für Folgenskripte des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 5, §5, §7, §10, §16 und Anhang A). Denkpausen kurz, weil sie auch im Auto-Modus laufen (Nutzer, 23.10.2026: „Nicht zu lange“); 3 s erinnern, 5 s entscheiden (mit [[WAHL]]), 6 s Kernsätze. Merkhilfen ausgebaut (Nutzer, 23.10.2026). tools/podcast-pruefen.js wendet sie an, sobald im Kopf „folge:“ (oder aus Fassung 3 „lektion:“) steht.",
     "revier_werte": ["frei", "fahrwasser", "vtg", "nok", "hafen", "watt", "schleuse", "an Land", "fluss", "binnensee"],
-    "denkpause_sekunden": ["4", "6", "8"],
-    "denkpause_umsetzung": "Stille wird beim Zusammenfügen in die MP3 geschnitten (kein Audio-Tag); davor ein leiser Signalton „jetzt du“",
+    "denkpause_sekunden": ["3", "5", "6"],
+    "denkpause_entscheidung": "5",
+    "denkpause_umsetzung": "Stille wird beim Zusammenfügen in die MP3 geschnitten (kein Audio-Tag); davor ein leiser Signalton „jetzt du“, darunter auf Wunsch ein leises Ticken; danach sagt die Folge die Lösung",
     "irrtum_berichtigung_max_sekunden": 20,
-    "merkhilfen_max": 3,
+    "merkhilfen_max": 6,
     "stimmen_je_szene_max": 3,
     "denkpausen_min": 2,
     "rueckblick_min_lektionen": 2,
     "katalog_treffer_min": 0.8,
-    "hoerkarte_max_zeichen": 450
+    "hoerkarte_max_zeichen": 450,
+    "vertiefung_max_zeichen": 600,
+    "vertiefung_hinweis": "[[VERTIEFUNG: sbf:n]] … [[VERTIEFUNG: ende]]: eigener Clip, nur im interaktiven Modus nach einer falschen Antwort auf [[WAHL]] zu derselben Frage; erklärt tiefer und anders als der Haupttext; höchstens zwei Stimmen"
   },
   "pause_werte": ["kurz", "nachdenklich", "dramatisch"],
   "tempo_werte": ["langsam", "normal", "zügig"],
