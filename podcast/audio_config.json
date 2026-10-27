@@ -22,7 +22,7 @@
     "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": "4FAKwoQRvqLfJJP6W6Qp", "stimme": "Mats – Warm, Genuine"},
     "HAFENMEISTER": {"name": "Hafenmeisterin", "voice_id": "fs3nd19KF2GO2hLTzkBm", "stimme": "Lucinda – Earthy"},
     "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": "ib8aaABAPZQpTo6hx8Jr", "stimme": "Severin – Powerful"},
-    "RANGERIN": {"name": "Rangerin im Nationalpark (Gast, Folge S8.1)", "voice_id": null, "hinweis": "neue Gastrolle aus dem Prüfbericht vom 22.10.2026; Stimme im Casting wählen"}
+    "RANGERIN": {"name": "Rangerin im Nationalpark (Gast, Folge S8.1)", "voice_id": "CoFoB7a7PXA8RBsMHbua", "hinweis": "Gastrolle aus dem Prüfbericht vom 22.10.2026. Stimmen-ID vom Nutzer am 27.10.2026, liegt in seinem ElevenLabs-Konto („Meine Stimmen“)."}
   },
   "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Voice-IDs vom Nutzer am 20.10. (B97). Klabauter spricht im Podcast mit Wally; die App nutzt bis zur Entscheidung O38 noch die alte Stimme (app_stimme_bisher). Frieda hat noch keine Stimme. Auf dem Gerät nutzt die Hörprobe die Casting-Zuordnung (S.cfg.casting). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
   "aussprache": {

@@ -317,7 +317,7 @@
 | Hafenmeisterin | G3.1 Anlegen und Ankern | Lucinda [fest] | resolut, praktisch, leicht norddeutsch; „Fender raus, bevor du bei mir anlegst.“ |
 | Fischer | S3.6 Tiefgangbehinderte und Fischer | Dr. von Quirky [fest] | wortkarg, starkes Platt; Smilla übersetzt |
 | Verkehrszentrale | S6.6 Verkehrstrennungsgebiete und Verkehrszentralen | Mats [fest] | ruhige Funksprache, formal, deutlich |
-| Rangerin | S8.1 Wattenmeer und Nationalparks | noch keine [fest] | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
+| Rangerin | S8.1 Wattenmeer und Nationalparks | `CoFoB7a7PXA8RBsMHbua` [fest] (Nutzer, 27.10.2026) | begeistert vom Wattenmeer, erklärt Robben, Vögel und Schutzgebiete mit Herz |
 | Quirin zu Besuch | G6.3 Brücken und Schleusen, S6.5 Der Nord-Ostsee-Kanal [neu] | Alexander (Bibliothek) | Schleusen-Profi; in Teil B Hauptfigur (siehe oben) |
 
 ---
