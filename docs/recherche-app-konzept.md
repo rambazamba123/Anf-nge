@@ -232,6 +232,8 @@ Bei jeder Studie steht die Herkunft. Wo nur eine Zusammenfassung zugänglich war
 - **O75 „Falsch + Easy“:** künftig als Fehler zählen (N7)?
 - **O76 Gratis-Stimmen:** Ist die Handystimme gemeint (kostenlos, klingt künstlich) oder etwas anderes?
 
+**Antworten (27. und 28.10.2026):** stehen in `VISION.md` §13. Die Richtung ist: Kern behalten, dünne Reise, aufräumen, App gratis plus Starter-Set; offen ist noch O88–O92 in `VISION.md` §14.
+
 ## 9. Neue Vorgaben vom 25.–27.10.2026 (nicht Podcast)
 Sie kommen im nächsten Schritt in `CLAUDE.md`. Die Beschlüsse zum Podcast stehen in `PODCAST_STATUS.md` als B141–B163.
 - **Ziel und Zielgruppe:** Vorbereitung auf alle Bootsscheine, ab 12 bis ins hohe Alter. Kajütenfunk und App sind gleich wichtig, der Kajütenfunk ist ein Teil der App und ersetzt den Kurs.
