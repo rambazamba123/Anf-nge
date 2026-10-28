@@ -826,6 +826,20 @@ function rechenblattHTML(b, peil) {
 }
 /* Eine Aufgabe zeigen: oben die Aufgabe, in der Mitte die Karte, unten das Arbeitsblatt mit Antwort, Rechenblatt und Hilfe.
    opts: {title, mode:'guided'|'free'|'master'|'exam', meta(), scen, lageOffen, bisher[[Name, Wert]], blatt, keep, onResult(ok,res,task,used,ctl), next, nextLabel, back} */
+/* M11 (Nutzer, 28.10.2026): Auch im Übungsmodus begleitet Smilla jede Aufgabe mit kurzen Sätzen (Gratis-Stimme, Platzhalter bis zur Story).
+   Aus mit S.cfg.naviCrew = false; in der Prüfung schweigt sie. */
+const NAVI_CREW = {
+  start: ['Lies die Aufgabe in Ruhe. Die Werkzeuge liegen unten.', 'Erst gucken, dann rechnen. Die Karte läuft nicht weg.', 'Na los. Dreieck, Zirkel, Bleistift: alles da.'],
+  gefuehrt: ['Ich hab dir schon einen Tipp hingelegt. Lies ihn zuerst.'],
+  richtig: ['Sauber. So sieht das ein Prüfer gern.', 'Passt. Weiter so.', 'Richtig. Du wirst ja noch Navigator.'],
+  falsch: ['Knapp daneben. Guck dir den Rechenweg an.', 'Nicht ganz. Die Lösung ist jetzt gestrichelt in der Karte.', 'Das war nix. Macht nichts, dafür üben wir ja.']
+};
+function smillaSagt(art, text) {
+  if (S.cfg && S.cfg.naviCrew === false) return;
+  const l = text || (NAVI_CREW[art] || [])[Math.random() * (NAVI_CREW[art] || []).length | 0]; if (!l) return;
+  try { VOX.stop('Smilla Navigation'); VOX.say((S.crew && S.crew.M) || 'smilla', l, 'local'); } catch (e) {}
+}
+const ohneTags = h => String(h).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 NAV.task = function (task, opts) {
   const guided = opts.mode === 'guided', exam = opts.mode === 'exam', hilfeErlaubt = guided || opts.mode === 'free'; NAV.lastTask = task;
   const blatt = opts.blatt || neuesBlatt(); fuelleGeg(blatt, task.geg);
@@ -891,6 +905,7 @@ NAV.task = function (task, opts) {
   let hints = 0;
   const zeigeStufe = () => {
     if (hints >= stufen.length) return;
+    if (hints || !guided) smillaSagt(null, ohneTags(stufen[hints].html).slice(0, 260));
     used = true; const h = stufen[hints], html = `<p class="small nhint" style="margin:6px 0 0"><b>${h.t}:</b> ${NAV.linkTerms(h.html)}</p>`;
     (guided && hints === 0 ? [$('#xtipp'), $('#xhints')] : [$('#xhints')]).forEach(z => { z.insertAdjacentHTML('beforeend', html); NAV.bindTerms(z); });
     if (h.loes && ctl && task.soll) task.soll(ctl);
@@ -898,12 +913,13 @@ NAV.task = function (task, opts) {
   };
   if ($('#xhint')) $('#xhint').onclick = zeigeStufe;
   if (guided) zeigeStufe();
+  if (!exam) setTimeout(() => smillaSagt(guided ? 'gefuehrt' : 'start'), 600);
   $('#xcheck').onclick = () => {
     root.querySelectorAll('[data-pane="antwort"] [data-k]').forEach(i => { vals[i.dataset.k] = i.value; });
     const res = grade(task, vals, ctl), ok = task.fields.every(f => res[f.k].ok);
     tasten.zu();
     if (exam) return opts.onResult(ok, res, task, false, ctl);
-    AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35});
+    AUD.sfx(ok ? 'richtig' : 'falsch', {vol: ok ? .5 : .35}); smillaSagt(ok ? 'richtig' : 'falsch');
     reiter('antwort'); root.classList.add('fbon');
     root.querySelectorAll('[data-pane="antwort"] input, [data-mc] button').forEach(i => { i.disabled = true; });
     $('#xbtns').remove(); $('#xmess').innerHTML = '';

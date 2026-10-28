@@ -524,7 +524,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.99';
+  window.__ver = '5.00';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -3859,6 +3859,8 @@ function renderSettings() {
     <label for="wx">Wetter</label>${sel('wx', [['auto', 'Jeden Tag anders (meistens schön)'], ['schoen', 'Immer schön'], ['windig', 'Frischer Wind'], ['sturm', 'Wind und Regen'], ['regen', 'Windstill und Regen'], ['nebel', 'Nebel']], c.wx)}
     <label for="gross">Schrift</label>${sel('gross', [['0', 'Normal'], ['1', 'Groß']], c.gross ? '1' : '0')}
     <button class="btn ghost wide" id="geraeusche" style="margin-top:12px">🔊 Alle Geräusche anhören</button>
+    <label for="ncr">Smilla bei der Navigation</label>${sel('ncr', [['1', 'Spricht mit (Tipps und Rückmeldung)'], ['0', 'Still']], c.naviCrew === false ? '0' : '1')}
+    <label for="kst">Hinnerk bei den Knoten</label>${sel('kst', [['1', 'Sagt jeden Schritt an'], ['0', 'Still']], c.knotenStimme === false ? '0' : '1')}
     <label for="cm">Kommentare der Crew beim Lernen</label>${sel('cm', [['1', 'An'], ['0', 'Aus']], c.comments ? '1' : '0')}
     <label for="th">Helligkeit</label>${sel('th', [['auto', 'Nach Tageszeit'], ['hell', 'Immer hell'], ['dunkel', 'Immer dunkel']], c.theme)}
     <label for="cyc">Tag und Nacht</label>${sel('cyc', [['schnell', 'Ein Tag dauert 50 Minuten'], ['echt', 'Wie die Handyuhr']], c.cycle || 'schnell')}
@@ -3983,6 +3985,7 @@ function renderSettings() {
     el.querySelectorAll('select').forEach(x => x.onchange = () => { c.handy = c.handy || {}; c.handy[x.id.slice(3)] = x.value; save(); });
     el.querySelectorAll('[data-hp]').forEach(x => x.onclick = () => { AUD.unlock(); VOX.stop('Probe'); VOX.phoneTest(x.dataset.hp, PROBE[x.dataset.hp]); }); };
   handyListe(); setTimeout(handyListe, 1200);
+  bindSel('#ncr', v => { c.naviCrew = v === '1'; }); bindSel('#kst', v => { c.knotenStimme = v === '1'; });
   bindSel('#gross', v => { c.gross = v === '1'; applyKi(); });
   $('#geraeusche').onclick = () => { AUD.click(); geraeuscheSeite(); };
   $('#toklon').onclick = () => { AUD.unlock(); setTab('talk'); };
