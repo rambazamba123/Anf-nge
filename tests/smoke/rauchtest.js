@@ -56,6 +56,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await schritt('03d-ziele', page, async () => { await ev(page, () => zieleOeffnen()); await sleep(1200); if (!await page.$('#zform [data-s]')) throw new Error('Ziele öffnen nicht'); await ev(page, () => document.querySelector('[data-m="45"]').click()); await sleep(300); if (!/Theorie|Termin/.test(await page.textContent('#zlage'))) throw new Error('keine Lage'); await ev(page, () => { VOX.stop(); setTab('cabin'); }); await sleep(400); });
   /* V41: Hocker → Kajütenfunk-Probefolge (ohne Erzeugen, kostet nichts) */
   await schritt('03c-kajuetenfunk', page, async () => { await ev(page, () => hockerWahl()); await sleep(300); await ev(page, () => document.querySelector('[data-m="kurs"]').click()); await sleep(1800); if (!await page.$('#kursplayer [data-ab]')) throw new Error('Kajütenfunk öffnet nicht'); if (!await page.$('#kabgen [data-gen]') || !await page.$('#ksfx .krow')) throw new Error('Kajütenfunk: Erzeugen je Abschnitt oder Geräuschliste fehlt'); await ev(page, () => setTab('cabin')); await sleep(400); });
+  /* H2: Szenen-Player, Vorlesen und Zuruf (szene.js) */
+  await schritt('03e-szene', page, async () => {
+    const r = await ev(page, async () => { await nachladen('szene.js'); const d = [SZENE.deute('Alfa'), SZENE.deute('ich sag bravo'), SZENE.deute('charly'), SZENE.deute('Delta'), SZENE.deute('be', false), SZENE.deute('be', true), SZENE.deute('de', true)];
+      app.innerHTML = '<div id="szt"></div>'; const p = SZENE.spiele([{wer: 'hinnerk', t: 'Moin.'}, {wahl: 'Wohin?', id: 'ziel', opts: [{t: 'Schlei', wert: 'schlei', empfohlen: true}, {t: 'Kiel', wert: 'kiel'}]}, {knopf: 'Weiter'}], {box: document.getElementById('szt')});
+      await new Promise(r => setTimeout(r, 300)); document.querySelector('#szweiter').click(); await new Promise(r => setTimeout(r, 500));
+      document.querySelector('.szopt[data-o="0"]').click(); await new Promise(r => setTimeout(r, 400)); document.querySelector('#szwahl .btn').click(); const e = await p; return {d, e}; });
+    if (r.d.join() !== '0,1,2,3,-1,1,3') throw new Error('Zuruf falsch gedeutet: ' + r.d);
+    if (r.e.ende !== 'fertig' || r.e.wahlen.ziel !== 'schlei') throw new Error('Szene: ' + JSON.stringify(r.e));
+    await ev(page, () => { switchCourse('sbf'); runQuiz([Q[1]], 'Test'); }); await sleep(800);
+    if (!await page.$('#vlon') || (await page.$$('.ans .abc')).length !== 4) throw new Error('Vorlesen-Knopf oder Buchstaben fehlen');
+    await ev(page, () => setTab('cabin')); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
   /* V12: Knotenbrett und Knotenkunde */
