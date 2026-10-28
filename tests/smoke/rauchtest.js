@@ -67,6 +67,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev(page, () => { switchCourse('sbf'); runQuiz([Q[1]], 'Test'); }); await sleep(800);
     if (!await page.$('#vlon') || (await page.$$('.ans .abc')).length !== 4) throw new Error('Vorlesen-Knopf oder Buchstaben fehlen');
     await ev(page, () => setTab('cabin')); });
+  /* H3: Reise am Kartentisch und Fahrt-Szene von hinten */
+  await schritt('03f-reise', page, async () => {
+    await ev(page, () => reiseOeffnen()); await sleep(1500);
+    if (!await page.$('.reisekarte') || !await page.$('#rweiter')) throw new Error('Kartentisch fehlt');
+    await ev(page, () => REISE.teil('fahrt')); await sleep(1500);
+    if (!await page.$('#fahrtcv')) throw new Error('Fahrt-Szene fehlt');
+    await ev(page, () => { const b = document.querySelector('#rskip'); if (b) b.click(); }); await sleep(800);
+    if (!await ev(page, () => S.reise && S.reise.teile && !!S.reise.teile.fahrt)) throw new Error('Fahrt nicht abgehakt');
+    await ev(page, () => { S.reise = null; save(); setTab('cabin'); }); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
   /* V12: Knotenbrett und Knotenkunde */
