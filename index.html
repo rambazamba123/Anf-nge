@@ -524,7 +524,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.00';
+  window.__ver = '5.01';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4827,7 +4827,8 @@ function renderFrei() {
       ['🎧', 'Kajütenfunk', 'Die Probefolge', () => nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Ließ sich nicht laden.'))]]],
     ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
       ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
-      ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()]]]
+      ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()],
+      ['🧰', 'Was du zum Üben brauchst', 'Leinen, Karte, Dreieck, Zirkel: die Einkaufsliste', () => uebungsListe()]]]
   ];
   const fn = [];
   app.innerHTML = `<div class="topbar"><span class="tag">Frei üben</span><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
@@ -4835,6 +4836,23 @@ function renderFrei() {
     ${E.map(([h, l]) => `<h3 style="margin:14px 0 6px">${esc(h)}</h3><div class="menu frei">${l.map(([ico, t, d, f]) => { fn.push(f); return `<button class="menuitem" data-f="${fn.length - 1}"><b>${ico} ${esc(t)}</b><small>${esc(d)}</small></button>`; }).join('')}</div>`).join('')}`;
   $('#crs').onclick = courseSheet;
   app.querySelectorAll('[data-f]').forEach(b => b.onclick = go(fn[+b.dataset.f]));
+}
+/* H9 (VISION.md §9, erster Schritt): Einkaufsliste fürs Üben mit den Händen. Das Starter-Set kommt später. */
+function uebungsListe() {
+  subScreen();
+  const L = [
+    ['🪢', 'Zwei Übungsleinen', 'Zwei Stücke Tau oder dicke Kordel in verschiedener Dicke, je etwa ein bis zwei Meter. Damit bindest du alle Prüfungsknoten, auch den Schotstek (dick und dünn).'],
+    ['🪵', 'Etwas zum Festmachen', 'Ein Stuhlbein, eine Stange oder ein Ring. Für Webeleinstek, Rundtörn mit zwei halben Schlägen und das Belegen einer Klampe.'],
+    ['🗺️', 'Übungskarte für die Navigation', 'Für den SBF See wird auf der Übungskarte 49 des BSH geprüft. Es lohnt sich, auf genau dieser Karte zu üben.'],
+    ['📐', 'Kursdreieck', 'Zum Ablesen von Kursen und Peilungen auf der Karte.'],
+    ['📏', 'Zirkel', 'Ein Navigationszirkel (Stechzirkel) zum Abgreifen von Entfernungen am Kartenrand.'],
+    ['✏️', 'Weicher Bleistift und Radiergummi', 'Zum Zeichnen auf der Karte, damit du alles wieder wegbekommst.']
+  ];
+  app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Was du zum Üben brauchst</h1><button class="btn small ghost" id="back">Zurück</button></div>
+    <p class="small muted">Man lernt am besten so, wie geprüft wird: Knoten mit echtem Tau, Navigation auf der echten Karte. Das hier reicht für den Anfang.</p>
+    <div class="card">${L.map(([i, t, d]) => `<div class="gzeile"><span style="font-size:1.6em">${i}</span><span><b>${esc(t)}</b><br><small>${esc(d)}</small></span></div>`).join('')}</div>
+    <p class="small muted">Ein Übungsset zum Kaufen ist geplant. Bis dahin bekommst du alles im Bootszubehör oder im Buchhandel.</p>`;
+  $('#back').onclick = () => setTab('frei');
 }
 /* H4 (M21): Seite „Geräusche“: jedes Geräusch anhören; grün = im Code benutzt (mit Zweck), rot = unbenutzt (data/geraeusche-app.json) */
 function geraeuscheSeite() {
