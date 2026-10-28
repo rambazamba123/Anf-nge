@@ -76,6 +76,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev(page, () => { const b = document.querySelector('#rskip'); if (b) b.click(); }); await sleep(800);
     if (!await ev(page, () => S.reise && S.reise.teile && !!S.reise.teile.fahrt)) throw new Error('Fahrt nicht abgehakt');
     await ev(page, () => { S.reise = null; save(); setTab('cabin'); }); });
+  /* H5: Rundgang 1 läuft unten im Bild, „Szene überspringen“ beendet ihn und merkt ihn sich */
+  await schritt('03g-rundgang', page, async () => {
+    await ev(page, () => { S.rundgang1 = false; rundgangStarten(); }); await sleep(1500);
+    if (!await page.$('.rgpanel') || !await page.$('.rgblink')) throw new Error('Rundgang zeigt nichts');
+    await ev(page, () => document.querySelector('#szende').click()); await sleep(800);
+    if (await page.$('.rgpanel') || !await ev(page, () => S.rundgang1)) throw new Error('Rundgang endet nicht');
+    await ev(page, () => setTab('cabin')); });
   for (const c of ['sks', 'binnen', 'sbf']) await schritt('04-schein-' + c, page, async () => { await ev(page, c => { switchCourse(c); setTab('cabin'); }, c); await sleep(600); });
   await schritt('05-spielekiste', page, async () => { await ev(page, () => gamesHub()); await sleep(600); });
   /* V12: Knotenbrett und Knotenkunde */

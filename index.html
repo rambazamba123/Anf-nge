@@ -209,6 +209,7 @@ details summary{cursor:pointer;font-weight:700}
 body.gross{font-size:20px}body.gross .small{font-size:.92em}
 .werkstatt{margin:22px 0 10px;border:2px dashed var(--line);border-radius:16px;padding:10px 12px}.werkstatt>summary{cursor:pointer;padding:6px 0}.werkstatt[open]>summary{margin-bottom:8px}
 body.mittabs #app{padding-bottom:86px}
+.rgpanel{position:fixed;left:8px;right:8px;bottom:92px;z-index:30;max-width:544px;margin:0 auto;box-shadow:0 8px 30px rgba(0,0,0,.35)}.rgblink{outline:4px solid var(--lamp);outline-offset:3px;border-radius:14px;animation:rgpuls 1s ease-in-out infinite alternate}@keyframes rgpuls{from{outline-color:var(--lamp)}to{outline-color:transparent}}
 .gzeile{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)}.gzeile:last-child{border:0}
 .vlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}.vlrow .chip{font-size:.85em}.ans .abc{display:inline-block;min-width:1.4em;color:var(--sea)}
 .szene .szbild img{max-width:100%;max-height:200px;border-radius:12px;display:block;margin:0 auto 8px}.szzeile{display:flex;gap:8px;align-items:flex-start}.szzeile svg.ch{width:64px;flex:none}.szzeile .say{display:block}.szwahl .szopt{display:block;width:100%;margin:6px 0;text-align:left}.szsteuer{margin-top:8px}
@@ -523,7 +524,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.98';
+  window.__ver = '4.99';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -889,6 +890,8 @@ const ONB = {
   minutesAsk: {s: 'M', t: 'Wie lange hältst du am Tag durch? Beim Lernen, mein ich.'},
   expAsk: {s: 'K', t: 'Hast du schon mal selbst am Ruder gestanden? Oder bisher nur am Tresen vom Hafenrestaurant?'},
   done: {s: 'K', t: 'So. Kurs ist abgesteckt. Guck dich an Deck um, und dann komm runter in die Kajüte. Da reden wir über den Fahrplan.'},
+  lernortAsk: {s: 'M', t: 'Wo lernst du meistens? Zu Hause, unterwegs oder im Auto, wo du nur zuhören kannst?'},
+  setAsk: {s: 'K', t: 'Hast du ein Übungsset mit Leinen und Übungskarte? Dann binden wir die Knoten mit echtem Tau.'},
   known: {s: 'K', t: 'Ach, du bist das! Dich kennen wir ja schon. Na dann, komm an Bord. Die Leinen sind los.'},
 };
 const ONB2 = {
@@ -963,6 +966,8 @@ const ONB2_OPTS = {
   goal: [['boot', 'Eigenes Boot'], ['charter', 'Chartern im Urlaub'], ['job', 'Für den Job'], ['spass', 'Einfach, weil ich es kann']],
   rev: [['ostsee', 'Ostsee'], ['nordsee', 'Nordsee'], ['binnen', 'Seen und Flüsse'], ['mittelmeer', 'Mittelmeer'], ['offen', 'Weiß ich noch nicht']],
   drive: [['segel', 'Segeln'], ['motor', 'Motor'], ['beides', 'Beides']],
+  lernort: [['zuhause', 'Zu Hause'], ['unterwegs', 'Unterwegs, Bus oder Bahn'], ['auto', 'Im Auto, nur hören']],
+  set: [['ja', 'Ja, hab ich'], ['nein', 'Nein'], ['spaeter', 'Hol ich mir noch']],
 };
 
 </script>
@@ -2567,7 +2572,7 @@ function soundFor(p) {
 
 /* ---------- Navigation ---------- */
 let tab = 'deck', examTimer = null;
-function stopAll() { if (window.SZENE) SZENE.stop(); if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
+function stopAll() { if (window.SZENE && !window.SZENE.schutz) SZENE.stop(); if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
   /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
   if (window.MANOEVER && MANOEVER.vollAus) MANOEVER.vollAus();
@@ -2925,16 +2930,24 @@ async function convoOnboarding() {
     if (a.k) { prof[field] = a.k; addFact(prof, label + ': ' + LBL(optKey, a.k), label); await react(optKey + '_' + a.k); }
     else { prof[field] = 'eigen'; await freeReply(label, ONB2[askKey][0].t, a.text); }
   }
+  /* H5 (M2): Lernort und Übungsset; im Auto läuft der Kajütenfunk ohne Knöpfe */
+  const lo = await ask(ONB.lernortAsk, ONB2_OPTS.lernort);
+  prof.lernort = lo.k || 'eigen'; if (lo.text) await freeReply('Lernort', ONB.lernortAsk.t, lo.text);
+  if (prof.lernort === 'auto') S.cfg.kurs = {...(S.cfg.kurs || {}), modus: 'auto'};
+  const se = await ask(ONB.setAsk, ONB2_OPTS.set);
+  prof.set = se.k || 'eigen'; if (se.text) await freeReply('Übungsset', ONB.setAsk.t, se.text);
   if (!prof.exam) prof.exam = inDays(42);
   const changed = !old.exam || old.exam !== prof.exam || old.minutes !== prof.minutes;
   S.profile = prof; if (changed) S.plan = null; (S.courses[S.course] = S.courses[S.course] || {}).examSet = true; S.cabinWelcome = false; save();
   LOG.add('kennenlernen', 'fertig: ' + JSON.stringify({name: prof.name, exam: prof.exam, min: prof.minutes, exp: prof.exp, goal: prof.goal, facts: prof.facts.length}));
   const sp = $('#stagePanel'); if (sp) sp.remove();
   await say(ONB.done);
-  /* Schlüssel zum Schluss, mit „Später“ */
-  if (apiKey() && elKey()) return endIntro(false);
-  keysStep(() => endIntro(false));
+  /* H5: keine Schlüssel-Frage mehr im Kennenlernen (die liegen in der Werkstatt), danach Rundgang 1 */
+  endIntro(false);
+  if (!S.rundgang1) rundgangStarten();
 }
+/* H5 (M4): Rundgang 1 „Willkommen an Bord“ (reise.js, Sätze in data/reise.json) */
+function rundgangStarten() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.rundgang1()).catch(() => toast('Der Rundgang ließ sich nicht laden. Prüf dein Internet.')); }
 function endIntro(toForm) {
   VOX.stop(); VOX.forceFallback = null;
   const h = $('#introHolder'); if (h) h.remove(); const p = $('#stagePanel'); if (p) p.remove();
@@ -3149,7 +3162,8 @@ function renderCabin() {
   scheduleCatWalk(); catPlace();
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
-  if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
+  if (window.SZENE && SZENE.schutz) { /* Rundgang läuft: keine Begrüßung dazwischen */ }
+  else if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
   /* V5: Wer schon begrüßt wurde, hört einmal die Einführung zu seinem Schein (auch bestehende Nutzer, weil sie neu ist) */
   else if (S.profile && S.cabinWelcome && !(S.intros || {})['schein_' + S.course]) setTimeout(() => { if (tab === 'cabin' && !cabinTalking && !$('#sheet') && !$('#stagePanel') && !$('#einf')) einfuehrung('schein_' + S.course); }, 1600);
   else if (!S.tour || !S.tour.cabin) setTimeout(() => tour('cabin'), 1600);
@@ -3859,7 +3873,7 @@ function renderSettings() {
 
   <h2>Sonstiges</h2>
   <div class="card">
-    <div class="row"><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
+    <div class="row"><button class="btn ghost" id="rg1">Rundgang an Bord</button><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
     <label for="devm">Entwickler-Werkzeuge</label>${sel('devm', [['1', 'Zeigen (Stimmenpaket, Stimmenwahl, Selbsttest)'], ['0', 'Ausblenden']], devOn() ? '1' : '0')}
     <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
     <input type="file" id="bkf" accept="application/json,.json" class="hidden">
@@ -3990,6 +4004,7 @@ function renderSettings() {
   $('#clr').onclick = async () => { await CLIPS.clear(); $('#clrr').textContent = 'Gelöscht. Sätze werden bei Bedarf neu erzeugt.'; };
   $('#sv').onclick = () => zieleOeffnen();
   $('#course').onchange = () => { const v = $('#course').value; switchCourse(v); LOG.add('schein', 'gewechselt zu ' + COURSES[v].short); toast('Jetzt lernst du für den ' + COURSES[v].name + '.'); renderSettings(); };
+  $('#rg1').onclick = () => { AUD.unlock(); rundgangStarten(); };
   $('#intro').onclick = () => { stopAll(); S.introDone = false; save(); AUD.unlock(); runIntro(); };
   $('#src').onclick = renderSources;
   $('#bk').onclick = doBackup;
@@ -4388,7 +4403,7 @@ function renderBoat() {
   clearTimeout(fishTimer);
   const jump = () => { if (tab !== 'deck') return; const f = sc.querySelector('.fishwrap'); if (f) { f.classList.remove('jump'); f.getBBox(); f.classList.add('jump'); } fishTimer = setTimeout(jump, 9000 + Math.random() * 14000); };
   fishTimer = setTimeout(jump, 4000);
-  if (!S.tour || !S.tour.boat) setTimeout(() => tour('boat'), 900);
+  if ((!S.tour || !S.tour.boat) && !(window.SZENE && SZENE.schutz)) setTimeout(() => tour('boat'), 900);
 }
 /* Navigationsschule und Törn liegen in navi.js und werden erst bei Bedarf geladen */
 let naviP = null;

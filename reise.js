@@ -199,5 +199,19 @@ window.REISE = (() => {
     if (wx === 'nebel') { gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, 'rgba(235,238,240,.85)'); gr.addColorStop(.5, 'rgba(235,238,240,.6)'); gr.addColorStop(1, 'rgba(235,238,240,.15)'); g.fillStyle = gr; g.fillRect(0, 0, W, H); }
   }
 
-  return {oeffnen, teil, laden, zeichne};
+  /* ---------- Rundgang 1 „Willkommen an Bord“ (H5, M4): Szene unten im Bild, die Crew zeigt die Orte ---------- */
+  async function rundgang1() {
+    await laden();
+    document.querySelectorAll('.rgpanel').forEach(x => x.remove());
+    const p = document.createElement('div'); p.className = 'card rgpanel'; document.body.appendChild(p);
+    const aus = () => document.querySelectorAll('.rgblink').forEach(x => x.classList.remove('rgblink'));
+    SZENE.schutz = true; S.tour = {...(S.tour || {}), boat: true, cabin: true};   /* der Rundgang ersetzt die alte Tour */
+    try {
+      await SZENE.spiele(D.rundgang1, {box: p, art: 'local', aktionen: {zeige: async s => {
+        aus(); if (s.tab && tab !== s.tab) { lernHeim = null; setTab(s.tab); await new Promise(r => setTimeout(r, 400)); }
+        const z = document.querySelector(s.ziel); if (z) { z.classList.add('rgblink'); z.scrollIntoView({behavior: 'smooth', block: 'center'}); }
+      }}});
+    } finally { SZENE.schutz = false; aus(); p.remove(); S.rundgang1 = true; save(); }
+  }
+  return {oeffnen, teil, laden, zeichne, rundgang1};
 })();

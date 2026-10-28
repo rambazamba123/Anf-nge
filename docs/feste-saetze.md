@@ -170,3 +170,9 @@ Die Crew kommentiert die Wahl in „🎯 Scheine und Termine“ und im Kennenler
 | Praxis: offen | Hinnerk | Für die Praxis hast du noch keinen Termin. Kein Problem, Knoten üben wir trotzdem nebenbei. |
 | Abschluss | Klabauter | Leinen los! Leinen los! |
 | Abschluss | Klabauter | Kurs steht! Kurs steht! |
+
+## Neu in v4.97–v4.99 (Vision H3 und H5, Platzhalter)
+Die Sätze der Probe-Etappe (`data/reise.json` → `etappen[].szenen`) und von Rundgang 1 (`data/reise.json` → `rundgang1`) sind **Platzhalter**. Sie werden mit Story und Figuren neu geschrieben (B164, H10) und laufen bis dahin mit der Gratis-Stimme (Art `local`, nicht im Stimmenpaket).
+Neue feste Sätze im Kennenlernen (`ONB` in `index.html`, kommen ins Stimmenpaket):
+- Smilla: „Wo lernst du meistens? Zu Hause, unterwegs oder im Auto, wo du nur zuhören kannst?“
+- Käpt'n: „Hast du ein Übungsset mit Leinen und Übungskarte? Dann binden wir die Knoten mit echtem Tau.“
