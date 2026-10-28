@@ -1,6 +1,6 @@
 # PODCAST_STATUS.md – Stand der Entscheidungen zum Kajütenfunk
 
-> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 27.10.2026, siebzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
+> Begleitdatei zu **`PODCAST_BIBLE.md`**. Hier steht, was beschlossen, offen, widersprüchlich, fehlend oder nur vorgeschlagen ist. Stand: 28.10.2026, achtzehnte Fassung. Seit 22.10.2026 ist der Kajütenfunk ein Hörkurs statt einer Geschichte (B99); die Beschlüsse ab dem 22.10. stehen in Abschnitt 1 ab B99, das finale Konzept in `docs/konzept-kajuetenfunk.md` (Fassung 5).
 > **Was hier als offen (O), Widerspruch (W) oder Vorschlag (VS) steht, ist keine Regel.** Claude entscheidet es nicht eigenmächtig, sondern fragt den Nutzer. Beschlossenes wird in die Bible übernommen.
 
 ---
@@ -195,6 +195,7 @@
 | B161 | Der Kurs vermittelt die Standardregeln und das wichtige Allgemeinwissen. Claude recherchiert intensiv in guten Quellen, hält die Ergebnisse in einer Datei fest und arbeitet sie in die Folgen ein. | 27.10. | Briefing des Nutzers vom 27.10. (Abschnitt 7) | Recherche |
 | B162 | Die Rangerin spricht mit der Stimme `CoFoB7a7PXA8RBsMHbua` (im ElevenLabs-Konto des Nutzers), eingetragen in `podcast/audio_config.json`. | 27.10. | „die rangerin ist: CoFoB7a7PXA8RBsMHbua sie ist auch in meine stimmen bei elevenlabs.“ | Stimmen |
 | B163 | Neue feste Sätze werden gebündelt: Claude schreibt sie, der Nutzer prüft alles mit den Gratis-Stimmen. Alles Neugenerierte in der App läuft vorerst mit den Gratis-Stimmen. | 27.10. | Briefing des Nutzers vom 27.10. (Abschnitt 6) | R10, O38 |
+| B164 | Story und Figuren werden später besser geschrieben. Bis dahin entstehen keine neuen Folgen und keine Bearbeitungen an Story oder Figuren; zuerst werden die Grundlagen der App gebaut (`VISION.md`, Plan H1–H9, Inhalte in H10). Die Reise auf dem Kartentisch wird der Rahmen der Folgen (Etappe = Folge, Hafen = Kapitel); Knoten, Manöver und Navigation sollen früh und verteilt vorkommen statt am Ende (heute Folge 43–46 und 54–55). | 28.10. | „karakrtäre werden noch besser geschrieben deshalb die „Story“ noch nicht erstellen und bearbeiten.“ / „Navigieren soll auch früher Bestandteil sein … Auch die Knoten alles gut auf die Lernzeit verteilt.“ | O52, VISION.md |
 
 ## 2. Offene Fragen
 
@@ -437,6 +438,7 @@ Diese Punkte nicht ohne neue Zustimmung des Nutzers wieder aufgreifen.
 | 24.10.2026 | Fünfzehnte Fassung (B133–B136): kein Ton am Anfang (O15 erledigt), Quirins Stimme Alexander, V42 gebaut (O44 erledigt), Geräusche werden mit erzeugt. Bible: P86, P97, P99. |
 | 24.10.2026 | Sechzehnte Fassung (B137–B140): Quirins Stimmen-ID, Folgen schreibt Claude mit maximalem Aufwand und die App vertont nur, erst die Geräusche (zum Herunterladen) und eine kostenlose Stimmenprüfung vor dem Start, Probefolge ungekürzt (zweite Fassung, etwa sieben Minuten) und abschnittsweise erzeugt. Biermarke „Schleusenbräu“ ersetzt durch „Treidlerbräu“, weil es eine echte Schleusenbrauerei gibt (Claudes kleine Entscheidung). Bible: P95, P97, P99. |
 | 27.10.2026 | Siebzehnte Fassung (B141–B163): Antworten des Nutzers vom 25. bis 27.10. eingetragen (O1, O9, O12, O15, O18, O24, O25, O30, O31 erledigt; O29 bleibt als Aufgabe des Nutzers offen). Neu: Zusatzfolgen, Ansage der amtlichen Frage, Denkpausen sechs Sekunden, Fragerunde am Ende ohne Geschichte, Bilder früher, Zigarre, alle Zeichen im Kurs, Grundprompt in einer Datei, Rangerin-Stimme. Die Bible wird mit dem Grundprompt überarbeitet (nächster Schritt). Recherche zum Aufbau der App: `docs/recherche-app-konzept.md`. |
+| 28.10.2026 | Achtzehnte Fassung (B164): Story und Figuren ruhen bis zum Input des Nutzers; die Reise aus `VISION.md` wird der Rahmen der Folgen; Praxis und Navigation früh und verteilt. |
 
 ## 9. Audio-Regelwerk vom 20.10.: übernommen, angepasst, weggelassen
 

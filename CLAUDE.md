@@ -5,6 +5,8 @@
 > **Nummern zum Kommentieren:** Regeln `R1…`, Vorhaben `V1…`, Lizenzpunkte `L1…`, Entscheidungen `E1…`. Die Nummern bleiben fest, Erledigtes wird abgehakt und nicht neu nummeriert.
 
 ## 1. Worum es geht
+> **Anker seit 28.10.2026: `VISION.md`.** Skipper ist eine Reise mit einer Crew, die dich zum Bootsführerschein bringt. Etappe für Etappe am Kartentisch geplant, mit Kajütenfunk, Fahrt-Szenen, Knoten mit echtem Tau und Navigation auf der echten Karte; die Crew ist bei allem dabei (feste Sätze, Multiple Choice, vorgefertigte Töne), empfiehlt, und du entscheidest mit. „Frei üben“ geht immer. App gratis, Starter-Set im Buchhandel. Die Vision gilt vor den älteren Ziel- und Fahrplan-Angaben in §1 und §6 (R16).
+
 „Skipper“ ist eine Lern-App für Bootsführerscheine: SBF See, SKS und SBF Binnen sind drin. Funk (SRC/UBI) und Pyrotechnik (FKN) kommen, wenn der Nutzer die Kataloge liefert.
 
 Man lernt an Bord einer Segelyacht mit drei Crew-Figuren: **Käpt'n Hinnerk**, **Matrosin Smilla** und **Papagei Klabauter**. Dazu kommt **Bordkatze Backbord** ohne Stimme, die überall herumläuft und Unsinn macht. Geprüft wird von **Kapitän Harms** (interne ID `kroeger`).
@@ -46,6 +48,7 @@ Die App läuft als Web-App auf GitHub Pages. Hauptgerät ist Android mit Chrome 
   - Dort dokumentierte Entscheidungen ändert Claude nie stillschweigend: erst vorschlagen, dann die Bestätigung des Nutzers einholen, dann eintragen.
   - Offene Fragen aus `PODCAST_STATUS.md` entscheidet Claude nicht selbst (R3 gilt dafür nicht).
   - Seit 22.10.2026 gilt das Coaching-Konzept (V41) statt der Geschichte. Die Bible gilt in der dritten Fassung seit dem Startschuss (K1, 24.10.2026), zusammen mit dem Konzept (`docs/konzept-kajuetenfunk.md`, Fassung 5). Die Regeln zur Geschichte sind als „Entfällt (E12)“ markiert.
+- **R16 Vision:** Vor jeder größeren Arbeit liest Claude `VISION.md` (Anker seit 28.10.2026) und baut nach ihrem Plan (H0–H10). Die Vision ändert Claude nie stillschweigend: vorschlagen, bestätigen lassen, eintragen. Was der Code heute kann, steht weiter in §7.
 
 ## 3. Stil und Ton
 - **Grafik:** warm, flach, gezeichnet, im Stil von Pettersson und Findus oder Janosch (nur der Stil, keine fremden Figuren). Szenen hängen von Tageszeit und Wetter ab.
@@ -409,8 +412,9 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - [x] v4.93 Handy-Test: Casting stürzte ab („Unexpected token '<'“), weil der Service Worker ohne Netz für Skripte die Startseite lieferte; jetzt nur noch bei Seitenaufrufen, Skripte bekommen einen Fehler, `casting.js` und `hoerprobe.js` liegen im Offline-Vorrat, `castingOeffnen` meldet Ladefehler. Alexander war nicht im ElevenLabs-Konto (HTTP 400): In der Stimmenprüfung des Kajütenfunks neu „➕ aus der Bibliothek ins Konto holen“ (`holen`: Suche in `/v1/shared-voices` nach ID oder Name, `/v1/voices/add`; neue ID landet mit `cfg` in `S.cfg.casting`)
 - [x] v4.94 Holen scheiterte mit HTTP 401: Dem ElevenLabs-Schlüssel des Nutzers fehlt das Recht voices_write. Casting und Kajütenfunk sagen jetzt, wie man es freischaltet (oder auf der Website „Add to my voices“)
 - [x] v4.95 Grundsatz-Recherche (Nutzer, 27.10.2026): `docs/recherche-app-konzept.md` mit Zielen aus dem ganzen Verlauf (Z1–Z14), Abgleich mit dem Aufbau (U1–U10), Lernforschung mit Quellen (Q1–Q21), vier Konzepten (A Ausbildungstörn, B Boot als Lehrplan, C Gespräch mit der Crew, D Kurs und Hafen), frühen Weichen (N1–N10) und offenen Fragen O71–O76; Tafelzeichen geprüft (schwarzer Punkt = Schallsignal geben, SeeSchStrO A.12, BinSchStrO B.7); Rangerin-Stimme `CoFoB7a7PXA8RBsMHbua`; Entscheidungen vom 25.–27.10. in `PODCAST_STATUS.md` (B141–B163)
+- [x] Vision (nur Doku, 28.10.2026): `VISION.md` als Anker (Vision in den Worten des Nutzers, sieben Grundsätze, ganzer Ablauf von Erststart, Lerntag und Etappe bis Prüfungsreife, verteiltes Lernen nach Studien, Crew-Rollen, Bühnenbild, Anforderungen M1–M23 je Modul und Menü, Starter-Set, Technik, Plan H0–H10, Entscheidungen, offene Fragen O88–O92, Aufgaben des Nutzers); R16; Befund: Knoten (Folge 54), Manöver (55) und Navigation (43–46) liegen im Kursplan geballt am Ende
 ### Jetzt dran
-- **Grundsatz-Lauf (Nutzer, 27.10.2026), in dieser Reihenfolge:** (1) Recherche und Konzepte (erledigt, `docs/recherche-app-konzept.md`), Nutzer wählt das Konzept (O71) und beantwortet O72–O76; (2) `CLAUDE.md` neu ordnen: oben Ziel und Vision, Erledigtes ins Archiv (O48); (3) Grundprompt für den Kajütenfunk in einer Datei, mit dem Input des Nutzers zu den Figuren (O51, O52); (4) Recherche Grundwissen (B161); (5) alle Folgen schreiben, vertont wird erst mit Credits (B160). Vor jeder Änderung abstimmen.
+- **Vision-Lauf (Nutzer, 28.10.2026):** `VISION.md` ist der Anker. Als Nächstes kommentiert der Nutzer die Vision (H0) und beantwortet O88–O92; danach startet die Projektarbeit mit H1 (Rettungsboot, `CLAUDE.md` neu ordnen, Aufräumliste) und H2 (Szenen-Player, Gratis-Stimme), dann H3 (Probe-Etappe zum Durchspielen). Story, Figuren und Folgen erst mit dem Input des Nutzers (H10, O52). Vor jeder Änderung abstimmen.
 - **Dateien fehlen noch:** Audiodateien (Pixabay, etwa 15 plus 2), Funk-Unterlagen (SRC/UBI), Dokument mit allen Zeichen (B159). Stand 27.10.: nichts davon auf GitHub angekommen (letzter Push 24.10.). Weg: github.com → Ordner `import` → „Add file“ → „Upload files“ → „Commit changes“.
 - **V41 Kajütenfunk, Probefolge erzeugen und hören** (Nutzer, ElevenLabs-Schlüssel auf dem Handy). Alles unter Kajüte → Hocker → „🎧 Kajütenfunk: Probefolge“ → Karte „Erzeugen“:
   1. „🔎 Stimmen prüfen“ (kostenlos). Bei Quirin muss „Alexander“ stehen. Wenn nicht: „🎭 Stimmen-Casting“ → Quirin → Alexander „holen“ und „nehmen“.
@@ -459,6 +463,7 @@ Reihenfolge nach Wichtigkeit, jeder Block ist ein Lauf.
 - **E12 Kajütenfunk als Coaching** (Nutzer, 22.10.2026): keine durchgehende Geschichte, Crew als Coaching-Team, Gäste möglich (nicht alle). Folgenlänge laut Konzept Fassung 5: 12–15 Minuten, mit K1 zu bestätigen.
 - **E13 Haftungsausschluss** (Nutzer, 23.10.2026, O17): in „Über die App“ und im Impressum. Man lernt hier nicht sicher alles richtig, soll in den amtlichen Veröffentlichungen nachlesen, und die Haftung ist ausgeschlossen, soweit das Gesetz es erlaubt. Ganz ausschließen lässt sie sich nicht (Vorsatz, grobe Fahrlässigkeit, Leben und Gesundheit, Produkthaftung; Recherche R64). Vor der Veröffentlichung anwaltlich prüfen lassen.
 - **E14 Startschuss Kajütenfunk** (Nutzer, 24.10.2026): „K1 ok“. Konzept Fassung 5 und Bible dritte Fassung gelten. Die Probefolge wird in der App erzeugt.
+- **E15 Neue Richtung** (Nutzer, 27.–28.10.2026): Skipper wird eine Reise mit der Crew (Kern behalten, dünne Reise auf dem Kartentisch, aufräumen), die App ist gratis, verkauft wird ein Starter-Set; der Törn als eigener Bereich entfällt und wird Teil der Reise (Fahrt-Szenen); Navigation und Knoten früh und verteilt. Einzelheiten und alle Entscheidungen: `VISION.md` §13.
 - **E10 Folgen:** Ersetzt (Nutzer, 20.10.2026): Die Folgen werden völlig neu geschrieben, siehe `PODCAST_BIBLE.md` (V33). Früher galt: Der Nutzer überarbeitet sie selbst, danach kommt Stimmenpaket Teil 2.
 
 ### Handy-Checkliste (macht der Nutzer)
