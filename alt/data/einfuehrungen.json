@@ -1,0 +1,56 @@
+{
+ "about": "5.10: Kurze Einführungen beim ersten Öffnen einer Funktion. Feste Sätze ohne Namen (Stimmenpaket). s = Rolle K (Käpt'n), M (Matrose/Matrosin), T (Bordtier). Gesehen wird in S.intros[id] gemerkt.",
+ "e": {
+  "navi": {"titel": "Kartentisch", "l": [
+   {"s": "K", "t": "Das hier ist der Kartentisch. Hier lernst du, wo du bist und wie du dahin kommst, wo du hinwillst."},
+   {"s": "M", "t": "Die Karte zoomst du mit zwei Fingern und schiebst sie mit einem. Kursdreieck, Zirkel und Bleistift liegen gleich daneben."},
+   {"s": "K", "t": "Fang mit der Fibel an. Im Lernpfad geht es Lektion für Lektion weiter. Drei richtige Aufgaben am Stück, und es gibt einen Stern."},
+   {"s": "T", "t": "Stern! Stern!"}]},
+  "toern": {"titel": "Törn", "l": [
+   {"s": "K", "t": "Am Steuerrad geht es auf Törn. Drei Törns stehen zur Wahl, und mit jedem geschafften kommt ein neuer dazu."},
+   {"s": "M", "t": "Jeden Morgen liest du zuerst den Seewetterbericht. Bei Schietwetter liegen bleiben ist keine Schande, sondern gute Seemannschaft."},
+   {"s": "K", "t": "Unterwegs passiert dauernd was. Lichter, Tonnen, Nebel, Gegenverkehr. Je schneller du richtig reagierst, desto besser."},
+   {"s": "T", "t": "Leinen los!"}]},
+  "spiele": {"titel": "Spielekiste", "l": [
+   {"s": "M", "t": "Die Spielekiste! Jedes Spiel gibt Punkte, und für gute Runden gibt es Bronze, Silber oder Gold."},
+   {"s": "K", "t": "Jeder von uns hat irgendwo einen Rekord stehen. Wer uns überholt, kriegt das auch zu hören."},
+   {"s": "T", "t": "Rekord! Rekord!"}]},
+  "lexikon": {"titel": "Lexikon", "l": [
+   {"s": "K", "t": "Im Lexikon steht alles, was man auf dem Wasser sehen und hören kann. Lichter, Tonnen, Flaggen, Schallsignale."},
+   {"s": "M", "t": "Oben suchst du, darunter wählst du ein Thema. Jeder Eintrag hat eine Merkhilfe, und aus der Lernrunde kommst du direkt hierher."}]},
+  "pruefung": {"titel": "Probeprüfung", "l": [
+   {"s": "K", "t": "Jetzt wird es ernst. Die Probeprüfung läuft wie die echte: gleiche Fragenzahl, gleiche Zeit, gleiche Bestehensgrenze."},
+   {"s": "M", "t": "Wie im Ernstfall siehst du erst am Ende, was richtig war. Mit Rückmeldung erfährst du es nach jeder Frage."},
+   {"s": "T", "t": "Bange! Bange!"}]},
+  "hocker": {"titel": "Hocker", "l": [
+   {"s": "M", "t": "Setz dich ruhig hin. Wir schnacken im Hintergrund, und du hörst einfach zu."},
+   {"s": "K", "t": "Aufstehen kannst du jederzeit. Dann ist sofort Ruhe an Bord."}]},
+  "schein_sbf": {"titel": "SBF See: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein See. Den brauchst du, wenn du auf den Seeschifffahrtsstraßen ein Boot mit mehr als 15 PS fährst. Also an der Küste und davor."},
+   {"s": "M", "t": "Die Theorie ist ein Fragebogen mit 30 Ankreuzfragen: 7 Basisfragen und 23 See-Fragen. Von den Basisfragen brauchst du 5 richtig, von den See-Fragen 18."},
+   {"s": "K", "t": "Dazu kommt eine Navigationsaufgabe auf der Seekarte. Neun Punkte gibt es, sieben musst du holen. Das üben wir am Kartentisch."},
+   {"s": "M", "t": "Und dann die Praxis auf dem Wasser: ablegen, anlegen, Mensch über Bord und ein paar Knoten. Das zeigt dir keine App, aber wir machen dich fit dafür."},
+   {"s": "K", "t": "Lernen wirst du Lichter, Tonnen, Schallsignale, Ausweichregeln, Wetter und Motorkunde. Mit einer halben Stunde am Tag bist du in ein paar Wochen so weit."},
+   {"s": "T", "t": "Badewanne! Badewanne!"},
+   {"s": "K", "t": "Hör nicht auf den Vogel. Jeden Tag ein Stück, und wenn du so weit bist, prüft dich Kapitän Harms."}]},
+  "schein_sks": {"titel": "SKS: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportküstenschifferschein. Der ist freiwillig, aber wer an der Küste eine Yacht chartern will, wird oft danach gefragt."},
+   {"s": "M", "t": "Voraussetzung ist der Sportbootführerschein See. Und für die Prüfung brauchst du Erfahrung auf Yachten: mindestens 300 Seemeilen, nachgewiesen."},
+   {"s": "K", "t": "Die Theorie hat fünf Fächer: Navigation, Schifffahrtsrecht, Wetterkunde und zweimal Seemannschaft. Hier wird nicht angekreuzt, hier antwortest du frei."},
+   {"s": "M", "t": "Im Fragebogen gibt es 60 Punkte, ab 39 hast du bestanden. Dazu kommt eine Kartenaufgabe mit 30 Punkten, davon brauchst du 20."},
+   {"s": "K", "t": "Danach die Praxis auf einer Yacht, mit Manövern unter Segel oder Motor. Das ist kein Badewannen-Kram mehr. Glaub aber nicht, dass wir dich deshalb schonen."},
+   {"s": "T", "t": "Schonen? Nie! Nie!"}]},
+  "schein_binnen": {"titel": "SBF Binnen: Was kommt auf dich zu?", "l": [
+   {"s": "K", "t": "Der Sportbootführerschein Binnen. Den brauchst du auf den Binnenschifffahrtsstraßen, also auf Flüssen, Kanälen und großen Seen, sobald dein Motor mehr als 15 PS hat."},
+   {"s": "M", "t": "Es gibt ihn mit Antriebsmaschine. Wer auch segeln will, nimmt die Segelfragen dazu."},
+   {"s": "K", "t": "Der Fragebogen hat 30 Ankreuzfragen in 45 Minuten: 7 Basisfragen und 23 Binnen-Fragen. 5 und 18 davon müssen sitzen."},
+   {"s": "M", "t": "Mit Segeln kommen 7 Segelfragen dazu, davon 5 richtig, und du hast 60 Minuten Zeit. Dazu die Praxis mit Manövern und Knoten."},
+   {"s": "K", "t": "Du lernst Tafelzeichen, Schleusen, Berg- und Talfahrt, Lichter und wer wem ausweicht."},
+   {"s": "T", "t": "Schleuse! Schleuse!"},
+   {"s": "K", "t": "Klingt gemütlich, ist es auch. Bis der Frachter um die Kurve kommt."}]},
+  "knoten": {"titel": "Knotenbrett", "l": [
+   {"s": "K", "t": "Knoten lernt man mit den Händen, nicht mit den Augen. Guck es dir an, und dann ran ans Tau."},
+   {"s": "M", "t": "Hat gehalten? Dann zieh noch mal kräftig dran. Was auf dem Steg hält, hält auch im Sturm."},
+   {"s": "T", "t": "Palstek! Palstek!"}]}
+ }
+}
