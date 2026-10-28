@@ -1,0 +1,52 @@
+{
+ "about": "Erfundene Übungskarte Kliev-Mündung (selbst gezeichnet, nichts von BSH übernommen). Positionen: lat/lon in Bogenminuten ab 55°00'N bzw. 006°00'E. Formen (xy) in Entwurfs-Rahmenkoordinaten 0..1138 x 0..1000, umgerechnet über lon = 20 + x/28.45, lat = 30 - y/50.",
+ "bounds": {"lat0": 10, "lat1": 30, "lon0": 20, "lon1": 60},
+ "mw": {"deg": 3, "dir": "E", "jahr": 2026},
+ "deviation": [[0, 2], [30, 4], [60, 5], [90, 4], [120, 2], [150, 0], [180, -2], [210, -4], [240, -5], [270, -4], [300, -2], [330, 0]],
+ "flaechen": [
+  {"art": "t10", "xy": [[700,0],[760,140],[800,270],[840,370],[840,520],[780,640],[730,800],[700,1000],[1138,1000],[1138,0]]},
+  {"art": "t5", "xy": [[780,0],[820,140],[850,270],[875,370],[875,520],[830,640],[790,800],[770,1000],[1138,1000],[1138,0]]},
+  {"art": "t10", "ell": [360, 240, 190, 110]},
+  {"art": "t5", "ell": [360, 240, 140, 75]},
+  {"art": "t10", "ell": [550, 660, 120, 60]},
+  {"art": "t5", "ell": [550, 660, 75, 32]},
+  {"art": "tief", "xy": [[90,445],[400,440],[700,435],[840,420],[1138,410],[1138,470],[840,480],[700,485],[400,488],[90,485]]},
+  {"art": "watt", "xy": [[820,0],[855,130],[885,260],[905,365],[905,380],[870,370],[840,270],[810,140]]},
+  {"art": "watt", "xy": [[905,515],[880,620],[840,760],[820,1000],[870,1000],[890,780],[915,640],[925,520]]},
+  {"art": "watt", "ell": [360, 240, 105, 52]},
+  {"art": "land", "xy": [[870,0],[890,100],[912,200],[928,300],[940,380],[1000,388],[1080,392],[1138,392],[1138,0]]},
+  {"art": "land", "xy": [[940,502],[1000,496],[1080,492],[1138,492],[1138,1000],[865,1000],[872,880],[885,760],[905,640],[925,560]]},
+  {"art": "land", "xy": [[285,240],[300,208],[360,202],[410,212],[445,220],[448,258],[410,270],[360,282],[300,276]]}
+ ],
+ "namen": [
+  {"t": "Smillaoog", "xy": [370, 248], "s": 15}, {"t": "Hinnerksland", "xy": [1020, 190], "s": 20}, {"t": "Kliev", "xy": [1060, 446], "s": 14, "w": 1},
+  {"t": "Möwenwatt", "xy": [845, 100], "s": 12, "rot": 70, "watt": 1}, {"t": "Gummientensand", "xy": [550, 664], "s": 12, "w": 1},
+  {"t": "Klabautertief", "xy": [520, 476], "s": 12, "w": 1}, {"t": "Südkoog", "xy": [1010, 760], "s": 15}
+ ],
+ "tiefen": [[140,360,"23"],[260,580,"18"],[460,370,"14"],[640,550,"8"],[500,632,"1₅"],[760,320,"6"],[790,640,"4"],[190,870,"27"],[660,860,"12"],[500,460,"12"],[740,455,"11"],[100,700,"25"],[300,150,"21"],[620,180,"16"],[960,440,"5"],[1080,450,"4"],[420,900,"22"],[580,760,"9"],[680,700,"6"],[860,560,"3"]],
+ "vtg": {"cx": 240, "cy": 90, "rot": -22, "x0": -200, "x1": 540, "lane1": [-45, -7], "sep": [-7, 9], "lane2": [9, 47], "name": "VTG Kliev Approach"},
+ "objekte": [
+  {"id": "KL", "typ": "mitte", "lat": 20.70, "lon": 23.16, "kenn": "Iso 8s", "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"},
+  {"id": "K1", "typ": "stb", "lat": 20.00, "lon": 29.00, "kenn": "Fl G 4s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers"},
+  {"id": "K2", "typ": "bb", "lat": 21.36, "lon": 28.79, "kenn": "Fl R 4s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers"},
+  {"id": "K3", "typ": "stb", "lat": 20.02, "lon": 34.62, "kenn": "Fl(2) G 9s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers"},
+  {"id": "K4", "typ": "bb", "lat": 21.42, "lon": 34.41, "kenn": "Fl(2) R 9s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers"},
+  {"id": "K5", "typ": "stb", "lat": 20.08, "lon": 40.25, "kenn": "Fl G 4s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers"},
+  {"id": "K6", "typ": "bb", "lat": 21.50, "lon": 40.03, "kenn": "Fl R 4s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers"},
+  {"id": "K7", "typ": "stb", "lat": 20.20, "lon": 45.87, "kenn": "Fl(2) G 9s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers"},
+  {"id": "K8", "typ": "bb", "lat": 21.62, "lon": 45.66, "kenn": "Fl(2) R 9s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers"},
+  {"id": "K9", "typ": "stb", "lat": 20.36, "lon": 50.97, "kenn": "Oc G 4s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers"},
+  {"id": "K10", "typ": "bb", "lat": 21.76, "lon": 50.76, "kenn": "Oc R 4s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers"},
+  {"id": "GS-N", "typ": "nord", "lat": 18.60, "lon": 39.33, "kenn": "Q", "farbe": "schwarz über gelb", "topp": "zwei schwarze Kegel, Spitzen nach oben", "bed": "Nordkardinal: Gefahrenstelle (Gummientensand) nördlich passieren"},
+  {"id": "GS-W", "typ": "west", "lat": 16.80, "lon": 34.41, "kenn": "Q(9) 15s", "farbe": "gelb-schwarz-gelb", "topp": "zwei schwarze Kegel, Spitzen zueinander", "bed": "Westkardinal: Gefahrenstelle westlich passieren"},
+  {"id": "WR", "typ": "einzel", "lat": 17.64, "lon": 40.39, "kenn": "Fl(2) 5s", "farbe": "schwarz mit breitem rotem Band", "topp": "zwei schwarze Bälle übereinander", "bed": "Einzelgefahrenstelle (Wrack), rundherum passierbar"},
+  {"id": "Roter Klaas", "typ": "turm", "lat": 25.90, "lon": 31.35, "kenn": "Oc(2) W 10s 22m 14M", "bed": "Leuchtturm auf Smillaoog"},
+  {"id": "Kirchturm", "typ": "kirche", "lat": 24.00, "lon": 57.26, "bed": "Kirchturm Hinnerksiel, gut peilbar"},
+  {"id": "Funkmast", "typ": "mast", "lat": 14.00, "lon": 55.15, "bed": "Funkmast Südkoog, gut peilbar"},
+  {"id": "Hafen W", "typ": "feuer", "lat": 22.30, "lon": 56.38, "kenn": "Iso R 4s", "bed": "Molenfeuer Hinnerksiel", "lab": "l"},
+  {"id": "Hafen O", "typ": "feuer", "lat": 22.06, "lon": 56.90, "kenn": "Iso G 4s", "bed": "Molenfeuer Hinnerksiel"}
+ ],
+ "wrack": {"lat": 17.40, "lon": 40.39},
+ "strom": {"punkt": "A", "lat": 19.60, "lon": 40.39, "std": [-3, -2, -1, 0, 1, 2], "rw": [85, 88, 90, null, 268, 265], "sp": [1.8, 2.2, 1.4, 0.2, 1.6, 2.1], "np": [1.0, 1.2, 0.8, 0.1, 0.9, 1.2]},
+ "haefen": [{"id": "Hinnerksiel", "lat": 22.40, "lon": 57.20}, {"id": "Smillaoog", "lat": 24.70, "lon": 33.10}]
+}

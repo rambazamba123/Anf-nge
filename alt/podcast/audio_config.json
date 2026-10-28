@@ -1,0 +1,96 @@
+{
+  "_hinweis": "Maschinenlesbare Audio-Konfiguration für den Kajütenfunk (PODCAST_BIBLE.md A8). tools/podcast-pruefen.js liest sie. Hier steht nie ein API-Schlüssel (R9). Änderungen nur nach Bestätigung durch den Nutzer (R15).",
+  "konfig_version": 1,
+  "endpunkt": "text-to-dialogue",
+  "modell": {
+    "id": "eleven_v4",
+    "status": "gewählt (Hörtest des Nutzers am 20.10.2026: „V4 ist viel besser als v3. Wir machen alles mit V4.“, B73)",
+    "kandidaten": ["Eleven v4", "Eleven v3"],
+    "bekannte_ids": {"Eleven v4": "eleven_v4", "Eleven v3": "eleven_v3"},
+    "bekannte_ids_hinweis": "Laut Websuche zur Doku vom 20.10.2026. v4 Turbo (eleven_v4_turbo) kann keinen Dialog. Gesetzt wird id erst nach dem Hörtest (A9).",
+    "hinweis": "Genaue Modell-ID vor der Produktion aus der aktuellen Doku übernehmen und per Hörtest mit der Testszene wählen (A9, A27, F9). Ohne Angabe nimmt der Endpunkt eleven_v3."
+  },
+  "sprache": "de",
+  "figuren": {
+    "HINNERK": {"name": "Käpt'n Hinnerk", "voice_id": "pqHfZKP75CvOlQylNhV4", "paket_id": "hinnerk"},
+    "SMILLA": {"name": "Smilla", "voice_id": "pFZP5JQG7iQjIQuC4Bku", "paket_id": "smilla"},
+    "KLABAUTER": {"name": "Klabauter", "voice_id": "aHb0rsWUX1Fsr1L8EX7f", "paket_id": "klabauter", "stimme": "Wally", "app_stimme_bisher": "N2lVS1w4EtoT3dr4eOWO"},
+    "HARMS": {"name": "Kapitän Harms", "voice_id": "onwK4e9ZLuTAKqWW03F9", "paket_id": "kroeger"},
+    "QUIRIN": {"name": "Quirin", "voice_id": "hJAaR77ekN23CNyp0byH", "stimme": "Alexander - Sharp and Informal", "wunsch": "Alexander", "hinweis": "Vom Nutzer gewählt am 24.10.2026 (Bibliothek: männlich, mittleres Alter, bairisch), ID vom Nutzer am 24.10.2026. Stammt aus der Voice Library: Falls ElevenLabs sie nicht findet, im Casting einmal „holen“ (fügt sie dem Konto hinzu). George ist abgelöst."},
+    "POLIZEI": {"name": "Wasserschutzpolizistin", "voice_id": "2aL479c8D3QMIPExj0tw", "stimme": "Selena – Deep Charisma"},
+    "FISCHER": {"name": "Fischer", "voice_id": "yjJ45q8TVCrtMhEKurxY", "stimme": "Dr. von Quirky"},
+    "FUNK": {"name": "Verkehrszentrale (Funk)", "voice_id": "4FAKwoQRvqLfJJP6W6Qp", "stimme": "Mats – Warm, Genuine"},
+    "HAFENMEISTER": {"name": "Hafenmeisterin", "voice_id": "fs3nd19KF2GO2hLTzkBm", "stimme": "Lucinda – Earthy"},
+    "ERZAEHLER": {"name": "Erzählstimme (Reserve, B77: kein Erzähler)", "voice_id": "ib8aaABAPZQpTo6hx8Jr", "stimme": "Severin – Powerful"},
+    "RANGERIN": {"name": "Rangerin im Nationalpark (Gast, Folge S8.1)", "voice_id": "CoFoB7a7PXA8RBsMHbua", "hinweis": "Gastrolle aus dem Prüfbericht vom 22.10.2026. Stimmen-ID vom Nutzer am 27.10.2026, liegt in seinem ElevenLabs-Konto („Meine Stimmen“)."}
+  },
+  "figuren_hinweis": "Stimmen wie im Stimmenpaket (audio/stimmen/manifest.json, P49). Voice-IDs vom Nutzer am 20.10. (B97). Klabauter spricht im Podcast mit Wally; die App nutzt bis zur Entscheidung O38 noch die alte Stimme (app_stimme_bisher). Frieda hat noch keine Stimme. Auf dem Gerät nutzt die Hörprobe die Casting-Zuordnung (S.cfg.casting). Ob die Stimmen mit dem gewählten Modell gut klingen, zeigt erst die Testszene (A27).",
+  "aussprache": {
+    "datei": "podcast/pronunciation_dictionary.md",
+    "version": 2,
+    "elevenlabs_woerterbuch": null
+  },
+  "chunking": {
+    "max_zeichen": 2000,
+    "nie_im_satz_trennen": true,
+    "sprecherwechsel_zusammenhalten": true
+  },
+  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL", "ABSCHNITT", "WAHL", "ANIM", "HOERKARTE", "VERTIEFUNG"],
+  "lektion_regeln": {
+    "_hinweis": "Regeln für Folgenskripte des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 5, §5, §7, §10, §16 und Anhang A). Denkpausen kurz, weil sie auch im Auto-Modus laufen (Nutzer, 23.10.2026: „Nicht zu lange“); 3 s erinnern, 5 s entscheiden (mit [[WAHL]]), 6 s Kernsätze. Merkhilfen ausgebaut (Nutzer, 23.10.2026). tools/podcast-pruefen.js wendet sie an, sobald im Kopf „folge:“ (oder aus Fassung 3 „lektion:“) steht.",
+    "revier_werte": ["frei", "fahrwasser", "vtg", "nok", "hafen", "watt", "schleuse", "an Land", "fluss", "binnensee"],
+    "denkpause_sekunden": ["3", "5", "6"],
+    "denkpause_entscheidung": "5",
+    "denkpause_umsetzung": "Stille wird beim Zusammenfügen in die MP3 geschnitten (kein Audio-Tag); davor ein leiser Signalton „jetzt du“, darunter auf Wunsch ein leises Ticken; danach sagt die Folge die Lösung",
+    "irrtum_berichtigung_max_sekunden": 20,
+    "merkhilfen_max": 6,
+    "stimmen_je_szene_max": 3,
+    "denkpausen_min": 2,
+    "rueckblick_min_lektionen": 2,
+    "katalog_treffer_min": 0.8,
+    "hoerkarte_max_zeichen": 450,
+    "vertiefung_max_zeichen": 600,
+    "vertiefung_hinweis": "[[VERTIEFUNG: sbf:n]] … [[VERTIEFUNG: ende]]: eigener Clip, nur im interaktiven Modus nach einer falschen Antwort auf [[WAHL]] zu derselben Frage; erklärt tiefer und anders als der Haupttext; höchstens zwei Stimmen"
+  },
+  "pause_werte": ["kurz", "nachdenklich", "dramatisch"],
+  "tempo_werte": ["langsam", "normal", "zügig"],
+  "tags_hinweis": "Alle Tags sind Kandidaten für den Hörtest (A14, A27). quelle: doku = in ElevenLabs-Unterlagen bzw. Bible A14 genannt; unbestaetigt = Claude kennt den Tag, hat ihn aber am 20.10. nicht in der Doku gefunden. Freigegeben wird erst nach dem Hörtest.",
+  "intentionen": {
+    "neugierig": {"tag": "[curious]", "status": "experimentell", "quelle": "doku"},
+    "nachdenklich": {"tag": "[thoughtful]", "status": "experimentell", "quelle": "doku"},
+    "überrascht": {"tag": "[surprised]", "status": "experimentell", "quelle": "doku"},
+    "beruhigend": {"tag": "[reassuring]", "status": "experimentell", "quelle": "doku"},
+    "flüsternd": {"tag": "[whispers]", "status": "experimentell", "quelle": "doku"},
+    "humorvoll": {"tag": "[playfully]", "status": "experimentell", "quelle": "doku"},
+    "erleichtert": {"tag": "[relieved]", "status": "experimentell", "quelle": "doku"},
+    "seufzend": {"tag": "[sighs]", "status": "experimentell", "quelle": "doku"},
+    "ausatmend": {"tag": "[exhales]", "status": "experimentell", "quelle": "doku"},
+    "rufend": {"tag": "[shouts]", "status": "experimentell", "quelle": "doku"},
+    "lachend": {"tag": "[laughs]", "status": "experimentell", "quelle": "doku"},
+    "losprustend": {"tag": "[starts laughing]", "status": "experimentell", "quelle": "doku"},
+    "aufgeregt": {"tag": "[excited]", "status": "experimentell", "quelle": "doku"},
+    "sarkastisch": {"tag": "[sarcastic]", "status": "experimentell", "quelle": "doku"},
+    "verschmitzt": {"tag": "[mischievously]", "status": "experimentell", "quelle": "doku"},
+    "gähnend": {"tag": "[yawns]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "trocken": {"tag": "[deadpan]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "genervt": {"tag": "[annoyed]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "schnaubend": {"tag": "[snorts]", "status": "experimentell", "quelle": "unbestaetigt"}
+  },
+  "pause_tags": {
+    "kurz": {"tag": "[short pause]", "status": "experimentell", "quelle": "doku"},
+    "nachdenklich": {"tag": "[pause]", "status": "experimentell", "quelle": "doku"},
+    "dramatisch": {"tag": "[long pause]", "status": "experimentell", "quelle": "doku", "hinweis": "Schnitt zwischen zwei Anfragen; der Tag steht am Anfang der neuen Anfrage."}
+  },
+  "tempo_tags": {
+    "langsam": {"tag": "[slows down]", "status": "experimentell", "quelle": "unbestaetigt"},
+    "zügig": {"tag": "[rushed]", "status": "experimentell", "quelle": "unbestaetigt"}
+  },
+  "audio_tags": {
+    "Möwen": {"tag": "[seagulls]", "status": "experimentell", "quelle": "unbestaetigt", "hinweis": "Geräusch-Tags gibt es laut ElevenLabs bei v3; ob dieser wirkt, zeigt der Test (A26)."}
+  },
+  "grossschreibung_betonung": {"status": "test", "max_pro_skript": 3, "hinweis": "Großschreibung als Betonung, vom Nutzer zum Test freigegeben (VS36, B67). Wörter in Großbuchstaben, die nicht im Ausspracheverzeichnis stehen, gelten dann als Betonung."},
+  "text_normalisierung": null,
+  "seed": null,
+  "ausgabe_format": null,
+  "sprechtempo_zeichen_pro_sekunde": 13.9
+}

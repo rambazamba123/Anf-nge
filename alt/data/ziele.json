@@ -1,0 +1,39 @@
+{
+ "about": "V42 (Nutzer, 24.10.2026, Konzept §3.5): feste Textbausteine der Crew zu Scheinen, Terminen und Lernzeit. Sie setzen sich je nach Lage zusammen: Kommentar zur Lernzeit, so lernst du, mehrere Scheine, reicht es, Empfehlung, Praxis, Abschluss. Feste Sätze ohne Namen und ohne Zahlen, die sich ändern (CLAUDE.md R10); Zahlen stehen nur auf dem Bildschirm. s = Rolle (K Käpt'n, M Smilla, T Klabauter).",
+ "kommentar": {
+  "15": [{"s": "K", "t": "Eine Viertelstunde. Kurz, aber jeden Tag. Dat geiht."}, {"s": "M", "t": "Eine Viertelstunde? Sportlich. Dann aber wirklich jeden Tag, keine Ausreden."}],
+  "30": [{"s": "K", "t": "Eine halbe Stunde am Tag. Damit kommst du gut vorwärts."}, {"s": "M", "t": "Halbe Stunde. Das ist ein ehrliches Pensum. Gefällt mir."}],
+  "45": [{"s": "K", "t": "Dreiviertelstunde. Da hat jemand Wind in den Segeln."}, {"s": "M", "t": "Dreiviertelstunde am Tag. Damit schaffst du richtig was."}],
+  "60": [{"s": "K", "t": "Eine Stunde am Tag. Respekt. Halt das mal durch."}, {"s": "M", "t": "Eine ganze Stunde? Dann machen wir richtig Strecke."}],
+  "90": [{"s": "K", "t": "Anderthalb Stunden. Du willst es wissen, wa?"}, {"s": "M", "t": "Anderthalb Stunden am Tag. Pass auf, dass dein Kopf nicht überläuft. Pausen gehören dazu."}]
+ },
+ "soLernst": {
+  "15": [{"s": "M", "t": "So lernst du: jeden Tag ein kurzer Happen. Mal eine Folge Kajütenfunk, mal ein Block Fragen. Wiederholen geht immer vor."}],
+  "30": [{"s": "M", "t": "So lernst du: eine Folge Kajütenfunk mit Fragerunde, dazu ein Block Wiederholen. Das ist dein Kurs für heute."}],
+  "45": [{"s": "M", "t": "So lernst du: eine Folge mit Fragerunde, ein Block Wiederholen und ein Happen Praxis. Knoten, Manöver oder Seekarte."}],
+  "60": [{"s": "M", "t": "So lernst du: zwei Folgen oder eine Folge und Praxis, dazu Wiederholen. Vor der Prüfung kommen Probeprüfungen bei Harms dazu."}],
+  "90": [{"s": "M", "t": "So lernst du: Folgen, Wiederholen, Praxis und Navigation an jedem Tag. Und regelmäßig eine Probeprüfung bei Harms."}]
+ },
+ "mehrere": [{"s": "M", "t": "Mehrere Scheine auf einmal? Gut. Die Basisfragen gelten für See und Binnen, die lernst du nur einmal. Wir fangen mit dem Schein an, dessen Prüfung zuerst kommt."}],
+ "reicht": {
+  "ok": [{"s": "K", "t": "Reicht dicke. Du hast sogar Luft für Probeprüfungen."}, {"s": "M", "t": "Das reicht locker. Wenn du dranbleibst, gehst du entspannt in die Prüfung."}],
+  "knapp": [{"s": "M", "t": "Das wird knapp. Machbar, aber nur, wenn du keinen Tag auslässt."}, {"s": "K", "t": "Knapp. Wie Anlegen bei Seitenwind. Geht, aber nur mit Konzentration."}],
+  "nein": [{"s": "M", "t": "Ehrlich gesagt: Das reicht nicht. Mit dieser Zeit schaffst du nicht alles bis zur Prüfung."}, {"s": "K", "t": "Dat langt nich. Da müssen wir was ändern."}],
+  "offen": [{"s": "M", "t": "Noch kein Termin? Auch gut. Dann lernen wir in Ruhe. Sobald du einen Termin hast, trägst du ihn ein, und ich rechne nach."}]
+ },
+ "empfehlung": {
+  "mehrZeit": [{"s": "M", "t": "Mein Tipp: Nimm eine Viertelstunde am Tag dazu. Das macht am Ende den Unterschied."}],
+  "auto": [{"s": "K", "t": "Oder hör den Kajütenfunk unterwegs. Im Auto oder beim Spazierengehen zählt jede Folge mit."}],
+  "wackel": [{"s": "M", "t": "Und kurz vor der Prüfung nur noch deine Wackelkandidaten. Rot und Orange zuerst."}],
+  "termin": [{"s": "M", "t": "Wenn es geht, schieb den Termin ein paar Wochen nach hinten. Lieber einmal bestehen als zweimal hingehen."}]
+ },
+ "praxis": {
+  "bald": [{"s": "K", "t": "Die Praxisprüfung kommt bald. Dann nehmen wir Knoten und Manöver jeden Tag mit dazu."}],
+  "offen": [{"s": "K", "t": "Für die Praxis hast du noch keinen Termin. Kein Problem, Knoten üben wir trotzdem nebenbei."}]
+ },
+ "abschluss": [{"s": "T", "t": "Leinen los! Leinen los!"}, {"s": "T", "t": "Kurs steht! Kurs steht!"}],
+ "bedarf": {
+  "_hinweis": "Grobe Schätzung der Lernzeit in Stunden für die Theorie bis zur Prüfungsreife (Kurs, Wiederholen, Navigation), angelehnt an Recherche R8 (Kurse 4–8 Abende zu 2 Stunden plus Selbststudium; ein Selbstlerner 45–60 Minuten täglich über drei Wochen). Binnen mit SBF See zusammen: die Basisfragen zählen nur einmal.",
+  "sbf": 20, "binnen": 14, "binnenMitSbf": 9, "sks": 35
+ }
+}

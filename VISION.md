@@ -1,6 +1,6 @@
 # Skipper – Vision (Anker)
 
-Stand 28.10.2026, Fassung 1 zum Kommentieren.
+Stand 28.10.2026, Fassung 1 (gilt; Antworten O88–O92 vom Nutzer eingearbeitet).
 
 **Was diese Datei ist:**
 - Sie ist der Anker für alles Weitere: Was soll Skipper werden, wie fühlt es sich an, wie läuft es ab und in welcher Reihenfolge bauen wir es.
@@ -97,7 +97,7 @@ Skipper ist eine Reise mit einer Crew, die dich zum Bootsführerschein bringt. D
 - **Aufbau:** Häfen sind Kapitel, Etappen sind Folgen.
   - SBF See: 20 Häfen und 60 Etappen (heute 20 Kapitel und 60 Folgen im Kursplan).
   - Die **Grundreise** (Teil G) hat 9 Häfen und 16 Etappen und gilt für See und Binnen.
-- **„Durchgespielt“:** Grundreise in **etwa 6 Stunden**, SBF See komplett in **etwa 20–25 Stunden**. Bei 45 Minuten am Tag sind das etwa 4–5 Wochen. Das liegt in deinem Rahmen von 4–40 Stunden (19.10.).
+- **„Durchgespielt“:** Grundreise in **etwa 6 Stunden**, SBF See komplett in **etwa 25–30 Stunden**. Das Versprechen dahinter (Nutzer, 28.10.): **„In 30 Stunden zum Bootsveteran“**. Man hat danach wirklich eine kleine Ausbildung hinter sich. Deshalb ist der Aufbau eine echte Ausbildung in Etappen, kein Schnellkurs. Bei 45 Minuten am Tag sind das etwa 5–6 Wochen.
 - **Orte:** echt (O25), auf einer selbst gezeichneten, schematischen Reisekarte.
 - **Später:** SKS, Funk und Pyro als weitere Reiseabschnitte.
   - Funk passt in die Fahrt-Szenen: Funkgespräche unterwegs.
@@ -251,6 +251,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 - Zusatzfolgen nach der Reise.
 
 **M10 Fahrt-Szenen (bisher der Törn):**
+- **Blick (Nutzer, 28.10.):** von hinten auf das eigene Boot (dritte Person), ganz einfach animiert: Wellen, raue See, Gischt, Wolken, Landschaft. Gerade das Einfache soll gut wirken.
 - Der Törn als eigener Bereich entfällt (O74). Seine Technik wird Teil der Reise: Sicht vom Steuer, Tonnen mit echter Kennung, Lichter, Schiffe, Nebel, Wetter.
 - Neu: **Landschaften je Revier**, zum Beispiel Küste mit Leuchtturm, Fluss mit Bergen, Kanal mit Schleuse, Watt, offene See. Gezeichnet in Ebenen, die sich verschieden schnell bewegen, damit es wie ein Film wirkt.
 - Jede Szene hat **mindestens eine Aufgabe**. Kulisse allein lenkt ab (Q7). Realistische bewegte Bilder helfen beim Wiedererkennen (Höffler & Leutner 2007).
@@ -270,6 +271,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
   - Am Anfang eine kleine Übungskarte mit einer Tonne, die Werkzeuge kommen nach und nach dazu.
   - Früh in der Reise und verteilt (Abschnitt 5).
 - Prüfungsmodus und die 15 amtlichen Aufgaben (Karte 49) bleiben.
+- **Auch im „trockenen“ Übungsmodus** (Frei üben, ohne Reise) begleitet die Crew jede Aufgabe: Smilla sagt in kurzen Sätzen, was zu tun ist, gibt Tipps und Rückmeldung (Nutzer, 28.10.).
 - **Dein Input zum Werkzeug steht noch aus.**
 
 **M12 Knotenkurs mit Hinnerk:**
@@ -284,6 +286,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 - Neu: Die Einweisung kommt als Szene, Harms nennt seine Prüfpunkte, die Manöver sind verteilt.
 
 **M14 Fragen und Karteikarten:**
+- **Jede Frage wird vorgelesen** (Frage und Antworten, erst mit der Gratis-Stimme, später vertont). Antworten gehen auch **per Zuruf**: während des Vorlesens nur „Alfa“, „Bravo“, „Charlie“, „Delta“, danach auch „A“ bis „D“ (Nutzer, 28.10.; VS43). Ein- und ausschaltbar.
 - Amtlich, Multiple Choice, Farben (E11), Easy/Tricky bleibt wie es ist (O75), Blöcke zu acht, Smilla treibt an.
 - Merksatz zu jeder Frage; Signale im Prüfungsformat (10.10.).
 - Themen frei wählbar; „Noch was Neues“ oder „Festigen“ wird Teil der Tagesbesprechung.
@@ -362,7 +365,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 - **Ablage der Tondateien (N4):** vor der ersten echten Vertonung entscheiden. Nicht dauerhaft im Git-Repo, die Folgen werden einzeln geladen.
 - **Gestaltungsregeln (N6)** vor dem Umbau der Bildschirme.
 - **Rettungsboot:**
-  - Git-Marke „v4.95-stabil“, die alte Version spielbar unter `/alt/`.
+  - Die alte Version 4.95 ist spielbar unter `/alt/` (gebaut mit `tools/alt-version.js` aus Commit `c0f7068`). Eine Git-Marke ließ sich aus der Cloud nicht hochladen; der Commit in der Versionsgeschichte reicht zum Zurückholen.
   - Download des ganzen Repos als ZIP über github.com → „Code“ → „Download ZIP“.
   - Beide Versionen teilen sich den Spielstand. Deshalb gilt R7 weiter streng.
 - **Kosten:**
@@ -383,7 +386,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 | Schritt | Was | So stelle ich es mir vor | Aufwand |
 |---|---|---|---|
 | **H0** | Vision freigeben | Du kommentierst diese Datei, ich arbeite es ein, dann gilt Fassung 1 als Anker. | – |
-| **H1** | Fundament | Rettungsboot (Marke, `/alt/`, ZIP-Anleitung); `CLAUDE.md` neu ordnen (oben die Kurzfassung dieser Vision, Erledigtes ins Archiv); Aufräumliste „bleibt / zusammenlegen / fällt weg“ für jedes Menü zur Entscheidung | 1 Lauf |
+| **H1** | Fundament | Rettungsboot (`/alt/`, ZIP-Anleitung) ✓ erledigt 28.10.; `CLAUDE.md` neu ordnen (oben die Kurzfassung dieser Vision, Erledigtes ins Archiv); Aufräumliste „bleibt / zusammenlegen / fällt weg“ für jedes Menü zur Entscheidung | 1 Lauf |
 | **H2** | Szenen-Player und Gratis-Stimme | ein Format für alles Gesprochene; Test freie Stimme gegen Handystimme; Kajütenfunk-Wünsche (sechs Sekunden, Bilder früher, Fragerunde, Ansage) | 1–2 Läufe |
 | **H3** | **Probe-Etappe zum Durchspielen** | Deck mit zwei Wegen → Kartentisch von oben → Tagesbesprechung → Törnplanung → Folge (die Probefolge als Platzhalter) → kurze Fahrt-Szene → Knoten-Station → Abendrunde → Logbuch. Platzhalter-Sätze der Crew, Gratis-Stimme. **Du spielst sie am Handy und sagst, ob sich die Vision richtig anfühlt.** | 2 Läufe |
 | **H4** | Aufräumen umsetzen | nach deiner Liste aus H1: Deck, Kajüte, Crew-Menüs, „Frei üben“, Einstellungen mit Werkstatt, große Schrift, Seite „Geräusche“ | 1–2 Läufe |
@@ -421,17 +424,17 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 | 28.10. | Gratis-Stimmen: bessere testen, sonst Handystimme (O76). |
 | 28.10. | Neue Räume nur als Zeichnung (O86). |
 | 28.10. | Knoten statt „Noten“ (O84). |
+| 28.10. | Antworten O88–O92 (siehe §14); Fahrt-Szene von hinten auf das Boot, einfach animiert; Navi-Übungsmodus mit Crew; jede Frage vorgelesen, Spracheingabe Alfa bis Delta; alle übrigen Vorschläge angenommen; Start mit H1, danach Schritt für Schritt weiter. |
 
 ## 14. Offene Fragen
-- **O88 Boot:**
-  - (a) ein Boot, das wächst: erst unter Motor, dann „Mast stellen“ (Empfehlung)
-  - (b) dieselbe Yacht mit geborgenen Segeln
-  - (c) Bootswechsel vom Motorboot zur Yacht
-  - Endgültig mit der Story.
-- **O89 Törn-Spielteile:** Bordkasse, Proviant, Laden, Ausrüstung und Sterne fallen ganz weg (Empfehlung: ja, für mehr Fokus)?
-- **O90 Leiste unten:** „Deck · Kajüte · Frei üben“ statt heute „Deck · Kajüte · Logbuch“. Das Logbuch wird ein Buch in der Kajüte und am Kartentisch.
-- **O91 Vorgehen:** Probe-Etappe (H3) vor dem breiten Aufräumen (H4)?
-- **O92 Dauer:** SBF See etwa 20–25 Stunden in 60 Etappen, Grundreise etwa 6 Stunden. Passt das?
+Beantwortet am 28.10.2026:
+- **O88 Boot:** wie vorgeschlagen, ein Boot, das wächst (erst unter Motor, dann „Mast stellen“). Einzelheiten mit der Story.
+- **O89:** Bordkasse, Proviant, Laden, Ausrüstung und Sterne fallen weg.
+- **O90:** Leiste unten „Deck · Kajüte · Frei üben“, wie vorgeschlagen.
+- **O91:** Probe-Etappe (H3) vor dem breiten Aufräumen (H4), wie vorgeschlagen.
+- **O92:** „Ich wünschte, es wäre kürzer, aber vielleicht ist das das Tolle: in 30 Stunden zum Bootsveteran.“ Die Dauer ist damit gerechtfertigt.
+
+Neue offene Fragen kommen mit den Läufen dazu.
 
 ## 15. Deine Aufgaben
 - **O87:** Rechte an der Karte 49 beim BSH klären (Beilegen im Set, Tonnennamen und Positionen in der App).
