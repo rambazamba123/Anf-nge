@@ -837,12 +837,15 @@ KN.zeige = function (id) {
   if (!anim) { lis.forEach(li => li.classList.add('an')); return; }
   /* Animation: der gerade gezeigte Schritt ist hervorgehoben; Schritte antippen springt dorthin */
   const sl = $('#kzeit'), pb = $('#kplay');
+  /* M12: Hinnerk macht vor und sagt jeden Schritt an (Gratis-Stimme, aus mit S.cfg.knotenStimme = false) */
+  let gesagt = -1, spielt = true;
+  const ansagen = st => { if (st === gesagt || st < 0 || !k.schritte[st] || (S.cfg && S.cfg.knotenStimme === false)) return; gesagt = st; try { VOX.stop('Knotenschritt'); VOX.say((S.crew && S.crew.K) || 'hinnerk', k.schritte[st], 'local'); } catch (e) {} };
   const sp = spieler($('#kanim'), A, {
-    schritt: st => lis.forEach((li, i) => li.classList.toggle('an', i === st)),
-    zeit: (t, laeuft) => { sl.value = t; pb.textContent = laeuft ? '⏸ Pause' : t >= A.DUR ? '▶ Nochmal' : '▶ Weiter'; }
+    schritt: st => { lis.forEach((li, i) => li.classList.toggle('an', i === st)); if (spielt) ansagen(st); },
+    zeit: (t, laeuft) => { spielt = laeuft; sl.value = t; pb.textContent = laeuft ? '⏸ Pause' : t >= A.DUR ? '▶ Nochmal' : '▶ Weiter'; }
   });
   pb.onclick = () => { AUD.click(); sp.spielt ? sp.pause() : sp.play(); };
-  $('#kneu').onclick = () => { AUD.click(); sp.seek(0); sp.play(); };
+  $('#kneu').onclick = () => { AUD.click(); gesagt = -1; sp.seek(0); sp.play(); };
   sl.oninput = () => { const v = +sl.value; sp.pause(); sp.seek(v); };
   lis.forEach((li, i) => li.onclick = () => { if (A.START[i] != null) { sp.seek(A.START[i]); sp.play(); } });
 };
