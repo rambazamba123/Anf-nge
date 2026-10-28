@@ -44,7 +44,7 @@ window.SZENE = (() => {
       if (s.wer && s.t) {
         const cid = sprecher(s.wer);
         q('#szrede').innerHTML = `<div class="szzeile">${charSVG(cid)}<div class="say"><b>${esc(NAMEN[cid] || CREW[cid].short)}:</b> ${esc(s.t)}</div></div>`;
-        await Promise.race([VOX.say(cid, s.t, s.art || 'fixed'), new Promise(r => { me.weiter = r; })]);
+        await Promise.race([VOX.say(cid, s.t, s.art || opt.art || 'fixed'), new Promise(r => { me.weiter = r; })]);
         me.weiter = null;
         if (!me.aus) await warte(me, 250);
       } else if (s.bild) {
@@ -73,7 +73,7 @@ window.SZENE = (() => {
     const w = q('#szwahl');
     w.innerHTML = `<p class="small" style="margin:0 0 6px"><b>${esc(s.wahl)}</b></p>` + s.opts.map((o, i) => `<button class="btn ${o.empfohlen ? '' : 'ghost'} szopt" data-o="${i}">${esc(o.t)}${o.empfohlen ? ' <small>⭐ Empfehlung</small>' : ''}</button>`).join('');
     return new Promise(res => {
-      me.weiter = () => res(null);
+      me.weiter = () => { if (me.aus) res(null); };   /* „Weiter“ überspringt keine Entscheidung, nur „Szene überspringen“ */
       w.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
         const o = s.opts[+b.dataset.o]; AUD.click();
         w.querySelectorAll('button').forEach(x => x.disabled = true);
@@ -97,7 +97,7 @@ window.SZENE = (() => {
         if (typeof record === 'function' && fr.n && S.course !== 'sks') { try { record(fr.n, ok); } catch (e) {} }
         setTimeout(() => { w.innerHTML = ''; res(ok ? 'richtig' : 'falsch'); }, 1600);
       };
-      me.weiter = () => { if (ctl) ctl.stop(); res(null); };
+      me.weiter = () => { if (me.aus) { if (ctl) ctl.stop(); res(null); } else VOX.stop('Vorlesen übersprungen'); };
       w.querySelectorAll('.ans').forEach(b => b.onclick = () => fertig(+b.dataset.k));
       ctl = frage(fr, order, {onPick: fertig});
     });

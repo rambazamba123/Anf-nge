@@ -203,6 +203,9 @@ details summary{cursor:pointer;font-weight:700}
 .sig{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
 .sig .tones{font-size:1.5rem;letter-spacing:.14em;font-weight:700}
 .sig .tones .on{color:var(--lamp)}
+.reiseknopf{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:8px;background:var(--sea);color:#fff}.reiseknopf small{opacity:.85}
+.tischplatte{background:#7a4f2c;border-radius:16px;padding:10px;box-shadow:inset 0 0 0 3px #5c3a1f;margin:6px 0 10px;perspective:700px}.tischplatte.kippt .reisekarte{animation:kippen .9s ease-out}@keyframes kippen{from{transform:rotateX(55deg) scale(.85);opacity:.3}to{transform:none;opacity:1}}.reisekarte{display:block;width:100%;height:auto;border-radius:10px}
+.etappenteile li button{text-align:left}.fahrtbild{position:relative}#fahrtcv{display:block;width:100%;border-radius:14px;background:#4f9cc4}.fahrtszene{margin:8px 0 0}.fahrtszene:empty{display:none}
 .vlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}.vlrow .chip{font-size:.85em}.ans .abc{display:inline-block;min-width:1.4em;color:var(--sea)}
 .szene .szbild img{max-width:100%;max-height:200px;border-radius:12px;display:block;margin:0 auto 8px}.szzeile{display:flex;gap:8px;align-items:flex-start}.szzeile svg.ch{width:64px;flex:none}.szzeile .say{display:block}.szwahl .szopt{display:block;width:100%;margin:6px 0;text-align:left}.szsteuer{margin-top:8px}
 .ans{display:block;width:100%;text-align:left;padding:.8em 1em;margin:0 0 8px;border:2px solid var(--line);border-radius:14px;background:var(--paper);line-height:1.4;color:var(--ink)}
@@ -516,7 +519,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.96';
+  window.__ver = '4.97';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1090,7 +1093,7 @@ const CABIN_SPOTS = [
   {id: 'manoever', label: 'Manöverbrett: Manöver fahren', x: 50, y: 26.5, fn: 1},
   {id: 'knoten', label: 'Knotenbrett', x: 1, y: 40.5, side: 'l', fn: 1},
   {id: 'funk', label: 'Funk', x: 13, y: 56},
-  {id: 'tisch', label: 'Kartentisch: Meine Prüfungen', x: 47, y: 71.5, fn: 1},
+  {id: 'tisch', label: 'Kartentisch: hinsetzen, die Reise', x: 47, y: 71.5, fn: 1},
   {id: 'logbuch', label: 'Logbuch', x: 66, y: 71.5},
   {id: 'telefon', label: 'Telefon: Kapitän Harms', x: 63.3, y: 24.4, fn: 1},
   {id: 'spiele', label: 'Spielekiste', x: 15.5, y: 86, fn: 1},
@@ -3105,7 +3108,7 @@ function renderCabin() {
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => meinePruefungen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => reiseOeffnen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => hockerWahl(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -4347,6 +4350,7 @@ function renderBoat() {
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
+      <button class="btn wide reiseknopf" id="toreise"><small>🧭 Mit der Crew weiter</small><b>Probe-Etappe am Kartentisch</b></button>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
       <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
@@ -4356,6 +4360,7 @@ function renderBoat() {
     ${standKarte(path, next)}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
+  $('#toreise').onclick = () => { AUD.unlock(); AUD.click(); reiseOeffnen(); };
   $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
   if (next) $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next.run(); };
   else bindExtraWahl();
@@ -4779,6 +4784,8 @@ function bgStop(silent) {
 /* Nachgeladene Teile (R11): einmal laden; schlägt es fehl, beim nächsten Mal neu versuchen */
 const NACH = {};
 function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = datei + '?v=' + window.__ver; sc.onload = res; sc.onerror = () => { delete NACH[datei]; rej(new Error(datei + ' ließ sich nicht laden')); }; document.head.appendChild(sc); })); }
+/* H3: Reise am Kartentisch (reise.js, data/reise.json), erst als Probe-Etappe */
+function reiseOeffnen() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.oeffnen()).catch(() => toast('Die Reise ließ sich nicht laden. Prüf dein Internet.')); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
 /* V42: Scheine, Termine, Lernzeit (ziele.js) */
 function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }
