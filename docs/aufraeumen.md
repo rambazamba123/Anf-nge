@@ -1,7 +1,8 @@
 # Aufräumliste (VISION.md H1, Stand 28.10.2026)
 
 > Für jedes Menü: was **bleibt**, was **zusammengelegt** wird und was **wegfällt**. Grundlage sind `VISION.md` §8 (M1–M23) und §11 und der Code von v4.95.
-> Der Nutzer hat am 28.10.2026 alle Vorschläge angenommen, die er nicht ausdrücklich geändert hat. Umgesetzt wird das in H4 (Aufräumen), H5 (Ankommen) und H7 (Fahrt-Szenen). Spielstände bleiben lesbar (R7): Entfernte Bereiche lassen ihre Daten im Spielstand stehen.
+> Der Nutzer hat am 28.10.2026 alle Vorschläge angenommen, die er nicht ausdrücklich geändert hat. Umgesetzt wird das in H4 (Aufräumen), H5 (Ankommen) und H7 (Fahrt-Szenen).
+> **Stand v4.98:** umgesetzt sind Leiste, Frei üben, Kajüte, Crew-Menüs, Einstellungen mit Werkstatt, große Schrift und die Seite „Geräusche“. Noch offen: Fortschrittsbild an Deck (das Rennen ist weg, die Logbuch-Karte bleibt), Kennenlernen (H5), Törn (H7), Logbuch ohne alte Teile, alter Funk-Bereich. Spielstände bleiben lesbar (R7): Entfernte Bereiche lassen ihre Daten im Spielstand stehen.
 
 ## Leiste unten (O90)
 | Heute | Künftig |

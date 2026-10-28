@@ -206,6 +206,10 @@ details summary{cursor:pointer;font-weight:700}
 .reiseknopf{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:8px;background:var(--sea);color:#fff}.reiseknopf small{opacity:.85}
 .tischplatte{background:#7a4f2c;border-radius:16px;padding:10px;box-shadow:inset 0 0 0 3px #5c3a1f;margin:6px 0 10px;perspective:700px}.tischplatte.kippt .reisekarte{animation:kippen .9s ease-out}@keyframes kippen{from{transform:rotateX(55deg) scale(.85);opacity:.3}to{transform:none;opacity:1}}.reisekarte{display:block;width:100%;height:auto;border-radius:10px}
 .etappenteile li button{text-align:left}.fahrtbild{position:relative}#fahrtcv{display:block;width:100%;border-radius:14px;background:#4f9cc4}.fahrtszene{margin:8px 0 0}.fahrtszene:empty{display:none}
+body.gross{font-size:20px}body.gross .small{font-size:.92em}
+.werkstatt{margin:22px 0 10px;border:2px dashed var(--line);border-radius:16px;padding:10px 12px}.werkstatt>summary{cursor:pointer;padding:6px 0}.werkstatt[open]>summary{margin-bottom:8px}
+body.mittabs #app{padding-bottom:86px}
+.gzeile{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line)}.gzeile:last-child{border:0}
 .vlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}.vlrow .chip{font-size:.85em}.ans .abc{display:inline-block;min-width:1.4em;color:var(--sea)}
 .szene .szbild img{max-width:100%;max-height:200px;border-radius:12px;display:block;margin:0 auto 8px}.szzeile{display:flex;gap:8px;align-items:flex-start}.szzeile svg.ch{width:64px;flex:none}.szzeile .say{display:block}.szwahl .szopt{display:block;width:100%;margin:6px 0;text-align:left}.szsteuer{margin-top:8px}
 .ans{display:block;width:100%;text-align:left;padding:.8em 1em;margin:0 0 8px;border:2px solid var(--line);border-radius:14px;background:var(--paper);line-height:1.4;color:var(--ink)}
@@ -515,11 +519,11 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 <nav class="tabs hidden" id="tabs" aria-label="Hauptbereiche"><div class="in">
   <button data-tab="deck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3 2 6 2 9 0s6-2 9 0M12 3v11M12 4l6 8h-6"/></svg>Deck</button>
   <button data-tab="cabin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="6"/><circle cx="12" cy="11" r="3"/><path d="M12 2v3M12 17v5"/></svg>Kajüte</button>
-  <button data-tab="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11M9 8h6"/></svg>Logbuch</button>
+  <button data-tab="frei"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Frei üben</button>
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.97';
+  window.__ver = '4.98';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2345,7 +2349,7 @@ const kiOn = () => !(S && S.cfg && S.cfg.ki === false);
 function kiUse() { const d = today(); if (!S.kiUse || S.kiUse.day !== d) S.kiUse = {day: d, n: 0}; return S.kiUse; }
 /* Entwickler-Werkzeuge (Stimmenpaket, Stimmenwahl, Selbsttest): an, solange ein ElevenLabs-Schlüssel eingetragen ist, sonst per Einstellung */
 const devOn = () => S.cfg && S.cfg.dev != null ? !!S.cfg.dev : !!elKey();
-function applyKi() { document.body.classList.toggle('noki', !kiOn()); document.body.classList.toggle('nodev', !devOn()); }
+function applyKi() { document.body.classList.toggle('noki', !kiOn()); document.body.classList.toggle('nodev', !devOn()); document.body.classList.toggle('gross', !!(S.cfg && S.cfg.gross)); }
 let thinkOff = (() => { try { return localStorage.getItem('skipper-thinkoff') !== 'no'; } catch (e) { return true; } })();
 async function ai(input, opts = {}) {
   if (!kiOn()) throw {code: 'ki_off'};
@@ -2570,7 +2574,8 @@ function setTab(t) {
   pfadZurueck = null;
   if (t === 'cabin' && lernHeim === 'pruef') return meinePruefungen();
   if (t === 'cabin' && lernHeim === 'deck') t = 'deck';
-  if (t === 'deck') lernHeim = null;
+  if (t === 'cabin' && lernHeim === 'frei') t = 'frei';
+  if (t === 'deck' || t === 'frei') lernHeim = null;
   /* An Bord gilt immer der Crew-Schein (in „Meine Prüfungen“ darf man jeden Schein lernen) */
   if (['deck', 'cabin', 'funk', 'talk'].includes(t)) scheinAktiv(S.crewSchein);
   const from = tab; stopAll(); tab = t; window.TOERN_STILL = false;
@@ -2579,15 +2584,17 @@ function setTab(t) {
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
   $('#composer').classList.add('hidden'); $('#tabs').classList.add('hidden');
   const c = $('#coach'); if (c) c.remove(); closeSheetSafe();
-  ({deck: renderBoat, cabin: renderCabin, log: renderLog, talk: renderTalk, funk: renderFunk})[t]();
+  ({deck: renderBoat, cabin: renderCabin, log: renderLog, talk: renderTalk, funk: renderFunk, frei: renderFrei})[t]();
+  /* O90: Leiste unten „Deck · Kajüte · Frei üben“ nur auf den drei Hauptseiten */
+  const leiste = ['deck', 'cabin', 'frei'].includes(t); $('#tabs').classList.toggle('hidden', !leiste); document.body.classList.toggle('mittabs', leiste);
   window.scrollTo(0, 0);
 }
-document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { AUD.click(); setTab(b.dataset.tab); });
+document.querySelectorAll('nav.tabs button').forEach(b => b.onclick = () => { AUD.click(); lernHeim = null; setTab(b.dataset.tab); });
 /* ---------- V26: Meine Prüfungen (schein.js), Crew-Schein, Lern-Heimat ----------
    Der Crew-Schein (beim Start gewählt) ist an Bord aktiv. In „Meine Prüfungen“ kann man jeden Schein lernen (S.lernSchein). */
 let lernHeim = null, scheinP = null;
 function scheinAktiv(id) { if (id && COURSES[id] && id !== S.course) { stashCourse(); activateCourse(id); save(); } }
-const heimText = () => lernHeim === 'deck' ? 'Zurück an Deck' : lernHeim === 'pruef' ? 'Zurück zu Meine Prüfungen' : 'Zurück in die Kajüte';
+const heimText = () => lernHeim === 'deck' ? 'Zurück an Deck' : lernHeim === 'frei' ? 'Zurück zu Frei üben' : lernHeim === 'pruef' ? 'Zurück zu Meine Prüfungen' : 'Zurück in die Kajüte';
 function loadSchein() {
   return scheinP || (scheinP = new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'schein.js?v=' + window.__ver; s.onload = () => res(); s.onerror = () => { scheinP = null; rej(new Error('schein.js')); }; document.head.appendChild(s); }));
 }
@@ -2603,7 +2610,7 @@ const SZ_THEMA = {sbf: 's6', binnen: 'i2'}, SZ_LEKTIONEN = {see: ['fahrwasser', 
 const szArt = id => id === 'binnen' ? 'binnen' : 'see';
 const szOffen = art => SZ_LEKTIONEN[art].filter(l => !((S.seez || {})[art] || {})[l]).length;
 function meinePruefungen(id) { loadSchein().then(() => SCHEIN.seite(id)).catch(() => toast('„Meine Prüfungen“ ließ sich nicht laden. Prüf dein Internet.')); }
-function subScreen() { stopAll(); $('#composer').classList.add('hidden'); closeSheetSafe(); window.scrollTo(0, 0); }
+function subScreen() { $('#tabs').classList.add('hidden'); document.body.classList.remove('mittabs'); stopAll(); $('#composer').classList.add('hidden'); closeSheetSafe(); window.scrollTo(0, 0); }
 function closeSheetSafe() { const s = document.getElementById('sheet'); if (s) s.remove(); }
 
 /* ==========================================================================
@@ -3091,18 +3098,12 @@ function renderCabin() {
   const needAge = false, path = todayPath(), next = path.find(s => !s.done), done = path.filter(s => s.done).length;
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="updeck">↑ An Deck</button><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
   ${cabinScene(S.crew)}
+  <p class="small muted kajhinweis">Tippe an, was du brauchst: Kartentisch = Reise, Bücher = Meine Prüfungen, an der Wand Seekarte, Knoten und Manöver, Telefon = Harms, Hocker = Kajütenfunk, Kiste = Einstellungen. Alles andere unter „Frei üben“.</p>
   ${!courseBucket(S.course).examSet ? `<div class="card" id="datecard"><h3>Wann ist deine ${esc(COURSE.short)}-Prüfung?</h3><p class="small muted" style="margin:0 0 8px">Theorie und Praxis, für einen oder mehrere Scheine. Die Crew sagt dir, ob deine Zeit reicht.</p><button class="btn wide" id="cdsave">🎯 Termine eintragen</button></div>` : ''}
   ${needAge ? `<div class="card" id="agecard"><h3>Kurze Frage der Crew</h3><p class="small" style="margin:0 0 8px">Wie alt bist du? Danach richtet sich, wie frech die Crew sein darf.</p>
-    <div class="chips">${[['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']].map(([k, v]) => `<button class="chip" data-age="${k}">${v}</button>`).join('')}</div></div>` : ''}
-  <button class="card pruefkarte" id="topruef"><span class="pk-ico" aria-hidden="true">📋</span><span><b>Meine Prüfungen</b><small>Theorie, Navigation, Praxis und Probeprüfung. Der Käpt'n führt dich durch.</small></span></button>
-  <div class="row ways"><button class="btn ki" id="totalk">Mit der Crew reden</button><button class="btn ghost" id="toexam">Probeprüfung</button></div>
-  <button class="btn wide ghost" id="togames" style="margin-top:10px">🎲 Spielekiste</button>
-  <p class="sidelinks"><button id="tolex">Lexikon</button><button id="tofunk">Kajütenfunk</button><button id="tobooks">Kapitel</button><button id="tolog">Logbuch</button></p>`;
+    <div class="chips">${[['kind', 'Unter 16'], ['teen', '16 oder 17'], ['erw', '18 oder älter']].map(([k, v]) => `<button class="chip" data-age="${k}">${v}</button>`).join('')}</div></div>` : ''}`;
   $('#updeck').onclick = () => { AUD.click(); setTab('deck'); };
   $('#crs').onclick = courseSheet;
-  $('#topruef').onclick = () => { AUD.unlock(); AUD.click(); meinePruefungen(); };
-  $('#totalk').onclick = () => { AUD.unlock(); setTab('talk'); };
-  $('#toexam').onclick = () => harmsKommt(); $('#togames').onclick = () => { AUD.unlock(); gamesHub(); }; $('#tofunk').onclick = () => setTab('funk'); $('#tolex').onclick = () => { returnTo = 'cabin'; renderLexikon(); }; $('#tobooks').onclick = chaptersSheet; $('#tolog').onclick = () => setTab('log');
   const cd = $('#cdsave'); if (cd) cd.onclick = () => zieleOeffnen(() => setTab('deck'));
   app.querySelectorAll('[data-age]').forEach(b => b.onclick = () => { S.profile.ageGroup = b.dataset.age; save(); const c = $('#agecard'); if (c) c.remove(); toast('Danke! Die Crew weiß jetzt Bescheid.'); });
   const sc = app.querySelector('.scene.cabin');
@@ -3829,10 +3830,48 @@ function renderSettings() {
   app.innerHTML = `<div class="set"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">Einstellungen</h1><button class="btn small ghost" id="back">Zurück</button></div>
   <div class="card"><button class="btn small ghost" id="about" style="float:right">Über die App</button><b>📲 App aufs Handy</b><p class="small muted" style="margin:4px 0 8px">Mit Icon, ohne Browserleiste, auch offline.</p><button class="btn small" id="instset">${istInstalliert() ? 'Schon installiert ✓' : 'App installieren'}</button></div>
 
-  <h2>Crew</h2>
-  ${Object.entries(ROLE_OPTIONS).map(([role, ids]) => `<div class="card"><h3>${ROLE_NAMES[role]}</h3><div class="crewpick">${ids.map(id => `<button data-id="${id}" aria-pressed="true" disabled>${charSVG(id)}<b>${CREW[id].short}</b><small>${CREW[id].blurb}</small></button>`).join('')}</div>
-    <details style="margin-top:10px"><summary>Geschichte von ${CREW[S.crew[role]].short}</summary><p class="small" style="margin:8px 0 0">${CREW[S.crew[role]].story}</p></details></div>`).join('')}
-  <div class="card"><h3>${ROLE_NAMES.P}</h3><div style="display:flex;gap:12px;align-items:center">${charSVG('kroeger')}<p class="small" style="margin:0">${CREW.kroeger.story}</p></div></div>
+  <h2>Schein und Prüfung</h2>
+  <div class="card">
+    <label for="course" style="margin-top:0">Worauf bereitest du dich vor?</label>${sel('course', Object.values(COURSES).map(c => [c.id, c.name + ' (' + c.short + ')']), S.course)}
+    <p class="small muted" style="margin:6px 0 0">Jeder Schein hat seinen eigenen Katalog und seinen eigenen Lernstand. Beim Wechsel geht nichts verloren.</p>
+    <p class="small" style="margin:10px 0 0">Prüfung ${esc(COURSE.short)}: <b>${courseBucket(S.course).examSet && S.profile.examReal !== false ? fmtDate(S.profile.exam) : 'noch offen'}</b> · Lernzeit: <b>${S.profile.minutes} Minuten</b> am Tag</p>
+    <p class="small" style="margin:10px 0 0"><b>Amtliche Regel ${esc(COURSE.short)}:</b> ${esc(COURSE.exam.rule)}</p>
+    <button class="btn" id="sv" style="margin-top:12px">🎯 Scheine, Termine und Lernzeit</button>
+  </div>
+
+  <h2>Ton und Wetter</h2>
+  <div class="card">${slider('vm', 'Musik', c.music)}${slider('va', 'Geräusche', c.amb)}${slider('vs', 'Effekte', c.sfx)}${slider('vv', 'Stimmen', c.voice)}
+    <label for="wxs">Wettergeräusche</label>${sel('wxs', [['1', 'An'], ['0', 'Aus']], c.wxSound === false ? '0' : '1')}
+    <label for="wx">Wetter</label>${sel('wx', [['auto', 'Jeden Tag anders (meistens schön)'], ['schoen', 'Immer schön'], ['windig', 'Frischer Wind'], ['sturm', 'Wind und Regen'], ['regen', 'Windstill und Regen'], ['nebel', 'Nebel']], c.wx)}
+    <label for="gross">Schrift</label>${sel('gross', [['0', 'Normal'], ['1', 'Groß']], c.gross ? '1' : '0')}
+    <button class="btn ghost wide" id="geraeusche" style="margin-top:12px">🔊 Alle Geräusche anhören</button>
+    <label for="cm">Kommentare der Crew beim Lernen</label>${sel('cm', [['1', 'An'], ['0', 'Aus']], c.comments ? '1' : '0')}
+    <label for="th">Helligkeit</label>${sel('th', [['auto', 'Nach Tageszeit'], ['hell', 'Immer hell'], ['dunkel', 'Immer dunkel']], c.theme)}
+    <label for="cyc">Tag und Nacht</label>${sel('cyc', [['schnell', 'Ein Tag dauert 50 Minuten'], ['echt', 'Wie die Handyuhr']], c.cycle || 'schnell')}
+    <label for="mo">Bewegung</label>${sel('mo', [['auto', 'Normal'], ['weniger', 'Weniger Bewegung (ruhiger, schont den Akku)']], c.motion || 'auto')}
+  </div>
+  <div class="card" id="handyst"><b>🗣️ Gratis-Stimme je Figur</b><p class="small muted" style="margin:4px 0 8px">Ohne Stimmenpaket spricht die Stimme deines Handys. Hat es mehrere deutsche Stimmen, bekommt jede Figur ihre eigene. Hier kannst du wählen und probehören.</p><div id="handyliste" class="small muted">Lade Handystimmen…</div></div>
+
+  <h2>🖌️ Boot-Look</h2>
+  <div class="card"><label for="bname" style="margin-top:0">Name am Heck</label><input type="text" id="bname" maxlength="18" placeholder="z. B. Seeschwalbe" value="${esc((S.boat || {}).name || '')}">
+    ${['hull', 'stripe', 'sail'].map(k => `<label>${{hull: 'Rumpf', stripe: 'Streifen und Schrift', sail: 'Segel'}[k]}</label><div class="chips">${LOOK[k].map(([v, l]) => `<button class="chip" data-look="${k}" data-v="${v}" aria-pressed="${((S.boat || {})[k] || LOOK[k][0][0]) === v}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${v};box-shadow:0 0 0 1px rgba(0,0,0,.3);margin-right:6px;vertical-align:-1px"></span>${l}</button>`).join('')}</div>`).join('')}
+  </div>
+
+  <h2>Sonstiges</h2>
+  <div class="card">
+    <div class="row"><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
+    <label for="devm">Entwickler-Werkzeuge</label>${sel('devm', [['1', 'Zeigen (Stimmenpaket, Stimmenwahl, Selbsttest)'], ['0', 'Ausblenden']], devOn() ? '1' : '0')}
+    <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
+    <input type="file" id="bkf" accept="application/json,.json" class="hidden">
+    <p class="small muted" style="margin:10px 0 0">Dein Lernstand liegt nur in diesem Browser. Speichere ab und zu eine Sicherung.</p>
+    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels, neue Stimmen kommen von ElevenLabs. Einwilligung: ${S.kiOk ? `erteilt <button class="btn small ghost" id="kiwid" style="min-height:28px;padding:0 8px">Widerrufen</button>` : 'noch nicht erteilt (die App fragt beim ersten Mal)'}. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a> · App-Version ${esc(window.__ver || '?')}.</p>
+    <button class="btn ghost wide" id="rs" style="margin-top:10px;color:var(--bb)">Alles zurücksetzen</button>
+  </div>
+  
+
+
+  <details class="werkstatt" id="werkstatt"><summary><b>🔧 Werkstatt</b> <span class="small muted">KI, Schlüssel, Stimmen erzeugen, Casting, Protokoll</span></summary>
+  <div class="card ki"><b>✦ Mit der KI-Crew klönen</b><p class="small muted" style="margin:4px 0 8px">Freies Gespräch mit eigenem Schlüssel. Nicht Teil der Reise, dort ist alles fest geschrieben.</p><button class="btn ki" id="toklon">Gespräch öffnen</button></div>
 
   <h2>KI und Schlüssel</h2>
   <div class="card"><label for="kion" style="margin-top:0">KI-Funktionen</label>${sel('kion', [['1', 'An: Crew fragen, Gespräche, echte Stimmen'], ['0', 'Aus: nur lernen, keine Kosten']], kiOn() ? '1' : '0')}
@@ -3850,7 +3889,6 @@ function renderSettings() {
   </div>
 
   <h2>Stimmen</h2>
-  <div class="card" id="handyst"><b>🗣️ Gratis-Stimme je Figur</b><p class="small muted" style="margin:4px 0 8px">Ohne Stimmenpaket spricht die Stimme deines Handys. Hat es mehrere deutsche Stimmen, bekommt jede Figur ihre eigene. Hier kannst du wählen und probehören.</p><div id="handyliste" class="small muted">Lade Handystimmen…</div></div>
   <div class="card dev ki" id="voices"><p class="small muted" style="margin:0">${elKey() ? 'Lade Stimmen…' : 'Trag zuerst den ElevenLabs-Schlüssel ein.'}</p></div>
   <div class="card">
     <label for="qual" style="margin-top:0">Stimmenqualität für feste Sätze und Geschichten</label>${sel('qual', [['sparsam', 'Sparsam (Flash, etwa halbe Credits)'], ['hoch', 'Hoch (Multilingual, 1 Credit pro Zeichen)']], c.quality)}
@@ -3882,21 +3920,6 @@ function renderSettings() {
     <label for="pz">Redepause, bevor die Crew antwortet: <b id="pzv">${c.pause} Sekunden</b></label><input type="range" id="pz" min="1" max="5" step="0.5" value="${c.pause}">
   </div>
 
-  <h2>🖌️ Boot-Look</h2>
-  <div class="card"><label for="bname" style="margin-top:0">Name am Heck</label><input type="text" id="bname" maxlength="18" placeholder="z. B. Seeschwalbe" value="${esc((S.boat || {}).name || '')}">
-    ${['hull', 'stripe', 'sail'].map(k => `<label>${{hull: 'Rumpf', stripe: 'Streifen und Schrift', sail: 'Segel'}[k]}</label><div class="chips">${LOOK[k].map(([v, l]) => `<button class="chip" data-look="${k}" data-v="${v}" aria-pressed="${((S.boat || {})[k] || LOOK[k][0][0]) === v}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${v};box-shadow:0 0 0 1px rgba(0,0,0,.3);margin-right:6px;vertical-align:-1px"></span>${l}</button>`).join('')}</div>`).join('')}
-  </div>
-
-  <h2>Ton und Wetter</h2>
-  <div class="card">${slider('vm', 'Musik', c.music)}${slider('va', 'Geräusche', c.amb)}${slider('vs', 'Effekte', c.sfx)}${slider('vv', 'Stimmen', c.voice)}
-    <label for="wxs">Wettergeräusche</label>${sel('wxs', [['1', 'An'], ['0', 'Aus']], c.wxSound === false ? '0' : '1')}
-    <label for="wx">Wetter</label>${sel('wx', [['auto', 'Jeden Tag anders (meistens schön)'], ['schoen', 'Immer schön'], ['windig', 'Frischer Wind'], ['sturm', 'Wind und Regen'], ['regen', 'Windstill und Regen'], ['nebel', 'Nebel']], c.wx)}
-    <label for="cm">Kommentare der Crew beim Lernen</label>${sel('cm', [['1', 'An'], ['0', 'Aus']], c.comments ? '1' : '0')}
-    <label for="th">Helligkeit</label>${sel('th', [['auto', 'Nach Tageszeit'], ['hell', 'Immer hell'], ['dunkel', 'Immer dunkel']], c.theme)}
-    <label for="cyc">Tag und Nacht</label>${sel('cyc', [['schnell', 'Ein Tag dauert 50 Minuten'], ['echt', 'Wie die Handyuhr']], c.cycle || 'schnell')}
-    <label for="mo">Bewegung</label>${sel('mo', [['auto', 'Normal'], ['weniger', 'Weniger Bewegung (ruhiger, schont den Akku)']], c.motion || 'auto')}
-  </div>
-
   <h2>Crew-Charakter</h2>
   <div class="card">
     <label for="garn">Seemannsgarn</label>${sel('garn', [[0, 'Nur Prüfungsrelevantes'], [1, 'Ab und zu ein Fakt'], [2, 'Fakten und wahre Geschichten'], [3, 'Viel Seemannsgarn']], c.garn == null ? 2 : c.garn)}
@@ -3910,29 +3933,10 @@ function renderSettings() {
     <div class="row"><button class="btn" id="logshare">Teilen</button><button class="btn ghost" id="logcopy">Kopieren</button><button class="btn ghost" id="logclear">Leeren</button></div>
     <pre id="logview" class="logview"></pre></div>
 
-  <h2>Schein und Prüfung</h2>
-  <div class="card">
-    <label for="course" style="margin-top:0">Worauf bereitest du dich vor?</label>${sel('course', Object.values(COURSES).map(c => [c.id, c.name + ' (' + c.short + ')']), S.course)}
-    <p class="small muted" style="margin:6px 0 0">Jeder Schein hat seinen eigenen Katalog und seinen eigenen Lernstand. Beim Wechsel geht nichts verloren.</p>
-    <p class="small" style="margin:10px 0 0">Prüfung ${esc(COURSE.short)}: <b>${courseBucket(S.course).examSet && S.profile.examReal !== false ? fmtDate(S.profile.exam) : 'noch offen'}</b> · Lernzeit: <b>${S.profile.minutes} Minuten</b> am Tag</p>
-    <p class="small" style="margin:10px 0 0"><b>Amtliche Regel ${esc(COURSE.short)}:</b> ${esc(COURSE.exam.rule)}</p>
-    <button class="btn" id="sv" style="margin-top:12px">🎯 Scheine, Termine und Lernzeit</button>
-  </div>
-
   <h2 class="dev">Selbsttest</h2>
   <div class="card dev" id="stcard"><p class="small" style="margin:0 0 10px">Prüft Browser, Mikrofon, beide Schlüssel, Stimmen und Ton. Kostet etwa 20 ElevenLabs-Credits und einen Bruchteil eines Cents bei Anthropic.</p>
     <button class="btn wide ki" id="strun">Selbsttest starten</button><div id="stout" style="margin-top:10px"></div></div>
-
-  <h2>Sonstiges</h2>
-  <div class="card">
-    <div class="row"><button class="btn ghost" id="intro">Intro nochmal ansehen</button><button class="btn ghost" id="src">Quellen</button></div>
-    <label for="devm">Entwickler-Werkzeuge</label>${sel('devm', [['1', 'Zeigen (Stimmenpaket, Stimmenwahl, Selbsttest)'], ['0', 'Ausblenden']], devOn() ? '1' : '0')}
-    <div class="row" style="margin-top:10px"><button class="btn ghost" id="bk">Sicherung speichern</button><button class="btn ghost" id="rsBk">Sicherung laden</button></div>
-    <input type="file" id="bkf" accept="application/json,.json" class="hidden">
-    <p class="small muted" style="margin:10px 0 0">Dein Lernstand liegt nur in diesem Browser. Speichere ab und zu eine Sicherung.</p>
-    <p class="small muted" style="margin:10px 0 0"><b>Datenschutz:</b> Lernstand und Schlüssel bleiben auf diesem Gerät. Gesprochene Sprache geht zur Erkennung an Google (Chrome) oder ElevenLabs, deine Texte an den Anbieter deines KI-Schlüssels, neue Stimmen kommen von ElevenLabs. Einwilligung: ${S.kiOk ? `erteilt <button class="btn small ghost" id="kiwid" style="min-height:28px;padding:0 8px">Widerrufen</button>` : 'noch nicht erteilt (die App fragt beim ersten Mal)'}. <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> · <a href="impressum.html" target="_blank" rel="noopener">Impressum</a> · App-Version ${esc(window.__ver || '?')}.</p>
-    <button class="btn ghost wide" id="rs" style="margin-top:10px;color:var(--bb)">Alles zurücksetzen</button>
-  </div></div>`;
+  </details></div>`;
   app.querySelectorAll('.crewpick svg').forEach(s => s.style.width = '64px');
   app.querySelectorAll('.card > div > svg.ch').forEach(s => { s.style.width = '64px'; s.style.flex = 'none'; });
   $('#back').onclick = () => setTab(tab);
@@ -3965,6 +3969,9 @@ function renderSettings() {
     el.querySelectorAll('select').forEach(x => x.onchange = () => { c.handy = c.handy || {}; c.handy[x.id.slice(3)] = x.value; save(); });
     el.querySelectorAll('[data-hp]').forEach(x => x.onclick = () => { AUD.unlock(); VOX.stop('Probe'); VOX.phoneTest(x.dataset.hp, PROBE[x.dataset.hp]); }); };
   handyListe(); setTimeout(handyListe, 1200);
+  bindSel('#gross', v => { c.gross = v === '1'; applyKi(); });
+  $('#geraeusche').onclick = () => { AUD.click(); geraeuscheSeite(); };
+  $('#toklon').onclick = () => { AUD.unlock(); setTab('talk'); };
   bindSel('#qual', v => c.quality = v); bindSel('#bud', v => c.budget = +v); bindSel('#fb', v => c.fallback = v); bindSel('#stt', v => c.stt = v);
   bindSel('#wxs', v => { c.wxSound = v === '1'; soundFor(place); }); bindSel('#wx', v => { c.wx = v; soundFor(place); });
   bindSel('#cm', v => c.comments = v === '1'); bindSel('#th', v => { c.theme = v; applyTheme(); }); bindSel('#mo', v => { c.motion = v; applyTheme(); }); bindSel('#cyc', v => { c.cycle = v; tickDay(); });
@@ -4004,17 +4011,18 @@ function renderSettings() {
   $('#logclear').onclick = () => { LOG.clear(); lv.textContent = 'Noch leer.'; };
   if (elKey()) loadVoices();
 }
-/* Einstellungen in vier aufklappbare Gruppen ordnen */
+/* Einstellungen in aufklappbare Gruppen ordnen (H4, M21): oben für alle, unten eingeklappt die Werkstatt */
 function groupSettings() {
   const root = app.querySelector('.set'); if (!root) return;
+  const werk = root.querySelector('#werkstatt');
   const sections = {}; let cur = null;
-  [...root.children].forEach(el => { if (el.tagName === 'H2') { cur = el.textContent.trim(); sections[cur] = []; el.remove(); } else if (cur) { sections[cur].push(el); } });
-  const GROUPS = [['Schein und Prüfung', ['Schein und Prüfung']], ['Crew und Stimmen', ['Crew', 'Crew-Charakter', 'Stimmen', 'Zuhören']], ['Ton und Bild', ['Ton und Wetter']], ['Technik', ['Schlüssel', 'Selbsttest', 'Protokoll', 'Sonstiges']]];
+  [...root.children].forEach(el => { if (el === werk) { cur = null; return; } if (el.tagName === 'H2') { cur = el.textContent.trim(); sections[cur] = []; el.remove(); } else if (cur) { sections[cur].push(el); } });
+  const GROUPS = [['Schein und Prüfung', ['Schein und Prüfung']], ['Ton, Schrift und Stimmen', ['Ton und Wetter']], ['Boot-Look', ['🖌️ Boot-Look']], ['Sicherung und Sonstiges', ['Sonstiges']]];
   GROUPS.forEach(([title, keys], gi) => {
     const d = document.createElement('details'); d.className = 'group'; if (gi === 0) d.open = true;
     d.innerHTML = `<summary>${title}</summary>`;
     keys.forEach(k => (sections[k] || []).forEach(el => d.appendChild(el)));
-    root.appendChild(d);
+    werk ? root.insertBefore(d, werk) : root.appendChild(d);
   });
 }
 async function runSelfTest(out, btn) {
@@ -4356,7 +4364,6 @@ function renderBoat() {
       <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
       <div class="row"><button class="btn ghost" id="down" style="flex:1">Runter in die Kajüte</button><button class="btn small ghost instbtn" id="inst">📲 App aufs Handy</button></div>
     </div>
-    ${courseCard()}
     ${standKarte(path, next)}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
@@ -4784,6 +4791,45 @@ function bgStop(silent) {
 /* Nachgeladene Teile (R11): einmal laden; schlägt es fehl, beim nächsten Mal neu versuchen */
 const NACH = {};
 function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = datei + '?v=' + window.__ver; sc.onload = res; sc.onerror = () => { delete NACH[datei]; rej(new Error(datei + ' ließ sich nicht laden')); }; document.head.appendChild(sc); })); }
+/* H4 (O90, M14–M18): „Frei üben“, alles ohne Reise an einer Stelle. Zurück geht es über lernHeim = 'frei'. */
+function renderFrei() {
+  soundFor('deck'); place = 'frei'; returnTo = 'frei';
+  const sks = S.course === 'sks', go = f => () => { AUD.unlock(); AUD.click(); lernHeim = 'frei'; f(); };
+  const E = [
+    ['Fragen', [['🔁', 'Wiederholen', 'Die fälligen Fragen, die wackligsten zuerst', () => reviewSession('Wiederholen')],
+      ['📚', 'Kapitel', 'Fragen Thema für Thema', () => chaptersSheet()],
+      ['⚠️', sks ? 'Wackelkandidaten' : 'Prüfungsfallen', sks ? 'Fragen, die noch nicht sitzen' : 'Antworten, die fast gleich klingen', () => trapRound()],
+      ...(sks ? [['✅', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten', () => loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Ließ sich nicht laden.'))]] : []),
+      ...(SIG_QS.length ? [['📯', 'Schallsignale', 'Hören und erkennen', () => hornQuiz()]] : [])]],
+    ['Praxis', [['🧭', 'Navigation', 'Auf der Übungskarte, Smilla hilft', () => navSchool()],
+      ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
+      ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
+    ['Nachschlagen und Hören', [['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
+      ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
+      ['🎧', 'Kajütenfunk', 'Die Probefolge', () => nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Ließ sich nicht laden.'))]]],
+    ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
+      ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
+      ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()]]]
+  ];
+  const fn = [];
+  app.innerHTML = `<div class="topbar"><span class="tag">Frei üben</span><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
+    <p class="small muted" style="margin:4px 0 10px">Alles ohne Reise, jederzeit. Die Crew empfiehlt dir an Deck, was als Nächstes dran ist.</p>
+    ${E.map(([h, l]) => `<h3 style="margin:14px 0 6px">${esc(h)}</h3><div class="menu frei">${l.map(([ico, t, d, f]) => { fn.push(f); return `<button class="menuitem" data-f="${fn.length - 1}"><b>${ico} ${esc(t)}</b><small>${esc(d)}</small></button>`; }).join('')}</div>`).join('')}`;
+  $('#crs').onclick = courseSheet;
+  app.querySelectorAll('[data-f]').forEach(b => b.onclick = go(fn[+b.dataset.f]));
+}
+/* H4 (M21): Seite „Geräusche“: jedes Geräusch anhören; grün = im Code benutzt (mit Zweck), rot = unbenutzt (data/geraeusche-app.json) */
+function geraeuscheSeite() {
+  subScreen(); let probe = null;
+  const aus = () => { if (probe) { probe.pause(); probe = null; } };
+  app.innerHTML = `<div class="qhead" style="margin-top:18px"><h1 style="margin:0">Geräusche</h1><button class="btn small ghost" id="back">Zurück</button></div><div id="glist" class="card"><p class="muted">Lade …</p></div>`;
+  $('#back').onclick = () => { aus(); renderSettings(); };
+  fetch('data/geraeusche-app.json?v=' + window.__ver).then(r => r.json()).then(d => {
+    const l = d.liste.slice().sort((a, b) => b.benutzt - a.benutzt || a.name.localeCompare(b.name));
+    $('#glist').innerHTML = `<p class="small muted" style="margin:0 0 8px">🟢 benutzt (laut Suche im Code) · 🔴 unbenutzt. ${l.filter(x => x.benutzt).length} von ${l.length} benutzt.</p>` + l.map((x, i) => `<div class="gzeile"><button class="btn small ghost" data-g="${i}" aria-label="${esc(x.name)} anhören">▶</button><span>${x.benutzt ? '🟢' : '🔴'} <b>${esc(x.zweck || x.name)}</b><br><small class="muted">${esc(x.datei)}${x.wo.length ? ' · ' + esc(x.wo.join(', ')) : ''}</small></span></div>`).join('');
+    app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { const x = l[+b.dataset.g]; const war = probe && probe._datei === x.datei; aus(); if (war) return; probe = new Audio(x.datei); probe._datei = x.datei; probe.volume = .8; probe.play().catch(() => toast('Ließ sich nicht abspielen.')); });
+  }).catch(() => { $('#glist').innerHTML = '<p class="muted">Die Liste ließ sich nicht laden.</p>'; });
+}
 /* H3: Reise am Kartentisch (reise.js, data/reise.json), erst als Probe-Etappe */
 function reiseOeffnen() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.oeffnen()).catch(() => toast('Die Reise ließ sich nicht laden. Prüf dein Internet.')); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
@@ -5609,11 +5655,13 @@ function charMenu(cidv) {
   if (cidv === 'backbord') meow(); else if (cidv === 'klabauter') AUD.sfx('papagei', {vol: .5}); else AUD.click();
   const head = `<div class="sheethead">${charSVG(cidv)}<div><h2 style="margin:0">${esc(c.short)}</h2><p class="small muted" style="margin:0">${esc(c.blurb)}</p></div></div><div id="msay" class="menusay hidden"></div>`;
   let items = '';
-  if (role === 'K') items = menuBtn('pruef', '📋 Meine Prüfungen', 'Theorie, Navigation, Praxis, Probeprüfung') + menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('strat', 'Wie lerne ich am besten?', 'Strategie für deine Lage') + menuBtn('topic', 'Erklär mir ein Kapitel') + menuBtn('talk', '✦ Einfach klönen', 'Freies Gespräch mit der KI-Crew', 'ki') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung');
-  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen') + (S.course === 'sks' ? menuBtn('mc', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten zur Auswahl') : '') + menuBtn('story', 'Kajütengeschichte', 'Über den Kajütenfunk') + menuBtn('harms', 'Hol Kapitän Harms', 'Zur Probeprüfung') + menuBtn('tap', 'Sag was');
-  if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '') + menuBtn('tap', 'Sag was');
+  if (role === 'K') items = menuBtn('next', 'Was soll ich als Nächstes lernen?', 'Der Käpt\'n empfiehlt genau eine Sache.') + menuBtn('garn', 'Erzähl mal was', 'Seefahrt, Fakten, Geschichten');
+  if (role === 'M') items = menuBtn('quiz', 'Frag mich ab', 'Fällige Fragen oder eine Extrarunde') + menuBtn('traps', COURSE.kind === 'mc' ? 'Zeig mir die Prüfungsfallen' : 'Meine Wackelkandidaten', COURSE.kind === 'mc' ? 'Antworten, die fast gleich klingen' : 'Fragen, die noch nicht sitzen');
+  if (role === 'T') items = menuBtn('mnemo', 'Merksprüche', 'Alle, die du schon bekommen hast') + (SIG_QS.length ? menuBtn('horn', 'Schallsignale üben', 'Wie am Horn an Deck') : '');
   const w = sheet(head + `<div class="menu">${items}</div>`);
   const say = (t, kind = 'live') => { const m = $('#msay'); m.classList.remove('hidden'); m.textContent = t; AUD.unlock(); VOX.stop('Menü'); VOX.say(cidv, t, kind); };
+  /* M20: beim Antippen ein kurzer fester Satz, dazu höchstens zwei Aktionen */
+  if (role) { const t = lineOf(cidv, 'tap'); if (t) say(t, 'fixed'); }
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = async () => {
     const m = b.dataset.m; AUD.click();
     if (m === 'pruef') { closeSheet(); return meinePruefungen(); }
