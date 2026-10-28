@@ -203,6 +203,8 @@ details summary{cursor:pointer;font-weight:700}
 .sig{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
 .sig .tones{font-size:1.5rem;letter-spacing:.14em;font-weight:700}
 .sig .tones .on{color:var(--lamp)}
+.vlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}.vlrow .chip{font-size:.85em}.ans .abc{display:inline-block;min-width:1.4em;color:var(--sea)}
+.szene .szbild img{max-width:100%;max-height:200px;border-radius:12px;display:block;margin:0 auto 8px}.szzeile{display:flex;gap:8px;align-items:flex-start}.szzeile svg.ch{width:64px;flex:none}.szzeile .say{display:block}.szwahl .szopt{display:block;width:100%;margin:6px 0;text-align:left}.szsteuer{margin-top:8px}
 .ans{display:block;width:100%;text-align:left;padding:.8em 1em;margin:0 0 8px;border:2px solid var(--line);border-radius:14px;background:var(--paper);line-height:1.4;color:var(--ink)}
 .ans.ok{border-color:var(--stb);background:var(--stb-soft)}
 .ans.no{border-color:var(--bb);background:var(--bb-soft)}
@@ -514,7 +516,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '4.95';
+  window.__ver = '4.96';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1774,6 +1776,13 @@ const VOX = (() => {
   let phoneVoices = [];
   const loadPhone = () => { try { phoneVoices = speechSynthesis.getVoices().filter(v => /^de/i.test(v.lang)); } catch (e) {} };
   if ('speechSynthesis' in window) { loadPhone(); speechSynthesis.onvoiceschanged = loadPhone; }
+  /* H2 Gratis-Stimme: jede Figur bekommt, wenn das Handy mehrere deutsche Stimmen hat, eine eigene (oder die gewählte aus S.cfg.handy) */
+  const PHONE_REIHE = {hinnerk: 0, smilla: 1, klabauter: 2, kroeger: 3};
+  function phoneSorted() { const bev = v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name) ? 0 : 1; return phoneVoices.slice().sort((x, y) => bev(x) - bev(y) || (x.localService === y.localService ? 0 : x.localService ? 1 : -1)); }
+  function phoneVoiceOf(cid) {
+    const wahl = S.cfg && S.cfg.handy && S.cfg.handy[cid], liste = phoneSorted();
+    return (wahl && liste.find(v => v.voiceURI === wahl)) || liste[(PHONE_REIHE[cid] || 0) % Math.max(1, liste.length)] || null;
+  }
   /* Android schneidet lange Sätze ab: deshalb in Stücke von höchstens 180 Zeichen teilen */
   function chunks(text) {
     const parts = String(text).match(/[^.!?;:]+[.!?;:]*\s*/g) || [String(text)], out = [];
@@ -1788,7 +1797,7 @@ const VOX = (() => {
       if (!('speechSynthesis' in window)) return res();
       const c = CREW[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
       u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
-      const v = phoneVoices.find(v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name)) || phoneVoices[0]; if (v) u.voice = v;
+      const v = phoneVoiceOf(cid); if (v) u.voice = v;
       let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
       const dog = setTimeout(() => { log('handystimme', 'Zeitlimit erreicht'); done(); }, 3500 + text.length * 95);
       u.onend = done; u.onerror = done;
@@ -1973,7 +1982,7 @@ const VOX = (() => {
       const r = await fetchT(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd}, 25000);
       if (r.ok) return {ok: true}; const d = await errDetail(r); return {ok: false, status: r.status, perm: d.perm || r.status === 401 || r.status === 403, msg: d.msg};
     },
-    get canListen() { return !!SR || !!elKey(); }, get hasSR() { return !!SR; },
+    get canListen() { return !!SR || !!elKey(); }, get phoneVoices() { return phoneSorted(); }, phoneVoiceOf, phoneTest: (cid, t) => playPhone(t, cid), get hasSR() { return !!SR; },
     get exhausted() { return exhausted; }, set exhausted(v) { exhausted = v; }, get keyBad() { return keyBad; },
     resetFlags() { exhausted = false; keyBad = false; voiceList = null; },
     usageToday: () => usage(),
@@ -2551,7 +2560,7 @@ function soundFor(p) {
 
 /* ---------- Navigation ---------- */
 let tab = 'deck', examTimer = null;
-function stopAll() { if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
+function stopAll() { if (window.SZENE) SZENE.stop(); if (typeof bgStop === 'function') bgStop(true); VOX.stop(); stopTalk(); clearInterval(examTimer); examTimer = null; AUD.clock(0); AUD.loop('motorLauf', 0); AUD.loop('funkRauschen', 0); if (typeof stopGames === 'function') stopGames(); clearTimeout(typeof fishTimer !== 'undefined' ? fishTimer : 0); }
 function setTab(t) {
   /* Gelernt wurde von „Meine Prüfungen“ aus: dorthin zurück. Von „Kurs für heute“ an Deck: wieder an Deck. */
   if (window.MANOEVER && MANOEVER.vollAus) MANOEVER.vollAus();
@@ -3419,9 +3428,14 @@ function hornQuiz() { runQuiz(shuffle(SIG_QS).slice(0, bonusRunden(SIG_QS.length
 /* ---------- Quiz (Lernen) ---------- */
 function runQuiz(queue, title, mode = 'learn', opts = {}) {
   subScreen(); place = 'quiz'; soundFor('quiz');
-  let i = 0, right = 0, nachOk = 0, nachNo = 0; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
+  let i = 0, right = 0, nachOk = 0, nachNo = 0, vorCtl = null; const wrong = [], requeued = new Set(); queue = queue.slice(); const total0 = queue.length;
   const M = S.crew.M, T = S.crew.T;
+  const vorAus = () => { if (vorCtl) { vorCtl.stop(); vorCtl = null; } };
+  /* H2/M14: Frage und Antworten vorlesen (Handystimme), Zuruf Alfa bis Delta (szene.js) */
+  const vorlesen = (q, order) => { vorAus(); if (S.cfg.vorlesen === false && !S.cfg.zuruf) return; const n = i;
+    nachladen('szene.js').then(() => { if (n !== i || !$('#ans')) return; vorCtl = SZENE.frage(q, order, {wer: M, onPick: k => { const b = app.querySelector(`.ans[data-k="${k}"]`); if (b && !b.disabled) b.click(); }}); }).catch(() => {}); };
   function show() {
+    vorAus();
     if (i >= queue.length) return finish();
     if (hornCtl) { hornCtl.stop(); hornCtl = null; }
     const q = queue[i], order = shuffle([0, 1, 2, 3]), sig = sigOf(q), hide = mode === 'horn';
@@ -3434,14 +3448,20 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
         <div class="qtext">${esc(hide ? 'Welche Bedeutung hat das Schallsignal, das du hörst?' : q.q.replace(/\s*\(([●▬\s]+)\)/, ''))}</div>
         ${sig ? sigBox(sig, hide) : ''}
         ${q.img ? `<div class="qimg">${q.img.map(s => `<img src="${s}" alt="Abbildung zu Frage ${q.n}">`).join('')}</div>` : ''}
-        <div id="ans">${order.map(k => `<button class="ans" data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div>
+        ${hide ? '' : `<div class="vlrow"><button class="chip" id="vlon" aria-pressed="${S.cfg.vorlesen !== false}">🔊 Vorlesen</button>${VOX.hasSR ? `<button class="chip" id="zron" aria-pressed="${!!S.cfg.zuruf}">🎙️ Zuruf</button>` : ''}<span class="small muted" id="zurufinfo"></span></div>`}
+        <div id="ans">${order.map((k, j) => `<button class="ans" data-k="${k}">${hide ? '' : `<b class="abc">${'ABCD'[j]}</b> `}${esc(q.a[k])}</button>`).join('')}</div>
         <div id="after"></div>
       </div>
       <div class="crewrow">${charSVG(M)}<div class="say hidden" data-say="${M}"></div><div class="say hidden" data-say="${T}"></div>${charSVG(T)}</div>`;
     window.scrollTo(0, 0);
-    $('#quit').onclick = () => { save(); setTab('cabin'); };
-    app.querySelectorAll('.ans').forEach(b => b.onclick = () => answer(q, +b.dataset.k));
+    $('#quit').onclick = () => { vorAus(); save(); setTab('cabin'); };
+    app.querySelectorAll('.ans').forEach(b => b.onclick = () => { vorAus(); answer(q, +b.dataset.k); });
     if (sig) { bindSig(sig); if (hide) setTimeout(() => { const b = $('#sigPlay'); if (b) b.click(); }, 500); }
+    if (!hide) {
+      const schalter = (id, key) => { const b = $(id); if (b) b.onclick = () => { AUD.unlock(); S.cfg[key] = key === 'vorlesen' ? S.cfg.vorlesen === false : !S.cfg[key]; b.setAttribute('aria-pressed', key === 'vorlesen' ? S.cfg.vorlesen !== false : S.cfg[key]); save(); vorAus(); VOX.stop('Vorlesen umgeschaltet'); const z = $('#zurufinfo'); if (z) z.textContent = ''; vorlesen(q, order); }; };
+      schalter('#vlon', 'vorlesen'); schalter('#zron', 'zuruf');
+      if (!sig) vorlesen(q, order);
+    }
   }
   /* Karteikarte mit freier Antwort (SKS): antworten, aufdecken, einschätzen */
   function showOpen(q) {
@@ -3827,6 +3847,7 @@ function renderSettings() {
   </div>
 
   <h2>Stimmen</h2>
+  <div class="card" id="handyst"><b>🗣️ Gratis-Stimme je Figur</b><p class="small muted" style="margin:4px 0 8px">Ohne Stimmenpaket spricht die Stimme deines Handys. Hat es mehrere deutsche Stimmen, bekommt jede Figur ihre eigene. Hier kannst du wählen und probehören.</p><div id="handyliste" class="small muted">Lade Handystimmen…</div></div>
   <div class="card dev ki" id="voices"><p class="small muted" style="margin:0">${elKey() ? 'Lade Stimmen…' : 'Trag zuerst den ElevenLabs-Schlüssel ein.'}</p></div>
   <div class="card">
     <label for="qual" style="margin-top:0">Stimmenqualität für feste Sätze und Geschichten</label>${sel('qual', [['sparsam', 'Sparsam (Flash, etwa halbe Credits)'], ['hoch', 'Hoch (Multilingual, 1 Credit pro Zeichen)']], c.quality)}
@@ -3933,6 +3954,14 @@ function renderSettings() {
   $('#devm').onchange = () => { c.dev = $('#devm').value === '1'; save(); applyKi(); };
   $('#kion').onchange = () => { c.ki = $('#kion').value === '1'; save(); applyKi(); VOX.stop('KI-Schalter'); toast(c.ki ? 'KI-Funktionen an. Graue Knöpfe mit ✦ kosten Credits.' : 'KI-Funktionen aus. Keine Kosten mehr.'); };
   const bindSel = (id, fn) => { $(id).onchange = () => { fn($(id).value); save(); }; };
+  /* H2: Handystimme je Figur wählen und probehören (S.cfg.handy {cid: voiceURI}) */
+  const handyListe = () => { const el = $('#handyliste'); if (!el) return; const vs = VOX.phoneVoices;
+    if (!vs.length) { el.textContent = 'Dein Browser meldet (noch) keine deutsche Handystimme. Ohne Stimmenpaket liest die App dann nur mit.'; return; }
+    const PROBE = {hinnerk: 'Moin. Leinen los, wir haben nicht ewig Zeit.', smilla: 'Na los, Badewannen-Kapitän, die nächste Frage wartet!', klabauter: 'Backbord! Backbord! Ahoi!', kroeger: 'Prüfung. Frage eins. Konzentrieren Sie sich.'};
+    el.innerHTML = ['hinnerk', 'smilla', 'klabauter', 'kroeger'].map(id => { const akt = VOX.phoneVoiceOf(id); return `<label for="hv-${id}">${esc(CREW[id].short)}</label><div class="row"><select id="hv-${id}" style="flex:1">${vs.map(v => `<option value="${esc(v.voiceURI)}" ${akt && akt.voiceURI === v.voiceURI ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select><button class="btn small ghost" data-hp="${id}">▶</button></div>`; }).join('') + `<p class="small muted" style="margin:6px 0 0">${vs.length} deutsche Stimme${vs.length > 1 ? 'n' : ''} auf diesem Gerät.</p>`;
+    el.querySelectorAll('select').forEach(x => x.onchange = () => { c.handy = c.handy || {}; c.handy[x.id.slice(3)] = x.value; save(); });
+    el.querySelectorAll('[data-hp]').forEach(x => x.onclick = () => { AUD.unlock(); VOX.stop('Probe'); VOX.phoneTest(x.dataset.hp, PROBE[x.dataset.hp]); }); };
+  handyListe(); setTimeout(handyListe, 1200);
   bindSel('#qual', v => c.quality = v); bindSel('#bud', v => c.budget = +v); bindSel('#fb', v => c.fallback = v); bindSel('#stt', v => c.stt = v);
   bindSel('#wxs', v => { c.wxSound = v === '1'; soundFor(place); }); bindSel('#wx', v => { c.wx = v; soundFor(place); });
   bindSel('#cm', v => c.comments = v === '1'); bindSel('#th', v => { c.theme = v; applyTheme(); }); bindSel('#mo', v => { c.motion = v; applyTheme(); }); bindSel('#cyc', v => { c.cycle = v; tickDay(); });

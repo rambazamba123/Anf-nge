@@ -17,6 +17,7 @@
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
   const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte'};
   const TON_DAUER = {glocke: 1.2, schritte: 2};
+  const DENK_MIN = 6;   /* B152 (Nutzer, 27.10.2026): im Auto-Modus immer sechs Sekunden */
   /* Revier → leise Dauer-Geräusche */
   const ATMO = {schleuse: {motorLauf: .22, wellen: .15}, nok: {motorLauf: .2, wellen: .15}, hafen: {wellen: .15}, frei: {wellen: .3, windLeise: .2},
     fahrwasser: {wellen: .3}, vtg: {wellen: .3}, fluss: {wellen: .25}, watt: {windLeise: .2}, binnensee: {windLeise: .15}, 'an Land': {}};
@@ -114,7 +115,7 @@
     /* Abschnitte mit geschätzter Dauer im Auto-Modus (Sprechtempo aus der Konfiguration, Signale wie AUD.horn) */
     const tempo = cfg.sprechtempo_zeichen_pro_sekunde || 13.9;
     const signalSek = m => { const t = [...m].filter(c => c === '●' || c === '▬'); return t.reduce((s, c) => s + (c === '●' ? 1 : 4.5), 0) + Math.max(0, t.length - 1); };
-    const sek = it => it.bereich && it.bereich.art === 'vert' ? 0 : it.t === 'rede' ? it.zeichen / tempo + .25 : it.t === 'pause' ? it.s : it.t === 'signal' ? signalSek(it.muster) : 0;
+    const sek = it => it.bereich && it.bereich.art === 'vert' ? 0 : it.t === 'rede' ? it.zeichen / tempo + .25 : it.t === 'pause' ? (it.still ? it.s : Math.max(DENK_MIN, it.s)) : it.t === 'signal' ? signalSek(it.muster) : 0;
     const abschnitte = items.filter(it => it.t === 'abschnitt').map(a => {
       const teile = items.filter(it => it.ab === a.ab);
       return {nr: a.ab, titel: a.titel, karte: !!(a.bereich && a.bereich.art === 'karte'), sek: teile.reduce((s, it) => s + sek(it), 0), zeichen: teile.filter(it => it.t === 'rede').reduce((s, it) => s + it.zeichen, 0)};
@@ -292,19 +293,22 @@
   function stop() { if (!lauf) return; lauf.aus = true; if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
   async function warten(me, ms) { const ende = Date.now() + ms; while (!me.aus && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
-  async function rede(st, it, me) {
+  async function rede(st, it, me, vorBild) {
     const b = await blobVon(st, it); if (!b) return;
     const box = ui('#kspr');
     if (box) box.innerHTML = `<b>🎙️ ${it.wer.map(w => esc(NAMEN[w] || w)).join(', ')}</b>` + (cfgK().mitlesen ? it.zeilen.map(z => `<div class="small" style="margin-top:4px"><b>${esc(NAMEN[z.wer] || z.wer)}:</b> ${esc(z.text)}</div>`).join('') : '');
     const a = me.audio = new Audio(URL.createObjectURL(b));
     a.playbackRate = cfgK().tempo || 1; a.volume = Math.max(0, Math.min(1, S.cfg.voice == null ? 1 : S.cfg.voice));
     duckAtmo(true);
+    /* B158: das Bild kommt etwa zwei Sekunden vor dem Ende des Satzes davor */
+    if (vorBild) a.ontimeupdate = () => { if (a.duration && a.duration - a.currentTime <= 2 * (a.playbackRate || 1)) { a.ontimeupdate = null; bild(vorBild); me.bildDa = vorBild; } };
     await new Promise(res => { a.onended = res; a.onerror = res; me.weiter = res; a.play().catch(res); });
     me.weiter = null; if (me.audio === a) me.audio = null; URL.revokeObjectURL(a.src);
     if (!me.gleichWeiter) duckAtmo(false);   /* folgt direkt die nächste Sprache, bleibt die Atmo leise */
     await warten(me, 250);
   }
   async function denkpause(s, me, still) {
+    if (!still) s = Math.max(DENK_MIN, s);   /* B152: Denkpausen immer mindestens sechs Sekunden */
     const box = ui('#kdenk');
     if (box && !still) box.innerHTML = `<div class="kdenk">🤔 Denkpause … ${s} s</div>`;
     if (!still && cfgK().ticken) AUD.ticks(s, .35);
@@ -378,9 +382,9 @@
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
       else if (it.t === 'revier') { if (await atmo(st, it.wert)) await warten(me, 1500); }
-      else if (it.t === 'rede') { const n = st.items[k + 1]; me.gleichWeiter = !!(n && n.t === 'rede'); await rede(st, it, me); }
+      else if (it.t === 'rede') { const n = st.items[k + 1]; me.gleichWeiter = !!(n && n.t === 'rede'); await rede(st, it, me, n && n.t === 'bild' ? n.id : null); }
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
-      else if (it.t === 'bild') bild(it.id);
+      else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
       else if (it.t === 'tipp') { if (interaktiv) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
@@ -390,7 +394,19 @@
     if (lauf === me) {
       atmoAus(); lauf = null; zeigeSteuerung(st, false); const s = ui('#kspr');
       if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unten bei „Erzeugen“ dazuholen.` : '<b>⚓ Ende der Probefolge.</b> Wie war’s? Sag Claude, was klingt und was nicht.';
+      if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
     }
+  }
+  /* B157: am Ende alle Fragen der Folge als Multiple Choice, ohne Geschichte (vorgelesen, Zuruf wie im Quiz) */
+  function folgenFragen(st) {
+    const ns = [];
+    st.items.forEach(it => [it.id, it.bereich && it.bereich.id].forEach(id => { const m = /^(?:sbf|bin):(\d+)$/.exec(id || ''); if (m && !ns.includes(+m[1])) ns.push(+m[1]); }));
+    return ns.map(n => typeof QN !== 'undefined' && QN[n]).filter(q => q && q.kind !== 'open');
+  }
+  function fragerundeKnopf(st, s) {
+    const qs = folgenFragen(st); if (!qs.length) return;
+    s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0"><button class="btn lamp wide" id="kfrr">📝 Fragerunde: ${qs.length} Frage${qs.length > 1 ? 'n' : ''} der Folge</button></p>`);
+    const b = ui('#kfrr'); if (b) b.onclick = () => { stop(); runQuiz(qs, 'Fragerunde zur Folge', 'learn', {noRequeue: true}); };
   }
   function markiere(st, k) {
     let nr = -1; st.items.forEach((it, i) => { if (it.t === 'abschnitt' && i <= k) nr = i; });
