@@ -1,0 +1,400 @@
+{
+ "_hinweis": "Erzeugt mit node tools/geraeusche-liste.js",
+ "liste": [
+  {
+   "name": "musik-intro",
+   "datei": "audio/musik-intro.mp3",
+   "zweck": "Musik im Intro",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "musik-lernen",
+   "datei": "audio/musik-lernen.mp3",
+   "zweck": "Musik beim Lernen",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "musik-deck",
+   "datei": "audio/musik-deck.mp3",
+   "zweck": "Musik an Deck",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "musik-abend",
+   "datei": "audio/musik-abend.mp3",
+   "zweck": "Musik am Abend",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "wellen",
+   "datei": "audio/wellen.mp3",
+   "zweck": "Meer an Deck und in der Kajüte",
+   "benutzt": true,
+   "wo": [
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "wind",
+   "datei": "audio/wind.mp3",
+   "zweck": "Wind bei frischem Wetter",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "windLeise",
+   "datei": "audio/wind-leise.mp3",
+   "zweck": "leiser Wind",
+   "benutzt": true,
+   "wo": [
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "regen",
+   "datei": "audio/regen.mp3",
+   "zweck": "Regen",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "reise.js",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "uhr",
+   "datei": "audio/uhr.mp3",
+   "zweck": "Ticken bei Prüfungen und Denkpausen",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "segel",
+   "datei": "audio/segel.mp3",
+   "zweck": "Segel schlagen",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "glocke",
+   "datei": "audio/glocke.mp3",
+   "zweck": "Schiffsglocke (Glasen)",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js",
+    "manoever.js",
+    "navi.js",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "moewe",
+   "datei": "audio/moewe.mp3",
+   "zweck": "Möwen",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "nebelhornFern",
+   "datei": "audio/nebelhorn-fern.mp3",
+   "zweck": "Nebelhorn in der Ferne",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "nebelhorn",
+   "datei": "audio/nebelhorn.mp3",
+   "zweck": "Nebelhorn",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "katze",
+   "datei": "audio/katze.mp3",
+   "zweck": "Bordkatze miaut",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "papagei",
+   "datei": "audio/papagei.mp3",
+   "zweck": "Klabauter",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "funkRauschen",
+   "datei": "audio/funk-rauschen.mp3",
+   "zweck": "Funkgerät rauscht",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "funkSuchen",
+   "datei": "audio/funk-suchen.mp3",
+   "zweck": "Funk sucht Kanal",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "piep",
+   "datei": "audio/piep.mp3",
+   "zweck": "Piep",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "schritte",
+   "datei": "audio/schritte.mp3",
+   "zweck": "Schritte in die Kajüte",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js"
+   ]
+  },
+  {
+   "name": "tuerAuf",
+   "datei": "audio/tuer-auf.mp3",
+   "zweck": "Tür oder Kiste geht auf",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "klopfen",
+   "datei": "audio/klopfen.mp3",
+   "zweck": "Klopfen",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "streichholz",
+   "datei": "audio/streichholz.mp3",
+   "zweck": "Streichholz",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "feuerzeug",
+   "datei": "audio/feuerzeug.mp3",
+   "zweck": "Feuerzeug",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "paffen",
+   "datei": "audio/paffen.mp3",
+   "zweck": "Hinnerk pafft",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "paffen2",
+   "datei": "audio/paffen2.mp3",
+   "zweck": "",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "buchAuf",
+   "datei": "audio/buch-auf.mp3",
+   "zweck": "Buch geht auf",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "blaettern",
+   "datei": "audio/blaettern.mp3",
+   "zweck": "Blättern, Karte am Kartentisch",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "reise.js"
+   ]
+  },
+  {
+   "name": "sturm",
+   "datei": "audio/sturm.mp3",
+   "zweck": "Sturm",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "reise.js",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "motorboot",
+   "datei": "audio/motorboot.mp3",
+   "zweck": "Motorboot fährt vorbei",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "katze2",
+   "datei": "audio/katze2.mp3",
+   "zweck": "",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "katze3",
+   "datei": "audio/katze3.mp3",
+   "zweck": "",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "schnurren",
+   "datei": "audio/schnurren.mp3",
+   "zweck": "Katze schnurrt",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "anker",
+   "datei": "audio/anker.mp3",
+   "zweck": "Anker",
+   "benutzt": true,
+   "wo": [
+    "index.html"
+   ]
+  },
+  {
+   "name": "bleistift",
+   "datei": "audio/bleistift.mp3",
+   "zweck": "Bleistift auf der Karte",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "reise.js"
+   ]
+  },
+  {
+   "name": "enttaeuschung",
+   "datei": "audio/enttaeuschung.mp3",
+   "zweck": "Enttäuschung",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "navi.js"
+   ]
+  },
+  {
+   "name": "falsch",
+   "datei": "audio/falsch.mp3",
+   "zweck": "falsche Antwort",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "knoten.js",
+    "manoever.js",
+    "navi.js",
+    "szene.js",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "richtig",
+   "datei": "audio/richtig.mp3",
+   "zweck": "richtige Antwort",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "knoten.js",
+    "manoever.js",
+    "navi.js",
+    "schein.js",
+    "szene.js",
+    "toern.js"
+   ]
+  },
+  {
+   "name": "motorStart",
+   "datei": "audio/motor-start.mp3",
+   "zweck": "Motor startet",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js",
+    "manoever.js"
+   ]
+  },
+  {
+   "name": "motorLauf",
+   "datei": "audio/motor-lauf.mp3",
+   "zweck": "Motor läuft (Fahrt, Manöver)",
+   "benutzt": true,
+   "wo": [
+    "index.html",
+    "kurs.js",
+    "manoever.js",
+    "reise.js",
+    "toern.js"
+   ]
+  }
+ ]
+}
