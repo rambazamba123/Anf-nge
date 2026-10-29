@@ -423,16 +423,48 @@
      "ort": "deck"
     },
     {
+     "ansicht": "grafik",
+     "bild": "rad"
+    },
+    {
      "wer": "hinnerk",
-     "t": "Bevor wir ablegen: unser Propeller. Von achtern gesehen dreht er sich in Vorausfahrt im Uhrzeigersinn. Das nennt man rechtsdrehend."
+     "t": "Bevor wir ablegen: unser Propeller. Wir sehen das Boot von hinten, der Propeller sitzt unter dem Heck."
+    },
+    {
+     "grafik": 1
+    },
+    {
+     "wer": "hinnerk",
+     "t": "In Vorausfahrt dreht er sich von hinten gesehen im Uhrzeigersinn. Das nennt man rechtsdrehend."
     },
     {
      "wer": "smilla",
-     "t": "Dreht er gegen den Uhrzeigersinn, gleiche Blickrichtung, ist er linksdrehend."
+     "t": "Dreht er gegen den Uhrzeigersinn, ist er linksdrehend. Gleiche Blickrichtung, andere Drehrichtung."
+    },
+    {
+     "grafik": 2
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt kommt der Trick. Unten, tief im Wasser, greifen die Flügel kräftig zu. Oben, nah an der Oberfläche, bringen sie kaum etwas."
     },
     {
      "wer": "hinnerk",
-     "t": "Der Propeller schiebt nicht nur, er versetzt das Heck auch seitlich. Das ist der Radeffekt. Wer die Drehrichtung kennt, manövriert besser."
+     "t": "Der Propeller drückt das Wasser also unten zur Seite. Das Wasser drückt zurück, und das Heck weicht aus."
+    },
+    {
+     "grafik": 3
+    },
+    {
+     "wer": "smilla",
+     "t": "Bei Vorausfahrt mit rechtsdrehendem Propeller wandert das Heck nach Steuerbord, also nach rechts."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Das ist der Radeffekt. Wer die Drehrichtung kennt, weiß, wohin das Heck geht."
+    },
+    {
+     "grafik": 4
     },
     {
      "wer": "hinnerk",
@@ -440,10 +472,14 @@
     },
     {
      "wer": "smilla",
-     "t": "Pass auf: Bei rechtsdrehendem Propeller zieht das Heck rückwärts nach Backbord."
+     "t": "Rückwärts dreht sich alles um. Bei rechtsdrehendem Propeller zieht das Heck nach Backbord, also nach links."
     },
     {
      "frage": 41
+    },
+    {
+     "ansicht": "crew",
+     "ort": "deck"
     },
     {
      "wer": "hinnerk",

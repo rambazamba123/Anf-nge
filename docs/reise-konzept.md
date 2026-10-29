@@ -1,4 +1,4 @@
-# Die Reise: ein Tag auf See (Konzept, Entwurf 1, 29.10.2026)
+# Die Reise: ein Tag auf See (Konzept, Entwurf 2, 29.10.2026)
 
 > Grundlage: deine Antworten O93–O100 vom 29.10.2026 und `VISION.md`. Dieses Konzept liegt vor, **bevor die Folgen geschrieben werden**. Du prüfst es, dann wird es Schritt für Schritt umgesetzt.
 > Die Übersicht unten (Tage, Seemannswissen, alle 285 Fragen) erzeugt `node tools/reise-plan.js` aus `data/reise-plan.json`. Änderungen also in den Daten, nicht in der Tabelle.
@@ -9,6 +9,14 @@
 3. **Interaktiv** entscheidest und rechnest du mit. Im **Automodus** läuft derselbe Tag als Hörspiel durch, leicht abgeändert: Die Crew löst die Aufgaben laut vor, du hörst zu und lernst dabei, was zu tun ist.
 4. Die App merkt sich die **genaue Stelle** in der Geschichte. Beim nächsten Mal geht es genau dort weiter. Navigationsaufgaben, Knoten und Minispiele öffnen sich **in der Geschichte**; danach geht die Geschichte weiter, nie ins Untermenü.
 5. Das **Wetter kommt aus der Geschichte** (O96) und trägt die Lektion: Nebeltag gleich Schallsignale, Nachtfahrt gleich Lichter, Sturmtag gleich Hafentag mit Wetterkunde.
+
+> **Update 29.10.2026, spät (Entwurf 2, Nutzer):**
+> - **Acht Akte** statt einer langen Reihe: Ablegen (Grundkurs), Fahrwasser, Regeln/Nacht/Nebel, Wasser/Wind/Wetter, Besondere Gebiete, Not an Bord, **Binnen**, Prüfungsreife. Reihenfolge Basis, See, Binnen (die 72 Basisfragen gelten für beide Scheine). SKS kommt später als eigener Kurs.
+> - **Navigation lernt man früh und in Stufen** (N0–N6), danach nur noch jeden dritten Tag eine kurze Routine-Aufgabe, später die volle Törnplanung. Der Zirkel zählt die Länge selbst ab.
+> - **Mehr selbst steuern:** Steuerszenen (an welcher Seite der Tonne vorbei, wie anlegen, wie queren). Jeder Tag nennt sie unter „Selbst steuern“.
+> - **Grafik, wo immer sie hilft:** zuerst gesprochen so, dass man es ohne Bild versteht, die Grafik erklärt zusätzlich (Radeffekt in der Heckansicht mit Zoom aufs Wasser, Lichtersektoren, Kardinalzeichen, Strom, Gezeiten …). Jeder Tag nennt sie unter „Grafik“.
+> - **Fragen dürfen mehrfach vorkommen,** wenn es zur Geschichte passt. Fehlen darf keine.
+> - **Binnen** (Quirin als Gast): 181 Fragen in acht Tagen, dazu drei freiwillige Segeltage. Orte der Binnen-Etappen sind noch ein Entwurf und nicht auf der Seekarte 7.
 
 > **Update 29.10.2026, abends:** Die Hauptansicht ist die **Runde mit der Crew** (hier redet man, hört zu). Die Seekarte ist Grundlage zum Planen und Navigieren und legt sich nur bei Bedarf über die Runde, ebenso die Fahrt-Szene, Fragen, Minispiele und Knoten.
 
@@ -81,40 +89,58 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 
 ## 7. Übersicht (erzeugt)
 <!-- PLAN:START -->
-*Erzeugt mit `node tools/reise-plan.js` aus `data/reise-plan.json` (29.10.2026, Entwurf 1 (Seemeilen grob geschätzt, werden mit den Kartendaten genau)). Nicht von Hand ändern, sondern die Daten.*
+*Erzeugt mit `node tools/reise-plan.js` aus `data/reise-plan.json` (29.10.2026, Entwurf 2 (Nutzer: Reihenfolge Basis, See, Binnen; Navigation in Stufen; mehr Steuerszenen; Strecken noch mit der Karte zu prüfen)). Nicht von Hand ändern, sondern die Daten.*
+
+### Akte
+
+| Akt | Titel | Tage | Dauer (grob) | Ziel |
+|---|---|---|---|---|
+| 1 | Ablegen | 11 | 7.0 h | Das Boot kennen, fahren, anlegen; Karte lesen und Kurs abgreifen (Navigation N0–N3). Grundkurs mit allen 72 Basisfragen. |
+| 2 | Fahrwasser | 9 | 4.9 h | Recht auf See, Kompass und Peilung, Tonnen, Feuer und Fahrwasser (N4–N5). |
+| 3 | Regeln, Nacht und Nebel | 12 | 6.7 h | Ausweichen, Lichter und Signalkörper, Nebel und Schallsignale. |
+| 4 | Wasser, Wind und Wetter | 6 | 3.2 h | Gezeiten, Strom, Koppeln, Wetter und Natur (N6, ab jetzt volle Törnplanung). |
+| 5 | Besondere Gebiete | 5 | 2.5 h | Badestellen, Behörden, Kanal, Sperrgebiete, Verkehrstrennung. |
+| 6 | Not an Bord | 3 | 1.8 h | Mensch über Bord, Seenot, Praxis für die Prüfung. |
+| 7 | Binnen | 8 (+3 freiwillig) | 3.0 h | SBF Binnen: Basis ist da, jetzt kommen die 181 Binnenfragen und (freiwillig) das Segeln. |
+| 8 | Prüfungsreife | 6 | 3.0 h | Wiederholen, Probeprüfung, Harms. |
+
+Gesamt etwa 32 Stunden ohne die freiwilligen Segeltage. Die Dauer ist **grob geschätzt**: Folgenminuten aus dem Kursplan plus Fragerunde (6 min), Navigation (8 min, Routine 4 min), Steuerszene (3 min je), Knoten (4 min je), Minispiel (5 min je). Echte Zeiten kommen erst vom Handy-Test. SKS folgt später als eigener Kurs (Nutzer, 29.10.2026).
 
 ### Zahlen
 
-- 50 Tage, 285 amtliche Fragen (SBF See, davon 72 Basisfragen in den Tagen 1–11)
+- 63 Tage, 285 amtliche Fragen SBF See (davon 72 Basisfragen in Akt 1), dazu 228 Binnenfragen (73–300) in Akt 7
 - Lektion (Block der Crew): 97 Fragen · Fahrt (einzeln unterwegs): 118 · Lage (mehrere Fragen in einer Situation): 70
-- Im Schnitt 5.7 neue Fragen pro Tag
+- Im Schnitt 4.5 neue Fragen pro Tag
 
 ### Seemannswissen
 
 | Bereich | Fragen | Lektion | Fahrt | Lage | Tage |
 |---|---|---|---|---|---|
 | Boot, Motor und Technik | 23 | 15 | 8 | 0 | 2, 3, 5 |
-| Verantwortung und Recht | 23 | 12 | 11 | 0 | 1, 12, 38, 39 |
-| Bordsprache, Manövrieren und Seemannschaft | 16 | 9 | 7 | 0 | 1, 4, 42 |
-| Sicherheit und Seenot | 16 | 0 | 8 | 8 | 6, 43, 44 |
-| Ausweichen und Verkehr | 37 | 0 | 21 | 16 | 7, 13, 15, 16, 17, 34, 41 |
-| Lichter und Signalkörper | 39 | 12 | 9 | 18 | 7, 20, 21, 22, 23, 24, 25 |
-| Schall- und Warnsignale | 16 | 0 | 3 | 13 | 26, 27 |
-| Seezeichen, Tafeln und Fahrwasser | 63 | 13 | 35 | 15 | 8, 9, 29, 30, 31, 32, 33, 35, 40 |
-| Navigation und Gezeiten | 25 | 25 | 0 | 0 | 13, 14, 18, 19 |
-| Wetter, Natur und Umwelt | 27 | 11 | 16 | 0 | 10, 28, 36, 37 |
+| Verantwortung und Recht | 23 | 12 | 11 | 0 | 1, 12, 40, 41 |
+| Bordsprache, Manövrieren und Seemannschaft | 16 | 9 | 7 | 0 | 1, 4, 38 |
+| Sicherheit und Seenot | 16 | 0 | 8 | 8 | 6, 44, 45 |
+| Ausweichen und Verkehr | 37 | 0 | 21 | 16 | 7, 20, 21, 22, 23, 24, 43 |
+| Lichter und Signalkörper | 39 | 12 | 9 | 18 | 7, 25, 26, 27, 28, 29, 30 |
+| Schall- und Warnsignale | 16 | 0 | 3 | 13 | 31, 32 |
+| Seezeichen, Tafeln und Fahrwasser | 63 | 13 | 35 | 15 | 8, 9, 15, 16, 17, 18, 19, 39, 42 |
+| Navigation und Gezeiten | 25 | 25 | 0 | 0 | 13, 14, 33, 34 |
+| Wetter, Natur und Umwelt | 27 | 11 | 16 | 0 | 10, 35, 36, 37 |
 
 ### Navigation, Knoten und Manöver über die Reise
 
 | Stufe | Was | Tage |
 |---|---|---|
 | N0 | Karte lesen: Kartentitel, Tiefen, Tonnen und ihre Namen finden | 1, 2 |
-| N1 | Position ablesen und Seemeilen am Breitenrand messen | 3, 4, 5 |
-| N2 | Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel | 6, 7, 8, 9, 10, 11 |
-| N3 | Kompass: Missweisung und Ablenkung (rwK, mwK, MgK) | 12, 13, 14 |
-| N4 | Zeit, Fahrt und Koppelort | 15, 16, 17 |
-| N5 | Standort aus Kreuzpeilung, Tiefe und Gezeiten | 18, 19 |
-| voll | Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 |
+| N1 | Position ablesen, Breite und Länge, Seemeilen am Breitenrand | 3, 5 |
+| N2 | Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel (die App zählt die Länge ab) | 6, 8 |
+| N3 | Zeit, Fahrt, Strecke: Koppelort | 10, 11 |
+| N4 | Kompass: Missweisung und Ablenkung (rwK, mwK, MgK) | 13, 14, 22, 23, 24 |
+| N5 | Peilung, Kreuzpeilung und Standort; Tonnen und Feuer in der Karte | 21 |
+| N6 | Strom, Gezeiten, Versetzung und Wassertiefe | 33, 34 |
+| ueben | Routine: eine kurze Aufgabe aus den bisherigen Stufen | 48, 50, 52, 54 |
+| voll | Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe | 15, 16, 17, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 58, 59, 60, 61, 62, 63 |
+|  | keine Navigationsaufgabe | 4, 7, 9, 12, 47, 49, 51, 53, 55, 56, 57 |
 
 | Tag | Knoten | Manöver | Minispiel |
 |---|---|---|---|
@@ -130,25 +156,32 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 | 11 | Wiederholung: alle bisher | – | – |
 | 12 | Schotstek | – | – |
 | 13 | – | Steuern nach Kompass mit Peilen | – |
-| 20 | Wiederholung: Palstek, Rundtörn | – | Lichter |
-| 21 | – | – | Lichter |
-| 23 | Stopperstek | – | – |
-| 25 | – | – | Leuchtfeuer |
-| 26 | – | – | Schallsignale |
-| 27 | – | – | Schallsignale |
-| 28 | Wiederholung: alle bisher | – | – |
-| 29 | – | – | Leuchtfeuer |
-| 30 | – | – | Tonnen-Slalom |
-| 33 | – | – | Leuchtfeuer |
-| 35 | – | – | Fischfang |
-| 39 | Wiederholung: alle | – | – |
-| 42 | Kreuzknoten | – | – |
-| 43 | – | Mensch über Bord | – |
-| 45 | alle neun Prüfungsknoten | alle sechs Prüfungsmanöver | – |
-| 46 | – | – | Schallsignale |
-| 47 | – | – | Lichter |
+| 15 | – | – | Leuchtfeuer |
+| 16 | – | – | Tonnen-Slalom |
+| 19 | – | – | Leuchtfeuer |
+| 21 | – | Steuern nach Kompass mit Peilen | – |
+| 25 | Wiederholung: Palstek, Rundtörn | – | Lichter |
+| 26 | – | – | Lichter |
+| 28 | Stopperstek | – | – |
+| 30 | – | – | Leuchtfeuer |
+| 31 | – | – | Schallsignale |
+| 32 | – | – | Schallsignale |
+| 35 | Wiederholung: alle bisher | – | – |
+| 38 | Kreuzknoten | – | – |
+| 39 | – | – | Fischfang |
+| 41 | Wiederholung: alle | – | – |
+| 44 | – | Mensch über Bord | – |
+| 46 | alle neun Prüfungsknoten | alle sechs Prüfungsmanöver | – |
+| 57 | – | Wende | – |
+| 58 | – | – | Schallsignale |
+| 59 | – | – | Lichter |
+| 63 | alle Prüfungsknoten | alle Prüfungsmanöver | – |
 
 ### Die Tage
+
+#### Akt 1: Ablegen
+
+*Das Boot kennen, fahren, anlegen; Karte lesen und Kurs abgreifen (Navigation N0–N3). Grundkurs mit allen 72 Basisfragen.*
 
 **Tag 1: Das Boot übernehmen** · Kuttershaven (Hafentag) · sonnig, schwacher Wind · Morgen bis Abend
 - Geschichte (Vorschlag): Die Crew übernimmt im Hafen ein altes Motorboot; der Mast liegt abgebaut an Deck. Wer ist Schiffsführer? Rundgang 2 über das Boot mit allen Bauteilen. Am Kartentisch zum ersten Mal die Seekarte 7.
@@ -159,246 +192,392 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 - Geschichte (Vorschlag): Morgens am Steg erklärt die Crew Propeller, Ruder und Radeffekt; beim Ablegen zieht das Heck wirklich zur Seite. Kurze Fahrt quer über die Elbe.
 - Lernen: Propeller, Ruder und Radeffekt (G2.1, Lektion, Fragen 41, 44, 45, 46, 47, 48, 50, 51)
 - Navigation: Karte lesen: Kartentitel, Tiefen, Tonnen und ihre Namen finden · Knoten: Palstek · Manöver: Ablegen · Minispiel: Motorkunde
+- Selbst steuern: Ablegen mit Radeffekt: Heck zieht zur Seite, Gegenlenken
+- Grafik: Radeffekt: Heckansicht, Zoom aufs Wasser, Propeller drückt Wasser auf einer Seite nach unten und gegen den Rumpf
 
 **Tag 3: Der Motor wird heiß** · Klüverhafen → Lotsenkoog, etwa 3 sm · bedeckt, Wind 3 · Mittag
 - Geschichte (Vorschlag): Unterwegs piept der Motoralarm: Kühlwasser, Öldruck, Batterie. Die Crew prüft der Reihe nach. In Lotsenkoog die Fender mit dem Webeleinstek an die Reling.
 - Lernen: Den Motor im Blick (G2.2, Fahrt, Fragen 42, 52, 53, 54, 55, 56, 57, 60)
-- Navigation: Position ablesen und Seemeilen am Breitenrand messen · Knoten: Webeleinstek · Manöver: Anlegen
+- Navigation: Position ablesen, Breite und Länge, Seemeilen am Breitenrand · Knoten: Webeleinstek · Manöver: Anlegen
+- Selbst steuern: Kühlwasser prüfen, Motor kuppeln
 
 **Tag 4: Mit dem Ebbstrom elbabwärts** · Lotsenkoog → Neuwerk, etwa 12 sm · sonnig, Wind 3 · ganzer Tag
 - Geschichte (Vorschlag): Ein Containerschiff zieht vorbei: Sog und Wellenschlag. Vor Neuwerk wird geankert und dann im Hafen am Ring festgemacht.
 - Lernen: Große Schiffe, kleine Boote (G3.2, Fahrt, Fragen 34, 36, 37, 61); Anlegen und Ankern (G3.1, Fahrt, Fragen 35, 39, 40)
-- Navigation: Position ablesen und Seemeilen am Breitenrand messen · Knoten: Rundtörn mit zwei halben Schlägen · Manöver: Kursgerechtes Aufstoppen
+- Navigation: keine Navigationsaufgabe · Knoten: Rundtörn mit zwei halben Schlägen · Manöver: Kursgerechtes Aufstoppen
+- Selbst steuern: Welle vermeiden: Fahrt rausnehmen bei Begegnung; Anlegen mit Wind und Radeffekt: Welche Seite zuerst?
+- Grafik: Bugwelle, Heckwelle und Sog großer Schiffe; Anlegen: Radeffekt-Pfeile und Windpfeil in der Draufsicht
 
 **Tag 5: Hafentag: Starkwind** · Neuwerk (Hafentag) · Wind 6, Regenschauer · ganzer Tag im Hafen
 - Geschichte (Vorschlag): Draußen pfeift es, also bleibt man drin. Die Crew tankt und lüftet die Bilge: Benzin, Gas und warum es sich unten sammelt.
 - Lernen: Sprit und Gas: was sich in der Bilge sammelt (G4.1, Lektion, Fragen 43, 49, 62, 63, 64, 65, 66)
-- Navigation: Position ablesen und Seemeilen am Breitenrand messen · Knoten: Achtknoten
+- Navigation: Position ablesen, Breite und Länge, Seemeilen am Breitenrand · Knoten: Achtknoten
 
 **Tag 6: Westen an** · Neuwerk → Pollerdeich, etwa 8 sm · Wind 4, abflauend · Nachmittag
 - Geschichte (Vorschlag): Noch Restwelle: Rettungswesten an, Feuerlöscher geprüft. Im engen Hafenpriel muss auf engem Raum gewendet werden.
 - Lernen: Feuer, Westen und der Ernstfall (G4.2, Fahrt, Fragen 67, 68, 69, 70, 72)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel · Manöver: Wenden auf engem Raum
+- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel (die App zählt die Länge ab) · Manöver: Wenden auf engem Raum
+- Selbst steuern: Wenden auf engem Raum
 
 **Tag 7: Wer weicht aus?** · Pollerdeich → Gaffelhorn, etwa 6 sm · sonnig, Wind 2 · Nachmittag bis Abend
 - Geschichte (Vorschlag): Erste Begegnungen im Wattfahrwasser. Abends im Hafen gehen die ersten Lichter an: Wer bin ich, wohin fahre ich?
 - Lernen: Wer weicht aus? Die zwei Grundregeln (G5.2, Fahrt, Fragen 14, 15); Lichter: Wer bin ich, wohin fahre ich? (G5.1, Lektion, Fragen 7, 10, 11, 12, 13)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel · Minispiel: Lichter
+- Navigation: keine Navigationsaufgabe · Minispiel: Lichter
+- Selbst steuern: Ausweichen: rechtzeitig, deutlich, Kurs ändern
+- Grafik: Zwei Grundregeln: Skizze mit Pfeilen; Lichter-Sektoren: Mastlicht und Seitenlichter von vorn, achtern und der Seite
 
 **Tag 8: Rote Tafeln am Ufer** · Gaffelhorn → Kompasshude, etwa 7 sm · heiter · Vormittag
 - Geschichte (Vorschlag): Am Ufer stehen Tafeln: Verbote unterwegs einzeln, abends die Gebote und Hinweise als Block.
 - Lernen: Verbote: was die roten Tafeln sagen (G6.1, Fahrt, Fragen 17, 18, 19, 22, 23, 27); Gebote, Hinweise und die Länge eines Tons (G6.2, Lektion, Fragen 4, 5, 16, 20, 24, 25, 26)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel
+- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel (die App zählt die Länge ab)
+- Grafik: Verbotstafeln: Bild und Bedeutung
 
 **Tag 9: Durch die Schleuse** · Kompasshude → Netzharlingersiel, etwa 9 sm · sonnig · Mittag
 - Geschichte (Vorschlag): Schleuse und Brücke vor dem Siel. Quirin ist zu Besuch (heutige Probefolge G6.3) und erklärt, wie man in der Kammer festmacht.
 - Lernen: Brücken und Schleusen (G6.3, Fahrt, Fragen 21, 28, 29, 30)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel · Knoten: Webeleinstek auf Slip · Manöver: Anlegen
+- Navigation: keine Navigationsaufgabe · Knoten: Webeleinstek auf Slip · Manöver: Anlegen
+- Selbst steuern: Schleuse: einfahren, festmachen
+- Grafik: Schleusenablauf (Füllen, Leeren, Drempel)
 
 **Tag 10: Seehunde und ein Wetterumschwung** · Netzharlingersiel → Tampensiel, etwa 6 sm · Flaute, später Gewitterwolken · ganzer Tag
 - Geschichte (Vorschlag): Flaute, Seehunde auf der Sandbank, Angeln. Am Nachmittag türmen sich Wolken: Wetter lesen, Natur schützen.
 - Lernen: Natur schützen, Wetter lesen (G7.1, Fahrt, Fragen 31, 32, 33, 38, 58, 71)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel · Minispiel: Fischfang
+- Navigation: Zeit, Fahrt, Strecke: Koppelort · Minispiel: Fischfang
+- Grafik: Hoch und Tief: Wind dreht gegen den Uhrzeigersinn ums Tief
 
 **Tag 11: Harms ruft an: Grundkurs-Check** · Tampensiel (Hafentag) · Regen · im Hafen
 - Geschichte (Vorschlag): Der Grundkurs ist durch. Harms prüft am Telefon die 72 Basisfragen gemischt. Abends Knoten-Runde in der Kajüte.
 - Lernen: Grundkurs-Check mit Harms (G8, Lektion)
-- Navigation: Kurs mit dem Dreieck ablesen, Distanz mit dem Zirkel · Knoten: Wiederholung: alle bisher
+- Navigation: Zeit, Fahrt, Strecke: Koppelort · Knoten: Wiederholung: alle bisher
+
+#### Akt 2: Fahrwasser
+
+*Recht auf See, Kompass und Peilung, Tonnen, Feuer und Fahrwasser (N4–N5).*
 
 **Tag 12: Kontrolle auf der Jade** · Tampensiel → Wangerooge, etwa 10 sm · heiter, Wind 3 · Vormittag
 - Geschichte (Vorschlag): Morgens: welche Regeln gelten wo. Unterwegs stoppt die Wasserschutzpolizei und will Papiere sehen.
 - Lernen: Welche Regeln gelten wo? (S1.1, Lektion, Fragen 73, 74, 152, 153); Fahrerlaubnis, Verantwortung, Sorgfalt (S1.2, Fahrt, Fragen 75, 76, 77, 78, 89, 90)
-- Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK) · Knoten: Schotstek
+- Navigation: keine Navigationsaufgabe · Knoten: Schotstek
 
-**Tag 13: Die Peilung steht** · Wangerooge → Spiekeroog, etwa 7 sm · diesig · Nachmittag
-- Geschichte (Vorschlag): Ein Kutter kommt näher, die Peilung steht. Abends Kartenkunde: Seekarte, Seehandbuch, Leuchtfeuerverzeichnis.
-- Lernen: Wann wird es gefährlich? Peilung, Ausguck, AIS (S2.1, Fahrt, Fragen 125, 272, 273); Seekarte und nautische Bücher (S7.1, Lektion, Fragen 231, 232, 234, 235, 236, 237, 238, 239)
+**Tag 13: Seekarte und Bücher** · Wangerooge → Spiekeroog, etwa 6 sm · heiter · Vormittag
+- Geschichte (Vorschlag): Die Crew sortiert Seekarte 7, Seehandbuch und Leuchtfeuerverzeichnis. Smilla will wissen, was man wann nachschlägt; Hinnerk hat früher alles „nach Gefühl“ gemacht und verliert die erste Wette gegen die Karte.
+- Lernen: Seekarte und nautische Bücher (S7.1, Lektion, Fragen 231, 232, 234, 235, 236, 237, 238, 239)
 - Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK) · Manöver: Steuern nach Kompass mit Peilen
+- Grafik: Kartenausschnitt mit Legende
 
 **Tag 14: Hafentag: Kompass und Seemeile** · Spiekeroog (Hafentag) · Dauerregen · im Hafen
 - Geschichte (Vorschlag): Regen. Am Kartentisch: Seemeile, Knoten als Geschwindigkeit, Kompass, Peilung, Missweisung.
 - Lernen: Seemeile, Knoten, Kompass, Peilung (S7.2, Lektion, Fragen 240, 241, 242, 243, 244, 248)
 - Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK)
+- Grafik: Kompassrose: Missweisung und Ablenkung als Pfeile
 
-**Tag 15: Segler voraus** · Spiekeroog → Langeoog, etwa 6 sm · sonnig, Wind 4 · Mittag
-- Geschichte (Vorschlag): Eine Regatta im Seegatt: begegnen, kreuzen, überholen, und wer bei Seglern ausweicht.
-- Lernen: Begegnen, Kreuzen, Überholen, Segeln (S2.2, Fahrt, Fragen 81, 126, 127, 137)
-- Navigation: Zeit, Fahrt und Koppelort
-
-**Tag 16: Wer hat Vorrang?** · Langeoog → Spiekeroog, etwa 11 sm · heiter · ganzer Tag
-- Geschichte (Vorschlag): Draußen vor den Inseln: Fischer, ein Segler und ein manövrierbehindertes Schiff auf einmal. Die Rangfolge an einer Lage.
-- Lernen: Wer hat Vorrang? Die Rangfolge (S2.3, Lage, Fragen 82, 83, 128, 129, 130, 131, 132)
-- Navigation: Zeit, Fahrt und Koppelort
-
-**Tag 17: Kurshalter bis zum letzten Augenblick** · Spiekeroog → Tampensiel, etwa 12 sm · Wind 4 · Nachmittag
-- Geschichte (Vorschlag): Im Wangerooger Fahrwasser hält ein Frachter Kurs, und wir sind Kurshalter gegenüber einem Motorboot.
-- Lernen: Kurshalter und der letzte Augenblick (S2.4, Fahrt, Fragen 79, 80, 135, 136, 139, 140)
-- Navigation: Zeit, Fahrt und Koppelort
-
-**Tag 18: Warten aufs Hochwasser** · Tampensiel (Hafentag) · sonnig · im Hafen bis zum Abend
-- Geschichte (Vorschlag): Das Boot liegt trocken im Schlick. Bis das Wasser kommt: Ebbe, Flut, Tidenkalender, Wassertiefe berechnen.
-- Lernen: Ebbe und Flut (S7.4, Lektion, Fragen 233, 249, 250, 251, 252, 253, 254, 255)
-- Navigation: Standort aus Kreuzpeilung, Tiefe und Gezeiten
-
-**Tag 19: Die erste Kartenaufgabe** · Tampensiel → Ankerplatz bei Alte Weser, etwa 14 sm · heiter · ganzer Tag
-- Geschichte (Vorschlag): Morgens koppeln, Versetzung und die Kartenaufgabe wie in der Prüfung. Ab heute plant die Crew jeden Tag vollständig.
-- Lernen: Koppeln, Versetzung und die Kartenaufgabe (S7.3, Lektion, Fragen 245, 246, 247)
-- Navigation: Standort aus Kreuzpeilung, Tiefe und Gezeiten
-
-**Tag 20: Lichter an** · Ankerplatz bei Alte Weser → Tegeler Plate (vor Anker), etwa 6 sm · klar · Abend
-- Geschichte (Vorschlag): Ankern vor der Tegeler Plate. Es wird dunkel, ringsum gehen Lichter an: das Lichtersystem als Block.
-- Lernen: Das Lichtersystem (S3.1, Lektion, Fragen 85, 86, 91, 92, 113, 159, 160)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: Wiederholung: Palstek, Rundtörn · Minispiel: Lichter
-
-**Tag 21: Nachts vor Anker** · Tegeler Plate → Neuwerk-Reede, etwa 9 sm · klar, Neumond · Nacht
-- Geschichte (Vorschlag): Nachtfahrt: Ankerlieger und ein Schiff auf Grund. Welche Lichter, welche Körper bei Tag?
-- Lernen: Vor Anker und auf Grund (S3.2, Lage, Fragen 105, 106, 107, 114, 115)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Lichter
-
-**Tag 22: Ein Schlepper mit Anhang** · Neuwerk-Reede → Kuttershaven, etwa 14 sm · Wind 3 · ganzer Tag
-- Geschichte (Vorschlag): Auf der Elbe kommt ein Schleppverband entgegen. Wie lang ist er, und woran erkennt man es?
-- Lernen: Schlepper und Schleppverbände (S3.3, Fahrt, Fragen 93, 94, 95, 96)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
-
-**Tag 23: Manövrierunfähig** · Kuttershaven → Lotsenkoog, etwa 6 sm · bedeckt · Mittag
-- Geschichte (Vorschlag): Ein Fischkutter treibt mit Maschinenschaden. Die Crew gibt eine Schleppleine und macht sie unter Last mit dem Stopperstek fest.
-- Lernen: Manövrierunfähig (S3.4, Fahrt, Fragen 97, 98, 99, 100, 101)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: Stopperstek
-
-**Tag 24: Der Bagger im Fahrwasser** · Lotsenkoog → Neuwerk, etwa 13 sm · sonnig · ganzer Tag
-- Geschichte (Vorschlag): Ein Bagger arbeitet im Fahrwasser. Auf welcher Seite kommt man vorbei?
-- Lernen: Manövrierbehindert und Bagger (S3.5, Lage, Fragen 102, 103, 104, 148, 149, 150)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
-
-**Tag 25: Fischer und ein Tiefgänger** · Neuwerk → Außenelbe-Reede, etwa 10 sm · klar · Abend und Nacht
-- Geschichte (Vorschlag): Abends draußen: Fischer mit Netzen und ein tiefgangbehinderter Tanker. Dazu das Feuer von Neuwerk.
-- Lernen: Tiefgangbehinderte und Fischer (S3.6, Lage, Fragen 108, 109, 110, 111, 112, 133, 134)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Leuchtfeuer
-
-**Tag 26: Nebel** · Außenelbe-Reede → Süderpiep, etwa 12 sm · Nebel, Sicht unter 100 m · Morgen
-- Geschichte (Vorschlag): Plötzlich Nebel. Fahrt runter, Ausguck, horchen: Wer tutet da? Spannendster Tag bis hierher.
-- Lernen: Nebel: langsam, horchen, Ausguck (S4.1, Fahrt, Fragen 84, 138, 274); Wer tutet da? Nebelsignale in Fahrt (S4.2, Lage, Fragen 116, 117, 118, 119, 120, 121)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Schallsignale
-
-**Tag 27: Glocke im Nebel** · Süderpiep → Ankerstedt, etwa 8 sm · Nebel lichtet sich · Vormittag
-- Geschichte (Vorschlag): Vor Anker im Nebel läutet eine Glocke, dann ein Gong. Und dann ein Warnsignal, das niemand hören will.
-- Lernen: Glocke, Gong und Warnsignale (S4.3, Lage, Fragen 122, 123, 124, 141, 162, 163, 164)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Schallsignale
-
-**Tag 28: Hafentag: Ein Tief zieht durch** · Ankerstedt (Hafentag) · Sturmtief, Wind 7 · im Hafen
-- Geschichte (Vorschlag): Sturmwarnung im Radio. Die Crew liest die Wetterkarte und lernt Beaufort, solange es draußen kracht.
-- Lernen: Hoch, Tief und die Wetterkarte (S9.1, Lektion, Fragen 260, 262, 263, 264, 265, 266); Wind in Zahlen: Beaufort und Warnungen (S9.2, Lektion, Fragen 261, 267, 268, 269, 270)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: Wiederholung: alle bisher
-
-**Tag 29: Feuer sprechen** · Ankerstedt → Kielholm, etwa 10 sm · klar, nach dem Sturm · Abend
+**Tag 15: Feuer sprechen** · Spiekeroog → Kielholm · klar, nach dem Sturm · Abend
 - Geschichte (Vorschlag): Abends auf der Norderelbe blinken die Feuer: Kennungen lesen und zählen.
 - Lernen: Wie Feuer sprechen: Kennungen (S5.1, Lektion, Fragen 215, 220, 221, 222, 223, 224)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Leuchtfeuer
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Leuchtfeuer
 
-**Tag 30: Tonne für Tonne** · Kielholm → Neuwerk, etwa 11 sm · sonnig · ganzer Tag
+**Tag 16: Tonne für Tonne** · Kielholm → Neuwerk, etwa 11 sm · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Elbabwärts im Fahrwasser, Tonne für Tonne: Wo ist Backbord, wenn man ausläuft?
 - Lernen: Das Fahrwasser und seine Seiten (S5.2, Fahrt, Fragen 156, 157, 190, 191, 192, 193, 194)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Tonnen-Slalom
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Tonnen-Slalom
+- Selbst steuern: An welcher Seite der Tonne vorbei?
 
-**Tag 31: Die Abzweigung** · Neuwerk → Ankerplatz bei Alte Weser, etwa 13 sm · heiter · Mittag
+**Tag 17: Die Abzweigung** · Neuwerk → Ankerplatz bei Alte Weser, etwa 13 sm · heiter · Mittag
 - Geschichte (Vorschlag): Bei Westertill teilt sich das Fahrwasser. Welche Tonne zeigt, wo es lang geht?
 - Lernen: Abzweigungen und Leuchttonnen (S5.3, Fahrt, Fragen 195, 196, 197, 198, 199)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Selbst steuern: Abzweigung: welche Tonne zeigt den Weg?
+- Grafik: Abzweigung mit Leuchttonnen
 
-**Tag 32: Die Uhr im Wasser** · Ankerplatz bei Alte Weser → Tampensiel, etwa 15 sm · sonnig · ganzer Tag
+**Tag 18: Die Uhr im Wasser** · Ankerplatz bei Alte Weser → Tampensiel, etwa 15 sm · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Kardinaltonnen rund um die Ansteuerung: NGN, Westertill-N. Auf welcher Seite fährt man vorbei?
 - Lernen: Kardinalzeichen: die Uhr im Wasser (S5.4, Lage, Fragen 200, 201, 202, 203, 204, 205, 206, 207)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Selbst steuern: Kardinaltonne: auf welcher Seite vorbei?
+- Grafik: Kardinalzeichen als Uhr: Kegel nach oben und unten
 
-**Tag 33: Nachts in die Jade** · Tampensiel (Hafentag) · klar · Nacht
+**Tag 19: Nachts in die Jade** · Tampensiel (Hafentag) · klar · Nacht
 - Geschichte (Vorschlag): Nachtrunde: Einzelgefahrzeichen über einem Wrack, ein Leitfeuer und eine Richtfeuerlinie zurück in die Jade.
 - Lernen: Einzelgefahr, Leit-, Richt- und Quermarkenfeuer (S5.5, Lage, Fragen 208, 209, 210, 211, 212, 213, 214)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Leuchtfeuer
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Leuchtfeuer
 
-**Tag 34: Regeln im Fahrwasser** · Tampensiel → Wangerooge, etwa 10 sm · Wind 3 · Vormittag
+**Tag 20: Regeln im Fahrwasser** · Tampensiel → Wangerooge, etwa 10 sm · Wind 3 · Vormittag
 - Geschichte (Vorschlag): Im Fahrwasser rechts halten, nicht queren ohne Not, nicht ankern: an echten Lagen.
 - Lernen: Regeln im Fahrwasser (S6.1, Fahrt, Fragen 161, 165, 166, 167, 168, 271)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Selbst steuern: Rechts halten im Fahrwasser, queren im rechten Winkel
 
-**Tag 35: Badetag** · Wangerooge → Spiekeroog, etwa 5 sm · heiß, Flaute · Mittag
-- Geschichte (Vorschlag): Hochsommer: Badende, ein Wasserskifahrer, Ankerverbot vor dem Strand.
-- Lernen: Baden, Wasserski und Ankerverbot (S6.2, Fahrt, Fragen 169, 170, 171, 179, 180, 181, 182)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Fischfang
+#### Akt 3: Regeln, Nacht und Nebel
 
-**Tag 36: Die Rangerin** · Spiekeroog → Möwellum, etwa 9 sm · sonnig · ganzer Tag
+*Ausweichen, Lichter und Signalkörper, Nebel und Schallsignale.*
+
+**Tag 21: Die Peilung steht** · Wangerooge → Spiekeroog, etwa 7 sm · diesig · Nachmittag
+- Geschichte (Vorschlag): Ein Kutter kommt näher und die Peilung bleibt gleich: Kollisionskurs. Smilla zeigt die Linie auf der Karte, Hinnerk meint, er „spüre“, dass es schon gutgeht.
+- Lernen: Wann wird es gefährlich? Peilung, Ausguck, AIS (S2.1, Fahrt, Fragen 125, 272, 273)
+- Navigation: Peilung, Kreuzpeilung und Standort; Tonnen und Feuer in der Karte · Manöver: Steuern nach Kompass mit Peilen
+- Grafik: Konstante Peilung als Linie auf der Karte: Kollisionskurs
+
+**Tag 22: Segler voraus** · Spiekeroog → Langeoog, etwa 6 sm · sonnig, Wind 4 · Mittag
+- Geschichte (Vorschlag): Eine Regatta im Seegatt: begegnen, kreuzen, überholen, und wer bei Seglern ausweicht.
+- Lernen: Begegnen, Kreuzen, Überholen, Segeln (S2.2, Fahrt, Fragen 81, 126, 127, 137)
+- Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK)
+- Selbst steuern: Begegnung: ausweichen oder Kurs halten?
+
+**Tag 23: Wer hat Vorrang?** · Langeoog → Spiekeroog, etwa 11 sm · heiter · ganzer Tag
+- Geschichte (Vorschlag): Draußen vor den Inseln: Fischer, ein Segler und ein manövrierbehindertes Schiff auf einmal. Die Rangfolge an einer Lage.
+- Lernen: Wer hat Vorrang? Die Rangfolge (S2.3, Lage, Fragen 82, 83, 128, 129, 130, 131, 132)
+- Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK)
+- Grafik: Rangfolge als Stufenleiter
+
+**Tag 24: Kurshalter bis zum letzten Augenblick** · Spiekeroog → Tampensiel, etwa 12 sm · Wind 4 · Nachmittag
+- Geschichte (Vorschlag): Im Wangerooger Fahrwasser hält ein Frachter Kurs, und wir sind Kurshalter gegenüber einem Motorboot.
+- Lernen: Kurshalter und der letzte Augenblick (S2.4, Fahrt, Fragen 79, 80, 135, 136, 139, 140)
+- Navigation: Kompass: Missweisung und Ablenkung (rwK, mwK, MgK)
+- Selbst steuern: Kurshalter: wann darf man eingreifen?
+
+**Tag 25: Lichter an** · Tampensiel → Tegeler Plate (vor Anker) · klar · Abend
+- Geschichte (Vorschlag): Ankern vor der Tegeler Plate. Es wird dunkel, ringsum gehen Lichter an: das Lichtersystem als Block.
+- Lernen: Das Lichtersystem (S3.1, Lektion, Fragen 85, 86, 91, 92, 113, 159, 160)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: Wiederholung: Palstek, Rundtörn · Minispiel: Lichter
+- Grafik: Lichter-Drehscheibe
+
+**Tag 26: Nachts vor Anker** · Tegeler Plate (vor Anker) → Neuwerk-Reede · klar, Neumond · Nacht
+- Geschichte (Vorschlag): Nachtfahrt: Ankerlieger und ein Schiff auf Grund. Welche Lichter, welche Körper bei Tag?
+- Lernen: Vor Anker und auf Grund (S3.2, Lage, Fragen 105, 106, 107, 114, 115)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Lichter
+
+**Tag 27: Ein Schlepper mit Anhang** · Neuwerk-Reede → Kuttershaven, etwa 14 sm · Wind 3 · ganzer Tag
+- Geschichte (Vorschlag): Auf der Elbe kommt ein Schleppverband entgegen. Wie lang ist er, und woran erkennt man es?
+- Lernen: Schlepper und Schleppverbände (S3.3, Fahrt, Fragen 93, 94, 95, 96)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+
+**Tag 28: Manövrierunfähig** · Kuttershaven → Lotsenkoog, etwa 6 sm · bedeckt · Mittag
+- Geschichte (Vorschlag): Ein Fischkutter treibt mit Maschinenschaden. Die Crew gibt eine Schleppleine und macht sie unter Last mit dem Stopperstek fest.
+- Lernen: Manövrierunfähig (S3.4, Fahrt, Fragen 97, 98, 99, 100, 101)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: Stopperstek
+
+**Tag 29: Der Bagger im Fahrwasser** · Lotsenkoog → Neuwerk, etwa 13 sm · sonnig · ganzer Tag
+- Geschichte (Vorschlag): Ein Bagger arbeitet im Fahrwasser. Auf welcher Seite kommt man vorbei?
+- Lernen: Manövrierbehindert und Bagger (S3.5, Lage, Fragen 102, 103, 104, 148, 149, 150)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Selbst steuern: Am Bagger vorbei
+
+**Tag 30: Fischer und ein Tiefgänger** · Neuwerk → Außenelbe-Reede, etwa 10 sm · klar · Abend und Nacht
+- Geschichte (Vorschlag): Abends draußen: Fischer mit Netzen und ein tiefgangbehinderter Tanker. Dazu das Feuer von Neuwerk.
+- Lernen: Tiefgangbehinderte und Fischer (S3.6, Lage, Fragen 108, 109, 110, 111, 112, 133, 134)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Leuchtfeuer
+
+**Tag 31: Nebel** · Außenelbe-Reede → Süderpiep, etwa 12 sm · Nebel, Sicht unter 100 m · Morgen
+- Geschichte (Vorschlag): Plötzlich Nebel. Fahrt runter, Ausguck, horchen: Wer tutet da? Spannendster Tag bis hierher.
+- Lernen: Nebel: langsam, horchen, Ausguck (S4.1, Fahrt, Fragen 84, 138, 274); Wer tutet da? Nebelsignale in Fahrt (S4.2, Lage, Fragen 116, 117, 118, 119, 120, 121)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Schallsignale
+- Selbst steuern: Im Nebel: Fahrt reduzieren und anhalten
+
+**Tag 32: Glocke im Nebel** · Süderpiep → Ankerstedt, etwa 8 sm · Nebel lichtet sich · Vormittag
+- Geschichte (Vorschlag): Vor Anker im Nebel läutet eine Glocke, dann ein Gong. Und dann ein Warnsignal, das niemand hören will.
+- Lernen: Glocke, Gong und Warnsignale (S4.3, Lage, Fragen 122, 123, 124, 141, 162, 163, 164)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Schallsignale
+
+#### Akt 4: Wasser, Wind und Wetter
+
+*Gezeiten, Strom, Koppeln, Wetter und Natur (N6, ab jetzt volle Törnplanung).*
+
+**Tag 33: Warten aufs Hochwasser** · Ankerstedt (Hafentag) · sonnig · im Hafen bis zum Abend
+- Geschichte (Vorschlag): Das Boot liegt trocken im Schlick. Bis das Wasser kommt: Ebbe, Flut, Tidenkalender, Wassertiefe berechnen.
+- Lernen: Ebbe und Flut (S7.4, Lektion, Fragen 233, 249, 250, 251, 252, 253, 254, 255)
+- Navigation: Strom, Gezeiten, Versetzung und Wassertiefe
+- Grafik: Gezeitenkurve und Wassertiefe
+
+**Tag 34: Die erste Kartenaufgabe** · Ankerstedt → Ankerplatz bei Alte Weser · heiter · ganzer Tag
+- Geschichte (Vorschlag): Morgens koppeln, Versetzung und die Kartenaufgabe wie in der Prüfung. Ab heute plant die Crew jeden Tag vollständig.
+- Lernen: Koppeln, Versetzung und die Kartenaufgabe (S7.3, Lektion, Fragen 245, 246, 247)
+- Navigation: Strom, Gezeiten, Versetzung und Wassertiefe
+- Selbst steuern: Mit Strom: Vorhaltewinkel steuern
+- Grafik: Strom und Versetzung: Pfeildiagramm
+
+**Tag 35: Hafentag: Ein Tief zieht durch** · Ankerplatz bei Alte Weser (Hafentag) · Sturmtief, Wind 7 · im Hafen
+- Geschichte (Vorschlag): Sturmwarnung im Radio. Die Crew liest die Wetterkarte und lernt Beaufort, solange es draußen kracht.
+- Lernen: Hoch, Tief und die Wetterkarte (S9.1, Lektion, Fragen 260, 262, 263, 264, 265, 266); Wind in Zahlen: Beaufort und Warnungen (S9.2, Lektion, Fragen 261, 267, 268, 269, 270)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: Wiederholung: alle bisher
+- Grafik: Wetterkarte mit Hoch und Tief
+
+**Tag 36: Die Rangerin** · Ankerplatz bei Alte Weser → Möwellum · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Im Nationalpark kommt die Rangerin an Bord: Schutzzonen, Seehundbank, Abstand halten.
 - Lernen: Wattenmeer und Nationalparks (S8.1, Fahrt, Fragen 216, 217, 218, 219, 225)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
 **Tag 37: Saubere See** · Möwellum → Kompasshude, etwa 8 sm · heiter · Nachmittag
 - Geschichte (Vorschlag): Befahrensregeln und Müll: Was darf über Bord, was nicht?
 - Lernen: Befahrensregeln und saubere See (S8.2, Fahrt, Fragen 226, 227, 228, 229, 230)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 38: Zoll und Gefahrgut** · Kompasshude → Neuwerk, etwa 10 sm · bedeckt · Mittag
-- Geschichte (Vorschlag): Ein Zollboot und ein Tanker mit Gefahrgut: wer da kommt und was man dann tut.
-- Lernen: Behörden und Gefahrgut: wer da kommt (S6.3, Fahrt, Fragen 151, 154, 155, 185, 186)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
-
-**Tag 39: Hafentag: Pläne für den Kanal** · Neuwerk (Hafentag) · Regen · im Hafen
-- Geschichte (Vorschlag): Regen. Die Crew plant schon die nächste Reise durch den Nord-Ostsee-Kanal: Regeln, Brücken, Schleusen.
-- Lernen: Der Nord-Ostsee-Kanal, Brücken und Schleusen (S6.5, Lektion, Fragen 173, 174, 175, 176, 178)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: Wiederholung: alle
-
-**Tag 40: Gesperrt!** · Neuwerk → Wangerooge, etwa 22 sm · heiter · Vormittag
-- Geschichte (Vorschlag): Über die Weser nach Westen: Ein Warngebiet ist aktiv, die Route muss geändert werden.
-- Lernen: Gesperrt! Sperr- und Warngebiete (S6.4, Fahrt, Fragen 177, 183, 184, 187, 188, 189)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
-
-**Tag 41: Über das Verkehrstrennungsgebiet nach Helgoland** · Wangerooge → Helgoland, etwa 24 sm · klar, Wind 4 · ganzer Tag
-- Geschichte (Vorschlag): Der große Schlag nach Norden über Jade- und Elbe-Approach: queren im rechten Winkel, die Verkehrszentrale funkt. Abends Helgoland.
-- Lernen: Verkehrstrennungsgebiete und Verkehrszentralen (S6.6, Lage, Fragen 87, 88, 142, 143, 144, 145, 146, 147, 158)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
-
-**Tag 42: Mast stellen** · Helgoland (Hafentag) · Starkwind angesagt · im Hafen
+**Tag 38: Mast stellen** · Kompasshude (Hafentag) · Starkwind angesagt · im Hafen
 - Geschichte (Vorschlag): Der Kran im Hafen: Der Mast kommt hoch, das Boot wächst (O88). Dazu schweres Wetter und Schleppen, weil der Wind zunimmt. Mit dem Kreuzknoten wird das Segel zusammengebunden.
 - Lernen: Schweres Wetter und Schleppen (S9.3, Lektion, Fragen 256, 257, 258, 259, 275)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: Kreuzknoten
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: Kreuzknoten
 
-**Tag 43: Mensch über Bord** · Helgoland → Außenelbe-Reede, etwa 18 sm · raue See, Wind 5 · ganzer Tag
+#### Akt 5: Besondere Gebiete
+
+*Badestellen, Behörden, Kanal, Sperrgebiete, Verkehrstrennung.*
+
+**Tag 39: Badetag** · Kompasshude → Spiekeroog · heiß, Flaute · Mittag
+- Geschichte (Vorschlag): Hochsommer: Badende, ein Wasserskifahrer, Ankerverbot vor dem Strand.
+- Lernen: Baden, Wasserski und Ankerverbot (S6.2, Fahrt, Fragen 169, 170, 171, 179, 180, 181, 182)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Fischfang
+
+**Tag 40: Zoll und Gefahrgut** · Spiekeroog → Neuwerk · bedeckt · Mittag
+- Geschichte (Vorschlag): Ein Zollboot und ein Tanker mit Gefahrgut: wer da kommt und was man dann tut.
+- Lernen: Behörden und Gefahrgut: wer da kommt (S6.3, Fahrt, Fragen 151, 154, 155, 185, 186)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+
+**Tag 41: Hafentag: Pläne für den Kanal** · Neuwerk (Hafentag) · Regen · im Hafen
+- Geschichte (Vorschlag): Regen. Die Crew plant schon die nächste Reise durch den Nord-Ostsee-Kanal: Regeln, Brücken, Schleusen.
+- Lernen: Der Nord-Ostsee-Kanal, Brücken und Schleusen (S6.5, Lektion, Fragen 173, 174, 175, 176, 178)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: Wiederholung: alle
+
+**Tag 42: Gesperrt!** · Neuwerk → Wangerooge, etwa 22 sm · heiter · Vormittag
+- Geschichte (Vorschlag): Über die Weser nach Westen: Ein Warngebiet ist aktiv, die Route muss geändert werden.
+- Lernen: Gesperrt! Sperr- und Warngebiete (S6.4, Fahrt, Fragen 177, 183, 184, 187, 188, 189)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+
+**Tag 43: Über das Verkehrstrennungsgebiet nach Helgoland** · Wangerooge → Helgoland, etwa 24 sm · klar, Wind 4 · ganzer Tag
+- Geschichte (Vorschlag): Der große Schlag nach Norden über Jade- und Elbe-Approach: queren im rechten Winkel, die Verkehrszentrale funkt. Abends Helgoland.
+- Lernen: Verkehrstrennungsgebiete und Verkehrszentralen (S6.6, Lage, Fragen 87, 88, 142, 143, 144, 145, 146, 147, 158)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Selbst steuern: Verkehrstrennungsgebiet im rechten Winkel queren
+- Grafik: Verkehrstrennungsgebiet: Fahrspuren
+
+#### Akt 6: Not an Bord
+
+*Mensch über Bord, Seenot, Praxis für die Prüfung.*
+
+**Tag 44: Mensch über Bord** · Helgoland → Außenelbe-Reede, etwa 18 sm · raue See, Wind 5 · ganzer Tag
 - Geschichte (Vorschlag): Auf der Rückfahrt geht eine Mütze über Bord, dann die Übung im Ernst: Mensch über Bord.
 - Lernen: Mensch über Bord und Kentern (S9.4, Fahrt, Fragen 276, 277, 278)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Manöver: Mensch über Bord
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Manöver: Mensch über Bord
+- Selbst steuern: Mensch-über-Bord-Manöver steuern
+- Grafik: MOB-Kurve: Williamson- und Kurzdreh-Kreis
 
-**Tag 44: Mayday** · Außenelbe-Reede → Kuttershaven, etwa 20 sm · Wind 5, abnehmend · ganzer Tag
+**Tag 45: Mayday** · Außenelbe-Reede → Kuttershaven, etwa 20 sm · Wind 5, abnehmend · ganzer Tag
 - Geschichte (Vorschlag): Eine Yacht schießt rote Signale. Notsignale erkennen, helfen, melden.
 - Lernen: Seenot: Notsignale und Pflichten (S9.5, Lage, Fragen 172, 279, 280, 281, 282, 283, 284, 285)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+- Grafik: Notsignale als Bildreihe
 
-**Tag 45: Zurück im Heimathafen: Knoten und Manöver** · Kuttershaven (Hafentag) · sonnig · im Hafen
+**Tag 46: Zurück im Heimathafen: Knoten und Manöver** · Kuttershaven (Hafentag) · sonnig · im Hafen
 - Geschichte (Vorschlag): Generalprobe für die Praxis: alle Knoten mit echtem Tau, alle Manöver im Hafenbecken.
 - Lernen: Knoten für die Prüfung (S10.1, Lektion); Manöver für die Prüfung (S10.2, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Knoten: alle neun Prüfungsknoten · Manöver: alle sechs Prüfungsmanöver
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: alle neun Prüfungsknoten · Manöver: alle sechs Prüfungsmanöver
+- Selbst steuern: Alle Prüfungsmanöver
 
-**Tag 46: Abendrunde: alle Schallsignale** · Kuttershaven (Hafentag) · klar · Abend
+#### Akt 7: Binnen
+
+*SBF Binnen: Basis ist da, jetzt kommen die 181 Binnenfragen und (freiwillig) das Segeln.*
+
+**Tag 47: Binnen: Wo gilt was?** · Kuttershaven → Sielfleth · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Quirin besucht die Crew an der Binnengrenze. Er erklärt, welche Straßen für Sportboote gelten und wer zuständig ist. Hinnerk: „Auf dem Fluss gibt es kein Gefühl, nur Zeichen.“
+- Lernen: Recht und Zuständigkeiten Binnen (Binnenfragen 73–87)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 48: Fluss und Pegel** · Sielfleth → Kanalschleuse Süd · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Fluss, Wehr, Pegel und die Kennzeichnung des Fahrwassers. Quirin liest den Wasserstand ab, bevor man den Altarm befährt.
+- Lernen: Fahrwasser, Wasserstände und Kennzeichnung (Binnenfragen 88–106)
+- Navigation: Routine: eine kurze Aufgabe aus den bisherigen Stufen
+- Selbst steuern: Am Wehr vorbei: Strömung beachten
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 49: Brücken, Wehre, Schleusen** · Kanalschleuse Süd → Bruchhafen · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Auf dem Kanal: Tafeln, niedrige Brücken, Schleuse mit Drempel und Oberwasser. Der Mast liegt schon wieder.
+- Lernen: Tafelzeichen, Brücken und Schleusen (Binnenfragen 107–119)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 50: Lichter am Fluss** · Bruchhafen → Wehrstadt · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Abend am Fluss: Lichter und Sichtzeichen der Binnenschifffahrt, Schubverbände, Fähren.
+- Lernen: Lichter und Sichtzeichen (Binnenfragen 120–158)
+- Navigation: Routine: eine kurze Aufgabe aus den bisherigen Stufen
+- Selbst steuern: Am Wehr vorbei: Strömung beachten
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 51: Tuten am Fluss** · Wehrstadt → Altarm Ost · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Nebel am Fluss. Binnen tutet man anders: Schallsignale, Glocken, Signale vor Brücken und Schleusen.
+- Lernen: Schallsignale (Binnenfragen 159–172)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 52: Wer weicht aus: Berg und Tal** · Altarm Ost → Brückenkrug · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Berg- und Talfahrt, Kurshalter, Überholen im Engpass. Die Rangfolge ändert sich am Wasser.
+- Lernen: Fahrregeln, Ausweichen und Begegnen (Binnenfragen 173–204)
+- Navigation: Routine: eine kurze Aufgabe aus den bisherigen Stufen
+- Selbst steuern: Am Wehr vorbei: Strömung beachten
+- Grafik: Schleuse oder Fluss als Zeichnung; Berg- und Talfahrt mit Pfeilen
+
+**Tag 53: Nebel, Not und Umwelt am Fluss** · Brückenkrug → Kuttershaven · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Unsichtiges Wetter, Notfall und Umwelt auf Binnengewässern.
+- Lernen: Unsichtiges Wetter, Notfall, Umwelt und Wetter (Binnenfragen 205–220)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 54: Wasserski, Kennzeichen und Besonderes** · Kuttershaven → Tampensiel · wechselnd · ganzer Tag
+- Geschichte (Vorschlag): Letzte Binnen-Etappe: Wasserski, Kennzeichen, Besonderheiten. Dazu die Probefahrt mit allen Binnenthemen.
+- Lernen: Wasserski, Kennzeichen und Besonderes (Binnenfragen 221–253)
+- Navigation: Routine: eine kurze Aufgabe aus den bisherigen Stufen
+- Selbst steuern: Am Wehr vorbei: Strömung beachten
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 55: Segeln: Boot und Stabilität** (freiwillig) · Tampensiel → Altarm Ost · Wind 3 · ganzer Tag
+- Geschichte (Vorschlag): Quirin nimmt die Crew auf seinem Segelboot mit. Bootstypen, Stabilität, Kentern.
+- Lernen: Segeln (Binnenfragen 254–266)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 56: Segeln: Tauwerk, Segel und Wind** (freiwillig) · Altarm Ost (Hafentag) · Wind 3 · ganzer Tag
+- Geschichte (Vorschlag): Tauwerk, Segel und Wind. Hinnerk lernt, dass man gegen den Wind nicht fährt.
+- Lernen: Segeln (Binnenfragen 267–281)
+- Navigation: keine Navigationsaufgabe
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+**Tag 57: Segeln: Trimm und Manöver** (freiwillig) · Altarm Ost (Hafentag) · Wind 3 · ganzer Tag
+- Geschichte (Vorschlag): Trimm, Wende und Halse. Smilla steuert, Hinnerk hängt an der Fock.
+- Lernen: Segeln (Binnenfragen 282–300)
+- Navigation: keine Navigationsaufgabe · Manöver: Wende
+- Grafik: Schleuse oder Fluss als Zeichnung
+
+#### Akt 8: Prüfungsreife
+
+*Wiederholen, Probeprüfung, Harms.*
+
+**Tag 58: Abendrunde: alle Schallsignale** · Altarm Ost (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: alle Signale nebeneinander.
 - Lernen: Hörprüfung: alle Schallsignale (S11.1, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Schallsignale
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Schallsignale
 
-**Tag 47: Abendrunde: Lichter im Vergleich** · Kuttershaven (Hafentag) · klar · Abend
+**Tag 59: Abendrunde: Lichter im Vergleich** · Altarm Ost (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: Lichter und Signalkörper, die man verwechselt.
 - Lernen: Lichter und Signalkörper im Vergleich (S11.2, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag) · Minispiel: Lichter
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Lichter
 
-**Tag 48: Abendrunde: Wer weicht wo aus?** · Kuttershaven (Hafentag) · klar · Abend
+**Tag 60: Abendrunde: Wer weicht wo aus?** · Altarm Ost (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: Ausweichregeln im Vergleich.
 - Lernen: Wer weicht wo aus? (S11.3, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 49: Abendrunde: Zahlen, Fristen, Behörden** · Kuttershaven (Hafentag) · klar · Abend
+**Tag 61: Abendrunde: Zahlen, Fristen, Behörden** · Altarm Ost (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: alles mit Zahlen.
 - Lernen: Zahlen, Fristen, Behörden (S11.4, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 50: Harms kommt an Bord** · Kuttershaven (Hafentag) · sonnig · ganzer Tag
+**Tag 62: Harms kommt an Bord** · Altarm Ost (Hafentag) · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Generalprobe: Theorie, Kartenaufgabe und Praxis wie in der echten Prüfung. Danach ist man Bootsveteran.
 - Lernen: Generalprobe mit Harms (S11.5, Lektion)
-- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe (ab Tag 20 jeden Tag)
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
+
+**Tag 63: Binnen-Generalprobe mit Harms** · Altarm Ost (Hafentag) · sonnig · ganzer Tag
+- Geschichte (Vorschlag): Probeprüfung Binnen: 7 Basisfragen und 23 Binnenfragen, dazu Praxis.
+- Lernen: Wiederholung und Probeprüfung
+- Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: alle Prüfungsknoten · Manöver: alle Prüfungsmanöver
+- Grafik: Schleuse oder Fluss als Zeichnung
 
 ### Alle Fragen
 
@@ -482,152 +661,152 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 | 76 | Wer ist für die Befolgung der Verkehrsvorschriften verantwortlich? | Verantwortung und Recht | 12 | Fahrt | S1.2 |
 | 77 | Was bedeutet "seemännische Sorgfaltspflicht"? | Verantwortung und Recht | 12 | Fahrt | S1.2 |
 | 78 | Welche Sicherheitsmaßnahmen hat der Fahrzeugführer im Rahmen seiner seemännischen Sorgfal… | Verantwortung und Recht | 12 | Fahrt | S1.2 |
-| 79 | Was bedeutet das "Manöver des letzten Augenblicks"? | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 80 | Wann ist das "Manöver des letzten Augenblicks" durchzuführen? | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 81 | Wann gilt ein Fahrzeug als überholendes Fahrzeug? | Ausweichen und Verkehr | 15 | Fahrt | S2.2 |
-| 82 | Wann ist ein Fahrzeug manövrierunfähig? | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 83 | Wann ist ein Fahrzeug manövrierbehindert? | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 84 | Welche besonderen Maßnahmen sind bei verminderter Sicht zu treffen? | Schall- und Warnsignale | 26 | Fahrt | S4.1 |
-| 85 | Welche Vorschriften regeln die Ausrüstung, Anordnung und Anbringung der Positionslaternen… | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 86 | Welche Positionslaternen und Schallsignalanlagen dürfen auf Sportbooten unter deutscher F… | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 87 | Was sind "Verkehrstrennungsgebiete"? | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 88 | Wie sind Verkehrstrennungsgebiete zu befahren? | Ausweichen und Verkehr | 41 | Lage | S6.6 |
+| 79 | Was bedeutet das "Manöver des letzten Augenblicks"? | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 80 | Wann ist das "Manöver des letzten Augenblicks" durchzuführen? | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 81 | Wann gilt ein Fahrzeug als überholendes Fahrzeug? | Ausweichen und Verkehr | 22 | Fahrt | S2.2 |
+| 82 | Wann ist ein Fahrzeug manövrierunfähig? | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 83 | Wann ist ein Fahrzeug manövrierbehindert? | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 84 | Welche besonderen Maßnahmen sind bei verminderter Sicht zu treffen? | Schall- und Warnsignale | 31 | Fahrt | S4.1 |
+| 85 | Welche Vorschriften regeln die Ausrüstung, Anordnung und Anbringung der Positionslaternen… | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 86 | Welche Positionslaternen und Schallsignalanlagen dürfen auf Sportbooten unter deutscher F… | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 87 | Was sind "Verkehrstrennungsgebiete"? | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 88 | Wie sind Verkehrstrennungsgebiete zu befahren? | Ausweichen und Verkehr | 43 | Lage | S6.6 |
 | 89 | Was bedeutet "in Sicht befindlich"? | Verantwortung und Recht | 12 | Fahrt | S1.2 |
 | 90 | Was bedeutet sichere Geschwindigkeit? | Verantwortung und Recht | 12 | Fahrt | S1.2 |
-| 91 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 92 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 93 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 22 | Fahrt | S3.3 |
-| 94 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 22 | Fahrt | S3.3 |
-| 95 | Welche Lichter führen geschleppte Fahrzeuge? | Lichter und Signalkörper | 22 | Fahrt | S3.3 |
-| 96 | Was bedeutet es, wenn jedes Fahrzeug eines Schleppverbandes einen schwarzen Rhombus führt? | Lichter und Signalkörper | 22 | Fahrt | S3.3 |
-| 97 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 23 | Fahrt | S3.4 |
-| 98 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 23 | Fahrt | S3.4 |
-| 99 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 23 | Fahrt | S3.4 |
-| 100 | Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt, o… | Lichter und Signalkörper | 23 | Fahrt | S3.4 |
-| 101 | Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt mi… | Lichter und Signalkörper | 23 | Fahrt | S3.4 |
-| 102 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 103 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 104 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 105 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 21 | Lage | S3.2 |
-| 106 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 21 | Lage | S3.2 |
-| 107 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 21 | Lage | S3.2 |
-| 108 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 109 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 110 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 111 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 112 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 113 | Welche Fahrzeuge führen nur Seitenlichter rot und grün und ein weißes Hecklicht? | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 114 | Was für ein Licht muss ein Ankerlieger von weniger als 50 m Länge führen? | Lichter und Signalkörper | 21 | Lage | S3.2 |
-| 115 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 21 | Lage | S3.2 |
-| 116 | Sie hören bei verminderter Sicht mindestens alle zwei Minuten einen langen Ton mit der Pf… | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 117 | Sie hören bei verminderter Sicht mindestens alle zwei Minuten zwei aufeinander folgende l… | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 118 | Welche Fahrzeuge geben bei verminderter Sicht mindestens alle zwei Minuten drei aufeinand… | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 119 | Welches Fahrzeug gibt bei verminderter Sicht - im Anschluss an das Signal: lang, kurz, ku… | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 120 | Was für ein Schallsignal muss ein Segelfahrzeug in Fahrt von 12 und mehr Meter Länge bei … | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 121 | Welches Schallsignal muss ein Fahrzeug in Fahrt von weniger als 12 m Länge bei vermindert… | Schall- und Warnsignale | 26 | Lage | S4.2 |
-| 122 | Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang … | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 123 | Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang … | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 124 | Welches zusätzliche Schallsignal darf jeder Ankerlieger bei verminderter Sicht geben, um … | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 125 | Woran kann man feststellen, ob die Möglichkeit der Gefahr eines Zusammenstoßes besteht? | Ausweichen und Verkehr | 13 | Fahrt | S2.1 |
-| 126 | Zwei in Sicht befindliche Segelfahrzeuge nähern sich im freien Seeraum oder außerhalb des… | Ausweichen und Verkehr | 15 | Fahrt | S2.2 |
-| 127 | Wie müssen sich zwei in Sicht befindliche Maschinenfahrzeuge verhalten, die sich einander… | Ausweichen und Verkehr | 15 | Fahrt | S2.2 |
-| 128 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 129 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 130 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 131 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 132 | Wie hat sich ein Segelfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegenüber… | Ausweichen und Verkehr | 16 | Lage | S2.3 |
-| 133 | Wie muss man sich gegenüber diesem Fahrzeug verhalten? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 134 | Wie muss man sich gegenüber diesem Fahrzeug verhalten? | Lichter und Signalkörper | 25 | Lage | S3.6 |
-| 135 | Wie verhält sich der Kurshaltepflichtige vor Einleitung des Manövers des letzten Augenbli… | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 136 | Wie muss sich ein Ausweichpflichtiger gegenüber einem Kurshalter verhalten? | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 137 | Wie hat sich ein überholendes Fahrzeug zu verhalten? | Ausweichen und Verkehr | 15 | Fahrt | S2.2 |
-| 138 | Wie hat man sich zu verhalten, wenn man bei verminderter Sicht anscheinend vorlicher als … | Schall- und Warnsignale | 26 | Fahrt | S4.1 |
-| 139 | Wie verhält man sich als Kurshalter, wenn man feststellt, dass ein anderes Fahrzeug seine… | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 140 | Welche Bedeutung hat folgendes Schallsignal? | Ausweichen und Verkehr | 17 | Fahrt | S2.4 |
-| 141 | Welche Bedeutung hat folgendes Schallsignal? | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 142 | Was ist bei der Benutzung eines Verkehrstrennungsgebietes zu beachten? | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 143 | Was ist hinsichtlich des Querens eines Verkehrstrennungsgebietes zu beachten? | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 144 | In welcher Vorschrift findet man die Regeln zum Befahren von Verkehrstrennungsgebieten? | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 145 | Wie hat sich ein Maschinenfahrzeug bei Kollisionsgefahr in einem Einbahnweg eines Verkehr… | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 146 | Wie hat sich ein Segelfahrzeug beim Queren eines Verkehrstrennungsgebietes gegenüber eine… | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 147 | Wie haben sich Fahrzeuge von weniger als 20 m Länge oder Segelfahrzeuge in Verkehrstrennu… | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 148 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 149 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 150 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 24 | Lage | S3.5 |
-| 151 | Was ist das für ein Fahrzeug und was ist zu beachten? | Verantwortung und Recht | 38 | Fahrt | S6.3 |
+| 91 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 92 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 93 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 27 | Fahrt | S3.3 |
+| 94 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 27 | Fahrt | S3.3 |
+| 95 | Welche Lichter führen geschleppte Fahrzeuge? | Lichter und Signalkörper | 27 | Fahrt | S3.3 |
+| 96 | Was bedeutet es, wenn jedes Fahrzeug eines Schleppverbandes einen schwarzen Rhombus führt? | Lichter und Signalkörper | 27 | Fahrt | S3.3 |
+| 97 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 28 | Fahrt | S3.4 |
+| 98 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 28 | Fahrt | S3.4 |
+| 99 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 28 | Fahrt | S3.4 |
+| 100 | Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt, o… | Lichter und Signalkörper | 28 | Fahrt | S3.4 |
+| 101 | Welche Lichter führen manövrierunfähige Fahrzeuge von 12 und mehr Meter Länge in Fahrt mi… | Lichter und Signalkörper | 28 | Fahrt | S3.4 |
+| 102 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 103 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 104 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 105 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 26 | Lage | S3.2 |
+| 106 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 26 | Lage | S3.2 |
+| 107 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 26 | Lage | S3.2 |
+| 108 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 109 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 110 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 111 | Welches Fahrzeug führt diese Lichter? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 112 | Welches Fahrzeug führt diese Signalkörper? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 113 | Welche Fahrzeuge führen nur Seitenlichter rot und grün und ein weißes Hecklicht? | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 114 | Was für ein Licht muss ein Ankerlieger von weniger als 50 m Länge führen? | Lichter und Signalkörper | 26 | Lage | S3.2 |
+| 115 | Welches Fahrzeug muss diese Lichter führen? | Lichter und Signalkörper | 26 | Lage | S3.2 |
+| 116 | Sie hören bei verminderter Sicht mindestens alle zwei Minuten einen langen Ton mit der Pf… | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 117 | Sie hören bei verminderter Sicht mindestens alle zwei Minuten zwei aufeinander folgende l… | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 118 | Welche Fahrzeuge geben bei verminderter Sicht mindestens alle zwei Minuten drei aufeinand… | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 119 | Welches Fahrzeug gibt bei verminderter Sicht - im Anschluss an das Signal: lang, kurz, ku… | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 120 | Was für ein Schallsignal muss ein Segelfahrzeug in Fahrt von 12 und mehr Meter Länge bei … | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 121 | Welches Schallsignal muss ein Fahrzeug in Fahrt von weniger als 12 m Länge bei vermindert… | Schall- und Warnsignale | 31 | Lage | S4.2 |
+| 122 | Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang … | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 123 | Welches Fahrzeug gibt bei verminderter Sicht mindestens jede Minute etwa 5 Sekunden lang … | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 124 | Welches zusätzliche Schallsignal darf jeder Ankerlieger bei verminderter Sicht geben, um … | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 125 | Woran kann man feststellen, ob die Möglichkeit der Gefahr eines Zusammenstoßes besteht? | Ausweichen und Verkehr | 21 | Fahrt | S2.1 |
+| 126 | Zwei in Sicht befindliche Segelfahrzeuge nähern sich im freien Seeraum oder außerhalb des… | Ausweichen und Verkehr | 22 | Fahrt | S2.2 |
+| 127 | Wie müssen sich zwei in Sicht befindliche Maschinenfahrzeuge verhalten, die sich einander… | Ausweichen und Verkehr | 22 | Fahrt | S2.2 |
+| 128 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 129 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 130 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 131 | Wie hat sich ein Maschinenfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegen… | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 132 | Wie hat sich ein Segelfahrzeug im freien Seeraum oder außerhalb des Fahrwassers gegenüber… | Ausweichen und Verkehr | 23 | Lage | S2.3 |
+| 133 | Wie muss man sich gegenüber diesem Fahrzeug verhalten? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 134 | Wie muss man sich gegenüber diesem Fahrzeug verhalten? | Lichter und Signalkörper | 30 | Lage | S3.6 |
+| 135 | Wie verhält sich der Kurshaltepflichtige vor Einleitung des Manövers des letzten Augenbli… | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 136 | Wie muss sich ein Ausweichpflichtiger gegenüber einem Kurshalter verhalten? | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 137 | Wie hat sich ein überholendes Fahrzeug zu verhalten? | Ausweichen und Verkehr | 22 | Fahrt | S2.2 |
+| 138 | Wie hat man sich zu verhalten, wenn man bei verminderter Sicht anscheinend vorlicher als … | Schall- und Warnsignale | 31 | Fahrt | S4.1 |
+| 139 | Wie verhält man sich als Kurshalter, wenn man feststellt, dass ein anderes Fahrzeug seine… | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 140 | Welche Bedeutung hat folgendes Schallsignal? | Ausweichen und Verkehr | 24 | Fahrt | S2.4 |
+| 141 | Welche Bedeutung hat folgendes Schallsignal? | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 142 | Was ist bei der Benutzung eines Verkehrstrennungsgebietes zu beachten? | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 143 | Was ist hinsichtlich des Querens eines Verkehrstrennungsgebietes zu beachten? | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 144 | In welcher Vorschrift findet man die Regeln zum Befahren von Verkehrstrennungsgebieten? | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 145 | Wie hat sich ein Maschinenfahrzeug bei Kollisionsgefahr in einem Einbahnweg eines Verkehr… | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 146 | Wie hat sich ein Segelfahrzeug beim Queren eines Verkehrstrennungsgebietes gegenüber eine… | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 147 | Wie haben sich Fahrzeuge von weniger als 20 m Länge oder Segelfahrzeuge in Verkehrstrennu… | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 148 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 149 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 150 | Was ist das für ein Fahrzeug und was ist zu beachten? | Lichter und Signalkörper | 29 | Lage | S3.5 |
+| 151 | Was ist das für ein Fahrzeug und was ist zu beachten? | Verantwortung und Recht | 40 | Fahrt | S6.3 |
 | 152 | Wo ist festgelegt, welche Wasserflächen Seeschifffahrtsstraßen sind? | Verantwortung und Recht | 12 | Lektion | S1.1 |
 | 153 | Welche örtlichen Sondervorschriften zusätzlich zur Seeschifffahrtsstraßen-Ordnung (SeeSch… | Verantwortung und Recht | 12 | Lektion | S1.1 |
-| 154 | Was ist das für ein Fahrzeug und was ist zu beachten? | Verantwortung und Recht | 38 | Fahrt | S6.3 |
-| 155 | Wer gibt das Sichtzeichen "Leuchtkugeln mit weißen Sternen" und was ist zu beachten? | Verantwortung und Recht | 38 | Fahrt | S6.3 |
-| 156 | Was sind Fahrwasser im Sinne der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und der Schi… | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 157 | Welches ist - außer in Wattgebieten - die Steuerbordseite eines Fahrwassers? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 158 | Welche verkehrsrechtliche Verpflichtung hat ein Fahrzeugführer nach § 3 der Seeschifffahr… | Ausweichen und Verkehr | 41 | Lage | S6.6 |
-| 159 | Welches Licht muss ein Fahrzeug unter Segel von weniger als 12 m Länge oder ein Fahrzeug … | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 160 | Wann darf ein Maschinenfahrzeug von weniger als 7 m Länge auf Seeschifffahrtsstraßen nich… | Lichter und Signalkörper | 20 | Lektion | S3.1 |
-| 161 | Welches Schallsignal ist beim Einlaufen in Fahrwasser und Häfen zu geben, wenn die Verkeh… | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 162 | Welche Bedeutung hat folgendes Schallsignal? | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 163 | Wie lautet das "allgemeine Gefahr- und Warnsignal"? | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 164 | Wann ist das "allgemeine Gefahr- und Warnsignal" zu geben? | Schall- und Warnsignale | 27 | Lage | S4.3 |
-| 165 | Wie haben sich Fahrzeuge zu verhalten, die in ein Fahrwasser einlaufen, ein Fahrwasser qu… | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 166 | Wie haben Segelfahrzeuge im Fahrwasser, die nicht deutlich der Richtung eines Fahrwassers… | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 167 | Welche Ausweichregeln gelten außerhalb des Fahrwassers? | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 168 | Wo ist das Überholen verboten? | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 169 | Wo darf Wasserski gelaufen, Wassermotorrad gefahren oder mit einem Segelsurfbrett gefahre… | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 170 | Wie haben sich Führer von Zugbooten der Wasserskiläufer bzw. Wassermotorradfahrer und Seg… | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 171 | Wo ist das Ankern verboten? | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 172 | Was ist zu unternehmen, um die Schifffahrt zu warnen, wenn das eigene Fahrzeug gesunken i… | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 173 | Bei welchem Signal dürfen Sportfahrzeuge in die Schleusen des Nord-Ostsee-Kanals einfahre… | Verantwortung und Recht | 39 | Lektion | S6.5 |
-| 174 | Wo findet man Regeln für das Durchfahren des Nord-Ostsee-Kanals (NOK)? | Verantwortung und Recht | 39 | Lektion | S6.5 |
-| 175 | Was bedeuten im Nord-Ostsee-Kanal an einem Weichensignalmast drei unterbrochene rote Lich… | Verantwortung und Recht | 39 | Lektion | S6.5 |
-| 176 | Welche Bedeutung hat folgendes Tafelzeichen? | Verantwortung und Recht | 39 | Lektion | S6.5 |
-| 177 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 178 | Welche Bedeutung hat folgendes Schallsignal und was ist zu beachten? | Verantwortung und Recht | 39 | Lektion | S6.5 |
-| 179 | Welche Bedeutung hat folgendes Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 180 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 181 | Welche Höchstgeschwindigkeit darf vor Stellen mit erkennbarem Badebetrieb - außerhalb des… | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 182 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 35 | Fahrt | S6.2 |
-| 183 | Woran ist ein militärisches Warngebiet zu erkennen, das wegen Schießübungen für die Schif… | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 184 | Welche Bedeutung haben folgende Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 185 | Welche Bedeutung hat folgendes Flaggensignal? | Verantwortung und Recht | 38 | Fahrt | S6.3 |
-| 186 | Welche Bedeutung hat folgendes Schallsignal? | Verantwortung und Recht | 38 | Fahrt | S6.3 |
-| 187 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 188 | Welche Bedeutung hat folgendes Schallsignal? | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 189 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 40 | Fahrt | S6.4 |
-| 190 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 191 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 192 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 193 | Welche Bedeutung hat folgende(s) Tonne/Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 194 | Welche Bedeutung hat folgende(s) Tonne/Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 30 | Fahrt | S5.2 |
-| 195 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 31 | Fahrt | S5.3 |
-| 196 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 31 | Fahrt | S5.3 |
-| 197 | Welche Bedeutung hat folgende Kennung: "Oc (2) R. Whis."? | Seezeichen, Tafeln und Fahrwasser | 31 | Fahrt | S5.3 |
-| 198 | Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Steuerbordseite des Fahr… | Seezeichen, Tafeln und Fahrwasser | 31 | Fahrt | S5.3 |
-| 199 | Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Backbordseite des Fahrwa… | Seezeichen, Tafeln und Fahrwasser | 31 | Fahrt | S5.3 |
-| 200 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 201 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 202 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 203 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 204 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 205 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 206 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 207 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 32 | Lage | S5.4 |
-| 208 | Was kennzeichnet eines der folgenden Schifffahrtszeichen und welches Verhalten wird gefor… | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 209 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung: Fl. (2)? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 210 | Was versteht man unter einem Leitfeuer? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 211 | Wie navigiert man mittels eines Leitfeuers? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 212 | Was versteht man unter einem Richtfeuer? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 213 | Was versteht man unter einem Quermarkenfeuer? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 214 | Wie navigiert man mittels eines Quermarkenfeuers? | Seezeichen, Tafeln und Fahrwasser | 33 | Lage | S5.5 |
-| 215 | Was versteht man unter einem unterbrochenen Feuer? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
+| 154 | Was ist das für ein Fahrzeug und was ist zu beachten? | Verantwortung und Recht | 40 | Fahrt | S6.3 |
+| 155 | Wer gibt das Sichtzeichen "Leuchtkugeln mit weißen Sternen" und was ist zu beachten? | Verantwortung und Recht | 40 | Fahrt | S6.3 |
+| 156 | Was sind Fahrwasser im Sinne der Seeschifffahrtsstraßen-Ordnung (SeeSchStrO) und der Schi… | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 157 | Welches ist - außer in Wattgebieten - die Steuerbordseite eines Fahrwassers? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 158 | Welche verkehrsrechtliche Verpflichtung hat ein Fahrzeugführer nach § 3 der Seeschifffahr… | Ausweichen und Verkehr | 43 | Lage | S6.6 |
+| 159 | Welches Licht muss ein Fahrzeug unter Segel von weniger als 12 m Länge oder ein Fahrzeug … | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 160 | Wann darf ein Maschinenfahrzeug von weniger als 7 m Länge auf Seeschifffahrtsstraßen nich… | Lichter und Signalkörper | 25 | Lektion | S3.1 |
+| 161 | Welches Schallsignal ist beim Einlaufen in Fahrwasser und Häfen zu geben, wenn die Verkeh… | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 162 | Welche Bedeutung hat folgendes Schallsignal? | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 163 | Wie lautet das "allgemeine Gefahr- und Warnsignal"? | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 164 | Wann ist das "allgemeine Gefahr- und Warnsignal" zu geben? | Schall- und Warnsignale | 32 | Lage | S4.3 |
+| 165 | Wie haben sich Fahrzeuge zu verhalten, die in ein Fahrwasser einlaufen, ein Fahrwasser qu… | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 166 | Wie haben Segelfahrzeuge im Fahrwasser, die nicht deutlich der Richtung eines Fahrwassers… | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 167 | Welche Ausweichregeln gelten außerhalb des Fahrwassers? | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 168 | Wo ist das Überholen verboten? | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 169 | Wo darf Wasserski gelaufen, Wassermotorrad gefahren oder mit einem Segelsurfbrett gefahre… | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 170 | Wie haben sich Führer von Zugbooten der Wasserskiläufer bzw. Wassermotorradfahrer und Seg… | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 171 | Wo ist das Ankern verboten? | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 172 | Was ist zu unternehmen, um die Schifffahrt zu warnen, wenn das eigene Fahrzeug gesunken i… | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 173 | Bei welchem Signal dürfen Sportfahrzeuge in die Schleusen des Nord-Ostsee-Kanals einfahre… | Verantwortung und Recht | 41 | Lektion | S6.5 |
+| 174 | Wo findet man Regeln für das Durchfahren des Nord-Ostsee-Kanals (NOK)? | Verantwortung und Recht | 41 | Lektion | S6.5 |
+| 175 | Was bedeuten im Nord-Ostsee-Kanal an einem Weichensignalmast drei unterbrochene rote Lich… | Verantwortung und Recht | 41 | Lektion | S6.5 |
+| 176 | Welche Bedeutung hat folgendes Tafelzeichen? | Verantwortung und Recht | 41 | Lektion | S6.5 |
+| 177 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 178 | Welche Bedeutung hat folgendes Schallsignal und was ist zu beachten? | Verantwortung und Recht | 41 | Lektion | S6.5 |
+| 179 | Welche Bedeutung hat folgendes Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 180 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 181 | Welche Höchstgeschwindigkeit darf vor Stellen mit erkennbarem Badebetrieb - außerhalb des… | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 182 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 39 | Fahrt | S6.2 |
+| 183 | Woran ist ein militärisches Warngebiet zu erkennen, das wegen Schießübungen für die Schif… | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 184 | Welche Bedeutung haben folgende Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 185 | Welche Bedeutung hat folgendes Flaggensignal? | Verantwortung und Recht | 40 | Fahrt | S6.3 |
+| 186 | Welche Bedeutung hat folgendes Schallsignal? | Verantwortung und Recht | 40 | Fahrt | S6.3 |
+| 187 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 188 | Welche Bedeutung hat folgendes Schallsignal? | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 189 | Welche Bedeutung haben folgende Sichtzeichen? | Seezeichen, Tafeln und Fahrwasser | 42 | Fahrt | S6.4 |
+| 190 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 191 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 192 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 193 | Welche Bedeutung hat folgende(s) Tonne/Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 194 | Welche Bedeutung hat folgende(s) Tonne/Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 16 | Fahrt | S5.2 |
+| 195 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 17 | Fahrt | S5.3 |
+| 196 | Welche Bedeutung hat folgende Tonne? | Seezeichen, Tafeln und Fahrwasser | 17 | Fahrt | S5.3 |
+| 197 | Welche Bedeutung hat folgende Kennung: "Oc (2) R. Whis."? | Seezeichen, Tafeln und Fahrwasser | 17 | Fahrt | S5.3 |
+| 198 | Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Steuerbordseite des Fahr… | Seezeichen, Tafeln und Fahrwasser | 17 | Fahrt | S5.3 |
+| 199 | Welche Kennung und Farbe haben die Feuer der Leuchttonnen an der Backbordseite des Fahrwa… | Seezeichen, Tafeln und Fahrwasser | 17 | Fahrt | S5.3 |
+| 200 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 201 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 202 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 203 | Welche Bedeutung hat folgendes Schifffahrtszeichen? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 204 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 205 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 206 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 207 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung? | Seezeichen, Tafeln und Fahrwasser | 18 | Lage | S5.4 |
+| 208 | Was kennzeichnet eines der folgenden Schifffahrtszeichen und welches Verhalten wird gefor… | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 209 | Welche Bedeutung hat das Feuer einer Leuchttonne mit folgender Kennung: Fl. (2)? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 210 | Was versteht man unter einem Leitfeuer? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 211 | Wie navigiert man mittels eines Leitfeuers? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 212 | Was versteht man unter einem Richtfeuer? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 213 | Was versteht man unter einem Quermarkenfeuer? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 214 | Wie navigiert man mittels eines Quermarkenfeuers? | Seezeichen, Tafeln und Fahrwasser | 19 | Lage | S5.5 |
+| 215 | Was versteht man unter einem unterbrochenen Feuer? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
 | 216 | Wo findet man die Grenzen der Naturschutzgebiete auf See? | Wetter, Natur und Umwelt | 36 | Fahrt | S8.1 |
 | 217 | Wo findet man auszugsweise Hinweise zu Befahrensmöglichkeiten der Naturschutzgebiete in K… | Wetter, Natur und Umwelt | 36 | Fahrt | S8.1 |
 | 218 | Weshalb sollte das Anlaufen von Seehundbänken im Bereich der Watten vermieden werden? | Wetter, Natur und Umwelt | 36 | Fahrt | S8.1 |
 | 219 | Welcher Abstand sollte gemäß den "10 Goldenen Regeln" für das Verhalten von Wassersportle… | Wetter, Natur und Umwelt | 36 | Fahrt | S8.1 |
-| 220 | Was versteht man unter einem Blinkfeuer? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
-| 221 | Was versteht man unter einem Blitzfeuer? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
-| 222 | Was versteht man unter einem Funkelfeuer? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
-| 223 | Was versteht man unter einem Gleichtaktfeuer? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
-| 224 | Was versteht man unter der Wiederkehr eines Leuchtfeuers? | Seezeichen, Tafeln und Fahrwasser | 29 | Lektion | S5.1 |
+| 220 | Was versteht man unter einem Blinkfeuer? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
+| 221 | Was versteht man unter einem Blitzfeuer? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
+| 222 | Was versteht man unter einem Funkelfeuer? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
+| 223 | Was versteht man unter einem Gleichtaktfeuer? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
+| 224 | Was versteht man unter der Wiederkehr eines Leuchtfeuers? | Seezeichen, Tafeln und Fahrwasser | 15 | Lektion | S5.1 |
 | 225 | Wie hat man sich beim Befahren von Naturschutzgebieten und Nationalparken zu verhalten? | Wetter, Natur und Umwelt | 36 | Fahrt | S8.1 |
 | 226 | Welche Sondervorschriften enthalten die örtlichen Befahrensregelungen in den Naturschutzg… | Wetter, Natur und Umwelt | 37 | Fahrt | S8.2 |
 | 227 | Welche Verkehre können in einer ausgewiesenen Erlaubniszone zugelassen werden? | Wetter, Natur und Umwelt | 37 | Fahrt | S8.2 |
@@ -636,7 +815,7 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 | 230 | Welche Verpflichtung hat man als Bootsführer, um einen Beitrag zur Reinhaltung der Gewäss… | Wetter, Natur und Umwelt | 37 | Fahrt | S8.2 |
 | 231 | Welche amtlichen nautischen Veröffentlichungen geben Aufschluss über das Fahrtgebiet? | Navigation und Gezeiten | 13 | Lektion | S7.1 |
 | 232 | Welche Angaben enthalten die Nachrichten für Seefahrer (NfS) und die Bekanntmachungen für… | Navigation und Gezeiten | 13 | Lektion | S7.1 |
-| 233 | Welchen Effekt können Wind und gegenläufiger Tidenstrom im Bereich von Seegaten haben? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
+| 233 | Welchen Effekt können Wind und gegenläufiger Tidenstrom im Bereich von Seegaten haben? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
 | 234 | Wo findet man Angaben über Küsten-, Häfen- und Naturverhältnisse? | Navigation und Gezeiten | 13 | Lektion | S7.1 |
 | 235 | Wovon sollte man sich vor Gebrauch einer Seekarte überzeugen? | Navigation und Gezeiten | 13 | Lektion | S7.1 |
 | 236 | In welchen Maßeinheiten werden in deutschen Seekarten die Tiefen angegeben? | Navigation und Gezeiten | 13 | Lektion | S7.1 |
@@ -648,45 +827,45 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 | 242 | Woraus entnimmt man die Magnetkompassablenkung? | Navigation und Gezeiten | 14 | Lektion | S7.2 |
 | 243 | Was versteht man in der terrestrischen Navigation unter einer Peilung? | Navigation und Gezeiten | 14 | Lektion | S7.2 |
 | 244 | Wie erhält man eine Standlinie? | Navigation und Gezeiten | 14 | Lektion | S7.2 |
-| 245 | Was versteht man unter Stromversetzung? | Navigation und Gezeiten | 19 | Lektion | S7.3 |
-| 246 | Was versteht man unter Windversetzung? | Navigation und Gezeiten | 19 | Lektion | S7.3 |
-| 247 | Was versteht man unter einem Koppelort? | Navigation und Gezeiten | 19 | Lektion | S7.3 |
+| 245 | Was versteht man unter Stromversetzung? | Navigation und Gezeiten | 34 | Lektion | S7.3 |
+| 246 | Was versteht man unter Windversetzung? | Navigation und Gezeiten | 34 | Lektion | S7.3 |
+| 247 | Was versteht man unter einem Koppelort? | Navigation und Gezeiten | 34 | Lektion | S7.3 |
 | 248 | Was ist bei der Aufstellung eines Magnetkompasses an Bord zu beachten? | Navigation und Gezeiten | 14 | Lektion | S7.2 |
-| 249 | Was versteht man unter Ebbe? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 250 | Was versteht man unter Flut? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 251 | Was versteht man unter einer Tide? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 252 | Was versteht man unter einem Niedrigwasser? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 253 | Was versteht man unter einem Hochwasser? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 254 | Was versteht man unter "Tidenhub"? | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 255 | Wo sind für einen bestimmten Ort die Angaben über Hoch- und Niedrigwasserzeiten und den T… | Navigation und Gezeiten | 18 | Lektion | S7.4 |
-| 256 | Wie lang sollte eine Schleppleine bei starkem Seegang sein? | Bordsprache, Manövrieren und Seemannschaft | 42 | Lektion | S9.3 |
-| 257 | Was ist zu beachten, wenn ein Sportboot geschleppt werden soll? | Bordsprache, Manövrieren und Seemannschaft | 42 | Lektion | S9.3 |
-| 258 | Womit kann ein steuerunfähiges Sportboot mit dem Bug in den Wind gehalten werden? | Bordsprache, Manövrieren und Seemannschaft | 42 | Lektion | S9.3 |
-| 259 | Warum sollte bei starkem Seegang die Fahrt vermindert werden? | Bordsprache, Manövrieren und Seemannschaft | 42 | Lektion | S9.3 |
-| 260 | Was bedeutet folgendes Zeichen? | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 261 | Welche Angaben liefert die Beaufort-Skala? | Wetter, Natur und Umwelt | 28 | Lektion | S9.2 |
-| 262 | Wie werden Orte gleichen Luftdrucks in der Wetterkarte dargestellt und in welcher Maßeinh… | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 263 | Womit muss bei rasch fallendem Luftdruck gerechnet werden? | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 264 | Was bedeuten die in der Wetterkarte abgebildeten Isobaren? | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 265 | Was zeigt die folgende Abbildung? | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 266 | Was zeigt die folgende Abbildung? | Wetter, Natur und Umwelt | 28 | Lektion | S9.1 |
-| 267 | Für welche Windstärken wird eine Starkwindwarnung herausgegeben? | Wetter, Natur und Umwelt | 28 | Lektion | S9.2 |
-| 268 | Für welche Windstärken wird eine Sturmwarnung herausgegeben? | Wetter, Natur und Umwelt | 28 | Lektion | S9.2 |
-| 269 | Was ist in amtlichen Wetterberichten unter "frischem Wind" zu verstehen? | Wetter, Natur und Umwelt | 28 | Lektion | S9.2 |
-| 270 | Was ist in amtlichen Wetterberichten unter "schwerem Sturm", "orkanartigem Sturm" und "Or… | Wetter, Natur und Umwelt | 28 | Lektion | S9.2 |
-| 271 | Wie hat man seine Fahrweise im Fahrwasser bei verminderter Sicht aufgrund seemännischer S… | Ausweichen und Verkehr | 34 | Fahrt | S6.1 |
-| 272 | Wozu dient primär das Automatische Identifikationssystem (AIS)? | Ausweichen und Verkehr | 13 | Fahrt | S2.1 |
-| 273 | Welche Informationen können über das Automatische Identifikationssystem (AIS) ausgetausch… | Ausweichen und Verkehr | 13 | Fahrt | S2.1 |
-| 274 | Welche Sicherheitsmaßnahmen sind an Bord aufgrund der seemännischen Sorgfaltspflicht nebe… | Schall- und Warnsignale | 26 | Fahrt | S4.1 |
-| 275 | Welche Sicherheitsmaßnahmen sind auf See vor Eintritt von schwerem Wetter (Starkwind, Stu… | Bordsprache, Manövrieren und Seemannschaft | 42 | Lektion | S9.3 |
-| 276 | Mit welchen Hilfsmitteln kann eine im Wasser treibende Person schnell und sicher an Bord … | Sicherheit und Seenot | 43 | Fahrt | S9.4 |
-| 277 | Was ist zu tun, wenn das Fahrzeug gekentert ist? | Sicherheit und Seenot | 43 | Fahrt | S9.4 |
-| 278 | Wie verhindert man das Überbordfallen von Personen bei starkem Seegang? | Sicherheit und Seenot | 43 | Fahrt | S9.4 |
-| 279 | Welche Notsignale können gegeben werden? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 280 | Was bedeutet das Flaggensignal "NC" auf einem Fahrzeug? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 281 | Was bedeutet anhaltendes Ertönen eines Nebelsignalgerätes von einem Fahrzeug? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 282 | Was bedeutet das folgende durch Licht oder Schallsignal gegebene Morsesignal? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 283 | Was bedeutet eine Leuchtrakete mit einem roten Stern? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 284 | Was bedeutet folgendes Flaggensignal? | Sicherheit und Seenot | 44 | Lage | S9.5 |
-| 285 | Was bedeutet auf einem Schiff eines der folgenden Signale? | Sicherheit und Seenot | 44 | Lage | S9.5 |
+| 249 | Was versteht man unter Ebbe? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 250 | Was versteht man unter Flut? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 251 | Was versteht man unter einer Tide? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 252 | Was versteht man unter einem Niedrigwasser? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 253 | Was versteht man unter einem Hochwasser? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 254 | Was versteht man unter "Tidenhub"? | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 255 | Wo sind für einen bestimmten Ort die Angaben über Hoch- und Niedrigwasserzeiten und den T… | Navigation und Gezeiten | 33 | Lektion | S7.4 |
+| 256 | Wie lang sollte eine Schleppleine bei starkem Seegang sein? | Bordsprache, Manövrieren und Seemannschaft | 38 | Lektion | S9.3 |
+| 257 | Was ist zu beachten, wenn ein Sportboot geschleppt werden soll? | Bordsprache, Manövrieren und Seemannschaft | 38 | Lektion | S9.3 |
+| 258 | Womit kann ein steuerunfähiges Sportboot mit dem Bug in den Wind gehalten werden? | Bordsprache, Manövrieren und Seemannschaft | 38 | Lektion | S9.3 |
+| 259 | Warum sollte bei starkem Seegang die Fahrt vermindert werden? | Bordsprache, Manövrieren und Seemannschaft | 38 | Lektion | S9.3 |
+| 260 | Was bedeutet folgendes Zeichen? | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 261 | Welche Angaben liefert die Beaufort-Skala? | Wetter, Natur und Umwelt | 35 | Lektion | S9.2 |
+| 262 | Wie werden Orte gleichen Luftdrucks in der Wetterkarte dargestellt und in welcher Maßeinh… | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 263 | Womit muss bei rasch fallendem Luftdruck gerechnet werden? | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 264 | Was bedeuten die in der Wetterkarte abgebildeten Isobaren? | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 265 | Was zeigt die folgende Abbildung? | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 266 | Was zeigt die folgende Abbildung? | Wetter, Natur und Umwelt | 35 | Lektion | S9.1 |
+| 267 | Für welche Windstärken wird eine Starkwindwarnung herausgegeben? | Wetter, Natur und Umwelt | 35 | Lektion | S9.2 |
+| 268 | Für welche Windstärken wird eine Sturmwarnung herausgegeben? | Wetter, Natur und Umwelt | 35 | Lektion | S9.2 |
+| 269 | Was ist in amtlichen Wetterberichten unter "frischem Wind" zu verstehen? | Wetter, Natur und Umwelt | 35 | Lektion | S9.2 |
+| 270 | Was ist in amtlichen Wetterberichten unter "schwerem Sturm", "orkanartigem Sturm" und "Or… | Wetter, Natur und Umwelt | 35 | Lektion | S9.2 |
+| 271 | Wie hat man seine Fahrweise im Fahrwasser bei verminderter Sicht aufgrund seemännischer S… | Ausweichen und Verkehr | 20 | Fahrt | S6.1 |
+| 272 | Wozu dient primär das Automatische Identifikationssystem (AIS)? | Ausweichen und Verkehr | 21 | Fahrt | S2.1 |
+| 273 | Welche Informationen können über das Automatische Identifikationssystem (AIS) ausgetausch… | Ausweichen und Verkehr | 21 | Fahrt | S2.1 |
+| 274 | Welche Sicherheitsmaßnahmen sind an Bord aufgrund der seemännischen Sorgfaltspflicht nebe… | Schall- und Warnsignale | 31 | Fahrt | S4.1 |
+| 275 | Welche Sicherheitsmaßnahmen sind auf See vor Eintritt von schwerem Wetter (Starkwind, Stu… | Bordsprache, Manövrieren und Seemannschaft | 38 | Lektion | S9.3 |
+| 276 | Mit welchen Hilfsmitteln kann eine im Wasser treibende Person schnell und sicher an Bord … | Sicherheit und Seenot | 44 | Fahrt | S9.4 |
+| 277 | Was ist zu tun, wenn das Fahrzeug gekentert ist? | Sicherheit und Seenot | 44 | Fahrt | S9.4 |
+| 278 | Wie verhindert man das Überbordfallen von Personen bei starkem Seegang? | Sicherheit und Seenot | 44 | Fahrt | S9.4 |
+| 279 | Welche Notsignale können gegeben werden? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 280 | Was bedeutet das Flaggensignal "NC" auf einem Fahrzeug? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 281 | Was bedeutet anhaltendes Ertönen eines Nebelsignalgerätes von einem Fahrzeug? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 282 | Was bedeutet das folgende durch Licht oder Schallsignal gegebene Morsesignal? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 283 | Was bedeutet eine Leuchtrakete mit einem roten Stern? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 284 | Was bedeutet folgendes Flaggensignal? | Sicherheit und Seenot | 45 | Lage | S9.5 |
+| 285 | Was bedeutet auf einem Schiff eines der folgenden Signale? | Sicherheit und Seenot | 45 | Lage | S9.5 |
 <!-- PLAN:END -->
