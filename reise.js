@@ -1,148 +1,204 @@
-/* Die Reise am Kartentisch (VISION.md H3, M7, M8, M10): Probe-Etappe zum Durchspielen.
-   Nachgeladen über reiseOeffnen() (index.html). Daten in data/reise.json (Sätze der Crew sind Platzhalter, B164).
-   Ablauf einer Etappe: Tagesbesprechung → Törnplanung → Kajütenfunk → Fahrt → Knoten-Station → Abendrunde → Logbuch.
-   Jeder Teil ist einzeln spielbar und wird abgehakt. Gesprochen wird über SZENE (szene.js) mit der Gratis-Stimme.
-   Spielstand: S.reise {etappe, teile: {teilId: datum}, log: [{d, etappe, titel, ergebnis}], ort} (Standard beim ersten Öffnen, R7). */
+/* Die Reise (VISION.md, docs/reise-konzept.md, O93–O100): ein Tag auf See = eine Folge.
+   Nachgeladen über reiseOeffnen() (index.html, nach szene.js). Daten in data/reise.json (Sätze der Crew sind Platzhalter, B164).
+   Kartentisch: Tisch antippen, die Seekarte 7 kippt ins Bild, darauf nur drei Felder: Morgens · Unterwegs · Abends.
+   Ein Feld spielt seine Schritte der Reihe nach (Sätze, Wahl, amtliche Fragen, Navigationsaufgabe auf der Karte, Minispiel, Knoten, Logbuch).
+   Alles bleibt in der Geschichte: Minispiel und Knoten kommen danach hierher zurück. Der Speicherpunkt ist die genaue Stelle.
+   Modus „Mitmachen“ oder „Nur hören“ (Automodus): Die Crew löst alles laut vor, Denkpause sechs Sekunden, dann die Lösung, ohne Antippen.
+   Spielstand: S.reise {pos: {tag, phase, i}, fertig: {'tag:phase': datum}, modus: 'mit'|'auto', wahl: {}, log: []} (Standard beim ersten Öffnen, R7). */
 window.REISE = (() => {
-  let D = null;
+  let D = null, lauf = null;
   const laden = () => D ? Promise.resolve(D) : fetch('data/reise.json?v=' + window.__ver).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(j => (D = j));
+  const PHASEN = [['morgen', '☀️', 'Morgens', 'Besprechung und Navigation'], ['unterwegs', '⛵', 'Unterwegs', 'Fahrt, Anlegen, Knoten'], ['abend', '🌙', 'Abends', 'Hafen, Rückblick, Logbuch']];
+  const heute = () => new Date().toISOString().slice(0, 10);
+  const pause = ms => new Promise(r => setTimeout(r, ms));
   function stand() {
     if (!S.reise || typeof S.reise !== 'object') S.reise = {};
-    const r = S.reise; r.etappe = r.etappe || D.etappen[0].id; r.teile = r.teile || {}; r.log = r.log || []; r.wahl = r.wahl || {};
+    const r = S.reise; r.fertig = r.fertig || {}; r.log = r.log || []; r.wahl = r.wahl || {}; r.modus = r.modus || 'mit';
+    if (!r.pos || !D.tage.some(t => t.tag === r.pos.tag)) r.pos = {tag: D.tage[0].tag, phase: 'morgen', i: 0};
     return r;
   }
-  const etappe = () => D.etappen.find(e => e.id === stand().etappe) || D.etappen[0];
-  const naechster = e => e.teile.find(t => !stand().teile[t.id]);
-  const heute = () => new Date().toISOString().slice(0, 10);
-  function erledigt(id) { stand().teile[id] = heute(); save(); }
+  const tagDaten = () => D.tage.find(t => t.tag === stand().pos.tag) || D.tage[0];
+  const auto = () => stand().modus === 'auto';
+  const fertig = (t, ph) => !!stand().fertig[t.tag + ':' + ph];
+  const sprecher = w => CREW[w] ? w : (S.crew && S.crew[w]) || 'hinnerk';
 
-  /* ---------- Kartentisch von oben ---------- */
-  function karteSVG(e) {
-    const k = D.karte, r = stand(), ort = r.teile.fahrt ? e.nach : e.von;
-    const pt = id => k.haefen.find(h => h.id === id);
-    const a = pt(e.von), b = pt(e.nach), boot = pt(ort);
-    const wasser = k.wasser.map(p => p.join(',')).join(' ');
-    return `<svg class="reisekarte" viewBox="0 0 400 280" role="img" aria-label="${esc(k.titel)}">
-      <rect width="400" height="280" rx="10" fill="#f3e6c4"/>
-      <path d="M0 40 Q80 10 160 30 T400 0 L400 0 L0 0Z" fill="#e7d6ab"/>
-      <polyline points="${wasser}" fill="none" stroke="#8cc3dc" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-      <polyline points="${wasser}" fill="none" stroke="#a9d4e6" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-      <line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#b5452f" stroke-width="2.5" stroke-dasharray="6 5"/>
-      ${k.haefen.map(h => `<g><circle cx="${h.x}" cy="${h.y}" r="5" fill="${h.id === e.nach || h.id === e.von ? '#b5452f' : '#5b4a33'}"/><text x="${h.x > 300 ? h.x - 8 : h.x + 8}" y="${h.y + (h.y < 40 ? 16 : -6)}" text-anchor="${h.x > 300 ? 'end' : 'start'}" font-size="13" font-family="Nunito, sans-serif" fill="#3a2c1b">${esc(h.name)}</text></g>`).join('')}
-      <g class="spielfigur" transform="translate(${boot.x - 22} ${boot.y - 26})"><path d="M2 14 L16 14 L13 20 L5 20Z" fill="#fff" stroke="#3a2c1b"/><path d="M9 2 L9 14 M9 3 L15 12 L9 12" fill="#f6d27a" stroke="#3a2c1b"/></g>
-      <text x="10" y="272" font-size="10" fill="#7a6648" font-family="Nunito, sans-serif">${esc(k.titel)}</text>
-      <g transform="translate(372 240)"><circle r="16" fill="none" stroke="#7a6648"/><path d="M0 -14 L4 0 L0 14 L-4 0Z" fill="#7a6648"/><text y="-19" font-size="10" text-anchor="middle" fill="#7a6648">N</text></g>
-    </svg>`;
+  /* ---------- Seekarte 7 als Ausschnitt (SVG über dem Kartenbild; Koordinaten in PDF-Punkten) ---------- */
+  function karte(t, box, extra = '') {
+    const K = D.karte7, [x0, y0, x1, y1] = box, r = t.route || [], last = stand().fertig[t.tag + ':unterwegs'] ? r[r.length - 1] : r[0];
+    return `<svg class="karte7" viewBox="${x0} ${y0} ${x1 - x0} ${y1 - y0}" role="img" aria-label="${esc(K.titel)}">
+      <image href="${esc(K.bild)}" x="0" y="0" width="${K.w}" height="${K.h}"/>
+      ${r.length ? `<polyline points="${r.map(p => p.join(',')).join(' ')}" fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>` : ''}
+      ${last ? `<g transform="translate(${last[0]} ${last[1]})"><circle r="5" fill="#fff" stroke="#c0392b" stroke-width="1.5"/><path d="M-3 1 L3 1 L2 3 L-2 3Z M0 -3 L0 1 M0 -3 L2.5 0 L0 0" fill="#c0392b" stroke="#c0392b" stroke-width=".6"/></g>` : ''}
+      ${extra}</svg>`;
   }
+  const routeBox = t => { const xs = t.route.map(p => p[0]), ys = t.route.map(p => p[1]), m = 30, w = Math.max(...xs) - Math.min(...xs) + 2 * m, h = Math.max(...ys) - Math.min(...ys) + 2 * m, hh = Math.max(h, w * .62);
+    const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2; return [cx - w / 2, cy - hh / 2, cx + w / 2, cy + hh / 2]; };
+
+  /* ---------- Kartentisch: drei große Felder ---------- */
   function oeffnen(kippen = true) {
     return laden().then(() => {
-      subScreen(); place = 'reise'; returnTo = 'cabin'; window.scrollTo(0, 0);
-      const e = etappe(), r = stand(), n = naechster(e);
+      stopLauf(); subScreen(); place = 'reise'; returnTo = 'cabin'; window.scrollTo(0, 0);
+      const r = stand(), t = tagDaten(), naechste = PHASEN.find(([p]) => !fertig(t, p));
       app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="rauf">↑ Aufstehen</button><span class="tag">Kartentisch</span><span></span></div>
-        <div class="tischplatte ${kippen ? 'kippt' : ''}">${karteSVG(e)}</div>
-        <div class="card"><h2 style="margin:0 0 4px">${esc(e.titel)}</h2><p class="small muted" style="margin:0 0 8px">${e.sm} Seemeilen · Probe-Etappe: Die Sätze der Crew sind Platzhalter, sie werden mit der Story neu geschrieben.</p>
-          <ol class="path etappenteile">${e.teile.map(t => `<li class="${r.teile[t.id] ? 'done' : t === n ? 'now' : ''}"><button class="linkbtn" data-teil="${t.id}"><span class="tick" aria-hidden="true">${r.teile[t.id] ? '✓' : t.ico}</span> ${esc(t.name)}</button></li>`).join('')}</ol>
-          ${n ? `<button class="btn lamp wide" id="rweiter">▶ Weiter: ${esc(n.name)}</button>` : `<p style="margin:8px 0"><b>⚓ Etappe geschafft.</b> Die nächste Etappe kommt mit der echten Reise.</p><button class="btn ghost wide" id="rneu">🔁 Probe-Etappe nochmal</button>`}
-        </div>
-        ${r.log.length ? `<div class="card"><h3 style="margin-top:0">📓 Logbuch der Reise</h3>${r.log.slice(-5).reverse().map(l => `<p class="small" style="margin:0 0 6px"><b>${esc(l.d)}</b> · ${esc(l.titel)}<br>${esc(l.ergebnis)}</p>`).join('')}</div>` : ''}`;
+        <div class="tischplatte ${kippen ? 'kippt' : ''}">${karte(t, routeBox(t))}</div>
+        <h2 class="rtitel">Tag ${t.tag}: ${esc(t.titel)}</h2><p class="small muted" style="margin:0 0 10px">${esc(t.von)} → ${esc(t.nach)} · ${t.sm} sm · ${esc(t.wetter)}</p>
+        <div class="rfelder">${PHASEN.map(([p, ico, name, d]) => { const f = fertig(t, p), jetzt = naechste && naechste[0] === p, weiter = jetzt && r.pos.phase === p && r.pos.i > 0;
+          return `<button class="rfeld ${f ? 'fertig' : ''} ${jetzt ? 'jetzt' : ''}" data-ph="${p}"><span class="rico">${f ? '✓' : ico}</span><b>${name}</b><small>${weiter ? 'Hier geht es weiter' : d}</small></button>`; }).join('')}</div>
+        <div class="rmodus" role="group" aria-label="Wie willst du den Tag erleben?"><button class="chip" data-mod="mit" aria-pressed="${r.modus !== 'auto'}">✋ Mitmachen</button><button class="chip" data-mod="auto" aria-pressed="${r.modus === 'auto'}">🎧 Nur hören</button></div>
+        <p class="small muted">${r.modus === 'auto' ? 'Nur hören: Der Tag läuft als Hörspiel durch, die Crew löst alles laut vor.' : 'Mitmachen: Du entscheidest, rechnest und antwortest selbst.'} Die Sätze der Crew sind Platzhalter, bis die Geschichte geschrieben ist.</p>
+        ${r.log.length ? `<details class="card"><summary><b>📓 Logbuch der Reise</b></summary>${r.log.slice(-5).reverse().map(l => `<p class="small" style="margin:6px 0 0"><b>${esc(l.d)}</b> · Tag ${l.tag}: ${esc(l.text)}</p>`).join('')}</details>` : ''}`;
       AUD.sfx('blaettern', {vol: .4});
       $('#rauf').onclick = () => { AUD.click(); setTab('cabin'); };
-      app.querySelectorAll('[data-teil]').forEach(b => b.onclick = () => { AUD.click(); teil(b.dataset.teil); });
-      const w = $('#rweiter'); if (w) w.onclick = () => { AUD.unlock(); AUD.click(); teil(n.id); };
-      const nz = $('#rneu'); if (nz) nz.onclick = () => { r.teile = {}; save(); oeffnen(false); };
+      app.querySelectorAll('[data-ph]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); phase(b.dataset.ph); });
+      app.querySelectorAll('[data-mod]').forEach(b => b.onclick = () => { AUD.click(); r.modus = b.dataset.mod; save(); oeffnen(false); });
     });
   }
 
-  /* ---------- Teile ---------- */
-  function szenenSeite(titel) {
-    subScreen(); place = 'reise';
-    app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="rzur">← Kartentisch</button><span class="tag">${esc(titel)}</span><span></span></div><div class="card" id="szbox"></div>`;
-    $('#rzur').onclick = () => { SZENE.stop(); oeffnen(false); };
-    return $('#szbox');
+  /* ---------- Ein Feld spielen ---------- */
+  function stopLauf() { if (lauf) { lauf.aus = true; if (lauf.fahrt) lauf.fahrt.aus = true; } lauf = null; if (window.SZENE) SZENE.stop(); VOX.stop('Reise'); AUD.loop('motorLauf', 0); }
+  function buehne(ph, t) {
+    subScreen(); place = 'reise'; window.TOERN_STILL = true;
+    const [, ico, name] = PHASEN.find(x => x[0] === ph);
+    app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="rzur">← Kartentisch</button><span class="tag">${ico} ${name} · Tag ${t.tag}</span><button class="chip" id="rmod" aria-pressed="${auto()}">${auto() ? '🎧 Nur hören' : '✋ Mitmachen'}</button></div>
+      <div class="rbuehne" id="rbuehne">${ph === 'morgen' ? karte(t, routeBox(t)) : '<canvas id="fahrtcv" aria-label="Blick von hinten auf das eigene Boot"></canvas>'}</div>
+      <div class="card rszene" id="szbox"></div>`;
+    $('#rzur').onclick = () => { AUD.click(); oeffnen(false); };
+    $('#rmod').onclick = () => { const r = stand(); r.modus = auto() ? 'mit' : 'auto'; save(); $('#rmod').setAttribute('aria-pressed', auto()); $('#rmod').textContent = auto() ? '🎧 Nur hören' : '✋ Mitmachen'; toast(auto() ? 'Nur hören: Ab dem nächsten Schritt läuft alles von allein.' : 'Mitmachen: Ab dem nächsten Schritt bist du dran.'); };
+    if (ph !== 'morgen') lauf.fahrt = fahrtBild(t, ph);
   }
-  /* Amtliche Fragen der Abendrunde: die wackligsten fälligen, sonst neue (nur Ankreuzfragen) */
-  function abendFragen() {
-    const mc = q => q && q.kind !== 'open' && q.a && q.a.length === 4;
-    let l = (typeof faellig === 'function' ? faellig() : []).filter(mc);
-    if (l.length < 3) l = l.concat(shuffle(Q.filter(q => mc(q) && !st(q.n))).slice(0, 3 - l.length));
-    if (l.length < 3) l = l.concat(shuffle(Q.filter(mc)).slice(0, 3 - l.length));
-    return l.slice(0, 3);
+  function fahrtBild(t, ph) {
+    const cv = $('#fahrtcv'); if (!cv) return null; const g = cv.getContext('2d');
+    const groesse = () => { const w = cv.clientWidth || 360, h = Math.min(320, Math.round(window.innerHeight * .38)); cv.width = w * devicePixelRatio; cv.height = h * devicePixelRatio; cv.style.height = h + 'px'; g.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); return [w, h]; };
+    let [W, H] = groesse();
+    const F = {t: 0, tempo: ph === 'abend' ? .15 : 1, halt: false, aus: false, ende: 1e9, gischt: [], tonne: false};
+    const wx = t.wx || 'schoen', dp = (t.dp && t.dp[ph]) || 'tag', rau = ph === 'abend' ? .15 : ({schoen: .45, windig: .85, sturm: 1.35, regen: .55, nebel: .3}[wx] || .5);
+    if (ph === 'unterwegs') AUD.loop('motorLauf', .2);
+    let last = performance.now();
+    const schritt = now => { if (F.aus || !cv.isConnected) { AUD.loop('motorLauf', 0); return; } const dt = Math.min(.05, (now - last) / 1000); last = now; F.t += dt * F.tempo; zeichne(g, W, H, F, dp, wx, rau, now / 1000); requestAnimationFrame(schritt); };
+    requestAnimationFrame(schritt);
+    return F;
   }
-  async function szene(id, titel) {
-    const e = etappe(), box = szenenSeite(titel);
-    const fr = id === 'abend' ? abendFragen() : [];
-    let fi = 0;
-    const res = await SZENE.spiele(e.szenen[id], {box, art: 'local', frage: () => fr[fi++]});
-    Object.assign(stand().wahl, res.wahlen);
-    erledigt(id);
-    return res;
-  }
-  async function teil(id) {
-    await nachladen('szene.js');
-    const e = etappe(), t = e.teile.find(x => x.id === id); if (!t) return;
-    if (id === 'fahrt') return fahrt(e);
-    if (id === 'logbuch') return logbuch(e);
-    const res = await szene(id, t.name);
-    if (place !== 'reise') return;
-    const w = res.wahlen;
-    if (id === 'planung' && w.navi === 'navi') return navSchool();
-    if (id === 'folge' && w.hoeren === 'ja') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => { toast('Der Kajütenfunk ließ sich nicht laden.'); oeffnen(false); });
-    if (id === 'knoten' && w.knoten === 'ja') return loadKnoten().then(() => KNOTEN.zeige('palstek')).catch(() => { toast('Das Knotenbrett ließ sich nicht laden.'); oeffnen(false); });
+  async function phase(ph, weiterTag) {
+    await laden(); await nachladen('szene.js');
+    stopLauf();
+    const r = stand(), t = tagDaten(), steps = t.phasen[ph] || [];
+    if (r.pos.phase !== ph || r.pos.tag !== t.tag || fertig(t, ph)) r.pos = {tag: t.tag, phase: ph, i: 0};
+    const me = lauf = {aus: false};
+    buehne(ph, t);
+    for (let i = r.pos.i; i < steps.length; i++) {
+      if (me.aus) return;
+      r.pos.i = i; save();
+      await schritt(steps[i], ph, t, me);
+    }
+    if (me.aus) return;
+    r.fertig[t.tag + ':' + ph] = heute();
+    const n = PHASEN.findIndex(x => x[0] === ph), nach = PHASEN[n + 1];
+    r.pos = {tag: t.tag, phase: nach ? nach[0] : 'morgen', i: 0}; save();
+    stopLauf();
+    /* Im Automodus läuft der ganze Tag durch, sonst zurück an den Kartentisch */
+    if (auto() && nach) { await pause(800); return phase(nach[0]); }
     oeffnen(false);
   }
-  function logbuch(e) {
-    const r = stand(), w = r.wahl;
-    const richtig = ['f1', 'f2', 'f3'].filter(k => w[k] === 'richtig').length;
-    const ergebnis = `${e.sm} sm gefahren · Abendrunde ${richtig} von 3 richtig${w.hoeren === 'ja' ? ' · Kajütenfunk gehört' : ''}${w.knoten === 'ja' ? ' · Palstek angesehen' : ''}`;
-    r.log.push({d: heute(), etappe: e.id, titel: e.titel, ergebnis});
-    erledigt('logbuch');
-    AUD.sfx('bleistift', {vol: .5, dur: .9});
-    toast('Ins Logbuch eingetragen.');
-    oeffnen(false);
+  /* Nach Minispiel oder Knoten wieder in die Geschichte (die Bühne wurde ersetzt) */
+  function zurueckInGeschichte(ph, t, me) { if (me.aus) return; lauf = me; buehne(ph, t); window.scrollTo(0, 0); }
+  async function schritt(s, ph, t, me) {
+    const box = () => $('#szbox');
+    if (s.wer && s.t) return SZENE.spiele([{wer: s.wer, t: auto() && s.auto ? s.auto : s.t}], {box: box(), art: 'local', ueberspringbar: false});
+    if (s.wahl) {
+      if (!auto()) { const res = await SZENE.spiele([s], {box: box(), art: 'local', ueberspringbar: false}); Object.assign(stand().wahl, res.wahlen); return; }
+      const o = s.opts.find(x => x.empfohlen || x.ok) || s.opts[0];
+      await SZENE.spiele([{wer: 'hinnerk', t: s.wahl}, {wer: 'smilla', t: o.t}], {box: box(), art: 'local', ueberspringbar: false});
+      if (s.id) stand().wahl[s.id] = o.wert != null ? o.wert : o.t;
+      if (o.dann) await SZENE.spiele(o.dann, {box: box(), art: 'local', ueberspringbar: false});
+      return;
+    }
+    if (s.frage != null) return frage(s, box(), me);
+    if (s.navi) return navi(s.navi, t, box(), me);
+    if (s.mini) return mini(s, ph, t, me);
+    if (s.knoten) return knoten(s.knoten, ph, t, me);
+    if (s.logbuch) { stand().log.push({d: heute(), tag: t.tag, text: s.logbuch}); save(); AUD.sfx('bleistift', {vol: .5, dur: .9}); box().innerHTML = `<p style="margin:0">📓 <b>Ins Logbuch:</b> ${esc(s.logbuch)}</p>`; return pause(2500); }
+  }
+  /* Amtliche Frage: mitmachen = antworten (zählt), nur hören = vorlesen, sechs Sekunden Denkpause, Lösung */
+  function abendFrage() {
+    const mc = q => q && q.kind !== 'open' && q.a && q.a.length === 4, schon = new Set((lauf && lauf.gefragt) || []);
+    let l = (typeof faellig === 'function' ? faellig() : []).filter(q => mc(q) && !schon.has(q.n));
+    if (!l.length) l = shuffle(Q.filter(q => mc(q) && st(q.n) && !schon.has(q.n)));
+    if (!l.length) l = shuffle(Q.filter(q => mc(q) && !schon.has(q.n)));
+    const q = l[0]; if (q && lauf) (lauf.gefragt = lauf.gefragt || []).push(q.n); return q;
+  }
+  async function frage(s, box, me) {
+    const q = s.frage === 'faellig' ? abendFrage() : (typeof QN !== 'undefined' && QN[s.frage]) || (typeof DATA !== 'undefined' ? DATA.find(x => x.n === s.frage) : null);
+    if (!q || !q.a || q.a.length !== 4) return;
+    if (!auto()) { const res = await SZENE.spiele([{frage: 1, id: s.id || 'q' + q.n}], {box, art: 'local', ueberspringbar: false, frage: () => q}); if (s.id) stand().wahl[s.id] = res.wahlen[s.id]; return; }
+    const order = [0, 1, 2, 3].sort(() => Math.random() - .5);
+    box.innerHTML = `<p style="margin:0 0 6px"><b>${esc(q.q)}</b></p>${order.map((k, j) => `<div class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</div>`).join('')}<div class="kdenk" id="rdenk"></div>`;
+    await VOX.say(S.crew.M || 'smilla', SZENE.text(q, order), 'local'); if (me.aus) return;
+    const d = $('#rdenk'); if (d) d.textContent = '🤔 Denkpause … 6 s'; AUD.ticks && AUD.ticks(6, .3); await pause(6000); if (me.aus) return;
+    if (d) d.textContent = '';
+    box.querySelectorAll('.ans').forEach(b => { if (b.dataset.k === '0') b.classList.add('ok'); });
+    await VOX.say(S.crew.K || 'hinnerk', 'Richtig ist: ' + q.a[0], 'local'); await pause(600);
+  }
+  /* Navigationsaufgabe direkt auf der Seekarte 7, verbunden mit der Etappe des Tages */
+  function navi(n, t, box, me) {
+    const b = $('#rbuehne'), ziel = `<circle class="nziel" cx="${n.ziel[0]}" cy="${n.ziel[1]}" r="${n.radius || 12}" fill="none" stroke="#f1c40f" stroke-width="2.5"/>`;
+    b.innerHTML = karte(t, n.ausschnitt || routeBox(t));
+    const svg = b.querySelector('svg');
+    const zeige = () => svg.insertAdjacentHTML('beforeend', ziel);
+    if (auto()) { box.innerHTML = `<p style="margin:0"><b>🧭 Navigation:</b> ${esc(n.aufgabe)}</p>`; return VOX.say('smilla', n.aufgabe, 'local').then(() => { if (me.aus) return; zeige(); return VOX.say('smilla', n.auto || n.richtig, 'local'); }).then(() => pause(800)); }
+    return new Promise(res => {
+      let versuche = 0;
+      box.innerHTML = `<p style="margin:0 0 6px"><b>🧭 Navigation (Smilla):</b> ${esc(n.aufgabe)}</p><p class="small muted" style="margin:0" id="nrueck">Tippe auf die Karte. Mit zwei Fingern kannst du zoomen.</p>`;
+      VOX.say('smilla', n.aufgabe, 'local');
+      svg.addEventListener('click', ev => {
+        const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; const m = p.matrixTransform(svg.getScreenCTM().inverse());
+        const ok = Math.hypot(m.x - n.ziel[0], m.y - n.ziel[1]) <= (n.radius || 12) * 1.4;
+        svg.insertAdjacentHTML('beforeend', `<circle cx="${m.x}" cy="${m.y}" r="3" fill="${ok ? '#27ae60' : '#c0392b'}"/>`);
+        if (ok) { AUD.sfx('richtig', {vol: .5}); zeige(); $('#nrueck').textContent = n.richtig; VOX.say('smilla', n.richtig, 'local').then(() => pause(500)).then(res); return; }
+        versuche++; AUD.sfx('falsch', {vol: .3});
+        const h = versuche >= 3 ? 'Hier ist sie. ' + n.richtig : n.hilfe;
+        $('#nrueck').textContent = h; VOX.say('smilla', h, 'local');
+        if (versuche >= 3) { zeige(); pause(3500).then(res); }
+      });
+    });
+  }
+  /* Minispiel als Bonus mitten in der Geschichte; danach geht es genau hier weiter */
+  function mini(s, ph, t, me) {
+    const m = D.minis[s.mini]; if (!m || typeof window[m.f] !== 'function') return;
+    if (auto()) return SZENE.spiele([{wer: 'smilla', t: 'Die Bonusrunde ' + m.name + ' lassen wir heute aus. Die kannst du jederzeit unter Frei üben spielen.'}], {box: $('#szbox'), art: 'local', ueberspringbar: false});
+    return new Promise(res => {
+      $('#szbox').innerHTML = `<p style="margin:0 0 8px"><b>🎲 Bonusrunde: ${esc(m.name)}</b><br>${esc(s.text || '')}</p><div class="row"><button class="btn lamp" id="mgo">Los!</button><button class="btn ghost" id="mweg">Auslassen</button></div>`;
+      $('#mweg').onclick = () => { AUD.click(); res(); };
+      $('#mgo').onclick = () => {
+        AUD.click(); if (lauf && lauf.fahrt) lauf.fahrt.aus = true; AUD.loop('motorLauf', 0);
+        BONUS = {key: s.mini, runden: m.runden, sek: m.sek, fertig: pts => { zurueckInGeschichte(ph, t, me); toast(`Bonusrunde ${m.name}: ${pts} von ${m.max}`, 3000); res(); }};
+        window[m.f]();
+        setTimeout(() => ['#gback', '#quit'].forEach(sel => { const b = $(sel); if (b) b.onclick = () => bonusEnde(0); }), 80);
+      };
+    });
+  }
+  /* Knoten genau dann, wenn man ihn braucht: Animation mit Hinnerk, danach zurück in die Geschichte */
+  async function knoten(id, ph, t, me) {
+    if (auto()) {
+      const kd = await fetch('data/knoten.json?v=' + window.__ver).then(r => r.json()).catch(() => null);
+      const k = kd && (kd.knoten || kd).find && (kd.knoten || kd).find(x => x.id === id); if (!k) return;
+      return SZENE.spiele([{wer: 'hinnerk', t: 'Der ' + k.name + ', Schritt für Schritt.'}].concat(k.schritte.map(x => ({wer: 'hinnerk', t: x}))), {box: $('#szbox'), art: 'local', ueberspringbar: false});
+    }
+    await loadKnoten();
+    return new Promise(res => {
+      if (lauf && lauf.fahrt) lauf.fahrt.aus = true; AUD.loop('motorLauf', 0);
+      KNOTEN.zeige(id);
+      const zurueck = () => { VOX.stop('Knoten'); zurueckInGeschichte(ph, t, me); res(); };
+      setTimeout(() => {
+        const gb = $('#gback'); if (gb) gb.onclick = zurueck;
+        const ueb = $('#kueb'); if (ueb) ueb.insertAdjacentHTML('afterend', '<button class="btn" id="kgesch">⛵ Weiter in der Geschichte</button>');
+        const k = $('#kgesch'); if (k) k.onclick = () => { AUD.click(); zurueck(); };
+      }, 80);
+    });
   }
 
   /* ---------- Fahrt-Szene: Blick von hinten auf das eigene Boot (M10, Nutzer 28.10.2026) ---------- */
   const HIMMEL = {morgen: ['#f2b98a', '#bfe0f0'], tag: ['#7fbde6', '#dff1fb'], abend: ['#ee935a', '#7b98c2'], nacht: ['#0b1730', '#24406b']};
   const SEE = {morgen: ['#6c97b3', '#2f5d7c'], tag: ['#4f9cc4', '#1f5f86'], abend: ['#58789b', '#2a4462'], nacht: ['#1b2f4d', '#0a1528']};
-  const RAU = {schoen: .45, windig: .85, sturm: 1.35, regen: .55, nebel: .3};
-  function fahrt(e) {
-    subScreen(); place = 'reise';
-    const wx = weatherToday(), dp = dayPart(), rau = RAU[wx] || .5;
-    app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="rzur">← Kartentisch</button><span class="tag">Fahrt · ${esc(WX_NAMES[wx] || '')}</span><button class="btn small ghost" id="rschnell" aria-pressed="false">⏩ 2×</button></div>
-      <div class="fahrtbild"><canvas id="fahrtcv" aria-label="Fahrt von hinten auf das eigene Boot"></canvas><div class="fahrtszene card" id="szbox"></div></div>
-      <button class="btn ghost wide" id="rskip" style="margin-top:8px">Fahrt überspringen</button>`;
-    const cv = $('#fahrtcv'), g = cv.getContext('2d'), box = $('#szbox');
-    const groesse = () => { const w = cv.clientWidth || 360, h = Math.min(440, Math.round(window.innerHeight * .55)); cv.width = w * devicePixelRatio; cv.height = h * devicePixelRatio; cv.style.height = h + 'px'; g.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); return {w, h}; };
-    let {w: W, h: H} = groesse();
-    const F = {t: 0, tempo: 1, halt: false, aus: false, tonne: -1, gefragt: false, ende: 26, gischt: []};
-    AUD.loop('motorLauf', .25); AUD.playMusic(null);
-    let last = performance.now();
-    const schritt = now => {
-      if (F.aus) return;
-      const dt = Math.min(.05, (now - last) / 1000); last = now;
-      if (!F.halt) F.t += dt * F.tempo;
-      zeichne(g, W, H, F, dp, wx, rau, now / 1000);
-      if (!F.halt && !F.gefragt && F.t > 13.5) { F.gefragt = true; F.halt = true; frage(); }
-      if (F.t >= F.ende && !F.fertig) { F.fertig = true; fertig(); }
-      requestAnimationFrame(schritt);
-    };
-    const ende = () => { F.aus = true; AUD.loop('motorLauf', 0); SZENE.stop(); };
-    const zurueck = () => { ende(); oeffnen(false); };
-    $('#rzur').onclick = zurueck;
-    $('#rschnell').onclick = () => { F.tempo = F.tempo === 1 ? 2 : 1; $('#rschnell').setAttribute('aria-pressed', F.tempo === 2); };
-    $('#rskip').onclick = () => { erledigt('fahrt'); zurueck(); };
-    window.addEventListener('resize', () => { if (!F.aus) ({w: W, h: H} = groesse()); });
-    async function frage() {
-      const r = await SZENE.spiele([e.szenen.fahrt_aufgabe], {box, art: 'local', ueberspringbar: false});
-      Object.assign(stand().wahl, r.wahlen); box.innerHTML = ''; F.halt = false;
-    }
-    async function fertig() {
-      F.halt = true;
-      await SZENE.spiele(e.szenen.fahrt_nach, {box, art: 'local', ueberspringbar: false});
-      erledigt('fahrt'); if (place === 'reise' && !F.aus) zurueck();
-    }
-    (async () => { await SZENE.spiele(e.szenen.fahrt_vor, {box, art: 'local', ueberspringbar: false}); box.innerHTML = ''; requestAnimationFrame(schritt); })();
-  }
   function zeichne(g, W, H, F, dp, wx, rau, uhr) {
     const t = F.t, hy = Math.round(H * .4);
     /* Himmel und Wolken */
@@ -168,7 +224,7 @@ window.REISE = (() => {
     }
     /* Rote Tonne an Backbord: kommt näher, bei der Frage hält alles an */
     const tp = (t - 7) / 11;
-    if (tp > 0 && tp < 1.15) {
+    if (F.tonne !== false && tp > 0 && tp < 1.15) {
       const d = tp * tp, x = W / 2 - (W * .06 + W * .42 * d), y = hy + (H - hy) * d * .92, s = 3 + 34 * d, wip = Math.sin(uhr * 2) * rau * 2 * d;
       g.save(); g.translate(x, y + wip); g.fillStyle = '#c8322a'; g.fillRect(-s * .45, -s * 1.3, s * .9, s * 1.3); g.fillStyle = '#9e241e'; g.fillRect(-s * .45, -s * 1.3, s * .9, s * .18);
       g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(-s * .6, 0, s * 1.2, Math.max(1, s * .08)); g.restore();
@@ -213,5 +269,5 @@ window.REISE = (() => {
       }}});
     } finally { SZENE.schutz = false; aus(); p.remove(); S.rundgang1 = true; save(); }
   }
-  return {oeffnen, teil, laden, zeichne, rundgang1};
+  return {oeffnen, phase, laden, zeichne, rundgang1, stopLauf};
 })();
