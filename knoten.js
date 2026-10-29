@@ -829,7 +829,7 @@ KN.zeige = function (id) {
   gameShell(k.name, `${CSS}<div class="card">${anim ? `<canvas id="kanim" class="knotbild" role="img" aria-label="${esc(k.name)}: Animation"></canvas>
     <div class="row knotctl"><button class="btn small ghost" id="kneu" aria-label="Von vorn">⏮</button><button class="btn small" id="kplay">⏸ Pause</button><input type="range" id="kzeit" min="0" max="${anim ? A.DUR : 0}" step="0.05" value="0" aria-label="Zeit"></div>` : ''}
     <ol class="knotsteps${anim ? ' tipp' : ''}" id="kst">${k.schritte.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
-    <p class="small" style="margin:6px 0 0">💡 ${esc(k.merk)}</p><p class="small muted" style="margin:6px 0 0"><b>Wofür:</b> ${esc(k.wofuer)}</p></div>
+    ${k.spruch ? `<p class="knotspruch" style="margin:6px 0 0">🗣️ <b>Zum Mitsagen:</b> „${esc(k.spruch)}“</p>` : ''}<p class="small" style="margin:6px 0 0">💡 ${esc(k.merk)}</p><p class="small muted" style="margin:6px 0 0"><b>Wofür:</b> ${esc(k.wofuer)}</p></div>
     <div class="row" style="margin-top:10px"><button class="btn lamp" id="kueb">🪢 Mit echtem Tau üben</button></div>`);
   $('#gback').onclick = () => { if (window.pfadHeim && pfadHeim()) return; KN.brett(); };
   const lis = [...app.querySelectorAll('#kst li')];
@@ -838,16 +838,26 @@ KN.zeige = function (id) {
   /* Animation: der gerade gezeigte Schritt ist hervorgehoben; Schritte antippen springt dorthin */
   const sl = $('#kzeit'), pb = $('#kplay');
   /* M12: Hinnerk macht vor und sagt jeden Schritt an (Gratis-Stimme, aus mit S.cfg.knotenStimme = false) */
-  let gesagt = -1, spielt = true;
-  const ansagen = st => { if (st === gesagt || st < 0 || !k.schritte[st] || (S.cfg && S.cfg.knotenStimme === false)) return; gesagt = st; try { VOX.stop('Knotenschritt'); VOX.say((S.crew && S.crew.K) || 'hinnerk', k.schritte[st], 'local'); } catch (e) {} };
-  const sp = spieler($('#kanim'), A, {
-    schritt: st => { lis.forEach((li, i) => li.classList.toggle('an', i === st)); if (spielt) ansagen(st); },
+  /* Die Animation wartet am nächsten Schritt, bis der Satz davor zu Ende gesprochen ist (keine Überlappung, Nutzer 29.10.2026) */
+  let gesagt = -1, spielt = true, sprache = null, nutzerPause = false, sp = null;
+  const stimmeAn = () => !(S.cfg && S.cfg.knotenStimme === false);
+  const sprich = st => { let p; try { p = VOX.say((S.crew && S.crew.K) || 'hinnerk', k.schritte[st], 'local'); } catch (e) { p = Promise.resolve(); } sprache = Promise.resolve(p).finally(() => { if (sprache === q) sprache = null; }); const q = sprache; };
+  const ansagen = st => {
+    if (st === gesagt || st < 0 || !k.schritte[st] || !stimmeAn()) return; gesagt = st;
+    if (!sprache) return sprich(st);
+    sp.pause(); const warte = sprache;
+    warte.then(() => { if (!pb.isConnected || gesagt !== st) return; sprich(st); if (!nutzerPause) sp.play(); });
+  };
+  /* Erst der Satz zum Mitsagen, dann die Schritte (die Animation wartet darauf) */
+  if (k.spruch && stimmeAn()) { const p0 = Promise.resolve(VOX.say((S.crew && S.crew.K) || 'hinnerk', 'Zum Mitsagen: ' + k.spruch, 'local')).catch(() => {}); sprache = p0; p0.then(() => { if (sprache === p0) sprache = null; }); }
+  sp = spieler($('#kanim'), A, {
+    schritt: st => { lis.forEach((li, i) => li.classList.toggle('an', i === st)); if (spielt && sp) ansagen(st); },
     zeit: (t, laeuft) => { spielt = laeuft; sl.value = t; pb.textContent = laeuft ? '⏸ Pause' : t >= A.DUR ? '▶ Nochmal' : '▶ Weiter'; }
   });
-  pb.onclick = () => { AUD.click(); sp.spielt ? sp.pause() : sp.play(); };
-  $('#kneu').onclick = () => { AUD.click(); gesagt = -1; sp.seek(0); sp.play(); };
+  pb.onclick = () => { AUD.click(); if (sp.spielt) { nutzerPause = true; sp.pause(); } else { nutzerPause = false; sp.play(); } };
+  $('#kneu').onclick = () => { AUD.click(); VOX.stop('Knoten neu'); sprache = null; gesagt = -1; nutzerPause = false; sp.seek(0); sp.play(); };
   sl.oninput = () => { const v = +sl.value; sp.pause(); sp.seek(v); };
-  lis.forEach((li, i) => li.onclick = () => { if (A.START[i] != null) { sp.seek(A.START[i]); sp.play(); } });
+  lis.forEach((li, i) => li.onclick = () => { if (A.START[i] != null) { VOX.stop('Knotenschritt'); sprache = null; gesagt = i - 1; nutzerPause = false; sp.seek(A.START[i]); sp.play(); } });
 };
 /* Übung mit echtem Tau: Zeit stoppen, dann selbst bewerten */
 KN.ueben = function (id) {

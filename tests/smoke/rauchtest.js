@@ -69,13 +69,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev(page, () => setTab('cabin')); });
   /* H3: Reise am Kartentisch und Fahrt-Szene von hinten */
   await schritt('03f-reise', page, async () => {
-    await ev(page, () => { S.reise = null; reiseOeffnen(); }); await sleep(1500);
-    if (!await page.$('svg.karte7') || (await page.$$('.rfeld')).length !== 3) throw new Error('Kartentisch mit drei Feldern fehlt');
-    await ev(page, () => { REISE.phase('unterwegs'); }); await sleep(1500);
-    if (!await page.$('#fahrtcv') || !await page.$('#szbox')) throw new Error('Fahrt-Szene fehlt');
-    await ev(page, () => document.querySelector('#szweiter').click()); await sleep(800);
-    if (!await ev(page, () => S.reise.pos.phase === 'unterwegs' && S.reise.pos.i >= 1)) throw new Error('Speicherpunkt fehlt');
-    await ev(page, () => { REISE.stopLauf(); S.reise = null; save(); setTab('cabin'); }); });
+    await ev(page, () => { S.reise = null; S.cfg.fallback = 'text'; reiseOeffnen(); }); await sleep(1800);
+    if (!await page.$('#rbuehne') || !await page.$('#rblase') || (await page.$$('.rgesicht')).length !== 3) throw new Error('Bühne mit Gesichtern und Sprechblase fehlt');
+    for (let k = 0; k < 6; k++) { await ev(page, () => { const b = document.querySelector('#rblase'); if (b) b.click(); }); await sleep(300); }
+    if (!await ev(page, () => S.reise.pos.tag === 1 && S.reise.pos.i >= 3)) throw new Error('Speicherpunkt fehlt');
+    await ev(page, () => { REISE.stopLauf(); S.reise = null; S.cfg.fallback = 'phone'; save(); setTab('cabin'); }); });
   /* H5: Rundgang 1 läuft unten im Bild, „Szene überspringen“ beendet ihn und merkt ihn sich */
   await schritt('03g-rundgang', page, async () => {
     await ev(page, () => { S.rundgang1 = false; rundgangStarten(); }); await sleep(1500);

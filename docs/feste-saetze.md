@@ -176,3 +176,7 @@ Die Sätze der Probe-Etappe (`data/reise.json` → `etappen[].szenen`) und von R
 Neue feste Sätze im Kennenlernen (`ONB` in `index.html`, kommen ins Stimmenpaket):
 - Smilla: „Wo lernst du meistens? Zu Hause, unterwegs oder im Auto, wo du nur zuhören kannst?“
 - Käpt'n: „Hast du ein Übungsset mit Leinen und Übungskarte? Dann binden wir die Knoten mit echtem Tau.“
+
+## Neu in v5.03 (Reise Tag 1 und 2, Knoten)
+- Die Sätze der Reise-Tage (`data/reise.json` → `tage[].schritte`) sind Platzhalter bis zur Story (B164) und laufen mit der Gratis-Stimme.
+- Neu je Knoten ein Satz zum Mitsagen (`spruch` in `data/knoten.json`), gesprochen von Hinnerk als „Zum Mitsagen: …“. Kommt ins Stimmenpaket, sobald die Knotensätze vertont werden.

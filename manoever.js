@@ -406,18 +406,20 @@ MN.demo = function (id, ab) {
   const pers = d.person ? {x: P(d.person.x, W) + d.person.dx, y: P(d.person.y, H)} : null;
   if (id === 'kompass') { const e = d.demo.find(q => q.cmd && /peilt/.test(q.cmd)), o = B.ort(e.t, W, H); s.tonne = {x: o.x + Math.sin(d.demoPeil * RAD) * 150, y: o.y - Math.cos(d.demoPeil * RAD) * 150}; }
   const ringT = (d.demo.find(e => e.cmd && /Rettungsring/.test(e.cmd)) || {}).t;
-  let t = ab || 0, play = !ab, last = performance.now(), gesagt = ab ? d.demo.filter(e => e.t <= ab).length - 1 : -1, cmd = null;
+  let t = ab || 0, play = !ab, last = performance.now(), gesagt = ab ? d.demo.filter(e => e.t <= ab).length - 1 : -1, cmd = null, sprache = null;
   const pb = $('#dplay'), knopf = () => { pb.textContent = play ? '⏸ Pause' : t >= B.ende ? '▶ Nochmal' : '▶ Weiter'; };
-  pb.onclick = () => { AUD.click(); if (t >= B.ende) { t = 0; gesagt = -1; } play = !play; if (!play) VOX.stop(); last = performance.now(); knopf(); };
-  $('#dneu').onclick = () => { AUD.click(); VOX.stop(); t = 0; gesagt = -1; play = true; last = performance.now(); knopf(); };
+  pb.onclick = () => { AUD.click(); if (t >= B.ende) { t = 0; gesagt = -1; } play = !play; if (!play) { VOX.stop(); sprache = null; } last = performance.now(); knopf(); };
+  $('#dneu').onclick = () => { AUD.click(); VOX.stop(); sprache = null; t = 0; gesagt = -1; play = true; last = performance.now(); knopf(); };
   $('#dlos').onclick = () => { stopGames(); VOX.stop(); MN.fahren(id); };
-  lis.forEach((li, i) => li.onclick = () => { VOX.stop(); t = schritte[i].t; gesagt = d.demo.indexOf(schritte[i]) - 1; play = true; last = performance.now(); knopf(); });
+  lis.forEach((li, i) => li.onclick = () => { VOX.stop(); sprache = null; t = schritte[i].t; gesagt = d.demo.indexOf(schritte[i]) - 1; play = true; last = performance.now(); knopf(); });
   const step = now => {
     if (!c.isConnected) { VOX.stop(); return; }
-    if (play) { t += Math.min(.05, (now - last) / 1000); if (t >= B.ende) { t = B.ende; play = false; knopf(); } }
+    /* Nicht über das nächste Schlüsselbild laufen, solange der Satz davor noch gesprochen wird (keine Überlappung) */
+    const naechstes = d.demo[gesagt + 1], warten = sprache && naechstes && (naechstes.cmd || naechstes.sag) && naechstes.t <= t + .05;
+    if (play && !warten) { t += Math.min(.05, (now - last) / 1000); if (t >= B.ende) { t = B.ende; play = false; knopf(); } }
     last = now;
     /* Sätze sprechen, wenn die Zeit an einem Schlüsselbild vorbeiläuft */
-    d.demo.forEach((e, i) => { if (i > gesagt && e.t <= t && play) { gesagt = i; const l = []; if (e.cmd) { l.push({cid: cid('K'), t: e.cmd}); cmd = {t: e.t, x: e.cmd}; } if (e.sag) l.push({cid: wer(e.wer), t: sagT(e.sag)}); if (l.length) VOX.lines(l, 'fixed'); } });
+    d.demo.forEach((e, i) => { if (i > gesagt && e.t <= t && play) { gesagt = i; const l = []; if (e.cmd) { l.push({cid: cid('K'), t: e.cmd}); cmd = {t: e.t, x: e.cmd}; } if (e.sag) l.push({cid: wer(e.wer), t: sagT(e.sag)}); if (l.length) { const p = Promise.resolve(VOX.lines(l, 'fixed')).catch(() => {}); sprache = p; p.then(() => { if (sprache === p) sprache = null; }); } } });
     const cur = schritte.filter(e => e.t <= t + .01).length - 1; lis.forEach((li, i) => li.classList.toggle('an', i === cur));
     const o = B.ort(t, W, H), b = {x: o.x, y: o.y, k: n360(B.wert('h', t)), g: B.wert('g', t), r: B.wert('r', t), motor: !!B.wert('motor', t, true), v: 0};
     const vor = B.ort(Math.min(B.ende, t + .2), W, H); b.v = Math.hypot(vor.x - o.x, vor.y - o.y) * 5 * (b.g < 0 ? -1 : 1);
