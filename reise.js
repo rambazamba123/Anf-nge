@@ -66,6 +66,32 @@ window.REISE = (() => {
     $('#rmod').onclick = () => { const r = stand(); r.modus = auto() ? 'mit' : 'auto'; save(); $('#rmod').setAttribute('aria-pressed', auto()); $('#rmod').textContent = auto() ? '🎧' : '✋'; toast(auto() ? 'Nur hören: Ab jetzt löst die Crew alles laut vor.' : 'Mitmachen: Ab jetzt bist du dran.'); };
     $('#rblase').onclick = () => { if (lauf && lauf.weiter) { VOX.stop('weiter'); lauf.weiter(); } };
   }
+  /* Erklärgrafiken (Nutzer 29.10.2026): Alles Gesprochene versteht man auch ohne Bild, die Grafik erklärt es zusätzlich.
+     Schritte: {ansicht: 'grafik', bild: 'rad'} öffnet die Grafik, {grafik: n} schaltet zur Phase n (data-p am SVG). */
+  const GRAFIK = {
+    rad: () => {
+      const pfeil = (x1, x2, y, c, cls, w = 6) => `<g class="${cls}"${w < 6 ? ' opacity=".6"' : ''}><line x1="${x1}" y1="${y}" x2="${x2 + (x2 > x1 ? -10 : 10)}" y2="${y}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="${x2 > x1 ? `M${x2} ${y} l-14 -9 v18z` : `M${x2} ${y} l14 -9 v18z`}" fill="${c}"/></g>`;
+      const T = (x, y, a, txt, cls) => `<text class="${cls}" x="${x}" y="${y}" text-anchor="${a}" font-size="12.5" font-weight="700" fill="#2b3a4a" stroke="#fff" stroke-width="3" paint-order="stroke">${txt}</text>`;
+      return `<svg class="gr" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Radeffekt: Boot von hinten, Propeller dreht, das Heck weicht zur Seite aus">
+        <style>.gr .rumpf{transition:transform 1.8s ease-in-out}.gr[data-p="3"] .rumpf{transform:translateX(28px)}.gr[data-p="4"] .rumpf{transform:translateX(-28px)}
+        .gr .prop{transform-box:fill-box;transform-origin:center}.gr:not([data-p="0"]) .prop{animation:gspin 1.4s linear infinite}.gr[data-p="4"] .prop{animation-direction:reverse}@keyframes gspin{to{transform:rotate(360deg)}}
+        .gr .ab1,.gr .ab2,.gr .ab3,.gr .ab4,.gr .ab5{opacity:0;transition:opacity .5s}
+        .gr[data-p="1"] .ab1,.gr[data-p="2"] .ab1,.gr[data-p="3"] .ab1,.gr[data-p="2"] .ab2,.gr[data-p="3"] .ab2,.gr[data-p="3"] .ab3,.gr[data-p="4"] .ab4,.gr[data-p="4"] .ab5{opacity:1}</style>
+        <rect width="400" height="150" fill="#cfe9f7"/><rect y="150" width="400" height="150" fill="#3d8fb8"/>
+        <g class="rumpf"><path d="M125 58 H275 L270 150 H130Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2"/><rect x="128" y="96" width="144" height="12" fill="#2b6a9a"/><rect x="118" y="52" width="164" height="8" rx="3" fill="#b98750"/>
+          <text x="200" y="130" text-anchor="middle" font-size="14" font-weight="800" fill="#7a5a3a">SKIPPER</text>
+          <path d="M125 150 L148 205 H252 L275 150Z" fill="#8a3b2a"/><rect x="194" y="205" width="12" height="22" fill="#5b3a2a"/>
+          <g class="prop">${[0, 120, 240].map(a => `<ellipse cx="200" cy="214" rx="8" ry="22" transform="rotate(${a} 200 236)" fill="#d9b85c" stroke="#8a6d1f" stroke-width="1.5"/>`).join('')}<circle cx="200" cy="236" r="7" fill="#8a6d1f"/></g></g>
+        <rect y="150" width="400" height="150" fill="#3d8fb8" opacity=".45"/><path d="M0 150 Q50 144 100 150 T200 150 T300 150 T400 150" fill="none" stroke="#fff" stroke-width="2.5" opacity=".8"/>
+        ${T(12, 176, 'start', 'Von hinten gesehen', 'ab0')}${T(12, 136, 'start', 'Backbord', 'ab0')}${T(388, 136, 'end', 'Steuerbord', 'ab0')}
+        <g class="ab1"><path d="M240 214 A40 40 0 0 1 200 276" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="5 4"/><path d="M200 276 l9 -11 l-4 14z" fill="#fff" transform="rotate(-8 200 276)"/></g>
+        ${T(262, 232, 'start', 'dreht im', 'ab1')}${T(262, 247, 'start', 'Uhrzeigersinn', 'ab1')}
+        ${pfeil(250, 150, 270, '#e67e22', 'ab2')}${pfeil(176, 224, 213, '#e67e22', 'ab2', 3.5)}
+        ${T(200, 293, 'middle', 'unten greifen die Flügel kräftig: Wasser nach links', 'ab2')}
+        ${pfeil(215, 335, 40, '#c0392b', 'ab3')}${T(275, 28, 'middle', 'Heck weicht nach rechts aus', 'ab3')}
+        ${pfeil(150, 250, 270, '#e67e22', 'ab4')}${pfeil(185, 65, 40, '#c0392b', 'ab5')}${T(125, 28, 'middle', 'rückwärts: Heck nach links', 'ab5')}${T(200, 293, 'middle', 'rückwärts dreht alles um: Wasser nach rechts', 'ab4')}</svg>`;
+    }
+  };
   /* Die Hauptansicht ist die Runde mit der Crew (Nutzer 29.10.2026). Karte und Fahrt-Szene legen sich nur bei Bedarf darüber
      und verschwinden wieder, wenn der Schritt `ansicht: 'crew'` kommt. Der Ort der Runde: tisch (Kajüte), steg, deck, abend. */
   function ansicht(t, a) {
@@ -79,6 +105,7 @@ window.REISE = (() => {
     }
     b.classList.remove('zu'); g.className = 'rgesichter klein';
     if (a.ansicht === 'karte') { b.innerHTML = karteSVG(t, a.box || routeBox(t)); bootAuf(t, lauf.boot || 0); }
+    else if (a.ansicht === 'grafik' && GRAFIK[a.bild]) b.innerHTML = GRAFIK[a.bild]();
     else if (a.ansicht === 'fahrt') { b.innerHTML = '<canvas id="fahrtcv" aria-label="Blick von hinten auf das eigene Boot"></canvas>'; lauf.fahrt = fahrtBild(t, a); }
   }
   /* Hintergrund der Runde: Himmel und Wasser je Ort und Tageszeit, in der Kajüte Holzwand mit Bullauge und Laterne */
@@ -157,6 +184,7 @@ window.REISE = (() => {
   async function schritt(s, t, me) {
     await warteHalt(me); if (me.aus) return;
     if (s.ansicht) { ansicht(t, s); return pause(400); }
+    if (s.grafik != null) { const sv = $('#rbild svg.gr'); if (sv) sv.dataset.p = s.grafik; return pause(500); }
     if (s.fahre) { fahre(t, s.fahre[0], s.fahre[1], s.sek || 8); return; }
     if (s.wer && s.t) return sag(me, s.wer, auto() && s.auto ? s.auto : s.t);
     if (s.wahl) return wahl(s, me);

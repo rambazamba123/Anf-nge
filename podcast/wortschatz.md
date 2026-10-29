@@ -265,6 +265,99 @@ Nutzer, 23.10.2026: „derb und die neuen Sprüche aus dem Seemannssprech verbin
 
 **Bewusst weggelassen:** Wörter, deren zweite Lesart nur grob und ohne Witz wäre, und alles, was nur als Anspielung auf Kinder oder auf den Hörer funktioniert. Die echte seemännische Bedeutung wird vor dem Einsatz im Skript nachgeschlagen (Quellenlage unten).
 
+## 12. Seemannssprache im Alltag: mehr Redewendungen und Seemannswitze (Nutzer, 29.10.2026)
+
+> Nutzer: „umgangssprachliches Seemannssprech“, zum Beispiel „über die Planke gehen“, „Mach keine Welle“, „über Bord werfen“, „in See stechen“. Diese Wörter werden in der Reise viel gebraucht, wo sie passen: als Einstieg, als Übergang, als Merkbild. Der Regelsatz bleibt Hochdeutsch ohne Sprachbild (Konzept §5).
+> **Quelle und Güte:** „allgemein“ = geläufig, Bedeutung bekannt, Herkunft hier nicht nachgelesen („Herkunft ungeprüft“). Vor dem Einsatz im Skript gegenlesen. Herkunftsgeschichten nie als Tatsache erzählen, wenn „ungeprüft“ dasteht, sondern als „man sagt“ (R2).
+> **Sprecher:** wie in Abschnitt 4; Spalte „Merkanker“ nennt, wo das Bild ein Fachwort stützt.
+
+### 12.1 Ablegen, Fahren, Kurs
+
+| Redewendung | Bedeutung | Wer | Merkanker / Hinweis | Quelle |
+|---|---|---|---|---|
+| in See stechen | losfahren, die Reise beginnen | H | „See“ = Meer (S-E-E), nicht „sehen“; Tagesbeginn, wenn es ablegt | allgemein, Herkunft ungeprüft |
+| Leinen los! | es geht los | alle | Kommando beim Ablegen; passt zu Tag 2 | allgemein |
+| klar zum Ablegen | alles bereit | H | „klar“ = fertig; Einstieg zu Manöver | allgemein |
+| Volle Fahrt voraus! | mit aller Kraft los | S | Maschinentelegraf; schwungvoller Einstieg | allgemein |
+| Kurs halten | bei der Sache bleiben | H | Merkanker für „Kurshalter“ (Ausweichregeln) | allgemein |
+| auf Kurs bleiben / vom Kurs abkommen | seinem Plan treu bleiben / abweichen | H, S | Navigation: Kurs, Versetzung | allgemein |
+| Kurskorrektur | den Plan anpassen | S | Strom und Wind versetzen das Boot | allgemein |
+| das Ruder herumwerfen | alles ändern | H | Manöver „Halse“ als Bild | allgemein |
+| im richtigen / falschen Fahrwasser sein | in der passenden / unpassenden Umgebung sein | S über H | Fahrwasser (Kapitel Zeichen am Ufer) | allgemein |
+| ins Fahrwasser von jemandem geraten | unter fremden Einfluss geraten | S | Sog hinter großen Schiffen | allgemein |
+| Handbreit Wasser unterm Kiel | Glückwunsch zur Fahrt | H | Merkanker Tiefgang, Wassertiefe, Kielfreiheit | allgemein |
+| Mast- und Schotbruch! | Glück und Erfolg (Seemannsgruß) | H | Abschied; Scherz: „Bruch“ als Glückwunsch, Wiederholung bei Klabauter | allgemein |
+| Wind und Wellen | Wetterlage | K | Eingang zu Wetter und Seegang | allgemein |
+
+### 12.2 Wasser, Wellen, Wetter
+
+| Redewendung | Bedeutung | Wer | Merkanker / Hinweis | Quelle |
+|---|---|---|---|---|
+| Mach keine Welle! | Mach kein Aufsehen, sei ruhig | H, S | **Bugwelle, Heckwelle, Wellenschlag im Hafen**: Wer zu schnell fährt, macht Welle. Passt zu Rücksichtnahme und Geschwindigkeit | allgemein, Herkunft ungeprüft |
+| Wellen schlagen | große Aufregung auslösen | S | Wellenschlag im Hafen | allgemein |
+| die Wogen glätten | beruhigen | H | | allgemein |
+| Öl auf die Wogen gießen | beruhigen; Öl glättet die See wirklich | H | wörtlich: Ölteppich ist Umweltverstoß (Kapitel Umwelt), Scherz | allgemein |
+| Flaute | nichts geht voran | S | Wetter, Wind ohne Segel | allgemein |
+| Gegenwind / Rückenwind haben | Widerstand / Unterstützung | alle | wörtlich: Wind von vorn / von achtern | allgemein |
+| Sturm im Wasserglas | übertriebene Aufregung | S | | allgemein |
+| in schwere See geraten | in eine schwierige Lage kommen | H | Seegang, Wellenhöhe | allgemein |
+| Land unter | alles überflutet; zu viel auf einmal | S | Gezeiten, Hochwasser, Marsch | allgemein |
+| den Wind aus den Segeln nehmen | siehe Abschnitt 4 | S | Windabdeckung als Manöver | siehe Abschnitt 4 |
+| das Fähnchen nach dem Wind hängen | sich nach der Mehrheit richten | S über H | Windanzeiger, Verklicker | allgemein |
+| mit allen Wassern gewaschen | sehr erfahren und gerissen | H über sich | Herkunft ungeprüft | allgemein |
+| Gegen den Strom schwimmen | etwas Unpopuläres tun | S | Strom und Versetzung | allgemein |
+
+### 12.3 Anker, Hafen, Strafen und Gefahr
+
+| Redewendung | Bedeutung | Wer | Merkanker / Hinweis | Quelle |
+|---|---|---|---|---|
+| vor Anker gehen | sich irgendwo niederlassen | H | Ankern, Ankerplatz, Ankersignal | allgemein |
+| den Anker werfen / lichten | ankommen / aufbrechen | H | | allgemein |
+| etwas über Bord werfen | etwas aufgeben, wegwerfen | H | **Seenot-Kapitel: Mensch über Bord**; wörtliche Version bleibt ernst | allgemein |
+| über Bord gehen | verloren gehen | H | Sicherheit, Rettungsweste | allgemein |
+| über die Planke gehen | bestraft werden; scherzhaft: es ist aus | H über Q | Piratenbild; ob Piraten wirklich Gefangene so beseitigten, ist unsicher: **nur als Bild, nicht als Geschichtsaussage** | allgemein, Herkunft ungeprüft |
+| kielholen | Strafe: Matrose unter dem Schiff durchgezogen; heute Spruch für harte Behandlung | H | historische Strafe der Seefahrt, als Scherz erlaubt; Kiel als Bauteil | allgemein |
+| jemanden auflaufen lassen | jemanden in Schwierigkeiten bringen | S | **Auflaufen** = aufs Watt oder auf Grund; Gezeitenkapitel | allgemein |
+| gestrandet sein | ohne Hilfe festsitzen | S | | allgemein |
+| Schiffbruch erleiden | scheitern | H | Seenot | allgemein |
+| Schotten dicht machen | sich abschotten | H | **Schott** = Wand im Schiff, die Wasser aufhält (Seenot, Lecksicherung) | allgemein |
+| Mann über Bord! | Alarmruf | alle | **nur ernst**, Manöver Mensch über Bord (kein Witz an dieser Stelle) | allgemein |
+| Kommando zurück! | alles rückgängig machen | H | Rückwärtsgang; Anlegen | allgemein |
+| blinder Passagier | wer unerlaubt mitfährt | S über Backbord | Bordkatze Backbord als Scherz | allgemein |
+| ein Leck | undichte Stelle | S | Seenot, Leck abdichten | allgemein |
+| Pech gehabt | Unglück | H | Pech dichtete früher Fugen im Holzschiff ab (Herkunft ungeprüft) | allgemein, Herkunft ungeprüft |
+| Alle Mann an Deck! | alle sollen helfen | H | englisch „all hands on deck“ ([History of English](https://www.thehistoryofenglish.com/all-hands-on-deck-meaning-origin-usage)); deutsche Herkunft ungeprüft | siehe Link |
+| Alle in einem Boot | dasselbe Schicksal | S | siehe Abschnitt 4 | siehe Abschnitt 4 |
+| auf Tauchstation gehen | verschwinden | S | U-Boot, nicht Sportboot | allgemein |
+
+### 12.4 Leute an Bord
+
+| Redewendung | Bedeutung | Wer | Merkanker / Hinweis | Quelle |
+|---|---|---|---|---|
+| Landratte | wer vom Wasser keine Ahnung hat | H über S, Q | Spitzname für Anfänger; Smilla dreht ihn um | allgemein |
+| Seebär | erfahrener Seemann | S über H | | allgemein |
+| Leichtmatrose / Moses | jüngster Seemann | H | | allgemein |
+| Wache schieben | Dienst tun | H | Wachen auf See; Nachtfahrt | allgemein |
+| Backschaft | Küchendienst an Bord | H | Dienst an der Reihe | allgemein |
+| Backen und Banken! | „Essen fassen!“ (Ruf) | H | Mittagsszene | allgemein |
+| Hand über Hand | Stück für Stück, zügig | H | Leine einholen, Knoten | allgemein |
+| Zum Klabautermann! | Fluch | K, H | Papagei darf es wiederholen | siehe Abschnitt 7 |
+
+### 12.5 Seemannswitze (Vorschläge, noch nicht in einer Folge)
+
+Quelle der Liste: volkstümliche Witze ohne feste Urheberschaft. Alle selbst formuliert (keine Fremdtexte kopiert). Jeder Witz hat ein Ablaufdatum: pro Folge höchstens einer, danach wird er variiert oder gestrichen.
+
+| Nr. | Witz | Wer | Anker | Status |
+|---|---|---|---|---|
+| W1 | Der Kapitän schimpft: „Das ist ein Deck, kein Fußboden!“ Sagt der Matrose: „Aye, ich schrubbe den Fußboden.“ (Variante: Smilla sagt „Fußboden“, Hinnerk zuckt) | H, S | Bordsprache: Deck, Kajüte, Koje | Klassiker, Pointe bekannt |
+| W2 | Der Klabautermann erfüllt drei Wünsche, der alte Seebär wünscht sich nur ein warmes Plätzchen. | K, H | Klabauter | Klassiker |
+| W3 | „Wie tief ist das Wasser?“ „Nass.“ | H | Tiefe, Lotung | allgemein bekannt |
+| W4 | Hinnerk: „Ich spüre, wir fahren richtig.“ Smilla: „Das GPS sagt, wir sind gerade im Hafen eingeparkt.“ | H, S | **Navigation: Gefühl gegen Rechnen** | Entwurf, neu |
+| W5 | „Ich habe ein Lot gestellt.“ „Und?“ „Es ist nach unten gefallen.“ | H | Lotleine, Tiefe | Entwurf, neu |
+| W6 | Q: „Bei uns auf dem See gibt’s keine Gezeiten.“ H: „Dann bist du ja immer pünktlich.“ | H, Q | Gezeiten | Entwurf, neu (Quirin ab Binnen-Akt) |
+
+---
+
 ## Quellenlage
 
 - Die Bedeutungen in den Abschnitten 1 bis 10 wurden am 23.10.2026 per Websuche nachgesehen, Abschnitt 11 nur teilweise (Lümmelbeschlag); bei „allgemein“ vor dem Einsatz im Duden nachschlagen; die Seiten selbst ließen sich in dieser Umgebung nicht öffnen. Bei Wörterbüchern (Duden, Wiktionary, Plattmakers) ist das verlässlich, bei FAQ-Seiten (kuechenfibel.de, wandernundmehr.at) nur ein Hinweis.
