@@ -203,6 +203,17 @@ details summary{cursor:pointer;font-weight:700}
 .sig{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
 .sig .tones{font-size:1.5rem;letter-spacing:.14em;font-weight:700}
 .sig .tones .on{color:var(--lamp)}
+.rleiste{display:flex;align-items:center;gap:6px;margin:6px 0}.rleiste .rtag{flex:1;font-weight:700;font-size:.85rem;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rleiste .btn,.rleiste .chip{padding:6px 10px;min-height:36px}
+.rbuehne{position:relative;height:min(70vh,640px);border-radius:16px;overflow:hidden;background:#f5f1e6;box-shadow:inset 0 0 0 3px #5c3a1f;transition:height .35s}.rbuehne:has(+ .rakt .ans),.rbuehne:has(+ .rakt .rwahl){height:min(34vh,320px)}
+.rbuehne.kippt .rbild{animation:kippen .9s ease-out}.rbild,.rbild>svg,.rbild>canvas,.rbild>div{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rcrewbild{background:linear-gradient(#9fd0ec 0 45%,#4f9cc4 45% 70%,#8a5a34 70%)}.rcrewbild.steg{background:linear-gradient(#9fd0ec 0 50%,#4f9cc4 50% 72%,#a77a4d 72%)}.rcrewbild.abend{background:linear-gradient(#ee935a 0 45%,#58789b 45% 70%,#6b4428 70%)}.rcrewbild.kajuete{background:linear-gradient(#6b4428 0 70%,#4a2e1a 70%)}
+.rgesichter{position:absolute;display:flex;gap:6px;z-index:2;pointer-events:none}
+.rgesichter.klein{left:6px;top:6px;flex-direction:column}.rgesichter.klein .rgesicht{width:46px;height:46px;border-radius:50%;overflow:hidden;background:#fffaf0;border:2px solid rgba(0,0,0,.15)}.rgesichter.klein .rgesicht svg{width:56px;margin:-2px 0 0 -7px}
+.rgesichter.gross{left:0;right:0;bottom:64px;justify-content:center;align-items:flex-end}.rgesichter.gross .rgesicht{width:30%;max-width:120px;transition:transform .2s}.rgesichter.gross .rgesicht svg{width:100%;height:auto}
+.rgesicht.spricht{border-color:var(--lamp)!important;transform:scale(1.08)}.rgesichter.klein .rgesicht.spricht{box-shadow:0 0 0 3px var(--lamp)}
+.rblase{position:absolute;left:8px;right:8px;bottom:8px;z-index:3;text-align:left;background:rgba(255,250,240,.96);color:#2b2118;border:0;border-radius:14px;padding:10px 12px;font:inherit;line-height:1.4;box-shadow:0 4px 14px rgba(0,0,0,.25);max-height:45%;overflow:auto}.rblase.leer{display:none}.rbuehne[data-ansicht=fahrt] .rblase{top:8px;bottom:auto;left:62px}
+.rakt{margin-top:8px;max-height:calc(100vh - min(34vh,320px) - 70px);overflow:auto}.rakt:empty{display:none}.rakt .rwahl{display:block;width:100%;margin:0 0 8px;text-align:left}.rakt .rq{margin:0 0 6px}.rakt .rqimg img{max-height:110px;max-width:100%}.rakt .ans{padding:.6em .9em;margin-bottom:6px}
+.knotspruch{background:color-mix(in srgb,var(--lamp) 18%,transparent);border-radius:10px;padding:6px 10px}
 .rtitel{margin:4px 0 2px;font-size:1.25rem}.rfelder{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
 .rfeld{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 6px;border-radius:18px;border:2px solid var(--line);background:var(--paper);color:var(--ink);min-height:118px;text-align:center}
 .rfeld .rico{font-size:2rem;line-height:1.1}.rfeld b{font-size:1rem}.rfeld small{color:var(--muted);line-height:1.25;font-size:.78rem}
@@ -531,7 +542,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.02';
+  window.__ver = '5.03';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }

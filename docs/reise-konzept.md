@@ -10,6 +10,8 @@
 4. Die App merkt sich die **genaue Stelle** in der Geschichte. Beim nächsten Mal geht es genau dort weiter. Navigationsaufgaben, Knoten und Minispiele öffnen sich **in der Geschichte**; danach geht die Geschichte weiter, nie ins Untermenü.
 5. Das **Wetter kommt aus der Geschichte** (O96) und trägt die Lektion: Nebeltag gleich Schallsignale, Nachtfahrt gleich Lichter, Sturmtag gleich Hafentag mit Wetterkunde.
 
+> **Update 29.10.2026 (O105–O110):** Die drei Felder entfallen. Der Tag ist eine durchgehende Geschichte, die von selbst läuft; die Phasen unten beschreiben nur noch den Inhalt, nicht mehr Knöpfe. Fragen kommen meist am Ende (Fragerunde), zwischendurch höchstens ein, zwei. Die Karte steht in der Mitte, daneben die Gesichter der Crew mit Sprechblase; die Fahrt-Szene von hinten nur dort, wo man sie braucht.
+
 ## 2. Ablauf eines Tages (20–30 Minuten, O97)
 | Feld | Was passiert | Lernen |
 |---|---|---|

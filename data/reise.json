@@ -1,5 +1,5 @@
 {
- "_hinweis": "Reise (VISION.md, docs/reise-konzept.md): ein Tag auf See = eine Folge in drei Phasen (morgen, unterwegs, abend). Sätze der Crew sind PLATZHALTER bis zur Story (B164), gesprochen mit der Gratis-Stimme (Art local). Schritte: {wer, t, auto?} Satz (auto = andere Fassung im Automodus), {wahl, id, opts}, {frage: n | 'faellig', id}, {navi: {...}} Aufgabe auf der Seekarte 7 (Punkte in PDF-Punkten), {mini: key} Minispiel als Bonus, {knoten: id}, {logbuch: text}. Rundgang 1 in rundgang1.",
+ "_hinweis": "Reise (VISION.md, docs/reise-konzept.md, O93–O110): ein Tag = eine durchgehende Geschichte. Sätze der Crew sind PLATZHALTER bis zur Story (B164), gesprochen mit der Gratis-Stimme. Schritte in tage[].schritte: {ansicht: 'karte'|'crew'|'fahrt', box?, ort?, tonne?: {farbe, seite, nr}, dp?, wx?} wechselt die Bühne; {fahre: [von, bis], sek} Boot fährt auf der Karte (Routenpunkte, läuft neben den Sätzen); {wer, t, auto?} Satz (auto = Fassung im Hörmodus); {wahl, id, opts: [{t, wert, empfohlen, dann: [Schritte]}]} höchstens 1–2 je Tag; {frage: n} höchstens 1–2 zwischendurch; {navi: {...}} Aufgabe auf der Seekarte 7 (Punkte in PDF-Punkten); {mini: key, text}; {knoten: id}; {fragerunde: true} alle fragen des Tages plus 2–3 fällige; {logbuch: text}.",
  "platzhalter": true,
  "rundgang1": [
   {
@@ -123,21 +123,198 @@
    "name": "Fischfang",
    "sek": 40,
    "max": 10
+  },
+  "parts": {
+   "f": "partsGame",
+   "name": "Bauteile",
+   "runden": 6,
+   "max": 6
   }
  },
  "tage": [
+  {
+   "tag": 1,
+   "titel": "Das Boot übernehmen",
+   "von": "Kuttershaven",
+   "nach": "Kuttershaven",
+   "sm": 0,
+   "wx": "schoen",
+   "route": [
+    [
+     882,
+     437
+    ]
+   ],
+   "fragen": [
+    1,
+    2,
+    59,
+    3,
+    6,
+    9
+   ],
+   "schritte": [
+    {
+     "ansicht": "crew",
+     "ort": "steg"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin. Da liegt sie, unser Boot für die Reise. Alt, aber ehrlich."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Mast liegt noch an Deck. Fürs Erste fahren wir unter Motor."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Motorboot! Motorboot!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Bevor einer die Leinen anfasst, wird festgelegt, wer Schiffsführer ist. Steht das vor der Fahrt nicht fest, muss der Verantwortliche bestimmt werden."
+    },
+    {
+     "wahl": "Wer soll auf der Reise Schiffsführer sein?",
+     "id": "schiffsfuehrer",
+     "opts": [
+      {
+       "t": "Der Käpt'n, bis ich so weit bin",
+       "wert": "hinnerk",
+       "empfohlen": true,
+       "dann": [
+        {
+         "wer": "smilla",
+         "t": "Gute Wahl. Und irgendwann übernimmst du."
+        }
+       ]
+      },
+      {
+       "t": "Ich selbst, ab sofort",
+       "wert": "ich",
+       "dann": [
+        {
+         "wer": "hinnerk",
+         "t": "Mutig. Ich steh daneben und guck dir auf die Finger."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "wer": "smilla",
+     "t": "Wer führt, braucht einen klaren Kopf. Ab null Komma fünf Promille, oder wenn man nicht sicher führen kann, darf man weder das Boot führen noch Kurs und Geschwindigkeit bestimmen."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Das gilt auch bei Medikamenten oder wenn du hundemüde bist."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Kein Rum! Kein Rum!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Übrigens: Ein Sportboot mit Elektromotor bis siebeneinhalb Kilowatt im Dauerbetrieb darfst du sogar ohne Führerschein fahren. Unser Motor ist stärker."
+    },
+    {
+     "ansicht": "karte",
+     "box": [
+      800,
+      330,
+      1010,
+      470
+     ]
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Komm an den Kartentisch. Das ist die Seekarte 7, unser Revier: Elbe, Watt, Inseln, und ganz oben Helgoland."
+    },
+    {
+     "navi": {
+      "stufe": "N0",
+      "aufgabe": "Wo liegen wir? Tippe auf Kuttershaven.",
+      "ziel": [
+       882,
+       437
+      ],
+      "radius": 12,
+      "hilfe": "Häfen sind kleine graue Quadrate. Kuttershaven liegt am Südufer der Elbe.",
+      "richtig": "Genau, da liegen wir. Morgen geht's rüber nach Klüverhafen.",
+      "auto": "Kuttershaven ist das kleine graue Quadrat am Südufer der Elbe. Da liegen wir. Morgen geht's rüber nach Klüverhafen.",
+      "ausschnitt": [
+       800,
+       330,
+       1010,
+       470
+      ]
+     }
+    },
+    {
+     "ansicht": "crew",
+     "ort": "deck"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ein paar Wörter, die du ab heute brauchst. Luv ist die Seite, die dem Wind zugekehrt ist. Lee ist die Seite, die vom Wind abgewandt ist."
+    },
+    {
+     "wer": "smilla",
+     "t": "Merk's dir so: In Luv kriegst du den Wind ins Gesicht, in Lee hast du deine Ruhe."
+    },
+    {
+     "frage": 8
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und wann ist ein Boot in Fahrt? Wenn es weder vor Anker liegt, noch an Land festgemacht ist, noch auf Grund sitzt."
+    },
+    {
+     "wer": "smilla",
+     "t": "Also auch, wenn wir mit ausgeschaltetem Motor treiben. Dann sind wir trotzdem in Fahrt."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und ein Segelboot, das zusätzlich den Motor laufen hat, gilt als Maschinenfahrzeug. Das wird wichtig, wenn's ums Ausweichen geht."
+    },
+    {
+     "mini": "parts",
+     "text": "Kennst du schon die Teile vom Boot? Bonusrunde Bauteile?",
+     "auto": "Die Teile vom Boot lernst du in der Bonusrunde Bauteile, wenn du mitmachst."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Zum Schluss belegst du die Leine an der Klampe. Das machst du ab jetzt in jedem Hafen."
+    },
+    {
+     "knoten": "klampe"
+    },
+    {
+     "ansicht": "crew",
+     "ort": "abend"
+    },
+    {
+     "wer": "smilla",
+     "t": "Feierabend. Aber bevor du in die Koje gehst: Fragerunde."
+    },
+    {
+     "fragerunde": true
+    },
+    {
+     "wer": "klabauter",
+     "t": "Gute Nacht! Gute Nacht!"
+    },
+    {
+     "logbuch": "Kuttershaven: Boot übernommen, Schiffsführer bestimmt, Leine an der Klampe belegt."
+    }
+   ]
+  },
   {
    "tag": 2,
    "titel": "Erste Meilen über die Elbe",
    "von": "Kuttershaven",
    "nach": "Klüverhafen",
    "sm": 2,
-   "wetter": "sonnig, Westwind 2",
-   "dp": {
-    "morgen": "morgen",
-    "unterwegs": "tag",
-    "abend": "abend"
-   },
    "wx": "schoen",
    "route": [
     [
@@ -173,160 +350,181 @@
      414
     ]
    ],
-   "phasen": {
-    "morgen": [
-     {
-      "wer": "hinnerk",
-      "t": "Moin. Heute nur ein kurzer Schlag: von Kuttershaven rüber nach Klüverhafen. Zwei Seemeilen."
-     },
-     {
-      "wer": "smilla",
-      "t": "Wetterbericht: sonnig, Westwind zwei. Ruhiger kriegen wir's nicht. Perfekt für die ersten Meilen."
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Wir laufen bei Hochwasser aus. Vor dem Hafen liegt Watt, bei Niedrigwasser sitzen wir da fest."
-     },
-     {
-      "wer": "klabauter",
-      "t": "Zwei Meilen! Zwei Meilen!"
-     },
-     {
-      "wer": "smilla",
-      "t": "Bevor wir losfahren, gucken wir auf die Karte. Wer navigiert, muss wissen, wo die Tonnen liegen."
-     },
-     {
-      "navi": {
-       "stufe": "N0",
-       "aufgabe": "Tippe auf der Karte die grüne Tonne an, an der wir vor Klüverhafen das Fahrwasser verlassen.",
-       "ziel": [
-        942,
-        404
-       ],
-       "radius": 13,
-       "hilfe": "Grüne Tonnen haben ungerade Nummern und stehen an der Südseite des Fahrwassers. Such die letzte grüne Tonne vor Klüverhafen.",
-       "richtig": "Genau, Tonne 37. Bis dahin bleiben wir im Fahrwasser auf der rechten Seite.",
-       "auto": "Ich such die grüne Tonne vor Klüverhafen. Grün heißt ungerade Nummer. Hier ist es die 37. Bis dahin bleiben wir im Fahrwasser rechts.",
-       "ausschnitt": [
-        850,
-        355,
-        1012,
-        455
-       ]
-      }
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Und jetzt zum Boot. Unser Propeller dreht sich, von achtern gesehen und in Vorausfahrt, im Uhrzeigersinn. Das nennt man rechtsdrehend."
-     },
-     {
-      "frage": 44
-     },
-     {
-      "wer": "smilla",
-      "t": "Und andersrum, gegen den Uhrzeigersinn, ist er linksdrehend. Gleiche Blickrichtung: von achtern, Vorausfahrt."
-     },
-     {
-      "frage": 45
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Der Propeller schiebt nicht nur. Er versetzt das Heck auch seitlich. Das ist der Radeffekt. Wer das weiß, manövriert besser."
-     },
-     {
-      "frage": 46
-     },
-     {
-      "frage": 47
+   "fragen": [
+    41,
+    44,
+    45,
+    46,
+    47,
+    48,
+    50,
+    51
+   ],
+   "schritte": [
+    {
+     "ansicht": "karte"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin. Heute nur ein kurzer Schlag: von Kuttershaven rüber nach Klüverhafen. Zwei Seemeilen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Wetterbericht: sonnig, Westwind zwei. Ruhiger kriegen wir's nicht."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wir laufen bei Hochwasser aus. Vor dem Hafen liegt Watt, bei Niedrigwasser sitzen wir da fest."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Zwei Meilen! Zwei Meilen!"
+    },
+    {
+     "navi": {
+      "stufe": "N0",
+      "aufgabe": "Tippe auf der Karte die grüne Tonne an, an der wir vor Klüverhafen das Fahrwasser verlassen.",
+      "ziel": [
+       942,
+       404
+      ],
+      "radius": 13,
+      "hilfe": "Grüne Tonnen haben ungerade Nummern und stehen an der Südseite des Fahrwassers. Such die letzte grüne Tonne vor Klüverhafen.",
+      "richtig": "Genau, Tonne 37. Bis dahin bleiben wir im Fahrwasser auf der rechten Seite.",
+      "auto": "Ich such die grüne Tonne vor Klüverhafen. Grün heißt ungerade Nummer. Hier ist es die 37. Bis dahin bleiben wir im Fahrwasser rechts.",
+      "ausschnitt": [
+       850,
+       355,
+       1012,
+       455
+      ]
      }
-    ],
-    "unterwegs": [
-     {
-      "wer": "hinnerk",
-      "t": "Leinen los. Wir fahren rückwärts aus der Box."
+    },
+    {
+     "ansicht": "crew",
+     "ort": "deck"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Bevor wir ablegen: unser Propeller. Von achtern gesehen dreht er sich in Vorausfahrt im Uhrzeigersinn. Das nennt man rechtsdrehend."
+    },
+    {
+     "wer": "smilla",
+     "t": "Dreht er gegen den Uhrzeigersinn, gleiche Blickrichtung, ist er linksdrehend."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Der Propeller schiebt nicht nur, er versetzt das Heck auch seitlich. Das ist der Radeffekt. Wer die Drehrichtung kennt, manövriert besser."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Leinen los. Wir fahren rückwärts aus der Box."
+    },
+    {
+     "wer": "smilla",
+     "t": "Pass auf: Bei rechtsdrehendem Propeller zieht das Heck rückwärts nach Backbord."
+    },
+    {
+     "frage": 41
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und das Ruder greift rückwärts erst spät. Bei starrer Welle kommt die Ruderwirkung erst, wenn das Wasser das Ruderblatt anströmt."
+    },
+    {
+     "ansicht": "karte"
+    },
+    {
+     "fahre": [
+      0,
+      4
+     ],
+     "sek": 10
+    },
+    {
+     "wer": "smilla",
+     "t": "Wir sind im Fahrwasser. Rechts halten, die grünen Tonnen bleiben an Steuerbord."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Motor brummt! Motor brummt!"
+    },
+    {
+     "mini": "motor",
+     "text": "Kennst du dich mit dem Außenborder aus? Bonusrunde Motorkunde?",
+     "auto": "Die Bonusrunde Motorkunde spielst du, wenn du mitmachst."
+    },
+    {
+     "wer": "smilla",
+     "t": "Unser Beiboot hat einen Außenborder ohne Ruder. Da lenkt allein der Schraubenstrom, je nachdem, wohin der Propeller zeigt."
+    },
+    {
+     "ansicht": "fahrt",
+     "tonne": {
+      "farbe": "gruen",
+      "seite": "stb",
+      "nr": "37",
+      "ab": 0.3
      },
-     {
-      "wer": "smilla",
-      "t": "Achtung: Bei rechtsdrehendem Propeller zieht das Heck rückwärts nach Backbord. Merk dir das."
-     },
-     {
-      "frage": 41
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Merkst du's? Das Ruder greift rückwärts erst spät. Bei starrer Welle kommt die Ruderwirkung erst, wenn das Wasser das Ruderblatt anströmt."
-     },
-     {
-      "frage": 51
-     },
-     {
-      "wer": "klabauter",
-      "t": "Motor brummt! Motor brummt!"
-     },
-     {
-      "mini": "motor",
-      "text": "Smilla will wissen, ob du den Außenborder kennst. Bonusrunde Motorkunde?"
-     },
-     {
-      "wer": "smilla",
-      "t": "Das Beiboot hat einen Außenborder ohne Ruder. Da lenkt allein der Schraubenstrom, je nachdem, wohin der Propeller zeigt."
-     },
-     {
-      "frage": 50
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Tonne 37 querab. Wir verlassen das Fahrwasser. Klüverhafen voraus."
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Wir legen mit Backbord an. Rate mal, warum."
-     },
-     {
-      "frage": 48
-     },
-     {
-      "mini": "man",
-      "text": "Der Steg ist frei. Willst du selbst anlegen?"
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Fest. Jetzt die Vorleine über den Poller, mit einem Palstek."
-     },
-     {
-      "knoten": "palstek"
-     }
-    ],
-    "abend": [
-     {
-      "wer": "smilla",
-      "t": "Feierabend in Klüverhafen. Die Sonne geht hinter der Elbe unter."
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Zwei Fragen von gestern, dann ist Ruhe."
-     },
-     {
-      "frage": "faellig",
-      "id": "f1"
-     },
-     {
-      "frage": "faellig",
-      "id": "f2"
-     },
-     {
-      "wer": "klabauter",
-      "t": "Feierabend! Feierabend!"
-     },
-     {
-      "wer": "hinnerk",
-      "t": "Morgen geht's nach Lotsenkoog. Und dann hören wir mal, was der Motor so erzählt."
-     },
-     {
-      "logbuch": "Kuttershaven nach Klüverhafen, zwei Seemeilen, sonnig. Propeller, Radeffekt, angelegt mit Palstek."
-     }
-    ]
-   }
+     "dp": "tag"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Da ist sie: Tonne 37, grün, an Steuerbord. Hier verlassen wir das Fahrwasser."
+    },
+    {
+     "wer": "smilla",
+     "t": "Von See kommend bleibt Grün an Steuerbord. Wir fahren elbaufwärts, also passt das."
+    },
+    {
+     "ansicht": "karte"
+    },
+    {
+     "fahre": [
+      4,
+      7
+     ],
+     "sek": 6
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Klüverhafen voraus. Wir legen mit Backbord an, weil der Radeffekt beim Aufstoppen das Heck an die Pier zieht."
+    },
+    {
+     "mini": "man",
+     "text": "Der Steg ist frei. Willst du selbst anlegen?",
+     "auto": "Das Anlegen übst du selbst, wenn du mitmachst."
+    },
+    {
+     "ansicht": "crew",
+     "ort": "steg"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Fest. Jetzt die Vorleine über den Poller, mit einem Palstek."
+    },
+    {
+     "knoten": "palstek"
+    },
+    {
+     "ansicht": "crew",
+     "ort": "abend"
+    },
+    {
+     "wer": "smilla",
+     "t": "Feierabend in Klüverhafen. Die Sonne geht hinter der Elbe unter. Zeit für die Fragerunde."
+    },
+    {
+     "fragerunde": true
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Morgen geht's nach Lotsenkoog. Und dann hören wir mal, was der Motor so erzählt."
+    },
+    {
+     "logbuch": "Kuttershaven nach Klüverhafen, zwei Seemeilen, sonnig. Propeller, Radeffekt, angelegt mit Palstek."
+    }
+   ]
   }
  ]
 }
