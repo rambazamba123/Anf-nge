@@ -6,6 +6,8 @@
 if git diff --cached --name-only | grep -q '^podcast/'; then node tools/podcast-pruefen.js --entwurf || { echo "Podcast-Prüfung fehlgeschlagen."; exit 1; }; node tools/kursplan-pruefen.js || { echo "Kursplan-Prüfung fehlgeschlagen."; exit 1; }; fi
 # Reiseplan: jede Folge und jede Frage genau einmal (docs/reise-konzept.md)
 if git diff --cached --name-only | grep -qE '^(data/reise-plan\.json|podcast/kursplan-sbf\.json)$'; then node tools/reise-plan.js --check || { echo "Reiseplan-Prüfung fehlgeschlagen."; exit 1; }; fi
+# Karte 7: Objektdaten müssen zum SVG passen
+if git diff --cached --name-only | grep -qE '^(img/karte7\.svg|data/karte7\.json|data/navi7\.json)$'; then node tools/karte7-extrahieren.js --check && node tools/navi7-pruefen.js || { echo "Karte-7-Prüfung fehlgeschlagen."; exit 1; }; fi
 if [ -z "$(git diff --cached --name-only | grep -v '\.md$')" ]; then echo "Nur Texte geändert, Rauchtest übersprungen."; exit 0; fi
 # Kreuzknoten mathematisch prüfen (echter Kreuzknoten, kein Altweiberknoten), wenn knoten.js geändert ist
 if git diff --cached --name-only | grep -q '^knoten\.js$'; then node tools/knoten-pruefen.js || { echo "Kreuzknoten-Prüfung fehlgeschlagen."; exit 1; }; fi

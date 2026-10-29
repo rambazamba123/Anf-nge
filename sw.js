@@ -2,11 +2,11 @@
    Bei jeder neuen App-Version VERSION hochzählen (gleich wie __ver in index.html).
    Nur dann merkt das Handy, dass es etwas Neues gibt, und zeigt „Jetzt laden“.
    MEDIEN hochzählen, wenn ein Bild oder Ton unter gleichem Namen ersetzt wurde (neue Namen brauchen das nicht). */
-const VERSION = '5.05';
+const VERSION = '5.06';
 const MEDIEN = 'skipper-medien-2';
 const CACHE = 'skipper-' + VERSION;
 const CORE = ['./', 'index.html', 'datenschutz.html', 'impressum.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'fonts/fonts.css', 'fonts/baloo2-latin.woff2', 'fonts/baloo2-latin-ext.woff2', 'fonts/nunito-latin.woff2', 'fonts/nunito-latin-ext.woff2']
-  .concat(['sbf', 'sks', 'nav', 'folgen', 'binnen', 'lexikon', 'karte', 'navi', 'karten-sbf', 'karten-bin', 'karten-sks', 'toerns', 'ereignisse', 'ausruestung', 'tags', 'sks-mc', 'knoten', 'einfuehrungen', 'manoever', 'seezeichen', 'ziele', 'reise', 'geraeusche-app'].map(f => 'data/' + f + '.json?v=' + VERSION)).concat(['navi.js?v=' + VERSION, 'toern.js?v=' + VERSION, 'knoten.js?v=' + VERSION, 'manoever.js?v=' + VERSION, 'schein.js?v=' + VERSION, 'seezeichen.js?v=' + VERSION, 'ziele.js?v=' + VERSION, 'kurs.js?v=' + VERSION, 'szene.js?v=' + VERSION, 'reise.js?v=' + VERSION, 'casting.js?v=' + VERSION, 'hoerprobe.js?v=' + VERSION]);
+  .concat(['sbf', 'sks', 'nav', 'folgen', 'binnen', 'lexikon', 'karte', 'karte7', 'navi', 'karten-sbf', 'karten-bin', 'karten-sks', 'toerns', 'ereignisse', 'ausruestung', 'tags', 'sks-mc', 'knoten', 'einfuehrungen', 'manoever', 'seezeichen', 'ziele', 'reise', 'navi7', 'geraeusche-app'].map(f => 'data/' + f + '.json?v=' + VERSION)).concat(['navi.js?v=' + VERSION, 'toern.js?v=' + VERSION, 'knoten.js?v=' + VERSION, 'manoever.js?v=' + VERSION, 'schein.js?v=' + VERSION, 'seezeichen.js?v=' + VERSION, 'ziele.js?v=' + VERSION, 'kurs.js?v=' + VERSION, 'szene.js?v=' + VERSION, 'reise.js?v=' + VERSION, 'navi7.js?v=' + VERSION, 'casting.js?v=' + VERSION, 'hoerprobe.js?v=' + VERSION]);
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}));

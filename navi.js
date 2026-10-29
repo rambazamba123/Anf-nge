@@ -6,14 +6,19 @@
    ========================================================================== */
 (() => {
 const NAV = window.NAV = window.NAV || {};
-let K = null, NV = null, MTOP = 0, W = 0, H = 0;
+let K = null, NV = null, MTOP = 0, W = 0, H = 0, LIN = null, KLIEV = null;
 const SC = 28.45, PAD = 60;
 const rad = d => d * Math.PI / 180, deg = r => r * 180 / Math.PI, n360 = a => ((a % 360) + 360) % 360;
 const r1 = v => Math.round(v * 10) / 10;
 /* Mercator-Ordinate in Längenminuten; lat in Minuten ab 55°00' */
-const merc = lat => Math.log(Math.tan(Math.PI / 4 + rad(55 + lat / 60) / 2)) * 180 / Math.PI * 60;
-function proj(lat, lon) { return {x: PAD + (lon - K.bounds.lon0) * SC, y: PAD + (MTOP - merc(lat)) * SC}; }
+/* Zwei Reviere (Nutzer 29.10.2026): die erfundene Kliev-Mündung (Mercator, alt) und die Seekarte 7 „Deutsche Gischt“ (SVG-Bild, lineare Eichung aus den Randbeschriftungen, Basis 54°00'N / 007°00'E, K.lin). */
+const BASE = () => K && K.basis ? K.basis.lat : 55;
+const latDeg = m => BASE() + m / 60;
+const cosLat = m => LIN ? LIN.sx / LIN.sy : Math.cos(rad(latDeg(m)));
+const merc = lat => LIN ? lat * LIN.sy / LIN.sx : Math.log(Math.tan(Math.PI / 4 + rad(55 + lat / 60) / 2)) * 180 / Math.PI * 60;
+function proj(lat, lon) { if (LIN) return {x: LIN.x0 + (lon - LIN.lon0) * LIN.sx, y: LIN.y0 + (LIN.lat1 - lat) * LIN.sy}; return {x: PAD + (lon - K.bounds.lon0) * SC, y: PAD + (MTOP - merc(lat)) * SC}; }
 function unproj(x, y) {
+  if (LIN) return {lat: LIN.lat1 - (y - LIN.y0) / LIN.sy, lon: LIN.lon0 + (x - LIN.x0) / LIN.sx};
   const lon = K.bounds.lon0 + (x - PAD) / SC, m = MTOP - (y - PAD) / SC;
   const phi = 2 * Math.atan(Math.exp(rad(m / 60))) - Math.PI / 2;
   return {lat: deg(phi) * 60 - 3300, lon};
@@ -22,18 +27,18 @@ function unproj(x, y) {
 const fromXY = ([x, y]) => proj(30 - y / 50, 20 + x / 28.45);
 
 /* ---------- Rechnen (Mittelbreitenverfahren, für Distanzen dieser Karte genau genug) ---------- */
-const cosM = (a, b) => Math.cos(rad(55 + (a.lat + b.lat) / 120));
+const cosM = (a, b) => cosLat((a.lat + b.lat) / 2);
 function kursDist(a, b) {
   const dy = b.lat - a.lat, dx = (b.lon - a.lon) * cosM(a, b);
   return {k: n360(deg(Math.atan2(dx, dy))), d: Math.hypot(dx, dy)};
 }
 function versegeln(p, k, d) {
   const dy = d * Math.cos(rad(k)), mid = {lat: p.lat + dy / 2};
-  return {lat: p.lat + dy, lon: p.lon + d * Math.sin(rad(k)) / Math.cos(rad(55 + mid.lat / 60))};
+  return {lat: p.lat + dy, lon: p.lon + d * Math.sin(rad(k)) / cosLat(mid.lat)};
 }
 /* Standort aus zwei rechtweisenden Peilungen (vom Schiff zum Objekt) */
 function kreuzpeilung(o1, p1, o2, p2) {
-  const ref = {lat: (o1.lat + o2.lat) / 2}, c = Math.cos(rad(55 + ref.lat / 60));
+  const ref = {lat: (o1.lat + o2.lat) / 2}, c = cosLat(ref.lat);
   const P = o => [(o.lon) * c, o.lat];
   const [x1, y1] = P(o1), [x2, y2] = P(o2);
   const d1 = [Math.sin(rad(p1 + 180)), Math.cos(rad(p1 + 180))], d2 = [Math.sin(rad(p2 + 180)), Math.cos(rad(p2 + 180))];
@@ -47,8 +52,8 @@ function ablenkung(mgk) {
   return 0;
 }
 const mw = () => K.mw.dir === 'E' ? K.mw.deg : -K.mw.deg;
-const fmtLat = lat => { const t = 55 * 60 + lat; return `${Math.floor(t / 60)}° ${(t % 60).toFixed(1).replace('.', ',').padStart(4, '0')}' N`; };
-const fmtLon = lon => { const t = 6 * 60 + lon; return `${String(Math.floor(t / 60)).padStart(3, '0')}° ${(t % 60).toFixed(1).replace('.', ',').padStart(4, '0')}' E`; };
+const fmtLat = lat => { const t = BASE() * 60 + lat; return `${Math.floor(t / 60)}° ${(t % 60).toFixed(1).replace('.', ',').padStart(4, '0')}' N`; };
+const fmtLon = lon => { const t = (K && K.basis ? K.basis.lon : 6) * 60 + lon; return `${String(Math.floor(t / 60)).padStart(3, '0')}° ${(t % 60).toFixed(1).replace('.', ',').padStart(4, '0')}' E`; };
 const fmtPos = p => fmtLat(p.lat) + '  ' + fmtLon(p.lon);
 const fmtDeg = k => String(Math.round(n360(k)) % 360).padStart(3, '0') + '°';
 const fmtSigned = v => (v > 0 ? '+' : v < 0 ? '−' : '±') + Math.abs(Math.round(v)) + '°';
@@ -114,7 +119,15 @@ function scalesSVG() {
   for (let lon = b.lon0 + 5; lon < b.lon1; lon += 5) { const x = proj(0, lon).x; s += `<path class="grid" d="M${x.toFixed(1)} ${yT} V${yB}"/>`; }
   return s + `<rect x="${x0}" y="${yT}" width="${x1 - x0}" height="${yB - yT}" fill="none" stroke="#222" stroke-width="1.6"/></g>`;
 }
+/* Seekarte 7: das SVG-Bild ist die Karte, darüber nur die unsichtbaren Tippflächen der Objekte */
+function chartSVG7() {
+  W = K.w; H = K.h; MTOP = 0;
+  let s = `<rect x="0" y="0" width="${W}" height="${H}" fill="#f7f5ef"/><image href="${K.bild}?v=${window.__ver}" x="0" y="0" width="${W}" height="${H}"/><g id="nobjs">`;
+  K.objekte.forEach(o => { if (o.anon) return; s += `<g class="nobj" data-oid="${o.id.replace(/"/g, '')}" transform="translate(${o.x} ${o.y})"><circle r="9" fill="transparent"/></g>`; });
+  return `<g id="nchart">${s}</g></g>`;
+}
 function chartSVG() {
+  if (LIN) return chartSVG7();
   const b = K.bounds; MTOP = merc(b.lat1); W = PAD * 2 + (b.lon1 - b.lon0) * SC; H = PAD * 2 + (MTOP - merc(b.lat0)) * SC;
   const yT = PAD, yB = H - PAD, x1 = W - PAD;
   let s = `<rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/><clipPath id="nclip"><rect x="${PAD}" y="${yT}" width="${x1 - PAD}" height="${yB - yT}"/></clipPath><g clip-path="url(#nclip)"><rect x="${PAD}" y="${yT}" width="${x1 - PAD}" height="${yB - yT}" fill="#fbfdff"/>`;
@@ -166,7 +179,7 @@ NAV.mountChart = function (host, opt = {}) {
   /* Wird die Karte kleiner oder größer (Zahlentasten, Drehen), bleibt die Mitte stehen */
   if (window.ResizeObserver) new ResizeObserver(() => { const v = st.vb, r = svg.getBoundingClientRect(); if (!v || !r.width || !r.height) return; const h = v.w * r.height / r.width; vbSet({x: v.x, y: v.y + v.h / 2 - h / 2, w: v.w}); }).observe(svg);
   /* Breitenrand links und rechts: dort misst der Zirkel (1' = 1 sm) */
-  const randXs = () => [PAD - 5, proj(0, K.bounds.lon1).x + 5];
+  const randXs = () => LIN ? [K.rahmen.x0 - 5, K.rahmen.x1 + 5] : [PAD - 5, proj(0, K.bounds.lon1).x + 5];
   const minY = lat => proj(lat, 0).y;
   const latOf = p => unproj(p.x, p.y).lat;
   /* Zirkel: Gelenk seitlich, runde Griffe neben den Spitzen (der Finger verdeckt die Spitze nicht) */
@@ -179,13 +192,19 @@ NAV.mountChart = function (host, opt = {}) {
     return {s, h, ga: grip(z.a), gb: grip(z.b)};
   };
   const f1 = v => v.toFixed(1);
+  /* Der Zirkel zählt selbst ab (Nutzer 29.10.2026): Die Länge steht live am Gelenk, wenn Hilfen erlaubt sind (nicht in der Prüfung). */
+  const zahlSM = (z, h, s) => { if (!opt.hilfen || !z.done) return ''; const d = kursDist(unproj(z.a.x, z.a.y), unproj(z.b.x, z.b.y)).d, t = r1(d).toFixed(1).replace('.', ',') + ' sm', w = (t.length * 7.4 + 12) * s, hh = 20 * s;
+    return `<g class="zsm" pointer-events="none"><rect x="${f1(h.x - w / 2)}" y="${f1(h.y - hh - 16 * s)}" width="${f1(w)}" height="${f1(hh)}" rx="${f1(7 * s)}"/><text x="${f1(h.x)}" y="${f1(h.y - 16 * s - 6 * s)}" font-size="${f1(13 * s)}">${t}</text></g>`; };
   const zirkelSVG = z => { const {s, h, ga, gb} = zGeo(z), c = (p, r, cl, hh) => `<circle cx="${f1(p.x)}" cy="${f1(p.y)}" r="${f1(r * s)}" class="${cl}"${hh ? ` data-h="${hh}"` : ''}/>`;
     return `<g class="zirkel"><path d="M${f1(z.a.x)} ${f1(z.a.y)} L${f1(h.x)} ${f1(h.y)} L${f1(z.b.x)} ${f1(z.b.y)}" class="zleg"/>${z.done ? `<path d="M${f1(z.a.x)} ${f1(z.a.y)} L${f1(ga.x)} ${f1(ga.y)} M${f1(z.b.x)} ${f1(z.b.y)} L${f1(gb.x)} ${f1(gb.y)}" class="zgl"/>` : ''}
-      ${c(h, 11, 'zhinge', 'move')}${z.done ? c(ga, 15, 'zgrip', 'a') + c(gb, 15, 'zgrip', 'b') + c(ga, 5, 'zgdot') + c(gb, 5, 'zgdot') : ''}${c(z.a, 9, 'zhit', 'a')}${c(z.b, 9, 'zhit', 'b')}${c(z.a, 2.6, 'ztip')}${c(z.b, 2.6, 'ztip')}</g>`; };
+      ${c(h, 11, 'zhinge', 'move')}${z.done ? c(ga, 15, 'zgrip', 'a') + c(gb, 15, 'zgrip', 'b') + c(ga, 5, 'zgdot') + c(gb, 5, 'zgdot') : ''}${c(z.a, 9, 'zhit', 'a')}${c(z.b, 9, 'zhit', 'b')}${c(z.a, 2.6, 'ztip')}${c(z.b, 2.6, 'ztip')}${zahlSM(z, h, s)}</g>`; };
+  /* Das Dreieck zeigt seinen Winkel selbst an (Hilfen erlaubt, nicht in der Prüfung) */
+  const zahlGrad = d => { const t = fmtDeg(d.a), s = scale(), w = (t.length * 7.4 + 12) * s, hh = 20 * s, y = 150 * s / 1.0;
+    return `<g class="zsm" pointer-events="none"><rect x="${f1(-w / 2)}" y="${f1(y)}" width="${f1(w)}" height="${f1(hh)}" rx="${f1(7 * s)}"/><text x="0" y="${f1(y + 14 * s)}" font-size="${f1(13 * s)}">${t}</text></g>`; };
   const dreieckSVG = d => { const L = 120, R = 70;
     return `<g class="dreieck" transform="translate(${f1(d.x)} ${f1(d.y)}) rotate(${d.a.toFixed(2)})"><path d="M0 ${-L} L0 ${L} L${-L} 0 Z" class="dbody"/><g class="dticks">${DTICKS}</g>
       <path d="M0 ${-L} L0 ${L}" class="dedge"/><path d="M0 ${-L + 4} l-5 12 h10 Z" class="darrow"/><circle cx="0" cy="${-L}" r="11" class="dhandle" data-h="rot"/><circle cx="0" cy="0" r="3" class="dctr"/></g>
-      <g transform="translate(${f1(d.x)} ${f1(d.y)})"><path d="M0 ${-R - 16} V${R + 16}" class="dmer"/></g>`; };
+      <g transform="translate(${f1(d.x)} ${f1(d.y)})"><path d="M0 ${-R - 16} V${R + 16}" class="dmer"/>${opt.hilfen ? zahlGrad(d) : ''}</g>`; };
   /* Zeichnen der Benutzer-Ebenen: Linien und Kreuze, dann Werkzeuge */
   const inkLines = () => {
     G('nlines').innerHTML = st.lines.map(l => `<path d="M${l.a.x.toFixed(1)} ${l.a.y.toFixed(1)} L${l.b.x.toFixed(1)} ${l.b.y.toFixed(1)}" class="pencil${l.c ? ' ' + l.c : ''}"/>`).join('');
@@ -359,7 +378,7 @@ const CSS = `
 .dreieck .darrow{fill:#2a2a6a}.dreieck .dticks path{stroke:#2a2a6a;stroke-width:.6}.dlab{font-size:7px;fill:#2a2a6a;text-anchor:middle}.dlab.i{fill:#8a4a4a}
 .dreieck .dhandle{fill:#f0b43e;stroke:#2a2a6a;stroke-width:1;cursor:grab}.dreieck .dctr{fill:#2a2a6a}.dmer{stroke:#d6332c;stroke-width:1;stroke-dasharray:4 2}
 .zirkel .zleg{stroke:#444;stroke-width:2.2;fill:none;stroke-linejoin:round;vector-effect:non-scaling-stroke}.zirkel .zgl{stroke:#8a6a2a;stroke-width:1.2;stroke-dasharray:3 3;fill:none;vector-effect:non-scaling-stroke}
-.zirkel .zhinge{fill:#c8962e;stroke:#444;vector-effect:non-scaling-stroke}.zirkel .zgrip{fill:rgba(240,181,62,.92);stroke:#5a4410;stroke-width:1.5;vector-effect:non-scaling-stroke}.zirkel .zgdot{fill:#fff;pointer-events:none}.zirkel .zhit{fill:transparent}.zirkel .ztip{fill:#d6332c;pointer-events:none}
+.zirkel .zsm rect,.dreieck+g .zsm rect{fill:#fff8d8;stroke:#8a6d1f;stroke-width:1.2;vector-effect:non-scaling-stroke}.zirkel .zsm text,.dreieck+g .zsm text{fill:#3a2a00;font-weight:800;text-anchor:middle;font-family:Helvetica,Arial,sans-serif}.zirkel .zhinge{fill:#c8962e;stroke:#444;vector-effect:non-scaling-stroke}.zirkel .zgrip{fill:rgba(240,181,62,.92);stroke:#5a4410;stroke-width:1.5;vector-effect:non-scaling-stroke}.zirkel .zgdot{fill:#fff;pointer-events:none}.zirkel .zhit{fill:transparent}.zirkel .ztip{fill:#d6332c;pointer-events:none}
 .nhi{fill:none;stroke:#f0b43e;stroke-width:3;stroke-dasharray:5 3}
 .nlens{position:absolute;width:110px;height:110px;border-radius:50%;overflow:hidden;border:3px solid #2a2a6a;background:#fff;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:5}
 .nlens svg{width:100%;height:100%}.nlens i{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border:1px solid #d6332c;border-radius:50%}
@@ -411,9 +430,20 @@ NAV.init = async function () {
   if (K) return;
   const get = f => fetch('data/' + f + '?v=' + window.__ver).then(r => { if (!r.ok) throw new Error(f); return r.json(); });
   [K, NV] = await Promise.all([get('karte.json'), get('navi.json').catch(() => ({}))]);
-  MTOP = merc(K.bounds.lat1);
+  KLIEV = K; MTOP = merc(K.bounds.lat1);
   chartSVG();
 };
+/* Revier wechseln: 'kliev' (alt, erfunden) oder 'gischt' (Seekarte 7). Wer die Seekarte 7 nutzt, ruft vorher NAV.revier('gischt') und danach NAV.revier('kliev'). */
+let K7 = null;
+NAV.revier = async function (id) {
+  await NAV.init();
+  if (id === 'gischt') {
+    if (!K7) K7 = await fetch('data/karte7.json?v=' + window.__ver).then(r => { if (!r.ok) throw new Error('karte7.json'); return r.json(); });
+    K = K7; LIN = K7.lin; W = K7.w; H = K7.h;
+  } else { K = KLIEV; LIN = null; MTOP = merc(K.bounds.lat1); chartSVG(); }
+  return K;
+};
+NAV.revierId = () => LIN ? 'gischt' : 'kliev';
 NAV.data = () => ({K, NV});
 const S_ = () => { S.navi = S.navi || {}; S.navi.lek = S.navi.lek || {}; S.navi.fibel = S.navi.fibel || {}; S.navi.pruef = S.navi.pruef || []; return S.navi; };
 NAV.state = S_;
