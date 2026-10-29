@@ -10,6 +10,8 @@
 4. Die App merkt sich die **genaue Stelle** in der Geschichte. Beim nächsten Mal geht es genau dort weiter. Navigationsaufgaben, Knoten und Minispiele öffnen sich **in der Geschichte**; danach geht die Geschichte weiter, nie ins Untermenü.
 5. Das **Wetter kommt aus der Geschichte** (O96) und trägt die Lektion: Nebeltag gleich Schallsignale, Nachtfahrt gleich Lichter, Sturmtag gleich Hafentag mit Wetterkunde.
 
+> **Update 29.10.2026, abends:** Die Hauptansicht ist die **Runde mit der Crew** (hier redet man, hört zu). Die Seekarte ist Grundlage zum Planen und Navigieren und legt sich nur bei Bedarf über die Runde, ebenso die Fahrt-Szene, Fragen, Minispiele und Knoten.
+
 > **Update 29.10.2026 (O105–O110):** Die drei Felder entfallen. Der Tag ist eine durchgehende Geschichte, die von selbst läuft; die Phasen unten beschreiben nur noch den Inhalt, nicht mehr Knöpfe. Fragen kommen meist am Ende (Fragerunde), zwischendurch höchstens ein, zwei. Die Karte steht in der Mitte, daneben die Gesichter der Crew mit Sprechblase; die Fahrt-Szene von hinten nur dort, wo man sie braucht.
 
 ## 2. Ablauf eines Tages (20–30 Minuten, O97)
@@ -41,6 +43,8 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 - **Prüfungsreife (Tag 45–50)** im Heimathafen: Praxis, Vergleichsabende, Generalprobe mit Harms. Danach bist du Bootsveteran.
 - Die Karte hat schon schöne Haken für die Geschichte: die verschollene **Brigg „Gute Hoffnung“ (1888)**, „Bei Vollmond zählt hier der Klabautermann die Tonnen“, **Hinnerks Lieblingsplatz**. Das könnte ein roter Faden über die ganze Reise werden.
 
+> **Stand 29.10.2026 (abends):** Die neue Fassung der Karte (`Seekarte7_Deutsche_Gischt.svg`, in der App `img/karte7.svg`) setzt die Vorschläge unten schon um: Hinweis „Übungskarte, nur zu Übungszwecken“, feinere Randteilung, gestreifte Ansteuerungstonnen, Kirchtürme und Funkmast, Schleuse bei Tampensiel, Sperrgebiet, Nationalpark mit Grenze, Gezeiten- und Stromtabelle, Hafenanker, Priel mit Pricken nach Kuttershaven und der Hinweis „Distanzen nur am Breitenrand abgreifen“. Die Vorschläge bleiben unten als Begründung stehen.
+
 ## 5. Die Seekarte 7 „Deutsche Gischt“ (geprüft am 29.10.2026)
 **Was gut ist:**
 - Die Seezeichen sind fachlich richtig:
@@ -67,7 +71,7 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 8. **Hafenzufahrten:** Kuttershaven liegt hinter Watt. Ein Priel mit Pricken als Zufahrt würde zeigen, wie man bei Niedrigwasser rein- und rauskommt (passt zu Gezeiten und Pricken im Katalog).
 9. **Kleinigkeit:** Am rechten Rand liegt bei 54°00' eine zweite Beschriftung über der ersten.
 
-**Für die App brauche ich die Quelldatei** (die PDF ist aus einem Browser erzeugt, also gibt es vermutlich eine SVG- oder HTML-Datei). Damit kann ich Tonnen, Feuer und Häfen mit ihren Positionen als Daten übernehmen, sodass die Navigationsaufgaben die echte Etappe rechnen und die Karte am Kartentisch scharf zoomt (O101).
+**Für die App brauche ich die Quelldatei** (inzwischen da, siehe oben) (die PDF ist aus einem Browser erzeugt, also gibt es vermutlich eine SVG- oder HTML-Datei). Damit kann ich Tonnen, Feuer und Häfen mit ihren Positionen als Daten übernehmen, sodass die Navigationsaufgaben die echte Etappe rechnen und die Karte am Kartentisch scharf zoomt (O101).
 
 ## 6. Offene Punkte
 - **O101 Quelldatei der Karte:** SVG oder HTML der Seekarte 7 in den Ordner `import` legen. Ohne sie lese ich die Positionen aus der PDF ab, das ist ungenauer.
