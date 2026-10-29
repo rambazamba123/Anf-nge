@@ -7,8 +7,8 @@
     "N2": {"titel":"Kurs und Distanz","text":"Kurs mit dem Dreieck, Distanz mit dem Zirkel. Der Zirkel zählt die Länge für dich ab."},
     "N3": {"titel":"Zeit, Fahrt, Strecke","text":"Wie lange dauert es, wie schnell bin ich, wo bin ich nach einer Weile?"},
     "N4": {"titel":"Kompass","text":"Missweisung der Karte für dieses Jahr und Kurse umrechnen."},
-    "N5": {"titel":"Peilung","text":"Standort aus Peilungen. Kommt bald."},
-    "N6": {"titel":"Strom und Gezeiten","text":"Strom und Versetzung. Kommt bald."},
+    "N5": {"titel":"Peilung","text":"Standort aus zwei Peilungen: Linien vom Objekt in die Gegenrichtung zeichnen."},
+    "N6": {"titel":"Strom und Gezeiten","text":"Strom aus der Tabelle, Besteckort mit Strom und Wassertiefe aus der Gezeitentabelle."},
     "ueben": {"titel":"Routine","text":"Eine kurze Aufgabe aus den bisherigen Stufen."},
     "voll": {"titel":"Volle Törnplanung","text":"Kurs, Distanz, Zeit, Kompasskurs und Peilung für die echte Etappe."}
   },
@@ -41,6 +41,15 @@
     {"id":"n3-koppel-29","stufe":"N3","typ":"koppel","von":"Elbe 29","kurs":96,"kn":6,"min":30,"text":"Wir sind an Tonne 29 und fahren {kurs} Grad mit {kn} Knoten, {min} Minuten lang. Setze ein Kreuz, wo wir dann sind.","richtig":"Das ist der Koppelort: {pos}. Er liegt drei Seemeilen weiter.","loesung":"Strecke 3 sm auf {kurs}° von {a}"},
     {"id":"n4-mw-2026","stufe":"N4","typ":"mw","jahr":2026,"text":"In der Karte steht: Missweisung 1 Grad Ost im Jahr 2012, jährliche Änderung 9 Minuten Ost. Welche Missweisung gilt im Jahr {jahr}? In Grad mit Komma.","richtig":"Missweisung {sol} Grad Ost. Zwölf Jahre plus zwei mal 9 Minuten.","loesung":"1° + 14 Jahre × 9′ = 3,1°"},
     {"id":"n4-rw2mw","stufe":"N4","typ":"umrechnen","richtung":"rw2mw","wert":105,"mw":3,"text":"Der rechtweisende Kurs ist {wert} Grad. Die Missweisung ist {mw} Grad Ost. Welchen missweisenden Kurs steuerst du?","richtig":"{sol} Grad. mwK = rwK minus Mw.","loesung":"105° − 3° = 102°"},
-    {"id":"n4-mw2rw","stufe":"N4","typ":"umrechnen","richtung":"mw2rw","wert":102,"mw":3,"text":"Der missweisende Kurs ist {wert} Grad. Die Missweisung ist {mw} Grad Ost. Welcher rechtweisende Kurs ist das?","richtig":"{sol} Grad. rwK = mwK plus Mw.","loesung":"102° + 3° = 105°"}
+    {"id":"n4-mw2rw","stufe":"N4","typ":"umrechnen","richtung":"mw2rw","wert":102,"mw":3,"text":"Der missweisende Kurs ist {wert} Grad. Die Missweisung ist {mw} Grad Ost. Welcher rechtweisende Kurs ist das?","richtig":"{sol} Grad. rwK = mwK plus Mw.","loesung":"102° + 3° = 105°"},
+    {"id":"n5-kp-neuwerk-kirche","stufe":"N5","typ":"kreuzpeilung","schiff":{"mitte":["Elbe 25","Elbe 26"]},"ziele":["Neuwerk","Kirchturm Kuttershaven"],"text":"Wir peilen {z1} rechtweisend {p1}° und den {z2} rechtweisend {p2}°. Wo stehen wir? Setze ein Kreuz auf den Standort. Die Linien zeichnest du vom Objekt aus in die Gegenrichtung.","richtig":"Das ist unser Standort, mitten im Fahrwasser. Zwei Peilungen, zwei Linien, ein Schnittpunkt."},
+    {"id":"n5-kp-neuwerk-kirche-2","stufe":"N5","typ":"kreuzpeilung","schiff":{"mitte":["Elbe 31","Elbe 32"]},"ziele":["Neuwerk","Kirchturm Kuttershaven"],"text":"Von hier peilen wir {z1} in {p1}° und {z2} in {p2}°. Wo sind wir?","richtig":"Genau. Der Schnittpunkt der beiden Linien ist unser Standort."},
+    {"id":"n6-strom-2vorhw","stufe":"N6","typ":"strom","xy":[1280,300],"std":-2,"tide":"spr","text":"Welche Stromrichtung und -geschwindigkeit hat der Strom in Stromstation A zwei Stunden vor Hochwasser, bei Springzeit? Die Tabelle steht rechts oben in der Karte.","richtig":"Strom aus {rw} Grad mit {sk} Knoten."},
+    {"id":"n6-strom-1nachhw-npt","stufe":"N6","typ":"strom","xy":[1280,300],"std":1,"tide":"npt","text":"Welche Stromrichtung und -geschwindigkeit hat der Strom eine Stunde nach Hochwasser bei Nipptide?","richtig":"Strom aus {rw} Grad mit {sk} Knoten. Bei Nipptide ist er schwächer."},
+    {"id":"n6-strom-3vorhw","stufe":"N6","typ":"strom","xy":[1280,300],"std":-3,"tide":"spr","text":"Strom drei Stunden vor Hochwasser bei Springzeit: Richtung und Geschwindigkeit?","richtig":"Strom aus {rw} Grad mit {sk} Knoten."},
+    {"id":"n6-versetzung","stufe":"N6","typ":"koppelstrom","von":"Elbe 25","kurs":98,"kn":6,"min":60,"strom":{"rw":115,"kn":1.5},"text":"Wir fahren von Tonne 25 mit {kn} Knoten auf {kurs} Grad, eine Stunde lang. Der Strom setzt mit {sk} Knoten nach {rw} Grad. Setze ein Kreuz auf unseren Besteckort.","richtig":"Das ist der Besteckort: erst der Koppelort, dann der Strom dazu.","loesung":"Koppelort, dann Strom abtragen"},
+    {"id":"n6-tiefe-hw","stufe":"N6","typ":"tiefe","kartentiefe":2.3,"hoehe":3.6,"uhr":"17:41","xy":[1270,650],"text":"Bei Hochwasser um {uhr} Uhr (Höhe {hoehe} m) steht an einer Stelle in der Karte eine Tiefe von {kt} m. Wie tief ist das Wasser dort? Die Höhen stehen in der Gezeitentabelle.","richtig":"Wassertiefe: {sol} m. Kartentiefe plus Höhe des Wasserstands."},
+    {"id":"n6-tiefe-nw","stufe":"N6","typ":"tiefe","kartentiefe":3.5,"hoehe":0.3,"uhr":"11:32","xy":[1270,650],"text":"Bei Niedrigwasser um {uhr} Uhr (Höhe {hoehe} m) steht in der Karte eine Tiefe von {kt} m. Wie tief ist das Wasser dann?","richtig":"Wassertiefe: {sol} m."},
+    {"id":"n6-hw-zeit","stufe":"N6","typ":"uhrzeit","uhr":"17:41","xy":[1270,650],"text":"Wann ist das nächste Hochwasser nach 12:00 Uhr in Kuttershaven? Schau in die Gezeitentabelle.","richtig":"Hochwasser um 17:41 Uhr, 3,6 Meter über Kartennull."}
   ]
 }
