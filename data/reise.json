@@ -1,5 +1,5 @@
 {
- "_hinweis": "Reise (VISION.md, docs/reise-konzept.md, O93–O110): ein Tag = eine durchgehende Geschichte. Sätze der Crew sind PLATZHALTER bis zur Story (B164), gesprochen mit der Gratis-Stimme. Schritte in tage[].schritte: {ansicht: 'karte'|'crew'|'fahrt', box?, ort?, tonne?: {farbe, seite, nr}, dp?, wx?} wechselt die Bühne; {fahre: [von, bis], sek} Boot fährt auf der Karte (Routenpunkte, läuft neben den Sätzen); {wer, t, auto?} Satz (auto = Fassung im Hörmodus); {wahl, id, opts: [{t, wert, empfohlen, dann: [Schritte]}]} höchstens 1–2 je Tag; {frage: n} höchstens 1–2 zwischendurch; {navi: {...}} Aufgabe auf der Seekarte 7 (Punkte in PDF-Punkten); {mini: key, text}; {knoten: id}; {fragerunde: true} alle fragen des Tages plus 2–3 fällige; {logbuch: text}.",
+ "_hinweis": "Reise (VISION.md, docs/reise-konzept.md, O93–O110): ein Tag = eine durchgehende Geschichte. Sätze der Crew sind PLATZHALTER bis zur Story (B164), gesprochen mit der Gratis-Stimme. Schritte in tage[].schritte: {ansicht: 'crew' (Hauptansicht: Runde mit der Crew, ort: tisch|steg|deck|abend) | 'karte' | 'fahrt' (legen sich bei Bedarf darüber), box?, tonne?: {farbe, seite, nr}, dp?, wx?}; {fahre: [von, bis], sek} Boot fährt auf der Karte (Routenpunkte, läuft neben den Sätzen); {wer, t, auto?} Satz (auto = Fassung im Hörmodus); {wahl, id, opts: [{t, wert, empfohlen, dann: [Schritte]}]} höchstens 1–2 je Tag; {frage: n} höchstens 1–2 zwischendurch; {navi: {...}} Aufgabe auf der Seekarte 7 (Punkte in PDF-Punkten); {mini: key, text}; {knoten: id}; {fragerunde: true} alle fragen des Tages plus 2–3 fällige; {logbuch: text}.",
  "platzhalter": true,
  "rundgang1": [
   {
@@ -62,22 +62,26 @@
   }
  ],
  "karte7": {
-  "bild": "img/karte7.webp",
-  "w": 1050,
-  "h": 705.12,
-  "titel": "Seekarte 7 · Übungsrevier Deutsche Gischt (fiktiv, nicht zur Navigation)",
+  "bild": "img/karte7.svg",
+  "w": 1400,
+  "h": 939,
+  "titel": "Seekarte 7 · Übungsrevier Deutsche Gischt (Übungskarte, nicht zur Navigation)",
   "orte": {
    "Kuttershaven": [
-    882,
-    437
+    1176,
+    584
    ],
    "Klüverhafen": [
-    959,
-    418
+    1281,
+    558
    ],
    "Lotsenkoog": [
-    947,
-    368
+    1293,
+    505
+   ],
+   "Priel": [
+    1178,
+    560
    ]
   }
  },
@@ -141,8 +145,8 @@
    "wx": "schoen",
    "route": [
     [
-     882,
-     437
+     1176,
+     584
     ]
    ],
    "fragen": [
@@ -220,10 +224,10 @@
     {
      "ansicht": "karte",
      "box": [
-      800,
-      330,
-      1010,
-      470
+      1060,
+      440,
+      1350,
+      630
      ]
     },
     {
@@ -235,24 +239,24 @@
       "stufe": "N0",
       "aufgabe": "Wo liegen wir? Tippe auf Kuttershaven.",
       "ziel": [
-       882,
-       437
+       1176,
+       584
       ],
-      "radius": 12,
-      "hilfe": "Häfen sind kleine graue Quadrate. Kuttershaven liegt am Südufer der Elbe.",
-      "richtig": "Genau, da liegen wir. Morgen geht's rüber nach Klüverhafen.",
-      "auto": "Kuttershaven ist das kleine graue Quadrat am Südufer der Elbe. Da liegen wir. Morgen geht's rüber nach Klüverhafen.",
+      "radius": 16,
+      "hilfe": "Häfen sind kleine graue Quadrate. Kuttershaven liegt am Südufer der Elbe, am Ende einer Priel mit Pricken.",
+      "richtig": "Genau, da liegen wir, am Ende der Priel. Morgen geht's rüber nach Klüverhafen.",
+      "auto": "Kuttershaven ist das kleine graue Quadrat am Südufer der Elbe, am Ende einer Priel mit Pricken. Da liegen wir. Morgen geht's rüber nach Klüverhafen.",
       "ausschnitt": [
-       800,
-       330,
-       1010,
-       470
+       1060,
+       440,
+       1350,
+       630
       ]
      }
     },
     {
      "ansicht": "crew",
-     "ort": "deck"
+     "ort": "tisch"
     },
     {
      "wer": "hinnerk",
@@ -318,36 +322,36 @@
    "wx": "schoen",
    "route": [
     [
-     882,
-     437
+     1176,
+     584
     ],
     [
-     873,
-     431
+     1176,
+     566
     ],
     [
-     864,
-     419
+     1179,
+     548
     ],
     [
-     872,
-     409
+     1192,
+     536
     ],
     [
-     905,
-     405
+     1230,
+     533
     ],
     [
-     940,
-     405
+     1262,
+     534
     ],
     [
-     948,
-     410
+     1272,
+     546
     ],
     [
-     957,
-     414
+     1280,
+     556
     ]
    ],
    "fragen": [
@@ -362,7 +366,8 @@
    ],
    "schritte": [
     {
-     "ansicht": "karte"
+     "ansicht": "crew",
+     "ort": "tisch"
     },
     {
      "wer": "hinnerk",
@@ -381,22 +386,35 @@
      "t": "Zwei Meilen! Zwei Meilen!"
     },
     {
+     "wer": "smilla",
+     "t": "Schau mal auf die Karte. Hier vorn die Priel mit den Pricken, dann raus auf die Elbe."
+    },
+    {
+     "ansicht": "karte",
+     "box": [
+      1130,
+      470,
+      1350,
+      615
+     ]
+    },
+    {
      "navi": {
       "stufe": "N0",
       "aufgabe": "Tippe auf der Karte die grüne Tonne an, an der wir vor Klüverhafen das Fahrwasser verlassen.",
       "ziel": [
-       942,
-       404
+       1256,
+       539
       ],
-      "radius": 13,
+      "radius": 17,
       "hilfe": "Grüne Tonnen haben ungerade Nummern und stehen an der Südseite des Fahrwassers. Such die letzte grüne Tonne vor Klüverhafen.",
       "richtig": "Genau, Tonne 37. Bis dahin bleiben wir im Fahrwasser auf der rechten Seite.",
       "auto": "Ich such die grüne Tonne vor Klüverhafen. Grün heißt ungerade Nummer. Hier ist es die 37. Bis dahin bleiben wir im Fahrwasser rechts.",
       "ausschnitt": [
-       850,
-       355,
-       1012,
-       455
+       1130,
+       470,
+       1350,
+       615
       ]
      }
     },
@@ -437,7 +455,7 @@
     {
      "fahre": [
       0,
-      4
+      5
      ],
      "sek": 10
     },
@@ -481,7 +499,7 @@
     },
     {
      "fahre": [
-      4,
+      5,
       7
      ],
      "sek": 6

@@ -27,14 +27,14 @@ window.REISE = (() => {
   /* ---------- Seekarte 7 (SVG über dem Kartenbild; Koordinaten in PDF-Punkten) ---------- */
   function karteSVG(t, box) {
     /* Ausschnitt an das Hochformat der Bühne anpassen: die Breite bleibt, oben und unten kommt Karte dazu */
-    const K = D.karte7, r = t.route || [], st = document.getElementById('rbuehne'), vh = st ? st.clientHeight / Math.max(1, st.clientWidth) : .75;
+    const K = D.karte7, r = t.route || [], st = document.getElementById('rbild'), vh = st && st.clientWidth ? st.clientHeight / st.clientWidth : 1;
     let [x0, y0, x1, y1] = box; const w = x1 - x0, h = Math.max(y1 - y0, w * vh), cy = (y0 + y1) / 2; y0 = cy - h / 2; y1 = cy + h / 2;
     return `<svg class="karte7" viewBox="${x0} ${y0} ${w} ${h}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(K.titel)}">
       <image href="${esc(K.bild)}" x="0" y="0" width="${K.w}" height="${K.h}"/>
-      ${r.length ? `<polyline points="${r.map(p => p.join(',')).join(' ')}" fill="none" stroke="#c0392b" stroke-width="1.4" stroke-dasharray="4 3" stroke-linecap="round"/>` : ''}
-      <g id="rboot" transform="translate(${r[0] ? r[0].join(' ') : '0 0'})"><circle r="5" fill="#fff" stroke="#c0392b" stroke-width="1.5"/><path d="M-3 1 L3 1 L2 3 L-2 3Z M0 -3 L0 1 M0 -3 L2.5 0 L0 0" fill="#c0392b" stroke="#c0392b" stroke-width=".6"/></g></svg>`;
+      ${r.length ? `<polyline points="${r.map(p => p.join(',')).join(' ')}" fill="none" stroke="#c0392b" stroke-width="1.8" stroke-dasharray="5 4" stroke-linecap="round"/>` : ''}
+      <g id="rboot" transform="translate(${r[0] ? r[0].join(' ') : '0 0'})"><circle r="7" fill="#fff" stroke="#c0392b" stroke-width="2"/><path d="M-4 1.5 L4 1.5 L2.6 4 L-2.6 4Z M0 -4 L0 1.5 M0 -4 L3.4 0 L0 0" fill="#c0392b" stroke="#c0392b" stroke-width=".8"/></g></svg>`;
   }
-  const routeBox = t => { const xs = t.route.map(p => p[0]), ys = t.route.map(p => p[1]), m = 26, w = Math.max(...xs) - Math.min(...xs) + 2 * m, h = Math.max(...ys) - Math.min(...ys) + 2 * m;
+  const routeBox = t => { const xs = t.route.map(p => p[0]), ys = t.route.map(p => p[1]), m = 40, w = Math.max(...xs) - Math.min(...xs) + 2 * m, h = Math.max(...ys) - Math.min(...ys) + 2 * m;
     const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2, b = Math.max(w, h * 1.2), hh = b / 1.2; return [cx - b / 2, cy - hh / 2, cx + b / 2, cy + hh / 2]; };
   /* Boot an Routenpunkt i (auch Bruchteile) */
   function bootAuf(t, f) {
@@ -53,8 +53,11 @@ window.REISE = (() => {
     subScreen(); place = 'reise'; window.TOERN_STILL = true; window.scrollTo(0, 0);
     app.innerHTML = `<div class="rleiste"><button class="btn small ghost" id="rzur" aria-label="Zurück in die Kajüte">←</button><span class="rtag">Tag ${t.tag} · ${esc(t.titel)}</span>
         <button class="btn small ghost" id="rtage" aria-label="Alle Tage">📖</button><button class="btn small ghost" id="rpause" aria-label="Anhalten">⏸</button><button class="chip" id="rmod" aria-pressed="${auto()}">${auto() ? '🎧' : '✋'}</button></div>
-      <div class="rbuehne kippt" id="rbuehne"><div class="rbild" id="rbild"></div>
-        <div class="rgesichter" id="rgesichter">${CREW3.map(c => `<div class="rgesicht" data-c="${c}">${charSVG(c)}</div>`).join('')}</div>
+      <div class="rbuehne kippt" id="rbuehne" data-ansicht="crew">
+        <div class="rrunde" id="rrunde">${rundeHinten('tisch', 'tag')}</div>
+        <div class="rgesichter gross" id="rgesichter">${CREW3.map(c => `<div class="rgesicht" data-c="${c}">${charSVG(c)}</div>`).join('')}</div>
+        <div class="rvorn" id="rvorn">${rundeVorn('tisch')}</div>
+        <div class="rbild zu" id="rbild"></div>
         <button class="rblase leer" id="rblase" aria-live="polite"></button></div>
       <div class="rakt" id="rakt"></div>`;
     $('#rzur').onclick = () => { AUD.click(); stopLauf(); setTab('cabin'); };
@@ -63,14 +66,44 @@ window.REISE = (() => {
     $('#rmod').onclick = () => { const r = stand(); r.modus = auto() ? 'mit' : 'auto'; save(); $('#rmod').setAttribute('aria-pressed', auto()); $('#rmod').textContent = auto() ? '🎧' : '✋'; toast(auto() ? 'Nur hören: Ab jetzt löst die Crew alles laut vor.' : 'Mitmachen: Ab jetzt bist du dran.'); };
     $('#rblase').onclick = () => { if (lauf && lauf.weiter) { VOX.stop('weiter'); lauf.weiter(); } };
   }
+  /* Die Hauptansicht ist die Runde mit der Crew (Nutzer 29.10.2026). Karte und Fahrt-Szene legen sich nur bei Bedarf darüber
+     und verschwinden wieder, wenn der Schritt `ansicht: 'crew'` kommt. Der Ort der Runde: tisch (Kajüte), steg, deck, abend. */
   function ansicht(t, a) {
     const b = $('#rbild'), g = $('#rgesichter'); if (!b) return; lauf.ansicht = a;
     if (lauf.fahrt) { lauf.fahrt.aus = true; lauf.fahrt = null; } AUD.loop('motorLauf', 0);
-    $('#rbuehne').dataset.ansicht = a.ansicht;
+    const st = $('#rbuehne'); st.dataset.ansicht = a.ansicht;
+    if (a.ansicht === 'crew') {
+      lauf.ort = a.ort || lauf.ort || 'tisch'; b.classList.add('zu'); b.innerHTML = '';
+      $('#rrunde').innerHTML = rundeHinten(lauf.ort, a.dp || lauf.dp || 'tag'); $('#rvorn').innerHTML = rundeVorn(lauf.ort);
+      g.className = 'rgesichter gross'; return;
+    }
+    b.classList.remove('zu'); g.className = 'rgesichter klein';
     if (a.ansicht === 'karte') { b.innerHTML = karteSVG(t, a.box || routeBox(t)); bootAuf(t, lauf.boot || 0); }
     else if (a.ansicht === 'fahrt') { b.innerHTML = '<canvas id="fahrtcv" aria-label="Blick von hinten auf das eigene Boot"></canvas>'; lauf.fahrt = fahrtBild(t, a); }
-    else b.innerHTML = `<div class="rcrewbild ${esc(a.ort || 'deck')}"></div>`;
-    g.className = 'rgesichter ' + (a.ansicht === 'crew' ? 'gross' : 'klein');
+  }
+  /* Hintergrund der Runde: Himmel und Wasser je Ort und Tageszeit, in der Kajüte Holzwand mit Bullauge und Laterne */
+  function rundeHinten(ort, dp) {
+    const H = {morgen: ['#f2b98a', '#bfe0f0'], tag: ['#8cc9ec', '#dff1fb'], abend: ['#ee935a', '#7b98c2'], nacht: ['#0b1730', '#24406b']}[dp] || ['#8cc9ec', '#dff1fb'];
+    if (ort === 'steg' || ort === 'deck' || ort === 'abend') {
+      const ab = ort === 'abend', hi = ab ? ['#ee935a', '#c9788a'] : H, see = ab ? ['#58789b', '#2a4462'] : ['#4f9cc4', '#2f6f96'];
+      return `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="rh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${hi[0]}"/><stop offset="1" stop-color="${hi[1]}"/></linearGradient><linearGradient id="rs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${see[0]}"/><stop offset="1" stop-color="${see[1]}"/></linearGradient></defs>
+        <rect width="400" height="600" fill="url(#rh)"/>${ab ? '<circle cx="290" cy="250" r="34" fill="#fde7a6" opacity=".9"/>' : '<ellipse cx="90" cy="90" rx="60" ry="14" fill="#fff" opacity=".7"/><ellipse cx="300" cy="140" rx="48" ry="11" fill="#fff" opacity=".6"/>'}
+        <rect y="300" width="400" height="300" fill="url(#rs)"/><path d="M0 300 Q100 288 200 300 T400 296 V312 H0Z" fill="#6aa86a" opacity=".55"/>
+        ${[0, 1, 2, 3, 4].map(i => `<path d="M${-20 + i * 90} ${330 + i * 22} q25 -8 50 0 t50 0 t50 0" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>`).join('')}</svg>`;
+    }
+    return `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="rw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6d4426"/><stop offset=".5" stop-color="#85552f"/><stop offset="1" stop-color="#6d4426"/></linearGradient><radialGradient id="rl" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".85"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient><linearGradient id="rbull" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${H[0]}"/><stop offset=".55" stop-color="${H[1]}"/><stop offset=".56" stop-color="#4f9cc4"/><stop offset="1" stop-color="#2f6f96"/></linearGradient></defs>
+      <rect width="400" height="600" fill="url(#rw)"/>${[60, 130, 200, 270, 340, 410].map(y => `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#4a2c14" stroke-opacity=".45" stroke-width="2"/>`).join('')}
+      <circle cx="305" cy="130" r="58" fill="#c9a24a"/><circle cx="305" cy="130" r="48" fill="url(#rbull)"/><path d="M257 130h96M305 82v96" stroke="#c9a24a" stroke-width="4" opacity=".7"/>
+      <line x1="120" y1="0" x2="120" y2="70" stroke="#3a2412" stroke-width="3"/><path d="M104 70h32l-5 34h-22z" fill="#d9a441"/><circle cx="120" cy="92" r="70" fill="url(#rl)"/>
+      <rect x="20" y="190" width="110" height="10" rx="3" fill="#3f2713"/><rect x="30" y="160" width="14" height="30" fill="#7a3b2a"/><rect x="48" y="166" width="12" height="24" fill="#3b5f7a"/><rect x="64" y="158" width="14" height="32" fill="#8a7a3a"/></svg>`;
+  }
+  /* Vordergrund der Runde: der Kartentisch (Aufsicht angedeutet) mit Seekarte, Bechern und Zirkel; sonst Reling oder Planken */
+  function rundeVorn(ort) {
+    if (ort === 'tisch') return `<svg viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 150 L10 20 H390 L410 150Z" fill="#9a6a3a"/><path d="M10 20 H390 L392 34 H8Z" fill="#b98750"/>
+      ${[40, 80, 120].map(y => `<line x1="${-5 + (y - 20) * -.1}" y1="${y}" x2="${405 + (y - 20) * .1}" y2="${y}" stroke="#6d4426" stroke-opacity=".5" stroke-width="1.5"/>`).join('')}
+      <path d="M60 52 H300 L316 118 H44Z" fill="#f3e6c4" stroke="#8a7440" stroke-width="2"/><path d="M80 70 q60 -10 120 6 t100 -4" fill="none" stroke="#6aa8c4" stroke-width="3"/><circle cx="240" cy="94" r="3" fill="#c0392b"/><path d="M240 94 L275 78" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 3"/>
+      <rect x="326" y="62" width="26" height="22" rx="4" fill="#e9dcc4"/><rect x="26" y="66" width="26" height="22" rx="4" fill="#c9553d"/><path d="M335 56 q6 -10 0 -18 M343 56 q6 -10 0 -18" stroke="#fff" stroke-opacity=".6" stroke-width="2" fill="none"/></svg>`;
+    return `<svg viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><rect y="60" width="400" height="90" fill="#a77a4d"/>${[60, 90, 120].map(y => `<line x1="0" y1="${y}" x2="400" y2="${y}" stroke="#6d4426" stroke-opacity=".5" stroke-width="2"/>`).join('')}<rect y="52" width="400" height="10" fill="#c9a06a"/></svg>`;
   }
   function fahrtBild(t, a) {
     const cv = $('#fahrtcv'); if (!cv) return null; const g = cv.getContext('2d');
