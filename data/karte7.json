@@ -1,0 +1,271 @@
+{
+ "_hinweis": "Erzeugt mit node tools/karte7-extrahieren.js aus img/karte7.svg. Nicht von Hand ändern, sondern das Werkzeug oder die Überschreibungen dort. Positionen in Bogenminuten ab 54°00'N / 007°00'E; x und y sind SVG-Punkte.",
+ "bild": "img/karte7.svg",
+ "w": 1400,
+ "h": 939,
+ "basis": {
+  "lat": 54,
+  "lon": 7
+ },
+ "lin": {
+  "x0": 52.18,
+  "y0": 103.13,
+  "sx": 12.97,
+  "sy": 22.1,
+  "lon0": 24,
+  "lat1": 15.13
+ },
+ "rahmen": {
+  "x0": 52.18,
+  "y0": 103,
+  "x1": 1349.18,
+  "y1": 876.5
+ },
+ "bounds": {
+  "lat0": -19.86,
+  "lat1": 15.13,
+  "lon0": 24,
+  "lon1": 124
+ },
+ "mw": {
+  "deg": 3.1,
+  "dir": "E",
+  "jahr": 2026,
+  "note": "Mw 1°E (2012), jährliche Änderung 9' E → 2026: etwa 3,1° E"
+ },
+ "deviation": [
+  [ 0, 2 ],
+  [ 30, 4 ],
+  [ 60, 5 ],
+  [ 90, 4 ],
+  [ 120, 2 ],
+  [ 150, 0 ],
+  [ 180, -2 ],
+  [ 210, -4 ],
+  [ 240, -5 ],
+  [ 270, -4 ],
+  [ 300, -2 ],
+  [ 330, 0 ]
+ ],
+ "objekte": [
+  { "id": "Weser: rote Tonne (335|548)", "anon": true, "typ": "bb", "fw": "Weser", "x": 334.8, "y": 547.9, "lat": -5, "lon": 45.79, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: rote Tonne (565|641)", "anon": true, "typ": "bb", "fw": "Weser", "x": 565.4, "y": 640.9, "lat": -9.2, "lon": 63.57, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: rote Tonne (659|730)", "anon": true, "typ": "bb", "fw": "Weser", "x": 659.4, "y": 730.2, "lat": -13.24, "lon": 70.82, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "See: rote Tonne (708|849)", "anon": true, "typ": "bb", "fw": "See", "x": 708, "y": 849.1, "lat": -18.62, "lon": 74.56, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: grüne Tonne (440|619)", "anon": true, "typ": "stb", "fw": "Jade", "x": 440, "y": 618.5, "lat": -8.19, "lon": 53.9, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser 25", "typ": "stb", "fw": "Weser", "x": 554.4, "y": 664.4, "lat": -10.27, "lon": 62.72, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: grüne Tonne (638|744)", "anon": true, "typ": "stb", "fw": "Weser", "x": 637.5, "y": 744.2, "lat": -13.88, "lon": 69.13, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: grüne Tonne (682|852)", "anon": true, "typ": "stb", "fw": "Weser", "x": 682.1, "y": 851.7, "lat": -18.74, "lon": 72.57, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: rote Tonne (434|506)", "anon": true, "typ": "bb", "fw": "Weser", "x": 433.9, "y": 505.8, "lat": -3.09, "lon": 53.43, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: rote Tonne (542|559)", "anon": true, "typ": "bb", "fw": "Weser", "x": 542.3, "y": 559.2, "lat": -5.51, "lon": 61.79, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: grüne Tonne (426|524)", "anon": true, "typ": "stb", "fw": "Weser", "x": 426.1, "y": 524.2, "lat": -3.92, "lon": 52.83, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: grüne Tonne (533|577)", "anon": true, "typ": "stb", "fw": "Weser", "x": 532.9, "y": 576.9, "lat": -6.31, "lon": 61.06, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: rote Tonne (163|536)", "anon": true, "typ": "bb", "fw": "Weser", "x": 163.2, "y": 536.4, "lat": -4.48, "lon": 32.56, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: rote Tonne (287|571)", "anon": true, "typ": "bb", "fw": "Jade", "x": 286.6, "y": 570.7, "lat": -6.03, "lon": 42.07, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: rote Tonne (405|629)", "anon": true, "typ": "bb", "fw": "Jade", "x": 405, "y": 629.3, "lat": -8.68, "lon": 51.2, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: rote Tonne (483|735)", "anon": true, "typ": "bb", "fw": "Jade", "x": 483.3, "y": 734.9, "lat": -13.46, "lon": 57.24, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: grüne Tonne (280|594)", "anon": true, "typ": "stb", "fw": "Jade", "x": 280.1, "y": 593.8, "lat": -7.07, "lon": 41.57, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: grüne Tonne (388|647)", "anon": true, "typ": "stb", "fw": "Jade", "x": 388.4, "y": 646.7, "lat": -9.47, "lon": 49.92, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: grüne Tonne (460|742)", "anon": true, "typ": "stb", "fw": "Jade", "x": 460.4, "y": 742.3, "lat": -13.79, "lon": 55.47, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade: grüne Tonne (464|864)", "anon": true, "typ": "stb", "fw": "Jade", "x": 464.4, "y": 864, "lat": -19.3, "lon": 55.78, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 2", "typ": "bb", "fw": "Elbe", "x": 706.7, "y": 426.8, "lat": 0.48, "lon": 74.46, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 4", "typ": "bb", "fw": "Elbe", "x": 736.1, "y": 421.8, "lat": 0.71, "lon": 76.73, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 10", "typ": "bb", "fw": "Elbe", "x": 831.2, "y": 437.4, "lat": 0, "lon": 84.06, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 12", "typ": "bb", "fw": "Elbe", "x": 860.6, "y": 442.6, "lat": -0.23, "lon": 86.33, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 16", "typ": "bb", "fw": "Elbe", "x": 919.3, "y": 453.7, "lat": -0.73, "lon": 90.86, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 18", "typ": "bb", "fw": "Elbe", "x": 948.5, "y": 460, "lat": -1.02, "lon": 93.11, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 20", "typ": "bb", "fw": "Elbe", "x": 977.5, "y": 467.1, "lat": -1.34, "lon": 95.34, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 22", "typ": "bb", "fw": "Elbe", "x": 1006.4, "y": 474.2, "lat": -1.66, "lon": 97.57, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 24", "typ": "bb", "fw": "Elbe", "x": 1035.4, "y": 481.5, "lat": -1.99, "lon": 99.81, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 26", "typ": "bb", "fw": "Elbe", "x": 1064.3, "y": 488.7, "lat": -2.32, "lon": 102.04, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 28", "typ": "bb", "fw": "Elbe", "x": 1093.3, "y": 496.1, "lat": -2.65, "lon": 104.27, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 30", "typ": "bb", "fw": "Elbe", "x": 1122.4, "y": 502.7, "lat": -2.95, "lon": 106.52, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 32", "typ": "bb", "fw": "Elbe", "x": 1151.8, "y": 507.7, "lat": -3.18, "lon": 108.78, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 34", "typ": "bb", "fw": "Elbe", "x": 1181.3, "y": 512.2, "lat": -3.38, "lon": 111.06, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 36", "typ": "bb", "fw": "Elbe", "x": 1210.9, "y": 515.6, "lat": -3.53, "lon": 113.34, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 38", "typ": "bb", "fw": "Elbe", "x": 1240.6, "y": 517.9, "lat": -3.64, "lon": 115.63, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 40", "typ": "bb", "fw": "Elbe", "x": 1270.5, "y": 517.9, "lat": -3.64, "lon": 117.93, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 3", "typ": "stb", "fw": "Elbe", "x": 728.4, "y": 452.4, "lat": -0.67, "lon": 76.14, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 5", "typ": "stb", "fw": "Elbe", "x": 759.9, "y": 450.4, "lat": -0.58, "lon": 78.57, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 7", "typ": "stb", "fw": "Elbe", "x": 790.9, "y": 456.6, "lat": -0.86, "lon": 80.96, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 9", "typ": "stb", "fw": "Elbe", "x": 822, "y": 462.6, "lat": -1.14, "lon": 83.35, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 11", "typ": "stb", "fw": "Elbe", "x": 853.4, "y": 466.2, "lat": -1.3, "lon": 85.77, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 15", "typ": "stb", "fw": "Elbe", "x": 915.4, "y": 478.2, "lat": -1.84, "lon": 90.56, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 17", "typ": "stb", "fw": "Elbe", "x": 946, "y": 486.2, "lat": -2.2, "lon": 92.91, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 19", "typ": "stb", "fw": "Elbe", "x": 976.7, "y": 493.7, "lat": -2.54, "lon": 95.28, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 21", "typ": "stb", "fw": "Elbe", "x": 1007.4, "y": 501.3, "lat": -2.89, "lon": 97.65, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 23", "typ": "stb", "fw": "Elbe", "x": 1038.1, "y": 509, "lat": -3.24, "lon": 100.02, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 25", "typ": "stb", "fw": "Elbe", "x": 1068.8, "y": 516.7, "lat": -3.58, "lon": 102.38, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 27", "typ": "stb", "fw": "Elbe", "x": 1099.5, "y": 524.4, "lat": -3.93, "lon": 104.75, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 29", "typ": "stb", "fw": "Elbe", "x": 1130.5, "y": 530.4, "lat": -4.2, "lon": 107.14, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 31", "typ": "stb", "fw": "Elbe", "x": 1161.7, "y": 535.8, "lat": -4.45, "lon": 109.55, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 33", "typ": "stb", "fw": "Elbe", "x": 1193.1, "y": 539.7, "lat": -4.62, "lon": 111.97, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 35", "typ": "stb", "fw": "Elbe", "x": 1224.5, "y": 543.3, "lat": -4.79, "lon": 114.39, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 37", "typ": "stb", "fw": "Elbe", "x": 1256.2, "y": 543.8, "lat": -4.81, "lon": 116.83, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Helgoland-O", "typ": "ost", "fw": "See", "x": 434.8, "y": 235.6, "lat": 9.14, "lon": 53.5, "kenn": "Q(3)10s", "farbe": "schwarz-gelb-schwarz", "topp": "zwei schwarze Kegel, Basen zueinander", "bed": "Ostkardinal: östlich passieren"
+  },
+  { "id": "Düne-S", "typ": "sued", "fw": "See", "x": 467.2, "y": 222.3, "lat": 9.74, "lon": 56, "kenn": "Q(6)+LFl.15s", "farbe": "gelb über schwarz", "topp": "zwei schwarze Kegel, Spitzen nach unten", "bed": "Südkardinal: südlich passieren"
+  },
+  { "id": "E2", "typ": "bb", "fw": "See", "x": 307.7, "y": 275.4, "lat": 7.33, "lon": 43.7, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "E3", "typ": "stb", "fw": "See", "x": 453, "y": 350.5, "lat": 3.94, "lon": 54.9, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "TG15", "typ": "stb", "fw": "Weser", "x": 57.4, "y": 608, "lat": -7.71, "lon": 24.4, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "TG16/Reede", "typ": "bb", "fw": "See", "x": 155.9, "y": 381.5, "lat": 2.53, "lon": 32, "kenn": "Oc(3)R.12s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "TG17/Weser1", "typ": "stb", "fw": "Weser", "x": 172.8, "y": 567.1, "lat": -5.86, "lon": 33.3, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Weser: grüne Tonne (318|543)", "anon": true, "typ": "stb", "fw": "Weser", "x": 318.1, "y": 542.8, "lat": -4.76, "lon": 44.5, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "ST", "typ": "mitte", "fw": "Weser", "x": 450.4, "y": 516.3, "lat": -3.57, "lon": 54.7, "kenn": "Iso.8s", "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"
+  },
+  { "id": "NGN", "typ": "nord", "fw": "Weser", "x": 524.3, "y": 496.4, "lat": -2.67, "lon": 60.4, "kenn": "VQ", "farbe": "schwarz über gelb", "topp": "zwei schwarze Kegel, Spitzen nach oben", "bed": "Nordkardinal: nördlich passieren"
+  },
+  { "id": "A2", "typ": "bb", "fw": "Weser", "x": 503.5, "y": 538.4, "lat": -4.57, "lon": 58.8, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "A10", "typ": "bb", "fw": "Weser", "x": 602.1, "y": 598, "lat": -7.26, "lon": 66.4, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Westertill-N", "typ": "nord", "fw": "See", "x": 607.9, "y": 479.8, "lat": -1.91, "lon": 66.85, "kenn": "Q", "farbe": "schwarz über gelb", "topp": "zwei schwarze Kegel, Spitzen nach oben", "bed": "Nordkardinal: nördlich passieren"
+  },
+  { "id": "Jade 4a", "typ": "bb", "fw": "Jade", "x": 438.7, "y": 593.6, "lat": -7.06, "lon": 53.8, "kenn": "IQ.R.13s", "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade 5", "typ": "stb", "fw": "Jade", "x": 482.1, "y": 634.5, "lat": -8.91, "lon": 57.15, "kenn": "Oc(2)G.9s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Jade 10", "typ": "bb", "fw": "Jade", "x": 433.5, "y": 655.5, "lat": -9.86, "lon": 53.4, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "1b/Jade1", "typ": "stb", "fw": "Jade", "x": 311.6, "y": 602.5, "lat": -7.47, "lon": 44, "kenn": "Oc.G.4s", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Accumer Ee", "typ": "mitte", "fw": "Weser", "x": 118.3, "y": 717.4, "lat": -12.67, "lon": 29.1, "kenn": "Iso.8s", "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"
+  },
+  { "id": "Otzumer Balje", "typ": "mitte", "fw": "Weser", "x": 250.6, "y": 693.1, "lat": -11.57, "lon": 39.3, "kenn": "Iso.4s", "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"
+  },
+  { "id": "Außenelbe-Reede 2", "typ": "sonder", "fw": "See", "x": 608.6, "y": 357.1, "lat": 3.64, "lon": 66.9, "kenn": null, "farbe": "gelb", "topp": "gelbes Kreuz", "bed": "Sonderzeichen (Abgrenzung des Reedegebiets)"
+  },
+  { "id": "Außenelbe-Reede 4", "typ": "sonder", "fw": "See", "x": 646.9, "y": 358.3, "lat": 3.58, "lon": 69.85, "kenn": "Fl.Y.4s", "farbe": "gelb", "topp": "gelbes Kreuz", "bed": "Sonderzeichen (Abgrenzung des Reedegebiets)"
+  },
+  { "id": "Elbe 1", "typ": "stb", "fw": "Elbe", "x": 696.8, "y": 454.4, "lat": -0.76, "lon": 73.7, "kenn": "Q.G", "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 6", "typ": "bb", "fw": "Elbe", "x": 765.5, "y": 416.8, "lat": 0.94, "lon": 79, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 8", "typ": "bb", "fw": "Elbe", "x": 801.8, "y": 432.3, "lat": 0.24, "lon": 81.8, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 14", "typ": "bb", "fw": "Elbe", "x": 890, "y": 447.8, "lat": -0.47, "lon": 88.6, "kenn": null, "farbe": "rot", "topp": "roter Zylinder", "bed": "Backbordseite des Fahrwassers (beim Einlaufen)"
+  },
+  { "id": "Elbe 13", "typ": "stb", "fw": "Elbe", "x": 884.9, "y": 469.9, "lat": -1.47, "lon": 88.2, "kenn": null, "farbe": "grün", "topp": "grüner Kegel, Spitze oben", "bed": "Steuerbordseite des Fahrwassers (beim Einlaufen)", "alias": "Neuwerk-Reede 1"
+  },
+  { "id": "Norderelbe", "typ": "mitte", "fw": "Elbe", "x": 851.1, "y": 369.3, "lat": 3.09, "lon": 85.6, "kenn": null, "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"
+  },
+  { "id": "Süderpiep", "typ": "mitte", "fw": "Elbe", "x": 860.9, "y": 305.2, "lat": 5.99, "lon": 86.35, "kenn": null, "farbe": "rot/weiß senkrecht gestreift", "topp": "roter Ball", "bed": "Ansteuerungstonne, Mitte des Fahrwassers (sicheres Wasser)"
+  },
+  { "id": "Alte Weser", "typ": "turm", "x": 619, "y": 615.7, "kenn": "F.WRG 33m 23-18M · Horn Mo(AL) 60s", "bed": "Leuchtturm Alte Weser", "fw": "", "lat": -8.06, "lon": 67.7, "farbe": null, "topp": null
+  },
+  { "id": "Tegeler Plate", "typ": "turm", "x": 670.8, "y": 699.7, "kenn": null, "bed": "Leuchtturm Tegeler Plate", "fw": "", "lat": -11.86, "lon": 71.7, "farbe": null, "topp": null
+  },
+  { "id": "Neuwerk", "typ": "turm", "x": 909.5, "y": 545, "kenn": "Fl(3) WRG 20s 38m 16-11M", "bed": "Leuchtturm Neuwerk", "fw": "", "lat": -4.86, "lon": 90.1, "farbe": null, "topp": null
+  },
+  { "id": "Westkirche Spiekeroog", "typ": "kirche", "x": 283, "y": 730.6, "kenn": null, "bed": "Westkirche Spiekeroog, gut peilbar", "fw": "", "lat": -13.26, "lon": 41.8, "farbe": null, "topp": null
+  },
+  { "id": "Wasserturm Langeoog", "typ": "mast", "x": 117, "y": 763.8, "kenn": null, "bed": "Wasserturm Langeoog, gut peilbar", "fw": "", "lat": -14.76, "lon": 29, "farbe": null, "topp": null
+  },
+  { "id": "Kirchturm Kuttershaven", "typ": "kirche", "x": 1159, "y": 599, "kenn": null, "bed": "Kirchturm Kuttershaven, gut peilbar", "fw": "", "lat": -7.31, "lon": 109.34, "farbe": null, "topp": null
+  },
+  { "id": "Kirchturm Klüverhafen", "typ": "kirche", "x": 1292, "y": 569, "kenn": null, "bed": "Kirchturm Klüverhafen, gut peilbar", "fw": "", "lat": -5.95, "lon": 119.59, "farbe": null, "topp": null
+  },
+  { "id": "Funkmast", "typ": "mast", "x": 1284, "y": 494, "kenn": null, "bed": "Funkmast bei Lotsenkoog, gut peilbar", "fw": "", "lat": -2.56, "lon": 118.97, "farbe": null, "topp": null
+  },
+  { "id": "Kuttershaven", "typ": "hafen", "fw": "", "x": 1176, "y": 584, "lat": -6.63, "lon": 110.65, "kenn": null, "farbe": null, "topp": null, "bed": "Hafen Kuttershaven"
+  },
+  { "id": "Klüverhafen", "typ": "hafen", "fw": "", "x": 1281, "y": 558, "lat": -5.45, "lon": 118.74, "kenn": null, "farbe": null, "topp": null, "bed": "Hafen Klüverhafen"
+  },
+  { "id": "Lotsenkoog", "typ": "hafen", "fw": "", "x": 1293, "y": 505, "lat": -3.05, "lon": 119.67, "kenn": null, "farbe": null, "topp": null, "bed": "Hafen Lotsenkoog"
+  },
+  { "id": "Tampensiel", "typ": "hafen", "fw": "", "x": 428, "y": 825, "lat": -17.53, "lon": 52.98, "kenn": null, "farbe": null, "topp": null, "bed": "Hafen Tampensiel"
+  }
+ ],
+ "haefen": [
+  { "id": "Kuttershaven", "x": 1176, "y": 584, "lat": -6.63, "lon": 110.65
+  },
+  { "id": "Klüverhafen", "x": 1281, "y": 558, "lat": -5.45, "lon": 118.74
+  },
+  { "id": "Lotsenkoog", "x": 1293, "y": 505, "lat": -3.05, "lon": 119.67
+  },
+  { "id": "Tampensiel", "x": 428, "y": 825, "lat": -17.53, "lon": 52.98
+  }
+ ],
+ "strom": {
+  "punkt": "A",
+  "lat": -10.5,
+  "lon": 36.8,
+  "x": 218.2,
+  "y": 669.5,
+  "std": [ -6, -5, -4, -3, -2, -1, 0, 1 ],
+  "rw": [ 290, 110, 110, 112, 115, 115, 120, 290 ],
+  "sp": [ 0.5, 0.7, 1.1, 1.5, 1.6, 1.2, 0.6, 0.6 ],
+  "np": [ 0.3, 0.4, 0.6, 0.9, 1, 0.7, 0.3, 0.3 ],
+  "hinweis": "fiktiv; Stromrichtung rw °, Geschwindigkeit in kn bei Springzeit (Spr.) und Nipptide (Npt.)"
+ },
+ "gezeiten": {
+  "ort": "Kuttershaven",
+  "tage": "Beispieltag (Springzeit), Zeiten MESZ",
+  "rows": [ [ "HW", "05:14", 3.5 ], [ "NW", "11:32", 0.3 ], [ "HW", "17:41", 3.6 ], [ "NW", "23:58", 0.4 ] ],
+  "MHW": 3.4,
+  "MNW": 0.4,
+  "tide": "12 h 25 min",
+  "bezug": "Höhen über KN (LAT)"
+ }
+}

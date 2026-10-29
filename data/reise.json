@@ -236,22 +236,7 @@
     },
     {
      "navi": {
-      "stufe": "N0",
-      "aufgabe": "Wo liegen wir? Tippe auf Kuttershaven.",
-      "ziel": [
-       1176,
-       584
-      ],
-      "radius": 16,
-      "hilfe": "Häfen sind kleine graue Quadrate. Kuttershaven liegt am Südufer der Elbe, am Ende einer Priel mit Pricken.",
-      "richtig": "Genau, da liegen wir, am Ende der Priel. Morgen geht's rüber nach Klüverhafen.",
-      "auto": "Kuttershaven ist das kleine graue Quadrat am Südufer der Elbe, am Ende einer Priel mit Pricken. Da liegen wir. Morgen geht's rüber nach Klüverhafen.",
-      "ausschnitt": [
-       1060,
-       440,
-       1350,
-       630
-      ]
+      "id": "n0-kuttershaven"
      }
     },
     {
@@ -400,22 +385,7 @@
     },
     {
      "navi": {
-      "stufe": "N0",
-      "aufgabe": "Tippe auf der Karte die grüne Tonne an, an der wir vor Klüverhafen das Fahrwasser verlassen.",
-      "ziel": [
-       1256,
-       539
-      ],
-      "radius": 17,
-      "hilfe": "Grüne Tonnen haben ungerade Nummern und stehen an der Südseite des Fahrwassers. Such die letzte grüne Tonne vor Klüverhafen.",
-      "richtig": "Genau, Tonne 37. Bis dahin bleiben wir im Fahrwasser auf der rechten Seite.",
-      "auto": "Ich such die grüne Tonne vor Klüverhafen. Grün heißt ungerade Nummer. Hier ist es die 37. Bis dahin bleiben wir im Fahrwasser rechts.",
-      "ausschnitt": [
-       1130,
-       470,
-       1350,
-       615
-      ]
+      "id": "n0-tonne37"
      }
     },
     {

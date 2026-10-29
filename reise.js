@@ -248,7 +248,19 @@ window.REISE = (() => {
     if (!auto()) await sag(me, ok === liste.length ? 'smilla' : 'hinnerk', ok === liste.length ? 'Alles richtig. Nicht schlecht, Badewannen-Kapitän.' : ok + ' von ' + liste.length + ' richtig. Die anderen kommen wieder.');
   }
   /* Navigation direkt auf der Karte, verbunden mit der Etappe des Tages */
+  /* Navigation auf der Seekarte 7 mit allen Werkzeugen (navi7.js, Aufgaben in data/navi7.json). Dieselben Aufgaben gibt es unter „Frei üben“. */
+  async function navi7(n, t, me) {
+    await window.nachladen('navi7.js'); await NAVI7.laden(); if (me.aus) return;
+    const def = NAVI7.bank().aufgaben.find(a => a.id === n.id); if (!def) return;
+    $('#rbuehne').dataset.ansicht = 'karte'; const b = $('#rbild'), g = $('#rgesichter'); b.classList.remove('zu'); g.className = 'rgesichter klein'; lauf.ansicht = {ansicht: 'karte'};
+    const rest = document.createElement('div'); rest.className = 'rnavi'; const a = akt(''); a.appendChild(rest);
+    me.weiter = null;
+    await NAVI7.aufgabe(def, {host: b, antwort: rest, sag: (w, tx) => sag(me, w, tx), auto: auto()});
+    await NAV.revier('kliev'); if (me.aus) return;
+    akt(''); ansicht(t, {ansicht: 'karte'}); bootAuf(t, lauf.boot || 0);
+  }
   function navi(n, t, me) {
+    if (n.id) return navi7(n, t, me);
     if (lauf.ansicht && lauf.ansicht.ansicht !== 'karte') ansicht(t, {ansicht: 'karte', box: n.ausschnitt});
     else if (n.ausschnitt) ansicht(t, {ansicht: 'karte', box: n.ausschnitt});
     const svg = $('#rbild svg'), ziel = `<circle class="nziel" cx="${n.ziel[0]}" cy="${n.ziel[1]}" r="${n.radius || 12}" fill="none" stroke="#f1c40f" stroke-width="2.5"/>`;

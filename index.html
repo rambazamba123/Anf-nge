@@ -545,7 +545,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.05';
+  window.__ver = '5.06';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4445,8 +4445,8 @@ let toernP = null;
 function loadToern() {
   return toernP || (toernP = loadNavi().then(() => new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'toern.js?v=' + window.__ver; s.onload = () => TOERN.init().then(res, rej); s.onerror = () => { toernP = null; rej(new Error('toern.js')); }; document.head.appendChild(s); })));
 }
-function openToern() { loadToern().then(() => { TOERN.open(); einfuehrung('toern'); }).catch(e => { toernP = null; LOG.add('törn', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Der Törn ließ sich nicht laden. Prüf dein Internet.'); }); }
-function navSchool() { returnTo = 'cabin'; loadNavi().then(() => { NAV.hub(); einfuehrung('navi'); }).catch(e => { naviP = null; LOG.add('navi', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Die Navigationsschule ließ sich nicht laden. Prüf dein Internet.'); }); }
+function openToern() { loadToern().then(() => NAV.revier('kliev')).then(() => { TOERN.open(); einfuehrung('toern'); }).catch(e => { toernP = null; LOG.add('törn', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Der Törn ließ sich nicht laden. Prüf dein Internet.'); }); }
+function navSchool() { returnTo = 'cabin'; loadNavi().then(() => NAV.revier('kliev')).then(() => { NAV.hub(); einfuehrung('navi'); }).catch(e => { naviP = null; LOG.add('navi', 'Laden fehlgeschlagen: ' + (e && e.message)); toast('Die Navigationsschule ließ sich nicht laden. Prüf dein Internet.'); }); }
 function goBelow() { AUD.unlock(); lernHeim = null; setTab('cabin'); }
 
 /* ---------- Überraschungen (Spiele) ---------- */
@@ -4840,7 +4840,8 @@ function renderFrei() {
       ['⚠️', sks ? 'Wackelkandidaten' : 'Prüfungsfallen', sks ? 'Fragen, die noch nicht sitzen' : 'Antworten, die fast gleich klingen', () => trapRound()],
       ...(sks ? [['✅', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten', () => loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Ließ sich nicht laden.'))]] : []),
       ...(SIG_QS.length ? [['📯', 'Schallsignale', 'Hören und erkennen', () => hornQuiz()]] : [])]],
-    ['Praxis', [['🧭', 'Navigation', 'Auf der Übungskarte, Smilla hilft', () => navSchool()],
+    ['Praxis', [['🧭', 'Navigation auf Seekarte 7', 'Aufgaben nach Stufen auf der echten Karte, der Zirkel zählt für dich', () => navi7Oeffnen()],
+      ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
       ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
       ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
     ['Nachschlagen und Hören', [['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
@@ -4888,6 +4889,7 @@ function geraeuscheSeite() {
   }).catch(() => { $('#glist').innerHTML = '<p class="muted">Die Liste ließ sich nicht laden.</p>'; });
 }
 /* H3: Reise am Kartentisch (reise.js, data/reise.json), erst als Probe-Etappe */
+function navi7Oeffnen() { return nachladen('navi7.js').then(() => NAVI7.seite()).catch(e => { console.error(e); toast('Die Navigation ließ sich nicht laden. Prüf dein Internet.'); }); }
 function reiseOeffnen() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.oeffnen()).catch(() => toast('Die Reise ließ sich nicht laden. Prüf dein Internet.')); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
 /* V42: Scheine, Termine, Lernzeit (ziele.js) */
