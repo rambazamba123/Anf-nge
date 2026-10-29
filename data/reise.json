@@ -1,413 +1,332 @@
 {
-  "_hinweis": "Probe-Etappe (VISION.md H3). Alle Sätze der Crew sind PLATZHALTER: Story und Figuren schreibt der Nutzer später (B164, H10). Gesprochen mit der Gratis-Stimme (Art local, nie ElevenLabs). Orte echt (O79), Karte schematisch.",
-  "platzhalter": true,
-  "karte": {
-    "titel": "Die Schlei (schematisch, nicht zur Navigation)",
-    "haefen": [
-      {
-        "id": "schleswig",
-        "name": "Schleswig",
-        "x": 40,
-        "y": 250
-      },
-      {
-        "id": "missunde",
-        "name": "Missunde",
-        "x": 120,
-        "y": 200
-      },
-      {
-        "id": "arnis",
-        "name": "Arnis",
-        "x": 230,
-        "y": 120
-      },
-      {
-        "id": "kappeln",
-        "name": "Kappeln",
-        "x": 275,
-        "y": 80
-      },
-      {
-        "id": "schleimuende",
-        "name": "Schleimünde",
-        "x": 345,
-        "y": 30
-      }
-    ],
-    "wasser": [
-      [
-        20,
-        262
-      ],
-      [
-        60,
-        240
-      ],
-      [
-        100,
-        214
-      ],
-      [
-        140,
-        196
-      ],
-      [
-        175,
-        168
-      ],
-      [
-        205,
-        140
-      ],
-      [
-        235,
-        118
-      ],
-      [
-        262,
-        94
-      ],
-      [
-        290,
-        70
-      ],
-      [
-        320,
-        48
-      ],
-      [
-        360,
-        22
-      ],
-      [
-        390,
-        8
-      ]
-    ]
+ "_hinweis": "Reise (VISION.md, docs/reise-konzept.md): ein Tag auf See = eine Folge in drei Phasen (morgen, unterwegs, abend). Sätze der Crew sind PLATZHALTER bis zur Story (B164), gesprochen mit der Gratis-Stimme (Art local). Schritte: {wer, t, auto?} Satz (auto = andere Fassung im Automodus), {wahl, id, opts}, {frage: n | 'faellig', id}, {navi: {...}} Aufgabe auf der Seekarte 7 (Punkte in PDF-Punkten), {mini: key} Minispiel als Bonus, {knoten: id}, {logbuch: text}. Rundgang 1 in rundgang1.",
+ "platzhalter": true,
+ "rundgang1": [
+  {
+   "aktion": "zeige",
+   "tab": "deck",
+   "ziel": "#toreise"
   },
-  "etappen": [
-    {
-      "id": "probe1",
-      "titel": "Etappe 1: Arnis nach Kappeln",
-      "von": "arnis",
-      "nach": "kappeln",
-      "sm": 3,
-      "teile": [
-        {
-          "id": "besprechung",
-          "name": "Tagesbesprechung",
-          "ico": "☕"
-        },
-        {
-          "id": "planung",
-          "name": "Törnplanung",
-          "ico": "🧭"
-        },
-        {
-          "id": "folge",
-          "name": "Kajütenfunk",
-          "ico": "🎧"
-        },
-        {
-          "id": "fahrt",
-          "name": "Fahrt",
-          "ico": "⛵"
-        },
-        {
-          "id": "knoten",
-          "name": "Knoten-Station",
-          "ico": "🪢"
-        },
-        {
-          "id": "abend",
-          "name": "Abendrunde",
-          "ico": "🌅"
-        },
-        {
-          "id": "logbuch",
-          "name": "Logbuch",
-          "ico": "📓"
-        }
-      ],
-      "szenen": {
-        "besprechung": [
-          {
-            "wer": "hinnerk",
-            "t": "Moin. Setz dich. Heute geht's von Arnis nach Kappeln, drei Seemeilen."
-          },
-          {
-            "wer": "smilla",
-            "t": "Ich schlag vor: erst kurz auf die Karte, dann die Folge, dann los."
-          },
-          {
-            "wahl": "Wie willst du heute vorgehen?",
-            "id": "plan",
-            "opts": [
-              {
-                "t": "Wie Smilla sagt: Karte, Folge, Fahrt",
-                "wert": "empfehlung",
-                "empfohlen": true,
-                "dann": [
-                  {
-                    "wer": "hinnerk",
-                    "t": "Gut. So machen wir's."
-                  }
-                ]
-              },
-              {
-                "t": "Gleich los, die Folge hör ich später",
-                "wert": "schnell",
-                "dann": [
-                  {
-                    "wer": "smilla",
-                    "t": "Na gut. Aber die Folge holst du nach, Badewannen-Kapitän."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "wer": "klabauter",
-            "t": "Leinen los! Leinen los!"
-          }
-        ],
-        "planung": [
-          {
-            "wer": "smilla",
-            "t": "Kurze Kartenkunde, bevor wir ablegen."
-          },
-          {
-            "wer": "smilla",
-            "t": "Auf der Seekarte misst man Entfernungen am seitlichen Rand, an der Breitenskala."
-          },
-          {
-            "wahl": "Wie lang ist eine Bogenminute der Breite?",
-            "id": "q1",
-            "opts": [
-              {
-                "t": "Eine Seemeile, also 1852 Meter",
-                "ok": true,
-                "dann": [
-                  {
-                    "wer": "smilla",
-                    "t": "Genau. Deshalb nimmst du den Zirkel und gehst an den Breitenrand."
-                  }
-                ]
-              },
-              {
-                "t": "Einen Kilometer",
-                "ok": false,
-                "dann": [
-                  {
-                    "wer": "smilla",
-                    "t": "Nee. Eine Minute Breite ist eine Seemeile, 1852 Meter."
-                  }
-                ]
-              },
-              {
-                "t": "Eine Landmeile",
-                "ok": false,
-                "dann": [
-                  {
-                    "wer": "smilla",
-                    "t": "Fast. Eine Minute Breite ist eine Seemeile, 1852 Meter."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "wer": "smilla",
-            "t": "Drei Seemeilen bis Kappeln. Bei fünf Knoten sind wir in gut einer halben Stunde da."
-          },
-          {
-            "wahl": "Willst du das auf der Übungskarte selbst probieren?",
-            "id": "navi",
-            "opts": [
-              {
-                "t": "Später, jetzt weiter",
-                "wert": "spaeter",
-                "empfohlen": true
-              },
-              {
-                "t": "Zur Navigationsschule",
-                "wert": "navi"
-              }
-            ]
-          }
-        ],
-        "folge": [
-          {
-            "wer": "hinnerk",
-            "t": "Bevor wir fahren, hörst du kurz Kajütenfunk. Heute die Probefolge."
-          },
-          {
-            "wahl": "Jetzt hören?",
-            "id": "hoeren",
-            "opts": [
-              {
-                "t": "Ja, Kajütenfunk öffnen",
-                "wert": "ja",
-                "empfohlen": true
-              },
-              {
-                "t": "Überspringen",
-                "wert": "nein"
-              }
-            ]
-          }
-        ],
-        "fahrt_vor": [
-          {
-            "wer": "hinnerk",
-            "t": "Maschine an, Leinen los. Du stehst am Steuer."
-          }
-        ],
-        "fahrt_aufgabe": {
-          "wahl": "Wir laufen von See her in die Schlei ein. Auf welcher Seite lässt du die rote Tonne?",
-          "id": "tonne",
-          "opts": [
-            {
-              "t": "An Backbord",
-              "ok": true,
-              "dann": [
-                {
-                  "wer": "smilla",
-                  "t": "Richtig. Rot an Backbord, wenn du von See kommst."
-                }
-              ]
-            },
-            {
-              "t": "An Steuerbord",
-              "ok": false,
-              "dann": [
-                {
-                  "wer": "smilla",
-                  "t": "Andersrum! Von See kommend bleibt Rot an Backbord."
-                }
-              ]
-            }
-          ]
-        },
-        "fahrt_nach": [
-          {
-            "wer": "hinnerk",
-            "t": "Kappeln voraus. Gut gefahren."
-          }
-        ],
-        "knoten": [
-          {
-            "wer": "hinnerk",
-            "t": "Zum Festmachen brauchst du oft ein festes Auge, das sich nicht zuzieht: den Palstek."
-          },
-          {
-            "wer": "hinnerk",
-            "t": "Schau's dir an. Und wenn du ein Tau hast: gleich mitbinden."
-          },
-          {
-            "wahl": "Knotenbrett öffnen?",
-            "id": "knoten",
-            "opts": [
-              {
-                "t": "Palstek zeigen",
-                "wert": "ja",
-                "empfohlen": true
-              },
-              {
-                "t": "Später",
-                "wert": "nein"
-              }
-            ]
-          }
-        ],
-        "abend": [
-          {
-            "wer": "hinnerk",
-            "t": "Feierabend. Drei Fragen noch, dann ist Ruhe."
-          },
-          {
-            "frage": "faellig",
-            "id": "f1"
-          },
-          {
-            "frage": "faellig",
-            "id": "f2"
-          },
-          {
-            "frage": "faellig",
-            "id": "f3"
-          },
-          {
-            "wer": "smilla",
-            "t": "Na also. Morgen geht's weiter."
-          },
-          {
-            "wer": "klabauter",
-            "t": "Feierabend! Feierabend!"
-          }
-        ]
-      }
-    }
-  ],
-  "rundgang1": [
-    {
-      "aktion": "zeige",
-      "tab": "deck",
-      "ziel": "#toreise"
-    },
-    {
+  {
+   "wer": "hinnerk",
+   "t": "Moin. Kurzer Rundgang, dann geht's los. Hier oben geht's mit der Crew weiter, Etappe für Etappe."
+  },
+  {
+   "aktion": "zeige",
+   "tab": "deck",
+   "ziel": ".standkarte"
+  },
+  {
+   "wer": "smilla",
+   "t": "Darunter steht dein Stand: Theorie, Navigation und Praxis."
+  },
+  {
+   "aktion": "zeige",
+   "tab": "cabin",
+   "ziel": ".scene.cabin"
+  },
+  {
+   "wer": "smilla",
+   "t": "Das ist die Kajüte. Alles zum Lernen hängt hier: Seekarte, Knotenbrett und Manöverbrett. Am Kartentisch geht die Reise los."
+  },
+  {
+   "aktion": "zeige",
+   "tab": "cabin",
+   "ziel": ".fernglas"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Mit dem Fernglas siehst du, was man antippen kann."
+  },
+  {
+   "aktion": "zeige",
+   "tab": "frei",
+   "ziel": ".menu.frei"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Frei üben! Frei üben!"
+  },
+  {
+   "wer": "smilla",
+   "t": "Hier findest du alles ohne Reise: Fragen, Knoten, Navigation, Spiele."
+  },
+  {
+   "aktion": "zeige",
+   "tab": "deck",
+   "ziel": "#toreise"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Das war's. Wenn du's nochmal sehen willst: Einstellungen, Rundgang an Bord. Leinen los."
+  }
+ ],
+ "karte7": {
+  "bild": "img/karte7.webp",
+  "w": 1050,
+  "h": 705.12,
+  "titel": "Seekarte 7 · Übungsrevier Deutsche Gischt (fiktiv, nicht zur Navigation)",
+  "orte": {
+   "Kuttershaven": [
+    882,
+    437
+   ],
+   "Klüverhafen": [
+    959,
+    418
+   ],
+   "Lotsenkoog": [
+    947,
+    368
+   ]
+  }
+ },
+ "minis": {
+  "motor": {
+   "f": "motorGame",
+   "name": "Motorkunde",
+   "runden": 4,
+   "max": 4
+  },
+  "man": {
+   "f": "maneuverGame",
+   "name": "Anlegen",
+   "sek": 120,
+   "max": 1
+  },
+  "lights": {
+   "f": "lightsGame",
+   "name": "Lichter",
+   "runden": 4,
+   "max": 4
+  },
+  "horn": {
+   "f": "hornQuiz",
+   "name": "Schallsignale",
+   "runden": 4,
+   "max": 4
+  },
+  "buoy": {
+   "f": "buoyGame",
+   "name": "Tonnen-Slalom",
+   "sek": 40,
+   "max": 12
+  },
+  "lh": {
+   "f": "lighthouseGame",
+   "name": "Leuchtfeuer",
+   "runden": 3,
+   "max": 3
+  },
+  "fish": {
+   "f": "fishGame",
+   "name": "Fischfang",
+   "sek": 40,
+   "max": 10
+  }
+ },
+ "tage": [
+  {
+   "tag": 2,
+   "titel": "Erste Meilen über die Elbe",
+   "von": "Kuttershaven",
+   "nach": "Klüverhafen",
+   "sm": 2,
+   "wetter": "sonnig, Westwind 2",
+   "dp": {
+    "morgen": "morgen",
+    "unterwegs": "tag",
+    "abend": "abend"
+   },
+   "wx": "schoen",
+   "route": [
+    [
+     882,
+     437
+    ],
+    [
+     873,
+     431
+    ],
+    [
+     864,
+     419
+    ],
+    [
+     872,
+     409
+    ],
+    [
+     905,
+     405
+    ],
+    [
+     940,
+     405
+    ],
+    [
+     948,
+     410
+    ],
+    [
+     957,
+     414
+    ]
+   ],
+   "phasen": {
+    "morgen": [
+     {
       "wer": "hinnerk",
-      "t": "Moin. Kurzer Rundgang, dann geht's los. Hier oben geht's mit der Crew weiter, Etappe für Etappe."
-    },
-    {
-      "aktion": "zeige",
-      "tab": "deck",
-      "ziel": ".standkarte"
-    },
-    {
+      "t": "Moin. Heute nur ein kurzer Schlag: von Kuttershaven rüber nach Klüverhafen. Zwei Seemeilen."
+     },
+     {
       "wer": "smilla",
-      "t": "Darunter steht dein Stand: Theorie, Navigation und Praxis."
-    },
-    {
-      "aktion": "zeige",
-      "tab": "cabin",
-      "ziel": ".scene.cabin"
-    },
-    {
-      "wer": "smilla",
-      "t": "Das ist die Kajüte. Alles zum Lernen hängt hier: Seekarte, Knotenbrett und Manöverbrett. Am Kartentisch geht die Reise los."
-    },
-    {
-      "aktion": "zeige",
-      "tab": "cabin",
-      "ziel": ".fernglas"
-    },
-    {
+      "t": "Wetterbericht: sonnig, Westwind zwei. Ruhiger kriegen wir's nicht. Perfekt für die ersten Meilen."
+     },
+     {
       "wer": "hinnerk",
-      "t": "Mit dem Fernglas siehst du, was man antippen kann."
-    },
-    {
-      "aktion": "zeige",
-      "tab": "frei",
-      "ziel": ".menu.frei"
-    },
-    {
+      "t": "Wir laufen bei Hochwasser aus. Vor dem Hafen liegt Watt, bei Niedrigwasser sitzen wir da fest."
+     },
+     {
       "wer": "klabauter",
-      "t": "Frei üben! Frei üben!"
-    },
-    {
+      "t": "Zwei Meilen! Zwei Meilen!"
+     },
+     {
       "wer": "smilla",
-      "t": "Hier findest du alles ohne Reise: Fragen, Knoten, Navigation, Spiele."
-    },
-    {
-      "aktion": "zeige",
-      "tab": "deck",
-      "ziel": "#toreise"
-    },
-    {
+      "t": "Bevor wir losfahren, gucken wir auf die Karte. Wer navigiert, muss wissen, wo die Tonnen liegen."
+     },
+     {
+      "navi": {
+       "stufe": "N0",
+       "aufgabe": "Tippe auf der Karte die grüne Tonne an, an der wir vor Klüverhafen das Fahrwasser verlassen.",
+       "ziel": [
+        942,
+        404
+       ],
+       "radius": 13,
+       "hilfe": "Grüne Tonnen haben ungerade Nummern und stehen an der Südseite des Fahrwassers. Such die letzte grüne Tonne vor Klüverhafen.",
+       "richtig": "Genau, Tonne 37. Bis dahin bleiben wir im Fahrwasser auf der rechten Seite.",
+       "auto": "Ich such die grüne Tonne vor Klüverhafen. Grün heißt ungerade Nummer. Hier ist es die 37. Bis dahin bleiben wir im Fahrwasser rechts.",
+       "ausschnitt": [
+        850,
+        355,
+        1012,
+        455
+       ]
+      }
+     },
+     {
       "wer": "hinnerk",
-      "t": "Das war's. Wenn du's nochmal sehen willst: Einstellungen, Rundgang an Bord. Leinen los."
-    }
-  ]
+      "t": "Und jetzt zum Boot. Unser Propeller dreht sich, von achtern gesehen und in Vorausfahrt, im Uhrzeigersinn. Das nennt man rechtsdrehend."
+     },
+     {
+      "frage": 44
+     },
+     {
+      "wer": "smilla",
+      "t": "Und andersrum, gegen den Uhrzeigersinn, ist er linksdrehend. Gleiche Blickrichtung: von achtern, Vorausfahrt."
+     },
+     {
+      "frage": 45
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Der Propeller schiebt nicht nur. Er versetzt das Heck auch seitlich. Das ist der Radeffekt. Wer das weiß, manövriert besser."
+     },
+     {
+      "frage": 46
+     },
+     {
+      "frage": 47
+     }
+    ],
+    "unterwegs": [
+     {
+      "wer": "hinnerk",
+      "t": "Leinen los. Wir fahren rückwärts aus der Box."
+     },
+     {
+      "wer": "smilla",
+      "t": "Achtung: Bei rechtsdrehendem Propeller zieht das Heck rückwärts nach Backbord. Merk dir das."
+     },
+     {
+      "frage": 41
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Merkst du's? Das Ruder greift rückwärts erst spät. Bei starrer Welle kommt die Ruderwirkung erst, wenn das Wasser das Ruderblatt anströmt."
+     },
+     {
+      "frage": 51
+     },
+     {
+      "wer": "klabauter",
+      "t": "Motor brummt! Motor brummt!"
+     },
+     {
+      "mini": "motor",
+      "text": "Smilla will wissen, ob du den Außenborder kennst. Bonusrunde Motorkunde?"
+     },
+     {
+      "wer": "smilla",
+      "t": "Das Beiboot hat einen Außenborder ohne Ruder. Da lenkt allein der Schraubenstrom, je nachdem, wohin der Propeller zeigt."
+     },
+     {
+      "frage": 50
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Tonne 37 querab. Wir verlassen das Fahrwasser. Klüverhafen voraus."
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Wir legen mit Backbord an. Rate mal, warum."
+     },
+     {
+      "frage": 48
+     },
+     {
+      "mini": "man",
+      "text": "Der Steg ist frei. Willst du selbst anlegen?"
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Fest. Jetzt die Vorleine über den Poller, mit einem Palstek."
+     },
+     {
+      "knoten": "palstek"
+     }
+    ],
+    "abend": [
+     {
+      "wer": "smilla",
+      "t": "Feierabend in Klüverhafen. Die Sonne geht hinter der Elbe unter."
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Zwei Fragen von gestern, dann ist Ruhe."
+     },
+     {
+      "frage": "faellig",
+      "id": "f1"
+     },
+     {
+      "frage": "faellig",
+      "id": "f2"
+     },
+     {
+      "wer": "klabauter",
+      "t": "Feierabend! Feierabend!"
+     },
+     {
+      "wer": "hinnerk",
+      "t": "Morgen geht's nach Lotsenkoog. Und dann hören wir mal, was der Motor so erzählt."
+     },
+     {
+      "logbuch": "Kuttershaven nach Klüverhafen, zwei Seemeilen, sonnig. Propeller, Radeffekt, angelegt mit Palstek."
+     }
+    ]
+   }
+  }
+ ]
 }

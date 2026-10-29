@@ -62,13 +62,14 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
    - **Hafensymbole** für die Häfen der Reise (Neuwerk, Kuttershaven, Tampensiel …)
 6. **Beilagen für die Navigation:** eine Gezeitentabelle für Kuttershaven und eine Stromtabelle zur Raute A. Sonst lassen sich die Aufgaben zu Tiefe und Strom nicht rechnen.
 7. **Maßstabsleiste unten rechts:** Auf einer Mercatorkarte gilt sie nur in einer Breite. Entweder die Breite dazuschreiben oder die Leiste weglassen, damit niemand dort Entfernungen misst.
-8. **Kleinigkeit:** Am rechten Rand liegt bei 54°00' eine zweite Beschriftung über der ersten.
+8. **Hafenzufahrten:** Kuttershaven liegt hinter Watt. Ein Priel mit Pricken als Zufahrt würde zeigen, wie man bei Niedrigwasser rein- und rauskommt (passt zu Gezeiten und Pricken im Katalog).
+9. **Kleinigkeit:** Am rechten Rand liegt bei 54°00' eine zweite Beschriftung über der ersten.
 
 **Für die App brauche ich die Quelldatei** (die PDF ist aus einem Browser erzeugt, also gibt es vermutlich eine SVG- oder HTML-Datei). Damit kann ich Tonnen, Feuer und Häfen mit ihren Positionen als Daten übernehmen, sodass die Navigationsaufgaben die echte Etappe rechnen und die Karte am Kartentisch scharf zoomt (O101).
 
 ## 6. Offene Punkte
 - **O101 Quelldatei der Karte:** SVG oder HTML der Seekarte 7 in den Ordner `import` legen. Ohne sie lese ich die Positionen aus der PDF ab, das ist ungenauer.
-- **O102 Kartenänderungen:** Welche der Vorschläge 1–8 übernimmst du? Ändern sollst du die Karte selbst, weil sie dein Werk ist. Oder soll ich sie mit der Quelldatei anpassen?
+- **O102 Kartenänderungen:** Welche der Vorschläge 1–9 übernimmst du? Ändern sollst du die Karte selbst, weil sie dein Werk ist. Oder soll ich sie mit der Quelldatei anpassen?
 - **O103 Länge:** 50 Tage zu 20–30 Minuten sind etwa 21 Stunden Reise. Dazu kommen Wiederholung und „Frei üben“, zusammen gut 30 Stunden. Passt das?
 - **O104 Binnen und SKS:** Dieser Plan ist nur für SBF See. Binnen und SKS bekommen später eigene Reisen.
 

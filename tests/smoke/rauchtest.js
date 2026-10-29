@@ -69,13 +69,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev(page, () => setTab('cabin')); });
   /* H3: Reise am Kartentisch und Fahrt-Szene von hinten */
   await schritt('03f-reise', page, async () => {
-    await ev(page, () => reiseOeffnen()); await sleep(1500);
-    if (!await page.$('.reisekarte') || !await page.$('#rweiter')) throw new Error('Kartentisch fehlt');
-    await ev(page, () => REISE.teil('fahrt')); await sleep(1500);
-    if (!await page.$('#fahrtcv')) throw new Error('Fahrt-Szene fehlt');
-    await ev(page, () => { const b = document.querySelector('#rskip'); if (b) b.click(); }); await sleep(800);
-    if (!await ev(page, () => S.reise && S.reise.teile && !!S.reise.teile.fahrt)) throw new Error('Fahrt nicht abgehakt');
-    await ev(page, () => { S.reise = null; save(); setTab('cabin'); }); });
+    await ev(page, () => { S.reise = null; reiseOeffnen(); }); await sleep(1500);
+    if (!await page.$('svg.karte7') || (await page.$$('.rfeld')).length !== 3) throw new Error('Kartentisch mit drei Feldern fehlt');
+    await ev(page, () => { REISE.phase('unterwegs'); }); await sleep(1500);
+    if (!await page.$('#fahrtcv') || !await page.$('#szbox')) throw new Error('Fahrt-Szene fehlt');
+    await ev(page, () => document.querySelector('#szweiter').click()); await sleep(800);
+    if (!await ev(page, () => S.reise.pos.phase === 'unterwegs' && S.reise.pos.i >= 1)) throw new Error('Speicherpunkt fehlt');
+    await ev(page, () => { REISE.stopLauf(); S.reise = null; save(); setTab('cabin'); }); });
   /* H5: Rundgang 1 läuft unten im Bild, „Szene überspringen“ beendet ihn und merkt ihn sich */
   await schritt('03g-rundgang', page, async () => {
     await ev(page, () => { S.rundgang1 = false; rundgangStarten(); }); await sleep(1500);

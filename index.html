@@ -203,6 +203,13 @@ details summary{cursor:pointer;font-weight:700}
 .sig{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
 .sig .tones{font-size:1.5rem;letter-spacing:.14em;font-weight:700}
 .sig .tones .on{color:var(--lamp)}
+.rtitel{margin:4px 0 2px;font-size:1.25rem}.rfelder{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.rfeld{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 6px;border-radius:18px;border:2px solid var(--line);background:var(--paper);color:var(--ink);min-height:118px;text-align:center}
+.rfeld .rico{font-size:2rem;line-height:1.1}.rfeld b{font-size:1rem}.rfeld small{color:var(--muted);line-height:1.25;font-size:.78rem}
+.rfeld.jetzt{border-color:var(--lamp);box-shadow:0 0 0 3px color-mix(in srgb,var(--lamp) 35%,transparent);animation:rfeldpuls 1.6s ease-in-out infinite alternate}@keyframes rfeldpuls{to{box-shadow:0 0 0 7px color-mix(in srgb,var(--lamp) 10%,transparent)}}
+.rfeld.fertig{opacity:.75}.rfeld.fertig .rico{color:var(--stb)}.rmodus{display:flex;gap:8px;justify-content:center;margin:0 0 6px}
+.karte7{display:block;width:100%;height:auto;border-radius:10px;background:#f5f1e6;touch-action:pinch-zoom}.rbuehne{border-radius:14px;overflow:hidden;margin:6px 0 8px;background:#f5f1e6}.rbuehne canvas{display:block;width:100%}
+.topbar #rmod{font-size:.8rem;padding:6px 10px}.rszene{margin:0}.rszene .ans{cursor:default}
 .reiseknopf{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:8px;background:var(--sea);color:#fff}.reiseknopf small{opacity:.85}
 .tischplatte{background:#7a4f2c;border-radius:16px;padding:10px;box-shadow:inset 0 0 0 3px #5c3a1f;margin:6px 0 10px;perspective:700px}.tischplatte.kippt .reisekarte{animation:kippen .9s ease-out}@keyframes kippen{from{transform:rotateX(55deg) scale(.85);opacity:.3}to{transform:none;opacity:1}}.reisekarte{display:block;width:100%;height:auto;border-radius:10px}
 .etappenteile li button{text-align:left}.fahrtbild{position:relative}#fahrtcv{display:block;width:100%;border-radius:14px;background:#4f9cc4}.fahrtszene{margin:8px 0 0}.fahrtszene:empty{display:none}
@@ -524,7 +531,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.01';
+  window.__ver = '5.02';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4376,7 +4383,7 @@ function renderBoat() {
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
-      <button class="btn wide reiseknopf" id="toreise"><small>🧭 Mit der Crew weiter</small><b>Probe-Etappe am Kartentisch</b></button>
+      <button class="btn wide reiseknopf" id="toreise"><small>🧭 Mit der Crew weiter</small><b>Probetag: Erste Meilen über die Elbe</b></button>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
       <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
