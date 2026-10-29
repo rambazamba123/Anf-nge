@@ -425,6 +425,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 | 28.10. | Neue Räume nur als Zeichnung (O86). |
 | 28.10. | Knoten statt „Noten“ (O84). |
 | 28.10. | Antworten O88–O92 (siehe §14); Fahrt-Szene von hinten auf das Boot, einfach animiert; Navi-Übungsmodus mit Crew; jede Frage vorgelesen, Spracheingabe Alfa bis Delta; alle übrigen Vorschläge angenommen; Start mit H1, danach Schritt für Schritt weiter. |
+| 29.10. | Antworten O93–O100: Kajütenfunk und Reise werden eins (ein Tag = eine Folge, Automodus spielt den Tag als Hörspiel); auf dem Kartentisch nur drei große Felder (Morgens, Unterwegs, Abends), alles andere führt die App; Navigationsaufgabe zur echten Etappe, ab der Hälfte jeden Tag voll; Knoten, wenn man sie braucht; Aufgaben öffnen sich in der Geschichte, Speicherpunkt an der genauen Stelle; Wetter aus der Geschichte; 20–30 Minuten je Tag; Mast spät; Platzhalter-Sätze bis zur Story; Konzept `docs/reise-konzept.md`; Karte: Seekarte 7 „Deutsche Gischt“ (selbst gezeichnet, Seezeichen mit Originalnamen). |
 
 ## 14. Offene Fragen
 Beantwortet am 28.10.2026:
@@ -433,6 +434,18 @@ Beantwortet am 28.10.2026:
 - **O90:** Leiste unten „Deck · Kajüte · Frei üben“, wie vorgeschlagen.
 - **O91:** Probe-Etappe (H3) vor dem breiten Aufräumen (H4), wie vorgeschlagen.
 - **O92:** „Ich wünschte, es wäre kürzer, aber vielleicht ist das das Tolle: in 30 Stunden zum Bootsveteran.“ Die Dauer ist damit gerechtfertigt.
+
+Beantwortet am 29.10.2026:
+- **O93:** Kajütenfunk und Reise zusammenlegen; im Automodus läuft der Tag als Hörspiel, leicht abgeändert.
+- **O94:** Fragen teils als Lektion der Crew, teils einzeln auf der Fahrt, teils zusammen; vorher ein Konzept mit allen Fragen (`docs/reise-konzept.md`).
+- **O95:** Die Karte ist die Seekarte 7 „Deutsche Gischt“ des Nutzers; Änderungsvorschläge in `docs/reise-konzept.md` §5.
+- **O96:** Das Wetter kommt aus der Geschichte und trägt Spannung und Lektionen.
+- **O97:** 20–30 Minuten je Tag.
+- **O98:** Mast stellen relativ spät, wo es am besten in die Geschichte passt (Vorschlag: Helgoland, Tag 42).
+- **O99:** Bis zur Story Platzhalter-Sätze.
+- **O100:** Probetag mit den vorhandenen Minispielen.
+
+Neu offen: O101–O104 in `docs/reise-konzept.md` §6.
 
 Neue offene Fragen kommen mit den Läufen dazu.
 
