@@ -416,14 +416,14 @@
     },
     {
      "wer": "smilla",
-     "t": "Jetzt kommt der Trick. Unten, tief im Wasser, greifen die Flügel kräftig zu. Oben, nah an der Oberfläche, bringen sie kaum etwas."
-    },
-    {
-     "wer": "hinnerk",
-     "t": "Der Propeller drückt das Wasser also unten zur Seite. Das Wasser drückt zurück, und das Heck weicht aus."
+     "t": "Jetzt kommt der Trick. Der Propeller drückt das Wasser in alle Richtungen weg, auch nach oben. Dort schlägt es gegen den Rumpf."
     },
     {
      "grafik": 3
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Unten, tief im Wasser, greifen die Flügel kräftig zu. Oben, nah an der Oberfläche, bringen sie kaum etwas. Der Druck unten gewinnt, und das Heck weicht aus."
     },
     {
      "wer": "smilla",
