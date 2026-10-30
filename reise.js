@@ -72,24 +72,30 @@ window.REISE = (() => {
     rad: () => {
       const pfeil = (x1, x2, y, c, cls, w = 6) => `<g class="${cls}"${w < 6 ? ' opacity=".6"' : ''}><line x1="${x1}" y1="${y}" x2="${x2 + (x2 > x1 ? -10 : 10)}" y2="${y}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/><path d="${x2 > x1 ? `M${x2} ${y} l-14 -9 v18z` : `M${x2} ${y} l14 -9 v18z`}" fill="${c}"/></g>`;
       const T = (x, y, a, txt, cls) => `<text class="${cls}" x="${x}" y="${y}" text-anchor="${a}" font-size="12.5" font-weight="700" fill="#2b3a4a" stroke="#fff" stroke-width="3" paint-order="stroke">${txt}</text>`;
-      return `<svg class="gr" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Radeffekt: Boot von hinten, Propeller dreht, das Heck weicht zur Seite aus">
+      return `<svg class="gr" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Radeffekt: Boot von hinten, der Propeller drückt Wasser in alle Richtungen, das Heck weicht zur Seite aus">
         <style>.gr .rumpf{transition:transform 1.8s ease-in-out}.gr[data-p="3"] .rumpf{transform:translateX(28px)}.gr[data-p="4"] .rumpf{transform:translateX(-28px)}
-        .gr .prop{transform-box:fill-box;transform-origin:center}.gr:not([data-p="0"]) .prop{animation:gspin 1.4s linear infinite}.gr[data-p="4"] .prop{animation-direction:reverse}@keyframes gspin{to{transform:rotate(360deg)}}
-        .gr .ab1,.gr .ab2,.gr .ab3,.gr .ab4,.gr .ab5{opacity:0;transition:opacity .5s}
-        .gr[data-p="1"] .ab1,.gr[data-p="2"] .ab1,.gr[data-p="3"] .ab1,.gr[data-p="2"] .ab2,.gr[data-p="3"] .ab2,.gr[data-p="3"] .ab3,.gr[data-p="4"] .ab4,.gr[data-p="4"] .ab5{opacity:1}</style>
-        <rect width="400" height="150" fill="#cfe9f7"/><rect y="150" width="400" height="150" fill="#3d8fb8"/>
-        <g class="rumpf"><path d="M125 58 H275 L270 150 H130Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2"/><rect x="128" y="96" width="144" height="12" fill="#2b6a9a"/><rect x="118" y="52" width="164" height="8" rx="3" fill="#b98750"/>
-          <text x="200" y="130" text-anchor="middle" font-size="14" font-weight="800" fill="#7a5a3a">SKIPPER</text>
-          <path d="M125 150 L148 205 H252 L275 150Z" fill="#8a3b2a"/><rect x="194" y="205" width="12" height="22" fill="#5b3a2a"/>
-          <g class="prop">${[0, 120, 240].map(a => `<ellipse cx="200" cy="214" rx="8" ry="22" transform="rotate(${a} 200 236)" fill="#d9b85c" stroke="#8a6d1f" stroke-width="1.5"/>`).join('')}<circle cx="200" cy="236" r="7" fill="#8a6d1f"/></g></g>
-        <rect y="150" width="400" height="150" fill="#3d8fb8" opacity=".45"/><path d="M0 150 Q50 144 100 150 T200 150 T300 150 T400 150" fill="none" stroke="#fff" stroke-width="2.5" opacity=".8"/>
-        ${T(12, 176, 'start', 'Von hinten gesehen', 'ab0')}${T(12, 136, 'start', 'Backbord', 'ab0')}${T(388, 136, 'end', 'Steuerbord', 'ab0')}
-        <g class="ab1"><path d="M240 214 A40 40 0 0 1 200 276" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="5 4"/><path d="M200 276 l9 -11 l-4 14z" fill="#fff" transform="rotate(-8 200 276)"/></g>
+        .gr .prop{transform-box:view-box;transform-origin:200px 236px}.gr:not([data-p="0"]) .prop{animation:gspin 1.4s linear infinite}.gr[data-p="4"] .prop{animation-direction:reverse}@keyframes gspin{to{transform:rotate(360deg)}}
+        .gr .wv{fill:none;stroke:#fff;stroke-width:2.5;vector-effect:non-scaling-stroke;transform-box:view-box;transform-origin:200px 236px;opacity:0}
+        .gr[data-p="2"] .wv,.gr[data-p="3"] .wv,.gr[data-p="4"] .wv{animation:gwav 2.4s ease-out infinite}@keyframes gwav{0%{transform:scale(.45);opacity:.9}100%{transform:scale(3.3);opacity:0}}
+        .gr .hit{fill:none;stroke:#fff;stroke-width:3.5;stroke-linecap:round;opacity:0}.gr[data-p="2"] .hit,.gr[data-p="3"] .hit,.gr[data-p="4"] .hit{animation:ghit 2.4s ease-out infinite}@keyframes ghit{0%,35%{opacity:0}55%{opacity:1}100%{opacity:0}}
+        .gr .ab1,.gr .ab2s,.gr .ab2x,.gr .ab3,.gr .ab3x,.gr .ab4,.gr .ab5{opacity:0;transition:opacity .5s}
+        .gr[data-p="1"] .ab1,.gr[data-p="2"] .ab1,.gr[data-p="3"] .ab1,.gr[data-p="2"] .ab2s,.gr[data-p="3"] .ab2x,.gr[data-p="3"] .ab3,.gr[data-p="3"] .ab3x,.gr[data-p="4"] .ab4,.gr[data-p="4"] .ab5{opacity:1}</style>
+        <rect width="400" height="120" fill="#cfe9f7"/><rect y="120" width="400" height="180" fill="#3d8fb8"/>
+        <g class="rumpf"><path d="M125 40 H275 L270 120 H130Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2"/><rect x="128" y="76" width="144" height="12" fill="#2b6a9a"/><rect x="118" y="34" width="164" height="8" rx="3" fill="#b98750"/>
+          <text x="200" y="108" text-anchor="middle" font-size="14" font-weight="800" fill="#7a5a3a">SKIPPER</text>
+          <path d="M130 120 C124 172 160 202 200 202 C240 202 276 172 270 120Z" fill="#8a3b2a" stroke="#5b2a1c" stroke-width="1.5"/><rect x="194" y="200" width="12" height="16" fill="#5b3a2a"/>
+          <g class="prop">${[0, 120, 240].map(a => `<ellipse cx="200" cy="217" rx="7" ry="19" transform="rotate(${a} 200 236)" fill="#d9b85c" stroke="#8a6d1f" stroke-width="1.5"/>`).join('')}<circle cx="200" cy="236" r="6" fill="#8a6d1f"/></g>
+          ${[0, .8, 1.6].map(d => `<circle class="wv" cx="200" cy="236" r="30" style="animation-delay:${d}s"/>`).join('')}
+          <path class="hit" d="M166 184 Q200 170 234 184"/><path class="hit" d="M146 166 Q150 150 160 140" style="animation-delay:.3s"/><path class="hit" d="M254 166 Q250 150 240 140" style="animation-delay:.3s"/></g>
+        <rect y="120" width="400" height="180" fill="#3d8fb8" opacity=".35"/><path d="M0 120 Q50 114 100 120 T200 120 T300 120 T400 120" fill="none" stroke="#fff" stroke-width="2.5" opacity=".8"/>
+        ${T(12, 150, 'start', 'Von hinten gesehen', 'ab0')}${T(12, 106, 'start', 'Backbord', 'ab0')}${T(388, 106, 'end', 'Steuerbord', 'ab0')}
+        <g class="ab1"><path d="M228 222 A28 28 0 0 1 200 264" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="5 4"/><path d="M200 264 l9 -11 l-4 14z" fill="#fff" transform="rotate(-8 200 264)"/></g>
         ${T(262, 232, 'start', 'dreht im', 'ab1')}${T(262, 247, 'start', 'Uhrzeigersinn', 'ab1')}
-        ${pfeil(250, 150, 270, '#e67e22', 'ab2')}${pfeil(176, 224, 213, '#e67e22', 'ab2', 3.5)}
-        ${T(200, 293, 'middle', 'unten greifen die Flügel kräftig: Wasser nach links', 'ab2')}
-        ${pfeil(215, 335, 40, '#c0392b', 'ab3')}${T(275, 28, 'middle', 'Heck weicht nach rechts aus', 'ab3')}
-        ${pfeil(150, 250, 270, '#e67e22', 'ab4')}${pfeil(185, 65, 40, '#c0392b', 'ab5')}${T(125, 28, 'middle', 'rückwärts: Heck nach links', 'ab5')}${T(200, 293, 'middle', 'rückwärts dreht alles um: Wasser nach rechts', 'ab4')}</svg>`;
+        ${T(200, 293, 'middle', 'Druck in alle Richtungen, auch nach oben an den Rumpf', 'ab2s')}
+        ${pfeil(250, 150, 272, '#e67e22', 'ab2x')}${pfeil(176, 224, 213, '#e67e22', 'ab2x', 3.5)}
+        ${T(200, 293, 'middle', 'unten greifen die Flügel kräftig: Wasser nach links', 'ab3x')}
+        ${pfeil(215, 335, 24, '#c0392b', 'ab3')}${T(275, 14, 'middle', 'Heck weicht nach rechts aus', 'ab3')}
+        ${pfeil(150, 250, 272, '#e67e22', 'ab4')}${pfeil(185, 65, 24, '#c0392b', 'ab5')}${T(125, 14, 'middle', 'rückwärts: Heck nach links', 'ab5')}${T(200, 293, 'middle', 'rückwärts dreht alles um: Wasser nach rechts', 'ab4')}</svg>`;
     }
   };
   /* Die Hauptansicht ist die Runde mit der Crew (Nutzer 29.10.2026). Karte und Fahrt-Szene legen sich nur bei Bedarf darüber
