@@ -2,7 +2,7 @@
 
 > Grundsatz (Nutzer, 29.10.2026): Alles Gesprochene versteht man auch ohne Bild, die Grafik erklärt zusätzlich. Wo sich etwas zeichnen lässt, kommt eine Animation dazu.
 > **Teil A Prüfungsstoff:** kommt in den Prüfungsfragen vor (Folge-Nummern aus `podcast/kursplan-sbf.json`). **Teil B Zusatz:** seemännisches Wissen für Motorboote, das nicht geprüft wird, aber an Bord wichtig ist.
-> Status: ✓ gebaut · ◐ teilweise (Baustein da) · ○ offen. Priorität 1 = zuerst, 3 = später. Alle Bilder entstehen als SVG oder Canvas im Stil der App (warm, flach, gezeichnet, R-Stil §3). Tag in der Reise: Wo sie laufen soll (`docs/reise-konzept.md`).
+> Seite „🎞️ Animationen“ (Frei üben) zeigt je Gruppe ein Beispiel (anim.js). Status: ✓ gebaut · ◐ teilweise (Baustein da) · ○ offen. Priorität 1 = zuerst, 3 = später. Alle Bilder entstehen als SVG oder Canvas im Stil der App (warm, flach, gezeichnet, R-Stil §3). Tag in der Reise: Wo sie laufen soll (`docs/reise-konzept.md`).
 
 ## Teil A: Prüfungsstoff
 
@@ -21,7 +21,7 @@
 ### A2 Anlegen, Ankern, Manöver (G3, S10)
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
 |---|---|---|---|---|---|
-| A2.1 | Anlegen | Spitzer Anlaufwinkel, Fahrt rausnehmen, Wind und Strom von vorn, Leinen ausbringen | G3.1 | ◐ (`manoever.js` demo) | 2 |
+| A2.1 | Anlegen | Spitzer Anlaufwinkel, Fahrt rausnehmen, Wind und Strom von vorn, Leinen ausbringen | G3.1 | ✓ v5.10 | 2 |
 | A2.2 | Ablegen mit Wind und Strom | Wind aus verschiedenen Richtungen, Heck oder Bug zuerst | S10.2 | ◐ | 2 |
 | A2.3 | Ankern | Anker werfen, Kettenlänge, Schwojen, Ankerwache; Ankersignal | G3.1, S3.2 | ○ | 2 |
 | A2.4 | Sog und Schwell | Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben, Fahrt rausnehmen | G3.2 | ○ | 2 |
@@ -39,7 +39,7 @@
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
 |---|---|---|---|---|---|
 | A4.1 | Zwei Grundregeln | Rechts vor Links, Maschine weicht Segler aus, mit Pfeilen | G5.2 | ○ | 1 |
-| A4.2 | Begegnung von oben | Peilung bleibt stehen = Kollisionskurs, wer ausweicht, Überholsektor, Kursänderung früh und deutlich | S2.1, S2.2 | ○ | 1 |
+| A4.2 | Begegnung von oben | Peilung bleibt stehen = Kollisionskurs, wer ausweicht, Überholsektor, Kursänderung früh und deutlich | S2.1, S2.2 | ✓ v5.10 | 1 |
 | A4.3 | Die Rangfolge | Leiter von manövrierunfähig bis Maschinenfahrzeug, mit Bildern | S2.3 | ○ | 2 |
 | A4.4 | Kurshalter und letzter Augenblick | Wer ausweicht, wer Kurs hält, wann der Kurshalter eingreifen muss | S2.4 | ○ | 2 |
 | A4.5 | Wo gilt was? | Hohe See, Seeschifffahrtsstraße, Fahrwasser, Verkehrstrennungsgebiet | S1.1 | ○ | 2 |
@@ -50,7 +50,7 @@
 ### A5 Lichter und Signalkörper (G5.1, S3)
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
 |---|---|---|---|---|---|
-| A5.1 | Lichterkarussell | Ein Schiff dreht sich: Topplicht, Seitenlichter, Hecklicht je nach Blickwinkel, Sektoren | G5.1, S3.1 | ◐ (`drawShip` im Törn) | 1 |
+| A5.1 | Lichterkarussell | Ein Schiff dreht sich: Topplicht, Seitenlichter, Hecklicht je nach Blickwinkel, Sektoren | G5.1, S3.1 | ✓ v5.10 | 1 |
 | A5.2 | Lichter und Signalkörper je Fahrzeug | Nachtbild und Tagbild umschaltbar plus Katalogbild: Maschinenfahrzeug, Segler, Schlepper, Fischer, Tiefgang, Manövrierbehinderte, Ankerlieger, Grund | S3.1 bis S3.6 | ◐ | 1 |
 | A5.3 | Schleppverband | Länge der Schleppe, Lichter und Zeichen | S3.3 | ○ | 2 |
 | A5.4 | Manövrierunfähig und manövrierbehindert | Zwei rote Lichter, zwei Bälle; Bagger mit roten und grünen Lichtern | S3.4, S3.5 | ○ | 2 |
@@ -60,7 +60,7 @@
 ### A6 Schallsignale und Nebel (G6, S4, S11.1)
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
 |---|---|---|---|---|---|
-| A6.1 | Schallsignale sichtbar | ● und ▬ laufen mit dem Ton mit (kurz, lang), Manöversignale, Warnsignal, Nebelsignale | S4.1 bis S4.3 | ○ | 1 |
+| A6.1 | Schallsignale sichtbar | ● und ▬ laufen mit dem Ton mit (kurz, lang), Manöversignale, Warnsignal, Nebelsignale | S4.1 bis S4.3 | ✓ v5.10 | 1 |
 | A6.2 | Nebel von oben | Wer tutet da: Bereich vorlicher als querab, Fahrt, Ausguck | S4.1, S4.2 | ○ | 2 |
 | A6.3 | Glocke und Gong | Ankerlieger im Nebel, Schiff auf Grund | S4.3 | ○ | 2 |
 
@@ -69,12 +69,12 @@
 |---|---|---|---|---|---|
 | A7.1 | Fahrwasser von See kommend | Rot an Backbord (beim Einlaufen), grün an Steuerbord, Nummern, Mitte, Abzweigung | S5.2, S5.3 | ◐ (Seekarte 7) | 1 |
 | A7.2 | Feuer im Takt | Blink, Blitz, Funkel, unterbrochen, Gleichtakt in echter Taktung | S5.1 | ◐ (`seezeichen.js`, `takt`) | 1 |
-| A7.3 | Kardinalzeichen als Uhr | Vier Tonnen um die Gefahr, Toppzeichen, Blitze wie Uhrzeiten (3, 6, 9, 12), Vorbeifahren | S5.4 | ○ | 1 |
+| A7.3 | Kardinalzeichen als Uhr | Vier Tonnen um die Gefahr, Toppzeichen, Blitze wie Uhrzeiten (3, 6, 9, 12), Vorbeifahren | S5.4 | ✓ v5.10 | 1 |
 | A7.4 | Einzelgefahrzeichen, Sonderzeichen, Mitte | Rot-schwarz mit zwei Bällen, gelb, rot-weiß senkrecht | S5.5 | ○ | 2 |
 | A7.5 | Leit-, Richt- und Quermarkenfeuer | Weißer Leitsektor, Richtfeuer in Deckung, Ankündigungssektor | S5.5 | ○ | 2 |
 | A7.6 | Tafelzeichen nach Familien | Verbot (rot), Gebot (blau), Hinweis, Zusatz; Katalogbild groß | G6.1, G6.2 | ○ | 1 |
 | A7.7 | Brücken und Durchfahrtshöhen | Mast, Durchfahrtshöhe, Wasserstand, Signalfarben | G6.3 | ○ | 2 |
-| A7.8 | Schleusenablauf | Einfahren, festmachen, Füllen und Leeren, Drempel, Oberwasser und Unterwasser, Ampeln | G6.3 | ○ | 1 |
+| A7.8 | Schleusenablauf | Einfahren, festmachen, Füllen und Leeren, Drempel, Oberwasser und Unterwasser, Ampeln | G6.3 | ✓ v5.10 | 1 |
 
 ### A8 Navigation (S7, später N0 bis N6)
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
@@ -84,14 +84,14 @@
 | A8.3 | Missweisung und Ablenkung | rwK, mwK, MgK als Pfeile an der Kompassrose | S7.2 | ○ | 1 |
 | A8.4 | Peilung und Standlinie | Konstante Peilung, Kreuzpeilung, Schnittwinkel | S2.1, S7.1 | ◐ (Aufgabe N5) | 1 |
 | A8.5 | Koppelort und Versetzung | Strom abtragen, Besteckort, Vorhaltewinkel | S7.3 | ◐ (Aufgabe N6) | 1 |
-| A8.6 | Ebbe und Flut | Wasserstandskurve, HW und NW, Tidenhub, Wassertiefe = Kartentiefe + Höhe | S7.4 | ○ | 2 |
+| A8.6 | Ebbe und Flut | Wasserstandskurve, HW und NW, Tidenhub, Wassertiefe = Kartentiefe + Höhe | S7.4 | ✓ v5.10 | 2 |
 | A8.7 | Stromrichtung bei Tide | Ebbstrom, Flutstrom, Stromstille, Strom gegen Wind (steile See) | S7.4 | ○ | 2 |
 | A8.8 | Seemeile und Knoten | 1′ Breite = 1 sm, Log, Fahrt über Grund | S7.2 | ○ | 3 |
 
 ### A9 Wetter, Natur, Sicherheit (G7, S8, S9)
 | Nr. | Animation | Zeigt | Folge | Status | Prio |
 |---|---|---|---|---|---|
-| A9.1 | Warum der Wind weht | Luftdruckunterschied, Wind vom Hoch zum Tief, Drehsinn (gegen den Uhrzeigersinn ums Tief) | G7.1, S9.1 | ○ | 2 |
+| A9.1 | Warum der Wind weht | Luftdruckunterschied, Wind vom Hoch zum Tief, Drehsinn (gegen den Uhrzeigersinn ums Tief) | G7.1, S9.1 | ✓ v5.10 | 2 |
 | A9.2 | Wetterkarte | Hoch und Tief, Isobaren, Fronten, Warmfront, Kaltfront, Wind vorhersagen | S9.1 | ○ | 2 |
 | A9.3 | Beaufort | Windstärken mit Seegang, Warnschwellen 6 bis 7 und ab 8, Sturmwarnung | S9.2 | ○ | 3 |
 | A9.4 | Schweres Wetter und Schleppen | Wellen von achtern, Bug in die Welle, Schleppleine, Schleppverband im Seegang | S9.3 | ○ | 3 |
@@ -106,7 +106,7 @@
 | Nr. | Animation | Zeigt | Status | Prio |
 |---|---|---|---|---|
 | A10.1 | Berg- und Talfahrt | Strömung, Richtung, wer Vorrang hat, Ausweichen nach rechts, Wechsel der Seite mit Zeichen | ○ | 1 |
-| A10.2 | Schleuse Binnen | Wehr, Kammer, Tore, Ampeln, Oberwasser, Drempel (verstärkt A7.8) | ○ | 1 |
+| A10.2 | Schleuse Binnen | Wehr, Kammer, Tore, Ampeln, Oberwasser, Drempel (verstärkt A7.8) | ✓ v5.10 (Schleuse) | 1 |
 | A10.3 | Schubverband und Fähre | Lichter, Signalkörper, Fähre (Seil, Kette), Abstand | ○ | 2 |
 | A10.4 | Brücke und Wehr | Durchfahrtshöhe, Strömung am Wehr, Sperrzeichen | ○ | 2 |
 | A10.5 | Binnenschallsignale | Anders als See (Signal vor Schleuse, Brücke, Hafen), Hören-Spiel | ○ | 2 |
@@ -123,7 +123,7 @@
 | B1.3 | Pivotpunkt | Wo sich das Boot dreht, warum das Heck ausschwenkt, Drehen auf der Stelle mit Doppelmotor | ○ | 2 |
 | B1.4 | Wind und Abdrift beim Manövrieren | Boot treibt ab, Bug fällt ab, Wind von vorn und von achtern, Fahrt über Grund | ○ | 1 |
 | B1.5 | Strömung im Hafen | Anlegen gegen den Strom, Strom im Hafenbecken, Prallstrom an Pfählen | ○ | 2 |
-| B1.6 | Spring und Festmacher | Vorleine, Achterleine, Vorspring, Achterspring, Bugleine, wo welche Leine hält und wozu | ○ | 1 |
+| B1.6 | Spring und Festmacher | Vorleine, Achterleine, Vorspring, Achterspring, Bugleine, wo welche Leine hält und wozu | ✓ v5.10 | 1 |
 | B1.7 | Fender | Wo hängen sie, Höhe, Fenderbrett, Querstabil | ○ | 3 |
 | B1.8 | Ablegen mit Spring | Eindampfen in die Vorspring, Heck dreht ab | ○ | 2 |
 | B1.9 | Ankern in der Praxis | Ankerkette und Leine, Scope (Verhältnis Kette zu Tiefe), Einfahren, Ausbrechen, Ankerpeilung | ○ | 1 |
@@ -137,7 +137,7 @@
 | B2.1 | Weste anlegen und prüfen | Feststoff und Automatik, Schrittgurt, Lifebelt, Leuchte | ○ | 2 |
 | B2.2 | Rettungsinsel | Auslösen, Aufblasen, Einsteigen, Abstand zum Boot | ○ | 3 |
 | B2.3 | Pyrotechnik | Handfackel, Fallschirmrakete, Rauchtopf, Richtung, Abstand, Wind | ○ | 3 |
-| B2.4 | Funkalarm im Notfall | Mayday-Ablauf (Wer, wo, was, wie viele, Hilfe), DSC-Knopf, Reihenfolge | ○ | 2 |
+| B2.4 | Funkalarm im Notfall | Mayday-Ablauf (Wer, wo, was, wie viele, Hilfe), DSC-Knopf, Reihenfolge | ✓ v5.10 | 2 |
 | B2.5 | Leckabwehr | Wassereinbruch, Lenzpumpe, Holzpfropfen, Kurs zum Land, Notruf | ○ | 2 |
 | B2.6 | Grundberührung | Rückwärts raus oder Anker auslegen, Tide beachten, Schäden prüfen | ○ | 2 |
 | B2.7 | Hitze, Kälte, Seekrankheit | Verhalten, Horizont, Trinken, Anzeichen | ○ | 3 |
@@ -149,7 +149,7 @@
 | B3.1 | Motorcheck vor der Fahrt | Öl, Kühlwasser, Keilriemen, Impeller, Seeventil, Bilge, Batterie | ○ | 2 |
 | B3.2 | Wenn der Motor stottert | Kraftstofffilter, Wasser im Diesel, Luft ziehen, Impeller defekt, Überhitzung | ○ | 3 |
 | B3.3 | Batterie und Strom | Starter, Verbraucherbatterie, Trennschalter, Ladung | ○ | 3 |
-| B3.4 | Echolot, GPS und Kartenplotter | Was sie anzeigen, wie sie lügen können, Kontrolle mit Papierkarte | ○ | 2 |
+| B3.4 | Echolot, GPS und Kartenplotter | Was sie anzeigen, wie sie lügen können, Kontrolle mit Papierkarte | ✓ v5.10 | 2 |
 | B3.5 | Kompass und Ablenkung an Bord | Magnete und Eisen stören, Kompensation, Peilkompass | ○ | 3 |
 | B3.6 | Winterlager | Wasser ablassen, Frostschutz, Motor einmotten | ○ | 3 |
 
@@ -159,7 +159,7 @@
 | B4.1 | Törnplanung | Karte, Wetter, Tide, Hafen, Zeitplan, Reserven | ○ | 2 |
 | B4.2 | Hafenregeln | Einfahrt, Vorfahrt im Hafen, Gästeplatz, Liegegeld, Schwell | ○ | 3 |
 | B4.3 | Wattfahren | Fahrwasser, Prickenwege, trockenfallen, Steigung | ○ | 2 |
-| B4.4 | Wellen und Strom gegeneinander | Strom gegen Wind, steile See, Barre, Einfahrt | ○ | 2 |
+| B4.4 | Wellen und Strom gegeneinander | Strom gegen Wind, steile See, Barre, Einfahrt | ✓ v5.10 | 2 |
 | B4.5 | Nachtfahrt | Dunkelheit, Feuer lesen, Lichter im Hafen, Beleuchtung, Ausguck | ○ | 2 |
 | B4.6 | Sichtweiten | Tragweite der Feuer, Erdkrümmung, wann man etwas sieht | ○ | 3 |
 

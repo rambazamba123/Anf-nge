@@ -121,6 +121,7 @@ window.REISE = (() => {
     b.classList.remove('zu'); g.className = 'rgesichter klein';
     if (a.ansicht === 'karte') { b.innerHTML = karteSVG(t, a.box || routeBox(t)); bootAuf(t, lauf.boot || 0); }
     else if (a.ansicht === 'grafik' && GRAFIK[a.bild]) b.innerHTML = GRAFIK[a.bild]();
+    else if (a.ansicht === 'grafik' && window.ANIM && ANIM.defs[a.bild]) { b.innerHTML = ANIM.html(a.bild); ANIM.start(b); }
     else if (a.ansicht === 'fahrt') { b.innerHTML = '<canvas id="fahrtcv" aria-label="Blick von hinten auf das eigene Boot"></canvas>'; lauf.fahrt = fahrtBild(t, a); }
   }
   /* Hintergrund der Runde: Himmel und Wasser je Ort und Tageszeit, in der Kajüte Holzwand mit Bullauge und Laterne */
@@ -199,7 +200,7 @@ window.REISE = (() => {
   async function schritt(s, t, me) {
     await warteHalt(me); if (me.aus) return;
     if (s.ansicht) { ansicht(t, s); return pause(400); }
-    if (s.grafik != null) { const sv = $('#rbild svg.gr'); if (sv) sv.dataset.p = s.grafik; return pause(500); }
+    if (s.grafik != null) { const sv = $('#rbild svg.gr, #rbild svg.an'); if (sv) { if (window.ANIM && sv._an) ANIM.phase(sv, s.grafik); else sv.dataset.p = s.grafik; } return pause(500); }
     if (s.fahre) { fahre(t, s.fahre[0], s.fahre[1], s.sek || 8); return; }
     if (s.wer && s.t) return sag(me, s.wer, auto() && s.auto ? s.auto : s.t);
     if (s.wahl) return wahl(s, me);
@@ -425,5 +426,5 @@ window.REISE = (() => {
       }}});
     } finally { SZENE.schutz = false; aus(); p.remove(); S.rundgang1 = true; save(); }
   }
-  return {oeffnen, spielen, laden, zeichne, rundgang1, stopLauf};
+  return {oeffnen, spielen, laden, zeichne, rundgang1, stopLauf, grafik: n => GRAFIK[n] ? GRAFIK[n]() : ''};
 })();
