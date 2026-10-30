@@ -416,14 +416,14 @@
     },
     {
      "wer": "smilla",
-     "t": "Jetzt kommt der Trick. Der Propeller drückt das Wasser in alle Richtungen weg, auch nach oben. Dort schlägt es gegen den Rumpf."
+     "t": "Jetzt kommt der Trick. Der Propeller schleudert das Wasser in alle Richtungen. Auf der Backbordseite laufen die Flügel dabei nach oben und werfen das Wasser gegen den Rumpf."
     },
     {
      "grafik": 3
     },
     {
      "wer": "hinnerk",
-     "t": "Unten, tief im Wasser, greifen die Flügel kräftig zu. Oben, nah an der Oberfläche, bringen sie kaum etwas. Der Druck unten gewinnt, und das Heck weicht aus."
+     "t": "Der Rumpf bekommt den Stoß ab. Das Wasser drückt ihn nach rechts, und das Heck weicht aus."
     },
     {
      "wer": "smilla",
@@ -442,7 +442,7 @@
     },
     {
      "wer": "smilla",
-     "t": "Rückwärts dreht sich alles um. Bei rechtsdrehendem Propeller zieht das Heck nach Backbord, also nach links."
+     "t": "Rückwärts dreht sich alles um. Jetzt laufen die Flügel auf der Steuerbordseite nach oben, der Stoß kommt von der anderen Seite, und das Heck zieht nach Backbord, also nach links."
     },
     {
      "frage": 41
