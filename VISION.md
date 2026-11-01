@@ -166,6 +166,8 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 4. **Zwischenruf:** Klabauters Merksatz, Hinnerks Garn-Schnipsel.
 5. **Begrüßung und Abschied:** Moin-Kette, „Tschö“, „Hol di fuchtig“.
 
+**Die Crew begleitet das Gesehene (Nutzer, 01.11.2026):** Die Crew „redet“ mit dem Nutzer und mit dem, was auf dem Bildschirm zu sehen ist. Sie zeigt auf Teile der Zeichnung („Siehst du die Leine da vorn?“), kommentiert, was in einer Animation passiert, und sagt dem Nutzer, was er mit seinem **echten Übungsset** nachmachen soll („Leg dein Boot parallel zur Kante“). Jede Animation hat deshalb gesprochene Phasen, die auch ohne Bild verständlich sind (E16).
+
 **Regeln:**
 - Jeder Satz ist ein fester Satz (R10). Fragen sind Multiple Choice.
 - Töne werden einmal erzeugt und liegen in der App.
@@ -348,6 +350,12 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
   - Kursdreieck, Zirkel, weicher Bleistift, Radiergummi
   - Merkkarten für Lichter, Tonnen und Signale
   - QR-Codes
+- **Annahme für die Geschichte (Nutzer, 01.11.2026):** Der Nutzer hat vor sich:
+  - **zwei kleine Seile:** Dyneema 1,8 mm und ein etwas dickeres
+  - **ein kleines 3D-gedrucktes Boot** auf einer Plattform oder einem Karton
+  - **Klampe und Ring** in klein, am Karton oder an der Plattform
+  - Die Geschichte und die Animationen gehen davon aus. Die Crew sagt, was man am Modell nachstellt (Festmachen, Knoten, Springs, Anlegen). Wer nichts davon hat, kann alles auch nur am Bildschirm verfolgen („Nur schauen“).
+  - Folge für die Zeichnungen: Das Boot auf dem Bildschirm sieht aus wie das Modell (siehe `docs/animationen-plan.md`).
 - **Warum:** Man lernt am besten so, wie geprüft wird: Knoten mit echtem Tau, Navigation auf der echten Karte. Auf der Karte 49 lernt man auch, schnell zu wissen, wo welche Tonne liegt.
 - **Hinweis zur Karte 49:** Ein Händler bietet „15 Kartenausschnitte der offiziellen Übungskarte D49“ an. Lizenzierte Nachdrucke scheinen also möglich zu sein. Das klärt der Nutzer mit dem BSH.
 - **Einstieg mit wenig Risiko:**
@@ -428,6 +436,7 @@ Die Folgen selbst dürfen nach Themen geordnet bleiben. Neu ist, dass die **Prax
 | 29.10. | Antworten O93–O100: Kajütenfunk und Reise werden eins (ein Tag = eine Folge, Automodus spielt den Tag als Hörspiel); auf dem Kartentisch nur drei große Felder (Morgens, Unterwegs, Abends), alles andere führt die App; Navigationsaufgabe zur echten Etappe, ab der Hälfte jeden Tag voll; Knoten, wenn man sie braucht; Aufgaben öffnen sich in der Geschichte, Speicherpunkt an der genauen Stelle; Wetter aus der Geschichte; 20–30 Minuten je Tag; Mast spät; Platzhalter-Sätze bis zur Story; Konzept `docs/reise-konzept.md`; Karte: Seekarte 7 „Deutsche Gischt“ (selbst gezeichnet, Seezeichen mit Originalnamen). |
 | 29.10. | Antworten O105–O110: Statt drei Feldern eine durchgehende Geschichte, die von selbst läuft (Besprechung wie bei einem echten Törn); Fragen meist am Ende, zwischendurch höchstens ein, zwei; ein bis zwei Entscheidungen je Tag; drei Ansichten: Karte als Mittelpunkt mit den Gesichtern der Crew und Sprechblasen, Gespräch, Fahrt-Szene nur wo gebraucht (Tonne, Lichter); wenig scrollen; nach einem Tag sofort weiter; Knoten mit bekannten Eselsbrücken; Ansagen bei Knoten und Manövern dürfen sich nicht überlappen; alle neun Kartenvorschläge annehmen, prüfungsrelevante Originalnamen bleiben (SVG kommt vom Nutzer); erst Tag 1–2. |
 | 29.10. | Hauptansicht der Reise ist die Runde mit der Crew (reden, zuhören); die Seekarte ist Grundlage zum Planen und Navigieren und erscheint nur bei Bedarf, ebenso Fahrt-Szene, Fragen, Minispiele, Knoten; Seekarte 7 als SVG vom Nutzer geliefert (mit den Kartenvorschlägen). |
+| 01.11. | Übungsset als Annahme für die Geschichte: zwei kleine Seile (Dyneema 1,8 mm und etwas dicker), kleines 3D-gedrucktes Boot auf Plattform oder Karton, kleine Klampe, Ring. Die Crew begleitet das Gesehene, redet mit dem Nutzer und mit dem Bildschirm. Animationen werden systematisch für die Geschichte gebaut; das Boot darin wird neu durchdacht und soll wie „unser“ Schiff aussehen (`docs/animationen-plan.md`). |
 
 ## 14. Offene Fragen
 Beantwortet am 28.10.2026:
