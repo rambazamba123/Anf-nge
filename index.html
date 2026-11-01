@@ -545,7 +545,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.15';
+  window.__ver = '5.16';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1503,7 +1503,21 @@ const AUD = (() => {
     else if (art === 'stein') { ton(70, 38, .45, .7); rausch(.5, 'lowpass', 380, .8, .8); rausch(.35, 'bandpass', 1600, 1.2, .18); }
     else { ton(110, 52, .3, .65); rausch(.18, 'bandpass', 420, 1.4, .6); }
   }
-  return {files: FILES, hush, squeak, crash, stoss, tuut, alarm, boe, loop: (n, v, r) => setLoop(n, v, r), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  /* Motor-Geräusche zum Starten (3D-Welt): Startleine, Klick, Pumpball, Husten, Anlasser, Ausgehen */
+  function motorTon(art) {
+    init(); if (!ctx) return; const t = ctx.currentTime;
+    const rausch = (dauer, typ, f0, f1, laut, q = 1) => { const n = Math.floor(ctx.sampleRate * dauer), b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+      const src = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain(); src.buffer = b; fl.type = typ; fl.Q.value = q; fl.frequency.setValueAtTime(f0, t); fl.frequency.exponentialRampToValueAtTime(f1, t + dauer); g.gain.value = laut; src.connect(fl); fl.connect(g); g.connect(bus.sfx); src.start(t); };
+    const ton = (f0, f1, dauer, laut, typ = 'sine', ab = 0) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = typ; o.frequency.setValueAtTime(f0, t + ab); o.frequency.exponentialRampToValueAtTime(f1, t + ab + dauer);
+      g.gain.setValueAtTime(laut, t + ab); g.gain.exponentialRampToValueAtTime(.0001, t + ab + dauer); o.connect(g); g.connect(bus.sfx); o.start(t + ab); o.stop(t + ab + dauer + .05); };
+    if (art === 'zug') { rausch(.38, 'bandpass', 2400, 500, .5, 2); ton(90, 160, .35, .15, 'sawtooth'); }
+    else if (art === 'klick') ton(1800, 900, .05, .25, 'square');
+    else if (art === 'pump') rausch(.16, 'lowpass', 900, 250, .45);
+    else if (art === 'husten') [0, .18, .34].forEach(ab => ton(70, 45, .14, .5, 'sawtooth', ab));
+    else if (art === 'anlasser') { ton(110, 170, .9, .22, 'sawtooth'); rausch(.9, 'bandpass', 600, 900, .25, 3); }
+    else if (art === 'aus') { ton(95, 35, .7, .45, 'sawtooth'); }
+  }
+  return {files: FILES, hush, squeak, crash, stoss, motorTon, tuut, alarm, boe, loop: (n, v, r) => setLoop(n, v, r), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>

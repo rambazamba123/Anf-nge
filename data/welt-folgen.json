@@ -42,17 +42,27 @@
      "kamera": "weit"
     },
     {
+     "wer": "hinnerk",
+     "t": "Erst der Motor. Der ist noch kalt. Mach du ihn an, ich sag dir, was fehlt."
+    },
+    {
+     "selbst": "motor",
+     "max": 240,
+     "hinweis": "Schlüssel links unten. Quickstopp-Leine einklinken, Belüftungsschraube am Tank auf, Pumpball drücken, bis er hart ist, Choke ziehen, Hebel auf Neutral, dann starten.",
+     "ansage": [
+      "Erst die Quickstopp-Leine einklinken. Ohne sie gibt es keine Zündung.",
+      "Dann die Belüftungsschraube am Tank auf und den Pumpball drücken, bis er hart ist.",
+      "Der Motor ist kalt, also Choke ziehen. Hebel auf Neutral, und starten.",
+      "Läuft. Den Choke langsam rein. Und da kommt der Kontrollstrahl: Kühlwasser ist da."
+     ]
+    },
+    {
      "wer": "klabauter",
      "t": "Leinen los! Leinen los! Krrah!"
     },
     {
      "wer": "hinnerk",
      "t": "Ablegen mache ich heute. Schau zu: langsam voraus am Steg entlang, dann zur Hafeneinfahrt."
-    },
-    {
-     "crew": {
-      "smilla": "bug"
-     }
     },
     {
      "auto": [
@@ -62,11 +72,6 @@
       ]
      ],
      "gas": 0.45
-    },
-    {
-     "crew": {
-      "smilla": "smilla"
-     }
     },
     {
      "kamera": "hinten"
@@ -184,11 +189,6 @@
      }
     },
     {
-     "crew": {
-      "smilla": "bug"
-     }
-    },
-    {
      "selbst": "anlegen",
      "max": 300,
      "hinweis": "Das gelbe Rechteck ist unser Platz. Spitz anfahren, langsam, und kurz vorher aufstoppen. Ich stehe vorn mit der Leine."
@@ -230,11 +230,6 @@
     },
     {
      "modell": "Jetzt du mit deinem Übungsset: Nimm das dickere Seil und mach es mit einem Rundtörn mit zwei halben Schlägen am Ring deines Modells fest."
-    },
-    {
-     "crew": {
-      "smilla": "smilla"
-     }
     },
     {
      "wer": "hinnerk",
