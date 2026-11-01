@@ -91,3 +91,16 @@ Zusammen etwa 80 Animationen. Die Zahl ist hoch. Die Lieferungen L1 bis L3 decke
 - **Q4 Deck der App:** Soll das Deck bis Tag 42 das Motorboot mit liegendem Mast zeigen (stimmig zur Geschichte) und danach die Segelyacht? Oder bleibt das Segelboot?
 - **Q5 Tempo:** Sollen die Lieferungen L1 bis L3 einzeln (jeweils eine Version mit Handy-Test) oder in größeren Schritten kommen?
 - **Q6 Mitmachen am Modell:** Soll die Crew bei jeder Animation „Leg dein Boot so hin“ sagen, oder nur bei Anlegen, Festmachen, Knoten und Manövern?
+
+## 9. Neue Richtung: 3D-Welt (Nutzer, 01.11.2026, E18)
+Nach dem Gespräch über die Architektur gilt als Vorschlag: **eine 3D-Welt statt vieler flacher Einzelbilder.** Der Prototyp läuft seit v5.11 (Frei üben → „🌊 3D-Welt (Test)“, Datei `welt.js`, Bibliothek `lib/three.min.js`, MIT).
+
+**Festgelegt:**
+- **Kamera:** dritte Person wie bei GTA, hinter dem Boot, wischen dreht, zwei Finger zoomen. Dazu Festansichten (Seite, Oben, Nah) für Erklärungen.
+- **Boot austauschbar:** Das Boot ist nur ein `THREE.Object3D` mit festem Vertrag (Bug nach +Z, Ursprung mittig auf der Wasserlinie, Meter, optional Propeller, Ruder, Lichter, Ankerpunkt für die Katze). `WELT.setzeBoot(obj)` tauscht es, `WELT.normiere(obj, {laenge, achse})` macht ein fremdes Modell (zum Beispiel den 3D-Druck des Nutzers) passend. Sobald wir das echte Boot kennen, wird nur dieses Teil ersetzt.
+- **Stil:** modern, süß, bunt, flach schattiert mit dunklem Umriss. Kein Janosch-Nachbau nötig.
+- **Wimmelwelt (später, erst wenig):** Wie bei den Büchern von Sven Nordqvist (Pettersson und Findus) gibt es in jeder Ecke kleine Wesen und Tiere zu entdecken, die auf und um ein Schiff leben könnten (Möwen, Seehund, Bordkatze, kleine Fantasiewesen an Deck, in der Bilge, am Mast). Nur der Stil, keine fremden Figuren (§3). Im Prototyp als Anfang: Möwen, Seehund, Katze Backbord. Alles Weitere kommt später und ist eine Sammel- und Entdeck-Ebene, die nie vom Lernen ablenkt (R13: Fernglas markiert nur Funktionen).
+- **Alte Animationen bleiben** (`anim.js`, Knoten, Manöverspiel). Wir kommen darauf zurück, wo 2D besser ist (Diagramme, Karten) oder 3D sich nicht lohnt.
+
+**Prototyp-Stand (v5.11):** drehbares Boot, flaches Wasser mit Wellen, Gas (rückwärts, Stopp, langsam, voll) und Ruder mit einfachem Radeffekt, Spur, zwei Tonnen mit Crew-Kommentar beim Durchfahren, Insel mit Leuchtturm, fremdes Schiff mit Lichtern, Tag und Nacht (Lichter und Feuer leuchten), Boot-Tausch. Gemessen im Test (Software-Rendering ohne Grafikkarte) etwa 50 Bilder pro Sekunde, am Handy muss der Nutzer die Geschwindigkeit bestätigen.
+**Nächste Schritte nach dem Test:** Szenen-Format (Schiffe, Wege, Kamera, Phasen mit Sätzen) statt Einzelbildern; Anlegen, Begegnung, Lichter, Kardinal als erste Szenen; Boot nach dem echten Modell.
