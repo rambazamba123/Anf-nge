@@ -232,9 +232,9 @@ window.REISE = (() => {
   const frageVon = n => (typeof QN !== 'undefined' && QN[n] && QN[n].a && QN[n].a.length === 4) ? QN[n] : (typeof DATA !== 'undefined' ? DATA.find(x => x.n === n) : null);
   function frage(q, me) {
     const order = [0, 1, 2, 3].sort(() => Math.random() - .5);
-    const a = akt(`<p class="rq"><b>${esc(q.q)}</b></p>${q.img ? `<div class="rqimg">${q.img.map(s => `<img src="${esc(s)}" alt="">`).join('')}</div>` : ''}${order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</button>`).join('')}<div class="kdenk" id="rdenk"></div>`);
+    const a = akt(`<p class="rq"><b>${esc(q.q)}</b></p>${q.img ? `<div class="rqimg">${q.img.map(s => `<img src="${esc(s)}" alt="">`).join('')}</div>` : ''}<div class="ans4">${order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</button>`).join('')}</div><div class="kdenk" id="rdenk"></div>`);
     if (auto()) return (async () => {
-      await VOX.say(S.crew.M || 'smilla', SZENE.text(q, order), 'local'); if (me.aus) return;
+      window.__vorlesen = true; try { await VOX.say(S.crew.M || 'smilla', SZENE.text(q, order), 'local'); } finally { window.__vorlesen = false; } if (me.aus) return;
       const d = $('#rdenk'); if (d) d.textContent = '🤔 Denkpause … 6 s'; if (AUD.ticks) AUD.ticks(6, .3); await pause(6000); if (me.aus) return;
       if (d) d.textContent = ''; a.querySelectorAll('.ans').forEach(b => { b.disabled = true; if (b.dataset.k === '0') b.classList.add('ok'); });
       await VOX.say(S.crew.K || 'hinnerk', 'Richtig ist: ' + q.a[0], 'local'); await pause(500);

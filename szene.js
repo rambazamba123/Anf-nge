@@ -87,7 +87,7 @@ window.SZENE = (() => {
   function frageInSzene(fr, me, q) {
     const order = [0, 1, 2, 3].sort(() => Math.random() - .5), w = q('#szwahl');
     w.innerHTML = `<p style="margin:0 0 6px"><b>${esc(fr.q)}</b></p>${fr.img ? fr.img.map(s => `<img src="${esc(s)}" alt="" style="max-width:100%;max-height:180px">`).join('') : ''}` +
-      order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${BUCHST[j]}</b> ${esc(fr.a[k])}</button>`).join('');
+      '<div class="ans4">' + order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${BUCHST[j]}</b> ${esc(fr.a[k])}</button>`).join('') + '</div>';
     return new Promise(res => {
       let ctl = null;
       const fertig = k => {
@@ -150,7 +150,8 @@ window.SZENE = (() => {
     const anzeige = t => { const el = opt.anzeigeEl || document.getElementById('zurufinfo'); if (el) el.textContent = t; };
     const h = zurufAn() && opt.onPick ? zuruf(p => { if (!ctl.aus) { ctl.aus = true; VOX.stop('Zuruf'); opt.onPick(order[p]); } }, anzeige) : null;
     (async () => {
-      if (vorlesenAn()) await VOX.say(wer, text(q, order), 'local');
+      /* Frage und Antworten stehen schon auf dem Bildschirm: keine zweite Sprechblase (Nutzer, 01.11.2026) */
+      if (vorlesenAn()) { window.__vorlesen = true; try { await VOX.say(wer, text(q, order), 'local'); } finally { window.__vorlesen = false; } }
       if (!ctl.aus && h) h.vorbei();
     })();
     return ctl;

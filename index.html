@@ -235,6 +235,7 @@ body.mittabs #app{padding-bottom:86px}
 .vlrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}.vlrow .chip{font-size:.85em}.ans .abc{display:inline-block;min-width:1.4em;color:var(--sea)}
 .szene .szbild img{max-width:100%;max-height:200px;border-radius:12px;display:block;margin:0 auto 8px}.szzeile{display:flex;gap:8px;align-items:flex-start}.szzeile svg.ch{width:64px;flex:none}.szzeile .say{display:block}.szwahl .szopt{display:block;width:100%;margin:6px 0;text-align:left}.szsteuer{margin-top:8px}
 .ans{display:block;width:100%;text-align:left;padding:.8em 1em;margin:0 0 8px;border:2px solid var(--line);border-radius:14px;background:var(--paper);line-height:1.4;color:var(--ink)}
+.ans4{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}.ans4 .ans{margin:0;padding:.65em .7em;font-size:.95em;line-height:1.3;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere}.ans4 .ans{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start}.ans4 .ans .abc{display:block;min-width:0;margin-bottom:2px}
 .ans.ok{border-color:var(--stb);background:var(--stb-soft)}
 .ans.no{border-color:var(--bb);background:var(--bb-soft)}
 .ans[aria-pressed="true"]{border-color:var(--sea);box-shadow:inset 0 0 0 1px var(--sea)}
@@ -545,7 +546,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.16';
+  window.__ver = '5.17';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1876,7 +1877,7 @@ const VOX = (() => {
     let blob = null;
     try { blob = pre ? await pre : await clip(cid, text, kind); } catch (e) { noticeFor(e); }
     if (g !== gen) return;
-    hooks.start(cid, text); AUD.duck(true);
+    const ohneBlase = !!window.__vorlesen; if (!ohneBlase) hooks.start(cid, text); AUD.duck(true);
     const t0 = Date.now(), src = blob ? 'elevenlabs' : (forceFb || (S.cfg && S.cfg.fallback) || 'phone');
     log('sprechen', cid + ' · ' + src + ' · ' + text.length + ' Zeichen · „' + text.slice(0, 50) + '“');
     if (blob) await playBlob(blob, cid, g, /mo{4,}in/i.test(text));
@@ -1888,7 +1889,7 @@ const VOX = (() => {
     }
     current = null;
     log('sprechen', cid + ' fertig nach ' + (Date.now() - t0) + ' ms' + (g !== gen ? ' (unterbrochen)' : ''));
-    if (g === gen) { hooks.end(cid); AUD.duck(false); }
+    if (g === gen) { if (!ohneBlase) hooks.end(cid); AUD.duck(false); }
   }
   /* lines: mehrere Sätze nacheinander; der nächste wird schon geladen, während der aktuelle läuft. */
   async function lines(list, kind = 'live') {
@@ -3514,7 +3515,7 @@ function runQuiz(queue, title, mode = 'learn', opts = {}) {
         ${sig ? sigBox(sig, hide) : ''}
         ${q.img ? `<div class="qimg">${q.img.map(s => `<img src="${s}" alt="Abbildung zu Frage ${q.n}">`).join('')}</div>` : ''}
         ${hide ? '' : `<div class="vlrow"><button class="chip" id="vlon" aria-pressed="${S.cfg.vorlesen !== false}">🔊 Vorlesen</button>${VOX.hasSR ? `<button class="chip" id="zron" aria-pressed="${!!S.cfg.zuruf}">🎙️ Zuruf</button>` : ''}<span class="small muted" id="zurufinfo"></span></div>`}
-        <div id="ans">${order.map((k, j) => `<button class="ans" data-k="${k}">${hide ? '' : `<b class="abc">${'ABCD'[j]}</b> `}${esc(q.a[k])}</button>`).join('')}</div>
+        <div id="ans" class="ans4">${order.map((k, j) => `<button class="ans" data-k="${k}">${hide ? '' : `<b class="abc">${'ABCD'[j]}</b> `}${esc(q.a[k])}</button>`).join('')}</div>
         <div id="after"></div>
       </div>
       <div class="crewrow">${charSVG(M)}<div class="say hidden" data-say="${M}"></div><div class="say hidden" data-say="${T}"></div>${charSVG(T)}</div>`;
@@ -3712,7 +3713,7 @@ function startExam(mode) {
       <div class="prog"><i style="width:${(i / N * 100).toFixed(0)}%"></i></div>
       <div class="card"><div class="qtext">${esc(q.q.replace(/\s*\(([●▬\s]+)\)/, ''))}</div>${sig ? sigBox(sig, false) : ''}
         ${q.img ? `<div class="qimg">${q.img.map(s => `<img src="${s}" alt="Abbildung zu Frage ${q.n}">`).join('')}</div>` : ''}
-        <div id="ans">${order.map(k => `<button class="ans" data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div></div>
+        <div id="ans" class="ans4">${order.map(k => `<button class="ans" data-k="${k}">${esc(q.a[k])}</button>`).join('')}</div></div>
       <div class="row"><button class="btn ghost small" id="abort">Prüfung abbrechen</button></div>`;
     window.scrollTo(0, 0);
     app.querySelector('.exambar svg').addEventListener('click', () => VOX.say('kroeger', lineOf('kroeger', 'tap'), 'fixed'));

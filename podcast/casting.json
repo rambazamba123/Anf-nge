@@ -38,6 +38,14 @@
       "hinweis": "Gewählt vom Nutzer am 24.10.2026: „Alexander - Sharp and Informal“ (männlich, mittleres Alter, bairisch) aus der ElevenLabs-Bibliothek. Die ID hJAaR77ekN23CNyp0byH steht seit 24.10.2026 in podcast/audio_config.json. Ist auf dem Handy im Casting eine andere Stimme gewählt, gilt dort die; der Kajütenfunk zeigt beim Prüfen der Stimmen, welche wirklich genutzt wird."
     },
     {
+      "id": "FRIEDA",
+      "name": "Frieda (Wirtin, Vorschlag)",
+      "art": "Crew-Umfeld",
+      "satz": "Moin. Ich bin Frieda, mir gehört das Restaurant hier am Hafen. [playfully] Und das Boot da draußen auch, auch wenn Hinnerk was anderes erzählt. [short pause] Krabben bis elf. Nicht bis elf Uhr dreißig.",
+      "wunsch": null,
+      "hinweis": "Neue Figur aus docs/story-konzept-3.md (Vorschlag, O142): Frau um die fünfzig, warm, schlagfertig, norddeutsch. Stimme sucht der Nutzer im Casting aus (Aufgabe vom 01.11.2026)."
+    },
+    {
       "id": "POLIZEI",
       "name": "Wasserschutzpolizistin (Gast in G1.1 und S6.3)",
       "art": "Gast",
