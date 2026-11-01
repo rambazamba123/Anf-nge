@@ -229,6 +229,7 @@ function bauBoot(o) {
       const m = mk(new T.CylinderGeometry(.065, .075, L * .78, 10), M('mast'), 0, yr + .23, (ra + rf) / 2 - .5, b); m.rotation.x = Math.PI / 2; }
     weg.push([0, -L * .38], [.85, -L * .3], [w / 2 + .3, zA + .2], [w / 2 + .3, zF - .4], [0, zF + .7], [-(w / 2 + .3), zF - .4], [-(w / 2 + .3), zA + .2], [-.85, -L * .3]);
     b.userData.dachPlatz = new T.Vector3(.1, yr + .05, zA + .4);
+    b.userData.plaetze = {hinnerk: [-.6, -2.6], smilla: [.75, -2.15], bug: [0, zF + 1.2], dach: [0, (ra + rf) / 2 - .2, yr + .3]};
   } else if (o.art === 'offen') {
     /* offenes Boot: Steuerkonsole mit Windschutz, Bänke */
     const yb = R.deckY(0) - .25;
@@ -238,6 +239,7 @@ function bauBoot(o) {
     mk(new T.CylinderGeometry(.03, .03, .9, 6), M('weiss'), 0, R.deckY(-L * .4) + .45, -L * .4, b); lampe(b, 0, R.deckY(-L * .4) + .92, -L * .4, '#fff6e0', 'rund', lichter);
     for (const [sx, f, sk] of [[1, '#ff3a2a', 'bb'], [-1, '#37ff6a', 'sb']]) lampe(b, sx * .2, R.deckY(L * .38) + .12, L * .38, f, sk, lichter);
     weg.push([0, -L * .25], [.6, 0], [0, L * .3], [-.6, 0]);
+    b.userData.plaetze = {hinnerk: [0, L * .05 - .6, yb], smilla: [.5, -L * .3, yb], bug: [0, L * .3, yb], dach: [0, L * .05, yb + .9]};
   } else if (o.art === 'segler') {
     const yb = R.deckY(0) - .02, w = B * .55, zA = -L * .15, zF = L * .12;
     mk(new T.BoxGeometry(w, .45, zF - zA), M('kajuete'), 0, yb + .22, (zA + zF) / 2, b);
@@ -362,6 +364,31 @@ function bauSeehund() {
   g.userData.kopf = kopf; return g;
 }
 
+/* Crew an Bord: einfache Platzhalter-Figuren, bis die Figuren gestaltet sind (H10) */
+function bauFigur(wer) {
+  const g = new T.Group(), kopf = new T.Group();
+  if (wer === 'klabauter') {
+    const gr = M('#3f9a4a'), k = mk(new T.CapsuleGeometry(.1, .14, 4, 10), gr, 0, .16, 0, g); k.rotation.x = .35;
+    kopf.position.set(0, .34, .06); g.add(kopf); mk(new T.SphereGeometry(.09, 12, 10), gr, 0, 0, 0, kopf); mk(new T.SphereGeometry(.06, 10, 8), M('#f2d34a'), 0, -.01, .05, kopf);
+    const sn = mk(new T.ConeGeometry(.03, .08, 6), M('#3a3a3a'), 0, -.02, .1, kopf); sn.rotation.x = Math.PI / 2 + .5;
+    for (const sx of [1, -1]) { mk(new T.SphereGeometry(.016, 6, 5), M('schwarz'), sx * .05, .03, .07, kopf, false); const f = mk(new T.CapsuleGeometry(.04, .14, 3, 6), M('#c8402f'), sx * .1, .16, -.02, g); f.rotation.x = .4; }
+    const sw = mk(new T.CapsuleGeometry(.03, .22, 3, 6), M('#2f5d8a'), 0, .02, -.16, g); sw.rotation.x = 1.1;
+  } else {
+    const F = wer === 'hinnerk' ? {jacke: '#2f4b6e', hose: '#3a3f46', haar: '#e8e4dc'} : {jacke: '#e8b23a', hose: '#2f4b6e', haar: '#a0452a'}, haut = M('#f1c9a5');
+    for (const sx of [1, -1]) { mk(new T.CapsuleGeometry(.075, .55, 4, 8), M(F.hose), sx * .1, .38, 0, g); mk(new T.BoxGeometry(.13, .08, .22), M('schwarz'), sx * .1, .04, .04, g); }
+    const rumpfF = mk(new T.CapsuleGeometry(.2, .38, 6, 12), M(F.jacke), 0, 1.02, 0, g); rumpfF.scale.z = .75;
+    for (const sx of [1, -1]) { const a = mk(new T.CapsuleGeometry(.06, .45, 4, 8), M(F.jacke), sx * .26, 1, 0, g); a.rotation.z = sx * .18; mk(new T.SphereGeometry(.06, 8, 6), haut, sx * .3, .72, .02, g); }
+    kopf.position.set(0, 1.5, 0); g.add(kopf); mk(new T.SphereGeometry(.15, 16, 12), haut, 0, 0, 0, kopf);
+    for (const sx of [1, -1]) mk(new T.SphereGeometry(.02, 6, 5), M('schwarz'), sx * .055, .03, .135, kopf, false);
+    mk(new T.SphereGeometry(.03, 8, 6), M('#e0a080'), 0, -.01, .15, kopf, false);
+    if (wer === 'hinnerk') { const bart = mk(new T.SphereGeometry(.12, 12, 10), M(F.haar), 0, -.09, .06, kopf); bart.scale.set(1, .8, .7);
+      mk(new T.CylinderGeometry(.155, .16, .1, 16), M('#1f2c3d'), 0, .12, 0, kopf); const sch = mk(new T.CylinderGeometry(.11, .11, .015, 16, 1, false, -Math.PI / 2, Math.PI), M('schwarz'), 0, .08, .08, kopf); sch.rotation.y = Math.PI;
+      mk(new T.TorusGeometry(.155, .012, 6, 20), M('messing'), 0, .14, 0, kopf, false).rotation.x = Math.PI / 2; }
+    else { const h = mk(new T.SphereGeometry(.16, 14, 10), M(F.haar), 0, .04, -.03, kopf); h.scale.set(1, .9, 1); mk(new T.SphereGeometry(.08, 10, 8), M(F.haar), 0, .1, -.15, kopf); }
+  }
+  g.userData.kopf = kopf; g.userData.wer = wer; return g;
+}
+
 /* ================= 6. Hafen, See, Insel ================= */
 function haus(eltern, x, z, w, d, h, wand, dach, fenster, dunkel) {
   const g = new T.Group(); g.position.set(x, 2.2, z); eltern.add(g);
@@ -410,7 +437,7 @@ function bauWelt(scene) {
   /* Boote an den Stegen */
   const liegen = [[-34, 154, 0, {art: 'segler', L: 8.6, farben: {rumpf: '#2f4f6e', streifen: '#f4ede0'}}], [-34, 142, 0, {art: 'kajuete', L: 7.8, mast: 'ohne', farben: {rumpf: '#fbf5e8', streifen: '#2f5d8a'}}],
     [-34, 130, 0, {art: 'segler', L: 9.4, farben: {rumpf: '#f7f1e3', streifen: '#2a7a5a'}}], [28.4, 150, 0, {art: 'segler', L: 10, farben: {rumpf: '#8a2f2a', streifen: '#f4ede0'}}],
-    [21.6, 140, Math.PI, {art: 'kajuete', L: 7.2, mast: 'ohne', farben: {rumpf: '#e9e4d6', streifen: '#c0392b', unterwasser: '#5a2a24'}}], [28.4, 130, 0, {art: 'offen', farben: {rumpf: '#f2e6c8'}}]];
+    [21.6, 128, Math.PI, {art: 'kajuete', L: 7.2, mast: 'ohne', farben: {rumpf: '#e9e4d6', streifen: '#c0392b', unterwasser: '#5a2a24'}}], [28.4, 130, 0, {art: 'offen', farben: {rumpf: '#f2e6c8'}}]];
   for (const [x, z, h, o] of liegen) { const b = bauBoot(Object.assign({flagge: false}, o)); b.position.set(x, .05, z); b.rotation.y = h; g.add(b); const L = b.userData.laenge / 2 - .3; kap(x, z - L, x, z + L, b.userData.breite * .5, 'boot'); W2.lieger = (W2.lieger || []).concat(b); }
   /* Häuser, Hafenmeister, Kran, Laternen, Poller */
   const fenster = Mlicht('glas', '#ffcf7a', 1.3), dunkel = M('glas');
@@ -484,15 +511,18 @@ function bauHimmel() {
 }
 
 /* ================= 8 + 9. Die Welt ================= */
-W.seite = async function () {
+W.seite = async function (opt = {}) {
   const C = cfg(); ST = STILE[C.stil]; MC = {}; NACHT = []; TOON = null;
   css();
-  gameShell('3D-Welt (Test)', `<div class="wt" id="wt"><div class="hud" id="wthud"><b id="wtk">Kurs 000° · 0,0 kn</b><span id="wtg">neutral · Ruder mittschiffs</span></div>
-    <div class="wind" id="wtwind"><i id="wtpfeil">➤</i><span id="wtbft">0 Bft</span></div><div class="bub" id="wtbub" style="display:none"></div>
+  const gesicht = c => typeof charSVG === 'function' ? charSVG(c).replace('viewBox="0 -2 100 147"', 'viewBox="14 -2 72 72"') : '';
+  gameShell('3D-Welt (Test)', `<div id="wtwrap"><div class="wt" id="wt"><div class="hud" id="wthud"><b id="wtk">Kurs 000° · 0,0 kn</b><span id="wtg">neutral · Ruder mittschiffs</span></div>
+    <canvas class="wkarte" id="wtkarte" width="224" height="224" aria-label="Karte"></canvas>
+    <div class="wgs" id="wtgs">${['hinnerk', 'smilla', 'klabauter'].map(c => `<div class="wg" data-c="${c}">${gesicht(c)}</div>`).join('')}</div><div class="bub" id="wtbub" style="display:none"></div>
+    <div class="wtq" id="wtq" style="display:none"></div><div class="wap" id="wtap" style="display:none">🤖 Autopilot</div>
     <div class="wpad" id="wtpad"><div class="mv"></div><div class="ml"></div><b style="top:6px;left:0;right:0;text-align:center">voraus</b><b style="top:50%;left:6px;margin-top:-16px">N</b><b style="bottom:6px;left:0;right:0;text-align:center">zurück</b><b style="top:50%;left:8px;margin-top:4px">◀</b><b style="top:50%;right:8px;margin-top:4px">▶</b><i class="mk"></i></div>
     <button class="wb horn" id="wthorn" aria-label="Schallsignal">📯</button>
     <div class="wtpanel" id="wtpanel" style="display:none"></div></div>
-    <div class="wtbar"><button class="btn small" id="wtkam">🎥 ${esc(KAMERAS[C.kam].n)}</button><button class="btn small ghost" id="wtwet">☁️ Wetter und Ort</button><button class="btn small ghost" id="wttausch">🔁 Boot</button></div>`);
+    <div class="wtbar"><button class="btn small" id="wtkam">🎥 ${esc(KAMERAS[C.kam].n)}</button><button class="btn small ghost" id="wtwet">☁️ Wetter und Ort</button><button class="btn small ghost" id="wttausch">🔁 Boot</button><button class="btn small ghost" id="wtfolge">🎬 Testfolge</button><button class="btn small ghost" id="wtmodus" style="display:none">✋ Selbst</button></div></div>`);
   const host = $('#wt'), back = $('#gback');
   try { await nachladen('lib/three.min.js'); } catch (e) { host.innerHTML = '<p style="padding:16px">3D ließ sich nicht laden.</p>'; return; }
   T = window.THREE; if (!document.body.contains(host)) return;
@@ -532,15 +562,24 @@ W.seite = async function () {
   const P = {x: 0, z: 0, vx: 0, vz: 0, h: 0, r: 0, g: 0, d: 0, gZiel: 0, dZiel: 0, y: 0, vy: 0, nick: 0, vn: 0, roll: 0, vr: 0, boot: null, hk: 0};
   const BOOTE = [() => bauBoot({art: 'kajuete'}), () => bauBoot({art: 'offen', mast: 'ohne', farben: {streifen: '#2f6f9e', rumpf: '#fbf2df'}})];
   const katze = bauKatze(), KZ = {i: 0, u: 0, modus: 'gehen', zeit: 0, hupf: 0, schreck: 0, ph: 0};
+  const CREWF = {hinnerk: bauFigur('hinnerk'), smilla: bauFigur('smilla'), klabauter: bauFigur('klabauter')}, crewPlatz = {hinnerk: 'hinnerk', smilla: 'smilla', klabauter: 'dach'};
+  const platzVon = (obj, name) => { const pl = (obj.userData.plaetze || {})[name]; if (!pl) return null; return new T.Vector3(pl[0], pl[2] != null ? pl[2] : (obj.userData.deckY ? obj.userData.deckY(pl[1]) : 1), pl[1]); };
+  function crewSetzen() { for (const w in CREWF) { const f = CREWF[w]; f.parent && f.parent.remove(f); const v = platzVon(P.boot, crewPlatz[w]); f.userData.weg = null; if (!v) continue; P.boot.add(f); f.position.copy(v); f.rotation.y = 0; } }
+  /* Eine Figur geht an einen anderen Platz, außen an der Kajüte vorbei */
+  function crewGehe(w, platz) { crewPlatz[w] = platz; const f = CREWF[w], v = platzVon(P.boot, platz); if (!v || !f.parent) return; const a = f.position.clone(), seite = (P.boot.userData.breite || 3) * .4, dY = P.boot.userData.deckY || (() => v.y);
+    f.userData.weg = Math.abs(v.z - a.z) > 2 && w !== 'klabauter' ? [new T.Vector3(seite, dY(a.z), a.z), new T.Vector3(seite, dY(v.z), v.z), v] : [v]; }
   W.setzeBoot = obj => { if (P.boot) { scene.remove(P.boot); } P.boot = obj; scene.add(obj); katze.parent && katze.parent.remove(katze); obj.add(katze);
-    const weg = obj.userData.katzenWeg || []; KZ.i = 0; KZ.u = 0; if (weg[0]) katze.position.copy(weg[0]); setzeWetter(); };
+    const weg = obj.userData.katzenWeg || []; KZ.i = 0; KZ.u = 0; if (weg[0]) katze.position.copy(weg[0]); crewSetzen(); setzeWetter(); };
   /* Wellen und Wetter */
   let WLst = [], windMs = 0, windVon = 0, schaumMenge = 0, nachtAn = false, lichterAn = false, wasserFarbe = new T.Color(), krone = new T.Color('#f2f6f4');
   const hafenRuhe = (x, z) => 1 - .88 * sm(-6, 8, Math.min(x + 72, 72 - x, z - 80, 168 - z));
   const schwell = (x, z, t) => { if (!C.wellen.schwell) return 0; const dx = x - SCH.x, dz = z - SCH.z, f = Math.sin(SCH.h), g2 = -Math.cos(SCH.h), a = -(dx * f + dz * g2), l = Math.abs(dx * Math.cos(SCH.h) + dz * Math.sin(SCH.h));
     if (a < 2 || a > 260) return 0; const kante = a * .36 + 3; if (l > kante + 6) return 0; return .55 * Math.exp(-a / 110) * sm(kante + 6, kante - 2, l) * Math.sin(.55 * (a * .5 + l * 1.1) - t * 2.6); };
-  const hoehe = (x, z, t) => { let y = 0; const da = hafenRuhe(x, z); for (const q of WLst) y += q.A * da * Math.sin(q.k * (q.dx * x + q.dz * z) - q.om * t + q.ph); return y + schwell(x, z, t) * da; };
-  W.hoehe = (x, z) => hoehe(x, z, uhr);
+  const hoeheRoh = (x, z, t) => { let y = 0; const da = hafenRuhe(x, z); for (const q of WLst) y += q.A * da * Math.sin(q.k * (q.dx * x + q.dz * z) - q.om * t + q.ph); return y + schwell(x, z, t) * da; };
+  /* Höhe der echten Oberfläche: Gerstner-Wellen verschieben das Wasser auch seitlich; zurückrechnen, damit Boot und Bild übereinstimmen */
+  const flaeche = (x, z, t) => { let px = x, pz = z; for (let it = 0; it < 3; it++) { let dx = 0, dz = 0; const da = hafenRuhe(px, pz);
+    for (const q of WLst) { const c = Math.cos(q.k * (q.dx * px + q.dz * pz) - q.om * t + q.ph) * q.Q * q.A * da; dx += c * q.dx; dz += c * q.dz; } px = x - dx; pz = z - dz; } return hoeheRoh(px, pz, t); };
+  W.hoehe = (x, z) => flaeche(x, z, uhr);
   function setzeWetter() {
     const Z = ZEIT[C.zeit], w = WIND[C.wind], sicht = SICHT[C.sicht], regen = REGEN[C.regen], trueb = (C.regen !== 'kein' ? .6 : 0) + (C.wind === 'sturm' ? .5 : C.wind === 'stark' ? .3 : 0) + ({klar: 0, dunst: .25, nebel: .7, dicht: .85, extrem: .95})[C.sicht];
     const t2 = cl(trueb, 0, 1), grau = new T.Color(C.zeit === 'nacht' ? '#1a222c' : '#a3abb0');
@@ -576,7 +615,7 @@ W.seite = async function () {
     return {m, add(x, z, vx, vz, s, t) { pts.unshift({x, z, vx, vz, s, t}); if (pts.length > nMax) pts.pop(); },
       upd(t) { const n = pts.length; for (let i = 0; i < nMax; i++) { const p = pts[Math.min(i, n - 1)]; if (!p) { col[i * 8 + 3] = col[i * 8 + 7] = 0; continue; }
         const a = t - p.t, x = p.x + p.vx * a, z = p.z + p.vz * a, q = pts[Math.min(i + 1, n - 1)], qx = q.x + q.vx * (t - q.t), qz = q.z + q.vz * (t - q.t);
-        let nx = -(z - qz), nz = x - qx; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l; const w = breite * (1 + a * drift), y = hoehe(x, z, t) + .07, al = i >= n ? 0 : cl(p.s * staerke * (1 - a / 8), 0, 1) * (i === 0 ? 0 : 1);
+        let nx = -(z - qz), nz = x - qx; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l; const w = breite * (1 + a * drift), y = flaeche(x, z, t) + .07, al = i >= n ? 0 : cl(p.s * staerke * (1 - a / 8), 0, 1) * (i === 0 ? 0 : 1);
         pos.set([x + nx * w, y, z + nz * w, x - nx * w, y, z - nz * w], i * 6); col.set([1, 1, 1, al, 1, 1, 1, al], i * 8); uv.set([0, i * .25, 1, i * .25], i * 4); }
         geo.attributes.position.needsUpdate = geo.attributes.color.needsUpdate = geo.attributes.uv.needsUpdate = true; }};
   }
@@ -611,11 +650,19 @@ W.seite = async function () {
     u += du * dt; s += ds * dt; P.r += dr * dt; P.h += P.r * dt;
     const nfx = Math.sin(P.h), nfz = -Math.cos(P.h), nrx = Math.cos(P.h), nrz = Math.sin(P.h);
     P.vx = u * nfx + s * nrx; P.vz = u * nfz + s * nrz; P.x += P.vx * dt; P.z += P.vz * dt; P.u = u;
-    /* Auf und ab, Stampfen und Rollen über die Wasseroberfläche (Feder und Dämpfer) */
-    const L = P.boot.userData.laenge || 8, B = P.boot.userData.breite || 3;
-    const hb = hoehe(P.x + nfx * L * .35, P.z + nfz * L * .35, t), hh = hoehe(P.x - nfx * L * .35, P.z - nfz * L * .35, t), hp = hoehe(P.x - nrx * B * .4, P.z - nrz * B * .4, t), hs = hoehe(P.x + nrx * B * .4, P.z + nrz * B * .4, t);
-    const ty = (hb + hh + hp + hs) / 4, tn = Math.atan((hb - hh) / (L * .7)) + .055 * Math.min(1, Math.max(0, u) / 5), tr = Math.atan((hp - hs) / (B * .8)) * .9 + P.r * Math.max(0, u) * .035 + (windMs > 10 ? -.03 * Math.sin(wdiff(windVon, P.h)) : 0);
-    P.vy += ((ty - P.y) * 14 - P.vy * 4.5) * dt; P.y += P.vy * dt; P.vn += ((tn - P.nick) * 9 - P.vn * 3.2) * dt; P.nick += P.vn * dt; P.vr += ((tr - P.roll) * 7 - P.vr * 2.2) * dt; P.roll += P.vr * dt;
+    /* Auf und ab, Stampfen und Rollen: fünf Messpunkte auf der echten Oberfläche, Feder und Dämpfer */
+    const L = P.boot.userData.laenge || 8, B = P.boot.userData.breite || 3, dY = P.boot.userData.deckY || (() => .9);
+    const pt = (lz, lx) => flaeche(P.x + nfx * lz - nrx * lx, P.z + nfz * lz - nrz * lx, t);
+    const hb = pt(L * .38, 0), hh = pt(-L * .4, 0), hp = pt(0, B * .42), hs = pt(0, -B * .42), hm = pt(0, 0);
+    const ty = (hb + hh + hp + hs + 2 * hm) / 6, tn = Math.atan((hb - hh) / (L * .78)) + .05 * Math.min(1, Math.max(0, u) / 5), tr = Math.atan((hp - hs) / (B * .84)) * .9 + P.r * Math.max(0, u) * .035 + (windMs > 10 ? -.03 * Math.sin(wdiff(windVon, P.h)) : 0);
+    P.vy += ((ty - P.y) * 20 - P.vy * 6) * dt; P.y += P.vy * dt; P.vn += ((tn - P.nick) * 14 - P.vn * 5) * dt; P.nick = cl(P.nick + P.vn * dt, -.35, .35); P.vr += ((tr - P.roll) * 11 - P.vr * 3.5) * dt; P.roll = cl(P.roll + P.vr * dt, -.42, .42);
+    /* Freibord: Die Deckskante darf höchstens 12 cm unter Wasser geraten (ein Schwapp ist in Ordnung, Untertauchen nicht) */
+    let ueber = -9, wo = null;
+    for (const [lz, lx] of [[L * .42, 0], [-L * .46, 0], [0, B * .48], [0, -B * .48], [L * .22, B * .42], [L * .22, -B * .42], [-L * .3, B * .48], [-L * .3, -B * .48]]) {
+      const o = pt(lz, lx) - (P.y + dY(lz) + lz * Math.sin(P.nick) + lx * Math.sin(P.roll)); if (o > ueber) { ueber = o; wo = [lz, lx]; } }
+    P.ueber = ueber; if (ueber > .12) { P.y += ueber - .12; if (P.vy < 0) P.vy *= .3; }
+    P.schwapp = (P.schwapp || 0) - dt;
+    if (ueber > -.04 && P.schwapp < 0 && wo) { P.schwapp = .25; const wx = P.x + nfx * wo[0] - nrx * wo[1], wz = P.z + nfz * wo[0] - nrz * wo[1]; for (let i = 0; i < 10; i++) spritz(wx, P.y + dY(wo[0]) + .1, wz, rnd(-1.5, 1.5) + P.vx * .5, rnd(1.5, 3.5), rnd(-1.5, 1.5) + P.vz * .5); }
   }
   /* Zusammenstöße: Boot als drei Kreise; Bojen werden weggestoßen, Schiffe schubsen leicht, Steine und Stege stehen fest */
   let ruckZeit = 0, crewZeit = 0;
@@ -640,11 +687,11 @@ W.seite = async function () {
     boot: [['hinnerk', 'Abstand halten! Das gibt Ärger mit dem Eigner.'], ['smilla', 'Kratzer im Lack. Langsamer ran, dann passiert das nicht.']], boje: [['klabauter', 'Tonne! Tonne! Krrah!'], ['smilla', 'Die Tonne steht da mit Absicht.']],
     schiff: [['smilla', 'Das war knapp. Wer hätte hier ausweichen müssen?']], grund: [['hinnerk', 'Festgefahren. Langsam rückwärts, dann kommen wir frei.']]};
   function ruck(art, st, x, z) {
-    K.shake = Math.max(K.shake, st * (art === 'boje' ? .5 : 1)); try { navigator.vibrate && navigator.vibrate(Math.round(25 + st * 90)); } catch (e) {}
+    stoesse++; K.shake = Math.max(K.shake, st * (art === 'boje' ? .5 : 1)); try { navigator.vibrate && navigator.vibrate(Math.round(25 + st * 90)); } catch (e) {}
     try { AUD.stoss(art === 'grund' ? 'stein' : art === 'schiff' ? 'boot' : art, st); } catch (e) {}
-    for (let i = 0; i < 6 + st * 18; i++) spritz(x, hoehe(x, z, uhr) + .2, z, rnd(-2, 2), rnd(1.5, 4.5) * st + 1, rnd(-2, 2));
+    for (let i = 0; i < 6 + st * 18; i++) spritz(x, flaeche(x, z, uhr) + .2, z, rnd(-2, 2), rnd(1.5, 4.5) * st + 1, rnd(-2, 2));
     if (st > .3) { KZ.schreck = 1.1; try { AUD.sfx('katze', {vol: .5}); } catch (e) {} }
-    if (uhr - crewZeit > 7 && st > .2) { crewZeit = uhr; const L2 = SPRUCH[art] || SPRUCH.boot, s = L2[Math.random() * L2.length | 0]; sag(s[0], s[1]); }
+    if (uhr - crewZeit > 7 && st > .2 && !(FOLGE && sprecher)) { crewZeit = uhr; const L2 = SPRUCH[art] || SPRUCH.boot, s = L2[Math.random() * L2.length | 0]; sag(s[0], s[1]); }
   }
   /* Steuerfeld wie im Manöverspiel: ein Finger, hoch/runter stufenlos Gas mit Raste in der Mitte, seitlich das Ruder; Doppeltipp = Ruder mittschiffs */
   const pad = (() => { const el = $('#wtpad'), knob = el.querySelector('.mk'), DZ = .12; let kx = 0, ky = 0, start = null, lastTap = 0;
@@ -669,7 +716,7 @@ W.seite = async function () {
   cv.addEventListener('wheel', e => { e.preventDefault(); K.dist = cl(K.dist * (1 + Math.sign(e.deltaY) * .1), 7, 90); }, {passive: false});
   $('#wtkam').onclick = () => { const ids = Object.keys(KAMERAS), n = ids[(ids.indexOf(K.mode) + 1) % ids.length]; Object.assign(K, KAMERAS[n], {mode: n}); C.kam = n; speichern(); $('#wtkam').textContent = '🎥 ' + KAMERAS[n].n; };
   $('#wttausch').onclick = () => { C.boot = (C.boot + 1) % BOOTE.length; speichern(); W.setzeBoot(BOOTE[C.boot]()); sag('hinnerk', 'Anderes Boot, gleiche Welt. So tauschen wir später unser echtes Schiff ein.'); };
-  $('#wthorn').onclick = () => { try { AUD.horn('▬'); } catch (e) {} if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && !sagte.horn) { sagte.horn = 1; sag('smilla', 'Richtig: Ein langer Ton heißt Maschinenfahrzeug in Fahrt. Im Nebel mindestens alle zwei Minuten.'); } };
+  $('#wthorn').onclick = () => { hornZahl++; try { AUD.horn('▬'); } catch (e) {} if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && !sagte.horn) { sagte.horn = 1; sag('smilla', 'Ein langer Ton heißt: Maschinenfahrzeug, das Fahrt durchs Wasser macht. Im Nebel mindestens alle zwei Minuten.'); } };
   /* Wetter-Tafel: alles einzeln wählbar und kombinierbar */
   const panel = $('#wtpanel');
   function tafel() {
@@ -690,7 +737,11 @@ W.seite = async function () {
   $('#wtwet').onclick = () => { if (panel.style.display === 'none') { tafel(); panel.style.display = ''; } else panel.style.display = 'none'; };
   /* Crew spricht über das, was man sieht */
   const bub = $('#wtbub'); let bubT = 0; const sagte = {};
-  function sag(wer, t, ms) { const n = ({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[wer]; bub.innerHTML = `<b>${n}:</b> ${esc(t)}`; bub.style.display = ''; clearTimeout(bubT); bubT = setTimeout(() => bub.style.display = 'none', ms || 7000); try { if (typeof VOX !== 'undefined') VOX.say(wer, t, 'local'); } catch (e) {} }
+  let sprecher = null;
+  function sag(wer, t, ms, still) { const n = ({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[wer]; bub.innerHTML = `<b>${n}:</b> ${esc(t)}`; bub.style.display = ''; clearTimeout(bubT);
+    sprecher = wer; document.querySelectorAll('#wtgs .wg').forEach(x => x.classList.toggle('spricht', x.dataset.c === wer));
+    bubT = setTimeout(() => { bub.style.display = 'none'; sprecher = null; document.querySelectorAll('#wtgs .wg').forEach(x => x.classList.remove('spricht')); }, ms || 7000);
+    if (!still) try { if (typeof VOX !== 'undefined') VOX.say(wer, t, 'local'); } catch (e) {} }
   function kommentarWetter(g, v) {
     if (g === 'wind' && v === 'sturm') sag('hinnerk', 'Sturm. Bei so einem Wetter bleibt man im Hafen. Rettungswesten an!');
     else if (g === 'wind' && v === 'flaute') sag('smilla', 'Flaute. Kein Wind, keine Welle. Das Wasser ist wie ein Spiegel.');
@@ -710,6 +761,111 @@ W.seite = async function () {
     const de = Math.hypot(P.x - enten[0].x, P.z - enten[0].z); if (de < 14 && !sagte.enten) { sagte.enten = 1; sag('klabauter', 'Entchen! Entchen! Langsam, sonst schaukeln die!'); }
     if (P.z < 60 && P.z > 50 && Math.abs(P.x) < 30 && !sagte.einfahrt && Math.cos(P.h) < 0) { sagte.einfahrt = 1; sag('smilla', 'Hafeneinfahrt: Langsam fahren und auf auslaufende Schiffe achten.'); }
   }
+  /* ================= Folgen: Schnittstelle für welt-folge.js ================= */
+  let AP = null, ZIEL = null, ROUTE = null, FOLGE = null, hornZahl = 0, stoesse = 0, pausiert = false, ANDOCK = null, modus = 'selbst';
+  const zielObj = new T.Group(); { const ring = new T.Mesh(new T.TorusGeometry(1, .06, 8, 48), new T.MeshBasicMaterial({color: '#f0b53e', transparent: true, opacity: .85, depthWrite: false})); ring.rotation.x = Math.PI / 2; zielObj.add(ring);
+    const saeule = new T.Mesh(new T.CylinderGeometry(.25, .25, 26, 8, 1, true), new T.MeshBasicMaterial({color: '#ffd27a', transparent: true, opacity: .35, depthWrite: false, blending: T.AdditiveBlending})); saeule.position.y = 13; zielObj.add(saeule); zielObj.visible = false; scene.add(zielObj); }
+  const warteMs = ms => new Promise(r => setTimeout(r, ms / (W.tempo || 1)));
+  const frageVon = n => (typeof QN !== 'undefined' && QN[n] && QN[n].a && QN[n].a.length === 4) ? QN[n] : (typeof DATA !== 'undefined' ? DATA.find(x => x.n === n) : null);
+  const qEl = $('#wtq'), apEl = $('#wtap'), padEl = $('#wtpad');
+  const tafelZeigen = html => { qEl.innerHTML = html; qEl.style.display = ''; padEl.style.visibility = 'hidden'; return qEl; };
+  const tafelZu = () => { qEl.style.display = 'none'; qEl.innerHTML = ''; padEl.style.visibility = ''; };
+  /* Sprechen und warten (Sprechblase antippen = weiter) */
+  function sprich(wer, t) { return new Promise(res => { if (!laufend) return res(); sag(wer, t, 60000, true); let fertig = false;
+    const done = () => { if (fertig) return; fertig = true; bub.onclick = null; clearTimeout(bubT); bubT = setTimeout(() => { bub.style.display = 'none'; sprecher = null; document.querySelectorAll('#wtgs .wg').forEach(x => x.classList.remove('spricht')); }, 1800); res(); };
+    const v = typeof VOX !== 'undefined' ? Promise.resolve(VOX.say(wer, t, 'local')).catch(() => {}) : Promise.resolve();
+    Promise.all([v, warteMs(cl(t.length * 52, 1800, 9000))]).then(() => setTimeout(done, 450)); bub.onclick = () => { try { VOX.stop('weiter'); } catch (e) {} done(); }; }); }
+  /* Amtliche Frage: antworten zählt; im Hörmodus vorlesen, sechs Sekunden, Lösung */
+  function frage(n, wer = 'smilla') { const q = frageVon(n); if (!q) return Promise.resolve(null);
+    const order = [0, 1, 2, 3].sort(() => Math.random() - .5);
+    const el = tafelZeigen(`<p class="wqf"><span class="small muted">Prüfungsfrage ${q.n}</span><br><b>${esc(q.q)}</b></p>${q.img ? `<div class="wqimg">${q.img.map(u => `<img src="${esc(u)}" alt="">`).join('')}</div>` : ''}${order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</button>`).join('')}<div class="small muted" id="wqinfo"></div>`);
+    const zeigeLoesung = k => el.querySelectorAll('.ans').forEach(b => { b.disabled = true; const kk = +b.dataset.k; if (kk === 0) b.classList.add('ok'); else if (kk === k) b.classList.add('no'); });
+    if (modus === 'auto') return (async () => { try { await VOX.say(wer, (window.SZENE ? SZENE.text(q, order) : q.q), 'local'); } catch (e) {} if (!laufend) return null; const i = $('#wqinfo'); if (i) i.textContent = '🤔 Denkpause … 6 s'; try { AUD.ticks && AUD.ticks(6, .3); } catch (e) {}
+      await warteMs(6000); zeigeLoesung(-1); await sprich('hinnerk', 'Richtig ist: ' + q.a[0]); tafelZu(); return null; })();
+    return new Promise(res => { let ctl = null, fertig = false;
+      const antwort = k => { if (fertig) return; fertig = true; if (ctl) ctl.stop(); try { VOX.stop('Antwort'); } catch (e) {} const ok = k === 0; try { AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .55}); } catch (e) {} zeigeLoesung(k);
+        if (typeof record === 'function' && window.S && S.course !== 'sks') { try { record(q.n, ok); } catch (e) {} } if (FOLGE) FOLGE.fragen.push(ok);
+        setTimeout(async () => { if (!ok) await sprich('smilla', 'Nicht ganz. Richtig ist: ' + q.a[0]); tafelZu(); res(ok); }, ok ? 1100 : 900); };
+      el.querySelectorAll('.ans').forEach(b => b.onclick = () => antwort(+b.dataset.k));
+      try { ctl = window.SZENE ? SZENE.frage(q, order, {wer, onPick: antwort}) : null; } catch (e) {} }); }
+  /* Entscheidung mit Empfehlung der Crew; eine falsche Wahl wird erklärt */
+  function wahl(d, wer = 'smilla') { return new Promise(async res => {
+    const el = tafelZeigen(`<p class="wqf"><b>${esc(d.t)}</b></p>${d.opts.map((o, i) => `<button class="ans${o.empfohlen ? ' emp' : ''}" data-i="${i}">${o.empfohlen ? '<span class="wemp">★ Empfehlung</span> ' : ''}${esc(o.t)}</button>`).join('')}`);
+    if (modus === 'auto') { await sprich(wer, d.t); let i = d.opts.findIndex(o => o.empfohlen); if (i < 0) i = Math.max(0, d.opts.findIndex(o => o.ok)); el.querySelector(`[data-i="${i}"]`).classList.add('ok'); await sprich('hinnerk', d.opts[i].t + '.'); tafelZu(); return res(i); }
+    sprich(wer, d.t);
+    el.querySelectorAll('.ans').forEach(b => b.onclick = async () => { const i = +b.dataset.i, o = d.opts[i]; try { VOX.stop('Wahl'); AUD.click(); } catch (e) {}
+      el.querySelectorAll('.ans').forEach(x => x.disabled = true);
+      if (o.ok === false) { b.classList.add('no'); try { AUD.sfx('falsch', {vol: .5}); } catch (e) {} if (o.info) await sprich('smilla', o.info); const r = d.opts.findIndex(x => x.ok); if (r >= 0) { el.querySelector(`[data-i="${r}"]`).classList.add('ok'); await sprich('hinnerk', 'Richtig ist: ' + d.opts[r].t + '.'); } if (FOLGE) FOLGE.wahlen.push(false); }
+      else { b.classList.add('ok'); if (o.ok) { try { AUD.sfx('richtig', {vol: .5}); } catch (e) {} if (FOLGE) FOLGE.wahlen.push(true); } if (o.info) await sprich('hinnerk', o.info); else await warteMs(700); }
+      tafelZu(); res(i); }); }); }
+  /* Mitmachen mit dem Übungsset (E17) */
+  function modell(t) { return new Promise(async res => { tafelZeigen(`<p class="wqf">🪢 <b>Mit deinem Modell</b></p><p>${esc(t)}</p><button class="btn lamp wide" id="wqok">✓ Gemacht</button><button class="btn ghost wide" id="wqohne" style="margin-top:6px">Weiter ohne Modell</button>`);
+    if (modus === 'auto') { await sprich('hinnerk', t); await warteMs(2500); tafelZu(); return res(true); }
+    sprich('hinnerk', t); $('#wqok').onclick = () => { try { VOX.stop('m'); AUD.click(); } catch (e) {} tafelZu(); res(true); }; $('#wqohne').onclick = () => { try { VOX.stop('m'); } catch (e) {} tafelZu(); res(false); }; }); }
+  /* Knoten: das 3D-Bild wartet, solange das Knotenbrett offen ist */
+  async function knoten(id) { const kd = await fetch('data/knoten.json?v=' + window.__ver).then(r => r.json()).catch(() => null), k = kd && (kd.knoten || kd).find && (kd.knoten || kd).find(x => x.id === id); if (!k) return;
+    if (modus === 'auto') { await sprich('hinnerk', 'Der ' + k.name + '. ' + (k.spruch ? 'Zum Mitsagen: ' + k.spruch : '')); for (const x of k.schritte || []) { if (!laufend) return; await sprich('hinnerk', x); } return; }
+    await sprich('hinnerk', 'Ich zeig dir den ' + k.name + '.'); try { await loadKnoten(); } catch (e) { return; }
+    return new Promise(res => { const wrap = $('#wtwrap'); pausiert = true; try { AUD.loop('motorLauf', 0); } catch (e) {} wrap.remove(); KNOTEN.zeige(id);
+      const zurueck = () => { try { VOX.stop('Knoten'); } catch (e) {} gameShell('3D-Welt (Test)', ''); app.appendChild(wrap); const gb = $('#gback'); if (gb) gb.onclick = zurueckKnopf; pausiert = false; gr(); res(); };
+      setTimeout(() => { const gb = $('#gback'); if (gb) gb.onclick = zurueck; const ueb = $('#kueb'); if (ueb) ueb.insertAdjacentHTML('afterend', '<button class="btn lamp" id="kgesch">⛵ Zurück aufs Boot</button>'); const b = $('#kgesch'); if (b) b.onclick = () => { try { AUD.click(); } catch (e) {} zurueck(); }; }, 80); }); }
+  /* Autopilot: fährt eine Route ab (im Zeitraffer, wenn raffer > 1); am letzten Punkt aufstoppen */
+  function auto(pts, o = {}) { return new Promise(res => { AP = {pts, i: 0, gas: o.gas || .5, raffer: o.raffer || 1, res, anlegen: o.anlegen}; ROUTE = pts; apEl.style.display = ''; apEl.textContent = o.raffer > 1 ? '⏩ Zeitraffer · Autopilot' : '🤖 ' + (o.wer || 'Hinnerk') + ' steuert'; padEl.classList.add('aus'); }); }
+  function autopilot(dt) { const wp = AP.pts[AP.i], letzt = AP.i === AP.pts.length - 1, dx = wp[0] - P.x, dz = wp[1] - P.z, d = Math.hypot(dx, dz), u = P.u || 0;
+    if (d < (letzt ? 3 : 9)) { if (!letzt) { AP.i++; return; } if (Math.abs(u) < .35) { const r = AP.res; AP = null; P.gZiel = 0; P.dZiel = 0; apEl.style.display = 'none'; padEl.classList.remove('aus'); pad.setze(0, 0); ROUTE = null; if (wp[2] != null) ANDOCK = {x: wp[0], z: wp[1], h: wp[2], t: 0, res: r}; else r(); return; } }
+    const soll = Math.atan2(dx, -dz), f = wdiff(soll, P.h); P.dZiel = cl(f * 2.4 - P.r * 1.4, -1, 1);
+    P.gZiel = letzt && d < 30 ? cl(d * .03 - u * .35, -.5, AP.gas) : AP.gas * (1 - .6 * Math.min(1, Math.abs(f) / 1.2)); }
+  /* Warten, bis etwas eintritt (jedes Bild geprüft), höchstens max Sekunden */
+  const WARTE = [];
+  function warte(fn, max) { return new Promise(res => WARTE.push({fn, bis: max ? uhr + max : Infinity, res})); }
+  function warteTick() { for (let i = WARTE.length - 1; i >= 0; i--) { const w = WARTE[i]; let ok = false; try { ok = w.fn(); } catch (e) {} if (ok || uhr > w.bis) { WARTE.splice(i, 1); w.res(!!ok); } } }
+  function ziel(d) { ZIEL = d; zielObj.visible = !!d; if (d) { zielObj.position.set(d.x, 0, d.z); zielObj.children[0].scale.setScalar(d.r || 5); } }
+  const angelegt = z => Math.hypot(P.x - z.x, P.z - z.z) < 3.4 && Math.abs(P.u || 0) < .55 && Math.abs(Math.sin(P.h - (z.h || 0))) < .45;
+  /* Anlegen geschafft: die Crew holt das Boot sauber an den Steg */
+  function andocken(dt) { const A = ANDOCK; A.t += dt; const k = Math.min(1, dt * 1.6), hz = Math.abs(wdiff(P.h, A.h)) < Math.PI / 2 ? A.h : A.h + Math.PI;
+    P.x += (A.x - P.x) * k; P.z += (A.z - P.z) * k; P.h += wdiff(hz, P.h) * k; P.vx *= .9; P.vz *= .9; P.r *= .8; P.gZiel = 0; P.dZiel = 0;
+    if (A.t > 1.8) { ANDOCK = null; pad.setze(0, 0); A.res && A.res(); } }
+  function wetter(t) { Object.assign(C, t); if (t.wellen) C.wellen = Object.assign({}, C.wellen, t.wellen); setzeWetter(); }
+  function kamera(n) { if (KAMERAS[n]) { Object.assign(K, KAMERAS[n], {mode: n}); $('#wtkam').textContent = '🎥 ' + KAMERAS[n].n; } }
+  function ton(sig) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn(sig || '▬', null, Math.sin(rel)); } catch (e) {} }
+  const fest = z => new Promise(res => { ANDOCK = {x: z.x, z: z.z, h: z.h || 0, t: 0, res}; });
+  W.api = {get ap() { return AP; }, sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
+    get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; }};
+  /* Folge starten und beenden; Wetter und Ort danach wie vorher */
+  async function starteFolge(id, ab = 0) {
+    if (FOLGE) return; try { await nachladen('szene.js'); await nachladen('welt-folge.js'); } catch (e) { toast('Die Folge ließ sich nicht laden.'); return; }
+    const vorher = JSON.parse(JSON.stringify(C)); FOLGE = {id, fragen: [], wahlen: [], start: uhr, stoesse0: stoesse, vorher};
+    $('#wtfolge').textContent = '⏹ Folge beenden'; $('#wtmodus').style.display = ''; $('#wttausch').style.display = 'none';
+    let erg = null; try { erg = await WFOLGE.spiele(id, W.api, ab); } catch (e) { console.error(e); }
+    folgeEnde(); if (erg === 'nochmal' && laufend) starteFolge(id);
+  }
+  function folgeEnde() { if (!FOLGE) return; const F = FOLGE; FOLGE = null; AP = null; ANDOCK = null; ziel(null); ROUTE = null; WARTE.splice(0).forEach(w => w.res(false)); apEl.style.display = 'none'; padEl.classList.remove('aus');
+    Object.assign(C, F.vorher); setzeWetter(); speichern(); if (!laufend) return;
+    $('#wtfolge').textContent = '🎬 Testfolge'; $('#wtmodus').style.display = 'none'; $('#wttausch').style.display = ''; for (const w in CREWF) crewPlatz[w] = w === 'klabauter' ? 'dach' : w; crewSetzen(); }
+  $('#wtfolge').onclick = () => { try { AUD.click(); } catch (e) {} if (FOLGE) { FOLGE.abbruch = true; if (window.WFOLGE) WFOLGE.stop(); tafelZu(); folgeEnde(); } else starteFolge('probe'); };
+  $('#wtmodus').onclick = () => { modus = modus === 'auto' ? 'selbst' : 'auto'; $('#wtmodus').textContent = modus === 'auto' ? '🎧 Auto' : '✋ Selbst'; try { AUD.click(); } catch (e) {} };
+  /* Karte oben rechts: Norden oben; antippen = groß */
+  const kc = $('#wtkarte'), kx = kc.getContext('2d'); let kGross = false;
+  kc.addEventListener('click', () => { kGross = !kGross; kc.classList.toggle('gross', kGross); const n = kGross ? 640 : 224; kc.width = kc.height = n; karteZeichnen(); });
+  function karteZeichnen() { const N0 = kc.width, R = kGross ? 420 : 150, k = N0 / (2 * R), X = x => N0 / 2 + (x - P.x) * k, Y = z => N0 / 2 + (z - P.z) * k, g = kx;
+    g.fillStyle = nachtAn ? '#123047' : '#3f8aa0'; g.fillRect(0, 0, N0, N0);
+    g.fillStyle = nachtAn ? '#3b4a3b' : '#9fbf7a'; g.fillRect(0, Y(172), N0, N0); g.fillStyle = '#d9c99a'; g.fillRect(0, Y(162), X(-85), Y(178) - Y(162)); g.fillRect(X(85), Y(162), N0, Y(178) - Y(162));
+    g.fillStyle = '#a39684'; g.fillRect(X(-85), Y(170), X(85) - X(-85), Y(184) - Y(170));
+    g.strokeStyle = '#8d8a82'; g.lineWidth = Math.max(3, 9 * k); g.lineCap = 'round'; for (const m of [[[-85, 171], [-75, 95], [-18, 72]], [[85, 171], [75, 95], [18, 72]]]) { g.beginPath(); m.forEach(([x, z], i) => i ? g.lineTo(X(x), Y(z)) : g.moveTo(X(x), Y(z))); g.stroke(); }
+    g.strokeStyle = '#c9935e'; g.lineWidth = Math.max(1.5, 2.2 * k); for (const [x, a, b2] of [[-30, 171, 116], [25, 171, 120]]) { g.beginPath(); g.moveTo(X(x), Y(a)); g.lineTo(X(x), Y(b2)); g.stroke(); }
+    for (const b of WL.lieger || []) { g.fillStyle = '#e8e2d4'; g.beginPath(); g.arc(X(b.position.x), Y(b.position.z), Math.max(1.5, 1.4 * k), 0, 7); g.fill(); }
+    g.fillStyle = '#e3cf9f'; g.beginPath(); g.arc(X(120), Y(-250), 31 * k, 0, 7); g.fill(); g.fillStyle = '#7fa35a'; g.beginPath(); g.arc(X(120), Y(-250), 23 * k, 0, 7); g.fill();
+    g.fillStyle = '#c9b585'; g.beginPath(); g.ellipse(X(60), Y(-200), 15 * k, 8 * k, 0, 0, 7); g.fill();
+    const farbeB = {rot: '#e0503c', gruen: '#3fae5a', anst: '#ffffff', nord: '#f2c230'};
+    for (const b of WL.bojen) { g.fillStyle = farbeB[b.art] || '#fff'; g.strokeStyle = b.art === 'anst' ? '#e0503c' : b.art === 'nord' ? '#222' : 'rgba(0,0,0,.35)'; g.lineWidth = 1.5; g.beginPath(); g.arc(X(b.x), Y(b.z), Math.max(3, 1.6 * k), 0, 7); g.fill(); g.stroke(); }
+    if (ROUTE) { g.strokeStyle = '#ffd27a'; g.lineWidth = 2; g.setLineDash([6, 5]); g.beginPath(); g.moveTo(X(P.x), Y(P.z)); ROUTE.slice(AP ? AP.i : 0).forEach(([x, z]) => g.lineTo(X(x), Y(z))); g.stroke(); g.setLineDash([]); }
+    if (ZIEL) { g.strokeStyle = '#ffd27a'; g.lineWidth = 3; g.beginPath(); g.arc(X(ZIEL.x), Y(ZIEL.z), Math.max(5, (ZIEL.r || 5) * k), 0, 7); g.stroke(); }
+    const pfeil = (x, z, h, f, gr) => { g.save(); g.translate(X(x), Y(z)); g.rotate(h); g.fillStyle = f; g.strokeStyle = '#222'; g.lineWidth = 1; g.beginPath(); g.moveTo(0, -gr); g.lineTo(gr * .6, gr * .8); g.lineTo(-gr * .6, gr * .8); g.closePath(); g.fill(); g.stroke(); g.restore(); };
+    pfeil(SCH.x, SCH.z, SCH.h, '#f5f1e8', Math.max(6, 10 * k)); pfeil(P.x, P.z, P.h, '#f0b53e', Math.max(8, 5 * k) * (N0 / 224));
+    const sf = N0 / 224; g.fillStyle = 'rgba(255,255,255,.9)'; g.font = `bold ${12 * sf}px sans-serif`; g.textAlign = 'center'; g.fillText('N', 12 * sf, 16 * sf);
+    if (windMs) { g.save(); g.translate(20 * sf, N0 - 22 * sf); g.rotate(windVon + Math.PI); g.strokeStyle = '#fff'; g.lineWidth = 2.5 * sf; g.beginPath(); g.moveTo(0, 10 * sf); g.lineTo(0, -10 * sf); g.moveTo(-5 * sf, -4 * sf); g.lineTo(0, -10 * sf); g.lineTo(5 * sf, -4 * sf); g.stroke(); g.restore(); }
+    g.fillStyle = '#fff'; g.font = `bold ${10 * sf}px sans-serif`; g.textAlign = 'right'; g.fillText(WIND[C.wind].bft + ' Bft', N0 - 6 * sf, N0 - 8 * sf);
+    g.textAlign = 'left'; g.fillText((kGross ? '200' : '50') + ' m', 34 * sf, N0 - 8 * sf); g.fillRect(34 * sf, N0 - 20 * sf, (kGross ? 200 : 50) * k, 2 * sf); }
   /* Größe und Qualität */
   const gr = () => { const w = host.clientWidth, h = host.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
   const ro = new ResizeObserver(gr); ro.observe(host); gr();
@@ -721,7 +877,7 @@ W.seite = async function () {
     if (alt) scene.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { m.needsUpdate = true; }); }); }
   setzeQuali(C.quali === 'auto' ? 'hoch' : C.quali);
   setzeOrt(C.ort); W.setzeBoot(BOOTE[C.boot % BOOTE.length]());
-  sag('hinnerk', C.ort === 'hafen' ? 'Moin! Wir liegen im Hafen. Schieb den Hebel nach oben für voraus, zur Seite zum Lenken.' : 'Moin! Steuern mit einem Finger: hoch für Gas, zur Seite zum Lenken.', 9000);
+  if (!opt.folge) sag('hinnerk', C.ort === 'hafen' ? 'Moin! Wir liegen im Hafen. Schieb den Hebel nach oben für voraus, zur Seite zum Lenken.' : 'Moin! Steuern mit einem Finger: hoch für Gas, zur Seite zum Lenken.', 9000);
   /* Schleife */
   let t0 = performance.now(), alt = t0, laufend = true, fpsN = 0, fpsT = t0, tonT = 0, hudT = 0, uhr = 0, kielT = 0, moeweT = 8, hornT = 20, qualiPruef = 3; W.fps = 0;
   const v3 = new T.Vector3(), farbe = new T.Color();
@@ -730,9 +886,9 @@ W.seite = async function () {
   function lichterSetzen(boot, h) { for (const l of boot.userData.lichter || []) { l.glow.getWorldPosition(v3); const v = lichterAn ? sektor(l.sektor, h, v3.x, v3.z) : 0;
     l.glow.material.opacity = v * (nachtAn ? 1 : .55); l.lampe.material.color.copy(farbe.copy(l.farbe).multiplyScalar(.25 + .75 * v)); const d = v3.distanceTo(cam.position); l.glow.scale.setScalar((l.glow.userData.s || (l.glow.userData.s = l.glow.scale.x)) * (1 + d / 60)); } }
   function schritt(now) {
-    if (!laufend) return; if (!host.isConnected) { ende(); return; } requestAnimationFrame(schritt);
+    if (!laufend) return; if (!host.isConnected) { if (pausiert) { alt = now; requestAnimationFrame(schritt); return; } ende(); return; } requestAnimationFrame(schritt);
     const dt = Math.min(.05, (now - alt) / 1000); alt = now; uhr += dt; const t = uhr, B = P.boot, U = B.userData;
-    physik(dt, t); kollision(t);
+    const nS = (AP ? AP.raffer : 1) * (W.tempo || 1); for (let i = 0; i < nS; i++) { if (AP) autopilot(dt); if (ANDOCK) andocken(dt); physik(dt, t); kollision(t); } warteTick();
     const fx = Math.sin(P.h), fz = -Math.cos(P.h);
     B.position.set(P.x, P.y, P.z); B.rotation.set(-P.nick, Math.PI - P.h, P.roll, 'YXZ');
     if (U.motor) U.motor.rotation.y = P.d * .5; if (U.propeller) U.propeller.rotation.z += P.g * dt * 38;
@@ -759,17 +915,17 @@ W.seite = async function () {
       if (Math.abs(P.g) > .25) for (let i = 0; i < 3; i++) spritz(P.x - fx * (L + .4), P.y - .1, P.z - fz * (L + .4), -fx * P.g * 2 + rnd(-.4, .4), rnd(.2, .8), -fz * P.g * 2 + rnd(-.4, .4));
       if (u > 2.5 && (P.vn < -.15 || Math.random() < .1 * aw)) for (let i = 0; i < 8; i++) { const sd = Math.random() < .5 ? -1 : 1; spritz(P.x + fx * L * .8 + rx * sd * .6, P.y + .3, P.z + fz * L * .8 + rz * sd * .6, rx * sd * rnd(1, 3) + fx * u * .5, rnd(2, 4.5), rz * sd * rnd(1, 3) + fz * u * .5); } }
     kiel.upd(t); bugL.upd(t); bugR.upd(t); schiffKiel.upd(t);
-    for (let i = 0; i < GN; i++) { const p = G[i]; if (p.t < 3) { p.t += dt; p.vy -= 9.81 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; if (p.y < hoehe(p.x, p.z, t) - .3) p.t = 9; }
+    for (let i = 0; i < GN; i++) { const p = G[i]; if (p.t < 3) { p.t += dt; p.vy -= 9.81 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; if (p.y < flaeche(p.x, p.z, t) - .3) p.t = 9; }
       gpos[i * 3] = p.x; gpos[i * 3 + 1] = p.t < 3 ? p.y : -99; gpos[i * 3 + 2] = p.z; gcol.set([1, 1, 1, p.t < 3 ? cl(1 - p.t / 1.6, 0, .9) : 0], i * 4); }
     gg.attributes.position.needsUpdate = gg.attributes.color.needsUpdate = true;
     /* Schiff fährt seine Runde */
     SCH.a += SCH.v / SCH.R * dt; const nx = SCH.cx + Math.cos(SCH.a) * SCH.R, nz = SCH.cz + Math.sin(SCH.a) * SCH.R; SCH.vx = (nx - SCH.x) / dt; SCH.vz = (nz - SCH.z) / dt; SCH.x = nx; SCH.z = nz;
     SCH.h = Math.atan2(-Math.sin(SCH.a), -Math.cos(SCH.a)) + Math.PI; SCH.h = Math.atan2(SCH.vx, -SCH.vz) || SCH.h; SCH.wv += (-SCH.wack * 3 - SCH.wv * 1.5) * dt; SCH.wack += SCH.wv * dt;
-    schiff.position.set(SCH.x, hoehe(SCH.x, SCH.z, t) * .6, SCH.z); schiff.rotation.set(Math.sin(t * .6) * .015 * (1 + aw), Math.PI - SCH.h, Math.sin(t * .8) * .02 * (1 + aw) + SCH.wack, 'YXZ');
+    schiff.position.set(SCH.x, flaeche(SCH.x, SCH.z, t) * .6, SCH.z); schiff.rotation.set(Math.sin(t * .6) * .015 * (1 + aw), Math.PI - SCH.h, Math.sin(t * .8) * .02 * (1 + aw) + SCH.wack, 'YXZ');
     /* Bojen: verankert, schwimmen auf und ab, werden weggestoßen und kommen zurück */
     for (const b of WL.bojen) { b.vx += (-(b.x - b.hx) * .25 - b.vx * .6) * dt; b.vz += (-(b.z - b.hz) * .25 - b.vz * .6) * dt; b.x += b.vx * dt; b.z += b.vz * dt;
       b.kv.x += (-b.kipp.x * 6 - b.kv.x * 1.6) * dt; b.kv.y += (-b.kipp.y * 6 - b.kv.y * 1.6) * dt; b.kipp.x += b.kv.x * dt; b.kipp.y += b.kv.y * dt;
-      b.obj.position.set(b.x, hoehe(b.x, b.z, t) * .9 - .15, b.z); b.obj.rotation.set(b.kipp.x + Math.sin(t * 1.3 + b.hx) * .04 * (1 + aw), 0, b.kipp.y + Math.cos(t * 1.1 + b.hz) * .04 * (1 + aw)); }
+      b.obj.position.set(b.x, flaeche(b.x, b.z, t) * .9 - .15, b.z); b.obj.rotation.set(b.kipp.x + Math.sin(t * 1.3 + b.hx) * .04 * (1 + aw), 0, b.kipp.y + Math.cos(t * 1.1 + b.hz) * .04 * (1 + aw)); }
     for (const l of WL.blink) { const ph = (t + l.ph) % l.takt; l.glow.material.opacity = lichterAn && ph < l.an ? 1 : 0; }
     for (const l of WL.lampen) if (l.glow) l.glow.material.opacity = nachtAn ? .9 : 0;
     /* Leuchtturm: Strahl dreht, leuchtet hell auf, wenn er zu dir zeigt */
@@ -785,11 +941,15 @@ W.seite = async function () {
       let vx = zx - e.x, vz = zz - e.z; const d = Math.hypot(vx, vz), soll = i ? .7 : 0; let sp = i ? cl((d - soll) * 1.5, 0, 1.2) : .45; vx /= d || 1; vz /= d || 1;
       const bx = e.x - P.x, bz = e.z - P.z, bd = Math.hypot(bx, bz); if (bd < 10) { vx = vx * .3 + bx / bd; vz = vz * .3 + bz / bd; sp = 1.3; }
       if (WL.stat.some(s => !s.k && Math.hypot(e.x - s.ax, e.z - s.az) < s.r + 1)) { vx = -vx; vz = -vz; }
-      e.x += vx * sp * dt; e.z += vz * sp * dt; if (sp > .05) e.h = Math.atan2(vx, vz); e.o.position.set(e.x, hoehe(e.x, e.z, t) - .02, e.z); e.o.rotation.y = e.h; e.o.rotation.z = Math.sin(t * 3 + i) * .05; });
+      e.x += vx * sp * dt; e.z += vz * sp * dt; if (sp > .05) e.h = Math.atan2(vx, vz); e.o.position.set(e.x, flaeche(e.x, e.z, t) - .02, e.z); e.o.rotation.y = e.h; e.o.rotation.z = Math.sin(t * 3 + i) * .05; });
     if (!SH.weg && Math.hypot(P.x - 62, P.z + 200) < 24) { SH.weg = true; SH.zeit = t + 18; sag('klabauter', 'Zu nah! Der Seehund ist abgetaucht. Krrah!'); }
     if (SH.weg && t > SH.zeit && Math.hypot(P.x - 62, P.z + 200) > 45) SH.weg = false;
     SH.y += ((SH.weg ? -1.4 : .1) - SH.y) * dt * 1.5; seehund.position.y = SH.y; seehund.userData.kopf.rotation.y = Math.sin(t * .5) * .5;
     katzeLauf(dt, t);
+    if (ZIEL) { zielObj.position.y = flaeche(ZIEL.x, ZIEL.z, t) + .05; zielObj.children[0].material.opacity = .55 + .3 * Math.sin(t * 3); zielObj.rotation.y = t * .4; }
+    for (const w in CREWF) { const f = CREWF[w], kp = f.userData.kopf, weg = f.userData.weg;
+      if (weg && weg.length) { const v = weg[0], d = f.position.distanceTo(v); if (d < .05) { weg.shift(); if (!weg.length) f.rotation.y = 0; } else { const st = Math.min(d, dt * .9); f.rotation.y = Math.atan2(v.x - f.position.x, v.z - f.position.z); f.position.addScaledVector(v.clone().sub(f.position).normalize(), st); f.position.y = v.y + Math.abs(Math.sin(t * 9)) * .03; } }
+      kp.rotation.x = sprecher === w ? Math.sin(t * 9) * .09 : 0; kp.rotation.y = sprecher === w ? 0 : Math.sin(t * .5 + w.length) * .35; if (w === 'klabauter' && sprecher === w) f.rotation.z = Math.sin(t * 12) * .08; }
     /* Wetter in Bewegung */
     if (regenZahl) { const kx = cam.position.x, kz = cam.position.z, lee = windVon + Math.PI, wx = Math.sin(lee) * windMs * .06, wz = -Math.cos(lee) * windMs * .06;
       for (let i = 0; i < regenZahl; i++) { let y = rp[i * 6 + 1] - dt * 15; let x = rp[i * 6], z = rp[i * 6 + 2]; if (y < -1 || Math.abs(x - kx) > 40 || Math.abs(z - kz) > 40) { y = rnd(18, 30); x = kx + rnd(-40, 40); z = kz + rnd(-40, 40); }
@@ -801,7 +961,7 @@ W.seite = async function () {
     if (!K.lock && now - K.last > 2600) K.yaw += (0 - K.yaw) * Math.min(1, dt * 1.2);
     K.hs += wdiff(P.h, K.hs) * Math.min(1, dt * 2.2);
     const dist = C.sicht === 'extrem' ? Math.min(K.dist, 17) : C.sicht === 'dicht' ? Math.min(K.dist, 22) : K.dist, ang = K.hs + K.yaw, cp = Math.cos(K.pitch);
-    const zx = P.x - Math.sin(ang) * dist * cp, zz = P.z + Math.cos(ang) * dist * cp, zy = Math.max(hoehe(zx, zz, t) + 1.4, P.y + 1.6 + Math.sin(K.pitch) * dist);
+    const zx = P.x - Math.sin(ang) * dist * cp, zz = P.z + Math.cos(ang) * dist * cp, zy = Math.max(flaeche(zx, zz, t) + 1.4, P.y + 1.6 + Math.sin(K.pitch) * dist);
     K.pos.x += (zx - K.pos.x) * Math.min(1, dt * (K.lock ? 6 : 2.6)); K.pos.y += (zy - K.pos.y) * Math.min(1, dt * 3); K.pos.z += (zz - K.pos.z) * Math.min(1, dt * (K.lock ? 6 : 2.6));
     K.shake = Math.max(0, K.shake - dt * 1.8) ; const wack = K.shake * .5 + (windMs > 14 ? .06 * (windMs - 14) / 8 : 0);
     cam.position.set(K.pos.x + Math.sin(t * 41) * wack * .3, K.pos.y + Math.sin(t * 37) * wack * .25, K.pos.z + Math.cos(t * 43) * wack * .3);
@@ -813,11 +973,11 @@ W.seite = async function () {
       AUD.loop('wellen', cl(.12 + hw * .25, 0, .7)); AUD.loop('wind', windMs > 2 && windMs < 15 ? cl(windMs / 18, 0, .55) : 0); AUD.loop('sturm', windMs >= 15 ? .6 : 0); AUD.loop('regen', C.regen === 'stark' ? .7 : C.regen === 'regen' ? .4 : 0); } catch (e) {} }
     moeweT -= dt; if (moeweT < 0) { moeweT = rnd(14, 30); if (!nachtAn && P.z > 0) try { AUD.sfx('moewe', {vol: .25, pan: rnd(-.7, .7)}); } catch (e) {} }
     hornT -= dt; if (hornT < 0) { hornT = 30; const dS = Math.hypot(SCH.x - P.x, SCH.z - P.z); if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && dS < 500) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn('▬', null, Math.sin(rel)); } catch (e) {} } }
-    kommentare(t);
+    if (!FOLGE) kommentare(t);
     hudT -= dt; if (hudT < 0) { hudT = .15; const kn = Math.abs(u) * 1.94, hd = ((P.h / RAD) % 360 + 360) % 360, gp = Math.round(Math.abs(P.gZiel) * 100), rw = Math.round(Math.abs(P.dZiel) * 30);
       $('#wtk').textContent = 'Kurs ' + String(Math.round(hd)).padStart(3, '0') + '° · ' + kn.toFixed(1).replace('.', ',') + ' kn';
       $('#wtg').textContent = (!P.gZiel ? 'neutral' : (P.gZiel > 0 ? 'voraus ' : 'zurück ') + gp + ' %') + ' · ' + (!rw ? 'Ruder mittschiffs' : 'Ruder ' + (P.dZiel > 0 ? 'Stb ' : 'Bb ') + rw + '°');
-      $('#wtpfeil').style.transform = `rotate(${(wdiff(windVon + Math.PI, P.h) / RAD) - 90}deg)`; $('#wtwind').style.opacity = windMs ? 1 : .5; }
+      karteZeichnen(); }
     fpsN++; if (now - fpsT > 1000) { W.fps = fpsN; fpsN = 0; fpsT = now; qualiPruef--; if (C.quali === 'auto' && qualiPruef <= 0 && QA !== 'niedrig' && W.fps < 24) { setzeQuali(QA === 'hoch' ? 'mittel' : 'niedrig'); qualiPruef = 3; } }
   }
   /* Die Katze läuft an Deck herum, setzt sich, putzt sich, erschrickt bei Stößen */
@@ -840,9 +1000,12 @@ W.seite = async function () {
     scene.traverse(o => { if (o.geometry) o.geometry.dispose(); const m = o.material; if (m) (Array.isArray(m) ? m : [m]).forEach(x => x.dispose()); });
     Object.values(TX).forEach(x => x.dispose && x.dispose()); if (envRT) envRT.dispose(); pmrem.dispose(); r.dispose(); try { r.forceContextLoss(); } catch (e) {}
   }
-  back.onclick = () => { ende(); clearTimeout(bubT); if (typeof VOX !== 'undefined') VOX.stop(); setTab(typeof returnTo !== 'undefined' ? returnTo : 'cabin'); };
+  const zurueckKnopf = () => { if (FOLGE && window.WFOLGE) WFOLGE.stop(); FOLGE = null; ende(); clearTimeout(bubT); if (typeof VOX !== 'undefined') VOX.stop(); setTab(typeof returnTo !== 'undefined' ? returnTo : 'cabin'); };
+  back.onclick = zurueckKnopf;
+  W.starteFolge = starteFolge; W.setzeModus = m => { modus = m; const b = $('#wtmodus'); if (b) b.textContent = m === 'auto' ? '🎧 Auto' : '✋ Selbst'; };
   W.ende = ende; W.zustand = {P, K, C, SCH, WL, scene, cam, r, sag, setzeWetter, setzeOrt, pad, wasser};
   requestAnimationFrame(schritt);
+  if (opt.folge) setTimeout(() => starteFolge(opt.folge), 1500);
 };
 
 function css() {
@@ -853,7 +1016,7 @@ function css() {
   .wt .hud{position:absolute;left:8px;top:8px;background:rgba(255,250,240,.86);border-radius:10px;padding:4px 9px;font-size:12px;color:#2b3a4a;line-height:1.3}.wt .hud b{display:block;font-size:13px}
   .wt .wind{position:absolute;right:8px;top:8px;width:50px;height:58px;border-radius:12px;background:rgba(20,30,40,.5);color:#fffaf0;text-align:center;font:700 10px sans-serif}
   .wt .wind i{display:block;font-style:normal;font-size:22px;line-height:38px;transition:transform .3s}
-  .wt .bub{position:absolute;left:8px;right:66px;top:56px;background:rgba(255,252,240,.95);border-radius:14px;padding:8px 11px;font-size:14px;color:#2b2118;box-shadow:0 2px 8px rgba(0,0,0,.18)}.wt .bub b{color:#b5563a}
+  .wt .bub{position:absolute;left:62px;right:8px;top:126px;z-index:2;background:rgba(255,252,240,.95);border-radius:14px;padding:8px 11px;font-size:14px;color:#2b2118;box-shadow:0 2px 8px rgba(0,0,0,.18)}.wt .bub b{color:#b5563a}
   .wpad{position:absolute;right:10px;bottom:10px;width:150px;height:164px;border-radius:22px;background:rgba(20,30,40,.5);touch-action:none}
   .wpad .mk{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#f0b53e;border:3px solid #fffaf0;box-shadow:0 2px 0 rgba(0,0,0,.35);pointer-events:none}
   .wpad .ml{position:absolute;left:10px;right:10px;top:50%;height:2px;background:rgba(255,250,240,.55)}.wpad .mv{position:absolute;top:12px;bottom:12px;left:50%;width:2px;background:rgba(255,250,240,.22)}
@@ -863,7 +1026,17 @@ function css() {
   .wtph{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.wtpanel h4{margin:8px 0 4px;font-size:13px}
   .wtc{border:1.5px solid #c9b79a;background:#fffaf0;border-radius:16px;padding:5px 10px;margin:0 4px 5px 0;font:600 13px inherit;color:#3a2a10}
   .wtc[aria-pressed="true"]{background:#f0b53e;border-color:#c8962e}
-  .wtbar{display:flex;gap:6px}.wtbar .btn{flex:1;min-width:0;font-size:13px;padding-left:4px;padding-right:4px}`;
+  .wt .wkarte{position:absolute;right:8px;top:8px;width:112px;height:112px;border-radius:12px;border:2px solid rgba(255,250,240,.9);box-shadow:0 2px 6px rgba(0,0,0,.25);z-index:2}
+  .wt .wkarte.gross{left:8px;width:calc(100% - 16px);height:auto;aspect-ratio:1/1;z-index:4}
+  .wgs{position:absolute;left:8px;top:58px;display:flex;flex-direction:column;gap:6px;z-index:1}
+  .wg{width:44px;height:44px;border-radius:50%;background:#f3d79a;border:2.5px solid rgba(255,250,240,.95);overflow:hidden;opacity:.8;transition:transform .2s,opacity .2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .wg.spricht{transform:scale(1.2);opacity:1;border-color:#f0b53e}.wg svg{width:100%;height:100%;display:block}
+  .wtq{position:absolute;left:8px;right:8px;bottom:8px;max-height:64%;overflow:auto;background:rgba(255,250,240,.97);border-radius:14px;padding:10px;z-index:3;color:#2b2118;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .wtq .wqf{margin:0 0 8px}.wqimg img{max-width:100%;max-height:130px;display:block;margin:0 auto 8px}
+  .wtq .ans{display:block;width:100%;text-align:left;margin:0 0 6px}.wtq .ans.emp{border-color:#f0b53e;border-width:2px}.wemp{font-size:11px;color:#b5563a;font-weight:800}
+  .wap{position:absolute;left:10px;bottom:72px;background:rgba(20,30,40,.6);color:#fffaf0;border-radius:10px;padding:4px 9px;font:700 12px sans-serif;z-index:1}
+  .wpad.aus{opacity:.35;pointer-events:none}
+  .wtbar{display:flex;gap:6px}.wtbar .btn{flex:1;min-width:0;font-size:12px;padding-left:3px;padding-right:3px}`;
   document.head.appendChild(s);
 }
 })();
