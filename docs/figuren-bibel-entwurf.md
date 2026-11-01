@@ -1,7 +1,7 @@
 # Figurenbibel: Entwurf in der Tiefe (01.11.2026)
 
 > **Status: Vorschlag. Nichts davon gilt, bis du es bestätigst** (R15). Bestätigt und gültig bleibt `podcast/figuren.md`. Gewähltes wandert nach deiner Antwort dorthin und in die Bibel.
-> **Grundlage:** `podcast/figuren.md` (vom Nutzer bestätigt), `docs/figuren-entwurf.md` (Varianten), Variante A „Der Antrag“ aus `docs/story-konzept-2.md` (bei einer anderen Variante passe ich die Bögen an), `podcast/wortschatz.md` (Platt, Kölsch, Bairisch mit Quellen).
+> **Grundlage:** `podcast/figuren.md` (vom Nutzer bestätigt), `docs/figuren-entwurf.md` (Varianten), **seit 01.11.2026 abends der Vorschlag „Friedas Auftragsbuch“ aus `docs/story-konzept-3.md`** (Antrag, Ring und Hochzeit aus Entwurf 2 sind gestrichen, Nutzer: „übertrieben“), `podcast/wortschatz.md` (Platt, Kölsch, Bairisch mit Quellen).
 > **Neu gegenüber `figuren.md`:** Wunsch, Bedürfnis, Angst und Geheimnis je Figur; Entwicklung je Akt; Frieda als neue Figur; Klassiker (bekannte Erzählmuster); viele Sprüche mit ElevenLabs-Markern.
 
 ## 0. So sind die Sprüche geschrieben
@@ -32,16 +32,16 @@
 **Steckbrief** (bestätigt, wo nicht anders vermerkt)
 - 63 Jahre, aus Cuxhaven, Sohn eines Krabbenfischers.
 - Achtunddreißig Jahre Kapitän der Helgoland-Fähre, nie eine Fahrt verpasst.
-- Seit dreißig Jahren mit Frieda zusammen, nie verheiratet („Ich musste ja fahren.“) [neu].
-- Hat im Winter ein altes Kajütboot gekauft und es „Frieda“ getauft [neu].
+- War Ole Brodersens bester Freund und im Sturm von 87 mit ihm an Bord [neu].
+- Fährt seit Oles Tod dessen Kajütboot „Frieda“ (Ole hat es nach seiner Tochter getauft) für Friedas Restaurant [neu]. Mit Frieda zankt er wie ein alter Onkel, keine Romanze.
 - Stimme: Bill. Sprache: Hochdeutsch mit viel Platt, beim Garn ganze Platt-Sätze.
 
 **Innen** [neu, Vorschlag]
-- **Wunsch:** Frieda auf Helgoland einen Antrag machen. Und noch eine Saison fahren, bevor ihn jemand an Land setzt.
+- **Wunsch:** Oles Boot und Friedas Laden gut durch die Saison bringen. Und noch eine Saison fahren, bevor ihn jemand an Land setzt.
 - **Bedürfnis:** zugeben, dass er Hilfe braucht, und der Crew und den Regeln vertrauen.
 - **Angst:** an Land überflüssig zu sein. „Ein Kapitän ohne Schiff ist nur 'n alter Mann mit Mütze.“
 - **Geheimnis:** Nachts sieht er nicht mehr gut. Lichter verschwimmen.
-- **Wunde:** Der Sturm von 87. Er erzählt ihn jedes Mal größer, weil die Wahrheit „langweilig“ ist: Sie haben überlebt, weil er früh Mayday gefunkt und alle in die Westen gesteckt hat. Dass Disziplin ihn gerettet hat und nicht Heldenmut, passt nicht in sein Bild von sich.
+- **Wunde:** Der Sturm von 87. Er erzählt ihn jedes Mal größer, weil die Wahrheit „langweilig“ ist: Sie haben überlebt, weil Ole früh Mayday gefunkt und alle in die Westen gesteckt hat. Dass Disziplin sie gerettet hat und nicht Heldenmut, passt nicht in sein Bild von sich. Die Wahrheit steht in Oles Logbuch (Hinweis 6).
 - **Werte:** Verlässlichkeit, Sicherheit vor Stolz, keine Angeberei.
 - **Stärken:** Hände, Gefühl für Wetter und Boot, Ruhe im Notfall, hört im Nebel besser als alle.
 - **Schwächen:** stur, lügt schlecht (wird rot, redet schneller Platt), hält gefühlte Regeln für Gesetz.
@@ -57,16 +57,16 @@
   - die richtige Regel in der falschen Lage
 - Die bewusste Ausnahme (O114): Nachts verwechselt er Lichter, weil er sie nicht sieht, nicht weil er die Regel nicht kennt.
 
-**Klassiker:** der grummelige Mentor mit weichem Kern; der alte Held mit verborgener Schwäche; „der große Tag mit Hindernissen“ (sein Antrag).
+**Klassiker:** der grummelige Mentor mit weichem Kern; der alte Held mit verborgener Schwäche; das Vermächtnis des alten Freundes (Oles Logbuch).
 
 **Entwicklung**
 | Akt | Zustand | hörbares Zeichen |
 |---|---|---|
-| 1 | Profi und Chef; Antrag ist sein Geheimprojekt | „Sag ich doch.“ |
+| 1 | Profi und Chef; Oles Logbuch ist ihm unheimlich | „Sag ich doch.“ |
 | 2 | verliert gegen die Karte, ärgert sich | brummt, bleibt aber am Kartentisch sitzen |
 | 3 | drückt sich um Nachtwachen, wird ertappt (Tag 26), gibt es zu | zum ersten Mal: „Hast recht.“ |
 | 4 | will trotz Sturm los, lässt sich bremsen | „Wat mutt, dat mutt. Morgen.“ |
-| 5 | lässt dich in Helgoland einlaufen; der Antrag | stockt, sucht Worte, wird still |
+| 5 | lässt dich in Helgoland einlaufen; steht vor Oles Hinweis | stockt, sucht Worte, wird still |
 | 6 | erzählt den Sturm von 87 ehrlich | Hochdeutsch, ruhig, ohne Garn |
 | 7 | Passagier in Bayern, fragt nach | „Quirin … wie war dat noch?“ |
 | 8 | stolz, gibt Smilla das Ruder | „Sag ich doch.“ (nur noch ironisch) |
@@ -111,13 +111,14 @@
 *Garn*
 - Siebenundachtzig. Da waren die Wellen so hoch wie … [short pause] na, höher als letztes Mal.
 - [playfully] Meerjungfrauen gibt's. Ich hab eine geheiratet. Fast.
-- [mischievously] Achtunddreißig Jahre Helgoland. Und nie 'ne Fahrt verpasst. Einmal fast. Wegen Frieda.
+- [mischievously] Achtunddreißig Jahre Helgoland. Und nie 'ne Fahrt verpasst. Einmal fast. Wegen Ole und 'nem Eimer Krabben.
 
-*Das Geheimnis und Frieda*
-- [whispers] Der Ring. Kein Wort. Auch nicht zur Katze.
-- (am Telefon, zu schnell) Ja, Frieda. Nein, Frieda. Werft. Ölwechsel. Auf Helgoland, ja. Die haben da … gutes Öl.
-- [thoughtful] Dreißig Jahre hat sie gewartet. Da kann ich wohl sechs Wochen fahren.
-- [exhales] Wenn sie nein sagt, fahr ich einfach weiter. Bis Skagen.
+*Ole, Frieda und das Logbuch*
+- [whispers] Dat Logbuch? Lass liegen. Ole hat nie wat umsonst aufgeschrieben.
+- (am Telefon) Ja, Frieda. Die Krabben sind an Bord. [short pause] Fast alle. Der Papagei.
+- [thoughtful] Ole hätte gewusst, wo's langgeht. Ich weiß nur, wo's flach ist.
+- [exhales] Wenn Frieda zumacht, fahr ich einfach weiter. Bis Skagen.
+- [deadpan] Aushilfe? Hm. [short pause] Behalten.
 
 *Abschied*
 - Hol di fuchtig.
@@ -161,7 +162,7 @@
 | 2 | fährt an der echten Tonne 10 vorbei, erzählt die Geschichte | lacht zum ersten Mal über sich |
 | 3 | merkt, was mit Hinnerks Augen ist, schützt ihn | wird leise, sagt nichts vor dir |
 | 4 | trifft mit dir die Sturmentscheidung gegen Hinnerk | „Nee, Käpt'n. Heute nicht.“ |
-| 5 | lässt dich einlaufen; hält beim Antrag den Atem an | sie lässt die Denkpause stehen |
+| 5 | lässt dich einlaufen; liest Oles Hinweis laut vor, weil Hinnerk es nicht kann | sie lässt die Denkpause stehen |
 | 6 | erzählt dir von ihrem Angebot | ernst, ehrlich |
 | 7 | am Fluss zu Hause, gelöst | „Auf dem Rhein hab ich das jeden Tag gesehen, ne?“ |
 | 8 | vor deiner Generalprobe nervöser als du; bekommt das Ruder | „Ich sag nix. Du schaffst das.“ |
@@ -221,7 +222,7 @@
 
 **Steckbrief** (bestätigt, wo nicht anders vermerkt)
 - Kam vor vierzig Jahren in einer Bananenkiste nach Hamburg, Hinnerk holte ihn heraus.
-- Liebt Zwieback (den gab ihm Frieda zuerst [neu]), macht das Schiffshorn und den Seewetterbericht nach.
+- Liebt Zwieback (heute von Frieda [neu]), kennt Oles alte Sprüche, ohne sie zu verstehen [neu], macht das Schiffshorn und den Seewetterbericht nach.
 - Stimme: Wally. Höchstens acht Wörter im Modus „Wichtig“.
 
 **Innen** [neu, Vorschlag]
@@ -230,7 +231,7 @@
 - **Angst:** Bananen (aus Prinzip) und dass ihn keiner mehr mitnimmt.
 - **Geheimnis:** Er ist die Petze. Harms füttert ihn mit Zwieback und erfährt dafür alles.
 - **Stärken:** Gedächtnis, Warnruf, zählt Kennungen schneller als alle.
-- **Schwächen:** plappert, klaut Glänzendes (den Ring!), streitet mit der Katze.
+- **Schwächen:** plappert, klaut alles, was glänzt oder raschelt (eine Seite aus Oles Logbuch!), streitet mit der Katze.
 
 **Lehrrolle:**
 - **Modus „Wichtig“:** Schiffsglocke, „Krrah! Merken!“ und ein Kernsatz, immer richtig, ohne Tag.
@@ -238,19 +239,19 @@
 - **Sonst Quatsch,** deutlich als Witz.
 - **Nie:** ein falsches Schallsignal nachmachen oder sich bei einem Lernbegriff verhören.
 
-**Klassiker:** der tierische Sidekick mit großer Klappe; die Petze; der verliebte Narr.
+**Klassiker:** der tierische Sidekick mit großer Klappe; die Petze; der verliebte Narr; das Tier, das das Geheimnis kennt.
 
 **Entwicklung**
 | Akt | Zustand |
 |---|---|
-| 1 | plappert „Antrag! Antrag!“, alle zischen „Psst!“ |
+| 1 | plappert Oles Sprüche („Rot über Weiß!“), keiner versteht's |
 | 2 | erfindet „Psst! Psst!“ als neues Wort, sagt es aber im falschen Moment |
 | 3 | als Petze entlarvt (Zwieback von Harms), schämt sich |
-| 4 | klaut den Ring (Tag 37); die Katze findet ihn in der Bilge |
-| 5 | verliebt auf Helgoland; beim Antrag ruft er als Erster „Ja! Ja!“ |
+| 4 | klaut eine Logbuchseite (Tag 37); die Katze findet sie in der Bilge |
+| 5 | verliebt auf Helgoland; ruft den Satz, der Hinweis 5 löst |
 | 6 | bleibt bei der Crew, die Möwe fliegt hinterher |
 | 7 | lernt Bairisch („Obacht! Obacht!“) |
-| 8 | hält dicht bis zur Hochzeit; letzter Kernsatz vor der Generalprobe |
+| 8 | kennt den letzten Satz des Rätsels; letzter Kernsatz vor der Generalprobe |
 
 **Sprüche** (Quatsch mit Tags, Wichtig ohne)
 
@@ -273,9 +274,9 @@
 - [excited] Banane! Unglück! Unglück!
 
 *Das Geheimnis*
-- [excited] Antrag! Antr… — (Schnabel zu)
+- [excited] Rot über Weiß! Rot über … — (Hinnerk: „Wat hast du da gesagt?“)
 - [whispers] Psst! Psst!
-- [mischievously] Ring? Welcher Ring? Krrah.
+- [mischievously] Seite? Welche Seite? Krrah.
 - [whispers] Ich sag nix. Nix. Zwieback?
 
 *Necken (Anreden)*
@@ -283,7 +284,7 @@
 - [mischievously] Nesthocker! Nesthocker!
 
 *Gefühl*
-- [excited] Ja! Ja! Ja! — (beim Antrag, als Erster)
+- [excited] Ole! Ole! Gute Hoffnung! — (auf Helgoland, als Erster)
 - [sighs] Möwe. Möwe. Schön.
 
 ---
@@ -300,7 +301,7 @@
 **Innen** [neu, Vorschlag]
 - **Wunsch:** dass niemand mit Halbwissen rausfährt.
 - **Bedürfnis:** Freundschaft zugeben.
-- **Geheimnis 1:** Er war damals auch in Frieda verliebt. Die Begegnung auf der Elbe war in der Woche, in der sie sich für Hinnerk entschied. Darum der ewige Streit.
+- **Geheimnis 1:** Er war Oles Freund und Rivale und weiß, wie der Sturm von 87 wirklich war. Ole hat ihm das Versprechen abgenommen zu schweigen, bis das Logbuch gefunden ist.
 - **Geheimnis 2:** Er weiß von Hinnerks Augen (er hat es nachts auf der Elbe gemerkt) und macht sich Sorgen.
 - **Werte:** Regeln, Fairness, Verantwortung.
 - **Schwächen:** kann kein Lob, keine Gefühle, keinen Small Talk.
@@ -310,7 +311,7 @@
 
 **Klassiker:** der strenge Prüfer mit weichem Kern; alte Rivalen, die eigentlich Freunde sind; „er sagt es nur einmal“ (sein einziges „Gut.“).
 
-**Entwicklung:** nur Stimme am Telefon (Akt 1–4) → hört beim Mayday am Funk mit, ruhig und genau (Akt 6) → wird Trauzeuge (Friedas Bedingung, Akt 5) → an Bord zur Generalprobe, sagt „Gut.“ und erzählt die Elbe-Geschichte zum ersten Mal so wie Hinnerk (Akt 8).
+**Entwicklung:** nur Stimme am Telefon (Akt 1–4) → hört beim Mayday am Funk mit, ruhig und genau (Akt 6) → steht auf Helgoland am Kai, als ihr Oles Hinweis findet (Akt 5) → Schiedsrichter der Rallye (Akt 8) → an Bord zur Generalprobe, sagt „Gut.“ und erzählt die Elbe-Geschichte zum ersten Mal so wie Hinnerk (Akt 8).
 
 **Sprüche**
 - [deadpan] Moin. Setz dich.
@@ -322,10 +323,10 @@
 - [deadpan] Hm. Geht.
 - Wer rät, sitzt auf Grund.
 - [thoughtful] Ich frag nicht, was du meinst. Ich frag, was gilt.
-- [sarcastic] Werft auf Helgoland. Soso. Ölwechsel. Grüß die Möwen.
+- [sarcastic] Catering auf Helgoland. Soso. Mit Hinnerk am Herd. Grüß die Möwen.
 - [annoyed] Hinnerk war damals zu schnell. Das sag ich seit dreißig Jahren.
 - (am Funk, ruhig) Hier spricht Harms. Ich höre mit. Meldet ruhig und der Reihe nach.
-- [sighs] Sie hat dich genommen. [short pause] Hat dir gutgetan. Ihr auch.
+- [sighs] Ole hätte dich gemocht. [short pause] Sag's keinem.
 - [thoughtful] Hat dir damals gutgetan, Smilla. Tonne zehn.
 - Gut. — (einmal im ganzen Kurs, danach Stille)
 
@@ -341,10 +342,10 @@
 - **Wunsch:** dass die Nordlichter seinen Fluss lieben lernen.
 - **Bedürfnis:** auch auf See nicht immer der Musterknabe aus dem Lehrbuch sein müssen.
 - **Schwäche:** Perfektionist bei Papier und Regeln, wird bei Praxis manchmal steif; Smilla lockert ihn.
-- **Besonderheit:** In Bayern führt bei Hochzeiten traditionell ein Hochzeitslader durch das Fest. Quirin bietet sich sofort an. Den Brauch gibt es (geprüft am 01.11.2026): Er führt in Tracht durch das Fest, trägt den Hochzeitslader-Stecken mit bunten Bändern und spricht gereimte Verse, die „Gstanzl“ ([Hochzeitsladerin aus der Oberpfalz](https://www.samerbergernachrichten.de/wp-content/uploads/2018/11/Hochzeitsladerin-schriftliches-Interview-converted.pdf), [Salzburg24](https://www.salzburg24.at/news/salzburg/pongau/was-ein-bischofshofener-hochzeitslader-tut-wenn-am-schoensten-tag-im-leben-etwas-schiefgeht-art-329830)). Die Belege kommen aus der Oberpfalz und aus Salzburg, für Kelheim selbst habe ich keinen.
+- **Besonderheit:** kennt jeden kleinen Brauer an der Altmühl und liefert Friedas Restaurant das erfundene „Treidlerbräu“. (Aus Entwurf 2, gestrichen: Quirin als Hochzeitslader.) Den Brauch gibt es (geprüft am 01.11.2026): Er führt in Tracht durch das Fest, trägt den Hochzeitslader-Stecken mit bunten Bändern und spricht gereimte Verse, die „Gstanzl“ ([Hochzeitsladerin aus der Oberpfalz](https://www.samerbergernachrichten.de/wp-content/uploads/2018/11/Hochzeitsladerin-schriftliches-Interview-converted.pdf), [Salzburg24](https://www.salzburg24.at/news/salzburg/pongau/was-ein-bischofshofener-hochzeitslader-tut-wenn-am-schoensten-tag-im-leben-etwas-schiefgeht-art-329830)). Die Belege kommen aus der Oberpfalz und aus Salzburg, für Kelheim selbst habe ich keinen.
 - **Klassiker:** der Fisch auf dem Trockenen (auf See), der Rollentausch (am Fluss führt er, Hinnerk fragt).
 
-**Auftritte:** Besuch an der Schleuse (Tag 9), Kanalplanung (Tag 41), Gastgeber der „Hochzeitsreise“ (Akt 7), Hochzeitslader (Tag 63).
+**Auftritte:** Besuch an der Schleuse (Tag 9), Kanalplanung (Tag 41), Gastgeber in Akt 7 (Überführung auf der Donau, Hinweis 7 bei seinem Vater), Gast beim Saisonabschluss (Tag 63).
 
 **Sprüche**
 - [excited] Servus mitanand!
@@ -360,36 +361,37 @@
 - Vor da Schleusn wartst, Hinni. Und mir Kloane fahrn als Letzte nei.
 - [playfully] Am Berg hoaßt des Seilschaft. Da passt oaner auf den andern auf.
 - Den Knoten kenn i! Beim Klettern hoaßt der Mastwurf.
-- [mischievously] A Hochzeit? Dann bin i da Hochzeitslader, des is beschlossen!
+- [mischievously] A Fest? Dann bring i as Bier mit, des is beschlossen!
 - [excited] Treidlerbräu, Hinni! Aber erst, wenn's Boot fest is.
 - Pfiat eich, und kimmt's amoi zu mir nach Bayern!
 
 ---
 
-## 6. Frieda: die Einzige, vor der Hinnerk Angst hat [neu]
+## 6. Frieda: die Chefin, vor der alle Respekt haben [neu]
 
-**Kurzbild:** Wirtin in Kuttershaven, warm, schlagfertig, sieht durch jeden durch. Hat auf der Fähre drei Sommer lang am Kiosk gearbeitet und war jeden Tag seekrank. Dort hat sie Hinnerk kennengelernt: Sie gab ihm Zwieback, als er grün im Gesicht war. Er behauptet bis heute, er war nur müde.
+**Kurzbild:** Wirtin des Hafen-Restaurants in Kuttershaven, warm, schlagfertig, sieht durch jeden durch. Tochter von Ole Brodersen. Als Kind war sie mit ihrem Vater und Hinnerk auf See und jedes Mal seekrank; Hinnerk gab ihr Zwieback. Seitdem gibt sie ihm Zwieback, wenn er grün im Gesicht ist. Er behauptet bis heute, er war nur müde.
 
-**Steckbrief** (Vorschlag): um die sechzig, aus Cuxhaven, seit dreißig Jahren mit Hinnerk zusammen, Kneipe am Hafen (Name offen, O124), mag keine Boote („Ich mag Menschen, die von Booten kommen“). Braucht eine eigene Stimme (Casting).
+**Steckbrief** (Vorschlag): um die fünfzig, aus Kuttershaven, Restaurant am Hafen (Name offen, O124), Chefin und Auftraggeberin der Crew, stellt dich ein, mag keine Boote („Ich mag Menschen, die von Booten kommen“). Braucht eine eigene Stimme (Casting).
 
 **Innen**
-- **Wunsch:** Hinnerk heil zurück.
-- **Bedürfnis:** ihn noch einmal fahren lassen.
-- **Geheimnis:** Sie weiß von dem Antrag seit Tag 27. Klabauter hat nachts geplappert. Sie spielt mit, weil sie Hinnerk den großen Moment gönnt. Und sie hat Harms als Trauzeugen eingeplant, damit die beiden endlich Frieden schließen.
-- **Klassiker:** die weise Wirtin; „sie wusste es die ganze Zeit“.
+- **Wunsch:** dass der Laden noch eine Saison schafft und alle heil zurückkommen.
+- **Bedürfnis:** loslassen; Oles Boot fahren lassen, auch ohne Ole.
+- **Geheimnis:** Sie hat Oles Logbuch nie zu Ende gelesen, weil sie Angst vor der letzten Seite hatte.
+- **Klassiker:** die weise Wirtin; die Chefin mit großem Herz.
 
-**Auftritte:** am Telefon (Tage 1, 8, 15, 27), in Person in Kuttershaven (Tag 27), auf der Fähre nach Helgoland (Tag 43), seekrank an Bord (Akt 6), auf der Donau glücklich (Akt 7), Quizmasterin in Akt 8, Hochzeit (Tag 63).
+**Auftritte:** Vorstellungsgespräch (Kennenlernen), jeden Morgen beim Auftrag (kurz), am Telefon unterwegs, auf Helgoland beim Fest (Tag 43), seekrank an Bord (Akt 6), Quizmasterin in Akt 8, Saisonabschluss (Tag 63).
 
 **Sprüche**
-- [playfully] Na, Hinnerk? Ölwechsel auf Helgoland? Du lügst schlechter als dein Papagei.
+- [playfully] Aushilfe gesucht. Kannst du Knoten? [short pause] Egal. Kannst du lernen?
 - [laughs] Grüß die Crew. Und sag Klabauter, er kriegt Zwieback, wenn er brav ist.
-- [sarcastic] Werft. Soso.
-- [reassuring] Pass auf dich auf, du alter Seebär. Und lass das Kind ans Ruder.
+- [sarcastic] Krabben bis elf. Nicht bis elf Uhr dreißig. Bis elf.
+- [reassuring] Pass auf dich auf, du alter Seebär. Und lass die Neue oder den Neuen ans Ruder.
 - [sighs] Boote. Wackeln immer.
 - [excited] Kneipenquiz! Erste Frage, und wer rät, zahlt die Runde Kakao.
 - [thoughtful] Er sieht nachts nicht mehr gut. Ich weiß. Ich hab ihn zum Arzt geschickt.
-- [playfully] Ja, du Dösbaddel. [short pause] Aber nur, wenn Harms Trauzeuge wird.
-- [whispers] Ich weiß es seit Wochen. Klabauter singt nachts.
+- [thoughtful] Papa hat immer gesagt: Wer die Tonnen lesen kann, liest auch Menschen.
+- [whispers] Die letzte Seite? Lies du sie. Ich kann das nicht.
+- [playfully] Angeheuert. Lohn gibt's in Krabbensuppe.
 
 ---
 
@@ -403,7 +405,7 @@
   - schläft auf der Seekarte genau auf dem Ziel
   - klaut Klabauters Zwieback (Krieg)
   - springt beim Motorstart erschrocken auf das Kajütdach
-  - **findet den Ring in der Bilge** (Tag 38)
+  - **schläft auf Oles Logbuch** (Tag 1) und **findet die geklaute Seite in der Bilge** (Tag 38)
   - legt am Ende Klabauter einen Zwieback hin (Frieden)
 - **Geräusche:** Miauen (fragend, empört), Schnurren, Fauchen, Poltern, Pfoten auf Holz.
 
@@ -413,12 +415,12 @@
 
 | | Hinnerk | Smilla | Klabauter | Harms | Quirin | Frieda |
 |---|---|---|---|---|---|---|
-| **Hinnerk** | – | liebt sie wie eine Tochter, sagt es nie; nervt ihn mit der Stoppuhr | vierzig Jahre Freund; nervt mit „Hinni“ | Rivale seit der Elbe; heimlich Respekt | „Grummel trifft Sonnenschein“; mag ihn, gibt's nicht zu | liebt sie, hat Angst vor ihr |
+| **Hinnerk** | – | liebt sie wie eine Tochter, sagt es nie; nervt ihn mit der Stoppuhr | vierzig Jahre Freund; nervt mit „Hinni“ | Rivale seit der Elbe; heimlich Respekt | „Grummel trifft Sonnenschein“; mag ihn, gibt's nicht zu | wie ein alter Onkel; hat Respekt vor ihr |
 | **Smilla** | vertraut seinen Händen, nicht seinen Regeln | – | Verbündeter beim Merken | Respekt und ein bisschen Angst (Tonne 10) | Freund auf Augenhöhe, beide vom Süßwasser | große Schwester, Komplizin |
 | **Klabauter** | sein Mensch | Partnerin beim Merken | – | Zwiebackquelle (Petze) | „Schlawiner“, liebt ihn | Zwiebackquelle Nummer eins |
-| **Harms** | misstraut ihm freundlich; sorgt sich | prüfte sie, ist heimlich stolz | „Federvieh“ | – | professionell | war in sie verliebt |
-| **Quirin** | „Hinni, mei Spezl“ | Kollegin | liebt ihn | Respekt | – | findet sie „a Wucht“ |
-| **Frieda** | durchschaut ihn | mag sie sehr | füttert ihn | will Frieden zwischen den beiden | lädt ihn zur Hochzeit | – |
+| **Harms** | misstraut ihm freundlich; sorgt sich | prüfte sie, ist heimlich stolz | „Federvieh“ | – | professionell | Oles Tochter; passt auf sie auf |
+| **Quirin** | „Hinni, mei Spezl“ | Kollegin | liebt ihn | Respekt | – | liefert ihr Bier, findet sie „a Wucht“ |
+| **Frieda** | durchschaut ihn | mag sie sehr | füttert ihn | will Frieden zwischen den beiden | Lieferant und Freund | – |
 
 **Klassische Wortwechsel** (Vorschläge)
 - **Hinnerk und Smilla**
@@ -432,7 +434,7 @@
 - **Smilla und Quirin**
   - QUIRIN: [curious] Warum eigentlich? — SMILLA: Gut, dass du fragst. Du bist der Einzige hier, der fragt.
 - **Frieda und Hinnerk**
-  - FRIEDA: [playfully] Ölwechsel? — HINNERK: Ölwechsel. — FRIEDA: [laughs] Du wirst ja rot am Telefon.
+  - FRIEDA: [playfully] Alle Krabben da? — HINNERK: Fast. — KLABAUTER: [mischievously] Krrah. Lecker.
 - **Klabauter und Backbord**
   - KLABAUTER: [shouts] Zwieback! Dieb! Dieb! — Backbord: (zufriedenes Schnurren).
 
@@ -442,7 +444,7 @@
 | „Sag ich doch“ | einmal je drei Tage, ab Akt 5 nur ironisch | siehe Entwicklung |
 | „Hinni!“ | einmal je Akt | Hinnerks Antwort wird kürzer, am Ende sagt er selbst „Hinni“ |
 | Tonne 10 | einmal je Akt | aufgelöst an Tag 16 |
-| Ölwechsel-Lüge | Akt 1–4 je einmal | aufgelöst an Tag 43 |
+| Fehlende Krabben (Klabauter nascht) | einmal je Akt | Tag 62 gesteht er |
 | Zwieback-Krieg | einmal je zwei Tage | Frieden an Tag 62 |
 | Sturm von 87 | wächst nur bis Akt 5 | ehrlich an Tag 44 |
 | Seekranker Quirin | nur auf See | am Fluss nie |

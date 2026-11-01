@@ -1,5 +1,7 @@
 # Die Geschichte, neu gedacht: drei Vorschläge (01.11.2026)
 
+> **Abgelehnt am 01.11.2026** (Nutzer: „Hochzeit etc. finde ich übertrieben“). Nachfolger: `docs/story-konzept-3.md` „Friedas Auftragsbuch“. Diese Datei bleibt nur zum Vergleich.
+
 > **Status: Vorschlag zur Wahl. Nichts davon gilt, bis du dich entschieden hast** (R15, R16). Deine Antworten: `docs/entscheidungen.md` (O131 ff.).
 > **Auftrag** (Nutzer, 01.11.2026): „O111 ja, aber grundauf neu überlegen … wirklich eingängig … passt zum Lernstoff und zur Reihenfolge … am Anfang richtig spannend und interaktiv, nach einem Kennenlernen, dann etwas trockener … nicht overengineert, aber die Möglichkeiten genutzt … mehrere Vorschläge … Kernforschung noch besser beachten.“
 > **Neue Möglichkeiten seit dem alten Entwurf:** 3D-Welt mit echtem Steuern (Pinne oder Rad), Motorstart wie in echt, Gleitfahrt, Anlegen, Wetter und Wellen, Nebel und Horn, Autopilot, 2D-Szene Kajüte, Crew-Gesichter am Bildschirmrand, Seekarte 7 mit Werkzeugen, Knoten mit echtem Tau und Modellboot, Vorlesen und Zuruf, Vertonung mit Eleven v4 und Audio-Tags.

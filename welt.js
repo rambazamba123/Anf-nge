@@ -749,7 +749,9 @@ W.seite = async function (opt = {}) {
   }
   /* Steuerfeld wie im Manöverspiel: ein Finger, hoch/runter stufenlos Gas mit Raste in der Mitte, seitlich das Ruder; Doppeltipp = Ruder mittschiffs */
   /* Steuerart wie im Manöverspiel (gemeinsame Einstellung): Pinne am Außenborder (Pinne nach rechts, Bug nach links) oder Steuerrad */
-  const steuerArt = () => (window.S && S.cfg && S.cfg.steuer) || 'pinne';
+  /* Pinne zuerst (Nutzer, 01.11.2026, O140); das Steuerrad ist ein späteres Upgrade (S.cfg.weltRad, Standard aus) */
+  const radFrei = () => !!(window.S && S.cfg && S.cfg.weltRad);
+  const steuerArt = () => radFrei() && S.cfg.steuer === 'rad' ? 'rad' : 'pinne';
   const SVG_RAD = `<g id="wtdreh"><circle r="44" fill="none" stroke="#6e4120" stroke-width="9"/><circle r="44" fill="none" stroke="#c9935e" stroke-width="3"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => `<g transform="rotate(${i * 45})"><line y1="-9" y2="-51" stroke="#9c6236" stroke-width="5" stroke-linecap="round"/><circle cy="-54" r="6" fill="${i ? '#9c6236' : '#e0b04a'}" stroke="#6e4120" stroke-width="1.5"/></g>`).join('')}<circle r="11" fill="#c8962e" stroke="#7a5a1e" stroke-width="2"/></g>`;
   const SVG_PINNE = `<line x1="-46" y1="36" x2="46" y2="36" stroke="#fffaf0" stroke-opacity=".45" stroke-width="3"/><text x="-48" y="52" font-size="9" fill="#ff8a7a" font-weight="700">Bb</text><text x="34" y="52" font-size="9" fill="#7dff9a" font-weight="700">Stb</text>
     <g id="wtdreh"><rect x="-5" y="-42" width="10" height="80" rx="5" fill="#3a4046"/><rect x="-8" y="-50" width="16" height="24" rx="7" fill="#15181b"/><ellipse cx="0" cy="44" rx="17" ry="12" fill="#33383d" stroke="#c0392b" stroke-width="3"/></g>`;
@@ -762,6 +764,7 @@ W.seite = async function (opt = {}) {
     el.addEventListener('pointerdown', e => { if (FAHRT && !FAHRT.o.fest) { uebernehmen(); ky = P.g; kx = 0; } el.setPointerCapture(e.pointerId); start = {x: e.clientX, y: e.clientY, kx, ky}; const now = performance.now(); if (now - lastTap < 320) { kx = 0; setze(); start.kx = 0; } lastTap = now; });
     el.addEventListener('pointermove', e => { if (!start) return; const w = el.clientWidth, h = el.clientHeight; kx = cl(start.kx + (e.clientX - start.x) / (w / 2 - 24), -1, 1); ky = cl(start.ky - (e.clientY - start.y) / (h / 2 - 26), -1, 1); setze(); });
     const los = () => { start = null; }; el.addEventListener('pointerup', los); el.addEventListener('pointercancel', los); zeig();
+    $('#wtsart').style.display = radFrei() ? '' : 'none';
     $('#wtsart').addEventListener('pointerdown', e => e.stopPropagation());
     $('#wtsart').onclick = e => { e.stopPropagation(); S.cfg.steuer = steuerArt() === 'pinne' ? 'rad' : 'pinne'; try { save(); AUD.click(); } catch (x) {} setze(); steuerTeile();
       sag('hinnerk', steuerArt() === 'pinne' ? 'Pinne am Außenborder: Pinne nach rechts, und der Bug geht nach links. Rückwärts andersrum.' : 'Steuerrad: Rad nach rechts, Bug nach rechts. Der Außenborder dreht mit.', 5000); };
@@ -864,12 +867,13 @@ W.seite = async function (opt = {}) {
     if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > 3.2 && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
     if (P.gleit > .8 && !sagte.gleit) { sagte.gleit = 1; sag('smilla', 'Jetzt gleitet sie! Der Bug kommt runter, das Boot hebt sich aus dem Wasser und wird schneller.', 5000); }
     if (P.buckel > .8 && (P.u || 0) < 5.2 && !sagte.buckel && t > 20) { sagte.buckel = 1; sag('hinnerk', 'Bug hoch, viel Welle, wenig Fahrt: Das ist der Buckel. Mehr Gas, dann kommt sie ins Gleiten.', 5500); }
-    for (const z of [40, -15, -70]) { const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
+    for (const z of [40, -15, -70]) { if (FAHRT) { tor['t' + z] = 0; continue; } const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
       if (!nah) { tor[k] = 0; continue; } if (!tor[k]) tor[k] = {seite: Math.sign(d), drin: innen};
       else if (Math.sign(d) !== tor[k].seite && !tor[k].fertig) { tor[k].fertig = 1; const ein = Math.cos(P.h) < 0, mitte = Math.abs(P.x) < 15;
-        if (!mitte) sag('smilla', 'Daneben! Bleib zwischen den Tonnen. Daneben kann es flach sein.');
-        else if (ein) sag('hinnerk', 'Sauber. Von See kommend: Rot an Backbord, Grün an Steuerbord.');
-        else sag('smilla', 'Gut so. Beim Auslaufen ist es andersherum: Rot liegt jetzt an Steuerbord.'); } }
+        /* Jeder Hinweis nur einmal je Richtung; „Daneben“ höchstens alle 40 s */
+        if (!mitte) { if (t - (sagte.danebenT || -99) > 40) { sagte.danebenT = t; sag('smilla', 'Daneben! Bleib zwischen den Tonnen. Daneben kann es flach sein.'); } }
+        else if (ein && !sagte.torEin) { sagte.torEin = 1; sag('hinnerk', 'Sauber. Von See kommend: Rot an Backbord, Grün an Steuerbord.'); }
+        else if (!ein && !sagte.torAus) { sagte.torAus = 1; sag('smilla', 'Gut so. Beim Auslaufen ist es andersherum: Rot liegt jetzt an Steuerbord.'); } } }
     const dh = Math.hypot(P.x - 62, P.z + 200); if (dh < 40 && !SH.weg && !sagte.seehund) { sagte.seehund = 1; sag('klabauter', 'Seehund! Seehund! Abstand halten! Krrah!'); }
     const de = Math.hypot(P.x - enten[0].x, P.z - enten[0].z); if (de < 14 && !sagte.enten) { sagte.enten = 1; sag('klabauter', 'Entchen! Entchen! Langsam, sonst schaukeln die!'); }
     if (P.z < 60 && P.z > 50 && Math.abs(P.x) < 30 && !sagte.einfahrt && Math.cos(P.h) < 0) { sagte.einfahrt = 1; sag('smilla', 'Hafeneinfahrt: Langsam fahren und auf auslaufende Schiffe achten.'); }
@@ -882,8 +886,10 @@ W.seite = async function (opt = {}) {
   const warteMs = ms => new Promise(r => setTimeout(r, ms / (W.tempo || 1)));
   const frageVon = n => (typeof QN !== 'undefined' && QN[n] && QN[n].a && QN[n].a.length === 4) ? QN[n] : (typeof DATA !== 'undefined' ? DATA.find(x => x.n === n) : null);
   const qEl = $('#wtq'), apEl = $('#wtap'), padEl = $('#wtpad');
-  const tafelZeigen = html => { qEl.innerHTML = html; qEl.style.display = ''; padEl.style.visibility = 'hidden'; return qEl; };
-  const tafelZu = () => { qEl.style.display = 'none'; qEl.innerHTML = ''; padEl.style.visibility = ''; };
+  /* Tafel (Frage, Wahl, Modell): alles andere ausblenden, das Boot steht still (Nutzer, 01.11.2026) */
+  let tafelAuf = false;
+  const tafelZeigen = html => { qEl.innerHTML = html; qEl.style.display = ''; padEl.style.visibility = 'hidden'; tafelAuf = true; bub.style.display = 'none'; const w = $('#wtwrap'); if (w) w.classList.add('wfrage'); try { AUD.loop('motorLauf', 0); } catch (e) {} return qEl; };
+  const tafelZu = () => { qEl.style.display = 'none'; qEl.innerHTML = ''; padEl.style.visibility = ''; tafelAuf = false; const w = $('#wtwrap'); if (w) w.classList.remove('wfrage'); };
   /* Sprechen und warten (Sprechblase antippen = weiter) */
   function sprich(wer, t) { return new Promise(res => { if (!laufend) return res(); sag(wer, t, 60000, true); let fertig = false;
     const done = () => { if (fertig) return; fertig = true; bub.onclick = null; clearTimeout(bubT); bubT = setTimeout(() => { bub.style.display = 'none'; sprecher = null; document.querySelectorAll('#wtgs .wg').forEach(x => x.classList.remove('spricht')); }, 1800); res(); };
@@ -892,9 +898,9 @@ W.seite = async function (opt = {}) {
   /* Amtliche Frage: antworten zählt; im Hörmodus vorlesen, sechs Sekunden, Lösung */
   function frage(n, wer = 'smilla') { const q = frageVon(n); if (!q) return Promise.resolve(null);
     const order = [0, 1, 2, 3].sort(() => Math.random() - .5);
-    const el = tafelZeigen(`<p class="wqf"><span class="small muted">Prüfungsfrage ${q.n}</span><br><b>${esc(q.q)}</b></p>${q.img ? `<div class="wqimg">${q.img.map(u => `<img src="${esc(u)}" alt="">`).join('')}</div>` : ''}${order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</button>`).join('')}<div class="small muted" id="wqinfo"></div>`);
+    const el = tafelZeigen(`<p class="wqf"><span class="small muted">Prüfungsfrage ${q.n}</span><br><b>${esc(q.q)}</b></p>${q.img ? `<div class="wqimg">${q.img.map(u => `<img src="${esc(u)}" alt="">`).join('')}</div>` : ''}<div class="ans4">${order.map((k, j) => `<button class="ans" data-k="${k}"><b class="abc">${'ABCD'[j]}</b> ${esc(q.a[k])}</button>`).join('')}</div><div class="small muted" id="wqinfo"></div>`);
     const zeigeLoesung = k => el.querySelectorAll('.ans').forEach(b => { b.disabled = true; const kk = +b.dataset.k; if (kk === 0) b.classList.add('ok'); else if (kk === k) b.classList.add('no'); });
-    if (modus === 'auto') return (async () => { try { await VOX.say(wer, (window.SZENE ? SZENE.text(q, order) : q.q), 'local'); } catch (e) {} if (!laufend) return null; const i = $('#wqinfo'); if (i) i.textContent = '🤔 Denkpause … 6 s'; try { AUD.ticks && AUD.ticks(6, .3); } catch (e) {}
+    if (modus === 'auto') return (async () => { window.__vorlesen = true; try { await VOX.say(wer, (window.SZENE ? SZENE.text(q, order) : q.q), 'local'); } catch (e) {} window.__vorlesen = false; if (!laufend) return null; const i = $('#wqinfo'); if (i) i.textContent = '🤔 Denkpause … 6 s'; try { AUD.ticks && AUD.ticks(6, .3); } catch (e) {}
       await warteMs(6000); zeigeLoesung(-1); await sprich('hinnerk', 'Richtig ist: ' + q.a[0]); tafelZu(); return null; })();
     return new Promise(res => { let ctl = null, fertig = false;
       const antwort = k => { if (fertig) return; fertig = true; if (ctl) ctl.stop(); try { VOX.stop('Antwort'); } catch (e) {} const ok = k === 0; try { AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .55}); } catch (e) {} zeigeLoesung(k);
@@ -930,7 +936,10 @@ W.seite = async function (opt = {}) {
     for (const s2 of WL.stat) { let qx = s2.ax, qz = s2.az; if (s2.k) { const dx = s2.bx - s2.ax, dz = s2.bz - s2.az, u = cl(((x - s2.ax) * dx + (z - s2.az) * dz) / (dx * dx + dz * dz), 0, 1); qx = s2.ax + dx * u; qz = s2.az + dz * u; } m = Math.min(m, Math.hypot(x - qx, z - qz) - s2.r); }
     for (const b of WL.bojen) m = Math.min(m, Math.hypot(x - b.hx, z - b.hz) - b.r - 1); return m; };
   /* Strecke frei? Am Anfang und Ende darf es enger sein (Ablegen und Anlegen) */
-  function frei(ax, az, bx, bz, ignA = 0, ignB = 0) { const L = Math.hypot(bx - ax, bz - az), n = Math.max(1, Math.ceil(L / 2));
+  /* Fahrwasser: Wer eine Tonnenlinie kreuzt, muss zwischen den Tonnen durch (auch der Autopilot) */
+  const TORE = [40, -15, -70], TOR_X = 13;
+  const torFrei = (ax, az, bx, bz) => { for (const g of TORE) { if ((az - g) * (bz - g) >= 0) continue; const x = ax + (bx - ax) * (g - az) / (bz - az); if (Math.abs(x) > TOR_X && Math.abs(x) < 75) return false; } return true; };
+  function frei(ax, az, bx, bz, ignA = 0, ignB = 0) { const L = Math.hypot(bx - ax, bz - az), n = Math.max(1, Math.ceil(L / 2)); if (!torFrei(ax, az, bx, bz)) return false;
     for (let i = 0; i <= n; i++) { const d = L * i / n; if (d < ignA || L - d < ignB) continue; if (hindernisAbstand(ax + (bx - ax) * i / n, az + (bz - az) * i / n) < ABSTAND) return false; } return true; }
   /* Wegnetz: Hafenbecken, Einfahrt, Fahrwasser, offene See */
   const NETZ = []; { const add = (x, z) => { if (hindernisAbstand(x, z) >= ABSTAND + .5) NETZ.push([x, z]); };
@@ -1074,7 +1083,7 @@ W.seite = async function (opt = {}) {
   function schritt(now) {
     if (!laufend) return; if (!host.isConnected) { if (pausiert) { alt = now; requestAnimationFrame(schritt); return; } ende(); return; } requestAnimationFrame(schritt);
     const dt = Math.min(.05, (now - alt) / 1000); alt = now; uhr += dt; const t = uhr, B = P.boot, U = B.userData;
-    const nS = (FAHRT ? FAHRT.raffer : 1) * (W.tempo || 1); for (let i = 0; i < nS; i++) { if (FAHRT) fahrtTick(dt); if (ANDOCK) andocken(dt); physik(dt, t); if (!FAHRT) kollision(t); } warteTick();
+    const nS = (FAHRT ? FAHRT.raffer : 1) * (W.tempo || 1); if (!tafelAuf) for (let i = 0; i < nS; i++) { if (FAHRT) fahrtTick(dt); if (ANDOCK) andocken(dt); physik(dt, t); if (!FAHRT) kollision(t); } warteTick();
     const fx = Math.sin(P.h), fz = -Math.cos(P.h);
     B.position.set(P.x, P.y, P.z); B.rotation.set(-P.nick, Math.PI - P.h, P.roll, 'YXZ');
     if (U.motor) U.motor.rotation.y = P.d * .5; if (U.propeller && P.motor === 'an') U.propeller.rotation.z += P.g * dt * 38;
@@ -1170,7 +1179,7 @@ W.seite = async function (opt = {}) {
     K.fov += (52 + cl(Math.abs(u), 0, 11) * .75 - K.fov) * dt * 2; if (Math.abs(cam.fov - K.fov) > .05) { cam.fov = K.fov; cam.updateProjectionMatrix(); }
     const tR = performance.now(); if (!verdeckt) r.render(scene, cam); W.mess = {js: Math.round(tR - now), render: Math.round(performance.now() - tR)};
     /* Töne (gedrosselt) */
-    tonT -= dt; if (tonT < 0) { tonT = .25; try { const ag = Math.abs(P.g); const an = P.motor === 'an', rau = an && P.mot.choke && P.mot.chokeT > 6; AUD.loop('motorLauf', an ? .14 + ag * .32 + P.gleit * .06 : 0, .82 + ag * .5 + P.gleit * .2 + (rau ? Math.random() * .25 - .12 : 0)); const hw = WLst.reduce((a, q) => a + q.A, 0);
+    tonT -= dt; if (tonT < 0 && !tafelAuf) { tonT = .25; try { const ag = Math.abs(P.g); const an = P.motor === 'an', rau = an && P.mot.choke && P.mot.chokeT > 6; AUD.loop('motorLauf', an ? .14 + ag * .32 + P.gleit * .06 : 0, .82 + ag * .5 + P.gleit * .2 + (rau ? Math.random() * .25 - .12 : 0)); const hw = WLst.reduce((a, q) => a + q.A, 0);
       AUD.loop('wellen', cl(.12 + hw * .25, 0, .7)); AUD.loop('wind', windMs > 2 && windMs < 15 ? cl(windMs / 18, 0, .55) : 0); AUD.loop('sturm', windMs >= 15 ? .6 : 0); AUD.loop('regen', C.regen === 'stark' ? .7 : C.regen === 'regen' ? .4 : 0); } catch (e) {} }
     moeweT -= dt; if (moeweT < 0) { moeweT = rnd(14, 30); if (!nachtAn && P.z > 0) try { AUD.sfx('moewe', {vol: .25, pan: rnd(-.7, .7)}); } catch (e) {} }
     hornT -= dt; if (hornT < 0) { hornT = 30; const dS = Math.hypot(SCH.x - P.x, SCH.z - P.z); if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && dS < 500) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn('▬', null, Math.sin(rel)); } catch (e) {} } }
@@ -1244,7 +1253,9 @@ function css() {
   .wg.spricht{transform:scale(1.2);opacity:1;border-color:#f0b53e}.wg svg{width:100%;height:100%;display:block}
   .wtq{position:absolute;left:8px;right:8px;bottom:8px;max-height:64%;overflow:auto;background:rgba(255,250,240,.97);border-radius:14px;padding:10px;z-index:3;color:#2b2118;box-shadow:0 2px 10px rgba(0,0,0,.25)}
   .wtq .btn.ghost{color:#2b2118;border-color:#c9b79a;background:transparent}.wtq .wqf{margin:0 0 8px}.wqimg img{max-width:100%;max-height:130px;display:block;margin:0 auto 8px}
-  .wtq .ans{display:block;width:100%;text-align:left;margin:0 0 6px}.wtq .ans.emp{border-color:#f0b53e;border-width:2px}.wemp{font-size:11px;color:#b5563a;font-weight:800}
+  .wtq .ans{display:block;width:100%;text-align:left;margin:0 0 6px}.wtq .ans4 .ans{margin:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  #wtwrap.wfrage .wt>:not(.wtq):not(canvas:not(.wkarte)):not(.bub){display:none!important}#wtwrap.wfrage>:not(.wt){display:none!important}
+  #wtwrap.wfrage .wtq{top:8px;bottom:8px;max-height:none;display:flex!important;flex-direction:column;justify-content:safe center;background:rgba(255,250,240,.985)}#wtwrap.wfrage .bub{top:auto;bottom:14px;left:14px;right:14px;z-index:7}.wtq .ans.emp{border-color:#f0b53e;border-width:2px}.wemp{font-size:11px;color:#b5563a;font-weight:800}
   .wap{position:absolute;left:10px;bottom:72px;background:rgba(20,30,40,.6);color:#fffaf0;border-radius:10px;padding:4px 9px;font:700 12px sans-serif;z-index:1}
   .wpad.aus{opacity:.35;pointer-events:none}.wpad.auto{opacity:.55}
   .wt .wang{position:absolute;left:10px;bottom:132px;z-index:3}
