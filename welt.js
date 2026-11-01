@@ -82,7 +82,7 @@ const speichern = () => { try { if (typeof save === 'function') save(); } catch 
 /* Wellen als Summe von Gerstner-Wellen: A Amplitude, k Wellenzahl, Richtung (dx, dz), Q Steilheit */
 function wellenListe(c) {
   const w = WIND[c.wind], hin = c.von * 45 * RAD + Math.PI, L = [];
-  const add = (H, Lw, dir, Q, art) => { if (H <= 0) return; const k = TAU / Lw; L.push({A: H / 2, k, om: Math.sqrt(9.81 * k), dx: Math.sin(dir), dz: -Math.cos(dir), Q, art, ph: Math.random() * TAU}); };
+  const add = (H, Lw, dir, Q, art) => { if (H <= 0) return; const k = TAU / Lw; L.push({A: H / 2, k, lam: Lw, om: Math.sqrt(9.81 * k), dx: Math.sin(dir), dz: -Math.cos(dir), Q, art, ph: Math.random() * TAU}); };
   if (c.wellen.windsee && w.H) { add(w.H * .62, w.L, hin, .55, 'w'); add(w.H * .38, w.L * .64, hin + .45, .5, 'w'); if (w.L * .42 >= 9.5) add(w.H * .28, w.L * .42, hin - .5, .45, 'w'); }
   if (c.wellen.duenung) { add(1.3, 120, hin + 1.1, .25, 'd'); add(.7, 84, hin + 1.25, .22, 'd'); }
   if (c.wellen.kreuzsee) { const H = Math.max(.9, w.H * .8); add(H * .7, 30, hin + 1.05, .6, 'k'); add(H * .7, 27, hin - 1.05, .6, 'k'); }
@@ -286,7 +286,7 @@ function bauBoot(o) {
     b.userData.motor = mot; b.userData.propeller = prop; }
   verschmelze(b, [b.userData.motor, b.userData.flagge && b.userData.flagge.dreh].filter(Boolean));
   const kw = weg.map(([x, z]) => new T.Vector3(x, R.deckY(z) + .01, z));
-  Object.assign(b.userData, {laenge: L, breite: B, lichter, katzenWeg: kw, kreise: [{z: L * .3, r: B * .42}, {z: 0, r: B * .5}, {z: -L * .32, r: B * .48}], deckY: R.deckY});
+  Object.assign(b.userData, {laenge: L, breite: B, lichter, katzenWeg: kw, kreise: [{z: L * .3, r: B * .42}, {z: 0, r: B * .5}, {z: -L * .32, r: B * .48}], deckY: R.deckY, breiteBei: R.breiteBei});
   return b;
 }
 W.bauBoot = bauBoot;
@@ -547,9 +547,12 @@ W.seite = async function (opt = {}) {
   const WL = bauWelt(scene);
   const schiff = bauSchiff(); scene.add(schiff); const SCH = {obj: schiff, a: 0, x: 50, z: -260, h: 0, v: 3.2, R: 110, cx: -60, cz: -260, vx: 0, vz: 0, wack: 0, wv: 0};
   /* Wasser: Gitter folgt dem Boot (in Zellenschritten, damit nichts schwimmt), dahinter eine große ruhige Fläche */
-  const WS = 330, WN = 90, ZELLE = WS / WN, wg = new T.PlaneGeometry(WS, WS, WN, WN); wg.rotateX(-Math.PI / 2);
-  const wpos = wg.attributes.position, basis = new Float32Array(wpos.count * 2), wcol = new Float32Array(wpos.count * 3);
-  for (let i = 0; i < wpos.count; i++) { basis[2 * i] = wpos.getX(i); basis[2 * i + 1] = wpos.getZ(i); }
+  /* Das Gitter ist in der Mitte fein (knapp 0,9 m, das Boot liegt immer dort) und wird nach außen grob. Außen zeigt es nur die langen Wellen,
+     die kurzen übernimmt dort die Struktur der Oberfläche; so flimmert nichts, wenn das Gitter mitwandert. */
+  const WS = 330, WN = 96, WA = .25, ZELLE = WS / WN * WA, wg = new T.PlaneGeometry(WS, WS, WN, WN); wg.rotateX(-Math.PI / 2);
+  const wpos = wg.attributes.position, basis = new Float32Array(wpos.count * 2), wcol = new Float32Array(wpos.count * 3), wh = new Float32Array(wpos.count);
+  const verzerr = v => { const u = v / (WS / 2); return WS / 2 * (WA * u + (1 - WA) * u * u * u); }, weite = v => { const u = v / (WS / 2); return WS / WN * (WA + 3 * (1 - WA) * u * u); };
+  for (let i = 0; i < wpos.count; i++) { const x0 = wpos.getX(i), z0 = wpos.getZ(i); basis[2 * i] = verzerr(x0); basis[2 * i + 1] = verzerr(z0); wh[i] = Math.max(weite(x0), weite(z0)); wpos.setXYZ(i, basis[2 * i], 0, basis[2 * i + 1]); }
   wg.setAttribute('color', new T.BufferAttribute(wcol, 3));
   const wN = TX.wasserN; wN.repeat.set(26, 26);
   const wmat = ST.flach ? new T.MeshLambertMaterial({vertexColors: true, flatShading: true}) : new T.MeshStandardMaterial({vertexColors: true, roughness: .16, metalness: 0, normalMap: wN, normalScale: new T.Vector2(.3, .3)});
@@ -977,11 +980,18 @@ W.seite = async function (opt = {}) {
     /* Wasser */
     const cx = Math.round(P.x / ZELLE) * ZELLE, cz = Math.round(P.z / ZELLE) * ZELLE; wasser.position.set(cx, 0, cz); fern.position.x = cx; fern.position.z = cz;
     const aw = WLst.filter(q => q.art === 'w' || q.art === 'b').reduce((a, q) => a + q.A, 0) || 1, wa = wpos.array;
-    for (let i = 0; i < wpos.count; i++) { const bx = basis[2 * i] + cx, bz = basis[2 * i + 1] + cz, rand = sm(165, 120, Math.hypot(basis[2 * i], basis[2 * i + 1])), da = hafenRuhe(bx, bz) * rand;
-      let X = 0, Y = 0, Z = 0, sch = 0;
-      for (const q of WLst) { const th = q.k * (q.dx * bx + q.dz * bz) - q.om * t + q.ph, sn = Math.sin(th), cs = Math.cos(th), A = q.A * da; X += q.Q * A * q.dx * cs; Z += q.Q * A * q.dz * cs; Y += A * sn; if (q.art === 'w' || q.art === 'b') sch += sn * A; }
-      Y += schwell(bx, bz, t) * da; wa[i * 3] = basis[2 * i] + X; wa[i * 3 + 1] = Y; wa[i * 3 + 2] = basis[2 * i + 1] + Z;
-      const br = cl(Math.sin(bx * .41 + bz * .17 + t * .2) * Math.sin(bz * .37 - bx * .23 + t * .5) * 1.6 - .2, 0, 1), f = cl(sm(.68, 1.02, sch / aw) * schaumMenge * br * .7, 0, .7), hl = cl(Y * .06, -.06, .1);
+    /* Das Boot verdrängt das Wasser: unter dem Rumpf und dicht daneben steht das Wasser höchstens bis knapp über den Wasserpass.
+       So läuft eine Welle am Boot entlang und bricht an ihm, statt durch Deck und Kajüte zu gehen. */
+    const bL = (U.laenge || 8) / 2 + .7, bB = (U.breite || 3) / 2 + .55, sNick = Math.sin(P.nick), sRoll = Math.sin(P.roll), bR = bL * 1.7, rxB = Math.cos(P.h), rzB = Math.sin(P.h);
+    for (let i = 0; i < wpos.count; i++) { const bx = basis[2 * i] + cx, bz = basis[2 * i + 1] + cz, rand = sm(165, 120, Math.hypot(basis[2 * i], basis[2 * i + 1])), da = hafenRuhe(bx, bz) * rand, h = wh[i];
+      let X = 0, Y = 0, Z = 0, sch = 0, brech = 0;
+      for (const q of WLst) { const lod = q.lam >= 4 * h ? 1 : q.lam <= 2 * h ? 0 : sm(2 * h, 4 * h, q.lam); if (!lod) continue;
+        const th = q.k * (q.dx * bx + q.dz * bz) - q.om * t + q.ph, sn = Math.sin(th), cs = Math.cos(th), A = q.A * da * lod; X += q.Q * A * q.dx * cs; Z += q.Q * A * q.dz * cs; Y += A * sn; if (q.art === 'w' || q.art === 'b') sch += sn * A; }
+      Y += schwell(bx, bz, t) * da;
+      const ex = bx + X - P.x, ez = bz + Z - P.z; if (ex * ex + ez * ez < bR * bR) { const lz = ex * fx + ez * fz, lx = -(ex * rxB + ez * rzB), e = (lz / bL) * (lz / bL) + (lx / bB) * (lx / bB);
+        if (e < 2.2) { const deckel = P.y + lz * sNick + lx * sRoll + .14 + .5 * Math.max(0, e - 1), k = e < 1 ? 1 : sm(2.2, 1, e); if (Y > deckel) { brech = (Y - deckel) * k; Y = mix(Y, deckel, k); } } }
+      wa[i * 3] = basis[2 * i] + X; wa[i * 3 + 1] = Y; wa[i * 3 + 2] = basis[2 * i + 1] + Z;
+      const br = cl(Math.sin(bx * .41 + bz * .17 + t * .2) * Math.sin(bz * .37 - bx * .23 + t * .5) * 1.6 - .2, 0, 1), f = cl(sm(.68, 1.02, sch / aw) * schaumMenge * br * .7 + Math.min(.55, brech * .9), 0, .75), hl = cl(Y * .06, -.06, .1);
       wcol[i * 3] = mix(wasserFarbe.r * (1 + hl), krone.r, f); wcol[i * 3 + 1] = mix(wasserFarbe.g * (1 + hl), krone.g, f); wcol[i * 3 + 2] = mix(wasserFarbe.b * (1 + hl), krone.b, f); }
     wpos.needsUpdate = true; wg.attributes.color.needsUpdate = true; wg.computeVertexNormals();
     const rep = 26, wo = (windMs + 1.5) * .0035; wN.offset.set(cx / WS * rep + t * wo, -cz / WS * rep + t * wo * .6); fernN.offset.set(t * wo * 4, t * wo * 2.4);
@@ -1040,7 +1050,9 @@ W.seite = async function (opt = {}) {
     if (!K.lock && now - K.last > 2600) K.yaw += (0 - K.yaw) * Math.min(1, dt * 1.2);
     K.hs += wdiff(P.h, K.hs) * Math.min(1, dt * 2.2);
     const dist = C.sicht === 'extrem' ? Math.min(K.dist, 17) : C.sicht === 'dicht' ? Math.min(K.dist, 22) : K.dist, ang = K.hs + K.yaw, cp = Math.cos(K.pitch);
-    const zx = P.x - Math.sin(ang) * dist * cp, zz = P.z + Math.cos(ang) * dist * cp, zy = Math.max(flaeche(zx, zz, t) + 1.4, P.y + 1.6 + Math.sin(K.pitch) * dist);
+    const zx = P.x - Math.sin(ang) * dist * cp, zz = P.z + Math.cos(ang) * dist * cp; let zy = Math.max(flaeche(zx, zz, t) + 1.4, P.y + 1.6 + Math.sin(K.pitch) * dist);
+    /* Kein Wellenkamm zwischen Kamera und Boot: die Kamera steigt, bis die Sicht frei ist */
+    if (WLst.length) { const ziel = P.y + .3; for (const f of [.14, .22, .32, .45, .65, .85]) { const sy = flaeche(mix(P.x, zx, f), mix(P.z, zz, f), t) + .45; zy = Math.max(zy, ziel + (sy - ziel) / f); } zy = Math.min(zy, P.y + 1.6 + Math.sin(K.pitch) * dist + 14); }
     K.pos.x += (zx - K.pos.x) * Math.min(1, dt * (K.lock ? 6 : 2.6)); K.pos.y += (zy - K.pos.y) * Math.min(1, dt * 3); K.pos.z += (zz - K.pos.z) * Math.min(1, dt * (K.lock ? 6 : 2.6));
     K.shake = Math.max(0, K.shake - dt * 1.8) ; const wack = K.shake * .5 + (windMs > 14 ? .06 * (windMs - 14) / 8 : 0);
     cam.position.set(K.pos.x + Math.sin(t * 41) * wack * .3, K.pos.y + Math.sin(t * 37) * wack * .25, K.pos.z + Math.cos(t * 43) * wack * .3);

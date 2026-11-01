@@ -460,6 +460,8 @@ Beantwortet am 29.10.2026:
 
 Neu offen: O101–O104 in `docs/reise-konzept.md` §6.
 
+Neu offen (01.11.2026): O111–O130 zu Geschichte, Figuren, Kurs und Boot, gesammelt in `docs/entscheidungen.md` (Vorschlag dazu: `docs/story-entwurf.md`).
+
 Neue offene Fragen kommen mit den Läufen dazu.
 
 ## 15. Deine Aufgaben

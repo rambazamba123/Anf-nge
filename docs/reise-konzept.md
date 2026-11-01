@@ -45,6 +45,7 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 - **Minispiele** nur, wenn sie zur Lage passen: Bauteile (Tag 1), Motorkunde (2), Lichter (7, 20, 21, 47), Fischfang bei Flaute (10, 35), Leuchtfeuer (25, 29, 33), Schallsignale im Nebel (26, 27, 46), Tonnen-Slalom (30).
 
 ## 4. Die Geschichte als Rahmen (Vorschlag, die Story schreibst du, B164)
+> **01.11.2026:** Ausgearbeiteter Vorschlag „Die Wette“ mit allen 63 Tagen in `docs/story-entwurf.md`; Entscheidungen O111–O130 in `docs/entscheidungen.md`.
 - Die Crew übernimmt in **Kuttershaven** ein altes Motorboot. Der Mast liegt abgebaut an Deck.
 - **Grundkurs (Tag 1–11)** im geschützten Wasser: Elbe, Watt, Neuwerk, Schleuse, Siele. Am Tag 11 prüft Harms am Telefon die 72 Basisfragen.
 - **See (Tag 12–44):** Inseln, Jade und Weser, Nachtfahrten, Nebel, Sturmtag, der große Schlag über das Verkehrstrennungsgebiet nach **Helgoland**, dort wird **der Mast gestellt** (O98, Tag 42), dann die raue Rückfahrt mit Mensch über Bord und einem echten Notfall.
@@ -176,6 +177,29 @@ Gesamt etwa 32 Stunden ohne die freiwilligen Segeltage. Die Dauer ist **grob ges
 | 58 | – | – | Schallsignale |
 | 59 | – | – | Lichter |
 | 63 | alle Prüfungsknoten | alle Prüfungsmanöver | – |
+
+### Kursprüfung (automatisch)
+
+Richtwerte aus der Vision: 20–30 Minuten je Tag (O97), höchstens 14 neue Fragen je Folge (Kursplan). Die Hinweise sind Vorschläge für Entwurf 3 (O121), keine Fehler.
+
+- **Tage über 40 Minuten (grob):** 1 (60 min), 2 (41 min), 4 (43 min), 7 (42 min), 8 (41 min), 31 (50 min), 35 (46 min), 46 (49 min)
+- **Tage mit mehr als 14 neuen Fragen:** 47 (15), 48 (19), 50 (39), 52 (32), 53 (16), 54 (33), 56 (15), 57 (19)
+- **Orte, die nicht auf der Seekarte 7 stehen** (ohne Binnen): Gaffelhorn, Netzharlingersiel, Möwellum
+
+**Knoten verteilt wiederholen** (Vision §5: nach 1, 3 und 7 Etappen; je 1 Minute mit echtem Tau und Stoppuhr, am Abend in der Kajüte):
+
+| Knoten | neu an Tag | kurz wiederholen an Tag | dazu gemischt |
+|---|---|---|---|
+| Klampe belegen | 1 | 2, 4, 8 | 11, 25, 35, 41, 46, 63 |
+| Palstek | 2 | 3, 5, 9 | 11, 25, 35, 41, 46, 63 |
+| Webeleinstek | 3 | 4, 6, 10 | 11, 25, 35, 41, 46, 63 |
+| Rundtörn mit zwei halben Schlägen | 4 | 5, 7, 11 | 11, 25, 35, 41, 46, 63 |
+| Achtknoten | 5 | 6, 8, 12 | 11, 25, 35, 41, 46, 63 |
+| Webeleinstek auf Slip | 9 | 10, 12, 16 | 11, 25, 35, 41, 46, 63 |
+| Schotstek | 12 | 13, 15, 19 | 25, 35, 41, 46, 63 |
+| Stopperstek | 28 | 29, 31, 35 | 35, 41, 46, 63 |
+| Kreuzknoten | 38 | 39, 41, 45 | 41, 46, 63 |
+
 
 ### Die Tage
 
@@ -548,32 +572,32 @@ Gesamt etwa 32 Stunden ohne die freiwilligen Segeltage. Die Dauer ist **grob ges
 
 *Wiederholen, Probeprüfung, Harms.*
 
-**Tag 58: Abendrunde: alle Schallsignale** · Altarm Ost (Hafentag) · klar · Abend
+**Tag 58: Abendrunde: alle Schallsignale** · Kuttershaven (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: alle Signale nebeneinander.
 - Lernen: Hörprüfung: alle Schallsignale (S11.1, Lektion)
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Schallsignale
 
-**Tag 59: Abendrunde: Lichter im Vergleich** · Altarm Ost (Hafentag) · klar · Abend
+**Tag 59: Abendrunde: Lichter im Vergleich** · Kuttershaven (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: Lichter und Signalkörper, die man verwechselt.
 - Lernen: Lichter und Signalkörper im Vergleich (S11.2, Lektion)
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Minispiel: Lichter
 
-**Tag 60: Abendrunde: Wer weicht wo aus?** · Altarm Ost (Hafentag) · klar · Abend
+**Tag 60: Abendrunde: Wer weicht wo aus?** · Kuttershaven (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: Ausweichregeln im Vergleich.
 - Lernen: Wer weicht wo aus? (S11.3, Lektion)
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 61: Abendrunde: Zahlen, Fristen, Behörden** · Altarm Ost (Hafentag) · klar · Abend
+**Tag 61: Abendrunde: Zahlen, Fristen, Behörden** · Kuttershaven (Hafentag) · klar · Abend
 - Geschichte (Vorschlag): Prüfungsreife: alles mit Zahlen.
 - Lernen: Zahlen, Fristen, Behörden (S11.4, Lektion)
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 62: Harms kommt an Bord** · Altarm Ost (Hafentag) · sonnig · ganzer Tag
+**Tag 62: Harms kommt an Bord** · Kuttershaven (Hafentag) · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Generalprobe: Theorie, Kartenaufgabe und Praxis wie in der echten Prüfung. Danach ist man Bootsveteran.
 - Lernen: Generalprobe mit Harms (S11.5, Lektion)
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe
 
-**Tag 63: Binnen-Generalprobe mit Harms** · Altarm Ost (Hafentag) · sonnig · ganzer Tag
+**Tag 63: Binnen-Generalprobe mit Harms** · Kuttershaven (Hafentag) · sonnig · ganzer Tag
 - Geschichte (Vorschlag): Probeprüfung Binnen: 7 Basisfragen und 23 Binnenfragen, dazu Praxis.
 - Lernen: Wiederholung und Probeprüfung
 - Navigation: Volle Törnplanung für die echte Etappe: Kurs, Distanz, Zeit, Kompasskurs, Peilung, Tiefe · Knoten: alle Prüfungsknoten · Manöver: alle Prüfungsmanöver
