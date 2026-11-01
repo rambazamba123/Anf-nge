@@ -1,0 +1,58 @@
+{
+ "hinweis": "Folgen in der 3D-Welt (welt-folge.js). Alle Sätze sind Platzhalter, bis Story und Figuren stehen (H10). Koordinaten in Metern der 3D-Welt: Norden = -z, Hafen im Süden.",
+ "folgen": [
+  {
+   "id": "probe",
+   "titel": "Testfolge: Probefahrt",
+   "ort": "hafen",
+   "wetter": {"wind": "leicht", "von": 7, "sicht": "klar", "regen": "kein", "zeit": "morgen", "wellen": {"windsee": true, "duenung": false, "kreuzsee": false, "kabbel": false, "schwell": true}},
+   "schritte": [
+    {"kamera": "weit"},
+    {"wer": "hinnerk", "t": "Moin! Heute ist Probefahrt: raus aus dem Hafen, durchs Fahrwasser bis zur Ansteuerungstonne, und am Ende legst du selbst an."},
+    {"wer": "smilla", "t": "Ich begleite dich. Unten rechts ist der Hebel: hoch für voraus, runter für zurück, zur Seite zum Lenken. Oben rechts siehst du die Karte, antippen macht sie groß."},
+    {"wer": "klabauter", "t": "Leinen los! Leinen los! Krrah!"},
+    {"wer": "hinnerk", "t": "Ablegen mache ich heute. Schau zu: langsam voraus am Steg entlang, dann zur Hafeneinfahrt."},
+    {"crew": {"smilla": "bug"}},
+    {"auto": [[-27.2, 136], [-22, 112], [-8, 92], [0, 74], [0, 48]], "gas": 0.45},
+    {"crew": {"smilla": "smilla"}},
+    {"kamera": "hinten"},
+    {"wer": "smilla", "t": "Da vorn beginnt das Fahrwasser. Von See kommend liegen die roten Tonnen an Backbord. Wir fahren raus, also sind sie jetzt rechts von uns. Dazu eine Prüfungsfrage."},
+    {"frage": 199},
+    {"wer": "hinnerk", "t": "Jetzt du. Fahr zwischen den Tonnen durch bis zur rot-weißen Ansteuerungstonne. Die Karte oben rechts zeigt das Ziel."},
+    {"ziel": {"x": 0, "z": -130, "r": 15, "name": "Ansteuerungstonne"}},
+    {"selbst": "ziel", "max": 240, "auto": [[0, 20], [0, -45], [0, -105]]},
+    {"ziel": null},
+    {"wer": "klabauter", "t": "Ziel! Ziel! Krrah!"},
+    {"wetter": {"sicht": "nebel"}},
+    {"wer": "smilla", "t": "Oh. Nebel zieht auf. Was ist jetzt zu tun?"},
+    {"frage": 84},
+    {"ton": "▬"},
+    {"wer": "hinnerk", "t": "Hörst du das? Ein langer Ton. Da draußen fährt einer."},
+    {"frage": 116},
+    {"wer": "smilla", "t": "Wir fahren mit Maschine und machen Fahrt, also geben wir dasselbe Signal: einen langen Ton, mindestens alle zwei Minuten. Tipp aufs Horn!"},
+    {"selbst": "horn", "max": 45},
+    {"wer": "hinnerk", "t": "Und was, wenn ein kleines Boot so ein Signal gar nicht geben kann?"},
+    {"frage": 121},
+    {"wetter": {"sicht": "klar"}},
+    {"wer": "hinnerk", "t": "Der Nebel ist weg. Ich bring uns im Zeitraffer zurück zur Hafeneinfahrt."},
+    {"auto": [[0, -60], [0, 30], [0, 60], [5, 88]], "gas": 0.7, "raffer": 3},
+    {"wer": "smilla", "t": "Jetzt legst du an. Unser Platz ist am Steg links vor uns, mit der Backbordseite an den Steg."},
+    {"frage": 48},
+    {"frage": 40},
+    {"ziel": {"x": 22.2, "z": 155, "r": 3.5, "h": 3.1416, "name": "Liegeplatz"}},
+    {"crew": {"smilla": "bug"}},
+    {"selbst": "anlegen", "max": 240, "hinweis": "Spitz anfahren, langsam, und kurz vorher aufstoppen. Ich stehe vorn mit der Leine.", "auto": [[10, 104], [15, 126], [17, 144]]},
+    {"ziel": null},
+    {"wahl": {"t": "Am Steg ist ein Ring. Mit welchem Knoten machen wir die Vorleine daran fest?", "opts": [
+      {"t": "Rundtörn mit zwei halben Schlägen", "ok": true, "info": "Genau. Der hält am Ring und lässt sich auch unter Zug wieder lösen."},
+      {"t": "Kreuzknoten", "ok": false, "info": "Der Kreuzknoten verbindet zwei Leinen. Am Ring hält er nicht."},
+      {"t": "Schotstek", "ok": false, "info": "Der Schotstek verbindet zwei Leinen verschiedener Dicke. Für den Ring ist er nicht gedacht."}]}},
+    {"knoten": "rundtoern"},
+    {"modell": "Jetzt du mit deinem Übungsset: Nimm das dickere Seil und mach es mit einem Rundtörn mit zwei halben Schlägen am Ring deines Modells fest."},
+    {"crew": {"smilla": "smilla"}},
+    {"wer": "hinnerk", "t": "Fest. Das war die Probefahrt. Morgen geht es richtig los."},
+    {"ende": true}
+   ]
+  }
+ ]
+}
