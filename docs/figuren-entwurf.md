@@ -1,7 +1,7 @@
 # Figuren schärfen: Entwurf mit Varianten (29.10.2026)
 
 > **Status: Vorschlag. Nichts davon gilt, bis du es bestätigst** (R15, B164). `podcast/figuren.md` bleibt unverändert, bis du dich entschieden hast. Dann wandert das Gewählte dorthin.
-> **Weiter am 01.11.2026:** Die Bögen sind mit der Geschichte verbunden in `docs/story-entwurf.md` §4; deine Antworten gesammelt in `docs/entscheidungen.md` (O122).
+> **Weiter am 01.11.2026:** Die Bögen sind mit der Geschichte verbunden in `docs/story-entwurf.md` §4; deine Antworten gesammelt in `docs/entscheidungen.md` (O122). **Neu:** Die Figuren in der Tiefe mit Sprüchen und ElevenLabs-Markern stehen in `docs/figuren-bibel-entwurf.md` (O139).
 > Anlass: Du willst Figuren, die sich über die Geschichte hin entwickeln, statt immer denselben Jux zu machen, und die das Lernen unterstützen statt behindern.
 
 ## 1. Wie man es mit einer KI am besten macht (Recherche, Stand 29.10.2026)

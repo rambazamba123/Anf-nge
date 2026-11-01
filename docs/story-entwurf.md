@@ -1,5 +1,7 @@
 # Die Geschichte der Reise: Entwurf zur Freigabe (01.11.2026)
 
+> **Abgelöst am 01.11.2026:** Dieser Entwurf ist jetzt **Variante C „Die Wette“** und dient nur noch zum Vergleich. Die neuen Vorschläge (★ Variante A „Der Antrag“) stehen in `docs/story-konzept-2.md`, die Figuren in der Tiefe in `docs/figuren-bibel-entwurf.md`, die Fragen dazu in `docs/entscheidungen.md` (O131 ff.).
+
 > **Status: Vorschlag. Nichts davon gilt, bis du es bestätigst** (R15, R16, Bible G2/G3). `podcast/figuren.md`, `PODCAST_BIBLE.md` und `VISION.md` bleiben unverändert, bis du entschieden hast. Deine Entscheidungen stehen gesammelt in `docs/entscheidungen.md` (O111–O130).
 > **Anlass:** Du willst jetzt Story und Charakterentwicklung angehen, als Grundlage für den perfekten Kurs (Nutzer, 01.11.2026).
 > **Grundlage:** deine Beschlüsse vom 20.10. („Die Wette“, Boot „Frieda“, Klabauter als Petze und verliebt in eine Möwe, Quirins Einladung nach Bayern, kein Erzähler, Logbuch), die Vision (Reise mit der Crew, Coaching, „In 30 Stunden zum Bootsveteran“), `podcast/figuren.md` (bestätigt), `docs/figuren-entwurf.md` (Varianten, offen), der Reiseplan (`data/reise-plan.json`, 63 Tage) und die Seekarte 7.

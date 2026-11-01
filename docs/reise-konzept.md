@@ -45,7 +45,7 @@ Die Reihenfolge folgt dem Kursplan (aufeinander aufbauend). Bewusst vorgezogen i
 - **Minispiele** nur, wenn sie zur Lage passen: Bauteile (Tag 1), Motorkunde (2), Lichter (7, 20, 21, 47), Fischfang bei Flaute (10, 35), Leuchtfeuer (25, 29, 33), Schallsignale im Nebel (26, 27, 46), Tonnen-Slalom (30).
 
 ## 4. Die Geschichte als Rahmen (Vorschlag, die Story schreibst du, B164)
-> **01.11.2026:** Ausgearbeiteter Vorschlag „Die Wette“ mit allen 63 Tagen in `docs/story-entwurf.md`; Entscheidungen O111–O130 in `docs/entscheidungen.md`.
+> **01.11.2026:** Ausgearbeiteter Vorschlag „Die Wette“ mit allen 63 Tagen in `docs/story-entwurf.md` (jetzt Variante C); neu drei Vorschläge mit Spannungsbogen in `docs/story-konzept-2.md` (★ A „Der Antrag“); Entscheidungen O131 ff. in `docs/entscheidungen.md`.
 - Die Crew übernimmt in **Kuttershaven** ein altes Motorboot. Der Mast liegt abgebaut an Deck.
 - **Grundkurs (Tag 1–11)** im geschützten Wasser: Elbe, Watt, Neuwerk, Schleuse, Siele. Am Tag 11 prüft Harms am Telefon die 72 Basisfragen.
 - **See (Tag 12–44):** Inseln, Jade und Weser, Nachtfahrten, Nebel, Sturmtag, der große Schlag über das Verkehrstrennungsgebiet nach **Helgoland**, dort wird **der Mast gestellt** (O98, Tag 42), dann die raue Rückfahrt mit Mensch über Bord und einem echten Notfall.

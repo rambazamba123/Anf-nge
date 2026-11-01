@@ -460,7 +460,7 @@ Beantwortet am 29.10.2026:
 
 Neu offen: O101–O104 in `docs/reise-konzept.md` §6.
 
-Neu offen (01.11.2026): O111–O130 zu Geschichte, Figuren, Kurs und Boot, gesammelt in `docs/entscheidungen.md` (Vorschlag dazu: `docs/story-entwurf.md`).
+Neu offen (01.11.2026): O114, O115, O120, O121 und O124–O140 zu Geschichte, Figuren, Kurs und Boot, gesammelt in `docs/entscheidungen.md` (O111 beantwortet: ja, grundauf neu; Vorschläge dazu: `docs/story-konzept-2.md`, Figuren: `docs/figuren-bibel-entwurf.md`).
 
 Neue offene Fragen kommen mit den Läufen dazu.
 
