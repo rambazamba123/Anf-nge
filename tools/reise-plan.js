@@ -55,6 +55,23 @@ md.push('', '### Navigation, Knoten und Manöver über die Reise', '', '| Stufe 
 Object.entries(plan.navi_stufen).forEach(([k, v]) => md.push(`| ${k} | ${v} | ${plan.tage.filter(t => t.navi === k).map(t => t.tag).join(', ')} |`));
 md.push('', '| Tag | Knoten | Manöver | Minispiel |', '|---|---|---|---|');
 plan.tage.filter(t => t.knoten.length || t.manoever.length || t.mini.length).forEach(t => md.push(`| ${t.tag} | ${t.knoten.join(', ') || '–'} | ${t.manoever.join(', ') || '–'} | ${t.mini.join(', ') || '–'} |`));
+/* Kursprüfung: Länge, neue Fragen, Orte auf der Karte, Wiederholung der Knoten (Vision §5) */
+const neuFragen = t => t.folgen.reduce((x, [id]) => x + (FOLGEN[id].fragen || []).length, 0) + (t.binnen ? t.binnen.fragen[1] - t.binnen.fragen[0] + 1 : 0);
+const svg = fs.existsSync(path.join(root, 'img/karte7.svg')) ? fs.readFileSync(path.join(root, 'img/karte7.svg'), 'utf8') : '';
+const ortName = o => String(o || '').replace(/\(.*?\)/g, '').replace(/^Ankerplatz bei /, '').replace(/-Reede$/, '').trim();
+const lang = plan.tage.filter(t => !t.optional && dauer(t) > 40), voll = plan.tage.filter(t => neuFragen(t) > 14);
+const ohneKarte = [...new Set(plan.tage.filter(t => t.akt !== 7).flatMap(t => [t.von, t.nach]).map(ortName).filter(o => o && svg && !svg.includes(o)))];
+md.push('', '### Kursprüfung (automatisch)', '', 'Richtwerte aus der Vision: 20–30 Minuten je Tag (O97), höchstens 14 neue Fragen je Folge (Kursplan). Die Hinweise sind Vorschläge für Entwurf 3 (O121), keine Fehler.', '',
+  `- **Tage über 40 Minuten (grob):** ${lang.length ? lang.map(t => `${t.tag} (${dauer(t)} min)`).join(', ') : 'keine'}`,
+  `- **Tage mit mehr als 14 neuen Fragen:** ${voll.length ? voll.map(t => `${t.tag} (${neuFragen(t)})`).join(', ') : 'keine'}`,
+  `- **Orte, die nicht auf der Seekarte 7 stehen** (ohne Binnen): ${ohneKarte.length ? ohneKarte.join(', ') : 'keine'}`, '');
+/* Knoten: neu eingeführt an Tag d, dann kurz wiederholen an Tag d+1, d+3, d+7 (1 Minute mit echtem Tau und Stoppuhr) */
+const KN = []; plan.tage.forEach(t => t.knoten.filter(k => !/^(Wiederholung|alle)/.test(k)).forEach(k => { if (!KN.some(x => x.k === k)) KN.push({k, d: t.tag}); }));
+const tagDa = d => { const t = plan.tage.find(x => x.tag >= d && !x.optional && x.akt !== 7); return t ? t.tag : null; };
+md.push('**Knoten verteilt wiederholen** (Vision §5: nach 1, 3 und 7 Etappen; je 1 Minute mit echtem Tau und Stoppuhr, am Abend in der Kajüte):', '', '| Knoten | neu an Tag | kurz wiederholen an Tag | dazu gemischt |', '|---|---|---|---|');
+const misch = plan.tage.filter(t => t.knoten.some(k => /^(Wiederholung|alle)/.test(k))).map(t => t.tag);
+KN.forEach(({k, d}) => md.push(`| ${k} | ${d} | ${[1, 3, 7].map(x => tagDa(d + x)).filter(Boolean).join(', ')} | ${misch.filter(x => x > d).join(', ')} |`));
+md.push('');
 md.push('', '### Die Tage', '');
 let aktAlt = 0;
 plan.tage.forEach(t => {
