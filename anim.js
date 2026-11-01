@@ -130,7 +130,7 @@ def('schall', {titel: 'Schallsignale sichtbar', gruppe: 'A6 Schallsignale und Ne
   enter(s, p, st) {
     if (st.horn) { try { st.horn.stop(); } catch (e) {} st.horn = null; }
     SIGS.forEach(([sg], r) => sg.split(' ').forEach((c, k) => put(q(s, `#s${r}_${k}`), {fill: '#9fb4c7'}))); SIGS.forEach((x, r) => put(q(s, '#r' + r), {opacity: p === 0 || p === r + 1 ? 1 : .35}));
-    if (p >= 1 && window.AUD) { try { AUD.unlock && AUD.unlock(); st.horn = AUD.horn(SIGS[p - 1][0], (i, type, d) => { const e = q(s, `#s${p - 1}_${i}`); if (e) { put(e, {fill: '#f08a1c'}); setTimeout(() => put(e, {fill: '#9fb4c7'}), d * 1000); } st.pulse = performance.now() + d * 1000; }); } catch (e) {} }
+    if (p >= 1 && (typeof AUD !== 'undefined')) { try { AUD.unlock && AUD.unlock(); st.horn = AUD.horn(SIGS[p - 1][0], (i, type, d) => { const e = q(s, `#s${p - 1}_${i}`); if (e) { put(e, {fill: '#f08a1c'}); setTimeout(() => put(e, {fill: '#9fb4c7'}), d * 1000); } st.pulse = performance.now() + d * 1000; }); } catch (e) {} }
   },
   tick(s, tp, p, st) { put(q(s, '#hw'), {opacity: st.pulse && performance.now() < st.pulse ? 1 : 0}); }});
 
@@ -329,15 +329,15 @@ A.spiele = function (id) {
     <div class="anctl"><button class="btn small ghost" id="anz">◀</button><span class="dots" id="andots">${d.phasen.map(() => '<i></i>').join('')}</span><button class="btn small" id="anw">▶</button><button class="btn small ghost" id="anau">⏯ Auto</button><button class="btn small ghost" id="anto" aria-pressed="true">🔊</button><button class="btn small ghost" id="anre">↻</button></div>
     <label class="small muted" style="display:block;margin-top:10px">Mein Änderungsvorschlag zu dieser Animation</label><textarea class="annote" id="annote" placeholder="Zum Beispiel: Pfeil größer, Text kürzer, andere Farbe …">${esc(notes()[id] || '')}</textarea>`);
   const host = $('#anstage'), svg = A.start(host), cap = () => { $('#ancap').innerHTML = `<b>${esc(({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[d.phasen[p].wer] || '')}:</b> ${esc(d.phasen[p].t)}`; document.querySelectorAll('#andots i').forEach((e, i) => e.classList.toggle('on', i === p)); };
-  const gehe = n => { p = cl(n, 0, d.phasen.length - 1); if (window.VOX) VOX.stop('anim'); A.phase(svg, p); cap(); }; cap();
-  const sprich = () => ton && window.VOX ? Promise.resolve(VOX.say(d.phasen[p].wer, d.phasen[p].t, 'local')).catch(() => {}) : Promise.resolve();
+  const gehe = n => { p = cl(n, 0, d.phasen.length - 1); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.phase(svg, p); cap(); }; cap();
+  const sprich = () => ton && (typeof VOX !== 'undefined') ? Promise.resolve(VOX.say(d.phasen[p].wer, d.phasen[p].t, 'local')).catch(() => {}) : Promise.resolve();
   const warte = ms => new Promise(r => setTimeout(r, ms));
   const lauf = async () => { while (auto && !stopp && svg.isConnected) { await Promise.all([sprich(), warte((d.phasen[p].min || 3.5) * 1000)]); if (!auto || stopp) return; if (p >= d.phasen.length - 1) { auto = false; $('#anau').textContent = '⏯ Auto'; return; } gehe(p + 1); } };
   $('#anw').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p + 1); }; $('#anz').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p - 1); };
   $('#anre').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p); };
-  $('#anau').onclick = () => { AUD.unlock && AUD.unlock(); auto = !auto; $('#anau').textContent = auto ? '⏸ Stopp' : '⏯ Auto'; if (auto) { if (p >= d.phasen.length - 1) gehe(0); lauf(); } else if (window.VOX) VOX.stop('anim'); };
-  $('#anto').onclick = () => { ton = !ton; $('#anto').textContent = ton ? '🔊' : '🔇'; $('#anto').setAttribute('aria-pressed', ton); if (!ton && window.VOX) VOX.stop('anim'); };
+  $('#anau').onclick = () => { AUD.unlock && AUD.unlock(); auto = !auto; $('#anau').textContent = auto ? '⏸ Stopp' : '⏯ Auto'; if (auto) { if (p >= d.phasen.length - 1) gehe(0); lauf(); } else if ((typeof VOX !== 'undefined')) VOX.stop('anim'); };
+  $('#anto').onclick = () => { ton = !ton; $('#anto').textContent = ton ? '🔊' : '🔇'; $('#anto').setAttribute('aria-pressed', ton); if (!ton && (typeof VOX !== 'undefined')) VOX.stop('anim'); };
   $('#annote').oninput = e => { notes()[id] = e.target.value; save(); };
-  $('#gback').onclick = () => { stopp = true; auto = false; if (window.VOX) VOX.stop('anim'); A.seite(); };
+  $('#gback').onclick = () => { stopp = true; auto = false; if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.seite(); };
 };
 })();

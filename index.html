@@ -545,7 +545,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.11';
+  window.__ver = '5.12';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1351,6 +1351,7 @@ const AUD = (() => {
       s.playbackRate.value = rate; s.connect(L.gain); s.start(0, Math.random() * Math.max(0, buf.duration - 1)); L.src = s;
     }
     L.gain.gain.setTargetAtTime(vol, ctx.currentTime, .9);
+    if (L.src && rate && L.src.playbackRate.value !== rate) L.src.playbackRate.setTargetAtTime(rate, ctx.currentTime, .25);
   }
   function indoor(on) { if (!ctx) return; filt.frequency.setTargetAtTime(on ? 1100 : 20000, ctx.currentTime, .4); }
 
@@ -1491,7 +1492,18 @@ const AUD = (() => {
     s.connect(f); f.connect(g); g.connect(bus.sfx); s.start(t); s.stop(t + dur);
     sfx('wind', {vol: vol * 1.2, dur: Math.min(dur, 6)});
   }
-  return {files: FILES, hush, squeak, crash, tuut, alarm, boe, loop: (n, v) => setLoop(n, v), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
+  /* Zusammenstoß (3D-Welt): art 'boje' klingt nach Blech, 'boot'/'holz' hohl, 'stein' dumpf und kratzig; st 0…1 */
+  function stoss(art, st = .5) {
+    init(); if (!ctx) return; const t = ctx.currentTime, v = Math.max(.08, Math.min(1, st));
+    const rausch = (dauer, typ, f, q, laut) => { const n = ctx.sampleRate * dauer, b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.5);
+      const src = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain(); src.buffer = b; fl.type = typ; fl.frequency.value = f; fl.Q.value = q; g.gain.value = laut * v; src.connect(fl); fl.connect(g); g.connect(bus.sfx); src.start(t); };
+    const ton = (f0, f1, dauer, laut, typ = 'sine') => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = typ; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dauer);
+      g.gain.setValueAtTime(laut * v, t); g.gain.exponentialRampToValueAtTime(.0001, t + dauer); o.connect(g); g.connect(bus.sfx); o.start(t); o.stop(t + dauer + .05); };
+    if (art === 'boje') { [[410, 1.4, .22], [1130, .9, .1], [1790, .6, .07], [2630, .4, .05]].forEach(([f, d, l]) => ton(f, f * .985, d, l)); rausch(.06, 'highpass', 2500, .7, .35); }
+    else if (art === 'stein') { ton(70, 38, .45, .7); rausch(.5, 'lowpass', 380, .8, .8); rausch(.35, 'bandpass', 1600, 1.2, .18); }
+    else { ton(110, 52, .3, .65); rausch(.18, 'bandpass', 420, 1.4, .6); }
+  }
+  return {files: FILES, hush, squeak, crash, stoss, tuut, alarm, boe, loop: (n, v, r) => setLoop(n, v, r), clock: v => setLoop('uhr', v), init, unlock, playMusic, duck, sfx, ticks, weather, horn, babble, click, applyVolumes, parseSig, get ready() { return !!ctx && ctx.state === 'running'; }};
 })();
 
 </script>

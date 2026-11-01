@@ -1,284 +1,869 @@
-/* welt.js: 3D-Welt (Prototyp v5.11). Dritte Person wie bei GTA, bunte Spielzeugwelt, austauschbares Boot.
-   Boot-Vertrag: ein THREE.Object3D, Bug zeigt nach +Z, Ursprung in der Mitte auf der Wasserlinie, Einheit Meter.
-   Optional userData: laenge, breite, propeller, ruder, lichter {top, bb, sb, heck}, anker {katze: Vector3}.
-   Ein fremdes Modell (zum Beispiel der 3D-Druck) wird mit WELT.normiere(obj, {laenge}) passend gemacht und mit WELT.setzeBoot(obj) eingesetzt. */
+/* welt.js: 3D-Welt (v5.12). Dritte Person, weicher warmer Stil, austauschbares Boot, Wetter und Wellen zum Kombinieren,
+   Zusammenstöße, Hafen mit Molen, Stegen und Häusern.
+   Aufbau:  1 STIL (Farben und Oberflächen: hier ändert man den Look)   2 WETTER und WELLEN (Daten)   3 Bausteine und Texturen
+            4 Boote (Vertrag unten)   5 Tiere   6 Hafen, See, Insel   7 Wasser und Himmel   8 Physik und Zusammenstöße
+            9 Steuerung, Kamera, Oberfläche
+   Boot-Vertrag: THREE.Object3D, Bug nach +Z, Backbord = +X, Ursprung mittig auf der Wasserlinie, Einheit Meter.
+   userData (alles optional): laenge, breite, motor (Gruppe, dreht beim Lenken um Y), propeller, lichter [{lampe, glow, sektor}],
+   katzenWeg [Vector3 auf Deck], kreise [{z, r}] für Zusammenstöße. Fremde Modelle: WELT.normiere(obj, {laenge, achse}). */
 (function () {
 'use strict';
-const W = window.WELT = {}, $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
-const cl = (v, a, b) => Math.max(a, Math.min(b, v)), TAU = Math.PI * 2, RAD = Math.PI / 180;
-let T = null; /* THREE */
+const W = window.WELT = {};
+const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+const cl = (v, a, b) => v < a ? a : v > b ? b : v, mix = (a, b, u) => a + (b - a) * u, sm = (a, b, x) => { const u = cl((x - a) / (b - a), 0, 1); return u * u * (3 - 2 * u); };
+const TAU = Math.PI * 2, RAD = Math.PI / 180, wdiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b)), rnd = (a, b) => a + Math.random() * (b - a);
+let T = null;
+
+/* ================= 1. STIL ================= */
+const WARM = {
+  rumpf: '#f4ede0', streifen: '#a8432f', unterwasser: '#2d4b5e', deck: '#b98455', fuge: '#5e3d22', kajuete: '#efe6d6', dach: '#e2d6c2', holz: '#9c6236', holzHell: '#c9935e',
+  messing: '#c8962e', glas: '#1f2c35', innen: '#f3c97a', chrom: '#cfd5da', motor: '#33383d', motorBand: '#c0392b', fender: '#e9eef2', tau: '#e3d5b4', ring: '#e2553f',
+  rot: '#c8402f', gruen: '#3f8a4f', gelb: '#e8b23a', schwarz: '#26292c', weiss: '#f7f3ea', mast: '#dfe3e6',
+  sand: '#e3cf9f', sandNass: '#b9a477', gras: '#7fa35a', grasDunkel: '#5d8644', fels: '#8d8a82', pflaster: '#a39684', beton: '#b8b2a6', kaimauer: '#7d7468', pfahl: '#5a4634',
+  ziegel: '#a5523c', putz: '#efe3cc', putzBlau: '#9fb6c4', putzGelb: '#e9cf8d', putzRosa: '#e3b3a0', dachRot: '#8e3b2c', dachGrau: '#58606a', rahmen: '#f6f1e6', tuer: '#2f5d6e',
+  kran: '#d9a13a', baum: '#4f7a3c', baumDunkel: '#3e6a3a', stamm: '#6b4a32',
+  katze: '#e39a4c', katzeHell: '#f8dcb4', nase: '#e58a8a', moewe: '#fbfbf7', moeweGrau: '#a7b0b8', schnabel: '#f0b53e', ente: '#7a5a3c', enteKopf: '#2f6b4a', kueken: '#f2cf4a', seehund: '#8f979e',
+  schiff: '#f5f1e8', schiffBlau: '#2f5d8a', schornstein: '#c0392b', segelPersenning: '#2f5d8a'
+};
+const STILE = {
+  warm: {name: 'Warm und weich', flach: false, belichtung: 1.0, schatten: true, f: WARM,
+    rau: {rumpf: .3, streifen: .32, unterwasser: .7, glas: .06, messing: .3, chrom: .18, motor: .32, fender: .45, deck: .85, mast: .3, schiff: .35, weiss: .4},
+    metall: {messing: .85, chrom: .9, mast: .4}},
+  spielzeug: {name: 'Spielzeug', flach: true, belichtung: 1.12, schatten: false,
+    f: Object.assign({}, WARM, {rumpf: '#fffaf0', streifen: '#e0503c', unterwasser: '#2f6fae', deck: '#e0a96d', dach: '#5aa0d8', kajuete: '#fff6e6', gras: '#8cc65a', sand: '#f2dc9a', katze: '#f59a3c', schiffBlau: '#3d7fd0'}),
+    rau: {}, metall: {}}
+};
+W.STILE = STILE;
+let ST = STILE.warm, MC = {}, TOON = null;
+const toon = () => { if (!TOON) { TOON = new T.DataTexture(new Uint8Array([150, 205, 255]), 3, 1, T.RedFormat); TOON.minFilter = TOON.magFilter = T.NearestFilter; TOON.needsUpdate = true; } return TOON; };
+/* Material aus dem Stil. key = Farbname aus ST.f (oder eine Farbe). o: {farbe, rau, vc, side, map, eigen} */
+function M(key, o = {}) {
+  const id = [key, o.farbe, o.rau, o.vc ? 1 : 0, o.side, o.map ? o.map.uuid : '', o.transparent ? o.opacity : ''].join('|');
+  if (!o.eigen && MC[id]) return MC[id];
+  const farbe = o.vc || o.map ? (o.farbe || '#ffffff') : (o.farbe || ST.f[key] || key);
+  const p = {color: farbe, vertexColors: !!o.vc, side: o.side || T.FrontSide};
+  if (o.map) p.map = o.map; if (o.transparent) { p.transparent = true; p.opacity = o.opacity; }
+  const m = ST.flach ? new T.MeshToonMaterial(Object.assign(p, {gradientMap: toon()}))
+    : new T.MeshStandardMaterial(Object.assign(p, {roughness: o.rau != null ? o.rau : (ST.rau[key] != null ? ST.rau[key] : .8), metalness: ST.metall[key] || 0}));
+  if (ST.flach) m.flatShading = true;
+  if (!o.eigen) MC[id] = m; return m;
+}
+/* Lichter und Fenster, die nachts leuchten */
+let NACHT = [];
+function Mlicht(key, leucht, staerke = 1.4) { const m = M(key, {eigen: true}); m.emissive = new T.Color('#000000'); NACHT.push({m, leucht: new T.Color(leucht), staerke}); return m; }
+
+/* ================= 2. WETTER und WELLEN ================= */
+/* H = Wellenhöhe in m (Küstennähe, etwas unter den Werten der offenen See), L = Länge der Hauptwelle */
+const WIND = {flaute: {n: 'Flaute', bft: 0, ms: 0, H: 0, L: 10}, leicht: {n: 'Leicht', bft: 2, ms: 3, H: .25, L: 10}, maessig: {n: 'Mäßig', bft: 4, ms: 7, H: .8, L: 18},
+  frisch: {n: 'Frisch', bft: 5, ms: 9.5, H: 1.5, L: 27}, stark: {n: 'Stark', bft: 7, ms: 15, H: 2.6, L: 40}, sturm: {n: 'Sturm', bft: 9, ms: 22, H: 4.2, L: 56}};
+const RICHTUNG = ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'];
+/* Nebeldichte für FogExp2; extrem: man sieht das eigene Boot gerade noch */
+const SICHT = {klar: {n: 'Klar', d: .0009}, dunst: {n: 'Dunst', d: .004}, nebel: {n: 'Nebel', d: .011}, dicht: {n: 'Dichter Nebel', d: .02}, extrem: {n: 'Extrem dichter Nebel', d: .034}};
+const REGEN = {kein: {n: 'Kein Regen', z: 0}, regen: {n: 'Regen', z: 700}, stark: {n: 'Starkregen', z: 1500}};
+const ZEIT = {
+  morgen: {n: 'Morgen', el: 9, az: 100, oben: '#86a9cf', horiz: '#f1c9a6', sonne: '#ffd1a0', licht: 2.3, hemi: .9, wasser: '#2f6676', bel: 1},
+  tag: {n: 'Tag', el: 47, az: 200, oben: '#5b93cc', horiz: '#d3e6ee', sonne: '#fff0d6', licht: 3.1, hemi: 1.1, wasser: '#2a6a7c', bel: 1},
+  abend: {n: 'Abend', el: 7, az: 265, oben: '#58699a', horiz: '#f2a56f', sonne: '#ffad6a', licht: 2.3, hemi: .8, wasser: '#2b566a', bel: 1},
+  nacht: {n: 'Nacht', el: 32, az: 140, oben: '#0a1330', horiz: '#1d2a49', sonne: '#a8bde0', licht: .32, hemi: .28, wasser: '#10283a', bel: 1.25}};
+const WELLEN = {windsee: {n: 'Windsee', info: 'kurz, kommt mit dem Wind'}, duenung: {n: 'Dünung', info: 'lange runde Wellen von weit her'},
+  kreuzsee: {n: 'Kreuzsee', info: 'zwei Wellenzüge kreuzen sich'}, kabbel: {n: 'Kabbelwasser', info: 'kurz und steil, Strom gegen Wind'}, schwell: {n: 'Schwell', info: 'Heckwellen anderer Schiffe'}};
+const ORTE = {hafen: {n: 'Liegeplatz im Hafen', x: -27.2, z: 150, h: 0}, einfahrt: {n: 'Vor der Hafeneinfahrt', x: 0, z: 25, h: Math.PI}, see: {n: 'Offene See', x: 40, z: -150, h: .5}};
+const KAMERAS = {hinten: {n: 'Hinter dem Boot', dist: 25, pitch: .27, yaw: 0, lock: false}, weit: {n: 'Weit', dist: 46, pitch: .36, yaw: 0, lock: false},
+  seite: {n: 'Seite', dist: 22, pitch: .12, yaw: Math.PI / 2, lock: true}, oben: {n: 'Von oben', dist: 52, pitch: 1.45, yaw: 0, lock: true}, nah: {n: 'Nah', dist: 11, pitch: .22, yaw: .75, lock: true}};
+const QUALI = {auto: {n: 'Automatisch'}, hoch: {n: 'Hoch', dpr: 1.6, schatten: true, env: true}, mittel: {n: 'Mittel', dpr: 1.15, schatten: false, env: true}, niedrig: {n: 'Niedrig', dpr: .8, schatten: false, env: false}};
+const STANDARD = {quali: 'auto', wind: 'leicht', von: 7, sicht: 'klar', regen: 'kein', zeit: 'tag', wellen: {windsee: true, duenung: false, kreuzsee: false, kabbel: false, schwell: true}, ort: 'hafen', stil: 'warm', kam: 'hinten', boot: 0};
+function cfg() {
+  const S = window.S || {}; S.cfg = S.cfg || {};
+  const c = S.cfg.welt = Object.assign({}, STANDARD, S.cfg.welt || {}); c.wellen = Object.assign({}, STANDARD.wellen, c.wellen || {});
+  if (!WIND[c.wind]) c.wind = STANDARD.wind; if (!SICHT[c.sicht]) c.sicht = 'klar'; if (!REGEN[c.regen]) c.regen = 'kein'; if (!ZEIT[c.zeit]) c.zeit = 'tag';
+  if (!ORTE[c.ort]) c.ort = 'hafen'; if (!STILE[c.stil]) c.stil = 'warm'; if (!KAMERAS[c.kam]) c.kam = 'hinten'; if (!QUALI[c.quali]) c.quali = 'auto'; return c;
+}
+const speichern = () => { try { if (typeof save === 'function') save(); } catch (e) {} };
+/* Wellen als Summe von Gerstner-Wellen: A Amplitude, k Wellenzahl, Richtung (dx, dz), Q Steilheit */
+function wellenListe(c) {
+  const w = WIND[c.wind], hin = c.von * 45 * RAD + Math.PI, L = [];
+  const add = (H, Lw, dir, Q, art) => { if (H <= 0) return; const k = TAU / Lw; L.push({A: H / 2, k, om: Math.sqrt(9.81 * k), dx: Math.sin(dir), dz: -Math.cos(dir), Q, art, ph: Math.random() * TAU}); };
+  if (c.wellen.windsee && w.H) { add(w.H * .62, w.L, hin, .55, 'w'); add(w.H * .38, w.L * .64, hin + .45, .5, 'w'); if (w.L * .42 >= 9.5) add(w.H * .28, w.L * .42, hin - .5, .45, 'w'); }
+  if (c.wellen.duenung) { add(1.3, 120, hin + 1.1, .25, 'd'); add(.7, 84, hin + 1.25, .22, 'd'); }
+  if (c.wellen.kreuzsee) { const H = Math.max(.9, w.H * .8); add(H * .7, 30, hin + 1.05, .6, 'k'); add(H * .7, 27, hin - 1.05, .6, 'k'); }
+  if (c.wellen.kabbel) { add(.75, 13, hin + Math.PI, .9, 'b'); add(.55, 10.5, hin + Math.PI - .5, .9, 'b'); add(.45, 11.5, hin + Math.PI + .6, .85, 'b'); }
+  const n = L.length || 1; L.forEach(q => { q.Q = Math.min(q.Q, .85 / (q.k * q.A * n)); });
+  return L;
+}
+
+/* ================= 3. Bausteine und Texturen ================= */
+function mk(geo, mat, x, y, z, eltern, schatten = true) {
+  const o = new T.Mesh(geo, mat); o.position.set(x || 0, y || 0, z || 0);
+  if (schatten && ST.schatten) { o.castShadow = true; o.receiveShadow = true; }
+  if (eltern) eltern.add(o); return o;
+}
+function tex(w, h, zeichne, rep) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; zeichne(c.getContext('2d'), w, h);
+  const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 4; if (rep) t.repeat.set(rep[0], rep[1]); return t;
+}
+let TX = {};
+function texturen() {
+  const f = ST.f;
+  TX.deck = tex(256, 256, (g, w, h) => { for (let i = 0; i < 8; i++) { const l = rnd(-8, 8); g.fillStyle = `hsl(28,${40 + rnd(-4, 4)}%,${46 + l}%)`; g.fillRect(i * 32, 0, 32, h);
+    g.fillStyle = 'rgba(80,50,25,.14)'; for (let k = 0; k < 6; k++) g.fillRect(i * 32 + rnd(3, 28), 0, 1, h);
+    const y = rnd(0, h); g.fillStyle = f.fuge; g.fillRect(i * 32, y, 32, 2); }
+    g.fillStyle = f.fuge; for (let i = 0; i <= 8; i++) g.fillRect(i * 32 - 1, 0, 2, h); });
+  TX.pflaster = tex(256, 256, (g, w, h) => { g.fillStyle = '#6f675c'; g.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 16) for (let x = (y / 16 % 2) * 10; x < w; x += 20) {
+    g.fillStyle = `hsl(32,${8 + rnd(0, 8)}%,${50 + rnd(-9, 9)}%)`; g.beginPath(); g.roundRect ? g.roundRect(x + 1, y + 1, 18, 14, 4) : g.rect(x + 1, y + 1, 18, 14); g.fill(); } }, [30, 6]);
+  TX.glow = tex(64, 64, (g, w) => { const r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.25, 'rgba(255,255,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
+  TX.wolke = tex(256, 128, g => { for (let i = 0; i < 14; i++) { const x = rnd(50, 206), y = rnd(45, 85), r = rnd(22, 46), q = g.createRadialGradient(x, y, 0, x, y, r); q.addColorStop(0, 'rgba(255,255,255,.75)'); q.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = q; g.fillRect(0, 0, 256, 128); } });
+  TX.schaum = tex(128, 128, (g, w, h) => { for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(255,255,255,${rnd(.15, .7)})`; g.beginPath(); g.arc(rnd(0, w), rnd(0, h), rnd(.6, 2.6), 0, 7); g.fill(); } });
+  TX.flagge = tex(60, 36, (g) => { g.fillStyle = '#1b1b1b'; g.fillRect(0, 0, 60, 12); g.fillStyle = '#d0281f'; g.fillRect(0, 12, 60, 12); g.fillStyle = '#f2c230'; g.fillRect(0, 24, 60, 12); });
+  TX.fell = tex(128, 64, (g, w, h) => { g.fillStyle = f.katze; g.fillRect(0, 0, w, h); g.fillStyle = 'rgba(140,70,20,.42)';
+    for (let y = 6; y < h - 6; y += 7) { g.beginPath(); for (let x = 0; x <= w; x += 8) g.lineTo(x, y + Math.sin(x * .2 + y) * 1.6); for (let x = w; x >= 0; x -= 8) g.lineTo(x, y + 3 + Math.sin(x * .2 + y) * 1.6); g.fill(); } });
+  TX.wasserN = wasserNormal();
+}
+/* Normal-Karte für kleine Wellen (kachelbar, aus Sinuswellen) */
+function wasserNormal() {
+  const N = 256, d = new Uint8Array(N * N * 4), W8 = [];
+  for (let i = 0; i < 14; i++) W8.push({fx: Math.round(rnd(-9, 9)) || 1, fy: Math.round(rnd(-9, 9)) || 2, a: rnd(.3, 1) / (1 + i * .25), p: rnd(0, TAU)});
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { let gx = 0, gy = 0; const u = x / N, v = y / N;
+    for (const q of W8) { const c = Math.cos(TAU * (q.fx * u + q.fy * v) + q.p) * q.a; gx += c * q.fx; gy += c * q.fy; }
+    const nx = -gx * .045, ny = -gy * .045, l = Math.hypot(nx, ny, 1), i = (y * N + x) * 4;
+    d[i] = (nx / l * .5 + .5) * 255; d[i + 1] = (ny / l * .5 + .5) * 255; d[i + 2] = (1 / l * .5 + .5) * 255; d[i + 3] = 255; }
+  const t = new T.DataTexture(d, N, N, T.RGBAFormat); t.wrapS = t.wrapT = T.RepeatWrapping; t.magFilter = T.LinearFilter; t.minFilter = T.LinearMipmapLinearFilter; t.generateMipmaps = true; t.needsUpdate = true; return t;
+}
+/* Feste Teile je Material zu einem Stück zusammenfassen (weniger Zeichenaufrufe). Ausnahmen bleiben einzeln. */
+function verschmelze(root, ausnahmen = []) {
+  root.updateMatrixWorld(true); const inv = new T.Matrix4().copy(root.matrixWorld).invert(), gruppen = new Map(), weg = [];
+  root.traverse(o => { if (!o.isMesh || o.isInstancedMesh || o.userData.einzeln) return; let p = o.parent; while (p && p !== root) { if (ausnahmen.includes(p)) return; p = p.parent; } if (ausnahmen.includes(o)) return;
+    const k = o.material.uuid; if (!gruppen.has(k)) gruppen.set(k, {m: o.material, g: [], schatten: o.castShadow}); const geo = (o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone()).applyMatrix4(new T.Matrix4().multiplyMatrices(inv, o.matrixWorld)); gruppen.get(k).g.push(geo); weg.push(o); });
+  weg.forEach(o => o.parent.remove(o));
+  for (const {m, g, schatten} of gruppen.values()) { const n = g.reduce((a, x) => a + x.attributes.position.count, 0), pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2), col = m.vertexColors ? new Float32Array(n * 3) : null; let o = 0;
+    for (const x of g) { const c = x.attributes.position.count; pos.set(x.attributes.position.array, o * 3); if (x.attributes.normal) nor.set(x.attributes.normal.array, o * 3); if (x.attributes.uv) uv.set(x.attributes.uv.array, o * 2); if (col && x.attributes.color) { const ca = x.attributes.color; for (let i = 0; i < c; i++) { col[(o + i) * 3] = ca.getX(i); col[(o + i) * 3 + 1] = ca.getY(i); col[(o + i) * 3 + 2] = ca.getZ(i); } } o += c; x.dispose(); }
+    const geo = new T.BufferGeometry(); geo.setAttribute('position', new T.BufferAttribute(pos, 3)); geo.setAttribute('normal', new T.BufferAttribute(nor, 3)); geo.setAttribute('uv', new T.BufferAttribute(uv, 2)); if (col) geo.setAttribute('color', new T.BufferAttribute(col, 3));
+    geo.computeBoundingSphere(); const me = new T.Mesh(geo, m); me.castShadow = schatten && ST.schatten; me.receiveShadow = ST.schatten; root.add(me); }
+  return root;
+}
+function glow(farbe, groesse) { const s = new T.Sprite(new T.SpriteMaterial({map: TX.glow, color: farbe, transparent: true, depthWrite: false, blending: T.AdditiveBlending, opacity: 0})); s.scale.setScalar(groesse); s.renderOrder = 5; return s; }
+const rohr = (pts, r, mat, eltern, seg = 40) => { const c = new T.CatmullRomCurve3(pts.map(p => new T.Vector3(p[0], p[1], p[2]))); return mk(new T.TubeGeometry(c, seg, r, 7), mat, 0, 0, 0, eltern); };
+function lathe(profil, farbe, seg = 24) { return new T.LatheGeometry(profil.map(p => new T.Vector2(p[0], p[1])), seg); }
+
+/* ================= 4. Boote ================= */
+/* Rumpf aus Spanten: s = 0 Heck … 1 Bug. Farbbänder (Unterwasser, Wasserpass, Rumpf) über doppelte Reihen scharf getrennt. */
+function rumpf(o, farb) {
+  const L = o.L, B = o.B, N = 32;
+  const st = s => { const b = B / 2 * (s < .55 ? .9 + .1 * Math.sin(s / .55 * Math.PI / 2) : Math.max(.012, Math.pow(Math.cos((s - .55) / .45 * Math.PI / 2), .72)));
+    const t = o.T * (s < .12 ? .78 + 1.8 * s : 1) * (s > .72 ? Math.max(.05, 1 - Math.pow((s - .72) / .28, 1.35)) : 1);
+    return {b, t, f: o.F * (1 + o.sprung * Math.pow(s, 2.2))}; };
+  const zOf = (s, y, q) => (s - .5) * L + (s > .78 ? o.rake * Math.pow((s - .78) / .22, 2) * cl((y + q.t) / (q.f + q.t), 0, 1) : 0);
+  const half = q => { const a = []; for (let k = 0; k <= 9; k++) { const w = k / 9 * Math.PI / 2; a.push([q.b * Math.pow(Math.sin(w), .7), -q.t * Math.pow(Math.cos(w), 1.5)]); }
+    for (const y of [.075, .08, .2, .205, q.f * .5, q.f * .8, q.f]) a.push([q.b * (1 + .05 * y / q.f), y]); return a; };
+  const cU = new T.Color(farb.unterwasser), cS = new T.Color(farb.streifen), cR = new T.Color(farb.rumpf), band = y => y < .078 ? cU : y < .203 ? cS : cR;
+  const pos = [], col = [], idx = []; let RN = 0;
+  for (let i = 0; i <= N; i++) { const s = i / N, q = st(s), h = half(q), R = [];
+    for (let j = h.length - 1; j >= 0; j--) R.push(h[j]); for (let j = 1; j < h.length; j++) R.push([-h[j][0], h[j][1]]); RN = R.length;
+    for (const [x, y] of R) { pos.push(x, y, zOf(s, y, q)); const c = band(y); col.push(c.r, c.g, c.b); } }
+  for (let i = 0; i < N; i++) for (let j = 0; j < RN - 1; j++) { const a = i * RN + j, b = a + RN; idx.push(a, b, a + 1, a + 1, b, b + 1); }
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new T.Float32BufferAttribute(col, 3)); g.setIndex(idx); g.computeVertexNormals();
+  const grp = new T.Group(); mk(g, M('rumpf', {vc: true, side: T.DoubleSide}), 0, 0, 0, grp);
+  /* Heckspiegel in waagerechten Streifen, damit die Farbbänder durchlaufen */
+  const q0 = st(0), h0 = half(q0), tp = [], tc = [], z0 = -L / 2;
+  for (let j = 0; j < h0.length - 1; j++) { const [x1, y1] = h0[j], [x2, y2] = h0[j + 1];
+    for (const [x, y] of [[x1, y1], [x2, y2], [-x2, y2], [x1, y1], [-x2, y2], [-x1, y1]]) { tp.push(x, y, z0); const c = band(y); tc.push(c.r, c.g, c.b); } }
+  const tg = new T.BufferGeometry(); tg.setAttribute('position', new T.Float32BufferAttribute(tp, 3)); tg.setAttribute('color', new T.Float32BufferAttribute(tc, 3)); tg.computeVertexNormals();
+  mk(tg, M('rumpf', {vc: true, side: T.DoubleSide}), 0, 0, 0, grp);
+  /* Deck mit Planken und leichter Wölbung */
+  const dp = [], du = [], di = [], K = 6;
+  for (let i = 0; i <= N; i++) { const s = i / N, q = st(s); for (let k = 0; k <= K; k++) { const u = k / K * 2 - 1, x = u * q.b, y = q.f - .02 + .05 * (1 - u * u);
+    dp.push(x, y, zOf(s, q.f, q)); du.push(x / .6, zOf(s, q.f, q) / 2); } }
+  for (let i = 0; i < N; i++) for (let k = 0; k < K; k++) { const a = i * (K + 1) + k, b = a + K + 1; di.push(a, a + 1, b, a + 1, b + 1, b); }
+  const dg = new T.BufferGeometry(); dg.setAttribute('position', new T.Float32BufferAttribute(dp, 3)); dg.setAttribute('uv', new T.Float32BufferAttribute(du, 2)); dg.setIndex(di); dg.computeVertexNormals();
+  mk(dg, o.deckFarbe ? M(o.deckFarbe) : M('deck', {map: TX.deck}), 0, 0, 0, grp);
+  /* Scheuerleiste */
+  for (const sx of [1, -1]) { const pts = []; for (let i = 0; i <= N; i++) { const s = i / N, q = st(s); pts.push([sx * q.b * 1.05, q.f - .03, zOf(s, q.f, q)]); } rohr(pts, .05, M(farb.leiste || 'holz'), grp, 64); }
+  rohr([[q0.b * 1.05, q0.f - .03, z0], [0, q0.f - .03, z0 - .02], [-q0.b * 1.05, q0.f - .03, z0]], .05, M(farb.leiste || 'holz'), grp, 12);
+  const deckY = z => { const s = cl(z / L + .5, 0, 1), q = st(s); return q.f + .02; }, breiteBei = z => st(cl(z / L + .5, 0, 1)).b;
+  return {grp, st, zOf, deckY, breiteBei, bugZ: zOf(1, st(1).f, st(1))};
+}
+/* Lampe mit Sektor (bb rot, sb grün, heck, top, rund) */
+function lampe(eltern, x, y, z, farbe, sektor, liste, gross = 1) {
+  const m = new T.MeshBasicMaterial({color: '#3a3a3a'}), l = mk(new T.SphereGeometry(.05 * gross, 10, 8), m, x, y, z, eltern, false); l.userData.einzeln = true;
+  const g = glow(farbe, 1.1 * gross); g.position.set(x, y, z); eltern.add(g); liste.push({lampe: l, glow: g, sektor, farbe: new T.Color(farbe)}); return l;
+}
+function bauBoot(o) {
+  o = Object.assign({art: 'kajuete', L: 8.4, B: 2.9, T: .55, F: .95, sprung: .4, rake: .6, mast: 'liegt', fender: true, flagge: true, motor: true, farben: {}}, o || {});
+  if (o.art === 'offen') Object.assign(o, {L: o.L === 8.4 ? 5.6 : o.L, B: 2.15, T: .38, F: .72, sprung: .3, rake: .4});
+  if (o.art === 'segler') Object.assign(o, {T: .7, F: .85, sprung: .35, rake: .8, motor: false, flagge: false});
+  const farb = Object.assign({rumpf: ST.f.rumpf, streifen: ST.f.streifen, unterwasser: ST.f.unterwasser}, o.farben);
+  const b = new T.Group(), R = rumpf(o, farb); b.add(R.grp);
+  const L = o.L, B = o.B, lichter = [], weg = [];
+  const yS = R.deckY(0);
+  if (o.art === 'kajuete') {
+    const zA = -L * .12, zF = L * .2, H = 1.02, w = B * .6, yb = R.deckY(0) - .02;
+    const sh = new T.Shape(); sh.moveTo(zA, 0); sh.lineTo(zF, 0); sh.lineTo(zF - .5, .78); sh.quadraticCurveTo(zF - .62, H, zF - .85, H); sh.lineTo(zA + .12, H); sh.quadraticCurveTo(zA, H, zA, H - .12); sh.lineTo(zA, 0);
+    const kg = new T.ExtrudeGeometry(sh, {depth: w, bevelEnabled: true, bevelThickness: .05, bevelSize: .05, bevelSegments: 3, curveSegments: 8}); kg.rotateY(-Math.PI / 2); kg.translate(w / 2, yb, 0);
+    mk(kg, M('kajuete'), 0, 0, 0, b);
+    const rs = new T.Shape(), rx = w / 2 + .12, ra = zA - .14, rf = zF - .72, rr = .18; rs.moveTo(-rx + rr, -ra); rs.lineTo(rx - rr, -ra); rs.quadraticCurveTo(rx, -ra, rx, -ra - rr); rs.lineTo(rx, -rf + rr); rs.quadraticCurveTo(rx, -rf, rx - rr, -rf); rs.lineTo(-rx + rr, -rf); rs.quadraticCurveTo(-rx, -rf, -rx, -rf + rr); rs.lineTo(-rx, -ra - rr); rs.quadraticCurveTo(-rx, -ra, -rx + rr, -ra);
+    const rg = new T.ExtrudeGeometry(rs, {depth: .06, bevelEnabled: true, bevelThickness: .03, bevelSize: .03, bevelSegments: 2}); rg.rotateX(-Math.PI / 2); rg.translate(0, yb + H + .03, 0);
+    mk(rg, M('dach'), 0, 0, 0, b);
+    const yr = yb + H + .12;
+    /* Bullaugen wie in der Kajüte: Messingring, innen warmes Licht */
+    const glas = Mlicht('glas', ST.f.innen, 1.2), ringG = new T.TorusGeometry(.15, .035, 10, 24), glG = new T.CircleGeometry(.15, 24);
+    for (const sx of [1, -1]) for (const z of [zA + .5, zA + 1.15, zA + 1.8]) {
+      const r = mk(ringG, M('messing'), sx * (w / 2 + .085), yb + .55, z, b, false); r.rotation.y = Math.PI / 2;
+      const gl = mk(glG, glas, sx * (w / 2 + .075), yb + .55, z, b, false); gl.rotation.y = sx * Math.PI / 2; }
+    /* Frontscheiben auf der Schräge */
+    const neig = -Math.atan2(.5, .78);
+    for (const sx of [1, -1]) { const p = mk(new T.PlaneGeometry(w * .4, .5), glas, sx * w * .22, yb + .42, zF - .27 + .07, b, false); p.rotation.x = neig; }
+    /* Tür hinten mit kleinem Bullauge, Rettungsring */
+    mk(new T.BoxGeometry(.56, .82, .04), M('holz'), -w * .12, yb + .45, zA - .06, b);
+    const tr = mk(ringG, M('messing'), -w * .12, yb + .62, zA - .09, b, false); tr.scale.setScalar(.6);
+    const rgG = new T.TorusGeometry(.2, .055, 10, 32), rc = []; const pa = rgG.attributes.position;
+    for (let i = 0; i < pa.count; i++) { const a = Math.atan2(pa.getY(i), pa.getX(i)), c = new T.Color(Math.floor((a + Math.PI) / (Math.PI / 4)) % 2 ? ST.f.ring : ST.f.weiss); rc.push(c.r, c.g, c.b); }
+    rgG.setAttribute('color', new T.Float32BufferAttribute(rc, 3)); mk(rgG, M('ring', {vc: true}), w * .26, yb + .55, zA - .1, b);
+    /* Handläufe auf dem Dach, Antenne, Lampenmast */
+    for (const sx of [1, -1]) { const h = mk(new T.CylinderGeometry(.025, .025, (rf - ra) * .7, 6), M('holz'), sx * (w / 2 - .02), yr + .06, (ra + rf) / 2, b); h.rotation.x = Math.PI / 2; }
+    mk(new T.CylinderGeometry(.03, .03, .75, 8), M('weiss'), 0, yr + .36, zF - 1.05, b);
+    lampe(b, 0, yr + .75, zF - 1.05, '#fff6e0', 'top', lichter);
+    const an = mk(new T.CylinderGeometry(.012, .012, 1.4, 5), M('schwarz'), -w * .3, yr + .65, zA + .1, b, false); an.rotation.x = -.2;
+    /* Seitenlichter an der Kajüte vorn: Backbord rot (+x), Steuerbord grün (−x) */
+    for (const [sx, f, sk] of [[1, '#ff3a2a', 'bb'], [-1, '#37ff6a', 'sb']]) { mk(new T.BoxGeometry(.08, .1, .18), M('schwarz'), sx * (w / 2 + .1), yb + .95, zF - .82, b); lampe(b, sx * (w / 2 + .15), yb + .95, zF - .76, f, sk, lichter); }
+    /* Der abgebaute Mast liegt auf zwei Böcken auf dem Dach */
+    if (o.mast === 'liegt') { for (const z of [ra + .25, rf - .25]) mk(new T.BoxGeometry(.5, .2, .1), M('holz'), 0, yr + .07, z, b);
+      const m = mk(new T.CylinderGeometry(.065, .075, L * .78, 10), M('mast'), 0, yr + .23, (ra + rf) / 2 - .5, b); m.rotation.x = Math.PI / 2; }
+    weg.push([0, -L * .38], [.85, -L * .3], [w / 2 + .3, zA + .2], [w / 2 + .3, zF - .4], [0, zF + .7], [-(w / 2 + .3), zF - .4], [-(w / 2 + .3), zA + .2], [-.85, -L * .3]);
+    b.userData.dachPlatz = new T.Vector3(.1, yr + .05, zA + .4);
+  } else if (o.art === 'offen') {
+    /* offenes Boot: Steuerkonsole mit Windschutz, Bänke */
+    const yb = R.deckY(0) - .25;
+    mk(new T.BoxGeometry(.7, .85, .6), M('kajuete'), 0, yb + .42, L * .05, b);
+    const ws = mk(new T.PlaneGeometry(.75, .35), M('glas', {transparent: true, opacity: .45}), 0, yb + 1, L * .05 + .28, b, false); ws.rotation.x = -.5;
+    mk(new T.BoxGeometry(B * .7, .1, .45), M('holzHell'), 0, yb + .45, -L * .3, b); mk(new T.BoxGeometry(B * .55, .1, .4), M('holzHell'), 0, yb + .45, L * .26, b);
+    mk(new T.CylinderGeometry(.03, .03, .9, 6), M('weiss'), 0, R.deckY(-L * .4) + .45, -L * .4, b); lampe(b, 0, R.deckY(-L * .4) + .92, -L * .4, '#fff6e0', 'rund', lichter);
+    for (const [sx, f, sk] of [[1, '#ff3a2a', 'bb'], [-1, '#37ff6a', 'sb']]) lampe(b, sx * .2, R.deckY(L * .38) + .12, L * .38, f, sk, lichter);
+    weg.push([0, -L * .25], [.6, 0], [0, L * .3], [-.6, 0]);
+  } else if (o.art === 'segler') {
+    const yb = R.deckY(0) - .02, w = B * .55, zA = -L * .15, zF = L * .12;
+    mk(new T.BoxGeometry(w, .45, zF - zA), M('kajuete'), 0, yb + .22, (zA + zF) / 2, b);
+    mk(new T.BoxGeometry(w + .14, .06, zF - zA + .1), M('holz'), 0, yb + .47, (zA + zF) / 2, b);
+    const mh = L * 1.35; mk(new T.CylinderGeometry(.05, .07, mh, 8), M('mast'), 0, yb + mh / 2, zF + .25, b);
+    const baum = mk(new T.CylinderGeometry(.05, .05, L * .42, 8), M('mast'), 0, yb + 1.1, zF + .25 - L * .21, b); baum.rotation.x = Math.PI / 2;
+    const per = mk(new T.CapsuleGeometry(.13, L * .36, 4, 8), M('segelPersenning'), 0, yb + 1.25, zF + .25 - L * .21, b); per.rotation.x = Math.PI / 2;
+    for (const [sx, z] of [[1, 0], [-1, 0]]) { const wa = rohr([[0, yb + mh * .95, zF + .25], [sx * B * .48, R.deckY(z) + .02, z]], .008, M('chrom'), b, 2); }
+    rohr([[0, yb + mh * .97, zF + .25], [0, R.deckY(L * .45), L * .5 + .4]], .008, M('chrom'), b, 2);
+    lampe(b, 0, yb + mh + .05, zF + .25, '#fff6e0', 'rund', lichter);
+  }
+  /* Bugkorb, Klampen, Anker */
+  if (o.art !== 'offen') { const zb = R.bugZ - .35, yb = R.deckY(L * .45);
+    const pk = [[.55, yb + .55, zb - 1.05], [.38, yb + .6, zb - .45], [0, yb + .62, zb], [-.38, yb + .6, zb - .45], [-.55, yb + .55, zb - 1.05]];
+    rohr(pk, .022, M('chrom'), b, 40); for (const p of pk) mk(new T.CylinderGeometry(.015, .015, .58, 5), M('chrom'), p[0], p[1] - .29, p[2], b, false);
+    mk(new T.BoxGeometry(.12, .12, .3), M('schwarz'), 0, yb + .03, zb + .12, b); }
+  const klampe = (x, z) => { const y = R.deckY(z) + .02; mk(new T.BoxGeometry(.05, .05, .08), M('chrom'), x, y, z, b, false); const k = mk(new T.CapsuleGeometry(.022, .16, 3, 6), M('chrom'), x, y + .05, z, b, false); k.rotation.x = Math.PI / 2; };
+  klampe(0, L * .4); for (const sx of [1, -1]) { klampe(sx * (B / 2 - .25), -L / 2 + .35); klampe(sx * (R.breiteBei(0) - .2), 0); }
+  /* Fender */
+  if (o.fender) for (const sx of [1, -1]) for (const z of [-L * .18, L * .1]) { const x = sx * (R.breiteBei(z) + .13), y = R.deckY(z);
+    mk(new T.CylinderGeometry(.008, .008, .4, 4), M('tau'), x * .97, y - .15, z, b, false); mk(new T.CapsuleGeometry(.1, .28, 4, 10), M('fender'), x, y - .55, z, b); }
+  /* Hecklicht und Flagge */
+  if (o.art === 'kajuete') { const zH = -L / 2 + .25, yH = R.deckY(zH);
+    mk(new T.CylinderGeometry(.022, .022, .7, 6), M('weiss'), -(B / 2 - .35), yH + .35, zH, b); lampe(b, -(B / 2 - .35), yH + .72, zH, '#fff6e0', 'heck', lichter); }
+  if (o.flagge) { const fz = -L / 2 + .12, fy = R.deckY(fz), fl = new T.Group(); fl.position.set(B / 2 - .45, fy, fz); b.add(fl);
+    mk(new T.CylinderGeometry(.018, .022, 1.15, 6), M('holz'), 0, .57, 0, fl);
+    const dreh = new T.Group(); dreh.position.y = 1.1; fl.add(dreh);
+    const fg = new T.PlaneGeometry(.55, .34, 10, 4); fg.translate(.275, -.17, 0); const tuch = mk(fg, M('weiss', {map: TX.flagge, side: T.DoubleSide}), 0, 0, 0, dreh, false);
+    tuch.userData.basis = fg.attributes.position.array.slice(); b.userData.flagge = {dreh, tuch}; }
+  /* Außenborder: dreht beim Lenken um die Hochachse am Spiegel */
+  if (o.motor) { const yT = R.st(0).f, mot = new T.Group(); mot.position.set(0, yT - .12, -L / 2 - .1); b.add(mot);
+    const k = o.art === 'offen' ? .85 : 1;
+    mk(new T.BoxGeometry(.2, .32, .14), M('motor'), 0, 0, .05, mot);
+    const haube = mk(new T.CapsuleGeometry(.19 * k, .26 * k, 6, 14), M('motor'), 0, .36 * k, -.13, mot); haube.scale.set(1, 1, 1.4);
+    mk(new T.CylinderGeometry(.2 * k, .2 * k, .06, 16), M('motorBand'), 0, .2 * k, -.13, mot).scale.set(1, 1, 1.4);
+    mk(new T.BoxGeometry(.1, 1.15, .17), M('motor'), 0, -.52, -.12, mot);
+    mk(new T.BoxGeometry(.38, .025, .36), M('motor'), 0, -.92, -.14, mot);
+    const torp = mk(new T.CapsuleGeometry(.075, .26, 4, 10), M('motor'), 0, -1.17, -.1, mot); torp.rotation.x = Math.PI / 2;
+    mk(new T.BoxGeometry(.025, .22, .14), M('motor'), 0, -1.32, -.14, mot);
+    const prop = new T.Group(); prop.position.set(0, -1.17, -.3); mot.add(prop);
+    mk(new T.ConeGeometry(.05, .1, 10), M('chrom'), 0, 0, -.04, prop).rotation.x = -Math.PI / 2;
+    const blatt = new T.CircleGeometry(.11, 12); blatt.scale(1, .55, 1);
+    for (let i = 0; i < 3; i++) { const a = new T.Group(); a.rotation.z = i * TAU / 3; prop.add(a); const bl = mk(blatt, M('chrom', {side: T.DoubleSide}), 0, .1, 0, a, false); bl.rotation.y = .55; }
+    b.userData.motor = mot; b.userData.propeller = prop; }
+  verschmelze(b, [b.userData.motor, b.userData.flagge && b.userData.flagge.dreh].filter(Boolean));
+  const kw = weg.map(([x, z]) => new T.Vector3(x, R.deckY(z) + .01, z));
+  Object.assign(b.userData, {laenge: L, breite: B, lichter, katzenWeg: kw, kreise: [{z: L * .3, r: B * .42}, {z: 0, r: B * .5}, {z: -L * .32, r: B * .48}], deckY: R.deckY});
+  return b;
+}
+W.bauBoot = bauBoot;
+/* Ausflugsschiff (Maschinenfahrzeug: Topplicht, Seitenlichter, Hecklicht) */
+function bauSchiff() {
+  const o = {L: 20, B: 5.6, T: 1.1, F: 1.7, sprung: .22, rake: 1.2}, farb = {rumpf: ST.f.schiffBlau, streifen: ST.f.weiss, unterwasser: '#7a2f25', leiste: 'schwarz'};
+  const b = new T.Group(), R = rumpf(Object.assign({deckFarbe: 'beton'}, o), farb); b.add(R.grp); const L = o.L, lichter = [], y0 = R.deckY(0);
+  const glas = Mlicht('glas', ST.f.innen, 1.4);
+  mk(new T.BoxGeometry(4.2, 2.1, 11), M('schiff'), 0, y0 + 1.05, -1.5, b);
+  for (const sx of [1, -1]) mk(new T.PlaneGeometry(10, .8), glas, sx * 2.11, y0 + 1.3, -1.5, b, false).rotation.y = sx * Math.PI / 2;
+  mk(new T.BoxGeometry(4.5, .12, 11.4), M('schiffBlau'), 0, y0 + 2.16, -1.5, b);
+  mk(new T.BoxGeometry(3.2, 1.5, 2.6), M('schiff'), 0, y0 + 2.95, 3, b);
+  mk(new T.PlaneGeometry(2.8, .7), glas, 0, y0 + 3.15, 4.31, b, false);
+  mk(new T.BoxGeometry(3.4, .1, 2.9), M('schiffBlau'), 0, y0 + 3.75, 3, b);
+  const sch = mk(new T.CylinderGeometry(.55, .65, 2, 16), M('schornstein'), 0, y0 + 3.2, -3.5, b); mk(new T.CylinderGeometry(.57, .57, .4, 16), M('schwarz'), 0, y0 + 4.2, -3.5, b);
+  mk(new T.CylinderGeometry(.06, .08, 3.2, 8), M('weiss'), 0, y0 + 5.3, 3.4, b);
+  lampe(b, 0, y0 + 6.9, 3.4, '#fff6e0', 'top', lichter, 1.6);
+  for (const [sx, f, sk] of [[1, '#ff3a2a', 'bb'], [-1, '#37ff6a', 'sb']]) lampe(b, sx * 1.75, y0 + 3.95, 4.1, f, sk, lichter, 1.4);
+  lampe(b, 0, y0 + 1.2, -L / 2 + .2, '#fff6e0', 'heck', lichter, 1.4);
+  for (const sx of [1, -1]) rohr([[sx * 2.5, y0 + .9, -8], [sx * 2.6, y0 + .9, 0], [sx * 2.2, y0 + .9, 7]], .03, M('weiss'), b, 20);
+  verschmelze(b);
+  Object.assign(b.userData, {laenge: L, breite: o.B, lichter, kreise: [{z: 6.5, r: 2.6}, {z: 0, r: 2.9}, {z: -6.5, r: 2.9}]});
+  return b;
+}
+/* fremdes Modell passend machen: skaliert auf Länge, Bug nach +Z, Mitte auf die Wasserlinie */
+W.normiere = function (obj, opt) {
+  opt = Object.assign({laenge: 8.4, achse: '+z', wasserlinie: .3}, opt || {});
+  const g = new T.Group(); g.add(obj); obj.rotation.y = {'+z': 0, '-z': Math.PI, '+x': -Math.PI / 2, '-x': Math.PI / 2}[opt.achse] || 0;
+  const bx = new T.Box3().setFromObject(g), sz = bx.getSize(new T.Vector3()), ct = bx.getCenter(new T.Vector3()), k = opt.laenge / sz.z;
+  obj.scale.multiplyScalar(k); obj.position.set(-ct.x * k, -(bx.min.y + sz.y * opt.wasserlinie) * k, -ct.z * k);
+  g.userData = {laenge: opt.laenge, breite: sz.x * k, lichter: [], katzenWeg: [new T.Vector3(0, sz.y * k * .7, 0)], kreise: [{z: opt.laenge * .3, r: sz.x * k * .45}, {z: 0, r: sz.x * k * .5}, {z: -opt.laenge * .3, r: sz.x * k * .48}]};
+  return g;
+};
+
+/* ================= 5. Tiere ================= */
+function bauKatze() {
+  const g = new T.Group(), fell = M('katze', {map: TX.fell}), hell = M('katzeHell');
+  const kg = new T.SphereGeometry(.2, 20, 16); kg.rotateX(Math.PI / 2);
+  const koerper = mk(kg, fell, 0, .22, 0, g); koerper.scale.set(1.05, .85, 1.3);
+  mk(new T.SphereGeometry(.17, 16, 12), hell, 0, .17, .02, g).scale.set(.95, .6, 1.12);
+  const kopf = new T.Group(); kopf.position.set(0, .38, .25); g.add(kopf);
+  mk(new T.SphereGeometry(.14, 18, 14), fell, 0, 0, 0, kopf).scale.set(1.1, .95, .95);
+  for (const sx of [1, -1]) { mk(new T.SphereGeometry(.065, 12, 10), hell, sx * .06, -.045, .08, kopf);
+    const o = mk(new T.ConeGeometry(.055, .1, 6), fell, sx * .085, .12, -.01, kopf); o.rotation.z = -sx * .35;
+    mk(new T.SphereGeometry(.028, 10, 8), M('schwarz', {rau: .2}), sx * .058, .025, .118, kopf); mk(new T.SphereGeometry(.009, 6, 5), M('weiss'), sx * .05, .035, .142, kopf, false); }
+  mk(new T.SphereGeometry(.017, 8, 6), M('nase'), 0, -.02, .14, kopf, false);
+  const beine = []; for (const [x, z] of [[.1, .15], [-.1, .15], [.1, -.15], [-.1, -.15]]) { const h = new T.Group(); h.position.set(x, .17, z); g.add(h); mk(new T.CapsuleGeometry(.048, .09, 3, 8), fell, 0, -.1, 0, h); beine.push(h); }
+  const schwanz = []; let el = g; const p0 = new T.Vector3(0, .26, -.27);
+  for (let i = 0; i < 5; i++) { const s = new T.Group(); if (i === 0) s.position.copy(p0); else s.position.set(0, .085, 0); if (i === 0) s.rotation.x = -.9; el.add(s); mk(new T.CapsuleGeometry(.035 - i * .002, .06, 3, 6), fell, 0, .045, 0, s, false); schwanz.push(s); el = s; }
+  g.userData = {kopf, beine, schwanz, koerper}; g.scale.setScalar(1.35); return g;
+}
+function bauMoewe(sitzt) {
+  const g = new T.Group(), w = M('moewe'), gr = M('moeweGrau');
+  const k = mk(new T.SphereGeometry(.2, 14, 10), w, 0, 0, 0, g); k.scale.set(.8, .8, 1.6);
+  mk(new T.SphereGeometry(.13, 12, 10), w, 0, .1, .3, g); mk(new T.ConeGeometry(.035, .14, 6), M('schnabel'), 0, .08, .46, g).rotation.x = Math.PI / 2;
+  for (const sx of [1, -1]) mk(new T.SphereGeometry(.022, 6, 5), M('schwarz'), sx * .07, .14, .38, g, false);
+  const fl = []; for (const sx of [1, -1]) { const a = new T.Group(); g.add(a); const fg = mk(new T.BoxGeometry(.75, .025, .26), gr, sx * .38, 0, -.02, a); mk(new T.BoxGeometry(.18, .028, .2), M('schwarz'), sx * .7, 0, -.05, a, false); fl.push([a, sx]); if (sitzt) { a.rotation.z = sx * 1.3; a.position.x = sx * .1; fg.scale.set(.5, 1, 1); } }
+  g.userData.fl = fl; g.scale.setScalar(1.2); return g;
+}
+function bauEnte(kueken) {
+  const g = new T.Group(), k = kueken ? .45 : 1;
+  const r = mk(new T.SphereGeometry(.2 * k, 12, 10), M(kueken ? 'kueken' : 'ente'), 0, .06 * k, 0, g); r.scale.set(.85, .7, 1.25);
+  mk(new T.SphereGeometry(.11 * k, 12, 10), M(kueken ? 'kueken' : 'enteKopf'), 0, .24 * k, .17 * k, g);
+  mk(new T.BoxGeometry(.07 * k, .025 * k, .1 * k), M('schnabel'), 0, .22 * k, .28 * k, g, false);
+  for (const sx of [1, -1]) mk(new T.SphereGeometry(.018 * k, 6, 5), M('schwarz'), sx * .055 * k, .27 * k, .24 * k, g, false);
+  return g;
+}
+function bauSeehund() {
+  const g = new T.Group(), f = M('seehund');
+  const k = mk(new T.CapsuleGeometry(.35, .9, 6, 14), f, 0, .3, 0, g); k.rotation.x = Math.PI / 2;
+  const kopf = new T.Group(); kopf.position.set(0, .55, .75); g.add(kopf);
+  mk(new T.SphereGeometry(.26, 16, 12), f, 0, 0, 0, kopf); mk(new T.SphereGeometry(.12, 10, 8), M('#b5bcc2'), 0, -.07, .2, kopf);
+  for (const sx of [1, -1]) { mk(new T.SphereGeometry(.055, 10, 8), M('schwarz', {rau: .15}), sx * .1, .07, .2, kopf, false); mk(new T.SphereGeometry(.015, 6, 5), M('weiss'), sx * .09, .09, .25, kopf, false); }
+  mk(new T.SphereGeometry(.035, 6, 5), M('schwarz'), 0, -.02, .3, kopf, false);
+  g.userData.kopf = kopf; return g;
+}
+
+/* ================= 6. Hafen, See, Insel ================= */
+function haus(eltern, x, z, w, d, h, wand, dach, fenster, dunkel) {
+  const g = new T.Group(); g.position.set(x, 2.2, z); eltern.add(g);
+  mk(new T.BoxGeometry(w, h, d), M(wand), 0, h / 2, 0, g);
+  const ds = new T.Shape(); ds.moveTo(-w / 2 - .3, 0); ds.lineTo(0, w * .45); ds.lineTo(w / 2 + .3, 0); ds.lineTo(-w / 2 - .3, 0);
+  const dg = new T.ExtrudeGeometry(ds, {depth: d + .6, bevelEnabled: false}); dg.translate(0, 0, -(d + .6) / 2); mk(dg, M(dach), 0, h, 0, g);
+  mk(new T.BoxGeometry(.6, 1.6, .6), M('ziegel'), w * .25, h + w * .35, 0, g);
+  const nx = Math.max(1, Math.floor(w / 2.2)), ny = Math.max(1, Math.floor(h / 2.6));
+  for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) { const fx = -w / 2 + (i + .5) * w / nx, fy = 1.3 + j * 2.6;
+    if (j === 0 && i === Math.floor(nx / 2)) { mk(new T.BoxGeometry(1, 2, .1), M('tuer'), fx, 1, -d / 2 - .03, g); continue; }
+    mk(new T.BoxGeometry(1.05, 1.25, .08), M('rahmen'), fx, fy, -d / 2 - .02, g, false);
+    mk(new T.PlaneGeometry(.85, 1.05), Math.random() < .6 ? fenster : dunkel, fx, fy, -d / 2 - .07, g, false).rotation.y = Math.PI; }
+  return g;
+}
+function bauWelt(scene) {
+  const W2 = {stat: [], bojen: [], lampen: [], blink: []}, g = new T.Group(); scene.add(g);
+  const kap = (ax, az, bx, bz, r, art) => W2.stat.push({k: 1, ax, az, bx, bz, r, art}), kreis = (x, z, r, art) => W2.stat.push({k: 0, ax: x, az: z, r, art});
+  /* Land, Kaimauer, Strand */
+  mk(new T.BoxGeometry(170, 5.2, 4), M('kaimauer'), 0, -.4, 172, g);
+  const pf = mk(new T.PlaneGeometry(170, 16), M('pflaster', {map: TX.pflaster}), 0, 2.21, 182, g); pf.rotation.x = -Math.PI / 2;
+  const gr = mk(new T.PlaneGeometry(1200, 400), M('gras'), 0, 2.2, 390, g); gr.rotation.x = -Math.PI / 2;
+  for (const sx of [1, -1]) { const s = mk(new T.PlaneGeometry(520, 34), M('sand'), sx * 345, .6, 178, g); s.rotation.x = -Math.PI / 2 - .1;
+    const n = mk(new T.PlaneGeometry(520, 30), M('sandNass'), sx * 345, -1.2, 160, g); n.rotation.x = -Math.PI / 2 - .06; }
+  kap(-85, 171.5, 85, 171.5, 1.6, 'stein');
+  /* Molen aus Steinen mit Weg obendrauf; Einfahrt zwischen x −13 und 13 */
+  const fels = [], molen = [[[-85, 171], [-75, 95], [-18, 72]], [[85, 171], [75, 95], [18, 72]]];
+  for (const m of molen) for (let i = 0; i < m.length - 1; i++) { const [ax, az] = m[i], [bx, bz] = m[i + 1], len = Math.hypot(bx - ax, bz - az), ang = Math.atan2(bx - ax, bz - az);
+    const weg = mk(new T.BoxGeometry(4, 3.4, len + 3), M('beton'), (ax + bx) / 2, .9, (az + bz) / 2, g); weg.rotation.y = ang;
+    for (let s = 0; s <= len; s += 2.1) for (const sd of [-1, 1]) for (const row of [0, 1]) { const u = s / len, px = mix(ax, bx, u), pz = mix(az, bz, u), off = sd * (2.6 + row * 2.3 + rnd(-.4, .4));
+      fels.push([px + Math.cos(ang) * off, row ? rnd(-1.6, -.6) : rnd(-.3, .9), pz - Math.sin(ang) * off, rnd(1.2, 2.3) - row * .3]); }
+    kap(ax, az, bx, bz, 5.6, 'stein'); }
+  const fg = new T.DodecahedronGeometry(1, 0), fi = new T.InstancedMesh(fg, M('fels'), fels.length), mtx = new T.Matrix4(), q = new T.Quaternion(), e = new T.Euler(), c = new T.Color();
+  fels.forEach((p, i) => { e.set(rnd(0, 3), rnd(0, 3), rnd(0, 3)); q.setFromEuler(e); mtx.compose(new T.Vector3(p[0], p[1], p[2]), q, new T.Vector3(p[3], p[3] * rnd(.6, .9), p[3])); fi.setMatrixAt(i, mtx); fi.setColorAt(i, c.setScalar(rnd(.78, 1.12))); });
+  if (ST.schatten) { fi.castShadow = fi.receiveShadow = true; } g.add(fi);
+  /* Molenköpfe: von See kommend Rot an Backbord (Osten), Grün an Steuerbord (Westen) */
+  for (const [x, farbe, f2] of [[18, 'rot', '#ff3a2a'], [-18, 'gruen', '#37ff6a']]) { mk(new T.CylinderGeometry(1.2, 1.5, 6, 16), M(farbe), x, 3.5, 72, g); mk(new T.CylinderGeometry(1.5, 1.5, .4, 16), M('weiss'), x, 6.6, 72, g);
+    const gl = glow(f2, 4); gl.position.set(x, 7.3, 72); g.add(gl); W2.blink.push({glow: gl, takt: 4, an: .5, ph: x > 0 ? 0 : 2}); kreis(x, 72, 6, 'stein'); }
+  /* Stege mit Pfählen */
+  const pfaehle = [];
+  const steg = (x, z0, z1) => { const len = z0 - z1, d = mk(new T.BoxGeometry(2.2, .25, len), M('holzHell', {map: TX.deck}), x, .95, (z0 + z1) / 2, g);
+    for (let z = z1 + 1; z < z0; z += 4) for (const sx of [-1.25, 1.25]) pfaehle.push([x + sx, z]); kap(x, z0, x, z1, 1.2, 'holz'); return d; };
+  steg(-30, 171, 116); steg(25, 171, 120);
+  for (const z of [160, 148, 136, 124]) { mk(new T.BoxGeometry(6, .22, 1.1), M('holzHell'), -34, .93, z, g); kap(-31, z, -37, z, .65, 'holz'); pfaehle.push([-36.8, z]); }
+  const pg = new T.CylinderGeometry(.18, .2, 5, 8), pi = new T.InstancedMesh(pg, M('pfahl'), pfaehle.length);
+  pfaehle.forEach(([x, z], i) => { mtx.compose(new T.Vector3(x, -.9, z), new T.Quaternion(), new T.Vector3(1, 1, 1)); pi.setMatrixAt(i, mtx); }); if (ST.schatten) pi.castShadow = true; g.add(pi);
+  /* Boote an den Stegen */
+  const liegen = [[-34, 154, 0, {art: 'segler', L: 8.6, farben: {rumpf: '#2f4f6e', streifen: '#f4ede0'}}], [-34, 142, 0, {art: 'kajuete', L: 7.8, mast: 'ohne', farben: {rumpf: '#fbf5e8', streifen: '#2f5d8a'}}],
+    [-34, 130, 0, {art: 'segler', L: 9.4, farben: {rumpf: '#f7f1e3', streifen: '#2a7a5a'}}], [28.4, 150, 0, {art: 'segler', L: 10, farben: {rumpf: '#8a2f2a', streifen: '#f4ede0'}}],
+    [21.6, 140, Math.PI, {art: 'kajuete', L: 7.2, mast: 'ohne', farben: {rumpf: '#e9e4d6', streifen: '#c0392b', unterwasser: '#5a2a24'}}], [28.4, 130, 0, {art: 'offen', farben: {rumpf: '#f2e6c8'}}]];
+  for (const [x, z, h, o] of liegen) { const b = bauBoot(Object.assign({flagge: false}, o)); b.position.set(x, .05, z); b.rotation.y = h; g.add(b); const L = b.userData.laenge / 2 - .3; kap(x, z - L, x, z + L, b.userData.breite * .5, 'boot'); W2.lieger = (W2.lieger || []).concat(b); }
+  /* Häuser, Hafenmeister, Kran, Laternen, Poller */
+  const fenster = Mlicht('glas', '#ffcf7a', 1.3), dunkel = M('glas');
+  const H = [[-68, 'putzBlau', 'dachGrau', 9, 8], [-56, 'ziegel', 'dachRot', 10, 9], [-44, 'putzGelb', 'dachRot', 8, 7], [-33, 'putz', 'dachGrau', 9, 8], [-20, 'putzRosa', 'dachRot', 10, 8.5], [-6, 'ziegel', 'dachGrau', 9, 10],
+    [8, 'putz', 'dachRot', 11, 7.5], [21, 'putzBlau', 'dachRot', 9, 8], [33, 'ziegel', 'dachRot', 9, 9]];
+  for (const [x, wand, dach, w, h] of H) haus(g, x, 196, w, 9, h, wand, dach, fenster, dunkel);
+  const hm = haus(g, 56, 194, 12, 10, 7, 'putz', 'dachRot', fenster, dunkel); mk(new T.BoxGeometry(3.5, 5, 3.5), M('putz'), -3, 10, -2, hm); mk(new T.ConeGeometry(2.8, 2.4, 4), M('dachRot'), -3, 13.7, -2, hm).rotation.y = Math.PI / 4;
+  const kr = new T.Group(); kr.position.set(44, 2.2, 177); g.add(kr); mk(new T.BoxGeometry(1.2, 12, 1.2), M('kran'), 0, 6, 0, kr); const ausl = mk(new T.BoxGeometry(.8, .8, 14), M('kran'), 0, 12, -4, kr); ausl.rotation.x = -.15; mk(new T.CylinderGeometry(.02, .02, 8, 4), M('schwarz'), 0, 8.6, -10, kr, false);
+  for (const x of [-52, -12, 14, 62]) { mk(new T.CylinderGeometry(.09, .12, 4.2, 8), M('schwarz'), x, 4.3, 175, g); mk(new T.BoxGeometry(.5, .6, .5), M('schwarz'), x, 6.6, 175, g);
+    const lm = Mlicht('glas', '#ffd590', 2.2); mk(new T.BoxGeometry(.4, .45, .4), lm, x, 6.6, 175, g, false); const gl = glow('#ffd590', 3.2); gl.position.set(x, 6.6, 175); g.add(gl); W2.lampen.push({glow: gl}); }
+  for (const x of [-35, 20, 58]) { const pl = new T.PointLight('#ffc879', 0, 30, 2); pl.position.set(x, 6.4, 174); g.add(pl); W2.lampen.push({licht: pl}); }
+  const pol = []; for (let x = -80; x <= 80; x += 9) pol.push([x, 172.4]);
+  const polG = lathe([[0, 0], [.22, 0], [.2, .35], [.14, .45], [.24, .55], [.22, .65], [0, .68]]), poI = new T.InstancedMesh(polG, M('schwarz', {rau: .5, side: T.DoubleSide}), pol.length);
+  pol.forEach(([x, z], i) => { mtx.compose(new T.Vector3(x, 2.2, z), new T.Quaternion(), new T.Vector3(1.2, 1.2, 1.2)); poI.setMatrixAt(i, mtx); }); g.add(poI);
+  W2.sitzMoewen = [[-44, 172.4], [10, 172.4], [37, 172.4]].map(([x, z]) => { const m = bauMoewe(true); m.position.set(x, 3.25, z); m.userData.r0 = rnd(0, TAU); g.add(m); return m; });
+  /* Fahrwasser: von See kommend rote Stumpftonnen an Backbord (Osten), grüne Spitztonnen an Steuerbord (Westen) */
+  const tonne = (x, z, art) => { const t = new T.Group(); t.position.set(x, 0, z); g.add(t); let farbe = '#ff3a2a', takt = 4;
+    if (art === 'rot') { mk(new T.CylinderGeometry(.95, 1.05, .7, 18), M('rot'), 0, .1, 0, t); mk(new T.CylinderGeometry(.6, .62, 1.5, 16), M('rot'), 0, 1.1, 0, t); mk(new T.CylinderGeometry(.32, .32, .55, 12), M('rot'), 0, 2.45, 0, t); }
+    else if (art === 'gruen') { farbe = '#37ff6a'; mk(new T.CylinderGeometry(.95, 1.05, .7, 18), M('gruen'), 0, .1, 0, t); mk(new T.ConeGeometry(.75, 1.9, 16), M('gruen'), 0, 1.35, 0, t); mk(new T.ConeGeometry(.33, .55, 12), M('gruen'), 0, 2.65, 0, t); }
+    else if (art === 'anst') { farbe = '#fff6e0'; takt = 10; const sg = new T.SphereGeometry(1.1, 20, 14), sc = [], sp = sg.attributes.position;
+      for (let i = 0; i < sp.count; i++) { const a = Math.atan2(sp.getZ(i), sp.getX(i)), cc = new T.Color(Math.floor((a + Math.PI) / (Math.PI / 4)) % 2 ? ST.f.rot : ST.f.weiss); sc.push(cc.r, cc.g, cc.b); }
+      sg.setAttribute('color', new T.Float32BufferAttribute(sc, 3)); mk(sg, M('weiss', {vc: true}), 0, .55, 0, t); mk(new T.SphereGeometry(.3, 12, 10), M('rot'), 0, 2.2, 0, t); mk(new T.CylinderGeometry(.06, .06, .7, 6), M('schwarz'), 0, 1.65, 0, t); }
+    else if (art === 'nord') { farbe = '#fff6e0'; takt = 1; mk(new T.CylinderGeometry(.8, .95, 1.1, 16), M('gelb'), 0, .2, 0, t); mk(new T.CylinderGeometry(.62, .8, 1.1, 16), M('schwarz'), 0, 1.25, 0, t);
+      for (const y of [2.15, 2.75]) mk(new T.ConeGeometry(.32, .45, 12), M('schwarz'), 0, y, 0, t); }
+    mk(new T.CylinderGeometry(.05, .05, .3, 6), M('schwarz'), 0, art === 'anst' ? 2.6 : 3.05, 0, t, false);
+    const gl = glow(farbe, 3); gl.position.set(0, art === 'anst' ? 2.85 : 3.3, 0); t.add(gl);
+    const bo = {obj: t, x, z, hx: x, hz: z, vx: 0, vz: 0, r: 1.15, m: 220, kipp: new T.Vector2(), kv: new T.Vector2(), glow: gl, takt, ph: rnd(0, takt), art}; W2.bojen.push(bo); W2.blink.push({glow: gl, takt, an: art === 'anst' ? 2 : .5, ph: bo.ph}); return bo; };
+  for (const z of [40, -15, -70]) { tonne(16, z, 'rot'); tonne(-16, z, 'gruen'); }
+  tonne(0, -130, 'anst'); tonne(60, -222, 'nord');
+  /* Sandbank mit Seehund, Insel mit Leuchtturm */
+  const sb = mk(new T.CylinderGeometry(14, 16, .8, 28), M('sandNass'), 60, -.42, -200, g); sb.scale.z = .55;
+  const insel = new T.Group(); insel.position.set(120, 0, -250); g.add(insel);
+  const ip = [[0, 13], [6, 12.4], [12, 10], [18, 6.5], [22, 3.6], [25, 2.2], [27, 1.4], [30, .6], [33, -.6], [37, -3]];
+  const inselH = (x, z) => { const a = Math.atan2(z, x), k = 1 + .12 * Math.sin(3 * a) + .06 * Math.sin(7 * a + 1), r = Math.hypot(x, z) / k;
+    for (let i = 0; i < ip.length - 1; i++) if (r <= ip[i + 1][0]) return mix(ip[i][1], ip[i + 1][1], (r - ip[i][0]) / (ip[i + 1][0] - ip[i][0])); return -3; };
+  const ig = lathe(ip.map(([r, y]) => [r, y]), null, 48), ipos = ig.attributes.position, icol = [];
+  for (let i = 0; i < ipos.count; i++) { const x = ipos.getX(i), z = ipos.getZ(i), y = ipos.getY(i), a = Math.atan2(z, x), k = 1 + .12 * Math.sin(3 * a) + .06 * Math.sin(7 * a + 1);
+    ipos.setX(i, x * k); ipos.setZ(i, z * k); const cc = new T.Color(y > 2.6 ? (y > 7 ? ST.f.grasDunkel : ST.f.gras) : y > .2 ? ST.f.sand : ST.f.sandNass); icol.push(cc.r, cc.g, cc.b); }
+  ig.setAttribute('color', new T.Float32BufferAttribute(icol, 3)); ig.computeVertexNormals(); mk(ig, M('gras', {vc: true, side: T.DoubleSide}), 0, 0, 0, insel);
+  kreis(120, -250, 29, 'grund');
+  const tg = lathe([[0, 0], [2.4, 0], [2.3, 4], [2.1, 8], [1.9, 12], [1.8, 15], [0, 15]], null, 24), tpos = tg.attributes.position, tcol = [];
+  for (let i = 0; i < tpos.count; i++) { const y = tpos.getY(i), cc = new T.Color(Math.floor(y / 3.75) % 2 ? ST.f.rot : ST.f.weiss); tcol.push(cc.r, cc.g, cc.b); }
+  tg.setAttribute('color', new T.Float32BufferAttribute(tcol, 3)); tg.computeVertexNormals(); const turm = new T.Group(); turm.position.set(-2, inselH(-2, 3) - .3, 3); insel.add(turm); mk(tg, M('weiss', {vc: true, side: T.DoubleSide}), 0, 0, 0, turm);
+  mk(new T.CylinderGeometry(2.6, 2.6, .3, 20), M('schwarz'), 0, 15.1, 0, turm); const lglas = Mlicht('glas', '#fff2c0', 2.5); mk(new T.CylinderGeometry(1.3, 1.3, 1.8, 16), lglas, 0, 16.2, 0, turm, false); mk(new T.ConeGeometry(1.7, 1.6, 16), M('rot'), 0, 17.9, 0, turm);
+  const lgl = glow('#fff2c0', 9); lgl.position.set(0, 16.2, 0); turm.add(lgl);
+  const strahl = new T.Group(); strahl.position.set(0, 16.2, 0); turm.add(strahl);
+  const sg = new T.ConeGeometry(4, 70, 24, 1, true); sg.translate(0, -35, 0); sg.rotateZ(Math.PI / 2);
+  for (const s of [1, -1]) { const m = new T.Mesh(sg, new T.MeshBasicMaterial({color: '#fff2c0', transparent: true, opacity: 0, depthWrite: false, blending: T.AdditiveBlending, side: T.DoubleSide})); m.rotation.y = s > 0 ? 0 : Math.PI; strahl.add(m); }
+  W2.leuchtturm = {glow: lgl, strahl, pos: new T.Vector3(118, 28.7, -247)};
+  haus(insel, 8, -6, 6, 5, 3.5, 'putz', 'dachRot', fenster, dunkel).position.y = inselH(8, -6) - .5;
+  for (const [x, z, s, kegel] of [[10, 8, 1, 1], [-9, -6, 1.2, 0], [14, -9, .9, 1], [-14, 8, 1.1, 1], [3, 15, 1, 0], [-17, -12, .9, 1]]) { const y = inselH(x, z) - .3;
+    mk(new T.CylinderGeometry(.25 * s, .35 * s, 2.4 * s, 6), M('stamm'), x, y + 1.1 * s, z, insel);
+    if (kegel) { mk(new T.ConeGeometry(2 * s, 3.4 * s, 10), M('baumDunkel'), x, y + 3.6 * s, z, insel); mk(new T.ConeGeometry(1.5 * s, 2.6 * s, 10), M('baumDunkel'), x, y + 5 * s, z, insel); }
+    else mk(new T.SphereGeometry(2.1 * s, 14, 10), M('baum'), x, y + 3.6 * s, z, insel); }
+  verschmelze(g, W2.bojen.map(b => b.obj).concat([W2.leuchtturm.strahl])); W2.gruppe = g; return W2;
+}
+
+/* ================= 7. Himmel ================= */
+function bauHimmel() {
+  const u = {oben: {value: new T.Color()}, horiz: {value: new T.Color()}, unten: {value: new T.Color()}, sonneFarbe: {value: new T.Color()}, sonneDir: {value: new T.Vector3(0, 1, 0)}, dunst: {value: 0}};
+  const m = new T.ShaderMaterial({uniforms: u, side: T.BackSide, depthWrite: false, fog: false,
+    vertexShader: 'varying vec3 vD; void main(){ vD = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: `uniform vec3 oben; uniform vec3 horiz; uniform vec3 unten; uniform vec3 sonneFarbe; uniform vec3 sonneDir; uniform float dunst; varying vec3 vD;
+      void main(){ vec3 d = normalize(vD); float h = d.y; vec3 c = h > 0.0 ? mix(horiz, oben, pow(clamp(h, 0.0, 1.0), 0.5)) : mix(horiz, unten, clamp(-h * 5.0, 0.0, 1.0));
+        float s = max(dot(d, normalize(sonneDir)), 0.0); c += sonneFarbe * (pow(s, 1200.0) * 4.0 + pow(s, 14.0) * 0.32) * (1.0 - dunst);
+        gl_FragColor = vec4(c, 1.0);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`});
+  return {m, u};
+}
+
+/* ================= 8 + 9. Die Welt ================= */
+W.seite = async function () {
+  const C = cfg(); ST = STILE[C.stil]; MC = {}; NACHT = []; TOON = null;
+  css();
+  gameShell('3D-Welt (Test)', `<div class="wt" id="wt"><div class="hud" id="wthud"><b id="wtk">Kurs 000° · 0,0 kn</b><span id="wtg">neutral · Ruder mittschiffs</span></div>
+    <div class="wind" id="wtwind"><i id="wtpfeil">➤</i><span id="wtbft">0 Bft</span></div><div class="bub" id="wtbub" style="display:none"></div>
+    <div class="wpad" id="wtpad"><div class="mv"></div><div class="ml"></div><b style="top:6px;left:0;right:0;text-align:center">voraus</b><b style="top:50%;left:6px;margin-top:-16px">N</b><b style="bottom:6px;left:0;right:0;text-align:center">zurück</b><b style="top:50%;left:8px;margin-top:4px">◀</b><b style="top:50%;right:8px;margin-top:4px">▶</b><i class="mk"></i></div>
+    <button class="wb horn" id="wthorn" aria-label="Schallsignal">📯</button>
+    <div class="wtpanel" id="wtpanel" style="display:none"></div></div>
+    <div class="wtbar"><button class="btn small" id="wtkam">🎥 ${esc(KAMERAS[C.kam].n)}</button><button class="btn small ghost" id="wtwet">☁️ Wetter und Ort</button><button class="btn small ghost" id="wttausch">🔁 Boot</button></div>`);
+  const host = $('#wt'), back = $('#gback');
+  try { await nachladen('lib/three.min.js'); } catch (e) { host.innerHTML = '<p style="padding:16px">3D ließ sich nicht laden.</p>'; return; }
+  T = window.THREE; if (!document.body.contains(host)) return;
+  let r; try { r = new T.WebGLRenderer({antialias: true}); } catch (e) { host.innerHTML = '<p style="padding:16px">Dein Gerät kann kein 3D (WebGL) zeigen.</p>'; return; }
+  let dpr = Math.min(window.devicePixelRatio || 1, 1.6); r.setPixelRatio(dpr); r.toneMapping = T.ACESFilmicToneMapping; r.toneMappingExposure = ST.belichtung;
+  r.shadowMap.enabled = ST.schatten; r.shadowMap.type = T.PCFSoftShadowMap; host.insertBefore(r.domElement, host.firstChild);
+  texturen();
+  try { AUD.unlock(); AUD.sfx('motorStart', {vol: .5}); } catch (e) {}
+  const scene = new T.Scene(), cam = new T.PerspectiveCamera(52, 1, .3, 2500);
+  scene.fog = new T.FogExp2('#cfe0e8', .001);
+  const hemi = new T.HemisphereLight('#cfe3f2', '#6b5a45', 1), sonne = new T.DirectionalLight('#fff0d6', 3);
+  sonne.castShadow = ST.schatten; sonne.shadow.mapSize.set(1024, 1024); Object.assign(sonne.shadow.camera, {left: -28, right: 28, top: 28, bottom: -28, near: 1, far: 220}); sonne.shadow.bias = -.0006; sonne.shadow.normalBias = .03;
+  scene.add(hemi, sonne, sonne.target);
+  /* Himmel, Umgebung für Spiegelungen, Sterne, Wolken */
+  const HI = bauHimmel(), himmel = new T.Mesh(new T.SphereGeometry(1800, 32, 16), HI.m); himmel.renderOrder = -1; himmel.frustumCulled = false; scene.add(himmel);
+  const envSzene = new T.Scene(); envSzene.add(new T.Mesh(new T.SphereGeometry(50, 32, 16), HI.m)); const pmrem = new T.PMREMGenerator(r); let envRT = null;
+  const stG = new T.BufferGeometry(), stP = []; for (let i = 0; i < 500; i++) { const a = rnd(0, TAU), h = Math.pow(Math.random(), .6) * 1.3 + .12; stP.push(Math.cos(a) * Math.cos(h) * 1700, Math.sin(h) * 1700, Math.sin(a) * Math.cos(h) * 1700); }
+  stG.setAttribute('position', new T.Float32BufferAttribute(stP, 3)); const sterne = new T.Points(stG, new T.PointsMaterial({color: '#ffffff', size: 2.2, sizeAttenuation: false, fog: false, transparent: true, opacity: 0})); sterne.frustumCulled = false; scene.add(sterne);
+  const wolken = []; for (let i = 0; i < 18; i++) { const s = new T.Sprite(new T.SpriteMaterial({map: TX.wolke, color: '#ffffff', transparent: true, depthWrite: false, opacity: .9})); const a = rnd(0, TAU), d = rnd(420, 900);
+    s.userData = {a, d, y: rnd(90, 190)}; s.scale.set(rnd(220, 380), rnd(80, 130), 1); scene.add(s); wolken.push(s); }
+  /* Welt */
+  const WL = bauWelt(scene);
+  const schiff = bauSchiff(); scene.add(schiff); const SCH = {obj: schiff, a: 0, x: 50, z: -260, h: 0, v: 3.2, R: 110, cx: -60, cz: -260, vx: 0, vz: 0, wack: 0, wv: 0};
+  /* Wasser: Gitter folgt dem Boot (in Zellenschritten, damit nichts schwimmt), dahinter eine große ruhige Fläche */
+  const WS = 330, WN = 90, ZELLE = WS / WN, wg = new T.PlaneGeometry(WS, WS, WN, WN); wg.rotateX(-Math.PI / 2);
+  const wpos = wg.attributes.position, basis = new Float32Array(wpos.count * 2), wcol = new Float32Array(wpos.count * 3);
+  for (let i = 0; i < wpos.count; i++) { basis[2 * i] = wpos.getX(i); basis[2 * i + 1] = wpos.getZ(i); }
+  wg.setAttribute('color', new T.BufferAttribute(wcol, 3));
+  const wN = TX.wasserN; wN.repeat.set(26, 26);
+  const wmat = ST.flach ? new T.MeshLambertMaterial({vertexColors: true, flatShading: true}) : new T.MeshStandardMaterial({vertexColors: true, roughness: .16, metalness: 0, normalMap: wN, normalScale: new T.Vector2(.3, .3)});
+  const wmatE = new T.MeshPhongMaterial({vertexColors: true, shininess: 90, specular: '#cfd8dc', normalMap: wN, normalScale: new T.Vector2(.35, .35)});
+  const wasser = new T.Mesh(wg, wmat); wasser.receiveShadow = false; wasser.frustumCulled = false; scene.add(wasser);
+  const fernN = wN.clone(); fernN.repeat.set(200, 200); fernN.needsUpdate = true;
+  const fmat = ST.flach ? new T.MeshLambertMaterial({color: '#2a6a7c'}) : new T.MeshStandardMaterial({color: '#2a6a7c', roughness: .2, normalMap: fernN, normalScale: new T.Vector2(.25, .25)});
+  const fern = new T.Mesh(new T.PlaneGeometry(5000, 5000), fmat); fern.rotation.x = -Math.PI / 2; fern.position.y = -.08; scene.add(fern);
+  /* Spieler-Boot */
+  const P = {x: 0, z: 0, vx: 0, vz: 0, h: 0, r: 0, g: 0, d: 0, gZiel: 0, dZiel: 0, y: 0, vy: 0, nick: 0, vn: 0, roll: 0, vr: 0, boot: null, hk: 0};
+  const BOOTE = [() => bauBoot({art: 'kajuete'}), () => bauBoot({art: 'offen', mast: 'ohne', farben: {streifen: '#2f6f9e', rumpf: '#fbf2df'}})];
+  const katze = bauKatze(), KZ = {i: 0, u: 0, modus: 'gehen', zeit: 0, hupf: 0, schreck: 0, ph: 0};
+  W.setzeBoot = obj => { if (P.boot) { scene.remove(P.boot); } P.boot = obj; scene.add(obj); katze.parent && katze.parent.remove(katze); obj.add(katze);
+    const weg = obj.userData.katzenWeg || []; KZ.i = 0; KZ.u = 0; if (weg[0]) katze.position.copy(weg[0]); setzeWetter(); };
+  /* Wellen und Wetter */
+  let WLst = [], windMs = 0, windVon = 0, schaumMenge = 0, nachtAn = false, lichterAn = false, wasserFarbe = new T.Color(), krone = new T.Color('#f2f6f4');
+  const hafenRuhe = (x, z) => 1 - .88 * sm(-6, 8, Math.min(x + 72, 72 - x, z - 80, 168 - z));
+  const schwell = (x, z, t) => { if (!C.wellen.schwell) return 0; const dx = x - SCH.x, dz = z - SCH.z, f = Math.sin(SCH.h), g2 = -Math.cos(SCH.h), a = -(dx * f + dz * g2), l = Math.abs(dx * Math.cos(SCH.h) + dz * Math.sin(SCH.h));
+    if (a < 2 || a > 260) return 0; const kante = a * .36 + 3; if (l > kante + 6) return 0; return .55 * Math.exp(-a / 110) * sm(kante + 6, kante - 2, l) * Math.sin(.55 * (a * .5 + l * 1.1) - t * 2.6); };
+  const hoehe = (x, z, t) => { let y = 0; const da = hafenRuhe(x, z); for (const q of WLst) y += q.A * da * Math.sin(q.k * (q.dx * x + q.dz * z) - q.om * t + q.ph); return y + schwell(x, z, t) * da; };
+  W.hoehe = (x, z) => hoehe(x, z, uhr);
+  function setzeWetter() {
+    const Z = ZEIT[C.zeit], w = WIND[C.wind], sicht = SICHT[C.sicht], regen = REGEN[C.regen], trueb = (C.regen !== 'kein' ? .6 : 0) + (C.wind === 'sturm' ? .5 : C.wind === 'stark' ? .3 : 0) + ({klar: 0, dunst: .25, nebel: .7, dicht: .85, extrem: .95})[C.sicht];
+    const t2 = cl(trueb, 0, 1), grau = new T.Color(C.zeit === 'nacht' ? '#1a222c' : '#a3abb0');
+    WLst = wellenListe(C); windMs = w.ms; windVon = C.von * 45 * RAD; nachtAn = C.zeit === 'nacht'; lichterAn = nachtAn || C.zeit === 'abend' || ['nebel', 'dicht', 'extrem'].includes(C.sicht);
+    schaumMenge = ({flaute: 0, leicht: 0, maessig: .15, frisch: .55, stark: .85, sturm: 1})[C.wind];
+    const oben = new T.Color(Z.oben).lerp(grau, t2 * .85), horiz = new T.Color(Z.horiz).lerp(grau.clone().offsetHSL(0, 0, .05), t2 * .9);
+    HI.u.oben.value.copy(oben); HI.u.horiz.value.copy(horiz); HI.u.unten.value.copy(new T.Color(Z.wasser).lerp(grau, t2 * .5)); HI.u.sonneFarbe.value.set(Z.sonne); HI.u.dunst.value = t2;
+    const el = Z.el * RAD, az = Z.az * RAD; HI.u.sonneDir.value.set(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el));
+    sonne.color.set(Z.sonne); sonne.intensity = Z.licht * (1 - t2 * .7); hemi.intensity = Z.hemi * (1 - t2 * .25); hemi.color.copy(oben).lerp(new T.Color('#ffffff'), .4);
+    scene.fog.color.copy(horiz); scene.fog.density = sicht.d + (C.regen === 'stark' ? .004 : C.regen === 'regen' ? .0015 : 0);
+    r.toneMappingExposure = ST.belichtung * Z.bel;
+    wasserFarbe.set(Z.wasser).lerp(grau, t2 * .35); fmat.color.copy(wasserFarbe);
+    if (!ST.flach) { const ns = C.wind === 'flaute' ? .05 : ({leicht: .3, maessig: .5, frisch: .65, stark: .8, sturm: 1})[C.wind]; wmat.normalScale.set(ns, ns); fmat.normalScale.set(ns * .8, ns * .8); wmat.roughness = C.regen === 'kein' ? .14 : .3; }
+    sterne.material.opacity = nachtAn && t2 < .3 ? .9 : 0;
+    wolken.forEach((s, i) => { s.material.color.copy(new T.Color(nachtAn ? '#3a4560' : C.zeit === 'abend' ? '#ffd9bf' : '#ffffff').lerp(grau, t2)); s.visible = i < 5 + t2 * 13; s.material.opacity = .55 + t2 * .4; });
+    for (const n of NACHT) { n.m.emissive.copy(lichterAn || nachtAn ? n.leucht : new T.Color(0)); n.m.emissiveIntensity = nachtAn ? n.staerke : .35 * n.staerke; }
+    for (const l of WL.lampen) if (l.licht) l.licht.intensity = nachtAn ? 70 : 0;
+    regenAn(regen.z); sonne.position.copy(HI.u.sonneDir.value).multiplyScalar(120);
+    if (envRT) envRT.dispose(); envRT = null; if (!ST.flach) { envRT = pmrem.fromScene(envSzene, .04); scene.environment = QA && QUALI[QA].env ? envRT.texture : null; }
+    const be = $('#wtbft'); if (be) be.textContent = w.bft + ' Bft';
+  }
+  /* Regen */
+  const RN = 1500, rg = new T.BufferGeometry(), rp = new Float32Array(RN * 6); rg.setAttribute('position', new T.BufferAttribute(rp, 3));
+  const regenL = new T.LineSegments(rg, new T.LineBasicMaterial({color: '#b9c6cf', transparent: true, opacity: .45})); regenL.frustumCulled = false; scene.add(regenL); let regenZahl = 0;
+  for (let i = 0; i < RN; i++) { rp[i * 6] = rnd(-40, 40); rp[i * 6 + 1] = rnd(0, 30); rp[i * 6 + 2] = rnd(-40, 40); }
+  function regenAn(n) { regenZahl = n; regenL.visible = n > 0; rg.setDrawRange(0, n * 2); }
+  /* Kielwasser als Band, Bugwellen als zwei auseinanderlaufende Bänder */
+  function band(nMax, breite, drift, staerke) {
+    const pts = [], geo = new T.BufferGeometry(), pos = new Float32Array(nMax * 6), col = new Float32Array(nMax * 8), uv = new Float32Array(nMax * 4), idx = [];
+    for (let i = 0; i < nMax - 1; i++) { const a = 2 * i; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    geo.setAttribute('position', new T.BufferAttribute(pos, 3)); geo.setAttribute('color', new T.BufferAttribute(col, 4)); geo.setAttribute('uv', new T.BufferAttribute(uv, 2)); geo.setIndex(idx);
+    const m = new T.Mesh(geo, new T.MeshBasicMaterial({map: TX.schaum, vertexColors: true, transparent: true, depthWrite: false, side: T.DoubleSide})); m.frustumCulled = false; m.renderOrder = 3; scene.add(m);
+    return {m, add(x, z, vx, vz, s, t) { pts.unshift({x, z, vx, vz, s, t}); if (pts.length > nMax) pts.pop(); },
+      upd(t) { const n = pts.length; for (let i = 0; i < nMax; i++) { const p = pts[Math.min(i, n - 1)]; if (!p) { col[i * 8 + 3] = col[i * 8 + 7] = 0; continue; }
+        const a = t - p.t, x = p.x + p.vx * a, z = p.z + p.vz * a, q = pts[Math.min(i + 1, n - 1)], qx = q.x + q.vx * (t - q.t), qz = q.z + q.vz * (t - q.t);
+        let nx = -(z - qz), nz = x - qx; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l; const w = breite * (1 + a * drift), y = hoehe(x, z, t) + .07, al = i >= n ? 0 : cl(p.s * staerke * (1 - a / 8), 0, 1) * (i === 0 ? 0 : 1);
+        pos.set([x + nx * w, y, z + nz * w, x - nx * w, y, z - nz * w], i * 6); col.set([1, 1, 1, al, 1, 1, 1, al], i * 8); uv.set([0, i * .25, 1, i * .25], i * 4); }
+        geo.attributes.position.needsUpdate = geo.attributes.color.needsUpdate = geo.attributes.uv.needsUpdate = true; }};
+  }
+  const kiel = band(80, 1, .45, .8), bugL = band(60, .35, .25, .55), bugR = band(60, .35, .25, .55), schiffKiel = band(70, 2, .4, .7);
+  /* Gischt und Spritzer */
+  const GN = 260, gg = new T.BufferGeometry(), gpos = new Float32Array(GN * 3), gcol = new Float32Array(GN * 4), G = [];
+  gg.setAttribute('position', new T.BufferAttribute(gpos, 3)); gg.setAttribute('color', new T.BufferAttribute(gcol, 4));
+  const gischt = new T.Points(gg, new T.PointsMaterial({size: .35, map: TX.glow, vertexColors: true, transparent: true, depthWrite: false})); gischt.frustumCulled = false; scene.add(gischt);
+  for (let i = 0; i < GN; i++) G.push({x: 0, y: -99, z: 0, vx: 0, vy: 0, vz: 0, t: 9}); let gI = 0;
+  const spritz = (x, y, z, vx, vy, vz) => { const p = G[gI++ % GN]; Object.assign(p, {x, y, z, vx, vy, vz, t: 0}); };
+  /* Tiere */
+  const fliegen = [0, 1, 2].map(i => { const m = bauMoewe(false); scene.add(m); return m; });
+  const enten = [bauEnte(false), bauEnte(true), bauEnte(true), bauEnte(true), bauEnte(true)].map((e, i) => { scene.add(e); return {o: e, x: 10 - i * .8, z: 140, h: 0}; });
+  let entenZiel = {x: 10, z: 140, t: 0};
+  const seehund = bauSeehund(); seehund.position.set(62, .1, -200); seehund.rotation.y = 2.2; scene.add(seehund); const SH = {weg: false, zeit: 0, y: .1};
+  /* Kamera */
+  const K = Object.assign({mode: C.kam, last: -9999, shake: 0, pos: new T.Vector3(), blick: new T.Vector3(), hs: 0, fov: 52}, KAMERAS[C.kam]);
+  /* Startort */
+  function setzeOrt(id) { const o = ORTE[id]; Object.assign(P, {x: o.x, z: o.z, h: o.h, vx: 0, vz: 0, r: 0, g: 0, gZiel: 0, d: 0, dZiel: 0, hk: o.h}); K.hs = o.h; pad && pad.setze(0, 0);
+    K.pos.set(o.x - Math.sin(o.h) * 90, 40, o.z + Math.cos(o.h) * 90); K.blick.set(o.x, 1, o.z); tor = {}; }
+  /* Physik: Schub über den Außenborder, Widerstand, Radeffekt, Wind */
+  function physik(dt, t) {
+    const fx = Math.sin(P.h), fz = -Math.cos(P.h), rx = Math.cos(P.h), rz = Math.sin(P.h);
+    let u = P.vx * fx + P.vz * fz, s = P.vx * rx + P.vz * rz;
+    P.g += (P.gZiel - P.g) * Math.min(1, dt * 2.2); P.d += (P.dZiel - P.d) * Math.min(1, dt * 4);
+    const schub = P.g > 0 ? P.g * 2.3 : P.g * 1.15, wk = P.d * .5;
+    let du = schub * Math.cos(wk) - .062 * u * Math.abs(u) - .14 * u, ds = -.9 * s * Math.abs(s) - 1.3 * s, dr = P.d * (.075 * u + .34 * P.g) - 2 * P.r;
+    if (P.g < -.05) dr += .14 * -P.g * (1 - Math.min(1, Math.abs(u) / 2)); else if (P.g > .05) dr -= .025 * P.g * (1 - Math.min(1, u / 3));
+    if (windMs) { const lee = windVon + Math.PI, wx = Math.sin(lee), wz = -Math.cos(lee), kr = .0011 * windMs * windMs;
+      du += kr * (wx * fx + wz * fz) * .35; ds += kr * (wx * rx + wz * rz); const langsam = 1 - Math.min(1, Math.abs(u) / 3); dr += .0006 * windMs * windMs * Math.sin(wdiff(lee, P.h)) * (.35 + .65 * langsam); }
+    const wellig = WLst.reduce((a, q) => a + q.A, 0); if (wellig > .3) dr += Math.sin(t * .9 + Math.sin(t * .37) * 2) * .02 * wellig;
+    u += du * dt; s += ds * dt; P.r += dr * dt; P.h += P.r * dt;
+    const nfx = Math.sin(P.h), nfz = -Math.cos(P.h), nrx = Math.cos(P.h), nrz = Math.sin(P.h);
+    P.vx = u * nfx + s * nrx; P.vz = u * nfz + s * nrz; P.x += P.vx * dt; P.z += P.vz * dt; P.u = u;
+    /* Auf und ab, Stampfen und Rollen über die Wasseroberfläche (Feder und Dämpfer) */
+    const L = P.boot.userData.laenge || 8, B = P.boot.userData.breite || 3;
+    const hb = hoehe(P.x + nfx * L * .35, P.z + nfz * L * .35, t), hh = hoehe(P.x - nfx * L * .35, P.z - nfz * L * .35, t), hp = hoehe(P.x - nrx * B * .4, P.z - nrz * B * .4, t), hs = hoehe(P.x + nrx * B * .4, P.z + nrz * B * .4, t);
+    const ty = (hb + hh + hp + hs) / 4, tn = Math.atan((hb - hh) / (L * .7)) + .055 * Math.min(1, Math.max(0, u) / 5), tr = Math.atan((hp - hs) / (B * .8)) * .9 + P.r * Math.max(0, u) * .035 + (windMs > 10 ? -.03 * Math.sin(wdiff(windVon, P.h)) : 0);
+    P.vy += ((ty - P.y) * 14 - P.vy * 4.5) * dt; P.y += P.vy * dt; P.vn += ((tn - P.nick) * 9 - P.vn * 3.2) * dt; P.nick += P.vn * dt; P.vr += ((tr - P.roll) * 7 - P.vr * 2.2) * dt; P.roll += P.vr * dt;
+  }
+  /* Zusammenstöße: Boot als drei Kreise; Bojen werden weggestoßen, Schiffe schubsen leicht, Steine und Stege stehen fest */
+  let ruckZeit = 0, crewZeit = 0;
+  function kollision(t) {
+    const B = P.boot, kr = (B.userData.kreise || [{z: 0, r: 1.5}]), mB = 2500, I = mB * Math.pow(B.userData.laenge || 8, 2) / 14, fx = Math.sin(P.h), fz = -Math.cos(P.h);
+    const stoss = (ox, oz, nx, nz, pen, vox, voz, mO, e, art, anderes) => {
+      const iB = 1 / mB, iO = mO ? 1 / mO : 0, an = (ox * nz - oz * nx), vpx = P.vx - P.r * oz, vpz = P.vz + P.r * ox, vn = (vpx - vox) * nx + (vpz - voz) * nz;
+      const anteil = iB / (iB + iO); P.x += nx * pen * anteil; P.z += nz * pen * anteil; if (anderes) { anderes.x -= nx * pen * (1 - anteil); anderes.z -= nz * pen * (1 - anteil); }
+      if (vn >= 0) return; const j = -(1 + e) * vn / (iB + iO + an * an / I); P.vx += j * nx * iB; P.vz += j * nz * iB; P.r += an * j / I * .9;
+      if (anderes && mO) { anderes.vx -= j * nx * iO; anderes.vz -= j * nz * iO; }
+      const st = Math.min(1, -vn / 2.4); if (st > .12 && t - ruckZeit > .25) { ruckZeit = t; ruck(art, st, P.x + ox, P.z + oz); }
+    };
+    for (const c of kr) { const ox = fx * c.z, oz = fz * c.z, cx = P.x + ox, cz = P.z + oz;
+      for (const s of WL.stat) { let qx = s.ax, qz = s.az; if (s.k) { const dx = s.bx - s.ax, dz = s.bz - s.az, u = cl(((cx - s.ax) * dx + (cz - s.az) * dz) / (dx * dx + dz * dz), 0, 1); qx = s.ax + dx * u; qz = s.az + dz * u; }
+        const dx = cx - qx, dz = cz - qz, d = Math.hypot(dx, dz), pen = c.r + s.r - d; if (pen > 0 && d > 1e-4) stoss(ox, oz, dx / d, dz / d, pen, 0, 0, 0, s.art === 'grund' ? .02 : s.art === 'stein' ? .12 : .25, s.art); }
+      for (const b of WL.bojen) { const dx = cx - b.x, dz = cz - b.z, d = Math.hypot(dx, dz), pen = c.r + b.r - d; if (pen > 0 && d > 1e-4) { stoss(ox, oz, dx / d, dz / d, pen, b.vx, b.vz, b.m, .45, 'boje', b); b.kv.x += -dz / d * .9; b.kv.y += dx / d * .9; } }
+      const sf = Math.sin(SCH.h), sz = -Math.cos(SCH.h);
+      for (const k of schiff.userData.kreise) { const sx = SCH.x + sf * k.z, szz = SCH.z + sz * k.z, dx = cx - sx, dz = cz - szz, d = Math.hypot(dx, dz), pen = c.r + k.r - d;
+        if (pen > 0 && d > 1e-4) { const sch = {x: 0, z: 0, vx: 0, vz: 0}; stoss(ox, oz, dx / d, dz / d, pen, SCH.vx, SCH.vz, 40000, .25, 'schiff', sch); SCH.wv += .05; } } }
+  }
+  const SPRUCH = {stein: [['hinnerk', 'Wahrschau! Das war die Mole.'], ['smilla', 'Rums. Da helfen auch keine Fender mehr.']], holz: [['hinnerk', 'Sachte! Der Steg kann nichts dafür.']],
+    boot: [['hinnerk', 'Abstand halten! Das gibt Ärger mit dem Eigner.'], ['smilla', 'Kratzer im Lack. Langsamer ran, dann passiert das nicht.']], boje: [['klabauter', 'Tonne! Tonne! Krrah!'], ['smilla', 'Die Tonne steht da mit Absicht.']],
+    schiff: [['smilla', 'Das war knapp. Wer hätte hier ausweichen müssen?']], grund: [['hinnerk', 'Festgefahren. Langsam rückwärts, dann kommen wir frei.']]};
+  function ruck(art, st, x, z) {
+    K.shake = Math.max(K.shake, st * (art === 'boje' ? .5 : 1)); try { navigator.vibrate && navigator.vibrate(Math.round(25 + st * 90)); } catch (e) {}
+    try { AUD.stoss(art === 'grund' ? 'stein' : art === 'schiff' ? 'boot' : art, st); } catch (e) {}
+    for (let i = 0; i < 6 + st * 18; i++) spritz(x, hoehe(x, z, uhr) + .2, z, rnd(-2, 2), rnd(1.5, 4.5) * st + 1, rnd(-2, 2));
+    if (st > .3) { KZ.schreck = 1.1; try { AUD.sfx('katze', {vol: .5}); } catch (e) {} }
+    if (uhr - crewZeit > 7 && st > .2) { crewZeit = uhr; const L2 = SPRUCH[art] || SPRUCH.boot, s = L2[Math.random() * L2.length | 0]; sag(s[0], s[1]); }
+  }
+  /* Steuerfeld wie im Manöverspiel: ein Finger, hoch/runter stufenlos Gas mit Raste in der Mitte, seitlich das Ruder; Doppeltipp = Ruder mittschiffs */
+  const pad = (() => { const el = $('#wtpad'), knob = el.querySelector('.mk'), DZ = .12; let kx = 0, ky = 0, start = null, lastTap = 0;
+    const zeig = () => { const w = el.clientWidth, h = el.clientHeight; knob.style.left = (w / 2 + kx * (w / 2 - 24)) + 'px'; knob.style.top = (h / 2 - ky * (h / 2 - 26)) + 'px'; };
+    const setze = () => { const g = Math.abs(ky) < DZ ? 0 : Math.sign(ky) * (Math.abs(ky) - DZ) / (1 - DZ), war = P.gZiel; P.gZiel = Math.round(g * 40) / 40; P.dZiel = kx;
+      if ((war === 0) !== (P.gZiel === 0) || Math.sign(war) !== Math.sign(P.gZiel)) { try { AUD.click(); } catch (e) {} } zeig(); };
+    el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); start = {x: e.clientX, y: e.clientY, kx, ky}; const now = performance.now(); if (now - lastTap < 320) { kx = 0; setze(); start.kx = 0; } lastTap = now; });
+    el.addEventListener('pointermove', e => { if (!start) return; const w = el.clientWidth, h = el.clientHeight; kx = cl(start.kx + (e.clientX - start.x) / (w / 2 - 24), -1, 1); ky = cl(start.ky - (e.clientY - start.y) / (h / 2 - 26), -1, 1); setze(); });
+    const los = () => { start = null; }; el.addEventListener('pointerup', los); el.addEventListener('pointercancel', los); zeig();
+    return {setze: (gx, px) => { ky = gx; kx = px; setze(); }, get: () => [ky, kx]}; })();
+  const taste = e => { if (e.type !== 'keydown') return; const [gy, gx] = pad.get(); const k = e.key;
+    if (k === 'ArrowUp' || k === 'w') pad.setze(cl(gy + .1, -1, 1), gx); else if (k === 'ArrowDown' || k === 's') pad.setze(cl(gy - .1, -1, 1), gx);
+    else if (k === 'ArrowLeft' || k === 'a') pad.setze(gy, cl(gx - .15, -1, 1)); else if (k === 'ArrowRight' || k === 'd') pad.setze(gy, cl(gx + .15, -1, 1)); else return; e.preventDefault(); };
+  window.addEventListener('keydown', taste);
+  /* Kamera mit dem Finger drehen und zoomen */
+  const cv = r.domElement, ptr = new Map(); let pinch = 0;
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); ptr.set(e.pointerId, [e.clientX, e.clientY]); K.last = performance.now(); });
+  cv.addEventListener('pointermove', e => { const q = ptr.get(e.pointerId); if (!q) return; const dx = e.clientX - q[0], dy = e.clientY - q[1]; q[0] = e.clientX; q[1] = e.clientY;
+    if (ptr.size === 2) { const [a, b] = [...ptr.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch) K.dist = cl(K.dist * pinch / d, 7, 90); pinch = d; return; }
+    K.yaw -= dx * .008; K.pitch = cl(K.pitch + dy * .006, .04, 1.5); K.last = performance.now(); });
+  const loslass = e => { ptr.delete(e.pointerId); pinch = 0; }; cv.addEventListener('pointerup', loslass); cv.addEventListener('pointercancel', loslass);
+  cv.addEventListener('wheel', e => { e.preventDefault(); K.dist = cl(K.dist * (1 + Math.sign(e.deltaY) * .1), 7, 90); }, {passive: false});
+  $('#wtkam').onclick = () => { const ids = Object.keys(KAMERAS), n = ids[(ids.indexOf(K.mode) + 1) % ids.length]; Object.assign(K, KAMERAS[n], {mode: n}); C.kam = n; speichern(); $('#wtkam').textContent = '🎥 ' + KAMERAS[n].n; };
+  $('#wttausch').onclick = () => { C.boot = (C.boot + 1) % BOOTE.length; speichern(); W.setzeBoot(BOOTE[C.boot]()); sag('hinnerk', 'Anderes Boot, gleiche Welt. So tauschen wir später unser echtes Schiff ein.'); };
+  $('#wthorn').onclick = () => { try { AUD.horn('▬'); } catch (e) {} if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && !sagte.horn) { sagte.horn = 1; sag('smilla', 'Richtig: Ein langer Ton heißt Maschinenfahrzeug in Fahrt. Im Nebel mindestens alle zwei Minuten.'); } };
+  /* Wetter-Tafel: alles einzeln wählbar und kombinierbar */
+  const panel = $('#wtpanel');
+  function tafel() {
+    const chips = (gruppe, liste, aktiv) => Object.keys(liste).map(id => `<button class="wtc" data-g="${gruppe}" data-v="${id}" aria-pressed="${aktiv === id}">${esc(liste[id].n || liste[id])}</button>`).join('');
+    panel.innerHTML = `<div class="wtph"><b>Wetter und Ort</b><button class="btn small ghost" id="wtzu">✕</button></div>
+      <h4>Wind</h4>${chips('wind', WIND, C.wind)}<h4>Wind aus</h4>${RICHTUNG.map((n, i) => `<button class="wtc" data-g="von" data-v="${i}" aria-pressed="${C.von === i}">${n}</button>`).join('')}
+      <h4>Wellen (beliebig kombinierbar)</h4>${Object.keys(WELLEN).map(id => `<button class="wtc" data-g="wellen" data-v="${id}" aria-pressed="${!!C.wellen[id]}" title="${esc(WELLEN[id].info)}">${esc(WELLEN[id].n)}</button>`).join('')}
+      <p class="small muted" style="margin:2px 0 6px">${Object.keys(WELLEN).map(id => `<b>${esc(WELLEN[id].n)}:</b> ${esc(WELLEN[id].info)}`).join(' · ')}</p>
+      <h4>Sicht</h4>${chips('sicht', SICHT, C.sicht)}<h4>Regen</h4>${chips('regen', REGEN, C.regen)}<h4>Tageszeit</h4>${chips('zeit', ZEIT, C.zeit)}
+      <h4>Ort</h4>${chips('ort', ORTE, '')}<h4>Qualität${C.quali === 'auto' && QA ? ' (jetzt: ' + QUALI[QA].n + ')' : ''}</h4>${chips('quali', QUALI, C.quali)}<h4>Stil</h4>${Object.keys(STILE).map(id => `<button class="wtc" data-g="stil" data-v="${id}" aria-pressed="${C.stil === id}">${esc(STILE[id].name)}</button>`).join('')}`;
+    $('#wtzu').onclick = () => { panel.style.display = 'none'; };
+    panel.querySelectorAll('.wtc').forEach(b => b.onclick = () => { const g = b.dataset.g, v = b.dataset.v; try { AUD.click(); } catch (e) {}
+      if (g === 'wellen') C.wellen[v] = !C.wellen[v]; else if (g === 'von') C.von = +v; else if (g === 'ort') { setzeOrt(v); panel.style.display = 'none'; return; }
+      else if (g === 'quali') { C.quali = v; speichern(); setzeQuali(v === 'auto' ? 'hoch' : v); qualiPruef = 3; tafel(); return; }
+      else if (g === 'stil') { if (C.stil !== v) { C.stil = v; speichern(); ende(); W.seite(); } return; } else C[g] = v;
+      speichern(); setzeWetter(); tafel(); kommentarWetter(g, v); });
+  }
+  $('#wtwet').onclick = () => { if (panel.style.display === 'none') { tafel(); panel.style.display = ''; } else panel.style.display = 'none'; };
+  /* Crew spricht über das, was man sieht */
+  const bub = $('#wtbub'); let bubT = 0; const sagte = {};
+  function sag(wer, t, ms) { const n = ({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[wer]; bub.innerHTML = `<b>${n}:</b> ${esc(t)}`; bub.style.display = ''; clearTimeout(bubT); bubT = setTimeout(() => bub.style.display = 'none', ms || 7000); try { if (typeof VOX !== 'undefined') VOX.say(wer, t, 'local'); } catch (e) {} }
+  function kommentarWetter(g, v) {
+    if (g === 'wind' && v === 'sturm') sag('hinnerk', 'Sturm. Bei so einem Wetter bleibt man im Hafen. Rettungswesten an!');
+    else if (g === 'wind' && v === 'flaute') sag('smilla', 'Flaute. Kein Wind, keine Welle. Das Wasser ist wie ein Spiegel.');
+    else if (g === 'sicht' && ['nebel', 'dicht', 'extrem'].includes(v)) sag('smilla', 'Nebel: Fahrt runter, Ausguck, Lichter an und Schallsignal geben. Tipp auf das Horn.');
+    else if (g === 'wellen' && v === 'kabbel' && C.wellen.kabbel) sag('hinnerk', 'Kabbelwasser. Wenn der Strom gegen den Wind läuft, wird die See kurz und steil.');
+    else if (g === 'wellen' && v === 'duenung' && C.wellen.duenung) sag('smilla', 'Dünung: lange Wellen von einem Sturm weit weg. Hier kann trotzdem Flaute sein.');
+  }
+  let tor = {};
+  function kommentare(t) {
+    for (const z of [40, -15, -70]) { const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
+      if (!nah) { tor[k] = 0; continue; } if (!tor[k]) tor[k] = {seite: Math.sign(d), drin: innen};
+      else if (Math.sign(d) !== tor[k].seite && !tor[k].fertig) { tor[k].fertig = 1; const ein = Math.cos(P.h) < 0, mitte = Math.abs(P.x) < 15;
+        if (!mitte) sag('smilla', 'Daneben! Bleib zwischen den Tonnen. Daneben kann es flach sein.');
+        else if (ein) sag('hinnerk', 'Sauber. Von See kommend: Rot an Backbord, Grün an Steuerbord.');
+        else sag('smilla', 'Gut so. Beim Auslaufen ist es andersherum: Rot liegt jetzt an Steuerbord.'); } }
+    const dh = Math.hypot(P.x - 62, P.z + 200); if (dh < 40 && !SH.weg && !sagte.seehund) { sagte.seehund = 1; sag('klabauter', 'Seehund! Seehund! Abstand halten! Krrah!'); }
+    const de = Math.hypot(P.x - enten[0].x, P.z - enten[0].z); if (de < 14 && !sagte.enten) { sagte.enten = 1; sag('klabauter', 'Entchen! Entchen! Langsam, sonst schaukeln die!'); }
+    if (P.z < 60 && P.z > 50 && Math.abs(P.x) < 30 && !sagte.einfahrt && Math.cos(P.h) < 0) { sagte.einfahrt = 1; sag('smilla', 'Hafeneinfahrt: Langsam fahren und auf auslaufende Schiffe achten.'); }
+  }
+  /* Größe und Qualität */
+  const gr = () => { const w = host.clientWidth, h = host.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+  const ro = new ResizeObserver(gr); ro.observe(host); gr();
+  /* Qualität: Automatisch beginnt hoch und geht herunter, wenn das Handy ruckelt */
+  let QA = null;
+  function setzeQuali(q) { const alt = QA; QA = q; const Q = QUALI[q]; dpr = Math.min(window.devicePixelRatio || 1, Q.dpr); r.setPixelRatio(dpr); gr();
+    const sch = Q.schatten && ST.schatten; r.shadowMap.enabled = sch; sonne.castShadow = sch; scene.environment = Q.env && envRT ? envRT.texture : null;
+    if (!ST.flach) { wasser.material = Q.env ? wmat : wmatE; }
+    if (alt) scene.traverse(o => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { m.needsUpdate = true; }); }); }
+  setzeQuali(C.quali === 'auto' ? 'hoch' : C.quali);
+  setzeOrt(C.ort); W.setzeBoot(BOOTE[C.boot % BOOTE.length]());
+  sag('hinnerk', C.ort === 'hafen' ? 'Moin! Wir liegen im Hafen. Schieb den Hebel nach oben für voraus, zur Seite zum Lenken.' : 'Moin! Steuern mit einem Finger: hoch für Gas, zur Seite zum Lenken.', 9000);
+  /* Schleife */
+  let t0 = performance.now(), alt = t0, laufend = true, fpsN = 0, fpsT = t0, tonT = 0, hudT = 0, uhr = 0, kielT = 0, moeweT = 8, hornT = 20, qualiPruef = 3; W.fps = 0;
+  const v3 = new T.Vector3(), farbe = new T.Color();
+  function sektor(sk, objH, ox, oz) { if (sk === 'rund') return 1; const rel = wdiff(Math.atan2(cam.position.x - ox, -(cam.position.z - oz)), objH) / RAD, a = Math.abs(rel);
+    if (sk === 'top') return sm(115, 110, a); if (sk === 'heck') return sm(110, 115, a); if (sk === 'sb') return rel > -2 ? sm(115, 110, a) * sm(-2, 2, rel) : 0; if (sk === 'bb') return rel < 2 ? sm(115, 110, a) * sm(2, -2, rel) : 0; return 1; }
+  function lichterSetzen(boot, h) { for (const l of boot.userData.lichter || []) { l.glow.getWorldPosition(v3); const v = lichterAn ? sektor(l.sektor, h, v3.x, v3.z) : 0;
+    l.glow.material.opacity = v * (nachtAn ? 1 : .55); l.lampe.material.color.copy(farbe.copy(l.farbe).multiplyScalar(.25 + .75 * v)); const d = v3.distanceTo(cam.position); l.glow.scale.setScalar((l.glow.userData.s || (l.glow.userData.s = l.glow.scale.x)) * (1 + d / 60)); } }
+  function schritt(now) {
+    if (!laufend) return; if (!host.isConnected) { ende(); return; } requestAnimationFrame(schritt);
+    const dt = Math.min(.05, (now - alt) / 1000); alt = now; uhr += dt; const t = uhr, B = P.boot, U = B.userData;
+    physik(dt, t); kollision(t);
+    const fx = Math.sin(P.h), fz = -Math.cos(P.h);
+    B.position.set(P.x, P.y, P.z); B.rotation.set(-P.nick, Math.PI - P.h, P.roll, 'YXZ');
+    if (U.motor) U.motor.rotation.y = P.d * .5; if (U.propeller) U.propeller.rotation.z += P.g * dt * 38;
+    if (U.flagge) { const awx = Math.sin(windVon + Math.PI) * windMs - P.vx, awz = -Math.cos(windVon + Math.PI) * windMs - P.vz, aw = Math.hypot(awx, awz), weh = Math.atan2(awx, -awz);
+      const rel = wdiff(weh, P.h); U.flagge.dreh.rotation.y = Math.atan2(-Math.cos(rel), -Math.sin(rel)); const pa = U.flagge.tuch.geometry.attributes.position, bs = U.flagge.tuch.userData.basis, st = cl(aw / 8, 0, 1);
+      U.flagge.dreh.rotation.z = -(1 - st) * 1.2; for (let i = 0; i < pa.count; i++) { const x = bs[i * 3]; pa.setZ(i, Math.sin(x * 9 - t * (4 + aw)) * .05 * x * (.3 + st)); } pa.needsUpdate = true; }
+    /* Wasser */
+    const cx = Math.round(P.x / ZELLE) * ZELLE, cz = Math.round(P.z / ZELLE) * ZELLE; wasser.position.set(cx, 0, cz); fern.position.x = cx; fern.position.z = cz;
+    const aw = WLst.filter(q => q.art === 'w' || q.art === 'b').reduce((a, q) => a + q.A, 0) || 1, wa = wpos.array;
+    for (let i = 0; i < wpos.count; i++) { const bx = basis[2 * i] + cx, bz = basis[2 * i + 1] + cz, rand = sm(165, 120, Math.hypot(basis[2 * i], basis[2 * i + 1])), da = hafenRuhe(bx, bz) * rand;
+      let X = 0, Y = 0, Z = 0, sch = 0;
+      for (const q of WLst) { const th = q.k * (q.dx * bx + q.dz * bz) - q.om * t + q.ph, sn = Math.sin(th), cs = Math.cos(th), A = q.A * da; X += q.Q * A * q.dx * cs; Z += q.Q * A * q.dz * cs; Y += A * sn; if (q.art === 'w' || q.art === 'b') sch += sn * A; }
+      Y += schwell(bx, bz, t) * da; wa[i * 3] = basis[2 * i] + X; wa[i * 3 + 1] = Y; wa[i * 3 + 2] = basis[2 * i + 1] + Z;
+      const br = cl(Math.sin(bx * .41 + bz * .17 + t * .2) * Math.sin(bz * .37 - bx * .23 + t * .5) * 1.6 - .2, 0, 1), f = cl(sm(.68, 1.02, sch / aw) * schaumMenge * br * .7, 0, .7), hl = cl(Y * .06, -.06, .1);
+      wcol[i * 3] = mix(wasserFarbe.r * (1 + hl), krone.r, f); wcol[i * 3 + 1] = mix(wasserFarbe.g * (1 + hl), krone.g, f); wcol[i * 3 + 2] = mix(wasserFarbe.b * (1 + hl), krone.b, f); }
+    wpos.needsUpdate = true; wg.attributes.color.needsUpdate = true; wg.computeVertexNormals();
+    const rep = 26, wo = (windMs + 1.5) * .0035; wN.offset.set(cx / WS * rep + t * wo, -cz / WS * rep + t * wo * .6); fernN.offset.set(t * wo * 4, t * wo * 2.4);
+    /* Kielwasser und Bugwellen */
+    kielT += dt; const u = P.u || 0;
+    if (kielT > .12) { kielT = 0; const L = U.laenge / 2, s = cl(Math.abs(u) / 3, 0, 1) + Math.abs(P.g) * .3; kiel.add(P.x - fx * L, P.z - fz * L, 0, 0, s, t);
+      const rx = Math.cos(P.h), rz = Math.sin(P.h), sp = Math.max(0, u) * .32; bugL.add(P.x + fx * L * .7 - rx * U.breite * .5, P.z + fz * L * .7 - rz * U.breite * .5, -rx * sp, -rz * sp, cl(u / 4, 0, 1), t);
+      bugR.add(P.x + fx * L * .7 + rx * U.breite * .5, P.z + fz * L * .7 + rz * U.breite * .5, rx * sp, rz * sp, cl(u / 4, 0, 1), t);
+      const sf = Math.sin(SCH.h), szz = -Math.cos(SCH.h); schiffKiel.add(SCH.x - sf * 10, SCH.z - szz * 10, 0, 0, .8, t);
+      if (Math.abs(P.g) > .25) for (let i = 0; i < 3; i++) spritz(P.x - fx * (L + .4), P.y - .1, P.z - fz * (L + .4), -fx * P.g * 2 + rnd(-.4, .4), rnd(.2, .8), -fz * P.g * 2 + rnd(-.4, .4));
+      if (u > 2.5 && (P.vn < -.15 || Math.random() < .1 * aw)) for (let i = 0; i < 8; i++) { const sd = Math.random() < .5 ? -1 : 1; spritz(P.x + fx * L * .8 + rx * sd * .6, P.y + .3, P.z + fz * L * .8 + rz * sd * .6, rx * sd * rnd(1, 3) + fx * u * .5, rnd(2, 4.5), rz * sd * rnd(1, 3) + fz * u * .5); } }
+    kiel.upd(t); bugL.upd(t); bugR.upd(t); schiffKiel.upd(t);
+    for (let i = 0; i < GN; i++) { const p = G[i]; if (p.t < 3) { p.t += dt; p.vy -= 9.81 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; if (p.y < hoehe(p.x, p.z, t) - .3) p.t = 9; }
+      gpos[i * 3] = p.x; gpos[i * 3 + 1] = p.t < 3 ? p.y : -99; gpos[i * 3 + 2] = p.z; gcol.set([1, 1, 1, p.t < 3 ? cl(1 - p.t / 1.6, 0, .9) : 0], i * 4); }
+    gg.attributes.position.needsUpdate = gg.attributes.color.needsUpdate = true;
+    /* Schiff fährt seine Runde */
+    SCH.a += SCH.v / SCH.R * dt; const nx = SCH.cx + Math.cos(SCH.a) * SCH.R, nz = SCH.cz + Math.sin(SCH.a) * SCH.R; SCH.vx = (nx - SCH.x) / dt; SCH.vz = (nz - SCH.z) / dt; SCH.x = nx; SCH.z = nz;
+    SCH.h = Math.atan2(-Math.sin(SCH.a), -Math.cos(SCH.a)) + Math.PI; SCH.h = Math.atan2(SCH.vx, -SCH.vz) || SCH.h; SCH.wv += (-SCH.wack * 3 - SCH.wv * 1.5) * dt; SCH.wack += SCH.wv * dt;
+    schiff.position.set(SCH.x, hoehe(SCH.x, SCH.z, t) * .6, SCH.z); schiff.rotation.set(Math.sin(t * .6) * .015 * (1 + aw), Math.PI - SCH.h, Math.sin(t * .8) * .02 * (1 + aw) + SCH.wack, 'YXZ');
+    /* Bojen: verankert, schwimmen auf und ab, werden weggestoßen und kommen zurück */
+    for (const b of WL.bojen) { b.vx += (-(b.x - b.hx) * .25 - b.vx * .6) * dt; b.vz += (-(b.z - b.hz) * .25 - b.vz * .6) * dt; b.x += b.vx * dt; b.z += b.vz * dt;
+      b.kv.x += (-b.kipp.x * 6 - b.kv.x * 1.6) * dt; b.kv.y += (-b.kipp.y * 6 - b.kv.y * 1.6) * dt; b.kipp.x += b.kv.x * dt; b.kipp.y += b.kv.y * dt;
+      b.obj.position.set(b.x, hoehe(b.x, b.z, t) * .9 - .15, b.z); b.obj.rotation.set(b.kipp.x + Math.sin(t * 1.3 + b.hx) * .04 * (1 + aw), 0, b.kipp.y + Math.cos(t * 1.1 + b.hz) * .04 * (1 + aw)); }
+    for (const l of WL.blink) { const ph = (t + l.ph) % l.takt; l.glow.material.opacity = lichterAn && ph < l.an ? 1 : 0; }
+    for (const l of WL.lampen) if (l.glow) l.glow.material.opacity = nachtAn ? .9 : 0;
+    /* Leuchtturm: Strahl dreht, leuchtet hell auf, wenn er zu dir zeigt */
+    const LT = WL.leuchtturm, la = t * .9; LT.strahl.rotation.y = la; LT.strahl.children.forEach(m => { m.material.opacity = nachtAn ? (C.sicht !== 'klar' ? .07 : .045) : 0; });
+    const zuMir = Math.atan2(-(cam.position.z - LT.pos.z), cam.position.x - LT.pos.x), blitz = Math.max(Math.pow(Math.max(0, Math.cos(la - zuMir)), 60), Math.pow(Math.max(0, Math.cos(la + Math.PI - zuMir)), 60));
+    LT.glow.material.opacity = nachtAn || lichterAn ? .35 + blitz * .65 : 0; LT.glow.scale.setScalar(9 + blitz * 18);
+    lichterSetzen(B, P.h); lichterSetzen(schiff, SCH.h);
+    /* Tiere */
+    fliegen.forEach((m, i) => { const a = t * (.28 + i * .07) + i * 2.1, R = 22 + i * 12, mx = i === 2 ? 10 : P.x, mz = i === 2 ? 130 : P.z; m.position.set(mx + Math.cos(a) * R, 12 + i * 3 + Math.sin(t * .7 + i) * 1.4, mz + Math.sin(a) * R); m.rotation.set(0, -a, -.28); m.userData.fl.forEach(([w, s]) => w.rotation.z = s * Math.sin(t * 7 + i) * .5); });
+    WL.sitzMoewen.forEach((m, i) => { m.rotation.y = m.userData.r0 + Math.sin(t * .7 + i * 2) * .5; });
+    if (t > entenZiel.t) entenZiel = {x: rnd(-60, 60), z: rnd(95, 160), t: t + rnd(8, 14)};
+    enten.forEach((e, i) => { let zx, zz; if (i === 0) { zx = entenZiel.x; zz = entenZiel.z; } else { zx = enten[i - 1].x; zz = enten[i - 1].z; }
+      let vx = zx - e.x, vz = zz - e.z; const d = Math.hypot(vx, vz), soll = i ? .7 : 0; let sp = i ? cl((d - soll) * 1.5, 0, 1.2) : .45; vx /= d || 1; vz /= d || 1;
+      const bx = e.x - P.x, bz = e.z - P.z, bd = Math.hypot(bx, bz); if (bd < 10) { vx = vx * .3 + bx / bd; vz = vz * .3 + bz / bd; sp = 1.3; }
+      if (WL.stat.some(s => !s.k && Math.hypot(e.x - s.ax, e.z - s.az) < s.r + 1)) { vx = -vx; vz = -vz; }
+      e.x += vx * sp * dt; e.z += vz * sp * dt; if (sp > .05) e.h = Math.atan2(vx, vz); e.o.position.set(e.x, hoehe(e.x, e.z, t) - .02, e.z); e.o.rotation.y = e.h; e.o.rotation.z = Math.sin(t * 3 + i) * .05; });
+    if (!SH.weg && Math.hypot(P.x - 62, P.z + 200) < 24) { SH.weg = true; SH.zeit = t + 18; sag('klabauter', 'Zu nah! Der Seehund ist abgetaucht. Krrah!'); }
+    if (SH.weg && t > SH.zeit && Math.hypot(P.x - 62, P.z + 200) > 45) SH.weg = false;
+    SH.y += ((SH.weg ? -1.4 : .1) - SH.y) * dt * 1.5; seehund.position.y = SH.y; seehund.userData.kopf.rotation.y = Math.sin(t * .5) * .5;
+    katzeLauf(dt, t);
+    /* Wetter in Bewegung */
+    if (regenZahl) { const kx = cam.position.x, kz = cam.position.z, lee = windVon + Math.PI, wx = Math.sin(lee) * windMs * .06, wz = -Math.cos(lee) * windMs * .06;
+      for (let i = 0; i < regenZahl; i++) { let y = rp[i * 6 + 1] - dt * 15; let x = rp[i * 6], z = rp[i * 6 + 2]; if (y < -1 || Math.abs(x - kx) > 40 || Math.abs(z - kz) > 40) { y = rnd(18, 30); x = kx + rnd(-40, 40); z = kz + rnd(-40, 40); }
+        x += wx * dt * 15; z += wz * dt * 15; rp.set([x, y, z, x - wx * .9, y + .9, z - wz * .9], i * 6); } rg.attributes.position.needsUpdate = true; }
+    wolken.forEach(s => { s.userData.a += dt * .0006 * (windMs + 1); const a = s.userData.a; s.position.set(cam.position.x + Math.cos(a) * s.userData.d, s.userData.y, cam.position.z + Math.sin(a) * s.userData.d); });
+    himmel.position.copy(cam.position); sterne.position.copy(cam.position);
+    sonne.target.position.set(P.x, 0, P.z); sonne.position.set(P.x + HI.u.sonneDir.value.x * 120, HI.u.sonneDir.value.y * 120, P.z + HI.u.sonneDir.value.z * 120);
+    /* Kamera folgt (dritte Person), Wackeln nach Stößen und im Sturm */
+    if (!K.lock && now - K.last > 2600) K.yaw += (0 - K.yaw) * Math.min(1, dt * 1.2);
+    K.hs += wdiff(P.h, K.hs) * Math.min(1, dt * 2.2);
+    const dist = C.sicht === 'extrem' ? Math.min(K.dist, 17) : C.sicht === 'dicht' ? Math.min(K.dist, 22) : K.dist, ang = K.hs + K.yaw, cp = Math.cos(K.pitch);
+    const zx = P.x - Math.sin(ang) * dist * cp, zz = P.z + Math.cos(ang) * dist * cp, zy = Math.max(hoehe(zx, zz, t) + 1.4, P.y + 1.6 + Math.sin(K.pitch) * dist);
+    K.pos.x += (zx - K.pos.x) * Math.min(1, dt * (K.lock ? 6 : 2.6)); K.pos.y += (zy - K.pos.y) * Math.min(1, dt * 3); K.pos.z += (zz - K.pos.z) * Math.min(1, dt * (K.lock ? 6 : 2.6));
+    K.shake = Math.max(0, K.shake - dt * 1.8) ; const wack = K.shake * .5 + (windMs > 14 ? .06 * (windMs - 14) / 8 : 0);
+    cam.position.set(K.pos.x + Math.sin(t * 41) * wack * .3, K.pos.y + Math.sin(t * 37) * wack * .25, K.pos.z + Math.cos(t * 43) * wack * .3);
+    K.blick.lerp(v3.set(P.x, P.y + 1.4, P.z), Math.min(1, dt * 5)); cam.lookAt(K.blick);
+    K.fov += (52 + cl(Math.abs(u), 0, 6) * 1.2 - K.fov) * dt * 2; if (Math.abs(cam.fov - K.fov) > .05) { cam.fov = K.fov; cam.updateProjectionMatrix(); }
+    const tR = performance.now(); r.render(scene, cam); W.mess = {js: Math.round(tR - now), render: Math.round(performance.now() - tR)};
+    /* Töne (gedrosselt) */
+    tonT -= dt; if (tonT < 0) { tonT = .25; try { const ag = Math.abs(P.g); AUD.loop('motorLauf', .14 + ag * .32, .82 + ag * .55); const hw = WLst.reduce((a, q) => a + q.A, 0);
+      AUD.loop('wellen', cl(.12 + hw * .25, 0, .7)); AUD.loop('wind', windMs > 2 && windMs < 15 ? cl(windMs / 18, 0, .55) : 0); AUD.loop('sturm', windMs >= 15 ? .6 : 0); AUD.loop('regen', C.regen === 'stark' ? .7 : C.regen === 'regen' ? .4 : 0); } catch (e) {} }
+    moeweT -= dt; if (moeweT < 0) { moeweT = rnd(14, 30); if (!nachtAn && P.z > 0) try { AUD.sfx('moewe', {vol: .25, pan: rnd(-.7, .7)}); } catch (e) {} }
+    hornT -= dt; if (hornT < 0) { hornT = 30; const dS = Math.hypot(SCH.x - P.x, SCH.z - P.z); if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && dS < 500) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn('▬', null, Math.sin(rel)); } catch (e) {} } }
+    kommentare(t);
+    hudT -= dt; if (hudT < 0) { hudT = .15; const kn = Math.abs(u) * 1.94, hd = ((P.h / RAD) % 360 + 360) % 360, gp = Math.round(Math.abs(P.gZiel) * 100), rw = Math.round(Math.abs(P.dZiel) * 30);
+      $('#wtk').textContent = 'Kurs ' + String(Math.round(hd)).padStart(3, '0') + '° · ' + kn.toFixed(1).replace('.', ',') + ' kn';
+      $('#wtg').textContent = (!P.gZiel ? 'neutral' : (P.gZiel > 0 ? 'voraus ' : 'zurück ') + gp + ' %') + ' · ' + (!rw ? 'Ruder mittschiffs' : 'Ruder ' + (P.dZiel > 0 ? 'Stb ' : 'Bb ') + rw + '°');
+      $('#wtpfeil').style.transform = `rotate(${(wdiff(windVon + Math.PI, P.h) / RAD) - 90}deg)`; $('#wtwind').style.opacity = windMs ? 1 : .5; }
+    fpsN++; if (now - fpsT > 1000) { W.fps = fpsN; fpsN = 0; fpsT = now; qualiPruef--; if (C.quali === 'auto' && qualiPruef <= 0 && QA !== 'niedrig' && W.fps < 24) { setzeQuali(QA === 'hoch' ? 'mittel' : 'niedrig'); qualiPruef = 3; } }
+  }
+  /* Die Katze läuft an Deck herum, setzt sich, putzt sich, erschrickt bei Stößen */
+  function katzeLauf(dt, t) {
+    const weg = P.boot.userData.katzenWeg || [], U = katze.userData; if (weg.length < 2) return;
+    KZ.zeit -= dt; let gehen = false;
+    if (KZ.schreck > 0) { KZ.schreck -= dt; katze.position.y = weg[KZ.i].y + Math.max(0, Math.sin((1.1 - KZ.schreck) / 1.1 * Math.PI)) * .5; U.koerper.scale.y = .85 + KZ.schreck * .15; }
+    else if (KZ.modus === 'gehen') { const a = weg[KZ.i], b = weg[(KZ.i + 1) % weg.length], d = a.distanceTo(b); KZ.u += dt * .38 / Math.max(d, .1);
+      if (KZ.u >= 1) { KZ.u = 0; KZ.i = (KZ.i + 1) % weg.length; if (Math.random() < .45) { KZ.modus = Math.random() < .5 ? 'sitzen' : 'putzen'; KZ.zeit = rnd(2.5, 7); } }
+      katze.position.lerpVectors(a, b, KZ.u); katze.rotation.y = Math.atan2(b.x - a.x, b.z - a.z); gehen = true; }
+    else if (KZ.zeit < 0) KZ.modus = 'gehen';
+    KZ.ph += dt * (gehen ? 9 : 0); U.beine.forEach((h, i) => h.rotation.x = gehen ? Math.sin(KZ.ph + (i === 0 || i === 3 ? 0 : Math.PI)) * .55 : 0);
+    U.koerper.position.y = .22 + (gehen ? Math.abs(Math.sin(KZ.ph)) * .015 : 0) - (KZ.modus === 'sitzen' ? .03 : 0);
+    U.kopf.rotation.x = KZ.modus === 'putzen' ? .5 + Math.sin(t * 6) * .25 : Math.sin(t * .7) * .08; U.kopf.rotation.y = KZ.modus === 'sitzen' ? Math.sin(t * .4) * .6 : 0;
+    U.schwanz.forEach((s, i) => { if (i) s.rotation.z = Math.sin(t * 2.4 - i * .7) * (KZ.schreck > 0 ? .1 : .32); else s.rotation.x = KZ.schreck > 0 ? -.2 : -.9; });
+  }
+  function ende() {
+    if (!laufend) return; laufend = false; window.removeEventListener('keydown', taste); ro.disconnect();
+    try { ['motorLauf', 'wellen', 'wind', 'sturm', 'regen'].forEach(n => AUD.loop(n, 0)); } catch (e) {}
+    scene.traverse(o => { if (o.geometry) o.geometry.dispose(); const m = o.material; if (m) (Array.isArray(m) ? m : [m]).forEach(x => x.dispose()); });
+    Object.values(TX).forEach(x => x.dispose && x.dispose()); if (envRT) envRT.dispose(); pmrem.dispose(); r.dispose(); try { r.forceContextLoss(); } catch (e) {}
+  }
+  back.onclick = () => { ende(); clearTimeout(bubT); if (typeof VOX !== 'undefined') VOX.stop(); setTab(typeof returnTo !== 'undefined' ? returnTo : 'cabin'); };
+  W.ende = ende; W.zustand = {P, K, C, SCH, WL, scene, cam, r, sag, setzeWetter, setzeOrt, pad, wasser};
+  requestAnimationFrame(schritt);
+};
 
 function css() {
   if (document.getElementById('weltcss')) return;
   const s = document.createElement('style'); s.id = 'weltcss';
-  s.textContent = `.wt{position:relative;height:calc(100dvh - 215px);min-height:340px;border-radius:14px;overflow:hidden;background:#bfe6f5;touch-action:none;margin:0 0 8px}
+  s.textContent = `.wt{position:relative;height:calc(100dvh - 150px);min-height:360px;border-radius:14px;overflow:hidden;background:#cfe0e8;touch-action:none;margin:0 0 8px;user-select:none;-webkit-user-select:none}
   .wt canvas{width:100%;height:100%;display:block}
-  .wt .hud{position:absolute;left:8px;top:8px;background:rgba(255,255,255,.82);border-radius:10px;padding:4px 9px;font-weight:800;font-size:13px;color:#2b3a4a}
-  .wt .bub{position:absolute;left:8px;right:8px;top:44px;background:rgba(255,252,240,.95);border-radius:14px;padding:8px 11px;font-size:14px;color:#2b2118;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-  .wt .bub b{color:#b5563a}
-  .wt .ruder,.wt .gas{position:absolute;bottom:10px;display:flex;gap:8px}
-  .wt .ruder{left:10px}.wt .gas{right:10px;flex-direction:column-reverse}
-  .wt .wb{width:62px;height:62px;border-radius:50%;border:3px solid #fff;background:rgba(240,181,62,.92);font-size:26px;font-weight:900;color:#3a2a10;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-  .wt .gas .wb{width:54px;height:54px;font-size:20px;background:rgba(61,95,143,.9);color:#fff}
-  .wt .gas .wb.on{background:#f0b53e;color:#3a2a10}
-  .wt .wb:active{transform:scale(.94)}
-  .wtbar{display:flex;gap:6px;flex-wrap:wrap}.wtbar .btn{flex:1;min-width:70px}`;
+  .wt .hud{position:absolute;left:8px;top:8px;background:rgba(255,250,240,.86);border-radius:10px;padding:4px 9px;font-size:12px;color:#2b3a4a;line-height:1.3}.wt .hud b{display:block;font-size:13px}
+  .wt .wind{position:absolute;right:8px;top:8px;width:50px;height:58px;border-radius:12px;background:rgba(20,30,40,.5);color:#fffaf0;text-align:center;font:700 10px sans-serif}
+  .wt .wind i{display:block;font-style:normal;font-size:22px;line-height:38px;transition:transform .3s}
+  .wt .bub{position:absolute;left:8px;right:66px;top:56px;background:rgba(255,252,240,.95);border-radius:14px;padding:8px 11px;font-size:14px;color:#2b2118;box-shadow:0 2px 8px rgba(0,0,0,.18)}.wt .bub b{color:#b5563a}
+  .wpad{position:absolute;right:10px;bottom:10px;width:150px;height:164px;border-radius:22px;background:rgba(20,30,40,.5);touch-action:none}
+  .wpad .mk{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#f0b53e;border:3px solid #fffaf0;box-shadow:0 2px 0 rgba(0,0,0,.35);pointer-events:none}
+  .wpad .ml{position:absolute;left:10px;right:10px;top:50%;height:2px;background:rgba(255,250,240,.55)}.wpad .mv{position:absolute;top:12px;bottom:12px;left:50%;width:2px;background:rgba(255,250,240,.22)}
+  .wpad b{position:absolute;color:#fffaf0;font:700 10px sans-serif;pointer-events:none}
+  .wt .horn{position:absolute;left:10px;bottom:10px;width:52px;height:52px;border-radius:50%;border:3px solid #fffaf0;background:rgba(61,95,143,.85);font-size:22px}
+  .wtpanel{position:absolute;left:6px;right:6px;top:6px;bottom:6px;overflow:auto;background:rgba(255,250,240,.97);border-radius:14px;padding:8px 10px;color:#2b2118;z-index:3}
+  .wtph{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.wtpanel h4{margin:8px 0 4px;font-size:13px}
+  .wtc{border:1.5px solid #c9b79a;background:#fffaf0;border-radius:16px;padding:5px 10px;margin:0 4px 5px 0;font:600 13px inherit;color:#3a2a10}
+  .wtc[aria-pressed="true"]{background:#f0b53e;border-color:#c8962e}
+  .wtbar{display:flex;gap:6px}.wtbar .btn{flex:1;min-width:0;font-size:13px;padding-left:4px;padding-right:4px}`;
   document.head.appendChild(s);
 }
-
-/* ---------- Bausteine ---------- */
-let TOON = null;
-function toonMap() { if (!TOON) { TOON = new T.DataTexture(new Uint8Array([170, 215, 255]), 3, 1, T.RedFormat); TOON.minFilter = TOON.magFilter = T.NearestFilter; TOON.needsUpdate = true; } return TOON; }
-const mat = (c, o) => new T.MeshToonMaterial(Object.assign({color: c, gradientMap: toonMap()}, o || {}));
-const flach = (c, o) => new T.MeshStandardMaterial(Object.assign({color: c, flatShading: true, roughness: .9}, o || {}));
-function mesh(g, m, x, y, z) { const o = new T.Mesh(g, m); o.position.set(x || 0, y || 0, z || 0); return o; }
-function umriss(o, s) { const u = new T.Mesh(o.geometry, new T.MeshBasicMaterial({color: 0x24323f, side: T.BackSide})); u.scale.setScalar(s || 1.05); o.add(u); return o; }
-function augen(g, y, z, d, r) { for (const s of [-1, 1]) { g.add(mesh(new T.SphereGeometry(r, 10, 8), new T.MeshBasicMaterial({color: 0xffffff}), s * d, y, z)); g.add(mesh(new T.SphereGeometry(r * .55, 8, 6), new T.MeshBasicMaterial({color: 0x1b1b1b}), s * d, y, z + r * .55)); } }
-
-/* Rumpf aus Spanten: stationen s (0 Heck bis 1 Bug), Profil als Linienzug */
-function loft(p, profil, farbe, outline) {
-  const N = 22, pos = []; let K = 0;
-  const st = []; for (let i = 0; i <= N; i++) { const s = i / N; st.push({s, z: (s - .5) * p.L, b: p.bf(s) * p.B / 2, t: p.tf(s) * p.T, f: p.F * (.88 + .5 * Math.pow(s, 2.6))}); }
-  const lin = st.map(q => profil(q)); K = lin[0].length;
-  for (let i = 0; i < N; i++) for (let k = 0; k < K - 1; k++) {
-    const a = lin[i][k], b = lin[i][k + 1], c = lin[i + 1][k], d = lin[i + 1][k + 1], z0 = st[i].z, z1 = st[i + 1].z;
-    pos.push(a[0], a[1], z0, c[0], c[1], z1, b[0], b[1], z0, b[0], b[1], z0, c[0], c[1], z1, d[0], d[1], z1);
-  }
-  const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.computeVertexNormals();
-  const m = new T.Mesh(g, mat(farbe, {side: T.DoubleSide, flatShading: true}));
-  if (outline) umriss(m, outline); return m;
-}
-function bauRumpf(p) {
-  const g = new T.Group(), sh = .14;
-  const unter = q => { const o = []; for (let k = 0; k <= 10; k++) { const a = (-90 + 18 * k) * RAD; o.push([q.b * Math.sin(a), -q.t * Math.cos(a)]); } return o; };
-  const links = (y0, y1) => q => [[-q.b, y0], [-q.b, y1 === 'f' ? q.f : y1]], rechts = (y0, y1) => q => [[q.b, y1 === 'f' ? q.f : y1], [q.b, y0]];
-  g.add(loft(p, unter, p.c.unter));
-  for (const f of [links, rechts]) { g.add(loft(p, f(0, sh), p.c.streifen)); g.add(loft(p, f(sh, 'f'), p.c.rumpf)); }
-  /* Deck */
-  const N = 22, pos = [];
-  for (let i = 0; i < N; i++) { const s0 = i / N, s1 = (i + 1) / N, b0 = p.bf(s0) * p.B / 2, b1 = p.bf(s1) * p.B / 2, f0 = p.F * (.88 + .5 * Math.pow(s0, 2.6)), f1 = p.F * (.88 + .5 * Math.pow(s1, 2.6)), z0 = (s0 - .5) * p.L, z1 = (s1 - .5) * p.L; pos.push(-b0, f0, z0, b0, f0, z0, -b1, f1, z1, b0, f0, z0, b1, f1, z1, -b1, f1, z1); }
-  const dg = new T.BufferGeometry(); dg.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); dg.computeVertexNormals();
-  g.add(new T.Mesh(dg, mat(p.c.deck, {side: T.DoubleSide})));
-  /* Heckspiegel */
-  const hb = p.bf(0) * p.B / 2; g.add(mesh(new T.PlaneGeometry(hb * 2, p.F * .88 + p.T * .55 * .5), mat(p.c.rumpf, {side: T.DoubleSide}), 0, (p.F * .88 - p.T * .55 * .5) / 2 - .02, -p.L / 2));
-  return g;
-}
-const HULL = {bf: s => s < .55 ? .93 + .07 * Math.sin(s / .55 * Math.PI * .5) : Math.max(.02, Math.pow(Math.cos((s - .55) / .45 * Math.PI / 2), .65)), tf: s => (.55 + .45 * Math.min(1, s / .3)) * (s > .72 ? 1 - .85 * (s - .72) / .28 : 1)};
-
-function bauBoot(o) {
-  o = Object.assign({art: 'kajuete', L: 9, B: 3.1, T: .7, F: 1, name: 'SKIPPER', mast: 'liegt', katze: true, nacht: false}, o || {});
-  const c = Object.assign({rumpf: 0xfdf8ee, streifen: 0xe0503c, unter: 0x2f5f8f, deck: 0xc99a66, kajuete: 0xfdf8ee, dach: 0x3f7fb3, fenster: 0x274b66}, o.farben || {});
-  const p = Object.assign({}, HULL, {L: o.L, B: o.B, T: o.T, F: o.F, c});
-  const b = new T.Group(); b.add(bauRumpf(p));
-  const lichter = {};
-  if (o.art === 'kajuete') {
-    const kb = o.B * .62, kh = 1.15, kl = o.L * .38, kz = -o.L * .06, y0 = o.F * .95;
-    const kk = mesh(new T.BoxGeometry(kb, kh, kl), mat(c.kajuete), 0, y0 + kh / 2, kz); umriss(kk, 1.04); b.add(kk);
-    const dach = mesh(new T.BoxGeometry(kb + .3, .13, kl + .35), mat(c.dach), 0, y0 + kh + .06, kz); umriss(dach, 1.04); b.add(dach);
-    for (const s of [-1, 1]) for (const k of [-1, 0, 1]) b.add(mesh(new T.PlaneGeometry(kl * .26, kh * .5), mat(c.fenster, {side: T.DoubleSide}), s * (kb / 2 + .01), y0 + kh * .58, kz + k * kl * .31)).rotation.y = Math.PI / 2;
-    b.add(mesh(new T.PlaneGeometry(kb * .8, kh * .5), mat(c.fenster, {side: T.DoubleSide}), 0, y0 + kh * .58, kz + kl / 2 + .01));
-    lichter.top = mesh(new T.SphereGeometry(.13, 10, 8), new T.MeshBasicMaterial({color: 0x555555}), 0, y0 + kh + .45, kz + kl * .2); b.add(lichter.top);
-    b.add(mesh(new T.CylinderGeometry(.04, .04, .4, 6), mat(0x555555), 0, y0 + kh + .27, kz + kl * .2));
-    b.userData.anker = {katze: new T.Vector3(0, y0 + kh + .13, kz - kl * .15)};
-    if (o.mast === 'liegt') { for (const s of [-1]) { const m = mesh(new T.CylinderGeometry(.06, .08, o.L * .8, 8), mat(0xb9885a), s * (kb / 2 + .28), y0 + .28, 0); m.rotation.x = Math.PI / 2; b.add(m); } for (const z of [-.28, .28]) b.add(mesh(new T.BoxGeometry(.1, .28, .16), mat(0x8a6a4a), -(kb / 2 + .28), y0 + .14, o.L * z * .8)); }
-  } else { /* offenes Boot mit Außenborder */
-    b.add(mesh(new T.BoxGeometry(o.B * .8, .1, .5), mat(c.dach), 0, o.F + .5, -o.L * .12));
-    b.userData.anker = {katze: new T.Vector3(0, o.F + .6, -o.L * .12)};
-    lichter.top = mesh(new T.SphereGeometry(.12, 10, 8), new T.MeshBasicMaterial({color: 0x555555}), 0, o.F + 1.2, -o.L * .3); b.add(lichter.top); b.add(mesh(new T.CylinderGeometry(.03, .03, .7, 6), mat(0x555555), 0, o.F + .85, -o.L * .3));
-  }
-  /* Seitenlichter und Hecklicht */
-  const kug = col => mesh(new T.SphereGeometry(.14, 10, 8), new T.MeshBasicMaterial({color: col}), 0, 0, 0);
-  lichter.bb = kug(0x552222); lichter.bb.position.set(-o.B * .3, o.F * 1.2 + .1, o.L * .3); lichter.sb = kug(0x225522); lichter.sb.position.set(o.B * .3, o.F * 1.2 + .1, o.L * .3);
-  lichter.heck = kug(0x555555); lichter.heck.position.set(0, o.F + .5, -o.L / 2 + .15); b.add(lichter.bb, lichter.sb, lichter.heck);
-  /* Reling-Pfosten am Bug und Heck */
-  for (const s of [-1, 1]) for (const z of [-.45, -.3, .1, .3, .38]) b.add(mesh(new T.CylinderGeometry(.03, .03, .45, 5), mat(0xe9eef2), s * p.bf(z + .5) * o.B / 2 * .94, o.F * (.88 + .5 * Math.pow(z + .5, 2.6)) + .22, z * o.L));
-  /* Antrieb unter Wasser */
-  const prop = new T.Group(); prop.position.set(0, -o.T * .45, -o.L / 2 + .7);
-  for (let k = 0; k < 3; k++) { const fl = mesh(new T.BoxGeometry(.06, .5, .12), mat(0xd8a640)); fl.position.y = .22; const h = new T.Group(); h.rotation.z = k * TAU / 3; h.add(fl); prop.add(h); }
-  prop.add(mesh(new T.SphereGeometry(.1, 8, 6), mat(0x888888))); b.add(prop);
-  const rud = new T.Group(); rud.position.set(0, -o.T * .45, -o.L / 2 + .3); rud.add(mesh(new T.BoxGeometry(.05, .75, .5), mat(0x2f5f8f), 0, -.15, -.2)); b.add(rud);
-  b.userData = Object.assign(b.userData, {laenge: o.L, breite: o.B, propeller: prop, ruder: rud, lichter, nacht: lichter});
-  return b;
-}
-W.bauBoot = bauBoot;
-/* fremdes Modell passend machen: skaliert auf Länge, Bug nach +Z (achse '+x' '-x' '-z' …), Mitte auf die Wasserlinie */
-W.normiere = function (obj, opt) {
-  opt = Object.assign({laenge: 9, achse: '+z', wasserlinie: .3}, opt || {});
-  const g = new T.Group(); g.add(obj); const turn = {'+z': 0, '-z': Math.PI, '+x': -Math.PI / 2, '-x': Math.PI / 2}[opt.achse] || 0; obj.rotation.y = turn;
-  const bx = new T.Box3().setFromObject(g), sz = bx.getSize(new T.Vector3()), ct = bx.getCenter(new T.Vector3()), k = opt.laenge / sz.z;
-  obj.scale.multiplyScalar(k); obj.position.set(-ct.x * k, -(bx.min.y + sz.y * opt.wasserlinie) * k, -ct.z * k);
-  g.userData = {laenge: opt.laenge, breite: sz.x * k, anker: {katze: new T.Vector3(0, sz.y * k * .7, 0)}};
-  return g;
-};
-
-/* ---------- Kleine Wesen ---------- */
-function katze() {
-  const g = new T.Group(), f = mat(0xf0a24a);
-  g.add(umriss(mesh(new T.SphereGeometry(.28, 12, 10), f, 0, .26, 0), 1.08));
-  const kopf = umriss(mesh(new T.SphereGeometry(.2, 12, 10), f, 0, .62, .18), 1.1); g.add(kopf);
-  for (const s of [-1, 1]) { const o = mesh(new T.ConeGeometry(.07, .15, 4), f, s * .12, .8, .16); g.add(o); }
-  augen(g, .66, .33, .08, .045); g.add(mesh(new T.SphereGeometry(.03, 6, 5), new T.MeshBasicMaterial({color: 0xd66a6a}), 0, .6, .38));
-  const schwanz = mesh(new T.CylinderGeometry(.04, .05, .5, 6), f, 0, .45, -.32); schwanz.rotation.x = -.8; g.add(schwanz); g.userData.schwanz = schwanz;
-  g.scale.setScalar(1.15); return g;
-}
-function moewe() {
-  const g = new T.Group(), w = mat(0xffffff), fl = [];
-  g.add(umriss(mesh(new T.SphereGeometry(.22, 10, 8), w), 1.1)); g.children[0].scale.set(.8, .8, 1.5);
-  g.add(mesh(new T.SphereGeometry(.14, 10, 8), w, 0, .08, .32)); g.add(mesh(new T.ConeGeometry(.04, .14, 5), mat(0xf0b53e), 0, .06, .5)).rotation.x = Math.PI / 2;
-  augen(g, .12, .38, .07, .035);
-  for (const s of [-1, 1]) { const a = new T.Group(); a.add(mesh(new T.BoxGeometry(.7, .03, .3), w, s * .35, 0, 0)); g.add(a); fl.push([a, s]); }
-  g.userData.fl = fl; g.scale.setScalar(1.3); return g;
-}
-function seehund() {
-  const g = new T.Group(), f = mat(0x9aa4ad);
-  g.add(umriss(mesh(new T.SphereGeometry(.42, 14, 10), f, 0, 0, 0), 1.07)); g.add(mesh(new T.SphereGeometry(.17, 10, 8), mat(0x6c7680), 0, -.08, .38));
-  augen(g, .12, .32, .15, .07); g.add(mesh(new T.SphereGeometry(.05, 8, 6), new T.MeshBasicMaterial({color: 0x222222}), 0, -.02, .46));
-  for (const s of [-1, 1]) g.add(mesh(new T.CylinderGeometry(.003, .003, .22, 3), new T.MeshBasicMaterial({color: 0xffffff}), s * .1, -.08, .5)).rotation.z = Math.PI / 2;
-  return g;
-}
-function tonne(farbe, kenn) {
-  const g = new T.Group(), c = kenn === 'rot' ? 0xe0503c : 0x4aa361;
-  const koerper = umriss(mesh(new T.CylinderGeometry(.55, .85, 1.3, 14), mat(c), 0, .55, 0), 1.07); g.add(koerper);
-  g.add(mesh(new T.CylinderGeometry(.14, .14, 1.4, 8), mat(0x5a4a3a), 0, 1.7, 0));
-  const top = kenn === 'rot' ? mesh(new T.CylinderGeometry(.34, .34, .6, 10), mat(c), 0, 2.5, 0) : mesh(new T.ConeGeometry(.38, .7, 10), mat(c), 0, 2.5, 0);
-  g.add(umriss(top, 1.08));
-  const licht = mesh(new T.SphereGeometry(.2, 10, 8), new T.MeshBasicMaterial({color: 0x444444}), 0, 3.05, 0); g.add(licht);
-  g.userData = {licht, c, kenn}; return g;
-}
-function insel() {
-  const g = new T.Group();
-  g.add(umriss(mesh(new T.CylinderGeometry(14, 20, 3, 16), mat(0xf0dc9a), 0, 0, 0), 1.03));
-  g.add(mesh(new T.CylinderGeometry(10, 12, 1.2, 16), mat(0x7cc067), 0, 1.7, 0));
-  const turm = umriss(mesh(new T.CylinderGeometry(1.6, 2.4, 9, 12), mat(0xfdf8ee), 0, 6.5, 0), 1.04); g.add(turm);
-  for (const y of [4.5, 7.5]) g.add(mesh(new T.CylinderGeometry(1.9 - y * .03, 2, 1.4, 12), mat(0xe0503c), 0, y, 0));
-  g.add(mesh(new T.CylinderGeometry(1.9, 1.9, 1.6, 12), mat(0x3a4a5a), 0, 11.8, 0));
-  const lampe = mesh(new T.SphereGeometry(1.1, 10, 8), new T.MeshBasicMaterial({color: 0x444444}), 0, 11.8, 0); g.add(lampe);
-  g.add(mesh(new T.ConeGeometry(2.2, 1.8, 12), mat(0xe0503c), 0, 13.5, 0));
-  for (const [x, z, h] of [[6, 4, 2.4], [-7, 3, 1.8], [4, -7, 2.1]]) { g.add(mesh(new T.CylinderGeometry(.25, .35, h, 6), mat(0x8a6a4a), x, 2.2 + h / 2, z)); g.add(umriss(mesh(new T.SphereGeometry(1.5, 10, 8), mat(0x3f9a5b), x, 2.2 + h + .8, z), 1.05)); }
-  g.userData.lampe = lampe; return g;
-}
-function wolke() { const g = new T.Group(), m = new T.MeshBasicMaterial({color: 0xffffff, transparent: true, opacity: .93}); for (const [x, y, z, r] of [[0, 0, 0, 7], [7, -1, 1, 5], [-7, -1, -1, 5.5], [3, 3, 0, 5]]) g.add(mesh(new T.SphereGeometry(r, 10, 8), m, x, y, z)); g.scale.y = .55; return g; }
-
-/* ---------- Die Welt ---------- */
-W.seite = async function () {
-  css();
-  gameShell('3D-Welt (Test)', `<div class="wt" id="wt"><div class="hud" id="wthud">Kurs 000° · 0,0 kn</div><div class="bub" id="wtbub"></div>
-    <div class="ruder"><button class="wb" id="wtl" aria-label="Links">◀</button><button class="wb" id="wtr" aria-label="Rechts">▶</button></div>
-    <div class="gas"><button class="wb" id="wtg2">▲▲</button><button class="wb" id="wtg1">▲</button><button class="wb on" id="wtg0">■</button><button class="wb" id="wtgr">▼</button></div></div>
-    <div class="wtbar"><button class="btn small" data-cam="hinten">🎥 Hinter dem Boot</button><button class="btn small ghost" data-cam="seite">↔ Seite</button><button class="btn small ghost" data-cam="oben">⬆ Oben</button><button class="btn small ghost" data-cam="schau">🔍 Nah</button>
-    <button class="btn small ghost" id="wtnacht">🌙 Nacht</button><button class="btn small ghost" id="wttausch">🔁 Anderes Boot</button></div>
-    <p class="small muted" style="margin:8px 0 0">Wischen dreht die Kamera, zwei Finger zoomen. ◀ ▶ lenken, ▲ ▼ Gas. Fahre zwischen den Tonnen durch.</p>`);
-  const host = $('#wt'), back = $('#gback');
-  try { await window.nachladen('lib/three.min.js'); } catch (e) { host.innerHTML = '<p style="padding:16px">3D ließ sich nicht laden.</p>'; return; }
-  T = window.THREE; if (!document.body.contains(host)) return;
-  let r;
-  try { r = new T.WebGLRenderer({antialias: true}); } catch (e) { host.innerHTML = '<p style="padding:16px">Dein Gerät kann kein 3D (WebGL) zeigen.</p>'; return; }
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.75); r.setPixelRatio(dpr); host.insertBefore(r.domElement, host.firstChild);
-  const scene = new T.Scene(), cam = new T.PerspectiveCamera(55, 1, .5, 700);
-  const TAG = {himmel: 0xbfe6f5, nebel: 0xcdeaf3, sonne: 2.4, hemi: 2.3, wasser: 0x52bdd2, kamm: 0xa9e6ee}, NACHT = {himmel: 0x16223f, nebel: 0x1d2c50, sonne: .5, hemi: .9, wasser: 0x1f4a73, kamm: 0x3b7098};
-  let nacht = false; scene.background = new T.Color(TAG.himmel); scene.fog = new T.Fog(TAG.nebel, 120, 420);
-  const hemi = new T.HemisphereLight(0xffffff, 0x6a8fa8, TAG.hemi), sun = new T.DirectionalLight(0xfff2d8, TAG.sonne); sun.position.set(40, 80, 30); scene.add(hemi, sun);
-  /* Wasser: flache Dreiecke, folgt dem Boot */
-  const WS = 300, WN = 64, wg = new T.PlaneGeometry(WS, WS, WN, WN); wg.rotateX(-Math.PI / 2);
-  const wp = wg.attributes.position, wfarbe = new Float32Array(wp.count * 3); wg.setAttribute('color', new T.BufferAttribute(wfarbe, 3));
-  const wm = new T.Mesh(wg, new T.MeshLambertMaterial({vertexColors: true, flatShading: true})); scene.add(wm);
-  const baseXZ = Array.from({length: wp.count}, (_, i) => [wp.getX(i), wp.getZ(i)]);
-  const welle = (x, z, t) => Math.sin(x * .11 + t * .9) * .38 + Math.sin(z * .14 - t * 1.1) * .3 + Math.sin((x + z) * .07 + t * .6) * .35;
-  /* Orte */
-  const ins = insel(); ins.position.set(75, 0, -140); scene.add(ins);
-  const rot = tonne(0, 'rot'), gruen = tonne(0, 'gruen'); rot.position.set(-18, 0, -70); gruen.position.set(18, 0, -70); scene.add(rot, gruen);
-  const hund = seehund(); hund.position.set(24, 0, -64); scene.add(hund);
-  const wolken = [[-90, 60, -120], [60, 75, -200], [130, 65, 20], [-140, 70, -10]].map(([x, y, z]) => { const w = wolke(); w.position.set(x, y, z); scene.add(w); return w; });
-  const fremd = bauBoot({art: 'kajuete', L: 14, B: 4.2, T: 1, F: 1.3, name: 'FREMD', mast: 'steht', katze: false, farben: {rumpf: 0x3b8f8a, streifen: 0xf0b53e, unter: 0x24483f, dach: 0xe0503c}}); scene.add(fremd);
-  const moewen = [0, 1].map(i => { const m = moewe(); scene.add(m); return m; });
-  /* Spieler-Boot (austauschbar) */
-  const spieler = {h: 0, x: 0, z: 0, v: 0, gas: 0, ruder: 0, ruderZiel: 0, boot: null}; const katzeFig = katze();
-  const BOOTE = [() => bauBoot({art: 'kajuete'}), () => bauBoot({art: 'offen', L: 6, B: 2.2, T: .45, F: .7, mast: 'steht', farben: {streifen: 0x4aa361, dach: 0xf0b53e, rumpf: 0xffe9c2}})]; let bi = 0;
-  W.setzeBoot = obj => { if (spieler.boot) scene.remove(spieler.boot); spieler.boot = obj; scene.add(obj); const a = (obj.userData.anker || {}).katze; katzeFig.parent && katzeFig.parent.remove(katzeFig); obj.add(katzeFig); katzeFig.position.copy(a || new T.Vector3(0, 1.5, 0)); setzeNacht(); };
-  W.setzeBoot(BOOTE[0]());
-  function setzeNacht() {
-    const Z = nacht ? NACHT : TAG; scene.background.setHex(Z.himmel); scene.fog.color.setHex(Z.nebel); hemi.intensity = Z.hemi; sun.intensity = Z.sonne;
-    for (const b of [spieler.boot, fremd]) { const l = (b.userData || {}).lichter; if (!l) continue; const on = nacht; l.top.material.color.setHex(on ? 0xffffee : 0x555555); l.heck.material.color.setHex(on ? 0xffffee : 0x555555); l.bb.material.color.setHex(on ? 0xff2a2a : 0x552222); l.sb.material.color.setHex(on ? 0x2aff4a : 0x225522); }
-    ins.userData.lampe.material.color.setHex(nacht ? 0xfff2a0 : 0x444444); $('#wtnacht') && ($('#wtnacht').textContent = nacht ? '☀️ Tag' : '🌙 Nacht');
-  }
-  /* Kamera: dritte Person */
-  const K = {yaw: 0, pitch: .32, dist: 17, lock: false, last: 0, preset: 'hinten', pos: new T.Vector3(0, 6, -17), blick: new T.Vector3()};
-  const PRE = {hinten: {pitch: .32, dist: 17, yaw: 0, lock: false}, seite: {pitch: .12, dist: 20, yaw: Math.PI / 2, lock: true}, oben: {pitch: 1.5, dist: 32, yaw: 0, lock: true}, schau: {pitch: .22, dist: 11, yaw: .9, lock: true}};
-  document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => { const p = PRE[b.dataset.cam]; Object.assign(K, p, {preset: b.dataset.cam}); document.querySelectorAll('[data-cam]').forEach(x => x.classList.toggle('ghost', x !== b)); });
-  const cv = r.domElement, ptr = new Map(); let pinch = 0;
-  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); ptr.set(e.pointerId, [e.clientX, e.clientY]); K.last = performance.now(); });
-  cv.addEventListener('pointermove', e => { const q = ptr.get(e.pointerId); if (!q) return; const dx = e.clientX - q[0], dy = e.clientY - q[1]; q[0] = e.clientX; q[1] = e.clientY;
-    if (ptr.size === 2) { const [a, b] = [...ptr.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch) K.dist = cl(K.dist * pinch / d, 6, 60); pinch = d; return; }
-    K.yaw -= dx * .008; K.pitch = cl(K.pitch + dy * .006, .05, 1.5); K.last = performance.now(); });
-  const loslass = e => { ptr.delete(e.pointerId); pinch = 0; }; cv.addEventListener('pointerup', loslass); cv.addEventListener('pointercancel', loslass);
-  cv.addEventListener('wheel', e => { e.preventDefault(); K.dist = cl(K.dist * (1 + Math.sign(e.deltaY) * .1), 6, 60); }, {passive: false});
-  /* Bedienung */
-  const halten = (id, f) => { const b = $(id); const an = e => { e.preventDefault(); f(true); }, aus = () => f(false); b.addEventListener('pointerdown', an); ['pointerup', 'pointerleave', 'pointercancel'].forEach(n => b.addEventListener(n, aus)); };
-  let links = false, rechts = false; halten('#wtl', v => links = v); halten('#wtr', v => rechts = v);
-  const GAS = [['#wtgr', -1], ['#wtg0', 0], ['#wtg1', 1], ['#wtg2', 2]];
-  GAS.forEach(([id, g]) => $(id).onclick = () => { spieler.gas = g; GAS.forEach(([i, v]) => $(i).classList.toggle('on', v === g)); });
-  const taste = e => { const d = e.type === 'keydown'; if (e.key === 'ArrowLeft' || e.key === 'a') links = d; else if (e.key === 'ArrowRight' || e.key === 'd') rechts = d; else if (d && (e.key === 'ArrowUp' || e.key === 'w')) $(GAS[Math.min(3, GAS.findIndex(([, v]) => v === spieler.gas) + 1)][0]).click(); else if (d && (e.key === 'ArrowDown' || e.key === 's')) $(GAS[Math.max(0, GAS.findIndex(([, v]) => v === spieler.gas) - 1)][0]).click(); };
-  window.addEventListener('keydown', taste); window.addEventListener('keyup', taste);
-  $('#wtnacht').onclick = () => { nacht = !nacht; setzeNacht(); };
-  $('#wttausch').onclick = () => { bi = (bi + 1) % BOOTE.length; W.setzeBoot(BOOTE[bi]()); say('hinnerk', 'Anderes Boot, gleiche Welt. So tauschen wir später unser echtes Schiff ein.'); };
-  /* Crew spricht über das, was man sieht */
-  const bub = $('#wtbub'); let bubT = 0;
-  function say(wer, t, ms) { const n = ({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[wer]; bub.innerHTML = `<b>${n}:</b> ${esc(t)}`; bub.style.display = ''; clearTimeout(bubT); bubT = setTimeout(() => bub.style.display = 'none', ms || 7000); try { window.VOX && VOX.say(wer, t, 'local'); } catch (e) {} }
-  say('smilla', 'Zwischen den Tonnen durch: Rot liegt links an Backbord, Grün rechts an Steuerbord. Probier es aus.', 9000);
-  let tor = 0, hundSag = false;
-  /* Spurwelle */
-  const spur = []; const spm = new T.MeshBasicMaterial({color: 0xffffff, transparent: true, opacity: .8, depthWrite: false}), spg = new T.CircleGeometry(.5, 10); spg.rotateX(-Math.PI / 2);
-  for (let i = 0; i < 40; i++) { const m = new T.Mesh(spg, spm.clone()); m.visible = false; scene.add(m); spur.push({m, t: 9}); } let spurI = 0, spurT = 0;
-  /* Größe */
-  const gr = () => { const w = host.clientWidth, h = host.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
-  new ResizeObserver(gr).observe(host); gr();
-  /* Schleife */
-  let t0 = performance.now(), alt = t0, laufend = true, fpsN = 0, fpsT = t0; W.fps = 0;
-  function schritt(now) {
-    if (!laufend) return; if (!host.isConnected) { ende(); return; } requestAnimationFrame(schritt);
-    const dt = Math.min(.05, (now - alt) / 1000); alt = now; const t = (now - t0) / 1000, S = spieler, B = S.boot;
-    /* Fahren */
-    const vmax = [-1.6, 0, 2.2, 6][S.gas + 1]; S.v += (vmax - S.v) * Math.min(1, dt * (S.gas === 0 ? .5 : .8));
-    S.ruderZiel = (rechts ? 1 : 0) - (links ? 1 : 0); S.ruder += (S.ruderZiel - S.ruder) * Math.min(1, dt * 5);
-    const wirk = Math.min(1, Math.abs(S.v) / 1.5), radeff = S.gas > 0 ? -.03 : S.gas < 0 ? .06 : 0; /* Radeffekt: vorwärts Heck nach Steuerbord, rückwärts nach Backbord */
-    S.h += (S.ruder * wirk * .42 * Math.sign(S.v || 1) + radeff * (S.gas !== 0 ? 1 : 0)) * dt;
-    S.x += Math.sin(S.h) * S.v * dt; S.z -= Math.cos(S.h) * S.v * dt;
-    B.position.set(S.x, welle(S.x, S.z, t) * .55 + .25, S.z);
-    const nick = (welle(S.x + Math.sin(S.h) * 3, S.z - Math.cos(S.h) * 3, t) - welle(S.x - Math.sin(S.h) * 3, S.z + Math.cos(S.h) * 3, t)) * .08, roll = Math.sin(t * 1.3) * .035 - S.ruder * wirk * .07 + Math.sin(t * .7) * .02;
-    B.rotation.set(-nick - Math.min(.07, S.v * .012), Math.PI - S.h, roll, 'YXZ');
-    const u = B.userData; if (u.propeller) u.propeller.rotation.z += S.gas * dt * 14; if (u.ruder) u.ruder.rotation.y = -S.ruder * .5;
-    /* Spur */
-    spurT += dt; if (spurT > .09 && Math.abs(S.v) > .8) { spurT = 0; const sp = spur[spurI++ % spur.length], L = (u.laenge || 9) / 2; sp.t = 0; sp.m.visible = true; sp.m.position.set(S.x - Math.sin(S.h) * L, .12 + B.position.y * .2, S.z + Math.cos(S.h) * L); sp.m.scale.setScalar(1.2 + Math.abs(S.v) * .25); }
-    for (const sp of spur) if (sp.m.visible) { sp.t += dt; sp.m.scale.multiplyScalar(1 + dt * .5); sp.m.material.opacity = Math.max(0, .75 - sp.t * .25); if (sp.t > 3) sp.m.visible = false; }
-    /* Wasser */
-    const cx = Math.round(S.x / 4.7) * 4.7, cz = Math.round(S.z / 4.7) * 4.7; wm.position.set(cx, 0, cz);
-    const cw = new T.Color(nacht ? NACHT.wasser : TAG.wasser), ck = new T.Color(nacht ? NACHT.kamm : TAG.kamm), tmp = new T.Color();
-    for (let i = 0; i < wp.count; i++) { const [bx, bz] = baseXZ[i], h = welle(bx + cx, bz + cz, t); wp.setY(i, h * .55); tmp.copy(cw).lerp(ck, cl((h + .6) * .55, 0, 1)); wfarbe[i * 3] = tmp.r; wfarbe[i * 3 + 1] = tmp.g; wfarbe[i * 3 + 2] = tmp.b; }
-    wp.needsUpdate = true; wg.attributes.color.needsUpdate = true; wg.computeVertexNormals();
-    /* Welt bewegen */
-    for (const q of [rot, gruen]) { q.position.y = welle(q.position.x, q.position.z, t) * .55 - .1; q.rotation.z = Math.sin(t * 1.1 + q.position.x) * .05; q.userData.licht.material.color.setHex(nacht && (Math.floor(t * 1.2) % 2 === 0) ? (q.userData.kenn === 'rot' ? 0xff2a2a : 0x2aff4a) : 0x444444); }
-    hund.position.y = -.05 + Math.sin(t * .8) * .12 + welle(hund.position.x, hund.position.z, t) * .5; hund.rotation.y = Math.sin(t * .3) * .6 + Math.PI;
-    wolken.forEach((w, i) => { w.position.x += dt * (1.2 + i * .3); if (w.position.x > 220) w.position.x = -220; });
-    moewen.forEach((m, i) => { const a = t * (.35 + i * .08) + i * 3, R = 26 + i * 14; m.position.set(S.x + Math.cos(a) * R, 13 + Math.sin(t * .8 + i) * 1.5, S.z + Math.sin(a) * R); m.rotation.set(0, -a, 0); m.rotation.z = -.25; m.userData.fl.forEach(([w, s]) => w.rotation.z = s * Math.sin(t * 7 + i) * .55); });
-    const sc = katzeFig.userData.schwanz; if (sc) sc.rotation.z = Math.sin(t * 2.3) * .5;
-    /* Fremdes Schiff fährt einen Kreis um die Insel-Bucht */
-    const fa = t * .035, FR = 95; fremd.position.set(Math.cos(fa) * FR - 30, welle(Math.cos(fa) * FR, Math.sin(fa) * FR, t) * .5 + .3, Math.sin(fa) * FR - 200); fremd.rotation.y = -fa + Math.PI; fremd.rotation.z = Math.sin(t * .9) * .03;
-    /* Crew-Kommentare */
-    const dz = S.z + 70; if (tor === 0 && Math.abs(dz) < 14 && Math.hypot(S.x, dz) < 40) { tor = 1; }
-    if (tor === 1 && dz < -3) { tor = Math.abs(S.x) < 14 ? 2 : 3; if (tor === 2) say('hinnerk', 'Sauber zwischen den Tonnen durch. So gehört sich das.'); else say('smilla', 'Verpasst. Rot links, Grün rechts, die Mitte ist das Fahrwasser. Fahr eine Runde und versuche es nochmal.'); }
-    if (tor >= 2 && Math.hypot(S.x, dz) > 70) tor = 0;
-    if (!hundSag && Math.hypot(S.x - 24, S.z + 64) < 10) { hundSag = true; say('klabauter', 'Seehund! Seehund! Abstand halten! Krrah!'); }
-    /* Kamera folgt */
-    if (!K.lock && now - K.last > 2200) { K.yaw += (0 - K.yaw) * Math.min(1, dt * 1.5); }
-    const winkel = S.h + K.yaw + Math.PI, cp = Math.cos(K.pitch), ziel = new T.Vector3(S.x + Math.sin(winkel) * K.dist * cp, Math.max(1.2, B.position.y + 1 + Math.sin(K.pitch) * K.dist), S.z - Math.cos(winkel) * K.dist * cp);
-    K.pos.lerp(ziel, Math.min(1, dt * (K.lock ? 8 : 3.2))); cam.position.copy(K.pos); K.blick.lerp(new T.Vector3(S.x, B.position.y + 1.4, S.z), Math.min(1, dt * 6)); cam.lookAt(K.blick);
-    r.render(scene, cam);
-    const kn = Math.abs(S.v) * 1.94, hd = ((S.h / RAD) % 360 + 360) % 360; $('#wthud') && ($('#wthud').textContent = 'Kurs ' + String(Math.round(hd)).padStart(3, '0') + '° · ' + kn.toFixed(1).replace('.', ',') + ' kn');
-    fpsN++; if (now - fpsT > 1000) { W.fps = fpsN; fpsN = 0; fpsT = now; }
-  }
-  function ende() { laufend = false; window.removeEventListener('keydown', taste); window.removeEventListener('keyup', taste); try { r.dispose(); } catch (e) {} }
-  back.onclick = () => { ende(); clearTimeout(bubT); if (window.VOX) VOX.stop(); setTab(typeof returnTo !== 'undefined' ? returnTo : 'cabin'); };
-  W.ende = ende; W.szene = {scene, cam, spieler, K, setzeNacht: () => { nacht = !nacht; setzeNacht(); }, say};
-  requestAnimationFrame(schritt);
-};
 })();
