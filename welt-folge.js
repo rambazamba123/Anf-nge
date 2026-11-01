@@ -1,23 +1,26 @@
 /* welt-folge.js: Folgen in der 3D-Welt abspielen. Drehbuch in data/welt-folgen.json, die Welt liefert WELT.api.
    Schritte: {wer, t} sprechen · {kamera} · {crew: {wer: platz}} · {ort} · {wetter} · {auto: [[x, z(, h)]], gas, raffer} Autopilot
    {frage: n} amtliche Frage · {wahl: {t, opts}} · {ziel: {x, z, r, name, h}} · {selbst: 'ziel' | 'horn' | 'anlegen', max, hinweis, auto}
-   {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {ende: true}
+   {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {szene: 'kajuete' | 'welt'} · {ende: true}
    Hörmodus (🎧 Auto): Der Autopilot fährt die Strecken, Fragen werden vorgelesen und aufgelöst. */
 (function () {
 'use strict';
-const F = window.WFOLGE = {}; let DATEN = null, aus = false;
-F.stop = () => { aus = true; };
+const F = window.WFOLGE = {}; let DATEN = null, lauf = 0;
+F.stop = () => { lauf++; }; /* jede gestartete Folge hat ihre Nummer; eine beendete läuft nie weiter */
 F.spiele = async function (id, api, ab = 0) {
-  aus = false; if (!DATEN) DATEN = await fetch('data/welt-folgen.json?v=' + window.__ver).then(r => r.json());
+  const mein = ++lauf; if (!DATEN) DATEN = await fetch('data/welt-folgen.json?v=' + window.__ver).then(r => r.json());
+  /* Nach dem Beenden darf ein noch laufender Schritt nichts mehr auslösen: jeder Aufruf hängt dann still */
+  api = new Proxy(api, {get(t, k) { const v = t[k]; return typeof v === 'function' ? (...a) => mein === lauf ? v(...a) : new Promise(() => {}) : v; }});
   const f = DATEN.folgen.find(x => x.id === id); if (!f) return null;
   if (f.ort && !ab) api.ort(f.ort); if (f.wetter) api.wetter(f.wetter);
-  let erg = null; for (let i = ab; i < f.schritte.length; i++) { if (aus || !api.laeuft) return null; F.i = i; erg = await schritt(f.schritte[i], api, f); }
-  return erg;
+  let erg = null; for (let i = ab; i < f.schritte.length; i++) { if (mein !== lauf || !api.laeuft) return null; F.i = i; erg = await schritt(f.schritte[i], api, f); }
+  return mein === lauf ? erg : null;
 };
 F.daten = () => DATEN;
 async function schritt(s, api, f) {
   if (s.selbst) return selbst(s, api); /* vor auto: selbst-Schritte haben eine Ersatzroute im Feld auto */
   if (s.auto) return api.auto(s.auto, {gas: s.gas, raffer: s.raffer, wer: s.steuert});
+  if (s.szene) return api.szene(s.szene);
   if (s.wer) return api.sprich(s.wer, s.t);
   if (s.kamera) return api.kamera(s.kamera);
   if (s.crew) { for (const w in s.crew) api.crewGehe(w, s.crew[w]); return; }
@@ -33,7 +36,9 @@ async function schritt(s, api, f) {
   if (s.ende) return ende(api, f);
 }
 const nah = (api, z) => Math.hypot(api.P.x - z.x, api.P.z - z.z) < (z.r || 6);
-/* Selbst steuern: Ziel erreichen, Horn geben oder anlegen. Klappt es nicht in der Zeit, übernimmt Hinnerk. */
+/* Selbst steuern: Ziel erreichen, Horn geben oder anlegen. Jederzeit „Hinnerk übernimmt“; nach max Sekunden übernimmt er von selbst. */
+function mitHilfe(api, fn, max) { let per = null; api.angebot('🤖 Hinnerk übernimmt').then(k => { if (k) per = 'knopf'; });
+  return api.warte(() => per || fn(), max).then(r => { api.angebotWeg(); return per || (r ? 'ok' : 'zeit'); }); }
 async function selbst(s, api) {
   const z = api.zielDef;
   if (s.selbst === 'horn') {
@@ -43,26 +48,26 @@ async function selbst(s, api) {
   }
   if (!z) return;
   if (s.selbst === 'ziel') {
-    if (api.modus === 'auto') { await api.auto((s.auto || []).concat([[z.x, z.z]]), {gas: .6}); return; }
+    const weg = (s.auto || []).concat([[z.x, z.z]]);
+    if (api.modus === 'auto') return api.auto(weg, {gas: .6});
     if (s.hinweis) api.sprich('hinnerk', s.hinweis);
-    if (await api.warte(() => nah(api, z), s.max || 240)) return;
-    await api.sprich('hinnerk', 'Ich übernehme mal. Schau zu.'); await api.auto((s.auto || []).concat([[z.x, z.z]]), {gas: .6}); return;
+    const r = await mitHilfe(api, () => nah(api, z), s.max || 300); if (r === 'ok') return;
+    await api.sprich('hinnerk', r === 'zeit' ? 'Ich übernehme mal. Schau zu.' : 'Mach ich. Schau zu.'); return api.auto(weg, {gas: .6});
   }
   if (s.selbst === 'anlegen') {
-    const zielH = [z.x, z.z, z.h || 0];
-    if (api.modus === 'auto') { await api.auto((s.auto || []).concat([zielH]), {gas: .35}); return; }
+    const zielH = [z.x, z.z, z.h || 0], weg = (s.auto || []).concat(z.anfahrt ? [z.anfahrt] : [], [zielH]);
+    if (api.modus === 'auto') return api.auto(weg, {gas: .35, anfahrt: z.anfahrt});
     if (s.hinweis) api.sprich('smilla', s.hinweis);
-    const t0 = api.uhr; let tipp = 0;
-    const ok = await api.warte(() => { if (api.uhr - t0 > 50 && !tipp) { tipp = 1; api.sprich('hinnerk', 'Langsamer! Kurz vor dem Steg Gas raus, dann kurz zurück zum Aufstoppen.'); } return api.angelegt(z); }, s.max || 240);
-    if (ok) { await api.fest(z); return api.sprich('hinnerk', s.gut || 'Fest! Sauber angelegt.'); }
-    await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich ran gehe.'); await api.auto((s.auto || []).concat([zielH]), {gas: .35});
+    const r = await mitHilfe(api, () => api.angelegt(z), s.max || 300);
+    if (r === 'ok') { await api.fest(z); return api.sprich('hinnerk', s.gut || 'Fest! Sauber angelegt.'); }
+    await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich rangehe.'); return api.auto(weg, {gas: .35, anfahrt: z.anfahrt});
   }
 }
 /* Ende: kurzer Logbuch-Eintrag */
 function ende(api, f) {
   const Fo = api.folge || {fragen: [], wahlen: []}, r = Fo.fragen.filter(Boolean).length, w = Fo.wahlen.filter(Boolean).length, min = Math.max(1, Math.round((api.uhr - (Fo.start || 0)) / 60)), st = api.stoesse - (Fo.stoesse0 || 0);
   const el = api.tafel(`<p class="wqf">📓 <b>${f.titel || 'Folge'} geschafft</b></p>
-    <p class="small">Prüfungsfragen: <b>${r} von ${Fo.fragen.length}</b> richtig${Fo.wahlen.length ? ` · Entscheidungen: <b>${w} von ${Fo.wahlen.length}</b>` : ''}<br>Zusammenstöße: <b>${st}</b> · Dauer: etwa <b>${min} min</b></p>
+    <p class="small">Prüfungsfragen: ${Fo.fragen.length ? `<b>${r} von ${Fo.fragen.length}</b> richtig` : 'angehört'}${Fo.wahlen.length ? ` · Entscheidungen: <b>${w} von ${Fo.wahlen.length}</b>` : ''}<br>Zusammenstöße: <b>${st}</b> · Dauer: etwa <b>${min} min</b></p>
     <button class="btn lamp wide" id="wfnochmal">🔁 Nochmal</button><button class="btn ghost wide" id="wffrei" style="margin-top:6px">⛵ Frei weiterfahren</button>`);
   api.sprich('klabauter', st ? 'Fest! Fest! Nur ' + st + ' Mal gerumst! Krrah!' : 'Fest! Fest! Kein Kratzer! Krrah!');
   return new Promise(res => { el.querySelector('#wfnochmal').onclick = () => { api.tafelZu(); res('nochmal'); }; el.querySelector('#wffrei').onclick = () => { api.tafelZu(); res('frei'); }; });
