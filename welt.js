@@ -23,7 +23,7 @@ const WARM = {
   ziegel: '#a5523c', putz: '#efe3cc', putzBlau: '#9fb6c4', putzGelb: '#e9cf8d', putzRosa: '#e3b3a0', dachRot: '#8e3b2c', dachGrau: '#58606a', rahmen: '#f6f1e6', tuer: '#2f5d6e',
   kran: '#d9a13a', baum: '#4f7a3c', baumDunkel: '#3e6a3a', stamm: '#6b4a32',
   katze: '#e39a4c', katzeHell: '#f8dcb4', nase: '#e58a8a', moewe: '#fbfbf7', moeweGrau: '#a7b0b8', schnabel: '#f0b53e', ente: '#7a5a3c', enteKopf: '#2f6b4a', kueken: '#f2cf4a', seehund: '#8f979e',
-  schiff: '#f5f1e8', schiffBlau: '#2f5d8a', schornstein: '#c0392b', segelPersenning: '#2f5d8a'
+  schiff: '#f5f1e8', schiffBlau: '#2f5d8a', schornstein: '#c0392b', segelPersenning: '#2f5d8a', rotTank: '#c8402e'
 };
 const STILE = {
   warm: {name: 'Warm und weich', flach: false, belichtung: 1.0, schatten: true, f: WARM,
@@ -170,9 +170,11 @@ function rumpf(o, farb) {
   mk(tg, M('rumpf', {vc: true, side: T.DoubleSide}), 0, 0, 0, grp);
   /* Deck mit Planken und leichter Wölbung */
   const dp = [], du = [], di = [], K = 6;
-  for (let i = 0; i <= N; i++) { const s = i / N, q = st(s); for (let k = 0; k <= K; k++) { const u = k / K * 2 - 1, x = u * q.b, y = q.f - .02 + .05 * (1 - u * u);
-    dp.push(x, y, zOf(s, q.f, q)); du.push(x / .6, zOf(s, q.f, q) / 2); } }
-  for (let i = 0; i < N; i++) for (let k = 0; k < K; k++) { const a = i * (K + 1) + k, b = a + K + 1; di.push(a, a + 1, b, a + 1, b + 1, b); }
+  /* Deck (oder beim offenen Boot der Boden über der Wasserlinie). Dreiecke so herum, dass das Deck nach oben zeigt (sonst sieht man von oben ins Bootsinnere) */
+  const boden = o.boden;
+  for (let i = 0; i <= N; i++) { const s = i / N, q = st(s), yy = boden != null ? boden : q.f; for (let k = 0; k <= K; k++) { const u = k / K * 2 - 1, x = u * q.b * (boden != null ? .97 : 1), y = boden != null ? boden + .02 * (1 - u * u) : q.f - .02 + .05 * (1 - u * u);
+    dp.push(x, y, zOf(s, yy, q)); du.push(x / .6, zOf(s, yy, q) / 2); } }
+  for (let i = 0; i < N; i++) for (let k = 0; k < K; k++) { const a = i * (K + 1) + k, b = a + K + 1; di.push(a, b, a + 1, a + 1, b, b + 1); }
   const dg = new T.BufferGeometry(); dg.setAttribute('position', new T.Float32BufferAttribute(dp, 3)); dg.setAttribute('uv', new T.Float32BufferAttribute(du, 2)); dg.setIndex(di); dg.computeVertexNormals();
   mk(dg, o.deckFarbe ? M(o.deckFarbe) : M('deck', {map: TX.deck}), 0, 0, 0, grp);
   /* Scheuerleiste */
@@ -188,7 +190,7 @@ function lampe(eltern, x, y, z, farbe, sektor, liste, gross = 1) {
 }
 function bauBoot(o) {
   o = Object.assign({art: 'kajuete', L: 8.4, B: 2.9, T: .55, F: .95, sprung: .4, rake: .6, mast: 'liegt', fender: true, flagge: true, motor: true, farben: {}}, o || {});
-  if (o.art === 'offen') Object.assign(o, {L: o.L === 8.4 ? 5.6 : o.L, B: 2.15, T: .38, F: .72, sprung: .3, rake: .4});
+  if (o.art === 'offen') Object.assign(o, {L: o.L === 8.4 ? 5.6 : o.L, B: 2.15, T: .38, F: .72, sprung: .3, rake: .4, boden: .22});
   if (o.art === 'segler') Object.assign(o, {T: .7, F: .85, sprung: .35, rake: .8, motor: false, flagge: false});
   const farb = Object.assign({rumpf: ST.f.rumpf, streifen: ST.f.streifen, unterwasser: ST.f.unterwasser}, o.farben);
   const b = new T.Group(), R = rumpf(o, farb); b.add(R.grp);
@@ -227,15 +229,38 @@ function bauBoot(o) {
     /* Der abgebaute Mast liegt auf zwei Böcken auf dem Dach */
     if (o.mast === 'liegt') { for (const z of [ra + .25, rf - .25]) mk(new T.BoxGeometry(.5, .2, .1), M('holz'), 0, yr + .07, z, b);
       const m = mk(new T.CylinderGeometry(.065, .075, L * .78, 10), M('mast'), 0, yr + .23, (ra + rf) / 2 - .5, b); m.rotation.x = Math.PI / 2; }
+    /* Steuerstand in der Plicht an Steuerbord: Konsole mit Instrumenten, davor das Rad (dreht sich mit), daneben der Gashebel */
+    const kz = zA - .55, kx = -.55, ky = R.deckY(kz);
+    const ks = new T.Shape(); ks.moveTo(-.22, 0); ks.lineTo(.22, 0); ks.lineTo(.22, .78); ks.lineTo(-.05, .98); ks.lineTo(-.22, .98); ks.lineTo(-.22, 0);
+    const kg2 = new T.ExtrudeGeometry(ks, {depth: .5, bevelEnabled: true, bevelThickness: .03, bevelSize: .03, bevelSegments: 2}); kg2.rotateY(Math.PI / 2); kg2.translate(kx - .25, ky, kz);
+    mk(kg2, M('kajuete'), 0, 0, 0, b);
+    mk(new T.BoxGeometry(.42, .02, .2), M('schwarz'), kx, ky + .89, kz - .1, b, false).rotation.x = .55;
+    for (const dx of [-.11, .11]) { const d = mk(new T.CircleGeometry(.055, 18), M('weiss'), kx + dx, ky + .9, kz - .115, b, false); d.rotation.x = -Math.PI / 2 + .55; }
+    b.userData.steuerstand = {x: kx, y: ky + .78, z: kz - .27, neig: -.35};
+    /* Reling vom Bugkorb bis zur Kajüte */
+    const zb0 = R.bugZ - .35 - 1.05;
+    for (const sx of [1, -1]) { const pts = []; for (let z = zA + .3; z <= zb0 + .01; z += (zb0 - zA - .3) / 4) { const x = sx * (R.breiteBei(z) - .1), y = R.deckY(z); pts.push([x, y + .55, z]); mk(new T.CylinderGeometry(.014, .014, .55, 5), M('chrom'), x, y + .27, z, b, false); }
+      pts.push([sx * .55, R.deckY(L * .45) + .55, zb0]); rohr(pts, .016, M('chrom'), b, 24); }
+    /* Tank mit Belüftungsschraube und Pumpball an Backbord achtern */
+    const tz = -L / 2 + .75, tx = .72, ty = R.deckY(tz);
+    mk(new T.BoxGeometry(.34, .26, .46), M('rotTank'), tx, ty + .13, tz, b); mk(new T.CylinderGeometry(.04, .04, .05, 10), M('schwarz'), tx + .08, ty + .28, tz + .12, b, false);
+    const sl = [[tx, ty + .2, tz - .2], [tx - .2, ty + .08, tz - .55], [.25, ty + .02, -L / 2 + .15], [0, ty + .1, -L / 2 - .05]]; rohr(sl, .016, M('schwarz'), b, 16);
+    const pb = mk(new T.SphereGeometry(.05, 12, 8), M('schwarz'), tx - .2, ty + .08, tz - .55, b, false); pb.scale.set(1, 1, 1.6);
+    /* Badeleiter am Heck an Steuerbord */
+    const lx = -(B / 2 - .55), lz = -L / 2 - .06, ly = R.deckY(-L / 2);
+    for (const dx of [-.14, .14]) rohr([[lx + dx, ly + .25, lz + .25], [lx + dx, ly + .3, lz], [lx + dx, ly - .1, lz - .02], [lx + dx, ly - .75, lz - .04]], .014, M('chrom'), b, 10);
+    for (let i = 0; i < 3; i++) mk(new T.BoxGeometry(.3, .025, .08), M('chrom'), lx, ly - .2 - i * .22, lz - .04, b, false);
     weg.push([0, -L * .38], [.85, -L * .3], [w / 2 + .3, zA + .2], [w / 2 + .3, zF - .4], [0, zF + .7], [-(w / 2 + .3), zF - .4], [-(w / 2 + .3), zA + .2], [-.85, -L * .3]);
     b.userData.dachPlatz = new T.Vector3(.1, yr + .05, zA + .4);
     b.userData.plaetze = {hinnerk: [-.6, -2.6], smilla: [.75, -2.15], bug: [0, zF + 1.2], dach: [0, (ra + rf) / 2 - .2, yr + .3]};
   } else if (o.art === 'offen') {
     /* offenes Boot: Steuerkonsole mit Windschutz, Bänke */
-    const yb = R.deckY(0) - .25;
-    mk(new T.BoxGeometry(.7, .85, .6), M('kajuete'), 0, yb + .42, L * .05, b);
-    const ws = mk(new T.PlaneGeometry(.75, .35), M('glas', {transparent: true, opacity: .45}), 0, yb + 1, L * .05 + .28, b, false); ws.rotation.x = -.5;
-    mk(new T.BoxGeometry(B * .7, .1, .45), M('holzHell'), 0, yb + .45, -L * .3, b); mk(new T.BoxGeometry(B * .55, .1, .4), M('holzHell'), 0, yb + .45, L * .26, b);
+    const yb = o.boden;
+    mk(new T.BoxGeometry(.7, .9, .6), M('kajuete'), 0, yb + .45, L * .05, b);
+    const ws = mk(new T.PlaneGeometry(.75, .35), M('glas', {transparent: true, opacity: .45}), 0, yb + 1.05, L * .05 + .28, b, false); ws.rotation.x = -.5;
+    mk(new T.BoxGeometry(B * .78, .08, .45), M('holzHell'), 0, yb + .38, -L * .3, b); mk(new T.BoxGeometry(B * .6, .08, .4), M('holzHell'), 0, yb + .38, L * .26, b);
+    for (const z of [-L * .3, L * .26]) for (const sx of [1, -1]) mk(new T.BoxGeometry(.06, .36, .3), M('holzHell'), sx * B * .2, yb + .18, z, b);
+    b.userData.steuerstand = {x: 0, y: yb + .92, z: L * .05 - .32, neig: -.55};
     mk(new T.CylinderGeometry(.03, .03, .9, 6), M('weiss'), 0, R.deckY(-L * .4) + .45, -L * .4, b); lampe(b, 0, R.deckY(-L * .4) + .92, -L * .4, '#fff6e0', 'rund', lichter);
     for (const [sx, f, sk] of [[1, '#ff3a2a', 'bb'], [-1, '#37ff6a', 'sb']]) lampe(b, sx * .2, R.deckY(L * .38) + .12, L * .38, f, sk, lichter);
     weg.push([0, -L * .25], [.6, 0], [0, L * .3], [-.6, 0]);
@@ -283,10 +308,23 @@ function bauBoot(o) {
     mk(new T.ConeGeometry(.05, .1, 10), M('chrom'), 0, 0, -.04, prop).rotation.x = -Math.PI / 2;
     const blatt = new T.CircleGeometry(.11, 12); blatt.scale(1, .55, 1);
     for (let i = 0; i < 3; i++) { const a = new T.Group(); a.rotation.z = i * TAU / 3; prop.add(a); const bl = mk(blatt, M('chrom', {side: T.DoubleSide}), 0, .1, 0, a, false); bl.rotation.y = .55; }
-    b.userData.motor = mot; b.userData.propeller = prop; }
-  verschmelze(b, [b.userData.motor, b.userData.flagge && b.userData.flagge.dreh].filter(Boolean));
-  const kw = weg.map(([x, z]) => new T.Vector3(x, R.deckY(z) + .01, z));
-  Object.assign(b.userData, {laenge: L, breite: B, lichter, katzenWeg: kw, kreise: [{z: L * .3, r: B * .42}, {z: 0, r: B * .5}, {z: -L * .32, r: B * .48}], deckY: R.deckY, breiteBei: R.breiteBei});
+    /* Pinne am Außenborder (sichtbar im Modus Pinne); sie dreht mit dem Motor */
+    const pin = new T.Group(); pin.position.set(0, .22, .02); mot.add(pin);
+    const arm = mk(new T.CylinderGeometry(.022, .03, .72, 8), M('motor'), 0, .06, .36, pin); arm.rotation.x = Math.PI / 2 - .17;
+    mk(new T.CapsuleGeometry(.035, .14, 4, 8), M('schwarz'), 0, .12, .74, pin).rotation.x = Math.PI / 2 - .17;
+    b.userData.motor = mot; b.userData.propeller = prop; b.userData.pinne = pin; }
+  /* Steuerrad am Steuerstand (sichtbar im Modus Rad) und Gashebel daneben */
+  const st0 = b.userData.steuerstand, beweglich = [];
+  if (st0) { const halter = new T.Group(); halter.position.set(st0.x, st0.y, st0.z); halter.rotation.x = st0.neig; b.add(halter); beweglich.push(halter);
+    const rad = new T.Group(); halter.add(rad); mk(new T.TorusGeometry(.19, .022, 8, 28), M('holz'), 0, 0, 0, rad);
+    for (let i = 0; i < 6; i++) { const sp = new T.Group(); sp.rotation.z = i * TAU / 6; rad.add(sp); mk(new T.CylinderGeometry(.012, .012, .26, 5), M('holz'), 0, .13, 0, sp); mk(new T.SphereGeometry(.026, 8, 6), M(i === 0 ? 'messing' : 'holz'), 0, .27, 0, sp); }
+    mk(new T.CylinderGeometry(.04, .04, .05, 12), M('messing'), 0, 0, 0, rad).rotation.x = Math.PI / 2;
+    const heb = new T.Group(); heb.position.set(st0.x + .27, st0.y - .04, st0.z + .14); b.add(heb); beweglich.push(heb);
+    mk(new T.CylinderGeometry(.012, .012, .2, 5), M('chrom'), 0, .1, 0, heb); mk(new T.SphereGeometry(.03, 8, 6), M('schwarz'), 0, .21, 0, heb);
+    Object.assign(b.userData, {rad, hebel: heb}); }
+  verschmelze(b, [b.userData.motor, b.userData.flagge && b.userData.flagge.dreh, ...beweglich].filter(Boolean));
+  const kw = weg.map(([x, z]) => new T.Vector3(x, (o.boden != null ? o.boden + .03 : R.deckY(z)) + .01, z));
+  Object.assign(b.userData, {art: o.art, laenge: L, breite: B, lichter, katzenWeg: kw, kreise: [{z: L * .3, r: B * .42}, {z: 0, r: B * .5}, {z: -L * .32, r: B * .48}], deckY: R.deckY, breiteBei: R.breiteBei});
   return b;
 }
 W.bauBoot = bauBoot;
@@ -519,7 +557,8 @@ W.seite = async function (opt = {}) {
     <canvas class="wkarte" id="wtkarte" width="224" height="224" aria-label="Karte"></canvas>
     <div class="wgs" id="wtgs">${['hinnerk', 'smilla', 'klabauter'].map(c => `<div class="wg" data-c="${c}">${gesicht(c)}</div>`).join('')}</div><div class="bub" id="wtbub" style="display:none"></div>
     <div class="wtq" id="wtq" style="display:none"></div><div class="wap" id="wtap" style="display:none">🤖 Autopilot</div><button class="btn small lamp wang" id="wtangebot" style="display:none"></button><div class="wsz" id="wtszene" style="display:none"></div>
-    <div class="wpad" id="wtpad"><div class="mv"></div><div class="ml"></div><b style="top:6px;left:0;right:0;text-align:center">voraus</b><b style="top:50%;left:6px;margin-top:-16px">N</b><b style="bottom:6px;left:0;right:0;text-align:center">zurück</b><b style="top:50%;left:8px;margin-top:4px">◀</b><b style="top:50%;right:8px;margin-top:4px">▶</b><i class="mk"></i></div>
+    <div class="wpad" id="wtpad"><svg class="wst" viewBox="-60 -60 120 120" aria-hidden="true"><g id="wtsg"></g></svg><div class="wgs2"><i class="wgk"></i></div><b class="wl1">voraus</b><b class="wl2">N</b><b class="wl3">zurück</b><button class="wsart" id="wtsart" type="button"></button></div>
+    <button class="wb motor" id="wtmot" aria-label="Motor"><span>🔑</span><i id="wtmotl"></i></button><div class="wmp" id="wtmp" style="display:none"></div>
     <button class="wb horn" id="wthorn" aria-label="Schallsignal">📯</button>
     <div class="wtpanel" id="wtpanel" style="display:none"></div></div>
     <div class="wtbar"><button class="btn small" id="wtkam">🎥 ${esc(KAMERAS[C.kam].n)}</button><button class="btn small ghost" id="wtwet">☁️ Wetter und Ort</button><button class="btn small ghost" id="wttausch">🔁 Boot</button><button class="btn small ghost" id="wtfolge">🎬 Testfolge</button><button class="btn small ghost" id="wtmodus" style="display:none">✋ Selbst</button></div></div>`);
@@ -562,17 +601,19 @@ W.seite = async function (opt = {}) {
   const fmat = ST.flach ? new T.MeshLambertMaterial({color: '#2a6a7c'}) : new T.MeshStandardMaterial({color: '#2a6a7c', roughness: .2, normalMap: fernN, normalScale: new T.Vector2(.25, .25)});
   const fern = new T.Mesh(new T.PlaneGeometry(5000, 5000), fmat); fern.rotation.x = -Math.PI / 2; fern.position.y = -.08; scene.add(fern);
   /* Spieler-Boot */
-  const P = {x: 0, z: 0, vx: 0, vz: 0, h: 0, r: 0, g: 0, d: 0, gZiel: 0, dZiel: 0, y: 0, vy: 0, nick: 0, vn: 0, roll: 0, vr: 0, boot: null, hk: 0};
+  const motStart = () => ({quick: false, tank: false, pump: 0, choke: false, kalt: true, laufT: 0, chokeT: 0, zuege: 0, warnT: 0});
+  const P = {x: 0, z: 0, vx: 0, vz: 0, h: 0, r: 0, g: 0, d: 0, gZiel: 0, dZiel: 0, y: 0, vy: 0, nick: 0, vn: 0, roll: 0, vr: 0, boot: null, hk: 0, motor: 'an', mot: Object.assign(motStart(), {quick: true, tank: true, pump: 3, kalt: false}), gleit: 0, buckel: 0};
   const BOOTE = [() => bauBoot({art: 'kajuete'}), () => bauBoot({art: 'offen', mast: 'ohne', farben: {streifen: '#2f6f9e', rumpf: '#fbf2df'}})];
   const katze = bauKatze(), KZ = {i: 0, u: 0, modus: 'gehen', zeit: 0, hupf: 0, schreck: 0, ph: 0};
-  const CREWF = {hinnerk: bauFigur('hinnerk'), smilla: bauFigur('smilla'), klabauter: bauFigur('klabauter')}, crewPlatz = {hinnerk: 'hinnerk', smilla: 'smilla', klabauter: 'dach'};
+  /* Die Crew steht nicht mehr an Bord (Nutzer 01.11.2026): sie ist mit ihren Gesichtern am Bildschirmrand dabei. bauFigur bleibt für später. */
+  const CREWF = {}, crewPlatz = {hinnerk: 'hinnerk', smilla: 'smilla', klabauter: 'dach'};
   const platzVon = (obj, name) => { const pl = (obj.userData.plaetze || {})[name]; if (!pl) return null; return new T.Vector3(pl[0], pl[2] != null ? pl[2] : (obj.userData.deckY ? obj.userData.deckY(pl[1]) : 1), pl[1]); };
   function crewSetzen() { for (const w in CREWF) { const f = CREWF[w]; f.parent && f.parent.remove(f); const v = platzVon(P.boot, crewPlatz[w]); f.userData.weg = null; if (!v) continue; P.boot.add(f); f.position.copy(v); f.rotation.y = 0; } }
   /* Eine Figur geht an einen anderen Platz, außen an der Kajüte vorbei */
-  function crewGehe(w, platz) { crewPlatz[w] = platz; const f = CREWF[w], v = platzVon(P.boot, platz); if (!v || !f.parent) return; const a = f.position.clone(), seite = (P.boot.userData.breite || 3) * .4, dY = P.boot.userData.deckY || (() => v.y);
+  function crewGehe(w, platz) { crewPlatz[w] = platz; const f = CREWF[w]; if (!f) return; const v = platzVon(P.boot, platz); if (!v || !f.parent) return; const a = f.position.clone(), seite = (P.boot.userData.breite || 3) * .4, dY = P.boot.userData.deckY || (() => v.y);
     f.userData.weg = Math.abs(v.z - a.z) > 2 && w !== 'klabauter' ? [new T.Vector3(seite, dY(a.z), a.z), new T.Vector3(seite, dY(v.z), v.z), v] : [v]; }
   W.setzeBoot = obj => { if (P.boot) { scene.remove(P.boot); } P.boot = obj; scene.add(obj); katze.parent && katze.parent.remove(katze); obj.add(katze);
-    const weg = obj.userData.katzenWeg || []; KZ.i = 0; KZ.u = 0; if (weg[0]) katze.position.copy(weg[0]); crewSetzen(); setzeWetter(); };
+    const weg = obj.userData.katzenWeg || []; KZ.i = 0; KZ.u = 0; if (weg[0]) katze.position.copy(weg[0]); crewSetzen(); steuerTeile(); setzeWetter(); };
   /* Wellen und Wetter */
   let WLst = [], windMs = 0, windVon = 0, schaumMenge = 0, nachtAn = false, lichterAn = false, wasserFarbe = new T.Color(), krone = new T.Color('#f2f6f4');
   const hafenRuhe = (x, z) => 1 - .88 * sm(-6, 8, Math.min(x + 72, 72 - x, z - 80, 168 - z));
@@ -637,7 +678,8 @@ W.seite = async function (opt = {}) {
   /* Kamera */
   const K = Object.assign({mode: C.kam, last: -9999, shake: 0, pos: new T.Vector3(), blick: new T.Vector3(), hs: 0, fov: 52}, KAMERAS[C.kam]);
   /* Startort */
-  function setzeOrt(id) { const o = ORTE[id]; Object.assign(P, {x: o.x, z: o.z, h: o.h, vx: 0, vz: 0, r: 0, g: 0, gZiel: 0, d: 0, dZiel: 0, hk: o.h, fest: id === 'hafen' ? {x: o.x, z: o.z, h: o.h} : null}); K.hs = o.h; pad && pad.setze(0, 0);
+  function setzeOrt(id) { const o = ORTE[id]; Object.assign(P, {x: o.x, z: o.z, h: o.h, vx: 0, vz: 0, r: 0, g: 0, gZiel: 0, d: 0, dZiel: 0, hk: o.h, fest: id === 'hafen' ? {x: o.x, z: o.z, h: o.h} : null,
+      motor: id === 'hafen' ? 'aus' : 'an', mot: id === 'hafen' ? motStart() : Object.assign(motStart(), {quick: true, tank: true, pump: 3, kalt: false})}); if (typeof motorPanel === 'function') try { motorPanel(); } catch (e) {} K.hs = o.h; pad && pad.setze(0, 0);
     K.pos.set(o.x - Math.sin(o.h) * 90, 40, o.z + Math.cos(o.h) * 90); K.blick.set(o.x, 1, o.z); tor = {}; }
   /* Physik: Schub über den Außenborder, Widerstand, Radeffekt, Wind */
   function physik(dt, t) {
@@ -646,9 +688,11 @@ W.seite = async function (opt = {}) {
     if (P.fest && (Math.abs(P.gZiel) > .05)) P.fest = null;
     if (!FAHRT) {
     P.g += (P.gZiel - P.g) * Math.min(1, dt * 2.2); P.d += (P.dZiel - P.d) * Math.min(1, dt * 4);
-    const schub = P.g > 0 ? P.g * 2.3 : P.g * 1.15, wk = P.d * .5;
-    let du = schub * Math.cos(wk) - .062 * u * Math.abs(u) - .14 * u, ds = -.9 * s * Math.abs(s) - 1.3 * s, dr = P.d * (.075 * u + .34 * P.g) - 2 * P.r;
-    if (P.g < -.05) dr += .14 * -P.g * (1 - Math.min(1, Math.abs(u) / 2)); else if (P.g > .05) dr -= .025 * P.g * (1 - Math.min(1, u / 3));
+    /* Schub nur bei laufendem Motor. Widerstand: erst Verdrängerfahrt, dann der „Buckel“ (Bug hoch, viel Welle), ab etwa 11 kn Gleitfahrt */
+    const an = P.motor === 'an', gE = an ? P.g * (P.mot.choke && P.mot.chokeT > 6 ? .55 : 1) : 0, schub = gE > 0 ? gE * 3.3 : gE * 1.15, wk = P.d * .5;
+    const wid = u < 0 ? .062 * u * Math.abs(u) + .14 * u : .16 * u + .012 * u * u + 1.3 * Math.exp(-Math.pow((u - 4.6) / 1.6, 2)) * Math.min(1, u / 2.5);
+    let du = schub * Math.cos(wk) - wid, ds = -.9 * s * Math.abs(s) - 1.3 * s, dr = P.d * (.075 * Math.min(Math.max(u, -3), 5) + .04 * Math.max(0, u - 5) + .34 * gE) - 2 * P.r * (1 + Math.max(0, u - 4) / 10);
+    if (gE < -.05) dr += .14 * -gE * (1 - Math.min(1, Math.abs(u) / 2)); else if (gE > .05) dr -= .025 * gE * (1 - Math.min(1, u / 3));
     if (windMs) { const lee = windVon + Math.PI, wx = Math.sin(lee), wz = -Math.cos(lee), kr = .0011 * windMs * windMs;
       du += kr * (wx * fx + wz * fz) * .35; ds += kr * (wx * rx + wz * rz); const langsam = 1 - Math.min(1, Math.abs(u) / 3); dr += .0006 * windMs * windMs * Math.sin(wdiff(lee, P.h)) * (.35 + .65 * langsam); }
     const wellig = WLst.reduce((a, q) => a + q.A, 0); if (wellig > .3) dr += Math.sin(t * .9 + Math.sin(t * .37) * 2) * .02 * wellig;
@@ -663,7 +707,8 @@ W.seite = async function (opt = {}) {
     const L = P.boot.userData.laenge || 8, B = P.boot.userData.breite || 3, dY = P.boot.userData.deckY || (() => .9);
     const pt = (lz, lx) => flaeche(P.x + nfx * lz - nrx * lx, P.z + nfz * lz - nrz * lx, t);
     const hb = pt(L * .38, 0), hh = pt(-L * .4, 0), hp = pt(0, B * .42), hs = pt(0, -B * .42), hm = pt(0, 0);
-    const ty = (hb + hh + hp + hs + 2 * hm) / 6, tn = Math.atan((hb - hh) / (L * .78)) + .05 * Math.min(1, Math.max(0, u) / 5), tr = Math.atan((hp - hs) / (B * .84)) * .9 + P.r * Math.max(0, u) * .035 + (windMs > 10 ? -.03 * Math.sin(wdiff(windVon, P.h)) : 0);
+    P.gleit = sm(5.8, 7.6, u); P.buckel = u > 2.5 ? Math.exp(-Math.pow((u - 5) / 1.25, 2)) : 0;
+    const ty = (hb + hh + hp + hs + 2 * hm) / 6 + .15 * P.gleit, tn = Math.atan((hb - hh) / (L * .78)) + .03 * Math.min(1, Math.max(0, u) / 5) + .09 * P.buckel + .03 * P.gleit, tr = Math.atan((hp - hs) / (B * .84)) * .9 + P.r * Math.max(0, u) * .035 + (windMs > 10 ? -.03 * Math.sin(wdiff(windVon, P.h)) : 0);
     P.vy += ((ty - P.y) * 20 - P.vy * 6) * dt; P.y += P.vy * dt; P.vn += ((tn - P.nick) * 14 - P.vn * 5) * dt; P.nick = cl(P.nick + P.vn * dt, -.35, .35); P.vr += ((tr - P.roll) * 11 - P.vr * 3.5) * dt; P.roll = cl(P.roll + P.vr * dt, -.42, .42);
     /* Freibord: Die Deckskante darf höchstens 12 cm unter Wasser geraten (ein Schwapp ist in Ordnung, Untertauchen nicht) */
     let ueber = -9, wo = null;
@@ -703,14 +748,70 @@ W.seite = async function (opt = {}) {
     if (uhr - crewZeit > 7 && st > .2 && !(FOLGE && sprecher)) { crewZeit = uhr; const L2 = SPRUCH[art] || SPRUCH.boot, s = L2[Math.random() * L2.length | 0]; sag(s[0], s[1]); }
   }
   /* Steuerfeld wie im Manöverspiel: ein Finger, hoch/runter stufenlos Gas mit Raste in der Mitte, seitlich das Ruder; Doppeltipp = Ruder mittschiffs */
-  const pad = (() => { const el = $('#wtpad'), knob = el.querySelector('.mk'), DZ = .12; let kx = 0, ky = 0, start = null, lastTap = 0;
-    const zeig = () => { const w = el.clientWidth, h = el.clientHeight; knob.style.left = (w / 2 + kx * (w / 2 - 24)) + 'px'; knob.style.top = (h / 2 - ky * (h / 2 - 26)) + 'px'; };
-    const setze = () => { const g = Math.abs(ky) < DZ ? 0 : Math.sign(ky) * (Math.abs(ky) - DZ) / (1 - DZ), war = P.gZiel; P.gZiel = Math.round(g * 40) / 40; P.dZiel = kx;
+  /* Steuerart wie im Manöverspiel (gemeinsame Einstellung): Pinne am Außenborder (Pinne nach rechts, Bug nach links) oder Steuerrad */
+  const steuerArt = () => (window.S && S.cfg && S.cfg.steuer) || 'pinne';
+  const SVG_RAD = `<g id="wtdreh"><circle r="44" fill="none" stroke="#6e4120" stroke-width="9"/><circle r="44" fill="none" stroke="#c9935e" stroke-width="3"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => `<g transform="rotate(${i * 45})"><line y1="-9" y2="-51" stroke="#9c6236" stroke-width="5" stroke-linecap="round"/><circle cy="-54" r="6" fill="${i ? '#9c6236' : '#e0b04a'}" stroke="#6e4120" stroke-width="1.5"/></g>`).join('')}<circle r="11" fill="#c8962e" stroke="#7a5a1e" stroke-width="2"/></g>`;
+  const SVG_PINNE = `<line x1="-46" y1="36" x2="46" y2="36" stroke="#fffaf0" stroke-opacity=".45" stroke-width="3"/><text x="-48" y="52" font-size="9" fill="#ff8a7a" font-weight="700">Bb</text><text x="34" y="52" font-size="9" fill="#7dff9a" font-weight="700">Stb</text>
+    <g id="wtdreh"><rect x="-5" y="-42" width="10" height="80" rx="5" fill="#3a4046"/><rect x="-8" y="-50" width="16" height="24" rx="7" fill="#15181b"/><ellipse cx="0" cy="44" rx="17" ry="12" fill="#33383d" stroke="#c0392b" stroke-width="3"/></g>`;
+  const pad = (() => { const el = $('#wtpad'), knob = el.querySelector('.wgk'), sg = $('#wtsg'), DZ = .12; let kx = 0, ky = 0, start = null, lastTap = 0, art = null;
+    const zeig = () => { const m = steuerArt(); if (m !== art) { art = m; sg.innerHTML = m === 'rad' ? SVG_RAD : SVG_PINNE; $('#wtsart').textContent = m === 'rad' ? '☸ Rad' : '🛶 Pinne'; }
+      const d = $('#wtdreh'); if (d) d.setAttribute('transform', m === 'rad' ? `rotate(${(kx * 135).toFixed(1)})` : `rotate(${(kx * 35).toFixed(1)} 0 44)`);
+      knob.style.top = ((1 - ky) / 2 * 100).toFixed(1) + '%'; };
+    const setze = () => { const g = Math.abs(ky) < DZ ? 0 : Math.sign(ky) * (Math.abs(ky) - DZ) / (1 - DZ), war = P.gZiel; P.gZiel = Math.round(g * 40) / 40; P.dZiel = steuerArt() === 'pinne' ? -kx : kx;
       if ((war === 0) !== (P.gZiel === 0) || Math.sign(war) !== Math.sign(P.gZiel)) { try { AUD.click(); } catch (e) {} } zeig(); };
     el.addEventListener('pointerdown', e => { if (FAHRT && !FAHRT.o.fest) { uebernehmen(); ky = P.g; kx = 0; } el.setPointerCapture(e.pointerId); start = {x: e.clientX, y: e.clientY, kx, ky}; const now = performance.now(); if (now - lastTap < 320) { kx = 0; setze(); start.kx = 0; } lastTap = now; });
     el.addEventListener('pointermove', e => { if (!start) return; const w = el.clientWidth, h = el.clientHeight; kx = cl(start.kx + (e.clientX - start.x) / (w / 2 - 24), -1, 1); ky = cl(start.ky - (e.clientY - start.y) / (h / 2 - 26), -1, 1); setze(); });
     const los = () => { start = null; }; el.addEventListener('pointerup', los); el.addEventListener('pointercancel', los); zeig();
-    return {setze: (gx, px) => { ky = gx; kx = px; setze(); }, get: () => [ky, kx]}; })();
+    $('#wtsart').addEventListener('pointerdown', e => e.stopPropagation());
+    $('#wtsart').onclick = e => { e.stopPropagation(); S.cfg.steuer = steuerArt() === 'pinne' ? 'rad' : 'pinne'; try { save(); AUD.click(); } catch (x) {} setze(); steuerTeile();
+      sag('hinnerk', steuerArt() === 'pinne' ? 'Pinne am Außenborder: Pinne nach rechts, und der Bug geht nach links. Rückwärts andersrum.' : 'Steuerrad: Rad nach rechts, Bug nach rechts. Der Außenborder dreht mit.', 5000); };
+    return {setze: (gx, px) => { ky = gx; kx = px; setze(); }, get: () => [ky, kx], zeig}; })();
+  /* ---------- Motor starten wie in echt: Quickstopp, Tankentlüftung, Pumpball, Choke, Neutral, dann Starttaste (Kajütboot) oder Startleine ----------
+     Fehler haben echte Folgen: ohne Quickstopp keine Zündung (Frage 42), Belüftungsschraube zu = Motor geht nach einer Weile aus (Frage 57),
+     Choke zu lange drin = er säuft ab, im Gang springt er nicht an. Die Crew sagt, woran es liegt. */
+  const vStr = new T.Vector3(), mpEl = $('#wtmp'), eStart = () => !!(P.boot && P.boot.userData.art === 'kajuete');
+  let hinweisT = -99;
+  const tipp = (t, wer = 'hinnerk') => { if (uhr - hinweisT < .4) return; hinweisT = uhr; sag(wer, t, 5500); };
+  const mTon = a => { try { AUD.motorTon ? AUD.motorTon(a) : AUD.click(); } catch (e) {} };
+  function motorAn(still) { Object.assign(P.mot, {quick: true, tank: true, pump: 3, choke: false, laufT: 0, chokeT: 0}); P.motor = 'an'; if (!still) try { AUD.sfx('motorStart', {vol: .5}); } catch (e) {} motorPanel(); }
+  function motorAus(grund) { if (P.motor !== 'an') return; P.motor = 'aus'; mTon('aus'); if (grund) tipp(grund); motorPanel(); }
+  function startVersuch(kraft) {
+    if (P.motor === 'an') return; const m = P.mot; m.zuege++;
+    if (!m.quick) { mTon('klick'); return tipp('Nix. Ohne eingeklinkte Quickstopp-Leine gibt es keine Zündung.'); }
+    if (Math.abs(P.gZiel) > .02) { mTon('klick'); return tipp('Erst den Hebel auf Neutral. Im Gang springt er nicht an.'); }
+    if (m.pump < 3) { mTon('husten'); return tipp('Er hustet nur. Erst den Pumpball drücken, bis er hart ist.'); }
+    if (m.kalt && !m.choke) { mTon('husten'); return tipp(m.zuege > 2 ? 'Kalter Motor will Choke. Zieh den Choke.' : 'Er will nicht. Was braucht ein kalter Motor?'); }
+    if (!m.kalt && m.choke) { mTon('husten'); return tipp('Er säuft ab. Ein warmer Motor braucht keinen Choke.'); }
+    if (kraft < .45 || Math.random() > (eStart() ? .92 : .72)) { mTon('husten'); return tipp(eStart() ? 'Fast. Taste noch mal etwas länger halten.' : 'Fast. Kräftiger ziehen, ganz durch.'); }
+    P.motor = 'an'; m.laufT = 0; m.chokeT = 0; m.warnT = 0; try { AUD.sfx('motorStart', {vol: .5}); } catch (e) {}
+    tipp(m.choke ? 'Läuft! Jetzt den Choke langsam reinschieben. Und kommt der Kontrollstrahl?' : 'Läuft. Der Kontrollstrahl kommt, Kühlwasser ist da.'); motorPanel(); }
+  function motorTick(dt) { if (P.motor !== 'an') return; const m = P.mot; m.laufT += dt; if (m.laufT > 50) m.kalt = false;
+    if (m.choke) { m.chokeT += dt; if (m.chokeT > 7 && !m.warnT) { m.warnT = 1; tipp('Der läuft zu fett. Choke rein!'); } if (m.chokeT > 15) { m.kalt = false; motorAus('Abgesoffen. Der Choke war noch drin. Nach dem Start langsam reinschieben.'); } }
+    if (!m.tank && m.laufT > 40) motorAus('Motor aus, aber der Tank ist voll? Die Belüftungsschraube ist zu. Ohne Luft saugt die Pumpe ein Vakuum.'); }
+  function motorPanel() { const m = P.mot, an = P.motor === 'an', e = eStart(), lamp = $('#wtmotl'); if (lamp) lamp.className = an ? 'an' : '';
+    if (!mpEl || mpEl.style.display === 'none') return;
+    const z = (ok, txt, sch) => `<button class="wms${ok ? ' ok' : ''}" data-s="${sch}"><i>${ok ? '✓' : ''}</i><span>${txt}</span></button>`;
+    mpEl.innerHTML = `<div class="wmk"><b>${an ? '🟢 Motor läuft' : '🔑 Motor starten'}</b><button class="wmzu" id="wmzu" aria-label="Schließen">✕</button></div>` + (an
+      ? (m.choke ? z(false, 'Choke reinschieben', 'choke') : '') + `<div class="wms ok"><i>💧</i><span>Kontrollstrahl kommt (Kühlung)</span></div>` + (e ? `<div class="wms ok"><i>✓</i><span>Öl- und Ladekontrolle aus</span></div>` : '') + `<button class="btn ghost wide" id="wmaus">⛔ Quickstopp ziehen (Not-Aus)</button>`
+      : z(m.quick, 'Quickstopp-Leine einklinken', 'quick') + z(m.tank, 'Tank: Belüftungsschraube auf', 'tank') + z(m.pump >= 3, `Pumpball drücken <small>${m.pump >= 3 ? '(hart)' : m.pump + ' von 3'}</small>`, 'pump')
+        + z(m.choke, m.kalt ? 'Choke ziehen (Motor kalt)' : 'Choke (Motor warm: nicht nötig)', 'choke') + `<div class="wms" id="wmneu"><i></i><span>Hebel auf Neutral</span></div>`
+        + (e ? `<button class="btn lamp wide wmst" id="wmstart">🔑 Starttaste gedrückt halten</button>` : `<div class="wmzug" id="wmstart"><b>⬇</b><span>Startleine: Griff antippen und kräftig nach unten ziehen</span></div>`));
+    neutralZeigen();
+    $('#wmzu').onclick = () => { mpEl.style.display = 'none'; try { AUD.click(); } catch (x) {} };
+    mpEl.querySelectorAll('button.wms').forEach(bt => bt.onclick = () => { const sch = bt.dataset.s;
+      if (sch === 'quick') { m.quick = !m.quick; mTon('klick'); } else if (sch === 'tank') { m.tank = !m.tank; mTon('klick'); } else if (sch === 'pump') { m.pump = Math.min(3, m.pump + 1); mTon('pump'); }
+      else if (sch === 'choke') { m.choke = !m.choke; mTon('klick'); if (!m.choke) { m.chokeT = 0; m.warnT = 0; } } motorPanel(); });
+    const aus = $('#wmaus'); if (aus) aus.onclick = () => { m.quick = false; motorAus('Quickstopp gezogen: Die Zündung ist unterbrochen, der Motor steht.'); };
+    const st = $('#wmstart'); if (!st) return; let ab = null;
+    st.addEventListener('pointerdown', ev => { ev.preventDefault(); st.setPointerCapture(ev.pointerId); ab = {y: ev.clientY, t: performance.now()}; if (e) mTon('anlasser'); st.classList.add('zieht'); });
+    const los = ev => { if (!ab) return; const dy = ev.clientY - ab.y, dt2 = (performance.now() - ab.t) / 1000; ab = null; st.classList.remove('zieht');
+      if (e) return startVersuch(Math.min(1, dt2 / .8));
+      if (dy < 35) return tipp('Griff festhalten und mit Schwung nach unten ziehen.'); mTon('zug'); startVersuch(Math.min(1, dy / 110) * (dt2 < .7 ? 1 : .5)); };
+    st.addEventListener('pointerup', los); st.addEventListener('pointercancel', () => { ab = null; st.classList.remove('zieht'); }); }
+  function neutralZeigen() { const n = $('#wmneu'); if (!n) return; const ok = Math.abs(P.gZiel) < .02; n.classList.toggle('ok', ok); n.querySelector('i').textContent = ok ? '✓' : ''; }
+  $('#wtmot').onclick = () => { try { AUD.click(); } catch (e) {} mpEl.style.display = mpEl.style.display === 'none' ? '' : 'none'; motorPanel(); };
+  /* Am Boot sichtbar: Rad am Steuerstand oder Pinne am Außenborder */
+  function steuerTeile() { const U = P.boot && P.boot.userData; if (!U) return; const m = steuerArt(); if (U.rad) U.rad.parent.visible = m === 'rad'; if (U.pinne) U.pinne.visible = m === 'pinne'; }
   const taste = e => { if (e.type !== 'keydown') return; const [gy, gx] = pad.get(); const k = e.key;
     if (k === 'ArrowUp' || k === 'w') pad.setze(cl(gy + .1, -1, 1), gx); else if (k === 'ArrowDown' || k === 's') pad.setze(cl(gy - .1, -1, 1), gx);
     else if (k === 'ArrowLeft' || k === 'a') pad.setze(gy, cl(gx - .15, -1, 1)); else if (k === 'ArrowRight' || k === 'd') pad.setze(gy, cl(gx + .15, -1, 1)); else return; e.preventDefault(); };
@@ -760,6 +861,9 @@ W.seite = async function (opt = {}) {
   }
   let tor = {};
   function kommentare(t) {
+    if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > 3.2 && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
+    if (P.gleit > .8 && !sagte.gleit) { sagte.gleit = 1; sag('smilla', 'Jetzt gleitet sie! Der Bug kommt runter, das Boot hebt sich aus dem Wasser und wird schneller.', 5000); }
+    if (P.buckel > .8 && (P.u || 0) < 5.2 && !sagte.buckel && t > 20) { sagte.buckel = 1; sag('hinnerk', 'Bug hoch, viel Welle, wenig Fahrt: Das ist der Buckel. Mehr Gas, dann kommt sie ins Gleiten.', 5500); }
     for (const z of [40, -15, -70]) { const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
       if (!nah) { tor[k] = 0; continue; } if (!tor[k]) tor[k] = {seite: Math.sign(d), drin: innen};
       else if (Math.sign(d) !== tor[k].seite && !tor[k].fertig) { tor[k].fertig = 1; const ein = Math.cos(P.h) < 0, mitte = Math.abs(P.x) < 15;
@@ -850,7 +954,7 @@ W.seite = async function (opt = {}) {
   let FAHRT = null, angebotWeg = () => {};
   /* Autopilot starten: pts = Wegpunkte, der letzte darf einen Kurs haben [x, z, h] = Anlegen; o.anfahrt = Punkt davor */
   function starteFahrt(pts, o, res) {
-    P.fest = null; let weg = [[P.x, P.z]], endH = null;
+    if (P.motor !== 'an') motorAn(); P.fest = null; let weg = [[P.x, P.z]], endH = null;
     pts.forEach((p, k) => { const letzt = k === pts.length - 1, a = weg[weg.length - 1];
       if (letzt && p[2] != null) { endH = p[2]; weg.push([p[0], p[1]]); return; }
       const t2 = planen(a, vorHindernis(a, p), k === 0 ? 5 : 0, 0); weg = weg.concat(t2.slice(1)); });
@@ -909,7 +1013,7 @@ W.seite = async function (opt = {}) {
   function kamera(n) { if (KAMERAS[n]) { Object.assign(K, KAMERAS[n], {mode: n}); $('#wtkam').textContent = '🎥 ' + KAMERAS[n].n; } }
   function ton(sig) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn(sig || '▬', null, Math.sin(rel)); } catch (e) {} }
   const fest = z => new Promise(res => { ANDOCK = {x: z.x, z: z.z, h: z.h || 0, t: 0, res}; });
-  W.api = {get fahrt() { return FAHRT; }, szene, angebot, angebotWeg: () => angebotWeg(), sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
+  W.api = {get fahrt() { return FAHRT; }, get motor() { return P.motor; }, motorAn: () => motorAn(), motorOffen: () => { mpEl.style.display = ''; motorPanel(); }, motorZu: () => { mpEl.style.display = 'none'; }, szene, angebot, angebotWeg: () => angebotWeg(), sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
     get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; }};
   /* Folge starten und beenden; Wetter und Ort danach wie vorher */
   let startet = false;
@@ -973,7 +1077,9 @@ W.seite = async function (opt = {}) {
     const nS = (FAHRT ? FAHRT.raffer : 1) * (W.tempo || 1); for (let i = 0; i < nS; i++) { if (FAHRT) fahrtTick(dt); if (ANDOCK) andocken(dt); physik(dt, t); if (!FAHRT) kollision(t); } warteTick();
     const fx = Math.sin(P.h), fz = -Math.cos(P.h);
     B.position.set(P.x, P.y, P.z); B.rotation.set(-P.nick, Math.PI - P.h, P.roll, 'YXZ');
-    if (U.motor) U.motor.rotation.y = P.d * .5; if (U.propeller) U.propeller.rotation.z += P.g * dt * 38;
+    if (U.motor) U.motor.rotation.y = P.d * .5; if (U.propeller && P.motor === 'an') U.propeller.rotation.z += P.g * dt * 38;
+    if (U.rad) U.rad.rotation.z = P.d * 2.2; if (U.hebel) U.hebel.rotation.x = P.g * .7;
+    motorTick(dt * (W.tempo || 1)); if (P.motor !== 'an' && Math.abs(P.gZiel) > .2 && !FAHRT && uhr - (P.motHinweis || -99) > 25) { P.motHinweis = uhr; tipp('Der Motor ist aus. Erst starten: Schlüssel links unten.'); }
     if (U.flagge) { const awx = Math.sin(windVon + Math.PI) * windMs - P.vx, awz = -Math.cos(windVon + Math.PI) * windMs - P.vz, aw = Math.hypot(awx, awz), weh = Math.atan2(awx, -awz);
       const rel = wdiff(weh, P.h); U.flagge.dreh.rotation.y = Math.atan2(-Math.cos(rel), -Math.sin(rel)); const pa = U.flagge.tuch.geometry.attributes.position, bs = U.flagge.tuch.userData.basis, st = cl(aw / 8, 0, 1);
       U.flagge.dreh.rotation.z = -(1 - st) * 1.2; for (let i = 0; i < pa.count; i++) { const x = bs[i * 3]; pa.setZ(i, Math.sin(x * 9 - t * (4 + aw)) * .05 * x * (.3 + st)); } pa.needsUpdate = true; }
@@ -1001,7 +1107,11 @@ W.seite = async function (opt = {}) {
       const rx = Math.cos(P.h), rz = Math.sin(P.h), sp = Math.max(0, u) * .32; bugL.add(P.x + fx * L * .7 - rx * U.breite * .5, P.z + fz * L * .7 - rz * U.breite * .5, -rx * sp, -rz * sp, cl(u / 4, 0, 1), t);
       bugR.add(P.x + fx * L * .7 + rx * U.breite * .5, P.z + fz * L * .7 + rz * U.breite * .5, rx * sp, rz * sp, cl(u / 4, 0, 1), t);
       const sf = Math.sin(SCH.h), szz = -Math.cos(SCH.h); schiffKiel.add(SCH.x - sf * 10, SCH.z - szz * 10, 0, 0, .8, t);
-      if (Math.abs(P.g) > .25) for (let i = 0; i < 3; i++) spritz(P.x - fx * (L + .4), P.y - .1, P.z - fz * (L + .4), -fx * P.g * 2 + rnd(-.4, .4), rnd(.2, .8), -fz * P.g * 2 + rnd(-.4, .4));
+      if (Math.abs(P.g) > .25 && P.motor === 'an') for (let i = 0; i < 3; i++) spritz(P.x - fx * (L + .4), P.y - .1, P.z - fz * (L + .4), -fx * P.g * 2 + rnd(-.4, .4), rnd(.2, .8), -fz * P.g * 2 + rnd(-.4, .4));
+      /* Kontrollstrahl: Der laufende Außenborder spritzt Kühlwasser seitlich heraus */
+      if (P.motor === 'an' && U.motor) { U.motor.getWorldPosition(vStr); spritz(vStr.x - fx * .2 - rx * .2, vStr.y + .12, vStr.z - fz * .2 - rz * .2, -rx * .9 + P.vx, .9, -rz * .9 + P.vz); }
+      /* Gleitfahrt: seitliche Gischt vom Rumpf */
+      if (P.gleit > .5) for (let i = 0; i < 4; i++) { const sd = Math.random() < .5 ? -1 : 1; spritz(P.x + fx * L * .1 + rx * sd * U.breite * .5, P.y + .05, P.z + fz * L * .1 + rz * sd * U.breite * .5, rx * sd * rnd(2, 4) - fx * rnd(0, 2), rnd(1, 2.5), rz * sd * rnd(2, 4) - fz * rnd(0, 2)); }
       if (u > 2.5 && (P.vn < -.15 || Math.random() < .1 * aw)) for (let i = 0; i < 8; i++) { const sd = Math.random() < .5 ? -1 : 1; spritz(P.x + fx * L * .8 + rx * sd * .6, P.y + .3, P.z + fz * L * .8 + rz * sd * .6, rx * sd * rnd(1, 3) + fx * u * .5, rnd(2, 4.5), rz * sd * rnd(1, 3) + fz * u * .5); } }
     kiel.upd(t); bugL.upd(t); bugR.upd(t); schiffKiel.upd(t);
     for (let i = 0; i < GN; i++) { const p = G[i]; if (p.t < 3) { p.t += dt; p.vy -= 9.81 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; if (p.y < flaeche(p.x, p.z, t) - .3) p.t = 9; }
@@ -1057,18 +1167,19 @@ W.seite = async function (opt = {}) {
     K.shake = Math.max(0, K.shake - dt * 1.8) ; const wack = K.shake * .5 + (windMs > 14 ? .06 * (windMs - 14) / 8 : 0);
     cam.position.set(K.pos.x + Math.sin(t * 41) * wack * .3, K.pos.y + Math.sin(t * 37) * wack * .25, K.pos.z + Math.cos(t * 43) * wack * .3);
     K.blick.lerp(v3.set(P.x, P.y + 1.4, P.z), Math.min(1, dt * 5)); cam.lookAt(K.blick);
-    K.fov += (52 + cl(Math.abs(u), 0, 6) * 1.2 - K.fov) * dt * 2; if (Math.abs(cam.fov - K.fov) > .05) { cam.fov = K.fov; cam.updateProjectionMatrix(); }
+    K.fov += (52 + cl(Math.abs(u), 0, 11) * .75 - K.fov) * dt * 2; if (Math.abs(cam.fov - K.fov) > .05) { cam.fov = K.fov; cam.updateProjectionMatrix(); }
     const tR = performance.now(); if (!verdeckt) r.render(scene, cam); W.mess = {js: Math.round(tR - now), render: Math.round(performance.now() - tR)};
     /* Töne (gedrosselt) */
-    tonT -= dt; if (tonT < 0) { tonT = .25; try { const ag = Math.abs(P.g); AUD.loop('motorLauf', .14 + ag * .32, .82 + ag * .55); const hw = WLst.reduce((a, q) => a + q.A, 0);
+    tonT -= dt; if (tonT < 0) { tonT = .25; try { const ag = Math.abs(P.g); const an = P.motor === 'an', rau = an && P.mot.choke && P.mot.chokeT > 6; AUD.loop('motorLauf', an ? .14 + ag * .32 + P.gleit * .06 : 0, .82 + ag * .5 + P.gleit * .2 + (rau ? Math.random() * .25 - .12 : 0)); const hw = WLst.reduce((a, q) => a + q.A, 0);
       AUD.loop('wellen', cl(.12 + hw * .25, 0, .7)); AUD.loop('wind', windMs > 2 && windMs < 15 ? cl(windMs / 18, 0, .55) : 0); AUD.loop('sturm', windMs >= 15 ? .6 : 0); AUD.loop('regen', C.regen === 'stark' ? .7 : C.regen === 'regen' ? .4 : 0); } catch (e) {} }
     moeweT -= dt; if (moeweT < 0) { moeweT = rnd(14, 30); if (!nachtAn && P.z > 0) try { AUD.sfx('moewe', {vol: .25, pan: rnd(-.7, .7)}); } catch (e) {} }
     hornT -= dt; if (hornT < 0) { hornT = 30; const dS = Math.hypot(SCH.x - P.x, SCH.z - P.z); if (['nebel', 'dicht', 'extrem'].includes(C.sicht) && dS < 500) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn('▬', null, Math.sin(rel)); } catch (e) {} } }
     if (!FOLGE) kommentare(t);
     hudT -= dt; if (hudT < 0) { hudT = .15; const kn = Math.abs(u) * 1.94, hd = ((P.h / RAD) % 360 + 360) % 360, gp = Math.round(Math.abs(P.gZiel) * 100), rw = Math.round(Math.abs(P.dZiel) * 30);
       $('#wtk').textContent = 'Kurs ' + String(Math.round(hd)).padStart(3, '0') + '° · ' + kn.toFixed(1).replace('.', ',') + ' kn';
-      $('#wtg').textContent = (!P.gZiel ? 'neutral' : (P.gZiel > 0 ? 'voraus ' : 'zurück ') + gp + ' %') + ' · ' + (!rw ? 'Ruder mittschiffs' : 'Ruder ' + (P.dZiel > 0 ? 'Stb ' : 'Bb ') + rw + '°');
-      karteZeichnen(); }
+      const pin = steuerArt() === 'pinne', rs = pin ? -P.dZiel : P.dZiel;
+      $('#wtg').textContent = (P.motor !== 'an' ? 'Motor aus' : !P.gZiel ? 'neutral' : (P.gZiel > 0 ? 'voraus ' : 'zurück ') + gp + ' %') + ' · ' + (!rw ? (pin ? 'Pinne' : 'Ruder') + ' mittschiffs' : (pin ? 'Pinne nach ' : 'Ruder ') + (rs > 0 ? 'Stb ' : 'Bb ') + rw + '°') + (P.gleit > .8 ? ' · Gleitfahrt' : P.buckel > .5 ? ' · Übergang' : '');
+      karteZeichnen(); if (mpEl.style.display !== 'none') neutralZeigen(); }
     fpsN++; if (now - fpsT > 1000) { W.fps = fpsN; fpsN = 0; fpsT = now; qualiPruef--; if (C.quali === 'auto' && qualiPruef <= 0 && QA !== 'niedrig' && W.fps < 24) { setzeQuali(QA === 'hoch' ? 'mittel' : 'niedrig'); qualiPruef = 3; } }
   }
   /* Die Katze läuft an Deck herum, setzt sich, putzt sich, erschrickt bei Stößen */
@@ -1108,10 +1219,19 @@ function css() {
   .wt .wind{position:absolute;right:8px;top:8px;width:50px;height:58px;border-radius:12px;background:rgba(20,30,40,.5);color:#fffaf0;text-align:center;font:700 10px sans-serif}
   .wt .wind i{display:block;font-style:normal;font-size:22px;line-height:38px;transition:transform .3s}
   .wt .bub{position:absolute;left:62px;right:8px;top:126px;z-index:2;background:rgba(255,252,240,.95);border-radius:14px;padding:8px 11px;font-size:14px;color:#2b2118;box-shadow:0 2px 8px rgba(0,0,0,.18)}.wt .bub b{color:#b5563a}
-  .wpad{position:absolute;right:10px;bottom:10px;width:150px;height:164px;border-radius:22px;background:rgba(20,30,40,.5);touch-action:none}
-  .wpad .mk{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#f0b53e;border:3px solid #fffaf0;box-shadow:0 2px 0 rgba(0,0,0,.35);pointer-events:none}
-  .wpad .ml{position:absolute;left:10px;right:10px;top:50%;height:2px;background:rgba(255,250,240,.55)}.wpad .mv{position:absolute;top:12px;bottom:12px;left:50%;width:2px;background:rgba(255,250,240,.22)}
-  .wpad b{position:absolute;color:#fffaf0;font:700 10px sans-serif;pointer-events:none}
+  .wpad{position:absolute;right:10px;bottom:10px;width:176px;height:164px;border-radius:22px;background:rgba(20,30,40,.55);touch-action:none}
+  .wpad .wst{position:absolute;left:4px;top:26px;width:122px;height:122px;pointer-events:none;overflow:visible}
+  .wpad .wgs2{position:absolute;right:14px;top:18px;bottom:18px;width:14px;border-radius:7px;background:rgba(0,0,0,.4);box-shadow:inset 0 0 0 1px rgba(255,250,240,.3);pointer-events:none}
+  .wpad .wgk{position:absolute;left:50%;top:50%;width:30px;height:20px;margin:-10px 0 0 -15px;border-radius:7px;background:#f0b53e;border:2px solid #fffaf0;box-shadow:0 2px 0 rgba(0,0,0,.35)}
+  .wpad b{position:absolute;right:34px;color:#fffaf0;font:700 9px sans-serif;pointer-events:none}.wpad .wl1{top:14px}.wpad .wl2{top:50%;margin-top:-6px}.wpad .wl3{bottom:14px}
+  .wt .wb.motor{position:absolute;left:10px;bottom:70px;width:52px;height:52px;border-radius:50%;border:3px solid #fffaf0;background:rgba(43,47,51,.88);font-size:22px;padding:0}.wt .wb.motor i{position:absolute;right:4px;top:4px;width:11px;height:11px;border-radius:50%;background:#c0392b;border:2px solid #fffaf0}.wt .wb.motor i.an{background:#3cc46a}
+  .wmp{position:absolute;left:8px;bottom:136px;width:236px;max-height:62%;overflow:auto;background:rgba(255,250,240,.97);color:#2b2118;border-radius:14px;padding:8px;z-index:7;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .wmp .wmk{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.wmp .wmzu{border:0;background:none;font-size:16px;padding:2px 6px}
+  .wmp .wms{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid #d9c9ab;background:#fff;border-radius:10px;padding:7px 8px;margin:0 0 5px;font:600 13px Nunito,sans-serif;color:#2b2118}
+  .wmp .wms i{flex:0 0 20px;height:20px;border-radius:6px;border:2px solid #c9b79a;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px}.wmp .wms.ok{background:#eaf7ee;border-color:#8cc69c}.wmp .wms.ok i{border-color:#3c9a5a;color:#2d7a45}
+  .wmp .wmzug{display:flex;gap:8px;align-items:center;border:2px dashed #c0392b;border-radius:12px;padding:12px 8px;font:700 13px Nunito,sans-serif;touch-action:none;user-select:none;background:#fff4ef}.wmp .wmzug b{font-size:22px;color:#c0392b;transition:transform .15s}.wmp .wmzug.zieht b{transform:translateY(10px)}
+  .wmp .wmst.zieht{filter:brightness(.9)}
+  .wpad .wsart{position:absolute;left:8px;top:6px;border:0;border-radius:10px;background:rgba(255,250,240,.9);color:#2b2118;font:800 11px sans-serif;padding:4px 7px}
   .wt .horn{position:absolute;left:10px;bottom:10px;width:52px;height:52px;border-radius:50%;border:3px solid #fffaf0;background:rgba(61,95,143,.85);font-size:22px}
   .wtpanel{position:absolute;left:6px;right:6px;top:6px;bottom:6px;overflow:auto;background:rgba(255,250,240,.97);border-radius:14px;padding:8px 10px;color:#2b2118;z-index:3}
   .wtph{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.wtpanel h4{margin:8px 0 4px;font-size:13px}
@@ -1127,7 +1247,7 @@ function css() {
   .wtq .ans{display:block;width:100%;text-align:left;margin:0 0 6px}.wtq .ans.emp{border-color:#f0b53e;border-width:2px}.wemp{font-size:11px;color:#b5563a;font-weight:800}
   .wap{position:absolute;left:10px;bottom:72px;background:rgba(20,30,40,.6);color:#fffaf0;border-radius:10px;padding:4px 9px;font:700 12px sans-serif;z-index:1}
   .wpad.aus{opacity:.35;pointer-events:none}.wpad.auto{opacity:.55}
-  .wt .wang{position:absolute;left:10px;bottom:104px;z-index:3}
+  .wt .wang{position:absolute;left:10px;bottom:132px;z-index:3}
   .wsz{position:absolute;inset:0;z-index:3;overflow:hidden;background:linear-gradient(#8a5e3c,#6b4a32 62%,#4f3624)}
   .wsz .wsbull{position:absolute;left:50%;top:9%;width:110px;height:110px;margin-left:-55px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#cfe6f0,#5f9fb5);border:9px solid #c8962e;box-shadow:inset 0 0 12px rgba(0,0,0,.35)}
   .wsz .wslampe{position:absolute;right:16%;top:8%;width:26px;height:40px;border-radius:8px;background:#ffd590;box-shadow:0 0 40px 18px rgba(255,213,144,.45)}

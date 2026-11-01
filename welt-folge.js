@@ -1,6 +1,6 @@
 /* welt-folge.js: Folgen in der 3D-Welt abspielen. Drehbuch in data/welt-folgen.json, die Welt liefert WELT.api.
    Schritte: {wer, t} sprechen · {kamera} · {crew: {wer: platz}} · {ort} · {wetter} · {auto: [[x, z(, h)]], gas, raffer} Autopilot
-   {frage: n} amtliche Frage · {wahl: {t, opts}} · {ziel: {x, z, r, name, h}} · {selbst: 'ziel' | 'horn' | 'anlegen', max, hinweis, auto}
+   {frage: n} amtliche Frage · {wahl: {t, opts}} · {ziel: {x, z, r, name, h}} · {selbst: 'ziel' | 'horn' | 'anlegen' | 'motor', max, hinweis, auto, ansage}
    {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {szene: 'kajuete' | 'welt'} · {ende: true}
    Hörmodus (🎧 Auto): Der Autopilot fährt die Strecken, Fragen werden vorgelesen und aufgelöst. */
 (function () {
@@ -45,6 +45,14 @@ async function selbst(s, api) {
     if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 1500)); api.ton('▬'); return; }
     const h0 = api.hornZahl; if (await api.warte(() => api.hornZahl > h0, s.max || 45)) return api.sprich('smilla', s.gut || 'Gut gehört. So weiß jeder, dass hier ein Boot fährt.');
     await api.sprich('smilla', 'So klingt es:'); api.ton('▬'); return;
+  }
+  if (s.selbst === 'motor') { /* Motor selbst starten; im Hörmodus erklärt Hinnerk den Ablauf */
+    if (api.motor === 'an') return;
+    if (api.modus === 'auto') { for (const t of s.ansage || []) await api.sprich('hinnerk', t); api.motorAn(); return; }
+    if (s.hinweis) api.sprich('hinnerk', s.hinweis); api.motorOffen();
+    const r = await mitHilfe(api, () => api.motor === 'an', s.max || 240); api.motorZu();
+    if (r === 'ok') return api.sprich('hinnerk', s.gut || 'Läuft. Sauber gemacht.');
+    api.motorAn(); return api.sprich('hinnerk', 'Ich mach das. Quickstopp rein, Tank auf, pumpen, Choke, Neutral, starten.');
   }
   if (!z) return;
   if (s.selbst === 'ziel') {
