@@ -1,5 +1,13 @@
 # Gesamtplan „Vom Landei zum Skipper“ (Fassung 4, 03.11.2026)
 
+> **Nachtrag 03.11.2026 (Nutzer):**
+> - Die neuen Anreden sind in Ordnung.
+> - Die feste Regel „Irrtum innerhalb von 20 Sekunden berichtigt“ ist für die Reise gelockert: Ein Irrtum bleibt nie offen, wird aber flexibel aufgelöst (Smilla, kleiner Unfall oder deine Entscheidung).
+> - Frieda ist erst einmal gestrichen.
+> - Hinnerk sieht nachts schlecht (bleibt).
+> - **Jasper** ist eine eigene Figur an der Boje, mit eigener Stimme (der Nutzer sucht sie aus). Quirin ist nicht der Bojenlieger.
+> - Der Ablauf der ersten Folge steht in `docs/folge-01-entwurf.md`.
+
 > **Status: Vorschlag aus dem Sparring, noch nicht bauen.** Nächste Schritte laut Nutzer: diesen Plan festlegen → grafische Vorgaben des Nutzers → erst dann die Geschichte im Detail.
 > **Gesetzt vom Nutzer (03.11.2026):**
 > - **Reise und Aufbau:**
