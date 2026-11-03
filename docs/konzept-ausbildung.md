@@ -6,6 +6,8 @@
 
 # FASSUNG 2 (03.11.2026, nach dem Sparring): „Vom Landei zum Skipper“
 
+> **Weiter in `docs/gesamtplan.md` (Fassung 3):** Lernprinzip Hören → Handeln → Rückmeldung → Abfragen, Freigaben mit Unfall zum Einstieg, alle Kapitel mit Lernstoff, Crew-Vorschläge, Karte 49. Abschnitt E (Wissensblöcke) gilt weiter.
+
 > Stand der Gedanken nach zwei Runden Sparring mit dem Nutzer. Was der Nutzer schon gesetzt hat, steht als **gesetzt**; der Rest ist mein Vorschlag. Fassung 1 (Module) steht weiter unten nur noch zum Vergleich.
 
 ## A. Was gesetzt ist (Nutzer, 03.11.2026)
