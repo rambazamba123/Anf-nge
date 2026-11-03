@@ -1,0 +1,732 @@
+{
+ "id": "folge-01",
+ "nr": 1,
+ "titel": "Folge 1 „Mooooin, Landratte!“",
+ "hinweis": "Rohbau (v5.18): Sätze und Grafiken sind Platzhalter. Ablauf aus docs/folge-01-entwurf.md.",
+ "fragen": [
+  1,
+  2,
+  3
+ ],
+ "schritte": [
+  {
+   "teil": "Teil 1 · Am Steg"
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "zettel"
+  },
+  {
+   "wer": "smilla",
+   "t": "Na? Liest du auch, was an Pfählen hängt?"
+  },
+  {
+   "tippe": {
+    "z": "zettel",
+    "t": "Da am Pfahl, der Zettel. Guck mal drauf.",
+    "hinweis": "Tippe auf den Zettel am Pfahl.",
+    "falsch": "Nee, der Zettel. Am Pfahl."
+   },
+   "wer": "smilla"
+  },
+  {
+   "grafik": 1
+  },
+  {
+   "wer": "klabauter",
+   "t": "Moooooooooooin!"
+  },
+  {
+   "ansicht": "crew",
+   "ort": "steg",
+   "dp": "morgen"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Moin."
+  },
+  {
+   "wer": "smilla",
+   "t": "Moin! Du bist wegen dem Zettel hier, ne? Komm an Bord, aber nicht auf die Leinen treten."
+  },
+  {
+   "wahl": "Erst mal: Welcher Schein soll's werden?",
+   "wer": "smilla",
+   "id": "f1-schein",
+   "opts": [
+    {
+     "t": "Sportbootführerschein See",
+     "wert": "sbf",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "See. Gute Wahl. Da draußen gibt's Wind, Strom und Frachter. Und uns."
+      }
+     ]
+    },
+    {
+     "t": "See und Binnen",
+     "wert": "beide",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Beides? Ehrgeizig. Erst See, Binnen machen wir hinterher mit einem Bayern. Frag nicht."
+      }
+     ]
+    },
+    {
+     "t": "Weiß ich noch nicht",
+     "wert": "offen",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Macht nix. Wir fangen mit See an. Das Fundament brauchst du für alles."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wahl": "Und wann ist die Prüfung?",
+   "wer": "hinnerk",
+   "id": "f1-termin",
+   "opts": [
+    {
+     "t": "In etwa vier Wochen",
+     "wert": 4,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Vier Wochen. Dat is knapp. Dann wird nich getrödelt."
+      }
+     ]
+    },
+    {
+     "t": "In etwa zwei Monaten",
+     "wert": 9,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Zwei Monate. Dat reicht, wenn du nich bummelst."
+      }
+     ]
+    },
+    {
+     "t": "In drei Monaten oder später",
+     "wert": 13,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Viel Zeit. Die meisten verplempern die. Du nich."
+      }
+     ]
+    },
+    {
+     "t": "Noch kein Termin",
+     "wert": "offen",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Kein Termin? Dann such dir einen. Ohne Ziel fährt keiner los."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "kalender"
+  },
+  {
+   "wer": "smilla",
+   "t": "Und jetzt die Wahrheit: Ich hab meinen Traumjob. Auf einem großen Traditionssegler."
+  },
+  {
+   "wer": "smilla",
+   "t": "Eine Woche vor deiner Prüfung bin ich weg. Bis dahin musst du meinen Platz übernehmen können."
+  },
+  {
+   "wer": "smilla",
+   "t": "Bist du schneller fertig, umso besser. Dann paukst du die Fragen danach trocken, und ich bin stolz."
+  },
+  {
+   "wer": "klabauter",
+   "t": "Grünschnabel! Grünschnabel!"
+  },
+  {
+   "ansicht": "crew",
+   "ort": "steg",
+   "dp": "morgen"
+  },
+  {
+   "wahl": "Wie viel Zeit hast du am Tag für uns?",
+   "wer": "smilla",
+   "id": "f1-zeit",
+   "opts": [
+    {
+     "t": "Eine halbe Stunde",
+     "wert": 30,
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Eine halbe Stunde. Das ist genau eine Folge. Passt."
+      }
+     ]
+    },
+    {
+     "t": "Eine Stunde oder mehr",
+     "wert": 60,
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Eine Stunde? Dann schaffen wir zwei Folgen am Tag, wenn du willst."
+      }
+     ]
+    },
+    {
+     "t": "Mal so, mal so",
+     "wert": 0,
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Mal so, mal so. Ehrlich. Dann mach, was geht, ich merk mir, wo wir waren."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wahl": "Wo lernst du meistens?",
+   "wer": "smilla",
+   "id": "f1-ort",
+   "opts": [
+    {
+     "t": "Zu Hause",
+     "wert": "zuhause",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Zu Hause. Gut, dann hast du Tau und Tisch griffbereit."
+      }
+     ]
+    },
+    {
+     "t": "Unterwegs, eher hören",
+     "wert": "unterwegs",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Unterwegs. Dann erzählen wir viel, und die Handgriffe holst du später nach."
+      }
+     ]
+    },
+    {
+     "t": "Beides",
+     "wert": "beides",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Beides. Dann hörst du unterwegs und übst zu Hause. So mag ich das."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wahl": "Hast du dein Übungstau und das kleine Boot dabei?",
+   "wer": "hinnerk",
+   "id": "f1-set",
+   "opts": [
+    {
+     "t": "Ja, liegt hier",
+     "wert": true,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Gut. Leg's dir hin. Wir brauchen's heute Abend nich, aber bald."
+      }
+     ]
+    },
+    {
+     "t": "Noch nicht",
+     "wert": false,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Dann besorg dir eins. Knoten lernt man mit den Händen, nich mit den Augen."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wahl": "Schon mal auf einem Boot gewesen?",
+   "wer": "hinnerk",
+   "id": "f1-erfahrung",
+   "opts": [
+    {
+     "t": "Noch nie",
+     "wert": 0,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Noch nie. Ehrlich. Dat is mir lieber als einer, der alles weiß."
+      }
+     ]
+    },
+    {
+     "t": "Als Gast, ein paar Mal",
+     "wert": 1,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Als Gast. Dann weißt du, wo die Reling ist. Mehr nich."
+      }
+     ]
+    },
+    {
+     "t": "Ich bin schon selbst gefahren",
+     "wert": 2,
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Selbst gefahren. Soso. Dat seh ich mir an."
+      },
+      {
+       "wer": "smilla",
+       "t": "Später gibt's einen Kenner-Test. Wer den schafft, darf Kapitel überspringen. Heute noch nicht."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Probezeit. Du guckst zu und wartest auf mein Kommando. Immer."
+  },
+  {
+   "wer": "klabauter",
+   "t": "Kommando! Kommando!"
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "deck"
+  },
+  {
+   "wahl": "Kleiner Rundgang. Wo fangen wir an, vorn oder hinten?",
+   "wer": "smilla",
+   "id": "f1-schein-rundgang",
+   "opts": [
+    {
+     "t": "Vorn, am Bug",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Genau. Vorn fängt man an. Immer."
+      }
+     ]
+    },
+    {
+     "t": "Hinten, am Heck",
+     "dann": [
+      {
+       "wer": "smilla",
+       "t": "Hinten liegt grad Backbord. Die Katze, nicht die Seite. Die weckst du nicht. Also vorn."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "tippe": {
+    "z": "bug",
+    "t": "Das spitze Ende vorn heißt Bug. Zeig mal drauf.",
+    "hinweis": "Tippe auf den Bug.",
+    "falsch": "Vorn. Das spitze Ende.",
+    "ok": "Bug. Merk dir: Der Bug zeigt, wo's hingeht."
+   },
+   "wer": "smilla"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Bug! Bug!"
+  },
+  {
+   "tippe": {
+    "z": "heck",
+    "t": "Und das breite Ende hinten?",
+    "hinweis": "Tippe auf das Heck.",
+    "falsch": "Hinten. Wo der Motor ist.",
+    "ok": "Heck. Da sitzt der Käpt'n und tut wichtig."
+   },
+   "wer": "smilla"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Ich hör dich."
+  },
+  {
+   "tippe": {
+    "z": "backbord",
+    "t": "Jetzt die Seiten. Du stehst und guckst nach vorn. Links ist Backbord. Zeig mal.",
+    "hinweis": "Tippe auf die linke Seite (Backbord).",
+    "falsch": "Links, wenn du nach vorn guckst.",
+    "ok": "Backbord. Rot, wie das Licht nachts."
+   },
+   "wer": "smilla"
+  },
+  {
+   "tippe": {
+    "z": "steuerbord",
+    "t": "Und rechts?",
+    "hinweis": "Tippe auf die rechte Seite (Steuerbord).",
+    "falsch": "Die andere Seite.",
+    "ok": "Steuerbord. Grün."
+   },
+   "wer": "smilla"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Backbord rot! Steuerbord grün!"
+  },
+  {
+   "tippe": {
+    "z": "klampe",
+    "t": "Das Ding vorn an Deck, wo die Leine festgemacht ist: eine Klampe. Wo ist sie?",
+    "hinweis": "Tippe auf die Klampe vorn an Deck.",
+    "falsch": "Vorn an Deck, das kleine graue Teil.",
+    "ok": "Klampe. Da wird belegt. Wie, zeig ich dir bald."
+   },
+   "wer": "smilla"
+  },
+  {
+   "tippe": {
+    "z": "leine",
+    "t": "Die Leine von der Klampe zum Steg ist die Vorleine.",
+    "hinweis": "Tippe auf die Vorleine.",
+    "falsch": "Das gelbe Tau zum Steg.",
+    "ok": "Vorleine. Die hält vorn. Merk dir die."
+   },
+   "wer": "smilla"
+  },
+  {
+   "tippe": {
+    "z": "fender",
+    "t": "Und die blauen Würste an der Seite?",
+    "hinweis": "Tippe auf die Fender.",
+    "falsch": "Die blauen Dinger an der Bordwand.",
+    "ok": "Fender. Die schützen das Boot, wenn's irgendwo anstößt."
+   },
+   "wer": "smilla"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Fender! Fender!"
+  },
+  {
+   "ansicht": "crew",
+   "ort": "steg",
+   "dp": "morgen"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Reicht für'n Anfang. Gleich verholen wir zum Tankanleger."
+  },
+  {
+   "halt": "Kaffeepause? Teil 1 ist geschafft."
+  },
+  {
+   "teil": "Teil 2 · Zu früh"
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "ablegen"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Wir verholen zum Tankanleger. Du stehst an der Vorleine. Die geht erst los, wenn ich's sage."
+  },
+  {
+   "wer": "smilla",
+   "t": "Ich nehm die Achterleine. Klabauter, du hältst den Schnabel."
+  },
+  {
+   "wer": "klabauter",
+   "t": "Leinen los! Leinen los!"
+  },
+  {
+   "wahl": "Der Motor läuft. Die Vorleine liegt in deiner Hand. Was machst du?",
+   "wer": "smilla",
+   "id": "f1-vorleine",
+   "opts": [
+    {
+     "t": "Vorleine los",
+     "wert": "los",
+     "dann": [
+      {
+       "grafik": 1
+      },
+      {
+       "wer": "smilla",
+       "t": "Äh … hat er Leinen los gesagt?"
+      },
+      {
+       "grafik": 2
+      }
+     ]
+    },
+    {
+     "t": "Auf Kommando warten",
+     "wert": "warten",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Gut. Du wartest. Recht so."
+      },
+      {
+       "wer": "smilla",
+       "t": "Oh nein. Backbord, lass die Leine …"
+      },
+      {
+       "grafik": 1
+      },
+      {
+       "wer": "hinnerk",
+       "t": "Na, wenigstens du hörst zu. Die Katz nich."
+      },
+      {
+       "grafik": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "wer": "smilla",
+   "t": "Der Wind drückt den Bug weg!"
+  },
+  {
+   "grafik": 3
+  },
+  {
+   "ton": "rums"
+  },
+  {
+   "wer": "hafen",
+   "t": "Hey! Das ist mein Arbeitsboot! Hinnerk, wer hat dir denn den Kindergarten an Bord gebracht?"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Is noch in der Probezeit. Kommt nich wieder vor."
+  },
+  {
+   "grafik": 4
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Wir gehen zurück an den Steg. Langsam."
+  },
+  {
+   "tippe": {
+    "z": "schulter",
+    "t": "Fender! Wo berührt das Boot den Steg gleich zuerst? Da muss der Fender hin.",
+    "hinweis": "Tippe auf die Stelle, die zuerst an den Steg kommt.",
+    "falsch": "Guck, welche Ecke dem Steg am nächsten ist.",
+    "ok": "Genau da. Weich wie Butter."
+   },
+   "wer": "hinnerk"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Fender! Fender!"
+  },
+  {
+   "freigabe": "fender"
+  },
+  {
+   "ansicht": "crew",
+   "ort": "steg",
+   "dp": "tag"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Regel eins: Du fasst nix an, was ich nicht freigegeben hab."
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Ab heute führ ich Buch über dich. Was du zweimal hintereinander richtig machst, darfst du allein."
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "freigaben"
+  },
+  {
+   "wer": "smilla",
+   "t": "Kopf hoch, Landei. Mir ist am ersten Tag ein Eimer über Bord gegangen."
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "ablegen"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Zweiter Anlauf. Du wartest auf mein Wort."
+  },
+  {
+   "wahl": "Der Motor läuft wieder. Was machst du?",
+   "wer": "smilla",
+   "id": "f1-vorleine2",
+   "opts": [
+    {
+     "t": "Auf Kommando warten",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Vorleine … los!"
+      },
+      {
+       "grafik": 1
+      },
+      {
+       "wer": "hinnerk",
+       "t": "Dor kannst nich meckern."
+      },
+      {
+       "freigabe": "vorleine"
+      }
+     ]
+    },
+    {
+     "t": "Vorleine los",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Halt! Hab ich was gesagt?"
+      },
+      {
+       "wer": "smilla",
+       "t": "Zum Glück hat er sie noch auf der Klampe. Nochmal, aber diesmal hörst du hin."
+      },
+      {
+       "wer": "hinnerk",
+       "t": "Vorleine … los!"
+      },
+      {
+       "grafik": 1
+      },
+      {
+       "freigabe": "vorleine",
+       "ok": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "ansicht": "crew",
+   "ort": "steg",
+   "dp": "tag"
+  },
+  {
+   "wer": "hafen",
+   "t": "So. Wer ist hier eigentlich der Schiffsführer?"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Ich. Hab ich vorhin festgelegt, bevor wir losgemacht haben. Das macht man so."
+  },
+  {
+   "wer": "hafen",
+   "t": "Und hat hier einer was getrunken?"
+  },
+  {
+   "wer": "smilla",
+   "t": "Tee. Mit Zucker. Wer was getrunken hat, fährt nicht. Ab null Komma fünf Promille ist eh Schluss, und wer wackelt, schon vorher."
+  },
+  {
+   "wer": "hafen",
+   "t": "Na dann. Fahrt vorsichtig."
+  },
+  {
+   "halt": "Teil 2 ist geschafft. Weiter zum Abend in der Kajüte?"
+  },
+  {
+   "teil": "Teil 3 · Abend in der Kajüte"
+  },
+  {
+   "ansicht": "crew",
+   "ort": "tisch",
+   "dp": "abend"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Moin! Moin! Feierabend!"
+  },
+  {
+   "wer": "smilla",
+   "t": "Frage in die Runde: Ab wann ist man eigentlich in Fahrt?"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "In Fahrt is man, wenn der Motor läuft."
+  },
+  {
+   "wer": "smilla",
+   "t": "Ach ja? Und vorhin, als die Vorleine weg war und wir getrieben sind? Da lief der Motor auch nicht richtig. Waren wir da nicht in Fahrt?"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Hm. Getrieben is auch gefahren, sagt man."
+  },
+  {
+   "wer": "smilla",
+   "t": "Genau. In Fahrt ist ein Fahrzeug, wenn es weder vor Anker liegt, noch an Land festgemacht ist, noch auf Grund sitzt. Motor egal."
+  },
+  {
+   "wer": "klabauter",
+   "t": "Merken! Weder Anker, noch fest, noch Grund!"
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Lies du das Logbuch vor. Licht is schlecht."
+  },
+  {
+   "wer": "smilla",
+   "t": "Gern, Käpt'n."
+  },
+  {
+   "fragerunde": true
+  },
+  {
+   "ansicht": "grafik",
+   "bild": "freigaben"
+  },
+  {
+   "logbuch": "Tag 1. An Bord gekommen. Vorleine zu früh, Rums bei der Hafenmeisterin. Fender: geübt."
+  },
+  {
+   "countdown": true
+  },
+  {
+   "ansicht": "crew",
+   "ort": "tisch",
+   "dp": "nacht"
+  },
+  {
+   "wer": "hafen",
+   "t": "Klopf, klopf. Morgen früh, acht Uhr. Ich hab einen Auftrag. Kannst du rudern?"
+  },
+  {
+   "wer": "klabauter",
+   "t": "Rudern! Rudern!"
+  },
+  {
+   "wer": "smilla",
+   "t": "Draußen an der Boje, das Licht? Das ist Jasper. Morgen lernst du ihn kennen."
+  },
+  {
+   "wer": "hinnerk",
+   "t": "Gode Nacht."
+  }
+ ]
+}

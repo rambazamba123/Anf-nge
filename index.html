@@ -209,6 +209,8 @@ details summary{cursor:pointer;font-weight:700}
 .rbuehne.kippt .rrunde,.rbuehne.kippt .rvorn{animation:rundein 1.1s ease-out}@keyframes rundein{from{transform:scale(2.3);transform-origin:50% 92%;filter:brightness(.55)}to{transform:none;filter:none}}
 .rbild{position:absolute;left:0;right:0;top:0;bottom:36%;z-index:2;background:#f5f1e6;border-radius:0 0 14px 14px;box-shadow:0 6px 18px rgba(0,0,0,.35);overflow:hidden;transition:transform .35s,opacity .3s}.rbild.zu{transform:translateY(-105%);opacity:0;pointer-events:none}
 .rbild>svg,.rbild>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rbild svg .lab{opacity:0;transition:opacity .3s}.rbild svg [data-z].an .lab{opacity:1}.rbild svg [data-z].an>:not(.lab){filter:drop-shadow(0 0 4px #f1c40f)}.rbild svg.tippbar [data-z]{cursor:pointer}.rbild svg [data-z].such{animation:rgsuch 1s ease-in-out infinite}@keyframes rgsuch{50%{opacity:.35}}
+.rbuehne.wackel{animation:rwackel .12s 5}@keyframes rwackel{25%{transform:translate(4px,-2px)}75%{transform:translate(-4px,2px)}}
 .rbuehne:has(+ .rakt .ans) .rbild,.rbuehne:has(+ .rakt .rwahl) .rbild{display:none}
 .rcrewbild{background:linear-gradient(#9fd0ec 0 45%,#4f9cc4 45% 70%,#8a5a34 70%)}.rcrewbild.steg{background:linear-gradient(#9fd0ec 0 50%,#4f9cc4 50% 72%,#a77a4d 72%)}.rcrewbild.abend{background:linear-gradient(#ee935a 0 45%,#58789b 45% 70%,#6b4428 70%)}.rcrewbild.kajuete{background:linear-gradient(#6b4428 0 70%,#4a2e1a 70%)}
 .rgesichter{position:absolute;display:flex;gap:6px;z-index:2;pointer-events:none}
@@ -546,7 +548,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.17';
+  window.__ver = '5.18';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4871,7 +4873,8 @@ function renderFrei() {
       ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
       ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
       ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
-    ['Nachschlagen und Hören', [['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
+    ['Nachschlagen und Hören', [['🚧', 'Folge 1 (Rohbau)', 'Mooooin, Landratte! Anheuern, Rundgang, Vorleine und der erste Abend', () => folgeOeffnen('folge-01')],
+      ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
       ['🎬', '3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten mit der Crew', () => nachladen('welt.js').then(() => WELT.seite({folge: 'probe'})).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); })],
       ['🌊', '3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht', () => nachladen('welt.js').then(() => WELT.seite()).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); })],
       ['🎞️', 'Animationen', 'Je Gruppe ein Beispiel: Radeffekt, Ausweichen, Lichter, Gezeiten und mehr', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
@@ -4921,6 +4924,7 @@ function geraeuscheSeite() {
 /* H3: Reise am Kartentisch (reise.js, data/reise.json), erst als Probe-Etappe */
 function navi7Oeffnen() { return nachladen('navi7.js').then(() => NAVI7.seite()).catch(e => { console.error(e); toast('Die Navigation ließ sich nicht laden. Prüf dein Internet.'); }); }
 function reiseOeffnen() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.oeffnen()).catch(() => toast('Die Reise ließ sich nicht laden. Prüf dein Internet.')); }
+function folgeOeffnen(id) { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.folge(id)).catch(e => { console.error(e); toast('Die Folge ließ sich nicht laden. Prüf dein Internet.'); }); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
 /* V42: Scheine, Termine, Lernzeit (ziele.js) */
 function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }
