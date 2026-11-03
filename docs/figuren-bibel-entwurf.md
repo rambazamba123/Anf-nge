@@ -1,5 +1,7 @@
 # Figurenbibel: Entwurf in der Tiefe (01.11.2026)
 
+> **Ruht seit 03.11.2026:** nur noch Ideensammlung für spätere Sätze der Crew. Es gilt `docs/konzept-ausbildung.md` (Figuren nur als Ausbilder mit festen Lehrrollen).
+
 > **Status: Vorschlag. Nichts davon gilt, bis du es bestätigst** (R15). Bestätigt und gültig bleibt `podcast/figuren.md`. Gewähltes wandert nach deiner Antwort dorthin und in die Bibel.
 > **Grundlage:** `podcast/figuren.md` (vom Nutzer bestätigt), `docs/figuren-entwurf.md` (Varianten), **seit 01.11.2026 abends der Vorschlag „Friedas Auftragsbuch“ aus `docs/story-konzept-3.md`** (Antrag, Ring und Hochzeit aus Entwurf 2 sind gestrichen, Nutzer: „übertrieben“), `podcast/wortschatz.md` (Platt, Kölsch, Bairisch mit Quellen).
 > **Neu gegenüber `figuren.md`:** Wunsch, Bedürfnis, Angst und Geheimnis je Figur; Entwicklung je Akt; Frieda als neue Figur; Klassiker (bekannte Erzählmuster); viele Sprüche mit ElevenLabs-Markern.

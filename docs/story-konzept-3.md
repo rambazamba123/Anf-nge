@@ -1,5 +1,7 @@
 # Die Geschichte, dritter Anlauf: „Friedas Auftragsbuch“ (01.11.2026)
 
+> **Ruht seit 03.11.2026** (Nutzer: „Wirf die Story nochmal über den Haufen“). Neuer Vorschlag: `docs/konzept-ausbildung.md`. Die Forschung in §2 gilt weiter.
+
 > **Status: Vorschlag zur Wahl. Nichts davon gilt, bis du es bestätigst** (R15, R16). Deine Antworten: `docs/entscheidungen.md` (O141 ff.).
 > **Auftrag** (Nutzer, 01.11.2026): „Hochzeit etc. finde ich übertrieben. Eher Rätsel, Rallye oder was anderes. Das mit der Geschichte und den Charakteren nochmal kritisch prüfen. Im Grunde ist es gut, dass es dann genügend Stoff für die vielen Folgen geben wird.“ Dazu deine Idee: „Man lernt anfangs bei Frieda die Crew kennen, weil man auf Jobsuche ist, wird am Schiff angeheuert und muss gemeinsam Dinge für Frieda und das Hafen-Restaurant erledigen.“ Und: „Schau noch zusätzlich in die Forschung, wie Erwachsene hier am besten lernen.“
 > **Vorgänger:** `docs/story-konzept-2.md` (A „Der Antrag“, B Rallye, C Wette). Was davon bleibt, steht in §7.
