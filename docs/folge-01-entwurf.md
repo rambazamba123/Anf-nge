@@ -48,6 +48,12 @@
 ## Hörmodus
 Das Kennenlernen braucht Antippen, deshalb gibt es den Hörmodus erst ab Tag 2. Folge 1 macht man am Handy.
 
+## Rückmeldung nach dem Test (03.11.2026, v5.19)
+- Das Kennenlernen (Schein, Termin, Zeit, Lernort, Set, Erfahrung) gehört zum App-Start, nicht in die Folge. Es ist aus der Folge raus; Smilla erzählt nur noch von ihrem neuen Job.
+- Der Unfall und die Fender-Aufgabe waren verwirrend. Jetzt erklärt die Crew vorher, was die Leinen tun und warum man wartet, danach, was passiert ist (der Bug dreht sich um die Achterleine wie eine Tür), und vor der Fender-Aufgabe, was ein Fender ist und was die drei Punkte bedeuten.
+- Die Kajüte ist dieselbe wie im Spiel und nicht mehr so hoch. Klabauter ist kleiner. Die Hafenmeisterin kommt als ganze Person ins Bild.
+- Folgen starten über den Hocker in der Kajüte.
+
 ## Antworten des Nutzers (03.11.2026)
 1. Das Boot heißt **Frieda**.
 2. Fehler mit Ansage: ja, aber **ohne Uhr**. Statt acht Sekunden gibt es zwei Knöpfe; wer wartet, bekommt den Unfall durch die Katze und ein Lob.

@@ -239,6 +239,539 @@
      "ende": true
     }
    ]
+  },
+  {
+   "id": "tag07",
+   "titel": "Folge 7: Raus bis zur Ansteuerungstonne",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "leicht",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Moooooooin! Moin!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin."
+    },
+    {
+     "wer": "smilla",
+     "t": "Na? Ausgeschlafen, oder hat dich der Klabauter wieder um fünf geweckt?"
+    },
+    {
+     "wahl": {
+      "t": "Wie geht's dir heute?",
+      "opts": [
+       {
+        "t": "Hellwach. Kann losgehen.",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Hellwach. Hörst du das, Käpt'n?"
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Hör ich. Glauben tu ich's um zwölf."
+         }
+        ]
+       },
+       {
+        "t": "Ehrlich gesagt: nee.",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Ehrlich. Mag ich."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Kaffee steht da. Frische Luft macht den Rest."
+         }
+        ]
+       },
+       {
+        "t": "Was steht denn an?",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Direkt zur Sache. Käpt'n, erzähl."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Heute geht's raus. Bis zur Ansteuerungstonne."
+    },
+    {
+     "wer": "smilla",
+     "t": "Moment. Raus raus? Mit Neuzugang an der Pinne?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Genau so."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Pinne! Pinne!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Na dann. Wetter?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Möwen fliegen landeinwärts. Gibt Regen. Immer so."
+    },
+    {
+     "wer": "smilla",
+     "t": "Ach ja? Und letzte Woche? Da sind die auch landeinwärts geflogen. Wegen der Pommesbude."
+    },
+    {
+     "wahl": {
+      "t": "Möwen oder Barometer: Worauf verlässt du dich beim Wetter?",
+      "opts": [
+       {
+        "t": "Auf die Möwen, wie der Käpt'n",
+        "ok": false,
+        "info": "Möwen fliegen dahin, wo's Futter gibt. Fürs Wetter zählen Luftdruck, Feuchte und Temperatur. Das Barometer zeigt den Luftdruck."
+       },
+       {
+        "t": "Aufs Barometer und den Wetterbericht",
+        "ok": true,
+        "info": "Dat Barometer. Na gut. Steht auf hoch. Kein Regen."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hmpf. Die Möwen hatten trotzdem Hunger."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Pommes! Pommes!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Psst. Da klopft wer."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "kajuete": true
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Moin. Ihr fahrt heute raus, hab ich gehört."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hast du richtig gehört."
+    },
+    {
+     "wer": "hafen",
+     "t": "Dann nehmt das mit. Die zehn goldenen Regeln für Wassersportler. Steht drin, wie man sich in der Natur benimmt."
+    },
+    {
+     "wer": "smilla",
+     "t": "Haben wir schon. Hängt auf dem Klo."
+    },
+    {
+     "wer": "hafen",
+     "t": "Dann lest ihr's mal. Draußen an der Insel ist Schilf. Da brüten jetzt die Vögel. Da fahrt ihr nicht ran."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wir fahr'n da nich ran."
+    },
+    {
+     "wer": "hafen",
+     "t": "Und Hinnerk, dein Antifouling. Welche Farbe umweltfreundlich ist, steht beim Umweltbundesamt. Nicht in deinem Schuppen."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Schuppen! Schuppen!"
+    },
+    {
+     "wer": "hafen",
+     "t": "Und die Broschüre hier, Sicherheit auf dem Wasser. Für den Neuzugang."
+    },
+    {
+     "wer": "smilla",
+     "t": "Sie meint dich. Nicht mich."
+    },
+    {
+     "wer": "hafen",
+     "t": "Langsam im Hafen. Ich guck zu."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "weg": true
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Genug geschnackt. An Deck."
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": "weit"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "von": [
+       -30,
+       168
+      ],
+      "x": -30.2,
+      "z": 148,
+      "blick": 1.5708
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Ich steh hier. Und ich seh alles."
+    },
+    {
+     "kamera": "weit"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Motor an. Du machst das. Ich sag dir jeden Schritt."
+    },
+    {
+     "selbst": "motor",
+     "max": 240,
+     "hinweis": "So geht's: Quickstopp-Leine einklinken, Belüftungsschraube am Tank auf, Pumpball drücken, bis er hart ist, Choke ziehen, Hebel auf Neutral, dann starten. Alles unten rechts im Motorfeld.",
+     "ansage": [
+      "Erst die Quickstopp-Leine einklinken.",
+      "Tank auf, Pumpball drücken, bis er hart ist.",
+      "Choke ziehen, Hebel auf Neutral, starten.",
+      "Läuft. Und da kommt der Kontrollstrahl. Kühlwasser ist da."
+     ]
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ablegen mach ich. Guck zu, wie langsam."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Leinen los! Leinen los!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hab ich gesagt, Klabauter. Diesmal schon."
+    },
+    {
+     "auto": [
+      [
+       0,
+       48
+      ]
+     ],
+     "gas": 0.45
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "weg": true
+     }
+    },
+    {
+     "kamera": "hinten"
+    },
+    {
+     "wer": "smilla",
+     "t": "So. Vor uns die Tonnen. Jetzt eine Frage an dich."
+    },
+    {
+     "wahl": {
+      "t": "Wir können durchs Fahrwasser oder außen an der grünen Tonne vorbei. Wo lang?",
+      "opts": [
+       {
+        "t": "Durchs Fahrwasser, zwischen den Tonnen",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Genau so. Zwischen den Tonnen ist's tief genug."
+         }
+        ]
+       },
+       {
+        "t": "Außen an der Grünen vorbei, ist kürzer",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Kürzer schon. Aber außen ist's flach. Bei Ebbe ist da kaum ein Meter Wasser."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Und ich will heut nich schieben. Wir bleiben drin."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "smilla",
+     "t": "Ich erklär dir die Aufgabe. Die roten und grünen Tonnen sind wie die Ränder einer Straße. Du fährst immer zwischen ihnen durch."
+    },
+    {
+     "wer": "smilla",
+     "t": "Das Ziel ist die rot-weiße Tonne weit draußen. Der gelbe Ring zeigt sie dir, und oben rechts auf der Karte siehst du sie auch."
+    },
+    {
+     "wer": "smilla",
+     "t": "Gas gibst du mit dem Hebel unten rechts. Nach oben schieben heißt vorwärts. Gelenkt wird mit der Pinne."
+    },
+    {
+     "ziel": {
+      "x": 0,
+      "z": -130,
+      "r": 15,
+      "name": "Ansteuerungstonne"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "max": 240,
+     "auto": [],
+     "hinweis": "Los geht's. Zwischen den Tonnen bleiben."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "wer": "klabauter",
+     "t": "Tonne! Tonne!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hm. Dor kannst nich meckern."
+    },
+    {
+     "wer": "smilla",
+     "t": "Hast du das gehört? Das war ein Lob. Selten wie 'n freier Liegeplatz im August."
+    },
+    {
+     "wer": "smilla",
+     "t": "Achtung, da vorn. Ein Motorboot kommt genau auf uns zu. Kurs gegen Kurs."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Was machst du?"
+    },
+    {
+     "frage": 14
+    },
+    {
+     "wer": "smilla",
+     "t": "Beide nach Steuerbord, also nach rechts. Dann fährt man aneinander vorbei wie auf der Straße."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und wenn sich die Kurse kreuzen? Ein Boot kommt von der Seite."
+    },
+    {
+     "frage": 15
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wer den anderen rechts hat, weicht aus. Rechts vor links, wie beim Auto."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Vögel! Vögel!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Da drüben an der Insel, das Schilf. Da hat die Hafenmeisterin vorhin von gesprochen."
+    },
+    {
+     "frage": 33
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Abstand halten. Gut. Wir fahr'n heim."
+    },
+    {
+     "auto": [
+      [
+       3,
+       86
+      ]
+     ],
+     "gas": 0.7,
+     "raffer": 3
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "von": [
+       25,
+       170
+      ],
+      "x": 25,
+      "z": 158,
+      "blick": -1.5708
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Ich bin wieder da. Diesmal ohne Rums, ja?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt legst du an. Ich erklär's vorher genau."
+    },
+    {
+     "wer": "smilla",
+     "t": "Unser Platz ist das gelbe Rechteck am Steg rechts vor uns. Da steht auch die Hafenmeisterin."
+    },
+    {
+     "wer": "smilla",
+     "t": "Die Fender hängen schon an der Seite zum Steg. Das sind die Kissen, die einen Stoß abfangen. Trotzdem: Fahr ganz langsam."
+    },
+    {
+     "wer": "smilla",
+     "t": "So geht's: Fahr schräg auf den Platz zu, nimm kurz vorher das Gas weg, und gib kurz rückwärts, damit das Boot stehen bleibt."
+    },
+    {
+     "ziel": {
+      "x": 22.2,
+      "z": 155,
+      "h": 3.1416,
+      "anfahrt": [
+       15,
+       136
+      ],
+      "lang": 7,
+      "quer": 1.9,
+      "r": 3.5,
+      "name": "Liegeplatz"
+     }
+    },
+    {
+     "selbst": "anlegen",
+     "max": 300,
+     "hinweis": "Langsam. Ich steh vorn mit der Leine."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Na also. Geht doch."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Fest. Rein mit euch."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "weg": true
+     }
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "smilla",
+     "t": "Fragerunde. Fünf Stück, dann gibt's Essen."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Essen! Essen!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Erst das Wetter. Was der Käpt'n heute Morgen mit den Möwen hatte."
+    },
+    {
+     "frage": 71
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt das Heft von der Hafenmeisterin."
+    },
+    {
+     "frage": 31
+    },
+    {
+     "frage": 32
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und meine Farbe?"
+    },
+    {
+     "frage": 38
+    },
+    {
+     "wer": "smilla",
+     "t": "Und die Broschüre für dich."
+    },
+    {
+     "frage": 58
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gode Nacht."
+    },
+    {
+     "wer": "smilla",
+     "t": "Er meint: gut gemacht."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hab ich nich gesagt."
+    },
+    {
+     "ende": true
+    }
+   ]
   }
  ]
 }
