@@ -30,10 +30,38 @@
 10. **Gäste sind Personen:** Wer spricht, ist sichtbar da: auf dem Steg in 3D oder als Figur in der Kajüte.
 11. **Laut lesen:** Jede Szene einmal laut gelesen, bevor sie ins Repo kommt.
 
+## 2b. Zweite Recherche (03.11.2026): Hersteller und Foren
+**Was sich durchsetzt** (mehrere Quellen unabhängig voneinander):
+- **Beispiele schlagen Beschreibungen.**
+  - Anthropic empfiehlt 3–5 gut gewählte Beispiele, die dem echten Fall nahekommen und sich untereinander unterscheiden, damit die KI kein ungewolltes Muster kopiert.
+  - Für Dialoge heißt das: eine kleine **Beispiel-Bibliothek** mit 3–5 kurzen Szenen je Figurenpaar, die genau so klingen, wie wir es wollen. Sie kommt bei jeder neuen Folge in die Anfrage.
+- **Sagen, was man will, und warum.**
+  - Anthropic rät, zu sagen, was die KI tun soll, statt nur, was sie lassen soll. Außerdem soll man den Grund nennen (zum Beispiel: „Die Sätze werden später gesprochen, deshalb Umgangssprache“).
+  - Der Stil der Anfrage färbt auf das Ergebnis ab. Wer locker fragt, bekommt lockerere Dialoge.
+- **Eigene Sprechweise je Figur, sonst klingen alle gleich.**
+  - In r/WritingWithAI wird beschrieben, dass eine KI eine „Standardstimme“ hat, die jede Figur übernimmt, wenn man nichts dagegen tut.
+  - **Test:** Namen abdecken. Erkennt man noch, wer spricht? Dazu gehört ein Sprech-Steckbrief je Figur mit Lieblingswörtern, Satzlänge und verbotenen Wörtern.
+- **Flicken statt neu würfeln.** Aus mehreren Fassungen die besten Zeilen nehmen, zusammensetzen und die KI nur noch gezielt nacharbeiten lassen. Rückmeldung konkret formulieren („Smilla klingt hier zu nett, mehr Spott, gleiche Aussage“).
+- **Laut lesen** bleibt Pflicht, weil alles gesprochen wird.
+- **ElevenLabs** (für die Vertonung):
+  - Die Stimme muss schon zur Sprechweise passen; ein Audio-Tag rettet keine falsche Stimme.
+  - Satzzeichen und klare Gefühlslage im Text steuern die Betonung stark. Tags wie [seufzt] stehen im Satz der Figur, die sie betrifft.
+  - Sehr kurze Texte klingen eher uneinheitlich, deshalb lieber mehrere Sätze am Stück erzeugen. Bei Text to Dialogue höchstens etwa 2.000 Zeichen je Anfrage.
+  - Für ausdrucksstarke Tags die Stabilität „Creative“ oder „Natural“ wählen.
+  - Aktuell empfiehlt ElevenLabs Eleven v4 für Dialoge.
+- **Für unsere Folgen neu:**
+  - Beispiel-Bibliothek `podcast/dialog-beispiele.md`, wird angelegt, sobald du die Regeln freigegeben hast.
+  - Sprech-Steckbrief je Figur in `podcast/figuren.md`.
+  - Namen-abdecken-Test vor jeder Folge.
+
 ## 3. Vorlage, wenn eine KI Dialoge schreibt
-> Schreib die Szene als Gespräch unter Leuten, die sich gut kennen und sich gern aufziehen. Keine vollständigen Lehrbuchsätze. Mischt kurze und lange Sätze, nutzt Umgangssprache („is“, „nich“, „'n“). Figuren unterbrechen sich, antworten schief und sagen Gefühle nicht direkt. Keine Szene endet mit einem klugen Schlusssatz. Hinnerk spricht höchstens acht Wörter am Stück und lobt nie direkt; Smilla ist schnell und frotzelt; Klabauter sagt ein bis drei Wörter doppelt. Fachwissen kommt nur als Antwort auf eine Frage oder einen Fehler, aber Aufgaben für den Spieler werden klar und vollständig erklärt. Lies die Szene am Ende laut und schreib um, was holpert.
+> (Davor 3–5 Beispielszenen aus der Beispiel-Bibliothek in `<examples>`.) Schreib die Szene als Gespräch unter Leuten, die sich gut kennen und sich gern aufziehen. Die Sätze werden später von Stimmen gesprochen, deshalb Umgangssprache und kurze Sätze. Keine vollständigen Lehrbuchsätze. Mischt kurze und lange Sätze, nutzt Umgangssprache („is“, „nich“, „'n“). Figuren unterbrechen sich, antworten schief und sagen Gefühle nicht direkt. Keine Szene endet mit einem klugen Schlusssatz. Hinnerk spricht höchstens acht Wörter am Stück und lobt nie direkt; Smilla ist schnell und frotzelt; Klabauter sagt ein bis drei Wörter doppelt. Fachwissen kommt nur als Antwort auf eine Frage oder einen Fehler, aber Aufgaben für den Spieler werden klar und vollständig erklärt. Lies die Szene am Ende laut und schreib um, was holpert.
 
 ## Quellen
+- Anthropic: [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) (Beispiele, Begründung, positiv formulieren, Stil der Anfrage)
+- ElevenLabs: [Prompting Eleven v3](https://elevenlabs.io/docs/best-practices/prompting), [Text to Dialogue](https://elevenlabs.io/docs/capabilities/text-to-dialogue) (nur über die Suche gelesen, die Seite selbst war aus der Cloud nicht erreichbar)
+- Foren: [r/WritingWithAI, realistische Dialoge](https://redlib.ssps.io/r/WritingWithAI/comments/1lbx7pq/can_ai_help_with_writing_realistic_dialogue_any), [Writer's AI Companion: Dialogue](https://thewritersaicompanion.substack.com/p/crafting-engaging-dialogue-with-ai?r=2evdyf)
+- OpenAI und andere: nur Sekundärquellen gefunden, z. B. [DataCamp zu Few-Shot](https://www.datacamp.com/tutorial/few-shot-prompting) (2–5 Beispiele)
 - Reddit (Spiegel), Nutzer zu natürlichen Dialogen mit KI: [r/PromptEngineering](https://reddit.birdcat.cafe/r/PromptEngineering/comments/1kd9sh9/prompting_styles_that_lead_to_more_humanlike), [Snapshot 1](https://reddit.sentinel-team.org/posts/1tba8ea/snapshots/2026-05-16T00%3A35%3A41.464211Z), [r/WritingWithAI](https://lr.eu.psf.lt/r/WritingWithAI/s/DPvFuo2VZ9)
 - Sprachausgabe: [LMNT, Prompt engineering](https://docs.lmnt.com/prompt-engineering/llm-prompting) (Umgangssprache, Zögern, laut lesen)
 - Subtext und runde Schlüsse: [The „AI Dialogue“ Discovery](https://danguru.substack.com/p/the-ai-dialogue-discovery), [AI dialogue writing tips](https://ai-tools-ai-novel-writing-guide.pages.dev/tools/ai-dialogue-writing-tips), [naturalistic dialogue](https://jxnl.co/writing/2024/08/30/naturalistic-dialogue-ai/)

@@ -4,6 +4,10 @@
    {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {szene: 'kajuete' | 'welt'} · {ende: true}
    {gast: {wer: 'hafen'|'jasper', x, z, von, blick} geht auf dem Steg an seinen Platz · {gast: {wer, kajuete: true}} steht in der Kajüte · {gast: {wer, weg: true}}}
    Gespräch und Scheinwahl: {wahl: {t, opts: [{t, dann: [Schritte]}]}}: Jede Antwort hat ihre eigene Reaktion, gespielt wird nur die gewählte (E21).
+   v5.20: {aufgabe: Text | null} bleibt oben stehen · {notiz} kurz einblenden · {punkte: {ziel, teile, zeige, falsch}} Teile am 3D-Boot antippen
+   {treibe: {x, z, h, sek, rums}} Boot ohne Physik bewegen · {fest: {x, z, h}} an den Steg holen · {freigabe: id, ok} · {freigaben: true} Liste „Was ich an Bord darf“
+   {logbuch: Text} · {zettel: {titel, zeilen}} Bild zum Anschauen · {halt: Text} Haltepunkt (später genau hier weiter, S.folgen[id].i) · {navi: id} Aufgabe auf der Seekarte 7 (navi7.js)
+   Bei selbst-Schritten zeigt {aufgabe} sofort, was zu tun ist (Nutzer 03.11.2026).
    Hörmodus (🎧 Auto): Der Autopilot fährt die Strecken, Fragen werden vorgelesen und aufgelöst. */
 (function () {
 'use strict';
@@ -14,13 +18,31 @@ F.spiele = async function (id, api, ab = 0) {
   /* Nach dem Beenden darf ein noch laufender Schritt nichts mehr auslösen: jeder Aufruf hängt dann still */
   api = new Proxy(api, {get(t, k) { const v = t[k]; return typeof v === 'function' ? (...a) => mein === lauf ? v(...a) : new Promise(() => {}) : v; }});
   const f = DATEN.folgen.find(x => x.id === id); if (!f) return null;
-  if (f.ort && !ab) api.ort(f.ort); if (f.wetter) api.wetter(f.wetter);
-  let erg = null; for (let i = ab; i < f.schritte.length; i++) { if (mein !== lauf || !api.laeuft) return null; F.i = i; erg = await schritt(f.schritte[i], api, f); }
+  if (f.ort) api.ort(f.ort); if (f.wetter) api.wetter(f.wetter);
+  /* Weiter ab einem Haltepunkt: nur den Zustand (Ort, Wetter, Szene, Kamera) der Schritte davor herstellen */
+  for (let i = 0; i < ab && i < f.schritte.length; i++) { const s = f.schritte[i]; if (s.ort) api.ort(s.ort); if (s.wetter) api.wetter(s.wetter); if (s.szene) api.szene(s.szene); if (s.kamera) api.kamera(s.kamera); }
+  let erg = null; for (let i = ab; i < f.schritte.length; i++) { if (mein !== lauf || !api.laeuft) return null; F.i = i; erg = await schritt(f.schritte[i], api, f); if (erg === 'spaeter') { merke(id, i + 1); return 'spaeter'; } }
+  if (mein === lauf) merke(id, 0, true);
   return mein === lauf ? erg : null;
 };
 F.daten = () => DATEN;
+function merke(id, i, fertig) { try { if (!S.folgen || typeof S.folgen !== 'object') S.folgen = {}; const alt = S.folgen[id] || {}; S.folgen[id] = Object.assign(alt, {i}, fertig ? {fertig: new Date().toISOString().slice(0, 10)} : {}); save(); } catch (e) {} }
+F.ab = id => { const x = window.S && S.folgen && S.folgen[id]; return x && x.i > 0 ? x.i : 0; };
+const esc2 = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 async function schritt(s, api, f) {
-  if (s.selbst) return selbst(s, api); /* vor auto: selbst-Schritte haben eine Ersatzroute im Feld auto */
+  if (s.selbst) { if (s.aufgabe) api.aufgabe(s.aufgabe); try { return await selbst(s, api); } finally { if (s.aufgabe) api.aufgabe(null); } } /* vor auto: selbst-Schritte haben eine Ersatzroute im Feld auto */
+  if (s.teil) return api.notiz('<b>' + esc2(s.teil) + '</b>', 2200);
+  if ('aufgabe' in s) return api.aufgabe(s.aufgabe);
+  if (s.notiz) return api.notiz(s.notiz);
+  if (s.punkte) return api.punkte(s.punkte);
+  if (s.treibe) return api.treibe(s.treibe);
+  if (s.fest) return api.fest(s.fest);
+  if (s.freigabe) { freigabeSetzen(s.freigabe, s.ok); return api.notiz(`📋 <b>${esc2(FREIGABEN[s.freigabe] || s.freigabe)}</b><br>${freigabeText(s.freigabe)}`, 3200); }
+  if (s.freigaben) return freigabenTafel(api);
+  if (s.logbuch) { try { S.reise = S.reise || {}; S.reise.log = S.reise.log || []; S.reise.log.push({d: new Date().toISOString().slice(0, 10), tag: f.nr || 0, text: s.logbuch}); save(); AUD.sfx('bleistift', {vol: .5, dur: .9}); } catch (e) {} return api.notiz('📓 <b>Logbuch</b><br>' + esc2(s.logbuch), 4200); }
+  if (s.zettel) return zettel(api, s.zettel);
+  if (s.halt) return halt(api, s);
+  if (s.navi) return navi(api, s.navi);
   if (s.auto) return api.auto(s.auto, {gas: s.gas, raffer: s.raffer, wer: s.steuert});
   if (s.szene) return api.szene(s.szene);
   if (s.wer) return api.sprich(s.wer, s.t);
@@ -73,6 +95,24 @@ async function selbst(s, api) {
     if (r === 'ok') { await api.fest(z); return api.sprich('hinnerk', s.gut || 'Fest! Sauber angelegt.'); }
     await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich rangehe.'); return api.auto(weg, {gas: .35, anfahrt: z.anfahrt});
   }
+}
+/* Zettel, Bild oder Brief zum Anschauen (Platzhalter, bis die Grafik da ist) */
+function zettel(api, z) { return new Promise(async res => { const el = api.tafel(`<div class="wzettel"><b>${esc2(z.titel || '')}</b>${(z.zeilen || []).map(t => `<p>${esc2(t)}</p>`).join('')}</div><button class="btn lamp wide" id="wzok">Weiter</button>`);
+  if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 2500)); api.tafelZu(); return res(); } el.querySelector('#wzok').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res(); }; }); }
+/* „Was ich an Bord darf“ */
+function freigabenTafel(api) { return new Promise(async res => { const el = api.tafel(`<p class="wqf">📋 <b>Was ich an Bord darf</b></p><table class="wfg">${Object.keys(FREIGABEN).map(id => `<tr><td>${esc2(FREIGABEN[id])}</td><td>${freigabeText(id)}</td></tr>`).join('')}</table><button class="btn lamp wide" id="wfgok">Weiter</button>`);
+  if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 3000)); api.tafelZu(); return res(); } el.querySelector('#wfgok').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res(); }; }); }
+/* Haltepunkt: weiter oder später genau hier */
+function halt(api, s) { if (api.modus === 'auto') return Promise.resolve(); return new Promise(res => { const el = api.tafel(`<p class="wqf">☕ <b>${esc2(s.halt)}</b></p><button class="btn lamp wide" id="whw">▶ Weiter</button><button class="btn ghost wide" id="whs" style="margin-top:6px">Später weiter</button>`);
+  el.querySelector('#whw').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res(); }; el.querySelector('#whs').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res('spaeter'); }; }); }
+/* Aufgabe auf der Seekarte 7 am Kartentisch (dieselben Aufgaben wie unter Frei üben) */
+async function navi(api, id) {
+  try { await window.nachladen('navi7.js'); await NAVI7.laden(); } catch (e) { return; }
+  const def = NAVI7.bank().aufgaben.find(a => a.id === id); if (!def) return;
+  const el = api.tafel(`<p class="wqf">🧭 <b>Am Kartentisch</b></p><div class="wnavi" id="wnavi"></div><div class="wnantw" id="wnantw"></div>`);
+  try { await NAVI7.aufgabe(def, {host: el.querySelector('#wnavi'), antwort: el.querySelector('#wnantw'), sag: (w, t) => api.sprich(w, t), auto: api.modus === 'auto'}); } catch (e) { console.error(e); }
+  try { if (window.NAV && NAV.revier) await NAV.revier('kliev'); } catch (e) {}
+  api.tafelZu();
 }
 /* Ende: kurzer Logbuch-Eintrag */
 function ende(api, f) {
