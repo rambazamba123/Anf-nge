@@ -275,7 +275,7 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
 ### Jetzt dran
 - **Gesamtplan Fassung 4 (Sparring 03.11.2026, noch nicht bauen):** 53 Tage zu je etwa 30 min plus letzte Woche, alle 285 Fragen zugeordnet, Crew und Anreden je Stufe, Hörmodus teilweise, Karte 49 später. Vorher Fassung 3: `docs/gesamtplan.md` (Hören → Handeln → Rückmeldung → Abfragen am Abend; Freigaben „Was ich an Bord darf“ mit Unfall am ersten Tag; Kapitel 0–8 mit Lernstoff und Freigaben, NOK eigenes Kapitel, Binnen eigene Reise; Crew als Ausbilder; Karte 49). Nächste Schritte laut Nutzer: Plan festlegen, Figuren zuschneiden, grafische Vorgaben des Nutzers, dann Story. Davor: **Konzept Fassung 2 „Vom Landei zum Skipper“:** `docs/konzept-ausbildung.md` (Kapitel mit Karten, Ruderboot-Mission, Passagierphase, sechs Tagesarten, Freigaben „Crew merkt sich“, Überraschungen, Wissensblöcke mit allen 285 Fragen, Crew als Coach). Offen: Fragen in Abschnitt H. Teil A (Story, O114–O146) ruht.
 - **Folge 1 kritisieren (Nutzer):** `docs/folge-01-entwurf.md`.
-- **Jaspers Stimme aussuchen (Nutzer):** Einstellungen → Werkstatt → „🎭 Stimmen-Casting“; Stimmen-ID an Claude (Friedas Stimme entfällt).
+- **Jaspers Stimme aussuchen (Nutzer):** Einstellungen → Werkstatt → „🎭 Stimmen-Casting“ → Rolle „Jasper (Bojenlieger)“; Stimmen-ID an Claude.
 - **Reise am Handy testen (Nutzer):** Deck → „🧭 Mit der Crew weiter“ oder Kajüte → Kartentisch; Tag 1 und 2 durchspielen, einmal mit ✋ und einmal mit 🎧. `docs/reise-konzept.md` prüfen (O102 Kartenänderungen, sobald die SVG im Ordner `import` liegt).
 - **Vision-Lauf (Nutzer, 28.10.2026):** `VISION.md` ist der Anker. Reihenfolge H1 → H9 (§6), nach jedem Schritt veröffentlichen und gleich weiter. Story, Figuren und Folgen erst mit dem Input des Nutzers (H10, O52, B164).
 - **Dateien fehlen noch:** Audiodateien (Pixabay, etwa 15 plus 2), Funk-Unterlagen (SRC/UBI), Dokument mit allen Zeichen (B159). Stand 27.10.: nichts davon auf GitHub angekommen (letzter Push 24.10.). Weg: github.com → Ordner `import` → „Add file“ → „Upload files“ → „Commit changes“.
@@ -325,6 +325,13 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
   - Frieda ist gestrichen. Hinnerk sieht nachts schlecht.
   - Jasper ist eine eigene Figur an der Boje, seine Stimme sucht der Nutzer aus.
   - Vorgehen: erst Folge 1 beschreiben und vom Nutzer kritisieren lassen, dann Grundregeln und alle Folgen verfeinern, dann die grafischen Vorgaben des Nutzers.
+- **E21 Gespräch, Scheinwahlen, keine Uhr** (Nutzer, 03.11.2026):
+  - Smilla hört eine Woche vor dem Termin auf; wer schneller ist, ist früher fertig und paukt danach trocken (gewollt).
+  - Gespräche mit Antwortknöpfen, jede Antwort mit eigener Reaktion (alle Varianten vertont, nur die gewählte wird gespielt).
+  - Scheinwahlen oft in allen Folgen: Der Weg ist vorgegeben, bei der „falschen“ Wahl findet die Crew einen Vorwand.
+  - Das Boot heißt „Frieda“.
+  - Kein Zeitdruck: keine Uhr entscheidet für den Nutzer (Ausnahme Probeprüfung).
+  - Einstufung keine Pflicht; optional ein Kenner-Test zum Überspringen von Kapiteln (Vorschlag in `docs/gesamtplan.md` §1).
 - **E10 Folgen:** Ersetzt (Nutzer, 20.10.2026): Die Folgen werden völlig neu geschrieben, siehe `PODCAST_BIBLE.md` (V33). Früher galt: Der Nutzer überarbeitet sie selbst, danach kommt Stimmenpaket Teil 2.
 
 ### Handy-Checkliste (macht der Nutzer)

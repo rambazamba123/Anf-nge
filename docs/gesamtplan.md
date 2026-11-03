@@ -8,6 +8,14 @@
 > - **Jasper** ist eine eigene Figur an der Boje, mit eigener Stimme (der Nutzer sucht sie aus). Quirin ist nicht der Bojenlieger.
 > - Der Ablauf der ersten Folge steht in `docs/folge-01-entwurf.md`.
 
+> **Nachtrag 2, 03.11.2026 (Nutzer):**
+> - **Früher fertig ist gewollt:** Smilla hört eine Woche vor deinem Termin auf. Wer schnell lernt, ist mit der Reise oft viel früher durch und hat danach Zeit, die Fragen trocken zu pauken (Frei üben, Probeprüfungen). Die Reise wartet nicht auf den Kalender; der Countdown zählt nur bis Smillas Abschied.
+> - **Gespräche fühlen sich echt an:** Die Crew fragt, du antwortest mit Knöpfen. Jede Antwort hat ihre eigene, passende Reaktion (mehrere Varianten werden vertont, gespielt wird nur die gewählte).
+> - **Scheinwahlen** kommen oft, in allen Folgen: „Links rum oder rechts rum?“ Der Weg ist vorgegeben. Wählst du ihn, passt es („Genau so“). Wählst du den anderen, findet die Crew einen Vorwand („Da liegt heut 'n Bagger“), und es geht trotzdem den geplanten Weg. Ehrliche Wahlen mit echten Folgen (Freigaben, Sicherheit) bleiben daneben bestehen.
+> - **Das Boot heißt „Frieda“** (bleibt, auch ohne die Figur).
+> - **Kein Zeitdruck:** Nirgends läuft eine Uhr, die für dich entscheidet. Man hat immer Zeit zum Lesen und Antworten. Ausnahme ist nur die Probeprüfung mit ihrer amtlichen Zeit.
+> - **Einstufung:** keine Pflicht. Optional gibt es einen **Kenner-Test** (siehe §1).
+
 > **Status: Vorschlag aus dem Sparring, noch nicht bauen.** Nächste Schritte laut Nutzer: diesen Plan festlegen → grafische Vorgaben des Nutzers → erst dann die Geschichte im Detail.
 > **Gesetzt vom Nutzer (03.11.2026):**
 > - **Reise und Aufbau:**
@@ -35,6 +43,10 @@
 - **Abends** kommen die amtlichen Fragen zum Erlebten, 2 × 2, dazu ein paar ältere. **Morgens** gibt es fünf Minuten Wiederholung. Beides zählt in der Statistik.
 - **Abwechslung statt Schema:** Manche Tage beginnen mit einer Überraschung, manche mit Garn, manche mit Pauken. Das Werkzeug zur Kursprüfung achtet nur darauf, dass nichts ohne Vorwissen verlangt wird und jede Frage einmal am Abend kommt.
 - **Wenn etwas schiefgeht:** Die Crew zeigt es nochmal, du bekommst einen zweiten Versuch. Klappt es dann nicht, übernimmt die Crew mit einem Spruch, und die Sache kommt auf die Übungsliste.
+- **Gespräch statt Formular:** Fragen der Crew beantwortest du mit 2–4 Knöpfen, jede Antwort bekommt eine eigene Reaktion. Im Hörmodus wählt die App die übliche Antwort.
+- **Scheinwahlen:** Etwa zwei je Folge. Die „falsche“ Wahl kostet nichts, die Crew biegt sie mit einem Vorwand auf den Plan zurück. Der Vorwand ist oft selbst ein kleines Stück Seemannswissen (Baggerarbeiten, Gegenstrom, Sperrgebiet).
+- **Kein Zeitdruck:** Keine Uhr entscheidet für dich. Was „zu früh“ oder „zu spät“ ist, entsteht aus deiner Wahl, nie aus Warten.
+- **Kenner-Test (optional, Vorschlag):** Beim Kennenlernen fragt Hinnerk „Schon mal selbst gefahren?“. Wer „ja“ sagt, kann einen Test machen: je Kapitel drei der schwersten amtlichen Fragen (Zahlen, Lichter, Schallsignale, Kennungen, die man ohne Lernen nicht weiß). Alle drei richtig → das Kapitel darf übersprungen werden; seine Fragen landen dann in der Wiederholung, die Freigaben gelten als „geübt“. Standard: kein Test, alle spielen alles.
 - **Hörmodus (teilweise):** Hören geht für Erzählen, Erklären und Abendfragen. Handlungen markiert die Crew als offen („Das Anlegen machst du nachher am Handy“). Freigaben gibt es nur durch eigenes Tun.
 
 ## 2. „Was ich an Bord darf“ (Freigaben)
