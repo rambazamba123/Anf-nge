@@ -6,6 +6,8 @@
 
 ## 0. Neu (03.11.2026): Aufbau als Ausbildung (am wichtigsten)
 
+> **Stand nach dem Sparring (03.11.2026):** Der Nutzer hat die Weichen gestellt: Kapitel mit Karten statt strenger Module, Smilla geht eine Woche vor der Prüfung, Aufgaben wachsen mit, Freigaben wie bei den Knoten, sechs Tagesarten, Crew bleibt lebendig. Zusammengefasst in `docs/konzept-ausbildung.md` **Fassung 2**. O148–O150 sind damit überholt (Kapitel statt Module); die offenen Fragen stehen in Fassung 2, Abschnitt H.
+
 Du hast die Story über den Haufen geworfen: „Die Forschung sagt ganz klar, dass es keinen Sinn macht, zu viel Story einzubauen.“ Neuer Vorschlag: **`docs/konzept-ausbildung.md`**. **Teil A ruht** deshalb, bis die Ausbildung steht. Die Figuren behalten nur ihre bestätigten Grundzüge und feste Lehrrollen.
 
 | Nr. | Frage | Möglichkeiten | ★ Empfehlung |
