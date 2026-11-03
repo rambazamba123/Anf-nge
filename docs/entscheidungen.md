@@ -1,10 +1,25 @@
-# Deine Entscheidungen (Stand 01.11.2026, dritte Fassung)
+# Deine Entscheidungen (Stand 03.11.2026, vierte Fassung)
 
-> Alles, was ich von dir brauche, an einer Stelle. **Antworten geht kurz**, zum Beispiel: „O141 ja, O146 ja, sonst alles wie empfohlen.“
+> Alles, was ich von dir brauche, an einer Stelle. **Antworten geht kurz**, zum Beispiel: „O147 so, O150 Sperre, sonst alles wie empfohlen.“
 > Zu jedem Punkt steht meine Empfehlung (★). Wenn du zu einem Punkt aus Teil D nichts sagst, nehme ich die Empfehlung. Teile A bis C trage ich erst nach deiner Antwort ein (R15, R16).
 > Hintergrund: **`docs/story-konzept-3.md`** (neuer Vorschlag „Friedas Auftragsbuch“ nach deiner Idee, kritische Prüfung, Forschung zum Lernen Erwachsener), **`docs/figuren-bibel-entwurf.md`** (Figuren in der Tiefe, darauf umgestellt), `docs/story-konzept-2.md` (Entwurf 2, abgelehnt), `docs/story-entwurf.md` (alter Entwurf „Die Wette“), `docs/figuren-entwurf.md` (Varianten), `docs/reise-konzept.md` §7 (Kursprüfung), `docs/animationen-plan.md` (Q-Fragen).
 
-## A. Geschichte und Figuren (am wichtigsten)
+## 0. Neu (03.11.2026): Aufbau als Ausbildung (am wichtigsten)
+
+Du hast die Story über den Haufen geworfen: „Die Forschung sagt ganz klar, dass es keinen Sinn macht, zu viel Story einzubauen.“ Neuer Vorschlag: **`docs/konzept-ausbildung.md`**. **Teil A ruht** deshalb, bis die Ausbildung steht. Die Figuren behalten nur ihre bestätigten Grundzüge und feste Lehrrollen.
+
+| Nr. | Frage | Möglichkeiten | ★ Empfehlung |
+|---|---|---|---|
+| **O147** | **Rahmen** (deine Idee, geschärft): Du lernst die Crew am Steg oder in der Bar kennen. Sie braucht jemanden, der das Boot führen darf, weil Smilla zum Saisonende auf ein großes Schiff wechselt. Du hast keine Erfahrung, also bildet dich die Crew aus. **Smillas letzter Tag ist dein eigener Prüfungstermin** (ohne Termin: sechs Wochen). Mehr Geschichte gibt es nicht: Anheuern, Halbzeit, Prüfungstag, und je Ausfahrt ein Satz Anlass. | so / anders | **so** |
+| **O148** | **Lerneinheit „Ausfahrt“** (25–35 min) mit sechs festen Schritten: Einweisung mit Vorab-Frage → kurz erklärt (Bild, Animation) → selbst machen (3D, Manöver, Minispiel) → Praxis-Station (Knoten, Seekarte 7, nicht immer) → Abfrage 2 × 2 mit älteren Fragen gemischt → Logbuch. Nach jedem Schritt darf man aufhören. Ersetzt den „Tag“ (45 min). | so / anders | **so** |
+| **O149** | **Module wie in einer Bootsschule** (§3.2): 1 Boot, 2 Motor, 3 Hafen und Manöver, 4 Zeichen, 5 Sicherheit, Basis-Abnahme, 6 Regeln, 7 Lichter und Schall, 8 Navigation, 9 Wetter und Seemannschaft, 10 Notfall, 11 Prüfungsreife; Binnen als eigene Module B1–B4. Knoten und Navigation laufen als Spirale durch alle Module. | so / andere Reihenfolge | **so** |
+| **O150** | **Modul-Abnahme:** 10 Fragen und eine Praxisaufgabe, ab 80 % ein Stempel im Ausbildungsheft. Nicht bestanden heißt: Die Crew empfiehlt eine Nachschulung, du darfst trotzdem weiter. | Empfehlung / Sperre | **Empfehlung** |
+| **O151** | **Einstufung beim Anheuern:** 15 Fragen in drei Minuten. Wer ein Modul schon kann, bekommt sofort den Stempel. | ja / nein | **ja** |
+| **O152** | **Tagesablauf:** erst die „Wachübergabe“ (5 min fällige Fragen), dann empfiehlt die Crew eins von dreien: nächste Ausfahrt, wiederholen oder Praxis. Fünf Minuten am Tag zählen auch. | ja / anders | **ja** |
+| **O153** | **Ausbildungsheft** als neue Form von „Meine Prüfungen“: Module mit Theorie-Kuchen, Praxis, Stempel, oben der Countdown bis zur Prüfung. | ja / anders | **ja** |
+| **O154** | **Kajütenfunk** wird die Hörfassung der Ausfahrten (Erklären und Abfragen zum Hören unterwegs) statt einer eigenen Folgenreihe. Die Begriffe „Reise/Tag“ werden „Ausbildung/Ausfahrt“ (betrifft `VISION.md`, nur mit deinem Ja). | ja / anders | **ja** |
+
+## A. Geschichte und Figuren (ruht seit 03.11.2026, siehe Teil 0)
 
 **Schon beantwortet** (Nutzer, 01.11.2026):
 - **O111** ja, eine durchgehende Geschichte, „grundauf neu überlegt“.
