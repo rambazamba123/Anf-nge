@@ -15,6 +15,8 @@ window.REISE = (() => {
   const pause = ms => new Promise(r => setTimeout(r, ms));
   const CREW3 = ['hinnerk', 'smilla', 'klabauter'];
   const NAME = {hinnerk: "Käpt'n", smilla: 'Smilla', klabauter: 'Klabauter', kroeger: 'Harms'};
+  /* Gäste ohne eigenes Gesicht am Rand; bis zur eigenen Stimme spricht eine vorhandene Gratis-Stimme (Rohbau) */
+  const GAST = {hafen: {name: 'Hafenmeisterin', stimme: 'kroeger'}, jasper: {name: 'Jasper', stimme: 'kroeger'}};
   function stand() {
     if (!S.reise || typeof S.reise !== 'object') S.reise = {};
     const r = S.reise; if (!r.fertig || typeof r.fertig !== 'object') r.fertig = {}; r.log = r.log || []; r.wahl = r.wahl || {}; r.modus = r.modus || 'mit';
@@ -22,7 +24,7 @@ window.REISE = (() => {
     return r;
   }
   const tagDaten = n => D.tage.find(t => t.tag === (n || stand().pos.tag)) || D.tage[0];
-  const auto = () => stand().modus === 'auto';
+  const auto = () => !(lauf && lauf.folge) && stand().modus === 'auto';
 
   /* ---------- Seekarte 7 (SVG über dem Kartenbild; Koordinaten in PDF-Punkten) ---------- */
   function karteSVG(t, box) {
@@ -51,7 +53,7 @@ window.REISE = (() => {
   /* ---------- Bühne: eine Seite ohne Scrollen ---------- */
   function buehne(t) {
     subScreen(); place = 'reise'; window.TOERN_STILL = true; window.scrollTo(0, 0);
-    app.innerHTML = `<div class="rleiste"><button class="btn small ghost" id="rzur" aria-label="Zurück in die Kajüte">←</button><span class="rtag">Tag ${t.tag} · ${esc(t.titel)}</span>
+    app.innerHTML = `<div class="rleiste"><button class="btn small ghost" id="rzur" aria-label="Zurück in die Kajüte">←</button><span class="rtag" id="rtagt">${t.folge ? esc(t.titel) : `Tag ${t.tag} · ${esc(t.titel)}`}</span>
         <button class="btn small ghost" id="rtage" aria-label="Alle Tage">📖</button><button class="btn small ghost" id="rpause" aria-label="Anhalten">⏸</button><button class="chip" id="rmod" aria-pressed="${auto()}">${auto() ? '🎧' : '✋'}</button></div>
       <div class="rbuehne kippt" id="rbuehne" data-ansicht="crew">
         <div class="rrunde" id="rrunde">${rundeHinten('tisch', 'tag')}</div>
@@ -60,7 +62,8 @@ window.REISE = (() => {
         <div class="rbild zu" id="rbild"></div>
         <button class="rblase leer" id="rblase" aria-live="polite"></button></div>
       <div class="rakt" id="rakt"></div>`;
-    $('#rzur').onclick = () => { AUD.click(); stopLauf(); setTab('cabin'); };
+    $('#rzur').onclick = () => { AUD.click(); stopLauf(); setTab(t.folge ? 'frei' : 'cabin'); };
+    if (t.folge) { $('#rtage').style.display = 'none'; $('#rmod').style.display = 'none'; }
     $('#rtage').onclick = () => { AUD.click(); tageListe(); };
     $('#rpause').onclick = () => { AUD.click(); if (!lauf) return; lauf.halt = !lauf.halt; $('#rpause').textContent = lauf.halt ? '▶' : '⏸'; if (lauf.halt) VOX.stop('Pause'); };
     $('#rmod').onclick = () => { const r = stand(); r.modus = auto() ? 'mit' : 'auto'; save(); $('#rmod').setAttribute('aria-pressed', auto()); $('#rmod').textContent = auto() ? '🎧' : '✋'; toast(auto() ? 'Nur hören: Ab jetzt löst die Crew alles laut vor.' : 'Mitmachen: Ab jetzt bist du dran.'); };
@@ -107,6 +110,74 @@ window.REISE = (() => {
         ${pfeil(190, 340, 20, '#c0392b', 'p3')}${T(265, 11, 'middle', 'Das Heck weicht nach rechts aus', 'p3')}${pfeil(210, 60, 20, '#c0392b', 'p4')}${T(135, 11, 'middle', 'Das Heck weicht nach links aus', 'p4')}</svg>`;
     }
   };
+  /* Grafiken für Folge 1 (Rohbau, Platzhalter bis zu den grafischen Vorgaben des Nutzers). Antippbare Teile tragen data-z, .an zeigt die Beschriftung */
+  const LAB = (x, y, txt, a = 'middle') => `<text class="lab" x="${x}" y="${y}" text-anchor="${a}" font-size="13" font-weight="800" fill="#2b3a4a" stroke="#fff" stroke-width="3.5" paint-order="stroke">${txt}</text>`;
+  const BOOTNAME = 'FRIEDA';
+  Object.assign(GRAFIK, {
+    zettel: () => `<svg class="gr fz" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Steg im Hafen, am Pfahl hängt ein Zettel">
+      <style>.fz .gross{opacity:0;transition:opacity .4s}.fz[data-p="1"] .gross{opacity:1}</style>
+      <rect width="400" height="150" fill="#f6dcc0"/><rect y="150" width="400" height="150" fill="#5b9cc0"/>
+      <path d="M0 150 Q60 138 120 148 T260 144 T400 150 V156 H0Z" fill="#7aa36a"/>
+      <g transform="translate(250 150)"><path d="M-70 0 H70 L58 26 H-58Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2"/><path d="M-36 0 L-28 -22 H24 L32 0Z" fill="#ece5d6" stroke="#8a7a66" stroke-width="1.5"/><text y="18" text-anchor="middle" font-size="11" font-weight="800" fill="#7a5a3a">${BOOTNAME}</text></g>
+      <path d="M0 230 H400 V262 H0Z" fill="#a77a4d"/>${[40, 120, 200, 280, 360].map(x => `<line x1="${x}" y1="230" x2="${x}" y2="262" stroke="#6d4426" stroke-width="2"/>`).join('')}
+      <rect x="62" y="120" width="22" height="160" rx="4" fill="#7a5532"/>
+      <g data-z="zettel"><rect x="50" y="150" width="46" height="54" fill="#fffbe8" stroke="#b8a77a" transform="rotate(-4 73 177)"/><path d="M57 166h30M57 176h26M57 186h30" stroke="#888" stroke-width="2"/>${LAB(73, 220, 'Zettel')}</g>
+      <g class="gross"><rect x="70" y="30" width="260" height="210" rx="6" fill="#fffbe8" stroke="#b8a77a" stroke-width="2"/>
+        <text x="200" y="88" text-anchor="middle" font-size="28" font-weight="900" fill="#2b2118">Crew gesucht.</text>
+        <text x="200" y="126" text-anchor="middle" font-size="20" font-weight="700" fill="#2b2118">Ausbildung inklusive.</text>
+        <text x="200" y="176" text-anchor="middle" font-size="15" fill="#555">Melden an Bord der „Frieda“,</text><text x="200" y="198" text-anchor="middle" font-size="15" fill="#555">Steg 3. Nicht klopfen, rufen.</text></g></svg>`,
+    deck: () => {
+      const z = (id, form, lab) => `<g data-z="${id}">${form}${lab}</g>`;
+      return `<svg class="gr fd" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Die Frieda von oben, Bug oben">
+      <rect width="400" height="300" fill="#4f9cc4"/><rect x="330" y="0" width="70" height="300" fill="#a77a4d"/>${[40, 100, 160, 220, 280].map(y => `<line x1="330" y1="${y}" x2="400" y2="${y}" stroke="#6d4426" stroke-width="2"/>`).join('')}
+      <circle cx="350" cy="60" r="8" fill="#555"/>
+      ${z('backbord', '<path d="M200 22 C160 70 148 120 150 270 H172 C170 130 178 80 200 40Z" fill="#c0392b" opacity=".25"/>', LAB(110, 160, 'Backbord', 'end') + LAB(110, 176, '(links)', 'end'))}
+      ${z('steuerbord', '<path d="M200 22 C240 70 252 120 250 270 H228 C230 130 222 80 200 40Z" fill="#27ae60" opacity=".25"/>', LAB(292, 230, 'Steuerbord', 'start') + LAB(292, 246, '(rechts)', 'start'))}
+      <path d="M200 20 C246 70 254 130 252 272 H148 C146 130 154 70 200 20Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2.5" pointer-events="none"/>
+      <rect x="168" y="120" width="64" height="80" rx="10" fill="#e9dfcc" stroke="#8a7a66" stroke-width="1.5" pointer-events="none"/><text x="200" y="166" text-anchor="middle" font-size="11" fill="#8a7a66" pointer-events="none">Kajüte</text>
+      ${z('bug', '<path d="M200 20 C214 34 222 46 226 60 H174 C178 46 186 34 200 20Z" fill="#000" opacity=".06"/>', LAB(200, 14, 'Bug (vorn)'))}
+      ${z('heck', '<rect x="150" y="244" width="100" height="28" fill="#000" opacity=".06"/>', LAB(200, 292, 'Heck (hinten)'))}
+      ${z('klampe', '<g><rect x="214" y="70" width="22" height="8" rx="4" fill="#6b6b6b"/><rect x="221" y="66" width="8" height="16" rx="2" fill="#555"/></g>', LAB(226, 98, 'Klampe'))}
+      ${z('leine', '<path d="M228 74 C270 70 300 64 350 60" fill="none" stroke="#d9a441" stroke-width="5" stroke-linecap="round"/>', LAB(292, 52, 'Vorleine'))}
+      ${z('fender', [110, 170, 230].map(y => `<rect x="251" y="${y}" width="12" height="30" rx="6" fill="#2b6a9a" stroke="#1d4a6c"/>`).join(''), LAB(272, 150, 'Fender', 'start'))}
+      </svg>`;
+    },
+    ablegen: () => `<svg class="gr fa" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Hafenbecken von oben: die Frieda am Steg, davor das Arbeitsboot der Hafenmeisterin">
+      <style>.fa .boot{transform-box:view-box;transform-origin:290px 205px;transition:transform 2.6s ease-in-out}.fa[data-p="2"] .boot,.fa[data-p="3"] .boot{transform:rotate(30deg)}
+      .fa[data-p="4"] .boot{transform:translate(-6px,-26px) rotate(-12deg);transition-duration:3s}.fa[data-p="1"] .vl,.fa[data-p="2"] .vl,.fa[data-p="3"] .vl{opacity:0}.fa .vl{transition:opacity .3s}
+      .fa .wind{opacity:.0;transition:opacity .4s}.fa[data-p="1"] .wind,.fa[data-p="2"] .wind{opacity:1}.fa .rums{opacity:0}.fa[data-p="3"] .rums{opacity:1;animation:frums .5s 2}.fa[data-p="3"] .arbeit{animation:fwack .25s 4}
+      .fa .ziel{opacity:0}.fa[data-p="4"] .ziel{opacity:1}@keyframes frums{50%{transform:scale(1.25)}}@keyframes fwack{50%{transform:translate(3px,-2px)}}</style>
+      <rect width="400" height="300" fill="#4f9cc4"/><rect y="236" width="400" height="64" fill="#a77a4d"/>${[60, 140, 220, 300, 380].map(x => `<line x1="${x}" y1="236" x2="${x}" y2="300" stroke="#6d4426" stroke-width="2"/>`).join('')}
+      <circle cx="170" cy="246" r="6" fill="#555"/><circle cx="300" cy="246" r="6" fill="#555"/>
+      <g class="arbeit"><path d="M70 150 H170 L182 128 H82Z" transform="rotate(8 120 140)" fill="#e8b23c" stroke="#8a6a1c" stroke-width="2"/><text x="126" y="122" text-anchor="middle" font-size="11" font-weight="800" fill="#6b4f12">Hafenmeisterin</text></g>
+      <g class="wind">${[0, 1, 2].map(i => `<path d="M${330 - i * 40} 285 l0 -40" stroke="#fff" stroke-width="3" marker-end=""/><path d="M${330 - i * 40} 238 l-6 10 h12z" fill="#fff"/>`).join('')}<text x="380" y="226" text-anchor="end" font-size="12" font-weight="800" fill="#fff">Wind</text></g>
+      <path class="vl" d="M172 214 C170 230 170 238 170 246" stroke="#d9a441" stroke-width="4" fill="none"/>
+      <path d="M296 214 C298 230 300 238 300 246" stroke="#d9a441" stroke-width="4" fill="none"/>
+      <g class="boot"><path d="M160 205 C175 186 200 184 290 186 V226 C200 226 175 224 160 205Z" fill="#f4efe6" stroke="#8a7a66" stroke-width="2"/><rect x="210" y="194" width="50" height="22" rx="5" fill="#e9dfcc"/><text x="235" y="209" text-anchor="middle" font-size="10" font-weight="800" fill="#7a5a3a">${BOOTNAME}</text>
+        <g class="ziel"><g data-z="schulter"><circle cx="182" cy="218" r="16" fill="#f1c40f" opacity=".35"/><text x="182" y="223" text-anchor="middle" font-size="14" font-weight="900" fill="#7a5a12">1</text></g>
+        <g data-z="mitte"><circle cx="232" cy="230" r="16" fill="#f1c40f" opacity=".35"/><text x="232" y="235" text-anchor="middle" font-size="14" font-weight="900" fill="#7a5a12">2</text></g>
+        <g data-z="heck"><circle cx="284" cy="230" r="16" fill="#f1c40f" opacity=".35"/><text x="284" y="235" text-anchor="middle" font-size="14" font-weight="900" fill="#7a5a12">3</text></g></g></g>
+      <g class="rums"><path d="M150 140 l10 -18 l6 14 l12 -10 l-2 16 l16 2 l-14 8 l8 12 l-16 -4 l-6 14 l-4 -16 l-14 6 l6 -12z" fill="#fff" stroke="#c0392b" stroke-width="2"/><text x="166" y="150" text-anchor="middle" font-size="10" font-weight="900" fill="#c0392b">RUMS</text></g></svg>`,
+    kalender: () => {
+      const d = pruefTermin(), f = x => x.toLocaleDateString('de-DE', {day: 'numeric', month: 'long'}), heuteD = new Date();
+      const sm = d ? new Date(d - 7 * 864e5) : null;
+      return `<svg class="gr" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Kalender mit Smillas letztem Tag">
+      <rect width="400" height="300" fill="#f5f1e6"/><rect x="40" y="30" width="320" height="240" rx="12" fill="#fff" stroke="#c9b48a" stroke-width="2"/><rect x="40" y="30" width="320" height="44" rx="12" fill="#c0392b"/><rect x="40" y="60" width="320" height="14" fill="#c0392b"/>
+      <text x="200" y="60" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">Dein Plan</text>
+      <text x="64" y="112" font-size="15" fill="#555">Heute</text><text x="336" y="112" text-anchor="end" font-size="15" font-weight="800">${f(heuteD)}</text>
+      <text x="64" y="160" font-size="15" fill="#555">Smillas letzter Tag</text><text x="336" y="160" text-anchor="end" font-size="15" font-weight="800" fill="#c0392b">${sm ? f(sm) : 'kommt noch'}</text>
+      <text x="64" y="208" font-size="15" fill="#555">Deine Prüfung</text><text x="336" y="208" text-anchor="end" font-size="15" font-weight="800">${d ? f(d) : 'noch offen'}</text>
+      <text x="200" y="250" text-anchor="middle" font-size="12" fill="#777">Wer schneller ist, ist früher fertig, und paukt danach trocken.</text></svg>`;
+    },
+    freigaben: () => {
+      const f = fgStand(), ids = Object.keys(FREIGABEN);
+      return `<svg class="gr" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Logbuchseite: Was ich an Bord darf">
+      <rect width="400" height="300" fill="#6d4426"/><rect x="30" y="16" width="340" height="268" rx="6" fill="#fbf3dc" stroke="#c9b48a" stroke-width="2"/>
+      <text x="200" y="48" text-anchor="middle" font-size="19" font-weight="900" fill="#2b2118">Was ich an Bord darf</text><line x1="50" y1="60" x2="350" y2="60" stroke="#c9b48a" stroke-width="2"/>
+      ${ids.map((id, i) => { const x = f[id], y = 92 + i * 32, txt = x ? x.frei ? 'freigegeben ✓' : `geübt (${x.n} von 2)` : '–';
+        return `<text x="52" y="${y}" font-size="14" fill="${x ? '#2b2118' : '#a59a85'}" font-weight="${x ? 700 : 400}">${FREIGABEN[id]}</text><text x="348" y="${y}" text-anchor="end" font-size="13" fill="${x ? x.frei ? '#1e7d3a' : '#b8741a' : '#a59a85'}" font-weight="800">${txt}</text>`; }).join('')}</svg>`;
+    }
+  });
   /* Die Hauptansicht ist die Runde mit der Crew (Nutzer 29.10.2026). Karte und Fahrt-Szene legen sich nur bei Bedarf darüber
      und verschwinden wieder, wenn der Schritt `ansicht: 'crew'` kommt. Der Ort der Runde: tisch (Kajüte), steg, deck, abend. */
   function ansicht(t, a) {
@@ -120,7 +191,7 @@ window.REISE = (() => {
     }
     b.classList.remove('zu'); g.className = 'rgesichter klein';
     if (a.ansicht === 'karte') { b.innerHTML = karteSVG(t, a.box || routeBox(t)); bootAuf(t, lauf.boot || 0); }
-    else if (a.ansicht === 'grafik' && GRAFIK[a.bild]) b.innerHTML = GRAFIK[a.bild]();
+    else if (a.ansicht === 'grafik' && GRAFIK[a.bild]) b.innerHTML = GRAFIK[a.bild](a, t);
     else if (a.ansicht === 'grafik' && window.ANIM && ANIM.defs[a.bild]) { b.innerHTML = ANIM.html(a.bild); ANIM.start(b); }
     else if (a.ansicht === 'fahrt') { b.innerHTML = '<canvas id="fahrtcv" aria-label="Blick von hinten auf das eigene Boot"></canvas>'; lauf.fahrt = fahrtBild(t, a); }
   }
@@ -165,9 +236,9 @@ window.REISE = (() => {
   /* Ein Satz in der Sprechblase; die Blase antippen springt weiter */
   async function sag(me, wer, text) {
     await warteHalt(me); if (me.aus) return;
-    const c = CREW[wer] ? wer : 'hinnerk', bl = $('#rblase'); if (!bl) return;
-    document.querySelectorAll('.rgesicht').forEach(x => x.classList.toggle('spricht', x.dataset.c === c));
-    bl.classList.remove('leer'); bl.className = 'rblase von-' + c; bl.innerHTML = `<b>${esc(NAME[c] || CREW[c].short)}:</b> ${esc(text)}`;
+    const gast = GAST[wer], c = gast ? gast.stimme : CREW[wer] ? wer : 'hinnerk', bl = $('#rblase'); if (!bl) return;
+    document.querySelectorAll('.rgesicht').forEach(x => x.classList.toggle('spricht', !gast && x.dataset.c === c));
+    bl.classList.remove('leer'); bl.className = 'rblase von-' + c; bl.innerHTML = `<b>${esc(gast ? gast.name : NAME[c] || CREW[c].short)}:</b> ${esc(text)}`;
     await new Promise(res => { me.weiter = res; Promise.resolve(VOX.say(c, text, 'local')).then(res, res); });
     me.weiter = null;
     if (me.halt) { await warteHalt(me); if (!me.aus) return sag(me, wer, text); }
@@ -203,7 +274,14 @@ window.REISE = (() => {
     if (s.grafik != null) { const sv = $('#rbild svg.gr, #rbild svg.an'); if (sv) { if (window.ANIM && sv._an) ANIM.phase(sv, s.grafik); else sv.dataset.p = s.grafik; } return pause(500); }
     if (s.fahre) { fahre(t, s.fahre[0], s.fahre[1], s.sek || 8); return; }
     if (s.wer && s.t) return sag(me, s.wer, auto() && s.auto ? s.auto : s.t);
-    if (s.wahl) return wahl(s, me);
+    if (s.wahl) return wahl(s, me, t);
+    if (s.teil) { const e = $('#rtagt'); if (e) e.textContent = t.titel + ' · ' + s.teil; return; }
+    if (s.zeige) { const z = document.querySelector(`#rbild [data-z="${s.zeige}"]`); if (z) z.classList.add('an'); return; }
+    if (s.tippe) return tippe(s, t, me);
+    if (s.halt) return halt(s, me);
+    if (s.ton) { if (s.ton === 'rums') { AUD.stoss && AUD.stoss('steg', .9); if (navigator.vibrate) navigator.vibrate(120); const b = $('#rbuehne'); if (b) { b.classList.add('wackel'); setTimeout(() => b.classList.remove('wackel'), 600); } } else AUD.sfx(s.ton, {vol: .5}); return pause(300); }
+    if (s.freigabe) return freigabe(s, me);
+    if (s.countdown) { const n = smillaTage(); akt(`<p class="small" style="margin:0">⏳ ${n == null ? 'Smillas letzter Tag steht fest, sobald du deinen Prüfungstermin einträgst.' : `<b>Noch ${n} Tage</b> bis Smillas letztem Tag.`}</p>`); return pause(2200); }
     if (s.frage != null) return frageEinzeln(s, me);
     if (s.navi) return navi(s.navi, t, me);
     if (s.mini) return mini(s, t, me);
@@ -214,7 +292,7 @@ window.REISE = (() => {
   const akt = html => { const a = $('#rakt'); if (a) a.innerHTML = html; return a; };
 
   /* Entscheidung: die Crew empfiehlt, du entscheidest (im Hörmodus nimmt die Crew die Empfehlung) */
-  async function wahl(s, me) {
+  async function wahl(s, me, t) {
     await sag(me, s.wer || 'hinnerk', s.wahl); if (me.aus) return;
     let o;
     if (auto()) { o = s.opts.find(x => x.empfohlen) || s.opts[0]; await sag(me, 'smilla', o.t); }
@@ -226,7 +304,7 @@ window.REISE = (() => {
     me.weiter = null; akt('');
     if (!o || me.aus) return;
     if (s.id) { stand().wahl[s.id] = o.wert != null ? o.wert : o.t; save(); }
-    for (const d of o.dann || []) { if (me.aus) return; await schritt(d, tagDaten(), me); }
+    for (const d of o.dann || []) { if (me.aus) return; await schritt(d, t || tagDaten(), me); }
   }
   /* Amtliche Frage: Mitmachen = antworten (zählt), Nur hören = vorlesen, sechs Sekunden Denkpause, Lösung */
   const frageVon = n => (typeof QN !== 'undefined' && QN[n] && QN[n].a && QN[n].a.length === 4) ? QN[n] : (typeof DATA !== 'undefined' ? DATA.find(x => x.n === n) : null);
@@ -329,6 +407,73 @@ window.REISE = (() => {
       }, 80);
     });
   }
+  /* ---------- Folgen (Gesamtplan Fassung 4, E21): Gespräch, Scheinwahl, Antippen, Haltepunkt, Freigaben ---------- */
+  /* Antippen in der Grafik: das gemeinte Teil (data-z) suchen; ohne Uhr, nach zwei Fehlgriffen blinkt es */
+  function tippe(s, t, me) {
+    return sag(me, s.wer || 'smilla', s.tippe.t || 'Tipp drauf.').then(() => new Promise(res => {
+      const svg = $('#rbild svg'), ziel = svg && svg.querySelector(`[data-z="${s.tippe.z}"]`); if (!ziel) return res();
+      let fehl = 0; akt(`<p class="small" style="margin:0">👆 <b>${esc(s.tippe.hinweis || 'Tippe im Bild.')}</b></p>`); me.weiter = null;
+      svg.classList.add('tippbar');
+      svg.onclick = ev => {
+        const z = ev.target.closest('[data-z]');
+        if (z && z.dataset.z === s.tippe.z) { svg.onclick = null; svg.classList.remove('tippbar'); ziel.classList.remove('such'); ziel.classList.add('an'); AUD.sfx('richtig', {vol: .4}); akt(''); res(); return; }
+        AUD.sfx('falsch', {vol: .3}); if (++fehl >= 2) ziel.classList.add('such');
+        if (s.tippe.falsch) sag(me, s.wer || 'smilla', s.tippe.falsch);
+      };
+    })).then(() => { if (s.tippe.ok && !me.aus) return sag(me, s.wer || 'smilla', s.tippe.ok); });
+  }
+  /* Haltepunkt zwischen den Teilen: weiter oder später an genau dieser Stelle */
+  function halt(s, me) {
+    return new Promise(res => {
+      akt(`<p class="small" style="margin:0 0 8px">☕ <b>${esc(s.halt)}</b></p><div class="row"><button class="btn lamp" id="hweiter">▶ Weiter</button><button class="btn ghost" id="hspaeter">Später weiter</button></div>`);
+      me.weiter = null;
+      $('#hweiter').onclick = () => { AUD.click(); akt(''); res(); };
+      $('#hspaeter').onclick = () => { AUD.click(); me.spaeter = true; res(); };
+    });
+  }
+  /* „Was ich an Bord darf“: neu → geübt → freigegeben (zweimal hintereinander richtig) → eingerostet (später). Spielstand S.freigaben {id: {n, frei, d}} (R7) */
+  const FREIGABEN = {fender: 'Fender und Leinen klarlegen', vorleine: 'Vorleine auf Kommando', klampe: 'Klampe belegen', motor: 'Motor starten', ablegen: 'Ablegen und Anlegen', steuern: 'Steuern im Fahrwasser'};
+  const fgStand = () => { if (!S.freigaben || typeof S.freigaben !== 'object') S.freigaben = {}; return S.freigaben; };
+  function freigabe(s, me) {
+    const f = fgStand(), id = s.freigabe, x = f[id] = f[id] || {n: 0, frei: false};
+    x.n = s.ok === false ? 0 : x.n + 1; x.d = heute(); if (x.n >= 2) x.frei = true; save();
+    AUD.sfx(x.frei ? 'richtig' : 'bleistift', {vol: .45, dur: .8});
+    akt(`<p class="small" style="margin:0">📋 <b>${esc(FREIGABEN[id] || id)}:</b> ${x.frei ? 'freigegeben ✓' : s.ok === false ? 'nochmal üben' : `geübt (${x.n} von 2)`}</p>`);
+    return pause(2000);
+  }
+  /* Smillas letzter Tag: eine Woche vor dem Prüfungstermin (Profil oder Antwort im Gespräch) */
+  function pruefTermin() {
+    const p = S.profile && S.profile.exam; if (p && !isNaN(new Date(p))) return new Date(p);
+    const w = stand().wahl['f1-termin']; if (typeof w === 'number') return new Date(Date.now() + w * 7 * 864e5);
+    return null;
+  }
+  function smillaTage() { const d = pruefTermin(); if (!d) return null; return Math.max(0, Math.round((d - Date.now()) / 864e5) - 7); }
+  async function folge(id) {
+    await laden(); await nachladen('szene.js');
+    const F = await fetch('data/' + id + '.json?v=' + window.__ver).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+    stopLauf();
+    if (!S.folgen || typeof S.folgen !== 'object') S.folgen = {};
+    const st = S.folgen[id] = S.folgen[id] || {i: 0};
+    const t = {tag: F.nr, titel: F.titel, schritte: F.schritte, fragen: F.fragen || [], route: [], folge: id}, s = t.schritte;
+    if (st.i >= s.length) st.i = 0;
+    const me = lauf = {aus: false, halt: false, boot: 0, folge: true};
+    buehne(t);
+    let a = {ansicht: 'crew', ort: 'steg'}, teil = null; for (let k = 0; k < st.i; k++) { if (s[k].ansicht) a = s[k]; if (s[k].teil) teil = s[k].teil; }
+    ansicht(t, a); if (teil) $('#rtagt').textContent = t.titel + ' · ' + teil;
+    for (let i = st.i; i < s.length; i++) {
+      if (me.aus) return;
+      st.i = i; save();
+      await schritt(s[i], t, me);
+      if (me.spaeter) { st.i = i + 1; save(); stopLauf(); setTab('frei'); toast('Gemerkt. Es geht genau hier weiter.'); return; }
+    }
+    if (me.aus) return;
+    st.i = s.length; st.fertig = heute(); save();
+    $('#rblase').className = 'rblase'; $('#rblase').innerHTML = `<b>⚓ ${esc(F.titel)}: geschafft!</b>`;
+    akt(`<p class="small" style="margin:0 0 8px">Das war der Rohbau von Folge 1. Sag Claude, was dir gefällt und was nicht.</p><div class="row"><button class="btn ghost" id="fnochmal">🔁 Nochmal</button><button class="btn lamp" id="fzur">Zurück</button></div>`);
+    $('#fnochmal').onclick = () => { AUD.click(); st.i = 0; save(); folge(id); };
+    $('#fzur').onclick = () => { AUD.click(); stopLauf(); setTab('frei'); };
+  }
+
   /* Tag geschafft: sofort weiter zum nächsten */
   function tagEnde(t, naechster, me) {
     $('#rblase').className = 'rblase'; $('#rblase').innerHTML = `<b>⚓ Tag ${t.tag} geschafft!</b>`;
@@ -426,5 +571,5 @@ window.REISE = (() => {
       }}});
     } finally { SZENE.schutz = false; aus(); p.remove(); S.rundgang1 = true; save(); }
   }
-  return {oeffnen, spielen, laden, zeichne, rundgang1, stopLauf, grafik: n => GRAFIK[n] ? GRAFIK[n]() : ''};
+  return {oeffnen, spielen, laden, zeichne, rundgang1, stopLauf, folge, freigaben: () => ({...fgStand()}), grafik: n => GRAFIK[n] ? GRAFIK[n]({}, {}) : ''};
 })();

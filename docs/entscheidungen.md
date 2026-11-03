@@ -78,7 +78,7 @@ Du hast die Story über den Haufen geworfen: „Die Forschung sagt ganz klar, da
 
 1. **Handy-Test der 3D-Testfolge** (v5.13–v5.16): Frei üben → „🎬 3D-Testfolge“, einmal ✋ Selbst, einmal 🎧 Auto; dazu einmal Sturm mit allen Wellen in der „🌊 3D-Welt“. Neu in v5.16: Motor selbst starten, Pinne und Rad, Vollgas bis zur Gleitfahrt.
 2. **Handy-Test der Reise** Tag 1 und 2 (Kajüte → Kartentisch).
-2a. **Friedas Stimme aussuchen** (O142): Einstellungen → Werkstatt → „🎭 Stimmen-Casting“. Gesucht: Frau um die fünfzig, warm, schlagfertig, norddeutsch, nicht zu jung. Sag mir die Stimmen-ID, dann trage ich sie in `podcast/casting.json` und die Konfiguration ein.
+2a. **Jaspers Stimme aussuchen** (E20, ersetzt Friedas Stimme): Einstellungen → Werkstatt → „🎭 Stimmen-Casting“ → Rolle „Jasper (Bojenlieger)“. Gesucht: Mann um die vierzig, freundlich, etwas chaotisch, lebt auf seinem Boot. Sag mir die Stimmen-ID, dann trage ich sie ein.
 3. **Q1:** Foto (Seite und oben) oder STL-Datei deines 3D-gedruckten Bootes, damit unser Boot so aussieht.
 4. **O87:** Rechte an der Karte 49 beim BSH klären.
 5. **Hochladen in den Ordner `import`:** Pixabay-Audios, Funk-Kataloge (SRC/UBI), das Dokument mit allen Zeichen.
