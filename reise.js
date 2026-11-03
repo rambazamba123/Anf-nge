@@ -60,6 +60,7 @@ window.REISE = (() => {
         <div class="rgesichter gross" id="rgesichter">${CREW3.map(c => `<div class="rgesicht" data-c="${c}">${charSVG(c)}</div>`).join('')}</div>
         <div class="rvorn" id="rvorn">${rundeVorn('tisch')}</div>
         <div class="rbild zu" id="rbild"></div>
+        <div class="rgast" id="rgast"></div>
         <button class="rblase leer" id="rblase" aria-live="polite"></button></div>
       <div class="rakt" id="rakt"></div>`;
     $('#rzur').onclick = () => { AUD.click(); stopLauf(); setTab(t.folge ? 'frei' : 'cabin'); };
@@ -182,14 +183,17 @@ window.REISE = (() => {
      und verschwinden wieder, wenn der Schritt `ansicht: 'crew'` kommt. Der Ort der Runde: tisch (Kajüte), steg, deck, abend. */
   function ansicht(t, a) {
     const b = $('#rbild'), g = $('#rgesichter'); if (!b) return; lauf.ansicht = a;
+    const rg = $('#rgast'); if (rg && !a.gastBleibt) { rg.className = 'rgast'; rg.dataset.w = ''; rg.innerHTML = ''; }
     if (lauf.fahrt) { lauf.fahrt.aus = true; lauf.fahrt = null; } AUD.loop('motorLauf', 0);
     const st = $('#rbuehne'); st.dataset.ansicht = a.ansicht;
     if (a.ansicht === 'crew') {
       lauf.ort = a.ort || lauf.ort || 'tisch'; b.classList.add('zu'); b.innerHTML = '';
-      $('#rrunde').innerHTML = rundeHinten(lauf.ort, a.dp || lauf.dp || 'tag'); $('#rvorn').innerHTML = rundeVorn(lauf.ort);
-      g.className = 'rgesichter gross'; return;
+      /* Kajüte = dieselbe Kajüte wie im Spiel, mit der Crew darin (Nutzer 03.11.2026); draußen die Runde mit den Gesichtern */
+      const kaj = lauf.ort === 'tisch' && typeof cabinScene === 'function'; st.classList.toggle('kajuete', kaj);
+      $('#rrunde').innerHTML = kaj ? cabinScene(S.crew) : rundeHinten(lauf.ort, a.dp || lauf.dp || 'tag'); $('#rvorn').innerHTML = kaj ? '' : rundeVorn(lauf.ort);
+      g.className = 'rgesichter gross' + (kaj ? ' weg' : ''); return;
     }
-    b.classList.remove('zu'); g.className = 'rgesichter klein';
+    b.classList.remove('zu'); g.className = 'rgesichter klein'; st.classList.remove('kajuete');
     if (a.ansicht === 'karte') { b.innerHTML = karteSVG(t, a.box || routeBox(t)); bootAuf(t, lauf.boot || 0); }
     else if (a.ansicht === 'grafik' && GRAFIK[a.bild]) b.innerHTML = GRAFIK[a.bild](a, t);
     else if (a.ansicht === 'grafik' && window.ANIM && ANIM.defs[a.bild]) { b.innerHTML = ANIM.html(a.bild); ANIM.start(b); }
@@ -238,6 +242,10 @@ window.REISE = (() => {
     await warteHalt(me); if (me.aus) return;
     const gast = GAST[wer], c = gast ? gast.stimme : CREW[wer] ? wer : 'hinnerk', bl = $('#rblase'); if (!bl) return;
     document.querySelectorAll('.rgesicht').forEach(x => x.classList.toggle('spricht', !gast && x.dataset.c === c));
+    document.querySelectorAll('#rrunde [data-ch]').forEach(x => x.classList.toggle('spricht', !gast && x.dataset.ch === c));
+    /* Ein Gast kommt als ganze Person ins Bild und bleibt, bis die Szene wechselt */
+    const rg = $('#rgast'); if (gast && rg && rg.dataset.w !== wer) { rg.dataset.w = wer; rg.innerHTML = charSVG(wer); rg.className = 'rgast da'; }
+    if (rg) rg.classList.toggle('spricht', !!gast);
     bl.classList.remove('leer'); bl.className = 'rblase von-' + c; bl.innerHTML = `<b>${esc(gast ? gast.name : NAME[c] || CREW[c].short)}:</b> ${esc(text)}`;
     await new Promise(res => { me.weiter = res; Promise.resolve(VOX.say(c, text, 'local')).then(res, res); });
     me.weiter = null;

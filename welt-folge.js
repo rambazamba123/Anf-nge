@@ -2,6 +2,8 @@
    Schritte: {wer, t} sprechen · {kamera} · {crew: {wer: platz}} · {ort} · {wetter} · {auto: [[x, z(, h)]], gas, raffer} Autopilot
    {frage: n} amtliche Frage · {wahl: {t, opts}} · {ziel: {x, z, r, name, h}} · {selbst: 'ziel' | 'horn' | 'anlegen' | 'motor', max, hinweis, auto, ansage}
    {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {szene: 'kajuete' | 'welt'} · {ende: true}
+   {gast: {wer: 'hafen'|'jasper', x, z, von, blick} geht auf dem Steg an seinen Platz · {gast: {wer, kajuete: true}} steht in der Kajüte · {gast: {wer, weg: true}}}
+   Gespräch und Scheinwahl: {wahl: {t, opts: [{t, dann: [Schritte]}]}}: Jede Antwort hat ihre eigene Reaktion, gespielt wird nur die gewählte (E21).
    Hörmodus (🎧 Auto): Der Autopilot fährt die Strecken, Fragen werden vorgelesen und aufgelöst. */
 (function () {
 'use strict';
@@ -27,7 +29,8 @@ async function schritt(s, api, f) {
   if (s.ort) return api.ort(s.ort);
   if (s.wetter) return api.wetter(s.wetter);
   if (s.frage) return api.frage(s.frage, s.fragt);
-  if (s.wahl) return api.wahl(s.wahl, s.fragt);
+  if (s.wahl) { const i = await api.wahl(s.wahl, s.fragt), o = s.wahl.opts[i]; if (o && o.dann) for (const d of o.dann) { if (!api.laeuft) return; await schritt(d, api, f); } return i; }
+  if (s.gast) return api.gast(s.gast);
   if ('ziel' in s) return api.ziel(s.ziel);
   if (s.ton) return api.ton(s.ton);
   if (s.knoten) return api.knoten(s.knoten);
