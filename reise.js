@@ -440,11 +440,10 @@ window.REISE = (() => {
     });
   }
   /* „Was ich an Bord darf“: neu → geübt → freigegeben (zweimal hintereinander richtig) → eingerostet (später). Spielstand S.freigaben {id: {n, frei, d}} (R7) */
-  const FREIGABEN = {fender: 'Fender und Leinen klarlegen', vorleine: 'Vorleine auf Kommando', klampe: 'Klampe belegen', motor: 'Motor starten', ablegen: 'Ablegen und Anlegen', steuern: 'Steuern im Fahrwasser'};
+  /* FREIGABEN und freigabeSetzen stehen in index.html (gemeinsam mit der 3D-Welt) */
   const fgStand = () => { if (!S.freigaben || typeof S.freigaben !== 'object') S.freigaben = {}; return S.freigaben; };
   function freigabe(s, me) {
-    const f = fgStand(), id = s.freigabe, x = f[id] = f[id] || {n: 0, frei: false};
-    x.n = s.ok === false ? 0 : x.n + 1; x.d = heute(); if (x.n >= 2) x.frei = true; save();
+    const id = s.freigabe, x = freigabeSetzen(id, s.ok);
     AUD.sfx(x.frei ? 'richtig' : 'bleistift', {vol: .45, dur: .8});
     akt(`<p class="small" style="margin:0">📋 <b>${esc(FREIGABEN[id] || id)}:</b> ${x.frei ? 'freigegeben ✓' : s.ok === false ? 'nochmal üben' : `geübt (${x.n} von 2)`}</p>`);
     return pause(2000);

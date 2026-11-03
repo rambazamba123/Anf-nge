@@ -480,7 +480,8 @@
       "Tank auf, Pumpball drücken, bis er hart ist.",
       "Choke ziehen, Hebel auf Neutral, starten.",
       "Läuft. Und da kommt der Kontrollstrahl. Kühlwasser ist da."
-     ]
+     ],
+     "aufgabe": "Starte den Motor. Alles unten rechts im Motorfeld, Hinnerk sagt dir jeden Schritt."
     },
     {
      "wer": "hinnerk",
@@ -570,7 +571,8 @@
      "selbst": "ziel",
      "max": 240,
      "auto": [],
-     "hinweis": "Los geht's. Zwischen den Tonnen bleiben."
+     "hinweis": "Los geht's. Zwischen den Tonnen bleiben.",
+     "aufgabe": "Fahr zwischen den roten und grünen Tonnen durch bis zur rot-weißen Tonne im gelben Ring."
     },
     {
      "ziel": null
@@ -589,29 +591,33 @@
     },
     {
      "wer": "smilla",
-     "t": "Achtung, da vorn. Ein Motorboot kommt genau auf uns zu. Kurs gegen Kurs."
-    },
-    {
-     "wer": "hinnerk",
-     "t": "Was machst du?"
-    },
-    {
-     "frage": 14
+     "t": "Merk dir was für gleich: Kommt dir ein Motorboot genau entgegen, weichen beide nach Steuerbord aus. Nach rechts, wie auf der Straße."
     },
     {
      "wer": "smilla",
-     "t": "Beide nach Steuerbord, also nach rechts. Dann fährt man aneinander vorbei wie auf der Straße."
+     "t": "Achtung, da vorn. Ein Motorboot kommt genau auf uns zu."
     },
     {
-     "wer": "smilla",
-     "t": "Und wenn sich die Kurse kreuzen? Ein Boot kommt von der Seite."
-    },
-    {
-     "frage": 15
+     "wahl": {
+      "t": "Das Motorboot kommt genau auf uns zu. Wohin weichst du aus?",
+      "opts": [
+       {
+        "t": "Nach Steuerbord, also rechts",
+        "ok": true,
+        "info": "Genau. Beide nach Steuerbord, dann geht's aneinander vorbei."
+       },
+       {
+        "t": "Nach Backbord, also links",
+        "ok": false,
+        "info": "Nein. Wenn der andere auch richtig nach rechts ausweicht, fahrt ihr genau aufeinander zu. Beide weichen nach Steuerbord aus."
+       }
+      ]
+     },
+     "fragt": "smilla"
     },
     {
      "wer": "hinnerk",
-     "t": "Wer den anderen rechts hat, weicht aus. Rechts vor links, wie beim Auto."
+     "t": "Und kommt einer von der Seite und kreuzt: Wer den anderen rechts von sich hat, muss ausweichen."
     },
     {
      "wer": "klabauter",
@@ -619,10 +625,25 @@
     },
     {
      "wer": "smilla",
-     "t": "Da drüben an der Insel, das Schilf. Da hat die Hafenmeisterin vorhin von gesprochen."
+     "t": "Da drüben an der Insel, das Schilf. Davon hat die Hafenmeisterin heute Morgen gesprochen."
     },
     {
-     "frage": 33
+     "wahl": {
+      "t": "Wie nah fahren wir ans Schilf ran?",
+      "opts": [
+       {
+        "t": "Möglichst weit weg bleiben",
+        "ok": true,
+        "info": "Genau. Da brüten Vögel und die Fische laichen."
+       },
+       {
+        "t": "Ganz nah, ich will die Vögel sehen",
+        "ok": false,
+        "info": "Lieber nicht. Im Schilf sind Brutplätze und Laichplätze. Da hält man Abstand."
+       }
+      ]
+     },
+     "fragt": "smilla"
     },
     {
      "wer": "hinnerk",
@@ -660,11 +681,11 @@
     },
     {
      "wer": "smilla",
-     "t": "Unser Platz ist das gelbe Rechteck am Steg rechts vor uns. Da steht auch die Hafenmeisterin."
+     "t": "Wir fahren nach Süden in den Hafen. Unser Platz ist das gelbe Rechteck links vorn, da steht auch die Hafenmeisterin. Der Steg ist dann links von uns, an Backbord."
     },
     {
      "wer": "smilla",
-     "t": "Die Fender hängen schon an der Seite zum Steg. Das sind die Kissen, die einen Stoß abfangen. Trotzdem: Fahr ganz langsam."
+     "t": "Die Fender hängen schon an Backbord, zum Steg hin. Das sind die Kissen, die einen Stoß abfangen. Trotzdem: Fahr ganz langsam."
     },
     {
      "wer": "smilla",
@@ -688,7 +709,8 @@
     {
      "selbst": "anlegen",
      "max": 300,
-     "hinweis": "Langsam. Ich steh vorn mit der Leine."
+     "hinweis": "Langsam. Ich steh vorn mit der Leine.",
+     "aufgabe": "Leg im gelben Rechteck links vorn an: langsam, schräg, kurz vorher rückwärts."
     },
     {
      "ziel": null
@@ -719,7 +741,7 @@
     },
     {
      "wer": "smilla",
-     "t": "Fragerunde. Fünf Stück, dann gibt's Essen."
+     "t": "Fragerunde. Acht Stück, dann gibt's Essen."
     },
     {
      "wer": "klabauter",
@@ -728,6 +750,15 @@
     {
      "wer": "smilla",
      "t": "Erst das Wetter. Was der Käpt'n heute Morgen mit den Möwen hatte."
+    },
+    {
+     "frage": 14
+    },
+    {
+     "frage": 15
+    },
+    {
+     "frage": 33
     },
     {
      "frage": 71
@@ -767,6 +798,1691 @@
     {
      "wer": "hinnerk",
      "t": "Hab ich nich gesagt."
+    },
+    {
+     "ende": true
+    }
+   ],
+   "nr": 7
+  },
+  {
+   "id": "tag01",
+   "nr": 1,
+   "titel": "Folge 1: Mooooin, Landratte!",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "leicht",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "schritte": [
+    {
+     "teil": "Teil 1 · Am Steg"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "zettel": {
+      "titel": "Crew gesucht.",
+      "zeilen": [
+       "Ausbildung inklusive.",
+       "Melden an Bord der „Frieda“, Steg 3.",
+       "Nicht klopfen. Rufen."
+      ]
+     }
+    },
+    {
+     "wer": "klabauter",
+     "t": "Moooooooooooin!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin."
+    },
+    {
+     "wer": "smilla",
+     "t": "Moin! Wegen dem Zettel, ne? Komm an Bord. Aber tritt nicht auf die Leinen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Ich bin Smilla. Der Brummbär ist Hinnerk, ihm gehört die Frieda. Und der Lautsprecher da oben ist Klabauter."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Lautsprecher! Lautsprecher!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Und gleich die Wahrheit: Ich hab 'nen neuen Job. Auf 'nem großen Traditionssegler."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Sag's ruhig ganz."
+    },
+    {
+     "wer": "smilla",
+     "t": "Eine Woche vor deiner Prüfung ist mein letzter Tag hier. Bis dahin bring ich dir alles bei. Dann sitzt du an meinem Platz."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wenn's klappt."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Probezeit. Du guckst zu. Und du wartest auf mein Kommando. Immer."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Kommando! Kommando!"
+    },
+    {
+     "wahl": {
+      "t": "Kleiner Rundgang ums Boot. Vorn oder hinten anfangen?",
+      "opts": [
+       {
+        "t": "Vorn",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Genau. Vorn fängt man an."
+         }
+        ]
+       },
+       {
+        "t": "Hinten",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Hinten schläft grad Backbord. Die Katze. Die weckst du nicht freiwillig. Also vorn."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "kamera": {
+      "dist": 16,
+      "pitch": 1.25,
+      "yaw": 0
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Ich sag dir, wie ein Teil heißt. Du tippst den gelben Punkt am Boot an, wo es ist."
+    },
+    {
+     "aufgabe": "Tippe auf den Bug, das vordere, spitze Ende."
+    },
+    {
+     "wer": "smilla",
+     "t": "Das vordere, spitze Ende heißt Bug."
+    },
+    {
+     "punkte": {
+      "ziel": "bug",
+      "teile": [
+       "heck",
+       "kajuete",
+       "bug"
+      ],
+      "falsch": "Vorn. Das spitze Ende."
+     }
+    },
+    {
+     "wer": "klabauter",
+     "t": "Bug! Bug!"
+    },
+    {
+     "aufgabe": "Tippe auf das Heck, das hintere Ende."
+    },
+    {
+     "wer": "smilla",
+     "t": "Hinten, wo der Motor hängt, ist das Heck."
+    },
+    {
+     "punkte": {
+      "ziel": "heck",
+      "teile": [
+       "bug",
+       "heck",
+       "kajuete"
+      ],
+      "falsch": "Hinten, beim Motor."
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt die Seiten. Stell dir vor, du stehst an Bord und guckst nach vorn zum Bug. Links ist Backbord, rechts ist Steuerbord."
+    },
+    {
+     "aufgabe": "Tippe auf Backbord, die linke Seite, wenn du nach vorn guckst."
+    },
+    {
+     "punkte": {
+      "ziel": "backbord",
+      "teile": [
+       "steuerbord",
+       "backbord"
+      ],
+      "falsch": "Die linke Seite, wenn du zum Bug guckst."
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Backbord. Da leuchtet nachts ein rotes Licht."
+    },
+    {
+     "aufgabe": "Tippe auf Steuerbord, die rechte Seite."
+    },
+    {
+     "punkte": {
+      "ziel": "steuerbord",
+      "teile": [
+       "backbord",
+       "steuerbord"
+      ]
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Steuerbord. Grünes Licht."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Backbord rot! Steuerbord grün!"
+    },
+    {
+     "aufgabe": "Tippe auf die Klampe vorn an Deck."
+    },
+    {
+     "wer": "smilla",
+     "t": "Vorn an Deck sitzt ein Beschlag aus Metall. Da wird die Leine festgemacht. Das ist eine Klampe."
+    },
+    {
+     "punkte": {
+      "ziel": "klampe",
+      "teile": [
+       "anker",
+       "kajuete",
+       "klampe"
+      ],
+      "falsch": "Vorn an Deck, neben der Bugspitze."
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "smilla",
+     "t": "Von der Klampe geht die Vorleine zum Steg. Sie hält den Bug am Steg fest."
+    },
+    {
+     "punkte": {
+      "zeige": true,
+      "teile": [
+       "leine"
+      ]
+     }
+    },
+    {
+     "aufgabe": "Tippe auf einen Fender, eins von den Gummikissen an der Seite."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und die Kissen an der Seite zum Steg sind Fender. Die fangen Stöße ab."
+    },
+    {
+     "punkte": {
+      "ziel": "fender",
+      "teile": [
+       "fender",
+       "motor",
+       "kajuete"
+      ],
+      "falsch": "An der Seite zum Steg, unten an der Bordwand."
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "klabauter",
+     "t": "Fender! Fender!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Reicht. Gleich verholen wir rüber zum Tankanleger."
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "halt": "Teil 1 geschafft. Kaffeepause?"
+    },
+    {
+     "teil": "Teil 2 · Zu früh"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hör zu. Ich erklär dir, was jetzt kommt. Wir legen ab und fahren rüber zum Tankanleger."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Vorn hält uns die Vorleine, die hast du. Hinten die Achterleine, die hat Smilla."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Wind kommt heute vom Steg. Er will uns wegdrücken. Deshalb geht die Vorleine erst los, wenn Hinnerk laut sagt: Vorleine los."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Motor läuft."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Leinen los! Leinen los!"
+    },
+    {
+     "wahl": {
+      "t": "Klabauter kräht. Hinnerk hat noch nichts gesagt. Was machst du mit der Vorleine?",
+      "opts": [
+       {
+        "t": "Vorleine loswerfen",
+        "wert": "los",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Halt! Ich hab nix gesagt!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Zu spät. Die Leine ist im Wasser."
+         }
+        ]
+       },
+       {
+        "t": "Auf Hinnerks Kommando warten",
+        "wert": "warten",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Gut. Du wartest. Recht so."
+         },
+         {
+          "wer": "smilla",
+          "t": "Oh nein. Guck nach vorn. Backbord spielt mit der Leine."
+         },
+         {
+          "notiz": "🐈 Die Katze zieht die Vorleine von der Klampe."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Wenigstens du hörst zu. Die Katz nich."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt hält vorn nichts mehr. Pass auf, was der Wind macht."
+    },
+    {
+     "kamera": {
+      "dist": 22,
+      "pitch": 0.9,
+      "yaw": 0
+     }
+    },
+    {
+     "treibe": {
+      "x": -24.5,
+      "z": 151,
+      "h": 0.7,
+      "sek": 5,
+      "rums": "boot"
+     }
+    },
+    {
+     "wer": "klabauter",
+     "t": "Rums! Rums!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Siehst du? Der Wind hat den Bug vom Steg weggedrückt. Hinten hält die Achterleine noch. Also dreht sich das Boot wie eine Tür um ihre Angel, bis an das gelbe Arbeitsboot."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "von": [
+       -30,
+       168
+      ],
+      "x": -30.2,
+      "z": 141,
+      "blick": 1.5708
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Hey! Das ist mein Arbeitsboot!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Tschuldigung. Wir holen das Boot gleich zurück."
+    },
+    {
+     "wer": "hafen",
+     "t": "Das will ich sehen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt eine Aufgabe für dich. Ich erklär sie erst."
+    },
+    {
+     "treibe": {
+      "x": -25.6,
+      "z": 150.6,
+      "h": -0.25,
+      "sek": 4
+     }
+    },
+    {
+     "kamera": {
+      "dist": 16,
+      "pitch": 1.25,
+      "yaw": 0
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Hinnerk fährt uns zurück an den Steg. Wir kommen schräg an, mit dem Bug voran."
+    },
+    {
+     "wer": "smilla",
+     "t": "Ein Fender hilft nur da, wo das Boot den Steg wirklich berührt. Die gelben Punkte sind drei Stellen an der Seite zum Steg: vorn, Mitte, hinten."
+    },
+    {
+     "aufgabe": "Tippe den Punkt an, der zuerst an den Steg kommt. Da muss der Fender hin."
+    },
+    {
+     "punkte": {
+      "ziel": "schulter",
+      "teile": [
+       "achter",
+       "mitte",
+       "schulter"
+      ],
+      "falsch": "Guck, welche Stelle dem Steg am nächsten ist. Wir kommen mit dem Bug voran."
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "smilla",
+     "t": "Genau. Vorn an der Seite. Da hängt jetzt der Fender."
+    },
+    {
+     "fest": {
+      "x": -27.2,
+      "z": 150,
+      "h": 0
+     }
+    },
+    {
+     "freigabe": "fender"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Regel eins. Du fasst nix an, was ich nich freigegeben hab."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ab heute führ ich Buch. Was du zweimal hintereinander richtig machst, darfst du allein."
+    },
+    {
+     "freigaben": true
+    },
+    {
+     "wer": "smilla",
+     "t": "Kopf hoch, Landei. Mir ist am ersten Tag 'n Eimer über Bord gegangen."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Mit meinem Kaffee drin."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Zweiter Anlauf. Wieder wartest du auf mein Wort."
+    },
+    {
+     "wahl": {
+      "t": "Der Motor läuft. Klabauter ist still. Was machst du?",
+      "opts": [
+       {
+        "t": "Auf das Kommando warten",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Vorleine … los!"
+         },
+         {
+          "notiz": "Du wirfst die Vorleine los. Auf Kommando."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Dor kannst nich meckern."
+         },
+         {
+          "freigabe": "vorleine"
+         }
+        ]
+       },
+       {
+        "t": "Gleich loswerfen",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Halt! Hab ich was gesagt?"
+         },
+         {
+          "wer": "smilla",
+          "t": "Sie liegt noch auf der Klampe. Glück gehabt. Diesmal hörst du hin."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Vorleine … los!"
+         },
+         {
+          "freigabe": "vorleine",
+          "ok": false
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "hinnerk"
+    },
+    {
+     "wer": "hafen",
+     "t": "So. Wer ist hier eigentlich der Schiffsführer?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ich. Hab ich vor dem Ablegen festgelegt. Das muss man."
+    },
+    {
+     "wer": "hafen",
+     "t": "Und hat hier einer was getrunken?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Tee. Wer getrunken hat, fährt nicht. Ab null Komma fünf Promille ist sowieso Schluss. Und wer vorher schon wackelt, auch."
+    },
+    {
+     "wer": "hafen",
+     "t": "Na dann. Ich hab euch im Auge."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "weg": true
+     }
+    },
+    {
+     "halt": "Teil 2 geschafft. Weiter zum Abend in der Kajüte?"
+    },
+    {
+     "teil": "Teil 3 · Abend in der Kajüte"
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Feierabend! Feierabend!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Frage in die Runde: Ab wann ist man eigentlich in Fahrt?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wenn der Motor läuft. Klar."
+    },
+    {
+     "wahl": {
+      "t": "Hinnerk sagt: In Fahrt ist man, wenn der Motor läuft. Stimmt das?",
+      "opts": [
+       {
+        "t": "Ja, wenn der Käpt'n das sagt",
+        "ok": false,
+        "info": "Vorhin sind wir ohne Leine getrieben, der Motor war egal. In Fahrt ist ein Fahrzeug, wenn es weder vor Anker liegt, noch an Land festgemacht ist, noch auf Grund sitzt."
+       },
+       {
+        "t": "Nein, wir sind vorhin auch ohne Leine getrieben",
+        "ok": true,
+        "info": "Hm. Getrieben is auch gefahren. Weder vor Anker, noch fest, noch auf Grund: dann is man in Fahrt."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Merken! Weder Anker, noch fest, noch Grund!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Lies du mal die Fragen vor, Smilla. Licht is schlecht hier."
+    },
+    {
+     "wer": "smilla",
+     "t": "Gern, Käpt'n."
+    },
+    {
+     "wer": "smilla",
+     "t": "Fragerunde. Drei Stück, dann ist Feierabend."
+    },
+    {
+     "frage": 1
+    },
+    {
+     "frage": 2
+    },
+    {
+     "frage": 3
+    },
+    {
+     "logbuch": "Tag 1. An Bord gekommen. Vorleine zu früh los, Rums bei der Hafenmeisterin. Fender: geübt."
+    },
+    {
+     "gast": {
+      "wer": "hafen",
+      "kajuete": true
+     }
+    },
+    {
+     "wer": "hafen",
+     "t": "Klopf, klopf. Morgen früh um acht. Ich hab 'nen Auftrag. Kannst du rudern?"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Rudern! Rudern!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Siehst du das Licht draußen an der Boje? Das ist Jasper. Den lernst du morgen kennen."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gode Nacht."
+    },
+    {
+     "ende": true
+    }
+   ]
+  },
+  {
+   "id": "tag03",
+   "nr": 3,
+   "titel": "Folge 3: Von Bug bis Heck",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "maessig",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "regen",
+    "zeit": "tag",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Moin! Nass! Nass!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin. Schietwetter. Heute fahr'n wir nich."
+    },
+    {
+     "wer": "smilla",
+     "t": "Heißt: Heute lernst du das Boot kennen. Was da ist, wenn's brennt, wenn einer reinfällt oder wenn's nach Gas riecht."
+    },
+    {
+     "wahl": {
+      "t": "Lust drauf?",
+      "opts": [
+       {
+        "t": "Klar, her damit",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "So mag ich das."
+         }
+        ]
+       },
+       {
+        "t": "Bei dem Regen? Echt jetzt?",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Regen is nur Wetter. Jacke an."
+         }
+        ]
+       },
+       {
+        "t": "Kann ich nicht drinnen bleiben?",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Halb. Das Gas machen wir hier drin."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "smilla",
+     "t": "Fangen wir mit dem Gefährlichsten an. Unser Kocher läuft mit Gas, Propan oder Butan."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Das Zeug is schwerer als Luft. Sackt nach unten. Mit Luft gemischt: Bumm."
+    },
+    {
+     "wer": "smilla",
+     "t": "Darum steht die Gasflasche draußen an Deck, im eigenen Kasten. Nicht unten in der Kajüte, und nicht in der Sonne."
+    },
+    {
+     "wer": "smilla",
+     "t": "Bevor du die Anlage benutzt: Sie muss abgenommen sein, und alle Leitungen müssen dicht sein. Und wenn du fertig bist: Haupthahn zu."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Riechst du Gas unten: Hahn zu, lüften. Keinen Schalter drücken. Kein Funk. Kein Feuer."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Kein Funke! Kein Funke!"
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": {
+      "dist": 16,
+      "pitch": 1.25,
+      "yaw": 0
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt raus an Deck. Ich sag dir, was wo ist, und du tippst es an."
+    },
+    {
+     "aufgabe": "Tippe auf den Gaskasten."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Gaskasten steht vorn an Deck, an Steuerbord."
+    },
+    {
+     "punkte": {
+      "ziel": "gas",
+      "teile": [
+       "ring",
+       "loescher",
+       "gas"
+      ],
+      "falsch": "Vorn an Deck, an Steuerbord."
+     }
+    },
+    {
+     "aufgabe": "Tippe auf den Feuerlöscher."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Feuerlöscher hängt beim Niedergang, griffbereit. Ein Pulverlöscher für A, B und C. Alle zwei Jahre wird er geprüft."
+    },
+    {
+     "punkte": {
+      "ziel": "loescher",
+      "teile": [
+       "gas",
+       "weste",
+       "loescher"
+      ]
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Brennt's: ran ans Feuer, dann erst abdrücken. Von unten rein, nich oben in die Flammen. Und Luke zu, damit keine Luft dazukommt."
+    },
+    {
+     "aufgabe": "Tippe auf den Rettungsring."
+    },
+    {
+     "wer": "smilla",
+     "t": "Am Heck hängt der Rettungsring. Wer über Bord geht, kriegt den zugeworfen."
+    },
+    {
+     "punkte": {
+      "ziel": "ring",
+      "teile": [
+       "bug",
+       "fender",
+       "ring"
+      ]
+     }
+    },
+    {
+     "aufgabe": "Tippe auf die Rettungswesten."
+    },
+    {
+     "wer": "smilla",
+     "t": "Die Westen liegen im Niedergang. Automatikwesten blasen sich im Wasser selbst auf."
+    },
+    {
+     "punkte": {
+      "ziel": "weste",
+      "teile": [
+       "tank",
+       "loescher",
+       "weste"
+      ]
+     }
+    },
+    {
+     "aufgabe": null
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Meine Weste is von neunundachtzig. Die hält ewig."
+    },
+    {
+     "wahl": {
+      "t": "Hinnerks Weste ist über dreißig Jahre alt. Was machst du?",
+      "opts": [
+       {
+        "t": "Dem Käpt'n glauben, die hält schon",
+        "ok": false,
+        "info": "Lieber nicht. Aufblasbare Westen werden so oft gewartet, wie der Hersteller sagt, mindestens alle zwei Jahre. Sonst geht sie im Ernstfall nicht auf."
+       },
+       {
+        "t": "Warten lassen oder neu kaufen",
+        "ok": true,
+        "info": "Hmpf. Na gut. Ich bring sie morgen zum Service."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Neunundachtzig! Neunundachtzig!"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Jetzt was für die Hände. Die Klampe."
+    },
+    {
+     "knoten": "klampe"
+    },
+    {
+     "modell": "Nimm dein dickeres Seil und die kleine Klampe aus deinem Set. Einmal rund um die Klampe, dann zweimal über Kreuz, zum Schluss ein Kopfschlag."
+    },
+    {
+     "wahl": {
+      "t": "Und? Hält sie, wenn du dran ziehst? Ehrlich.",
+      "opts": [
+       {
+        "t": "Hält",
+        "dann": [
+         {
+          "freigabe": "klampe"
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Gut. Einmal geschafft. Beim nächsten Mal nochmal."
+         }
+        ]
+       },
+       {
+        "t": "Rutscht noch",
+        "dann": [
+         {
+          "freigabe": "klampe",
+          "ok": false
+         },
+         {
+          "wer": "smilla",
+          "t": "Macht nix. Morgen nochmal. Ehrlich ist besser als schnell."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "hinnerk"
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "smilla",
+     "t": "Fragerunde. Acht Stück, dann gibt's Tee."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Tee! Tee!"
+    },
+    {
+     "frage": 62
+    },
+    {
+     "frage": 63
+    },
+    {
+     "frage": 64
+    },
+    {
+     "frage": 65
+    },
+    {
+     "frage": 66
+    },
+    {
+     "frage": 67
+    },
+    {
+     "frage": 68
+    },
+    {
+     "frage": 69
+    },
+    {
+     "logbuch": "Tag 3. Schietwetter. Gas, Feuerlöscher, Westen und Rettungsring an Bord gefunden. Klampe belegt."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gode Nacht."
+    },
+    {
+     "ende": true
+    }
+   ]
+  },
+  {
+   "id": "tag11",
+   "nr": 11,
+   "titel": "Folge 11: Nach Klüverhafen",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "leicht",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Moooin! Ausflug! Ausflug!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin. Heute fahr'n wir rüber nach Klüverhafen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Erst planen. Ab an den Kartentisch."
+    },
+    {
+     "navi": "n0-kuttershaven"
+    },
+    {
+     "navi": "n0-tonne37"
+    },
+    {
+     "wer": "smilla",
+     "t": "Auf dem Weg liegt ein Wrack. Rundherum stehen vier Kardinaltonnen. Die sagen dir, auf welcher Seite das Wasser frei ist."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Nordtonne steht nördlich vom Wrack. Da fährst du nördlich vorbei. Süd: südlich. Ost: östlich. West: westlich."
+    },
+    {
+     "wer": "smilla",
+     "t": "Erkennen tust du sie an den zwei schwarzen Kegeln oben. Nord: beide Spitzen nach oben. Süd: beide nach unten. Ost: Rücken an Rücken, wie ein Ei. West: Spitzen aufeinander, wie 'ne Taille."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Taille! Taille!"
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": "hinten"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ablegen mach ich. Draußen übernimmst du."
+    },
+    {
+     "auto": [
+      [
+       0,
+       48
+      ]
+     ],
+     "gas": 0.45
+    },
+    {
+     "wer": "smilla",
+     "t": "Wir fahren gerade aus unserem Hafen raus. Grün liegt jetzt links. Für die Farben zählt immer die Sicht von einem Schiff, das von See kommt."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Bis zur Ansteuerungstonne fahr ich. Zeitraffer."
+    },
+    {
+     "auto": [
+      [
+       0,
+       -145
+      ]
+     ],
+     "gas": 0.7,
+     "raffer": 3
+    },
+    {
+     "wer": "smilla",
+     "t": "So. Vor uns die Tonnenkette nach Klüverhafen. Jetzt laufen wir ein, wir kommen also von See. Rot liegt links, an Backbord. Grün rechts, an Steuerbord."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Du steuerst. Bleib zwischen den Tonnen."
+    },
+    {
+     "ziel": {
+      "x": 0,
+      "z": -540,
+      "r": 14,
+      "name": "Tonnenkette"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "max": 300,
+     "auto": [
+      [
+       0,
+       -400
+      ]
+     ],
+     "aufgabe": "Fahr nach Norden zwischen den roten und grünen Tonnen durch bis zum gelben Ring."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "wer": "smilla",
+     "t": "Da rechts vorn. Das schwarze Ding im Wasser ist das Wrack. Und links von uns die gelben Tonnen."
+    },
+    {
+     "wahl": {
+      "t": "Willst du dir die gelben Tonnen links mal aus der Nähe angucken?",
+      "opts": [
+       {
+        "t": "Nee, lieber direkt weiter",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Seh ich auch so."
+         }
+        ]
+       },
+       {
+        "t": "Klar, kurzer Umweg",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Geht nicht. Gelbe Tonnen markieren hier ein Sperrgebiet. Da wird geübt, da haben wir nichts zu suchen."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Also direkt."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wahl": {
+      "t": "Vor uns rechts steht die Westtonne vom Wrack. Wo fahren wir vorbei?",
+      "opts": [
+       {
+        "t": "Westlich, also links an der Tonne vorbei",
+        "ok": true,
+        "info": "Genau. Westtonne heißt: westlich vorbei. Da ist das Wasser frei."
+       },
+       {
+        "t": "Östlich, zwischen Tonne und Wrack",
+        "ok": false,
+        "info": "Nein! Östlich von der Westtonne liegt das Wrack. Die Tonne steht westlich der Gefahr, also fahren wir westlich vorbei."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "auto": [
+      [
+       0,
+       -700
+      ]
+     ],
+     "gas": 0.6
+    },
+    {
+     "wer": "smilla",
+     "t": "Und da links, die schwarz-rote Tonne mit zwei Bällen obendrauf: eine einzelne Gefahr, ein Stein. Da kann man an allen Seiten vorbei, nur nicht drüber."
+    },
+    {
+     "ziel": {
+      "x": 0,
+      "z": -905,
+      "r": 12,
+      "name": "Einfahrt Klüverhafen"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "max": 300,
+     "auto": [
+      [
+       0,
+       -800
+      ]
+     ],
+     "aufgabe": "Fahr weiter zwischen den Tonnen bis zur Hafeneinfahrt von Klüverhafen."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "gast": {
+      "wer": "jasper",
+      "von": [
+       30,
+       -998
+      ],
+      "x": 30.2,
+      "z": -972,
+      "blick": -1.5708
+     }
+    },
+    {
+     "wer": "jasper",
+     "t": "Moin! Hierher! Platz is frei!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Das ist Jasper. Der mit dem Boot an der Boje. Der ist heute auch hier."
+    },
+    {
+     "wer": "smilla",
+     "t": "Anlegen im fremden Hafen. Ich erklär's dir vorher genau."
+    },
+    {
+     "wer": "smilla",
+     "t": "Unser Platz ist links neben dem Steg, an dem Jasper steht. Der Steg ist dann rechts von uns, an Steuerbord. Die Fender hängen schon an Steuerbord."
+    },
+    {
+     "wer": "smilla",
+     "t": "Fahr langsam schräg ran. Kurz vorher Gas weg und kurz rückwärts, damit das Boot stehen bleibt."
+    },
+    {
+     "ziel": {
+      "x": 27.2,
+      "z": -968,
+      "h": 0,
+      "anfahrt": [
+       18,
+       -945
+      ],
+      "lang": 7,
+      "quer": 1.9,
+      "r": 3.5,
+      "name": "Liegeplatz"
+     }
+    },
+    {
+     "selbst": "anlegen",
+     "max": 300,
+     "aufgabe": "Leg im gelben Rechteck an: langsam, schräg ran, kurz vorher rückwärts.",
+     "hinweis": "Ganz langsam. Jasper nimmt die Leine."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "jasper",
+     "t": "Sauber! Willkommen in Klüverhafen."
+    },
+    {
+     "freigabe": "steuern"
+    },
+    {
+     "freigabe": "fremdhafen"
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "gast": {
+      "wer": "jasper",
+      "kajuete": true
+     }
+    },
+    {
+     "wer": "jasper",
+     "t": "Ich hab Tee mitgebracht. Darf ich bei der Fragerunde mitraten?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Darfst du. Sieben Stück."
+    },
+    {
+     "wer": "jasper",
+     "t": "Ich sag immer Nord."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Darum liegst du an 'ner Boje und nich im Hafen."
+    },
+    {
+     "frage": 156
+    },
+    {
+     "frage": 157
+    },
+    {
+     "frage": 200
+    },
+    {
+     "frage": 201
+    },
+    {
+     "frage": 202
+    },
+    {
+     "frage": 203
+    },
+    {
+     "frage": 208
+    },
+    {
+     "logbuch": "Tag 11. Nach Klüverhafen. Tonnenkette selbst gesteuert, am Wrack westlich vorbei, im fremden Hafen angelegt."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gode Nacht."
+    },
+    {
+     "wer": "jasper",
+     "t": "Gode Nacht!"
+    },
+    {
+     "ende": true
+    }
+   ]
+  },
+  {
+   "id": "tag15",
+   "nr": 15,
+   "titel": "Folge 15: Zurück nach Kuttershaven",
+   "ort": "kluever",
+   "wetter": {
+    "wind": "leicht",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Moin! Fremder Hafen! Fremder Hafen!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin. Gut geschlafen in Klüverhafen?"
+    },
+    {
+     "wahl": {
+      "t": "Wie war die Nacht?",
+      "opts": [
+       {
+        "t": "Wie ein Stein",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Kein Wunder. Du hast gestern selbst angelegt."
+         }
+        ]
+       },
+       {
+        "t": "Klabauter hat geschnarcht",
+        "dann": [
+         {
+          "wer": "klabauter",
+          "t": "Lüge! Lüge!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Er schnarcht. Seit Jahren."
+         }
+        ]
+       },
+       {
+        "t": "Das Boot hat die ganze Nacht geknarzt",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Das sind die Fender. Die reden nachts."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "gast": {
+      "wer": "jasper",
+      "kajuete": true
+     }
+    },
+    {
+     "wer": "jasper",
+     "t": "Moin! Ich fahr mit euch nach Kuttershaven. Mein Boot liegt da ja an der Boje."
+    },
+    {
+     "wer": "jasper",
+     "t": "Und ich hab 'ne Idee. Mittags ankern wir. Gleich draußen im Fahrwasser, da ist's so schön ruhig."
+    },
+    {
+     "wahl": {
+      "t": "Jasper will im Fahrwasser ankern. Was sagst du?",
+      "opts": [
+       {
+        "t": "Gute Idee, da ist Platz",
+        "ok": false,
+        "info": "Nein. Im Fahrwasser ist Ankern verboten. Ebenso an Engstellen, in unübersichtlichen Krümmungen und in der Nähe von Wracks."
+       },
+       {
+        "t": "Geht nicht, im Fahrwasser ist Ankern verboten",
+        "ok": true,
+        "info": "Genau. Im Fahrwasser, an Engstellen, in Krümmungen und rund um Wracks wird nicht geankert."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "jasper",
+     "t": "Schon gut, schon gut. Dann eben nicht."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und wenn dein Boot mal sinkt, Jasper? Letzten Herbst war's knapp."
+    },
+    {
+     "wer": "jasper",
+     "t": "Dann ruf ich … euch?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Die Schifffahrtspolizei. Und sag, wo es liegt. Sonst fährt der Nächste drauf."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Polizei! Polizei!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Erst mal was für die Hände. Der Webeleinstek."
+    },
+    {
+     "knoten": "webelein"
+    },
+    {
+     "modell": "Nimm dein dünnes Seil und leg es um die Reling von deinem Modell oder um einen Stift: einmal rum, über Kreuz, nochmal rum und das Ende unter dem Kreuz durch."
+    },
+    {
+     "wahl": {
+      "t": "Hält er? Ehrlich.",
+      "opts": [
+       {
+        "t": "Hält",
+        "dann": [
+         {
+          "freigabe": "webe"
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Gut."
+         }
+        ]
+       },
+       {
+        "t": "Rutscht noch",
+        "dann": [
+         {
+          "freigabe": "webe",
+          "ok": false
+         },
+         {
+          "wer": "smilla",
+          "t": "Nochmal üben. Der kommt heute Abend wieder."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "hinnerk"
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": {
+      "dist": 13,
+      "pitch": 0.18,
+      "yaw": 2.2
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Motor läuft. Heute legst du ab."
+    },
+    {
+     "wer": "smilla",
+     "t": "Ich erklär's dir vorher. Erst ganz langsam rückwärts, bis der Bug frei vom Steg ist. Dann vorwärts zur Ausfahrt. Der gelbe Ring zeigt, wohin."
+    },
+    {
+     "ziel": {
+      "x": 0,
+      "z": -915,
+      "r": 10,
+      "name": "Hafenausfahrt"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "max": 300,
+     "auto": [
+      [
+       14,
+       -945
+      ]
+     ],
+     "aufgabe": "Leg ab und fahr zum gelben Ring in der Hafenausfahrt.",
+     "hinweis": "Erst den Hebel ein Stück nach unten, rückwärts. Dann nach oben."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "wer": "smilla",
+     "t": "In der Ausfahrt sieht dich draußen keiner. Wenn die Lage es erfordert, gibst du beim Ein- und Auslaufen einen langen Ton."
+    },
+    {
+     "selbst": "horn",
+     "max": 45,
+     "aufgabe": "Tippe aufs Horn unten links: ein langer Ton.",
+     "gut": "Gut. So weiß jeder: Hier kommt einer raus."
+    },
+    {
+     "auto": [
+      [
+       0,
+       -860
+      ],
+      [
+       0,
+       -760
+      ]
+     ],
+     "gas": 0.6
+    },
+    {
+     "wer": "smilla",
+     "t": "Achtung. Hör mal."
+    },
+    {
+     "ton": "▬●●●●  ▬●●●●"
+    },
+    {
+     "wer": "jasper",
+     "t": "Was war das denn?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Das allgemeine Gefahr- und Warnsignal. Ein langer und vier kurze Töne, und das zweimal. Da drüben fühlt sich einer gefährdet."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wir halten Abstand und gucken genau hin."
+    },
+    {
+     "wahl": {
+      "t": "Wann gibt man dieses Signal?",
+      "opts": [
+       {
+        "t": "Wenn man ein anderes Fahrzeug gefährdet oder selbst gefährdet wird",
+        "ok": true,
+        "info": "Genau."
+       },
+       {
+        "t": "Zum Gruß, wenn man in den Hafen kommt",
+        "ok": false,
+        "info": "Nein. Das ist das Gefahr- und Warnsignal: wenn ein Fahrzeug ein anderes gefährdet oder selbst gefährdet wird."
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Heimweg. Zeitraffer."
+    },
+    {
+     "auto": [
+      [
+       0,
+       -140
+      ],
+      [
+       3,
+       86
+      ]
+     ],
+     "gas": 0.7,
+     "raffer": 4
+    },
+    {
+     "wer": "smilla",
+     "t": "Heimathafen. Diesmal legst du am anderen Steg an. Ich erklär's dir vorher."
+    },
+    {
+     "wer": "smilla",
+     "t": "Wir fahren nach Süden in den Hafen. Unser Platz ist das gelbe Rechteck links vorn. Der Steg ist dann links von uns, an Backbord. Da hängen die Fender."
+    },
+    {
+     "ziel": {
+      "x": 22.2,
+      "z": 155,
+      "h": 3.1416,
+      "anfahrt": [
+       15,
+       136
+      ],
+      "lang": 7,
+      "quer": 1.9,
+      "r": 3.5,
+      "name": "Liegeplatz"
+     }
+    },
+    {
+     "selbst": "anlegen",
+     "max": 300,
+     "aufgabe": "Leg im gelben Rechteck links vorn an: langsam, schräg, kurz vorher rückwärts.",
+     "hinweis": "Langsam. Ich steh vorn mit der Leine."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "freigabe": "ablegen"
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "smilla",
+     "t": "Fragerunde. Sechs Stück. Jasper, du auch."
+    },
+    {
+     "wer": "jasper",
+     "t": "Ich sag diesmal nicht Nord."
+    },
+    {
+     "frage": 161
+    },
+    {
+     "frage": 162
+    },
+    {
+     "frage": 163
+    },
+    {
+     "frage": 164
+    },
+    {
+     "frage": 171
+    },
+    {
+     "frage": 172
+    },
+    {
+     "logbuch": "Tag 15. Von Klüverhafen zurück. Selbst abgelegt, langer Ton in der Ausfahrt, Gefahrsignal gehört, selbst angelegt. Webeleinstek."
+    },
+    {
+     "wer": "jasper",
+     "t": "Ich muss rüber zu meiner Boje. Danke fürs Mitnehmen!"
+    },
+    {
+     "gast": {
+      "wer": "jasper",
+      "weg": true
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gode Nacht."
     },
     {
      "ende": true
