@@ -1,0 +1,430 @@
+{
+ "hinweis": "Kompetenzen SBF See (Ausbildungsheft, lern.js). Erzeugt mit node tools/kompetenzen-bauen.js, nicht von Hand ändern. art: wissen | erkennen | regel | ablauf | manoever | knoten | rechnen; Kriterien je art in lern.js (KRIT). fragen: amtliche Fragen, jede genau einmal. knoten/manoever: IDs in data/knoten.json bzw. data/manoever.json. pruefung: Teil der praktischen Prüfung.",
+ "gruppen": {
+  "grund": "Grundbegriffe",
+  "hafen": "Im Hafen",
+  "manoever": "Manöver",
+  "motor": "Motor",
+  "handling": "Boot handhaben",
+  "knoten": "Knoten",
+  "zeichen": "Zeichen und Tonnen",
+  "fahrwasser": "Fahrwasser",
+  "kvr": "Ausweichregeln",
+  "lichter": "Lichter",
+  "signale": "Schall- und Warnsignale",
+  "sicherheit": "Sicherheit",
+  "umwelt": "Umwelt und Natur",
+  "kanal": "Schleuse und Kanal",
+  "wetter": "Wetter",
+  "navigation": "Navigation",
+  "recht": "Recht"
+ },
+ "kompetenzen": [
+  {
+   "id": "K-GRU-01",
+   "name": "Schiffsführer, Verantwortung, in Fahrt",
+   "gruppe": "grund",
+   "art": "wissen",
+   "fragen": [1,2,3]
+  },
+  {
+   "id": "K-GRU-02",
+   "name": "Töne, Segler als Maschinenfahrzeug",
+   "gruppe": "grund",
+   "art": "wissen",
+   "fragen": [4,5,6,7]
+  },
+  {
+   "id": "K-GRU-03",
+   "name": "Luv und Lee, Backbord und Steuerbord",
+   "gruppe": "grund",
+   "art": "erkennen",
+   "fragen": [8,9]
+  },
+  {
+   "id": "K-HAF-01",
+   "name": "Fender und Leinen klarlegen",
+   "gruppe": "hafen",
+   "art": "ablauf",
+   "fragen": []
+  },
+  {
+   "id": "K-HAF-02",
+   "name": "Leinen auf Kommando",
+   "gruppe": "hafen",
+   "art": "ablauf",
+   "fragen": []
+  },
+  {
+   "id": "K-LIC-01",
+   "name": "Lichterführung: Grundregeln",
+   "gruppe": "lichter",
+   "art": "erkennen",
+   "fragen": [10,11,12,13]
+  },
+  {
+   "id": "K-KVR-01",
+   "name": "Ausweichen: Begegnen und Kreuzen (Maschinenfahrzeuge)",
+   "gruppe": "kvr",
+   "art": "regel",
+   "fragen": [14,15,125,136]
+  },
+  {
+   "id": "K-SIG-01",
+   "name": "Schallsignale und Warnsignale",
+   "gruppe": "signale",
+   "art": "erkennen",
+   "fragen": [16,140,141,161,162,163,164,178,186,188]
+  },
+  {
+   "id": "K-TAF-01",
+   "name": "Tafelzeichen: Gebote, Verbote, Hinweise",
+   "gruppe": "zeichen",
+   "art": "erkennen",
+   "fragen": [17,18,19,20,21,22,23,24,25,26,27,28,29,176]
+  },
+  {
+   "id": "K-SCH-01",
+   "name": "Schleuse und Nord-Ostsee-Kanal",
+   "gruppe": "kanal",
+   "art": "wissen",
+   "fragen": [30,173,174,175]
+  },
+  {
+   "id": "K-UMW-01",
+   "name": "Umwelt, Schilf, Veröffentlichungen",
+   "gruppe": "umwelt",
+   "art": "wissen",
+   "fragen": [31,32,33,38,58]
+  },
+  {
+   "id": "K-HAN-01",
+   "name": "Sog, Schwell, enges Fahrwasser",
+   "gruppe": "handling",
+   "art": "regel",
+   "fragen": [34,36,37,61]
+  },
+  {
+   "id": "K-MAN-01",
+   "name": "Anlegen",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [35,40,48],
+   "manoever": "anlegen",
+   "pruefung": true
+  },
+  {
+   "id": "K-MAN-02",
+   "name": "Ablegen",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [],
+   "manoever": "ablegen",
+   "pruefung": true
+  },
+  {
+   "id": "K-MAN-03",
+   "name": "Aufstoppen",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [],
+   "manoever": "aufstoppen",
+   "pruefung": true
+  },
+  {
+   "id": "K-MAN-04",
+   "name": "Wenden auf engem Raum",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [],
+   "manoever": "wenden",
+   "pruefung": true
+  },
+  {
+   "id": "K-MAN-05",
+   "name": "Mensch über Bord",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [276],
+   "manoever": "mob",
+   "pruefung": true
+  },
+  {
+   "id": "K-MAN-06",
+   "name": "Steuern nach Kompass",
+   "gruppe": "manoever",
+   "art": "manoever",
+   "fragen": [],
+   "manoever": "kompass",
+   "pruefung": true
+  },
+  {
+   "id": "K-PRO-01",
+   "name": "Propeller und Radeffekt",
+   "gruppe": "handling",
+   "art": "regel",
+   "fragen": [41,44,45,46,47,50,51]
+  },
+  {
+   "id": "K-ANK-01",
+   "name": "Ankern",
+   "gruppe": "handling",
+   "art": "wissen",
+   "fragen": [39,171]
+  },
+  {
+   "id": "K-MOT-01",
+   "name": "Außenborder starten",
+   "gruppe": "motor",
+   "art": "ablauf",
+   "fragen": [42]
+  },
+  {
+   "id": "K-MOT-02",
+   "name": "Motor überwachen, Tanken, Pannen",
+   "gruppe": "motor",
+   "art": "wissen",
+   "fragen": [43,49,52,53,54,55,56,57,60]
+  },
+  {
+   "id": "K-GAS-01",
+   "name": "Gasanlage",
+   "gruppe": "sicherheit",
+   "art": "wissen",
+   "fragen": [62,63,64,65,66]
+  },
+  {
+   "id": "K-SIC-01",
+   "name": "Westen, Feuerlöscher, Rettungsmittel",
+   "gruppe": "sicherheit",
+   "art": "wissen",
+   "fragen": [67,68,69]
+  },
+  {
+   "id": "K-SIC-02",
+   "name": "Zusammenstoß und Notsignale",
+   "gruppe": "sicherheit",
+   "art": "wissen",
+   "fragen": [70,72,279,280,281,282,283,284,285]
+  },
+  {
+   "id": "K-WET-01",
+   "name": "Wetter",
+   "gruppe": "wetter",
+   "art": "wissen",
+   "fragen": [71,260,261,262,263,264,265,266,267,268,269,270]
+  },
+  {
+   "id": "K-REC-01",
+   "name": "Recht und Verantwortung",
+   "gruppe": "recht",
+   "art": "wissen",
+   "fragen": [59,73,74,75,76,77,78,85,86,152,153,158,160]
+  },
+  {
+   "id": "K-KVR-02",
+   "name": "Begriffe der Verkehrsregeln",
+   "gruppe": "kvr",
+   "art": "wissen",
+   "fragen": [79,80,81,82,83,89,90]
+  },
+  {
+   "id": "K-KVR-03",
+   "name": "Ausweichen: Segler, Überholen, Kurshalter",
+   "gruppe": "kvr",
+   "art": "regel",
+   "fragen": [126,127,128,129,130,131,132,133,134,135,137,139]
+  },
+  {
+   "id": "K-LIC-02",
+   "name": "Lichter: Maschinen-, Segel-, Ruderfahrzeuge, Ankerlieger",
+   "gruppe": "lichter",
+   "art": "erkennen",
+   "fragen": [91,92,93,94,113,114,159]
+  },
+  {
+   "id": "K-LIC-03",
+   "name": "Lichter: Schlepper und Fischer",
+   "gruppe": "lichter",
+   "art": "erkennen",
+   "fragen": [95,96,97,98,99,102,103,104,105]
+  },
+  {
+   "id": "K-LIC-04",
+   "name": "Lichter: manövrierunfähig, -behindert, tiefgangbehindert, Lotse",
+   "gruppe": "lichter",
+   "art": "erkennen",
+   "fragen": [100,101,106,107,108,109,110,111,112,115]
+  },
+  {
+   "id": "K-NEB-01",
+   "name": "Schallsignale bei verminderter Sicht",
+   "gruppe": "signale",
+   "art": "erkennen",
+   "fragen": [84,116,117,118,119,120,121,122,123,124,138,271]
+  },
+  {
+   "id": "K-VTG-01",
+   "name": "Verkehrstrennungsgebiete",
+   "gruppe": "kvr",
+   "art": "regel",
+   "fragen": [87,88,142,143,144,145,146,147]
+  },
+  {
+   "id": "K-FAH-01",
+   "name": "Besondere Fahrzeuge, Sichtzeichen",
+   "gruppe": "zeichen",
+   "art": "erkennen",
+   "fragen": [148,149,150,151,154,155,177,179,187,189]
+  },
+  {
+   "id": "K-FAH-02",
+   "name": "Fahrwasserregeln",
+   "gruppe": "fahrwasser",
+   "art": "regel",
+   "fragen": [156,157,165,166,167,168,172,181]
+  },
+  {
+   "id": "K-FAH-03",
+   "name": "Wassersport und Sperrgebiete",
+   "gruppe": "fahrwasser",
+   "art": "wissen",
+   "fragen": [169,170,180,182,183,184,185]
+  },
+  {
+   "id": "K-SEE-01",
+   "name": "Laterale Zeichen (Fahrwasser)",
+   "gruppe": "zeichen",
+   "art": "erkennen",
+   "fragen": [190,191,192,193,194,195,196,198,199]
+  },
+  {
+   "id": "K-SEE-02",
+   "name": "Kardinal-, Gefahren- und Sonderzeichen",
+   "gruppe": "zeichen",
+   "art": "erkennen",
+   "fragen": [200,201,202,203,208]
+  },
+  {
+   "id": "K-FEU-01",
+   "name": "Feuer und Kennungen",
+   "gruppe": "zeichen",
+   "art": "erkennen",
+   "fragen": [197,204,205,206,207,209,210,211,212,213,214,215,220,221,222,223,224]
+  },
+  {
+   "id": "K-NAT-01",
+   "name": "Naturschutz und Nationalpark",
+   "gruppe": "umwelt",
+   "art": "wissen",
+   "fragen": [216,217,218,219,225,226,227,228,229,230]
+  },
+  {
+   "id": "K-NAV-01",
+   "name": "Nautische Veröffentlichungen",
+   "gruppe": "navigation",
+   "art": "wissen",
+   "fragen": [231,232,234,235,237,238]
+  },
+  {
+   "id": "K-NAV-02",
+   "name": "Seekarte: Position, Kurs, Distanz",
+   "gruppe": "navigation",
+   "art": "rechnen",
+   "fragen": [236,239,240,241,242,243,244,245,246,247,248]
+  },
+  {
+   "id": "K-GEZ-01",
+   "name": "Gezeiten",
+   "gruppe": "navigation",
+   "art": "wissen",
+   "fragen": [233,249,250,251,252,253,254,255]
+  },
+  {
+   "id": "K-SCW-01",
+   "name": "Schleppen und schwere See",
+   "gruppe": "sicherheit",
+   "art": "wissen",
+   "fragen": [256,257,258,259,274,275,277,278]
+  },
+  {
+   "id": "K-AIS-01",
+   "name": "AIS",
+   "gruppe": "navigation",
+   "art": "wissen",
+   "fragen": [272,273]
+  },
+  {
+   "id": "K-KNO-01",
+   "name": "Achtknoten",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "acht",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-02",
+   "name": "Palstek",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "palstek",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-03",
+   "name": "Kreuzknoten",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "kreuz",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-04",
+   "name": "Schotstek",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "schot",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-05",
+   "name": "Stopperstek",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "stopper",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-06",
+   "name": "Webeleinstek",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "webelein",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-07",
+   "name": "Rundtörn mit zwei halben Schlägen",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "rundtoern",
+   "pruefung": true
+  },
+  {
+   "id": "K-KNO-08",
+   "name": "Klampe belegen",
+   "gruppe": "knoten",
+   "art": "knoten",
+   "fragen": [],
+   "knoten": "klampe",
+   "pruefung": true
+  }
+ ]
+}
