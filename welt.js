@@ -734,7 +734,7 @@ W.seite = async function (opt = {}) {
     const wellig = WLst.reduce((a, q) => a + q.A, 0); if (wellig > .3) dr += Math.sin(t * .9 + Math.sin(t * .37) * 2) * .02 * wellig;
     u += du * dt; s += ds * dt; P.r += dr * dt; P.h += P.r * dt;
     { const nfx = Math.sin(P.h), nfz = -Math.cos(P.h), nrx = Math.cos(P.h), nrz = Math.sin(P.h);
-    P.vx = u * nfx + s * nrx; P.vz = u * nfz + s * nrz; } P.x += P.vx * dt; P.z += P.vz * dt; P.u = u;
+    P.vx = u * nfx + s * nrx; P.vz = u * nfz + s * nrz; } P.x += (P.vx + (P.fest ? 0 : STROM.x)) * dt; P.z += (P.vz + (P.fest ? 0 : STROM.z)) * dt; P.u = u; /* v5.22: Strom versetzt das Boot über Grund */
     /* festgemacht: Leinen halten das Boot am Platz */
     if (P.fest) { const k = Math.min(1, dt * 1.5); P.x += (P.fest.x - P.x) * k; P.z += (P.fest.z - P.z) * k; P.h += wdiff(P.fest.h, P.h) * k; P.vx *= 1 - k; P.vz *= 1 - k; P.r *= 1 - k; }
     }
@@ -902,14 +902,14 @@ W.seite = async function (opt = {}) {
   }
   let tor = {};
   function kommentare(t) {
-    if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > 3.2 && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
+    if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > 3.2 && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; MESS.schnell++; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
     if (P.gleit > .8 && !sagte.gleit) { sagte.gleit = 1; sag('smilla', 'Jetzt gleitet sie! Der Bug kommt runter, das Boot hebt sich aus dem Wasser und wird schneller.', 5000); }
     if (P.buckel > .8 && (P.u || 0) < 5.2 && !sagte.buckel && t > 20) { sagte.buckel = 1; sag('hinnerk', 'Bug hoch, viel Welle, wenig Fahrt: Das ist der Buckel. Mehr Gas, dann kommt sie ins Gleiten.', 5500); }
     for (const z of [40, -15, -70]) { if (FAHRT) { tor['t' + z] = 0; continue; } const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
       if (!nah) { tor[k] = 0; continue; } if (!tor[k]) tor[k] = {seite: Math.sign(d), drin: innen};
       else if (Math.sign(d) !== tor[k].seite && !tor[k].fertig) { tor[k].fertig = 1; const ein = Math.cos(P.h) < 0, mitte = Math.abs(P.x) < 15;
         /* Jeder Hinweis nur einmal je Richtung; „Daneben“ höchstens alle 40 s */
-        if (!mitte) { if (t - (sagte.danebenT || -99) > 40) { sagte.danebenT = t; sag('smilla', 'Daneben! Bleib zwischen den Tonnen. Daneben kann es flach sein.'); } }
+        if (!mitte) { MESS.daneben++; if (t - (sagte.danebenT || -99) > 40) { sagte.danebenT = t; sag('smilla', 'Daneben! Bleib zwischen den Tonnen. Daneben kann es flach sein.'); } }
         else if (ein && !sagte.torEin) { sagte.torEin = 1; sag('hinnerk', 'Sauber. Von See kommend: Rot an Backbord, Grün an Steuerbord.'); }
         else if (!ein && !sagte.torAus) { sagte.torAus = 1; sag('smilla', 'Gut so. Beim Auslaufen ist es andersherum: Rot liegt jetzt an Steuerbord.'); } } }
     const dh = Math.hypot(P.x - 62, P.z + 200); if (dh < 40 && !SH.weg && !sagte.seehund) { sagte.seehund = 1; sag('klabauter', 'Seehund! Seehund! Abstand halten! Krrah!'); }
@@ -1067,7 +1067,7 @@ W.seite = async function (opt = {}) {
   function ziel(d) { ZIEL = d; zielObj.visible = !!d; if (d) { zielObj.position.set(d.x, 0, d.z); const lp = d.h != null; zielObj.children[0].visible = !lp; zielObj.children[2].visible = lp; zielObj.children[0].scale.setScalar(d.r || 5); zielObj.children[2].rotation.y = Math.PI - (d.h || 0); } }
   /* Angelegt: im Liegeplatz-Rechteck (längs 7 m, quer 1,8 m um den Platz), langsam, Kurs parallel zum Steg; beide Richtungen zählen */
   let anlegeTipp = 0;
-  function angelegt(z) { const fx = Math.sin(z.h || 0), fz = -Math.cos(z.h || 0), dx = P.x - z.x, dz = P.z - z.z, laengs = dx * fx + dz * fz, quer = dx * Math.cos(z.h || 0) + dz * Math.sin(z.h || 0), v = Math.hypot(P.vx, P.vz);
+  function angelegt(z) { const fx = Math.sin(z.h || 0), fz = -Math.cos(z.h || 0), dx = P.x - z.x, dz = P.z - z.z, laengs = dx * fx + dz * fz, quer = dx * Math.cos(z.h || 0) + dz * Math.sin(z.h || 0), v = Math.hypot(P.vx + STROM.x, P.vz + STROM.z);
     const ok = Math.abs(laengs) < (z.lang || 7) && Math.abs(quer) < (z.quer || 1.9) && v < .6 && Math.abs(Math.sin(P.h - (z.h || 0))) < .55;
     const d = Math.hypot(dx, dz); if (!ok && d < 18 && uhr - anlegeTipp > 7 && FOLGE) { anlegeTipp = uhr; if (v > 1.1) sag('hinnerk', 'Zu schnell! Gas raus, kurz zurück zum Aufstoppen.', 4000); else if (Math.abs(quer) >= (z.quer || 1.9) && Math.abs(laengs) < (z.lang || 7)) sag('smilla', 'Noch näher an den Steg, ganz langsam.', 4000); }
     return ok; }
@@ -1094,7 +1094,7 @@ W.seite = async function (opt = {}) {
     PKT = {liste: liste.map(x => Object.assign(x, {v: teilLokal(x)})), d};
     if (d.zeige) return Promise.resolve();
     return new Promise(res => { let fehl = 0; const ziel = liste.findIndex(x => x.id === d.ziel);
-      const fertig = () => { const b = pktEl.querySelector(`[data-i="${ziel}"]`); if (b) { b.classList.add('an', 'ok'); b.querySelector('i').textContent = '✓'; } try { AUD.sfx('richtig', {vol: .4}); } catch (e) {} setTimeout(() => { if (!d.bleiben) punkteWeg(); res(true); }, 1300); };
+      const fertig = () => { const b = pktEl.querySelector(`[data-i="${ziel}"]`); if (b) { b.classList.add('an', 'ok'); b.querySelector('i').textContent = '✓'; } try { AUD.sfx('richtig', {vol: .4}); } catch (e) {} setTimeout(() => { if (!d.bleiben) punkteWeg(); res(fehl === 0); }, 1300); };
       if (modus === 'auto') { setTimeout(fertig, 1200); return; }
       pktEl.querySelectorAll('.wp').forEach(b => b.onclick = () => { const i = +b.dataset.i; if (i === ziel) { pktEl.querySelectorAll('.wp').forEach(x => x.onclick = null); return fertig(); }
         try { AUD.sfx('falsch', {vol: .3}); } catch (e) {} b.classList.add('nein'); setTimeout(() => b.classList.remove('nein'), 500); if (++fehl >= 2) { const z = pktEl.querySelector(`[data-i="${ziel}"]`); if (z) z.classList.add('such'); } if (d.falsch) sag('smilla', d.falsch, 4500); }); }); }
@@ -1107,19 +1107,61 @@ W.seite = async function (opt = {}) {
   function treibe(d) { P.fest = null; return new Promise(res => { TREIB = {a: {x: P.x, z: P.z, h: P.h}, b: {x: d.x, z: d.z, h: d.h != null ? d.h : P.h}, t: 0, sek: d.sek || 4, rums: d.rums, res}; }); }
   function treibTick(dt) { const T2 = TREIB; T2.t += dt; const u = Math.min(1, T2.t / T2.sek), e = u * u * (3 - 2 * u); P.x = mix(T2.a.x, T2.b.x, e); P.z = mix(T2.a.z, T2.b.z, e); P.h = T2.a.h + wdiff(T2.b.h, T2.a.h) * e; P.vx = P.vz = 0; P.r = 0;
     if (u >= 1) { TREIB = null; if (T2.rums) ruck(T2.rums, .8, P.x + Math.sin(P.h) * 4, P.z - Math.cos(P.h) * 4); T2.res(); } }
+
+  /* ================= v5.22 Ausbildung: messen, Strom, Puppe über Bord, Begegnung nach Regeln (Strategie-Gutachten §3.6) =================
+     Vereinfachungen (werden in der App genannt): Strom überall gleich stark, keine Böen, die Puppe treibt nur mit dem Strom,
+     das andere Boot hält Kurs und Fahrt oder weicht nach den Regeln aus, ohne Wind und Wellen zu beachten. */
+  const MESS = {daneben: 0, schnell: 0};
+  const STROM = {x: 0, z: 0};
+  function strom(d) { const v = d && d.v || 0, h = (d && d.nach != null ? d.nach : 0) * RAD; STROM.x = Math.sin(h) * v; STROM.z = -Math.cos(h) * v; }
+  const grundFahrt = () => Math.hypot(P.vx + STROM.x, P.vz + STROM.z);
+  /* Übungspuppe „Oskar“ über Bord: orange, mit Kopf, treibt mit dem Strom */
+  let MOB = null; const mobObj = new T.Group(); { const k = new T.Mesh(new T.SphereGeometry(.38, 14, 10), new T.MeshStandardMaterial({color: '#ff7a1a', roughness: .5})); mobObj.add(k);
+    const kopf = new T.Mesh(new T.SphereGeometry(.17, 10, 8), new T.MeshStandardMaterial({color: '#f1c9a5', roughness: .7})); kopf.position.y = .42; mobObj.add(kopf); mobObj.visible = false; scene.add(mobObj); }
+  function mob(d) { d = d || {}; const fx = Math.sin(P.h), fz = -Math.cos(P.h), rx = Math.cos(P.h), rz = Math.sin(P.h), hinten = d.hinten != null ? d.hinten : 6, seite = d.seite != null ? d.seite : 2;
+    MOB = {x: d.x != null ? d.x : P.x - fx * hinten + rx * seite, z: d.z != null ? d.z : P.z - fz * hinten + rz * seite}; mobObj.visible = true; return MOB; }
+  function mobWeg() { MOB = null; mobObj.visible = false; }
+  const mobErreicht = () => { if (!MOB) return false; const U = P.boot.userData; return Math.hypot(P.x - MOB.x, P.z - MOB.z) < (U.breite || 2.9) / 2 + 2.2 && grundFahrt() < .7 && Math.abs(P.g) < .12; };
+  /* Begegnung nach Regeln: ein zweites Boot startet so, dass sich beide ohne Ausweichen treffen würden */
+  let GEG = null, gegObj = null;
+  function begegnung(d) { d = d || {}; if (!gegObj) { gegObj = bauBoot({art: 'offen', flagge: false}); scene.add(gegObj); }
+    const fx = Math.sin(P.h), fz = -Math.cos(P.h), D = d.abstand || 110, vU = Math.max(2.2, grundFahrt()), vO = d.v || 3, tU = D / vU;
+    const Mx = P.x + fx * D, Mz = P.z + fz * D, art = d.art || 'entgegen';
+    const hO = art === 'entgegen' ? P.h + Math.PI : art === 'kreuzRechts' ? P.h - Math.PI / 2 : art === 'kreuzLinks' ? P.h + Math.PI / 2 : P.h;
+    const ofx = Math.sin(hO), ofz = -Math.cos(hO), start = art === 'langsam' ? [P.x + fx * D * .55, P.z + fz * D * .55] : [Mx - ofx * vO * tU, Mz - ofz * vO * tU];
+    /* wer ausweicht: entgegen beide nach Steuerbord; kreuzLinks der andere (er hat uns an seiner Steuerbordseite); kreuzRechts und langsam (wir überholen): wir */
+    GEG = {art, x: start[0], z: start[1], h: hO, v: art === 'langsam' ? 1 : vO, h0: P.h, cpa: 1e9, stb: 0, stbAb: null, gedreht: 0, signal: false, res: null, weicht: art === 'entgegen' || art === 'kreuzLinks'};
+    gegObj.visible = true; gegObj.position.set(GEG.x, 0, GEG.z);
+    return new Promise(res => { GEG.res = res; }); }
+  function gegEnde() { if (!GEG) return; const G = GEG; GEG = null; if (gegObj) gegObj.visible = false; G.res && G.res({cpa: Math.round(G.cpa), stb: G.stb, frueh: G.stbAb != null && G.stbAb > 45, art: G.art}); }
+  function uebungTick(dt, t) {
+    if (MOB) { MOB.x += STROM.x * dt; MOB.z += STROM.z * dt; mobObj.position.set(MOB.x, flaeche(MOB.x, MOB.z, t) - .12, MOB.z); mobObj.rotation.z = Math.sin(t * 1.7) * .15; }
+    if (!GEG) return; const G = GEG, d = Math.hypot(G.x - P.x, G.z - P.z);
+    /* der andere: Kurshalter hält Kurs und Fahrt; Ausweichpflichtiger weicht früh nach Steuerbord aus; wird es zu eng, fünf kurze Töne und Manöver des letzten Augenblicks */
+    if (G.weicht && d < (G.art === 'entgegen' ? 85 : 75) && G.gedreht < .6) { const st = Math.min(.6 - G.gedreht, dt * .35); G.h += st; G.gedreht += st; }
+    if (!G.weicht && d < 26 && !G.signal && G.cpa < 30) { G.signal = true; ton('•••••'); sag('smilla', 'Fünf kurze Töne! Der zweifelt, ob du ausweichst!', 4000); }
+    if (G.signal && G.gedreht < 1.2) { const st = Math.min(1.2 - G.gedreht, dt * .8); G.h += st; G.gedreht += st; }
+    G.x += Math.sin(G.h) * G.v * dt; G.z += -Math.cos(G.h) * G.v * dt;
+    gegObj.position.set(G.x, flaeche(G.x, G.z, t) * .8, G.z); gegObj.rotation.set(0, Math.PI - G.h, Math.sin(t * 1.3) * .03, 'YXZ'); lichterSetzen(gegObj, G.h);
+    const dh = wdiff(P.h, G.h0); if (dh > .35 && G.stbAb == null) G.stbAb = d; if (dh > .35) G.stb = 1;
+    if (d < G.cpa) G.cpa = d; else if (G.cpa < 1e8 && d > G.cpa + 40 && d > 55) gegEnde();
+    if (d < 4.5 && !G.rums) { G.rums = 1; ruck('boot', .7, (G.x + P.x) / 2, (G.z + P.z) / 2); }
+    if (GEG && d > 400) gegEnde(); }
   W.api = {get fahrt() { return FAHRT; }, get motor() { return P.motor; }, motorAn: () => motorAn(), motorOffen: () => { mpEl.style.display = ''; motorPanel(); }, motorZu: () => { mpEl.style.display = 'none'; }, szene, gast, aufgabe, notiz, punkte, punkteWeg, treibe, angebot, angebotWeg: () => angebotWeg(), sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
-    get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; }};
+    get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; },
+    motorStoerung: art => { motorAus(); P.mot = Object.assign(motStart(), art === 'warm' ? {kalt: false} : {}); motorPanel(); },
+    strom, mob, mobWeg, get mobErreicht() { return mobErreicht(); }, get mobPos() { return MOB; }, begegnung, get grundFahrt() { return grundFahrt(); }, get mess() { return MESS; }};
   /* Folge starten und beenden; Wetter und Ort danach wie vorher */
   let startet = false;
   async function starteFolge(id, ab) {
-    if (FOLGE || startet) return; startet = true; try { await nachladen('szene.js'); await nachladen('welt-folge.js'); await nachladen('crew.js'); await CREWDIR.laden(); } catch (e) { startet = false; toast('Die Folge ließ sich nicht laden.'); return; }
+    if (FOLGE || startet) return; startet = true; try { await nachladen('szene.js'); await nachladen('welt-folge.js'); await nachladen('crew.js'); await CREWDIR.laden(); await nachladen('lern.js'); await LERN.laden(); } catch (e) { startet = false; toast('Die Folge ließ sich nicht laden.'); return; }
     startet = false; if (!laufend) return; const vorher = JSON.parse(JSON.stringify(C)); FOLGE = {id, fragen: [], wahlen: [], start: uhr, stoesse0: stoesse, vorher};
     $('#wtfolge').textContent = '⏹ Folge beenden'; $('#wtmodus').style.display = ''; $('#wttausch').style.display = 'none';
     if (ab == null) ab = WFOLGE.ab ? WFOLGE.ab(id) : 0; const meine = FOLGE; let erg = null; try { erg = await WFOLGE.spiele(id, W.api, ab); } catch (e) { console.error(e); }
     if (FOLGE !== meine) return; /* schon beendet (und vielleicht neu gestartet) */
     folgeEnde(); if (erg === 'nochmal' && laufend) starteFolge(id, 0); else if (erg === 'spaeter' && laufend) { toast('Gemerkt. Beim nächsten Mal geht es genau hier weiter.'); zurueckKnopf(); }
   }
-  function folgeEnde() { if (!FOLGE) return; const F = FOLGE; FOLGE = null; for (const w in GAESTE) gast({wer: w, weg: true}); aufgabe(null); punkteWeg(); TREIB = null; FAHRT = null; ANDOCK = null; angebotWeg(); szene('welt'); padEl.classList.remove('auto'); ziel(null); ROUTE = null; WARTE.splice(0).forEach(w => w.res(false)); apEl.style.display = 'none'; padEl.classList.remove('aus');
+  function folgeEnde() { if (!FOLGE) return; const F = FOLGE; FOLGE = null; strom(null); mobWeg(); gegEnde(); for (const w in GAESTE) gast({wer: w, weg: true}); aufgabe(null); punkteWeg(); TREIB = null; FAHRT = null; ANDOCK = null; angebotWeg(); szene('welt'); padEl.classList.remove('auto'); ziel(null); ROUTE = null; WARTE.splice(0).forEach(w => w.res(false)); apEl.style.display = 'none'; padEl.classList.remove('aus');
     Object.assign(C, F.vorher); setzeWetter(); speichern(); if (!laufend) return;
     $('#wtfolge').textContent = '🎬 Testfolge'; $('#wtmodus').style.display = 'none'; $('#wttausch').style.display = ''; for (const w in CREWF) crewPlatz[w] = w === 'klabauter' ? 'dach' : w; crewSetzen(); }
   $('#wtfolge').onclick = () => { try { AUD.click(); } catch (e) {} if (FOLGE) { FOLGE.abbruch = true; if (window.WFOLGE) WFOLGE.stop(); try { VOX.stop('Folge'); } catch (e) {} bub.style.display = 'none'; tafelZu(); folgeEnde(); } else starteFolge('probe'); };
@@ -1238,7 +1280,7 @@ W.seite = async function (opt = {}) {
     if (!SH.weg && Math.hypot(P.x - 62, P.z + 200) < 24) { SH.weg = true; SH.zeit = t + 18; sag('klabauter', 'Zu nah! Der Seehund ist abgetaucht. Krrah!'); }
     if (SH.weg && t > SH.zeit && Math.hypot(P.x - 62, P.z + 200) > 45) SH.weg = false;
     SH.y += ((SH.weg ? -1.4 : .1) - SH.y) * dt * 1.5; seehund.position.y = SH.y; seehund.userData.kopf.rotation.y = Math.sin(t * .5) * .5;
-    katzeLauf(dt, t); gaesteTick(dt, t);
+    katzeLauf(dt, t); gaesteTick(dt, t); uebungTick(dt, t);
     if (ZIEL) { zielObj.position.y = flaeche(ZIEL.x, ZIEL.z, t) + .05; zielObj.children[0].material.opacity = .55 + .3 * Math.sin(t * 3); zielObj.children[0].rotation.z = t * .4; }
     for (const w in CREWF) { const f = CREWF[w], kp = f.userData.kopf, weg = f.userData.weg;
       if (weg && weg.length) { const v = weg[0], d = f.position.distanceTo(v); if (d < .05) { weg.shift(); if (!weg.length) f.rotation.y = 0; } else { const st = Math.min(d, dt * .9); f.rotation.y = Math.atan2(v.x - f.position.x, v.z - f.position.z); f.position.addScaledVector(v.clone().sub(f.position).normalize(), st); f.position.y = v.y + Math.abs(Math.sin(t * 9)) * .03; } }
