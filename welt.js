@@ -68,7 +68,8 @@ const ZEIT = {
 const WELLEN = {windsee: {n: 'Windsee', info: 'kurz, kommt mit dem Wind'}, duenung: {n: 'Dünung', info: 'lange runde Wellen von weit her'},
   kreuzsee: {n: 'Kreuzsee', info: 'zwei Wellenzüge kreuzen sich'}, kabbel: {n: 'Kabbelwasser', info: 'kurz und steil, Strom gegen Wind'}, schwell: {n: 'Schwell', info: 'Heckwellen anderer Schiffe'}};
 const ORTE = {hafen: {n: 'Liegeplatz im Hafen', x: -27.2, z: 150, h: 0}, einfahrt: {n: 'Vor der Hafeneinfahrt', x: 0, z: 25, h: Math.PI}, see: {n: 'Offene See', x: 40, z: -150, h: .5},
-  kluever: {n: 'Liegeplatz in Klüverhafen', x: 27.2, z: -968, h: 0, fest: true}, kette: {n: 'Tonnenkette nach Klüverhafen', x: 0, z: -330, h: 0}};
+  kluever: {n: 'Liegeplatz in Klüverhafen', x: 27.2, z: -968, h: 0, fest: true}, kette: {n: 'Tonnenkette nach Klüverhafen', x: 0, z: -330, h: 0},
+  watt: {n: 'Groter Sand (Watt)', x: 5000, z: 150, h: 0}};
 /* Zweites Revier (v5.20): Tonnenkette von der Ansteuerungstonne nach Norden zum Nachbarhafen Klüverhafen. Einlaufend fährt man nach Norden: Rot an Backbord (Westen), Grün an Steuerbord (Osten) */
 const KETTE = [-400, -520, -700, -820];
 const KAMERAS = {hinten: {n: 'Hinter dem Boot', dist: 25, pitch: .27, yaw: 0, lock: false}, weit: {n: 'Weit', dist: 46, pitch: .36, yaw: 0, lock: false},
@@ -566,6 +567,29 @@ function bauWelt(scene) {
     const pk2 = []; for (let z = K0 + 1; z < K0 + sl; z += 4) for (const sx of [-1.25, 1.25]) pk2.push([30 + sx, z]); const pi2 = new T.InstancedMesh(new T.CylinderGeometry(.18, .2, 5, 8), M('pfahl'), pk2.length); pk2.forEach(([x, z], i) => { mtx.compose(new T.Vector3(x, -.9, z), new T.Quaternion(), new T.Vector3(1, 1, 1)); pi2.setMatrixAt(i, mtx); }); g.add(pi2);
     for (const [x, z, h, o] of [[33, -985, 0, {art: 'segler', L: 9, farben: {rumpf: '#f7f1e3', streifen: '#8a2f2a'}}], [-30, -975, 0, {art: 'kajuete', L: 8, mast: 'ohne', farben: {rumpf: '#e9e4d6', streifen: '#2f5d8a'}}]]) { const b = bauBoot(Object.assign({flagge: false}, o)); b.position.set(x, .05, z); b.rotation.y = h; g.add(b); const L = b.userData.laenge / 2 - .3; kap(x, z - L, x, z + L, b.userData.breite * .5, 'boot'); }
     for (const [x, wand, dach, w, h] of [[-50, 'putzGelb', 'dachRot', 10, 8], [-36, 'ziegel', 'dachGrau', 9, 9], [-22, 'putz', 'dachRot', 10, 7.5], [10, 'putzBlau', 'dachRot', 9, 8], [24, 'putzRosa', 'dachGrau', 10, 9], [40, 'ziegel', 'dachRot', 11, 8]]) { const hh = haus(g, x, K0 - 24, w, 9, h, wand, dach, fenster, dunkel); hh.rotation.y = Math.PI; } }
+  /* v5.23 Groter Sand (docs/reise.md, Tag 4): eigener Ort weit weg vom Heimathafen. Priel zwischen Sandbänken, Pricken, ein Becken mit Wrack
+     und vier Kardinaltonnen (Ankerverbot 300 m), Insel Lüttoog am Horizont. Koordinaten: X0 = 5000; Norden = −z. */
+  { const X0 = 5000; W2.sande = [];
+    const sand = (x0, z0, x1, z1) => { const w = x1 - x0, d = z1 - z0, sx = (x0 + x1) / 2, sz = (z0 + z1) / 2;
+      const p1 = mk(new T.PlaneGeometry(w, d), M('sand'), X0 + sx, .25, sz, g); p1.rotation.x = -Math.PI / 2;
+      const p2 = mk(new T.PlaneGeometry(w + 8, d + 8), M('sandNass'), X0 + sx, .05, sz, g); p2.rotation.x = -Math.PI / 2;
+      W2.sande.push({x0: X0 + x0, z0, x1: X0 + x1, z1});
+      kap(X0 + x0, z0, X0 + x0, z1, 3, 'grund'); kap(X0 + x1, z0, X0 + x1, z1, 3, 'grund'); kap(X0 + x0, z0, X0 + x1, z0, 3, 'grund'); kap(X0 + x0, z1, X0 + x1, z1, 3, 'grund'); };
+    /* Priel von Süden nach Norden (x −30 bis 30), danach ein tiefes Becken (x −170 bis 170) */
+    sand(-320, -180, -32, 260); sand(32, -180, 320, 260); sand(-420, -760, -172, -180); sand(172, -760, 420, -180); sand(-420, -1040, 420, -760);
+    /* Pricken: Stangen mit Reisig entlang des Priels */
+    const pr = []; for (let z = 240; z >= -170; z -= 26) for (const sx of [-1, 1]) pr.push([X0 + sx * 27, z]);
+    for (const [x, z] of pr) { mk(new T.CylinderGeometry(.06, .08, 4.2, 5), M('stamm'), x, 1.5, z, g); const b = mk(new T.ConeGeometry(.45, 1.1, 6), M('baumDunkel'), x, 3.4, z, g); }
+    /* Wrack mit Kardinaltonnen (Nord nördlich, Ost östlich, Süd südlich, West westlich der Gefahr) */
+    const WX = X0 + 40, WZ = -360; const wr = mk(new T.BoxGeometry(4, 2, 14), M('schwarz'), WX, -.2, WZ, g); wr.rotation.set(.1, .7, .3);
+    mk(new T.BoxGeometry(.5, 6, .5), M('schwarz'), WX - 1, 2, WZ + 2, g).rotation.z = .35; mk(new T.BoxGeometry(.4, 3, .4), M('schwarz'), WX + 2, 1, WZ - 3, g).rotation.x = -.5; kreis(WX, WZ, 10, 'stein');
+    tonne(WX, WZ - 45, 'nord'); tonne(WX + 45, WZ, 'ost'); tonne(WX, WZ + 45, 'sued'); tonne(WX - 45, WZ, 'west');
+    W2.wrack = {x: WX, z: WZ};
+    /* Insel Lüttoog weit im Norden: flache Düne, Häuschen, Bake */
+    const ins = mk(new T.CylinderGeometry(120, 150, 6, 40), M('sand'), X0 - 60, -1, -1250, g); ins.scale.z = .35;
+    const gruen = mk(new T.CylinderGeometry(90, 110, 3, 40), M('gras'), X0 - 60, 2.6, -1255, g); gruen.scale.z = .3;
+    for (const [x, w] of [[-90, 6], [-70, 8], [-48, 6], [-20, 7]]) haus(g, X0 + x, -1250, w, 5, 4, 'putz', 'dachRot', fenster, dunkel).position.y = 3.5;
+  }
   verschmelze(g, W2.bojen.map(b => b.obj).concat([W2.leuchtturm.strahl])); W2.gruppe = g; return W2;
 }
 
@@ -591,7 +615,7 @@ W.seite = async function (opt = {}) {
   const gesicht = c => typeof charSVG === 'function' ? charSVG(c).replace('viewBox="0 -2 100 147"', 'viewBox="14 -2 72 72"') : '';
   gameShell('3D-Welt (Test)', `<div id="wtwrap"><div class="wt" id="wt"><div class="hud" id="wthud"><b id="wtk">Kurs 000° · 0,0 kn</b><span id="wtg">neutral · Ruder mittschiffs</span></div>
     <canvas class="wkarte" id="wtkarte" width="224" height="224" aria-label="Karte"></canvas>
-    <div class="wgs" id="wtgs">${['hinnerk', 'smilla', 'klabauter'].map(c => `<div class="wg" data-c="${c}">${gesicht(c)}</div>`).join('')}</div><div class="bub" id="wtbub" style="display:none"></div>
+    <div class="wgs" id="wtgs">${['hinnerk', 'smilla', 'klabauter'].map(c => `<div class="wg" data-c="${c}">${gesicht(c)}</div>`).join('')}</div><span class="wsteuer" id="wtsteuer" style="display:none" aria-label="steuert">☸</span><div class="bub" id="wtbub" style="display:none"></div>
     <div class="wpkt" id="wtpkt"></div><div class="wauf" id="wtauf" style="display:none"></div><div class="wnotiz" id="wtnotiz" style="display:none"></div><div class="wtq" id="wtq" style="display:none"></div><div class="wap" id="wtap" style="display:none">🤖 Autopilot</div><button class="btn small lamp wang" id="wtangebot" style="display:none"></button><div class="wsz" id="wtszene" style="display:none"></div>
     <div class="wpad" id="wtpad"><svg class="wst" viewBox="-60 -60 120 120" aria-hidden="true"><g id="wtsg"></g></svg><div class="wgs2"><i class="wgk"></i></div><b class="wl1">voraus</b><b class="wl2">N</b><b class="wl3">zurück</b><button class="wsart" id="wtsart" type="button"></button></div>
     <button class="wb motor" id="wtmot" aria-label="Motor"><span>🔑</span><i id="wtmotl"></i></button><div class="wmp" id="wtmp" style="display:none"></div>
@@ -888,7 +912,7 @@ W.seite = async function (opt = {}) {
   const bub = $('#wtbub'); let bubT = 0; const sagte = {};
   let sprecher = null;
   /* Gäste sprechen vorerst mit Harms' Gratis-Stimme, bis ihre eigenen Stimmen feststehen */
-  const NAMEN = {hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter', kroeger: 'Harms', hafen: 'Hafenmeisterin', jasper: 'Jasper'}, STIMME = w => ({hafen: 'kroeger', jasper: 'kroeger'})[w] || w;
+  const NAMEN = {hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter', kroeger: 'Harms', hafen: 'Hafenmeisterin', jasper: 'Jasper', polizei: 'Wasserschutzpolizei'}, STIMME = w => ({hafen: 'kroeger', jasper: 'kroeger', polizei: 'kroeger'})[w] || w;
   function sag(wer, t, ms, still) { const n = NAMEN[wer] || wer; bub.innerHTML = `<b>${n}:</b> ${esc(t)}`; bub.style.display = ''; clearTimeout(bubT);
     sprecher = wer; document.querySelectorAll('#wtgs .wg, #wtszene .wsf').forEach(x => x.classList.toggle('spricht', x.dataset.c === wer)); document.querySelectorAll('#wtszene [data-ch]').forEach(x => x.classList.toggle('spricht', x.dataset.ch === wer));
     bubT = setTimeout(() => { bub.style.display = 'none'; sprecher = null; document.querySelectorAll('#wtgs .wg').forEach(x => x.classList.remove('spricht')); }, ms || 7000);
@@ -902,7 +926,7 @@ W.seite = async function (opt = {}) {
   }
   let tor = {};
   function kommentare(t) {
-    if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > 3.2 && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; MESS.schnell++; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
+    if (P.z > 80 && P.z < 168 && Math.abs(P.x) < 72 && (P.u || 0) > (FAHRT ? 2.4 : 3.2) && t - (sagte.hafenT || -99) > 25) { sagte.hafenT = t; if (FAHRT) { sag('smilla', 'Käpt\'n! Hafen! Dein Schwell schaukelt die Lieger!', 4500); return; } MESS.schnell++; sag('hinnerk', 'Langsam im Hafen! Unser Schwell schaukelt die Lieger am Steg.', 4500); }
     if (P.gleit > .8 && !sagte.gleit) { sagte.gleit = 1; sag('smilla', 'Jetzt gleitet sie! Der Bug kommt runter, das Boot hebt sich aus dem Wasser und wird schneller.', 5000); }
     if (P.buckel > .8 && (P.u || 0) < 5.2 && !sagte.buckel && t > 20) { sagte.buckel = 1; sag('hinnerk', 'Bug hoch, viel Welle, wenig Fahrt: Das ist der Buckel. Mehr Gas, dann kommt sie ins Gleiten.', 5500); }
     for (const z of [40, -15, -70]) { if (FAHRT) { tor['t' + z] = 0; continue; } const d = P.z - z, innen = Math.abs(P.x) < 22, k = 't' + z, nah = Math.abs(d) < 25 && Math.abs(P.x) < 45;
@@ -984,6 +1008,7 @@ W.seite = async function (opt = {}) {
     for (let x = -66; x <= 66; x += 11) for (let z = 84; z <= 165; z += 9) add(x, z);
     for (const z of [72, 62, 52, 40, 25, 10, -5, -20, -35, -50, -65, -80, -95, -110, -145]) add(0, z);
     for (let x = -200; x <= 200; x += 40) for (let z = -360; z <= 30; z += 40) add(x, z);
+    for (let z = 230; z >= -1000; z -= 25) add(5000, z); for (let x = 4840; x <= 5160; x += 40) for (let z = -200; z >= -740; z -= 40) add(x, z);
     for (let z = -160; z >= -925; z -= 30) add(0, z); for (let x = -40; x <= 22; x += 10) for (let z = -940; z >= -990; z -= 10) add(x, z); }
   function planen(a, b, ignA, ignB) {
     if (frei(a[0], a[1], b[0], b[1], ignA, ignB)) return [a, b];
@@ -1010,14 +1035,14 @@ W.seite = async function (opt = {}) {
     weg = glatt(weg); if (anleg) weg.push(anleg);
     const cum = [0]; for (let i = 1; i < weg.length; i++) cum.push(cum[i - 1] + Math.hypot(weg[i][0] - weg[i - 1][0], weg[i][1] - weg[i - 1][1]));
     FAHRT = {weg, cum, L: cum[cum.length - 1], s: 0, v: Math.max(0, P.u || 0), gas: o.gas || .5, raffer: o.raffer || 1, endH, res, pts, o};
-    ROUTE = weg; apEl.style.display = ''; apEl.textContent = o.raffer > 1 ? '⏩ Zeitraffer' : '🤖 ' + (o.wer || 'Hinnerk') + ' steuert · Hebel antippen = selbst';
+    ROUTE = weg; apEl.style.display = o.raffer > 1 ? '' : 'none'; apEl.textContent = '⏩ Zeitraffer'; steuertGesicht(o.wer || 'hinnerk');
     padEl.classList.add('auto'); padEl.classList.remove('aus');
   }
   function auto(pts, o = {}) { return new Promise(res => starteFahrt(pts, o, res)); }
   const punktBei = s2 => { const F = FAHRT, c = F.cum; let i = 1; while (i < c.length - 1 && c[i] < s2) i++; const a = F.weg[i - 1], b = F.weg[i], u = c[i] > c[i - 1] ? cl((s2 - c[i - 1]) / (c[i] - c[i - 1]), 0, 1) : 1; return [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u]; };
   /* Fahren entlang des Weges: im Hafen langsam, vor dem Ende sanft abbremsen, Kurs folgt der Strecke */
   function fahrtTick(dt) { const F = FAHRT, rest = F.L - F.s, imHafen = P.z > 60 && Math.abs(P.x) < 90;
-    const vmax = imHafen ? 1.5 : 1.2 + F.gas * 5, soll = Math.min(vmax, Math.sqrt(2 * .2 * Math.max(0, rest)) + (F.endH != null ? 0 : .3));
+    const vmax = imHafen ? (F.o.stil === 'hinnerk' ? 2.8 : 1.5) : 1.2 + (F.o.stil === 'hinnerk' ? .9 : F.o.stil === 'smilla' ? .35 : F.gas) * 5, soll = Math.min(vmax, Math.sqrt(2 * .2 * Math.max(0, rest)) + (F.endH != null ? 0 : .3));
     F.v += cl(soll - F.v, -.6 * dt, .4 * dt);
     const [ax, az] = punktBei(F.s), [bx, bz] = punktBei(Math.min(F.L, F.s + 3)); let th = Math.hypot(bx - ax, bz - az) > .05 ? Math.atan2(bx - ax, -(bz - az)) : P.h;
     if (F.endH != null && rest < 9) { const zh = Math.abs(wdiff(F.endH, th)) < Math.PI / 2 ? F.endH : F.endH + Math.PI; th = th + wdiff(zh, th) * (1 - rest / 9); }
@@ -1026,17 +1051,28 @@ W.seite = async function (opt = {}) {
     const [nx, nz] = punktBei(F.s); P.vx = (nx - P.x) / dt; P.vz = (nz - P.z) / dt; P.x = nx; P.z = nz; P.u = vEff;
     P.g = P.gZiel = cl(vEff / 4 + (soll < F.v - .05 ? -.2 : 0), -.3, 1); P.d = P.dZiel = cl(P.r / .4, -1, 1);
     if (F.s >= F.L - .05 && (F.endH == null || F.v < .2)) fahrtEnde(); }
-  function fahrtEnde() { const F = FAHRT; FAHRT = null; ROUTE = null; apEl.style.display = 'none'; padEl.classList.remove('auto'); const v = F.endH == null ? Math.min(F.v, .8) : 0; P.vx = Math.sin(P.h) * v; P.vz = -Math.cos(P.h) * v; P.u = v; P.r = 0; P.g = P.gZiel = P.dZiel = P.d = 0; pad.setze(0, 0);
+  function fahrtEnde() { const F = FAHRT; FAHRT = null; ROUTE = null; apEl.style.display = 'none'; steuertGesicht(null); padEl.classList.remove('auto'); const v = F.endH == null ? Math.min(F.v, .8) : 0; P.vx = Math.sin(P.h) * v; P.vz = -Math.cos(P.h) * v; P.u = v; P.r = 0; P.g = P.gZiel = P.dZiel = P.d = 0; pad.setze(0, 0);
     if (F.endH != null) { const zh = Math.abs(wdiff(F.endH, P.h)) < Math.PI / 2 ? F.endH : F.endH + Math.PI; P.h = zh; P.fest = {x: P.x, z: P.z, h: zh}; } F.res(); }
   /* Mitten im Autopiloten selbst übernehmen: Hebel antippen. Hinnerk kann jederzeit zurück an das Ruder. */
-  function uebernehmen() { const F = FAHRT; if (!F) return; FAHRT = null; ROUTE = null; padEl.classList.remove('auto'); apEl.textContent = '✋ Du steuerst';
+  function uebernehmen() { const F = FAHRT; if (!F) return; FAHRT = null; ROUTE = null; padEl.classList.remove('auto'); apEl.style.display = 'none'; steuertGesicht(null);
     const l = F.pts[F.pts.length - 1], zz = {x: l[0], z: l[1], h: l[2], r: l[2] != null ? 3.5 : 12, anfahrt: F.o.anfahrt}, ohneZiel = !ZIEL; if (ohneZiel) ziel(zz);
-    let per = null; angebot('🤖 Hinnerk übernimmt').then(k => { if (k) per = 'knopf'; });
+    let per = null; angebot().then(k => { if (k) per = 'knopf'; });
     warte(() => per || (l[2] != null ? angelegt(zz) : Math.hypot(P.x - l[0], P.z - l[1]) < zz.r), 900).then(async () => { angebotWeg(); apEl.style.display = 'none';
-      if (per === 'knopf') { if (ohneZiel) ziel(null); const rest = l[2] != null && F.o.anfahrt ? [F.o.anfahrt, l] : [l]; starteFahrt(rest, F.o, F.res); return; }
+      if (per === 'knopf') { if (ohneZiel) ziel(null); const rest = l[2] != null && F.o.anfahrt ? [F.o.anfahrt, l] : [l]; starteFahrt(rest, Object.assign({}, F.o, {wer: hilfeWer || 'hinnerk', stil: hilfeWer}), F.res); return; }
       if (l[2] != null) await fest(zz); if (ohneZiel) ziel(null); F.res(); }); }
   /* Knopf auf der Bühne, z. B. „Hinnerk übernimmt“ */
-  function angebot(t) { const b = $('#wtangebot'); b.textContent = t; b.style.display = ''; return new Promise(res => { b.onclick = () => { try { AUD.click(); } catch (e) {} b.style.display = 'none'; angebotWeg = () => {}; res(true); }; angebotWeg = () => { b.style.display = 'none'; angebotWeg = () => {}; res(false); }; }); }
+  /* v5.23 (Nutzer 04.11.2026): kein Roboter-Knopf. Wer übernehmen soll, tippt auf ein Gesicht: Hinnerk fährt schnell und „irgendwie“, Smilla vorsichtig nach Regeln,
+     Klabauter darf nicht. Ohne Anleitung, zum Selbstentdecken. hilfeWer sagt der Folge, wer übernommen hat. */
+  let HILFE = null, hilfeWer = null;
+  function angebot() { hilfeWer = null; return new Promise(res => { HILFE = wer => { HILFE = null; angebotWeg = () => {}; hilfeWer = wer; res(true); }; angebotWeg = () => { HILFE = null; angebotWeg = () => {}; res(false); }; }); }
+  const KLAB = [['klabauter', 'Klabauter darf nicht! Darf nicht!'], ['smilla', 'Der hat nicht mal den Schein für die Badewanne.'], ['hinnerk', 'Finger weg, Vogel.'], ['klabauter', 'Backbord! Steuerbord! Krrah!']];
+  $('#wtgs').addEventListener('click', e => { const el = e.target.closest('.wg'); if (!el) return; const c = el.dataset.c;
+    if (c === 'klabauter') { const [w, t] = KLAB[Math.floor(Math.random() * KLAB.length)]; sag(w, t, 3500); return; }
+    if (c !== 'hinnerk' && c !== 'smilla') return;
+    if (HILFE) { try { AUD.click(); } catch (e2) {} sag(c, c === 'hinnerk' ? (Math.random() < .5 ? 'Lass mal. Geht schneller.' : 'Gib her.') : (Math.random() < .5 ? 'Ich mach\'s ordentlich. Guck zu.' : 'Okay, ich fahr. Nach Regeln.'), 3000); HILFE(c); return; }
+    if (FAHRT) { sag(c, c === (FAHRT.o.wer || 'hinnerk') ? 'Ich fahr ja schon.' : 'Lass den mal machen.', 2500); return; }
+    sag(c, c === 'hinnerk' ? 'Fahr du man. Ich guck.' : 'Du machst das schon.', 2500); });
+  function steuertGesicht(w) { const b = $('#wtsteuer'); let f = null; document.querySelectorAll('#wtgs .wg').forEach(x => { const an = x.dataset.c === w; x.classList.toggle('steuert', an); if (an) f = x; }); if (!b) return; if (!f) { b.style.display = 'none'; return; } b.style.display = ''; b.style.top = (f.offsetTop + 58 + 26) + 'px'; }
   /* Szenenwechsel: Gespräch in der Kajüte (2D) über der 3D-Welt, oder zurück in die Welt */
   let verdeckt = false;
   function szene(n) { const el = $('#wtszene'), wt = $('#wt'); if (wt) wt.classList.toggle('kajuete', n !== 'welt'); if (n === 'welt') { el.style.display = 'none'; verdeckt = false; return; }
@@ -1049,6 +1085,7 @@ W.seite = async function (opt = {}) {
     const w = d.wer; let g = GAESTE[w];
     if (d.weg) { if (g) { if (g.o) scene.remove(g.o); delete GAESTE[w]; } document.querySelectorAll(`#wtgs .wg[data-c="${w}"], #wtszene .wsf[data-c="${w}"]`).forEach(x => x.remove()); return Promise.resolve(); }
     if (!g) { g = GAESTE[w] = {}; $('#wtgs').insertAdjacentHTML('beforeend', `<div class="wg" data-c="${w}">${gesicht(w)}</div>`); }
+    if (d.gesicht) return Promise.resolve();
     if (d.kajuete) { g.kajuete = true; const z = $('#wtszene .wsgast'); if (z && !z.querySelector(`[data-c="${w}"]`)) z.insertAdjacentHTML('beforeend', `<div class="wsf kommt" data-c="${w}">${charSVG(w)}</div>`); return new Promise(r => setTimeout(r, 900)); }
     if (!g.o) { g.o = bauFigur(w); scene.add(g.o); const v = d.von || [d.x, d.z]; g.o.position.set(v[0], d.y != null ? d.y : 1.08, v[1]); }
     g.ziel = [d.x, d.z]; g.blick = d.blick != null ? d.blick : null;
@@ -1077,7 +1114,7 @@ W.seite = async function (opt = {}) {
     if (A.t > 1.8) { ANDOCK = null; P.fest = {x: A.x, z: A.z, h: hz}; pad.setze(0, 0); A.res && A.res(); } }
   function wetter(t) { Object.assign(C, t); if (t.wellen) C.wellen = Object.assign({}, C.wellen, t.wellen); setzeWetter(); }
   function kamera(n) { if (n && typeof n === 'object') { const o = {dist: 14, pitch: .2, yaw: 0, lock: true}; for (const k in n) if (typeof n[k] === 'number' || typeof n[k] === 'boolean') o[k] = n[k]; Object.assign(K, o, {mode: 'eigen'}); return; } if (KAMERAS[n]) { Object.assign(K, KAMERAS[n], {mode: n}); $('#wtkam').textContent = '🎥 ' + KAMERAS[n].n; } }
-  function ton(sig) { const rel = wdiff(Math.atan2(SCH.x - P.x, -(SCH.z - P.z)), P.h); try { AUD.horn(sig || '▬', null, Math.sin(rel)); } catch (e) {} }
+  function ton(sig) { const Q = BES || SCH, rel = wdiff(Math.atan2(Q.x - P.x, -(Q.z - P.z)), P.h); /* v5.23: Signal kommt vom Besuch (Polizei), sonst vom Frachter */ try { AUD.horn(sig || '▬', null, Math.sin(rel)); } catch (e) {} }
   const fest = z => new Promise(res => { ANDOCK = {x: z.x, z: z.z, h: z.h || 0, t: 0, res}; });
   /* Aufgabe sichtbar halten (Nutzer 03.11.2026: sofort sagen, was man jetzt tun soll), Notiz kurz oben einblenden */
   function aufgabe(t) { const e = $('#wtauf'); if (!t) { e.style.display = 'none'; return; } e.innerHTML = '🎯 ' + esc(t); e.style.display = ''; }
@@ -1147,8 +1184,29 @@ W.seite = async function (opt = {}) {
     if (d < G.cpa) G.cpa = d; else if (G.cpa < 1e8 && d > G.cpa + 40 && d > 55) gegEnde();
     if (d < 4.5 && !G.rums) { G.rums = 1; ruck('boot', .7, (G.x + P.x) / 2, (G.z + P.z) / 2); }
     if (GEG && d > 400) gegEnde(); }
+
+  /* v5.23 Besuch: ein fremdes Boot kommt längsseits (Wasserschutzpolizei), mit Blaulicht. besuch({art, von: [x, z] relativ, seite}) → kommt an, besuchWeg() fährt ab */
+  let BES = null, besObj = null;
+  function besuch(d) { d = d || {}; if (besObj) scene.remove(besObj);
+    besObj = bauBoot({art: 'offen', L: 7.5, mast: 'ohne', flagge: false, farben: {rumpf: '#eef1f4', streifen: '#1d4f91'}});
+    const bl = glow('#3d7bff', 2.2); bl.position.set(0, 2.3, 0); besObj.add(bl); scene.add(besObj);
+    const fx = Math.sin(P.h), fz = -Math.cos(P.h), rx = Math.cos(P.h), rz = Math.sin(P.h), v = d.von || [-60, 120], sd = d.seite === 'backbord' ? -1 : 1;
+    const zx = P.x + rx * 7 * sd, zz = P.z + rz * 7 * sd;
+    BES = {x: P.x + rx * v[0] + fx * v[1], z: P.z + rz * v[0] + fz * v[1], h: P.h, ziel: [zx, zz], zh: P.h, blau: bl, res: null};
+    return new Promise(res => { BES.res = res; }); }
+  function besuchWeg(sofort) { if (!BES) return; if (sofort) { scene.remove(besObj); besObj = null; BES = null; return; } BES.ziel = [BES.x + Math.sin(BES.h + .8) * 300, BES.z - Math.cos(BES.h + .8) * 300]; BES.weg = true; }
+  function besuchTick(dt, t) { const B = BES; if (!B) return; B.blau.material.opacity = Math.sin(t * 9) > 0 ? 1 : .15;
+    if (B.ziel) { const dx = B.ziel[0] - B.x, dz = B.ziel[1] - B.z, d = Math.hypot(dx, dz);
+      if (d < .3 && !B.weg) { B.ziel = null; B.h = B.zh; const r = B.res; B.res = null; r && r(); }
+      else { const v = B.weg ? 5 : Math.min(4, .4 + d * .25), soll = Math.atan2(dx, -dz); B.h += wdiff(soll, B.h) * Math.min(1, dt * 2); B.x += Math.sin(B.h) * v * dt; B.z += -Math.cos(B.h) * v * dt; if (B.weg && d < 20) { scene.remove(besObj); besObj = null; BES = null; return; } } }
+    besObj.position.set(B.x, flaeche(B.x, B.z, t) * .8, B.z); besObj.rotation.set(0, Math.PI - B.h, Math.sin(t * 1.4) * .03, 'YXZ'); }
+  /* Anker: Boot bleibt an der Stelle (schwoit leicht), Kettengeräusch */
+  function anker(auf) { if (auf) { P.fest = null; try { AUD.sfx('anker', {vol: .7}); } catch (e) {} return; } P.vx = P.vz = 0; P.g = P.gZiel = 0; P.fest = {x: P.x, z: P.z, h: P.h}; try { AUD.sfx('anker', {vol: .8}); } catch (e) {} }
+  const abstandZu = (x, z) => Math.round(Math.hypot(P.x - x, P.z - z));
   W.api = {get fahrt() { return FAHRT; }, get motor() { return P.motor; }, motorAn: () => motorAn(), motorOffen: () => { mpEl.style.display = ''; motorPanel(); }, motorZu: () => { mpEl.style.display = 'none'; }, szene, gast, aufgabe, notiz, punkte, punkteWeg, treibe, angebot, angebotWeg: () => angebotWeg(), sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
     get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; },
+    besuch, besuchWeg: () => besuchWeg(), anker, karte: an => { kc.style.display = an ? '' : 'none'; }, pfeife: () => { try { if (typeof pfeife === 'function') pfeife(); } catch (e) {} },
+    get hilfeWer() { return hilfeWer; }, get wrack() { return WL.wrack; }, abstandZu,
     motorStoerung: art => { motorAus(); P.mot = Object.assign(motStart(), art === 'warm' ? {kalt: false} : {}); motorPanel(); },
     strom, mob, mobWeg, get mobErreicht() { return mobErreicht(); }, get mobPos() { return MOB; }, begegnung, get grundFahrt() { return grundFahrt(); }, get mess() { return MESS; }};
   /* Folge starten und beenden; Wetter und Ort danach wie vorher */
@@ -1161,7 +1219,7 @@ W.seite = async function (opt = {}) {
     if (FOLGE !== meine) return; /* schon beendet (und vielleicht neu gestartet) */
     folgeEnde(); if (erg === 'nochmal' && laufend) starteFolge(id, 0); else if (erg === 'spaeter' && laufend) { toast('Gemerkt. Beim nächsten Mal geht es genau hier weiter.'); zurueckKnopf(); }
   }
-  function folgeEnde() { if (!FOLGE) return; const F = FOLGE; FOLGE = null; strom(null); mobWeg(); gegEnde(); for (const w in GAESTE) gast({wer: w, weg: true}); aufgabe(null); punkteWeg(); TREIB = null; FAHRT = null; ANDOCK = null; angebotWeg(); szene('welt'); padEl.classList.remove('auto'); ziel(null); ROUTE = null; WARTE.splice(0).forEach(w => w.res(false)); apEl.style.display = 'none'; padEl.classList.remove('aus');
+  function folgeEnde() { if (!FOLGE) return; const F = FOLGE; FOLGE = null; kc.style.display = ''; besuchWeg(true); steuertGesicht(null); strom(null); mobWeg(); gegEnde(); for (const w in GAESTE) gast({wer: w, weg: true}); aufgabe(null); punkteWeg(); TREIB = null; FAHRT = null; ANDOCK = null; angebotWeg(); szene('welt'); padEl.classList.remove('auto'); ziel(null); ROUTE = null; WARTE.splice(0).forEach(w => w.res(false)); apEl.style.display = 'none'; padEl.classList.remove('aus');
     Object.assign(C, F.vorher); setzeWetter(); speichern(); if (!laufend) return;
     $('#wtfolge').textContent = '🎬 Testfolge'; $('#wtmodus').style.display = 'none'; $('#wttausch').style.display = ''; for (const w in CREWF) crewPlatz[w] = w === 'klabauter' ? 'dach' : w; crewSetzen(); }
   $('#wtfolge').onclick = () => { try { AUD.click(); } catch (e) {} if (FOLGE) { FOLGE.abbruch = true; if (window.WFOLGE) WFOLGE.stop(); try { VOX.stop('Folge'); } catch (e) {} bub.style.display = 'none'; tafelZu(); folgeEnde(); } else starteFolge('probe'); };
@@ -1179,6 +1237,7 @@ W.seite = async function (opt = {}) {
     g.fillStyle = '#e3cf9f'; g.beginPath(); g.arc(X(120), Y(-250), 31 * k, 0, 7); g.fill(); g.fillStyle = '#7fa35a'; g.beginPath(); g.arc(X(120), Y(-250), 23 * k, 0, 7); g.fill();
     g.fillStyle = '#c9b585'; g.beginPath(); g.ellipse(X(60), Y(-200), 15 * k, 8 * k, 0, 0, 7); g.fill();
     const farbeB = {rot: '#e0503c', gruen: '#3fae5a', anst: '#ffffff', nord: '#f2c230'};
+    for (const sd of WL.sande || []) { g.fillStyle = '#d9c99a'; g.fillRect(X(sd.x0), Y(sd.z0), (sd.x1 - sd.x0) * k, (sd.z1 - sd.z0) * k); }
     for (const b of WL.bojen) { g.fillStyle = farbeB[b.art] || '#fff'; g.strokeStyle = b.art === 'anst' ? '#e0503c' : b.art === 'nord' ? '#222' : 'rgba(0,0,0,.35)'; g.lineWidth = 1.5; g.beginPath(); g.arc(X(b.x), Y(b.z), Math.max(3, 1.6 * k), 0, 7); g.fill(); g.stroke(); }
     if (ROUTE) { g.strokeStyle = '#ffd27a'; g.lineWidth = 2; g.setLineDash([6, 5]); g.beginPath(); g.moveTo(X(P.x), Y(P.z)); ROUTE.forEach(([x, z], i) => { if (!FAHRT || FAHRT.cum[i] >= FAHRT.s) g.lineTo(X(x), Y(z)); }); g.stroke(); g.setLineDash([]); }
     if (ZIEL) { g.strokeStyle = '#ffd27a'; g.lineWidth = 3; g.beginPath(); g.arc(X(ZIEL.x), Y(ZIEL.z), Math.max(5, (ZIEL.r || 5) * k), 0, 7); g.stroke(); }
@@ -1280,7 +1339,7 @@ W.seite = async function (opt = {}) {
     if (!SH.weg && Math.hypot(P.x - 62, P.z + 200) < 24) { SH.weg = true; SH.zeit = t + 18; sag('klabauter', 'Zu nah! Der Seehund ist abgetaucht. Krrah!'); }
     if (SH.weg && t > SH.zeit && Math.hypot(P.x - 62, P.z + 200) > 45) SH.weg = false;
     SH.y += ((SH.weg ? -1.4 : .1) - SH.y) * dt * 1.5; seehund.position.y = SH.y; seehund.userData.kopf.rotation.y = Math.sin(t * .5) * .5;
-    katzeLauf(dt, t); gaesteTick(dt, t); uebungTick(dt, t);
+    katzeLauf(dt, t); gaesteTick(dt, t); uebungTick(dt, t); besuchTick(dt, t);
     if (ZIEL) { zielObj.position.y = flaeche(ZIEL.x, ZIEL.z, t) + .05; zielObj.children[0].material.opacity = .55 + .3 * Math.sin(t * 3); zielObj.children[0].rotation.z = t * .4; }
     for (const w in CREWF) { const f = CREWF[w], kp = f.userData.kopf, weg = f.userData.weg;
       if (weg && weg.length) { const v = weg[0], d = f.position.distanceTo(v); if (d < .05) { weg.shift(); if (!weg.length) f.rotation.y = 0; } else { const st = Math.min(d, dt * .9); f.rotation.y = Math.atan2(v.x - f.position.x, v.z - f.position.z); f.position.addScaledVector(v.clone().sub(f.position).normalize(), st); f.position.y = v.y + Math.abs(Math.sin(t * 9)) * .03; } }
@@ -1343,7 +1402,7 @@ W.seite = async function (opt = {}) {
   W.starteFolge = starteFolge; W.setzeModus = m => { modus = m; const b = $('#wtmodus'); if (b) b.textContent = m === 'auto' ? '🎧 Auto' : '✋ Selbst'; };
   W.ende = ende; W.zustand = {P, K, C, SCH, WL, scene, cam, r, sag, setzeWetter, setzeOrt, pad, wasser, abstand: hindernisAbstand};
   requestAnimationFrame(schritt);
-  if (opt.folge) setTimeout(() => starteFolge(opt.folge), 1500);
+  if (opt.folge) { szene('kajuete'); kc.style.display = 'none'; setTimeout(() => starteFolge(opt.folge), 500); } /* v5.23: Folgen beginnen sofort in der Kajüte (Nutzer 04.11.2026) */
 };
 
 function css() {
@@ -1376,6 +1435,7 @@ function css() {
   .wt .wkarte{position:absolute;right:8px;top:8px;width:112px;height:112px;border-radius:12px;border:2px solid rgba(255,250,240,.9);box-shadow:0 2px 6px rgba(0,0,0,.25);z-index:2}
   .wt .wkarte.gross{left:8px;width:calc(100% - 16px);height:auto;aspect-ratio:1/1;z-index:4}
   .wgs{position:absolute;left:8px;top:58px;display:flex;flex-direction:column;gap:6px;z-index:1}
+  .wg{cursor:pointer}.wg.steuert{border-color:#f0b53e;box-shadow:0 0 0 2px #f0b53e}.wsteuer{position:absolute;left:40px;z-index:2;font-size:15px;line-height:1;background:#f0b53e;color:#3a2a10;border-radius:50%;width:19px;height:19px;text-align:center;pointer-events:none}.wt.kajuete .wsteuer{display:none!important}
   .wg{width:44px;height:44px;border-radius:50%;background:#f3d79a;border:2.5px solid rgba(255,250,240,.95);overflow:hidden;opacity:.8;transition:transform .2s,opacity .2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
   .wg.spricht{transform:scale(1.2);opacity:1;border-color:#f0b53e}.wg svg{width:100%;height:100%;display:block}
   .wtq{position:absolute;left:8px;right:8px;bottom:8px;max-height:64%;overflow:auto;background:rgba(255,250,240,.97);border-radius:14px;padding:10px;z-index:3;color:#2b2118;box-shadow:0 2px 10px rgba(0,0,0,.25)}
@@ -1393,7 +1453,8 @@ function css() {
   .wpkt .wp span{display:none;position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%);white-space:nowrap;background:#fffaf0;color:#2b2118;font:700 13px Nunito,sans-serif;padding:3px 8px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
   .wpkt .wp.an span{display:block}.wpkt .wp.ok i{background:#27ae60;color:#fff}.wpkt .wp.nein i{background:#c0392b;color:#fff}.wpkt .wp.such i{animation:wpsuch .8s ease-in-out infinite}@keyframes wpsuch{50%{transform:scale(1.35)}}
   .wpkt .wp.an:not(.ok) i{width:14px;height:14px;margin:8px;font-size:0}
-  .wauf{position:absolute;left:60px;right:8px;top:64px;z-index:3;background:rgba(43,33,24,.88);color:#fff;border-radius:10px;padding:7px 10px;font:600 13.5px/1.35 Nunito,sans-serif;pointer-events:none}
+  .wauf{position:absolute;left:60px;right:128px;top:64px;z-index:3;background:rgba(43,33,24,.88);color:#fff;border-radius:10px;padding:7px 10px;font:600 13.5px/1.35 Nunito,sans-serif;pointer-events:none}
+  .wt:has(.wkarte[style*="none"]) .wauf{right:8px} /* v5.23: Aufgabe neben der Minikarte, ohne Karte volle Breite */
   .wnotiz{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:4;background:#fffaf0;color:#2b2118;border-radius:14px;padding:12px 16px;font:700 15px/1.35 Nunito,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.35);text-align:center;max-width:80%}
   .wzettel{background:#fffbe8;border:2px solid #b8a77a;border-radius:6px;padding:18px 14px;margin:0 0 10px;text-align:center;transform:rotate(-1.5deg)}.wzettel b{display:block;font-size:24px;margin-bottom:8px}.wzettel p{margin:4px 0;font-size:16px}
   .wfg{width:100%;border-collapse:collapse;margin:0 0 10px;font-size:14px}.wfg td{padding:6px 4px;border-bottom:1px solid #e6dcc6}.wfg td:last-child{text-align:right;font-weight:700;white-space:nowrap}
