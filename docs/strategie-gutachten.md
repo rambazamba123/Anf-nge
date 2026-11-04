@@ -4,6 +4,8 @@
 > **Grundlage:** echter Code (Stand v5.21), nicht nur die Dokumentation. Wo ich etwas im Code nachgesehen habe, steht die Stelle dabei (`datei:zeile`).
 > **Grenzen meiner Prüfung:** Der Ordner `quellen/` (amtliche Originale, Prüfungsrichtlinie) fehlt in der Cloud. Die Seiten mit der Sportbootführerscheinverordnung (`gesetze-im-internet.de`, `gesetze.legal`) sind aus dieser Sitzung gesperrt. Fachliche Aussagen, die ich deshalb nicht am Original prüfen konnte, sind mit **⚠ zu prüfen** markiert.
 
+> **Stand 04.11.2026 abends:** Der Nutzer hat geantwortet: „setze alle Vorschläge so um“ (E23). Umgesetzt in v5.22, siehe `CLAUDE.md` §8. Offen sind F5–F8.
+
 **Kurzfassung in fünf Sätzen**
 1. Skipper hat ein ungewöhnlich gutes Fundament: alle 285 amtlichen Fragen mit Merksätzen, eine 3D-Bootsphysik mit fachlich richtigem Radeffekt, ein Motorstart-Ablauf, eine eigene geeichte Seekarte und ein Manöverspiel nach dem amtlichen Praxisprotokoll.
 2. Das größte Problem ist nicht fehlender Inhalt, sondern dass **nichts davon misst, ob jemand etwas kann**. Freigaben zählen, wenn man an einer Stelle der Folge ankommt, nicht wenn man etwas richtig gemacht hat; Fahraufgaben werden nicht bewertet; Wiederholungen hören nach vier richtigen Antworten für immer auf.
@@ -143,9 +145,9 @@ Geprüft habe ich alle Sätze der Folgen 1, 3, 7, 11, 15 und alle 16 Crew-Gespr�
 3. **Gespräche ohne Ortsbindung:** `erinn-wrack` („Da drüben liegt das Wrack“) und `erinn-ankern` („Hier wollt Jasper ankern“) können auf jeder Fahrt kommen, auch im Hafen. Das ist inhaltlich falsch und verwirrt.
 
 **⚠ zu prüfen am Original:**
-- Ankerverbot „rund um Wracks“ (Folge 15) gegen die Fragen 171 und 172.
+- ~~Ankerverbot „rund um Wracks“ (Folge 15)~~ **geprüft, richtig:** Frage 171 nennt „im Umkreis von 300 m von … Wracks“.
 - Die Scheinwahl „Durchs Fahrwasser oder außen an der grünen Tonne“ (Folge 7) gegen die Regeln, wann Sportboote außerhalb des Fahrwassers fahren sollen. Die „falsche“ Wahl darf keine richtige Regel als falsch hinstellen.
-- „Westen mindestens alle zwei Jahre warten“: Das ist eine übliche Herstellerangabe und eine Empfehlung, keine Prüfungsregel. So sollte es auch gesagt werden.
+- ~~„Westen mindestens alle zwei Jahre warten“~~ **geprüft, richtig und prüfungsrelevant:** Frage 67 „Entsprechend der Herstellerangabe, mindestens alle 2 Jahre.“
 
 **Vereinfachungen der Simulation, die man kennzeichnen muss:**
 - kein Strom und keine Gezeiten

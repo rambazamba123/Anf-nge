@@ -1150,7 +1150,7 @@ W.seite = async function (opt = {}) {
   W.api = {get fahrt() { return FAHRT; }, get motor() { return P.motor; }, motorAn: () => motorAn(), motorOffen: () => { mpEl.style.display = ''; motorPanel(); }, motorZu: () => { mpEl.style.display = 'none'; }, szene, gast, aufgabe, notiz, punkte, punkteWeg, treibe, angebot, angebotWeg: () => angebotWeg(), sprich, frage, wahl, modell, knoten, auto, warte, ziel, wetter, kamera, ton, crewGehe, fest, ort: id => setzeOrt(id), route: p => { ROUTE = p; }, tafel: tafelZeigen, tafelZu, get zielDef() { return ZIEL; }, get uhr() { return uhr; },
     get P() { return P; }, get modus() { return modus; }, get hornZahl() { return hornZahl; }, get stoesse() { return stoesse; }, angelegt, get laeuft() { return laufend; }, get folge() { return FOLGE; },
     motorStoerung: art => { motorAus(); P.mot = Object.assign(motStart(), art === 'warm' ? {kalt: false} : {}); motorPanel(); },
-    strom, mob, mobWeg, get mobErreicht() { return mobErreicht(); }, begegnung, get grundFahrt() { return grundFahrt(); }, get mess() { return MESS; }};
+    strom, mob, mobWeg, get mobErreicht() { return mobErreicht(); }, get mobPos() { return MOB; }, begegnung, get grundFahrt() { return grundFahrt(); }, get mess() { return MESS; }};
   /* Folge starten und beenden; Wetter und Ort danach wie vorher */
   let startet = false;
   async function starteFolge(id, ab) {
