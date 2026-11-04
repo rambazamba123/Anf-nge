@@ -31,6 +31,9 @@ Du heuerst auf der „Frieda“ an. Die Crew bildet dich Folge für Folge aus, b
 - **Logbuch** am Ende jeder Folge.
 - **Hörmodus (🎧):** Die Crew macht die Handgriffe vor und löst die Fragen nach sechs Sekunden Denkpause auf.
 
+## 3b. Lebendige Crew (v5.21)
+Der Crew-Regisseur (`crew.js`, `docs/crew-regisseur.md`) lässt die Crew an ruhigen Stellen von selbst reden oder schweigen und erinnert sich an Erlebtes aus früheren Folgen. Alles bleibt vorgeschrieben und eingesprochen, ohne Live-KI.
+
 ## 4. 2D und 3D (Entscheidung E22)
 - **3D:**
   - Alle Fahrten und Manöver laufen in 3D.

@@ -8,6 +8,8 @@
    {treibe: {x, z, h, sek, rums}} Boot ohne Physik bewegen · {fest: {x, z, h}} an den Steg holen · {freigabe: id, ok} · {freigaben: true} Liste „Was ich an Bord darf“
    {logbuch: Text} · {zettel: {titel, zeilen}} Bild zum Anschauen · {halt: Text} Haltepunkt (später genau hier weiter, S.folgen[id].i) · {navi: id} Aufgabe auf der Seekarte 7 (navi7.js)
    Bei selbst-Schritten zeigt {aufgabe} sofort, was zu tun ist (Nutzer 03.11.2026).
+   v5.21 Crew-Regisseur (crew.js): {merke: 'merkmal'} schreibt ins Crew-Gedächtnis · {plaudern: 'kajuete'|'fahrt'|'hafen'} die Crew redet von selbst
+   (passendes Gespräch aus data/crew-dialoge.json oder Schweigen) · {auto: …, plaudern: 'fahrt'} redet während der Fahrt.
    Hörmodus (🎧 Auto): Der Autopilot fährt die Strecken, Fragen werden vorgelesen und aufgelöst. */
 (function () {
 'use strict';
@@ -43,7 +45,9 @@ async function schritt(s, api, f) {
   if (s.zettel) return zettel(api, s.zettel);
   if (s.halt) return halt(api, s);
   if (s.navi) return navi(api, s.navi);
-  if (s.auto) return api.auto(s.auto, {gas: s.gas, raffer: s.raffer, wer: s.steuert});
+  if (s.auto) { const fahrt = api.auto(s.auto, {gas: s.gas, raffer: s.raffer, wer: s.steuert}); if (s.plaudern && window.CREWDIR) await CREWDIR.plaudern(s.plaudern, (w, t) => api.sprich(w, t)); return fahrt; }
+  if (s.merke) { if (window.CREWDIR) (Array.isArray(s.merke) ? s.merke : [s.merke]).forEach(CREWDIR.merke); return; }
+  if (s.plaudern) return window.CREWDIR ? CREWDIR.plaudern(s.plaudern, (w, t) => api.sprich(w, t)) : null;
   if (s.szene) return api.szene(s.szene);
   if (s.wer) return api.sprich(s.wer, s.t);
   if (s.kamera) return api.kamera(s.kamera);

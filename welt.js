@@ -1112,7 +1112,7 @@ W.seite = async function (opt = {}) {
   /* Folge starten und beenden; Wetter und Ort danach wie vorher */
   let startet = false;
   async function starteFolge(id, ab) {
-    if (FOLGE || startet) return; startet = true; try { await nachladen('szene.js'); await nachladen('welt-folge.js'); } catch (e) { startet = false; toast('Die Folge ließ sich nicht laden.'); return; }
+    if (FOLGE || startet) return; startet = true; try { await nachladen('szene.js'); await nachladen('welt-folge.js'); await nachladen('crew.js'); await CREWDIR.laden(); } catch (e) { startet = false; toast('Die Folge ließ sich nicht laden.'); return; }
     startet = false; if (!laufend) return; const vorher = JSON.parse(JSON.stringify(C)); FOLGE = {id, fragen: [], wahlen: [], start: uhr, stoesse0: stoesse, vorher};
     $('#wtfolge').textContent = '⏹ Folge beenden'; $('#wtmodus').style.display = ''; $('#wttausch').style.display = 'none';
     if (ab == null) ab = WFOLGE.ab ? WFOLGE.ab(id) : 0; const meine = FOLGE; let erg = null; try { erg = await WFOLGE.spiele(id, W.api, ab); } catch (e) { console.error(e); }

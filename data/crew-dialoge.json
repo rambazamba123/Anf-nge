@@ -1,0 +1,459 @@
+{
+ "hinweis": "Gespräche für den Crew-Regisseur (crew.js). Sätze sind Entwurf nach docs/dialog-regeln.md, werden später eingesprochen. Felder: ort, wenn/nicht (Gedächtnis, frei:id, folge:id), prio, max, pause (Gelegenheiten bis zur Wiederholung, Standard 10), max (Standard 3), zeilen [{wer, t} oder {wer, v: Varianten}].",
+ "ruhe": {
+  "fahrt": 0.35,
+  "kajuete": 0.3,
+  "hafen": 0.4
+ },
+ "gespraeche": [
+  {
+   "id": "kaffee",
+   "ort": [
+    "kajuete",
+    "hafen"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Wer hat den letzten Kaffee getrunken?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Klabauter."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Lüge! Lüge!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Er hat Kaffeeflecken am Schnabel, Käpt'n."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "koeln",
+   "ort": [
+    "fahrt",
+    "kajuete"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Bei uns in Köln wär jetzt Brauhaus. Mit Halve Hahn."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und was is das?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Käsebrötchen."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Warum heißt es dann Hahn?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Frag nicht. Das ist Köln."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "wetter-knie",
+   "ort": [
+    "fahrt",
+    "hafen"
+   ],
+   "zeilen": [
+    {
+     "wer": "hinnerk",
+     "t": "Mein Knie sagt, morgen kommt Wind."
+    },
+    {
+     "wer": "smilla",
+     "t": "Dein Knie hat auch gesagt, letzten Sommer gibt's 'nen Sturm."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Kam ja auch. Nur woanders."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "katze-karte",
+   "ort": [
+    "kajuete"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Backbord liegt schon wieder auf der Seekarte."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Lass sie. Die liegt immer da, wo's warm is."
+    },
+    {
+     "wer": "smilla",
+     "t": "Sie liegt genau auf Helgoland."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Katze Helgoland! Katze Helgoland!"
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "klabauter-alter",
+   "ort": [
+    "fahrt",
+    "kajuete"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Wie alt ist Klabauter eigentlich?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Älter als du."
+    },
+    {
+     "wer": "smilla",
+     "t": "Das ist keine Antwort."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Is aber wahr."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Uralt! Uralt!"
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "moewe",
+   "ort": [
+    "fahrt",
+    "hafen"
+   ],
+   "zeilen": [
+    {
+     "wer": "klabauter",
+     "t": "Möwe! Möwe! Krrah!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Die sind nicht deine Freunde, Klabauter."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Doch! Doch!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Letzte Woche hat ihm eine das Brötchen geklaut."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "musik",
+   "ort": [
+    "fahrt"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Darf ich Musik anmachen?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Nein."
+    },
+    {
+     "wer": "smilla",
+     "t": "Leise?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Der Motor is Musik."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "schweigen",
+   "ort": [
+    "fahrt"
+   ],
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Schön ruhig heute."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Mhm."
+    }
+   ],
+   "max": 3
+  },
+  {
+   "id": "erinn-rums",
+   "ort": [
+    "fahrt",
+    "hafen",
+    "kajuete"
+   ],
+   "wenn": "rums_arbeitsboot",
+   "prio": 1,
+   "max": 2,
+   "pause": 6,
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Weißt du noch, das gelbe Arbeitsboot?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Nich schon wieder."
+    },
+    {
+     "wer": "smilla",
+     "v": [
+      "Die Hafenmeisterin grüßt uns seitdem nicht mehr.",
+      "Die Hafenmeisterin hat seitdem extra dicke Fender dran."
+     ]
+    },
+    {
+     "wer": "klabauter",
+     "t": "Rums! Rums!"
+    }
+   ]
+  },
+  {
+   "id": "erinn-weste",
+   "ort": [
+    "kajuete",
+    "fahrt"
+   ],
+   "wenn": "weste89",
+   "nicht": "weste_neu",
+   "max": 1,
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Käpt'n, warst du mit der Weste beim Service?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Bin dabei."
+    },
+    {
+     "wer": "smilla",
+     "t": "Seit wann?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Seit neunundachtzig."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Neunundachtzig! Neunundachtzig!"
+    }
+   ]
+  },
+  {
+   "id": "erinn-moewen",
+   "ort": [
+    "fahrt"
+   ],
+   "wenn": "moewen_regel",
+   "max": 2,
+   "zeilen": [
+    {
+     "wer": "hinnerk",
+     "t": "Guck. Die Möwen fliegen aufs Land."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Nix und. Ich sag ja nur."
+    },
+    {
+     "wer": "smilla",
+     "t": "Barometer steht auf hoch, Käpt'n."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ich sag ja nur."
+    }
+   ]
+  },
+  {
+   "id": "erinn-jasper-nord",
+   "ort": [
+    "fahrt",
+    "kajuete"
+   ],
+   "wenn": "jasper_nord",
+   "max": 2,
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Was meinst du, sagt Jasper immer noch Nord?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Bei jeder Frage."
+    },
+    {
+     "wer": "smilla",
+     "t": "Bei der Westtonne lag er damit voll daneben."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Nord! Nord!"
+    }
+   ]
+  },
+  {
+   "id": "erinn-ankern",
+   "ort": [
+    "fahrt"
+   ],
+   "wenn": "jasper_ankern",
+   "max": 1,
+   "zeilen": [
+    {
+     "wer": "hinnerk",
+     "t": "Hier wollt Jasper ankern."
+    },
+    {
+     "wer": "smilla",
+     "t": "Mitten im Fahrwasser."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Der Mann hat Mut."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Mann hat keine Ahnung."
+    }
+   ]
+  },
+  {
+   "id": "erinn-wrack",
+   "ort": [
+    "fahrt"
+   ],
+   "wenn": "wrack_west",
+   "max": 2,
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Da drüben liegt das Wrack."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Westlich vorbei. Immer westlich vorbei."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Westen! Westen!"
+    }
+   ]
+  },
+  {
+   "id": "lob-fender",
+   "ort": [
+    "hafen",
+    "kajuete"
+   ],
+   "wenn": "frei:fender",
+   "max": 1,
+   "prio": 1,
+   "zeilen": [
+    {
+     "wer": "smilla",
+     "t": "Fender sitzt jetzt jedes Mal."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hm."
+    },
+    {
+     "wer": "smilla",
+     "t": "Das war ein Lob."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Weiß ich."
+    }
+   ]
+  },
+  {
+   "id": "spott-vorleine",
+   "ort": [
+    "hafen"
+   ],
+   "wenn": "rums_arbeitsboot",
+   "nicht": "frei:vorleine",
+   "max": 2,
+   "zeilen": [
+    {
+     "wer": "klabauter",
+     "t": "Leinen los! Leinen los!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Klabauter. Nich jetzt."
+    },
+    {
+     "wer": "smilla",
+     "t": "Er übt nur. Genau wie unser Neuzugang."
+    }
+   ]
+  },
+  {
+   "id": "smilla-segler",
+   "ort": [
+    "kajuete",
+    "fahrt"
+   ],
+   "wenn": "folge:tag07",
+   "max": 1,
+   "zeilen": [
+    {
+     "wer": "hinnerk",
+     "t": "Auf so 'nem Traditionssegler. Hast du da überhaupt 'ne eigene Koje?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Hängematte."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hängematte."
+    },
+    {
+     "wer": "smilla",
+     "t": "Ist modern, Käpt'n. Heißt jetzt Schlafgelegenheit."
+    }
+   ]
+  }
+ ]
+}
