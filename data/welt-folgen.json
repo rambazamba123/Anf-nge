@@ -47,7 +47,6 @@
     },
     {
      "selbst": "motor",
-     "max": 240,
      "hinweis": "Schlüssel links unten. Quickstopp-Leine einklinken, Belüftungsschraube am Tank auf, Pumpball drücken, bis er hart ist, Choke ziehen, Hebel auf Neutral, dann starten.",
      "ansage": [
       "Erst die Quickstopp-Leine einklinken. Ohne sie gibt es keine Zündung.",
@@ -97,7 +96,6 @@
     },
     {
      "selbst": "ziel",
-     "max": 240,
      "auto": []
     },
     {
@@ -134,8 +132,7 @@
      "t": "Wir fahren mit Maschine und machen Fahrt, also geben wir dasselbe Signal: einen langen Ton, mindestens alle zwei Minuten. Tipp aufs Horn!"
     },
     {
-     "selbst": "horn",
-     "max": 45
+     "selbst": "horn"
     },
     {
      "wer": "hinnerk",
@@ -190,7 +187,6 @@
     },
     {
      "selbst": "anlegen",
-     "max": 300,
      "hinweis": "Das gelbe Rechteck ist unser Platz. Spitz anfahren, langsam, und kurz vorher aufstoppen. Ich stehe vorn mit der Leine."
     },
     {
@@ -234,6 +230,859 @@
     {
      "wer": "hinnerk",
      "t": "Fest. Das war die Probefahrt. Morgen geht es richtig los."
+    },
+    {
+     "ende": true
+    }
+   ],
+   "ziele": []
+  },
+  {
+   "id": "motor-an",
+   "nr": 4,
+   "titel": "Folge 4: Motor an!",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "leicht",
+    "von": 7,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "ziele": [
+    "K-MOT-01",
+    "K-MOT-02",
+    "K-PRO-01"
+   ],
+   "fragen": [
+    42,
+    49,
+    50,
+    52,
+    54,
+    55,
+    56,
+    57
+   ],
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Mooooin! Moin!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Moin."
+    },
+    {
+     "wer": "smilla",
+     "t": "Heute lernst du den Motor. Ohne den kommen wir hier nicht vom Fleck."
+    },
+    {
+     "wahl": {
+      "t": "Schon mal einen Außenborder gestartet?",
+      "opts": [
+       {
+        "t": "Klar. Wie beim Rasenmäher.",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Rasenmäher. Hörst du, Käpt'n?"
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Rasenmäher haben keinen Quickstopp."
+         }
+        ]
+       },
+       {
+        "t": "Nee, noch nie.",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Gut. Dann lernst du es gleich richtig."
+         }
+        ]
+       },
+       {
+        "t": "Muss ich das wirklich selbst?",
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Musst du. Ich werd nich jünger."
+         },
+         {
+          "wer": "smilla",
+          "t": "Und ich bin bald weg. Also ja."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "smilla"
+    },
+    {
+     "gehoert": [
+      "K-MOT-01",
+      "K-MOT-02"
+     ]
+    },
+    {
+     "wer": "smilla",
+     "t": "Ich erklär dir die Reihenfolge. Sechs Schritte, und jeder hat einen Grund. Lies mit."
+    },
+    {
+     "zettel": {
+      "titel": "Außenborder starten",
+      "zeilen": [
+       "1. Quickstopp-Leine einklinken und ums Handgelenk. Fällst du über Bord, reißt sie raus, und der Motor geht aus.",
+       "2. Belüftungsschraube am Tank auf. Sonst entsteht im Tank ein Unterdruck, und der Motor geht nach einer Weile aus.",
+       "3. Pumpball drücken, bis er hart ist. Dann ist Kraftstoff am Motor.",
+       "4. Kalter Motor: Choke ziehen. Warmer Motor: kein Choke.",
+       "5. Hebel auf Neutral. Im Gang springt er nicht an, und das Boot soll nicht losfahren.",
+       "6. Starten. Danach prüfen: Kommt hinten der Kühlwasserstrahl raus? Choke langsam wieder rein."
+      ]
+     }
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und der Choke kommt danach rein."
+    },
+    {
+     "wer": "smilla",
+     "t": "Genau. Bleibt er draußen, säuft der Motor ab."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Quickstopp! Quickstopp!"
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": "hinten"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ein Versuch. Ich guck nur."
+    },
+    {
+     "selbst": "motor",
+     "k": "K-MOT-01",
+     "lage": "kalt",
+     "aufgabe": "Starte den Motor: Quickstopp, Tank auf, pumpen, Choke, Neutral, Start. Das Motorfeld ist unten rechts.",
+     "ansage": [
+      "Im Hörmodus mach ich das. Quickstopp-Leine einklinken.",
+      "Belüftungsschraube auf. Pumpball drücken, bis er hart ist.",
+      "Choke, weil er kalt ist. Hebel auf Neutral. Und starten."
+     ]
+    },
+    {
+     "wer": "smilla",
+     "t": "Guck hinten an den Motor. Der dünne Wasserstrahl, das ist der Kontrollstrahl. Der zeigt: Die Kühlung läuft."
+    },
+    {
+     "wahl": {
+      "t": "Und wenn da kein Wasser rauskommt?",
+      "opts": [
+       {
+        "t": "Motor aus und nachsehen",
+        "ok": true,
+        "info": "Genau. Ohne Kühlwasser wird er heiß. Vielleicht ist der Einlass verstopft oder die Pumpe kaputt."
+       },
+       {
+        "t": "Weiterfahren, wird schon",
+        "ok": false,
+        "info": "Lieber nicht. Ohne Kühlwasser wird der Motor heiß und geht kaputt."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-MOT-02"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Choke rein."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und jetzt wird es spannend. Er macht ihn wieder aus."
+    },
+    {
+     "selbst": "motor",
+     "stoerung": "warm",
+     "k": "K-MOT-01",
+     "lage": "warm",
+     "aufgabe": "Hinnerk hat den Motor ausgemacht. Starte ihn noch mal. Er ist jetzt warm.",
+     "hinweis": "Nochmal. Er is jetzt warm.",
+     "ansage": [
+      "Der Motor ist warm. Also kein Choke. Neutral, starten."
+     ]
+    },
+    {
+     "wer": "smilla",
+     "t": "Warmer Motor, kein Choke. Wer da den Choke zieht, ersäuft ihn."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Morgen nochmal. Einmal is Glück."
+    },
+    {
+     "wer": "smilla",
+     "t": "Sagt er bei allem. Freigegeben wird erst, wenn es auch an einem anderen Tag klappt. Das steht dann in deinem Ausbildungsheft."
+    },
+    {
+     "halt": "Kurze Pause? Gleich fährst du eine Runde im Becken."
+    },
+    {
+     "teil": "Eine Runde im Becken"
+    },
+    {
+     "wer": "smilla",
+     "t": "Wir haben kein Ruder. Gelenkt wird mit dem Schraubenstrom: Du drehst mit der Pinne den ganzen Motor. Ohne Gas lenkt er kaum."
+    },
+    {
+     "wahl": {
+      "t": "Du willst langsam um eine Ecke, der Motor ist im Leerlauf. Was passiert, wenn du nur die Pinne legst?",
+      "opts": [
+       {
+        "t": "Fast nichts, ohne Schraubenstrom lenkt er kaum",
+        "ok": true,
+        "info": "Genau. Erst ein bisschen Gas, dann dreht er."
+       },
+       {
+        "t": "Das Boot dreht sich trotzdem",
+        "ok": false,
+        "info": "Kaum. Ohne Ruderblatt kommt die Lenkwirkung vom Schraubenstrom. Kein Gas, kaum Wirkung."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-PRO-01"
+    },
+    {
+     "ziel": {
+      "x": -2,
+      "z": 118,
+      "r": 6,
+      "name": "Mitte des Beckens"
+     }
+    },
+    {
+     "selbst": "ablegen",
+     "k": "K-MAN-02",
+     "aufgabe": "Leg ab und fahr langsam zum gelben Ring in der Mitte des Beckens.",
+     "hinweis": "Erst kurz zurück, dann langsam vor. Im Hafen Schritttempo."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Gas weg. Hör mal."
+    },
+    {
+     "wer": "smilla",
+     "t": "Stell dir vor: Der Motor dreht hoch, aber das Boot macht keine Fahrt."
+    },
+    {
+     "wahl": {
+      "t": "Motor läuft, Gang ist drin, aber das Boot bewegt sich nicht. Was ist am wahrscheinlichsten?",
+      "opts": [
+       {
+        "t": "Der Propeller ist blockiert, zum Beispiel durch eine Leine",
+        "ok": true,
+        "info": "Genau. Dann Motor aus, Quickstopp raus, erst dann an die Schraube."
+       },
+       {
+        "t": "Der Tank ist leer",
+        "ok": false,
+        "info": "Dann wäre der Motor aus. Er läuft ja. Der Propeller ist blockiert, oft durch eine Leine."
+       },
+       {
+        "t": "Der Choke ist noch draußen",
+        "ok": false,
+        "info": "Dann läuft er unrund oder säuft ab. Dreht er hoch und das Boot steht, ist der Propeller blockiert."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-MOT-02"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Leine! Leine!"
+    },
+    {
+     "wennFrei": "K-MAN-01",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Anlegen machst du."
+      },
+      {
+       "ziel": {
+        "x": -27.2,
+        "z": 150,
+        "h": 0,
+        "anfahrt": [
+         -18,
+         128
+        ],
+        "lang": 7,
+        "quer": 1.9,
+        "r": 3.5,
+        "name": "Liegeplatz"
+       }
+      },
+      {
+       "selbst": "anlegen",
+       "k": "K-MAN-01",
+       "aufgabe": "Leg am Liegeplatz an: langsam, spitzer Winkel, kurz vorher rückwärts."
+      },
+      {
+       "ziel": null
+      }
+     ],
+     "sonst": [
+      {
+       "wer": "hinnerk",
+       "t": "Anlegen mach ich. Noch nich freigegeben."
+      },
+      {
+       "wer": "smilla",
+       "t": "Guck zu: ganz langsam, flacher Winkel, kurz vorher rückwärts."
+      },
+      {
+       "ziel": {
+        "x": -27.2,
+        "z": 150,
+        "h": 0,
+        "anfahrt": [
+         -18,
+         128
+        ],
+        "lang": 7,
+        "quer": 1.9,
+        "r": 3.5,
+        "name": "Liegeplatz"
+       }
+      },
+      {
+       "auto": [
+        [
+         -18,
+         128
+        ],
+        [
+         -27.2,
+         150,
+         0
+        ]
+       ],
+       "gas": 0.35
+      },
+      {
+       "ziel": null
+      }
+     ]
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hauptschalter aus."
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "teil": "Abend in der Kajüte"
+    },
+    {
+     "wer": "smilla",
+     "t": "Tanken machen wir morgen. Aber die Regeln gehören zum Motor."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Beim Tanken rauch ich nie."
+    },
+    {
+     "wer": "smilla",
+     "t": "Du rauchst gar nicht, Käpt'n."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Eben."
+    },
+    {
+     "wer": "smilla",
+     "t": "Motor aus, keine elektrischen Schalter, nichts überlaufen lassen, kein offenes Feuer. Benzindämpfe sind schwerer als Luft und sammeln sich unten im Boot."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und leuchtet 'ne Lampe, klopf ich drauf."
+    },
+    {
+     "wahl": {
+      "t": "Nach dem Start bleibt die Ladekontrolllampe an. Was sagt sie dir?",
+      "opts": [
+       {
+        "t": "Lichtmaschine oder Regler sind wohl defekt",
+        "ok": true,
+        "info": "Genau. Die Batterie wird nicht geladen."
+       },
+       {
+        "t": "Draufklopfen, wie der Käpt'n",
+        "ok": false,
+        "info": "Klopfen hilft nur der Lampe. Bleibt sie an, lädt die Lichtmaschine nicht. Lichtmaschine oder Regler sind defekt."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-MOT-02"
+    },
+    {
+     "wer": "smilla",
+     "t": "Unterwegs guckst du beim Einbaumotor immer mal auf Temperatur, Öldruck und Ladekontrolle."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Merken! Merken!"
+    },
+    {
+     "teil": "Fragerunde"
+    },
+    {
+     "wer": "smilla",
+     "t": "Die Fragen zu heute. So, wie sie in der Prüfung stehen."
+    },
+    {
+     "frage": 42
+    },
+    {
+     "frage": 57
+    },
+    {
+     "frage": 56
+    },
+    {
+     "frage": 50
+    },
+    {
+     "halt": "Halbzeit. Weiter mit den letzten vier Fragen?"
+    },
+    {
+     "frage": 49
+    },
+    {
+     "frage": 52
+    },
+    {
+     "frage": 54
+    },
+    {
+     "frage": 55
+    },
+    {
+     "heft": true
+    },
+    {
+     "logbuch": "Tag 4. Motor kalt und warm selbst gestartet. Kontrollstrahl, blockierter Propeller, Ladekontrolle. Morgen nochmal starten."
+    },
+    {
+     "plaudern": "kajuete"
+    },
+    {
+     "ende": true
+    }
+   ]
+  },
+  {
+   "id": "becken",
+   "nr": 6,
+   "titel": "Folge 6: Übungstag im Becken",
+   "ort": "hafen",
+   "wetter": {
+    "wind": "leicht",
+    "von": 6,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "morgen",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": true
+    }
+   },
+   "ziele": [
+    "K-PRO-01",
+    "K-MOT-01",
+    "K-MAN-02",
+    "K-MAN-03",
+    "K-MAN-04",
+    "K-MAN-05",
+    "K-MAN-01"
+   ],
+   "fragen": [
+    35,
+    40,
+    41,
+    44,
+    45,
+    46,
+    47,
+    48,
+    51,
+    60,
+    276
+   ],
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "smilla",
+     "t": "Heute Übungstag. Kein Ausflug, nur das Becken."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Becken! Becken!"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Das Heck zieht weg. Immer."
+    },
+    {
+     "wer": "smilla",
+     "t": "Er meint den Radeffekt. Unser Propeller dreht rechtsrum, von hinten gesehen im Uhrzeigersinn, wenn wir vorwärts fahren. Das heißt rechtsdrehend."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Propeller schiebt das Heck dabei ein bisschen zur Seite. Vorwärts merkst du kaum was. Rückwärts zieht das Heck deutlich nach Backbord."
+    },
+    {
+     "wahl": {
+      "t": "Du fährst rückwärts. Wohin wandert das Heck?",
+      "opts": [
+       {
+        "t": "Nach Backbord",
+        "ok": true,
+        "info": "Genau. Rechtsdrehender Propeller, rückwärts: Heck nach Backbord."
+       },
+       {
+        "t": "Nach Steuerbord",
+        "ok": false,
+        "info": "Andersrum. Rückwärts zieht ein rechtsdrehender Propeller das Heck nach Backbord."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-PRO-01"
+    },
+    {
+     "wer": "smilla",
+     "t": "Deshalb legt man mit so einem Propeller gern mit Backbord an. Gibst du zum Aufstoppen kurz rückwärts, zieht das Heck an den Steg."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Wie bei uns. Steg is links."
+    },
+    {
+     "gehoert": [
+      "K-MAN-02",
+      "K-MAN-03",
+      "K-MAN-04",
+      "K-MAN-05",
+      "K-MAN-01"
+     ]
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": "hinten"
+    },
+    {
+     "wennFrei": "K-MOT-01",
+     "dann": [
+      {
+       "wer": "hinnerk",
+       "t": "Motor machst du. Is ja freigegeben."
+      },
+      {
+       "selbst": "motor",
+       "k": "K-MOT-01",
+       "aufgabe": "Starte den Motor."
+      }
+     ],
+     "sonst": [
+      {
+       "wer": "hinnerk",
+       "t": "Motor. Zeig nochmal."
+      },
+      {
+       "selbst": "motor",
+       "k": "K-MOT-01",
+       "aufgabe": "Starte den Motor: Quickstopp, Tank auf, pumpen, Choke, Neutral, Start."
+      }
+     ]
+    },
+    {
+     "teil": "Ablegen"
+    },
+    {
+     "wer": "smilla",
+     "t": "Ablegen: erst gucken, ob frei ist. Dann kurz rückwärts, damit das Heck vom Steg weg kommt, und langsam vor."
+    },
+    {
+     "ziel": {
+      "x": -8,
+      "z": 128,
+      "r": 5,
+      "name": "Mitte"
+     }
+    },
+    {
+     "selbst": "ablegen",
+     "k": "K-MAN-02",
+     "aufgabe": "Leg ab und fahr zum gelben Ring. Ohne den Steg zu berühren.",
+     "auto": []
+    },
+    {
+     "ziel": null
+    },
+    {
+     "teil": "Aufstoppen"
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt Aufstoppen. Fahr zum Ring und bleib genau darin stehen. Gas weg, kurz rückwärts, wieder Neutral."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Und vorher ansagen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Stimmt. In der Prüfung sagst du: „Ich stoppe jetzt auf.“"
+    },
+    {
+     "ziel": {
+      "x": 6,
+      "z": 104,
+      "r": 4,
+      "name": "Aufstoppen"
+     }
+    },
+    {
+     "selbst": "aufstoppen",
+     "k": "K-MAN-03",
+     "aufgabe": "Fahr in den gelben Ring und bleib darin stehen: Gas weg, kurz rückwärts, Neutral."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "teil": "Wenden auf engem Raum"
+    },
+    {
+     "wer": "smilla",
+     "t": "Jetzt drehen, ohne Platz. Stell dir vor, links und rechts liegen Boote. Du drehst auf der Stelle um."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Vor, zurück. Pinne jedes Mal umlegen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und dreh über Steuerbord. Beim Rückwärtsfahren zieht der Radeffekt das Heck nach Backbord, das hilft dir dabei."
+    },
+    {
+     "selbst": "wenden",
+     "k": "K-MAN-04",
+     "r": 16,
+     "aufgabe": "Dreh das Boot um, mindestens 160 Grad, ohne mehr als 16 Meter Platz zu brauchen: kurz vor, kurz zurück."
+    },
+    {
+     "halt": "Pause? Gleich wird es nass."
+    },
+    {
+     "teil": "Oskar über Bord"
+    },
+    {
+     "notiz": "🐈 Backbord schubst Oskar, die Übungspuppe, über Bord."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Oskar über Bord! Oskar über Bord!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Üben wir gleich als Mensch über Bord. Erst laut rufen, mit Seite: „Mensch über Bord an Steuerbord!“ Einer zeigt drauf und lässt ihn nicht aus den Augen. Rettungsring werfen."
+    },
+    {
+     "wer": "smilla",
+     "t": "Dann das Heck mit der Schraube weg von der Person. Im Bogen zurück, langsam gegen den Wind ran, kurz vorher auskuppeln. Die Person ist dann längsseits, die Schraube steht."
+    },
+    {
+     "selbst": "mob",
+     "k": "K-MAN-05",
+     "mob": {
+      "hinten": 4,
+      "seite": 3
+     },
+     "aufgabe": "Oskar treibt hinter dir. Fahr langsam heran, bis er längsseits ist, und kupple aus (Hebel auf Neutral)."
+    },
+    {
+     "wahl": {
+      "t": "Warum muss die Schraube stehen, wenn die Person längsseits ist?",
+      "opts": [
+       {
+        "t": "Damit sie nicht in den Propeller gerät",
+        "ok": true,
+        "info": "Genau. Ein drehender Propeller verletzt schwer."
+       },
+       {
+        "t": "Damit der Motor nicht heiß wird",
+        "ok": false,
+        "info": "Nein. Es geht um die Person im Wasser: Ein drehender Propeller verletzt schwer."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-MAN-05"
+    },
+    {
+     "wer": "smilla",
+     "t": "An Bord holst du sie mit Badeleiter, Leine oder Rettungsschlaufe. Allein kommt keiner aus dem Wasser."
+    },
+    {
+     "teil": "Anlegen mit Seitenwind"
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Wind kommt von Westen, also vom Steg her. Er drückt dich vom Steg weg. Darum langsam und ein bisschen steiler ran, als du denkst."
+    },
+    {
+     "wahl": {
+      "t": "Wie fährst du den Steg an?",
+      "opts": [
+       {
+        "t": "Langsam, in einem spitzen Winkel",
+        "ok": true,
+        "info": "Genau. Spitzer Winkel, wenig Fahrt, kurz vorher rückwärts."
+       },
+       {
+        "t": "Rechtwinklig drauf zu und kurz vorher drehen",
+        "ok": false,
+        "info": "Lieber nicht. Ein möglichst spitzer Winkel ist am günstigsten. Rechtwinklig rammst du eher den Steg."
+       }
+      ]
+     },
+     "fragt": "smilla",
+     "k": "K-MAN-01"
+    },
+    {
+     "wer": "smilla",
+     "t": "Und wenn es geht, legst du gegen Wind und Strom an. Dann bremsen die mit, und das Boot lässt sich besser steuern."
+    },
+    {
+     "ziel": {
+      "x": -27.2,
+      "z": 150,
+      "h": 0,
+      "anfahrt": [
+       -18,
+       128
+      ],
+      "lang": 7,
+      "quer": 1.9,
+      "r": 3.5,
+      "name": "Liegeplatz"
+     }
+    },
+    {
+     "selbst": "anlegen",
+     "k": "K-MAN-01",
+     "lage": "seitenwind",
+     "aufgabe": "Leg am Liegeplatz an: langsam, spitzer Winkel, kurz vorher rückwärts. Der Wind drückt dich vom Steg weg.",
+     "hinweis": "Langsam. Ich steh vorn mit der Leine."
+    },
+    {
+     "ziel": null
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Feierabend. Hauptschalter aus."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und wenn man länger weg ist: alle Seeventile zu und den Hauptschalter aus."
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "teil": "Fragerunde"
+    },
+    {
+     "wer": "smilla",
+     "t": "Die Fragen zu heute."
+    },
+    {
+     "frage": 44
+    },
+    {
+     "frage": 41
+    },
+    {
+     "frage": 46
+    },
+    {
+     "frage": 48
+    },
+    {
+     "frage": 40
+    },
+    {
+     "halt": "Halbzeit. Weiter mit den letzten Fragen?"
+    },
+    {
+     "frage": 35
+    },
+    {
+     "frage": 45
+    },
+    {
+     "frage": 47
+    },
+    {
+     "frage": 51
+    },
+    {
+     "frage": 60
+    },
+    {
+     "frage": 276
+    },
+    {
+     "heft": true
+    },
+    {
+     "logbuch": "Tag 6. Übungstag im Becken: Ablegen, Aufstoppen, Wenden, Oskar über Bord, Anlegen bei Seitenwind."
+    },
+    {
+     "plaudern": "kajuete"
     },
     {
      "ende": true
@@ -476,7 +1325,6 @@
     },
     {
      "selbst": "motor",
-     "max": 240,
      "hinweis": "So geht's: Quickstopp-Leine einklinken, Belüftungsschraube am Tank auf, Pumpball drücken, bis er hart ist, Choke ziehen, Hebel auf Neutral, dann starten. Alles unten rechts im Motorfeld.",
      "ansage": [
       "Erst die Quickstopp-Leine einklinken.",
@@ -484,7 +1332,8 @@
       "Choke ziehen, Hebel auf Neutral, starten.",
       "Läuft. Und da kommt der Kontrollstrahl. Kühlwasser ist da."
      ],
-     "aufgabe": "Starte den Motor. Alles unten rechts im Motorfeld, Hinnerk sagt dir jeden Schritt."
+     "aufgabe": "Starte den Motor. Alles unten rechts im Motorfeld, Hinnerk sagt dir jeden Schritt.",
+     "k": "K-MOT-01"
     },
     {
      "wer": "hinnerk",
@@ -572,10 +1421,11 @@
     },
     {
      "selbst": "ziel",
-     "max": 240,
      "auto": [],
      "hinweis": "Los geht's. Zwischen den Tonnen bleiben.",
-     "aufgabe": "Fahr zwischen den roten und grünen Tonnen durch bis zur rot-weißen Tonne im gelben Ring."
+     "aufgabe": "Fahr zwischen den roten und grünen Tonnen durch bis zur rot-weißen Tonne im gelben Ring.",
+     "k": "K-SEE-01",
+     "tore": true
     },
     {
      "ziel": null
@@ -598,11 +1448,11 @@
     },
     {
      "wer": "smilla",
-     "t": "Achtung, da vorn. Ein Motorboot kommt genau auf uns zu."
+     "t": "Erst mal im Kopf: Ein Motorboot kommt genau auf uns zu."
     },
     {
      "wahl": {
-      "t": "Das Motorboot kommt genau auf uns zu. Wohin weichst du aus?",
+      "t": "Ein Motorboot kommt genau auf uns zu. Wohin weichst du aus?",
       "opts": [
        {
         "t": "Nach Steuerbord, also rechts",
@@ -616,11 +1466,33 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-KVR-01"
     },
     {
      "wer": "hinnerk",
-     "t": "Und kommt einer von der Seite und kreuzt: Wer den anderen rechts von sich hat, muss ausweichen."
+     "t": "Und kreuzt einer?"
+    },
+    {
+     "wer": "smilla",
+     "t": "Zwei Motorboote, die Kurse kreuzen sich: Wer den anderen an seiner Steuerbordseite hat, weicht aus. Für Segler und im Fahrwasser gelten andere Regeln, die kommen noch."
+    },
+    {
+     "wer": "smilla",
+     "t": "Gleich kommt dir einer entgegen. Weich früh und deutlich nach Steuerbord aus, damit er es sieht."
+    },
+    {
+     "selbst": "begegnung",
+     "k": "K-KVR-01",
+     "begegnung": {
+      "art": "entgegen",
+      "abstand": 120,
+      "v": 3
+     },
+     "aufgabe": "Ein Motorboot kommt entgegen: früh und deutlich nach Steuerbord ausweichen.",
+     "ansage": [
+      "Ich weich nach Steuerbord aus. Früh und deutlich."
+     ]
     },
     {
      "wer": "klabauter",
@@ -646,7 +1518,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-UMW-01"
     },
     {
      "wer": "hinnerk",
@@ -712,9 +1585,9 @@
     },
     {
      "selbst": "anlegen",
-     "max": 300,
      "hinweis": "Langsam. Ich steh vorn mit der Leine.",
-     "aufgabe": "Leg im gelben Rechteck links vorn an: langsam, schräg, kurz vorher rückwärts."
+     "aufgabe": "Leg im gelben Rechteck links vorn an: langsam, schräg, kurz vorher rückwärts.",
+     "k": "K-MAN-01"
     },
     {
      "ziel": null
@@ -807,7 +1680,14 @@
      "ende": true
     }
    ],
-   "nr": 7
+   "nr": 7,
+   "ziele": [
+    "K-MOT-01",
+    "K-SEE-01",
+    "K-KVR-01",
+    "K-UMW-01",
+    "K-MAN-01"
+   ]
   },
   {
    "id": "tag01",
@@ -988,7 +1868,8 @@
        "backbord"
       ],
       "falsch": "Die linke Seite, wenn du zum Bug guckst."
-     }
+     },
+     "k": "K-GRU-03"
     },
     {
      "wer": "smilla",
@@ -1004,7 +1885,8 @@
        "backbord",
        "steuerbord"
       ]
-     }
+     },
+     "k": "K-GRU-03"
     },
     {
      "wer": "smilla",
@@ -1253,7 +2135,9 @@
        "schulter"
       ],
       "falsch": "Guck, welche Stelle dem Steg am nächsten ist. Wir kommen mit dem Bug voran."
-     }
+     },
+     "k": "K-HAF-01",
+     "dim": "c"
     },
     {
      "aufgabe": null
@@ -1270,7 +2154,7 @@
      }
     },
     {
-     "freigabe": "fender"
+     "freigabe": "K-HAF-01"
     },
     {
      "kamera": {
@@ -1323,7 +2207,12 @@
          {
           "freigabe": "vorleine"
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-HAF-02",
+         "dim": "c",
+         "ok": true
+        }
        },
        {
         "t": "Gleich loswerfen",
@@ -1344,7 +2233,12 @@
           "freigabe": "vorleine",
           "ok": false
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-HAF-02",
+         "dim": "c",
+         "ok": false
+        }
        }
       ]
      },
@@ -1416,7 +2310,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-GRU-01"
     },
     {
      "wer": "klabauter",
@@ -1471,6 +2366,12 @@
     {
      "ende": true
     }
+   ],
+   "ziele": [
+    "K-GRU-01",
+    "K-GRU-03",
+    "K-HAF-01",
+    "K-HAF-02"
    ]
   },
   {
@@ -1683,7 +2584,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-SIC-01"
     },
     {
      "merke": "weste89"
@@ -1717,26 +2619,29 @@
         "t": "Hält",
         "dann": [
          {
-          "freigabe": "klampe"
-         },
-         {
           "wer": "hinnerk",
-          "t": "Gut. Einmal geschafft. Beim nächsten Mal nochmal."
+          "t": "Einmal. Beim nächsten Mal nochmal."
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-KNO-08",
+         "dim": "e",
+         "ok": true
+        }
        },
        {
         "t": "Rutscht noch",
         "dann": [
          {
-          "freigabe": "klampe",
-          "ok": false
-         },
-         {
           "wer": "smilla",
           "t": "Macht nix. Morgen nochmal. Ehrlich ist besser als schnell."
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-KNO-08",
+         "dim": "e",
+         "ok": false
+        }
        }
       ]
      },
@@ -1787,6 +2692,11 @@
     {
      "ende": true
     }
+   ],
+   "ziele": [
+    "K-SIC-01",
+    "K-GAS-01",
+    "K-KNO-08"
    ]
   },
   {
@@ -1901,15 +2811,26 @@
      }
     },
     {
+     "strom": {
+      "v": 0.4,
+      "nach": 90
+     }
+    },
+    {
+     "wer": "smilla",
+     "t": "Merk dir: Hier läuft Strom quer zum Fahrwasser. Er versetzt dich nach Osten. Halt ein bisschen vor, sonst landest du neben den Tonnen."
+    },
+    {
      "selbst": "ziel",
-     "max": 300,
      "auto": [
       [
        0,
        -400
       ]
      ],
-     "aufgabe": "Fahr nach Norden zwischen den roten und grünen Tonnen durch bis zum gelben Ring."
+     "aufgabe": "Fahr nach Norden zwischen den roten und grünen Tonnen durch bis zum gelben Ring.",
+     "k": "K-SEE-01",
+     "tore": true
     },
     {
      "ziel": null
@@ -1964,7 +2885,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-SEE-02"
     },
     {
      "merke": "wrack_west"
@@ -1992,14 +2914,15 @@
     },
     {
      "selbst": "ziel",
-     "max": 300,
      "auto": [
       [
        0,
        -800
       ]
      ],
-     "aufgabe": "Fahr weiter zwischen den Tonnen bis zur Hafeneinfahrt von Klüverhafen."
+     "aufgabe": "Fahr weiter zwischen den Tonnen bis zur Hafeneinfahrt von Klüverhafen.",
+     "k": "K-SEE-01",
+     "tore": true
     },
     {
      "ziel": null
@@ -2052,10 +2975,14 @@
      }
     },
     {
+     "strom": null
+    },
+    {
      "selbst": "anlegen",
-     "max": 300,
      "aufgabe": "Leg im gelben Rechteck an: langsam, schräg ran, kurz vorher rückwärts.",
-     "hinweis": "Ganz langsam. Jasper nimmt die Leine."
+     "hinweis": "Ganz langsam. Jasper nimmt die Leine.",
+     "k": "K-MAN-01",
+     "lage": "fremdhafen"
     },
     {
      "ziel": null
@@ -2072,10 +2999,10 @@
      "t": "Sauber! Willkommen in Klüverhafen."
     },
     {
-     "freigabe": "steuern"
+     "freigabe": "K-SEE-01"
     },
     {
-     "freigabe": "fremdhafen"
+     "freigabe": "K-MAN-01"
     },
     {
      "szene": "kajuete"
@@ -2140,6 +3067,13 @@
     {
      "ende": true
     }
+   ],
+   "ziele": [
+    "K-SEE-01",
+    "K-SEE-02",
+    "K-FAH-03",
+    "K-MAN-01",
+    "K-NAV-02"
    ]
   },
   {
@@ -2242,7 +3176,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-ANK-01"
     },
     {
      "merke": "jasper_ankern"
@@ -2285,26 +3220,29 @@
         "t": "Hält",
         "dann": [
          {
-          "freigabe": "webe"
-         },
-         {
           "wer": "hinnerk",
-          "t": "Gut."
+          "t": "Hm. Hält."
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-KNO-06",
+         "dim": "e",
+         "ok": true
+        }
        },
        {
         "t": "Rutscht noch",
         "dann": [
          {
-          "freigabe": "webe",
-          "ok": false
-         },
-         {
           "wer": "smilla",
           "t": "Nochmal üben. Der kommt heute Abend wieder."
          }
-        ]
+        ],
+        "melde": {
+         "k": "K-KNO-06",
+         "dim": "e",
+         "ok": false
+        }
        }
       ]
      },
@@ -2337,8 +3275,7 @@
      }
     },
     {
-     "selbst": "ziel",
-     "max": 300,
+     "selbst": "ablegen",
      "auto": [
       [
        14,
@@ -2346,7 +3283,8 @@
       ]
      ],
      "aufgabe": "Leg ab und fahr zum gelben Ring in der Hafenausfahrt.",
-     "hinweis": "Erst den Hebel ein Stück nach unten, rückwärts. Dann nach oben."
+     "hinweis": "Erst den Hebel ein Stück nach unten, rückwärts. Dann nach oben.",
+     "k": "K-MAN-02"
     },
     {
      "ziel": null
@@ -2357,9 +3295,9 @@
     },
     {
      "selbst": "horn",
-     "max": 45,
      "aufgabe": "Tippe aufs Horn unten links: ein langer Ton.",
-     "gut": "Gut. So weiß jeder: Hier kommt einer raus."
+     "gut": "Gut. So weiß jeder: Hier kommt einer raus.",
+     "k": "K-SIG-01"
     },
     {
      "auto": [
@@ -2409,7 +3347,8 @@
        }
       ]
      },
-     "fragt": "smilla"
+     "fragt": "smilla",
+     "k": "K-SIG-01"
     },
     {
      "wer": "hinnerk",
@@ -2455,15 +3394,15 @@
     },
     {
      "selbst": "anlegen",
-     "max": 300,
      "aufgabe": "Leg im gelben Rechteck links vorn an: langsam, schräg, kurz vorher rückwärts.",
-     "hinweis": "Langsam. Ich steh vorn mit der Leine."
+     "hinweis": "Langsam. Ich steh vorn mit der Leine.",
+     "k": "K-MAN-01"
     },
     {
      "ziel": null
     },
     {
-     "freigabe": "ablegen"
+     "freigabe": "K-MAN-02"
     },
     {
      "plaudern": "hafen"
@@ -2517,6 +3456,13 @@
     {
      "ende": true
     }
+   ],
+   "ziele": [
+    "K-KNO-06",
+    "K-ANK-01",
+    "K-SIG-01",
+    "K-MAN-02",
+    "K-MAN-01"
    ]
   }
  ]

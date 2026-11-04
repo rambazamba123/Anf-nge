@@ -1,4 +1,4 @@
-/* welt-folge.js: Folgen in der 3D-Welt abspielen. Drehbuch in data/welt-folgen.json, die Welt liefert WELT.api.
+/* welt-folge.js: Folgen in der 3D-Welt abspielen. v5.22: Schritte {k} (Kompetenz), {melde}, {gehoert}, {strom}, {heft}, {wennFrei, dann, sonst}; Folge-Feld ziele (Kompetenzen). Drehbuch in data/welt-folgen.json, die Welt liefert WELT.api.
    Schritte: {wer, t} sprechen · {kamera} · {crew: {wer: platz}} · {ort} · {wetter} · {auto: [[x, z(, h)]], gas, raffer} Autopilot
    {frage: n} amtliche Frage · {wahl: {t, opts}} · {ziel: {x, z, r, name, h}} · {selbst: 'ziel' | 'horn' | 'anlegen' | 'motor', max, hinweis, auto, ansage}
    {ton: '▬'} Signal des anderen Schiffs · {knoten: id} · {modell: Text} · {warte: Sekunden} · {szene: 'kajuete' | 'welt'} · {ende: true}
@@ -32,15 +32,24 @@ function merke(id, i, fertig) { try { if (!S.folgen || typeof S.folgen !== 'obje
 F.ab = id => { const x = window.S && S.folgen && S.folgen[id]; return x && x.i > 0 ? x.i : 0; };
 const esc2 = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 async function schritt(s, api, f) {
-  if (s.selbst) { if (s.aufgabe) api.aufgabe(s.aufgabe); try { return await selbst(s, api); } finally { if (s.aufgabe) api.aufgabe(null); } } /* vor auto: selbst-Schritte haben eine Ersatzroute im Feld auto */
+  if (s.selbst) { if (s.aufgabe) api.aufgabe(s.aufgabe); let r; try { r = await selbst(s, api); } finally { if (s.aufgabe) api.aufgabe(null); } /* vor auto: selbst-Schritte haben eine Ersatzroute im Feld auto */
+    if (s.k && r && api.modus !== 'auto' && !r.hilfe) await gemeldet(api, s.k, 'c', r.ok, {lage: s.lage || f.id});
+    if (api.folge) (api.folge.selbst = api.folge.selbst || []).push(Object.assign({k: s.k, art: s.selbst}, r || {})); return r; }
+  if (s.melde) return gemeldet(api, s.melde.k, s.melde.dim || 'b', s.melde.ok !== false, {lage: f.id});
+  if (s.gehoert) { if (window.LERN) (Array.isArray(s.gehoert) ? s.gehoert : [s.gehoert]).forEach(LERN.gehoert); return; }
+  if ('strom' in s) { api.strom(s.strom); if (s.strom && s.strom.v) return api.notiz(`🌊 Strom: ${String(s.strom.v).replace('.', ',')} m/s nach ${s.strom.nach}°`, 3000); return; }
+  if (s.heft) return heftTafel(api, s.heft === true ? (f.ziele || []) : s.heft);
+  /* Die Geschichte richtet sich nach dem Ausbildungsheft: Was freigegeben ist, machst du; sonst macht es die Crew (Gutachten §3.3) */
+  if (s.wennFrei) { const ja = window.LERN && LERN.darf(s.wennFrei); for (const d of (ja ? s.dann : s.sonst) || []) { if (!api.laeuft) return; await schritt(d, api, f); } return; }
   if (s.teil) return api.notiz('<b>' + esc2(s.teil) + '</b>', 2200);
   if ('aufgabe' in s) return api.aufgabe(s.aufgabe);
   if (s.notiz) return api.notiz(s.notiz);
-  if (s.punkte) return api.punkte(s.punkte);
+  if (s.punkte) { const r = await api.punkte(s.punkte); if (s.k && !s.punkte.zeige && api.modus !== 'auto') await gemeldet(api, s.k, s.dim || 'b', r === true, {lage: f.id}); return r; }
   if (s.treibe) return api.treibe(s.treibe);
   if (s.fest) return api.fest(s.fest);
-  if (s.freigabe) { freigabeSetzen(s.freigabe, s.ok); return api.notiz(`📋 <b>${esc2(FREIGABEN[s.freigabe] || s.freigabe)}</b><br>${freigabeText(s.freigabe)}`, 3200); }
-  if (s.freigaben) return freigabenTafel(api);
+  /* v5.22: {freigabe: 'K-…'} zählt nichts mehr, es zeigt nur den Stand im Ausbildungsheft (gezählt wird beim Tun, Gutachten W1); alte IDs werden umgestellt */
+  if (s.freigabe) { if (!window.LERN) return; const k = LERN.ALT[s.freigabe] || s.freigabe; return api.notiz(`📒 <b>${esc2(LERN.name(k))}</b><br>${LERN.text(k)}`, 3200); }
+  if (s.freigaben) return heftTafel(api, f.ziele || []);
   if (s.logbuch) { try { S.reise = S.reise || {}; S.reise.log = S.reise.log || []; S.reise.log.push({d: new Date().toISOString().slice(0, 10), tag: f.nr || 0, text: s.logbuch}); save(); AUD.sfx('bleistift', {vol: .5, dur: .9}); } catch (e) {} return api.notiz('📓 <b>Logbuch</b><br>' + esc2(s.logbuch), 4200); }
   if (s.zettel) return zettel(api, s.zettel);
   if (s.halt) return halt(api, s);
@@ -55,7 +64,10 @@ async function schritt(s, api, f) {
   if (s.ort) return api.ort(s.ort);
   if (s.wetter) return api.wetter(s.wetter);
   if (s.frage) return api.frage(s.frage, s.fragt);
-  if (s.wahl) { const i = await api.wahl(s.wahl, s.fragt), o = s.wahl.opts[i]; if (o && o.dann) for (const d of o.dann) { if (!api.laeuft) return; await schritt(d, api, f); } return i; }
+  if (s.wahl) { const i = await api.wahl(s.wahl, s.fragt), o = s.wahl.opts[i];
+    /* Verständnis: Eine Wahl mit richtig/falsch zählt für die Kompetenz k (im Hörmodus wählt die App, das zählt nicht); melde an einer Antwort zählt eigens (z. B. „Hält er? Ehrlich.“) */
+    if (o && api.modus !== 'auto') { if (s.k && o.ok != null) await gemeldet(api, s.k, 'b', o.ok, {lage: f.id}); if (o.melde) await gemeldet(api, o.melde.k, o.melde.dim || 'e', o.melde.ok !== false, {lage: f.id}); }
+    if (o && o.dann) for (const d of o.dann) { if (!api.laeuft) return; await schritt(d, api, f); } return i; }
   if (s.gast) return api.gast(s.gast);
   if ('ziel' in s) return api.ziel(s.ziel);
   if (s.ton) return api.ton(s.ton);
@@ -64,47 +76,102 @@ async function schritt(s, api, f) {
   if (s.warte) return new Promise(r => setTimeout(r, s.warte * 1000));
   if (s.ende) return ende(api, f);
 }
+/* Ins Ausbildungsheft eintragen; wird eine Kompetenz neu freigegeben, merkt die Crew es (Hinnerk lobt nie direkt) */
+async function gemeldet(api, k, dim, ok, info) { if (!window.LERN || !k) return; const r = LERN.melde(k, dim, ok, info); if (!r || !r.neu) return;
+  if (r.nach === 'freigegeben') { api.notiz(`📒 <b>Freigegeben:</b> ${esc2(LERN.name(k))}`, 3600); await api.sprich('hinnerk', 'Dat kannst du ab jetzt.'); await api.sprich('klabauter', 'Freigabe! Freigabe!'); }
+  else if (r.nach === 'sicher') { api.notiz(`📒 <b>Sicher:</b> ${esc2(LERN.name(k))}`, 3600); await api.sprich('smilla', 'Sitzt auch nach einer Woche noch. Das zählt.'); }
+  else if (r.nach === 'geuebt' && r.vor !== 'geuebt') api.notiz(`📒 Geübt: ${esc2(LERN.name(k))}`, 2400); }
 const nah = (api, z) => Math.hypot(api.P.x - z.x, api.P.z - z.z) < (z.r || 6);
-/* Selbst steuern: Ziel erreichen, Horn geben oder anlegen. Jederzeit „Hinnerk übernimmt“; nach max Sekunden übernimmt er von selbst. */
-function mitHilfe(api, fn, max) { let per = null; api.angebot('🤖 Hinnerk übernimmt').then(k => { if (k) per = 'knopf'; });
-  return api.warte(() => per || fn(), max).then(r => { api.angebotWeg(); return per || (r ? 'ok' : 'zeit'); }); }
+/* Selbst machen (v5.22, Strategie-Gutachten §3.6): keine Uhr mehr. Hilfe gibt es nur auf Wunsch („🤖 Hinnerk übernimmt“) oder nach Fehlversuchen.
+   Gemessen wird, was die Welt sowieso erkennt: Zusammenstöße, Tonnen auf der falschen Seite, zu schnell im Hafen. Rückgabe {ok, hilfe, werte}.
+   Mit {k: 'K-…'} zählt das Ergebnis im Ausbildungsheft (Dimension Können, ohne Hilfe und ohne Rempler). Im Hörmodus bleibt die Aufgabe offen.
+   Neue Arten: ablegen, aufstoppen, wenden {r}, kurs {kurs, tol, sek}, mob {mob, ruf}, begegnung {begegnung: {art, abstand, v}}; motor {stoerung: 'warm'}. */
+function mitHilfe(api, fn) { let per = null; api.angebot('🤖 Hinnerk übernimmt').then(k => { if (k) per = 'knopf'; });
+  return api.warte(() => per || fn()).then(() => { api.angebotWeg(); return per || 'ok'; }); }
+const grad = h => Math.round(((h * 180 / Math.PI) % 360 + 360) % 360);
 async function selbst(s, api) {
-  const z = api.zielDef;
+  const z = api.zielDef, M0 = {st: api.stoesse, dn: api.mess.daneben, sn: api.mess.schnell};
+  const werte = () => ({stoesse: api.stoesse - M0.st, daneben: api.mess.daneben - M0.dn, schnell: api.mess.schnell - M0.sn});
+  const fertig = (ok, hilfe, extra) => Object.assign({ok: !!ok && !hilfe, hilfe: !!hilfe, werte: werte()}, extra || {});
+  if (api.modus === 'auto') return autoSelbst(s, api, z);
+  if (s.hinweis) api.sprich(s.selbst === 'anlegen' || s.selbst === 'begegnung' ? 'smilla' : 'hinnerk', s.hinweis);
   if (s.selbst === 'horn') {
-    if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 1500)); api.ton('▬'); return; }
-    const h0 = api.hornZahl; if (await api.warte(() => api.hornZahl > h0, s.max || 45)) return api.sprich('smilla', s.gut || 'Gut gehört. So weiß jeder, dass hier ein Boot fährt.');
-    await api.sprich('smilla', 'So klingt es:'); api.ton('▬'); return;
+    const h0 = api.hornZahl, r = await mitHilfe(api, () => api.hornZahl > h0);
+    if (r === 'ok') { await api.sprich('smilla', s.gut || 'Gut gehört. So weiß jeder, dass hier ein Boot fährt.'); return fertig(true, false); }
+    await api.sprich('smilla', 'So klingt es:'); api.ton('▬'); return fertig(false, true);
   }
-  if (s.selbst === 'motor') { /* Motor selbst starten; im Hörmodus erklärt Hinnerk den Ablauf */
-    if (api.motor === 'an') return;
-    if (api.modus === 'auto') { for (const t of s.ansage || []) await api.sprich('hinnerk', t); api.motorAn(); return; }
-    if (s.hinweis) api.sprich('hinnerk', s.hinweis); api.motorOffen();
-    const r = await mitHilfe(api, () => api.motor === 'an', s.max || 240); api.motorZu();
-    if (r === 'ok') return api.sprich('hinnerk', s.gut || 'Läuft. Sauber gemacht.');
-    api.motorAn(); return api.sprich('hinnerk', 'Ich mach das. Quickstopp rein, Tank auf, pumpen, Choke, Neutral, starten.');
+  if (s.selbst === 'motor') {
+    if (api.motor === 'an' && !s.stoerung) return fertig(true, false);
+    if (s.stoerung) api.motorStoerung(s.stoerung);
+    api.motorOffen(); const r = await mitHilfe(api, () => api.motor === 'an'); api.motorZu();
+    if (r === 'ok') { await api.sprich('hinnerk', s.gut || 'Läuft.'); return fertig(true, false); }
+    api.motorAn(); await api.sprich('hinnerk', 'Ich mach das. Quickstopp rein, Tank auf, pumpen, Choke, Neutral, starten.'); return fertig(false, true);
   }
-  if (!z) return;
-  if (s.selbst === 'ziel') {
+  if (s.selbst === 'kurs') { /* Steuern nach Kompass: Kurs halten, bis er eine Weile anliegt (Dauer der Übung, keine Entscheidungsuhr) */
+    const soll = s.kurs, tol = s.tol || 8, dauer = s.sek || 20; let seit = null;
+    const lauf = setInterval(() => api.aufgabe(`Kurs ${soll}° steuern und halten · Kompass: ${grad(api.P.h)}°`), 400);
+    const r = await mitHilfe(api, () => { const ab = Math.abs(((grad(api.P.h) - soll + 540) % 360) - 180); if (ab <= tol && api.grundFahrt > .8) { if (seit == null) seit = api.uhr; return api.uhr - seit >= dauer; } seit = null; return false; });
+    clearInterval(lauf); api.aufgabe(null);
+    if (r === 'ok') { await api.sprich('smilla', s.gut || 'Kurs liegt an. So meldest du das auch: „Kurs liegt an.“'); return fertig(true, false); }
+    await api.sprich('hinnerk', 'Ich nehm sie. Kleine Ausschläge, früh gegensteuern.'); return fertig(false, true);
+  }
+  if (s.selbst === 'mob') { /* Mensch über Bord: Puppe treibt achteraus, ranfahren, längsseits, auskuppeln */
+    api.mob(s.mob || {}); if (s.ruf) await api.sprich(s.ruf.wer || 'klabauter', s.ruf.t);
+    const r = await mitHilfe(api, () => api.mobErreicht);
+    if (r === 'ok') { await api.sprich('hinnerk', s.gut || 'Hab ihn. Schraube steht.'); api.mobWeg(); return fertig(true, false); }
+    await api.sprich('hinnerk', 'Ich fahr. Heck weg, gegen den Wind ran, auskuppeln.'); api.mobWeg(); return fertig(false, true);
+  }
+  if (s.selbst === 'begegnung') { /* Ausweichen nach den Regeln: Seite, Zeitpunkt und Abstand werden gemessen */
+    const b = s.begegnung || {art: 'entgegen'}, e = await api.begegnung(b), wir = b.art !== 'kreuzLinks';
+    const ok = e.cpa >= (s.abstand || 12) && (!wir || (e.stb && e.frueh)) && api.stoesse === M0.st;
+    if (ok) await api.sprich('smilla', s.gut || (wir ? 'Früh und deutlich nach Steuerbord. Genau so.' : 'Richtig: Kurs und Fahrt gehalten, der andere musste ausweichen.'));
+    else if (wir && !e.stb) await api.sprich('smilla', s.falsch || 'Du hättest nach Steuerbord ausweichen müssen, früh und deutlich.');
+    else if (wir && !e.frueh) await api.sprich('smilla', 'Richtige Seite, aber spät. Früh und deutlich, damit der andere es sieht.');
+    else await api.sprich('smilla', 'Zu dicht. Mehr Abstand halten.');
+    return fertig(ok, false, {begegnung: e});
+  }
+  if (!z) return fertig(false, false);
+  if (s.selbst === 'ziel' || s.selbst === 'ablegen') {
     const weg = (s.auto || []).concat([[z.x, z.z]]);
-    if (api.modus === 'auto') return api.auto(weg, {gas: .6});
-    if (s.hinweis) api.sprich('hinnerk', s.hinweis);
-    const r = await mitHilfe(api, () => nah(api, z), s.max || 300); if (r === 'ok') return;
-    await api.sprich('hinnerk', r === 'zeit' ? 'Ich übernehme mal. Schau zu.' : 'Mach ich. Schau zu.'); return api.auto(weg, {gas: .6});
+    const r = await mitHilfe(api, () => nah(api, z)); if (r === 'ok') return fertig(api.stoesse === M0.st && (!s.tore || api.mess.daneben === M0.dn), false);
+    await api.sprich('hinnerk', 'Mach ich. Schau zu.'); await api.auto(weg, {gas: .6}); return fertig(false, true);
+  }
+  if (s.selbst === 'aufstoppen') { /* im Ring zum Stehen kommen: Gas weg, kurz rückwärts, Fahrt über Grund fast null */
+    let seit = null; const r = await mitHilfe(api, () => { if (nah(api, z) && api.grundFahrt < .25) { if (seit == null) seit = api.uhr; return api.uhr - seit > 1.5; } seit = null; return false; });
+    if (r === 'ok') { await api.sprich('hinnerk', s.gut || 'Steht.'); return fertig(api.stoesse === M0.st, false); }
+    await api.sprich('hinnerk', 'Gas weg, kurz zurück, wieder neutral. So.'); return fertig(false, true);
+  }
+  if (s.selbst === 'wenden') { /* Wenden auf engem Raum: um mindestens 160 Grad drehen, ohne den Kreis zu verlassen */
+    let x0 = api.P.x, z0 = api.P.z, h0 = api.P.h, raus = 0; const R = s.r || 14;
+    const r = await mitHilfe(api, () => { if (Math.hypot(api.P.x - x0, api.P.z - z0) > R) { raus++; x0 = api.P.x; z0 = api.P.z; h0 = api.P.h; api.notiz('Zu viel Platz gebraucht. Nochmal: vor, zurück, Pinne jedes Mal umlegen.'); return false; }
+      return Math.abs(Math.atan2(Math.sin(api.P.h - h0), Math.cos(api.P.h - h0))) > 2.8; });
+    if (r === 'ok') { await api.sprich('hinnerk', s.gut || 'Rum isse.'); return fertig(api.stoesse === M0.st, false, {raus}); }
+    await api.sprich('hinnerk', 'Vor, zurück. Pinne jedes Mal umlegen.'); return fertig(false, true);
   }
   if (s.selbst === 'anlegen') {
     const zielH = [z.x, z.z, z.h || 0], weg = (s.auto || []).concat(z.anfahrt ? [z.anfahrt] : [], [zielH]);
-    if (api.modus === 'auto') return api.auto(weg, {gas: .35, anfahrt: z.anfahrt});
-    if (s.hinweis) api.sprich('smilla', s.hinweis);
-    const r = await mitHilfe(api, () => api.angelegt(z), s.max || 300);
-    if (r === 'ok') { await api.fest(z); return api.sprich('hinnerk', s.gut || 'Fest! Sauber angelegt.'); }
-    await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich rangehe.'); return api.auto(weg, {gas: .35, anfahrt: z.anfahrt});
+    const r = await mitHilfe(api, () => api.angelegt(z));
+    if (r === 'ok') { await api.fest(z); const st = api.stoesse - M0.st; await api.sprich('hinnerk', st ? 'Fest. Aber gerumst. Zählt noch nich.' : (s.gut || 'Fest.')); return fertig(!st, false); }
+    await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich rangehe.'); await api.auto(weg, {gas: .35, anfahrt: z.anfahrt}); return fertig(false, true);
   }
+  return fertig(false, false);
+}
+/* Hörmodus: Hinnerk macht es, die Aufgabe bleibt im Heft offen */
+async function autoSelbst(s, api, z) {
+  if (s.k && window.LERN) LERN.offen(s.k, api.folge && api.folge.id);
+  if (s.selbst === 'horn') { await new Promise(r => setTimeout(r, 1500)); api.ton('▬'); return {ok: false, hilfe: true}; }
+  if (s.selbst === 'motor') { for (const t of s.ansage || []) await api.sprich('hinnerk', t); api.motorAn(); return {ok: false, hilfe: true}; }
+  if (['mob', 'begegnung', 'kurs', 'wenden', 'aufstoppen'].includes(s.selbst)) { for (const t of s.ansage || ['Im Hörmodus mach ich das. Am Handy übst du es selbst.']) await api.sprich('hinnerk', t); return {ok: false, hilfe: true}; }
+  if (!z) return {ok: false, hilfe: true};
+  if (s.selbst === 'anlegen') { await api.auto((s.auto || []).concat(z.anfahrt ? [z.anfahrt] : [], [[z.x, z.z, z.h || 0]]), {gas: .35, anfahrt: z.anfahrt}); return {ok: false, hilfe: true}; }
+  await api.auto((s.auto || []).concat([[z.x, z.z]]), {gas: .6}); return {ok: false, hilfe: true};
 }
 /* Zettel, Bild oder Brief zum Anschauen (Platzhalter, bis die Grafik da ist) */
 function zettel(api, z) { return new Promise(async res => { const el = api.tafel(`<div class="wzettel"><b>${esc2(z.titel || '')}</b>${(z.zeilen || []).map(t => `<p>${esc2(t)}</p>`).join('')}</div><button class="btn lamp wide" id="wzok">Weiter</button>`);
   if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 2500)); api.tafelZu(); return res(); } el.querySelector('#wzok').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res(); }; }); }
-/* „Was ich an Bord darf“ */
-function freigabenTafel(api) { return new Promise(async res => { const el = api.tafel(`<p class="wqf">📋 <b>Was ich an Bord darf</b></p><table class="wfg">${Object.keys(FREIGABEN).map(id => `<tr><td>${esc2(FREIGABEN[id])}</td><td>${freigabeText(id)}</td></tr>`).join('')}</table><button class="btn lamp wide" id="wfgok">Weiter</button>`);
+/* „Was ich an Bord darf“: Auszug aus dem Ausbildungsheft (die Kompetenzen der Folge) */
+function heftTafel(api, liste) { return new Promise(async res => { if (!window.LERN) return res(); const L = (liste || []).filter(Boolean);
+  const el = api.tafel(`<p class="wqf">📒 <b>Was ich an Bord darf</b></p><table class="wfg">${L.map(k => `<tr><td>${esc2(LERN.name(k))}</td><td>${LERN.text(k)}</td></tr>`).join('')}</table><p class="small muted" style="margin:6px 0">Alles steht im Ausbildungsheft (Frei üben).</p><button class="btn lamp wide" id="wfgok">Weiter</button>`);
   if (api.modus === 'auto') { await new Promise(r => setTimeout(r, 3000)); api.tafelZu(); return res(); } el.querySelector('#wfgok').onclick = () => { try { AUD.click(); } catch (e) {} api.tafelZu(); res(); }; }); }
 /* Haltepunkt: weiter oder später genau hier */
 function halt(api, s) { if (api.modus === 'auto') return Promise.resolve(); return new Promise(res => { const el = api.tafel(`<p class="wqf">☕ <b>${esc2(s.halt)}</b></p><button class="btn lamp wide" id="whw">▶ Weiter</button><button class="btn ghost wide" id="whs" style="margin-top:6px">Später weiter</button>`);

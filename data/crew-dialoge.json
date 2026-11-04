@@ -1,5 +1,5 @@
 {
- "hinweis": "Gespräche für den Crew-Regisseur (crew.js). Sätze sind Entwurf nach docs/dialog-regeln.md, werden später eingesprochen. Felder: ort, wenn/nicht (Gedächtnis, frei:id, folge:id), prio, max, pause (Gelegenheiten bis zur Wiederholung, Standard 10), max (Standard 3), zeilen [{wer, t} oder {wer, v: Varianten}].",
+ "hinweis": "Gespräche für den Crew-Regisseur (crew.js). Sätze sind Entwurf nach docs/dialog-regeln.md, werden später eingesprochen. Felder: ort, wenn/nicht (Gedächtnis, frei:id, folge:id), prio, max, pause (Gelegenheiten bis zur Wiederholung, Standard 10), max (Standard 3), zeilen [{wer, t} oder {wer, v: Varianten}]. v5.22: Gespräche, die einen Ort draußen nennen („da drüben“), nur in der Kajüte als Erinnerung (Gutachten 1.7); keine verallgemeinerten Regeln („immer westlich“).",
  "ruhe": {
   "fahrt": 0.35,
   "kajuete": 0.3,
@@ -332,18 +332,18 @@
   {
    "id": "erinn-ankern",
    "ort": [
-    "fahrt"
+    "kajuete"
    ],
    "wenn": "jasper_ankern",
    "max": 1,
    "zeilen": [
     {
      "wer": "hinnerk",
-     "t": "Hier wollt Jasper ankern."
+     "t": "Jasper wollt im Fahrwasser ankern."
     },
     {
      "wer": "smilla",
-     "t": "Mitten im Fahrwasser."
+     "t": "Mitten im Fahrwasser. Und dreihundert Meter ums Wrack ist auch verboten."
     },
     {
      "wer": "hinnerk",
@@ -358,22 +358,30 @@
   {
    "id": "erinn-wrack",
    "ort": [
-    "fahrt"
+    "kajuete"
    ],
    "wenn": "wrack_west",
    "max": 2,
    "zeilen": [
     {
      "wer": "smilla",
-     "t": "Da drüben liegt das Wrack."
+     "t": "Weißt du noch, das Wrack mit den vier Tonnen?"
     },
     {
      "wer": "hinnerk",
-     "t": "Westlich vorbei. Immer westlich vorbei."
+     "t": "Westtonne. Westlich vorbei."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und an der Nordtonne?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Nördlich. Die Tonne sagt, wo frei is."
     },
     {
      "wer": "klabauter",
-     "t": "Westen! Westen!"
+     "t": "Wo frei! Wo frei!"
     }
    ]
   },

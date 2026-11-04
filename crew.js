@@ -11,7 +11,9 @@ window.CREWDIR = (() => {
   const merke = id => { const m = mem(); if (!m.f[id]) { m.f[id] = new Date().toISOString().slice(0, 10); save(); } };
   const weiss = id => !!mem().f[id];
   /* Bedingungen: Merkmal (aus dem Gedächtnis), Freigabe (S.freigaben), fertige Folge (S.folgen) */
-  const test = x => x.startsWith('frei:') ? !!(S.freigaben && S.freigaben[x.slice(5)] && S.freigaben[x.slice(5)].frei) : x.startsWith('folge:') ? !!(S.folgen && S.folgen[x.slice(6)] && S.folgen[x.slice(6)].fertig) : weiss(x);
+  /* frei:id fragt seit v5.22 das Ausbildungsheft (LERN.darf; alte Freigabe-IDs wie fender werden umgestellt) */
+  const frei = id => window.LERN ? LERN.darf(LERN.ALT[id] || id) : !!(S.freigaben && S.freigaben[id] && S.freigaben[id].frei);
+  const test = x => x.startsWith('frei:') ? frei(x.slice(5)) : x.startsWith('folge:') ? !!(S.folgen && S.folgen[x.slice(6)] && S.folgen[x.slice(6)].fertig) : weiss(x);
   const gilt = b => !b || (Array.isArray(b) ? b : [b]).every(test);
   const gegen = b => !b || !(Array.isArray(b) ? b : [b]).some(test);
   function kandidaten(ort) { const m = mem();
