@@ -1,4 +1,4 @@
-/* Die Reise (VISION.md, docs/reise-konzept.md, O93–O110): ein Tag auf See = eine durchgehende Geschichte.
+/* Die Reise (VISION.md, alte 2D-Reise; die Ausbildungsfahrt steht in docs/reise.md, O93–O110): ein Tag auf See = eine durchgehende Geschichte.
    Nachgeladen über reiseOeffnen() (index.html, nach szene.js). Daten in data/reise.json (Sätze der Crew sind Platzhalter, B164).
    Tisch antippen: Die Karte kippt ins Bild und der Tag läuft von selbst. Eine Bühne ohne Scrollen mit drei Ansichten
    (Nutzer 29.10.2026, O105): „karte“ (Seekarte 7 in der Mitte, das Boot fährt die Route), „crew“ (Gespräch, die Gesichter groß)

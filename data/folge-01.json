@@ -2,7 +2,7 @@
  "id": "folge-01",
  "nr": 1,
  "titel": "Folge 1 „Mooooin, Landratte!“",
- "hinweis": "Rohbau (v5.18): Sätze und Grafiken sind Platzhalter. Ablauf aus docs/folge-01-entwurf.md.",
+ "hinweis": "Rohbau (v5.18): Sätze und Grafiken sind Platzhalter. Alter 2D-Rohbau; die Reise steht jetzt in docs/reise.md.",
  "fragen": [
   1,
   2,

@@ -4,8 +4,8 @@
 # Podcast-Skripte, Konfiguration und Ausspracheverzeichnis prüfen (PODCAST_BIBLE.md A32), wenn unter podcast/ etwas geändert ist
 # Kursplan des Hörkurses: jede Katalogfrage in genau einer Folge (docs/konzept-kajuetenfunk.md)
 if git diff --cached --name-only | grep -q '^podcast/'; then node tools/podcast-pruefen.js --entwurf || { echo "Podcast-Prüfung fehlgeschlagen."; exit 1; }; node tools/kursplan-pruefen.js || { echo "Kursplan-Prüfung fehlgeschlagen."; exit 1; }; fi
-# Reiseplan: jede Folge und jede Frage genau einmal (docs/reise-konzept.md)
-if git diff --cached --name-only | grep -qE '^(data/reise-plan\.json|podcast/kursplan-sbf\.json)$'; then node tools/reise-plan.js --check || { echo "Reiseplan-Prüfung fehlgeschlagen."; exit 1; }; fi
+# Reiseplan der Ausbildungsfahrt: jede Frage genau einmal, nichts angewendet ohne Einführung (docs/reise.md)
+if git diff --cached --name-only | grep -qE '^(data/reiseplan\.json|data/kompetenzen\.json)$'; then node tools/reiseplan.js --check || { echo "Reiseplan-Prüfung fehlgeschlagen."; exit 1; }; fi
 # Karte 7: Objektdaten müssen zum SVG passen
 if git diff --cached --name-only | grep -qE '^(img/karte7\.svg|data/karte7\.json|data/navi7\.json)$'; then node tools/karte7-extrahieren.js --check && node tools/navi7-pruefen.js || { echo "Karte-7-Prüfung fehlgeschlagen."; exit 1; }; fi
 # 3D-Folgen, Crew-Gespräche und Kompetenzen prüfen (v5.22, tools/folgen-pruefen.js)

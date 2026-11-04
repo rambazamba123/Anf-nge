@@ -1,0 +1,793 @@
+{
+ "hinweis": "Reiseplan „In sieben Tagen zum SBF See“ (Nutzer 04.11.2026). Prüfen und Tabelle in docs/reise.md schreiben: node tools/reiseplan.js. du: zuhoeren | ausguck | handgriffe | mitmachen | pinne | selbst | fuehren | pruef. art: kajuete | garn | hafen | fahrt | anker | schleuse | nacht | nebel | sturm | pruef | abschied. fragen: amtliche SBF-See-Fragen (abends), stoff: eingeführte Kompetenzen, anwenden: Kompetenzen, die die Folge anwendet (müssen vorher eingeführt sein).",
+ "bonus": [
+  {
+   "id": "0",
+   "titel": "Anheuern (Bonus)",
+   "text": "Wie du an Bord kommst. Wird gesondert ausgearbeitet."
+  },
+  {
+   "id": "8",
+   "titel": "Rückweg (Bonus)",
+   "text": "Hinnerk und du allein, Wiederholung und Prüfungswoche."
+  }
+ ],
+ "tage": [
+  {
+   "nr": 1,
+   "titel": "Leinen los",
+   "ort": "Kuttershaven → Fluss Brede → Ankerbucht Schilfwinkel",
+   "du": "Passagier: zuhören, Ausguck, kleine Handgriffe",
+   "story": "Aufbruch zu Smillas neuem Schiff. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
+   "haken": "Harms am Telefon: „Sieben Tage. Wer zu spät kommt, fährt allein heim.“",
+   "set": "Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu.",
+   "folgen": [
+    {
+     "id": "1-1",
+     "titel": "Wer hier was zu sagen hat",
+     "art": "kajuete",
+     "ort": "Kajüte, Kuttershaven",
+     "du": "zuhoeren",
+     "fragen": "1-3,67-69",
+     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist, Westen und Feuerlöscher. Hinnerks Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
+     "stoff": [
+      "K-GRU-01",
+      "K-SIC-01"
+     ]
+    },
+    {
+     "id": "1-2",
+     "titel": "Gas, Sprit und Streichholz",
+     "art": "hafen",
+     "ort": "Steg und Tankstelle Kuttershaven",
+     "du": "handgriffe",
+     "fragen": "62-66,42,49",
+     "text": "Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg.",
+     "stoff": [
+      "K-GAS-01",
+      "K-MOT-01",
+      "K-MOT-02"
+     ]
+    },
+    {
+     "id": "1-3",
+     "titel": "Das Heck zieht weg",
+     "art": "fahrt",
+     "ort": "Hafenbecken und Ausfahrt",
+     "du": "ausguck",
+     "fragen": "41,44-47,50,51,34,36,37,61",
+     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand.",
+     "stoff": [
+      "K-PRO-01",
+      "K-HAN-01",
+      "K-MAN-02"
+     ]
+    },
+    {
+     "id": "1-4",
+     "titel": "Rechts halten",
+     "art": "fahrt",
+     "ort": "Fluss Brede",
+     "du": "ausguck",
+     "fragen": "4-9,14,15,125,136",
+     "text": "Erste Begegnung auf dem Fluss, die Crew weicht aus und erklärt. Kurze und lange Töne, Luv und Lee. Du sagst Boote an.",
+     "stoff": [
+      "K-GRU-02",
+      "K-GRU-03",
+      "K-KVR-01"
+     ]
+    },
+    {
+     "id": "1-5",
+     "titel": "Garn: Der Motor, der kochte",
+     "art": "garn",
+     "ort": "Fluss Brede (Zeitraffer)",
+     "du": "zuhoeren",
+     "fragen": "43,52-57,60",
+     "text": "Unterwegs erzählt Hinnerk, wie ihm einst der Motor heiß lief. Warnlampen, Öl in der Bilge, Kühlwasser. Smilla stellt seine Version richtig.",
+     "stoff": [
+      "K-MOT-02"
+     ]
+    },
+    {
+     "id": "1-6",
+     "titel": "Schilfwinkel",
+     "art": "anker",
+     "ort": "Ankerbucht Schilfwinkel",
+     "du": "handgriffe",
+     "fragen": "31-33,38,58,39",
+     "text": "Ankern vor Sonnenuntergang (Hinnerk besteht drauf). Abstand zum Schilf, Brutplätze, woran man sieht, dass der Anker hält.",
+     "stoff": [
+      "K-UMW-01",
+      "K-ANK-01"
+     ]
+    },
+    {
+     "id": "1-7",
+     "titel": "Erster Abend",
+     "art": "kajuete",
+     "ort": "Kajüte, Schilfwinkel",
+     "du": "zuhoeren",
+     "fragen": "70-72",
+     "text": "Was tun nach einem Zusammenstoß, wann Notsignale erlaubt sind, was das Wetter macht. Smilla erzählt, welche Knoten man an Bord wofür braucht (noch ohne Tau). Harms ruft an.",
+     "stoff": [
+      "K-SIC-02",
+      "K-WET-01"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 2,
+   "titel": "Tonnen und dicke Pötte",
+   "ort": "Strom Elvmünde → Klüverhafen",
+   "du": "kleine Handgriffe, erste Minuten an der Pinne unter Aufsicht",
+   "story": "Auf dem großen Strom mit Frachtern. Abends ein fremder Hafen: Die Crew funkt den Hafenmeister an, du hörst mit. Hinnerk gibt Smilla in der Dämmerung das Steuer.",
+   "haken": "Quirin meldet sich per Funk: Er wartet an der Schleuse und will mit.",
+   "set": "Fach 1: Tau und Mini-Klampe.",
+   "knoten": [
+    "acht",
+    "klampe"
+   ],
+   "navi": "N0 Karte lesen",
+   "folgen": [
+    {
+     "id": "2-1",
+     "titel": "Die Kiste",
+     "art": "kajuete",
+     "ort": "Kajüte, Schilfwinkel",
+     "du": "mitmachen",
+     "fragen": "190-196,198,199",
+     "text": "Morgens die erste Kiste: Tau. Achtknoten am Leinenende, damit nichts ausrauscht. Smilla zeigt auf der Karte das Fahrwasser und die Tonnen.",
+     "stoff": [
+      "K-SEE-01",
+      "K-NAV-02",
+      "K-KNO-01"
+     ],
+     "knoten": [
+      "acht"
+     ],
+     "navi": "N0",
+     "set": "Tau"
+    },
+    {
+     "id": "2-2",
+     "titel": "Grün an Steuerbord",
+     "art": "fahrt",
+     "ort": "Tonnenkette in die Elvmünde",
+     "du": "ausguck",
+     "fragen": "156,157",
+     "text": "Du sagst jede Tonne an, Smilla steuert. Wer im Fahrwasser fährt, hält sich rechts.",
+     "stoff": [
+      "K-FAH-02"
+     ],
+     "anwenden": [
+      "K-SEE-01"
+     ]
+    },
+    {
+     "id": "2-3",
+     "titel": "Dicke Pötte",
+     "art": "fahrt",
+     "ort": "Elvmünde, Fahrwasser",
+     "du": "pinne",
+     "fragen": "148-151,154,155,177,179,187,189,165-168,172,181",
+     "text": "Ein Frachter im engen Fahrwasser, ein Bagger, eine Fähre. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben.",
+     "stoff": [
+      "K-FAH-01",
+      "K-FAH-02"
+     ],
+     "anwenden": [
+      "K-SEE-01"
+     ]
+    },
+    {
+     "id": "2-4",
+     "titel": "Wer muss weg?",
+     "art": "fahrt",
+     "ort": "Elvmünde",
+     "du": "ausguck",
+     "fragen": "79-83,89,90",
+     "text": "Begriffe der Ausweichregeln an echten Lagen: Wer ist manövrierunfähig, was ist sichere Geschwindigkeit, was heißt „in Sicht“.",
+     "stoff": [
+      "K-KVR-02"
+     ],
+     "anwenden": [
+      "K-KVR-01"
+     ]
+    },
+    {
+     "id": "2-5",
+     "titel": "Hafenfunk",
+     "art": "hafen",
+     "ort": "Einfahrt Klüverhafen",
+     "du": "zuhoeren",
+     "fragen": "16,140,141,161-164,178,186,188,35,40,48",
+     "text": "Die Crew funkt den Hafenmeister an, du hörst mit. Langer Ton beim Einlaufen, Gefahrsignal von einem Fischer. Hinnerk legt mit Backbord an und erklärt, warum.",
+     "stoff": [
+      "K-SIG-01",
+      "K-MAN-01"
+     ]
+    },
+    {
+     "id": "2-6",
+     "titel": "Fest auf Klampe",
+     "art": "hafen",
+     "ort": "Steg Klüverhafen",
+     "du": "mitmachen",
+     "fragen": "",
+     "text": "Du belegst die Klampe an der Miniatur-Frieda, dann echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler.",
+     "stoff": [
+      "K-KNO-08"
+     ],
+     "knoten": [
+      "klampe"
+     ],
+     "set": "Mini-Klampe"
+    },
+    {
+     "id": "2-7",
+     "titel": "Hafenabend",
+     "art": "kajuete",
+     "ort": "Kajüte, Klüverhafen",
+     "du": "zuhoeren",
+     "fragen": "",
+     "text": "Wiederholung des Tages mit Klabauter als Quizmaster. Funkspruch von Quirin.",
+     "anwenden": [
+      "K-SEE-01",
+      "K-FAH-02"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 3,
+   "titel": "Schleuse und Kanal",
+   "ort": "Schleuse Klappdörp → Kanal → Kanalhafen Moorende",
+   "du": "mitmachen: Leinen in der Schleuse, steuern im Kanal",
+   "story": "Quirin kommt an Bord („Schuidl kenn i!“) und bringt Leben in die Kajüte. Vor der Schleuse leuchten die Lichter rot: warten. In der Kammer führst du die Leine.",
+   "haken": "Quirin erzählt vom alten Wrack im Watt, „da wo der Hinnerk damals…“. Hinnerk schweigt.",
+   "set": "Fach 2: Ring, Kursdreieck, Zirkel und die Übungskarte der Reise.",
+   "knoten": [
+    "rundtoern",
+    "webelein"
+   ],
+   "navi": "N1 Position, N2 Kurs und Distanz",
+   "folgen": [
+    {
+     "id": "3-1",
+     "titel": "Schilderwald",
+     "art": "kajuete",
+     "ort": "Kajüte, Klüverhafen",
+     "du": "zuhoeren",
+     "fragen": "17-29,176",
+     "text": "Quirin kommt an Bord und fragt Tafelzeichen ab wie ein Quizmaster. Trocken, aber laut.",
+     "stoff": [
+      "K-TAF-01"
+     ]
+    },
+    {
+     "id": "3-2",
+     "titel": "Rot über rot",
+     "art": "fahrt",
+     "ort": "Vor der Schleuse Klappdörp",
+     "du": "mitmachen",
+     "fragen": "30,173-175",
+     "text": "Die Schleusenlichter zeigen rot, du musst warten und das richtig entscheiden. Die Crew meldet sich per Funk an.",
+     "stoff": [
+      "K-SCH-01"
+     ],
+     "anwenden": [
+      "K-SCH-01"
+     ]
+    },
+    {
+     "id": "3-3",
+     "titel": "In der Kammer",
+     "art": "schleuse",
+     "ort": "Schleusenkammer Klappdörp",
+     "du": "mitmachen",
+     "fragen": "",
+     "text": "Leinen führen, Rundtörn mit zwei halben Schlägen am Ring (Fach 2), Webeleinstek am Poller. Das Wasser steigt.",
+     "stoff": [
+      "K-KNO-07",
+      "K-KNO-06"
+     ],
+     "knoten": [
+      "rundtoern",
+      "webelein"
+     ],
+     "set": "Ring"
+    },
+    {
+     "id": "3-4",
+     "titel": "Kanalfahrt",
+     "art": "fahrt",
+     "ort": "Kanal",
+     "du": "selbst",
+     "fragen": "169,170,180,182-185",
+     "text": "Du steuerst im Kanal: Ausweichstellen, Badestellen, Sperrgebiet. Quirin redet ununterbrochen.",
+     "stoff": [
+      "K-FAH-03"
+     ],
+     "anwenden": [
+      "K-TAF-01"
+     ]
+    },
+    {
+     "id": "3-5",
+     "titel": "Segler im Kanal",
+     "art": "fahrt",
+     "ort": "Kanal",
+     "du": "selbst",
+     "fragen": "126-135,137,139",
+     "text": "Ein Segler kreuzt, ein Schnellerer will überholen. Wer weicht wem aus, und wann musst du das Manöver des letzten Augenblicks fahren?",
+     "stoff": [
+      "K-KVR-03"
+     ],
+     "anwenden": [
+      "K-KVR-01"
+     ]
+    },
+    {
+     "id": "3-6",
+     "titel": "Der Kartentisch",
+     "art": "kajuete",
+     "ort": "Kajüte, Kanalhafen Moorende",
+     "du": "mitmachen",
+     "fragen": "236,239-241",
+     "text": "Kursdreieck und Zirkel aus Fach 2: Position ablesen, Kurs und Distanz zum Watt messen. Quirin rechnet falsch, Smilla nicht.",
+     "stoff": [
+      "K-NAV-02"
+     ],
+     "navi": "N1-N2",
+     "set": "Kursdreieck, Zirkel, Übungskarte"
+    },
+    {
+     "id": "3-7",
+     "titel": "Hafenkino Moorende",
+     "art": "hafen",
+     "ort": "Kanalhafen Moorende",
+     "du": "selbst",
+     "fragen": "",
+     "text": "Abends ist das Becken leer, Hinnerk lässt dich üben: Aufstoppen, Wenden auf engem Raum, Anlegen. Die Leute am Steg schauen zu.",
+     "stoff": [
+      "K-MAN-03",
+      "K-MAN-04"
+     ],
+     "anwenden": [
+      "K-MAN-01",
+      "K-MAN-02"
+     ]
+    },
+    {
+     "id": "3-8",
+     "titel": "Quirins Abschied",
+     "art": "kajuete",
+     "ort": "Kanalhafen Moorende",
+     "du": "zuhoeren",
+     "fragen": "",
+     "text": "Quirin geht von Bord. Abends Wiederholung, und die Geschichte vom Wrack.",
+     "anwenden": [
+      "K-TAF-01",
+      "K-KVR-03"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 4,
+   "titel": "Watt und Wrack",
+   "ort": "Wattenmeer Groter Sand → Wrackgebiet → Insel Lüttoog",
+   "du": "selbst steuern mit Aufsicht, ankern",
+   "story": "Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen paukt man Recht. Auf Lüttoog liegt Jasper.",
+   "haken": "Die Tide zwingt zur Nachtfahrt. Hinnerk wird still.",
+   "set": "Fach 3: dickes Tau und Mini-Anker.",
+   "knoten": [
+    "palstek",
+    "kreuz"
+   ],
+   "navi": "N3 Zeit, Fahrt, Tide",
+   "folgen": [
+    {
+     "id": "4-1",
+     "titel": "Ebbe und Flut",
+     "art": "kajuete",
+     "ort": "Kajüte, Moorende",
+     "du": "zuhoeren",
+     "fragen": "233,249-255",
+     "text": "Smilla erklärt die Gezeiten mit dem Teebecher. Wann kommt man über den Priel?",
+     "stoff": [
+      "K-GEZ-01"
+     ],
+     "navi": "N3"
+    },
+    {
+     "id": "4-2",
+     "titel": "Pricken und Kardinäle",
+     "art": "fahrt",
+     "ort": "Priel im Groter Sand",
+     "du": "selbst",
+     "fragen": "200-203,208",
+     "text": "Du steuerst durch den Priel. Kardinaltonnen zeigen, wo das Wasser frei ist.",
+     "stoff": [
+      "K-SEE-02"
+     ],
+     "anwenden": [
+      "K-SEE-01"
+     ]
+    },
+    {
+     "id": "4-3",
+     "titel": "Wrack und Wasserschutz",
+     "art": "fahrt",
+     "ort": "Wrackgebiet im Groter Sand",
+     "du": "selbst",
+     "fragen": "171",
+     "text": "Die Crew ist müde und will am Wrack ankern. Du entscheidest. Dann kommt die Wasserschutzpolizei: Ankerverbot, wer ist Schiffsführer, Papiere.",
+     "stoff": [
+      "K-ANK-01"
+     ],
+     "anwenden": [
+      "K-SEE-02",
+      "K-ANK-01",
+      "K-GRU-01"
+     ]
+    },
+    {
+     "id": "4-4",
+     "titel": "Seehundbank",
+     "art": "anker",
+     "ort": "Ankerplatz am Seehundsand",
+     "du": "selbst",
+     "fragen": "216-219,225-230",
+     "text": "Du ankerst selbst (Mini-Anker aus Fach 3). Nationalpark, Seehunde, Abstand halten.",
+     "stoff": [
+      "K-NAT-01"
+     ],
+     "anwenden": [
+      "K-ANK-01"
+     ],
+     "set": "Mini-Anker"
+    },
+    {
+     "id": "4-5",
+     "titel": "Trockengefallen",
+     "art": "garn",
+     "ort": "Trockenfallplatz",
+     "du": "mitmachen",
+     "fragen": "59,73-78,85,86,152,153,158,160",
+     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Paragrafen mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau.",
+     "stoff": [
+      "K-REC-01",
+      "K-KNO-02",
+      "K-KNO-03"
+     ],
+     "knoten": [
+      "palstek",
+      "kreuz"
+     ],
+     "set": "dickes Tau"
+    },
+    {
+     "id": "4-6",
+     "titel": "Nach Lüttoog",
+     "art": "fahrt",
+     "ort": "Watt nach Lüttoog",
+     "du": "selbst",
+     "fragen": "231,232,234,235,237,238",
+     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen. Im Inselhafen liegt Jasper.",
+     "stoff": [
+      "K-NAV-01"
+     ],
+     "anwenden": [
+      "K-NAV-02",
+      "K-MAN-01"
+     ],
+     "navi": "N3"
+    }
+   ]
+  },
+  {
+   "nr": 5,
+   "titel": "Nacht und Nebel",
+   "ort": "Ansteuerung bei Nacht → Nebelbank",
+   "du": "Nachtwache allein",
+   "story": "Nachtfahrt wegen der Tide. Hinnerk verwechselt Lichter, nicht aus Unwissen: Er sieht nachts schlecht. Das Geheimnis kommt raus. Ab jetzt gehst du die Nachtwache.",
+   "haken": "Der Wetterbericht: Sturmwarnung für morgen.",
+   "set": "Fach 4: Mini-Laternen zum Aufstecken.",
+   "knoten": [
+    "stopper",
+    "schot"
+   ],
+   "navi": "N4 Kompass, Peilung, Missweisung",
+   "folgen": [
+    {
+     "id": "5-1",
+     "titel": "Lichter I",
+     "art": "kajuete",
+     "ort": "Kajüte, Lüttoog",
+     "du": "mitmachen",
+     "fragen": "10-13,91-94,113,114,159",
+     "text": "Mini-Laternen aus Fach 4 auf die Miniatur-Frieda: Topplicht, Seitenlichter, Heck. Dann die Lichter der anderen.",
+     "stoff": [
+      "K-LIC-01",
+      "K-LIC-02"
+     ],
+     "set": "Mini-Laternen"
+    },
+    {
+     "id": "5-2",
+     "titel": "Lichter II",
+     "art": "kajuete",
+     "ort": "Kajüte, Lüttoog",
+     "du": "zuhoeren",
+     "fragen": "95-99,102-105",
+     "text": "Schlepper und Fischer. Jasper kommt zu Besuch und verwechselt alles.",
+     "stoff": [
+      "K-LIC-03"
+     ]
+    },
+    {
+     "id": "5-3",
+     "titel": "Lichter III",
+     "art": "kajuete",
+     "ort": "Kajüte, Lüttoog",
+     "du": "zuhoeren",
+     "fragen": "100,101,106-112,115",
+     "text": "Manövrierunfähig, manövrierbehindert, tiefgangbehindert, Lotse. Trocken, Klabauter hilft.",
+     "stoff": [
+      "K-LIC-04"
+     ]
+    },
+    {
+     "id": "5-4",
+     "titel": "Hinnerks Geheimnis",
+     "art": "nacht",
+     "ort": "Ansteuerung bei Nacht",
+     "du": "mitmachen",
+     "fragen": "197,204-207,209-215,220-224",
+     "text": "Leuchtfeuer und Kennungen. Hinnerk liest ein Feuer falsch, Smilla übernimmt. Dann sagt er es: Er sieht nachts schlecht.",
+     "stoff": [
+      "K-FEU-01"
+     ],
+     "anwenden": [
+      "K-LIC-02",
+      "K-LIC-03"
+     ]
+    },
+    {
+     "id": "5-5",
+     "titel": "Deine Wache",
+     "art": "nacht",
+     "ort": "Ansteuerung bei Nacht",
+     "du": "selbst",
+     "fragen": "242-244,248,272,273",
+     "text": "Du gehst allein Wache. Begegnungen bei Nacht, Peilung nehmen, Kompass und Missweisung, AIS.",
+     "stoff": [
+      "K-NAV-02",
+      "K-AIS-01",
+      "K-MAN-06"
+     ],
+     "anwenden": [
+      "K-LIC-02",
+      "K-LIC-04",
+      "K-KVR-01"
+     ],
+     "navi": "N4"
+    },
+    {
+     "id": "5-6",
+     "titel": "Nebelbank!",
+     "art": "nebel",
+     "ort": "Nebelbank",
+     "du": "selbst",
+     "fragen": "84,116-124,138,271",
+     "text": "Plötzlich Nebel. Fahrt runter, Signal geben, Ausguck. Ein Frachter tutet irgendwo.",
+     "stoff": [
+      "K-NEB-01"
+     ],
+     "anwenden": [
+      "K-NEB-01"
+     ]
+    },
+    {
+     "id": "5-7",
+     "titel": "Leinen unter Last",
+     "art": "kajuete",
+     "ort": "Kajüte, Ankerplatz",
+     "du": "mitmachen",
+     "fragen": "",
+     "text": "Stopperstek an einer Leine unter Last, Schotstek für zwei verschieden dicke Leinen. Der Wetterbericht kündigt Sturm an.",
+     "stoff": [
+      "K-KNO-05",
+      "K-KNO-04"
+     ],
+     "knoten": [
+      "stopper",
+      "schot"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 6,
+   "titel": "Raus auf See",
+   "ort": "Offene See: Verkehrstrennungsgebiet → Sturm",
+   "du": "Kurs planen und fahren, im Sturm mit anpacken",
+   "story": "Der große Schlag übers offene Wasser. Du planst den Kurs. Der Sturm kommt früher als gedacht. Jaspers Boot gerät in Seenot.",
+   "haken": "Hinnerk, nach dem Sturm, leise: „Skipper.“ Zum ersten Mal.",
+   "set": "Fach 5: Mini-Rettungsring.",
+   "navi": "N5 Strom, Koppelort",
+   "folgen": [
+    {
+     "id": "6-1",
+     "titel": "Die Wetterkarte",
+     "art": "kajuete",
+     "ort": "Kajüte, Ankerplatz",
+     "du": "zuhoeren",
+     "fragen": "260-266",
+     "text": "Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht.",
+     "stoff": [
+      "K-WET-01"
+     ]
+    },
+    {
+     "id": "6-2",
+     "titel": "Kurs übers Wasser",
+     "art": "kajuete",
+     "ort": "Kartentisch",
+     "du": "mitmachen",
+     "fragen": "245-247,267-270",
+     "text": "Du planst den Schlag mit Strom und Koppelort. Dazu Sturm- und Starkwindwarnungen.",
+     "stoff": [
+      "K-NAV-02"
+     ],
+     "anwenden": [
+      "K-NAV-02"
+     ],
+     "navi": "N5"
+    },
+    {
+     "id": "6-3",
+     "titel": "Querverkehr",
+     "art": "fahrt",
+     "ort": "Verkehrstrennungsgebiet",
+     "du": "selbst",
+     "fragen": "87,88,142-147",
+     "text": "Du querst das Verkehrstrennungsgebiet im rechten Winkel, große Schiffe überall.",
+     "stoff": [
+      "K-VTG-01"
+     ],
+     "anwenden": [
+      "K-KVR-03"
+     ]
+    },
+    {
+     "id": "6-4",
+     "titel": "Sturm kommt",
+     "art": "sturm",
+     "ort": "Offene See",
+     "du": "mitmachen",
+     "fragen": "256,258,259,274,275,278",
+     "text": "Westen an, Sicherheitsleinen, Luken zu, Fahrt anpassen. Steuern in den Wellen.",
+     "stoff": [
+      "K-SCW-01"
+     ],
+     "anwenden": [
+      "K-SIC-01"
+     ]
+    },
+    {
+     "id": "6-5",
+     "titel": "Mensch über Bord",
+     "art": "sturm",
+     "ort": "Offene See",
+     "du": "selbst",
+     "fragen": "276",
+     "text": "Smilla geht beinahe über Bord. Ihr übt es danach mit dem Mini-Rettungsring, dann echt mit der Puppe.",
+     "stoff": [
+      "K-MAN-05"
+     ],
+     "anwenden": [
+      "K-MAN-05"
+     ],
+     "set": "Mini-Rettungsring"
+    },
+    {
+     "id": "6-6",
+     "titel": "Mayday",
+     "art": "sturm",
+     "ort": "Offene See",
+     "du": "selbst",
+     "fragen": "257,277,279-285",
+     "text": "Jaspers Boot ist in Not: Notsignale, Schleppen mit dem Schotstek, was tun, wenn ein Boot kentert.",
+     "stoff": [
+      "K-SIC-02",
+      "K-SCW-01"
+     ],
+     "anwenden": [
+      "K-KNO-04"
+     ]
+    }
+   ]
+  },
+  {
+   "nr": 7,
+   "titel": "Ankunft",
+   "ort": "Insel Harmsoog mit Harms' Segelschule",
+   "du": "du führst die Frieda",
+   "story": "Du führst den letzten Schlag, die Crew ist Passagier. Harms erwartet euch an seinem Segelschiff. Theorie und Praxis. Dann Smillas Abschied.",
+   "haken": "Bonus: Rückweg mit Hinnerk allein. Smilla winkt vom großen Schiff.",
+   "set": "Fach 6: Skipperwimpel.",
+   "navi": "N6 Kreuzpeilung, alles gemischt",
+   "folgen": [
+    {
+     "id": "7-1",
+     "titel": "Der letzte Schlag",
+     "art": "fahrt",
+     "ort": "Vor Harmsoog",
+     "du": "fuehren",
+     "fragen": "",
+     "text": "Du planst und führst. Begegnungen, Tonnen, Strom, alles gemischt. Die Crew ist Passagier, Klabauter quatscht dazwischen.",
+     "anwenden": [
+      "K-KVR-01",
+      "K-KVR-03",
+      "K-SEE-02",
+      "K-NAV-02"
+     ],
+     "navi": "N6"
+    },
+    {
+     "id": "7-2",
+     "titel": "Einlaufen Harmsoog",
+     "art": "hafen",
+     "ort": "Hafen Harmsoog",
+     "du": "fuehren",
+     "fragen": "",
+     "text": "Du läufst ein und legst neben Harms' Segelschiff an. Harms steht auf dem Steg und sagt nichts.",
+     "anwenden": [
+      "K-MAN-01",
+      "K-SIG-01"
+     ]
+    },
+    {
+     "id": "7-3",
+     "titel": "Harms prüft: Theorie",
+     "art": "pruef",
+     "ort": "An Bord des Segelschiffs",
+     "du": "pruef",
+     "fragen": "",
+     "text": "Die große Probeprüfung: 30 Fragen und eine Kartenaufgabe."
+    },
+    {
+     "id": "7-4",
+     "titel": "Harms prüft: Praxis",
+     "art": "pruef",
+     "ort": "Hafenbecken Harmsoog",
+     "du": "pruef",
+     "fragen": "",
+     "text": "Alle Manöver und Knoten der Praxisprüfung.",
+     "anwenden": [
+      "K-MAN-01",
+      "K-MAN-02",
+      "K-MAN-03",
+      "K-MAN-04",
+      "K-MAN-05",
+      "K-MAN-06"
+     ]
+    },
+    {
+     "id": "7-5",
+     "titel": "Wachübergabe",
+     "art": "abschied",
+     "ort": "Steg Harmsoog",
+     "du": "zuhoeren",
+     "fragen": "",
+     "text": "Smilla übergibt dir die Wache und steigt um. Harms sagt einmal „Gut.“",
+     "set": "Skipperwimpel"
+    }
+   ]
+  }
+ ]
+}
