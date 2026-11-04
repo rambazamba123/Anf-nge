@@ -752,6 +752,15 @@ const ART = {
     <path d="M25 40 Q26 16 50 16 Q74 16 75 40 Z" fill="#c0392b"/><rect x="23" y="36" width="54" height="8" rx="4" fill="#a32f24"/>
     ${eyes([[41, 50], [59, 50]])}
     ${mouth('M44 62 Q50 67 56 62', 50, 63, 4, 3.4)}</g>`,
+  /* v5.23 Wasserschutzpolizei (Gast, nur als Gesicht am Rand): dunkelblaue Jacke, weißer Kragen, Mütze mit Band */
+  polizei: () => `${shadow(36)}<g class="bod">
+    <ellipse cx="50" cy="100" rx="37" ry="40" fill="#1d2f4f"/>
+    <path d="M38 76 L50 92 L62 76 Z" fill="#eef1f4"/><path d="M50 92 V136" stroke="#c9a640" stroke-width="2" stroke-dasharray="2 8"/>
+    <rect x="62" y="96" width="12" height="7" rx="1.5" fill="#c9a640"/>
+    <circle cx="50" cy="48" r="26" fill="${SKIN}"/>
+    <path d="M26 38 Q50 30 74 38 L74 32 Q50 24 26 32 Z" fill="#1d2f4f"/><path d="M22 30 Q50 8 78 30 Q50 22 22 30 Z" fill="#eef1f4"/><rect x="26" y="30" width="48" height="6" rx="2" fill="#1d4f91"/><circle cx="50" cy="26" r="3.5" fill="#c9a640"/>
+    ${eyes([[41, 51], [59, 51]])}
+    ${mouth('M44 62 H56', 50, 62, 4, 2.6)}</g>`,
 };
 
 /* Figuren-Steckbriefe. role: Platz an Bord. voicePref: Namen vorinstallierter ElevenLabs-Stimmen
