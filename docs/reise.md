@@ -272,6 +272,7 @@ Die Kajüte bleibt 2D. Nahansichten (Motor, Klampe, Leinen) werden in 3D gebaut.
 <!-- PLAN:END -->
 
 ## 9. Offen
+- Probefolge 4-3 ist gebaut (v5.23, Hocker → „Probe Reise Tag 4“, Drehbuch `data/welt-folgen.json` `r4-3`). Sie wartet auf die Kritik; danach einmal vertont testen.
 - ★ Name von Harms' Segelschiff (Vorschlag „Albertine“) und die Ortsnamen in Abschnitt 5.
 - Inhalt der Kiste ab Fach 3 (★ Vorschlag oben), sobald das Starter-Set feststeht.
 - Tag 0 „Anheuern“ und Rückweg (Bonus) ausarbeiten.

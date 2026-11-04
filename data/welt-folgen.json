@@ -3464,6 +3464,820 @@
     "K-MAN-02",
     "K-MAN-01"
    ]
+  },
+  {
+   "id": "r4-3",
+   "nr": 4,
+   "titel": "Tag 4: Wrack und Wasserschutz (Probe)",
+   "ort": "watt",
+   "karte": true,
+   "hinweis": "Probefolge aus der Mitte der Reise (docs/reise.md, Folge 4-3). Sätze sind Platzhalter, bis der Nutzer sie freigibt.",
+   "wetter": {
+    "wind": "leicht",
+    "von": 6,
+    "sicht": "klar",
+    "regen": "kein",
+    "zeit": "tag",
+    "wellen": {
+     "windsee": true,
+     "duenung": false,
+     "kreuzsee": false,
+     "kabbel": false,
+     "schwell": false
+    }
+   },
+   "ziele": [
+    "K-SEE-02",
+    "K-ANK-01",
+    "K-GRU-01",
+    "K-SIG-01"
+   ],
+   "schritte": [
+    {
+     "szene": "kajuete"
+    },
+    {
+     "teil": "Teil 1: Müde im Watt"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Müde! Müde!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Seit vier Uhr wach. Wegen der Tide."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Ebbe wartet auf keinen."
+    },
+    {
+     "wer": "smilla",
+     "t": "In zwei Stunden fällt hier alles trocken. Wir brauchen einen Platz, wo wir liegen bleiben können."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Im Becken hinterm Wrack. Da is Tiefe."
+    },
+    {
+     "wer": "smilla",
+     "t": "Hinterm Wrack. Hm."
+    },
+    {
+     "pfeife": true
+    },
+    {
+     "wer": "klabauter",
+     "t": "Qualm! Qualm!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Draußen, Käpt'n. Nicht unter Deck."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Jaja."
+    },
+    {
+     "gehoert": "K-SEE-02"
+    },
+    {
+     "wer": "smilla",
+     "t": "Kurz zur Strecke. Erst der Priel: Die Stangen mit dem Reisig sind Pricken. Zwischen den Reihen ist Wasser, daneben bald Sand."
+    },
+    {
+     "wer": "smilla",
+     "t": "Dann kommt das Becken mit dem Wrack. Um das Wrack liegen vier Kardinaltonnen: Nord, Ost, Süd und West."
+    },
+    {
+     "wer": "smilla",
+     "t": "Der Name sagt, wo du vorbeifährst. An der Nordtonne fährst du nördlich vorbei, an der Westtonne westlich."
+    },
+    {
+     "wer": "smilla",
+     "t": "Und die Kegel oben zeigen, wo das Schwarze an der Tonne sitzt. Beide hoch: Nord. Beide runter: Süd. Spitzen zueinander: West."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Oder man kennt dat Wrack."
+    },
+    {
+     "wer": "smilla",
+     "t": "Oder man kennt die Regel."
+    },
+    {
+     "wahl": {
+      "t": "Wir kommen von Süden und wollen westlich am Wrack vorbei. Wie fährst du an der Westtonne vorbei?",
+      "opts": [
+       {
+        "t": "Westlich an der Westtonne",
+        "ok": true,
+        "info": "Jo. Und dann nich wieder rüber."
+       },
+       {
+        "t": "Östlich an der Westtonne, nah am Wrack",
+        "ok": false,
+        "info": "Östlich der Westtonne liegt das Wrack. Die Westtonne steht westlich der Gefahr, also fährst du westlich an ihr vorbei."
+       },
+       {
+        "t": "Egal, Hauptsache Abstand",
+        "ok": false,
+        "info": "Nicht egal. Die Tonne steht da, damit du die Seite weißt: Westtonne heißt westlich vorbei."
+       }
+      ]
+     },
+     "k": "K-SEE-02",
+     "fragt": "smilla"
+    },
+    {
+     "teil": "Teil 2: Durch den Priel"
+    },
+    {
+     "szene": "welt"
+    },
+    {
+     "kamera": "hinten"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Na denn. Du fährst. Immer zwischen den Pricken bleiben."
+    },
+    {
+     "ziel": {
+      "x": 5000,
+      "z": -150,
+      "r": 14,
+      "name": "Ende des Priels"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "aufgabe": "Durch den Priel nach Norden, zwischen den Pricken",
+     "hinweis": "Langsam. Wenn's knirscht, war's zu weit links oder rechts."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Wrack! Wrack!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Da vorn, die Masten im Wasser. Und die gelb-schwarzen Tonnen drumrum."
+    },
+    {
+     "ziel": {
+      "x": 4950,
+      "z": -440,
+      "r": 14,
+      "name": "Westlich am Wrack vorbei"
+     }
+    },
+    {
+     "selbst": "ziel",
+     "k": "K-SEE-02",
+     "aufgabe": "Westlich an der Westtonne vorbei ins Becken",
+     "hinweis": "Die Westtonne. Du weißt, wie rum.",
+     "meide": {
+      "x": 5040,
+      "z": -360,
+      "r": 38
+     },
+     "falsch": "Zu nah am Wrack! Die Westtonne steht westlich der Gefahr. Westlich an ihr vorbei."
+    },
+    {
+     "teil": "Teil 3: Wo ankern wir?"
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Hier. Anker runter."
+    },
+    {
+     "wer": "smilla",
+     "t": "Hier? Das Wrack ist da drüben, Käpt'n."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Is Tiefe. Is ruhig. Ich bin müde."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Müde! Müde!"
+    },
+    {
+     "wahl": {
+      "t": "Du hast heute das Kommando über den Anker. Was machst du?",
+      "opts": [
+       {
+        "t": "Anker runter. Der Käpt'n wird's wissen.",
+        "melde": {
+         "k": "K-ANK-01",
+         "dim": "b",
+         "ok": false
+        },
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Anker fällt."
+         },
+         {
+          "anker": true
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Sach ich doch. Liegt wie in Abrahams Schoß."
+         },
+         {
+          "warte": 2
+         },
+         {
+          "wer": "klabauter",
+          "t": "Blaulicht! Blaulicht!"
+         },
+         {
+          "besuch": {
+           "von": [
+            -80,
+            140
+           ],
+           "seite": "backbord"
+          }
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "gesicht": true
+          }
+         },
+         {
+          "wer": "polizei",
+          "t": "Wasserschutzpolizei, moin. Bleiben Sie mal, wo Sie sind."
+         },
+         {
+          "wahl": {
+           "t": "Wer ist hier der Schiffsführer?",
+           "opts": [
+            {
+             "t": "Der Käpt'n. Das war vor dem Ablegen klar.",
+             "ok": true,
+             "info": "Ich. Seit vierzig Jahren."
+            },
+            {
+             "t": "Wer gerade steuert.",
+             "ok": false,
+             "info": "Nein. Wer Schiffsführer ist, wird vor der Fahrt bestimmt. Nicht unterwegs reihum."
+            },
+            {
+             "t": "Wir alle zusammen.",
+             "ok": false,
+             "info": "Einer muss es sein, und das steht vor dem Ablegen fest."
+            }
+           ]
+          },
+          "k": "K-GRU-01",
+          "fragt": "polizei"
+         },
+         {
+          "wer": "polizei",
+          "t": "Dann den Führerschein bitte. Und zeigen Sie mir mal die Westen."
+         },
+         {
+          "wer": "klabauter",
+          "t": "Eins! Zwei! Drei! Vier! Vier!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Alle geprüft, Ostern. Steht auf dem Zettel am Schapp."
+         },
+         {
+          "wer": "polizei",
+          "t": "Und jetzt erklären Sie mir mal, warum Sie hier ankern."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Is Tiefe."
+         },
+         {
+          "wer": "polizei",
+          "t": "Im Umkreis von dreihundert Metern um Wracks ist Ankern verboten. Da liegt Eisen, da bleibt Ihr Anker hängen, und da kommt jeder durch, der um das Wrack herumfährt."
+         },
+         {
+          "wer": "polizei",
+          "t": "Diesmal eine Verwarnung. Anker auf, und weg hier."
+         },
+         {
+          "wer": "klabauter",
+          "t": "Erwischt! Erwischt!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Dreihundert Meter, Käpt'n."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Ich hab's gehört."
+         },
+         {
+          "anker": "auf"
+         },
+         {
+          "besuchWeg": true
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "weg": true
+          }
+         },
+         {
+          "melde": {
+           "k": "K-ANK-01",
+           "dim": "b",
+           "ok": true
+          }
+         },
+         {
+          "ziel": {
+           "x": 4900,
+           "z": -700,
+           "r": 16,
+           "name": "Ankerplatz, weit weg vom Wrack"
+          }
+         },
+         {
+          "selbst": "ziel",
+          "k": "K-ANK-01",
+          "aufgabe": "Zum Ankerplatz im Norden des Beckens, weit weg vom Wrack",
+          "hinweis": "Da oben im Norden, wo der Ring ist. Dreihundert Meter weg vom Wrack, eher mehr.",
+          "meide": {
+           "x": 5040,
+           "z": -360,
+           "r": 38
+          },
+          "falsch": "Zu dicht am Wrack. Da liegt Eisen unter Wasser."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Anker fällt."
+         },
+         {
+          "anker": true
+         },
+         {
+          "wer": "smilla",
+          "t": "Hält er?"
+         },
+         {
+          "warte": 2
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Hält."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Wär billiger gewesen, gleich hier."
+         }
+        ]
+       },
+       {
+        "t": "Hier nicht. Zu nah am Wrack.",
+        "ok": true,
+        "melde": {
+         "k": "K-ANK-01",
+         "dim": "b",
+         "ok": true
+        },
+        "dann": [
+         {
+          "wer": "hinnerk",
+          "t": "Hm."
+         },
+         {
+          "wer": "smilla",
+          "t": "Um Wracks ist im Umkreis von dreihundert Metern Ankern verboten. Weiter nördlich im Becken ist Platz."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Denn fahr."
+         },
+         {
+          "ziel": {
+           "x": 4925,
+           "z": -560,
+           "r": 16,
+           "name": "Weiter nach Norden ins Becken"
+          }
+         },
+         {
+          "selbst": "ziel",
+          "aufgabe": "Weiter nach Norden ins Becken",
+          "meide": {
+           "x": 5040,
+           "z": -360,
+           "r": 38
+          },
+          "falsch": "Zu dicht am Wrack."
+         },
+         {
+          "ton": "● ▬ ● ●"
+         },
+         {
+          "wer": "klabauter",
+          "t": "Horch! Horch!"
+         },
+         {
+          "gehoert": "K-SIG-01"
+         },
+         {
+          "wer": "smilla",
+          "t": "Kurz, lang, kurz, kurz. Das ist die Polizei. Heißt: anhalten."
+         },
+         {
+          "selbst": "anhalten",
+          "k": "K-SIG-01",
+          "aufgabe": "Anhalten: Gas weg, kurz zurück, bis das Boot steht",
+          "gut": "Steht. So mögen die das."
+         },
+         {
+          "besuch": {
+           "von": [
+            -60,
+            -120
+           ],
+           "seite": "backbord"
+          }
+         },
+         {
+          "wer": "klabauter",
+          "t": "Blaulicht! Blaulicht!"
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "gesicht": true
+          }
+         },
+         {
+          "wer": "polizei",
+          "t": "Wasserschutzpolizei, moin. Allgemeine Kontrolle."
+         },
+         {
+          "wahl": {
+           "t": "Wer ist hier der Schiffsführer?",
+           "opts": [
+            {
+             "t": "Der Käpt'n. Das war vor dem Ablegen klar.",
+             "ok": true,
+             "info": "Ich. Seit vierzig Jahren."
+            },
+            {
+             "t": "Wer gerade steuert.",
+             "ok": false,
+             "info": "Nein. Wer Schiffsführer ist, wird vor der Fahrt bestimmt. Nicht unterwegs reihum."
+            },
+            {
+             "t": "Wir alle zusammen.",
+             "ok": false,
+             "info": "Einer muss es sein, und das steht vor dem Ablegen fest."
+            }
+           ]
+          },
+          "k": "K-GRU-01",
+          "fragt": "polizei"
+         },
+         {
+          "wer": "polizei",
+          "t": "Dann den Führerschein bitte. Und zeigen Sie mir mal die Westen."
+         },
+         {
+          "wer": "klabauter",
+          "t": "Eins! Zwei! Drei! Vier! Vier!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Alle geprüft, Ostern. Steht auf dem Zettel am Schapp."
+         },
+         {
+          "wer": "polizei",
+          "t": "Wo wollen Sie hin?"
+         },
+         {
+          "wer": "smilla",
+          "t": "Ankern. Da oben im Norden, weit weg vom Wrack."
+         },
+         {
+          "wer": "polizei",
+          "t": "Die meisten ankern hier direkt am Wrack. Sie nicht?"
+         },
+         {
+          "wer": "smilla",
+          "t": "Dreihundert Meter Abstand."
+         },
+         {
+          "wer": "polizei",
+          "t": "Richtig. Gute Fahrt."
+         },
+         {
+          "besuchWeg": true
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "weg": true
+          }
+         },
+         {
+          "pfeife": true
+         },
+         {
+          "wer": "klabauter",
+          "t": "Qualm! Gut! Qualm!"
+         },
+         {
+          "ziel": {
+           "x": 4900,
+           "z": -700,
+           "r": 16,
+           "name": "Ankerplatz, weit weg vom Wrack"
+          }
+         },
+         {
+          "selbst": "ziel",
+          "k": "K-ANK-01",
+          "aufgabe": "Zum Ankerplatz im Norden des Beckens, weit weg vom Wrack",
+          "hinweis": "Da oben im Norden, wo der Ring ist. Dreihundert Meter weg vom Wrack, eher mehr.",
+          "meide": {
+           "x": 5040,
+           "z": -360,
+           "r": 38
+          },
+          "falsch": "Zu dicht am Wrack. Da liegt Eisen unter Wasser."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Anker fällt."
+         },
+         {
+          "anker": true
+         },
+         {
+          "wer": "smilla",
+          "t": "Hält er?"
+         },
+         {
+          "warte": 2
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Hält."
+         }
+        ]
+       },
+       {
+        "t": "Smilla, was meinst du?",
+        "dann": [
+         {
+          "wer": "smilla",
+          "t": "Ich mein: Dreihundert Meter. So weit muss man von einem Wrack weg, bevor man ankern darf. Hier sind es keine hundertfünfzig."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Denn fahr eben weiter. Aber nich bis Lüttoog."
+         },
+         {
+          "ziel": {
+           "x": 4925,
+           "z": -560,
+           "r": 16,
+           "name": "Weiter nach Norden ins Becken"
+          }
+         },
+         {
+          "selbst": "ziel",
+          "aufgabe": "Weiter nach Norden ins Becken",
+          "meide": {
+           "x": 5040,
+           "z": -360,
+           "r": 38
+          },
+          "falsch": "Zu dicht am Wrack."
+         },
+         {
+          "ton": "● ▬ ● ●"
+         },
+         {
+          "wer": "klabauter",
+          "t": "Horch! Horch!"
+         },
+         {
+          "gehoert": "K-SIG-01"
+         },
+         {
+          "wer": "smilla",
+          "t": "Kurz, lang, kurz, kurz. Das ist die Polizei. Heißt: anhalten."
+         },
+         {
+          "selbst": "anhalten",
+          "k": "K-SIG-01",
+          "aufgabe": "Anhalten: Gas weg, kurz zurück, bis das Boot steht",
+          "gut": "Steht. So mögen die das."
+         },
+         {
+          "besuch": {
+           "von": [
+            -60,
+            -120
+           ],
+           "seite": "backbord"
+          }
+         },
+         {
+          "wer": "klabauter",
+          "t": "Blaulicht! Blaulicht!"
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "gesicht": true
+          }
+         },
+         {
+          "wer": "polizei",
+          "t": "Wasserschutzpolizei, moin. Allgemeine Kontrolle."
+         },
+         {
+          "wahl": {
+           "t": "Wer ist hier der Schiffsführer?",
+           "opts": [
+            {
+             "t": "Der Käpt'n. Das war vor dem Ablegen klar.",
+             "ok": true,
+             "info": "Ich. Seit vierzig Jahren."
+            },
+            {
+             "t": "Wer gerade steuert.",
+             "ok": false,
+             "info": "Nein. Wer Schiffsführer ist, wird vor der Fahrt bestimmt. Nicht unterwegs reihum."
+            },
+            {
+             "t": "Wir alle zusammen.",
+             "ok": false,
+             "info": "Einer muss es sein, und das steht vor dem Ablegen fest."
+            }
+           ]
+          },
+          "k": "K-GRU-01",
+          "fragt": "polizei"
+         },
+         {
+          "wer": "polizei",
+          "t": "Dann den Führerschein bitte. Und zeigen Sie mir mal die Westen."
+         },
+         {
+          "wer": "klabauter",
+          "t": "Eins! Zwei! Drei! Vier! Vier!"
+         },
+         {
+          "wer": "smilla",
+          "t": "Alle geprüft, Ostern. Steht auf dem Zettel am Schapp."
+         },
+         {
+          "wer": "polizei",
+          "t": "Wo wollen Sie hin?"
+         },
+         {
+          "wer": "smilla",
+          "t": "Ankern. Da oben im Norden, weit weg vom Wrack."
+         },
+         {
+          "wer": "polizei",
+          "t": "Die meisten ankern hier direkt am Wrack. Sie nicht?"
+         },
+         {
+          "wer": "smilla",
+          "t": "Dreihundert Meter Abstand."
+         },
+         {
+          "wer": "polizei",
+          "t": "Richtig. Gute Fahrt."
+         },
+         {
+          "besuchWeg": true
+         },
+         {
+          "gast": {
+           "wer": "polizei",
+           "weg": true
+          }
+         },
+         {
+          "pfeife": true
+         },
+         {
+          "wer": "klabauter",
+          "t": "Qualm! Gut! Qualm!"
+         },
+         {
+          "ziel": {
+           "x": 4900,
+           "z": -700,
+           "r": 16,
+           "name": "Ankerplatz, weit weg vom Wrack"
+          }
+         },
+         {
+          "selbst": "ziel",
+          "k": "K-ANK-01",
+          "aufgabe": "Zum Ankerplatz im Norden des Beckens, weit weg vom Wrack",
+          "hinweis": "Da oben im Norden, wo der Ring ist. Dreihundert Meter weg vom Wrack, eher mehr.",
+          "meide": {
+           "x": 5040,
+           "z": -360,
+           "r": 38
+          },
+          "falsch": "Zu dicht am Wrack. Da liegt Eisen unter Wasser."
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Anker fällt."
+         },
+         {
+          "anker": true
+         },
+         {
+          "wer": "smilla",
+          "t": "Hält er?"
+         },
+         {
+          "warte": 2
+         },
+         {
+          "wer": "hinnerk",
+          "t": "Hält."
+         }
+        ]
+       }
+      ]
+     },
+     "fragt": "hinnerk"
+    },
+    {
+     "teil": "Teil 4: Abend in der Kajüte"
+    },
+    {
+     "szene": "kajuete"
+    },
+    {
+     "wer": "klabauter",
+     "t": "Anker hält! Anker hält!"
+    },
+    {
+     "wer": "smilla",
+     "t": "Fragerunde. Fünf Stück, dann Koje."
+    },
+    {
+     "frage": 171
+    },
+    {
+     "frage": 200
+    },
+    {
+     "frage": 202
+    },
+    {
+     "frage": 1
+    },
+    {
+     "frage": 186
+    },
+    {
+     "heft": true
+    },
+    {
+     "logbuch": "Tag 4. Durch den Priel ins Becken am Groter Sand, westlich am Wrack vorbei. Ankerverbot 300 m um Wracks. Kontrolle der Wasserschutzpolizei."
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Morgen früh. Hochwasser um fünf."
+    },
+    {
+     "wer": "smilla",
+     "t": "Um fünf ist es dunkel, Käpt'n."
+    },
+    {
+     "wer": "klabauter",
+     "t": "Dunkel! Dunkel!"
+    },
+    {
+     "pfeife": true
+    },
+    {
+     "wer": "hinnerk",
+     "t": "Eben."
+    },
+    {
+     "ende": true
+    }
+   ]
   }
  ]
 }

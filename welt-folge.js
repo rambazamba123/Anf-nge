@@ -20,7 +20,7 @@ F.spiele = async function (id, api, ab = 0) {
   /* Nach dem Beenden darf ein noch laufender Schritt nichts mehr auslösen: jeder Aufruf hängt dann still */
   api = new Proxy(api, {get(t, k) { const v = t[k]; return typeof v === 'function' ? (...a) => mein === lauf ? v(...a) : new Promise(() => {}) : v; }});
   const f = DATEN.folgen.find(x => x.id === id); if (!f) return null;
-  if (f.ort) api.ort(f.ort); if (f.wetter) api.wetter(f.wetter);
+  if (f.ort) api.ort(f.ort); if (f.wetter) api.wetter(f.wetter); api.karte(!!f.karte);
   /* Weiter ab einem Haltepunkt: nur den Zustand (Ort, Wetter, Szene, Kamera) der Schritte davor herstellen */
   for (let i = 0; i < ab && i < f.schritte.length; i++) { const s = f.schritte[i]; if (s.ort) api.ort(s.ort); if (s.wetter) api.wetter(s.wetter); if (s.szene) api.szene(s.szene); if (s.kamera) api.kamera(s.kamera); }
   let erg = null; for (let i = ab; i < f.schritte.length; i++) { if (mein !== lauf || !api.laeuft) return null; F.i = i; erg = await schritt(f.schritte[i], api, f); if (erg === 'spaeter') { merke(id, i + 1); return 'spaeter'; } }
@@ -37,6 +37,11 @@ async function schritt(s, api, f) {
     if (api.folge) (api.folge.selbst = api.folge.selbst || []).push(Object.assign({k: s.k, art: s.selbst}, r || {})); return r; }
   if (s.melde) return gemeldet(api, s.melde.k, s.melde.dim || 'b', s.melde.ok !== false, {lage: f.id});
   if (s.gehoert) { if (window.LERN) (Array.isArray(s.gehoert) ? s.gehoert : [s.gehoert]).forEach(LERN.gehoert); return; }
+  if ('karte' in s) return api.karte(!!s.karte);
+  if (s.pfeife) return api.pfeife();
+  if (s.besuch) return api.besuch(s.besuch);
+  if (s.besuchWeg) return api.besuchWeg();
+  if ('anker' in s) return api.anker(s.anker === 'auf');
   if ('strom' in s) { api.strom(s.strom); if (s.strom && s.strom.v) return api.notiz(`🌊 Strom: ${String(s.strom.v).replace('.', ',')} m/s nach ${s.strom.nach}°`, 3000); return; }
   if (s.heft) return heftTafel(api, s.heft === true ? (f.ziele || []) : s.heft);
   /* Die Geschichte richtet sich nach dem Ausbildungsheft: Was freigegeben ist, machst du; sonst macht es die Crew (Gutachten §3.3) */
@@ -78,16 +83,20 @@ async function schritt(s, api, f) {
 }
 /* Ins Ausbildungsheft eintragen; wird eine Kompetenz neu freigegeben, merkt die Crew es (Hinnerk lobt nie direkt) */
 async function gemeldet(api, k, dim, ok, info) { if (!window.LERN || !k) return; const r = LERN.melde(k, dim, ok, info); if (!r || !r.neu) return;
-  if (r.nach === 'freigegeben') { api.notiz(`📒 <b>Freigegeben:</b> ${esc2(LERN.name(k))}`, 3600); await api.sprich('hinnerk', 'Dat kannst du ab jetzt.'); await api.sprich('klabauter', 'Freigabe! Freigabe!'); }
-  else if (r.nach === 'sicher') { api.notiz(`📒 <b>Sicher:</b> ${esc2(LERN.name(k))}`, 3600); await api.sprich('smilla', 'Sitzt auch nach einer Woche noch. Das zählt.'); }
+  /* Hinnerk sagt nie „freigegeben“, er hat seine eigenen Wörter (docs/reise.md §2); manchmal zündet er sich nur wortlos die Pfeife an */
+  const zufall = a => a[Math.floor(Math.random() * a.length)];
+  if (r.nach === 'freigegeben') { api.notiz(`📒 ${esc2(LERN.name(k))}: <b>gehört jetzt dir</b>`, 3600); if (Math.random() < .3) { api.pfeife(); await api.sprich('smilla', 'Er zündet sich die Pfeife an. Das heißt: gut.'); } else await api.sprich('hinnerk', zufall(['Dat gehört jetzt dir.', 'Mach du man.', 'Kannst du. Ab jetzt du.'])); await api.sprich('klabauter', zufall(['Darf! Darf!', 'Kann er! Kann er!'])); }
+  else if (r.nach === 'sicher') { api.notiz(`📒 ${esc2(LERN.name(k))}: <b>sitzt</b>`, 3600); await api.sprich('hinnerk', zufall(['Sitzt wie \'n Webeleinstek.', 'Dat sitzt.'])); }
   else if (r.nach === 'geuebt' && r.vor !== 'geuebt') api.notiz(`📒 Geübt: ${esc2(LERN.name(k))}`, 2400); }
 const nah = (api, z) => Math.hypot(api.P.x - z.x, api.P.z - z.z) < (z.r || 6);
 /* Selbst machen (v5.22, Strategie-Gutachten §3.6): keine Uhr mehr. Hilfe gibt es nur auf Wunsch („🤖 Hinnerk übernimmt“) oder nach Fehlversuchen.
    Gemessen wird, was die Welt sowieso erkennt: Zusammenstöße, Tonnen auf der falschen Seite, zu schnell im Hafen. Rückgabe {ok, hilfe, werte}.
    Mit {k: 'K-…'} zählt das Ergebnis im Ausbildungsheft (Dimension Können, ohne Hilfe und ohne Rempler). Im Hörmodus bleibt die Aufgabe offen.
    Neue Arten: ablegen, aufstoppen, wenden {r}, kurs {kurs, tol, sek}, mob {mob, ruf}, begegnung {begegnung: {art, abstand, v}}; motor {stoerung: 'warm'}. */
-function mitHilfe(api, fn) { let per = null; api.angebot('🤖 Hinnerk übernimmt').then(k => { if (k) per = 'knopf'; });
+/* Hilfe: Wer übernehmen soll, tippt auf ein Gesicht (Hinnerk schnell, Smilla nach Regeln). Rückgabe 'ok' oder der Name, der übernommen hat. */
+function mitHilfe(api, fn) { let per = null; api.angebot().then(k => { if (k) per = api.hilfeWer || 'hinnerk'; });
   return api.warte(() => per || fn()).then(() => { api.angebotWeg(); return per || 'ok'; }); }
+const stilVon = r => ({wer: r === 'smilla' ? 'smilla' : 'hinnerk', stil: r === 'smilla' ? 'smilla' : 'hinnerk', gas: r === 'smilla' ? .4 : .8});
 const grad = h => Math.round(((h * 180 / Math.PI) % 360 + 360) % 360);
 async function selbst(s, api) {
   const z = api.zielDef, M0 = {st: api.stoesse, dn: api.mess.daneben, sn: api.mess.schnell};
@@ -132,9 +141,14 @@ async function selbst(s, api) {
   }
   if (!z) return fertig(false, false);
   if (s.selbst === 'ziel' || s.selbst === 'ablegen') {
-    const weg = (s.auto || []).concat([[z.x, z.z]]);
-    const r = await mitHilfe(api, () => nah(api, z)); if (r === 'ok') return fertig(api.stoesse === M0.st && (!s.tore || api.mess.daneben === M0.dn), false);
-    await api.sprich('hinnerk', 'Mach ich. Schau zu.'); await api.auto(weg, {gas: .6}); return fertig(false, true);
+    const weg = (s.auto || []).concat([[z.x, z.z]]); let drin = false; /* meide {x, z, r}: Gefahrenbereich (z. B. zwischen Kardinaltonne und Wrack); Hineinfahren zählt als Fehler */
+    const r = await mitHilfe(api, () => { if (s.meide && !drin && Math.hypot(api.P.x - s.meide.x, api.P.z - s.meide.z) < s.meide.r) { drin = true; api.notiz(s.falsch || 'Zu nah an der Gefahr!', 4500); } return nah(api, z); });
+    if (r === 'ok') return fertig(api.stoesse === M0.st && !drin && (!s.tore || api.mess.daneben === M0.dn), false);
+    await api.auto(weg, stilVon(r)); return fertig(false, true);
+  }
+  if (s.selbst === 'anhalten') { /* auf ein Signal hin anhalten (z. B. Polizei: kurz, lang, kurz, kurz) */
+    let seit = null; const r = await mitHilfe(api, () => { if (api.grundFahrt < .3) { if (seit == null) seit = api.uhr; return api.uhr - seit > 1.5; } seit = null; return false; });
+    if (r === 'ok') { if (s.gut) await api.sprich('smilla', s.gut); return fertig(true, false); } return fertig(false, true);
   }
   if (s.selbst === 'aufstoppen') { /* im Ring zum Stehen kommen: Gas weg, kurz rückwärts, Fahrt über Grund fast null */
     let seit = null; const r = await mitHilfe(api, () => { if (nah(api, z) && api.grundFahrt < .25) { if (seit == null) seit = api.uhr; return api.uhr - seit > 1.5; } seit = null; return false; });
@@ -152,7 +166,7 @@ async function selbst(s, api) {
     const zielH = [z.x, z.z, z.h || 0], weg = (s.auto || []).concat(z.anfahrt ? [z.anfahrt] : [], [zielH]);
     const r = await mitHilfe(api, () => api.angelegt(z));
     if (r === 'ok') { await api.fest(z); const st = api.stoesse - M0.st; await api.sprich('hinnerk', st ? 'Fest. Aber gerumst. Zählt noch nich.' : (s.gut || 'Fest.')); return fertig(!st, false); }
-    await api.sprich('hinnerk', 'Ich leg an. Pass auf, wie langsam ich rangehe.'); await api.auto(weg, {gas: .35, anfahrt: z.anfahrt}); return fertig(false, true);
+    await api.auto(weg, Object.assign(stilVon(r), {gas: .35, anfahrt: z.anfahrt})); return fertig(false, true);
   }
   return fertig(false, false);
 }
@@ -161,6 +175,7 @@ async function autoSelbst(s, api, z) {
   if (s.k && window.LERN) LERN.offen(s.k, api.folge && api.folge.id);
   if (s.selbst === 'horn') { await new Promise(r => setTimeout(r, 1500)); api.ton('▬'); return {ok: false, hilfe: true}; }
   if (s.selbst === 'motor') { for (const t of s.ansage || []) await api.sprich('hinnerk', t); api.motorAn(); return {ok: false, hilfe: true}; }
+  if (s.selbst === 'anhalten') return {ok: false, hilfe: true};
   if (['mob', 'begegnung', 'kurs', 'wenden', 'aufstoppen'].includes(s.selbst)) { for (const t of s.ansage || ['Im Hörmodus mach ich das. Am Handy übst du es selbst.']) await api.sprich('hinnerk', t); return {ok: false, hilfe: true}; }
   if (!z) return {ok: false, hilfe: true};
   if (s.selbst === 'anlegen') { await api.auto((s.auto || []).concat(z.anfahrt ? [z.anfahrt] : [], [[z.x, z.z, z.h || 0]]), {gas: .35, anfahrt: z.anfahrt}); return {ok: false, hilfe: true}; }

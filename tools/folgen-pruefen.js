@@ -9,9 +9,9 @@ const welt = fs.readFileSync(R + 'welt.js', 'utf8');
 const schluessel = name => { const m = welt.match(new RegExp('const ' + name + ' = \\{([\\s\\S]*?)\\};\\n')); return m ? [...m[1].matchAll(/(?:^|[{,]|\n)\s*(\w+): \{/g)].map(x => x[1]) : []; };
 const WIND = schluessel('WIND'), SICHT = schluessel('SICHT'), REGEN = schluessel('REGEN'), ZEIT = schluessel('ZEIT'), ORTE = schluessel('ORTE');
 const KID = new Set(K.kompetenzen.map(k => k.id)), ALT = ['fender', 'vorleine', 'klampe', 'motor', 'ablegen', 'steuern', 'fremdhafen', 'webe'];
-const BEKANNT = new Set(['wer', 't', 'szene', 'kamera', 'crew', 'ort', 'wetter', 'auto', 'gas', 'raffer', 'steuert', 'plaudern', 'frage', 'fragt', 'wahl', 'k', 'dim', 'ziel', 'selbst', 'aufgabe', 'hinweis', 'ansage', 'gut', 'falsch', 'tore', 'lage', 'stoerung', 'kurs', 'tol', 'sek', 'mob', 'ruf', 'begegnung', 'abstand', 'r',
+const BEKANNT = new Set(['wer', 't', 'szene', 'kamera', 'crew', 'ort', 'wetter', 'auto', 'gas', 'raffer', 'steuert', 'plaudern', 'frage', 'fragt', 'wahl', 'k', 'dim', 'ziel', 'selbst', 'aufgabe', 'hinweis', 'ansage', 'gut', 'falsch', 'tore', 'lage', 'stoerung', 'kurs', 'tol', 'sek', 'mob', 'ruf', 'begegnung', 'abstand', 'r', 'meide', 'karte', 'pfeife', 'besuch', 'besuchWeg', 'anker',
   'ton', 'knoten', 'modell', 'warte', 'ende', 'gast', 'teil', 'notiz', 'punkte', 'treibe', 'fest', 'freigabe', 'ok', 'freigaben', 'logbuch', 'zettel', 'halt', 'navi', 'merke', 'melde', 'gehoert', 'strom', 'heft', 'wennFrei', 'dann', 'sonst']);
-const SELBST = ['ziel', 'ablegen', 'anlegen', 'horn', 'motor', 'aufstoppen', 'wenden', 'kurs', 'mob', 'begegnung'], ZIEL_NOETIG = ['ziel', 'ablegen', 'anlegen', 'aufstoppen'];
+const SELBST = ['ziel', 'ablegen', 'anlegen', 'horn', 'motor', 'aufstoppen', 'wenden', 'kurs', 'mob', 'begegnung', 'anhalten'], ZIEL_NOETIG = ['ziel', 'ablegen', 'anlegen', 'aufstoppen'];
 const VERBOTEN = [[/immer westlich/i, 'verallgemeinerte Regel (Kardinalzeichen hängen von der Tonne ab)'], [/wer den anderen rechts von sich hat/i, 'Ausweichregel ohne Rahmen (nur Maschinenfahrzeuge, KVR 15)']];
 const LOB = /\b(sauber gemacht|gut gemacht|super|toll|klasse|perfekt|prima|bravo)\b/i;
 const fehler = [], warn = [], fragen = {};
@@ -25,7 +25,7 @@ function liste(f, schritte, pfad, zustand) {
     if (s.wer && s.t) pruefeText(ort, s.wer, s.t);
     if (s.wetter) pruefeWetter(ort, s.wetter);
     if (s.ort && !ORTE.includes(s.ort)) fehler.push(`${ort}: unbekannter Ort ${s.ort}`);
-    if (s.gast && !['hafen', 'jasper'].includes(s.gast.wer)) fehler.push(`${ort}: unbekannter Gast ${s.gast.wer}`);
+    if (s.gast && !['hafen', 'jasper', 'polizei'].includes(s.gast.wer)) fehler.push(`${ort}: unbekannter Gast ${s.gast.wer}`);
     kOk(ort, s.k); if (s.melde) kOk(ort, s.melde.k); if (s.wennFrei) kOk(ort, s.wennFrei); if (s.freigabe) kOk(ort, s.freigabe);
     [].concat(s.gehoert || [], Array.isArray(s.heft) ? s.heft : []).forEach(k => kOk(ort, k));
     if (s.frage) { if (!(s.frage >= 1 && s.frage <= 285)) fehler.push(`${ort}: Frage ${s.frage} gibt es nicht`); (fragen[s.frage] = fragen[s.frage] || []).push(f.id); }
