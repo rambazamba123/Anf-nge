@@ -1453,7 +1453,8 @@ function css() {
   .wpkt .wp span{display:none;position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%);white-space:nowrap;background:#fffaf0;color:#2b2118;font:700 13px Nunito,sans-serif;padding:3px 8px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
   .wpkt .wp.an span{display:block}.wpkt .wp.ok i{background:#27ae60;color:#fff}.wpkt .wp.nein i{background:#c0392b;color:#fff}.wpkt .wp.such i{animation:wpsuch .8s ease-in-out infinite}@keyframes wpsuch{50%{transform:scale(1.35)}}
   .wpkt .wp.an:not(.ok) i{width:14px;height:14px;margin:8px;font-size:0}
-  .wauf{position:absolute;left:60px;right:8px;top:64px;z-index:3;background:rgba(43,33,24,.88);color:#fff;border-radius:10px;padding:7px 10px;font:600 13.5px/1.35 Nunito,sans-serif;pointer-events:none}
+  .wauf{position:absolute;left:60px;right:128px;top:64px;z-index:3;background:rgba(43,33,24,.88);color:#fff;border-radius:10px;padding:7px 10px;font:600 13.5px/1.35 Nunito,sans-serif;pointer-events:none}
+  .wt:has(.wkarte[style*="none"]) .wauf{right:8px} /* v5.23: Aufgabe neben der Minikarte, ohne Karte volle Breite */
   .wnotiz{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:4;background:#fffaf0;color:#2b2118;border-radius:14px;padding:12px 16px;font:700 15px/1.35 Nunito,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.35);text-align:center;max-width:80%}
   .wzettel{background:#fffbe8;border:2px solid #b8a77a;border-radius:6px;padding:18px 14px;margin:0 0 10px;text-align:center;transform:rotate(-1.5deg)}.wzettel b{display:block;font-size:24px;margin-bottom:8px}.wzettel p{margin:4px 0;font-size:16px}
   .wfg{width:100%;border-collapse:collapse;margin:0 0 10px;font-size:14px}.wfg td{padding:6px 4px;border-bottom:1px solid #e6dcc6}.wfg td:last-child{text-align:right;font-weight:700;white-space:nowrap}
