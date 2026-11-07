@@ -218,7 +218,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Zwischenfragen nie mit allen vier Katalogantworten.
   - Je Frage die sinnvollste Form: offen, entweder-oder (richtig gegen die gefährlichste Falle), teilweise aufzählen („Nenn drei …“), Lücke, „Hat er recht?“.
 - **HR14 Antworten je Modus:**
-  - Hörspiel: mitdenken. Denkpause 6 Sekunden bei offenen Fragen, 4 bei Entweder-oder, dann die Lösung.
+  - Hörspiel: mitdenken. Denkpause immer 6 Sekunden, auch bei Entweder-oder (N 07.11., wie B152), dann die Lösung. ⚙
   - Mit „Mitantworten“: per Stimme.
   - Mitmachen: Knöpfe.
 - **HR15 Wer irrt, wechselt** (N 07.11.):
@@ -236,6 +236,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Die Abschluss-Abfrage ist das Lernen der amtlichen Fragen: die neuen Fragen der Folge plus fällige ältere, zusammengesetzt aus den Hörkarten.
   - Im Hörspiel vorgelesen mit den vier Antworten (Alfa bis Delta), mit Denkpause oder Antwort per Stimme.
   - Im Mitmachen zum Antippen.
+- **HR27 Ähnliche Antworten zusammenlegen** (N 07.11.): Unterscheiden sich die vier amtlichen Antworten nur in einem Teil (Promille, Zahlen, ein Wort), liest Harms den gemeinsamen Teil einmal und dann nur die Unterschiede (Alfa: null Komma acht, Bravo: …). In der Geschichte davor erklärt die Crew genau diese Unterschiede, vor allem die Falle. So versteht man die Frage, statt vier lange Sätze zu vergleichen. Wo es sich anbietet, wird der Unterschied an etwas Bekanntes gehängt (Promille wie beim Autofahren).
 - **HR18 Drei Rahmen, kurz gehalten** (N 07.11.):
   - „Harms ruft an“
   - „Logbuch schreiben“ (Smilla diktiert)
@@ -301,7 +302,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
 | 1-1 | 🌧️ | Erster Morgen | Kajüte, Kuttershaven | 👂 zuhören | Der Morgen nach dem Anheuern (Folge 0): Klabauter ist weg, Backbord frisst seinen Zwieback. Hafenkino: Ein Charterboot legt chaotisch an, vier Leute rufen, keiner ist Schiffsführer. Einer macht um halb neun ein Bier auf: Promille, aber auch körperliche Mängel (Hinnerk fällt Smilla ins Wort und bietet Kaffee an, erste Spur seines Geheimnisses). Ein Leih-Elektroboot ohne Schein: Hinnerk irrt. „Vor Dunkelwerden. Immer.“ Dann ruft Harms an und prüft zum ersten Mal. Skript: podcast/folgen/reise-1-1.md.<br>🧭 *Überblick: Wer an Bord das Sagen hat und welche Papiere man braucht* | 1-2,59<br>G1.1 ▸ |
-| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg. Die Hafenmeisterin klopft an die Bordwand, weil Hinnerk den Strom nicht bezahlt hat, und erzählt beim Tanken, was sie jeden Sommer sieht. | 43,49,62-66<br>G4.1 ◼ |
+| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms und erklärt, warum Dampf und Gas nach unten kriechen. Hinnerk steckt sich die kalte Pfeife in den Mund, Smilla nimmt ihm die Streichhölzer weg. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Dann riecht es in der Kajüte nach Gas: Backbord hat den Kocher aufgedreht. Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md. | 43,49,62-66<br>G4.1 ◼ |
 | 1-3 | ☀️ | Das Heck zieht weg | Hafenbecken und Ausfahrt | 👀 Ausguck | Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen.<br>🧭 *Überblick: Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog* | 34,36-37,41,44-48,50-51,61<br>G2.1 ◼ G3.2 ◼ |
 | 1-4 | ☀️ | Rechts halten | Fluss Brede | 👀 Ausguck | Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an. | 3,6,8-9,14-15<br>G1.2 ◼ G5.2 ▸ |
 | 1-5 | 🧶 | Garn: Der Motor, der kochte | Fluss Brede (Zeitraffer) | 👂 zuhören | Unterwegs erzählt Hinnerk, wie ihm einst der Motor heiß lief. Warnlampen, Öl in der Bilge, Kühlwasser. Smilla stellt seine Version richtig. | 42,52-57,60<br>G2.2 ◼ |

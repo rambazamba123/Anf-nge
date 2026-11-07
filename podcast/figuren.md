@@ -291,7 +291,7 @@
 **Innen** [neu]
 - **Was er will:** nur Leute aufs Wasser lassen, die es wirklich können.
 - **Was er braucht:** mit Hinnerk Frieden schließen.
-- **Was er verbirgt:** ★ Vorschlag: Vor Jahren hat er einen Prüfling „durchgewunken“, der danach beinahe verunglückt wäre. Seitdem schenkt er nichts. Er erzählt es ein einziges Mal, leise, als jemand ihn fragt, warum er so streng ist. Dazu passt die Pamir als Mahnung: ein Segelschulschiff, Zeitdruck, schlecht gestaute Ladung (`wortschatz.md` §13.1).
+- **Was er verbirgt:** nichts [fest] (Nutzer, 07.11.2026, F5). Er hat kein Geheimnis, nur die Vorgeschichte mit Hinnerk: den Zusammenstoß auf der Elbe 1991 (F1). Er ist streng, weil er weiß, was im Nebel passieren kann.
 - **Sein Widerspruch:** Er wirkt kalt und hat Smilla eingestellt, die er einst durchfallen ließ, weil sie wiederkam.
 
 **Wie er spricht** [neu]
@@ -327,7 +327,7 @@
 ## 10. Gäste
 | Gast | Folge | Kern | Sprechweise | Stimme |
 |---|---|---|---|---|
-| Hafenmeisterin Kuttershaven | Anfang, Ende | die zentrale Anlaufstelle; repariert alles, vom Wasserhahn bis zur Laune; sagt nie „bitte“ | „Erst melden, dann festmachen.“ · „Fender raus, bevor du bei mir anlegst.“ · „Hab ich gesehen. Alle haben das gesehen.“ (Hafenkino) | Lucinda [fest] |
+| Hafenmeisterin Kuttershaven (Hilke, Name vorläufig, seit 1-2) | 1-2, Ende | die zentrale Anlaufstelle; repariert alles, vom Wasserhahn bis zur Laune; sagt nie „bitte“ | „Erst melden, dann festmachen.“ · „Fender raus, bevor du bei mir anlegst.“ · „Hab ich gesehen. Alle haben das gesehen.“ (Hafenkino) | Lucinda [fest] |
 | Hafenmeister Klüverhafen | 2-5 | über Funk, müde von der Saison, trocken | „Liegeplatz zwölf, wenn ihr's schafft. Die Leute gucken.“ | fehlt, Voice-ID vom Nutzer (F8) |
 | Wasserschutzpolizistin | 4-3 | freundlich, bestimmt, erzählt, was sie „jeden Sommer“ sieht: Promille, Kennzeichen, Westen, gesperrte Flächen | „Allgemeine Kontrolle. Wer ist der Schiffsführer?“ · „Die meisten ankern hier direkt am Wrack.“ · „Das seh ich jeden Sommer.“ | Selena [fest] (bisher), im Probelauf Harms' Gratis-Stimme |
 | Schleusenwärter Klappdörp | 3-2 | über Funk; kennt Quirins Vater ★ | „Kleinfahrzeuge warten, bis die Großen drin sind.“ | fehlt, Voice-ID vom Nutzer (F8) |
@@ -387,7 +387,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
 | Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
 | Käpt'n Hinnerk | Wetter nach Gefühl | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 1 |
+| Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 2 |
 | Käpt'n Hinnerk | Hafenkino-Reporter | 6 | 4 (max) | – | 1 |
 | Käpt'n Hinnerk | Warum heißt das Boot Frieda? (jedes Mal anders, die Wahrheit kommt nie) | 7 | 7 (max) | – | 0 |
 | Käpt'n Hinnerk | Der Sturm von 87 (die Wellen wachsen) | 3 | 3 (max) | – | 0 |
@@ -423,18 +423,18 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Klabauter | Ruf und Antwort (Rahmen fürs Merkwort) | 8 | 24 | 20 | 0 |
 | Klabauter | Unglück, Müdigkeit, Rückkehr | 6 | 6 | 6 | 0 |
 | Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 1 |
-| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 4 |
+| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 7 |
 | Kapitän Harms | Richtig (darf in einer Folge öfter kommen) | 11 | 66 | 60 | 0 |
 | Kapitän Harms | Falsch (darf in einer Folge öfter kommen) | 10 | 40 | 30 | 0 |
 | Kapitän Harms | Nachhaken | 7 | 21 | 15 | 0 |
 | Kapitän Harms | Haltung | 5 | 10 | 8 | 0 |
-| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 1 |
+| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 2 |
 | Kapitän Harms | Mit Hinnerk | 4 | 8 | 8 | 0 |
 | Jasper | Ganz einfach | 5 | 10 | 6 | 0 |
 | Jasper | Falsche Faustregeln (Smilla klärt jede in derselben Szene auf) | 6 | 6 | 6 | 0 |
 | Jasper | Segel gegen Motor | 4 | 4 | 4 | 0 |
 | Jasper | Nach der Rettung (6-6) | 3 | 3 | 2 | 0 |
-| Hafenmeisterin Kuttershaven | Hafenmeisterin Kuttershaven | 5 | 10 | 6 | 0 |
+| Hafenmeisterin Kuttershaven | Hafenmeisterin Kuttershaven | 5 | 10 | 6 | 2 |
 <!-- SPRUECHE:END -->
 
 ## 11a. Warum heißt das Boot Frieda? [fest] (F6)
@@ -454,7 +454,7 @@ Running Gag: Hinnerk antwortet jedes Mal anders, die Wahrheit kommt nie. Jede Ge
 | F2 | Warum will Quirin den SBF See? | ✓ Er will umsatteln auf einen Job auf hoher See; der Seeschein ist der erste Schritt. Er hofft, die Seekrankheit zu überwinden. Er erzählt es in 3-8, in 4-5 geht er zum Probetag. |
 | F3 | Wo war Klabauter? | ✓ Er ist einfach abgehauen, die Crew vermisst ihn, und irgendwann ist er wieder da (1-6). Er verrät nie, wo er war. Kein Bananen-Gag. |
 | F4 | Hinnerks Geheimnis | ✓ Er sieht nachts schlecht, weiß es längst und gibt es nicht zu. Eigentlich dürfte er so nicht mehr fahren (körperliche Mängel, Frage 2). In 1-1 wird er bei dieser Frage still, an Tag 5 gibt er es zu. |
-| F5 | Harms' Geheimnis | ★ **offen.** Vorschlag a) Ein Prüfling, den er durchgewunken hat, wäre danach beinahe verunglückt. · b) Keines, er ist einfach so. |
+| F5 | Harms' Geheimnis | ✓ Keines. Nur die Vorgeschichte mit Hinnerk (Elbe 1991, F1). |
 | F6 | Warum heißt das Boot Frieda? | ✓ Running Gag, jedes Mal anders, die Wahrheit kommt nie (Abschnitt 11a). |
 | F7 | Harms' Anrufe | ✓ Wenn Harms prüft, ist es ernst: Musik und Atmo aus, nur die Glocke, trocken und schnell; immer nur in der Fragerunde am Ende und an Tag 7. Keine Möwe Gesine. |
 | F8 | Stimmen für Hafenmeister Klüverhafen, Schleusenwärter, Seenotretter, Jasper | ◐ Der Nutzer schickt die Voice-IDs. Die Rollen stehen im Stimmen-Casting, die aktuellen Stimmen lassen sich unter „🎧 Stimmen der Crew anhören“ vorhören. |
@@ -463,4 +463,4 @@ Running Gag: Hinnerk antwortet jedes Mal anders, die Wahrheit kommt nie. Jede Ge
 - 23.10.2026: Figuren bestätigt; Smilla vom Rhein; Hinnerk mit starkem Dialekt, Smilla mit wenig und anderem, Quirin sehr bayerisch; Gruppenwitze, Bayern-Witze und Alkohol-Witze (nicht über Kinder) erlaubt; höchstens drei Anreden je Folge.
 - 24.10.2026: Quirin aus Kelheim, Binnenschiffer, Stimme Alexander; Klischees erlaubt; Bier nur von kleinen, erfundenen Brauereien.
 - 07.11.2026: Hörreise mit Geschichte (E25); Quirin Mitlernender und Bootskenner, ab 2-7; Klabauter anfangs verschwunden, ab 1-6; Harms' Schiff heißt Albertine.
-- 07.11.2026 (Fassung 2.1): F1–F4, F6, F7 entschieden (Abschnitt 12); Anrede nach Wahl; Klabauter schreit eher und ist seltener; Quirin oder Jasper, nie beide; Sprüchekiste `podcast/sprueche.json`.
+- 07.11.2026 (Fassung 2.1): F1–F7 entschieden (Abschnitt 12, F5 am 07.11. nachgereicht); Anrede nach Wahl; Klabauter schreit eher und ist seltener; Quirin oder Jasper, nie beide; Sprüchekiste `podcast/sprueche.json`.

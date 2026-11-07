@@ -14,7 +14,8 @@
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
-    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'}};
+    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
+    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'}};
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
   const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte'};

@@ -16,11 +16,11 @@ status: entwurf
 # Crew: Hinnerk, Smilla; am Ende Harms am Telefon. Klabauter fehlt (wird vermisst), Backbord stumm. Höchstens zwei Stimmen je Szene.
 #   Wer irrt: Hinnerk bei Frage 59 (Formalie, „Hat er recht?“, das einzige der Folge, HR15). Wer erklärt: Hinnerk Frage 1, Smilla Frage 2 und 59 (HR10).
 #   Geheimnis: Bei „wer nicht richtig sieht“ fällt Hinnerk Smilla ins Wort und bietet Kaffee an (erste Spur, F4). „Vor Dunkelwerden. Immer.“ (zweite Spur).
-# Zwischenfragen (HR13): Frage 1 offen (6 s) · Frage 2 entweder-oder, richtig gegen die gefährlichste Falle (4 s) · Frage 59 „Hat er recht?“ (4 s).
+# Zwischenfragen (HR13): Frage 1 offen · Frage 2 entweder-oder, richtig gegen die gefährlichste Falle · Frage 59 „Hat er recht?“. Denkpause immer sechs Sekunden (HR14).
 #   Signal (HR12): zwei Glockenschläge für „Frage an dich“, ein Schlag für die Auflösung.
 # Erklärformen (HR10): Frage 1 Warum („keine Demokratie“) · Frage 2 Vergleich (Straße) und Falle · Frage 59 Zahlenspiel.
 # Bilder: keine (die drei Fragen haben keine Katalogbilder). Mögliche Animation später: das Charterboot beim Anlegen.
-# Fragerunde: Rahmen „Harms ruft an“ (HR18): Musik und Atmo aus, nur die Glocke, trocken und zügig. Neue Fragen 1, 2, 59 mit allen vier amtlichen
+# Fragerunde: Rahmen „Harms ruft an“ (HR18); bei Frage 2 liest Harms den gemeinsamen Teil der Antworten nur einmal (HR27): Musik und Atmo aus, nur die Glocke, trocken und zügig. Neue Fragen 1, 2, 59 mit allen vier amtlichen
 #   Antworten, Alfa bis Delta (HR17). Fällige ältere: keine (erste Folge). Die richtige Antwort steht jedes Mal an einer anderen Stelle.
 # Haken: Smilla: „Warum eigentlich immer?“ Das Telefon rettet Hinnerk. Nach Harms nur ein kurzer Satz.
 # Heft: nichts freigegeben; die drei Fragen zählen als „gehört“ oder, mit Antwort, für die Lernkartei.
@@ -93,7 +93,7 @@ SMILLA: Zählt auch. Wer bestimmt, welchen Kurs und wie schnell, für den gilt d
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen? Null Komma fünf oder null Komma acht?
 [[WAHL: sbf:2 | *ab 0,5 Promille | ab 0,8 Promille]]
-[[DENKPAUSE: 4]]
+[[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:2]]
 SMILLA: Kein Drama, die null Komma acht ist die bekannteste Falle. Auf dem Wasser gilt dieselbe feste Grenze wie beim Auto: null Komma fünf Promille. Und das ist nur die feste Grenze. Wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen. Und auch nicht ansagen, wo's langgeht.
 [[VERTIEFUNG: ende]]
@@ -118,7 +118,7 @@ HINNERK: Sieht man. Sonnenhut.
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Hinnerk sagt: Ohne Führerschein ist so ein Boot verboten. Hat er recht?
 [[WAHL: sbf:59 | Ja, ohne Schein geht nichts | *Nicht unbedingt, es kommt auf den Motor an]]
-[[DENKPAUSE: 4]]
+[[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:59]]
 SMILLA: Ganz so streng ist es nicht. Für kleine Elektroboote braucht man keinen Schein, solange der Motor höchstens sieben Komma fünf Kilowatt hat, und zwar im Dauerbetrieb gemessen, nicht nur mal kurz. Darum gibt es überall die Leihboote ohne Führerschein. Ist der Motor stärker, brauchst du einen.
 [[VERTIEFUNG: ende]]
