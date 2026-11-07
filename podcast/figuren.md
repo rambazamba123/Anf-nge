@@ -43,12 +43,12 @@
 | Harms | den Prüfungswortlaut, die Falle | knapp, nachhaken |
 | Gäste | ihr Berufswissen (Hafen, Polizei, Watt, Funk) | „Das seh ich jeden Sommer.“ |
 
-**Wer irrt wie** (HR15: Es irrt nie nur einer, und oft hat der Gefragte recht)
-| Wer | irrt bei | nie bei |
+**Wer irrt wie** (HR15: Es irren alle mal, und oft hat der Gefragte recht; jeder Irrtum wird in derselben Szene aufgelöst)
+| Wer | irrt vor allem bei | seltener bei |
 |---|---|---|
-| Hinnerk | gefühlten Regeln („Ich war zuerst da“), Papierkram, Formalien | Praxis und Sicherheit [fest] (Bible P41) |
+| Hinnerk | gefühlten Regeln („Ich war zuerst da“), Papierkram, Formalien, Gewohnheiten (Pfeife beim Tanken) | Praxis. Auch bei Sicherheit darf er danebenliegen [fest] (Nutzer, 07.11.2026: „Es machen ja jetzt alle Fehler“) |
 | Quirin | Binnen-Gewohnheiten auf See (Talfahrt hat Vorrang, keine Gezeiten, Tafeln statt Tonnen) | Handgriffen, Schleusen, Motor |
-| Smilla | selten: zu streng, Regel aus dem falschen Revier, Theorie gegen Praxis | Fakten aus dem Katalog |
+| Smilla | zu streng, Regel aus dem falschen Revier, Theorie gegen Praxis, Hektik im Ernstfall | Fakten aus dem Katalog |
 | Jasper | allem, mit voller Überzeugung | – |
 
 **Die Crew wächst** [fest] (Nutzer, 07.11.2026): Tag 1 Hinnerk, Smilla und du; Klabauter ist einfach abgehauen und kommt am ersten Abend zurück (1-6); Quirin steigt am Abend von Tag 2 zu (2-7).
@@ -69,7 +69,7 @@
 **Steckbrief**
 - 63, war 38 Jahre Kapitän der Helgoland-Fähre und hat nie eine Fahrt verpasst [fest] (App). Sohn eines Krabbenfischers aus Cuxhaven, Platt ist seine Muttersprache [fest] (Figuren 23.10.).
 - Heimathafen der Frieda ist **Kuttershaven** [fest] (E24; ersetzt Flensburg aus B62).
-- Raucht ab und zu Pfeife, nie verherrlicht; beim Tanken nimmt Smilla ihm das Streichholz weg [fest] (E24).
+- Raucht ab und zu Pfeife, nie verherrlicht. Beim Tanken will er sie aus Gewohnheit anzünden, Smilla nimmt ihm das Streichholz weg [fest] (E24, Nutzer 07.11.2026).
 - Stimme: Bill [fest] (`podcast/audio_config.json`).
 
 **Innen** [neu]
@@ -132,7 +132,7 @@
 - **Garn anfangen:** „Hab ich dir mal erzählt …“ · „Damals vor Helgoland …“ · „Ich kannte mal einen Kapitän …“ · „Soll ich dir mal wat sagen?“ · „Wenn hier einer wat von Nebel weiß, dann ich.“ · „Siebenundachtzig, da …“
 - **Abend und Abschied:** „Gode Nacht.“ · „Hol di fuchtig.“ · „Licht aus, Ohren zu.“ · „Morgen früh. Nich zu früh.“ · „Schlaf gut. Ich … mach noch die Lampen.“ (vor Tag 5 der Hinweis auf sein Geheimnis)
 
-**Nie:** falsch bei Praxis und Sicherheit [fest] (Bible P41); in jeder Folge falsch [fest] (Bible X7); Dialekt im Regelsatz; Rauchen als cool darstellen.
+**Nie:** in jeder Folge falsch [fest] (Bible X7); ein Fehler, der stehen bleibt (jeder wird in derselben Szene aufgelöst, HR15); Dialekt im Regelsatz; Rauchen als cool darstellen.
 
 ## 4. Smilla – Kopf, Tempo und ein Abschied
 **Auf einen Blick:** schnell, frech, hat sich alles selbst beigebracht, erklärt gern zu viel; geht am Ziel auf die Albertine und will es sich nicht schwer machen.
@@ -278,7 +278,7 @@
 - **Ärger:** „Mei, so a Schmarrn!“ · „Ja, Herrschaftszeiten!“ · „Des derf ned wahr sei.“
 - **Abschied:** „Pfiat eich!“ · „Servus!“ · „Guad Nacht mitanand.“ · „Bis moang.“
 
-**Nie:** Dialekt im Regelsatz; falsch bei Handgriffen und Binnenpraxis; dumm wirken. Er weiß viel, nur nicht das Richtige für die See.
+**Nie:** Dialekt im Regelsatz; dumm wirken. Er weiß viel, nur nicht das Richtige für die See.
 
 ## 7. Kapitän Harms – Maßstab, Telefon und ein leiser Satz
 **Auf einen Blick:** ehemaliger Elblotse, Prüfer seit 25 Jahren, führt die Albertine, ein Segelschulschiff auf Harmsoog; ruft unterwegs an, prüft knapp, schenkt nichts, ist heimlich nett.
@@ -355,7 +355,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | „Sag ich doch.“ | Käpt'n Hinnerk | 6 | 1 |  |
 | „Dor kannst nich meckern.“ | Käpt'n Hinnerk | 3 | 0 |  |
 | „Hinnerk. Mit zwei n und ohne i.“ | Käpt'n Hinnerk | 3 | 0 | nur Tag 2, 3, 4, 7; nur wenn Quirin „Hinni“ sagt |
-| „Tonne zehn.“ | Käpt'n Hinnerk | 3 | 0 | wenn Smilla zu frech wird (auch Smilla selbst) |
+| „Tonne zehn.“ | Käpt'n Hinnerk | 3 | 1 | wenn Smilla zu frech wird (auch Smilla selbst) |
 | „Die See verzeiht nix.“ | Käpt'n Hinnerk | 3 | 0 |  |
 | „Nee, Käpt'n.“ | Smilla | 8 | 0 |  |
 | „Na also, Seegurke. Geht doch.“ | Smilla | 3 | 0 |  |
@@ -377,12 +377,12 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Grüßen | 14 | 42 | 30 | 2 |
 | Käpt'n Hinnerk | Zustimmen | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Ablehnen | 12 | 36 | 24 | 0 |
-| Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 0 |
+| Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 1 |
 | Käpt'n Hinnerk | Indirekt loben | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Wenn etwas jetzt dir gehört (Ausbildungsheft) | 6 | 18 | 15 | 0 |
 | Käpt'n Hinnerk | Tadeln | 10 | 30 | 21 | 0 |
-| Käpt'n Hinnerk | Staunen | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 0 |
+| Käpt'n Hinnerk | Staunen | 8 | 24 | 15 | 1 |
+| Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 1 |
 | Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 1 |
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
 | Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
@@ -398,10 +398,10 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Smilla | Antreiben | 8 | 24 | 20 | 0 |
 | Smilla | Ungeduld | 6 | 18 | 12 | 0 |
 | Smilla | Kölsch mit Seefahrts-Dreh | 9 | 18 | 12 | 0 |
-| Smilla | Selbst falsch erwischt | 6 | 12 | 8 | 0 |
+| Smilla | Selbst falsch erwischt | 6 | 12 | 8 | 1 |
 | Smilla | Wenn du falsch liegst | 9 | 27 | 24 | 0 |
 | Smilla | Abschied | 8 | 24 | 20 | 0 |
-| Smilla | Dich ansprechen | 8 | 24 | 21 | 0 |
+| Smilla | Dich ansprechen | 8 | 24 | 21 | 1 |
 | Smilla | Logbuch schreiben (Rahmen der Fragerunde) | 6 | 18 | 14 | 0 |
 | Smilla | Wetten mit Quirin (nur solange er an Bord ist) | 6 | 18 | 8 | 0 |
 | Quirin | Grüßen | 7 | 21 | 12 | 0 |
@@ -422,13 +422,13 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Klabauter | Plappert die Crew nach | 6 | 12 | 10 | 0 |
 | Klabauter | Ruf und Antwort (Rahmen fürs Merkwort) | 8 | 24 | 20 | 0 |
 | Klabauter | Unglück, Müdigkeit, Rückkehr | 6 | 6 | 6 | 0 |
-| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 1 |
-| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 7 |
+| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 2 |
+| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 10 |
 | Kapitän Harms | Richtig (darf in einer Folge öfter kommen) | 11 | 66 | 60 | 0 |
 | Kapitän Harms | Falsch (darf in einer Folge öfter kommen) | 10 | 40 | 30 | 0 |
 | Kapitän Harms | Nachhaken | 7 | 21 | 15 | 0 |
 | Kapitän Harms | Haltung | 5 | 10 | 8 | 0 |
-| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 2 |
+| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 3 |
 | Kapitän Harms | Mit Hinnerk | 4 | 8 | 8 | 0 |
 | Jasper | Ganz einfach | 5 | 10 | 6 | 0 |
 | Jasper | Falsche Faustregeln (Smilla klärt jede in derselben Szene auf) | 6 | 6 | 6 | 0 |

@@ -52,7 +52,7 @@
      "ort": "Steg und Tankstelle Kuttershaven",
      "du": "handgriffe",
      "fragen": "43,49,62-66",
-     "text": "Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms und erklärt, warum Dampf und Gas nach unten kriechen. Hinnerk steckt sich die kalte Pfeife in den Mund, Smilla nimmt ihm die Streichhölzer weg. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Dann riecht es in der Kajüte nach Gas: Backbord hat den Kocher aufgedreht. Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md.",
+     "text": "Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms. Hinnerk will an der Zapfsäule die Pfeife anzünden, Smilla nimmt ihm die Streichhölzer weg. Hilke erklärt, warum Dampf und Gas nach unten kriechen. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Einweisung am Gashahn: Wenn's mal nach Gas riecht … (der Ernstfall kommt in 1-7). Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md.",
      "stoff": [
       "K-MOT-02",
       "K-GAS-01"
@@ -75,7 +75,7 @@
      "ort": "Hafenbecken und Ausfahrt",
      "du": "ausguck",
      "fragen": "34,36-37,41,44-48,50-51,61",
-     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen.",
+     "text": "Erst raten: Wohin zieht das Heck, wenn Hinnerk rückwärts aus der Box fährt? Überblick „Wie ein Boot fährt“, während der Motor warm wird. Das Heck zieht nach Backbord: Radeffekt, Smilla irrt bei „rechtsdrehend“, darum legen wir links an. Ein Raser im Hafen, die Lieger knallen an die Stege. Die Fähre in der Brede: Außenborder gegen Ruder, dann Sog und Schwell. Harms ruft an. Skript: podcast/folgen/reise-1-3.md.",
      "stoff": [
       "K-MAN-02",
       "K-PRO-01",
@@ -85,6 +85,13 @@
      "bloecke": [
       "G2.1",
       "G3.2"
+     ],
+     "muster": "raten",
+     "abfrage": "harms",
+     "wer": [
+      "hinnerk",
+      "smilla",
+      "kroeger"
      ]
     },
     {
@@ -148,7 +155,7 @@
      "ort": "Kajüte, Schilfwinkel",
      "du": "zuhoeren",
      "fragen": "7,10-13,67-70,72",
-     "text": "Es wird dunkel, das Ankerlicht geht an: wozu Lichter da sind. Beim Kochen zeigt Smilla den Feuerlöscher und die Westen. Harms ruft an, danach fragt Smilla, was zwischen den beiden ist. Hinnerk: „Wir hatten mal ’n Rempler. Auf der Elbe.“ Was nach einem Zusammenstoß zu tun ist, wann Notsignale erlaubt sind. Klabauter sitzt seit dem Schilfwinkel wieder auf dem Kajütdach.",
+     "text": "Es wird dunkel, das Ankerlicht geht an: wozu Lichter da sind. Beim Kochen riecht es plötzlich nach Gas: Backbord hat sich am Kocher gewärmt, und du weißt aus 1-2, was zu tun ist. Danach zeigt Smilla den Feuerlöscher und die Westen. Harms ruft an, danach fragt Smilla, was zwischen den beiden ist. Hinnerk: „Wir hatten mal ’n Rempler. Auf der Elbe.“ Was nach einem Zusammenstoß zu tun ist, wann Notsignale erlaubt sind. Klabauter sitzt seit dem Schilfwinkel wieder auf dem Kajütdach.",
      "stoff": [
       "K-GRU-02",
       "K-LIC-01",
@@ -158,6 +165,13 @@
      "bloecke": [
       "G4.2",
       "G5.1"
+     ],
+     "wieder": "64",
+     "ernstfall": [
+      {
+       "was": "Beim Kochen riecht es plötzlich nach Gas (Backbord am Kocher). Man muss reagieren: Hahn zu, lüften, keine Funken.",
+       "fragen": "64"
+      }
      ]
     }
    ]

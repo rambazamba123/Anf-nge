@@ -166,7 +166,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Aus CLAUDE.md §3: Käpt'n, grüßt mit „Moin“, trocken. Der Widerspruch „kurz angebunden“ gegenüber „erzählt viel“ ist offen (W2).
   - VERBOTEN (abgeleitet): Hinnerk liegt in jeder fachlichen Aussage falsch.
   - ERLAUBT: Er darf auch falsche Katalogantworten aussprechen *(N 20.10. k: „5. Ja darf er“)*; Smilla berichtigt in derselben Szene (P22).
-  - Er irrt nur bei gefühlten Regeln, nie bei Praxis und Sicherheit (`podcast/figuren.md`, bestätigt *N 23.10. a*). Auf Binnengewässern, wo Quirin der Profi ist, fragt er nach, statt zu irren (folgt aus *N 23.10. b*).
+  - ~~Er irrt nur bei gefühlten Regeln, nie bei Praxis und Sicherheit~~ **Gestrichen** *(N 07.11.: „Lösch die Regel, dass er bei Sicherheit niemals falsch liegt. Es machen ja jetzt alle Fehler.“)*. Er darf auch bei Sicherheit danebenliegen (zum Beispiel will er beim Tanken die Pfeife anzünden); jeder Fehler wird in derselben Szene aufgelöst und nie als nachahmenswert gezeigt (P22, X5, `docs/reise.md` HR15). Auf Binnengewässern, wo Quirin der Profi ist, fragt er nach, statt zu irren (folgt aus *N 23.10. b*).
 - **P42 Matrosin Smilla:**
   - PFLICHT: Sie weiß die Fakten, „man merkt, dass sie es drauf hat“ *(N 19.10.)*.
   - PFLICHT: Sie berichtigt Hinnerks Kauderwelsch (P22).

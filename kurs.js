@@ -15,10 +15,11 @@
   const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
-    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'}};
+    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'},
+    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
-  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte'};
+  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen'};
   const TON_DAUER = {glocke: 1.2, schritte: 2};
   const DENK_MIN = 6;   /* B152 (Nutzer, 27.10.2026): im Auto-Modus immer sechs Sekunden */
   /* Revier → leise Dauer-Geräusche */
@@ -71,6 +72,8 @@
       else if (kat === 'VERTIEFUNG') { schluss(); bereich = wert === 'ende' ? null : {art: 'vert', id: wert}; }
       else if (kat === 'HOERKARTE') { schluss(); bereich = {art: 'karte', id: wert}; items.push({t: 'abschnitt', titel: 'Hörkarte', bereich}); }
       else if (kat === 'BILD') dazu({t: 'bild', id: wert});
+      /* Mini-Animation (HR19, v5.27): [[ANIM: gas]] zeigt sie, [[ANIM: gas, 2]] schaltet auf Phase 2 */
+      else if (kat === 'ANIM') { const [aid, ph] = wert.split(',').map(x => x.trim()); dazu({t: 'anim', id: aid, p: +ph || 0}); }
       else if (kat === 'SIGNAL') dazu({t: 'signal', muster: wert});
       else if (kat === 'AUDIO' && ger[wert]) dazu({t: 'ton', gen: ger[wert].id, parallel: !!ger[wert].parallel});
       else if (kat === 'AUDIO' && TOENE[wert]) dazu({t: 'ton', name: TOENE[wert]});
@@ -333,6 +336,18 @@
     const q = frage(id), box = ui('#kbild');
     if (box && q && q.img && q.img.length) box.innerHTML = q.img.map(s => `<img src="${esc(s)}" alt="Katalogbild zu Frage ${q.n}" style="max-width:100%;max-height:200px;border-radius:10px;background:#fff">`).join('');
   }
+  /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
+  async function animZeigen(it) {
+    const box = ui('#kbild'); if (!box) return;
+    try {
+      await nachladen('anim.js'); const A = window.ANIM, id = (A.alias && A.alias[it.id]) || it.id, d = A.defs[id]; if (!d) return;
+      if (d.raw) { await nachladen('szene.js'); await nachladen('reise.js'); }
+      if (A.css) A.css();
+      let sv = box.querySelector(`svg[data-anim="${id}"]`);
+      if (!sv) { box.innerHTML = `<div class="anstage" style="max-height:38vh;margin:0 auto">${A.html(id)}</div>`; sv = A.start(box); }
+      if (sv && it.p) A.phase(sv, it.p);
+    } catch (e) {}
+  }
   /* Auflösung der Vorab-Frage: den Tipp von vorhin unter dem Bild zeigen (Konzept §7.2, zählt nicht) */
   function tipp(it, me) {
     const t = me.tipps[it.id], box = ui('#kbild'); if (!t || !box) return;
@@ -394,6 +409,7 @@
       else if (it.t === 'rede') { const n = st.items[k + 1]; me.gleichWeiter = !!(n && n.t === 'rede'); await rede(st, it, me, n && n.t === 'bild' ? n.id : null); }
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
+      else if (it.t === 'anim') animZeigen(it);
       else if (it.t === 'tipp') { if (interaktiv) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
@@ -542,6 +558,6 @@
     const root = $('#kursplayer'), w = setInterval(() => { if (!document.body.contains(root)) { clearInterval(w); stop(); probeAus(); } }, 400);
   }
 
-  if (typeof window !== 'undefined') window.KURS = {oeffnen, zerlege, stop};
+  if (typeof window !== 'undefined') window.KURS = {oeffnen, zerlege, stop, animZeigen};
   if (typeof module !== 'undefined') module.exports = {zerlege};
 })();

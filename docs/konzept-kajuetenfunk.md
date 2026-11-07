@@ -988,6 +988,7 @@ Wahre Geschichten mit Zahlen (etwa Einsätze der Seenotretter) kommen nur mit Qu
 | `radeffekt` | Radeffekt | das Heck versetzt bei Rückwärtsfahrt, Anlegen an Backbord | Fahrphysik des Manöverspiels (manoever.js) | 2 | G2.1 |
 | `anlegen` | Anlegen | spitzer Anlaufwinkel, gegen Wind oder Strom, Leinen | Vorführung des Manöverspiels (manoever.js, demo) | 2 | G3.1 |
 | `sog` | Sog und Schwell | Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben | neu (Canvas) | 2 | G3.2 |
+| `ruder` | Ruder und Schraubenstrom | Außenborder lenkt über den Schraubenstrom, Einbaumotor: Strom aufs Ruder, rückwärts wirkt das Ruder erst mit Fahrt | neu (anim.js, v5.27) | 2 | – |
 | `rangleiter` | Die Rangfolge | Leiter von manövrierunfähig bis Maschinenfahrzeug | neu (SVG) | 2 | S2.3 |
 | `sektorenfeuer` | Leit-, Richt- und Quermarkenfeuer | weißer Leitsektor, Richtfeuer in Deckung, Ankündigungssektor | Feuer der erfundenen Übungskarte (data/karte.json) | 2 | S5.5 |
 | `vtg` | Verkehrstrennungsgebiet | Einbahnwege, Trennzone, Queren im rechten Winkel, Küstenverkehrszone | Karte der Navigationsschule | 2 | S6.6, S11.3 |
@@ -1001,7 +1002,7 @@ Wahre Geschichten mit Zahlen (etwa Einsätze der Seenotretter) kommen nur mit Qu
 | `wetter` | Warum der Wind weht | Luftdruckunterschied, Wind vom Hoch zum Tief | neu (Schema) | 3 | G7.1 |
 | `beaufort` | Beaufort-Skala | Windstärken mit Seegang, Warnschwellen 6–7 und ab 8 | neu (Tafel) | 3 | S9.2 |
 
-**Zusammen:** 28 Animationen, davon Priorität 1: 13; 51 von 60 Folgen haben mindestens eine.
+**Zusammen:** 29 Animationen, davon Priorität 1: 13; 51 von 60 Folgen haben mindestens eine.
 
 <!-- ANIMATIONEN:END -->
 

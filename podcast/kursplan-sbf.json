@@ -45,6 +45,7 @@
     "motor": {"titel": "Die vier Kreisläufe des Motors", "zeigt": "Kühlwasser (Seeventil, Filter, Impeller, Auspuff), Öl, Strom, Kraftstoff", "baut_auf": "neu (Schema)", "prio": 3},
     "anlegen": {"titel": "Anlegen", "zeigt": "spitzer Anlaufwinkel, gegen Wind oder Strom, Leinen", "baut_auf": "Vorführung des Manöverspiels (manoever.js, demo)", "prio": 2},
     "sog": {"titel": "Sog und Schwell", "zeigt": "Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben", "baut_auf": "neu (Canvas)", "prio": 2},
+    "ruder": {"titel": "Ruder und Schraubenstrom", "zeigt": "Außenborder lenkt über den Schraubenstrom, Einbaumotor: Strom aufs Ruder, rückwärts wirkt das Ruder erst mit Fahrt", "baut_auf": "neu (anim.js, v5.27)", "prio": 2},
     "gas": {"titel": "Gas sinkt nach unten", "zeigt": "Gas und Benzindampf sammeln sich in der Bilge", "baut_auf": "neu (Schema)", "prio": 3},
     "wetter": {"titel": "Warum der Wind weht", "zeigt": "Luftdruckunterschied, Wind vom Hoch zum Tief", "baut_auf": "neu (Schema)", "prio": 3},
     "lichterkarussell": {"titel": "Lichterkarussell", "zeigt": "ein Schiff dreht sich; je nach Blickwinkel sieht man Topplicht, Seitenlichter, Hecklicht", "baut_auf": "Schiffe mit Lichtern aus dem Törn (toern.js, drawShip)", "prio": 1},
