@@ -19,6 +19,8 @@ Stand 28.10.2026, Fassung 1 (gilt; Antworten O88–O92 vom Nutzer eingearbeitet)
 
 
 > **Stand 04.11.2026 (E24, vom Nutzer bestätigt):** Die Reise ist jetzt eine durchgehende Geschichte in sieben Tagen mit dem Ziel, Smilla zu ihrem neuen Schiff zu bringen. Geschichte, Orte, Lernaufbau und Reiseplan stehen in `docs/reise.md`; wo diese Vision von Etappen auf der Seekarte 7, vom Kartentisch als Start oder von 63 Tagen spricht, gilt `docs/reise.md`. Grundsätze, Lernforschung und Starter-Set gelten weiter.
+>
+> **Stand 07.11.2026 (E25, vom Nutzer bestätigt):** Das Herz ist die **Hörreise**: ein Hörspiel mit Zwischenfragen, Bildern und Animationen, gemacht zum Hören im Auto, im Gym oder unterwegs. 3D, Knoten mit Tau und Karte sind Aufgaben dazu, sofort im Modus Mitmachen oder später über die Etappe. Einzelheiten und Regeln in `docs/reise.md` §3 und §7.
 ## 1. Die Vision in deinen Worten
 - „Benutzer startet die App und es fühlt sich nicht wie eine Lernapp an, sondern so als würde man in ein Boot einsteigen, das man erleben kann. Erkunden und detailliert sehen wie ein Boot aufgebaut ist.“ (27.10.)
 - „Design sehr freundlich und warm, übersichtlich aber ‚süß‘.“ (27.10.)

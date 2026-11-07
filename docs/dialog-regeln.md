@@ -22,7 +22,8 @@
 6. **Sprechweisen:**
    - **Hinnerk:** höchstens etwa acht Wörter am Stück, Platt-Einsprengsel („nich“, „dat“, „Schiet“), lobt nie direkt.
    - **Smilla:** schnell, fragt zurück, frotzelt, kölsche Färbung selten („Jeck“), erklärt gern, wird dabei unterbrochen.
-   - **Klabauter:** ein bis drei Wörter, doppelt, oft im falschen Moment.
+   - **Klabauter:** ein bis drei Wörter, doppelt, oft im falschen Moment. Seit 07.11.2026 seine feste Aufgabe: Er wiederholt das Merkwort („Dreihundert! Dreihundert!“). Erst ab Folge 1-6 an Bord.
+   - **Quirin:** sehr bairisch, Binnenschiffer und auf See Anfänger (Mitlernender, seit 07.11.2026). Fragt nach, vergleicht mit dem Fluss („Bei uns aufm Main …“), versteht Hinnerks Platt nicht immer. Tag 1–2 nur aus der Koje, dumpf von unten.
    - **Gäste:** eigene Marotte, zum Beispiel sagt die Hafenmeisterin nie „bitte“.
 7. **Necken in beide Richtungen:** Die Crew zieht dich auf, aber auch sich gegenseitig. Etwa jeder fünfte Satz ist ein kleiner Seitenhieb.
 8. **Antwortknöpfe:** 2–3 Knöpfe in deinen Worten, unterscheidbar in der Haltung. Jede Reaktion passt genau zum Knopf (alle Varianten werden vertont).
@@ -54,11 +55,39 @@
   - Sprech-Steckbrief je Figur in `podcast/figuren.md`.
   - Namen-abdecken-Test vor jeder Folge.
 
+## 3a. Reinreden, Überlappen, echte Unterhaltung (Nutzer, 07.11.2026)
+Der Nutzer will, dass sich die Figuren auch mal ins Wort fallen und ein natürliches Gespräch entsteht. So schreiben wir das:
+
+**Beim Schreiben**
+- **Abbrechen und reingehen:** Der unterbrochene Satz endet mit einem Gedankenstrich („Ich wollt grad-“). Die nächste Zeile beginnt sofort, oft mit einem Tag: `[fällt ins Wort] Weiß ich.` Höchstens etwa jede vierte Zeile (Regel 4).
+- **Kurze Einwürfe:** Ein Dritter wirft ein Wort ein („Hm.“, „Jaja.“, „Na?“), ohne den Redner zu stoppen. Sparsam, sonst klingt es gestellt.
+- **Selbstkorrektur:** „Links, äh, Backbord.“ Klingt menschlich und lehrt nebenbei.
+- **Aneinander vorbei:** Quirin versteht Hinnerks Platt nicht, Hinnerk antwortet auf etwas anderes, als gefragt war.
+- **Halbe Aufmerksamkeit:** Jemand ist beschäftigt (Pfeife stopfen, Leine aufschießen, Kurs halten) und antwortet knapp oder zu spät: „Was? … Moment.“ Das Geräusch der Tätigkeit läuft mit.
+- **Zwei Fäden gleichzeitig:** Hinnerk erzählt Garn, Smilla korrigiert nebenbei den Kurs, dann treffen sich die Fäden.
+- **Gemeinsames Wissen bleibt unausgesprochen:** Niemand erklärt, was alle wissen. Erklärt wird für dich oder Quirin (die Neuen) oder im Streit.
+- **Running Gags und Rückgriffe:** Was früher passiert ist, kommt wieder („Wie beim Arbeitsboot“), ohne es nachzuerzählen.
+- **Raum:** Wer von unten aus der Koje spricht (Quirin, Tag 1–2), klingt dumpf und leiser; wer an Deck ruft, gegen den Wind.
+
+**Bei der Vertonung (ElevenLabs Text to Dialogue)**
+- Eine Szene am Stück erzeugen, nicht Satz für Satz, damit die Übergänge natürlich werden (bis etwa 2.000 Zeichen je Anfrage).
+- ElevenLabs empfiehlt für Unterbrechungen den Gedankenstrich am Ende der abgebrochenen Zeile und einen beschreibenden Tag am Anfang der nächsten (im Beispiel der Doku `[jumping in]`). Die Dialog-Schnittstelle steuert Sprecherwechsel und Unterbrechungen dann selbst.
+- Ein eigenes Steuerzeichen für echtes Übereinandersprechen habe ich in der Doku nicht gefunden. Wo es wirklich überlappen soll, legt der Player zwei Clips leicht übereinander. Das ist erst ein Vorschlag und muss gebaut werden.
+- **Zu prüfen in der Probe:** ob deutsche Tags (`[fällt ins Wort]`) so gut wirken wie englische (`[jumping in]`); bis dahin beide testen.
+
+**So entstehen natürliche Dialoge mit der KI**
+1. Erst der Ablauf in Stichpunkten (der Nutzer gibt frei), dann der Rohtext.
+2. Durchgang „30 % kürzen, mehr Unausgesprochenes“, dann je Figur ein Durchgang nur für ihre Sprechweise, zuletzt die Fakten.
+3. Echtes Material des Nutzers einbauen: Erlebtes, Sprüche, frei eingesprochene Szenen als Sprachnotiz (wird abgetippt, der Klang bleibt).
+4. Namen-abdecken-Test und Probe-Lesen mit der Gratis-Stimme, erst dann die echte Vertonung.
+5. Was nach dem Hören stört, wird eine Regel (`docs/reise.md` §7) oder ein Beispiel in der Beispiel-Bibliothek.
+
 ## 3. Vorlage, wenn eine KI Dialoge schreibt
 > (Davor 3–5 Beispielszenen aus der Beispiel-Bibliothek in `<examples>`.) Schreib die Szene als Gespräch unter Leuten, die sich gut kennen und sich gern aufziehen. Die Sätze werden später von Stimmen gesprochen, deshalb Umgangssprache und kurze Sätze. Keine vollständigen Lehrbuchsätze. Mischt kurze und lange Sätze, nutzt Umgangssprache („is“, „nich“, „'n“). Figuren unterbrechen sich, antworten schief und sagen Gefühle nicht direkt. Keine Szene endet mit einem klugen Schlusssatz. Hinnerk spricht höchstens acht Wörter am Stück und lobt nie direkt; Smilla ist schnell und frotzelt; Klabauter sagt ein bis drei Wörter doppelt. Fachwissen kommt nur als Antwort auf eine Frage oder einen Fehler, aber Aufgaben für den Spieler werden klar und vollständig erklärt. Lies die Szene am Ende laut und schreib um, was holpert.
 
 ## Quellen
 - Anthropic: [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) (Beispiele, Begründung, positiv formulieren, Stil der Anfrage)
+- ElevenLabs: [Text to Dialogue, Unterbrechungen mit Gedankenstrich](https://elevenlabs.io/docs/capabilities/text-to-dialogue), [Eleven v3: Dialog-Schnittstelle steuert Unterbrechungen](https://elevenlabs.io/blog/eleven-v3) (07.11.2026 über die Suche gelesen)
 - ElevenLabs: [Prompting Eleven v3](https://elevenlabs.io/docs/best-practices/prompting), [Text to Dialogue](https://elevenlabs.io/docs/capabilities/text-to-dialogue) (nur über die Suche gelesen, die Seite selbst war aus der Cloud nicht erreichbar)
 - Foren: [r/WritingWithAI, realistische Dialoge](https://redlib.ssps.io/r/WritingWithAI/comments/1lbx7pq/can_ai_help_with_writing_realistic_dialogue_any), [Writer's AI Companion: Dialogue](https://thewritersaicompanion.substack.com/p/crafting-engaging-dialogue-with-ai?r=2evdyf)
 - OpenAI und andere: nur Sekundärquellen gefunden, z. B. [DataCamp zu Few-Shot](https://www.datacamp.com/tutorial/few-shot-prompting) (2–5 Beispiele)

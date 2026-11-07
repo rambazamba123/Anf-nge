@@ -1,5 +1,5 @@
 {
- "hinweis": "Reiseplan „In sieben Tagen zum SBF See“ (Nutzer 04.11.2026). Prüfen und Tabelle in docs/reise.md schreiben: node tools/reiseplan.js. du: zuhoeren | ausguck | handgriffe | mitmachen | pinne | selbst | fuehren | pruef. art: kajuete | garn | hafen | fahrt | anker | schleuse | nacht | nebel | sturm | pruef | abschied. fragen: amtliche SBF-See-Fragen (abends), stoff: eingeführte Kompetenzen, anwenden: Kompetenzen, die die Folge anwendet (müssen vorher eingeführt sein).",
+ "hinweis": "Reiseplan „In sieben Tagen zum SBF See“ (docs/reise.md). Die Fragen sind nach den Themenblöcken des Kursplans (podcast/kursplan-sbf.json) verteilt: Jede Folge hat ein bis drei Blöcke (Feld bloecke), System-Blöcke bleiben zusammen, Regel-Blöcke dürfen Regel für Regel verteilt werden. Überblicke (ueberblicke) kommen vor den Einzelheiten, meist in den ersten Tagen. crew: wer ab wann an Bord ist. Prüfung: node tools/reiseplan.js.",
  "bonus": [
   {
    "id": "0",
@@ -18,7 +18,7 @@
    "titel": "Leinen los",
    "ort": "Kuttershaven → Fluss Brede → Ankerbucht Schilfwinkel",
    "du": "Passagier: zuhören, Ausguck, kleine Handgriffe",
-   "story": "Aufbruch zu Smillas neuem Schiff. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
+   "story": "Aufbruch zu Smillas neuem Schiff. Quirin kommt in letzter Minute an Bord und verschwindet seekrank in der Koje. Abends im Schilfwinkel landet Klabauter. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
    "haken": "Harms am Telefon: „Sieben Tage. Wer zu spät kommt, fährt allein heim.“",
    "set": "Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu.",
    "folgen": [
@@ -28,11 +28,17 @@
      "art": "kajuete",
      "ort": "Kajüte, Kuttershaven",
      "du": "zuhoeren",
-     "fragen": "1-3,67-69",
-     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist, Westen und Feuerlöscher. Hinnerks Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
+     "fragen": "1-2,59,67-70,72",
+     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist und wer überhaupt ohne Schein fahren darf, Westen, Feuerlöscher, was im Ernstfall zu tun ist. Quirin kommt in letzter Minute an Bord: Er ist Binnenschiffer und will auch den SBF See. Hinnerks Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
      "stoff": [
       "K-GRU-01",
-      "K-SIC-01"
+      "K-REC-01",
+      "K-SIC-01",
+      "K-SIC-02"
+     ],
+     "bloecke": [
+      "G1.1",
+      "G4.2"
      ]
     },
     {
@@ -41,12 +47,14 @@
      "art": "hafen",
      "ort": "Steg und Tankstelle Kuttershaven",
      "du": "handgriffe",
-     "fragen": "62-66,42,49",
+     "fragen": "43,49,62-66",
      "text": "Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg.",
      "stoff": [
-      "K-GAS-01",
-      "K-MOT-01",
-      "K-MOT-02"
+      "K-MOT-02",
+      "K-GAS-01"
+     ],
+     "bloecke": [
+      "G4.1"
      ]
     },
     {
@@ -55,12 +63,17 @@
      "art": "fahrt",
      "ort": "Hafenbecken und Ausfahrt",
      "du": "ausguck",
-     "fragen": "41,44-47,50,51,34,36,37,61",
-     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand.",
+     "fragen": "34,36-37,41,44-48,50-51,61",
+     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen. Quirin wird grün und verschwindet in der Vorschiffskoje.",
      "stoff": [
+      "K-MAN-02",
       "K-PRO-01",
-      "K-HAN-01",
-      "K-MAN-02"
+      "K-MAN-01",
+      "K-HAN-01"
+     ],
+     "bloecke": [
+      "G2.1",
+      "G3.2"
      ]
     },
     {
@@ -69,12 +82,17 @@
      "art": "fahrt",
      "ort": "Fluss Brede",
      "du": "ausguck",
-     "fragen": "4-9,14,15,125,136",
-     "text": "Erste Begegnung auf dem Fluss, die Crew weicht aus und erklärt. Kurze und lange Töne, Luv und Lee. Du sagst Boote an.",
+     "fragen": "3,6,8-9,14-15",
+     "text": "Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln und das Prinzip dahinter. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an. Aus der Koje fragt Quirin: „Wos is Luv?“",
      "stoff": [
+      "K-GRU-01",
       "K-GRU-02",
       "K-GRU-03",
       "K-KVR-01"
+     ],
+     "bloecke": [
+      "G1.2",
+      "G5.2"
      ]
     },
     {
@@ -83,10 +101,14 @@
      "art": "garn",
      "ort": "Fluss Brede (Zeitraffer)",
      "du": "zuhoeren",
-     "fragen": "43,52-57,60",
+     "fragen": "42,52-57,60",
      "text": "Unterwegs erzählt Hinnerk, wie ihm einst der Motor heiß lief. Warnlampen, Öl in der Bilge, Kühlwasser. Smilla stellt seine Version richtig.",
      "stoff": [
+      "K-MOT-01",
       "K-MOT-02"
+     ],
+     "bloecke": [
+      "G2.2"
      ]
     },
     {
@@ -95,11 +117,17 @@
      "art": "anker",
      "ort": "Ankerbucht Schilfwinkel",
      "du": "handgriffe",
-     "fragen": "31-33,38,58,39",
-     "text": "Ankern vor Sonnenuntergang (Hinnerk besteht drauf). Abstand zum Schilf, Brutplätze, woran man sieht, dass der Anker hält.",
+     "fragen": "31-33,35,38-40,58,71",
+     "text": "Ankern vor Sonnenuntergang (Hinnerk besteht drauf). Wie man anlegt und ankert, Abstand zum Schilf, Brutplätze, woran man das Wetter sieht. In der Dämmerung landet ein Papagei auf dem Kajütdach: Klabauter. „Dat is der Klabautermann. Der bleibt.“",
      "stoff": [
+      "K-MAN-01",
+      "K-ANK-01",
       "K-UMW-01",
-      "K-ANK-01"
+      "K-WET-01"
+     ],
+     "bloecke": [
+      "G3.1",
+      "G7.1"
      ]
     },
     {
@@ -108,11 +136,14 @@
      "art": "kajuete",
      "ort": "Kajüte, Schilfwinkel",
      "du": "zuhoeren",
-     "fragen": "70-72",
-     "text": "Was tun nach einem Zusammenstoß, wann Notsignale erlaubt sind, was das Wetter macht. Smilla erzählt, welche Knoten man an Bord wofür braucht (noch ohne Tau). Harms ruft an.",
+     "fragen": "7,10-13",
+     "text": "Es wird dunkel, das Ankerlicht geht an. Hinnerk erklärt, wozu Lichter da sind: Wer bin ich, wohin fahre ich. Klabauter plappert alles nach. Smilla erzählt, welche Knoten man an Bord wofür braucht (noch ohne Tau). Harms ruft an.",
      "stoff": [
-      "K-SIC-02",
-      "K-WET-01"
+      "K-GRU-02",
+      "K-LIC-01"
+     ],
+     "bloecke": [
+      "G5.1"
      ]
     }
    ]
@@ -122,8 +153,8 @@
    "titel": "Tonnen und dicke Pötte",
    "ort": "Strom Elvmünde → Klüverhafen",
    "du": "kleine Handgriffe, erste Minuten an der Pinne unter Aufsicht",
-   "story": "Auf dem großen Strom mit Frachtern. Abends ein fremder Hafen: Die Crew funkt den Hafenmeister an, du hörst mit. Hinnerk gibt Smilla in der Dämmerung das Steuer.",
-   "haken": "Quirin meldet sich per Funk: Er wartet an der Schleuse und will mit.",
+   "story": "Auf dem großen Strom mit Frachtern. Abends ein fremder Hafen: Die Crew funkt den Hafenmeister an, du hörst mit. Hinnerk gibt Smilla in der Dämmerung das Steuer. Quirin liegt noch in der Koje und stellt von unten Fragen.",
+   "haken": "Aus der Koje: „Morgen a Schleus’n? Do bin i dahoam.“",
    "set": "Fach 1: Tau und Mini-Klampe.",
    "knoten": [
     "acht",
@@ -137,18 +168,21 @@
      "art": "kajuete",
      "ort": "Kajüte, Schilfwinkel",
      "du": "mitmachen",
-     "fragen": "190-196,198,199",
-     "text": "Morgens die erste Kiste: Tau. Achtknoten am Leinenende, damit nichts ausrauscht. Smilla zeigt auf der Karte das Fahrwasser und die Tonnen.",
+     "fragen": "156-157,190-194",
+     "text": "Morgens die erste Kiste: Tau. Achtknoten am Leinenende, damit nichts ausrauscht. Smilla zeigt auf der Karte das Fahrwasser und erklärt, welche Familien von Seezeichen es gibt.",
      "stoff": [
-      "K-SEE-01",
-      "K-NAV-02",
-      "K-KNO-01"
+      "K-KNO-01",
+      "K-FAH-02",
+      "K-SEE-01"
      ],
      "knoten": [
       "acht"
      ],
      "navi": "N0",
-     "set": "Tau"
+     "set": "Tau",
+     "bloecke": [
+      "S5.2"
+     ]
     },
     {
      "id": "2-2",
@@ -156,13 +190,17 @@
      "art": "fahrt",
      "ort": "Tonnenkette in die Elvmünde",
      "du": "ausguck",
-     "fragen": "156,157",
+     "fragen": "195-199",
      "text": "Du sagst jede Tonne an, Smilla steuert. Wer im Fahrwasser fährt, hält sich rechts.",
      "stoff": [
-      "K-FAH-02"
+      "K-SEE-01",
+      "K-FEU-01"
      ],
      "anwenden": [
       "K-SEE-01"
+     ],
+     "bloecke": [
+      "S5.3"
      ]
     },
     {
@@ -171,14 +209,18 @@
      "art": "fahrt",
      "ort": "Elvmünde, Fahrwasser",
      "du": "pinne",
-     "fragen": "148-151,154,155,177,179,187,189,165-168,172,181",
-     "text": "Ein Frachter im engen Fahrwasser, ein Bagger, eine Fähre. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben.",
+     "fragen": "161,165-168,271",
+     "text": "Ein Frachter im engen Fahrwasser, eine Fähre quert. Was im Fahrwasser gilt: rechts halten, nicht behindern, richtig queren. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben.",
      "stoff": [
-      "K-FAH-01",
-      "K-FAH-02"
+      "K-SIG-01",
+      "K-FAH-02",
+      "K-NEB-01"
      ],
      "anwenden": [
       "K-SEE-01"
+     ],
+     "bloecke": [
+      "S6.1"
      ]
     },
     {
@@ -187,13 +229,20 @@
      "art": "fahrt",
      "ort": "Elvmünde",
      "du": "ausguck",
-     "fragen": "79-83,89,90",
-     "text": "Begriffe der Ausweichregeln an echten Lagen: Wer ist manövrierunfähig, was ist sichere Geschwindigkeit, was heißt „in Sicht“.",
+     "fragen": "82-83,125,128-132,272-273",
+     "text": "Wann wird es gefährlich? Peilung, die stehen bleibt, Ausguck, AIS. Dann die Rangfolge: wer manövrierunfähig ist, wer behindert ist, wer wem ausweicht. Echte Lagen auf dem Strom.",
      "stoff": [
-      "K-KVR-02"
+      "K-KVR-01",
+      "K-AIS-01",
+      "K-KVR-02",
+      "K-KVR-03"
      ],
      "anwenden": [
       "K-KVR-01"
+     ],
+     "bloecke": [
+      "S2.1",
+      "S2.3"
      ]
     },
     {
@@ -202,11 +251,14 @@
      "art": "hafen",
      "ort": "Einfahrt Klüverhafen",
      "du": "zuhoeren",
-     "fragen": "16,140,141,161-164,178,186,188,35,40,48",
-     "text": "Die Crew funkt den Hafenmeister an, du hörst mit. Langer Ton beim Einlaufen, Gefahrsignal von einem Fischer. Hinnerk legt mit Backbord an und erklärt, warum.",
+     "fragen": "122-124,141,162-164",
+     "text": "Die Crew funkt den Hafenmeister an, du hörst mit. Ein Fischer gibt das Gefahrsignal, irgendwo läutet eine Glocke. Smilla ordnet die Schallsignale: kurz, lang, Manöver, Nebel, Warnung. Hinnerk legt mit Backbord an und erklärt, warum.",
      "stoff": [
-      "K-SIG-01",
-      "K-MAN-01"
+      "K-NEB-01",
+      "K-SIG-01"
+     ],
+     "bloecke": [
+      "S4.3"
      ]
     },
     {
@@ -223,7 +275,8 @@
      "knoten": [
       "klampe"
      ],
-     "set": "Mini-Klampe"
+     "set": "Mini-Klampe",
+     "bloecke": []
     },
     {
      "id": "2-7",
@@ -232,11 +285,13 @@
      "ort": "Kajüte, Klüverhafen",
      "du": "zuhoeren",
      "fragen": "",
-     "text": "Wiederholung des Tages mit Klabauter als Quizmaster. Funkspruch von Quirin.",
+     "text": "Wiederholung des Tages mit Klabauter als Quizmaster. Aus der Koje meldet sich Quirin: „Morgen a Schleus’n? Do bin i dahoam.“",
      "anwenden": [
       "K-SEE-01",
       "K-FAH-02"
-     ]
+     ],
+     "bloecke": [],
+     "stoff": []
     }
    ]
   },
@@ -245,7 +300,7 @@
    "titel": "Schleuse und Kanal",
    "ort": "Schleuse Klappdörp → Kanal → Kanalhafen Moorende",
    "du": "mitmachen: Leinen in der Schleuse, steuern im Kanal",
-   "story": "Quirin kommt an Bord („Schuidl kenn i!“) und bringt Leben in die Kajüte. Vor der Schleuse leuchten die Lichter rot: warten. In der Kammer führst du die Leine.",
+   "story": "Quirin steht auf: Schleuse und Kanal sind sein Revier, und plötzlich ist er der Experte. Vor der Schleuse leuchten die Lichter rot: warten. In der Kammer führst du die Leine. Abends entscheidet Quirin, zu bleiben.",
    "haken": "Quirin erzählt vom alten Wrack im Watt, „da wo der Hinnerk damals…“. Hinnerk schweigt.",
    "set": "Fach 2: Ring, Kursdreieck, Zirkel und die Übungskarte der Reise.",
    "knoten": [
@@ -260,10 +315,16 @@
      "art": "kajuete",
      "ort": "Kajüte, Klüverhafen",
      "du": "zuhoeren",
-     "fragen": "17-29,176",
-     "text": "Quirin kommt an Bord und fragt Tafelzeichen ab wie ein Quizmaster. Trocken, aber laut.",
+     "fragen": "4-5,16-20,22-27",
+     "text": "Ruhiges Wasser: Quirin kommt aus der Koje und ist in seinem Element. Tafelzeichen kennt er vom Binnen und fragt sie ab wie ein Quizmaster, dazu, wie lang ein kurzer und ein langer Ton sind. Trocken, aber laut.",
      "stoff": [
-      "K-TAF-01"
+      "K-TAF-01",
+      "K-GRU-02",
+      "K-SIG-01"
+     ],
+     "bloecke": [
+      "G6.1",
+      "G6.2"
      ]
     },
     {
@@ -272,13 +333,19 @@
      "art": "fahrt",
      "ort": "Vor der Schleuse Klappdörp",
      "du": "mitmachen",
-     "fragen": "30,173-175",
-     "text": "Die Schleusenlichter zeigen rot, du musst warten und das richtig entscheiden. Die Crew meldet sich per Funk an.",
+     "fragen": "21,28-30,173-176,178",
+     "text": "Die Schleusenlichter zeigen rot, du musst warten und das richtig entscheiden. Brücken, Schleusen und der große Kanal. Die Crew meldet sich per Funk an, Quirin weiß alles besser.",
      "stoff": [
-      "K-SCH-01"
+      "K-TAF-01",
+      "K-SCH-01",
+      "K-SIG-01"
      ],
      "anwenden": [
       "K-SCH-01"
+     ],
+     "bloecke": [
+      "G6.3",
+      "S6.5"
      ]
     },
     {
@@ -297,7 +364,8 @@
       "rundtoern",
       "webelein"
      ],
-     "set": "Ring"
+     "set": "Ring",
+     "bloecke": []
     },
     {
      "id": "3-4",
@@ -305,13 +373,20 @@
      "art": "fahrt",
      "ort": "Kanal",
      "du": "selbst",
-     "fragen": "169,170,180,182-185",
-     "text": "Du steuerst im Kanal: Ausweichstellen, Badestellen, Sperrgebiet. Quirin redet ununterbrochen.",
+     "fragen": "169-170,177,179-184,187-189",
+     "text": "Du steuerst im Kanal: Badestellen und Tempo, Wasserski, Sperr- und Warngebiete. Quirin redet ununterbrochen.",
      "stoff": [
-      "K-FAH-03"
+      "K-FAH-03",
+      "K-FAH-01",
+      "K-FAH-02",
+      "K-SIG-01"
      ],
      "anwenden": [
       "K-TAF-01"
+     ],
+     "bloecke": [
+      "S6.2",
+      "S6.4"
      ]
     },
     {
@@ -320,13 +395,20 @@
      "art": "fahrt",
      "ort": "Kanal",
      "du": "selbst",
-     "fragen": "126-135,137,139",
+     "fragen": "79-81,126-127,135-137,139-140",
      "text": "Ein Segler kreuzt, ein Schnellerer will überholen. Wer weicht wem aus, und wann musst du das Manöver des letzten Augenblicks fahren?",
      "stoff": [
-      "K-KVR-03"
+      "K-KVR-02",
+      "K-KVR-03",
+      "K-KVR-01",
+      "K-SIG-01"
      ],
      "anwenden": [
       "K-KVR-01"
+     ],
+     "bloecke": [
+      "S2.2",
+      "S2.4"
      ]
     },
     {
@@ -335,13 +417,17 @@
      "art": "kajuete",
      "ort": "Kajüte, Kanalhafen Moorende",
      "du": "mitmachen",
-     "fragen": "236,239-241",
+     "fragen": "231-232,234-239",
      "text": "Kursdreieck und Zirkel aus Fach 2: Position ablesen, Kurs und Distanz zum Watt messen. Quirin rechnet falsch, Smilla nicht.",
      "stoff": [
+      "K-NAV-01",
       "K-NAV-02"
      ],
      "navi": "N1-N2",
-     "set": "Kursdreieck, Zirkel, Übungskarte"
+     "set": "Kursdreieck, Zirkel, Übungskarte",
+     "bloecke": [
+      "S7.1"
+     ]
     },
     {
      "id": "3-7",
@@ -358,19 +444,26 @@
      "anwenden": [
       "K-MAN-01",
       "K-MAN-02"
-     ]
+     ],
+     "bloecke": []
     },
     {
      "id": "3-8",
-     "titel": "Quirins Abschied",
+     "titel": "Ab morgen See",
      "art": "kajuete",
      "ort": "Kanalhafen Moorende",
      "du": "zuhoeren",
-     "fragen": "",
-     "text": "Quirin geht von Bord. Abends Wiederholung, und die Geschichte vom Wrack.",
+     "fragen": "73-74,152-153",
+     "text": "Abends in Moorende: Ab morgen gelten andere Regeln als auf Quirins Flüssen. Welche Regeln wo gelten, und warum Quirin trotzdem bleibt: Er will den Schein mit dir zusammen machen. Dann Quirins Andeutung zum Wrack, „da wo der Hinnerk damals …“",
      "anwenden": [
       "K-TAF-01",
       "K-KVR-03"
+     ],
+     "bloecke": [
+      "S1.1"
+     ],
+     "stoff": [
+      "K-REC-01"
      ]
     }
    ]
@@ -400,7 +493,10 @@
      "stoff": [
       "K-GEZ-01"
      ],
-     "navi": "N3"
+     "navi": "N3",
+     "bloecke": [
+      "S7.4"
+     ]
     },
     {
      "id": "4-2",
@@ -408,13 +504,17 @@
      "art": "fahrt",
      "ort": "Priel im Groter Sand",
      "du": "selbst",
-     "fragen": "200-203,208",
+     "fragen": "200-207",
      "text": "Du steuerst durch den Priel. Kardinaltonnen zeigen, wo das Wasser frei ist.",
      "stoff": [
-      "K-SEE-02"
+      "K-SEE-02",
+      "K-FEU-01"
      ],
      "anwenden": [
       "K-SEE-01"
+     ],
+     "bloecke": [
+      "S5.4"
      ]
     },
     {
@@ -423,15 +523,22 @@
      "art": "fahrt",
      "ort": "Wrackgebiet im Groter Sand",
      "du": "selbst",
-     "fragen": "171",
-     "text": "Die Crew ist müde und will am Wrack ankern. Du entscheidest. Dann kommt die Wasserschutzpolizei: Ankerverbot, wer ist Schiffsführer, Papiere.",
+     "fragen": "151,154-155,171,185-186",
+     "text": "Die Crew ist müde und will am Wrack ankern. Du entscheidest. Dann kommt die Wasserschutzpolizei: Ankerverbot, wer Schiffsführer ist, Papiere, das Anhaltesignal und wer sonst noch kontrollieren darf.",
      "stoff": [
-      "K-ANK-01"
+      "K-ANK-01",
+      "K-FAH-01",
+      "K-FAH-03",
+      "K-SIG-01"
      ],
      "anwenden": [
       "K-SEE-02",
       "K-ANK-01",
       "K-GRU-01"
+     ],
+     "bloecke": [
+      "S6.2",
+      "S6.3"
      ]
     },
     {
@@ -448,7 +555,11 @@
      "anwenden": [
       "K-ANK-01"
      ],
-     "set": "Mini-Anker"
+     "set": "Mini-Anker",
+     "bloecke": [
+      "S8.1",
+      "S8.2"
+     ]
     },
     {
      "id": "4-5",
@@ -456,18 +567,22 @@
      "art": "garn",
      "ort": "Trockenfallplatz",
      "du": "mitmachen",
-     "fragen": "59,73-78,85,86,152,153,158,160",
-     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Paragrafen mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau.",
+     "fragen": "75-78,89-90",
+     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig.",
      "stoff": [
-      "K-REC-01",
       "K-KNO-02",
-      "K-KNO-03"
+      "K-KNO-03",
+      "K-REC-01",
+      "K-KVR-02"
      ],
      "knoten": [
       "palstek",
       "kreuz"
      ],
-     "set": "dickes Tau"
+     "set": "dickes Tau",
+     "bloecke": [
+      "S1.2"
+     ]
     },
     {
      "id": "4-6",
@@ -475,16 +590,15 @@
      "art": "fahrt",
      "ort": "Watt nach Lüttoog",
      "du": "selbst",
-     "fragen": "231,232,234,235,237,238",
-     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen. Im Inselhafen liegt Jasper.",
-     "stoff": [
-      "K-NAV-01"
-     ],
+     "fragen": "",
+     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Im Inselhafen liegt Jasper.",
+     "stoff": [],
      "anwenden": [
       "K-NAV-02",
       "K-MAN-01"
      ],
-     "navi": "N3"
+     "navi": "N3",
+     "bloecke": []
     }
    ]
   },
@@ -508,13 +622,16 @@
      "art": "kajuete",
      "ort": "Kajüte, Lüttoog",
      "du": "mitmachen",
-     "fragen": "10-13,91-94,113,114,159",
+     "fragen": "85-86,91-92,113,159-160",
      "text": "Mini-Laternen aus Fach 4 auf die Miniatur-Frieda: Topplicht, Seitenlichter, Heck. Dann die Lichter der anderen.",
      "stoff": [
-      "K-LIC-01",
+      "K-REC-01",
       "K-LIC-02"
      ],
-     "set": "Mini-Laternen"
+     "set": "Mini-Laternen",
+     "bloecke": [
+      "S3.1"
+     ]
     },
     {
      "id": "5-2",
@@ -522,10 +639,17 @@
      "art": "kajuete",
      "ort": "Kajüte, Lüttoog",
      "du": "zuhoeren",
-     "fragen": "95-99,102-105",
-     "text": "Schlepper und Fischer. Jasper kommt zu Besuch und verwechselt alles.",
+     "fragen": "93-96,108-112,133-134",
+     "text": "Schlepper, Fischer und Tiefgangbehinderte: Lichter und Signalkörper. Jasper kommt zu Besuch und verwechselt alles, Quirin auch, aber anders.",
      "stoff": [
-      "K-LIC-03"
+      "K-LIC-02",
+      "K-LIC-03",
+      "K-LIC-04",
+      "K-KVR-03"
+     ],
+     "bloecke": [
+      "S3.3",
+      "S3.6"
      ]
     },
     {
@@ -534,10 +658,16 @@
      "art": "kajuete",
      "ort": "Kajüte, Lüttoog",
      "du": "zuhoeren",
-     "fragen": "100,101,106-112,115",
-     "text": "Manövrierunfähig, manövrierbehindert, tiefgangbehindert, Lotse. Trocken, Klabauter hilft.",
+     "fragen": "97-104,148-150",
+     "text": "Manövrierunfähig, manövrierbehindert, Bagger: Lichter und Signalkörper. Trocken, Klabauter hilft.",
      "stoff": [
-      "K-LIC-04"
+      "K-LIC-03",
+      "K-LIC-04",
+      "K-FAH-01"
+     ],
+     "bloecke": [
+      "S3.4",
+      "S3.5"
      ]
     },
     {
@@ -546,14 +676,19 @@
      "art": "nacht",
      "ort": "Ansteuerung bei Nacht",
      "du": "mitmachen",
-     "fragen": "197,204-207,209-215,220-224",
+     "fragen": "208-215,220-224",
      "text": "Leuchtfeuer und Kennungen. Hinnerk liest ein Feuer falsch, Smilla übernimmt. Dann sagt er es: Er sieht nachts schlecht.",
      "stoff": [
-      "K-FEU-01"
+      "K-FEU-01",
+      "K-SEE-02"
      ],
      "anwenden": [
       "K-LIC-02",
       "K-LIC-03"
+     ],
+     "bloecke": [
+      "S5.1",
+      "S5.5"
      ]
     },
     {
@@ -562,19 +697,25 @@
      "art": "nacht",
      "ort": "Ansteuerung bei Nacht",
      "du": "selbst",
-     "fragen": "242-244,248,272,273",
-     "text": "Du gehst allein Wache. Begegnungen bei Nacht, Peilung nehmen, Kompass und Missweisung, AIS.",
+     "fragen": "105-107,114-115,240-244,248",
+     "text": "Du gehst allein Wache. Begegnungen bei Nacht, ein Ankerlieger und ein Schiff auf Grund, Peilung nehmen, Kompass und Missweisung, Seemeile und Knoten.",
      "stoff": [
-      "K-NAV-02",
-      "K-AIS-01",
-      "K-MAN-06"
+      "K-MAN-06",
+      "K-LIC-03",
+      "K-LIC-04",
+      "K-LIC-02",
+      "K-NAV-02"
      ],
      "anwenden": [
       "K-LIC-02",
       "K-LIC-04",
       "K-KVR-01"
      ],
-     "navi": "N4"
+     "navi": "N4",
+     "bloecke": [
+      "S3.2",
+      "S7.2"
+     ]
     },
     {
      "id": "5-6",
@@ -582,13 +723,18 @@
      "art": "nebel",
      "ort": "Nebelbank",
      "du": "selbst",
-     "fragen": "84,116-124,138,271",
+     "fragen": "84,116-121,138,274",
      "text": "Plötzlich Nebel. Fahrt runter, Signal geben, Ausguck. Ein Frachter tutet irgendwo.",
      "stoff": [
-      "K-NEB-01"
+      "K-NEB-01",
+      "K-SCW-01"
      ],
      "anwenden": [
       "K-NEB-01"
+     ],
+     "bloecke": [
+      "S4.1",
+      "S4.2"
      ]
     },
     {
@@ -606,7 +752,8 @@
      "knoten": [
       "stopper",
       "schot"
-     ]
+     ],
+     "bloecke": []
     }
    ]
   },
@@ -626,10 +773,13 @@
      "art": "kajuete",
      "ort": "Kajüte, Ankerplatz",
      "du": "zuhoeren",
-     "fragen": "260-266",
+     "fragen": "260,262-266",
      "text": "Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht.",
      "stoff": [
       "K-WET-01"
+     ],
+     "bloecke": [
+      "S9.1"
      ]
     },
     {
@@ -638,15 +788,20 @@
      "art": "kajuete",
      "ort": "Kartentisch",
      "du": "mitmachen",
-     "fragen": "245-247,267-270",
+     "fragen": "245-247,261,267-270",
      "text": "Du planst den Schlag mit Strom und Koppelort. Dazu Sturm- und Starkwindwarnungen.",
      "stoff": [
-      "K-NAV-02"
+      "K-NAV-02",
+      "K-WET-01"
      ],
      "anwenden": [
       "K-NAV-02"
      ],
-     "navi": "N5"
+     "navi": "N5",
+     "bloecke": [
+      "S7.3",
+      "S9.2"
+     ]
     },
     {
      "id": "6-3",
@@ -654,13 +809,17 @@
      "art": "fahrt",
      "ort": "Verkehrstrennungsgebiet",
      "du": "selbst",
-     "fragen": "87,88,142-147",
+     "fragen": "87-88,142-147,158",
      "text": "Du querst das Verkehrstrennungsgebiet im rechten Winkel, große Schiffe überall.",
      "stoff": [
-      "K-VTG-01"
+      "K-VTG-01",
+      "K-REC-01"
      ],
      "anwenden": [
       "K-KVR-03"
+     ],
+     "bloecke": [
+      "S6.6"
      ]
     },
     {
@@ -669,13 +828,16 @@
      "art": "sturm",
      "ort": "Offene See",
      "du": "mitmachen",
-     "fragen": "256,258,259,274,275,278",
+     "fragen": "256-259,275",
      "text": "Westen an, Sicherheitsleinen, Luken zu, Fahrt anpassen. Steuern in den Wellen.",
      "stoff": [
       "K-SCW-01"
      ],
      "anwenden": [
       "K-SIC-01"
+     ],
+     "bloecke": [
+      "S9.3"
      ]
     },
     {
@@ -684,15 +846,19 @@
      "art": "sturm",
      "ort": "Offene See",
      "du": "selbst",
-     "fragen": "276",
+     "fragen": "276-278",
      "text": "Smilla geht beinahe über Bord. Ihr übt es danach mit dem Mini-Rettungsring, dann echt mit der Puppe.",
      "stoff": [
-      "K-MAN-05"
+      "K-MAN-05",
+      "K-SCW-01"
      ],
      "anwenden": [
       "K-MAN-05"
      ],
-     "set": "Mini-Rettungsring"
+     "set": "Mini-Rettungsring",
+     "bloecke": [
+      "S9.4"
+     ]
     },
     {
      "id": "6-6",
@@ -700,14 +866,17 @@
      "art": "sturm",
      "ort": "Offene See",
      "du": "selbst",
-     "fragen": "257,277,279-285",
+     "fragen": "172,279-285",
      "text": "Jaspers Boot ist in Not: Notsignale, Schleppen mit dem Schotstek, was tun, wenn ein Boot kentert.",
      "stoff": [
-      "K-SIC-02",
-      "K-SCW-01"
+      "K-FAH-02",
+      "K-SIC-02"
      ],
      "anwenden": [
       "K-KNO-04"
+     ],
+     "bloecke": [
+      "S9.5"
      ]
     }
    ]
@@ -736,7 +905,9 @@
       "K-SEE-02",
       "K-NAV-02"
      ],
-     "navi": "N6"
+     "navi": "N6",
+     "bloecke": [],
+     "stoff": []
     },
     {
      "id": "7-2",
@@ -749,7 +920,9 @@
      "anwenden": [
       "K-MAN-01",
       "K-SIG-01"
-     ]
+     ],
+     "bloecke": [],
+     "stoff": []
     },
     {
      "id": "7-3",
@@ -758,7 +931,9 @@
      "ort": "An Bord des Segelschiffs",
      "du": "pruef",
      "fragen": "",
-     "text": "Die große Probeprüfung: 30 Fragen und eine Kartenaufgabe."
+     "text": "Die große Probeprüfung: 30 Fragen und eine Kartenaufgabe.",
+     "bloecke": [],
+     "stoff": []
     },
     {
      "id": "7-4",
@@ -775,7 +950,9 @@
       "K-MAN-04",
       "K-MAN-05",
       "K-MAN-06"
-     ]
+     ],
+     "bloecke": [],
+     "stoff": []
     },
     {
      "id": "7-5",
@@ -785,8 +962,169 @@
      "du": "zuhoeren",
      "fragen": "",
      "text": "Smilla übergibt dir die Wache und steigt um. Harms sagt einmal „Gut.“",
-     "set": "Skipperwimpel"
+     "set": "Skipperwimpel",
+     "bloecke": [],
+     "stoff": []
     }
+   ]
+  }
+ ],
+ "crew": [
+  {
+   "wer": "hinnerk",
+   "ab": "1-1"
+  },
+  {
+   "wer": "smilla",
+   "ab": "1-1"
+  },
+  {
+   "wer": "quirin",
+   "ab": "3-1",
+   "an_bord": "1-1",
+   "hinweis": "Kommt in 1-1 an Bord, wird in 1-3 beim Schwell der Fähre grün und liegt bis Tag 3 in der Vorschiffskoje. Meldet sich ab und zu von unten mit einer Frage. Ab der Schleuse (Binnen, sein Revier) ist er richtig dabei und lernt mit dir für den SBF See."
+  },
+  {
+   "wer": "klabauter",
+   "ab": "1-6",
+   "hinweis": "Landet in der Abenddämmerung im Schilfwinkel auf dem Kajütdach. Hinnerk: „Dat is der Klabautermann. Der bleibt.“"
+  },
+  {
+   "wer": "jasper",
+   "gast": [
+    "4-6",
+    "5-2",
+    "6-6"
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "gast": "ruft an, prüft an Tag 7"
+  }
+ ],
+ "ueberblicke": [
+  {
+   "id": "U1",
+   "titel": "Wer an Bord das Sagen hat und welche Papiere man braucht",
+   "folge": "1-1",
+   "bloecke": [
+    "G1.1",
+    "S1.2"
+   ]
+  },
+  {
+   "id": "U11",
+   "titel": "Sicherheit an Bord: Feuer, Gas und der Notfall",
+   "folge": "1-2",
+   "bloecke": [
+    "G4.1",
+    "S9.4",
+    "S9.5"
+   ]
+  },
+  {
+   "id": "U2",
+   "titel": "Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog",
+   "folge": "1-3",
+   "bloecke": [
+    "G2.1",
+    "G2.2",
+    "G3.2"
+   ]
+  },
+  {
+   "id": "U3",
+   "titel": "Ausweichen: das Prinzip (wer weicht, wer hält Kurs, Rangfolge)",
+   "folge": "1-4",
+   "bloecke": [
+    "G5.2",
+    "S2.1",
+    "S2.2",
+    "S2.3",
+    "S2.4"
+   ]
+  },
+  {
+   "id": "U9",
+   "titel": "Natur und Wetter: Schutzgebiete, Hoch, Tief, Wind",
+   "folge": "1-6",
+   "bloecke": [
+    "G7.1",
+    "S8.1",
+    "S8.2",
+    "S9.1",
+    "S9.2",
+    "S9.3"
+   ]
+  },
+  {
+   "id": "U4",
+   "titel": "Lichter: das System (wer bin ich, wohin fahre ich, was tue ich)",
+   "folge": "1-7",
+   "bloecke": [
+    "G5.1",
+    "S3.1",
+    "S3.2",
+    "S3.3",
+    "S3.4",
+    "S3.5",
+    "S3.6"
+   ]
+  },
+  {
+   "id": "U5",
+   "titel": "Seezeichen: die vier Familien und wie Feuer sprechen",
+   "folge": "2-1",
+   "bloecke": [
+    "S5.1",
+    "S5.2",
+    "S5.3",
+    "S5.4",
+    "S5.5"
+   ]
+  },
+  {
+   "id": "U8",
+   "titel": "Welche Regeln gelten wo: Fahrwasser, Seeschifffahrtsstraße, offene See",
+   "folge": "2-3",
+   "bloecke": [
+    "S1.1",
+    "S6.1",
+    "S6.5",
+    "S6.6"
+   ]
+  },
+  {
+   "id": "U6",
+   "titel": "Schallsignale: kurz und lang, Manöver, Nebel, Warnung",
+   "folge": "2-5",
+   "bloecke": [
+    "G6.2",
+    "S4.1",
+    "S4.2",
+    "S4.3"
+   ]
+  },
+  {
+   "id": "U7",
+   "titel": "Zeichen am Ufer: Verbot, Gebot, Hinweis, Sperrgebiet",
+   "folge": "3-1",
+   "bloecke": [
+    "G6.1",
+    "G6.3",
+    "S6.2",
+    "S6.4"
+   ]
+  },
+  {
+   "id": "U10",
+   "titel": "Navigation: Karte, Kurs, Peilung, Gezeiten",
+   "folge": "3-6",
+   "bloecke": [
+    "S7.1",
+    "S7.2",
+    "S7.3",
+    "S7.4"
    ]
   }
  ]
