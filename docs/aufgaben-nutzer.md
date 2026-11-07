@@ -16,6 +16,8 @@
 | 6 | **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
 | 7 | Falls noch nicht geschehen: **die gehörte Kajütenfunk-Probefolge als ZIP** hochladen (Hocker → Kajütenfunk → „📦 ZIP speichern“), damit sie fest in der App ist. | Den Einbau danach mache ich (`tools/kurs-import.js`). |
 
+| 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2): Sind die Figuren tief genug? Was klingt falsch? Dazu die offenen Fragen F1–F8 in Abschnitt 12 (Elbe, Quirins Grund, wo Klabauter war, Hinnerks und Harms' Geheimnis, Bootsname, Möwe Gesine, Stimmen). | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
+
 ## Dateien liefern
 | Nr. | Aufgabe | Was Claude tun kann |
 |---|---|---|

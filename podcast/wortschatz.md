@@ -356,6 +356,64 @@ Quelle der Liste: volkstümliche Witze ohne feste Urheberschaft. Alle selbst for
 | W5 | „Ich habe ein Lot gestellt.“ „Und?“ „Es ist nach unten gefallen.“ | H | Lotleine, Tiefe | Entwurf, neu |
 | W6 | Q: „Bei uns auf dem See gibt’s keine Gezeiten.“ H: „Dann bist du ja immer pünktlich.“ | H, Q | Gezeiten | Entwurf, neu (Quirin ab Binnen-Akt) |
 
+
+## 13. Erzählfundus: Geschichten, Legenden, Hafenleben (Recherche 07.11.2026)
+
+> **Wozu:** Aus diesem Abschnitt schöpfen die Figuren Garn, Running Gags und Lehren. Jede Geschichte hat einen **Anker im Prüfungsstoff**, sonst kommt sie nicht in eine Folge (Regel „Die Geschichte muss der Stoff sein“, `docs/reise.md` §7).
+> **Güte:** Gesucht in Sagensammlungen, Lexika, Fachzeitschriften (YACHT), Polizeimeldungen, Fernsehportalen und Blogs. Foren ließen sich aus der Cloud kaum öffnen. „Allgemein“ heißt: bekannt, hier aber nicht einzeln belegt. Fremde Figuren, Texte und Lieder werden nie übernommen, nur das Erzählprinzip (CLAUDE.md §3, L7).
+
+### 13.1 Geschichten mit Lehre
+| Geschichte | Kern | Lehre für uns (Anker) | Wer erzählt | Quelle |
+|---|---|---|---|---|
+| **Der Klabautermann** | Guter Schiffsgeist, bleibt beim Schiff bis zuletzt. Wenn er poltert, arbeitet er; wenn er sich zeigt oder geht, droht Unheil. Name wohl von „kalfatern“ (abdichten). | Auf Warnzeichen hören: Geräusche, Gerüche, Lampen (Motor, Gas, Bilge). Klabauter „warnt“ als Erster. | H erzählt, S ordnet ein | [Wiktionary](https://de.wiktionary.org/wiki/Klabautermann), [Duden](https://www.duden.de/rechtschreibung/Klabautermann), [Planet Wissen](https://www.planet-wissen.de/technik/schifffahrt/handelsschifffahrt/pwieseemannsgarnvonklabautermaennernundseeungeheuern100.html) |
+| **Der Fliegende Holländer** | Ein Kapitän schwört, um jeden Preis um ein Kap zu kommen, und muss ewig segeln; in einer Fassung würfelt er mit dem Teufel um seine Seele. | Nicht „auf Biegen und Brechen“ auslaufen; Wetter und Grenzen respektieren (Wetter, schweres Wetter). | H, nachts | [Britannica](https://www.britannica.com/print/article/211656), [Wikisource](https://de.wikisource.org/wiki/Fliegender_Holl%C3%A4nder), [Projekt Gutenberg: Seemanns-Sagen](https://projekt-gutenberg.org/authors/heinrich-smidt/books/seemanns-sagen-und-schiffer-maerchen/chapter/2) |
+| **Rungholt** | Reiche Stadt im Watt, nach der Sage übermütig und gottlos, versank 1362 in der „Groten Mandränke“. Bei Windstille sollen die Glocken läuten. Forscher sehen den Untergang als weitgehend menschengemacht. | Gezeiten und Sturmflut sind keine Märchen (Gezeiten-Folge 4-1, Trockenfallen 4-5). | H im Watt; S erzählt den wahren Kern | [Schleswig-Holstein](https://www.schleswig-holstein.de/DE/landesportal/land-und-leute/typisch-sh/sagen-und-legenden-aus-dem-norden/_documents/rungholt), [Spektrum](https://www.spektrum.de/news/kirche-der-versunkenen-stadt-rungholt-gefunden/2147895), [Planet Wissen](https://www.planet-wissen.de/kultur/nordsee/halligen_welten_zwischen_den_wassern/untergang-von-rungholt-100.html) |
+| **Störtebeker** | Pirat der Likedeeler („Gleichteiler“). Der Sage nach bat er, jeden Mann zu verschonen, an dem er ohne Kopf vorbeigehen könne; der Bürgermeister brach sein Wort. | Verantwortung des Schiffsführers für seine Crew (Fragen 1–3); ein Wort gilt. | H oder Q (kennt es aus der Schule) | [Planet Wissen](https://www.planet-wissen.de/kultur/inseln/ruegen/pwiepiratklausstoertebeker100.html), [Hamburg Geschichtsbuch](https://geschichtsbuch.hamburg.de/wp-content/uploads/sites/255/2017/05/AB-SEK-I-St%C3%B6rtebeker-und-Michels-Legenden-Mythen-Quellen-.pdf) |
+| **Odysseus und die Sirenen** | Er lässt sich an den Mast binden, um den Gesang zu hören, ohne aufs Riff zu fahren. | Entscheidungen vorher festlegen: Umkehrpunkt, Wettergrenze, kein Alkohol am Ruder (Frage 2). | S (aus der Schule) | allgemein |
+| **Titanic** | Zu schnell im Eis, Warnungen überhört, zu wenige Rettungsboote. | Sichere Geschwindigkeit, Ausguck, Rettungsmittel für alle. | S, ernst | allgemein |
+| **Pamir (1957)** | Das Segelschulschiff sank im Hurrikan. Die lose Gerste war von einer ungeübten Crew gestaut worden, die Stabilität zu gering, der Druck groß; nur sechs Überlebende. | Ladung und Gewicht sichern, Stabilität, nicht unter Zeitdruck losfahren (schweres Wetter). Passt zu Harms, der ein Segelschulschiff führt. | Ha, ein einziges Mal, leise | [Wikipedia](https://en.wikipedia.org/wiki/Pamir_(ship)), [Master Mariners](https://mastermariners.org.au/stories-from-the-past/4970-pamir-was-shipwrecked-and-sank-on-21-september-1957) |
+| **Rasmus** | Plattdeutsche Verkörperung der See. „Rasmus holt sich, was nicht festgezurrt ist.“ | Alles laschen, Sicherheitsleine, Luken zu (Sturm, Mensch über Bord). | H | [Plattmakers](https://plattmakers.de/en/12221/Rasmus) |
+| **Kraken und Seeschlangen** | Wohl Sichtungen echter Riesenkalmare, beim Erzählen immer größer. | Garn mit wahrem Kern: übertreiben ja, Regeln nie (Seemannsgarn als Form). | H; Q glaubt alles | [The Collector](https://www.thecollector.com/5-famous-sea-monster-legends/) |
+| **Das Schiff „HMS Friday“** | Soll gebaut worden sein, um den Freitags-Aberglauben zu widerlegen, und verschollen sein. Kein Marine-Archiv kennt es. | Nachprüfen statt glauben (Smillas Haltung). | S entlarvt H | [Sail-World](https://www.sail-world.com/Australia/Fishing-and-boating-superstitions-Bananas-red-heads-unlucky-Friday/-114815) |
+| **Der Leuchtturm im Funk** (Witz, urbane Legende) | Ein großes Schiff verlangt per Funk, dass der andere ausweicht. Antwort: „Wir sind ein Leuchtturm.“ | Funk und Ausweichen ohne Stolz; Lichter und Feuer erkennen. | Q erzählt ihn falsch, S richtig | allgemein |
+| **„Kapitän heute nüchtern“** (Witz) | Der Steuermann schreibt ins Logbuch „Kapitän heute nüchtern“, nachdem der Kapitän „Steuermann heute betrunken“ eingetragen hat. Alles wahr, aber irreführend. | Logbuch ehrlich und vollständig führen; Promille-Regel (Frage 2) bleibt ernst. | H, mit Augenzwinkern | allgemein, Quelle nicht gefunden |
+
+### 13.2 Erzählprinzipien zum Ausleihen (nur das Prinzip)
+- **Der Lügenbaron und seine Zuhörer:** Ein Seebär erzählt Garn, die Zuhörer zweifeln an. So ist das Seemannsgarn-Format im Fernsehen bekannt geworden ([fernsehserien.de](https://www.fernsehserien.de/kaeptn-blaubaers-seemannsgarn), [Wikipedia](https://en.wikipedia.org/wiki/K%C3%A4ptn_Blaub%C3%A4r)). Für uns: Hinnerk erzählt, Smilla und Quirin zweifeln, am Ende steht der wahre Kern als Regel.
+- **Der Shantyman:** Vorsänger und Mannschaft wechseln sich ab, der Chor antwortet im Refrain ([Wikipedia](https://en.wikipedia.org/wiki/Sea_shanty), [Britannica](https://www.britannica.com/art/shanty)). Für uns: Klabauter ruft, die Crew (und du) antworten mit dem Merkwort. Ruf und Antwort ist Abruf.
+- **Die Seglerbeichte:** In der YACHT erzählen Segler ihre peinlichsten Fehler ([Beispiel](https://www.yacht.de/special/menschen/seglerbeichte-wie-ich-ohne-festmacher-anlegen-wollte/)). Für uns: Jede Figur hat ihre Beichte (Smillas Tonne 10, Hinnerks Nacht, Quirins erster Wellengang, Harms' Schüler).
+- **Der fluchende Kapitän:** Comic-Kapitäne erfinden lange, harmlose Schimpfketten ([SRF über Kapitän Haddock](https://www.srf.ch/kultur/gesellschaft-religion/arschgyge-goofe-und-huresiech-ohne-anstand-und-sitte-hier-lernen-sie-ordentlich-zu-schimpfen)). Für uns: Hinnerk flucht mit eigenen, erfundenen Seemannsflüchen (Abschnitt 13.6), nie mit fremden.
+- **Der Seemann als Spötter:** Ringelnatz' Seemann Kuttel Daddeldu ist anarchisch und pfeift auf Obrigkeit ([Wikipedia](https://en.wikipedia.org/wiki/Joachim_Ringelnatz)). Für uns nur als Ton: Hinnerks Abneigung gegen Papierkram.
+
+### 13.3 Hafenleben
+- **Hafenkino:** Zuschauen und Kommentieren, wenn andere anlegen; mal harmlos, mal hämisch ([YACHT](https://www.yacht.de/segelwissen/manoever/psychologie-woher-kommt-bloss-diese-lust-an-der-schadenfeude/)). Verpatzte An- und Ablegemanöver sind die häufigste Schadensursache bei Charteryachten, oft bei Seitenwind; zuerst die Luvseite sichern ([YACHT](https://www.yacht.de/segelwissen/manoever/boot-abhalten-so-vermeidet-man-gefaehrliche-fehler-beim-anlegen/)).
+- **Hafenmeister:** die zentrale Anlaufstelle; wer ankommt, meldet sich zuerst dort ([Uni Hamburg, vokus 2010](https://www.kultur.uni-hamburg.de/ekw/forschung/publikationen/vokus/vokus201002/media/rothlaender-waterkant-vokus2010.pdf)). Muss auch den tropfenden Wasserhahn reparieren; Dauerlieger halten ihn auf Trab ([YACHT, Kieler Woche](https://www.yacht.de/reisen-chartern/deutschland/aufregender-arbeitstag-hafenmeister-hautnah-waehrend-der-kieler-woche/)).
+- **Anlegebier:** Brauch nach dem Festmachen (allgemein, nicht belegt). Bei uns nur ein Satz, nie am Ruder, und die Promille-Regel bleibt ernst.
+- **Anfängerfehler beim Chartern:** alles allein machen statt Aufgaben verteilen, Manöver nicht absprechen, kein Plan B ([YACHT](https://www.yacht.de/reisen-chartern/ratgeber/chartern-die-20-haeufigsten-fehler-beim-ersten-segeltoern/)).
+- **Hamburger Hafensprache:** Kesselklopper redeten in einer Geheimsprache mit eingeschobenen Vokalen, die Außenstehende für Italienisch hielten ([Goethe-Institut](https://www.goethe.de/prj/ger/de/kre/spk/26228134.html), [Uni Hamburg](https://epub.sub.uni-hamburg.de/epub/volltexte/2017/71190/pdf/Hafensprache_Lexikon_Nr._12.pdf)). **Missingsch** ist Hochdeutsch mit plattdeutschem Unterbau ([Wikipedia](https://en.wikipedia.com/wiki/Hamburgisch)). So redet Hinnerk im Alltag.
+
+### 13.4 Kontrolle auf dem Wasser
+- Häufige Beanstandungen der Wasserschutzpolizei: fehlende Bootskennzeichen, gesperrte Flächen, Festmachen am Ufer, zu schnell, Schilfgürtel ([Sachsen-Anhalt](https://presse.sachsen-anhalt.de/wp-content/uploads/pdf/ministerium-fur-inneres-und-sport_16_02_2024_Pressemitteilung_kontrollen-sorgen-fuer-mehr-sicherheit-auf-dem-wasser.pdf)); Ausrüstung, Papiere, Fahrtüchtigkeit, Alkohol, einmal ein gefälschter Führerschein ([YACHT](https://www.yacht.de/segelwissen/recht/polizeikontrollen-mehr-als-200-verstoesse-beamte-verhaengen-verwarnungen-und-bussgelder/)).
+- Rat aus der Praxis: freundlich mitarbeiten, einen Vorwurf aber nicht ungeprüft hinnehmen ([YACHT](https://www.yacht.de/segelwissen/recht/recht-achtung-polizeikontrollen-starten/)).
+- Für die Polizistin heißt das: Sie fragt nach Papieren, Kennzeichen, Westen und Promille, und sie erzählt, was sie „jeden Sommer“ sieht.
+
+### 13.5 Prüfung
+- Typische Fehler beim Mensch-über-Bord-Manöver: nicht sofort ausgekuppelt, zur falschen Seite gesteuert, nicht ausgekuppelt, solange die Person nah am Boot ist ([DLRG Sachsen-Anhalt](https://sachsen-anhalt.dlrg.de/fileadmin/groups/20000000/dateien/Downloads/Erwartungshorizont_LV-SA_V3.pdf)). Das sind gute Fallen für Quirin.
+- Im Protokoll einer SBF-Praxisprüfung hat jede Aufgabe zwei Versuche ([nautigo](https://nautigo.org/wp-content/uploads/2023/06/Praxisprotokoll-SBF-Pruefung.pdf)). Harms sagt es nur, wenn es am Original geprüft ist (F3).
+
+### 13.6 Bausteine für Running Gags und Flüche (eigene, erfunden)
+| Baustein | Figur | Wofür | Budget auf der Reise |
+|---|---|---|---|
+| Hafenkino-Reporter: kommentiert fremde Anleger wie ein Fußballreporter, patzt dann selbst ein bisschen | H | Anlegen, Seitenwind, Luv zuerst | 4 |
+| Seemannsflüche, jedes Mal neu zusammengesetzt: „Pütz und Persenning!“, „Rasmus soll di holen!“, „Kielschwein und Krabbenpuhler!“, „Bilgenwasser noch eins!“, „Tüddelkram vermaledeiter!“ | H | Ärger, Schreck | je Fluch 1 |
+| Die Beichte: „Soll ich dir mal was sagen? Mir is dat auch passiert.“ | alle | Fehler als Lernchance | je Figur 2 |
+| Ruf und Antwort mit dem Merkwort | K | Abruf | nach Bedarf, nie zweimal gleich gebaut |
+| Quirin vergleicht mit dem Fluss | Q | Binnen gegen See | 1 je Folge |
+| Der Sturm von 87 wächst | H | Garn | 3 |
+| Klabauter bringt von irgendwo etwas mit | K | Rätsel, wo er war | 3 + Auflösung |
+| Motorboot gegen Segler: „Stinker“ gegen „Kaffeefahrer“ (allgemein, nicht belegt) | H, Jasper | Ausweichregeln Motor/Segel | 3 |
+
+
 ---
 
 ## Quellenlage
