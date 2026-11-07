@@ -12,23 +12,24 @@ status: entwurf
 # Blöcke: G4.1 ◼ „Sprit und Gas: was sich in der Bilge sammelt“ (System-Block, HR2) mit den Fragen 43, 49, 62, 63, 64, 65, 66.
 #   Ausführlich: 49 (Tanken), 63 (warum gefährlich), 64 (Gas im Boot). Kurz: 43, 62, 65, 66.
 # Überblick: keiner (U2 kommt in 1-3). Das Prinzip des Blocks trägt alle Fragen: Dampf und Gas sind schwerer als Luft und kriechen nach unten.
-# Muster: system (System zuerst, HR6; 1-1 war „lage“). Anlass an der Tankstelle → Prinzip (die Hafenmeisterin) → Fragen gebündelt → kurz anwenden (Gasgeruch in der Kajüte).
+# Muster: system (System zuerst, HR6; 1-1 war „lage“). Anlass an der Tankstelle → Prinzip (die Hafenmeisterin) → Fragen gebündelt → kurz anwenden (Hinnerks Einweisung am Gashahn).
+# Ernstfall (HR28): Der Gasgeruch passiert hier NICHT. Er kommt überraschend in 1-7 beim Kochen (Backbord am Kocher) und wiederholt Frage 64.
 # Rolle: Handgriffe. Du reichst den Kanister und hältst den Lappen unter den Stutzen. Nichts wandert in die Etappe.
 # Crew: Hinnerk, Smilla, Hafenmeisterin (Gast, erster Auftritt nach HR26: kommt mit ihrem Anliegen, dem Strom); am Ende Harms als Sprachnachricht. Klabauter fehlt noch.
-#   Wer irrt: niemand. „Hat er recht?“ zu Frage 49, und diesmal hat Hinnerk recht (HR15: ungefähr jedes dritte Mal).
-#   Wer erklärt: das Prinzip die Hafenmeisterin (Berufswissen), Tanken Smilla, Gas im Boot Hinnerk im Ernstfall, Inbetriebnahme Smilla (HR10).
-#   Pfeife: Hinnerk steckt sie aus Gewohnheit kalt in den Mund, Smilla nimmt ihm die Streichhölzer weg (E24). Er hätte sie nie angezündet (Bible P41: bei Sicherheit irrt er nie).
-#   Running Gag: Backbord ist schuld (wie in 1-1).
+#   Wer irrt: Hinnerk will an der Zapfsäule die Pfeife anzünden (alle irren mal, N 07.11.); Smilla nimmt ihm das Streichholz weg. „Hat er recht?“ zu Frage 49, und da hat Hinnerk recht (HR15).
+#   Wer erklärt: das Prinzip die Hafenmeisterin (Berufswissen), Tanken Smilla, Gas im Boot Hinnerk als Einweisung am Gashahn, Inbetriebnahme Smilla (HR10).
+#   Pfeife: Hinnerk will sie anzünden, Smilla nimmt ihm die Streichhölzer weg (E24, Nutzer 07.11.2026). Wird nicht verherrlicht: Smilla und Hilke stellen es klar.
+#   Running Gag: Backbord (am Kocher, das bereitet den Ernstfall in 1-7 vor).
 # Zwischenfragen (HR13): 49 „Hat er recht?“ · 43 offen · 63 Lücke („Gas ist … als Luft“) · 64 „Nenn drei“. Denkpause immer sechs Sekunden (HR14). Signal HR12.
 # Erklärformen (HR10): Prinzip als Bild im Kopf (unsichtbares Wasser) · 49 Unterschiede der Antworten (HR27) · 43 Falle aus dem Hafenalltag (Spülmittel)
-#   · 63 Lücke mit Warum · 64 Ernstfall erlebt · Feuerzeug als Garn-Splitter · 65 und 66 je ein Satz mit Merksatz.
-# Bilder und Animation: [[ANIM: gas]] beim Prinzip (Gas sinkt in die Bilge; im Kursplan geplant, noch nicht gebaut). Keine Katalogbilder.
+#   · 63 Lücke mit Warum · 64 Einweisung („Wenn's hier mal nach Gas riecht …“) · Feuerzeug als Garn-Splitter · 65 und 66 je ein Satz mit Merksatz.
+# Bilder und Animation: Mini-Animation „gas“ (anim.js, v5.27): Phase 0 Gas sinkt in die Bilge, Phase 1 ein Funke reicht, Phase 2 Flasche an Deck mit Loch unten. Keine Katalogbilder.
 # Fragerunde: Rahmen „Logbuch“ (HR18, 1-1 war „Harms ruft an“). Smilla schreibt Logbuch, die Fragen kommen als Sprachnachricht von Harms (HR12: den Wortlaut liest immer Harms).
 #   Alle sieben Fragen mit allen vier amtlichen Antworten; bei 49, 62 und 63 liest Harms den gemeinsamen Teil nur einmal (HR27). Richtige Antwort an wechselnder Stelle.
 # Haken: Hinnerk: „Und jetzt: Leinen los.“ Die nächste Folge (1-3) ist das Ablegen.
 # Anreden: eine (Hinnerk). Klassiker aus der Sprüchekiste mit [[SPRUCH]] markiert (HR25).
 # Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json. Die Geschichten der Hafenmeisterin sind erzählt, keine Statistik. Ohne quellen/ geprüft (R8).
-# Länge: etwa elf Minuten mit Fragerunde.
+# Länge: etwa elf Minuten mit Fragerunde. Zweite Fassung vom 07.11.2026 (Ernstfall nach 1-7, Pfeife, Animation).
 
 [[ABSCHNITT: An der Tankstelle]]
 [[SZENE: Bootstankstelle am Steg in Kuttershaven, Vormittag. Die Frieda liegt längsseits an der Zapfsäule im Hafen. Hinnerk am Tankstutzen, Smilla an der Leine. Schritte auf dem Steg.]]
@@ -44,17 +45,23 @@ SMILLA: [[INTENTION: lachend]] Hinnerk hat's kommentiert. Wie Fußball.
 HAFENMEISTER: Hat er bei dir damals auch gemacht, Smilla.
 SMILLA: Danke, Hilke.
 HINNERK: [[SPRUCH: hi-anrede-04]] Fass mal mit an, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Frischfisch}}. Den Reservekanister. Hier rüber.
-HAFENMEISTER: Und was hast du da im Mund, Hinnerk?
-HINNERK: Pfeife.
-SMILLA: Kalt. Und die Streichhölzer nehm ich. [[INTENTION: verschmitzt]] Danke schön.
-HINNERK: Ich wollt nur halten.
-HAFENMEISTER: An meiner Tankstelle hältst du gar nichts. Weißt du, warum ich da so pingelig bin?
+HINNERK: So. Erst mal eine anstecken.
+[[AUDIO: Streichholz]]
+SMILLA: [[INTENTION: aufgeregt]] Käpt'n! Nicht! Gib her!
+HINNERK: Wat denn?
+SMILLA: Du stehst an der Zapfsäule. Mit 'nem Streichholz.
+HAFENMEISTER: An meiner Tankstelle. Hinnerk, ich glaub, es hackt.
+HINNERK: [[INTENTION: schnaubend]] Macht man seit vierzig Jahren so. Ging immer gut.
+SMILLA: Einmal geht's nicht gut. Und dann reicht's für immer. Die Streichhölzer bleiben bei mir.
+HAFENMEISTER: Weißt du, warum ich da so pingelig bin?
 HINNERK: Erzähl. Machst du ja eh.
 [[ANIM: gas]]
 HAFENMEISTER: Benzindampf und Gas sind schwerer als Luft. Die steigen nicht weg. Die kriechen nach unten. Ins Boot, in die Bilge, ganz nach unten.
 HAFENMEISTER: Stell dir Wasser vor, das du nicht siehst. Es läuft in jede Ecke und bleibt da liegen. Und da wartet es auf einen Funken.
 SMILLA: Und mit Luft gemischt knallt es.
-HAFENMEISTER: Richtig. Darum ist an meiner Tankstelle alles aus, was einen Funken machen kann.
+[[ANIM: gas, 1]]
+HAFENMEISTER: Richtig. Darum ist an meiner Tankstelle alles aus, was einen Funken machen kann. Auch dein Streichholz, Hinnerk.
+HINNERK: Ja, ja. Is ja gut.
 
 [[ABSCHNITT: Tanken]]
 [[SZENE: Hinnerk steckt die Zapfpistole in den Tankstutzen der Frieda. Die Hafenmeisterin steht auf dem Steg daneben, Hafen.]]
@@ -114,61 +121,47 @@ SMILLA: Schwerer. Wäre Gas leichter als Luft, würde es durch die Luke nach obe
 [[VERTIEFUNG: ende]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Schwerer. Gas benimmt sich wie Wasser: Es läuft nach unten und sammelt sich in der Bilge. Mit Luft gemischt knallt es.
+[[ANIM: gas, 2]]
 SMILLA: Und darum steht die Flasche an Deck, im Schatten, wegen der Sonne. Geht das nicht, dann in einem eigenen Kasten mit einem Loch ganz unten nach außenbords. Da kann das Gas raus.
 HAFENMEISTER: Ein Lüftungsloch oben nützt nix. Gas geht nicht nach oben.
 HAFENMEISTER: So. Ich hab noch drei Charterboote vor mir. Und du, Hinnerk, der Strom. Heute.
 HINNERK: Ja, ja.
 [[AUDIO: Schritte]]
 
-[[ABSCHNITT: Wer hat den Herd angemacht?]]
-[[SZENE: Smilla öffnet das Schiebeluk zur Kajüte. Hinnerk steht hinter ihr im Cockpit. Hafen.]]
+[[ABSCHNITT: Der Gashahn]]
+[[SZENE: Wieder an Bord, die Frieda liegt noch an der Tankstelle im Hafen. Hinnerk klappt den Gaskasten auf und zeigt dir den Haupthahn. Smilla lehnt am Niedergang.]]
 [[REVIER: hafen]]
-SMILLA: [[INTENTION: überrascht]] Käpt'n. Riechst du das?
-HINNERK: Gas.
-HINNERK: Hahn zu. Ich mach das.
-SMILLA: Ich mach Licht, dann seh ich-
-HINNERK: Finger weg vom Schalter!
-SMILLA: Stimmt. Sorry. Und du: Handy weg. Keine Taschenlampe vom Handy, kein Anruf, nichts.
-HINNERK: Luken auf. Alle. Vorne auch.
-SMILLA: Sind auf.
-HINNERK: Haupthahn is zu. Jetzt lüften. Und warten.
-[[AUDIO: Katze]]
-SMILLA: Da. Am Kocher. Der Knopf ist ein Stück aufgedreht.
-HINNERK: [[INTENTION: trocken]] Backbord.
-SMILLA: Sie hat sich am Kocher gewärmt. Der Knopf hat nachgegeben, und weil die Flasche offen war, kam Gas.
-HINNERK: Dor hat die Katze mehr Glück als Verstand. Wir auch.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Gas im Boot. Nenn drei Dinge, die du jetzt tust.
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-SMILLA: Gaszufuhr absperren. Lüften. Und alles lassen, was einen Funken macht: keine Schalter, kein Funkgerät, kein Handy. Auch keinen Anruf, um Hilfe zu holen. Erst raus damit.
+HINNERK: Kiek mol. Dat is der Haupthahn. Und dat da unten am Kocher, dat sind die Ventile.
+SMILLA: Er macht Einweisung. Das macht er nur, wenn er sich vorher blamiert hat.
+HINNERK: Ich mach Einweisung, weil's Zeit is.
+HINNERK: Wenn's hier mal nach Gas riecht: Hahn zu. Luken auf. Und dann fasst keiner wat an.
+SMILLA: Kein Lichtschalter, kein Funkgerät, kein Handy. Auch nicht schnell anrufen, um Hilfe zu holen. Jeder Schalter, jedes Handy kann einen Funken machen.
 HINNERK: Ich kannt mal einen, der wollt mit'm Feuerzeug gucken, ob noch Gas da is.
 SMILLA: Und?
 HINNERK: War noch Gas da. Augenbrauen hatte er danach keine mehr.
-SMILLA: Dümmer geht's nicht. Merk's dir so: Hahn zu, Luken auf, Finger weg von allem, was Funken machen kann. Schalter, Funkgerät, Handy.
-
-[[ABSCHNITT: Kaffee, aber richtig]]
-[[SZENE: Eine Viertelstunde später. Die Kajüte ist gelüftet, es riecht nach nichts mehr. Hinnerk schaut auf den Kocher. Hafen.]]
-[[REVIER: hafen]]
-HINNERK: Kaffee jetzt?
-SMILLA: Gleich. Was prüfst du, bevor du die Gasanlage wieder aufmachst?
-HINNERK: Ob die Katze weg is.
-SMILLA: Und außer der Katze?
-HINNERK: Is abgenommen, die Anlage. Papier liegt im Kartentisch. Leitungen und Anschlüsse dicht. Dann Haupthahn auf. Dann Ventil.
-SMILLA: Genau so. Erst geprüft, dann dicht, dann auf: Die Anlage ist abgenommen, die Leitungen sind dicht, erst dann Haupthahn und Ventile öffnen.
-SMILLA: Und anmachen darfst du sie selbst. Viele glauben, das darf nur ein Fachmann. Stimmt nicht.
-HINNERK: Und wenn wir fertig sind: Hahn wieder zu.
+SMILLA: Dümmer geht's nicht.
+[[AUDIO: Schiffsglocke]]
+[[AUDIO: Schiffsglocke]]
+SMILLA: Frage an dich. Es riecht im Boot nach Gas. Nenn drei Dinge, die du dann tust.
+[[DENKPAUSE: 6]]
+[[AUDIO: Schiffsglocke]]
+SMILLA: Gaszufuhr absperren. Lüften. Und alles lassen, was einen Funken macht: keine Schalter, kein Funkgerät, kein Handy. Merk's dir so: Hahn zu, Luken auf, Finger weg von allem, was Funken machen kann.
+HINNERK: Und bevor du wieder aufmachst?
+SMILLA: Prüfst du. Ist die Anlage abgenommen? Sind Leitungen und Anschlüsse dicht? Dann erst Haupthahn und Ventile auf.
+HINNERK: Is abgenommen. Papier liegt im Kartentisch.
+SMILLA: Erst geprüft, dann dicht, dann auf. Und aufmachen darfst du sie selbst. Viele glauben, das darf nur ein Fachmann. Stimmt nicht.
+HINNERK: Und wenn wir nich kochen: Hahn zu.
 SMILLA: Wer nicht kocht, dreht zu: Haupthahn und Absperrventile schließen. Leeren oder die Flasche wegwerfen muss man nichts.
 HINNERK: Wär ja auch Verschwendung.
 [[AUDIO: Katze]]
-SMILLA: Und du, Backbord, gehst an Deck.
+SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
+HINNERK: Noch nich.
 
 [[ABSCHNITT: Logbuch]]
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms spricht als Sprachnachricht, den Rahmen hält Smilla.
 [[SZENE: Smilla sitzt am Kartentisch mit dem Logbuch. Auf dem Handy eine Sprachnachricht von Harms. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
-SMILLA: Logbuch. Erster Tag, Kuttershaven. Getankt, Gas gerochen, Katze verhört. Und unter jeden Tag kommen Harms' Fragen. Er hat sie aufs Handy gesprochen.
+SMILLA: Logbuch. Erster Tag, Kuttershaven. Getankt, Streichholz konfisziert, Gashahn erklärt. Und unter jeden Tag kommen Harms' Fragen. Er hat sie aufs Handy gesprochen.
 HARMS: Harms. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]

@@ -12,10 +12,10 @@
 | A1.1 | Das Boot und seine Seiten | Bug, Heck, Backbord (rot), Steuerbord (grün), achtern, querab, mittschiffs | G1.2 | ○ (Rundgang 2 H8) | 1 |
 | A1.2 | Radeffekt | Heckansicht, Strömungspfeil nach oben gegen den Rumpf, Heck weicht aus, rückwärts spiegelverkehrt | G2.1 | ✓ v5.09 | – |
 | A1.3 | Radeffekt von oben beim Ablegen und Anlegen | Draufsicht mit den Pfeilen aus A1.2, Anlegen mit Backbord, Gegenlenken | G2.1, G3.1 | ◐ (Manöverspiel `demo`) | 2 |
-| A1.4 | Ruder und Schraubenstrahl | Ruder wirkt nur im Wasserstrahl, rückwärts erst spät, Kuppeln im Stand | G2.1 | ○ | 2 |
+| A1.4 | Ruder und Schraubenstrahl | Ruder wirkt nur im Wasserstrahl, rückwärts erst spät, Kuppeln im Stand | G2.1 | ✓ v5.27 (`ruder`, Hörreise 1-3) | 2 |
 | A1.5 | Die vier Kreisläufe des Motors | Kühlwasser (Seeventil, Filter, Impeller, Auspuff), Öl, Strom, Kraftstoff; Alarmleuchten | G2.2 | ○ | 3 |
-| A1.6 | Außenborder ohne Ruder | Schub schwenkt mit dem Motor, Lenken über den Schraubenstrom | G2.1 | ◐ (Minispiel Motorkunde) | 3 |
-| A1.7 | Gas und Benzindampf in der Bilge | Gas sinkt nach unten, Lüften vor dem Start, Funkenfreiheit | G4.1 | ○ | 3 |
+| A1.6 | Außenborder ohne Ruder | Schub schwenkt mit dem Motor, Lenken über den Schraubenstrom | G2.1 | ✓ v5.27 (`ruder` Phase 0–1, Hörreise 1-3) | 3 |
+| A1.7 | Gas und Benzindampf in der Bilge | Gas sinkt nach unten, Lüften vor dem Start, Funkenfreiheit | G4.1 | ✓ v5.27 (`gas`, Hörreise 1-2) | 3 |
 | A1.8 | Tanken und Rauchen | Bilge lüften, Gas aus, Tank außen, kein Funke | G4.1 | ○ | 3 |
 
 ### A2 Anlegen, Ankern, Manöver (G3, S10)
@@ -24,7 +24,7 @@
 | A2.1 | Anlegen | Spitzer Anlaufwinkel, Fahrt rausnehmen, Wind und Strom von vorn, Leinen ausbringen | G3.1 | ✓ v5.10 | 2 |
 | A2.2 | Ablegen mit Wind und Strom | Wind aus verschiedenen Richtungen, Heck oder Bug zuerst | S10.2 | ◐ | 2 |
 | A2.3 | Ankern | Anker werfen, Kettenlänge, Schwojen, Ankerwache; Ankersignal | G3.1, S3.2 | ○ | 2 |
-| A2.4 | Sog und Schwell | Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben, Fahrt rausnehmen | G3.2 | ○ | 2 |
+| A2.4 | Sog und Schwell | Bug- und Heckwelle, Sog eines großen Schiffs, kleines Boot daneben, Fahrt rausnehmen | G3.2 | ✓ v5.27 (`sog`, Hörreise 1-3) | 2 |
 | A2.5 | Wenden auf engem Raum | Drehen um den Stand, Radeffekt nutzen, Kommandos | S10.2 | ◐ | 2 |
 | A2.6 | Aufstoppen | Kursgerechtes Aufstoppen, Auslaufstrecke | S10.2 | ◐ | 3 |
 | A2.7 | Mensch über Bord | Kurzdreh, Williamson-Kurve, Anfahrt von Luv, Bergung | G4.2, S9.4 | ◐ (Manöverspiel MOB) | 2 |

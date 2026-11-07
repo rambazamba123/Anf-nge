@@ -165,7 +165,7 @@ Die Kajüte bleibt 2D. Nahansichten (Motor, Klampe, Leinen) werden in 3D gebaut.
   - Die Minikarte erscheint nur in Folgen, die sie brauchen.
   - Kein Roboter-Knopf mehr.
   - Die Aufgabe steht in einer kleinen Zeile.
-- **Pfeife:** Hinnerk zündet sie sich ab und zu an, mit Ton und Animation (Streichholz, Glut, Rauch). Er tut das in ruhigen Momenten und als stilles Lob. Nie verherrlicht; beim Tanken nimmt Smilla ihm das Streichholz weg.
+- **Pfeife:** Beim Tanken will Hinnerk sie aus Gewohnheit anzünden, Smilla nimmt ihm das Streichholz weg (N 07.11.). Sonst zündet er sie sich ab und zu an, mit Ton und Animation (Streichholz, Glut, Rauch). Er tut das in ruhigen Momenten und als stilles Lob. Nie verherrlicht; beim Tanken nimmt Smilla ihm das Streichholz weg.
 
 ## 7. Regelwerk der Folgen
 Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**HR**, Hörreise) mit Datum. Claude ändert sie nicht stillschweigend. Was sich prüfen lässt, prüft ein Werkzeug (⚙). So muss der Nutzer nichts zweimal sagen.
@@ -222,7 +222,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Mit „Mitantworten“: per Stimme.
   - Mitmachen: Knöpfe.
 - **HR15 Wer irrt, wechselt** (N 07.11.):
-  - Es irren Hinnerk (Bauchregel, praktisch oft sinnvoll, formal falsch), Quirin (Binnen-Gewohnheit), selten Smilla (zu streng oder das falsche Revier) und Gäste.
+  - Es irren alle mal (N 07.11.: „Es machen ja jetzt alle Fehler“): Hinnerk (Bauchregel, Gewohnheit, auch bei Sicherheit, etwa die Pfeife beim Tanken), Quirin (Binnen-Gewohnheit), Smilla (zu streng, falsches Revier, Hektik), Jasper und Gäste. Nur Klabauters Merkwort ist immer richtig (Bible X6).
   - Höchstens ein „Hat er recht?“ je Folge, und ungefähr jedes dritte Mal hat er recht.
   - Man darf nie einfach das Gegenteil von Hinnerk wählen können.
   - Jeder Irrtum wird in derselben Szene aufgelöst (E20).
@@ -266,6 +266,11 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Im Skript steht ein Klassiker als `[[SPRUCH: id]]` vor dem Satz. `node tools/sprueche-pruefen.js` zählt sie in allen Folgen und meldet überzogene Budgets und zu kurze Abstände. ⚙
 - **HR26 Wer man schon kennt, stellt sich nicht vor** (N 07.11.): Hinnerk, Smilla, Klabauter und Backbord lernst du in Folge 0 kennen. Ab 1-1 werden sie vorausgesetzt.
   - Wer neu dazukommt, stellt sich nie stumpf vor. Jede Figur hat ihren eigenen Auftritt in der Geschichte: erst zeigt sie, wie sie ist, den Namen erfährt man nebenbei. Harms: am Ende von 1-1 am Telefon („Harms.“). Quirin: fängt in 2-6 ungefragt deine Leine, in 2-7 fragt er, ob er mitdarf. Jasper: ruft dir in 4-6 von seiner Boje falsche Ratschläge zu. Gäste: kommen mit ihrem Anliegen (Strom nicht bezahlt, Kontrolle, Liegeplatz über Funk).
+- **HR28 Ernstfall erst später** (N 07.11., Grundsatz): Gefahrenlagen (Gasgeruch, Feuer, Wassereinbruch, Mensch über Bord, Motor fällt aus, Nebel, Seenot) passieren nie in der Folge, in der das Thema erklärt wird.
+  - In der Heimat-Folge wird es erklärt: ruhig, mit Prinzip, Garn, Übung oder Einweisung („Wenn's hier mal nach Gas riecht …“).
+  - Frühestens zwei Folgen später passiert es überraschend, und du musst reagieren. Das ist zugleich die Wiederholung der Fragen (verteiltes Abrufen statt Wiederholen am Stück).
+  - Im Plan: Feld `ernstfall` [{was, fragen}] in der späteren Folge, die Fragen stehen in `wieder`. ⚙
+  - Erster Fall: Gas in 1-2 erklärt, Gasgeruch beim Kochen in 1-7.
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
@@ -285,6 +290,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 - **Crew:** wer spricht (höchstens drei je Szene; Quirin oder Jasper), wer irrt, was Quirin fragt, Klabauters Einwürfe (höchstens drei), Anrede-Stellen (HR24), Klassiker aus der Sprüchekiste (HR25)
 - **Ablauf:** Szenen in Reihenfolge, je Szene in einem Satz, was passiert, was du tust und was die Crew sagt; Zwischenfragen mit Form (HR13)
 - **Bilder und Aufgaben:** was mitläuft, was in die Etappe wandert
+- **Ernstfall:** welcher frühere Stoff hier überraschend passiert (HR28)
 - **Fragerunde:** Rahmen (HR18), neue Fragen und fällige
 - **Haken:** wie die Folge endet
 - **Heft:** was sich ändern kann
@@ -302,12 +308,12 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
 | 1-1 | 🌧️ | Erster Morgen | Kajüte, Kuttershaven | 👂 zuhören | Der Morgen nach dem Anheuern (Folge 0): Klabauter ist weg, Backbord frisst seinen Zwieback. Hafenkino: Ein Charterboot legt chaotisch an, vier Leute rufen, keiner ist Schiffsführer. Einer macht um halb neun ein Bier auf: Promille, aber auch körperliche Mängel (Hinnerk fällt Smilla ins Wort und bietet Kaffee an, erste Spur seines Geheimnisses). Ein Leih-Elektroboot ohne Schein: Hinnerk irrt. „Vor Dunkelwerden. Immer.“ Dann ruft Harms an und prüft zum ersten Mal. Skript: podcast/folgen/reise-1-1.md.<br>🧭 *Überblick: Wer an Bord das Sagen hat und welche Papiere man braucht* | 1-2,59<br>G1.1 ▸ |
-| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms und erklärt, warum Dampf und Gas nach unten kriechen. Hinnerk steckt sich die kalte Pfeife in den Mund, Smilla nimmt ihm die Streichhölzer weg. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Dann riecht es in der Kajüte nach Gas: Backbord hat den Kocher aufgedreht. Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md. | 43,49,62-66<br>G4.1 ◼ |
-| 1-3 | ☀️ | Das Heck zieht weg | Hafenbecken und Ausfahrt | 👀 Ausguck | Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen.<br>🧭 *Überblick: Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog* | 34,36-37,41,44-48,50-51,61<br>G2.1 ◼ G3.2 ◼ |
+| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms. Hinnerk will an der Zapfsäule die Pfeife anzünden, Smilla nimmt ihm die Streichhölzer weg. Hilke erklärt, warum Dampf und Gas nach unten kriechen. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Einweisung am Gashahn: Wenn's mal nach Gas riecht … (der Ernstfall kommt in 1-7). Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md. | 43,49,62-66<br>G4.1 ◼ |
+| 1-3 | ☀️ | Das Heck zieht weg | Hafenbecken und Ausfahrt | 👀 Ausguck | Erst raten: Wohin zieht das Heck, wenn Hinnerk rückwärts aus der Box fährt? Überblick „Wie ein Boot fährt“, während der Motor warm wird. Das Heck zieht nach Backbord: Radeffekt, Smilla irrt bei „rechtsdrehend“, darum legen wir links an. Ein Raser im Hafen, die Lieger knallen an die Stege. Die Fähre in der Brede: Außenborder gegen Ruder, dann Sog und Schwell. Harms ruft an. Skript: podcast/folgen/reise-1-3.md.<br>🧭 *Überblick: Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog* | 34,36-37,41,44-48,50-51,61<br>G2.1 ◼ G3.2 ◼ |
 | 1-4 | ☀️ | Rechts halten | Fluss Brede | 👀 Ausguck | Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an. | 3,6,8-9,14-15<br>G1.2 ◼ G5.2 ▸ |
 | 1-5 | 🧶 | Garn: Der Motor, der kochte | Fluss Brede (Zeitraffer) | 👂 zuhören | Unterwegs erzählt Hinnerk, wie ihm einst der Motor heiß lief. Warnlampen, Öl in der Bilge, Kühlwasser. Smilla stellt seine Version richtig. | 42,52-57,60<br>G2.2 ◼ |
 | 1-6 | 🌊 | Schilfwinkel | Ankerbucht Schilfwinkel | ✋ Handgriffe | Ankern vor Sonnenuntergang (Hinnerk besteht drauf). Wie man anlegt und ankert, Abstand zum Schilf, Brutplätze, woran man das Wetter sieht. In der Dämmerung landet ein Papagei auf dem Kajütdach: Klabauter. „Dat is der Klabautermann. Der bleibt.“ | 31-33,35,38-40,58,71<br>G3.1 ▸ G7.1 ▸ |
-| 1-7 | 🌧️ | Erster Abend | Kajüte, Schilfwinkel | 👂 zuhören | Es wird dunkel, das Ankerlicht geht an: wozu Lichter da sind. Beim Kochen zeigt Smilla den Feuerlöscher und die Westen. Harms ruft an, danach fragt Smilla, was zwischen den beiden ist. Hinnerk: „Wir hatten mal ’n Rempler. Auf der Elbe.“ Was nach einem Zusammenstoß zu tun ist, wann Notsignale erlaubt sind. Klabauter sitzt seit dem Schilfwinkel wieder auf dem Kajütdach.<br>🧭 *Überblick: Lichter: das System (wer bin ich, wohin fahre ich, was tue ich)* | 7,10-13,67-70,72<br>G4.2 ▸ G5.1 ◼ |
+| 1-7 | 🌧️ | Erster Abend | Kajüte, Schilfwinkel | 👂 zuhören | Es wird dunkel, das Ankerlicht geht an: wozu Lichter da sind. Beim Kochen riecht es plötzlich nach Gas: Backbord hat sich am Kocher gewärmt, und du weißt aus 1-2, was zu tun ist. Danach zeigt Smilla den Feuerlöscher und die Westen. Harms ruft an, danach fragt Smilla, was zwischen den beiden ist. Hinnerk: „Wir hatten mal ’n Rempler. Auf der Elbe.“ Was nach einem Zusammenstoß zu tun ist, wann Notsignale erlaubt sind. Klabauter sitzt seit dem Schilfwinkel wieder auf dem Kajütdach.<br>🧭 *Überblick: Lichter: das System (wer bin ich, wohin fahre ich, was tue ich)*<br>🚨 *Ernstfall: Beim Kochen riecht es plötzlich nach Gas (Backbord am Kocher). Man muss reagieren: Hahn zu, lüften, keine Funken.* | 7,10-13,67-70,72<br>↻ 64<br>G4.2 ▸ G5.1 ◼ |
 
 ### Tag 2: Tonnen und dicke Pötte
 **Wo:** Strom Elvmünde → Klüverhafen · **Du:** kleine Handgriffe, erste Minuten an der Pinne unter Aufsicht · **Knoten:** acht, klampe · **Navigation:** N0 Karte lesen

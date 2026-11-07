@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.26';
+  window.__ver = '5.27';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4958,7 +4958,8 @@ function renderFrei() {
       ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
       ['🎧', 'Kajütenfunk', 'Die Probefolge', () => nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Ließ sich nicht laden.'))],
       ['🎧', 'Hörreise: Folge 1', 'Erster Morgen (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-1')).catch(() => toast('Ließ sich nicht laden.'))],
-      ['🎧', 'Hörreise: Folge 2', 'Gas, Sprit und Streichholz (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-2')).catch(() => toast('Ließ sich nicht laden.'))]]],
+      ['🎧', 'Hörreise: Folge 2', 'Gas, Sprit und Streichholz (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-2')).catch(() => toast('Ließ sich nicht laden.'))],
+      ['🎧', 'Hörreise: Folge 3', 'Das Heck zieht weg (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-3')).catch(() => toast('Ließ sich nicht laden.'))]]],
     ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
       ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
       ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()],
@@ -5024,7 +5025,7 @@ function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[
 /* Hocker: Kajütenfunk hören (V41, Probefolge in kurs.js) oder der Crew zuhören */
 function hockerWahl() {
   if (bgChat) return bgStop();
-  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t, u)).join('')}${menuBtn('kurs:reise-1-1', '🎧 Hörreise: Folge 1 „Erster Morgen“', 'Entwurf mit Hinnerk, Smilla und Harms · etwa 7 Minuten')}${menuBtn('kurs:reise-1-2', '🎧 Hörreise: Folge 2 „Gas, Sprit und Streichholz“', 'Entwurf mit der Hafenmeisterin · etwa 11 Minuten')}${menuBtn('kurs', '🎧 Kajütenfunk: Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Was die drei gerade erzählen')}`);
+  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t, u)).join('')}${menuBtn('kurs:reise-1-1', '🎧 Hörreise: Folge 1 „Erster Morgen“', 'Entwurf mit Hinnerk, Smilla und Harms · etwa 7 Minuten')}${menuBtn('kurs:reise-1-2', '🎧 Hörreise: Folge 2 „Gas, Sprit und Streichholz“', 'Entwurf mit der Hafenmeisterin · etwa 11 Minuten')}${menuBtn('kurs:reise-1-3', '🎧 Hörreise: Folge 3 „Das Heck zieht weg“', 'Entwurf mit Radeffekt, Fähre und Sog · etwa 14 Minuten')}${menuBtn('kurs', '🎧 Kajütenfunk: Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Was die drei gerade erzählen')}`);
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'crew') return bgSit(); if (b.dataset.m.startsWith('w:')) return welt3dFolge(b.dataset.m.slice(2)); nachladen('kurs.js').then(() => KURS.oeffnen(b.dataset.m.startsWith('kurs:') ? b.dataset.m.slice(5) : 'probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });
 }
 async function bgSit() {

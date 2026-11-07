@@ -18,7 +18,7 @@
 
 | 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F7 entschieden (07.11.). Offen: F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
 
-| 21 | **Folgen 1-1 „Erster Morgen“ und 1-2 „Gas, Sprit und Streichholz“ anhören** (Skripte `podcast/folgen/reise-1-1.md`, `reise-1-2.md`): Kajüte → Hocker → „🎧 Hörreise: Folge 1“ bzw. „Folge 2“ → „Erzeugen“ (etwa 6.700 bzw. 9.500 Credits, abschnittsweise möglich), dann im Auto- und im interaktiven Modus hören. Sag mir, was stört und was gut ist. Titel von 1-1 noch offen. | Ich mache aus deiner Rückmeldung Regeln (`docs/reise.md` §7) und überarbeite die Folge. Wenn du lieber erst liest: Das Skript schicke ich dir als Datei. |
+| 21 | **Folgen 1-1 bis 1-3 lesen oder anhören** (Skripte `podcast/folgen/reise-1-1.md`, `reise-1-2.md`, `reise-1-3.md`): Kajüte → Hocker → „🎧 Hörreise: Folge 1, 2 oder 3“ → „Erzeugen“ (etwa 6.700, 9.500 und 11.700 Credits, abschnittsweise möglich), dann im Auto- und im interaktiven Modus hören. Sag mir, was stört und was gut ist. Titel von 1-1 noch offen. | Ich mache aus deiner Rückmeldung Regeln (`docs/reise.md` §7) und überarbeite die Folge. Wenn du lieber erst liest: Das Skript schicke ich dir als Datei. |
 
 ## Dateien liefern
 | Nr. | Aufgabe | Was Claude tun kann |

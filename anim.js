@@ -7,6 +7,8 @@
    ========================================================================== */
 (() => {
 const A = window.ANIM = {defs: {}, order: []};
+/* in der Hörreise heißen manche Animationen wie im Kursplan (podcast/kursplan-sbf.json animationen) */
+A.alias = {radeffekt: 'rad', lichterkarussell: 'lichter', schallleiste: 'schall'};
 const NS = 'http://www.w3.org/2000/svg';
 const ez = u => u < 0 ? 0 : u > 1 ? 1 : u * u * (3 - 2 * u), lp = (a, b, u) => a + (b - a) * u, cl = (v, a, b) => Math.max(a, Math.min(b, v));
 const q = (s, sel) => s.querySelector(sel), put = (el, o) => { if (el) for (const k in o) el.setAttribute(k, o[k]); };
@@ -18,6 +20,7 @@ const CSS = `.an{width:100%;height:100%;display:block}.an .t{font-family:Nunito,
 .anlist .card{margin:6px 0}.anlist .tag2{display:inline-block;font-size:.7rem;padding:.1em .55em;border-radius:999px;background:#e8dfc9;color:#4a3a22;margin-right:4px}.anlist .tag2.z{background:#d7e7d0}.anlist h3{margin:14px 0 4px;font-size:1rem}
 .annote{width:100%;box-sizing:border-box;min-height:3.2em;margin-top:8px;padding:.5em;border-radius:10px;border:2px solid var(--line,#c9b99a);font:inherit;background:#fff;color:#2a2019}`;
 const css = () => { if (document.getElementById('ancss')) return; const s = document.createElement('style'); s.id = 'ancss'; s.textContent = CSS; document.head.appendChild(s); };
+A.css = css;
 
 /* ---------- Laufzeit ---------- */
 A.html = id => { const d = A.defs[id]; if (d.raw) return window.REISE.grafik(id).replace('<svg class="gr"', `<svg class="gr an" data-anim="${id}"`); return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}">${d.svg}</svg>`; };
@@ -304,6 +307,94 @@ def('steilesee', {titel: 'Wind gegen Strom: steile See', gruppe: 'B4 Revier (Zus
     const arr = (hid, x, d) => put(q(s, hid), {d: d > 0 ? `M${x + 14} 0l-12 -8v16Z`.replace(/^M/, 'M') : ''});
     put(q(s, '#awh'), {d: 'M118 40l-14 -9v18Z'}); put(q(s, '#ash'), {d: p === 0 ? 'M118 270l-14 -9v18Z' : 'M32 270l14 -9v18Z'}); put(q(s, '#as path:first-child'), {d: p === 0 ? 'M40 270H110' : 'M44 270H114'});
     q(s, '.sw').textContent = ['Wind mit Strom', 'Wind gegen Strom', 'Wind gegen Strom, Barre'][p];
+  }});
+
+/* ============ Hörreise, Tag 1 (Nutzer 07.11.2026): Mini-Animationen für Folge 1-2 und 1-3. In der Hörreise mit [[ANIM: id, phase]] ============ */
+/* Gas sinkt in die Bilge (A1.7, Folge 1-2, Fragen 62, 63) */
+def('gas', {titel: 'Gas sinkt in die Bilge', gruppe: 'A1 Boot, Antrieb, Motor', art: 'pruefung', folge: 'G4.1', wo: 'Hörreise 1-2',
+  svg: `<defs><clipPath id="gasrumpf"><path d="M92 122H308L294 200Q280 250 200 252Q120 250 106 200Z"/></clipPath></defs>
+    <rect width="400" height="300" fill="#e3edf4"/><rect y="176" width="400" height="124" fill="#5ba7cf"/>
+    <path d="M92 122H308L294 200Q280 250 200 252Q120 250 106 200Z" fill="#f4efe6" stroke="#7a6a4a" stroke-width="3"/>
+    <rect id="gbilge" x="90" y="252" width="220" height="0" fill="#f08a1c" fill-opacity=".55" clip-path="url(#gasrumpf)"/>
+    <path d="M112 206H288" stroke="#b9a988" stroke-width="2" stroke-dasharray="6 4"/>${T(200, 222, 'Bilge', 'middle', 11)}
+    <rect x="160" y="78" width="80" height="44" rx="6" fill="#cfd8dc" stroke="#7a6a4a" stroke-width="2"/>
+    <g id="gflu"><rect x="114" y="146" width="44" height="44" fill="none" stroke="#8a7a66" stroke-width="2" stroke-dasharray="4 3"/><rect x="126" y="152" width="20" height="34" rx="8" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/>${T(136, 142, 'Backskiste', 'middle', 10)}</g>
+    <g id="gfld" opacity=".25"><rect x="262" y="92" width="34" height="30" rx="3" fill="#e9d9b8" stroke="#7a6a4a" stroke-width="2"/><rect x="272" y="96" width="14" height="24" rx="6" fill="#d6332c"/><rect x="292" y="116" width="6" height="5" fill="#2b3a4a"/>${T(279, 86, 'Gaskasten', 'middle', 10)}</g>
+    <g id="gsw"><rect x="230" y="160" width="14" height="20" rx="3" fill="#fff" stroke="#7a6a4a" stroke-width="2"/><path id="gfk" d="M237 152l4 -10l-2 7l6 -2l-8 12l2 -7z" fill="#ffd400" stroke="#c08a00" opacity="0"/></g>
+    <g id="gps"></g><rect id="gflash" width="400" height="300" fill="#ffb347" opacity="0"/>${T(200, 160, '', 'middle', 34, 'gwum')}
+    ${T(200, 26, '', 'middle', 13, 'gcap')}`,
+  phasen: [
+    {wer: 'smilla', t: 'Gas und Benzindampf sind schwerer als Luft. Was ausströmt, läuft nach unten und sammelt sich in der Bilge.', min: 6},
+    {wer: 'hinnerk', t: 'Mit Luft gemischt wird es explosiv. Ein Funke vom Schalter reicht.', min: 4},
+    {wer: 'smilla', t: 'Darum steht die Gasflasche an Deck, im Schatten, oder in einem Kasten mit einer Öffnung ganz unten nach außenbords. Dann läuft das Gas ins Freie.', min: 6}],
+  enter(s, p, st) { st.ps = []; st.fill = p === 1 ? 1 : 0; q(s, '.gwum').textContent = ''; q(s, '.gcap').textContent = ['Gas ist schwerer als Luft', 'Ein Funke reicht', 'Flasche an Deck, Loch unten nach außenbords'][p] || '';
+    put(q(s, '#gflu'), {opacity: p < 2 ? 1 : .2}); put(q(s, '#gfld'), {opacity: p === 2 ? 1 : .25}); put(q(s, '#gflash'), {opacity: 0}); },
+  tick(s, tp, p, st) {
+    const dt = st.dt || .016, ps = st.ps, top = 252 - st.fill * 42;
+    if (p === 0 && st.fill < 1 && Math.random() < dt * 14) ps.push({x: 147, y: 160, vx: -8 + Math.random() * 46, vy: 0, a: 1});
+    if (p === 2 && Math.random() < dt * 12) ps.push({x: 296, y: 120, vx: 18 + Math.random() * 10, vy: 4, a: 1, raus: true});
+    for (const k of ps) { k.vy += (k.raus ? 26 : 34) * dt; k.x += k.vx * dt; k.y += k.vy * dt;
+      if (!k.raus) { k.vx *= .98; if (k.x > 284) k.vx = -Math.abs(k.vx); if (k.x < 116) k.vx = Math.abs(k.vx); if (k.y >= top) { k.a = 0; st.fill = Math.min(1, st.fill + .012); } }
+      else if (k.y > 176) k.a -= dt * 2; }
+    st.ps = ps.filter(k => k.a > 0);
+    q(s, '#gps').innerHTML = st.ps.map(k => `<circle cx="${k.x.toFixed(1)}" cy="${k.y.toFixed(1)}" r="4" fill="#f08a1c" fill-opacity="${(.7 * k.a).toFixed(2)}"/>`).join('');
+    put(q(s, '#gbilge'), {y: (252 - st.fill * 42).toFixed(1), height: (st.fill * 42 + 2).toFixed(1)});
+    const fk = p === 1 && tp > .8 && tp < 1.5, fl = p === 1 && tp > 1.3 ? Math.max(0, 1 - (tp - 1.3) / 1.6) : 0;
+    put(q(s, '#gfk'), {opacity: fk ? 1 : 0}); put(q(s, '#gflash'), {opacity: (fl * .85).toFixed(2)}); q(s, '.gwum').textContent = fl > .2 ? 'Wumm!' : '';
+  }});
+
+/* Sog und Schwell großer Schiffe (A2.4, Folge 1-3, Fragen 34, 36, 37, 61) */
+const SHIP = `<g id="sbig"><path d="M0 -112 C16 -96 20 -60 20 0 V104 Q20 112 12 112 H-12 Q-20 112 -20 104 V0 C-20 -60 -16 -96 0 -112Z" fill="#8a94a0" stroke="#4a525c" stroke-width="2.5"/><rect x="-14" y="62" width="28" height="30" rx="3" fill="#e8eef8" stroke="#4a525c"/><rect x="-10" y="-70" width="20" height="110" fill="#b5653a" opacity=".55"/></g>`;
+const KLEIN = `<g id="skl"><path d="M0 -16 C7 -10 8 4 6 13 L-6 13 C-8 4 -7 -10 0 -16Z" fill="#f4efe6" stroke="#7a6a4a" stroke-width="1.6"/><rect x="-4" y="-2" width="8" height="8" rx="2" fill="#cfd8dc"/></g>`;
+def('sog', {titel: 'Sog und Schwell großer Schiffe', gruppe: 'A2 Anlegen, Ankern, Manöver', art: 'pruefung', folge: 'G3.2', wo: 'Hörreise 1-3',
+  svg: `<rect width="400" height="300" fill="#5ba7cf"/><g id="swv" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2.5"></g>
+    ${SHIP}${KLEIN}<g id="sar" fill="#f08a1c" stroke="#f08a1c" stroke-width="3"></g>${T(200, 288, '', 'middle', 12, 'scap')}${T(0, 0, '', 'start', 11, 'slab')}`,
+  phasen: [
+    {wer: 'hinnerk', t: 'Ein großes Schiff schiebt vorn eine Bugwelle vor sich her und zieht hinten eine Heckwelle hinter sich her.', min: 6},
+    {wer: 'smilla', t: 'Zwischen dem großen Schiff und dir fließt das Wasser schneller. Das saugt dich an: der Sog.', min: 6},
+    {wer: 'hinnerk', t: 'Wirst du überholt, schubst dich vorn der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell quer schlagen. Im Flachen läufst du sogar auf Grund.', min: 9},
+    {wer: 'smilla', t: 'Darum: Abstand halten und langsam begegnen. Und an festgemachten Booten fährst du langsam vorbei, sonst wirft deine Welle sie gegen den Steg.', min: 7}],
+  enter(s, p, st) { st.bx = p === 3 ? 340 : p === 2 ? 196 : 250; st.rot = 0; q(s, '.scap').textContent = ['Bugwelle und Heckwelle', 'Sog: das Wasser dazwischen zieht', 'Überholt werden: Stau, Sog, Schwell', 'Abstand halten, Fahrt raus'][p] || ''; },
+  tick(s, tp, p, st) {
+    const dt = st.dt || .016, v = p === 3 ? 34 : 58, sy = 420 - ((tp * v) % 640), sx = 140, by = p === 2 ? 200 - Math.min(40, tp * 3) : 150;
+    put(q(s, '#sbig'), {transform: `translate(${sx} ${sy.toFixed(1)})`});
+    const ba = p === 3 ? 12 : 22, wv = (x0, y0, sgn) => { const L = 150; return `M${x0} ${y0}L${(x0 + sgn * L * Math.sin(ba * Math.PI / 180)).toFixed(1)} ${(y0 + L * Math.cos(ba * Math.PI / 180)).toFixed(1)}`; };
+    q(s, '#swv').innerHTML = [wv(sx - 6, sy - 104, -1), wv(sx + 6, sy - 104, 1), wv(sx - 14, sy + 110, -1), wv(sx + 14, sy + 110, 1)].map(d => `<path d="${d}"/>`).join('');
+    const rel = by - sy; let ziel = p === 3 ? 340 : p === 2 ? 196 : 250, rz = 0, lab = '';
+    if (p >= 1 && p <= 2 && Math.abs(rel) < 60) { ziel = p === 2 ? 178 : 214; lab = 'Sog'; }
+    if (p === 2 && rel < -60 && rel > -125) { ziel = 214; rz = 18; lab = 'Stau'; }
+    if (p === 2 && rel > 60 && rel < 135) { rz = -55; lab = 'Schwell'; }
+    st.bx += (ziel - st.bx) * Math.min(1, dt * 1.6); st.rot += (rz - st.rot) * Math.min(1, dt * 2.2);
+    put(q(s, '#skl'), {transform: `translate(${st.bx.toFixed(1)} ${by.toFixed(1)}) rotate(${st.rot.toFixed(1)})`});
+    const ar = q(s, '#sar'); ar.innerHTML = lab === 'Sog' ? `<path d="M${(st.bx - 12).toFixed(0)} ${by}H${sx + 30}" fill="none"/><path d="M${sx + 24} ${by - 7}L${sx + 12} ${by}L${sx + 24} ${by + 7}Z" stroke="none"/>` : lab === 'Stau' ? `<path d="M${sx + 24} ${by}H${(st.bx - 12).toFixed(0)}" fill="none"/><path d="M${(st.bx - 18).toFixed(0)} ${by - 7}L${(st.bx - 6).toFixed(0)} ${by}L${(st.bx - 18).toFixed(0)} ${by + 7}Z" stroke="none"/>` : '';
+    const sl = q(s, '.slab'); sl.textContent = lab; put(sl, {x: (st.bx + 14).toFixed(0), y: (by - 18).toFixed(0)});
+  }});
+
+/* Ruder und Schraubenstrom (A1.4, A1.6, Folge 1-3, Fragen 50, 51) */
+def('ruder', {titel: 'Ruder und Schraubenstrom', gruppe: 'A1 Boot, Antrieb, Motor', art: 'pruefung', folge: 'G2.1', wo: 'Hörreise 1-3',
+  svg: `<rect width="400" height="300" fill="#5ba7cf"/><g id="rboot"><g id="rjet" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round"></g><path d="M0 -70 C26 -46 30 22 24 62 L-24 62 C-30 22 -26 -46 0 -70Z" fill="#f4efe6" stroke="#7a6a4a" stroke-width="2.5"/><rect x="-12" y="-14" width="24" height="34" rx="5" fill="#cfd8dc" stroke="#7a6a4a"/>
+      <g id="rab"><rect x="-6" y="58" width="12" height="18" rx="3" fill="#2b3a4a"/><ellipse cx="0" cy="80" rx="9" ry="3" fill="#555"/></g>
+      <g id="rei" opacity="0"><ellipse cx="0" cy="66" rx="10" ry="3.5" fill="#555"/><line id="rbl" x1="0" y1="74" x2="0" y2="104" stroke="#2b3a4a" stroke-width="7" stroke-linecap="round"/></g></g>
+    ${T(200, 26, '', 'middle', 13, 'rcap')}${T(200, 288, '', 'middle', 12, 'rsub')}`,
+  phasen: [
+    {wer: 'hinnerk', t: 'Beim Außenborder ohne Ruder drehst du den ganzen Motor. Der Schraubenstrom drückt das Heck herum.', min: 6},
+    {wer: 'smilla', t: 'Ohne Gas kein Schraubenstrom, und ohne Schraubenstrom keine Lenkung.', min: 4},
+    {wer: 'hinnerk', t: 'Mit Einbaumotor und Ruder bläst der Propeller vorwärts direkt aufs Ruderblatt. Darum wirkt das Ruder sofort.', min: 5},
+    {wer: 'smilla', t: 'Rückwärts bläst der Propeller vom Ruder weg. Das Ruder wirkt erst, wenn das Boot selbst Fahrt achteraus macht und Wasser von hinten anströmt.', min: 8}],
+  enter(s, p, st) { st.h = 0; st.y = 0; q(s, '.rcap').textContent = ['Außenborder: der Propeller ist das Ruder', 'Gas weg: keine Lenkung', 'Einbaumotor vorwärts: Strom aufs Ruder', 'Rückwärts: das Ruder wirkt erst spät'][p] || ''; q(s, '.rsub').textContent = '';
+    put(q(s, '#rab'), {opacity: p < 2 ? 1 : 0}); put(q(s, '#rei'), {opacity: p >= 2 ? 1 : 0}); },
+  tick(s, tp, p, st) {
+    const dt = st.dt || .016, ang = 28, off = (-tp * 40) % 26;
+    let jet = '', dreh = 0;
+    if (p === 0) { put(q(s, '#rab'), {transform: `rotate(${ang} 0 62)`}); const a = ang * Math.PI / 180; for (let i = -1; i <= 1; i++) { const x0 = Math.sin(-a) * 20 + i * 5, y0 = 80 + Math.cos(a) * 2; jet += `<path d="M${(x0).toFixed(1)} ${y0.toFixed(1)} l${(Math.sin(-a) * 70).toFixed(1)} ${(Math.cos(a) * 70).toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/>`; } dreh = 14; }
+    if (p === 1) { put(q(s, '#rab'), {transform: `rotate(${ang} 0 62)`}); q(s, '.rsub').textContent = 'kein Schraubenstrom'; }
+    if (p === 2) { put(q(s, '#rbl'), {transform: `rotate(${ang} 0 74)`}); for (let i = -1; i <= 1; i++) jet += `<path d="M${i * 4} 68 L${i * 3} 84 L${-50 + i * 7} 150" stroke-dashoffset="${off.toFixed(1)}"/>`; dreh = 12; }
+    if (p === 3) { put(q(s, '#rbl'), {transform: `rotate(${ang} 0 74)`}); for (const sx of [-1, 1]) for (let i = 0; i <= 1; i++) jet += `<path d="M${sx * (12 + i * 6)} 64 L${sx * (32 + i * 6)} 20 L${sx * (34 + i * 6)} -40" stroke-dashoffset="${(-off).toFixed(1)}"/>`;
+      if (tp > 3) { st.y = Math.min(30, st.y + 14 * dt); const u = Math.min(1, (tp - 3) / 2); for (let i = -1; i <= 1; i++) jet += `<path d="M${i * 7} 128 L${i * 4} 104" stroke="#f08a1c" opacity="${u.toFixed(2)}" stroke-dashoffset="${off.toFixed(1)}"/>`; if (tp > 4.5) dreh = 8; q(s, '.rsub').textContent = 'Fahrt achteraus: jetzt strömt Wasser ans Ruder'; }
+      else q(s, '.rsub').textContent = 'Ruder wirkt noch nicht'; }
+    q(s, '#rjet').innerHTML = jet;
+    st.h += ((dreh ? 30 : st.h) - st.h) * Math.min(1, dt * dreh / 30);
+    put(q(s, '#rboot'), {transform: `translate(200 ${(140 + st.y).toFixed(1)}) rotate(${(p === 3 ? st.h : -st.h).toFixed(1)})`});
   }});
 
 /* ---------- Knoten (A3) verweist auf das Knotenbrett ---------- */
