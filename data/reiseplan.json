@@ -52,13 +52,20 @@
      "ort": "Steg und Tankstelle Kuttershaven",
      "du": "handgriffe",
      "fragen": "43,49,62-66",
-     "text": "Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg. Die Hafenmeisterin klopft an die Bordwand, weil Hinnerk den Strom nicht bezahlt hat, und erzählt beim Tanken, was sie jeden Sommer sieht.",
+     "text": "Tanken an der Bootstankstelle: Die Hafenmeisterin (Hilke) kommt wegen des unbezahlten Stroms und erklärt, warum Dampf und Gas nach unten kriechen. Hinnerk steckt sich die kalte Pfeife in den Mund, Smilla nimmt ihm die Streichhölzer weg. Du reichst den Kanister und hältst den Lappen. Öl in der Bilge, die Gasflasche an Deck. Dann riecht es in der Kajüte nach Gas: Backbord hat den Kocher aufgedreht. Logbuch mit Harms als Sprachnachricht. Skript: podcast/folgen/reise-1-2.md.",
      "stoff": [
       "K-MOT-02",
       "K-GAS-01"
      ],
      "bloecke": [
       "G4.1"
+     ],
+     "muster": "system",
+     "abfrage": "logbuch",
+     "wer": [
+      "hinnerk",
+      "smilla",
+      "kroeger"
      ]
     },
     {

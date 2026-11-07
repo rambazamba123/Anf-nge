@@ -218,6 +218,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **P51 PFLICHT – doppeldeutige Witze:** „doppeldeutige witze die erwachsene verstehen! aber ein 12 jähriger vielleicht anders versteht! also sexuelle anspielungen, etc. aber eben doppeldeutig.“ *(N 20.10. a)* Bestätigt mit „ja genau der ton ist gut mit doppeldeutigen anspielungen“ *(N 20.10. b)*.
   - **Prüfregel (vorgeschlagen und bestätigt am 20.10.): „Harmlos vorgelesen, doppeldeutig gehört.“** Jede Anspielung hat eine vollständig harmlose wörtliche Lesart.
   - Muster aus Anhang A: „Was für ein Heck.“ – „Wir reden über ein Schiff.“ – „Ich auch.“
+  - Muster aus der Hörreise 1-1, vom Nutzer gelobt *(N 07.11.: „perfekt, sowas ist sehr gut“)*: „Jetzt hat der Dicke vorn die Leine in der Hand und weiß nicht, wo er sie reinstecken soll.“ – „Dat Problem kenn ich.“ – „Käpt'n!“ – „Vom Festmachen. Wat denkst du denn.“
 - **P52 OPTIONAL (als Teil der Tonregel vom 20.10. bestätigt):**
   - Seemannsflüche auf Plattdeutsch,
   - Beleidigungen unter den Dreien,
