@@ -200,6 +200,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
 - **P48 Perspektive und Anrede:**
   - PFLICHT: Die drei unterhalten sich miteinander (P1, P5).
   - PFLICHT: Sprechen sie den Hörer an, dann **neckend** *(N 20.10. d)* und **geschlechtsneutral**.
+    - **Erweitert (N 07.11.):** Beim Kennenlernen wählt der Hörer die Anrede: als Frau, als Mann oder neutral (Standard). Die Varianten werden alle vertont, gespielt wird die gewählte (`docs/reise.md` HR24, Stufen in §2). Die neutralen Anreden unten bleiben die neutrale Variante.
     - „Matrose“ ist dem Nutzer nicht neutral genug, „Moses“ entfällt („moses würde ich weglassen“, *N 20.10. e*).
     - **Beschlossen** *(N 20.10. f: „alle gut“)*:
       - „hey du“,
@@ -398,6 +399,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
 | `PRUEFUNG` | Kontrollhinweis für fachliche oder didaktische Inhalte |
 | `AUDIO` | Geräusch oder andere Produktionsanforderung |
 | `FRAGE` | Katalogfragen dieser Stelle, z. B. `[[FRAGE: sbf:120]]`. Diese Kategorie hat Claude ergänzt, sie wird für P17 gebraucht. |
+| `SPRUCH` | Klassiker aus der Sprüchekiste (`podcast/sprueche.json`), steht im Satz der Figur, wird gezählt (`docs/reise.md` HR25); im Ton unhörbar *(N 07.11.)* |
 
   Weitere Regeln:
   - Eine unbekannte Kategorie ist ein Validierungsfehler.

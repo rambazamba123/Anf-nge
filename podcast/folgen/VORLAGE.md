@@ -12,6 +12,8 @@ status: vorlage
 # Regeln: Zahlen in Worten, Abkürzungen ausgeschrieben, höchstens drei Stimmen je Szene, jede Szene mit Revier, und das Revier wird ausgesprochen.
 # Antwortknöpfe: erst die Frage sprechen, dann [[WAHL: sbf:123 | … | *…]], direkt danach [[DENKPAUSE: 5]]. Die Antwort zählt in der Statistik.
 # Wer falsch antwortet, hört im interaktiven Modus die Vertiefung ([[VERTIEFUNG: sbf:123]] … [[VERTIEFUNG: ende]]); im Auto-Modus fällt sie weg.
+# Hörreise (07.11.2026): Klassiker der Figuren aus podcast/sprueche.json mit [[SPRUCH: id]] im Satz der Figur (gezählt, docs/reise.md HR25);
+# Anrede nach Wahl als {{anrede:w=min Deern|m=min Jung|n=Landratte}}, nur kurz und am Satzanfang (HR24).
 # Denkpausen: 3 s erinnern, 5 s entscheiden, 6 s Kernsätze. Danach sagt die Folge immer die Lösung, auch im Auto-Modus.
 
 [[ABSCHNITT: Einstieg]]

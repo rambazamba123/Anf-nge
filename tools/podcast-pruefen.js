@@ -98,6 +98,14 @@ if (!dateien.length) {
 const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
 const ABK = /(?<![\p{L}\p{N}])(?:[A-ZÄÖÜ]{2,}[\p{L}\p{N}]*|[A-ZÄÖÜ][a-zäöüß]+[A-ZÄÖÜ][\p{L}]*)(?![\p{L}\p{N}])/gu;
 const alleFragen = new Set();
+function anredeNeutral(zeile, ort) {
+  return zeile.replace(/\{\{\s*anrede\s*:([^}]*)\}\}/g, (ganz, wert) => {
+    const v = {}; let kaputt = false;
+    for (const t of wert.split('|')) { const m = t.match(/^\s*([wmn])\s*=(.*)$/); if (m) v[m[1]] = m[2].trim(); else kaputt = true; }
+    if (kaputt || !v.w || !v.m || !v.n) F(ort, `Anrede „${ganz}“: Form {{anrede:w=…|m=…|n=…}}, alle drei Varianten nötig (HR24)`);
+    return v.n || '';
+  });
+}
 for (const datei of dateien) {
   const D = rel(datei);
   if (!fs.existsSync(datei)) { F(D, 'Datei fehlt'); continue; }
@@ -125,7 +133,8 @@ for (const datei of dateien) {
     L.stimmen = new Set(); L.revier = false; L.szeneText = ''; L.szeneRevier = null; L.szeneOrt = null;
   };
   for (; i < zeilen.length; i++) {
-    const roh = zeilen[i], ort = `${D}:${i + 1}`, z = roh.trim();
+    /* Anrede nach Wahl (docs/reise.md HR24): {{anrede:w=…|m=…|n=…}}; geprüft wird mit der neutralen Variante */
+    const ort = `${D}:${i + 1}`, roh = anredeNeutral(zeilen[i], ort), z = roh.trim();
     if (!z || z.startsWith('#') || /^<!--.*-->$/.test(z)) continue;
     const m = z.match(/^([A-ZÄÖÜ][A-ZÄÖÜ0-9_]*):\s*(.*)$/);
     const codesTeil = m ? m[2] : z;

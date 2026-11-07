@@ -10,13 +10,15 @@
 |---|---|---|
 | 1 | **Echtes Material sammeln:** Erlebtes vom Wasser, Sprüche echter Skipper, wie Leute im Hafen reden, Seemannsgarn. Am besten als Sprachnotiz, gern frei eingesprochene Szenen mit Freunden. | Ich mache dir eine Liste mit Fragen, die dir beim Erinnern hilft („Wann hattest du das letzte Mal Angst auf dem Wasser?“). Sprachnotizen lasse ich abtippen (ElevenLabs kann das) und baue sie ein, ohne den Klang glattzubügeln. |
 | 2 | **`docs/reise.md` lesen**, vor allem Abschnitt 3 (Hörreise) und 7 (Regelwerk), und sagen, was nicht stimmt. | Ich kann dir eine kurze Fassung zum Durchlesen auf dem Handy schreiben. |
-| 3 | **★-Punkte festlegen:** Ortsnamen (Kuttershaven, Brede, Elvmünde, Klappdörp, Moorende, Groter Sand, Lüttoog, Harmsoog), Inhalt der Kiste ab Fach 3. (✓ Albertine für Harms' Schiff, 07.11.) | Ich schlage zu jedem Punkt zwei, drei Varianten mit Begründung vor, du wählst nur noch. |
+| 3 | **★-Punkte festlegen:** Ortsnamen (Kuttershaven, Brede, Elvmünde, Klappdörp, Moorende, Groter Sand, Lüttoog, Harmsoog), Inhalt der Kiste ab Fach 3, Harms' Geheimnis (F5 in `podcast/figuren.md` §12). (✓ Albertine für Harms' Schiff, 07.11.) | Ich schlage zu jedem Punkt zwei, drei Varianten mit Begründung vor, du wählst nur noch. |
 | 4 | **`docs/dialog-regeln.md` prüfen:** Klingen die Regeln so, wie du es dir vorstellst? | Ich schreibe dir drei kurze Beispielszenen nach den Regeln, an denen du sofort hörst, ob es passt. |
-| 5 | **Stimmen:** Jaspers Stimme aussuchen; Quirins Stimme passt (Alexander)? Werkstatt → „🎭 Stimmen-Casting“. | Ich kann Vorschläge aus der ElevenLabs-Bibliothek heraussuchen, wenn du mir Merkmale nennst. Anhören und wählen musst du. |
+| 5 | **Stimmen:** Erst die aktuellen anhören: Einstellungen → „Ton, Schrift und Stimmen“ → „🎧 Stimmen der Crew anhören“ (kostet nichts). Dann für jede Rolle mit „Fehlt“ eine Stimme auf ElevenLabs suchen und mir die **Voice-ID im Chat schicken**: Jasper, Hafenmeister Klüverhafen, Schleusenwärter Klappdörp, Seenotretter. Passt Quirin (Alexander)? | Ich trage die IDs in `podcast/audio_config.json` und `podcast/casting.json` ein. Wenn du mir Merkmale nennst, suche ich Vorschläge aus der Bibliothek heraus. |
 | 6 | **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
 | 7 | Falls noch nicht geschehen: **die gehörte Kajütenfunk-Probefolge als ZIP** hochladen (Hocker → Kajütenfunk → „📦 ZIP speichern“), damit sie fest in der App ist. | Den Einbau danach mache ich (`tools/kurs-import.js`). |
 
-| 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2): Sind die Figuren tief genug? Was klingt falsch? Dazu die offenen Fragen F1–F8 in Abschnitt 12 (Elbe, Quirins Grund, wo Klabauter war, Hinnerks und Harms' Geheimnis, Bootsname, Möwe Gesine, Stimmen). | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
+| 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F4, F6, F7 entschieden (07.11.). Offen: F5 Harms' Geheimnis, F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
+
+| 21 | **Idee für die erste Folge 1-1 „Ankommen“ wählen** (im Chat). | Ich habe dir drei Ideen geschickt; nach deiner Wahl schreibe ich das Folgenblatt und die Folge. |
 
 ## Dateien liefern
 | Nr. | Aufgabe | Was Claude tun kann |

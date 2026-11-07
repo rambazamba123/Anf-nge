@@ -119,7 +119,9 @@ Die Prüfungsbegriffe (Luv, Lee, Backbord, Steuerbord …) erklärt der Kurs sel
 
 ## 6. Anreden und seemännische Necknamen
 
-**Beschlossen** (Bible P48, nur diese sprechen den Hörer an, geschlechtsneutral):
+**Seit 07.11.2026 nach Wahl** (Bible P48, `docs/reise.md` HR24): Der Hörer wählt beim Kennenlernen „als Frau“, „als Mann“ oder „neutral“. Weiblich zum Beispiel „min Deern“, „Leichtmatrosin“, „Matrosin“, „Seebärin“, „Steuerfrau“, „Skipperin“; männlich „min Jung“, „Leichtmatrose“, „Matrose“, „Seebär“, „Steuermann“, „Skipper“. Stufen in `docs/reise.md` §2.
+
+**Neutral beschlossen** (Bible P48, die neutrale Variante):
 - Hinnerk: „Landratte“, „Schietbüdel“, „Dösbaddel“, „Kielschwein“
 - Smilla: „Frischling“, „Landei“, „Seegurke“, „Bordküken“
 - Klabauter: „Grünschnabel! Grünschnabel!“, „Nesthocker! Nesthocker!“, „Federlos! Federlos!“
@@ -148,7 +150,7 @@ Immer als Garn kennzeichnen. Wer daran glaubt, ist meistens Hinnerk; Smilla ordn
 | Glaube | Was dahintersteckt | Wer | Hinweis | Quelle |
 |---|---|---|---|---|
 | An Bord wird nicht gepfiffen. | Pfeifen soll Sturm herbeirufen. Früher gab nur der Bootsmann mit seiner Pfeife Kommandos. | H | | [yacht.de](https://www.yacht.de/reisen-chartern/ratgeber/aberglaube-hasen-blumen-und-andere-gefahren-13-mythen-der-seefahrt/) |
-| Keine Bananen an Bord. | Bringen angeblich Unglück. Die Erklärungen sind nicht belegt. | H | Klabauter kam laut App in einer Bananenkiste an Bord: Running Gag | [snopes.com](https://www.snopes.com/fact-check/banana-ban/) |
+| Keine Bananen an Bord. | Bringen angeblich Unglück. Die Erklärungen sind nicht belegt. | H | nur Hinnerks Aberglaube; kein Gag mit Klabauter (Nutzer, 07.11.2026) | [snopes.com](https://www.snopes.com/fact-check/banana-ban/) |
 | Freitags läuft man nicht aus. | alter Aberglaube. Die Geschichte vom Schiff „HMS Friday“, das den Mythos widerlegen sollte, ist selbst Garn: Keine Marine-Unterlagen kennen das Schiff. | H; S widerlegt | Smilla kann die Friday-Geschichte entlarven | [boatgoldcoast.com.au](https://boatgoldcoast.com.au/?p=17081) |
 | Der Klabautermann | guter Schiffsgeist, der klopft, um vor Schäden zu warnen; wenn er sich zeigt oder geht, droht Unglück (die Quellen widersprechen sich). Der Name kommt wohl von „kalfatern“ (abdichten). | H, K | erklärt Klabauters Namen: Er „warnt“ mit „Krrah! Merken!“ | [Duden](https://www.duden.de/rechtschreibung/Klabautermann), [Wiktionary](https://de.wiktionary.org/wiki/Klabautermann), [Planet Wissen](https://www.planet-wissen.de/technik/schifffahrt/handelsschifffahrt/pwieseemannsgarnvonklabautermaennernundseeungeheuern100.html) |
 | Rasmus holt sich, was nicht festgezurrt ist. | Personifikation der stürmischen See | H | siehe Abschnitt 5 | wie dort |
@@ -225,7 +227,7 @@ Die Prüfungsbegriffe erklärt der Kurs selbst (Binnen-Katalog). Hier stehen Wö
 | „Zwieback! Zwieback!“ | bettelt | App: Er liebt Zwieback |
 | „Tuuut!“ | ahmt das Schiffshorn nach | ⚠ nie ein falsches Schallsignal nachmachen, das würde verwirren |
 | „West fünf bis sechs! Böen!“ | plappert den Seewetterbericht | App-Beschreibung |
-| „Banane! Unglück! Unglück!“ | wenn Hinnerk vom Aberglauben anfängt | er kam selbst in einer Bananenkiste |
+| ~~„Banane! Unglück! Unglück!“~~ | entfällt (Nutzer, 07.11.2026: „erschließt sich mir nicht“) | |
 | „Hinni! Hinni!“ | hat er von Quirin gelernt | ärgert Hinnerk |
 | „Sabbel nich! Sabbel nich!“ | hat er von Hinnerk gelernt | |
 | „Wahrschau! Wahrschau!“ | warnt, wie der Klabautermann | |
@@ -410,7 +412,7 @@ Quelle der Liste: volkstümliche Witze ohne feste Urheberschaft. Alle selbst for
 | Ruf und Antwort mit dem Merkwort | K | Abruf | nach Bedarf, nie zweimal gleich gebaut |
 | Quirin vergleicht mit dem Fluss | Q | Binnen gegen See | 1 je Folge |
 | Der Sturm von 87 wächst | H | Garn | 3 |
-| Klabauter bringt von irgendwo etwas mit | K | Rätsel, wo er war | 3 + Auflösung |
+| ~~Klabauter bringt von irgendwo etwas mit~~ | K | entfällt: Er ist einfach abgehauen und verrät nie, wo er war (Nutzer, 07.11.2026) | |
 | Motorboot gegen Segler: „Stinker“ gegen „Kaffeefahrer“ (allgemein, nicht belegt) | H, Jasper | Ausweichregeln Motor/Segel | 3 |
 
 

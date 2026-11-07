@@ -41,9 +41,9 @@
       "id": "JASPER",
       "name": "Jasper (Bojenlieger)",
       "art": "Gast",
-      "satz": "Moin! [laughs] Du bist also die neue Hilfe von Hinnerk? [short pause] Na dann. Das Ersatzteil, das du da im Ruderboot hast, das ist meins. Und ich warte seit drei Tagen.",
+      "satz": "Moin! Jasper, Boje vierzehn. [laughs] Ganz einfach, Leute: Ich sag immer Nord. Hat bisher fast immer geklappt.",
       "wunsch": null,
-      "hinweis": "Bojenlieger aus docs/reise.md (E20, 03.11.2026): lebt auf seinem Segelboot an der Boje, freundlich, etwas chaotisch. Stimme sucht der Nutzer im Casting aus. Ersetzt die gestrichene Rolle Frieda."
+      "hinweis": "Segler an seiner Boje vor Lüttoog (podcast/figuren.md Fassung 2): hat für alles eine einfache, falsche Regel. Gast an Tag 4 bis 6, nie gleichzeitig mit Quirin. Stimme sucht der Nutzer aus."
     },
     {
       "id": "POLIZEI",
@@ -79,6 +79,30 @@
       "art": "Gast",
       "satz": "Moin. Ich bin hier Rangerin im Nationalpark Wattenmeer. Zuständig für Seehunde, Vögel und für Leute, die nur mal kurz ein Foto machen wollen. [sighs] Abstand, bitte.",
       "wunsch": null
+    },
+    {
+      "id": "HAFENMEISTER2",
+      "name": "Hafenmeister Klüverhafen (Gast, Funk)",
+      "art": "Gast",
+      "satz": "Klüverhafen, Hafenmeister. [sighs] Liegeplatz zwölf, wenn ihr's schafft. Die Leute auf dem Steg gucken schon.",
+      "wunsch": null,
+      "hinweis": "Tag 2, über Funk; müde von der Saison, trocken (podcast/figuren.md §10)."
+    },
+    {
+      "id": "SCHLEUSE",
+      "name": "Schleusenwärter Klappdörp (Gast, Funk)",
+      "art": "Gast",
+      "satz": "Schleuse Klappdörp. Kleinfahrzeuge warten, bis die Großen drin sind. [short pause] Und nicht drängeln, ich seh alles.",
+      "wunsch": null,
+      "hinweis": "Tag 3, über Funk (podcast/figuren.md §10)."
+    },
+    {
+      "id": "SEENOT",
+      "name": "Seenotretter (Gast, Tag 6)",
+      "art": "Gast",
+      "satz": "Seenotrettungskreuzer an Segelyacht. Bleibt bei eurem Boot. Wir sind in zehn Minuten da.",
+      "wunsch": null,
+      "hinweis": "Tag 6, ruhig, klar, kurz (podcast/figuren.md §10)."
     },
     {
       "id": "ERZAEHLER",
