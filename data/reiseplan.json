@@ -1,5 +1,5 @@
 {
- "hinweis": "Reiseplan „In sieben Tagen zum SBF See“ (docs/reise.md). Die Fragen sind nach den Themenblöcken des Kursplans (podcast/kursplan-sbf.json) verteilt: Jede Folge hat ein bis drei Blöcke (Feld bloecke), System-Blöcke bleiben zusammen, Regel-Blöcke dürfen Regel für Regel verteilt werden. Überblicke (ueberblicke) kommen vor den Einzelheiten, meist in den ersten Tagen. crew: wer ab wann an Bord ist. Prüfung: node tools/reiseplan.js.",
+ "hinweis": "Reiseplan „In sieben Tagen zum SBF See“ (docs/reise.md). Die Fragen sind nach den Themenblöcken des Kursplans (podcast/kursplan-sbf.json) verteilt: Jede Folge hat ein bis drei Blöcke (Feld bloecke), System-Blöcke bleiben zusammen, Regel-Blöcke dürfen Regel für Regel verteilt werden. Überblicke (ueberblicke) kommen vor den Einzelheiten, meist in den ersten Tagen. crew: wer ab wann an Bord ist. fragen = Heimat-Folge jeder Frage (genau einmal); wieder = Fragen, die eine spätere Folge noch einmal aufgreift, weil es die Geschichte verbessert (nur nach der Heimat). Prüfung: node tools/reiseplan.js.",
  "bonus": [
   {
    "id": "0",
@@ -18,7 +18,7 @@
    "titel": "Leinen los",
    "ort": "Kuttershaven → Fluss Brede → Ankerbucht Schilfwinkel",
    "du": "Passagier: zuhören, Ausguck, kleine Handgriffe",
-   "story": "Aufbruch zu Smillas neuem Schiff. Quirin kommt in letzter Minute an Bord und verschwindet seekrank in der Koje. Abends im Schilfwinkel landet Klabauter. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
+   "story": "Aufbruch zu Smillas neuem Schiff. Klabauter ist verschwunden, Hinnerk tut gelassen. Abends im Schilfwinkel landet er wieder auf dem Kajütdach. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs Albertine. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
    "haken": "Harms am Telefon: „Sieben Tage. Wer zu spät kommt, fährt allein heim.“",
    "set": "Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu.",
    "folgen": [
@@ -29,7 +29,7 @@
      "ort": "Kajüte, Kuttershaven",
      "du": "zuhoeren",
      "fragen": "1-2,59,67-70,72",
-     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist und wer überhaupt ohne Schein fahren darf, Westen, Feuerlöscher, was im Ernstfall zu tun ist. Quirin kommt in letzter Minute an Bord: Er ist Binnenschiffer und will auch den SBF See. Hinnerks Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
+     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist und wer überhaupt ohne Schein fahren darf, Westen, Feuerlöscher, was im Ernstfall zu tun ist. Klabauter fehlt seit Tagen; Hinnerk tut, als wäre ihm das egal. Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
      "stoff": [
       "K-GRU-01",
       "K-REC-01",
@@ -64,7 +64,7 @@
      "ort": "Hafenbecken und Ausfahrt",
      "du": "ausguck",
      "fragen": "34,36-37,41,44-48,50-51,61",
-     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen. Quirin wird grün und verschwindet in der Vorschiffskoje.",
+     "text": "Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen.",
      "stoff": [
       "K-MAN-02",
       "K-PRO-01",
@@ -83,7 +83,7 @@
      "ort": "Fluss Brede",
      "du": "ausguck",
      "fragen": "3,6,8-9,14-15",
-     "text": "Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln und das Prinzip dahinter. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an. Aus der Koje fragt Quirin: „Wos is Luv?“",
+     "text": "Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an.",
      "stoff": [
       "K-GRU-01",
       "K-GRU-02",
@@ -153,8 +153,8 @@
    "titel": "Tonnen und dicke Pötte",
    "ort": "Strom Elvmünde → Klüverhafen",
    "du": "kleine Handgriffe, erste Minuten an der Pinne unter Aufsicht",
-   "story": "Auf dem großen Strom mit Frachtern. Abends ein fremder Hafen: Die Crew funkt den Hafenmeister an, du hörst mit. Hinnerk gibt Smilla in der Dämmerung das Steuer. Quirin liegt noch in der Koje und stellt von unten Fragen.",
-   "haken": "Aus der Koje: „Morgen a Schleus’n? Do bin i dahoam.“",
+   "story": "Auf dem großen Strom mit Frachtern. Abends ein fremder Hafen: Die Crew funkt den Hafenmeister an, du hörst mit. Hinnerk gibt Smilla in der Dämmerung das Steuer. Am Steg wartet Quirin und will mit.",
+   "haken": "Quirin, mit Seesack auf dem Steg: „Morgen a Schleus’n? Do bin i dahoam.“",
    "set": "Fach 1: Tau und Mini-Klampe.",
    "knoten": [
     "acht",
@@ -285,7 +285,7 @@
      "ort": "Kajüte, Klüverhafen",
      "du": "zuhoeren",
      "fragen": "",
-     "text": "Wiederholung des Tages mit Klabauter als Quizmaster. Aus der Koje meldet sich Quirin: „Morgen a Schleus’n? Do bin i dahoam.“",
+     "text": "In Klüverhafen sitzt ein Bayer auf dem Steg: Quirin, Binnenschiffer, kennt jedes Boot und jeden Knoten, aber die Regeln auf See nicht. Er will den SBF See und fragt, ob er mitdarf. Hinnerk brummt, Smilla sagt ja. Wiederholung des Tages mit Klabauter als Quizmaster, Quirin rät mit.",
      "anwenden": [
       "K-SEE-01",
       "K-FAH-02"
@@ -300,7 +300,7 @@
    "titel": "Schleuse und Kanal",
    "ort": "Schleuse Klappdörp → Kanal → Kanalhafen Moorende",
    "du": "mitmachen: Leinen in der Schleuse, steuern im Kanal",
-   "story": "Quirin steht auf: Schleuse und Kanal sind sein Revier, und plötzlich ist er der Experte. Vor der Schleuse leuchten die Lichter rot: warten. In der Kammer führst du die Leine. Abends entscheidet Quirin, zu bleiben.",
+   "story": "Quirin ist an Bord: Schleuse und Kanal sind sein Revier, da ist er plötzlich der Experte, auf See dagegen Anfänger wie du. Vor der Schleuse leuchten die Lichter rot: warten. In der Kammer führst du die Leine. Abends entscheidet Quirin, bis zur Prüfung zu bleiben.",
    "haken": "Quirin erzählt vom alten Wrack im Watt, „da wo der Hinnerk damals…“. Hinnerk schweigt.",
    "set": "Fach 2: Ring, Kursdreieck, Zirkel und die Übungskarte der Reise.",
    "knoten": [
@@ -316,7 +316,7 @@
      "ort": "Kajüte, Klüverhafen",
      "du": "zuhoeren",
      "fragen": "4-5,16-20,22-27",
-     "text": "Ruhiges Wasser: Quirin kommt aus der Koje und ist in seinem Element. Tafelzeichen kennt er vom Binnen und fragt sie ab wie ein Quizmaster, dazu, wie lang ein kurzer und ein langer Ton sind. Trocken, aber laut.",
+     "text": "Quirins erster Morgen an Bord. Tafelzeichen kennt er vom Fluss und fragt sie ab wie ein Quizmaster, dazu, wie lang ein kurzer und ein langer Ton sind. Trocken, aber laut.",
      "stoff": [
       "K-TAF-01",
       "K-GRU-02",
@@ -886,7 +886,7 @@
    "titel": "Ankunft",
    "ort": "Insel Harmsoog mit Harms' Segelschule",
    "du": "du führst die Frieda",
-   "story": "Du führst den letzten Schlag, die Crew ist Passagier. Harms erwartet euch an seinem Segelschiff. Theorie und Praxis. Dann Smillas Abschied.",
+   "story": "Du führst den letzten Schlag, die Crew ist Passagier. Harms erwartet euch an seinem Segelschiff Albertine. Theorie und Praxis. Dann Smillas Abschied.",
    "haken": "Bonus: Rückweg mit Hinnerk allein. Smilla winkt vom großen Schiff.",
    "set": "Fach 6: Skipperwimpel.",
    "navi": "N6 Kreuzpeilung, alles gemischt",
@@ -979,15 +979,14 @@
    "ab": "1-1"
   },
   {
-   "wer": "quirin",
-   "ab": "3-1",
-   "an_bord": "1-1",
-   "hinweis": "Kommt in 1-1 an Bord, wird in 1-3 beim Schwell der Fähre grün und liegt bis Tag 3 in der Vorschiffskoje. Meldet sich ab und zu von unten mit einer Frage. Ab der Schleuse (Binnen, sein Revier) ist er richtig dabei und lernt mit dir für den SBF See."
-  },
-  {
    "wer": "klabauter",
    "ab": "1-6",
-   "hinweis": "Landet in der Abenddämmerung im Schilfwinkel auf dem Kajütdach. Hinnerk: „Dat is der Klabautermann. Der bleibt.“"
+   "hinweis": "Gehört zur Frieda, ist beim Aufbruch aber verschwunden („Der kommt wieder. Klabautermänner kommen immer wieder.“). In der Abenddämmerung im Schilfwinkel landet er auf dem Kajütdach, als wäre nichts gewesen."
+  },
+  {
+   "wer": "quirin",
+   "ab": "2-7",
+   "hinweis": "Wartet in Klüverhafen: Binnenschiffer aus Kelheim, kennt Boote, Motoren, Knoten und Schleusen besser als alle, aber die Regeln auf See kennt er nicht. Er will den SBF See und fragt, ob er bis Harmsoog mitfahren darf. Ab Tag 3 an Bord; auf offener See wird er seekrank."
   },
   {
    "wer": "jasper",
@@ -1013,16 +1012,6 @@
    ]
   },
   {
-   "id": "U11",
-   "titel": "Sicherheit an Bord: Feuer, Gas und der Notfall",
-   "folge": "1-2",
-   "bloecke": [
-    "G4.1",
-    "S9.4",
-    "S9.5"
-   ]
-  },
-  {
    "id": "U2",
    "titel": "Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog",
    "folge": "1-3",
@@ -1030,31 +1019,6 @@
     "G2.1",
     "G2.2",
     "G3.2"
-   ]
-  },
-  {
-   "id": "U3",
-   "titel": "Ausweichen: das Prinzip (wer weicht, wer hält Kurs, Rangfolge)",
-   "folge": "1-4",
-   "bloecke": [
-    "G5.2",
-    "S2.1",
-    "S2.2",
-    "S2.3",
-    "S2.4"
-   ]
-  },
-  {
-   "id": "U9",
-   "titel": "Natur und Wetter: Schutzgebiete, Hoch, Tief, Wind",
-   "folge": "1-6",
-   "bloecke": [
-    "G7.1",
-    "S8.1",
-    "S8.2",
-    "S9.1",
-    "S9.2",
-    "S9.3"
    ]
   },
   {
@@ -1084,14 +1048,14 @@
    ]
   },
   {
-   "id": "U8",
-   "titel": "Welche Regeln gelten wo: Fahrwasser, Seeschifffahrtsstraße, offene See",
-   "folge": "2-3",
+   "id": "U3",
+   "titel": "Ausweichen: das Prinzip (wer weicht, wer hält Kurs, Rangfolge)",
+   "folge": "2-4",
    "bloecke": [
-    "S1.1",
-    "S6.1",
-    "S6.5",
-    "S6.6"
+    "S2.1",
+    "S2.2",
+    "S2.3",
+    "S2.4"
    ]
   },
   {
@@ -1125,6 +1089,25 @@
     "S7.2",
     "S7.3",
     "S7.4"
+   ]
+  },
+  {
+   "id": "U8",
+   "titel": "Welche Regeln gelten wo: Binnen, Seeschifffahrtsstraße, offene See (mit Quirin)",
+   "folge": "3-8",
+   "bloecke": [
+    "S1.1",
+    "S6.6"
+   ]
+  },
+  {
+   "id": "U9",
+   "titel": "Wetter: Hoch, Tief, Wind und Warnungen",
+   "folge": "5-7",
+   "bloecke": [
+    "S9.1",
+    "S9.2",
+    "S9.3"
    ]
   }
  ]
