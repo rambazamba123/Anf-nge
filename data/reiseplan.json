@@ -249,7 +249,8 @@
      ],
      "bloecke": [
       "S6.1"
-     ]
+     ],
+     "wieder": "34,37"
     },
     {
      "id": "2-4",
@@ -304,7 +305,8 @@
       "klampe"
      ],
      "set": "Mini-Klampe",
-     "bloecke": []
+     "bloecke": [],
+     "wieder": "35,48"
     },
     {
      "id": "2-7",
@@ -473,7 +475,8 @@
       "K-MAN-01",
       "K-MAN-02"
      ],
-     "bloecke": []
+     "bloecke": [],
+     "wieder": "41,47"
     },
     {
      "id": "3-8",
@@ -501,7 +504,7 @@
    "titel": "Watt und Wrack",
    "ort": "Wattenmeer Groter Sand → Wrackgebiet → Insel Lüttoog",
    "du": "selbst steuern mit Aufsicht, ankern",
-   "story": "Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen paukt man Recht, dann geht Quirin übers Watt zu seinem Probetag. Auf Lüttoog liegt Jasper.",
+   "story": "Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen erzählt Hinnerk endlich vom Rempler mit Harms im Nebel, dann geht Quirin übers Watt zu seinem Probetag. Auf Lüttoog liegt Jasper.",
    "haken": "Die Tide zwingt zur Nachtfahrt. Hinnerk wird still.",
    "set": "Fach 3: dickes Tau und Mini-Anker.",
    "knoten": [
@@ -595,13 +598,14 @@
      "art": "garn",
      "ort": "Trockenfallplatz",
      "du": "mitmachen",
-     "fragen": "75-78,89-90",
-     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“",
+     "fragen": "75-78,84,89-90,138,274",
+     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit, Tee. Hinnerk erzählt endlich vom Rempler mit Harms auf der Elbe: Nebel, zu schnell, kein Ausguck, und wer am Ende verantwortlich war. Daran hängen Fahrerlaubnis, Verantwortung, seemännische Sorgfalt, sichere Geschwindigkeit und was man bei verminderter Sicht tut. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“",
      "stoff": [
       "K-KNO-02",
       "K-KNO-03",
       "K-REC-01",
-      "K-KVR-02"
+      "K-KVR-02",
+      "K-NEB-01"
      ],
      "knoten": [
       "palstek",
@@ -609,8 +613,10 @@
      ],
      "set": "dickes Tau",
      "bloecke": [
-      "S1.2"
-     ]
+      "S1.2",
+      "S4.1"
+     ],
+     "wieder": "252,254"
     },
     {
      "id": "4-6",
@@ -618,15 +624,20 @@
      "art": "fahrt",
      "ort": "Watt nach Lüttoog",
      "du": "selbst",
-     "fragen": "",
-     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper.",
-     "stoff": [],
+     "fragen": "116-121",
+     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Unterwegs, noch voll vom Rempler-Garn, spielt Klabauter mit dem Horn „Wer tutet da?“: Nebelsignale in Fahrt, Smilla erklärt, Hinnerk rät mit. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper.",
+     "stoff": [
+      "K-NEB-01",
+      "K-SCW-01"
+     ],
      "anwenden": [
       "K-NAV-02",
       "K-MAN-01"
      ],
      "navi": "N3",
-     "bloecke": []
+     "bloecke": [
+      "S4.2"
+     ]
     }
    ]
   },
@@ -637,7 +648,7 @@
    "du": "Nachtwache allein",
    "story": "Nachtfahrt wegen der Tide. Hinnerk verwechselt Lichter, nicht aus Unwissen: Er sieht nachts schlecht. Das Geheimnis kommt raus. Ab jetzt gehst du die Nachtwache.",
    "haken": "Der Wetterbericht: Sturmwarnung für morgen.",
-   "set": "Fach 4: Mini-Laternen zum Aufstecken.",
+   "set": "Fach 4: Mini-Laternen zum Aufstecken. Fach 5: Mini-Rettungsring (am Abend, vor dem Sturm).",
    "knoten": [
     "stopper",
     "schot"
@@ -743,7 +754,8 @@
      "bloecke": [
       "S3.2",
       "S7.2"
-     ]
+     ],
+     "wieder": "14,15"
     },
     {
      "id": "5-6",
@@ -751,37 +763,44 @@
      "art": "nebel",
      "ort": "Nebelbank",
      "du": "selbst",
-     "fragen": "84,116-121,138,274",
-     "text": "Plötzlich Nebel. Fahrt runter, Signal geben, Ausguck. Ein Frachter tutet irgendwo.",
-     "stoff": [
+     "fragen": "",
+     "text": "Mitten in der Wache zieht eine Nebelbank auf. Keiner erklärt mehr, du handelst: Fahrt runter, Nebelsignal, Ausguck nach vorn. Ein langer Ton vorlicher als querab: Was jetzt? Hinnerk sieht im Nebel genauso wenig wie nachts und gibt dir das Steuer.",
+     "stoff": [],
+     "anwenden": [
       "K-NEB-01",
       "K-SCW-01"
      ],
-     "anwenden": [
-      "K-NEB-01"
-     ],
-     "bloecke": [
-      "S4.1",
-      "S4.2"
+     "bloecke": [],
+     "wieder": "84,116-118,138,274",
+     "ernstfall": [
+      {
+       "was": "Plötzlich Nebel. Du weißt aus 4-5 und 4-6, was zu tun ist: Fahrt runter, Signal geben, Ausguck, horchen. Irgendwo vorlicher tutet ein Frachter.",
+       "fragen": "84,116,138,274"
+      }
      ]
     },
     {
      "id": "5-7",
-     "titel": "Leinen unter Last",
+     "titel": "Oskar geht baden",
      "art": "kajuete",
      "ort": "Kajüte, Ankerplatz",
      "du": "mitmachen",
-     "fragen": "",
-     "text": "Stopperstek an einer Leine unter Last, Schotstek für zwei verschieden dicke Leinen. Der Wetterbericht kündigt Sturm an.",
+     "fragen": "276-278",
+     "text": "Am Ankerplatz, der Wetterbericht kündigt Sturm an. Smilla macht die Sicherheitsrunde: Wie holt man jemanden aus dem Wasser, wie verhindert man, dass er reinfällt, was tun, wenn das Boot kentert. Erst mit dem Mini-Rettungsring an der Miniatur-Frieda, dann echt mit der Übungspuppe Oskar. Dazu Stopperstek an einer Leine unter Last und Schotstek für zwei verschieden dicke Leinen.",
      "stoff": [
       "K-KNO-05",
-      "K-KNO-04"
+      "K-KNO-04",
+      "K-MAN-05",
+      "K-SCW-01"
      ],
      "knoten": [
       "stopper",
       "schot"
      ],
-     "bloecke": []
+     "bloecke": [
+      "S9.4"
+     ],
+     "set": "Mini-Rettungsring"
     }
    ]
   },
@@ -792,7 +811,7 @@
    "du": "Kurs planen und fahren, im Sturm mit anpacken",
    "story": "Der große Schlag übers offene Wasser. Du planst den Kurs. Der Sturm kommt früher als gedacht. Jaspers Boot gerät in Seenot.",
    "haken": "Hinnerk, nach dem Sturm, leise: „Skipper.“ Zum ersten Mal.",
-   "set": "Fach 5: Mini-Rettungsring.",
+   "set": "Kein neues Fach: Was ihr braucht, liegt seit gestern Abend bereit.",
    "navi": "N5 Strom, Koppelort",
    "folgen": [
     {
@@ -801,13 +820,15 @@
      "art": "kajuete",
      "ort": "Kajüte, Ankerplatz",
      "du": "zuhoeren",
-     "fragen": "260,262-266",
-     "text": "Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht.",
+     "fragen": "172,260,262-266,279-285",
+     "text": "Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht. Danach packt Smilla die Notsignale aus der Backskiste: Rakete, Handfackel, Flaggen, das Nebelhorn im Dauerton, wer helfen muss und was man tut, wenn ein Wrack zum Hindernis wird. Klabauter will eine Rakete probieren und darf nicht.",
      "stoff": [
-      "K-WET-01"
+      "K-WET-01",
+      "K-SIC-02"
      ],
      "bloecke": [
-      "S9.1"
+      "S9.1",
+      "S9.5"
      ]
     },
     {
@@ -829,7 +850,8 @@
      "bloecke": [
       "S7.3",
       "S9.2"
-     ]
+     ],
+     "wieder": "8,9"
     },
     {
      "id": "6-3",
@@ -874,18 +896,20 @@
      "art": "sturm",
      "ort": "Offene See",
      "du": "selbst",
-     "fragen": "276-278",
-     "text": "Smilla geht beinahe über Bord. Ihr übt es danach mit dem Mini-Rettungsring, dann echt mit der Puppe.",
-     "stoff": [
+     "fragen": "",
+     "text": "Mitten im Sturm geht Smilla über Bord. Die Leine hält, aber holen musst du sie: Boot führen, Hilfsmittel, an Bord nehmen. Danach sitzt Smilla nass in der Kajüte und sagt nichts, zum ersten Mal.",
+     "stoff": [],
+     "anwenden": [
       "K-MAN-05",
       "K-SCW-01"
      ],
-     "anwenden": [
-      "K-MAN-05"
-     ],
-     "set": "Mini-Rettungsring",
-     "bloecke": [
-      "S9.4"
+     "bloecke": [],
+     "wieder": "276,278",
+     "ernstfall": [
+      {
+       "was": "Eine Welle, Smilla rutscht aus und geht über Bord. Die Sicherheitsleine hält sie längsseits, und ihr holt sie so, wie ihr es mit Oskar geübt habt.",
+       "fragen": "276,278"
+      }
      ]
     },
     {
@@ -894,17 +918,21 @@
      "art": "sturm",
      "ort": "Offene See",
      "du": "selbst",
-     "fragen": "172,279-285",
-     "text": "Jaspers Boot ist in Not: Notsignale, Schleppen mit dem Schotstek, was tun, wenn ein Boot kentert.",
-     "stoff": [
-      "K-FAH-02",
-      "K-SIC-02"
-     ],
+     "fragen": "",
+     "text": "Jasper funkt nicht, er schießt. Notsignale erkennen, hinfahren, helfen, Leinen mit dem Schotstek verbinden und schleppen. Jasper gibt zum ersten Mal zu, dass er falsch lag.",
+     "stoff": [],
      "anwenden": [
+      "K-FAH-02",
+      "K-SIC-02",
       "K-KNO-04"
      ],
-     "bloecke": [
-      "S9.5"
+     "bloecke": [],
+     "wieder": "277,279,281,283",
+     "ernstfall": [
+      {
+       "was": "Eine rote Rakete, dann Dauerton: Jaspers Boot ist in Not und kentert fast. Du erkennst die Notsignale aus 6-1 und weißt aus 5-7, was beim Kentern zu tun ist.",
+       "fragen": "277,279,281,283"
+      }
      ]
     }
    ]
@@ -935,7 +963,8 @@
      ],
      "navi": "N6",
      "bloecke": [],
-     "stoff": []
+     "stoff": [],
+     "wieder": "157,209"
     },
     {
      "id": "7-2",

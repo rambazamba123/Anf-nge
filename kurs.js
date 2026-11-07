@@ -12,7 +12,7 @@
    Stimmen kennt. Fehlt ein Abschnitt, endet das Abspielen davor (Ausschnitt statt gekürzter Text). */
 (function () {
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
-  const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'},
+  const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'},
@@ -26,7 +26,9 @@
   const ATMO = {schleuse: {motorLauf: .22, wellen: .15}, nok: {motorLauf: .2, wellen: .15}, hafen: {wellen: .15}, frei: {wellen: .3, windLeise: .2},
     fahrwasser: {wellen: .3}, vtg: {wellen: .3}, fluss: {wellen: .25}, watt: {windLeise: .2}, binnensee: {windLeise: .15}, 'an Land': {}};
   const ATMO_ALLE = ['motorLauf', 'wellen', 'windLeise'];
-  const NAMEN = {HINNERK: 'Hinnerk', SMILLA: 'Smilla', KLABAUTER: 'Klabauter', HARMS: 'Harms', QUIRIN: 'Quirin'};
+  const NAMEN = {HINNERK: 'Hinnerk', SMILLA: 'Smilla', KLABAUTER: 'Klabauter', HARMS: 'Harms', QUIRIN: 'Quirin', HAFENMEISTER: 'Hafenmeisterin', POLIZEI: 'Polizei', FISCHER: 'Fischer', FUNK: 'Funk', ERZAEHLER: 'Erzähler', RANGERIN: 'Rangerin', JASPER: 'Jasper'};
+  /* Gratis-Stimme zum Testen (Nutzer, 07.11.2026): Sprecher der Folge → Figur für die Handystimme (VOX.phoneVoiceOf, je Figur eine eigene) */
+  const HANDY = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger'};
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const ohneCodes = s => s.replace(CODE, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -302,11 +304,27 @@
     const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
     if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
   }
-  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
+  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
   async function warten(me, ms) { const ende = Date.now() + ms; while (!me.aus && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
+  /* Fehlt die echte Sprache, liest im Gratis-Modus die Handystimme Zeile für Zeile (nie ElevenLabs, kostet nichts) */
+  async function redeGratis(it, me, vorBild) {
+    const box = ui('#kspr'); duckAtmo(true);
+    for (let i = 0; i < it.zeilen.length && !me.aus; i++) {
+      const z = it.zeilen[i]; if (!z.text) continue;
+      while (me.pause && !me.aus) await sleep(200);
+      if (me.aus) break;
+      if (box) box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b> <span class="muted">· Gratis-Stimme</span>` + (cfgK().mitlesen ? `<div class="small" style="margin-top:4px">${esc(z.text)}</div>` : '');
+      if (vorBild && i === it.zeilen.length - 1) { bild(vorBild); me.bildDa = vorBild; }
+      me.handy = true;
+      try { await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
+      await warten(me, 220);
+    }
+    if (!me.gleichWeiter) duckAtmo(false);
+    await warten(me, 250);
+  }
   async function rede(st, it, me, vorBild) {
-    const b = await blobVon(st, it); if (!b) return;
+    const b = await blobVon(st, it); if (!b) { if (me.gratis && !me.aus) await redeGratis(it, me, vorBild); return; }
     const box = ui('#kspr');
     if (box) box.innerHTML = `<b>🎙️ ${it.wer.map(w => esc(NAMEN[w] || w)).join(', ')}</b>` + (cfgK().mitlesen ? it.zeilen.map(z => `<div class="small" style="margin-top:4px"><b>${esc(NAMEN[z.wer] || z.wer)}:</b> ${esc(z.text)}</div>`).join('') : '');
     const a = me.audio = new Audio(URL.createObjectURL(b));
@@ -385,12 +403,12 @@
       });
     });
   }
-  async function spiele(st, ab = 0) {
+  async function spiele(st, ab = 0, gratis = false) {
     stop();
-    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null};
+    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
     AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
-    const fehltAb = new Set((await bestand(st)).offen.map(it => it.ab));
+    const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
     const interaktiv = cfgK().modus === 'interaktiv';
@@ -418,8 +436,10 @@
     }
     if (lauf === me) {
       atmoAus(); lauf = null; zeigeSteuerung(st, false); const s = ui('#kspr');
-      if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unten bei „Erzeugen“ dazuholen.` : '<b>⚓ Ende der Probefolge.</b> Wie war’s? Sag Claude, was klingt und was nicht.';
+      if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unten bei „Erzeugen“ dazuholen.` : `<b>⚓ Ende der Folge.</b> Wie war’s? Sag Claude, was klingt und was nicht.${me.gratis ? ' (Gehört mit der Gratis-Stimme: Betonung und Tempo sind hier noch nicht echt.)' : ''}`;
       if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
+      /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
+      if (!me.aus && !me.ende && st.id && window.S) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); save(); }
     }
   }
   /* B157: am Ende alle Fragen der Folge als Multiple Choice, ohne Geschichte (vorgelesen, Zuruf wie im Quiz) */
@@ -439,9 +459,13 @@
   }
   function zeigeSteuerung(st, laeuft) {
     const p = ui('#kplay'); if (!p) return;
-    p.innerHTML = laeuft ? `<button class="btn" id="kpause">⏸ Pause</button> <button class="btn ghost" id="kstop">⏹ Stopp</button>` : `<button class="btn lamp" id="kstart">▶ Abspielen</button>`;
+    /* st.luecke: Ist die erste Folge-Sprache noch nicht erzeugt, startet ▶ gleich mit der Gratis-Stimme; fehlt nur ein Teil, gibt es beides */
+    const echt = !st.ersterFehlt, gratisKnopf = st.luecke ? `<button class="btn${echt ? ' ghost' : ' lamp'}" id="kgratis">${echt ? '🗣️ Ganz hören, Fehlendes mit Gratis-Stimme' : '▶ Abspielen mit Gratis-Stimme'}</button>` : '';
+    p.innerHTML = laeuft ? `<button class="btn" id="kpause">⏸ Pause</button> <button class="btn ghost" id="kstop">⏹ Stopp</button>` : (echt ? `<button class="btn lamp" id="kstart">▶ Abspielen</button> ` : '') + gratisKnopf;
     const s = ui('#kstart'); if (s) s.onclick = () => spiele(st, 0);
-    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (!lauf) return; lauf.pause = !lauf.pause; if (lauf.audio) lauf.pause ? lauf.audio.pause() : lauf.audio.play().catch(() => {}); pa.textContent = lauf.pause ? '▶ Weiter' : '⏸ Pause'; };
+    const g = ui('#kgratis'); if (g) g.onclick = () => { AUD.unlock(); spiele(st, 0, true); };
+    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (!lauf) return; lauf.pause = !lauf.pause; if (lauf.audio) lauf.pause ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
+      if (lauf.handy) { try { lauf.pause ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} } pa.textContent = lauf.pause ? '▶ Weiter' : '⏸ Pause'; };
     const so = ui('#kstop'); if (so) so.onclick = () => { stop(); zeigeSteuerung(st, false); };
   }
 
@@ -485,7 +509,7 @@
     $('#ktick').checked = k.ticken !== false; $('#ktick').onchange = e => { k.ticken = e.target.checked; save(); };
     chips();
     let st;
-    try { st = await laden(id); } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
+    try { st = await laden(id); st.id = id; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
     const zahl = n => Math.round(n).toLocaleString('de-DE'), uhr = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
     const haupt = st.abschnitte.filter(a => !a.karte), gesamtSek = haupt.reduce((s, a) => s + a.sek, 0);
     $('#kdauer').textContent = ` · etwa ${Math.round(gesamtSek / 60)} Minuten`;
@@ -495,8 +519,9 @@
       const b = await bestand(st), fehltAb = new Set(b.offen.map(it => it.ab));
       const sfxDa = await Promise.all(st.sfx.map(g => istDa(st, g)));
       /* Abschnitte zum Springen: nur die fertigen */
-      $('#kab').innerHTML = st.items.map((it, i) => it.t !== 'abschnitt' ? '' : `<button class="chip" data-ab="${i}"${fehltAb.has(it.ab) ? ' disabled' : ''}>${esc(it.titel)} <span class="muted">· ${fehltAb.has(it.ab) ? 'noch nicht erzeugt' : uhr((st.abschnitte.find(a => a.nr === it.ab) || {}).sek || 0)}</span></button>`).join('');
-      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { probeAus(); spiele(st, +x.dataset.ab); });
+      /* Abschnitte zum Springen; was noch nicht erzeugt ist, spielt die Gratis-Stimme */
+      $('#kab').innerHTML = st.items.map((it, i) => it.t !== 'abschnitt' ? '' : `<button class="chip" data-ab="${i}"${fehltAb.has(it.ab) ? ' data-gratis="1"' : ''}>${esc(it.titel)} <span class="muted">· ${uhr((st.abschnitte.find(a => a.nr === it.ab) || {}).sek || 0)}${fehltAb.has(it.ab) ? ', Gratis-Stimme' : ''}</span></button>`).join('');
+      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { probeAus(); AUD.unlock(); spiele(st, +x.dataset.ab, !!x.dataset.gratis); });
       /* 1. Geräusche: einzeln anhören und herunterladen */
       $('#ksfx').innerHTML = st.sfx.length ? st.sfx.map((g, i) => `<div class="krow"><span>${esc(g.name || g.id)} <span class="muted">· ${g.sekunden || 5} s${g.loop ? ', Schleife' : ''}${g.datei ? ', für alle' : ''}</span></span>
         <span>${sfxDa[i] ? `<button class="btn small ghost" data-sfxplay="${i}" aria-label="Anhören">▶</button><button class="btn small ghost" data-sfxdl="${i}" aria-label="Herunterladen">⬇</button>` : `<span class="small muted">fehlt · etwa ${zahl(sfxKosten(g))} Credits</span>`}</span></div>`).join('') : '<p class="small muted">Diese Folge braucht keine eigenen Geräusche.</p>';
@@ -515,8 +540,10 @@
       $('#kzip').style.display = !st.pub && b.offen.length < st.items.filter(it => it.t === 'rede').length ? '' : 'none';
       /* Abspielen geht, sobald der erste Abschnitt da ist */
       const erster = haupt[0];
-      if (erster && !fehltAb.has(erster.nr)) { info(fehltAb.size ? 'Bereit. Das Abspielen endet vor dem ersten Abschnitt, der noch fehlt.' : 'Bereit.'); if (!lauf) zeigeSteuerung(st, false); }
-      else { info(st.pub ? 'Für diese Fassung fehlen Teile.' : 'Noch nicht erzeugt. Unten bei „Erzeugen“: erst die Geräusche, dann die Sprache.'); $('#kplay').innerHTML = ''; }
+      st.ersterFehlt = !erster || fehltAb.has(erster.nr); st.luecke = fehltAb.size > 0;
+      if (!st.ersterFehlt) info(fehltAb.size ? 'Bereit. „▶ Abspielen“ endet vor dem ersten Abschnitt, der noch fehlt; „🗣️ Ganz hören“ liest den Rest mit der Gratis-Stimme.' : 'Bereit.');
+      else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: unten bei „Erzeugen“.');
+      if (!lauf) zeigeSteuerung(st, false);
     };
     await neu();
     const knoepfe = () => document.querySelectorAll('#ktech .ki');
@@ -549,7 +576,7 @@
       let fehler; try { fehler = await holen(st, b.dataset.hol); } catch (x) { fehler = 'Ging nicht: ' + (x.message || x.code || x); }
       if (fehler) { b.disabled = false; return ginfo(fehler); }
       /* Neue ID? Dann den Ablauf neu laden, damit die Sprachteile die richtige Stimme bekommen */
-      try { st = await laden(id); await neu(); } catch (x) {}
+      try { st = await laden(id); st.id = id; await neu(); } catch (x) {}
       $('#kvoice').click();
     };
     $('#kzip').onclick = () => zipSpeichern(st, ginfo).catch(e => ginfo('Ging nicht: ' + (e.message || e)));

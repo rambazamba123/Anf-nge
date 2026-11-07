@@ -16,9 +16,11 @@
 | 6 | **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
 | 7 | Falls noch nicht geschehen: **die gehörte Kajütenfunk-Probefolge als ZIP** hochladen (Hocker → Kajütenfunk → „📦 ZIP speichern“), damit sie fest in der App ist. | Den Einbau danach mache ich (`tools/kurs-import.js`). |
 
+| 22 | **HR29 entscheiden:** Sollen wichtige Themen in der Geschichte öfter wiederkommen, wo es passt (Feld `wieder`, zum Beispiel Radeffekt beim nächsten Anlegen)? Ich habe es als Vorschlag eingetragen und schon neun Stellen gesetzt. | Ich zeige dir die Liste der Blöcke, die bisher nie wiederkommen (`node tools/reiseplan.js --warn`), und schlage je Block eine Szene vor. |
+
 | 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F7 entschieden (07.11.). Offen: F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
 
-| 21 | **Folgen 1-1 bis 1-3 lesen oder anhören** (Skripte `podcast/folgen/reise-1-1.md`, `reise-1-2.md`, `reise-1-3.md`): Kajüte → Hocker → „🎧 Hörreise: Folge 1, 2 oder 3“ → „Erzeugen“ (etwa 6.700, 9.500 und 11.700 Credits, abschnittsweise möglich), dann im Auto- und im interaktiven Modus hören. Sag mir, was stört und was gut ist. Titel von 1-1 noch offen. | Ich mache aus deiner Rückmeldung Regeln (`docs/reise.md` §7) und überarbeite die Folge. Wenn du lieber erst liest: Das Skript schicke ich dir als Datei. |
+| 21 | **Folgen 1-1 bis 1-3 lesen oder anhören** (Skripte `podcast/folgen/reise-1-1.md`, `reise-1-2.md`, `reise-1-3.md`): Kajüte → Hocker → „🎧 Folge 1, 2 oder 3“ → „▶ Abspielen mit Gratis-Stimme“ (kostet nichts, klingt nur nach Handy) oder unten „Erzeugen“ (etwa 6.700, 9.500 und 11.700 Credits, abschnittsweise möglich), dann im Auto- und im interaktiven Modus hören. Sag mir, was stört und was gut ist. Titel von 1-1 noch offen. | Ich mache aus deiner Rückmeldung Regeln (`docs/reise.md` §7) und überarbeite die Folge. Wenn du lieber erst liest: Das Skript schicke ich dir als Datei. |
 
 ## Dateien liefern
 | Nr. | Aufgabe | Was Claude tun kann |
