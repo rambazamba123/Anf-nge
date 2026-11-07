@@ -1,5 +1,7 @@
 # Kajütenfunk – der Hörkurs zum Sportbootführerschein
 
+> **Seit 07.11.2026 (E25):** Der Kajütenfunk ist jetzt die Hörreise mit Geschichte (`docs/reise.md`). Aus dieser Datei gelten dort weiter: die Lehrformen und das Bündeln (§6.1, §6.3), die Themenblöcke des Kursplans (`podcast/kursplan-sbf.json`), Merksätze (§5.6), Hörkarten, Denkpausen und die Technik des Players. Der Bauplan einer Folge (§7) und die Rahmen (§6.2) sind durch die Ablaufmuster in `docs/reise.md` §7 ersetzt.
+
 **Finales Konzept, Fassung 5** · Stand: 23.10.2026 · Status: Startschuss gegeben am 24.10.2026 (K1). Deine Antworten vom 24.10. sind eingearbeitet; die Probefolge ist gebaut (Anhang H)
 
 > **Wozu diese Datei:** Sie beschreibt den ganzen Hörkurs so genau, dass danach jede Folge geschrieben werden kann. Wer eine Folge schreibt, liest zuerst den Bauplan (§7), den Rahmen der Folge (§6.2), den Steckbrief der Folge (§14), die Figuren (`podcast/figuren.md`) und die Vorlage (`podcast/folgen/VORLAGE.md`).

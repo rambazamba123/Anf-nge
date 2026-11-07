@@ -5,6 +5,7 @@
 > Kennzeichen: **[fest]** steht schon fest (App-Code `CREW` in `index.html`, `PODCAST_BIBLE.md` oder CLAUDE.md, Quelle in Klammern). **[neu]** ist ein Vorschlag von Claude: streichen, ändern, ergänzen erwünscht.
 > Bei der Neufassung der Bible nach K1 wandert die Datei als Figurenprofil nach Bible §7 und §14.10 (Raster A25) und erledigt die offenen Punkte O5 und W2 (R15). Die Kennzeichen [fest] und [neu] zeigen weiter, woher eine Angabe stammt.
 > Wörter und Sprüche kommen aus `podcast/wortschatz.md`, dort stehen Bedeutung und Quelle.
+> **Dritte Änderung am 07.11.2026** (Nutzer, E25, Hörreise): Quirin bleibt auf Flüssen und in Schleusen der Profi, ist auf See aber **Anfänger und lernt mit dir für den SBF See** (Mitlernender). Er kommt in Folge 1-1 an Bord, liegt bis Tag 3 seekrank in der Koje und ist ab der Schleuse richtig dabei; an Tag 7 prüft Harms auch ihn. Klabauter kommt erst in Folge 1-6 an Bord und wiederholt das Merkwort. Die Crew wächst langsam (`docs/reise.md` §1, §7 HR16, HR21). Wo diese Datei etwas anderes sagt, gilt diese Änderung.
 
 ---
 
@@ -16,7 +17,7 @@
 |---|---|---|
 | Hinnerk | Hochdeutsch mit viel Platt gemischt, in Garn und Gefühl ganze Platt-Sätze | stark |
 | Smilla | schnelles, modernes Hochdeutsch mit einem Hauch Rheinisch („ne?“, mal ein kölscher Spruch) | wenig, und ein anderer |
-| Quirin | Bairisch, wo es geht (in Teil G und S nur zu Besuch) | sehr stark |
+| Quirin | Bairisch, wo es geht (ab Tag 3 der Reise an Bord, vorher aus der Koje) | sehr stark |
 | Harms | knappes, hanseatisches Hochdeutsch | kaum |
 | Klabauter | plappert nach, was er hört: Platt von Hinnerk, Bairisch von Quirin, Wetterbericht | gemischt |
 | Gäste | Hochdeutsch; der Fischer spricht Platt | je nach Gast |
@@ -29,8 +30,7 @@
 - Teil G und S: Smilla etwa 45 %, Hinnerk 30 %, Klabauter 10 %, Harms oder Gast 15 %. Bei Quirins zwei Besuchen (G6.3, S6.5) hat er den Anteil des Gasts.
 - Teil B (Binnen): Smilla etwa 35 %, Quirin 30 %, Hinnerk 15 %, Klabauter 10 %, Harms oder Gast 10 %.
 
-**Wer stellt die Fragen des Hörers?** [neu] Einen Mitlerner gibt es nicht mehr, Quirin ist Profi. Die Fragen, die der Hörer hat, kommen so in die Folge:
-- Smilla spricht sie aus: „Du fragst dich jetzt bestimmt …“
+**Wer stellt die Fragen des Hörers?** Seit 07.11.2026 wieder Quirin als Mitlernender auf See (siehe dritte Änderung oben); dazu wie bisher: - Smilla spricht sie aus: „Du fragst dich jetzt bestimmt …“
 - Hinnerk liefert die gefühlten Irrtümer (P41), etwa in jeder zweiten Folge.
 - Smilla erzählt ihre eigenen Fehler von früher: „Genau darüber bin ich damals gestolpert.“
 - Gäste bringen Fragen aus der Praxis mit, etwa die Polizistin: „Das fragen mich bei Kontrollen alle.“
