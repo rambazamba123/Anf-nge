@@ -3,8 +3,8 @@
  "bonus": [
   {
    "id": "0",
-   "titel": "Anheuern (Bonus)",
-   "text": "Wie du an Bord kommst. Wird gesondert ausgearbeitet."
+   "titel": "Folge 0: Anheuern",
+   "text": "Erster Start der App (Nutzer, 07.11.2026): Am Abend vor der Abfahrt kommst du an Bord und lernst Hinnerk, Smilla, Klabauter und Backbord kennen. Die Grundeinstellungen machst du dabei mit der Crew (Name, Anrede, Prüfungstermin, Lernzeit, Lernort, Mikrofon, Übungsset). Harms wird nur erwähnt. Wird später ausgearbeitet, zusammen mit dem geführten Rundgang durch die App."
   },
   {
    "id": "8",
@@ -24,18 +24,25 @@
    "folgen": [
     {
      "id": "1-1",
-     "titel": "Ankommen",
+     "titel": "Erster Morgen",
      "art": "kajuete",
      "ort": "Kajüte, Kuttershaven",
      "du": "zuhoeren",
      "fragen": "1-2,59",
-     "text": "Kurz und gemütlich: Du kommst in Kuttershaven an, mitten hinein in eine Lage (Ideen in Besprechung). Wer an Bord das Sagen hat und wer überhaupt nicht fahren darf: Alkohol, aber auch körperliche Mängel (Hinnerk wird still, erste Spur seines Geheimnisses). Ein E-Boot ohne Schein. Klabauter fehlt. Harms ruft an.",
+     "text": "Der Morgen nach dem Anheuern (Folge 0): Klabauter ist weg, Backbord frisst seinen Zwieback. Hafenkino: Ein Charterboot legt chaotisch an, vier Leute rufen, keiner ist Schiffsführer. Einer macht um halb neun ein Bier auf: Promille, aber auch körperliche Mängel (Hinnerk fällt Smilla ins Wort und bietet Kaffee an, erste Spur seines Geheimnisses). Ein Leih-Elektroboot ohne Schein: Hinnerk irrt. „Vor Dunkelwerden. Immer.“ Dann ruft Harms an und prüft zum ersten Mal. Skript: podcast/folgen/reise-1-1.md.",
      "stoff": [
       "K-GRU-01",
       "K-REC-01"
      ],
      "bloecke": [
       "G1.1"
+     ],
+     "muster": "lage",
+     "abfrage": "harms",
+     "wer": [
+      "hinnerk",
+      "smilla",
+      "kroeger"
      ]
     },
     {
@@ -45,7 +52,7 @@
      "ort": "Steg und Tankstelle Kuttershaven",
      "du": "handgriffe",
      "fragen": "43,49,62-66",
-     "text": "Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg.",
+     "text": "Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg. Die Hafenmeisterin klopft an die Bordwand, weil Hinnerk den Strom nicht bezahlt hat, und erzählt beim Tanken, was sie jeden Sommer sieht.",
      "stoff": [
       "K-MOT-02",
       "K-GAS-01"
@@ -268,7 +275,7 @@
      "ort": "Steg Klüverhafen",
      "du": "mitmachen",
      "fragen": "",
-     "text": "Du belegst die Klampe an der Miniatur-Frieda, dann echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler.",
+     "text": "Ein Fremder fängt deine Leine und belegt sie perfekt auf der Klampe, ungefragt; Hinnerk brummt (das ist Quirin, man erfährt es in 2-7). Danach belegst du selbst die Klampe an der Miniatur-Frieda und echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler.",
      "stoff": [
       "K-KNO-08"
      ],
@@ -591,7 +598,7 @@
      "ort": "Watt nach Lüttoog",
      "du": "selbst",
      "fragen": "",
-     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Im Inselhafen liegt Jasper an seiner Boje und weiß alles besser.",
+     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper.",
      "stoff": [],
      "anwenden": [
       "K-NAV-02",
@@ -981,7 +988,7 @@
   {
    "wer": "klabauter",
    "ab": "1-6",
-   "hinweis": "Gehört zur Frieda, ist beim Aufbruch einfach abgehauen. Die Crew vermisst ihn, Hinnerk tut gleichgültig und legt trotzdem jeden Abend Zwieback raus. Im Schilfwinkel sitzt er plötzlich wieder auf dem Kajütdach, als wäre nichts gewesen."
+   "hinweis": "Gehört zur Frieda; in Folge 0 kreischt er dich noch an, in der Nacht ist er einfach abgehauen. Die Crew vermisst ihn, Hinnerk tut gleichgültig und legt trotzdem jeden Abend Zwieback raus. Im Schilfwinkel sitzt er plötzlich wieder auf dem Kajütdach, als wäre nichts gewesen."
   },
   {
    "wer": "quirin",

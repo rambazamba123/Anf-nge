@@ -352,7 +352,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 
 | Satz | Figur | Budget | benutzt | Hinweis |
 |---|---|---|---|---|
-| „Sag ich doch.“ | Käpt'n Hinnerk | 6 | 0 |  |
+| „Sag ich doch.“ | Käpt'n Hinnerk | 6 | 1 |  |
 | „Dor kannst nich meckern.“ | Käpt'n Hinnerk | 3 | 0 |  |
 | „Hinnerk. Mit zwei n und ohne i.“ | Käpt'n Hinnerk | 3 | 0 | nur Tag 2, 3, 4, 7; nur wenn Quirin „Hinni“ sagt |
 | „Tonne zehn.“ | Käpt'n Hinnerk | 3 | 0 | wenn Smilla zu frech wird (auch Smilla selbst) |
@@ -374,7 +374,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 
 | Figur | Lage | Varianten | möglich | Bedarf | benutzt |
 |---|---|---|---|---|---|
-| Käpt'n Hinnerk | Grüßen | 14 | 42 | 30 | 0 |
+| Käpt'n Hinnerk | Grüßen | 14 | 42 | 30 | 2 |
 | Käpt'n Hinnerk | Zustimmen | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Ablehnen | 12 | 36 | 24 | 0 |
 | Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 0 |
@@ -383,12 +383,12 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Tadeln | 10 | 30 | 21 | 0 |
 | Käpt'n Hinnerk | Staunen | 8 | 24 | 15 | 0 |
 | Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 0 |
-| Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 0 |
+| Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 1 |
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
 | Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
 | Käpt'n Hinnerk | Wetter nach Gefühl | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 0 |
-| Käpt'n Hinnerk | Hafenkino-Reporter | 6 | 4 (max) | – | 0 |
+| Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 1 |
+| Käpt'n Hinnerk | Hafenkino-Reporter | 6 | 4 (max) | – | 1 |
 | Käpt'n Hinnerk | Warum heißt das Boot Frieda? (jedes Mal anders, die Wahrheit kommt nie) | 7 | 7 (max) | – | 0 |
 | Käpt'n Hinnerk | Der Sturm von 87 (die Wellen wachsen) | 3 | 3 (max) | – | 0 |
 | Smilla | Grüßen | 12 | 36 | 30 | 0 |
@@ -422,13 +422,13 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Klabauter | Plappert die Crew nach | 6 | 12 | 10 | 0 |
 | Klabauter | Ruf und Antwort (Rahmen fürs Merkwort) | 8 | 24 | 20 | 0 |
 | Klabauter | Unglück, Müdigkeit, Rückkehr | 6 | 6 | 6 | 0 |
-| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 0 |
-| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 0 |
+| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 1 |
+| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 4 |
 | Kapitän Harms | Richtig (darf in einer Folge öfter kommen) | 11 | 66 | 60 | 0 |
 | Kapitän Harms | Falsch (darf in einer Folge öfter kommen) | 10 | 40 | 30 | 0 |
 | Kapitän Harms | Nachhaken | 7 | 21 | 15 | 0 |
 | Kapitän Harms | Haltung | 5 | 10 | 8 | 0 |
-| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 0 |
+| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 1 |
 | Kapitän Harms | Mit Hinnerk | 4 | 8 | 8 | 0 |
 | Jasper | Ganz einfach | 5 | 10 | 6 | 0 |
 | Jasper | Falsche Faustregeln (Smilla klärt jede in derselben Szene auf) | 6 | 6 | 6 | 0 |

@@ -18,7 +18,7 @@
 
 | 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F4, F6, F7 entschieden (07.11.). Offen: F5 Harms' Geheimnis, F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
 
-| 21 | **Idee für die erste Folge 1-1 „Ankommen“ wählen** (im Chat). | Ich habe dir drei Ideen geschickt; nach deiner Wahl schreibe ich das Folgenblatt und die Folge. |
+| 21 | **Folge 1-1 „Erster Morgen“ anhören** (Skript `podcast/folgen/reise-1-1.md`): Kajüte → Hocker → „🎧 Hörreise: Folge 1“ → „Erzeugen“ (etwa 6.700 Credits, abschnittsweise möglich), dann im Auto- und im interaktiven Modus hören. Sag mir, was stört und was gut ist. Titel noch offen. | Ich mache aus deiner Rückmeldung Regeln (`docs/reise.md` §7) und überarbeite die Folge. Wenn du lieber erst liest: Das Skript schicke ich dir als Datei. |
 
 ## Dateien liefern
 | Nr. | Aufgabe | Was Claude tun kann |
