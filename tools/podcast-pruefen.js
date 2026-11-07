@@ -121,6 +121,8 @@ for (const datei of dateien) {
   if (!kopf.folge && !lek) W(D, 'Kopf ohne „folge:“');
   /* Probefolge (Kopf „status: probe“, Konzept Anhang H): gekürzt, darum sind fehlende Teile der vollen Folge nur Warnungen */
   const PROBE = kopf.status === 'probe', SV = PROBE ? W : S;
+  /* Folge der Hörreise (Kopf „folge: 1-1“, docs/reise.md §7): Denkpausen nach HR14 (6 s offen, 4 s entweder-oder), Vertiefungen wie im Kurs */
+  const REISE = /^\d-\d+$/.test(String(kopf.folge || '').trim());
   if (lek && PLAN.size && !P) F(D, `Folge ${lek} steht nicht im Kursplan`);
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
   const betont = [];
@@ -173,7 +175,8 @@ for (const datei of dateien) {
         else if (!idTeil) F(ort, `[[WAHL]] ohne Antworten und ohne Fragen-ID`);
         const vorab = !!L.vorab;
         if (!idTeil && !vorab && lek) S(ort, `[[WAHL]] ohne Fragen-ID: Die Antwort zählt sonst nicht in der Statistik. Form: [[WAHL: sbf:123 | … | *…]]`);
-        if (id && !vorab && lek && !L.wahlIds.has(id)) L.wahlIds.set(id, ort);
+        if (id && !vorab && (lek || REISE) && !L.wahlIds.has(id)) L.wahlIds.set(id, ort);
+        if (REISE && teile.length) L.wahlN = teile.length;
         L.vorab = null; L.wahl++; L.wahlOffen = ort;
       }
       else if (kat === 'VERTIEFUNG') {
@@ -184,9 +187,11 @@ for (const datei of dateien) {
       }
       else if (kat === 'ANIM') { const a = wert.split(',')[0].trim(); if (ANIMS && !ANIMS.has(a)) F(ort, `[[ANIM: ${a}]] steht nicht in den Animationen des Kursplans`); }
       else if (kat === 'DENKPAUSE') {
-        if (!(LR.denkpause_sekunden || []).includes(wert.trim())) F(ort, `[[DENKPAUSE: ${wert}]] – erlaubt: ${(LR.denkpause_sekunden || []).join(', ')} Sekunden`);
+        const ERLAUBT = REISE ? ['4', '6'] : (LR.denkpause_sekunden || []);
+        if (!ERLAUBT.includes(wert.trim())) F(ort, `[[DENKPAUSE: ${wert}]] – erlaubt: ${ERLAUBT.join(', ')} Sekunden${REISE ? ' (HR14)' : ''}`);
         L.denk++;
-        if (L.wahlOffen && wert.trim() !== ENTSCH) W(ort, `Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von ${ENTSCH} Sekunden`);
+        if (REISE) { if (L.wahlOffen && L.wahlN === 2 && wert.trim() !== '4') W(ort, 'Entweder-oder: Denkpause 4 Sekunden (HR14)'); if (L.wahlOffen && L.wahlN > 2 && wert.trim() !== '6') W(ort, 'Vier Antworten: Denkpause 6 Sekunden (HR14)'); }
+        else if (L.wahlOffen && wert.trim() !== ENTSCH) W(ort, `Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von ${ENTSCH} Sekunden`);
         if (lek && !L.wahlOffen && !L.karte && wert.trim() === ENTSCH) W(ort, `Entscheidungs-Denkpause (${ENTSCH} s) ohne [[WAHL]]: Im interaktiven Modus erscheinen dort keine Antwortknöpfe (K10)`);
         L.wahlOffen = null;
       }

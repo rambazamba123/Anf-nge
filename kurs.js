@@ -12,7 +12,9 @@
    Stimmen kennt. Fehlt ein Abschnitt, endet das Abspielen davor (Ausschnitt statt gekürzter Text). */
 (function () {
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
-  const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'}};
+  const FOLGEN = {probe: {datei: 'podcast/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Probefolge aus G6.3, mit Quirin'},
+    /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
+    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'}};
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
   const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte'};
@@ -429,6 +431,7 @@
   /* ---------- Bildschirm ---------- */
   async function oeffnen(id = 'probe') {
     subScreen(); stop();
+    if (!FOLGEN[id]) id = 'probe';
     const f = FOLGEN[id];
     app.innerHTML = `<div id="kursplayer"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">🎧 Kajütenfunk</h1><button class="btn small ghost" id="back">Zurück</button></div>
       <div class="card" id="kbuehne"><p style="margin:0"><b>${esc(f.titel)}</b></p><p class="small muted" style="margin:2px 0 8px">${esc(f.unter)}<span id="kdauer"></span></p>

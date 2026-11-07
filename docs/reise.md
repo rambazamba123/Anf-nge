@@ -15,7 +15,7 @@
   - Jeder Tag besteht aus mehreren Folgen und lässt sich jederzeit unterbrechen.
   - In der Praxis lernt man, so viel man will. Es darf auch mehrere Wochen dauern.
 - **Bonus:**
-  - Tag 0 „Anheuern“ zählt nicht als erster Tag. Er wird gesondert ausgearbeitet, „etwas richtig Gutes“.
+  - **Folge 0 „Anheuern“** (Nutzer, 07.11.2026) ist der erste Start der App: Am Abend vor der Abfahrt kommst du an Bord, lernst Hinnerk, Smilla, Klabauter und Backbord kennen und machst mit der Crew die Grundeinstellungen. Harms wird nur erwähnt. Sie zählt nicht als erster Tag und wird später ausgearbeitet, zusammen mit dem geführten Rundgang durch die App (HR26).
   - Der Rückweg nach dem Ziel ist ebenfalls Bonus.
 - **Die Crew wächst:**
   - Tag 1 morgens: Hinnerk, Smilla und du. Klabauter gehört zur Frieda, ist aber einfach abgehauen. Alle vermissen ihn; Hinnerk tut gleichgültig und legt trotzdem jeden Abend Zwieback raus.
@@ -263,6 +263,8 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Ist ein Budget aufgebraucht, nimmt man eine andere Variante derselben Lage. Jede Lage hat genug Varianten für die ganze Reise.
   - Geschrieben wird Folge für Folge; jede neue Folge schöpft aus der Kiste und dem Erzählfundus (`podcast/wortschatz.md` §13), neue gute Sprüche kommen in die Kiste.
   - Im Skript steht ein Klassiker als `[[SPRUCH: id]]` vor dem Satz. `node tools/sprueche-pruefen.js` zählt sie in allen Folgen und meldet überzogene Budgets und zu kurze Abstände. ⚙
+- **HR26 Wer man schon kennt, stellt sich nicht vor** (N 07.11.): Hinnerk, Smilla, Klabauter und Backbord lernst du in Folge 0 kennen. Ab 1-1 werden sie vorausgesetzt.
+  - Wer neu dazukommt, stellt sich nie stumpf vor. Jede Figur hat ihren eigenen Auftritt in der Geschichte: erst zeigt sie, wie sie ist, den Namen erfährt man nebenbei. Harms: am Ende von 1-1 am Telefon („Harms.“). Quirin: fängt in 2-6 ungefragt deine Leine, in 2-7 fragt er, ob er mitdarf. Jasper: ruft dir in 4-6 von seiner Boje falsche Ratschläge zu. Gäste: kommen mit ihrem Anliegen (Strom nicht bezahlt, Kontrolle, Liegeplatz über Funk).
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
@@ -298,8 +300,8 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
-| 1-1 | 🌧️ | Ankommen | Kajüte, Kuttershaven | 👂 zuhören | Kurz und gemütlich: Du kommst in Kuttershaven an, mitten hinein in eine Lage (Ideen in Besprechung). Wer an Bord das Sagen hat und wer überhaupt nicht fahren darf: Alkohol, aber auch körperliche Mängel (Hinnerk wird still, erste Spur seines Geheimnisses). Ein E-Boot ohne Schein. Klabauter fehlt. Harms ruft an.<br>🧭 *Überblick: Wer an Bord das Sagen hat und welche Papiere man braucht* | 1-2,59<br>G1.1 ▸ |
-| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg. | 43,49,62-66<br>G4.1 ◼ |
+| 1-1 | 🌧️ | Erster Morgen | Kajüte, Kuttershaven | 👂 zuhören | Der Morgen nach dem Anheuern (Folge 0): Klabauter ist weg, Backbord frisst seinen Zwieback. Hafenkino: Ein Charterboot legt chaotisch an, vier Leute rufen, keiner ist Schiffsführer. Einer macht um halb neun ein Bier auf: Promille, aber auch körperliche Mängel (Hinnerk fällt Smilla ins Wort und bietet Kaffee an, erste Spur seines Geheimnisses). Ein Leih-Elektroboot ohne Schein: Hinnerk irrt. „Vor Dunkelwerden. Immer.“ Dann ruft Harms an und prüft zum ersten Mal. Skript: podcast/folgen/reise-1-1.md.<br>🧭 *Überblick: Wer an Bord das Sagen hat und welche Papiere man braucht* | 1-2,59<br>G1.1 ▸ |
+| 1-2 | ⚓ | Gas, Sprit und Streichholz | Steg und Tankstelle Kuttershaven | ✋ Handgriffe | Crew tankt und startet den Motor, du reichst den Kanister. Hinnerk will sich beim Tanken die Pfeife anzünden, Smilla nimmt ihm das Streichholz weg. Die Hafenmeisterin klopft an die Bordwand, weil Hinnerk den Strom nicht bezahlt hat, und erzählt beim Tanken, was sie jeden Sommer sieht. | 43,49,62-66<br>G4.1 ◼ |
 | 1-3 | ☀️ | Das Heck zieht weg | Hafenbecken und Ausfahrt | 👀 Ausguck | Hinnerk legt ab, rückwärts zieht das Heck nach Backbord. Die Fähre kommt mit Schwell, Smilla erklärt Sog und Abstand zu großen Schiffen.<br>🧭 *Überblick: Wie ein Boot fährt: Antrieb, Ruder, Radeffekt, Sog* | 34,36-37,41,44-48,50-51,61<br>G2.1 ◼ G3.2 ◼ |
 | 1-4 | ☀️ | Rechts halten | Fluss Brede | 👀 Ausguck | Erste Begegnung auf dem Fluss: Die Crew weicht aus und erklärt die zwei Grundregeln. Bordsprache: in Fahrt, Luv und Lee. Du sagst Boote an. | 3,6,8-9,14-15<br>G1.2 ◼ G5.2 ▸ |
 | 1-5 | 🧶 | Garn: Der Motor, der kochte | Fluss Brede (Zeitraffer) | 👂 zuhören | Unterwegs erzählt Hinnerk, wie ihm einst der Motor heiß lief. Warnlampen, Öl in der Bilge, Kühlwasser. Smilla stellt seine Version richtig. | 42,52-57,60<br>G2.2 ◼ |
@@ -320,7 +322,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 2-3 | ☀️ | Dicke Pötte | Elvmünde, Fahrwasser | 🧭 kurz an die Pinne | Ein Frachter im engen Fahrwasser, eine Fähre quert. Was im Fahrwasser gilt: rechts halten, nicht behindern, richtig queren. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben. | 161,165-168,271<br>S6.1 ▸ |
 | 2-4 | ☀️ | Wer muss weg? | Elvmünde | 👀 Ausguck | Wann wird es gefährlich? Peilung, die stehen bleibt, Ausguck, AIS. Dann die Rangfolge: wer manövrierunfähig ist, wer behindert ist, wer wem ausweicht. Echte Lagen auf dem Strom.<br>🧭 *Überblick: Ausweichen: das Prinzip (wer weicht, wer hält Kurs, Rangfolge)* | 82-83,125,128-132,272-273<br>S2.1 ◼ S2.3 ◼ |
 | 2-5 | ⚓ | Hafenfunk | Einfahrt Klüverhafen | 👂 zuhören | Die Crew funkt den Hafenmeister an, du hörst mit. Ein Fischer gibt das Gefahrsignal, irgendwo läutet eine Glocke. Smilla ordnet die Schallsignale: kurz, lang, Manöver, Nebel, Warnung. Hinnerk legt mit Backbord an und erklärt, warum.<br>🧭 *Überblick: Schallsignale: kurz und lang, Manöver, Nebel, Warnung* | 122-124,141,162-164<br>S4.3 ◼ |
-| 2-6 | ⚓ | Fest auf Klampe | Steg Klüverhafen | 🪢 mitmachen | Du belegst die Klampe an der Miniatur-Frieda, dann echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler. | – |
+| 2-6 | ⚓ | Fest auf Klampe | Steg Klüverhafen | 🪢 mitmachen | Ein Fremder fängt deine Leine und belegt sie perfekt auf der Klampe, ungefragt; Hinnerk brummt (das ist Quirin, man erfährt es in 2-7). Danach belegst du selbst die Klampe an der Miniatur-Frieda und echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler. | – |
 | 2-7 | 🌧️ | Hafenabend | Kajüte, Klüverhafen | 👂 zuhören | In Klüverhafen sitzt ein Bayer auf dem Steg: Quirin, Binnenschiffer, kennt jedes Boot und jeden Knoten, aber die Regeln auf See nicht. Er will den SBF See und fragt, ob er mitdarf. Hinnerk brummt, Smilla sagt ja. Wiederholung des Tages mit Klabauter als Quizmaster, Quirin rät mit. | – |
 
 ### Tag 3: Schleuse und Kanal
@@ -355,7 +357,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 4-3 | ☀️ | Wrack und Wasserschutz | Wrackgebiet im Groter Sand | ⛵ selbst | Die Crew ist müde und will am Wrack ankern. Du entscheidest. Dann kommt die Wasserschutzpolizei: Ankerverbot, wer Schiffsführer ist, Papiere, das Anhaltesignal und wer sonst noch kontrollieren darf. | 151,154-155,171,185-186<br>S6.2 ▸ S6.3 ▸ |
 | 4-4 | 🌊 | Seehundbank | Ankerplatz am Seehundsand | ⛵ selbst | Du ankerst selbst (Mini-Anker aus Fach 3). Nationalpark, Seehunde, Abstand halten. | 216-219,225-230<br>S8.1 ▸ S8.2 ▸ |
 | 4-5 | 🧶 | Trockengefallen | Trockenfallplatz | 🪢 mitmachen | Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“ | 75-78,89-90<br>S1.2 ▸ |
-| 4-6 | ☀️ | Nach Lüttoog | Watt nach Lüttoog | ⛵ selbst | Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Im Inselhafen liegt Jasper an seiner Boje und weiß alles besser. | – |
+| 4-6 | ☀️ | Nach Lüttoog | Watt nach Lüttoog | ⛵ selbst | Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper. | – |
 
 ### Tag 5: Nacht und Nebel
 **Wo:** Ansteuerung bei Nacht → Nebelbank · **Du:** Nachtwache allein · **Knoten:** stopper, schot · **Navigation:** N4 Kompass, Peilung, Missweisung
@@ -405,7 +407,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 7-4 | 📝 | Harms prüft: Praxis | Hafenbecken Harmsoog | 📝 Prüfung | Alle Manöver und Knoten der Praxisprüfung. | – |
 | 7-5 | 👋 | Wachübergabe | Steg Harmsoog | 👂 zuhören | Smilla übergibt dir die Wache und steigt um. Harms sagt einmal „Gut.“ | – |
 
-**Bonus:** Anheuern (Bonus): Wie du an Bord kommst. Wird gesondert ausgearbeitet. · Rückweg (Bonus): Hinnerk und du allein, Wiederholung und Prüfungswoche.
+**Bonus:** Folge 0: Anheuern: Erster Start der App (Nutzer, 07.11.2026): Am Abend vor der Abfahrt kommst du an Bord und lernst Hinnerk, Smilla, Klabauter und Backbord kennen. Die Grundeinstellungen machst du dabei mit der Crew (Name, Anrede, Prüfungstermin, Lernzeit, Lernort, Mikrofon, Übungsset). Harms wird nur erwähnt. Wird später ausgearbeitet, zusammen mit dem geführten Rundgang durch die App. · Rückweg (Bonus): Hinnerk und du allein, Wiederholung und Prüfungswoche.
 <!-- PLAN:END -->
 
 ## 9. Offen
