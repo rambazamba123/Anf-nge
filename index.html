@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.23';
+  window.__ver = '5.24';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -958,8 +958,12 @@ const ONB = {
   lernortAsk: {s: 'M', t: 'Wo lernst du meistens? Zu Hause, unterwegs oder im Auto, wo du nur zuhören kannst?'},
   setAsk: {s: 'K', t: 'Hast du ein Übungsset mit Leinen und Übungskarte? Dann binden wir die Knoten mit echtem Tau.'},
   known: {s: 'K', t: 'Ach, du bist das! Dich kennen wir ja schon. Na dann, komm an Bord. Die Leinen sind los.'},
+  anredeAsk: {s: 'M', t: 'Und wie reden wir dich an? Der Käpt\'n sagt sonst zu allen Landratte.'},
 };
 const ONB2 = {
+  anrede_w: [{s: 'K', t: 'Jo. Dann bist du ab heute unsere Deern an Bord. Nimm\'s als Ehre.'}],
+  anrede_m: [{s: 'K', t: 'Jo. Dann bist du ab heute unser Jung an Bord. Nimm\'s als Ehre.'}],
+  anrede_n: [{s: 'M', t: 'Geht klar. Dann bleibst du unsere Landratte, bis du was Besseres verdient hast.'}],
   nameOk: [{s: 'K', t: 'Notiert. Klingt nach jemandem, der beim ersten Anlegen gleich den halben Steg mitnimmt.'}, {s: 'T', t: 'Steg kaputt! Steg kaputt!'}],
   sbf: [{s: 'K', t: 'Den Sportbootführerschein. Aha. Also den Führerschein für die Badewanne.'}, {s: 'M', t: 'Käpt\'n! Sei nett.'}, {s: 'K', t: 'Ich bin nett. Ich hab Badewanne gesagt, nicht Gummiente.'}, {s: 'T', t: 'Gummiente! Gummiente!'}],
   binnen: [{s: 'K', t: 'Binnen. Flüsse, Kanäle und Schleusen. Da wird nicht gekreuzt, da wird geschleust.'}, {s: 'M', t: 'Und es gibt Berg- und Talfahrt. Klingt nach Achterbahn, ist aber nur der Rhein.'}, {s: 'T', t: 'Schleuse! Schleuse!'}],
@@ -1033,7 +1037,10 @@ const ONB2_OPTS = {
   drive: [['segel', 'Segeln'], ['motor', 'Motor'], ['beides', 'Beides']],
   lernort: [['zuhause', 'Zu Hause'], ['unterwegs', 'Unterwegs, Bus oder Bahn'], ['auto', 'Im Auto, nur hören']],
   set: [['ja', 'Ja, hab ich'], ['nein', 'Nein'], ['spaeter', 'Hol ich mir noch']],
+  anrede: [['w', 'Als Frau (Deern, Matrosin, Skipperin)'], ['m', 'Als Mann (Jung, Matrose, Skipper)'], ['n', 'Lieber neutral (Landratte, Wasserratte, Käpt\'n)']],
 };
+/* Anrede (Nutzer, 07.11.2026): w, m oder neutral; Standard neutral (R7). Gesprochene Anreden gibt es in allen drei Fassungen (podcast/figuren.md §2). */
+function anrede() { const a = S.profile && S.profile.anrede; return a === 'w' || a === 'm' ? a : 'n'; }
 
 </script>
 <script>
@@ -2997,6 +3004,9 @@ async function convoOnboarding() {
   const n = await ask(ONB.nameAsk, [], {value: nick, ph: 'Name oder Spitzname'});
   prof.name = (n.text || nick).slice(0, 24);
   await react('nameOk');
+  const an = await ask(ONB.anredeAsk, ONB2_OPTS.anrede);
+  prof.anrede = an.k || 'n'; if (an.text) await freeReply('Anrede', ONB.anredeAsk.t, an.text);
+  await react('anrede_' + prof.anrede);
   /* V42: Scheine, Termine (Theorie und Praxis) und Lernzeit in einem Formular, danach kommentiert die Crew.
      Lässt sich ziele.js nicht laden (offline beim ersten Start), gelten die alten Fragen. */
   const ZL = await nachladen('ziele.js').then(() => window.ZIELE).catch(() => null);
@@ -3068,10 +3078,11 @@ function endIntro(toForm) {
 function onboardingForm() {
   /* Kennenlernen per Tippen: eine Frage pro Seite */
   $('#tabs').classList.add('hidden'); const h = $('#introHolder'); if (h) h.remove();
-  const P = {name: '', course: S.course, exam: new Date(Date.now() + 28 * 864e5).toISOString().slice(0, 10), ageGroup: 'erw', minutes: 30, exp: 'none'};
+  const P = {name: '', anrede: 'n', course: S.course, exam: new Date(Date.now() + 28 * 864e5).toISOString().slice(0, 10), ageGroup: 'erw', minutes: 30, exp: 'none'};
   const chips = (key, list) => `<div class="chips big">${list.map(([k, v, off]) => off ? `<button class="chip off" disabled aria-disabled="true">${v} · kommt bald</button>` : `<button class="chip" data-v="${k}" aria-pressed="${String(P[key]) === String(k)}">${v}</button>`).join('')}</div>`;
   const STEPS = [
     {q: 'Wie heißt du?', html: () => `<input type="text" id="sv" placeholder="Vorname" autocomplete="given-name" value="${esc(P.name)}">`, get: () => { P.name = $('#sv').value.trim(); }},
+    {q: 'Wie sollen wir dich anreden?', html: () => chips('anrede', ONB2_OPTS.anrede), key: 'anrede'},
     {q: 'Für welchen Schein lernst du?', html: () => chips('course', Object.values(COURSES).map(c => [c.id, c.name]).concat(COURSES_SOON.map(c => [c.id, esc(c.name), 1]))), key: 'course'},
     {q: 'Wann ist deine Prüfung?', html: () => `<input type="date" id="sv" value="${P.exam}">`, get: () => { P.exam = $('#sv').value || P.exam; }},
     {q: 'Wie viel Zeit hast du am Tag?', html: () => chips('minutes', [15, 30, 45, 60, 90].map(m => [m, m + ' Minuten'])), key: 'minutes', num: true},
@@ -3093,7 +3104,7 @@ function onboardingForm() {
   };
   const finish = () => {
     switchCourse(P.course);
-    S.profile = {name: P.name, exam: P.exam, minutes: P.minutes, exp: P.exp, about: '', ageGroup: P.ageGroup, facts: (S.profile && S.profile.facts) || []};
+    S.profile = {name: P.name, anrede: P.anrede, exam: P.exam, minutes: P.minutes, exp: P.exp, about: '', ageGroup: P.ageGroup, facts: (S.profile && S.profile.facts) || []};
     (S.courses[S.course] = S.courses[S.course] || {}).examSet = true;
     S.plan = null; S.introDone = true; S.lastDay = today(); save();
     AUD.unlock(); setTab('deck');
@@ -3960,6 +3971,7 @@ function renderSettings() {
     <p class="small muted" style="margin:6px 0 0">Jeder Schein hat seinen eigenen Katalog und seinen eigenen Lernstand. Beim Wechsel geht nichts verloren.</p>
     <p class="small" style="margin:10px 0 0">Prüfung ${esc(COURSE.short)}: <b>${courseBucket(S.course).examSet && S.profile.examReal !== false ? fmtDate(S.profile.exam) : 'noch offen'}</b> · Lernzeit: <b>${S.profile.minutes} Minuten</b> am Tag</p>
     <p class="small" style="margin:10px 0 0"><b>Amtliche Regel ${esc(COURSE.short)}:</b> ${esc(COURSE.exam.rule)}</p>
+    <label for="anr">So redet dich die Crew an</label>${sel('anr', ONB2_OPTS.anrede, anrede())}
     <button class="btn" id="sv" style="margin-top:12px">🎯 Scheine, Termine und Lernzeit</button>
   </div>
 
@@ -3969,6 +3981,7 @@ function renderSettings() {
     <label for="wx">Wetter</label>${sel('wx', [['auto', 'Jeden Tag anders (meistens schön)'], ['schoen', 'Immer schön'], ['windig', 'Frischer Wind'], ['sturm', 'Wind und Regen'], ['regen', 'Windstill und Regen'], ['nebel', 'Nebel']], c.wx)}
     <label for="gross">Schrift</label>${sel('gross', [['0', 'Normal'], ['1', 'Groß']], c.gross ? '1' : '0')}
     <button class="btn ghost wide" id="geraeusche" style="margin-top:12px">🔊 Alle Geräusche anhören</button>
+    <button class="btn ghost wide" id="stimmenhoeren" style="margin-top:8px">🎧 Stimmen der Crew anhören</button>
     <label for="ncr">Smilla bei der Navigation</label>${sel('ncr', [['1', 'Spricht mit (Tipps und Rückmeldung)'], ['0', 'Still']], c.naviCrew === false ? '0' : '1')}
     <label for="kst">Hinnerk bei den Knoten</label>${sel('kst', [['1', 'Sagt jeden Schritt an'], ['0', 'Still']], c.knotenStimme === false ? '0' : '1')}
     <label for="cm">Kommentare der Crew beim Lernen</label>${sel('cm', [['1', 'An'], ['0', 'Aus']], c.comments ? '1' : '0')}
@@ -4098,6 +4111,8 @@ function renderSettings() {
   bindSel('#ncr', v => { c.naviCrew = v === '1'; }); bindSel('#kst', v => { c.knotenStimme = v === '1'; });
   bindSel('#gross', v => { c.gross = v === '1'; applyKi(); });
   $('#geraeusche').onclick = () => { AUD.click(); geraeuscheSeite(); };
+  $('#stimmenhoeren').onclick = () => { AUD.click(); stimmenAnhoeren(); };
+  bindSel('#anr', v => { S.profile.anrede = v; });
   $('#toklon').onclick = () => { AUD.unlock(); setTab('talk'); };
   bindSel('#qual', v => c.quality = v); bindSel('#bud', v => c.budget = +v); bindSel('#fb', v => c.fallback = v); bindSel('#stt', v => c.stt = v);
   bindSel('#wxs', v => { c.wxSound = v === '1'; soundFor(place); }); bindSel('#wx', v => { c.wx = v; soundFor(place); });
@@ -4998,6 +5013,7 @@ const FOLGEN3D = [['tag01', 'Folge 1: Mooooin, Landratte!', 'Anheuern, Rundgang 
   ['r4-3', 'Probe Reise Tag 4: Wrack und Wasserschutz', 'Priel, Kardinaltonnen, Ankern am Wrack? Wasserschutzpolizei']];
 function welt3dFolge(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('welt.js').then(() => WELT.seite({folge: id})).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); }); }
 function folgeOeffnen(id) { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.folge(id)).catch(e => { console.error(e); toast('Die Folge ließ sich nicht laden. Prüf dein Internet.'); }); }
+function stimmenAnhoeren() { return nachladen('casting.js').then(() => CASTING.hoerproben()).catch(() => toast('Die Hörproben ließen sich nicht laden. Prüf dein Internet.')); }
 function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oeffnen()).catch(() => toast('Das Stimmen-Casting ließ sich nicht laden. Prüf dein Internet und versuch es nochmal.')); }
 /* V42: Scheine, Termine, Lernzeit (ziele.js) */
 function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }

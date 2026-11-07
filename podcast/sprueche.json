@@ -1,0 +1,1130 @@
+{
+ "hinweis": "Sprüchekiste der Hörreise (docs/reise.md HR25, podcast/figuren.md §11). Je Figur und Lage viele Varianten mit Budget für die ganze Reise. Felder: id (bleibt fest, neue Sprüche hinten anhängen), t (Text, Anrede als {{anrede:w=…|m=…|n=…}}), b (Budget, sonst regeln.budget), e (Erkennungssatz), tage (nur an diesen Reisetagen), hinweis. Je Lage: bedarf (geschätzte Einsätze auf der Reise, die Summe der Budgets muss reichen), max (höchstens so oft auf der ganzen Reise), oft (darf in einer Folge mehrmals und ohne Abstand kommen), klein (weniger Varianten erlaubt). Im Skript: [[SPRUCH: id]] im Satz der Figur. Prüfen: node tools/sprueche-pruefen.js (--frei, --md).",
+ "regeln": {
+  "budget": 3,
+  "abstand": 2,
+  "min_varianten": 5
+ },
+ "figuren": {
+  "hinnerk": {
+   "name": "Käpt'n Hinnerk",
+   "sprecher": "HINNERK",
+   "kurz": "hi"
+  },
+  "smilla": {
+   "name": "Smilla",
+   "sprecher": "SMILLA",
+   "kurz": "sm"
+  },
+  "quirin": {
+   "name": "Quirin",
+   "sprecher": "QUIRIN",
+   "kurz": "qu"
+  },
+  "klabauter": {
+   "name": "Klabauter",
+   "sprecher": "KLABAUTER",
+   "kurz": "kl"
+  },
+  "kroeger": {
+   "name": "Kapitän Harms",
+   "sprecher": "HARMS",
+   "kurz": "ha"
+  },
+  "jasper": {
+   "name": "Jasper",
+   "sprecher": "JASPER",
+   "kurz": "ja"
+  },
+  "hafen": {
+   "name": "Hafenmeisterin Kuttershaven",
+   "sprecher": "HAFENMEISTERIN",
+   "kurz": "hm"
+  }
+ },
+ "lagen": [
+  {
+   "wer": "hinnerk",
+   "lage": "gruss",
+   "name": "Grüßen",
+   "bedarf": 30,
+   "s": [
+    {"id": "hi-gruss-01", "t": "Moin."},
+    {"id": "hi-gruss-02", "t": "Moin, moin."},
+    {"id": "hi-gruss-03", "t": "Na?"},
+    {"id": "hi-gruss-04", "t": "Ah. Da biste ja."},
+    {"id": "hi-gruss-05", "t": "Kaffee steht."},
+    {"id": "hi-gruss-06", "t": "Ausgeschlafen? Schad. Ich auch nich."},
+    {"id": "hi-gruss-07", "t": "Morgen. Wind kommt aus West, Laune aus Nord."},
+    {"id": "hi-gruss-08", "t": "Moin. Nich so laut, die Möwen schlafen noch."},
+    {"id": "hi-gruss-09", "t": "Na, auch schon wach?"},
+    {"id": "hi-gruss-10", "t": "Moin. Kaffee is schwarz, Wetter auch."},
+    {"id": "hi-gruss-11", "t": "Da kommt ja wer."},
+    {"id": "hi-gruss-12", "t": "Moin. Hast du gut gelegen? Ich nich. Die Koje is zu kurz. Seit vierzig Jahren."},
+    {"id": "hi-gruss-13", "t": "Moin. Erst Kaffee, dann reden."},
+    {"id": "hi-gruss-14", "t": "Ah, Besuch. Wisch dir die Füße ab, dat is 'n Schiff und kein Kuhstall."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "ja",
+   "name": "Zustimmen",
+   "bedarf": 36,
+   "s": [
+    {"id": "hi-ja-01", "t": "Jo."},
+    {"id": "hi-ja-02", "t": "Kann man so machen."},
+    {"id": "hi-ja-03", "t": "Dor is wat dran."},
+    {"id": "hi-ja-04", "t": "Meinetwegen."},
+    {"id": "hi-ja-05", "t": "So is dat."},
+    {"id": "hi-ja-06", "t": "Lass laufen."},
+    {"id": "hi-ja-07", "t": "Recht hast. Sag ich aber nich nochmal."},
+    {"id": "hi-ja-08", "t": "Hm. Ja."},
+    {"id": "hi-ja-09", "t": "Von mir aus."},
+    {"id": "hi-ja-10", "t": "Jo, jo."},
+    {"id": "hi-ja-11", "t": "Is gut so."},
+    {"id": "hi-ja-12", "t": "Mach man."},
+    {"id": "hi-ja-13", "t": "Hätt ich auch so gemacht. Fast."},
+    {"id": "hi-ja-14", "t": "Dat lass ich gelten."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "nein",
+   "name": "Ablehnen",
+   "bedarf": 24,
+   "s": [
+    {"id": "hi-nein-01", "t": "Nee."},
+    {"id": "hi-nein-02", "t": "Nix da."},
+    {"id": "hi-nein-03", "t": "Finger weg."},
+    {"id": "hi-nein-04", "t": "Is nich."},
+    {"id": "hi-nein-05", "t": "Da fahr ich nich hin, da wohnt der Grund."},
+    {"id": "hi-nein-06", "t": "Später. Vielleicht."},
+    {"id": "hi-nein-07", "t": "Kommt nich in die Tüte."},
+    {"id": "hi-nein-08", "t": "Über meine Leiche. Und die schwimmt nich."},
+    {"id": "hi-nein-09", "t": "Nee, nee, nee."},
+    {"id": "hi-nein-10", "t": "Dat lassen wir mal schön."},
+    {"id": "hi-nein-11", "t": "Heute nich. Morgen auch nich."},
+    {"id": "hi-nein-12", "t": "Dat hab ich vierzig Jahre nich gebraucht."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "warnen",
+   "name": "Warnen",
+   "bedarf": 24,
+   "s": [
+    {"id": "hi-warnen-01", "t": "Wahrschau!"},
+    {"id": "hi-warnen-02", "t": "Kiek mol, wat da kommt."},
+    {"id": "hi-warnen-03", "t": "Hände weg vom Gas."},
+    {"id": "hi-warnen-04", "t": "Langsam. Ganz langsam."},
+    {"id": "hi-warnen-05", "t": "Halt dich fest."},
+    {"id": "hi-warnen-06", "t": "Kopf runter!"},
+    {"id": "hi-warnen-07", "t": "Erst die Weste. Dann reden wir."},
+    {"id": "hi-warnen-08", "t": "Jetzt hör genau zu."},
+    {"id": "hi-warnen-09", "t": "Pass op!"},
+    {"id": "hi-warnen-10", "t": "Fuß weg von der Leine!"},
+    {"id": "hi-warnen-11", "t": "Da vorn wird's flach."},
+    {"id": "hi-warnen-12", "t": "Nich hinter die Leine stellen. Nie."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "lob",
+   "name": "Indirekt loben",
+   "bedarf": 36,
+   "s": [
+    {"id": "hi-lob-01", "t": "Hm."},
+    {"id": "hi-lob-02", "t": "Geht doch."},
+    {"id": "hi-lob-03", "t": "Hab schon Schlimmeres gesehen."},
+    {"id": "hi-lob-04", "t": "Wird langsam."},
+    {"id": "hi-lob-05", "t": "Na also."},
+    {"id": "hi-lob-06", "t": "Siehste."},
+    {"id": "hi-lob-07", "t": "Smilla, schreib dat auf. Nee, lass."},
+    {"id": "hi-lob-08", "t": "Dat war nich schlecht. Sag ich nur einmal."},
+    {"id": "hi-lob-09", "t": "Kann man nich meckern. Fast."},
+    {"id": "hi-lob-10", "t": "Ha. Na ja. Doch."},
+    {"id": "hi-lob-11", "t": "Is ja nich zum Aushalten, wie gut dat lief."},
+    {"id": "hi-lob-12", "t": "Dat hätt ich mit zwanzig nich gekonnt. Mit dreißig auch nich."},
+    {"id": "hi-lob-13", "t": "Weiter so. Nich übermütig werden."},
+    {"id": "hi-lob-14", "t": "Hm. Hm, hm."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "deins",
+   "name": "Wenn etwas jetzt dir gehört (Ausbildungsheft)",
+   "bedarf": 15,
+   "s": [
+    {"id": "hi-deins-01", "t": "Dat gehört jetzt dir."},
+    {"id": "hi-deins-02", "t": "Mach du man."},
+    {"id": "hi-deins-03", "t": "Kannst du. Ab jetzt du."},
+    {"id": "hi-deins-04", "t": "Dat machst ab heute du. Ich guck nur noch."},
+    {"id": "hi-deins-05", "t": "Dor brauchst mich nich mehr für."},
+    {"id": "hi-deins-06", "t": "Dat sitzt. Dat nimmt dir keiner mehr."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "tadel",
+   "name": "Tadeln",
+   "bedarf": 21,
+   "s": [
+    {"id": "hi-tadel-01", "t": "Nochmal."},
+    {"id": "hi-tadel-02", "t": "Dat war nix."},
+    {"id": "hi-tadel-03", "t": "Und wat war dat jetzt?"},
+    {"id": "hi-tadel-04", "t": "Dafür is der Fender da. Leider."},
+    {"id": "hi-tadel-05", "t": "Atmen. Und nochmal."},
+    {"id": "hi-tadel-06", "t": "Einmal is Glück. Zeig's zweimal."},
+    {"id": "hi-tadel-07", "t": "So legt man nich an, so legt man sich an."},
+    {"id": "hi-tadel-08", "t": "Dat üben wir nochmal. Und nochmal."},
+    {"id": "hi-tadel-09", "t": "Schön war dat nich. Aber lehrreich."},
+    {"id": "hi-tadel-10", "t": "Wenn dat Harms gesehen hätt …"}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "staunen",
+   "name": "Staunen",
+   "bedarf": 15,
+   "s": [
+    {"id": "hi-staunen-01", "t": "Kiek an."},
+    {"id": "hi-staunen-02", "t": "Na sowas."},
+    {"id": "hi-staunen-03", "t": "Donnerlüttchen."},
+    {"id": "hi-staunen-04", "t": "Dat hab ich noch nie gesehen. Doch. Siebenundachtzig."},
+    {"id": "hi-staunen-05", "t": "Nu brat mir einer 'n Storch."},
+    {"id": "hi-staunen-06", "t": "Dat glaubt mir zuhaus keiner."},
+    {"id": "hi-staunen-07", "t": "Ach du dicker Pott."},
+    {"id": "hi-staunen-08", "t": "Na, dor kiek an."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "fluch",
+   "name": "Fluchen (jeder Fluch einmal)",
+   "bedarf": 18,
+   "s": [
+    {"id": "hi-fluch-01", "t": "Schiet.", "b": 1},
+    {"id": "hi-fluch-02", "t": "Pütz und Persenning!", "b": 1},
+    {"id": "hi-fluch-03", "t": "Rasmus soll di holen!", "b": 1},
+    {"id": "hi-fluch-04", "t": "Bilgenwasser noch eins!", "b": 1},
+    {"id": "hi-fluch-05", "t": "Tüddelkram vermaledeiter!", "b": 1},
+    {"id": "hi-fluch-06", "t": "Kielschwein und Krabbenpuhler!", "b": 1},
+    {"id": "hi-fluch-07", "t": "Klabauter und Kombüsenfett!", "b": 1},
+    {"id": "hi-fluch-08", "t": "Heringsschwanz und Hafenschlick!", "b": 1},
+    {"id": "hi-fluch-09", "t": "Donner un Düwel!", "b": 1},
+    {"id": "hi-fluch-10", "t": "Fender und Feuerhaken!", "b": 1},
+    {"id": "hi-fluch-11", "t": "Pinne, Pütz und Pottwal!", "b": 1},
+    {"id": "hi-fluch-12", "t": "Labskaus mit Leberwurst!", "b": 1},
+    {"id": "hi-fluch-13", "t": "Ankerkette noch mal!", "b": 1},
+    {"id": "hi-fluch-14", "t": "Schiet di wat!", "b": 1},
+    {"id": "hi-fluch-15", "t": "Dreimal verdammte Schietbüdelei!", "b": 1},
+    {"id": "hi-fluch-16", "t": "Muschel am Kiel!", "b": 1},
+    {"id": "hi-fluch-17", "t": "Rostiger Schäkel!", "b": 1},
+    {"id": "hi-fluch-18", "t": "Leck mi doch am Ruder!", "b": 1},
+    {"id": "hi-fluch-19", "t": "Bei Neptuns nassen Socken!", "b": 1},
+    {"id": "hi-fluch-20", "t": "Möwendreck und Mastkorb!", "b": 1}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "ertappt",
+   "name": "Ertappt",
+   "bedarf": 18,
+   "s": [
+    {"id": "hi-ertappt-01", "t": "Dat meinte ich ja."},
+    {"id": "hi-ertappt-02", "t": "Is mir so rausgerutscht."},
+    {"id": "hi-ertappt-03", "t": "Dat Dingens hier is schuld."},
+    {"id": "hi-ertappt-04", "t": "Wer will Kaffee?"},
+    {"id": "hi-ertappt-05", "t": "Na ja."},
+    {"id": "hi-ertappt-06", "t": "Die Regel is neu. Höchstens dreißig Jahre."},
+    {"id": "hi-ertappt-07", "t": "Dat stand früher anders im Buch."},
+    {"id": "hi-ertappt-08", "t": "Hab ich doch gesagt. So ungefähr."},
+    {"id": "hi-ertappt-09", "t": "Ich wollt nur sehen, ob du aufpasst."},
+    {"id": "hi-ertappt-10", "t": "Dat war 'n Test. Bestanden."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "garn",
+   "name": "Garn anfangen",
+   "bedarf": 15,
+   "s": [
+    {"id": "hi-garn-01", "t": "Hab ich dir mal erzählt …"},
+    {"id": "hi-garn-02", "t": "Damals vor Helgoland …"},
+    {"id": "hi-garn-03", "t": "Ich kannte mal einen Kapitän …"},
+    {"id": "hi-garn-04", "t": "Soll ich dir mal wat sagen?"},
+    {"id": "hi-garn-05", "t": "Wenn hier einer wat von Nebel weiß, dann ich."},
+    {"id": "hi-garn-06", "t": "Dat war so. Ich war jung und die See war älter."},
+    {"id": "hi-garn-07", "t": "Mein Vadder hat immer gesagt …"},
+    {"id": "hi-garn-08", "t": "Wir hatten mal 'n Matrosen, der …"}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "abend",
+   "name": "Abend und Abschied",
+   "bedarf": 21,
+   "s": [
+    {"id": "hi-abend-01", "t": "Gode Nacht."},
+    {"id": "hi-abend-02", "t": "Hol di fuchtig."},
+    {"id": "hi-abend-03", "t": "Licht aus, Ohren zu."},
+    {"id": "hi-abend-04", "t": "Morgen früh. Nich zu früh."},
+    {"id": "hi-abend-05", "t": "Schlaf gut. Ich … mach noch die Lampen."},
+    {"id": "hi-abend-06", "t": "Koje. Jetzt."},
+    {"id": "hi-abend-07", "t": "Morgen wird's ernst. Heute nich mehr."},
+    {"id": "hi-abend-08", "t": "Ich guck noch nach den Leinen. Wie immer."},
+    {"id": "hi-abend-09", "t": "Na dann. Bis morgen."},
+    {"id": "hi-abend-10", "t": "Wer schnarcht, schläft an Deck."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "wetter",
+   "name": "Wetter nach Gefühl",
+   "bedarf": 15,
+   "s": [
+    {"id": "hi-wetter-01", "t": "Büschen Wind heute."},
+    {"id": "hi-wetter-02", "t": "Dat zieht sich zu. Riech mal."},
+    {"id": "hi-wetter-03", "t": "Morgenrot, Schlechtwetter droht. Sagt man. Stimmt meistens."},
+    {"id": "hi-wetter-04", "t": "Der Wind dreht. Mein Knie sagt dat."},
+    {"id": "hi-wetter-05", "t": "Dat bleibt so. Heute Nachmittag nich mehr."},
+    {"id": "hi-wetter-06", "t": "Die Möwen sitzen am Strand. Dat wird nix."},
+    {"id": "hi-wetter-07", "t": "Wenn Backbord ins Vorschiff kriecht, kommt Dreck."},
+    {"id": "hi-wetter-08", "t": "Schönes Wetter. Viel zu schön. Dat trau ich nich."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "anrede",
+   "name": "Dich ansprechen",
+   "bedarf": 24,
+   "s": [
+    {"id": "hi-anrede-01", "t": "{{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu.", "tage": [1, 2]},
+    {"id": "hi-anrede-02", "t": "{{anrede:w=Min Deern|m=Min Jung|n=Landratte}}. Komm mal her.", "tage": [1, 2]},
+    {"id": "hi-anrede-03", "t": "Na, {{anrede:w=min Deern|m=min Jung|n=Landratte}}?", "tage": [1, 2]},
+    {"id": "hi-anrede-04", "t": "Fass mal mit an, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Frischfisch}}.", "tage": [1, 2]},
+    {"id": "hi-anrede-05", "t": "Na, {{anrede:w=Matrosin|m=Matrose|n=Frischling}}? Ausguck. Jetzt.", "tage": [3, 4]},
+    {"id": "hi-anrede-06", "t": "{{anrede:w=Matrosin|m=Matrose|n=Frischling}}, übernimm mal die Leine.", "tage": [3, 4]},
+    {"id": "hi-anrede-07", "t": "{{anrede:w=Matrosin|m=Matrose|n=Frischling}}. Gut aufgepasst.", "tage": [3, 4]},
+    {"id": "hi-anrede-08", "t": "{{anrede:w=Seebärin|m=Seebär|n=Wasserratte}}, du hast die Wache.", "tage": [5, 6]},
+    {"id": "hi-anrede-09", "t": "Na, {{anrede:w=Steuerfrau|m=Steuermann|n=Sturmvogel}}? Kurs halten.", "tage": [5, 6]},
+    {"id": "hi-anrede-10", "t": "{{anrede:w=Skipperin|m=Skipper|n=Käpt'n}}.", "b": 2, "tage": [6, 7], "hinweis": "Hinnerks leiser Satz, zum ersten Mal an Tag 6 nach dem Sturm (docs/reise.md §2)"},
+    {"id": "hi-anrede-11", "t": "Mach du dat, {{anrede:w=Skipperin|m=Skipper|n=Käpt'n}}.", "tage": [7]}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "hafenkino",
+   "name": "Hafenkino-Reporter",
+   "max": 4,
+   "s": [
+    {"id": "hi-hafenkino-01", "t": "Und da kommt er. Viel zu schnell. Viel zu schnell!", "b": 1},
+    {"id": "hi-hafenkino-02", "t": "Achtung, Seitenwind von rechts, und … nee. Dat wird nix.", "b": 1},
+    {"id": "hi-hafenkino-03", "t": "Jetzt der Fender. Wo is der Fender? Kein Fender!", "b": 1},
+    {"id": "hi-hafenkino-04", "t": "Und Rückwärtsgang! Zu spät. Klassiker.", "b": 1},
+    {"id": "hi-hafenkino-05", "t": "Die Frau springt mit der Leine. Nich springen. Nie springen.", "b": 1},
+    {"id": "hi-hafenkino-06", "t": "Großartig. Dat gibt Applaus. Von den Möwen.", "b": 1}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "frieda",
+   "name": "Warum heißt das Boot Frieda? (jedes Mal anders, die Wahrheit kommt nie)",
+   "max": 7,
+   "s": [
+    {"id": "hi-frieda-01", "t": "Nach meiner ersten Liebe. Die is weg. Dat Boot is noch da.", "b": 1, "hinweis": "Variante 1"},
+    {"id": "hi-frieda-02", "t": "Frieda war 'ne Kuh auf Pellworm. Die hat mich mal vom Deich geschubst. Respekt.", "b": 1, "hinweis": "Variante 2"},
+    {"id": "hi-frieda-03", "t": "Steht für Fahrtüchtiges, Robustes, Immer Dichtes Arbeitsboot. Fast.", "b": 1, "hinweis": "Variante 3: Smilla zählt die Buchstaben nach"},
+    {"id": "hi-frieda-04", "t": "Frieda hat mir Siebenundachtzig den Rettungsring zugeworfen. Mehr sag ich nich.", "b": 1, "hinweis": "Variante 4"},
+    {"id": "hi-frieda-05", "t": "Die hieß schon so. Und umtaufen bringt Unglück. Weiß jedes Kind.", "b": 1, "hinweis": "Variante 5, passt zum Aberglauben"},
+    {"id": "hi-frieda-06", "t": "Nach der Möwe, die mir jeden Morgen dat Brötchen klaut. Frieda. Biest.", "b": 1, "hinweis": "Variante 6"},
+    {"id": "hi-frieda-07", "t": "Weil Frieden an Bord herrschen soll. Hat nich geklappt.", "b": 1, "hinweis": "Variante 7, gern als letzte"}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "sturm87",
+   "name": "Der Sturm von 87 (die Wellen wachsen)",
+   "max": 3,
+   "klein": true,
+   "s": [
+    {"id": "hi-sturm87-01", "t": "Siebenundachtzig. Wellen wie Kirchtürme.", "b": 1},
+    {"id": "hi-sturm87-02", "t": "Siebenundachtzig. Wellen wie der Michel. Zwei Michel.", "b": 1},
+    {"id": "hi-sturm87-03", "t": "Siebenundachtzig. Die Wellen waren so hoch, oben lag Schnee.", "b": 1}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "s": [
+    {"id": "hi-erkennung-01", "t": "Sag ich doch.", "b": 6, "e": true},
+    {"id": "hi-erkennung-02", "t": "Dor kannst nich meckern.", "b": 3, "e": true},
+    {"id": "hi-erkennung-03", "t": "Hinnerk. Mit zwei n und ohne i.", "b": 3, "e": true, "tage": [2, 3, 4, 7], "hinweis": "nur wenn Quirin „Hinni“ sagt"},
+    {"id": "hi-erkennung-04", "t": "Tonne zehn.", "b": 3, "e": true, "hinweis": "wenn Smilla zu frech wird (auch Smilla selbst)"},
+    {"id": "hi-erkennung-05", "t": "Die See verzeiht nix.", "b": 3, "e": true}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "gruss",
+   "name": "Grüßen",
+   "bedarf": 30,
+   "s": [
+    {"id": "sm-gruss-01", "t": "Moin! Kaffee? Nee? Dann Tee."},
+    {"id": "sm-gruss-02", "t": "Na, gut geschlafen?"},
+    {"id": "sm-gruss-03", "t": "Da bist du ja! Wir haben was vor."},
+    {"id": "sm-gruss-04", "t": "Moin, moin. Hinnerk ist seit fünf wach, sag nix."},
+    {"id": "sm-gruss-05", "t": "Hallo, hallo!"},
+    {"id": "sm-gruss-06", "t": "Guten Morgen!"},
+    {"id": "sm-gruss-07", "t": "Moin! Heute wird's spannend, versprochen."},
+    {"id": "sm-gruss-08", "t": "Na, ausgeschlafen? Du siehst aus wie Backbord."},
+    {"id": "sm-gruss-09", "t": "Moin! Ich hab schon alles vorbereitet. Fast alles."},
+    {"id": "sm-gruss-10", "t": "Morgen! Erst Wetterbericht, dann Frühstück."},
+    {"id": "sm-gruss-11", "t": "Da ist ja unser Neuzugang!"},
+    {"id": "sm-gruss-12", "t": "Moin! Hast du die Leinen gehört heute Nacht? Ich auch."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "erklaeren",
+   "name": "Erklären anfangen (wechseln!)",
+   "bedarf": 60,
+   "s": [
+    {"id": "sm-erklaeren-01", "t": "Pass auf, ganz einfach:"},
+    {"id": "sm-erklaeren-02", "t": "Stell dir vor …"},
+    {"id": "sm-erklaeren-03", "t": "Kurz und schmerzlos:"},
+    {"id": "sm-erklaeren-04", "t": "Das ist wie beim …"},
+    {"id": "sm-erklaeren-05", "t": "Weißt du, warum das so ist?"},
+    {"id": "sm-erklaeren-06", "t": "Ich mal's dir auf."},
+    {"id": "sm-erklaeren-07", "t": "Der Trick dabei:"},
+    {"id": "sm-erklaeren-08", "t": "Das Fiese an der Frage ist …"},
+    {"id": "sm-erklaeren-09", "t": "Drei Sachen."},
+    {"id": "sm-erklaeren-10", "t": "Ganz ehrlich? Das ist logisch, wenn man's einmal sieht."},
+    {"id": "sm-erklaeren-11", "t": "Mach mal die Augen zu."},
+    {"id": "sm-erklaeren-12", "t": "Merk dir nur eins:"},
+    {"id": "sm-erklaeren-13", "t": "Hinnerk macht das nach Gefühl. Ich erklär dir das Warum."},
+    {"id": "sm-erklaeren-14", "t": "Gute Frage. Wirklich."},
+    {"id": "sm-erklaeren-15", "t": "Das klingt komplizierter, als es ist."},
+    {"id": "sm-erklaeren-16", "t": "Lass uns das mal umdrehen:"},
+    {"id": "sm-erklaeren-17", "t": "Was glaubst du, wer hier wen sehen muss?"},
+    {"id": "sm-erklaeren-18", "t": "Das hab ich in der Prüfung auch falsch gehabt. Also:"},
+    {"id": "sm-erklaeren-19", "t": "Andersrum gefragt:"},
+    {"id": "sm-erklaeren-20", "t": "Schau mal da rüber."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "berichtigen",
+   "name": "Berichtigen",
+   "bedarf": 30,
+   "s": [
+    {"id": "sm-berichtigen-01", "t": "Fast."},
+    {"id": "sm-berichtigen-02", "t": "Schöne Geschichte. Stimmt nur nicht."},
+    {"id": "sm-berichtigen-03", "t": "Käpt'n, das ist Tünkram."},
+    {"id": "sm-berichtigen-04", "t": "Moment mal."},
+    {"id": "sm-berichtigen-05", "t": "Darf ich kurz?"},
+    {"id": "sm-berichtigen-06", "t": "Das war vielleicht 1987 so."},
+    {"id": "sm-berichtigen-07", "t": "Da muss ich widersprechen, und zwar laut."},
+    {"id": "sm-berichtigen-08", "t": "Nicht ganz."},
+    {"id": "sm-berichtigen-09", "t": "Knapp daneben ist auch vorbei."},
+    {"id": "sm-berichtigen-10", "t": "Das sagt ihr am Main vielleicht so. Hier nicht."},
+    {"id": "sm-berichtigen-11", "t": "Hübsch. Aber nein."},
+    {"id": "sm-berichtigen-12", "t": "Das glaubst du doch selber nicht."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "anerkennen",
+   "name": "Anerkennen",
+   "bedarf": 30,
+   "s": [
+    {"id": "sm-anerkennen-01", "t": "Sauber."},
+    {"id": "sm-anerkennen-02", "t": "Siehste, wusstest du."},
+    {"id": "sm-anerkennen-03", "t": "Genau so."},
+    {"id": "sm-anerkennen-04", "t": "Punkt für dich."},
+    {"id": "sm-anerkennen-05", "t": "Ha! Wusst ich's."},
+    {"id": "sm-anerkennen-06", "t": "Ich bin fast stolz."},
+    {"id": "sm-anerkennen-07", "t": "Das war richtig gut."},
+    {"id": "sm-anerkennen-08", "t": "Na bitte, geht doch!"},
+    {"id": "sm-anerkennen-09", "t": "Volltreffer."},
+    {"id": "sm-anerkennen-10", "t": "So schnell? Respekt."},
+    {"id": "sm-anerkennen-11", "t": "Das schreib ich ins Logbuch."},
+    {"id": "sm-anerkennen-12", "t": "Guck an, da hat jemand aufgepasst."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "antreiben",
+   "name": "Antreiben",
+   "bedarf": 20,
+   "s": [
+    {"id": "sm-antreiben-01", "t": "Noch eine. Komm."},
+    {"id": "sm-antreiben-02", "t": "Nicht schlappmachen."},
+    {"id": "sm-antreiben-03", "t": "Einmal noch, dann Kaffee."},
+    {"id": "sm-antreiben-04", "t": "Wer jetzt aufhört, fängt morgen von vorne an."},
+    {"id": "sm-antreiben-05", "t": "Zehn Minuten. Das schaffst du im Schlaf."},
+    {"id": "sm-antreiben-06", "t": "Los, los, die Tide wartet nicht."},
+    {"id": "sm-antreiben-07", "t": "Eine noch. Für mich."},
+    {"id": "sm-antreiben-08", "t": "Durchziehen. Dann Pause."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "ungeduld",
+   "name": "Ungeduld",
+   "bedarf": 12,
+   "s": [
+    {"id": "sm-ungeduld-01", "t": "Ja, ja, ja."},
+    {"id": "sm-ungeduld-02", "t": "Wir haben nicht ewig, Käpt'n."},
+    {"id": "sm-ungeduld-03", "t": "Jetzt mach schon."},
+    {"id": "sm-ungeduld-04", "t": "So sind wir Weihnachten da."},
+    {"id": "sm-ungeduld-05", "t": "Käpt'n, die Tide!"},
+    {"id": "sm-ungeduld-06", "t": "Hallo? Erde an Hinnerk?"}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "koelsch",
+   "name": "Kölsch mit Seefahrts-Dreh",
+   "bedarf": 12,
+   "s": [
+    {"id": "sm-koelsch-01", "t": "Et es wie et es.", "b": 2},
+    {"id": "sm-koelsch-02", "t": "Et kütt wie et kütt? Nicht auf See. Da kommt, was du vorher geplant hast.", "b": 2},
+    {"id": "sm-koelsch-03", "t": "Wat fott es, es fott.", "b": 2},
+    {"id": "sm-koelsch-04", "t": "Et bliev nix wie et wor.", "b": 2},
+    {"id": "sm-koelsch-05", "t": "Wat soll dä Quatsch?", "b": 2},
+    {"id": "sm-koelsch-06", "t": "Jede Jeck es anders.", "b": 2},
+    {"id": "sm-koelsch-07", "t": "Et hätt noch immer jot jejange? Sagt man bei uns. Auf dem Wasser verlass ich mich da nicht drauf.", "b": 2},
+    {"id": "sm-koelsch-08", "t": "Mer muss och jönne könne.", "b": 2},
+    {"id": "sm-koelsch-09", "t": "Do laachs de dich kapott.", "b": 2}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "erwischt",
+   "name": "Selbst falsch erwischt",
+   "bedarf": 8,
+   "s": [
+    {"id": "sm-erwischt-01", "t": "Okay. Okay. Punkt für dich, Käpt'n.", "b": 2},
+    {"id": "sm-erwischt-02", "t": "Hab ich verwechselt. Rhein-Gewohnheit.", "b": 2},
+    {"id": "sm-erwischt-03", "t": "Weiß ich nicht genau, schlag ich nach.", "b": 2},
+    {"id": "sm-erwischt-04", "t": "Mist.", "b": 2},
+    {"id": "sm-erwischt-05", "t": "Sag's keinem.", "b": 2},
+    {"id": "sm-erwischt-06", "t": "Na gut. Einmal im Jahr darf ich.", "b": 2}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "trost",
+   "name": "Wenn du falsch liegst",
+   "bedarf": 24,
+   "s": [
+    {"id": "sm-trost-01", "t": "Kein Drama. Genau dafür üben wir."},
+    {"id": "sm-trost-02", "t": "Lieber hier falsch als bei Harms."},
+    {"id": "sm-trost-03", "t": "Das ist die Falle. Da tappen alle rein."},
+    {"id": "sm-trost-04", "t": "Fast. Und fast ist schon mal was."},
+    {"id": "sm-trost-05", "t": "Macht nix. Merk dir nur, warum."},
+    {"id": "sm-trost-06", "t": "Gut, dass das jetzt passiert ist."},
+    {"id": "sm-trost-07", "t": "Kopf hoch. Die merkst du dir jetzt für immer."},
+    {"id": "sm-trost-08", "t": "Atmen. Nochmal von vorne."},
+    {"id": "sm-trost-09", "t": "Das war die zweitbeste Antwort. Leider zählt nur die beste."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "abschied",
+   "name": "Abschied",
+   "bedarf": 20,
+   "s": [
+    {"id": "sm-abschied-01", "t": "Tschö!"},
+    {"id": "sm-abschied-02", "t": "Bis morgen, und ohne Nachsitzen."},
+    {"id": "sm-abschied-03", "t": "Gute Nacht, ihr Süßwassermatrosen."},
+    {"id": "sm-abschied-04", "t": "Schlaf schön. Ich mach noch Logbuch."},
+    {"id": "sm-abschied-05", "t": "Tschö mit ö!"},
+    {"id": "sm-abschied-06", "t": "Gute Nacht. Und träum nicht von Tonnen."},
+    {"id": "sm-abschied-07", "t": "Bis morgen. Wecker auf sechs."},
+    {"id": "sm-abschied-08", "t": "Nacht, Käpt'n. Mach die Lampe nicht so spät aus."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "anrede",
+   "name": "Dich ansprechen",
+   "bedarf": 21,
+   "s": [
+    {"id": "sm-anrede-01", "t": "Na, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Bordküken}}?", "tage": [1, 2]},
+    {"id": "sm-anrede-02", "t": "Komm her, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Frischfisch}}, ich zeig dir was.", "tage": [1, 2]},
+    {"id": "sm-anrede-03", "t": "{{anrede:w=Frau Neuzugang|m=Herr Neuzugang|n=Landei}}, aufgepasst.", "tage": [1, 2]},
+    {"id": "sm-anrede-04", "t": "Na, {{anrede:w=Matrosin|m=Matrose|n=Frischling}}, schon wach?", "tage": [3, 4]},
+    {"id": "sm-anrede-05", "t": "{{anrede:w=Matrosin|m=Matrose|n=Frischling}}, Ausguck nach vorn!", "tage": [3, 4]},
+    {"id": "sm-anrede-06", "t": "Nicht schlecht, {{anrede:w=Seebärin|m=Seebär|n=Wasserratte}}.", "tage": [5, 6]},
+    {"id": "sm-anrede-07", "t": "{{anrede:w=Steuerfrau|m=Steuermann|n=Sturmvogel}}, Kurs?", "tage": [5, 6]},
+    {"id": "sm-anrede-08", "t": "Na, {{anrede:w=Skipperin|m=Skipper|n=Käpt'n}}? Bereit?", "tage": [7]}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "logbuch",
+   "name": "Logbuch schreiben (Rahmen der Fragerunde)",
+   "bedarf": 14,
+   "s": [
+    {"id": "sm-logbuch-01", "t": "Logbuch. Ich diktier, du sagst die Antwort."},
+    {"id": "sm-logbuch-02", "t": "Zeit fürs Logbuch. Und keine Krickelmännchen, das mach ich."},
+    {"id": "sm-logbuch-03", "t": "Logbuch, Eintrag für heute. Erste Frage."},
+    {"id": "sm-logbuch-04", "t": "Stift raus. Was haben wir heute gelernt?"},
+    {"id": "sm-logbuch-05", "t": "Ich schreib, du antwortest. Deal?"},
+    {"id": "sm-logbuch-06", "t": "Logbuch. Hinnerk, du bist still."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "wetten",
+   "name": "Wetten mit Quirin (nur solange er an Bord ist)",
+   "bedarf": 8,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "sm-wetten-01", "t": "Wetten? Wer verliert, macht den Abwasch."},
+    {"id": "sm-wetten-02", "t": "Abwasch, Quirin. Du weißt, was das heißt."},
+    {"id": "sm-wetten-03", "t": "Neue Wette. Doppelter Abwasch."},
+    {"id": "sm-wetten-04", "t": "Ich hab gewonnen. Spülmittel steht unter der Spüle."},
+    {"id": "sm-wetten-05", "t": "Okay, du hast gewonnen. Einmal. Feier's nicht."},
+    {"id": "sm-wetten-06", "t": "Steht's jetzt drei zu eins? Für mich."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "s": [
+    {"id": "sm-erkennung-01", "t": "Nee, Käpt'n.", "b": 8, "e": true},
+    {"id": "sm-erkennung-02", "t": "Na also, Seegurke. Geht doch.", "b": 3, "e": true},
+    {"id": "sm-erkennung-03", "t": "Merk dir das Warum.", "b": 2, "e": true}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "gruss",
+   "name": "Grüßen",
+   "bedarf": 12,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-gruss-01", "t": "Servus mitanand!"},
+    {"id": "qu-gruss-02", "t": "Griaß eich!"},
+    {"id": "qu-gruss-03", "t": "Guad'n Morgn!"},
+    {"id": "qu-gruss-04", "t": "Servus, Hinni!"},
+    {"id": "qu-gruss-05", "t": "Moin? Moin! I lern's no."},
+    {"id": "qu-gruss-06", "t": "Griaß di!"},
+    {"id": "qu-gruss-07", "t": "Servus! Hod oana an Kaffee?"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "staunen",
+   "name": "Staunen",
+   "bedarf": 15,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-staunen-01", "t": "Mei!"},
+    {"id": "qu-staunen-02", "t": "Do legst di nieda!"},
+    {"id": "qu-staunen-03", "t": "Schaug her!"},
+    {"id": "qu-staunen-04", "t": "Des gibt's ja ned!"},
+    {"id": "qu-staunen-05", "t": "Wahnsinn!"},
+    {"id": "qu-staunen-06", "t": "Ja, Herrschaftszeiten!"},
+    {"id": "qu-staunen-07", "t": "Ja, Kruzifix!"},
+    {"id": "qu-staunen-08", "t": "Ja, gibt's denn sowas?"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "fragen",
+   "name": "Fragen",
+   "bedarf": 24,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-fragen-01", "t": "Warum eigentlich?"},
+    {"id": "qu-fragen-02", "t": "Wos hoaßt des jetzt genau?"},
+    {"id": "qu-fragen-03", "t": "Und bei uns aufm Main wär des …?"},
+    {"id": "qu-fragen-04", "t": "Sorry, wos is a Luv?"},
+    {"id": "qu-fragen-05", "t": "Moment, mitschreim."},
+    {"id": "qu-fragen-06", "t": "Gilt des aa für mi?"},
+    {"id": "qu-fragen-07", "t": "Und wenn ned?"},
+    {"id": "qu-fragen-08", "t": "Des muass i jetzt ned wissen, oder?"},
+    {"id": "qu-fragen-09", "t": "Und woher woaß i des?"},
+    {"id": "qu-fragen-10", "t": "Kannst des nomoi sagn? Langsam?"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "kennen",
+   "name": "Das kenn ich",
+   "bedarf": 12,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-kennen-01", "t": "Lass mi, des kenn i."},
+    {"id": "qu-kennen-02", "t": "Den Knoten kenn i, bei uns hoaßt der Mastwurf."},
+    {"id": "qu-kennen-03", "t": "Gas weg, kurz zruck, scho steht's."},
+    {"id": "qu-kennen-04", "t": "In da Schleus'n hob i des tausendmoi gmacht."},
+    {"id": "qu-kennen-05", "t": "Ned zerren. Vorspringa."},
+    {"id": "qu-kennen-06", "t": "Des is wia dahoam. Fast."}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "seekrank",
+   "name": "Seekrank",
+   "bedarf": 8,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-seekrank-01", "t": "I schaug moi ned aufs Wasser."},
+    {"id": "qu-seekrank-02", "t": "Is des imma so wacklig?"},
+    {"id": "qu-seekrank-03", "t": "Brotzeit? Na, danke."},
+    {"id": "qu-seekrank-04", "t": "Mei Mogn is no in Kelheim."},
+    {"id": "qu-seekrank-05", "t": "Horizont. I schaug auf'n Horizont. Hod da Hinni gsagt."},
+    {"id": "qu-seekrank-06", "t": "Es geht scho. Es geht. Na, es geht ned."}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "selbst",
+   "name": "Über sich lachen",
+   "bedarf": 10,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-selbst-01", "t": "I Depp, i."},
+    {"id": "qu-selbst-02", "t": "Des war jetzt ned so plant."},
+    {"id": "qu-selbst-03", "t": "Do hob i mi gschwind blamiert."},
+    {"id": "qu-selbst-04", "t": "Bassd scho, i lern ja no."},
+    {"id": "qu-selbst-05", "t": "Hob i scho wieda Binnen denkt."},
+    {"id": "qu-selbst-06", "t": "Sogt's meim Vadda nix."}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "ja",
+   "name": "Zustimmen",
+   "bedarf": 12,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-ja-01", "t": "Bassd."},
+    {"id": "qu-ja-02", "t": "Freilich!"},
+    {"id": "qu-ja-03", "t": "Pack ma's!"},
+    {"id": "qu-ja-04", "t": "Genau so."},
+    {"id": "qu-ja-05", "t": "Aber sicher."},
+    {"id": "qu-ja-06", "t": "Do host recht."}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "aerger",
+   "name": "Ärger",
+   "bedarf": 6,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-aerger-01", "t": "Mei, so a Schmarrn!"},
+    {"id": "qu-aerger-02", "t": "Sakra!"},
+    {"id": "qu-aerger-03", "t": "Des derf ned wahr sei."},
+    {"id": "qu-aerger-04", "t": "Zefix!"},
+    {"id": "qu-aerger-05", "t": "So a Graffl!"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "abschied",
+   "name": "Abschied",
+   "bedarf": 10,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-abschied-01", "t": "Pfiat eich!"},
+    {"id": "qu-abschied-02", "t": "Servus!"},
+    {"id": "qu-abschied-03", "t": "Guad Nacht mitanand."},
+    {"id": "qu-abschied-04", "t": "Bis moang."},
+    {"id": "qu-abschied-05", "t": "Schlaft's guad!"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "fluss",
+   "name": "Vergleicht mit dem Fluss (höchstens einmal je Folge)",
+   "bedarf": 12,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-fluss-01", "t": "Bei uns aufm Main …"},
+    {"id": "qu-fluss-02", "t": "Auf da Donau war des so:"},
+    {"id": "qu-fluss-03", "t": "Dahoam auf'm Kanal …"},
+    {"id": "qu-fluss-04", "t": "Bei uns gibt's sowas ned."},
+    {"id": "qu-fluss-05", "t": "Auf'm Fluss is des anders, ganz anders."},
+    {"id": "qu-fluss-06", "t": "Wenn i des meim Vadda erzähl …"}
+   ]
+  },
+  {
+   "wer": "quirin",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "tage": [2, 3, 4, 7],
+   "s": [
+    {"id": "qu-erkennung-01", "t": "Mir is ganz bliamerant.", "b": 3, "e": true},
+    {"id": "qu-erkennung-02", "t": "Hinni!", "b": 4, "e": true, "hinweis": "Hinnerk antwortet mit „Mit zwei n und ohne i.“"}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "warnen",
+   "name": "Warnen",
+   "bedarf": 14,
+   "s": [
+    {"id": "kl-warnen-01", "t": "Wahrschau! Wahrschau!", "b": 2},
+    {"id": "kl-warnen-02", "t": "Grund! Grund!", "b": 2},
+    {"id": "kl-warnen-03", "t": "Dicker Pott! Dicker Pott!", "b": 2},
+    {"id": "kl-warnen-04", "t": "Nebel! Nebel!", "b": 2},
+    {"id": "kl-warnen-05", "t": "Blaulicht! Blaulicht!", "b": 2},
+    {"id": "kl-warnen-06", "t": "Achtung! Achtung!", "b": 2},
+    {"id": "kl-warnen-07", "t": "Zu schnell! Zu schnell!", "b": 2},
+    {"id": "kl-warnen-08", "t": "Leine! Leine!", "b": 2}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "petzen",
+   "name": "Petzen",
+   "bedarf": 8,
+   "s": [
+    {"id": "kl-petzen-01", "t": "Gesehen! Gesehen!", "b": 2},
+    {"id": "kl-petzen-02", "t": "Falsch rum! Falsch rum!", "b": 2},
+    {"id": "kl-petzen-03", "t": "Nicht gemerkt! Nicht gemerkt!", "b": 2},
+    {"id": "kl-petzen-04", "t": "Gemogelt! Gemogelt!", "b": 2},
+    {"id": "kl-petzen-05", "t": "Geraten! Geraten!", "b": 2}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "feiern",
+   "name": "Feiern",
+   "bedarf": 12,
+   "s": [
+    {"id": "kl-feiern-01", "t": "Darf! Darf!", "b": 2},
+    {"id": "kl-feiern-02", "t": "Kann's! Kann's!", "b": 2},
+    {"id": "kl-feiern-03", "t": "Land in Sicht! Land in Sicht!", "b": 2},
+    {"id": "kl-feiern-04", "t": "Hurra! Zwieback!", "b": 2},
+    {"id": "kl-feiern-05", "t": "Richtig! Richtig!", "b": 2},
+    {"id": "kl-feiern-06", "t": "Bravo! Bravo!", "b": 2}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "betteln",
+   "name": "Betteln",
+   "bedarf": 6,
+   "s": [
+    {"id": "kl-betteln-01", "t": "Hunger! Hunger!", "b": 2},
+    {"id": "kl-betteln-02", "t": "Krabben! Krabben!", "b": 2},
+    {"id": "kl-betteln-03", "t": "Kekse! Kekse!", "b": 2},
+    {"id": "kl-betteln-04", "t": "Futter! Futter!", "b": 2},
+    {"id": "kl-betteln-05", "t": "Leckerli! Leckerli!", "b": 2}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "wetter",
+   "name": "Seewetterbericht nachplappern",
+   "bedarf": 6,
+   "s": [
+    {"id": "kl-wetter-01", "t": "West fünf bis sechs! Böen!", "b": 1},
+    {"id": "kl-wetter-02", "t": "Abnehmend! Abnehmend!", "b": 1},
+    {"id": "kl-wetter-03", "t": "Sicht gut! Sicht gut!", "b": 1},
+    {"id": "kl-wetter-04", "t": "Zunehmend! Zunehmend!", "b": 1},
+    {"id": "kl-wetter-05", "t": "Drehend! Drehend!", "b": 1},
+    {"id": "kl-wetter-06", "t": "Schauerböen! Schauerböen!", "b": 1}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "nachplappern",
+   "name": "Plappert die Crew nach",
+   "bedarf": 10,
+   "s": [
+    {"id": "kl-nachplappern-01", "t": "Sabbel nich! Sabbel nich!", "b": 2},
+    {"id": "kl-nachplappern-02", "t": "Nee, Käpt'n! Nee, Käpt'n!", "b": 2},
+    {"id": "kl-nachplappern-03", "t": "Obacht! Obacht!", "b": 2},
+    {"id": "kl-nachplappern-04", "t": "Geht. Geht.", "b": 2},
+    {"id": "kl-nachplappern-05", "t": "Kiek mol! Kiek mol!", "b": 2},
+    {"id": "kl-nachplappern-06", "t": "Finger weg! Finger weg!", "b": 2}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "ruf",
+   "name": "Ruf und Antwort (Rahmen fürs Merkwort)",
+   "bedarf": 20,
+   "s": [
+    {"id": "kl-ruf-01", "t": "Wie viel? Wie viel?"},
+    {"id": "kl-ruf-02", "t": "Welche Seite? Welche Seite?"},
+    {"id": "kl-ruf-03", "t": "Wer muss? Wer muss?"},
+    {"id": "kl-ruf-04", "t": "Wie oft? Wie oft?"},
+    {"id": "kl-ruf-05", "t": "Welche Farbe? Welche Farbe?"},
+    {"id": "kl-ruf-06", "t": "Was jetzt? Was jetzt?"},
+    {"id": "kl-ruf-07", "t": "Merken! Merken!"},
+    {"id": "kl-ruf-08", "t": "Nochmal! Nochmal!"}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "sonst",
+   "name": "Unglück, Müdigkeit, Rückkehr",
+   "bedarf": 6,
+   "klein": true,
+   "s": [
+    {"id": "kl-sonst-01", "t": "Freitag! Freitag!", "b": 1},
+    {"id": "kl-sonst-02", "t": "Pfeifen! Nicht pfeifen!", "b": 1},
+    {"id": "kl-sonst-03", "t": "Koje! Koje!", "b": 1},
+    {"id": "kl-sonst-04", "t": "Müde! Müde!", "b": 1},
+    {"id": "kl-sonst-05", "t": "Wieder da! Wieder da!", "b": 1, "hinweis": "nur 1-6"},
+    {"id": "kl-sonst-06", "t": "Vermisst? Vermisst?", "b": 1, "hinweis": "nur 1-6"}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "s": [
+    {"id": "kl-erkennung-01", "t": "Zwieback! Zwieback!", "b": 5, "e": true},
+    {"id": "kl-erkennung-02", "t": "Hinni! Hinni!", "b": 3, "e": true, "tage": [2, 3, 4, 5, 6, 7], "hinweis": "hat er von Quirin gelernt, also erst ab 2-7"}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "anruf",
+   "name": "Anruf eröffnen",
+   "bedarf": 18,
+   "s": [
+    {"id": "ha-anruf-01", "t": "Harms."},
+    {"id": "ha-anruf-02", "t": "Hier Harms. Wo seid ihr?"},
+    {"id": "ha-anruf-03", "t": "Ich seh euch auf dem Schirm. Spät dran."},
+    {"id": "ha-anruf-04", "t": "Moin. Kurz."},
+    {"id": "ha-anruf-05", "t": "Ich hab zehn Minuten. Du auch."},
+    {"id": "ha-anruf-06", "t": "Ist er da? Egal. Dich will ich."},
+    {"id": "ha-anruf-07", "t": "Ich hör Motor. Gut. Dann hörst du mich auch."},
+    {"id": "ha-anruf-08", "t": "Harms hier. Hast du Zeit? Du hast Zeit."},
+    {"id": "ha-anruf-09", "t": "Moin. Prüfungszeit."},
+    {"id": "ha-anruf-10", "t": "Ich ruf an, weil ich's gesagt hab."}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "frage",
+   "name": "Frage stellen (darf in einer Folge öfter kommen)",
+   "bedarf": 80,
+   "oft": true,
+   "s": [
+    {"id": "ha-frage-01", "t": "Frage.", "b": 6},
+    {"id": "ha-frage-02", "t": "Nächste.", "b": 6},
+    {"id": "ha-frage-03", "t": "Hör zu.", "b": 6},
+    {"id": "ha-frage-04", "t": "Eine noch.", "b": 6},
+    {"id": "ha-frage-05", "t": "Dann das hier.", "b": 6},
+    {"id": "ha-frage-06", "t": "Mal sehen, ob's sitzt.", "b": 6},
+    {"id": "ha-frage-07", "t": "Prüfungsfrage. Im Wortlaut.", "b": 6},
+    {"id": "ha-frage-08", "t": "Die kommt bei mir immer.", "b": 6},
+    {"id": "ha-frage-09", "t": "Ohne Hilfe. Smilla, du nicht.", "b": 6},
+    {"id": "ha-frage-10", "t": "Weiter.", "b": 6},
+    {"id": "ha-frage-11", "t": "Und die.", "b": 6},
+    {"id": "ha-frage-12", "t": "Zack, nächste.", "b": 6},
+    {"id": "ha-frage-13", "t": "Letzte.", "b": 6},
+    {"id": "ha-frage-14", "t": "Konzentrier dich.", "b": 6},
+    {"id": "ha-frage-15", "t": "Die ist leicht. Angeblich.", "b": 6}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "richtig",
+   "name": "Richtig (darf in einer Folge öfter kommen)",
+   "bedarf": 60,
+   "oft": true,
+   "s": [
+    {"id": "ha-richtig-01", "t": "Hm.", "b": 6},
+    {"id": "ha-richtig-02", "t": "So.", "b": 6},
+    {"id": "ha-richtig-03", "t": "Richtig.", "b": 6},
+    {"id": "ha-richtig-04", "t": "Stimmt.", "b": 6},
+    {"id": "ha-richtig-05", "t": "Na bitte.", "b": 6},
+    {"id": "ha-richtig-06", "t": "Das sitzt.", "b": 6},
+    {"id": "ha-richtig-07", "t": "Kann man gelten lassen.", "b": 6},
+    {"id": "ha-richtig-08", "t": "Korrekt.", "b": 6},
+    {"id": "ha-richtig-09", "t": "Ja.", "b": 6},
+    {"id": "ha-richtig-10", "t": "Gut gemerkt.", "b": 6},
+    {"id": "ha-richtig-11", "t": "In Ordnung.", "b": 6}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "falsch",
+   "name": "Falsch (darf in einer Folge öfter kommen)",
+   "bedarf": 30,
+   "oft": true,
+   "s": [
+    {"id": "ha-falsch-01", "t": "Falsch.", "b": 4},
+    {"id": "ha-falsch-02", "t": "Nein.", "b": 4},
+    {"id": "ha-falsch-03", "t": "Daneben.", "b": 4},
+    {"id": "ha-falsch-04", "t": "Und warum?", "b": 4},
+    {"id": "ha-falsch-05", "t": "Geraten ist nicht gewusst.", "b": 4},
+    {"id": "ha-falsch-06", "t": "Das kostet dich in der Prüfung.", "b": 4},
+    {"id": "ha-falsch-07", "t": "Nicht ganz. Genau das ist die Falle.", "b": 4},
+    {"id": "ha-falsch-08", "t": "Das hätte Hinnerk auch gesagt.", "b": 4},
+    {"id": "ha-falsch-09", "t": "Nochmal lesen.", "b": 4},
+    {"id": "ha-falsch-10", "t": "Nein. Merk dir die.", "b": 4}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "nachhaken",
+   "name": "Nachhaken",
+   "bedarf": 15,
+   "s": [
+    {"id": "ha-nachhaken-01", "t": "Warum?"},
+    {"id": "ha-nachhaken-02", "t": "Begründung."},
+    {"id": "ha-nachhaken-03", "t": "Und nachts?"},
+    {"id": "ha-nachhaken-04", "t": "Und bei Nebel?"},
+    {"id": "ha-nachhaken-05", "t": "In einem Satz."},
+    {"id": "ha-nachhaken-06", "t": "Was steht im Katalog?"},
+    {"id": "ha-nachhaken-07", "t": "Was machst du jetzt? Jetzt."}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "haltung",
+   "name": "Haltung",
+   "bedarf": 8,
+   "s": [
+    {"id": "ha-haltung-01", "t": "Ich frag nicht, was du meinst. Ich frag, was gilt.", "b": 2},
+    {"id": "ha-haltung-02", "t": "Die See prüft härter als ich.", "b": 2},
+    {"id": "ha-haltung-03", "t": "Verstehen. Nicht auswendig.", "b": 2},
+    {"id": "ha-haltung-04", "t": "Ich will dich hier ankommen sehen. Mit Schein.", "b": 2},
+    {"id": "ha-haltung-05", "t": "Prüfung ist kein Wunschkonzert.", "b": 2}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "ende",
+   "name": "Anruf beenden",
+   "bedarf": 18,
+   "s": [
+    {"id": "ha-ende-01", "t": "Das war's."},
+    {"id": "ha-ende-02", "t": "Morgen wieder."},
+    {"id": "ha-ende-03", "t": "Grüß Hinnerk. Oder lass es."},
+    {"id": "ha-ende-04", "t": "Ende."},
+    {"id": "ha-ende-05", "t": "Fahrt vorsichtig."},
+    {"id": "ha-ende-06", "t": "Harms Ende."},
+    {"id": "ha-ende-07", "t": "Pass auf ihn auf.", "tage": [5, 6, 7], "hinweis": "nach Tag 5, über Hinnerk"},
+    {"id": "ha-ende-08", "t": "Bis zum nächsten Mal. Üben."},
+    {"id": "ha-ende-09", "t": "Schluss für heute."}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "hinnerk",
+   "name": "Mit Hinnerk",
+   "bedarf": 8,
+   "klein": true,
+   "s": [
+    {"id": "ha-hinnerk-01", "t": "Hinnerk.", "b": 2},
+    {"id": "ha-hinnerk-02", "t": "Die Elbe, Hinnerk. Wir wissen beide.", "b": 2},
+    {"id": "ha-hinnerk-03", "t": "Im Nebel war keiner zuerst da.", "b": 2},
+    {"id": "ha-hinnerk-04", "t": "Immer noch kein Funkgerät, das geht?", "b": 2}
+   ]
+  },
+  {
+   "wer": "kroeger",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "s": [
+    {"id": "ha-erkennung-01", "t": "Gut.", "b": 1, "e": true, "tage": [7], "hinweis": "genau einmal, an Tag 7"},
+    {"id": "ha-erkennung-02", "t": "Geht.", "b": 6, "e": true},
+    {"id": "ha-erkennung-03", "t": "Wer klingelt mich da aus der Koje? Ach, du.", "b": 2, "e": true, "hinweis": "nur, wenn du ihn anrufst"},
+    {"id": "ha-erkennung-04", "t": "Wer rät, sitzt auf Grund.", "b": 2, "e": true}
+   ]
+  },
+  {
+   "wer": "jasper",
+   "lage": "einfach",
+   "name": "Ganz einfach",
+   "bedarf": 6,
+   "tage": [4, 5, 6],
+   "s": [
+    {"id": "ja-einfach-01", "t": "Ganz einfach, Leute:", "b": 2},
+    {"id": "ja-einfach-02", "t": "Das hab ich im Gefühl.", "b": 2},
+    {"id": "ja-einfach-03", "t": "Wozu Karte, ich kenn das hier.", "b": 2},
+    {"id": "ja-einfach-04", "t": "Glaubt mir, ich segel seit zwanzig Jahren.", "b": 2},
+    {"id": "ja-einfach-05", "t": "Kinderspiel.", "b": 2}
+   ]
+  },
+  {
+   "wer": "jasper",
+   "lage": "irrtum",
+   "name": "Falsche Faustregeln (Smilla klärt jede in derselben Szene auf)",
+   "bedarf": 6,
+   "tage": [4, 5, 6],
+   "hinweis": "Inhalt geprüft ohne quellen/ (R8): jede Regel ist absichtlich falsch und wird in derselben Szene berichtigt (HR15).",
+   "s": [
+    {"id": "ja-irrtum-01", "t": "Segler haben immer Vorrang.", "b": 1, "hinweis": "falsch: nicht immer, zum Beispiel nicht als Überholer und nicht gegenüber Schiffen, die nur im Fahrwasser fahren können"},
+    {"id": "ja-irrtum-02", "t": "Rot ist immer links. Immer.", "b": 1, "hinweis": "falsch: rot an Backbord gilt nur in Fahrtrichtung von See her"},
+    {"id": "ja-irrtum-03", "t": "Wenn ich ihn sehe, sieht er mich auch.", "b": 1, "hinweis": "falsch: kleine Boote verschwinden im Radarschatten und im toten Winkel großer Schiffe"},
+    {"id": "ja-irrtum-04", "t": "Nebel? Schneller fahren, dann ist man schneller durch.", "b": 1, "hinweis": "falsch: bei verminderter Sicht sichere Geschwindigkeit"},
+    {"id": "ja-irrtum-05", "t": "Anker? So viel Kette, wie es tief ist. Reicht.", "b": 1, "hinweis": "falsch: deutlich mehr Kette als die Wassertiefe"},
+    {"id": "ja-irrtum-06", "t": "Zwei Lichter übereinander? Zwei kleine Boote.", "b": 1, "hinweis": "falsch: ein Fahrzeug mit besonderer Lichterführung"}
+   ]
+  },
+  {
+   "wer": "jasper",
+   "lage": "segel",
+   "name": "Segel gegen Motor",
+   "bedarf": 4,
+   "klein": true,
+   "tage": [4, 5, 6],
+   "s": [
+    {"id": "ja-segel-01", "t": "Na, ihr Stinker?", "b": 1},
+    {"id": "ja-segel-02", "t": "Echte Seeleute brauchen keinen Motor.", "b": 1},
+    {"id": "ja-segel-03", "t": "Ich riech euch, bevor ich euch seh.", "b": 1},
+    {"id": "ja-segel-04", "t": "Motorboot. Süß.", "b": 1}
+   ]
+  },
+  {
+   "wer": "jasper",
+   "lage": "danach",
+   "name": "Nach der Rettung (6-6)",
+   "bedarf": 2,
+   "klein": true,
+   "tage": [6],
+   "s": [
+    {"id": "ja-danach-01", "t": "Danke. Ehrlich.", "b": 1},
+    {"id": "ja-danach-02", "t": "Ich weiß es nicht. Also das alles.", "b": 1},
+    {"id": "ja-danach-03", "t": "Ich hätt die Karte mitnehmen sollen.", "b": 1}
+   ]
+  },
+  {
+   "wer": "jasper",
+   "lage": "erkennung",
+   "name": "Erkennungssätze",
+   "klein": true,
+   "tage": [4, 5, 6],
+   "s": [
+    {"id": "ja-erkennung-01", "t": "Ich sag immer Nord.", "b": 2, "e": true}
+   ]
+  },
+  {
+   "wer": "hafen",
+   "lage": "hafen",
+   "name": "Hafenmeisterin Kuttershaven",
+   "bedarf": 6,
+   "s": [
+    {"id": "hm-hafen-01", "t": "Erst melden, dann festmachen.", "b": 2},
+    {"id": "hm-hafen-02", "t": "Fender raus, bevor du bei mir anlegst.", "b": 2},
+    {"id": "hm-hafen-03", "t": "Hab ich gesehen. Alle haben das gesehen.", "b": 2},
+    {"id": "hm-hafen-04", "t": "Hinnerk, dein Strom ist nicht bezahlt.", "b": 2},
+    {"id": "hm-hafen-05", "t": "Liegeplatz drei. Und diesmal mit Fendern.", "b": 2}
+   ]
+  }
+ ]
+}

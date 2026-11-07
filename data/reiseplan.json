@@ -24,21 +24,18 @@
    "folgen": [
     {
      "id": "1-1",
-     "titel": "Wer hier was zu sagen hat",
+     "titel": "Ankommen",
      "art": "kajuete",
      "ort": "Kajüte, Kuttershaven",
      "du": "zuhoeren",
-     "fragen": "1-2,59,67-70,72",
-     "text": "Morgenbesprechung: Ziel der Reise, wer Schiffsführer ist und wer überhaupt ohne Schein fahren darf, Westen, Feuerlöscher, was im Ernstfall zu tun ist. Klabauter fehlt seit Tagen; Hinnerk tut, als wäre ihm das egal. Bauchregel „In Fahrt is man, wenn der Motor läuft“.",
+     "fragen": "1-2,59",
+     "text": "Kurz und gemütlich: Du kommst in Kuttershaven an, mitten hinein in eine Lage (Ideen in Besprechung). Wer an Bord das Sagen hat und wer überhaupt nicht fahren darf: Alkohol, aber auch körperliche Mängel (Hinnerk wird still, erste Spur seines Geheimnisses). Ein E-Boot ohne Schein. Klabauter fehlt. Harms ruft an.",
      "stoff": [
       "K-GRU-01",
-      "K-REC-01",
-      "K-SIC-01",
-      "K-SIC-02"
+      "K-REC-01"
      ],
      "bloecke": [
-      "G1.1",
-      "G4.2"
+      "G1.1"
      ]
     },
     {
@@ -136,13 +133,16 @@
      "art": "kajuete",
      "ort": "Kajüte, Schilfwinkel",
      "du": "zuhoeren",
-     "fragen": "7,10-13",
-     "text": "Es wird dunkel, das Ankerlicht geht an. Hinnerk erklärt, wozu Lichter da sind: Wer bin ich, wohin fahre ich. Klabauter plappert alles nach. Smilla erzählt, welche Knoten man an Bord wofür braucht (noch ohne Tau). Harms ruft an.",
+     "fragen": "7,10-13,67-70,72",
+     "text": "Es wird dunkel, das Ankerlicht geht an: wozu Lichter da sind. Beim Kochen zeigt Smilla den Feuerlöscher und die Westen. Harms ruft an, danach fragt Smilla, was zwischen den beiden ist. Hinnerk: „Wir hatten mal ’n Rempler. Auf der Elbe.“ Was nach einem Zusammenstoß zu tun ist, wann Notsignale erlaubt sind. Klabauter sitzt seit dem Schilfwinkel wieder auf dem Kajütdach.",
      "stoff": [
       "K-GRU-02",
-      "K-LIC-01"
+      "K-LIC-01",
+      "K-SIC-01",
+      "K-SIC-02"
      ],
      "bloecke": [
+      "G4.2",
       "G5.1"
      ]
     }
@@ -454,7 +454,7 @@
      "ort": "Kanalhafen Moorende",
      "du": "zuhoeren",
      "fragen": "73-74,152-153",
-     "text": "Abends in Moorende: Ab morgen gelten andere Regeln als auf Quirins Flüssen. Welche Regeln wo gelten, und warum Quirin trotzdem bleibt: Er will den Schein mit dir zusammen machen. Dann Quirins Andeutung zum Wrack, „da wo der Hinnerk damals …“",
+     "text": "Abends in Moorende: Ab morgen gelten andere Regeln als auf Quirins Flüssen. Welche Regeln wo gelten. Quirin erzählt, warum er hier ist: Er will umsatteln, auf einen Job auf hoher See, und der Seeschein ist der erste Schritt. Und er hofft, dass sich die Seekrankheit gibt. Dann seine Andeutung zum Wrack, „da wo der Hinnerk damals …“",
      "anwenden": [
       "K-TAF-01",
       "K-KVR-03"
@@ -473,7 +473,7 @@
    "titel": "Watt und Wrack",
    "ort": "Wattenmeer Groter Sand → Wrackgebiet → Insel Lüttoog",
    "du": "selbst steuern mit Aufsicht, ankern",
-   "story": "Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen paukt man Recht. Auf Lüttoog liegt Jasper.",
+   "story": "Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen paukt man Recht, dann geht Quirin übers Watt zu seinem Probetag. Auf Lüttoog liegt Jasper.",
    "haken": "Die Tide zwingt zur Nachtfahrt. Hinnerk wird still.",
    "set": "Fach 3: dickes Tau und Mini-Anker.",
    "knoten": [
@@ -568,7 +568,7 @@
      "ort": "Trockenfallplatz",
      "du": "mitmachen",
      "fragen": "75-78,89-90",
-     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig.",
+     "text": "Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“",
      "stoff": [
       "K-KNO-02",
       "K-KNO-03",
@@ -591,7 +591,7 @@
      "ort": "Watt nach Lüttoog",
      "du": "selbst",
      "fragen": "",
-     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Im Inselhafen liegt Jasper.",
+     "text": "Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Im Inselhafen liegt Jasper an seiner Boje und weiß alles besser.",
      "stoff": [],
      "anwenden": [
       "K-NAV-02",
@@ -640,7 +640,7 @@
      "ort": "Kajüte, Lüttoog",
      "du": "zuhoeren",
      "fragen": "93-96,108-112,133-134",
-     "text": "Schlepper, Fischer und Tiefgangbehinderte: Lichter und Signalkörper. Jasper kommt zu Besuch und verwechselt alles, Quirin auch, aber anders.",
+     "text": "Schlepper, Fischer und Tiefgangbehinderte: Lichter und Signalkörper. Jasper kommt zu Besuch und verwechselt alles mit voller Überzeugung.",
      "stoff": [
       "K-LIC-02",
       "K-LIC-03",
@@ -886,7 +886,7 @@
    "titel": "Ankunft",
    "ort": "Insel Harmsoog mit Harms' Segelschule",
    "du": "du führst die Frieda",
-   "story": "Du führst den letzten Schlag, die Crew ist Passagier. Harms erwartet euch an seinem Segelschiff Albertine. Theorie und Praxis. Dann Smillas Abschied.",
+   "story": "Du führst den letzten Schlag, die Crew ist Passagier. Harms erwartet euch an seinem Segelschiff Albertine. Quirin kommt zurück, und Harms prüft euch beide, Theorie und Praxis. Dann Smillas Abschied.",
    "haken": "Bonus: Rückweg mit Hinnerk allein. Smilla winkt vom großen Schiff.",
    "set": "Fach 6: Skipperwimpel.",
    "navi": "N6 Kreuzpeilung, alles gemischt",
@@ -931,7 +931,7 @@
      "ort": "An Bord des Segelschiffs",
      "du": "pruef",
      "fragen": "",
-     "text": "Die große Probeprüfung: 30 Fragen und eine Kartenaufgabe.",
+     "text": "Quirin kommt mit der Fähre von seinem Probetag, grün im Gesicht, aber mit Neuigkeiten. Die große Probeprüfung für euch beide: 30 Fragen und eine Kartenaufgabe. Harms prüft, ohne Musik, ohne Witze, zügig.",
      "bloecke": [],
      "stoff": []
     },
@@ -981,24 +981,24 @@
   {
    "wer": "klabauter",
    "ab": "1-6",
-   "hinweis": "Gehört zur Frieda, ist beim Aufbruch aber verschwunden („Der kommt wieder. Klabautermänner kommen immer wieder.“). In der Abenddämmerung im Schilfwinkel landet er auf dem Kajütdach, als wäre nichts gewesen."
+   "hinweis": "Gehört zur Frieda, ist beim Aufbruch einfach abgehauen. Die Crew vermisst ihn, Hinnerk tut gleichgültig und legt trotzdem jeden Abend Zwieback raus. Im Schilfwinkel sitzt er plötzlich wieder auf dem Kajütdach, als wäre nichts gewesen."
   },
   {
    "wer": "quirin",
    "ab": "2-7",
-   "hinweis": "Wartet in Klüverhafen: Binnenschiffer aus Kelheim, kennt Boote, Motoren, Knoten und Schleusen besser als alle, aber die Regeln auf See kennt er nicht. Er will den SBF See und fragt, ob er bis Harmsoog mitfahren darf. Ab Tag 3 an Bord; auf offener See wird er seekrank."
+   "bis": "4-5",
+   "zurueck": "7-3",
+   "hinweis": "Binnenschiffer aus Kelheim, kennt Boote, Motoren, Knoten und Schleusen, aber nicht die Regeln auf See. Will umsatteln auf einen Job auf hoher See, der Seeschein ist der erste Schritt; hofft, die Seekrankheit zu überwinden. Steigt in Klüverhafen zu, geht in 4-5 übers Watt zu einem Probetag und kommt zur Prüfung zurück."
   },
   {
    "wer": "jasper",
-   "gast": [
-    "4-6",
-    "5-2",
-    "6-6"
-   ]
+   "ab": "4-6",
+   "bis": "6-6",
+   "hinweis": "Segler an seiner Boje vor Lüttoog, weiß alles besser. Gast in 4-6, 5-2 und 6-6 (Seenot), nie gleichzeitig mit Quirin."
   },
   {
    "wer": "kroeger",
-   "gast": "ruft an, prüft an Tag 7"
+   "gast": "ruft an; prüft nur in der Fragerunde am Ende und an Tag 7"
   }
  ],
  "ueberblicke": [

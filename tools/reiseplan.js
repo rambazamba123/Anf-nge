@@ -4,7 +4,7 @@
    v5.24 (Hörreise, E25, docs/reise.md §7): Themenblöcke aus podcast/kursplan-sbf.json: Feld bloecke stimmt mit den Fragen überein; System-Blöcke werden nicht geteilt
    (Regel-Blöcke dürfen Regel für Regel verteilt werden); höchstens drei Blöcke je Folge; ein Überblick kommt vor (oder in) der Folge seiner Blöcke;
    Wiederholen: Feld wieder, nur nach der Heimat-Folge; Überblicke höchstens einer je Folge und drei je Tag.
-   Crew: Folgen nennen nur Figuren, die schon an Bord sind; sobald es sie gibt: Ablaufmuster (muster) und Abschluss-Abfrage (abfrage) nie zweimal hintereinander gleich.
+   Crew: Folgen nennen nur Figuren, die an Bord sind (ab, bis, zurueck); Quirin und Jasper nie gleichzeitig; sobald es sie gibt: Ablaufmuster (muster) und Abschluss-Abfrage (abfrage) nie zweimal hintereinander gleich.
    Aufruf: node tools/reiseplan.js [--check] */
 const fs = require('fs'), R = __dirname + '/../';
 const P = JSON.parse(fs.readFileSync(R + 'data/reiseplan.json', 'utf8')), K = JSON.parse(fs.readFileSync(R + 'data/kompetenzen.json', 'utf8'));
@@ -41,10 +41,13 @@ const UID = new Set(); for (const u of P.ueberblicke || []) { if (UID.has(u.id))
   for (const b of u.bloecke) { if (!BL[b]) { fehler.push(`Überblick ${u.id}: Block ${b} gibt es nicht`); continue; } for (const h of heimat[b] || []) if (POS[h] < POS[u.folge]) fehler.push(`Block ${b} (${h}) kommt vor seinem Überblick ${u.id} (${u.folge})`); } }
 /* Crew wächst: Klabauter und Quirin erst ab ihrer Folge (Feld wer in Folgen, Abschluss-Abfrage „klabauter“) */
 const AB = Object.fromEntries((P.crew || []).filter(c => c.ab).map(c => [c.wer, POS[c.ab]]));
-for (const c of P.crew || []) if (c.ab && POS[c.ab] == null) fehler.push(`Crew ${c.wer}: Folge ${c.ab} gibt es nicht`);
+for (const c of P.crew || []) for (const k of ['ab', 'bis', 'zurueck']) if (c[k] && POS[c[k]] == null) fehler.push(`Crew ${c.wer}: Folge ${c[k]} (${k}) gibt es nicht`);
+/* An Bord ist, wer ab seiner Folge da ist, bis zur Folge „bis“, und wieder ab „zurueck“ (Nutzer 07.11.2026: Quirin oder Jasper, nie beide zugleich) */
+const anBord = (w, i) => { const c = (P.crew || []).find(x => x.wer === w); if (!c || !c.ab) return true; return (i >= POS[c.ab] && (c.bis == null || i <= POS[c.bis])) || (c.zurueck != null && i >= POS[c.zurueck]); };
+ALLE.forEach((f, i) => { if (anBord('quirin', i) && anBord('jasper', i) && (P.crew || []).some(c => c.wer === 'jasper' && c.ab)) fehler.push(`${f.id}: Quirin und Jasper wären gleichzeitig an Bord`); });
 const ABFRAGEN = ['harms', 'logbuch', 'klabauter'];
 ALLE.forEach((f, i) => { const v = ALLE[i - 1];
-  for (const w of f.wer || []) if (AB[w] != null && i < AB[w]) fehler.push(`${f.id}: ${w} ist da noch nicht an Bord`);
+  for (const w of f.wer || []) if (!anBord(w, i)) fehler.push(`${f.id}: ${w} ist da nicht an Bord`);
   if (f.abfrage && !ABFRAGEN.includes(f.abfrage)) fehler.push(`${f.id}: Abfrage ${f.abfrage} unbekannt (${ABFRAGEN})`);
   if (f.abfrage === 'klabauter' && i < AB.klabauter) fehler.push(`${f.id}: Klabauter-Quiz, bevor Klabauter an Bord ist`);
   if (v && f.muster && f.muster === v.muster) fehler.push(`${f.id}: dasselbe Ablaufmuster wie ${v.id} (${f.muster})`);

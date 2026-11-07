@@ -85,7 +85,7 @@ async function schritt(s, api, f) {
 async function gemeldet(api, k, dim, ok, info) { if (!window.LERN || !k) return; const r = LERN.melde(k, dim, ok, info); if (!r || !r.neu) return;
   /* Hinnerk sagt nie „freigegeben“, er hat seine eigenen Wörter (docs/reise.md §2); manchmal zündet er sich nur wortlos die Pfeife an */
   const zufall = a => a[Math.floor(Math.random() * a.length)];
-  if (r.nach === 'freigegeben') { api.notiz(`📒 ${esc2(LERN.name(k))}: <b>gehört jetzt dir</b>`, 3600); if (Math.random() < .3) { api.pfeife(); await api.sprich('smilla', 'Er zündet sich die Pfeife an. Das heißt: gut.'); } else await api.sprich('hinnerk', zufall(['Dat gehört jetzt dir.', 'Mach du man.', 'Kannst du. Ab jetzt du.'])); await api.sprich('klabauter', zufall(['Darf! Darf!', 'Kann er! Kann er!'])); }
+  if (r.nach === 'freigegeben') { api.notiz(`📒 ${esc2(LERN.name(k))}: <b>gehört jetzt dir</b>`, 3600); if (Math.random() < .3) { api.pfeife(); await api.sprich('smilla', 'Er zündet sich die Pfeife an. Das heißt: gut.'); } else await api.sprich('hinnerk', zufall(['Dat gehört jetzt dir.', 'Mach du man.', 'Kannst du. Ab jetzt du.'])); await api.sprich('klabauter', zufall(['Darf! Darf!', 'Kann\'s! Kann\'s!'])); }
   else if (r.nach === 'sicher') { api.notiz(`📒 ${esc2(LERN.name(k))}: <b>sitzt</b>`, 3600); await api.sprich('hinnerk', zufall(['Sitzt wie \'n Webeleinstek.', 'Dat sitzt.'])); }
   else if (r.nach === 'geuebt' && r.vor !== 'geuebt') api.notiz(`📒 Geübt: ${esc2(LERN.name(k))}`, 2400); }
 const nah = (api, z) => Math.hypot(api.P.x - z.x, api.P.z - z.z) < (z.r || 6);

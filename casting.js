@@ -127,5 +127,30 @@
     w.querySelector('#cbl').onclick = () => bibliothek(w);
     w.querySelector('#ccp').onclick = async () => { txt(); try { await navigator.clipboard.writeText(zuordnungText()); toast('Kopiert. Jetzt in den Chat mit Claude einfügen.'); } catch (e) { w.querySelector('#ctx').select(); } };
   }
-  window.CASTING = {oeffnen};
+  /* Hörproben der aktuell gewählten Stimmen (Nutzer, 07.11.2026): gratis.
+     ▶ Vorschau = Hörbeispiel von ElevenLabs (braucht den Schlüssel, kostet nichts, oft ein englischer Satz).
+     ▶ Aus der App = ein deutscher Satz aus dem Stimmenpaket (geht ohne Schlüssel; Klabauter dort noch mit der alten Stimme). */
+  async function hoerproben() {
+    let man = null;
+    try { if (!cast) [cfg, cast] = await Promise.all(['podcast/audio_config.json', 'podcast/casting.json'].map(u => fetch(u + '?v=' + window.__ver).then(r => r.json()))); } catch (e) { return toast('Die Stimmenliste ließ sich nicht laden.'); }
+    try { man = await fetch('audio/stimmen/manifest.json?v=' + window.__ver).then(r => r.json()); } catch (e) {}
+    if (elKey()) { try { stimmen = await VOX.listVoices(); } catch (e) { stimmen = []; } }
+    const w = sheet(`<h3 style="margin-top:0">🎧 Stimmen anhören</h3>
+      <p class="small muted" style="margin:0 0 8px">Alle Rollen mit der Stimme, die gerade gewählt ist. Beides ist gratis: „Vorschau“ ist das Hörbeispiel von ElevenLabs (oft ein englischer Satz), „Aus der App“ ein deutscher Satz aus dem Stimmenpaket. Fehlt eine Stimme, such sie bei ElevenLabs aus und schick Claude die ID.</p>
+      <div id="hpl"></div><p class="status" id="hps"></p>
+      <div class="row" style="margin-top:8px"><button class="btn ghost" id="hpc">🎭 Zum Stimmen-Casting</button></div>`);
+    w.addEventListener('click', e => { if (e.target.closest('[data-close]')) stop(); });
+    const satzVon = pid => { if (!man || !pid) return []; return Object.entries(man.texts || {}).filter(([, t]) => t.startsWith(pid + ':')).map(([k]) => (man.files || {})[k]).filter(Boolean); };
+    w.querySelector('#hpl').innerHTML = cast.rollen.filter(r => r.id !== 'ERZAEHLER').map(r => {
+      const a = ist(r.id), v = a && stimmen.find(x => x.id === a.id), pid = (cfg.figuren[r.id] || {}).paket_id, clips = satzVon(pid);
+      const alt = pid && man && man.voices && a && man.voices[pid] !== a.id;
+      const name = a ? (v ? v.name : (a.name && a.name !== 'bisher' ? a.name : 'ID ' + a.id.slice(0, 6))) : null;
+      return `<div style="margin:6px 0;padding:8px;border-radius:12px;border:1px solid var(--line)"><b>${esc(r.name.replace(/ \(.*\)$/, ''))}</b> <small class="muted">${name ? esc(name) : 'noch keine Stimme'}</small>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${v && v.preview ? `<button class="btn ghost small" style="flex:1" data-hv="${esc(v.preview)}">▶ Vorschau</button>` : ''}${clips.length ? `<button class="btn ghost small" style="flex:1" data-hc="${esc(pid)}">▶ Aus der App${alt ? ' (alte Stimme)' : ''}</button>` : ''}${!a ? `<span class="small muted">Fehlt: bitte ID schicken</span>` : (!v && !clips.length ? `<span class="small muted">${elKey() ? 'Nicht in deinem Konto: im Casting „holen“' : 'Vorschau braucht den ElevenLabs-Schlüssel'}</span>` : '')}</div></div>`;
+    }).join('');
+    w.querySelectorAll('[data-hv]').forEach(b => b.onclick = () => spiel(b.dataset.hv));
+    w.querySelectorAll('[data-hc]').forEach(b => b.onclick = () => { const l = satzVon(b.dataset.hc); spiel('audio/stimmen/' + l[Math.random() * l.length | 0]); });
+    w.querySelector('#hpc').onclick = () => { stop(); w.querySelector('[data-close]') && w.querySelector('[data-close]').click(); oeffnen(); };
+  }
+  window.CASTING = {oeffnen, hoerproben};
 })();

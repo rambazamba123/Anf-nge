@@ -180,3 +180,11 @@ Neue feste Sätze im Kennenlernen (`ONB` in `index.html`, kommen ins Stimmenpake
 ## Neu in v5.03 (Reise Tag 1 und 2, Knoten)
 - Die Sätze der Reise-Tage (`data/reise.json` → `tage[].schritte`) sind Platzhalter bis zur Story (B164) und laufen mit der Gratis-Stimme.
 - Neu je Knoten ein Satz zum Mitsagen (`spruch` in `data/knoten.json`), gesprochen von Hinnerk als „Zum Mitsagen: …“. Kommt ins Stimmenpaket, sobald die Knotensätze vertont werden.
+
+## Neu in v5.24 (Anrede, Nutzer 07.11.2026)
+Neue feste Sätze im Kennenlernen (`ONB`, `ONB2` in `index.html`, kommen ins Stimmenpaket). Gefragt wird nach dem Namen; die Wahl steht in `S.profile.anrede` (`w`, `m` oder `n`, Standard `n`) und lässt sich in den Einstellungen ändern.
+- Smilla: „Und wie reden wir dich an? Der Käpt'n sagt sonst zu allen Landratte.“
+- Käpt'n (weiblich): „Jo. Dann bist du ab heute unsere Deern an Bord. Nimm's als Ehre.“
+- Käpt'n (männlich): „Jo. Dann bist du ab heute unser Jung an Bord. Nimm's als Ehre.“
+- Smilla (neutral): „Geht klar. Dann bleibst du unsere Landratte, bis du was Besseres verdient hast.“
+- Klabauter (Freigabe in 3D, `welt-folge.js`): „Kann's! Kann's!“ statt „Kann er! Kann er!“ (geschlechtsneutral).

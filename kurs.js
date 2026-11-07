@@ -28,7 +28,13 @@
 
   /* Skript → Ablauf: [{t: 'abschnitt'|'revier'|'rede'|'pause'|'wahl'|'bild'|'signal'|'ton', …, bereich?}]
      Sprecherzeilen hintereinander werden zu einer Anfrage (höchstens max_zeichen), Regiecodes trennen. */
+  /* Anrede nach Wahl (docs/reise.md HR24): {{anrede:w=…|m=…|n=…}} → die Variante aus S.profile.anrede (Standard neutral) */
+  const anredeAuf = (txt, a) => String(txt).replace(/\{\{\s*anrede\s*:([^}]*)\}\}/g, (_, wert) => {
+    const v = {}; wert.split('|').forEach(t => { const m = t.match(/^\s*([wmn])\s*=(.*)$/); if (m) v[m[1]] = m[2].trim(); });
+    return v[a] || v.n || '';
+  });
   function zerlege(txt, cfg, ger = {}) {
+    txt = anredeAuf(txt, typeof anrede === 'function' ? anrede() : 'n');
     const fig = cfg.figuren || {}, max = (cfg.chunking && cfg.chunking.max_zeichen) || 2000;
     const TAGS = {INTENTION: cfg.intentionen, PAUSE: cfg.pause_tags, TEMPO: cfg.tempo_tags};
     const tagVon = (kat, wert) => { const e = (TAGS[kat] || {})[(wert || '').trim()]; return e ? e.tag : ''; };
