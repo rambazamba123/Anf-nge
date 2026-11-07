@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.27';
+  window.__ver = '5.28';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1887,7 +1887,9 @@ const VOX = (() => {
   const loadPhone = () => { try { phoneVoices = speechSynthesis.getVoices().filter(v => /^de/i.test(v.lang)); } catch (e) {} };
   if ('speechSynthesis' in window) { loadPhone(); speechSynthesis.onvoiceschanged = loadPhone; }
   /* H2 Gratis-Stimme: jede Figur bekommt, wenn das Handy mehrere deutsche Stimmen hat, eine eigene (oder die gewählte aus S.cfg.handy) */
-  const PHONE_REIHE = {hinnerk: 0, smilla: 1, klabauter: 2, kroeger: 3};
+  const PHONE_REIHE = {hinnerk: 0, smilla: 1, klabauter: 2, kroeger: 3, quirin: 4, hafenmeister: 5, polizei: 6, jasper: 7, fischer: 8, funk: 9, erzaehler: 10, rangerin: 11};
+  /* Gäste der Hörreise ohne eigenen Eintrag in CREW: mit nur einer Handystimme wenigstens eine andere Tonlage */
+  const GAST_TON = {quirin: {pitch: .85, rate: 1.05}, hafenmeister: {pitch: 1.2}, polizei: {pitch: .95, rate: 1.05}, jasper: {pitch: 1.1, rate: 1.12}, fischer: {pitch: .75, rate: .95}, funk: {pitch: 1, rate: 1.1}, erzaehler: {pitch: 1}, rangerin: {pitch: 1.3}};
   function phoneSorted() { const bev = v => /Google|Anna|Petra|Helena|Katja|Markus|Yannick/i.test(v.name) ? 0 : 1; return phoneVoices.slice().sort((x, y) => bev(x) - bev(y) || (x.localService === y.localService ? 0 : x.localService ? 1 : -1)); }
   function phoneVoiceOf(cid) {
     const wahl = S.cfg && S.cfg.handy && S.cfg.handy[cid], liste = phoneSorted();
@@ -1905,7 +1907,7 @@ const VOX = (() => {
   function playPhoneOne(text, cid) {
     return new Promise(res => {
       if (!('speechSynthesis' in window)) return res();
-      const c = CREW[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
+      const c = CREW[cid] || GAST_TON[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
       u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
       const v = phoneVoiceOf(cid); if (v) u.voice = v;
       let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
@@ -3243,7 +3245,7 @@ function renderCabin() {
   const sc = app.querySelector('.scene.cabin');
   bindFernglas(sc);
   app.querySelectorAll('.cabin .ch').forEach(g => g.addEventListener('click', () => { AUD.unlock(); charMenu(g.dataset.ch); }));
-  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => reiseOeffnen(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
+  const SPOT = {buecher: () => meinePruefungen(), plan: () => meinePruefungen(), tisch: () => hoerreiseWahl(), manoever: () => maneuverGame(), deck: () => setTab('deck'), funk: () => setTab('funk'), logbuch: () => setTab('log'), telefon: () => harmsKommt(), kiste: () => { AUD.sfx('tuerAuf', {vol: .5}); renderSettings(); },
     knoten: () => knotenBrett(), spiele: () => gamesHub(), hocker: () => hockerWahl(), karte: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }};
   app.querySelectorAll('[data-spot]').forEach(b => b.onclick = () => { AUD.unlock(); AUD.click(); (SPOT[b.dataset.spot] || (() => {}))(); });
   /* Überall was zu entdecken: Uhr, Lampe, Maus, Möwe, Krebs, Spinne */
@@ -4501,7 +4503,7 @@ function renderBoat() {
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
-      <button class="btn wide reiseknopf" id="toreise"><small>🧭 Mit der Crew weiter</small><b>Probetag: Erste Meilen über die Elbe</b></button>
+      <button class="btn wide reiseknopf" id="toreise"><small>🎧 Hörreise mit der Crew</small><b>Folge ${hoerreiseNaechste() + 1}: ${esc(HOERREISE[hoerreiseNaechste()][1])}</b></button>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
       <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
@@ -4510,7 +4512,7 @@ function renderBoat() {
     ${standKarte(path, next)}
     <button class="gear" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>`;
   const sc = app.querySelector('.scene.boat');
-  $('#toreise').onclick = () => { AUD.unlock(); AUD.click(); reiseOeffnen(); };
+  $('#toreise').onclick = () => { AUD.unlock(); AUD.click(); hoerreiseOeffnen(HOERREISE[hoerreiseNaechste()][0]); };
   $('#down').onclick = goBelow; $('#inst').onclick = () => appInstallieren(); $('#crs').onclick = courseSheet;
   if (next) $('#kursheute').onclick = () => { AUD.unlock(); AUD.click(); lernHeim = 'deck'; next.run(); };
   else bindExtraWahl();
@@ -4949,17 +4951,11 @@ function renderFrei() {
       ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
       ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
       ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
-    ['Nachschlagen und Hören', [...FOLGEN3D.map(([id, t, u]) => ['🎬', t, u, () => welt3dFolge(id)]),
-      ['🚧', 'Folge 1 in 2D (alter Rohbau)', 'Zum Vergleich: dieselbe Folge ohne 3D', () => folgeOeffnen('folge-01')],
+    ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${i + 1}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
       ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
-      ['🎬', '3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten mit der Crew', () => nachladen('welt.js').then(() => WELT.seite({folge: 'probe'})).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); })],
-      ['🌊', '3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht', () => nachladen('welt.js').then(() => WELT.seite()).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); })],
       ['🎞️', 'Animationen', 'Je Gruppe ein Beispiel: Radeffekt, Ausweichen, Lichter, Gezeiten und mehr', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
       ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
-      ['🎧', 'Kajütenfunk', 'Die Probefolge', () => nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Ließ sich nicht laden.'))],
-      ['🎧', 'Hörreise: Folge 1', 'Erster Morgen (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-1')).catch(() => toast('Ließ sich nicht laden.'))],
-      ['🎧', 'Hörreise: Folge 2', 'Gas, Sprit und Streichholz (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-2')).catch(() => toast('Ließ sich nicht laden.'))],
-      ['🎧', 'Hörreise: Folge 3', 'Das Heck zieht weg (Entwurf)', () => nachladen('kurs.js').then(() => KURS.oeffnen('reise-1-3')).catch(() => toast('Ließ sich nicht laden.'))]]],
+      ['🗄️', 'Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, 3D-Welt', () => alteFolgen()]]],
     ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
       ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
       ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()],
@@ -5022,11 +5018,30 @@ function castingOeffnen() { return nachladen('casting.js').then(() => CASTING.oe
 function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.seite({zurueck})).catch(() => toast('Das ließ sich nicht laden. Prüf dein Internet.')); }
 /* V42: In den drei Wochen vor dem Praxistermin bekommt die Praxis mehr Gewicht im Kurs für heute */
 function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
-/* Hocker: Kajütenfunk hören (V41, Probefolge in kurs.js) oder der Crew zuhören */
+/* Hörreise (docs/reise.md, E25): die neuen Folgen; alles Ältere liegt gesammelt unter „Alte Folgen und Tests“ (Nutzer, 07.11.2026) */
+const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten']];
+function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
+/* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
+function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
+function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${i + 1} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
+function hoerreiseWahl() {
+  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('alt', '🗄️ Alte Folgen und Tests', 'Was vor der Hörreise gebaut wurde')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+}
+/* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
+function alteFolgen() {
+  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
+  const weltSeite = o => nachladen('welt.js').then(() => WELT.seite(o)).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); });
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); const m = b.dataset.m;
+    if (m === 'crew') return bgSit(); if (m.startsWith('w:')) return welt3dFolge(m.slice(2)); if (m === 'w3d') return weltSeite({folge: 'probe'}); if (m === 'welt') return weltSeite();
+    if (m === 'rohbau') return folgeOeffnen('folge-01'); if (m === 'probetag') return reiseOeffnen();
+    nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });
+}
+/* Hocker: Hörreise hören; alles Ältere unter „Alte Folgen und Tests“ */
 function hockerWahl() {
   if (bgChat) return bgStop();
-  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t, u)).join('')}${menuBtn('kurs:reise-1-1', '🎧 Hörreise: Folge 1 „Erster Morgen“', 'Entwurf mit Hinnerk, Smilla und Harms · etwa 7 Minuten')}${menuBtn('kurs:reise-1-2', '🎧 Hörreise: Folge 2 „Gas, Sprit und Streichholz“', 'Entwurf mit der Hafenmeisterin · etwa 11 Minuten')}${menuBtn('kurs:reise-1-3', '🎧 Hörreise: Folge 3 „Das Heck zieht weg“', 'Entwurf mit Radeffekt, Fähre und Sog · etwa 14 Minuten')}${menuBtn('kurs', '🎧 Kajütenfunk: Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Was die drei gerade erzählen')}`);
-  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'crew') return bgSit(); if (b.dataset.m.startsWith('w:')) return welt3dFolge(b.dataset.m.slice(2)); nachladen('kurs.js').then(() => KURS.oeffnen(b.dataset.m.startsWith('kurs:') ? b.dataset.m.slice(5) : 'probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });
+  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3><p class="small muted" style="margin:0 0 8px">🎧 Hörreise. Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('alt', '🗄️ Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
 async function bgSit() {
   if (bgChat) return bgStop();

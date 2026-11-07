@@ -38,6 +38,8 @@ for (const f of ALLE) { const soll = [...new Set(R2(f.fragen).map(q => QB[q]))].
   if (soll.length > 3) fehler.push(`${f.id}: ${soll.length} Themenblöcke, höchstens drei`);
   for (const b of soll) (heimat[b] = heimat[b] || []).push(f.id); }
 for (const [b, wo2] of Object.entries(heimat)) if (wo2.length > 1) { if (BL[b].form === 'system') fehler.push(`System-Block ${b} „${BL[b].titel}“ ist geteilt (${wo2}); er wird zusammen erklärt`); else warn.push(`Regel-Block ${b} verteilt auf ${wo2}`); }
+/* HR29: Wichtiges kommt öfter vor, wo es passt (nur Hinweis): System-Blöcke, von denen keine Frage später in wieder steht */
+{ const WQ = new Set(ALLE.flatMap(f => R2(f.wieder))); for (const [b, wo2] of Object.entries(heimat)) if (BL[b].form === 'system' && !BL[b].fragen.some(q => WQ.has(q))) warn.push(`System-Block ${b} „${BL[b].titel}“ (${wo2}) kommt in der Geschichte nicht wieder (HR29, nur wenn es passt)`); }
 /* Überblicke vor den Einzelheiten */
 const UTAG = {}, UF = {}; for (const u of P.ueberblicke || []) { UF[u.folge] = (UF[u.folge] || 0) + 1; const tg = String(u.folge).split('-')[0]; UTAG[tg] = (UTAG[tg] || 0) + 1; }
 for (const [f, n] of Object.entries(UF)) if (n > 1) fehler.push(`${f}: ${n} Überblicke in einer Folge, höchstens einer (HR5)`);

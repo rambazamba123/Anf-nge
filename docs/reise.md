@@ -133,7 +133,7 @@ Auf dem Tisch steht von Anfang an die **Miniatur-Frieda**. Es ist dasselbe Boot 
 | 3 | 2 | Ring, Kursdreieck, Zirkel, Übungskarte der Reise | Rundtörn, Webeleinstek, Navigation |
 | 4 | 3 | dickes Tau, Mini-Anker | Palstek, Kreuzknoten, Schotstek; Ankern |
 | 5 | 4 | Mini-Laternen zum Aufstecken | Lichterführung an der Miniatur-Frieda |
-| 6 | 5 | Mini-Rettungsring | Mensch über Bord |
+| 5 | 5 | Mini-Rettungsring | Mensch über Bord üben (5-7), im Sturm gebraucht (6-5) |
 | 7 | 6 | Skipperwimpel | Abschluss |
 
 Jede Übung hat zwei Wege: virtuell in der App und echt mit der Kiste („Hält er? Ehrlich.“). Beide zählen im Heft getrennt.
@@ -244,6 +244,10 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Nie zweimal hintereinander derselbe (Feld `abfrage`). ⚙
   - **Wenn Harms prüft, ist es ernst** (N 07.11.): Musik und Atmo aus, nur die Schiffsglocke. Harms liest trocken und zügig, keine Witze, kein Plaudern, keine Erklärungen dazwischen. Harms prüft nur hier und an Tag 7, nie mitten in der Geschichte. Smilla oder Hinnerk dürfen erst danach wieder reden (ein kurzer Satz, dann Musik).
 
+- **HR30 Fragerunde nach jeder Folge** (N 07.11.): Die Abschluss-Abfrage kommt am Ende jeder Folge, nicht am Ende des Tages. So liegen Erklärung und Abruf nah beieinander.
+  - Wer im Hörspiel nicht antwortet oder Aufgaben aufschiebt, paukt nach: Die Fragen zählen nur als „gehört“, kommen in den nächsten Fragerunden als fällige wieder und stehen als Zahl ↻ an der Station.
+  - Folgen mit Ernstfall und ohne neue Fragen fragen die Fragen aus `wieder` ab, dazu fällige ältere.
+
 ### 7.7 Bilder, Animationen, Aufgaben
 - **HR19 Bilder laufen mit:** Bilder und Animationen erscheinen während der Geschichte (wie im Kajütenfunk). Gesprochen wird so, dass man sie nicht braucht.
 - **HR20 Aufgaben:** Aufgaben mit Händen oder Augen (3D, Knoten, Karte, Bildfragen) laufen im Mitmachen direkt. Im Hörspiel macht sie die Crew, und sie landen in der Etappe (Abschnitt 3).
@@ -271,6 +275,11 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Frühestens zwei Folgen später passiert es überraschend, und du musst reagieren. Das ist zugleich die Wiederholung der Fragen (verteiltes Abrufen statt Wiederholen am Stück).
   - Im Plan: Feld `ernstfall` [{was, fragen}] in der späteren Folge, die Fragen stehen in `wieder`. ⚙
   - Erster Fall: Gas in 1-2 erklärt, Gasgeruch beim Kochen in 1-7.
+  - Umgestellt am 07.11. (B173): Nebel erklärt in 4-5 (Hinnerks Garn vom Zusammenstoß mit Harms auf der Elbe 1991) und 4-6 (Klabauters Horn-Spiel „Wer tutet da?“), Ernstfall Nebelbank 5-6. Mensch über Bord geübt mit Oskar in 5-7, Ernstfall Smilla über Bord 6-5. Notsignale erklärt in 6-1, Ernstfall Jaspers Mayday 6-6. Die Sturmvorbereitung 6-4 bleibt Einweisung: Der Sturm zieht erst auf, er trifft in 6-5.
+- **HR29 Wichtiges kommt öfter vor, wo es passt** (N 07.11., Vorschlag Claude): Neben den Ernstfällen kehren Themen von selbst wieder, wenn die Szene sie braucht: Radeffekt beim nächsten Anlegen, Sog beim nächsten Frachter, Ausweichregeln bei der ersten Nachtbegegnung.
+  - Nur wenn es wirklich passt: ein, zwei Fragen, kurz, als Handlung oder Rückfrage, nie als Pflichtpensum.
+  - Im Plan steht es im Feld `wieder`. `node tools/reiseplan.js --warn` zeigt System-Blöcke, von denen nichts wiederkommt. Das ist ein Hinweis, kein Fehler. ⚙
+  - Die Lernkartei sorgt ohnehin für Wiederholung in der Fragerunde (HR30). `wieder` ist die Wiederholung in der Geschichte.
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
@@ -326,10 +335,10 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 |---|---|---|---|---|---|---|
 | 2-1 | 🌧️ | Die Kiste | Kajüte, Schilfwinkel | 🪢 mitmachen | Morgens die erste Kiste: Tau. Achtknoten am Leinenende, damit nichts ausrauscht. Smilla zeigt auf der Karte das Fahrwasser und erklärt, welche Familien von Seezeichen es gibt.<br>🧭 *Überblick: Seezeichen: die vier Familien und wie Feuer sprechen* | 156-157,190-194<br>S5.2 ◼ |
 | 2-2 | ☀️ | Grün an Steuerbord | Tonnenkette in die Elvmünde | 👀 Ausguck | Du sagst jede Tonne an, Smilla steuert. Wer im Fahrwasser fährt, hält sich rechts. | 195-199<br>S5.3 ▸ |
-| 2-3 | ☀️ | Dicke Pötte | Elvmünde, Fahrwasser | 🧭 kurz an die Pinne | Ein Frachter im engen Fahrwasser, eine Fähre quert. Was im Fahrwasser gilt: rechts halten, nicht behindern, richtig queren. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben. | 161,165-168,271<br>S6.1 ▸ |
+| 2-3 | ☀️ | Dicke Pötte | Elvmünde, Fahrwasser | 🧭 kurz an die Pinne | Ein Frachter im engen Fahrwasser, eine Fähre quert. Was im Fahrwasser gilt: rechts halten, nicht behindern, richtig queren. Du darfst auf gerader Strecke kurz die Pinne halten, Hinnerk daneben. | 161,165-168,271<br>↻ 34,37<br>S6.1 ▸ |
 | 2-4 | ☀️ | Wer muss weg? | Elvmünde | 👀 Ausguck | Wann wird es gefährlich? Peilung, die stehen bleibt, Ausguck, AIS. Dann die Rangfolge: wer manövrierunfähig ist, wer behindert ist, wer wem ausweicht. Echte Lagen auf dem Strom.<br>🧭 *Überblick: Ausweichen: das Prinzip (wer weicht, wer hält Kurs, Rangfolge)* | 82-83,125,128-132,272-273<br>S2.1 ◼ S2.3 ◼ |
 | 2-5 | ⚓ | Hafenfunk | Einfahrt Klüverhafen | 👂 zuhören | Die Crew funkt den Hafenmeister an, du hörst mit. Ein Fischer gibt das Gefahrsignal, irgendwo läutet eine Glocke. Smilla ordnet die Schallsignale: kurz, lang, Manöver, Nebel, Warnung. Hinnerk legt mit Backbord an und erklärt, warum.<br>🧭 *Überblick: Schallsignale: kurz und lang, Manöver, Nebel, Warnung* | 122-124,141,162-164<br>S4.3 ◼ |
-| 2-6 | ⚓ | Fest auf Klampe | Steg Klüverhafen | 🪢 mitmachen | Ein Fremder fängt deine Leine und belegt sie perfekt auf der Klampe, ungefragt; Hinnerk brummt (das ist Quirin, man erfährt es in 2-7). Danach belegst du selbst die Klampe an der Miniatur-Frieda und echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler. | – |
+| 2-6 | ⚓ | Fest auf Klampe | Steg Klüverhafen | 🪢 mitmachen | Ein Fremder fängt deine Leine und belegt sie perfekt auf der Klampe, ungefragt; Hinnerk brummt (das ist Quirin, man erfährt es in 2-7). Danach belegst du selbst die Klampe an der Miniatur-Frieda und echt am Steg (Klampe aus Fach 1). Klabauter petzt jeden Fehler. | –<br>↻ 35,48 |
 | 2-7 | 🌧️ | Hafenabend | Kajüte, Klüverhafen | 👂 zuhören | In Klüverhafen sitzt ein Bayer auf dem Steg: Quirin, Binnenschiffer, kennt jedes Boot und jeden Knoten, aber die Regeln auf See nicht. Er will den SBF See und fragt, ob er mitdarf. Hinnerk brummt, Smilla sagt ja. Wiederholung des Tages mit Klabauter als Quizmaster, Quirin rät mit. | – |
 
 ### Tag 3: Schleuse und Kanal
@@ -347,13 +356,13 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 3-4 | ☀️ | Kanalfahrt | Kanal | ⛵ selbst | Du steuerst im Kanal: Badestellen und Tempo, Wasserski, Sperr- und Warngebiete. Quirin redet ununterbrochen. | 169-170,177,179-184,187-189<br>S6.2 ▸ S6.4 ◼ |
 | 3-5 | ☀️ | Segler im Kanal | Kanal | ⛵ selbst | Ein Segler kreuzt, ein Schnellerer will überholen. Wer weicht wem aus, und wann musst du das Manöver des letzten Augenblicks fahren? | 79-81,126-127,135-137,139-140<br>S2.2 ▸ S2.4 ▸ |
 | 3-6 | 🌧️ | Der Kartentisch | Kajüte, Kanalhafen Moorende | 🪢 mitmachen | Kursdreieck und Zirkel aus Fach 2: Position ablesen, Kurs und Distanz zum Watt messen. Quirin rechnet falsch, Smilla nicht.<br>🧭 *Überblick: Navigation: Karte, Kurs, Peilung, Gezeiten* | 231-232,234-239<br>S7.1 ◼ |
-| 3-7 | ⚓ | Hafenkino Moorende | Kanalhafen Moorende | ⛵ selbst | Abends ist das Becken leer, Hinnerk lässt dich üben: Aufstoppen, Wenden auf engem Raum, Anlegen. Die Leute am Steg schauen zu. | – |
+| 3-7 | ⚓ | Hafenkino Moorende | Kanalhafen Moorende | ⛵ selbst | Abends ist das Becken leer, Hinnerk lässt dich üben: Aufstoppen, Wenden auf engem Raum, Anlegen. Die Leute am Steg schauen zu. | –<br>↻ 41,47 |
 | 3-8 | 🌧️ | Ab morgen See | Kanalhafen Moorende | 👂 zuhören | Abends in Moorende: Ab morgen gelten andere Regeln als auf Quirins Flüssen. Welche Regeln wo gelten. Quirin erzählt, warum er hier ist: Er will umsatteln, auf einen Job auf hoher See, und der Seeschein ist der erste Schritt. Und er hofft, dass sich die Seekrankheit gibt. Dann seine Andeutung zum Wrack, „da wo der Hinnerk damals …“<br>🧭 *Überblick: Welche Regeln gelten wo: Binnen, Seeschifffahrtsstraße, offene See (mit Quirin)* | 73-74,152-153<br>S1.1 ◼ |
 
 ### Tag 4: Watt und Wrack
 **Wo:** Wattenmeer Groter Sand → Wrackgebiet → Insel Lüttoog · **Du:** selbst steuern mit Aufsicht, ankern · **Knoten:** palstek, kreuz · **Navigation:** N3 Zeit, Fahrt, Tide
 
-**Geschichte:** Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen paukt man Recht, dann geht Quirin übers Watt zu seinem Probetag. Auf Lüttoog liegt Jasper.
+**Geschichte:** Ebbe und Flut bestimmen den Tag. Am Wrack will die müde Crew ankern, die Wasserschutzpolizei kommt. Beim Trockenfallen erzählt Hinnerk endlich vom Rempler mit Harms im Nebel, dann geht Quirin übers Watt zu seinem Probetag. Auf Lüttoog liegt Jasper.
 
 **Kiste:** Fach 3: dickes Tau und Mini-Anker. · **Haken:** Die Tide zwingt zur Nachtfahrt. Hinnerk wird still.
 
@@ -363,15 +372,15 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 4-2 | ☀️ | Pricken und Kardinäle | Priel im Groter Sand | ⛵ selbst | Du steuerst durch den Priel. Kardinaltonnen zeigen, wo das Wasser frei ist. | 200-207<br>S5.4 ◼ |
 | 4-3 | ☀️ | Wrack und Wasserschutz | Wrackgebiet im Groter Sand | ⛵ selbst | Die Crew ist müde und will am Wrack ankern. Du entscheidest. Dann kommt die Wasserschutzpolizei: Ankerverbot, wer Schiffsführer ist, Papiere, das Anhaltesignal und wer sonst noch kontrollieren darf. | 151,154-155,171,185-186<br>S6.2 ▸ S6.3 ▸ |
 | 4-4 | 🌊 | Seehundbank | Ankerplatz am Seehundsand | ⛵ selbst | Du ankerst selbst (Mini-Anker aus Fach 3). Nationalpark, Seehunde, Abstand halten. | 216-219,225-230<br>S8.1 ▸ S8.2 ▸ |
-| 4-5 | 🧶 | Trockengefallen | Trockenfallplatz | 🪢 mitmachen | Das Boot sitzt auf dem Sand, sechs Stunden Zeit: Fahrerlaubnis, Verantwortung und Sorgfalt mit Tee, Hinnerks Garn. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“ | 75-78,89-90<br>S1.2 ▸ |
-| 4-6 | ☀️ | Nach Lüttoog | Watt nach Lüttoog | ⛵ selbst | Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper. | – |
+| 4-5 | 🧶 | Trockengefallen | Trockenfallplatz | 🪢 mitmachen | Das Boot sitzt auf dem Sand, sechs Stunden Zeit, Tee. Hinnerk erzählt endlich vom Rempler mit Harms auf der Elbe: Nebel, zu schnell, kein Ausguck, und wer am Ende verantwortlich war. Daran hängen Fahrerlaubnis, Verantwortung, seemännische Sorgfalt, sichere Geschwindigkeit und was man bei verminderter Sicht tut. Palstek und Kreuzknoten mit dem dicken Tau. Quirin vergleicht alles mit dem Binnen und liegt manchmal richtig. Bei Niedrigwasser geht er mit einer Wattführung zu Fuß nach Lüttoog: Er hat einen Probetag auf einem Versorgungsschiff. „Wir sehn uns bei Harms.“ | 75-78,84,89-90,138,274<br>↻ 252,254<br>S1.2 ▸ S4.1 ▸ |
+| 4-6 | ☀️ | Nach Lüttoog | Watt nach Lüttoog | ⛵ selbst | Wann kommt man an, wie schnell sind wir? Zeit und Fahrt rechnen, alles Bisherige angewendet. Unterwegs, noch voll vom Rempler-Garn, spielt Klabauter mit dem Horn „Wer tutet da?“: Nebelsignale in Fahrt, Smilla erklärt, Hinnerk rät mit. Beim Anlegen im Inselhafen ruft dir ein Segler von seiner Boje Ratschläge zu, alle falsch („Ganz einfach, Leute: …“); erst danach erfährt man seinen Namen: Jasper. | 116-121<br>S4.2 ◼ |
 
 ### Tag 5: Nacht und Nebel
 **Wo:** Ansteuerung bei Nacht → Nebelbank · **Du:** Nachtwache allein · **Knoten:** stopper, schot · **Navigation:** N4 Kompass, Peilung, Missweisung
 
 **Geschichte:** Nachtfahrt wegen der Tide. Hinnerk verwechselt Lichter, nicht aus Unwissen: Er sieht nachts schlecht. Das Geheimnis kommt raus. Ab jetzt gehst du die Nachtwache.
 
-**Kiste:** Fach 4: Mini-Laternen zum Aufstecken. · **Haken:** Der Wetterbericht: Sturmwarnung für morgen.
+**Kiste:** Fach 4: Mini-Laternen zum Aufstecken. Fach 5: Mini-Rettungsring (am Abend, vor dem Sturm). · **Haken:** Der Wetterbericht: Sturmwarnung für morgen.
 
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
@@ -379,25 +388,25 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 | 5-2 | 🌧️ | Lichter II | Kajüte, Lüttoog | 👂 zuhören | Schlepper, Fischer und Tiefgangbehinderte: Lichter und Signalkörper. Jasper kommt zu Besuch und verwechselt alles mit voller Überzeugung. | 93-96,108-112,133-134<br>S3.3 ▸ S3.6 ▸ |
 | 5-3 | 🌧️ | Lichter III | Kajüte, Lüttoog | 👂 zuhören | Manövrierunfähig, manövrierbehindert, Bagger: Lichter und Signalkörper. Trocken, Klabauter hilft. | 97-104,148-150<br>S3.4 ▸ S3.5 ◼ |
 | 5-4 | 🌙 | Hinnerks Geheimnis | Ansteuerung bei Nacht | 🪢 mitmachen | Leuchtfeuer und Kennungen. Hinnerk liest ein Feuer falsch, Smilla übernimmt. Dann sagt er es: Er sieht nachts schlecht. | 208-215,220-224<br>S5.1 ◼ S5.5 ◼ |
-| 5-5 | 🌙 | Deine Wache | Ansteuerung bei Nacht | ⛵ selbst | Du gehst allein Wache. Begegnungen bei Nacht, ein Ankerlieger und ein Schiff auf Grund, Peilung nehmen, Kompass und Missweisung, Seemeile und Knoten. | 105-107,114-115,240-244,248<br>S3.2 ◼ S7.2 ◼ |
-| 5-6 | 🌫️ | Nebelbank! | Nebelbank | ⛵ selbst | Plötzlich Nebel. Fahrt runter, Signal geben, Ausguck. Ein Frachter tutet irgendwo. | 84,116-121,138,274<br>S4.1 ▸ S4.2 ◼ |
-| 5-7 | 🌧️ | Leinen unter Last | Kajüte, Ankerplatz | 🪢 mitmachen | Stopperstek an einer Leine unter Last, Schotstek für zwei verschieden dicke Leinen. Der Wetterbericht kündigt Sturm an.<br>🧭 *Überblick: Wetter: Hoch, Tief, Wind und Warnungen* | – |
+| 5-5 | 🌙 | Deine Wache | Ansteuerung bei Nacht | ⛵ selbst | Du gehst allein Wache. Begegnungen bei Nacht, ein Ankerlieger und ein Schiff auf Grund, Peilung nehmen, Kompass und Missweisung, Seemeile und Knoten. | 105-107,114-115,240-244,248<br>↻ 14,15<br>S3.2 ◼ S7.2 ◼ |
+| 5-6 | 🌫️ | Nebelbank! | Nebelbank | ⛵ selbst | Mitten in der Wache zieht eine Nebelbank auf. Keiner erklärt mehr, du handelst: Fahrt runter, Nebelsignal, Ausguck nach vorn. Ein langer Ton vorlicher als querab: Was jetzt? Hinnerk sieht im Nebel genauso wenig wie nachts und gibt dir das Steuer.<br>🚨 *Ernstfall: Plötzlich Nebel. Du weißt aus 4-5 und 4-6, was zu tun ist: Fahrt runter, Signal geben, Ausguck, horchen. Irgendwo vorlicher tutet ein Frachter.* | –<br>↻ 84,116-118,138,274 |
+| 5-7 | 🌧️ | Oskar geht baden | Kajüte, Ankerplatz | 🪢 mitmachen | Am Ankerplatz, der Wetterbericht kündigt Sturm an. Smilla macht die Sicherheitsrunde: Wie holt man jemanden aus dem Wasser, wie verhindert man, dass er reinfällt, was tun, wenn das Boot kentert. Erst mit dem Mini-Rettungsring an der Miniatur-Frieda, dann echt mit der Übungspuppe Oskar. Dazu Stopperstek an einer Leine unter Last und Schotstek für zwei verschieden dicke Leinen.<br>🧭 *Überblick: Wetter: Hoch, Tief, Wind und Warnungen* | 276-278<br>S9.4 ▸ |
 
 ### Tag 6: Raus auf See
 **Wo:** Offene See: Verkehrstrennungsgebiet → Sturm · **Du:** Kurs planen und fahren, im Sturm mit anpacken · **Navigation:** N5 Strom, Koppelort
 
 **Geschichte:** Der große Schlag übers offene Wasser. Du planst den Kurs. Der Sturm kommt früher als gedacht. Jaspers Boot gerät in Seenot.
 
-**Kiste:** Fach 5: Mini-Rettungsring. · **Haken:** Hinnerk, nach dem Sturm, leise: „Skipper.“ Zum ersten Mal.
+**Kiste:** Kein neues Fach: Was ihr braucht, liegt seit gestern Abend bereit. · **Haken:** Hinnerk, nach dem Sturm, leise: „Skipper.“ Zum ersten Mal.
 
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
-| 6-1 | 🌧️ | Die Wetterkarte | Kajüte, Ankerplatz | 👂 zuhören | Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht. | 260,262-266<br>S9.1 ◼ |
-| 6-2 | 🌧️ | Kurs übers Wasser | Kartentisch | 🪢 mitmachen | Du planst den Schlag mit Strom und Koppelort. Dazu Sturm- und Starkwindwarnungen. | 245-247,261,267-270<br>S7.3 ▸ S9.2 ▸ |
+| 6-1 | 🌧️ | Die Wetterkarte | Kajüte, Ankerplatz | 👂 zuhören | Hoch, Tief, Isobaren, Beaufort. Hinnerks Knie gegen den Wetterbericht. Danach packt Smilla die Notsignale aus der Backskiste: Rakete, Handfackel, Flaggen, das Nebelhorn im Dauerton, wer helfen muss und was man tut, wenn ein Wrack zum Hindernis wird. Klabauter will eine Rakete probieren und darf nicht. | 172,260,262-266,279-285<br>S9.1 ◼ S9.5 ◼ |
+| 6-2 | 🌧️ | Kurs übers Wasser | Kartentisch | 🪢 mitmachen | Du planst den Schlag mit Strom und Koppelort. Dazu Sturm- und Starkwindwarnungen. | 245-247,261,267-270<br>↻ 8,9<br>S7.3 ▸ S9.2 ▸ |
 | 6-3 | ☀️ | Querverkehr | Verkehrstrennungsgebiet | ⛵ selbst | Du querst das Verkehrstrennungsgebiet im rechten Winkel, große Schiffe überall. | 87-88,142-147,158<br>S6.6 ◼ |
 | 6-4 | ⛈️ | Sturm kommt | Offene See | 🪢 mitmachen | Westen an, Sicherheitsleinen, Luken zu, Fahrt anpassen. Steuern in den Wellen. | 256-259,275<br>S9.3 ▸ |
-| 6-5 | ⛈️ | Mensch über Bord | Offene See | ⛵ selbst | Smilla geht beinahe über Bord. Ihr übt es danach mit dem Mini-Rettungsring, dann echt mit der Puppe. | 276-278<br>S9.4 ▸ |
-| 6-6 | ⛈️ | Mayday | Offene See | ⛵ selbst | Jaspers Boot ist in Not: Notsignale, Schleppen mit dem Schotstek, was tun, wenn ein Boot kentert. | 172,279-285<br>S9.5 ◼ |
+| 6-5 | ⛈️ | Mensch über Bord | Offene See | ⛵ selbst | Mitten im Sturm geht Smilla über Bord. Die Leine hält, aber holen musst du sie: Boot führen, Hilfsmittel, an Bord nehmen. Danach sitzt Smilla nass in der Kajüte und sagt nichts, zum ersten Mal.<br>🚨 *Ernstfall: Eine Welle, Smilla rutscht aus und geht über Bord. Die Sicherheitsleine hält sie längsseits, und ihr holt sie so, wie ihr es mit Oskar geübt habt.* | –<br>↻ 276,278 |
+| 6-6 | ⛈️ | Mayday | Offene See | ⛵ selbst | Jasper funkt nicht, er schießt. Notsignale erkennen, hinfahren, helfen, Leinen mit dem Schotstek verbinden und schleppen. Jasper gibt zum ersten Mal zu, dass er falsch lag.<br>🚨 *Ernstfall: Eine rote Rakete, dann Dauerton: Jaspers Boot ist in Not und kentert fast. Du erkennst die Notsignale aus 6-1 und weißt aus 5-7, was beim Kentern zu tun ist.* | –<br>↻ 277,279,281,283 |
 
 ### Tag 7: Ankunft
 **Wo:** Insel Harmsoog mit Harms' Segelschule · **Du:** du führst die Frieda · **Navigation:** N6 Kreuzpeilung, alles gemischt
@@ -408,7 +417,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|
-| 7-1 | ☀️ | Der letzte Schlag | Vor Harmsoog | ⚓ du führst | Du planst und führst. Begegnungen, Tonnen, Strom, alles gemischt. Die Crew ist Passagier, Klabauter quatscht dazwischen. | – |
+| 7-1 | ☀️ | Der letzte Schlag | Vor Harmsoog | ⚓ du führst | Du planst und führst. Begegnungen, Tonnen, Strom, alles gemischt. Die Crew ist Passagier, Klabauter quatscht dazwischen. | –<br>↻ 157,209 |
 | 7-2 | ⚓ | Einlaufen Harmsoog | Hafen Harmsoog | ⚓ du führst | Du läufst ein und legst neben Harms' Segelschiff an. Harms steht auf dem Steg und sagt nichts. | – |
 | 7-3 | 📝 | Harms prüft: Theorie | An Bord des Segelschiffs | 📝 Prüfung | Quirin kommt mit der Fähre von seinem Probetag, grün im Gesicht, aber mit Neuigkeiten. Die große Probeprüfung für euch beide: 30 Fragen und eine Kartenaufgabe. Harms prüft, ohne Musik, ohne Witze, zügig. | – |
 | 7-4 | 📝 | Harms prüft: Praxis | Hafenbecken Harmsoog | 📝 Prüfung | Alle Manöver und Knoten der Praxisprüfung. | – |
