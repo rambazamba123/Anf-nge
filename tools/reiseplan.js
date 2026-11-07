@@ -3,6 +3,7 @@
    alle Prüfungsknoten bis Tag 5; Navigationsstufen N0–N6 kommen vor.
    v5.24 (Hörreise, E25, docs/reise.md §7): Themenblöcke aus podcast/kursplan-sbf.json: Feld bloecke stimmt mit den Fragen überein; System-Blöcke werden nicht geteilt
    (Regel-Blöcke dürfen Regel für Regel verteilt werden); höchstens drei Blöcke je Folge; ein Überblick kommt vor (oder in) der Folge seiner Blöcke;
+   Wiederholen: Feld wieder, nur nach der Heimat-Folge; Überblicke höchstens einer je Folge und drei je Tag.
    Crew: Folgen nennen nur Figuren, die schon an Bord sind; sobald es sie gibt: Ablaufmuster (muster) und Abschluss-Abfrage (abfrage) nie zweimal hintereinander gleich.
    Aufruf: node tools/reiseplan.js [--check] */
 const fs = require('fs'), R = __dirname + '/../';
@@ -17,7 +18,10 @@ for (const t of P.tage) for (const f of t.folgen) { n++;
   for (const k of f.anwenden || []) if (!eingef.has(k)) fehler.push(`${f.id}: wendet ${k} an, ohne dass es vorher eingeführt wurde`);
   for (const k of f.knoten || []) knotenTag[k] = t.nr;
   if (f.navi) String(f.navi).match(/N\d/g).forEach(x => navi.add(x)); if (t.navi) (t.navi.match(/N\d/g) || []).forEach(x => navi.add(x)); }
-for (let q = 1; q <= 285; q++) { if (!wo[q]) fehler.push(`Frage ${q} kommt nicht vor`); else if (wo[q].length > 1) fehler.push(`Frage ${q} mehrfach: ${wo[q]}`); }
+for (let q = 1; q <= 285; q++) { if (!wo[q]) fehler.push(`Frage ${q} kommt nicht vor`); else if (wo[q].length > 1) fehler.push(`Frage ${q} hat mehrere Heimat-Folgen: ${wo[q]} (Wiederholungen gehören ins Feld wieder)`); }
+/* Wiederholen erlaubt (Nutzer, 07.11.2026): Feld wieder, nur nach der Heimat-Folge */
+{ const reihe = P.tage.flatMap(t => t.folgen.map(f => f.id)); for (const t of P.tage) for (const f of t.folgen) for (const q of R2(f.wieder)) { const h = (wo[q] || [])[0];
+  if (!h) fehler.push(`${f.id}: wiederholt Frage ${q}, die keine Heimat hat`); else if (reihe.indexOf(h) >= reihe.indexOf(f.id)) fehler.push(`${f.id}: wiederholt Frage ${q} vor oder in ihrer Heimat ${h}`); } }
 for (const k of ['acht', 'palstek', 'kreuz', 'schot', 'stopper', 'webelein', 'rundtoern', 'klampe']) { if (!knotenTag[k]) fehler.push(`Knoten ${k} fehlt`); else if (knotenTag[k] > 5) fehler.push(`Knoten ${k} erst an Tag ${knotenTag[k]} (Ziel: bis Tag 5)`); }
 for (let i = 0; i <= 6; i++) if (!navi.has('N' + i)) fehler.push(`Navigationsstufe N${i} fehlt`);
 /* Themenblöcke (Kursplan): welche Fragen zusammen erklärt werden und in welcher Lehrform */
@@ -30,6 +34,9 @@ for (const f of ALLE) { const soll = [...new Set(R2(f.fragen).map(q => QB[q]))].
   for (const b of soll) (heimat[b] = heimat[b] || []).push(f.id); }
 for (const [b, wo2] of Object.entries(heimat)) if (wo2.length > 1) { if (BL[b].form === 'system') fehler.push(`System-Block ${b} „${BL[b].titel}“ ist geteilt (${wo2}); er wird zusammen erklärt`); else warn.push(`Regel-Block ${b} verteilt auf ${wo2}`); }
 /* Überblicke vor den Einzelheiten */
+const UTAG = {}, UF = {}; for (const u of P.ueberblicke || []) { UF[u.folge] = (UF[u.folge] || 0) + 1; const tg = String(u.folge).split('-')[0]; UTAG[tg] = (UTAG[tg] || 0) + 1; }
+for (const [f, n] of Object.entries(UF)) if (n > 1) fehler.push(`${f}: ${n} Überblicke in einer Folge, höchstens einer (HR5)`);
+for (const [t, n] of Object.entries(UTAG)) if (n > 3) fehler.push(`Tag ${t}: ${n} Überblicke, höchstens drei, sonst wird es zu dicht (HR5)`);
 const UID = new Set(); for (const u of P.ueberblicke || []) { if (UID.has(u.id)) fehler.push(`Überblick ${u.id} doppelt`); UID.add(u.id); if (POS[u.folge] == null) { fehler.push(`Überblick ${u.id}: Folge ${u.folge} gibt es nicht`); continue; }
   for (const b of u.bloecke) { if (!BL[b]) { fehler.push(`Überblick ${u.id}: Block ${b} gibt es nicht`); continue; } for (const h of heimat[b] || []) if (POS[h] < POS[u.folge]) fehler.push(`Block ${b} (${h}) kommt vor seinem Überblick ${u.id} (${u.folge})`); } }
 /* Crew wächst: Klabauter und Quirin erst ab ihrer Folge (Feld wer in Folgen, Abschluss-Abfrage „klabauter“) */
@@ -51,7 +58,7 @@ let md = '';
 for (const t of P.tage) {
   md += `\n### Tag ${t.nr}: ${t.titel}\n**Wo:** ${t.ort} · **Du:** ${t.du}${t.knoten ? ' · **Knoten:** ' + t.knoten.join(', ') : ''}${t.navi ? ' · **Navigation:** ' + t.navi : ''}\n\n**Geschichte:** ${t.story}\n\n**Kiste:** ${t.set} · **Haken:** ${t.haken}\n\n| Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |\n|---|---|---|---|---|---|---|\n`;
   for (const f of t.folgen) { const u = (P.ueberblicke || []).filter(x => x.folge === f.id).map(x => `<br>🧭 *Überblick: ${x.titel}*`).join('');
-    md += `| ${f.id} | ${ART[f.art] || ''} | ${f.titel} | ${f.ort} | ${DU[f.du] || f.du} | ${f.text}${u} | ${f.fragen || '–'}${(f.bloecke || []).length ? '<br>' + f.bloecke.map(b => `${b} ${BL[b].form === 'system' ? '◼' : '▸'}`).join(' ') : ''} |\n`; }
+    md += `| ${f.id} | ${ART[f.art] || ''} | ${f.titel} | ${f.ort} | ${DU[f.du] || f.du} | ${f.text}${u} | ${f.fragen || '–'}${f.wieder ? '<br>↻ ' + f.wieder : ''}${(f.bloecke || []).length ? '<br>' + f.bloecke.map(b => `${b} ${BL[b].form === 'system' ? '◼' : '▸'}`).join(' ') : ''} |\n`; }
 }
 md += `\n**Bonus:** ${P.bonus.map(b => `${b.titel}: ${b.text}`).join(' · ')}\n`;
 const ziel = R + 'docs/reise.md', alt = fs.readFileSync(ziel, 'utf8'), a = alt.indexOf('<!-- PLAN:START -->'), b = alt.indexOf('<!-- PLAN:END -->');

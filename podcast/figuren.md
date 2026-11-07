@@ -5,7 +5,7 @@
 > Kennzeichen: **[fest]** steht schon fest (App-Code `CREW` in `index.html`, `PODCAST_BIBLE.md` oder CLAUDE.md, Quelle in Klammern). **[neu]** ist ein Vorschlag von Claude: streichen, ändern, ergänzen erwünscht.
 > Bei der Neufassung der Bible nach K1 wandert die Datei als Figurenprofil nach Bible §7 und §14.10 (Raster A25) und erledigt die offenen Punkte O5 und W2 (R15). Die Kennzeichen [fest] und [neu] zeigen weiter, woher eine Angabe stammt.
 > Wörter und Sprüche kommen aus `podcast/wortschatz.md`, dort stehen Bedeutung und Quelle.
-> **Dritte Änderung am 07.11.2026** (Nutzer, E25, Hörreise): Quirin bleibt auf Flüssen und in Schleusen der Profi, ist auf See aber **Anfänger und lernt mit dir für den SBF See** (Mitlernender). Er kommt in Folge 1-1 an Bord, liegt bis Tag 3 seekrank in der Koje und ist ab der Schleuse richtig dabei; an Tag 7 prüft Harms auch ihn. Klabauter kommt erst in Folge 1-6 an Bord und wiederholt das Merkwort. Die Crew wächst langsam (`docs/reise.md` §1, §7 HR16, HR21). Wo diese Datei etwas anderes sagt, gilt diese Änderung.
+> **Dritte Änderung am 07.11.2026** (Nutzer, E25, Hörreise): Quirin bleibt auf Flüssen und in Schleusen der Profi, ist auf See aber **Anfänger und lernt mit dir für den SBF See** (Mitlernender). Er kennt Boote, Motoren, Knoten und Schleusen (er ist ja Schiffsführer auf der Donau), aber die Regeln auf See nicht. Er steigt in Folge 2-7 in Klüverhafen zu und lernt ab Tag 3 mit dir; auf offener See wird er seekrank (P47); an Tag 7 prüft Harms auch ihn. Klabauter gehört zur Frieda, ist beim Aufbruch aber verschwunden und landet in Folge 1-6 wieder an Bord; er wiederholt das Merkwort. Die Crew wächst langsam (`docs/reise.md` §1, §7 HR16, HR21). Wo diese Datei etwas anderes sagt, gilt diese Änderung.
 
 ---
 

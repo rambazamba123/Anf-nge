@@ -23,7 +23,7 @@
    - **Hinnerk:** höchstens etwa acht Wörter am Stück, Platt-Einsprengsel („nich“, „dat“, „Schiet“), lobt nie direkt.
    - **Smilla:** schnell, fragt zurück, frotzelt, kölsche Färbung selten („Jeck“), erklärt gern, wird dabei unterbrochen.
    - **Klabauter:** ein bis drei Wörter, doppelt, oft im falschen Moment. Seit 07.11.2026 seine feste Aufgabe: Er wiederholt das Merkwort („Dreihundert! Dreihundert!“). Erst ab Folge 1-6 an Bord.
-   - **Quirin:** sehr bairisch, Binnenschiffer und auf See Anfänger (Mitlernender, seit 07.11.2026). Fragt nach, vergleicht mit dem Fluss („Bei uns aufm Main …“), versteht Hinnerks Platt nicht immer. Tag 1–2 nur aus der Koje, dumpf von unten.
+   - **Quirin:** sehr bairisch, Binnenschiffer: Boote und Handgriffe kann er, die Regeln auf See nicht (Mitlernender, seit 07.11.2026). Fragt nach, vergleicht mit dem Fluss („Bei uns aufm Main …“), versteht Hinnerks Platt nicht immer. Ab Folge 2-7 an Bord.
    - **Gäste:** eigene Marotte, zum Beispiel sagt die Hafenmeisterin nie „bitte“.
 7. **Necken in beide Richtungen:** Die Crew zieht dich auf, aber auch sich gegenseitig. Etwa jeder fünfte Satz ist ein kleiner Seitenhieb.
 8. **Antwortknöpfe:** 2–3 Knöpfe in deinen Worten, unterscheidbar in der Haltung. Jede Reaktion passt genau zum Knopf (alle Varianten werden vertont).
@@ -67,7 +67,7 @@ Der Nutzer will, dass sich die Figuren auch mal ins Wort fallen und ein natürli
 - **Zwei Fäden gleichzeitig:** Hinnerk erzählt Garn, Smilla korrigiert nebenbei den Kurs, dann treffen sich die Fäden.
 - **Gemeinsames Wissen bleibt unausgesprochen:** Niemand erklärt, was alle wissen. Erklärt wird für dich oder Quirin (die Neuen) oder im Streit.
 - **Running Gags und Rückgriffe:** Was früher passiert ist, kommt wieder („Wie beim Arbeitsboot“), ohne es nachzuerzählen.
-- **Raum:** Wer von unten aus der Koje spricht (Quirin, Tag 1–2), klingt dumpf und leiser; wer an Deck ruft, gegen den Wind.
+- **Raum:** Wer von unten aus der Koje spricht, klingt dumpf und leiser; wer an Deck ruft, gegen den Wind.
 
 **Bei der Vertonung (ElevenLabs Text to Dialogue)**
 - Eine Szene am Stück erzeugen, nicht Satz für Satz, damit die Übergänge natürlich werden (bis etwa 2.000 Zeichen je Anfrage).
@@ -82,11 +82,38 @@ Der Nutzer will, dass sich die Figuren auch mal ins Wort fallen und ein natürli
 4. Namen-abdecken-Test und Probe-Lesen mit der Gratis-Stimme, erst dann die echte Vertonung.
 5. Was nach dem Hören stört, wird eine Regel (`docs/reise.md` §7) oder ein Beispiel in der Beispiel-Bibliothek.
 
+## 3b. Erfahrungswerte mit Eleven v4 (Recherche 07.11.2026)
+> **Güte:** Echte Foren-Beiträge (Reddit, ElevenLabs-Forum) zu v4 habe ich über die Suche kaum gefunden, das Modell ist neu. Die Punkte stammen aus der Doku von ElevenLabs (nur über die Suche gelesen, die Seite selbst ist aus der Cloud gesperrt) und aus Anleitungen und Testberichten Dritter. Zu Deutsch speziell gab es keine Erfahrungsberichte, das müssen wir selbst testen.
+
+**Was berichtet wird**
+- **Insgesamt besser als v3**, laut ElevenLabs „in fast jedem Fall“, mit dem Rat, es mit den eigenen Stimmen zu prüfen. Lachen, Flüstern und Geräusche gelingen zuverlässiger.
+- **Stimmen klingen anders als unter v3.** v4 übernimmt Klangfarbe, Sprechtempo und sogar Aufnahmefehler der Vorlage. Hörer von ElevenReader bemerkten wechselnde Stimmen mitten im Buch. Mit Voice Design gebaute Stimmen können schwächer spielen.
+- **Kein Ergebnis ist gleich:** Jede Erzeugung klingt etwas anders. Empfohlen werden zwei bis drei Fassungen, die beste wird genommen.
+- **Audio-Tags:**
+  - Sie wirken in v4 besser, aber nicht immer. Manchmal werden sie vorgelesen oder ignoriert, und manche experimentellen Tags wirken je nach Stimme verschieden.
+  - Tipps: direkt vor oder nach den Satz setzen, den sie betreffen; höchstens ein Tag je Satz; der Tag muss zur Aussage passen; keine Erzählung in Tags packen.
+  - Wenn Tags verpuffen: Stabilität senken (mehr Gefühl, weniger gleichförmig).
+- **Keine Regler für Stil und Tempo, kein SSML.** Tempo und Pausen steuern Satzzeichen und Satzbau („…“, Gedankenstrich, kurze Sätze, Absätze). Die wirken bei v4 stark.
+- **Gleichbleibende Sprecher:** Jede Figur durchgehend gleich beschreiben. v4 soll über lange Texte stabiler bleiben; das sagt aber nur ElevenLabs selbst.
+- **Andere Sprache als die Vorlage:** v4 spricht fließend in der Zielsprache, statt den Akzent der Vorlage mitzunehmen. Für uns heißt das: Platt und Bairisch müssen aus dem Text (Schreibweise) und der Stimmwahl kommen. Wir müssen prüfen, ob v4 die Färbung glättet.
+- **v4 und v4 Turbo** verhalten sich bei Tags verschieden. Für fertige Folgen immer v4, nicht Turbo.
+- **Das Modell ändert sich laufend.** Empfohlen wird ein fester Satz Teststimmen mit Testskript, um Verschlechterungen nach Updates zu merken.
+
+**Was das für uns heißt**
+1. **Vor der Produktion alle Rollen neu anhören:** dieselbe Testszene (Bible §14) mit jeder Stimme unter v4. Das ist auch unser Prüfsatz nach jedem ElevenLabs-Update.
+2. **Wichtige Szenen in zwei bis drei Fassungen** erzeugen (Credits einplanen). Dafür braucht der Player später eine Auswahl „Fassung 1, 2, 3“ (noch nicht gebaut).
+3. **Tags sparsam:** höchstens einer je Satz, nur wo er etwas trägt (`[seufzt]`, `[lacht]`, `[fällt ins Wort]`). Ob deutsche Tags so gut wirken wie englische, testen wir in der Probe.
+4. **Dialekt im Text:** Platt und Bairisch schreiben wir aus, wie sie klingen sollen (`podcast/pronunciation_dictionary.md`). Beim ersten Test prüfen wir, ob v4 sie glättet.
+5. **Pausen und Tempo über Satzzeichen,** nicht über Steuerzeichen.
+6. **Stabilität je Lage:** ausdrucksstarke Szenen „Natural“ oder „Creative“; Harms in der Fragerunde eher „Robust“, damit er gleichmäßig klingt.
+7. **Abhören vor dem Einbau:** Jede Szene einmal ganz hören. Vorgelesene oder verschluckte Tags bekommen eine neue Fassung.
+
 ## 3. Vorlage, wenn eine KI Dialoge schreibt
 > (Davor 3–5 Beispielszenen aus der Beispiel-Bibliothek in `<examples>`.) Schreib die Szene als Gespräch unter Leuten, die sich gut kennen und sich gern aufziehen. Die Sätze werden später von Stimmen gesprochen, deshalb Umgangssprache und kurze Sätze. Keine vollständigen Lehrbuchsätze. Mischt kurze und lange Sätze, nutzt Umgangssprache („is“, „nich“, „'n“). Figuren unterbrechen sich, antworten schief und sagen Gefühle nicht direkt. Keine Szene endet mit einem klugen Schlusssatz. Hinnerk spricht höchstens acht Wörter am Stück und lobt nie direkt; Smilla ist schnell und frotzelt; Klabauter sagt ein bis drei Wörter doppelt. Fachwissen kommt nur als Antwort auf eine Frage oder einen Fehler, aber Aufgaben für den Spieler werden klar und vollständig erklärt. Lies die Szene am Ende laut und schreib um, was holpert.
 
 ## Quellen
 - Anthropic: [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) (Beispiele, Begründung, positiv formulieren, Stil der Anfrage)
+- Eleven v4 (07.11.2026, über die Suche): [Eleven v4, Doku](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/eleven-v4), [Best practices](https://elevenlabs.io/docs/overview/capabilities/text-to-speech/best-practices), [The Decoder](https://the-decoder.com/elevenlabs-new-v4-speech-model-makes-ai-voices-more-expressive-and-consistent/), [Morphic: v4 prompt guide](https://morphic.com/resources/how-to/eleven-v4-guide), [eesel: v4 und Migration](https://www.eesel.ai/blog/eleven-v4), [glbgpt: v4 gegen v3](https://www.glbgpt.com/hub/eleven-v4-vs-v3/), [Spoken AAC: Tags werden manchmal vorgelesen](https://spokenaac.com/blog/elevenlabs-audio-tags-in-aac/), [Runware: Stabilität senken](https://runware.ai/docs/models/elevenlabs-v3/guides/directing-with-audio-tags)
 - ElevenLabs: [Text to Dialogue, Unterbrechungen mit Gedankenstrich](https://elevenlabs.io/docs/capabilities/text-to-dialogue), [Eleven v3: Dialog-Schnittstelle steuert Unterbrechungen](https://elevenlabs.io/blog/eleven-v3) (07.11.2026 über die Suche gelesen)
 - ElevenLabs: [Prompting Eleven v3](https://elevenlabs.io/docs/best-practices/prompting), [Text to Dialogue](https://elevenlabs.io/docs/capabilities/text-to-dialogue) (nur über die Suche gelesen, die Seite selbst war aus der Cloud nicht erreichbar)
 - Foren: [r/WritingWithAI, realistische Dialoge](https://redlib.ssps.io/r/WritingWithAI/comments/1lbx7pq/can_ai_help_with_writing_realistic_dialogue_any), [Writer's AI Companion: Dialogue](https://thewritersaicompanion.substack.com/p/crafting-engaging-dialogue-with-ai?r=2evdyf)
