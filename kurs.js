@@ -15,10 +15,15 @@
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
-    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'},
+    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
     'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
-    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};
+    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog', design: 'a'}};
+  /* Design-Test (Nutzer, 08.11.2026): 1-2 im Entwurf B „Nachtbühne“, die Folge danach (1-3) im Entwurf A „Kajüte“; beide mit einem Knopf vertonen.
+     1-1 hat keine Animation, darum 1-2 und 1-3 (dort sind Animationen und Fragen mit allen drei Lagen). */
+  const TESTPAAR = ['reise-1-2', 'reise-1-3'];
+  const AUSSEHEN = {a: '🪵 Kajüte', b: '🌙 Nacht', s: '▫️ Schlicht'};
+  let aussehenAkt = 's', buehnenCrew = [];
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
   const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen'};
@@ -199,6 +204,65 @@
   const sprecher = st => [...new Set(st.items.filter(it => it.t === 'rede').flatMap(it => it.wer))];
 
   /* ---------- Erzeugen (kostet Credits) ---------- */
+  /* Ein Sprachteil über Text to Dialogue; Rückgabe '' oder der Fehler */
+  async function teilErzeugen(st, it) {
+    const body = {inputs: it.inputs, model_id: st.modell, language_code: 'de'};
+    const url = `${EL_BASE}/v1/text-to-dialogue?output_format=${FORMAT}`, opt = () => ({method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)});
+    let r = await fetchT(url, opt(), 120000);
+    if (r.status === 400 || r.status === 422) { delete body.language_code; r = await fetchT(url, opt(), 120000); }   /* falls das Modell language_code nicht kennt */
+    if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return `HTTP ${r.status} ${d.msg || d.status || ''}`; }
+    await CLIPS.put(it.key, await r.blob(), {kind: 'kurs', t: it.zeilen.map(z => z.text).join(' ').slice(0, 80), at: Date.now()});
+    return '';
+  }
+  async function geraeuschErzeugen(st, g) {
+    const body = {text: g.prompt, duration_seconds: g.sekunden, prompt_influence: g.einfluss == null ? .3 : g.einfluss, model_id: st.sfxModell, ...(g.loop ? {loop: true} : {})};
+    const url = `${EL_BASE}/v1/sound-generation?output_format=${FORMAT}`, opt = () => ({method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)});
+    let r = await fetchT(url, opt(), 120000);
+    if (r.status === 400 || r.status === 422) { delete body.model_id; delete body.loop; r = await fetchT(url, opt(), 120000); }   /* älteres Modell ohne loop */
+    if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `Geräusch HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return `HTTP ${r.status} ${d.msg || d.status || ''}`; }
+    await CLIPS.put(g.key, await r.blob(), {kind: 'kurs', t: 'Geräusch ' + (g.name || g.id), at: Date.now()});
+    return '';
+  }
+  /* Mehrere Folgen auf einmal vertonen (Nutzer, 08.11.2026: „beide mit einem Knopfdruck“): Geräusche und Sprache, was fehlt,
+     Stimmen vorher kostenlos prüfen, die Kosten einmal bestätigen. Gleiche Teile (z. B. Atmo) nur einmal. */
+  async function offenMehrere(ids) {
+    const sts = []; for (const id of ids) { const st = await laden(id); st.id = id; sts.push(st); }
+    const auftrag = [], gesehen = new Set(); let zeichen = 0, sfxCr = 0, teile = 0, ger = 0;
+    for (const st of sts) {
+      const b = await bestand(st);
+      b.offenSfx.forEach(g => { if (gesehen.has(g.key)) return; gesehen.add(g.key); auftrag.push({st, g}); sfxCr += sfxKosten(g); ger++; });
+      b.offen.forEach(it => { if (gesehen.has(it.key)) return; gesehen.add(it.key); auftrag.push({st, it}); zeichen += it.zeichen; teile++; });
+    }
+    return {sts, auftrag, zeichen, sfxCr, teile, ger};
+  }
+  async function vertoneMehrere(ids, info) {
+    if (!elKey()) return info('Dafür brauchst du deinen ElevenLabs-Schlüssel (Einstellungen → Schlüssel).');
+    if (!(await kiEinwilligung())) return info('Ohne Einwilligung wird nichts erzeugt.');
+    info('Lade die Folgen …');
+    const o = await offenMehrere(ids);
+    if (!o.auftrag.length) return info('Beide Folgen sind schon vertont.');
+    const wer = [...new Set(o.auftrag.filter(x => x.it).flatMap(x => x.it.wer))], cfgF = o.sts[0].cfg.figuren;
+    const ohne = wer.filter(w => !(cfgF[w] && cfgF[w].voice_id));
+    if (ohne.length) return info(`Noch keine Stimme für: ${ohne.map(w => NAMEN[w] || w).join(', ')}. Bitte erst im Stimmen-Casting zuordnen.`);
+    if (wer.length) {
+      info('Prüfe die Stimmen (kostet nichts) …');
+      const pr = await stimmenPruefen(o.sts[0], wer), box = $('#kvoiceinfo'); if (box) box.innerHTML = stimmenHtml(pr);
+      const nein = pr.filter(x => x.ok === false);
+      if (nein.length) return info(`Stimme nicht gefunden: ${nein.map(x => NAMEN[x.w] || x.w).join(', ')}. Unten bei „Erzeugen“ die Stimme „holen“ und dann noch einmal. Es wurde nichts erzeugt.`);
+      if (pr.some(x => x.ok === null) && !confirm('Die Stimmen ließen sich nicht prüfen. Trotzdem erzeugen?')) return info('Abgebrochen.');
+    }
+    const z = n => Math.round(n).toLocaleString('de-DE'), namen = o.sts.map(st => `„${st.f.titel}“`).join(' und ');
+    if (!confirm(`${namen} vertonen:\n· Sprache: ${o.teile} Teile, etwa ${z(o.zeichen)} Credits\n· Geräusche: ${o.ger}, etwa ${z(o.sfxCr)} Credits\nZusammen etwa ${z(o.zeichen + o.sfxCr)} Credits. Das dauert einige Minuten, lass die App so lange offen. Weiter?`)) return info('Abgebrochen.');
+    let wach = null; try { wach = await navigator.wakeLock.request('screen'); } catch (e) {}   /* Bildschirm bleibt an, wenn das Handy es erlaubt */
+    try {
+      for (const [k, x] of o.auftrag.entries()) {
+        info(`Vertone ${k + 1} von ${o.auftrag.length} · ${x.st.f.titel}: ${x.g ? 'Geräusch ' + (x.g.name || x.g.id) : 'Sprache'} …`);
+        const f = x.g ? await geraeuschErzeugen(x.st, x.g) : await teilErzeugen(x.st, x.it);
+        if (f) return info(`Fehler bei ${k + 1} von ${o.auftrag.length}: ${f}. Alles Fertige bleibt gespeichert; noch einmal tippen macht beim Rest weiter.`);
+      }
+    } finally { try { wach && wach.release(); } catch (e) {} }
+    info(`Fertig: ${namen} sind vertont. Viel Spaß beim Hören!`);
+  }
   /* was: {sfx: true} nur die Geräusche; sonst die Sprache, mit ab: Set der Abschnitte (ohne ab: alles, was fehlt) */
   async function erzeugen(st, info, was = {}) {
     if (!elKey()) return info('Dafür brauchst du deinen ElevenLabs-Schlüssel (Einstellungen → Schlüssel).');
@@ -222,21 +286,11 @@
     if (summe > 6000 && !confirm(`Das sind mehr als 6.000 Credits. Wirklich?`)) return info('Abgebrochen.');
     for (const [k, it] of reden.entries()) {
       info(`Erzeuge Teil ${k + 1} von ${reden.length} …`);
-      const body = {inputs: it.inputs, model_id: st.modell, language_code: 'de'};
-      const url = `${EL_BASE}/v1/text-to-dialogue?output_format=${FORMAT}`, opt = () => ({method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)});
-      let r = await fetchT(url, opt(), 120000);
-      if (r.status === 400 || r.status === 422) { delete body.language_code; r = await fetchT(url, opt(), 120000); }   /* falls das Modell language_code nicht kennt */
-      if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return info(`Fehler bei Teil ${k + 1}: HTTP ${r.status} ${d.msg || d.status || ''}. Fertige Teile bleiben gespeichert.`); }
-      await CLIPS.put(it.key, await r.blob(), {kind: 'kurs', t: it.zeilen.map(z => z.text).join(' ').slice(0, 80), at: Date.now()});
+      const f = await teilErzeugen(st, it); if (f) return info(`Fehler bei Teil ${k + 1}: ${f}. Fertige Teile bleiben gespeichert.`);
     }
     for (const [k, g] of sfx.entries()) {
       info(`Erzeuge Geräusch ${k + 1} von ${sfx.length}: ${g.name || g.id} …`);
-      const body = {text: g.prompt, duration_seconds: g.sekunden, prompt_influence: g.einfluss == null ? .3 : g.einfluss, model_id: st.sfxModell, ...(g.loop ? {loop: true} : {})};
-      const url = `${EL_BASE}/v1/sound-generation?output_format=${FORMAT}`, opt = () => ({method: 'POST', headers: {'xi-api-key': elKey(), 'content-type': 'application/json', accept: 'audio/mpeg'}, body: JSON.stringify(body)});
-      let r = await fetchT(url, opt(), 120000);
-      if (r.status === 400 || r.status === 422) { delete body.model_id; delete body.loop; r = await fetchT(url, opt(), 120000); }   /* älteres Modell ohne loop */
-      if (!r.ok) { const d = await errDetail(r); LOG.add('kurs', `Geräusch HTTP ${r.status} ${d.status || ''} ${d.msg || ''}`); return info(`Fehler beim Geräusch ${g.name || g.id}: HTTP ${r.status} ${d.msg || d.status || ''}. Fertige Teile bleiben gespeichert.`); }
-      await CLIPS.put(g.key, await r.blob(), {kind: 'kurs', t: 'Geräusch ' + (g.name || g.id), at: Date.now()});
+      const f = await geraeuschErzeugen(st, g); if (f) return info(`Fehler beim Geräusch ${g.name || g.id}: ${f}. Fertige Teile bleiben gespeichert.`);
     }
     info(reden.length ? 'Fertig erzeugt. Viel Spaß beim Hören!' : 'Geräusche fertig. Unten kannst du jedes anhören und herunterladen.');
   }
@@ -318,7 +372,7 @@
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
       /* im Gratis-Modus immer mitlesen: so geht es auch, wenn die Handystimme stumm bleibt */
-      if (box) box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b> <span class="muted">· Gratis-Stimme</span><div class="small" style="margin-top:4px">${esc(z.text)}</div>`;
+      if (box) zeigeZeile(z, true);
       if (vorBild && i === it.zeilen.length - 1) { bild(vorBild); me.bildDa = vorBild; }
       me.handy = true; const t0 = Date.now(); let ok = false;
       try { ok = await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
@@ -337,16 +391,52 @@
     if (me.weiter) { const w = me.weiter; me.weiter = null; w(); }
     if (me.handy || me.gratis) { try { VOX.stop('Antwort getippt'); } catch (e) {} }
   }
+  /* ---------- Bühne je Design (A Kajüte, B Nachtbühne, Schlicht) ---------- */
+  const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei'};
+  const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
+  const gesicht = w => `<div class="kg" data-w="${esc(w)}">${GES[w] && typeof charSVG === 'function' ? charSVG(GES[w]) : `<span class="kgb">${esc(String(NAMEN[w] || w)[0])}</span>`}</div>`;
+  function gesichter(aktiv) {
+    const box = ui('#kges'); if (!box || aussehenAkt === 's') return;
+    if (aussehenAkt === 'b') {
+      if (!aktiv || OHNE_GESICHT.includes(aktiv)) aktiv = box.dataset.w || buehnenCrew[0] || 'HINNERK';
+      if (box.dataset.w !== aktiv) { box.dataset.w = aktiv; box.innerHTML = `<div class="kring">${gesicht(aktiv)}</div>`; }
+      box.querySelector('svg')?.classList.toggle('talking', !!lauf);
+      return;
+    }
+    let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
+    if (box.dataset.gast !== gast || !box.children.length) { box.dataset.gast = gast; box.innerHTML = buehnenCrew.concat(gast ? [gast] : []).map(gesicht).join(''); }
+    box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('an', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
+  }
+  function zeigeZeile(z, gratis) {
+    const box = ui('#kspr'); if (!box || !z) return;
+    if (aussehenAkt === 's') { box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b>${gratis ? ' <span class="muted">· Gratis-Stimme</span>' : ''}<div class="small" style="margin-top:4px">${esc(z.text)}</div>`; return; }
+    gesichter(z.wer);
+    box.innerHTML = `<div class="kname">${esc(NAMEN[z.wer] || z.wer)}${gratis ? ' <span class="kgr">· Gratis-Stimme</span>' : ''}</div><div class="ktext">${esc(z.text)}</div>`;
+  }
+  function aussehenSetzen(d) {
+    aussehenAkt = AUSSEHEN[d] ? d : 's'; const r = document.getElementById('kursplayer'); if (!r) return;
+    r.classList.remove('d-a', 'd-b', 'd-s'); r.classList.add('d-' + aussehenAkt);
+    const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null);
+  }
+  const mitBild = an => document.getElementById('kursplayer')?.classList.toggle('mitbild', !!an);
   async function rede(st, it, me, vorBild) {
     me.redeAbbruch = false;
     const b = await blobVon(st, it); if (me.redeAbbruch) return; if (!b) { if (me.gratis && !me.aus) await redeGratis(it, me, vorBild); return; }
     const box = ui('#kspr');
-    if (box) box.innerHTML = `<b>🎙️ ${it.wer.map(w => esc(NAMEN[w] || w)).join(', ')}</b>` + (cfgK().mitlesen ? it.zeilen.map(z => `<div class="small" style="margin-top:4px"><b>${esc(NAMEN[z.wer] || z.wer)}:</b> ${esc(z.text)}</div>`).join('') : '');
+    const zl = it.zeilen.filter(z => z.text), cum = []; let sum = 0; zl.forEach(z => { sum += z.text.length; cum.push(sum); });
+    if (box && aussehenAkt === 's') box.innerHTML = `<b>🎙️ ${it.wer.map(w => esc(NAMEN[w] || w)).join(', ')}</b>` + (cfgK().mitlesen ? it.zeilen.map(z => `<div class="small" style="margin-top:4px"><b>${esc(NAMEN[z.wer] || z.wer)}:</b> ${esc(z.text)}</div>`).join('') : '');
+    else zeigeZeile(zl[0]);
     const a = me.audio = new Audio(URL.createObjectURL(b));
     a.playbackRate = cfgK().tempo || 1; a.volume = Math.max(0, Math.min(1, S.cfg.voice == null ? 1 : S.cfg.voice));
     duckAtmo(true);
     /* B158: das Bild kommt etwa zwei Sekunden vor dem Ende des Satzes davor */
-    if (vorBild) a.ontimeupdate = () => { if (a.duration && a.duration - a.currentTime <= 2 * (a.playbackRate || 1)) { a.ontimeupdate = null; bild(vorBild); me.bildDa = vorBild; } };
+    let bildDa = !vorBild, zi = 0;
+    a.ontimeupdate = () => {
+      if (!a.duration) return;
+      if (!bildDa && a.duration - a.currentTime <= 2 * (a.playbackRate || 1)) { bildDa = true; bild(vorBild); me.bildDa = vorBild; }
+      /* Bei den Designs A und B: die Zeile, die gerade läuft (geschätzt nach Zeichen), mit Gesicht */
+      if (aussehenAkt !== 's' && zl.length > 1) { const p = a.currentTime / a.duration * sum; let i = cum.findIndex(c => p < c); if (i < 0) i = zl.length - 1; if (i !== zi) { zi = i; zeigeZeile(zl[i]); } }
+    };
     await new Promise(res => { a.onended = res; a.onerror = res; me.weiter = res; a.play().catch(res); });
     me.weiter = null; if (me.audio === a) me.audio = null; URL.revokeObjectURL(a.src);
     if (!me.gleichWeiter) duckAtmo(false);   /* folgt direkt die nächste Sprache, bleibt die Atmo leise */
@@ -367,6 +457,7 @@
   }
   function bild(id) {
     const q = frage(id), box = ui('#kbild');
+    if (box && q && q.img && q.img.length) mitBild(true);
     if (box && q && q.img && q.img.length) box.innerHTML = q.img.map(s => `<img src="${esc(s)}" alt="Katalogbild zu Frage ${q.n}" style="max-width:100%;max-height:min(46vh,380px);border-radius:12px;background:#fff">`).join('');
   }
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
@@ -378,6 +469,7 @@
       if (A.css) A.css();
       let sv = box.querySelector(`svg[data-anim="${id}"]`);
       if (!sv) { box.innerHTML = `<div class="anstage kanim">${A.html(id)}</div>`; sv = A.start(box); }
+      mitBild(true);
       if (sv && it.p) A.phase(sv, it.p);
     } catch (e) {}
   }
@@ -462,7 +554,7 @@
   async function spiele(st, ab = 0, gratis = false) {
     stop();
     const me = lauf = {aus: false, pause: false, audio: null, weiter: null, wahlRes: null, wahlOffen: null, vorWahl: null, redeAbbruch: false, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
-    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
+    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft'); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
     const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
@@ -478,7 +570,7 @@
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
-        const b = ui('#kbild'); if (b) b.innerHTML = ''; if (it.bereich && it.bereich.art === 'karte') atmoAus();
+        const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
       else if (it.t === 'revier') { if (await atmo(st, it.wert)) await warten(me, 1500); }
@@ -502,7 +594,7 @@
       }
     }
     if (lauf === me) {
-      atmoAus(); lauf = null; zeigeSteuerung(st, false); const s = ui('#kspr');
+      atmoAus(); lauf = null; zeigeSteuerung(st, false); document.getElementById('kursplayer')?.classList.remove('laeuft', 'mitbild'); const s = ui('#kspr');
       if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unten bei „Erzeugen“ dazuholen.` : `<b>⚓ Ende der Folge.</b> Wie war’s? Sag Claude, was klingt und was nicht.${me.gratis ? ' (Gehört mit der Gratis-Stimme: Betonung und Tempo sind hier noch nicht echt.)' : ''}`;
       if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
       /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
@@ -543,12 +635,13 @@
     const f = FOLGEN[id];
     app.innerHTML = `<div id="kursplayer"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">🎧 Kajütenfunk</h1><button class="btn small ghost" id="back">Zurück</button></div>
       <div class="card" id="kbuehne"><p style="margin:0"><b>${esc(f.titel)}</b></p><p class="small muted" style="margin:2px 0 8px">${esc(f.unter)}<span id="kdauer"></span></p>
-        <div id="kplay"></div><p class="status small" id="kinfo">Lade …</p>
-        <div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center;margin-top:6px"></div><div id="kwahl" style="margin-top:6px"></div></div>
+        <div id="kplay"></div><div id="kpaarbox"></div><p class="status small" id="kinfo">Lade …</p>
+        <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="auto">🚗 Auto</button><button class="chip" data-mod="interaktiv">👆 Interaktiv</button></div>
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
-          <label class="small"><input type="checkbox" id="kmit"> Mitlesen</label><label class="small"><input type="checkbox" id="ktick"> Ticken</label></div></div>
+          <label class="small"><input type="checkbox" id="kmit"> Mitlesen</label><label class="small"><input type="checkbox" id="ktick"> Ticken</label></div>
+        <div class="kreihe" style="margin-top:8px"><span class="small">Aussehen:</span>${Object.entries(AUSSEHEN).map(([k, v]) => `<button class="chip" data-aus="${k}">${v}</button>`).join('')}</div></div>
       <div class="card"><h3 style="margin-top:0">Abschnitte</h3><div id="kab"></div></div>
       <div class="card" id="ktech"><h3 style="margin-top:0">Erzeugen</h3><p class="small muted" id="kbest">…</p>
         <p class="small" style="margin:8px 0 4px"><b>Vor dem Start:</b> Kennt ElevenLabs alle Stimmen? Die Prüfung kostet nichts und läuft vor dem Erzeugen der Sprache auch von selbst.</p>
@@ -560,7 +653,39 @@
         <div class="kreihe"><button class="btn ki" id="kgen">🎙️ Alles Fehlende erzeugen</button></div>
         <h4 class="kh">3. Für alle bereitstellen</h4><p class="small muted" style="margin:0 0 4px">ZIP speichern und auf GitHub in den Ordner import hochladen. Danach hört jeder die Folge ohne eigenen Schlüssel.</p>
         <div class="kreihe"><button class="btn ghost small" id="kzip">📦 ZIP speichern</button></div><p class="status small" id="kginfo"></p></div></div>
-      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}#kursplayer .kanim{max-height:58vh;margin:0 auto}#kursplayer.mitwahl #kspr .small{display:none}#kursplayer.mitwahl .kanim{max-height:30vh}
+      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}#kursplayer .kanim{max-height:58vh;margin:0 auto}
+        #kursplayer #kstage{display:flex;flex-direction:column;gap:8px;margin-top:6px}#kursplayer #kges{display:none}#kursplayer #kspr:empty,#kursplayer #kbild:empty,#kursplayer #kwahl:empty,#kursplayer #kdenk:empty{display:none}
+        #kursplayer .kg{width:74px;height:74px;border-radius:50%;overflow:hidden;background:#fffaf0;border:3px solid rgba(255,255,255,.28);flex:0 0 auto;transition:transform .2s,box-shadow .2s,width .2s,height .2s;display:grid;place-items:center}
+        #kursplayer .kg svg{width:139%;margin:-22% 0 0 -19.5%;display:block;align-self:start;justify-self:start}#kursplayer .kgb{font:800 1.6em/1 'Baloo 2',system-ui,sans-serif;color:#6e4529}
+        #kursplayer .kname{font-weight:800;font-size:.74em;letter-spacing:.06em;text-transform:uppercase}#kursplayer .kname .kgr{font-weight:600;letter-spacing:0;text-transform:none;opacity:.7}#kursplayer .ktext{font-size:1.08em;line-height:1.42;margin-top:2px}
+        #kursplayer.mitwahl #kspr .ktext{display:none}
+        #kursplayer.d-a #kbuehne{background:#fbf3e4;color:#2a2118}#kursplayer.d-a #kbuehne .muted,#kursplayer.d-a #kinfo{color:#7a6650}
+        #kursplayer.d-a #kstage{min-height:52vh}
+        #kursplayer.d-a #kges{display:flex;justify-content:center;align-items:center;gap:12px;padding:20px 10px 16px;border-radius:14px;background:linear-gradient(#8a5a36,#6e4529);box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
+        #kursplayer.d-a .kg.an{border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.4);transform:scale(1.1)}
+        #kursplayer.d-a #kspr{background:#fffaf0;border-radius:14px;padding:10px 12px;position:relative;box-shadow:0 2px 0 rgba(0,0,0,.08);color:#2a2118;font-size:1em}
+        #kursplayer.d-a #kspr::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top:0;border-bottom-color:#fffaf0}
+        #kursplayer.d-a #kspr .kname{color:#8a5a36}
+        #kursplayer.d-a.mitbild #kges,#kursplayer.d-a.mitwahl #kges{justify-content:flex-start;padding:6px 10px;gap:6px}#kursplayer.d-a.mitbild .kg,#kursplayer.d-a.mitwahl .kg{width:40px;height:40px;border-width:2px}
+        #kursplayer.d-a.mitbild #kspr::before,#kursplayer.d-a.mitwahl #kspr::before{display:none}#kursplayer.d-a.mitbild .kanim{max-height:60vh}
+        #kursplayer.d-a .kfrage{background:#fffaf0;border:0;border-top:6px solid #e8a33c;border-radius:6px;transform:rotate(-.5deg);box-shadow:0 3px 0 rgba(0,0,0,.12);color:#2a2118}
+        #kursplayer.d-a .kopts{grid-template-columns:1fr 1fr}#kursplayer.d-a .kopt{flex-direction:column;gap:2px;min-height:86px;background:#fff;border:2px solid #e6d6bb;color:#2a2118}#kursplayer.d-a .kopt .kabc{min-width:0;color:#8a5a36;opacity:1}
+        #kursplayer.d-b #kbuehne{background:#0f2433;color:#f3e7c9;border-color:#16334a}#kursplayer.d-b #kbuehne .muted,#kursplayer.d-b #kinfo{color:rgba(243,231,201,.68)}
+        #kursplayer.d-b #kplay .btn.ghost{color:#f3e7c9;border-color:rgba(243,231,201,.4);background:transparent}
+        #kursplayer.d-b #kstage{min-height:54vh;justify-content:center;text-align:center}
+        #kursplayer.d-b #kges{display:flex;justify-content:center;padding:14px 0 6px}
+        #kursplayer.d-b .kring{position:relative;width:136px;height:136px;display:grid;place-items:center}
+        #kursplayer.d-b .kring .kg{width:112px;height:112px;border:0;background:#f2c68f}
+        #kursplayer.d-b .kring::before,#kursplayer.d-b .kring::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(232,163,60,.55);opacity:0}
+        #kursplayer.d-b.laeuft .kring::before,#kursplayer.d-b.laeuft .kring::after{animation:kpuls 2.4s ease-out infinite}#kursplayer.d-b.laeuft .kring::after{animation-delay:1.2s}
+        @keyframes kpuls{from{transform:scale(.85);opacity:1}to{transform:scale(1.35);opacity:0}}
+        #kursplayer.d-b #kspr{max-width:30ch;margin:0 auto;color:#f3e7c9}#kursplayer.d-b #kspr .kname{font-size:.9em;letter-spacing:.08em;opacity:.85}#kursplayer.d-b #kspr .ktext{font-size:1.32em;line-height:1.38;margin-top:6px}
+        #kursplayer.d-b .kdenk{color:#e8a33c}
+        #kursplayer.d-b.mitbild #kges,#kursplayer.d-b.mitwahl #kges{display:none}#kursplayer.d-b.mitbild #kbild{order:-1}#kursplayer.d-b.mitbild #kstage{justify-content:flex-start}#kursplayer.d-b.mitbild #kspr{max-width:none;text-align:left}#kursplayer.d-b.mitbild #kspr .ktext{font-size:1.05em}#kursplayer.d-b.mitbild .kanim{max-height:62vh}
+        #kursplayer.d-b .kfrage{background:#fbf3e4;color:#2a2118;border:0;border-radius:20px 20px 10px 10px;text-align:left;padding-top:16px;position:relative}
+        #kursplayer.d-b .kfrage::before{content:"";position:absolute;top:6px;left:50%;width:38px;height:4px;margin-left:-19px;border-radius:2px;background:#d9c9a3}
+        #kursplayer.d-b .kopt{background:#fff;color:#2a2118;border-color:#e2d4b6}#kursplayer.d-b .kopt .kabc{color:#2f6f8a;opacity:1}#kursplayer.d-b .kfrage .muted{color:#7a6650}
+        @media (prefers-reduced-motion: reduce){#kursplayer .kring::before,#kursplayer .kring::after{animation:none!important}}#kursplayer.mitwahl #kspr .small{display:none}#kursplayer.mitwahl .kanim{max-height:30vh}
         #kursplayer .kfrage{border:2px solid var(--lamp, #e8a33c);border-radius:14px;padding:10px 12px;background:var(--card2, rgba(232,163,60,.08))}
         #kursplayer .kfkopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9em;margin-bottom:6px}
         #kursplayer .kftext{font-size:1.06em;line-height:1.4}#kursplayer .kftext div{margin:2px 0}
@@ -580,6 +705,11 @@
     $('#kmit').checked = !!k.mitlesen; $('#kmit').onchange = e => { k.mitlesen = e.target.checked; save(); };
     $('#ktick').checked = k.ticken !== false; $('#ktick').onchange = e => { k.ticken = e.target.checked; save(); };
     chips();
+    /* Aussehen: je Folge vorgesehen (FOLGEN[id].design), auf dem Gerät umstellbar (S.cfg.kurs.aussehen {id: a|b|s}, Standard leer, R7) */
+    const ausWahl = () => ((k.aussehen || {})[id]) || f.design || 's';
+    const ausChips = () => document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aus === aussehenAkt)));
+    buehnenCrew = []; aussehenSetzen(ausWahl()); ausChips();
+    document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
     let st;
     try { st = await laden(id); st.id = id; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
     const zahl = n => Math.round(n).toLocaleString('de-DE'), uhr = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
@@ -617,7 +747,24 @@
       else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: unten bei „Erzeugen“.');
       if (!lauf) zeigeSteuerung(st, false);
     };
+    buehnenCrew = CREWW.filter(w => sprecher(st).includes(w)); if (!buehnenCrew.length) buehnenCrew = ['HINNERK', 'SMILLA'];
+    { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null); }
     await neu();
+    /* Design-Test: beide Folgen mit einem Knopf vertonen (oben in der Bühne, nur mit Schlüssel) */
+    const paar = async () => {
+      const box = $('#kpaarbox'); if (!box) return; box.innerHTML = '';
+      if (!TESTPAAR.includes(id)) return;
+      if (!elKey()) { box.innerHTML = '<p class="small muted" style="margin:6px 0 0">Mit deinem ElevenLabs-Schlüssel (Einstellungen → Werkstatt → Schlüssel) kannst du hier Folge 2 und 3 mit einem Knopf vertonen.</p>'; return; }
+      let o; try { o = await offenMehrere(TESTPAAR); } catch (e) { return; }
+      if (!o.auftrag.length) { box.innerHTML = '<p class="small muted" style="margin:6px 0 0">✅ Folge 2 und 3 sind vertont.</p>'; return; }
+      box.innerHTML = `<button class="btn ki wide" id="kpaar" style="margin-top:8px">🎙️ Folge 2 und 3 vertonen (etwa ${zahl(o.zeichen + o.sfxCr)} Credits)</button><p class="status small" id="kpaarinfo" style="margin:4px 0 0"></p>`;
+      $('#kpaar').onclick = async () => {
+        stop(); probeAus(); const b = $('#kpaar'); b.disabled = true; const pi = x => { const e = $('#kpaarinfo'); if (e) e.textContent = x; };
+        try { await vertoneMehrere(TESTPAAR, pi); } catch (e) { pi('Ging nicht: ' + (e.message || e.code || e)); }
+        b.disabled = false; try { st = await laden(id); st.id = id; } catch (e) {} await neu(); const war = $('#kpaarinfo') && $('#kpaarinfo').textContent; await paar(); const e2 = $('#kpaarinfo'); if (e2 && war) e2.textContent = war; else if (war) { const p = $('#kpaarbox'); if (p) p.insertAdjacentHTML('beforeend', `<p class="small" style="margin:4px 0 0">${esc(war)}</p>`); }
+      };
+    };
+    paar();
     const knoepfe = () => document.querySelectorAll('#ktech .ki');
     const los = async was => {
       probeAus(); knoepfe().forEach(x => x.disabled = true);
