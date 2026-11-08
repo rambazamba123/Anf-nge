@@ -19,11 +19,16 @@ for (const t of P.tage) for (const f of t.folgen) { n++;
   for (const k of f.knoten || []) knotenTag[k] = t.nr;
   if (f.navi) String(f.navi).match(/N\d/g).forEach(x => navi.add(x)); if (t.navi) (t.navi.match(/N\d/g) || []).forEach(x => navi.add(x)); }
 for (let q = 1; q <= 285; q++) { if (!wo[q]) fehler.push(`Frage ${q} kommt nicht vor`); else if (wo[q].length > 1) fehler.push(`Frage ${q} hat mehrere Heimat-Folgen: ${wo[q]} (Wiederholungen gehören ins Feld wieder)`); }
+const fruehWarn = [];
 /* Wiederholen erlaubt (Nutzer, 07.11.2026): Feld wieder, nur nach der Heimat-Folge */
 { const reihe = P.tage.flatMap(t => t.folgen.map(f => f.id)); for (const t of P.tage) for (const f of t.folgen) for (const q of R2(f.wieder)) { const h = (wo[q] || [])[0];
   if (!h) fehler.push(`${f.id}: wiederholt Frage ${q}, die keine Heimat hat`); else if (reihe.indexOf(h) >= reihe.indexOf(f.id)) fehler.push(`${f.id}: wiederholt Frage ${q} vor oder in ihrer Heimat ${h}`); }
   /* Ernstfall erst später (HR28, Nutzer 07.11.2026): Feld ernstfall [{was, fragen}]; die Fragen stehen in wieder, ihre Heimat liegt mindestens zwei Folgen davor */
-  for (const t of P.tage) for (const f of t.folgen) for (const e of f.ernstfall || []) { if (!e.was) fehler.push(`${f.id}: Ernstfall ohne „was“`);
+
+  /* HR29 (Nutzer 08.11.2026, bestätigt): Wiedersehen als Handlung (Feld lage) prüft wie der Ernstfall; Obergrenze je Folge nur als Hinweis */
+  for (const t of P.tage) for (const f of t.folgen) { const nl = (f.lage || []).length + (f.ernstfall || []).length, nw = R2(f.wieder).length;
+    if (nl > 2) fruehWarn.push(`${f.id}: ${nl} Wiedersehen und Ernstfälle, mehr als zwei wird unruhig (HR29)`); if (nw > 8) fruehWarn.push(`${f.id}: ${nw} Wiederholungen, mehr als acht lenkt von der Folge ab (HR29)`); }
+  for (const t of P.tage) for (const f of t.folgen) for (const e of [...(f.ernstfall || []), ...(f.lage || [])]) { if (!e.was) fehler.push(`${f.id}: Ernstfall oder Wiedersehen ohne „was“`);
     for (const q of R2(e.fragen)) { const h = (wo[q] || [])[0];
       if (!R2(f.wieder).includes(q)) fehler.push(`${f.id}: Ernstfall „${e.was}“ fragt ${q}, die gehört ins Feld wieder`);
       if (h && reihe.indexOf(f.id) - reihe.indexOf(h) < 3) fehler.push(`${f.id}: Ernstfall „${e.was}“ kommt zu früh nach ${h}; dazwischen mindestens zwei Folgen (HR28)`); } } }
@@ -32,7 +37,7 @@ for (let i = 0; i <= 6; i++) if (!navi.has('N' + i)) fehler.push(`Navigationsstu
 /* Themenblöcke (Kursplan): welche Fragen zusammen erklärt werden und in welcher Lehrform */
 const KP = JSON.parse(fs.readFileSync(R + 'podcast/kursplan-sbf.json', 'utf8')), BL = {}, QB = {};
 for (const t of KP.teile) for (const c of t.kapitel) for (const b of c.folgen) if (b.fragen.length) { BL[b.id] = b; b.fragen.forEach(q => { QB[q] = b.id; }); }
-const ALLE = P.tage.flatMap(t => t.folgen), POS = Object.fromEntries(ALLE.map((f, i) => [f.id, i])), heimat = {}, warn = [];
+const ALLE = P.tage.flatMap(t => t.folgen), POS = Object.fromEntries(ALLE.map((f, i) => [f.id, i])), heimat = {}, warn = [...fruehWarn];
 for (const f of ALLE) { const soll = [...new Set(R2(f.fragen).map(q => QB[q]))].sort(), ist = [...(f.bloecke || [])].sort();
   if (soll.join() !== ist.join()) fehler.push(`${f.id}: Feld bloecke (${ist}) passt nicht zu den Fragen (${soll})`);
   if (soll.length > 3) fehler.push(`${f.id}: ${soll.length} Themenblöcke, höchstens drei`);
@@ -68,7 +73,7 @@ let md = '';
 for (const t of P.tage) {
   md += `\n### Tag ${t.nr}: ${t.titel}\n**Wo:** ${t.ort} · **Du:** ${t.du}${t.knoten ? ' · **Knoten:** ' + t.knoten.join(', ') : ''}${t.navi ? ' · **Navigation:** ' + t.navi : ''}\n\n**Geschichte:** ${t.story}\n\n**Kiste:** ${t.set} · **Haken:** ${t.haken}\n\n| Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |\n|---|---|---|---|---|---|---|\n`;
   for (const f of t.folgen) { const u = (P.ueberblicke || []).filter(x => x.folge === f.id).map(x => `<br>🧭 *Überblick: ${x.titel}*`).join('');
-    const ef = (f.ernstfall || []).map(e => `<br>🚨 *Ernstfall: ${e.was}*`).join('');
+    const ef = (f.ernstfall || []).map(e => `<br>🚨 *Ernstfall: ${e.was}*`).join('') + (f.lage || []).map(e => `<br>🔁 *Wiedersehen: ${e.was}*`).join('');
     md += `| ${f.id} | ${ART[f.art] || ''} | ${f.titel} | ${f.ort} | ${DU[f.du] || f.du} | ${f.text}${u}${ef} | ${f.fragen || '–'}${f.wieder ? '<br>↻ ' + f.wieder : ''}${(f.bloecke || []).length ? '<br>' + f.bloecke.map(b => `${b} ${BL[b].form === 'system' ? '◼' : '▸'}`).join(' ') : ''} |\n`; }
 }
 md += `\n**Bonus:** ${P.bonus.map(b => `${b.titel}: ${b.text}`).join(' · ')}\n`;
