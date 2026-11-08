@@ -130,6 +130,8 @@ window.SZENE = (() => {
       const rec = h.rec = new SR(); rec.lang = 'de-DE'; rec.interimResults = true; rec.continuous = true; rec.maxAlternatives = 3;
       rec.onresult = ev => {
         for (let i = ev.resultIndex; i < ev.results.length; i++) for (let a = 0; a < ev.results[i].length; a++) {
+          /* Solange noch vorgelesen wird, zählt nur ein kurzer, fertiger Zuruf („Alfa“); was der Lautsprecher vorliest, ist länger („Alfa: Motor aus …“) */
+          if (!h.laut && (!ev.results[i].isFinal || String(ev.results[i][a].transcript).trim().split(/\s+/).length > 3)) continue;
           const p = deute(ev.results[i][a].transcript, h.laut);
           if (p >= 0 && !h.aus) { h.aus = true; try { rec.abort(); } catch (e) {} anzeige && anzeige(''); return onPlatz(p); }
         }
