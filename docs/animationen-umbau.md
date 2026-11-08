@@ -44,10 +44,10 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 |---|---|---|---|
 | A1.1 | boot | anim-hoch | ✓ v5.32 |
 | A1.1b | wind | anim2 | ○ |
-| A1.2 | rad | reise.js (raw) | ○ |
+| A1.2 | rad | anim-hoch | ✓ v5.37 (eigene Zeichnung statt reise.js; Bogen trifft die Rumpfhälfte, Drehpfeil, Heck weicht aus) |
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
-| A1.5 | motor | anim2 | ○ |
+| A1.5 | motor | anim-hoch | ✓ v5.37 (Einbaumotor im Schnitt mit Boot und Wasser, Flüssigkeiten fließen, Warnleuchten nach Frage 52–55, Phase 5 nach Frage 60) |
 | A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
 | A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
@@ -89,3 +89,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.34: Hilfsfunktion `roh(id, o)` in `anim-hoch.js` für eigene Zeichnungen mit `tick` im selben Rahmen (Überschrift, Unterzeile, Marke). Ebbe und Flut sowie Schleuse neu im Hochformat. Überschriften jetzt wirklich groß (die CSS-Regel `.an .t.cap{font-size:15px}` hat `gross` überstimmt, entfernt).
 - v5.35: Gas, Tanken, Sog im Hochformat (Phasen 0–2 bzw. 0–3 wie von der Hörreise genutzt, Neues nur angehängt). Bilder-Werkzeug mit `ZEIT=ms` (Moment im Ablauf, z. B. Explosion bei 1900).
 - v5.36: Lichterkarussell, Kardinalzeichen, Wetter im Hochformat; Hilfsfunktion `fit(e, max)` macht zu lange Texte schmaler. Nächster Stapel: motor, rad, dann die übrigen A-Animationen der Reihe nach.
+- v5.37: Motor und Radeffekt neu im Hochformat. Damit sind alle vom Nutzer kommentierten Animationen umgebaut (außer B1.6 Knotenbrett-Kommentarfeld). Nächster Schritt: die übrigen A-Animationen der Reihe nach (wind, ruder, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler, lichtertafel …).

@@ -480,6 +480,116 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
         put(cs[i], {cx: x.toFixed(1), cy: y.toFixed(1), opacity: p === 0 ? 0 : (p === 3 && !o.g ? .25 : 1)}); }); }});
 })();
 
+/* ---------- A1.5 Die vier Kreisläufe des Motors (Einbaumotor im Schnitt, SBF 52–55, 57, 60) ---------- */
+(() => {
+  /* Leitungen: k = Kreislauf, v = Tempo, c = Farbe der Tropfen/Blasen, r = Größe, w/f = Schlauch */
+  const LEIT = [
+    ['kw', 'M300 384 V362 Q300 352 312 350 H318', 34, '#d6f0ff', 3.5, 8, '#2e86c1'], ['kw', 'M318 322 Q318 304 300 304 H284', 34, '#d6f0ff', 3.5, 8, '#2e86c1'],
+    ['kw', 'M282 296 Q268 288 252 286 H156 Q146 286 146 272 V252 Q146 242 134 242', 30, '#d6f0ff', 3.2, 7, '#3d9ad6'], ['kw', 'M128 244 Q96 248 78 278 Q66 292 24 292', 38, '#e8f6ff', 3.5, 9, '#2b2b2b'],
+    ['oel', 'M170 338 Q160 312 166 280 Q170 256 200 254 Q232 256 236 282 Q240 312 228 338', 14, '#ffd27a', 4, 0, ''],
+    ['sprit', 'M326 262 H308', 22, '#ffcf6b', 3, 6, '#b86a12'], ['sprit', 'M292 256 H264', 22, '#ffcf6b', 3, 6, '#b86a12'],
+    ['strom', 'M92 300 Q92 292 104 292 Q130 292 140 306', 70, '#fff36b', 3.5, 4, '#c0392b'], ['strom', 'M286 258 Q300 240 296 226 Q292 218 270 218 H112 Q96 218 94 240 L92 300', 70, '#fff36b', 3.5, 4, '#e0a800']];
+  const LAMPEN = [['tmp', 'Temperatur', '🌡️'], ['oel', 'Öldruck', '🛢️'], ['lad', 'Ladekontrolle', '🔋']];
+  roh('motor', {titel: 'Die vier Kreisläufe des Motors', nr: 'A1.5', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G2.2',
+    svg: `<defs><clipPath id="mrh"><path d="M16 210 H392 V380 L130 364 Q50 354 18 338Z"/></clipPath></defs>
+      <rect width="400" height="500" fill="#dbe9f3"/><rect y="300" width="400" height="200" fill="#4f9cc6"/>${Array.from({length: 9}, (_, i) => `<path d="M${(i * 89) % 360 + 10} ${400 + (i * 31) % 80} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
+      <rect x="14" y="52" width="372" height="96" rx="14" fill="#2b3440" stroke="#151b22" stroke-width="3"/>${T(30, 74, 'Armaturen', 'start', 14, 'w')}
+      ${LAMPEN.map(([id, t, i], n) => `<g transform="translate(${80 + n * 120} 100)"><circle id="ml${id}" r="17" fill="#4a1d1a" stroke="#111" stroke-width="2"/><text x="0" y="6" text-anchor="middle" font-size="16">${i}</text>${T(0, 38, t, 'middle', 14, 'w')}</g>`).join('')}
+      <path d="M16 210 H392 V380 L130 364 Q50 354 18 338Z" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><rect y="300" width="400" height="90" fill="#1f3b63" clip-path="url(#mrh)"/>
+      <path d="M28 220 H392 V368 L130 352 Q58 343 30 328Z" fill="#f3ead8" stroke="#8a7a66" stroke-width="2"/><path d="M16 300 H392" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-dasharray="6 6"/>
+      <rect x="150" y="338" width="16" height="16" fill="#7a5a3a"/><rect x="236" y="338" width="16" height="16" fill="#7a5a3a"/>
+      <path d="M140 320 L44 362" stroke="#8a8f98" stroke-width="6"/><g id="mprop" transform="translate(44 362)"><ellipse rx="5" ry="16" fill="#c9a24a" stroke="#7a5a1a" stroke-width="2"/></g><path d="M24 342 L32 342 L32 390 L22 390Z" fill="#666" stroke="#333"/>
+      <g id="mkw" class="mk">${'<path class="mlt" data-i="0"/><path class="mlt" data-i="1"/><path class="mlt" data-i="2"/><path class="mlt" data-i="3"/>'}
+        <g transform="translate(300 376)"><rect x="-9" y="-6" width="18" height="12" rx="3" fill="#8a6d2a" stroke="#4a3a12" stroke-width="2"/><path id="mhebel" d="M0 -6 L16 -16" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/></g>
+        <rect x="310" y="320" width="16" height="32" rx="5" fill="#bfe3f7" fill-opacity=".7" stroke="#4a6a8a" stroke-width="2"/>
+        <circle cx="282" cy="298" r="9" fill="#2e86c1" stroke="#1d4f73" stroke-width="2"/><path id="mimp" d="M282 291 V305 M275 298 H289" stroke="#fff" stroke-width="2"/><g id="mspritz"></g></g>
+      <rect x="140" y="246" width="122" height="88" rx="10" fill="#5d6b78" stroke="#2f3a44" stroke-width="3"/><rect x="150" y="232" width="102" height="18" rx="4" fill="#6f7d8a" stroke="#2f3a44" stroke-width="2"/><rect x="158" y="222" width="86" height="12" rx="4" fill="#b03a2e" stroke="#6a1f17" stroke-width="2"/>
+      ${[168, 184, 200, 216, 232].map(x => `<path d="M${x} 236 V248" stroke="#4a5662" stroke-width="2"/>`).join('')}<rect x="154" y="330" width="94" height="16" rx="5" fill="#4a5662" stroke="#2f3a44" stroke-width="2"/>
+      <g id="moel" class="mk"><path class="mlt" data-i="4"/></g>
+      <circle cx="286" cy="262" r="13" fill="#9aa4ae" stroke="#4a525c" stroke-width="2.5"/><circle cx="270" cy="318" r="10" fill="#9aa4ae" stroke="#4a525c" stroke-width="2"/><path d="M286 249 L270 308 M298 266 L280 318" stroke="#222" stroke-width="2.5"/>
+      <rect x="128" y="236" width="14" height="14" rx="4" fill="#8a8f98" stroke="#4a525c" stroke-width="2"/>
+      <g id="msprit" class="mk"><rect x="322" y="222" width="66" height="50" rx="6" fill="#c0392b" stroke="#7a1f1a" stroke-width="2"/><rect x="330" y="244" width="50" height="22" rx="3" fill="#ffb347" fill-opacity=".6"/><path class="mlt" data-i="5"/><path class="mlt" data-i="6"/><rect x="292" y="242" width="16" height="26" rx="5" fill="#f2e2b8" stroke="#8a6a2a" stroke-width="2"/></g>
+      <g id="mstrom" class="mk"><rect x="40" y="300" width="64" height="34" rx="4" fill="#2b2b2b" stroke="#111" stroke-width="2"/><rect x="48" y="294" width="10" height="7" fill="#555"/><rect x="86" y="294" width="10" height="7" fill="#c0392b"/><path class="mlt" data-i="7"/><path class="mlt" data-i="8"/>
+        <g id="mhaupt" transform="translate(116 324)"><circle r="9" fill="#c0392b" stroke="#6a1f17" stroke-width="2"/><path id="mhs" d="M0 0 L0 -8" stroke="#fff" stroke-width="3"/></g></g>
+      <g id="mpunkte"></g>
+      ${T(205, 296, 'Motor', 'middle', 18, 'w')}<g class="mlab">${T(318, 404, 'Seeventil', 'middle', 14)}${T(352, 336, 'Filter', 'start', 13)}${T(282, 286, 'Impeller', 'end', 13)}${T(355, 286, 'Tank', 'middle', 14, 'w')}${T(72, 352, 'Batterie', 'middle', 13)}${T(300, 236, 'Filter', 'middle', 12)}${T(46, 286, 'Auspuff', 'middle', 13)}${T(300, 274, '', 'middle', 12)}</g>
+      ${T(200, 456, '', 'middle', 17, 'mt1')}${T(200, 480, '', 'middle', 15, 'mt2')}`,
+    phasen: [
+      {wer: H, t: 'Kühlwasser: Durchs Seeventil kommt Seewasser, der Impeller pumpt es durch den Motor, und mit dem Auspuff geht es wieder raus. Kommt hinten kein Wasser mit, sofort Motor aus!', min: 11, cap: '1 Kühlwasser', a: ['kw'], t1: 'Seeventil · Filter · Impeller · Motor · Auspuff'},
+      {wer: M, t: 'Öl schmiert den Motor. Die Öldruckleuchte muss nach dem Start ausgehen. Leuchtet sie weiter, ist der Druckschalter oder die Öldruckpumpe kaputt.', min: 10, cap: '2 Öl', a: ['oel'], t1: 'Öldruckleuchte geht nach dem Start aus'},
+      {wer: H, t: 'Kraftstoff kommt aus dem Tank über den Filter zum Motor. Bleibt ein Außenborder mit vollem Tank stehen: Belüftungsschraube zu oder Leitung verstopft.', min: 10, cap: '3 Kraftstoff', a: ['sprit'], t1: 'Tank · Filter · Motor'},
+      {wer: M, t: 'Strom: Die Batterie startet den Motor, die Lichtmaschine lädt sie wieder auf. Geht die Ladekontrolle nach dem Start nicht aus, ist die Lichtmaschine oder ihr Regler kaputt.', min: 11, cap: '4 Strom', a: ['strom'], t1: 'Starten aus der Batterie, laden über die Lichtmaschine'},
+      {wer: H, t: 'Während der Fahrt im Blick: Motortemperatur, Öldruck, Ladekontrolle. Wird es zu heiß, liegt es am Thermostat, am Impeller, am geschlossenen Seeventil oder an zu wenig Kühlwasser.', min: 12, cap: 'Warnleuchten im Blick', a: ['kw', 'oel', 'sprit', 'strom'], t1: 'Zu heiß? Thermostat · Impeller', t2: 'Seeventil zu · zu wenig Kühlwasser'},
+      {wer: M, t: 'Und wenn du das Boot länger verlässt: alle Seeventile zu und den Hauptschalter aus.', min: 7, cap: 'Boot verlassen: Ventile zu, Strom aus', a: [], t1: 'Seeventile schließen, Hauptschalter aus'}],
+    init(s, st) { qa(s, '.mlt').forEach(e => { const L = LEIT[+e.dataset.i]; e.setAttribute('d', L[1]); e.setAttribute('fill', 'none'); e.setAttribute('stroke', L[0] === 'oel' ? '#8a5a12' : L[6]); e.setAttribute('stroke-width', L[0] === 'oel' ? 9 : L[5]); e.setAttribute('stroke-linecap', 'round'); e.setAttribute('stroke-opacity', L[0] === 'oel' ? .55 : .85); });
+      st.lt = [...qa(s, '.mlt')].map(e => { const L = LEIT[+e.dataset.i]; let len = 0; try { len = e.getTotalLength(); } catch (x) {} return {e, L, len, n: Math.max(2, Math.round(len / 18))}; });
+      q(s, '#mpunkte').innerHTML = st.lt.map((l, j) => Array.from({length: l.n}, () => `<circle data-j="${j}" r="${l.L[4]}" fill="${l.L[3]}" stroke="${l.L[0] === 'oel' ? '#6a4208' : 'none'}" stroke-width=".8"/>`).join('')).join(''); st.pk = qa(s, '#mpunkte circle'); },
+    enter(s, p, st) { const ph = A.defs.motor.phasen[p]; ['kw', 'oel', 'sprit', 'strom'].forEach(k => put(q(s, '#m' + k), {opacity: p === 5 ? .35 : ph.a.includes(k) || !ph.a.length ? 1 : .22}));
+      q(s, '.mt1').textContent = ph.t1 || ''; q(s, '.mt2').textContent = ph.t2 || ''; fit(q(s, '.mt1')); fit(q(s, '.mt2')); },
+    tick(s, tp, p, st) { const ph = A.defs.motor.phasen[p], dt = st.dt || .016;
+      const zu = p === 5 && tp > 2, lauf = p !== 5 || tp < 2;
+      put(q(s, '#mhebel'), {d: zu ? 'M0 -6 L18 -6' : 'M0 -6 L16 -16'}); put(q(s, '#mhs'), {transform: `rotate(${zu ? 90 : 0})`});
+      put(q(s, '#mprop'), {transform: `translate(44 362) scale(1 ${lauf ? Math.abs(Math.cos(tp * 9)).toFixed(2) : 1})`}); put(q(s, '#mimp'), {transform: `rotate(${lauf ? (tp * 400 % 360).toFixed(0) : 0} 282 298)`});
+      let k = 0; st.lt.forEach((l, j) => { const aktiv = lauf && (ph.a.includes(l.L[0]) || (p === 4)); const strom = l.L[0] === 'strom', start = j === 7;
+        const zeig = aktiv && (!strom || (start ? (p === 3 ? tp < 2 : false) : (p !== 3 || tp > 2)));
+        for (let i = 0; i < l.n; i++, k++) { const c = st.pk[k]; if (!zeig || !l.len) { c.setAttribute('opacity', 0); continue; } const d = (i * l.len / l.n + tp * l.L[2]) % l.len; let pt; try { pt = l.e.getPointAtLength(d); } catch (x) { pt = {x: 0, y: 0}; } c.setAttribute('cx', pt.x.toFixed(1)); c.setAttribute('cy', pt.y.toFixed(1)); c.setAttribute('opacity', 1); } });
+      /* Kontrollstrahl am Auspuff */
+      const spr = lauf && (ph.a.includes('kw') || p === 4); q(s, '#mspritz').innerHTML = spr ? Array.from({length: 7}, (_, i) => { const u = (tp * 1.4 + i / 7) % 1; return `<circle cx="${(22 - u * 26).toFixed(1)}" cy="${(292 + u * u * 26).toFixed(1)}" r="${(3 - u * 1.5).toFixed(1)}" fill="#d6f0ff" stroke="#2e86c1" stroke-width=".8"/>`; }).join('') : '';
+      /* Warnleuchten: Öl und Ladung gehen nach dem Start aus, Temperatur blinkt bei Phase 4 */
+      const lampe = (id, an) => put(q(s, '#ml' + id), {fill: an ? '#ff3b2f' : '#4a1d1a'});
+      lampe('oel', p === 1 && tp < 1.6); lampe('lad', p === 3 && tp < 2); lampe('tmp', p === 4 && Math.floor(tp * 2.5) % 2 === 0);
+    }});
+})();
+
+/* ---------- A1.2 Radeffekt von hinten (Hörreise nutzt radeffekt 0, 1, 4; Pfeil trifft die Rumpfhälfte, Nutzer 08.11.2026) ---------- */
+(() => { const PX = 200, PY = 338, WL = 236;
+  const rumpf = 'M78 150 H322 Q326 200 312 238 Q296 296 200 304 Q104 296 88 238 Q74 200 78 150Z';
+  const bogen = sg => `M${PX + sg * 30} ${PY + 6} Q${PX + sg * 78} ${PY - 18} ${PX + sg * 64} ${PY - 56}`;   /* vom Flügel außen hoch an die Rumpfhälfte */
+  roh('rad', {titel: 'Radeffekt', nr: 'A1.2', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G2.1',
+    svg: `<defs><clipPath id="rclip"><path d="${rumpf}"/></clipPath></defs><rect width="400" height="500" fill="#dbe9f3"/><rect y="${WL}" width="400" height="${500 - WL}" fill="#4f9cc6"/>
+      <g id="rring"></g>
+      <g id="rboot"><path d="${rumpf}" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><rect y="${WL}" width="400" height="80" fill="#1f3b63" clip-path="url(#rclip)"/><path d="M80 178 H320" stroke="#c0392b" stroke-width="6"/>
+        <path d="M134 150 L142 96 H258 L266 150Z" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><path d="M138 96 H262 L258 86 H142Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2"/><rect x="170" y="108" width="60" height="26" rx="4" fill="#7fa7c2" stroke="#5f5446" stroke-width="2"/>
+        <path d="M${PX} 302 V${PY - 6}" stroke="#8a8f98" stroke-width="6"/><circle id="rprall" cx="0" cy="0" r="0"/>
+        <g id="rhit" opacity="0"><path id="rhitp" stroke="#f08a1c" stroke-width="4" fill="none"/></g>
+        ${T(112, 140, 'Backbord', 'middle', 17, 'r')}${T(288, 140, 'Steuerbord', 'middle', 17, 'gr')}</g>
+      <g id="rprop" transform="translate(${PX} ${PY})">${[0, 120, 240].map(a => `<path d="M0 0 C10 -10 12 -34 0 -40 C-10 -34 -10 -10 0 0Z" fill="#d0a640" stroke="#7a5a1a" stroke-width="2" transform="rotate(${a})"/>`).join('')}<circle r="7" fill="#7a5a1a"/></g>
+      <g id="rdreh" opacity="0" fill="none" stroke="#fff" stroke-width="4"><path id="rdrehp"/><path id="rdrehs" fill="#fff" stroke="none"/></g>
+      <g id="rstrom" opacity="0"><path id="rbogen" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 12"/><path id="rbogen2" fill="none" stroke="#f08a1c" stroke-width="4"/><path id="rspitze" fill="#f08a1c"/></g>
+      <g id="rschub" opacity="0"><path id="rschubp" stroke="#f08a1c" stroke-width="7" fill="none"/><path id="rschubs" fill="#f08a1c"/></g>
+      ${T(200, 72, '', 'middle', 18, 'rt')}${T(200, 440, '', 'middle', 18, 'rt1')}${T(200, 468, '', 'middle', 16, 'rt2')}`,
+    phasen: [
+      {wer: H, t: 'Wir sehen das Boot von hinten. Der Propeller sitzt unter dem Heck.', min: 5, cap: 'Das Boot von hinten'},
+      {wer: H, t: 'In Vorausfahrt dreht er sich von hinten gesehen im Uhrzeigersinn. Das nennt man rechtsdrehend.', min: 7, cap: 'Rechtsdrehend: im Uhrzeigersinn', t1: 'voraus: von hinten gesehen rechtsherum'},
+      {wer: M, t: 'Der Propeller schleudert das Wasser in alle Richtungen. Auf der Backbordseite laufen die Flügel dabei nach oben und werfen das Wasser gegen den Rumpf.', min: 9, cap: 'Backbord: Wasser prallt an den Rumpf', t1: 'Flügel links laufen nach oben', t2: 'das Wasser trifft die Backbordhälfte'},
+      {wer: H, t: 'Der Rumpf bekommt den Stoß ab. Das Wasser drückt ihn nach rechts, und das Heck weicht aus.', min: 7, cap: 'Heck weicht nach Steuerbord aus', t1: 'voraus: Heck nach Steuerbord (schwach)'},
+      {wer: M, t: 'Rückwärts dreht sich alles um. Jetzt laufen die Flügel auf der Steuerbordseite nach oben, der Stoß kommt von der anderen Seite, und das Heck zieht nach Backbord, also nach links.', min: 10, cap: 'Rückwärts: Heck nach Backbord', t1: 'rückwärts: linksherum, Stoß an Steuerbord', t2: 'Heck nach Backbord (deutlich)'}],
+    init(s, st) { st.rings = []; st.dx = 0; st.w = 0; },
+    enter(s, p) { const ph = A.defs.rad.phasen[p]; q(s, '.rt1').textContent = ph.t1 || ''; q(s, '.rt2').textContent = ph.t2 || ''; fit(q(s, '.rt1')); fit(q(s, '.rt2')); },
+    tick(s, tp, p, st) { const dt = st.dt || .016, rueck = p === 4, sg = rueck ? 1 : -1;   /* sg: Seite der Rumpfhälfte, die getroffen wird (−1 Backbord = links von hinten) */
+      const dreht = p >= 1; if (dreht) st.w += (rueck ? -1 : 1) * dt * 260; put(q(s, '#rprop'), {transform: `translate(${PX + st.dx} ${PY}) rotate(${st.w.toFixed(1)})`});
+      /* Drehpfeil um den Propeller */
+      put(q(s, '#rdreh'), {opacity: p === 1 || p === 4 ? 1 : 0, transform: `translate(${st.dx.toFixed(1)} 0)`}); { /* Bogen unter dem Propeller: voraus von rechts nach links unten herum = im Uhrzeigersinn (von hinten), rückwärts umgekehrt */
+        const r = 54, a0 = rueck ? 140 : 40, a1 = rueck ? 40 : 140, rad = a => a * Math.PI / 180, P = a => [PX + r * Math.cos(rad(a)), PY + r * Math.sin(rad(a))], [x0, y0] = P(a0), [x1, y1] = P(a1);
+        put(q(s, '#rdrehp'), {d: `M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 0 ${rueck ? 0 : 1} ${x1.toFixed(1)} ${y1.toFixed(1)}`});
+        const sg2 = rueck ? -1 : 1, tx = -Math.sin(rad(a1)) * sg2, ty = Math.cos(rad(a1)) * sg2, nx = -ty, ny = tx;
+        put(q(s, '#rdrehs'), {d: `M${(x1 + tx * 14).toFixed(1)} ${(y1 + ty * 14).toFixed(1)} L${(x1 + nx * 8).toFixed(1)} ${(y1 + ny * 8).toFixed(1)} L${(x1 - nx * 8).toFixed(1)} ${(y1 - ny * 8).toFixed(1)}Z`}); }
+      /* Wellenringe vom Propeller */
+      if (p >= 2 && Math.random() < dt * 3) st.rings.push({r: 10, a: 1}); st.rings.forEach(k => { k.r += dt * 70; k.a -= dt * .5; }); st.rings = st.rings.filter(k => k.a > 0);
+      q(s, '#rring').innerHTML = st.rings.map(k => `<circle cx="${PX + st.dx}" cy="${PY}" r="${k.r.toFixed(1)}" fill="none" stroke="#fff" stroke-opacity="${(k.a * .55).toFixed(2)}" stroke-width="3"/>`).join('');
+      /* Bogen vom Flügel an die Rumpfhälfte, Aufprall */
+      const zeig = p === 2 || p === 3 || p === 4; put(q(s, '#rstrom'), {opacity: zeig ? 1 : 0, transform: `translate(${st.dx.toFixed(1)} 0)`});
+      if (zeig) { const d = bogen(sg); put(q(s, '#rbogen'), {d, 'stroke-dashoffset': (-tp * 40).toFixed(0)}); put(q(s, '#rbogen2'), {d});
+        const ex = PX + sg * 64, ey = PY - 56; put(q(s, '#rspitze'), {d: `M${ex} ${ey - 4} l${sg * 9} 12 l${-sg * 12} 2z`});
+        put(q(s, '#rhit'), {opacity: Math.floor(tp * 3) % 2 ? 1 : .4}); put(q(s, '#rhitp'), {d: `M${ex - 12} ${ey - 8} l-6 -8 M${ex} ${ey - 10} v-10 M${ex + 12} ${ey - 8} l6 -8`, transform: `translate(${-st.dx.toFixed(1)} 0)`}); }
+      else put(q(s, '#rhit'), {opacity: 0});
+      /* Heck weicht aus: voraus nach rechts (Steuerbord), rückwärts nach links (Backbord) */
+      const ziel = p === 3 ? 26 : p === 4 && tp > 2 ? -38 : 0; st.dx += (ziel - st.dx) * Math.min(1, dt * 1.6); put(q(s, '#rboot'), {transform: `translate(${st.dx.toFixed(1)} 0)`});
+      const schub = p === 3 || (p === 4 && tp > 1.5); put(q(s, '#rschub'), {opacity: schub ? 1 : 0});
+      if (schub) { const d = rueck ? -1 : 1, y = 214, x0 = 200 + st.dx - d * 30, x1 = x0 + d * 70; put(q(s, '#rschubp'), {d: `M${x0.toFixed(1)} ${y} H${x1.toFixed(1)}`}); put(q(s, '#rschubs'), {d: `M${(x1 + d * 16).toFixed(1)} ${y} L${x1.toFixed(1)} ${y - 11} L${x1.toFixed(1)} ${y + 11}Z`}); }
+    }});
+})();
+
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
 (() => { const C = [200, 190];
   const peil = (a, b) => { const d = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI - a.r; return Math.round(((d % 360) + 360) % 360); };
