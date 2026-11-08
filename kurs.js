@@ -18,7 +18,7 @@
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
     'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
-    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog', design: 'a'}};
+    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};
   /* Design-Test (Nutzer, 08.11.2026): 1-2 im Entwurf B „Nachtbühne“, die Folge danach (1-3) im Entwurf A „Kajüte“; beide mit einem Knopf vertonen.
      1-1 hat keine Animation, darum 1-2 und 1-3 (dort sind Animationen und Fragen mit allen drei Lagen). */
   const TESTPAAR = ['reise-1-2', 'reise-1-3'];
@@ -38,9 +38,10 @@
   const HANDY = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger'};
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   /* Mimik (v5.50): [[GESICHT: laune]] (nur App) oder die Regie-Marke [[INTENTION: …]] bestimmt das Gesicht; sonst ein paar Wörter */
-  const LAUNE_INT = {lachend: 'lacht', losprustend: 'lacht', humorvoll: 'froh', verschmitzt: 'froh', erleichtert: 'froh', beruhigend: 'froh', ausatmend: 'froh',
+  /* v5.52: „erschrocken“ (große Augen) nur noch mit [[GESICHT: erschrocken]]; Alltägliches bekommt harmlosere Gesichter */
+  const LAUNE_INT = {lachend: 'lacht', losprustend: 'lacht', humorvoll: 'grinst', verschmitzt: 'zwinkert', erleichtert: 'zufrieden', beruhigend: 'zufrieden', ausatmend: 'zufrieden',
     genervt: 'genervt', schnaubend: 'genervt', sarkastisch: 'skeptisch', trocken: 'skeptisch', seufzend: 'traurig', gähnend: 'nachdenklich',
-    neugierig: 'nachdenklich', nachdenklich: 'nachdenklich', aufgeregt: 'erschrocken', 'überrascht': 'erschrocken', rufend: 'erschrocken'};
+    neugierig: 'nachdenklich', nachdenklich: 'nachdenklich', aufgeregt: 'staunt', 'überrascht': 'staunt', rufend: 'staunt', flüsternd: 'besorgt'};
   function launeAus(roh) {
     const g = roh.match(/\[\[\s*GESICHT\s*:\s*([^\]]*?)\s*\]\]/i); if (g) return g[1].trim().toLowerCase();
     const i = roh.match(/\[\[\s*INTENTION\s*:\s*([^\]]*?)\s*\]\]/i); if (i && LAUNE_INT[i[1].trim()]) return LAUNE_INT[i[1].trim()];
@@ -49,7 +50,8 @@
   function launeRaten(z) {
     if (z.laune) return z.laune;
     const t = z.text || '';
-    if (/\b(Nicht!|Stopp|Achtung|Vorsicht|Halt dich fest|Oh nein|Hoppla|Au\.)/i.test(t)) return 'erschrocken';
+    if (/\b(Nicht!|Stopp|Oh nein|Hoppla)/i.test(t)) return 'staunt';
+    if (/\b(Achtung|Vorsicht|Halt dich fest|Au\.|Eng hier|Langsam)/i.test(t)) return 'besorgt';
     if (/\b(Schiet|Pütz|Mist|hackt|Verdammt|Sakra)\b/i.test(t)) return 'genervt';
     if (/\b(Richtig|Genau|Gut gemacht|Siehste|Punkt für dich|Na also|Sehr gut|Kann's)\b/i.test(t)) return 'froh';
     if (/^(Hm|Hmm)\b/.test(t)) return 'nachdenklich';
@@ -86,7 +88,7 @@
     };
     const steuer = (kat, wert) => {
       if (kat === 'ABSCHNITT') { bereich = null; dazu({t: 'abschnitt', titel: wert}); }
-      else if (kat === 'SZENE') schluss();
+      else if (kat === 'SZENE') dazu({t: 'szene', text: wert});   /* v5.52: Ort der Szene für die Bühne (Kajüte, Deck, Fahrt) */
       else if (kat === 'REVIER') dazu({t: 'revier', wert});
       else if (kat === 'DENKPAUSE') dazu({t: 'pause', s: +wert || 3});
       else if (kat === 'PAUSE') dazu({t: 'pause', s: wert === 'dramatisch' ? 1.5 : .7, still: true});
@@ -128,12 +130,14 @@
   /* ---------- Laden ---------- */
   async function laden(id) {
     const f = FOLGEN[id];
-    const [cfg, txt, pub, gd] = await Promise.all([
+    const [cfg, txt, pub, gd, plan, kiste] = await Promise.all([
       fetch('podcast/audio_config.json?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Konfiguration fehlt (HTTP ${r.status})`); return r.json(); }),
       fetch(f.datei + '?v=' + Date.now()).then(r => { if (!r.ok) throw new Error(`Skript fehlt (HTTP ${r.status})`); return r.text(); }),
       /* Bereitgestellte Folgen stehen in audio/kurs/index.json; nur dann gibt es ablauf.json (spart eine 404 in der Konsole) */
       fetch('audio/kurs/index.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).then(x => x.folgen && x.folgen[id] ? fetch(`audio/kurs/${id}/ablauf.json?v=` + Date.now()).then(r => r.ok ? r.json() : null) : null).catch(() => null),
-      fetch('podcast/geraeusche.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}))]);
+      fetch('podcast/geraeusche.json?v=' + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch('data/reiseplan.json').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('podcast/sprueche.json').then(r => r.ok ? r.json() : null).catch(() => null)]);
     /* Stimmen: Was für alle bereitliegt, legt sie fest. Sonst die Konfiguration, darüber das Casting auf diesem Gerät. */
     const stimmen = {};
     for (const [k, v] of Object.entries(cfg.figuren || {})) stimmen[k] = v.voice_id;
@@ -160,7 +164,38 @@
       const teile = items.filter(it => it.ab === a.ab);
       return {nr: a.ab, titel: a.titel, karte: !!(a.bereich && a.bereich.art === 'karte'), sek: teile.reduce((s, it) => s + sek(it), 0), zeichen: teile.filter(it => it.t === 'rede').reduce((s, it) => s + it.zeichen, 0)};
     });
-    return {id, f, cfg, items, fehlt, pub, modell, stimmen, sfx, sfxModell, abschnitte};
+    const sprecherSet = new Set(items.filter(it => it.t === 'rede').flatMap(it => it.wer));
+    const rueck = rueckBauen(kiste, cfg, modell, sprecherSet);
+    return {id, f, cfg, items, fehlt, pub, modell, stimmen, sfx, sfxModell, abschnitte, anBord: anBordListe(id, plan, sprecherSet), rueck};
+  }
+  /* Wer ist an Bord? Laut Reiseplan (crew: ab, bis, zurueck), dazu immer Bordkatze Backbord (stumm). Ohne Plan: wer in der Folge spricht. */
+  function anBordListe(id, plan, sprecherSet) {
+    const fid = String(id).replace(/^reise-/, ''), n = x => { const [t, k] = String(x).split('-').map(Number); return t * 100 + k; };
+    let crew;
+    if (plan && plan.crew && /^\d+-\d+$/.test(fid)) crew = plan.crew.filter(c => (n(fid) >= n(c.ab) && (!c.bis || n(fid) <= n(c.bis))) || (c.zurueck && n(fid) >= n(c.zurueck))).map(c => c.wer.toUpperCase()).filter(w => w !== 'JASPER');
+    else crew = ['HINNERK', 'SMILLA', 'KLABAUTER', 'QUIRIN'].filter(w => sprecherSet.has(w));
+    if (!crew.length) crew = ['HINNERK', 'SMILLA'];
+    return crew.concat('BACKBORD');
+  }
+  /* Kurze Rückmeldung nach deiner Antwort (Nutzer, 08.11.2026): Sätze aus der Sprüchekiste, mit derselben Stimme wie die Folge vertont */
+  const RUECK_IDS = {HINNERK: {ok: ['hi-lob-02', 'hi-lob-05', 'hi-lob-06', 'hi-ja-05'], no: ['hi-nein-01', 'hi-nein-04', 'hi-tadel-02']},
+    SMILLA: {ok: ['sm-anerkennen-01', 'sm-anerkennen-02', 'sm-anerkennen-03'], no: ['sm-trost-01', 'sm-trost-03', 'sm-trost-04', 'sm-trost-05']},
+    KLABAUTER: {ok: ['kl-feiern-05', 'kl-feiern-06'], no: ['kl-petzen-05', 'kl-petzen-03']}, HARMS: {lage: ['richtig', 'falsch']}};
+  function rueckBauen(kiste, cfg, modell, sprecherSet) {
+    if (!kiste || !kiste.lagen) return [];
+    const alle = {}; kiste.lagen.forEach(l => l.s.forEach(s => { alle[s.id] = s.t; }));
+    const aus = [];
+    for (const [w, spec] of Object.entries(RUECK_IDS)) {
+      if (!sprecherSet.has(w)) continue;
+      const f = cfg.figuren[w]; if (!f || !f.voice_id) continue;
+      const pools = spec.lage ? spec.lage.map(name => (kiste.lagen.find(l => l.wer === 'kroeger' && l.lage === name) || {s: []}).s.filter(s => s.t.length > 4 && s.t.length < 40).map(s => s.t)) : [spec.ok.map(i => alle[i]), spec.no.map(i => alle[i])];
+      pools.forEach((liste, j) => liste.filter(Boolean).forEach(roh => {
+        const text = anredeAuf(roh, typeof anrede === 'function' ? anrede() : 'n');
+        const it = {t: 'rede', rueck: true, ok: j === 0, inputs: [{text, voice_id: f.voice_id}], wer: [w], zeilen: [{wer: w, text, laune: j === 0 ? 'froh' : 'besorgt'}], zeichen: text.length};
+        it.key = schluessel(modell, it); aus.push(it);
+      }));
+    }
+    return aus;
   }
   /* Woher ein Teil kommt: Geräusch im Repo („datei“), für alle bereitgestellt (audio/kurs/<folge>/) oder auf diesem Gerät erzeugt */
   async function blobVon(st, it) {
@@ -174,7 +209,7 @@
   /* Geräusche: etwa 20 Credits je Sekunde bei fester Dauer (ElevenLabs-Doku, podcast/geraeusche.json) */
   const sfxKosten = g => Math.round((g.sekunden || 5) * 20);
   async function bestand(st) {
-    const reden = st.items.filter(it => it.t === 'rede'); let da = 0; const offen = [], offenSfx = [], abOffen = new Map();
+    const reden = st.items.filter(it => it.t === 'rede').concat(st.rueck || []); let da = 0; const offen = [], offenSfx = [], abOffen = new Map();
     for (const it of reden) { if (await istDa(st, it)) da++; else { offen.push(it); abOffen.set(it.ab, (abOffen.get(it.ab) || 0) + it.zeichen); } }
     for (const g of st.sfx) { if (await istDa(st, g)) da++; else offenSfx.push(g); }
     const sfxCredits = offenSfx.reduce((s, g) => s + sfxKosten(g), 0);
@@ -325,7 +360,7 @@
     info('Lade das ZIP-Werkzeug …');
     if (!await loadZipLib()) return info('Das ZIP-Werkzeug ließ sich nicht laden. Bitte mit Internet erneut versuchen.');
     const zip = new JSZip(), dateien = {}; let fehlt = 0;
-    for (const it of st.items.filter(x => x.t === 'rede').concat(st.sfx.filter(g => !g.datei))) {
+    for (const it of st.items.filter(x => x.t === 'rede').concat(st.rueck || [], st.sfx.filter(g => !g.datei))) {
       if (dateien[it.key]) continue;
       const b = await blobVon(st, it); if (!b) { fehlt++; continue; }
       dateien[it.key] = it.key.replace(':', '-') + '.mp3'; zip.file(dateien[it.key], b);
@@ -397,7 +432,7 @@
       try { ok = await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
       /* stumm oder viel zu schnell fertig: Lesezeit abwarten statt durchzurasen, einmal Bescheid sagen */
       const lese = 1200 + z.text.length * 55, weg = Date.now() - t0;
-      if ((!ok || weg < lese * .35) && !me.aus) { if (!me.stummHinweis) { me.stummHinweis = true; const i = ui('#kinfo'); if (i) i.textContent = '🔇 Die Handystimme bleibt stumm. Bitte Lautstärke prüfen und in den Android-Einstellungen unter „Sprachausgabe“ eine deutsche Stimme einrichten. Bis dahin läuft der Text zum Mitlesen.'; } await warten(me, Math.max(0, lese - weg), ab); }
+      if ((!ok || weg < lese * .35) && !me.aus) await warten(me, Math.max(0, lese - weg), ab);
       await warten(me, 220, ab);
     }
     if (!me.gleichWeiter) duckAtmo(false);
@@ -411,31 +446,66 @@
     if (me.handy || me.gratis) { try { VOX.stop('Antwort getippt'); } catch (e) {} }
   }
   /* ---------- Bühne je Design (A Kajüte, B Nachtbühne, Schlicht) ---------- */
-  const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei'};
+  const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei', BACKBORD: 'backbord'};
+  NAMEN.BACKBORD = NAMEN.BACKBORD || 'Backbord';
+  /* ---------- Nachtbühne (Entwurf B, Nutzer 08.11.2026): alle an Bord als runde Gesichter auf dem Hintergrund, Gäste daneben ---------- */
+  let szeneArt = 'deck';
+  function szeneTyp(text) {
+    const t = String(text || '').toLowerCase();
+    if (/telefon|sprachnachricht|kartentisch|logbuch|in der kajüte|kajütentisch|koje/.test(t)) return 'tisch';
+    if (/fährt|ausfahrt|fluss|fahrwasser|fähre|rückwärts|setzt aus|dreht sie|unterwegs|überholt|auf see/.test(t)) return 'fahrt';
+    if (/steg|tankstelle|zapf|liegeplatz|box|cockpit|hafen|deck|gaskasten|anker/.test(t)) return 'deck';
+    return null;
+  }
+  /* Hintergrund je Ort (viewBox 100 × 100): Tisch mit Lampe, Frieda von oben am Steg, Frieda in Fahrt mit Kielwasser */
+  const BOOT_OBEN = '<path d="M50 9 C63 18 67 38 66 60 L65 88 Q50 92 35 88 L34 60 C33 38 37 18 50 9Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M41 36 h18 v20 q0 3 -3 3 h-12 q-3 0 -3 -3z" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/>';
+  const SZ_BG = {
+    tisch: '<circle cx="50" cy="50" r="27" fill="#e8a33c" opacity=".08"/><circle cx="50" cy="50" r="19" fill="#5a3820"/><circle cx="50" cy="50" r="17" fill="#8a5a36"/><path d="M38 44 q12 -8 24 0" stroke="#a87249" stroke-width="1" fill="none"/><rect x="45" y="49" width="10" height="7" rx="1" fill="#f3e7c9" opacity=".85"/><circle cx="56" cy="44" r="2.4" fill="#e8a33c"/><circle cx="56" cy="44" r="6" fill="#e8a33c" opacity=".18"/>',
+    deck: '<rect x="2" y="0" width="17" height="100" fill="#6e4529"/><path d="M2 12 H19 M2 30 H19 M2 48 H19 M2 66 H19 M2 84 H19" stroke="#55361f" stroke-width=".8"/><circle cx="17" cy="38" r="2" fill="#3a2414"/><circle cx="17" cy="72" r="2" fill="#3a2414"/><path d="M17 38 L34 30 M17 72 L35 80" stroke="#c9b48a" stroke-width=".9"/>' + BOOT_OBEN,
+    fahrt: '<path d="M44 92 L22 100 M56 92 L78 100 M47 94 L40 100 M53 94 L60 100" stroke="#7fb7cf" stroke-width="1.2" opacity=".55"/><path d="M50 2 l-6 7 M50 2 l6 7" stroke="#7fb7cf" stroke-width="1" opacity=".5"/>' + BOOT_OBEN + '<rect x="46.5" y="88" width="7" height="7" rx="1.5" fill="#2b3a4a"/><path d="M50 88 L50 80" stroke="#2b3a4a" stroke-width="1.6" stroke-linecap="round"/>'};
+  /* Plätze in Prozent: Rudergänger hinten, die anderen davor; am Tisch im Kreis */
+  const SZ_PL = {deck: [[50, 78], [50, 52], [50, 25], [39, 64], [61, 38]], fahrt: [[50, 80], [50, 53], [50, 26], [39, 64], [61, 40]]};
+  const SZ_GAST = {tisch: [85, 13], deck: [10, 52], fahrt: [86, 86]};
+  function platz(art, i, n) {
+    if (art === 'tisch') { const a = (-90 + i * 360 / n) * Math.PI / 180; return [50 + Math.cos(a) * 36, 50 + Math.sin(a) * 36]; }
+    return (SZ_PL[art] || SZ_PL.deck)[i] || [50, 50];
+  }
+  function buehneB(box, aktiv, laune) {
+    let gast = box.dataset.gast || '';
+    if (aktiv && !buehnenCrew.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
+    if (box.dataset.art !== szeneArt || box.dataset.gast !== gast || !box.children.length) {
+      box.dataset.art = szeneArt; box.dataset.gast = gast;
+      const crew = buehnenCrew.slice(), n = crew.length;
+      const pl = (w, xy, k) => `<div class="kpl${k ? ' ' + k : ''}" data-w="${esc(w)}" style="left:${xy[0].toFixed(1)}%;top:${xy[1].toFixed(1)}%">${gesicht(w)}<span class="kn">${esc(NAMEN[w] || w)}${w === 'HARMS' ? ' 📞' : ''}</span></div>`;
+      box.innerHTML = `<svg class="kbg" viewBox="0 0 100 100" aria-hidden="true">${SZ_BG[szeneArt] || SZ_BG.deck}</svg>`
+        + crew.map((w, i) => pl(w, platz(szeneArt, i, n), w === 'BACKBORD' ? 'katze' : '')).join('')
+        + (gast ? pl(gast, SZ_GAST[szeneArt] || [86, 86], 'gast') : '');
+    }
+    box.querySelectorAll('.kpl').forEach(p => { const an = p.dataset.w === aktiv; p.classList.toggle('an', an); p.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
+    launeSetzen(box, aktiv, laune);
+  }
+  function szeneSetzen(text) {
+    const a = szeneTyp(text); if (!a || a === szeneArt) return;
+    szeneArt = a; const g = ui('#kges'); if (g && aussehenAkt === 'b') { g.dataset.art = ''; g.dataset.gast = ''; buehneB(g, null, null); }
+  }
   const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
   const gesicht = w => `<div class="kg" data-w="${esc(w)}">${GES[w] && typeof charSVG === 'function' ? charSVG(GES[w]) : `<span class="kgb">${esc(String(NAMEN[w] || w)[0])}</span>`}</div>`;
   /* Mimik der Bühne: Wer spricht, zeigt die Laune der Zeile; die anderen reagieren (lacht einer, grinsen alle) */
   function launeSetzen(box, aktiv, laune) {
     if (typeof mimik !== 'function') return;
     box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
-      const l = g.dataset.w === aktiv ? (laune || 'normal') : (laune === 'lacht' ? 'froh' : laune === 'erschrocken' ? 'erschrocken' : (g.dataset.laune || 'normal'));
+      const l = (g.dataset.w || g.closest('[data-w]')?.dataset.w) === aktiv ? (laune || 'normal') : (laune === 'lacht' ? 'froh' : laune === 'erschrocken' ? 'besorgt' : 'normal');
       mimik(s, l); });
   }
   /* Nach deiner Antwort reagiert die Crew: richtig = alle froh, falsch = Smilla traurig, Hinnerk skeptisch, Harms genervt */
   function crewReagiert(ok) {
     const box = ui('#kges'); if (!box || aussehenAkt === 's' || typeof mimik !== 'function') return;
-    box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
-      mimik(s, ok ? (g.dataset.w === 'HARMS' ? 'nachdenklich' : g.dataset.w === 'KLABAUTER' ? 'lacht' : 'froh') : ({SMILLA: 'traurig', HINNERK: 'skeptisch', HARMS: 'genervt', KLABAUTER: 'erschrocken'}[g.dataset.w] || 'traurig')); });
+    box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return; const w = g.dataset.w;
+      mimik(s, ok ? (g.dataset.w === 'HARMS' ? 'nachdenklich' : g.dataset.w === 'KLABAUTER' ? 'lacht' : 'froh') : ({SMILLA: 'besorgt', HINNERK: 'skeptisch', HARMS: 'genervt', KLABAUTER: 'staunt', BACKBORD: 'normal'}[g.dataset.w] || 'besorgt')); });
   }
   function gesichter(aktiv, laune) {
     const box = ui('#kges'); if (!box || aussehenAkt === 's') return;
-    if (aussehenAkt === 'b') {
-      if (!aktiv || OHNE_GESICHT.includes(aktiv)) aktiv = box.dataset.w || buehnenCrew[0] || 'HINNERK';
-      if (box.dataset.w !== aktiv) { box.dataset.w = aktiv; box.innerHTML = `<div class="kring">${gesicht(aktiv)}</div>`; }
-      box.querySelector('svg')?.classList.toggle('talking', !!lauf);
-      launeSetzen(box, aktiv, laune);
-      return;
-    }
+    if (aussehenAkt === 'b') return buehneB(box, aktiv, laune);
     let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
     if (box.dataset.gast !== gast || !box.children.length) { box.dataset.gast = gast; box.innerHTML = buehnenCrew.concat(gast ? [gast] : []).map(gesicht).join(''); }
     box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('an', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
@@ -494,6 +564,13 @@
     if (box && q && q.img && q.img.length) mitBild(true);
     if (box && q && q.img && q.img.length) box.innerHTML = q.img.map(s => `<img src="${esc(s)}" alt="Katalogbild zu Frage ${q.n}" style="max-width:100%;max-height:min(46vh,380px);border-radius:12px;background:#fff">`).join('');
   }
+  /* Beschriftungen in Animationen im Player größer (Nutzer, 08.11.2026: „zu klein und nicht schön“); Titel, Untertitel und Crew-Satz regelt das CSS */
+  function schriftGross(sv) {
+    if (!sv) return;
+    sv.querySelectorAll('text').forEach(t => { if (t.dataset.gr || /\b(cap|sub|wort)\b/.test(t.getAttribute('class') || '')) return; const fs = parseFloat(t.getAttribute('font-size')); if (fs) { t.setAttribute('font-size', (fs * 1.22).toFixed(1)); t.dataset.gr = '1'; } });
+    /* Hochformat-Rahmen: unten stand der Satz der Crew, der jetzt gesprochen wird; Ausschnitt ohne den leeren Streifen */
+    if (sv.getAttribute('viewBox') === '0 0 400 500' && sv.querySelector('.t.wort')) sv.setAttribute('viewBox', '0 40 400 366');
+  }
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
   async function animZeigen(it) {
     const box = ui('#kbild'); if (!box) return;
@@ -503,8 +580,8 @@
       if (A.css) A.css();
       let sv = box.querySelector(`svg[data-anim="${id}"]`);
       if (!sv) { box.innerHTML = `<div class="anstage kanim">${A.html(id)}</div>`; sv = A.start(box); }
-      mitBild(true);
-      if (sv && it.p) A.phase(sv, it.p);
+      mitBild(true); schriftGross(sv);
+      if (sv && it.p) { A.phase(sv, it.p); schriftGross(sv); }
     } catch (e) {}
   }
   /* Auflösung der Vorab-Frage: den Tipp von vorhin unter dem Bild zeigen (Konzept §7.2, zählt nicht) */
@@ -558,8 +635,12 @@
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
     box.scrollIntoView({behavior: 'smooth', block: 'nearest'});
     const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false};
+    me.frager = rede && rede.zeilen.length ? rede.zeilen[rede.zeilen.length - 1].wer : null;
     const p = new Promise(res => {
-      const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl'); res(); };
+      const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl');
+        /* Nachtbühne: nach der Frage wieder Vollbild auf die Crew */
+        if (aussehenAkt === 'b') { const bb = ui('#kbild'); if (bb) bb.innerHTML = ''; mitBild(false); }
+        res(); };
       me.wahlRes = () => { box.innerHTML = ''; ende(); };
       box.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
         const o = opts[+b.dataset.o]; me.wahlRes = null; w.getippt = true; unterbrich(me);
@@ -575,10 +656,33 @@
         b.classList.add(o.ok ? 'ok' : 'no');
         if (!o.ok) { const r = opts.findIndex(x => x.ok); const rb = box.querySelector(`[data-o="${r}"]`); if (rb) rb.classList.add('ok'); }
         box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Richtig!' : '❌ Nicht ganz. Gleich kommt eine Erklärung.'}${gezaehlt ? ' <span class="muted">Zählt in deiner Statistik.</span>' : ''}</p>`);
-        await warten(me, 1600); box.innerHTML = ''; ende();
+        await warten(me, 500); await rueckmeldung(st, me, o.ok); await warten(me, 300); box.innerHTML = ''; ende();
       });
     });
     w.p = p; return p;
+  }
+  /* Nach deiner Antwort sagt einer aus der Crew kurz, ob es stimmt (wer gefragt hat, sonst Smilla); bei falsch erklärt danach die Vertiefung */
+  async function rueckmeldung(st, me, ok) {
+    const pool = (st.rueck || []).filter(r => r.ok === ok); if (!pool.length || me.aus) return;
+    const hat = w => pool.some(r => r.wer[0] === w);
+    const wer = me.frager && hat(me.frager) ? me.frager : hat('SMILLA') ? 'SMILLA' : hat('HINNERK') ? 'HINNERK' : pool[0].wer[0];
+    const auswahl = pool.filter(r => r.wer[0] === wer), r = auswahl[Math.floor(Math.random() * auswahl.length)];
+    gesichter(wer, ok ? (wer === 'HARMS' ? 'nachdenklich' : 'froh') : (wer === 'HARMS' ? 'genervt' : 'besorgt'));
+    const b = await blobVon(st, r);
+    try {
+      if (b) { const a = new Audio(URL.createObjectURL(b)); a.volume = Math.max(0, Math.min(1, S.cfg.voice == null ? 1 : S.cfg.voice)); await new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); }); URL.revokeObjectURL(a.src); }
+      else { me.handy = true; await VOX.phoneTest(HANDY[wer] || String(wer).toLowerCase(), r.zeilen[0].text); me.handy = false; }
+    } catch (e) { me.handy = false; }
+  }
+  /* Glocke (Nutzer, 08.11.2026): nur einmal, wenn eine Frage kommt; keine Doppel-Glocke, keine Glocke zur Auflösung */
+  function glockeFuerFrage(st, k) {
+    for (let j = k + 1; j < st.items.length && j <= k + 5; j++) {
+      const x = st.items[j];
+      if (x.t === 'ton' && x.name === 'glocke') return false;
+      if (x.t === 'wahl' || (x.t === 'pause' && !x.still)) return true;
+      if (x.t === 'abschnitt') return false;
+    }
+    return false;
   }
   /* Folgt auf diese Rede (nach Glocke oder Bild) eine Wahl? Dann erscheint sie schon jetzt */
   function wahlNach(st, k) {
@@ -591,8 +695,9 @@
     AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft');
     me.root = document.getElementById('kursplayer'); wachHalten(true); medienSitzung(st); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
-    const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.map(it => it.ab));
+    const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.filter(it => !it.rueck).map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
+    for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'szene' && szeneTyp(st.items[k].text)) { szeneSetzen(st.items[k].text); break; }
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
     const interaktiv = cfgK().modus === 'interaktiv';
     for (let k = ab; k < st.items.length && !me.aus; k++) {
@@ -621,7 +726,8 @@
       else if (it.t === 'anim') animZeigen(it);
       else if (it.t === 'tipp') { if (interaktiv) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
-      else if (it.t === 'ton') { await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
+      else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
+      else if (it.t === 'szene') szeneSetzen(it.text);
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
       else if (it.t === 'wahl' && interaktiv) {
         if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); await w.p; } }
@@ -668,7 +774,7 @@
     if (!lauf) return; lauf.pause = p;
     if (lauf.audio) p ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
     if (lauf.handy) { try { p ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} }
-    const pa = ui('#kpause'); if (pa) pa.textContent = p ? '▶ Weiter' : '⏸ Pause';
+    const pa = ui('#kpause'); if (pa) { pa.textContent = p ? '▶' : '⏸'; pa.setAttribute('aria-label', p ? 'Weiter' : 'Pause'); }
     try { navigator.mediaSession.playbackState = p ? 'paused' : 'playing'; } catch (e) {}
   }
   /* ⏭ = nächster Abschnitt (am Ende: nächste Folge), ⏮ = Abschnitt von vorn */
@@ -703,11 +809,11 @@
   }
   function zeigeSteuerung(st, laeuft) {
     const p = ui('#kplay'); if (!p) return;
-    /* st.luecke: Ist die erste Folge-Sprache noch nicht erzeugt, startet ▶ gleich mit der Gratis-Stimme; fehlt nur ein Teil, gibt es beides */
-    const echt = !st.ersterFehlt, gratisKnopf = st.luecke ? `<button class="btn${echt ? ' ghost' : ' lamp'}" id="kgratis">${echt ? '🗣️ Ganz hören, Fehlendes mit Gratis-Stimme' : '▶ Abspielen mit Gratis-Stimme'}</button>` : '';
-    p.innerHTML = laeuft ? `<button class="btn" id="kpause">⏸ Pause</button> <button class="btn ghost" id="kstop">⏹ Stopp</button>` : (echt ? `<button class="btn lamp" id="kstart">▶ Abspielen</button> ` : '') + gratisKnopf;
-    const s = ui('#kstart'); if (s) s.onclick = () => spiele(st, 0);
-    const g = ui('#kgratis'); if (g) g.onclick = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, true); };
+    /* v5.52 (Nutzer 08.11.2026): ohne Text, oben im Kopf. ▶ spielt echte Stimmen, wo es sie gibt; was fehlt, liest die Gratis-Stimme */
+    p.innerHTML = laeuft ? `<button class="kknopf" id="kpause" aria-label="Pause">⏸</button><button class="kknopf" id="kstop" aria-label="Stopp">⏹</button>` : `<button class="kknopf kplay1" id="kstart" aria-label="Abspielen">▶</button>`;
+    const los = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, !!(st.luecke || st.ersterFehlt)); };
+    const s = ui('#kstart'); if (s) s.onclick = los;
+    const gr = ui('#kgross'); if (gr) { gr.hidden = laeuft; gr.onclick = los; }
     const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) pauseSetzen(!lauf.pause); };
     const so = ui('#kstop'); if (so) so.onclick = () => { stop(); zeigeSteuerung(st, false); };
   }
@@ -720,12 +826,12 @@
     /* v5.51 (Nutzer 08.11.2026): Vollbild, am Bildschirm nur die Folge; alles andere hinter dem Zahnrad ⚙️ */
     app.innerHTML = `<div id="kursplayer" class="kvoll"><div class="kkopf"><button class="kknopf" id="back" aria-label="Zurück">←</button>
         <div class="ktitel"><b>${esc(f.titel)}</b><span class="small muted">${esc(f.unter)}<span id="kdauer"></span></span></div>
-        <button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
-      <div id="kbuehne"><p class="status small" id="kinfo">Lade …</p>
+        <span id="kplay" class="kplay"></span><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+      <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <div id="kplay"></div></div>
+        <button class="kgross" id="kgross" aria-label="Folge abspielen">▶</button></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
-      <div id="kpaarbox"></div>
+      <p class="status small" id="kinfo">Lade …</p><div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="auto">🚗 Auto</button><button class="chip" data-mod="interaktiv">👆 Interaktiv</button></div>
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
@@ -754,6 +860,26 @@
         #kursplayer #kpanel{position:fixed;inset:0;z-index:45;background:var(--paper,#fbf3e4);color:var(--ink,#2a2118);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 8px) max(14px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px))}
         #kursplayer .kpkopf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
         #kursplayer.d-a{background:#fbf3e4;color:#2a2118}#kursplayer.d-a .kkopf .muted{color:#7a6650}
+        #kursplayer .kplay{display:flex;gap:6px}#kursplayer .kplay1{background:#e8a33c;color:#2a2118}
+        #kursplayer .kgross{display:block;margin:6px auto calc(18px + env(safe-area-inset-bottom,0px));width:76px;height:76px;border-radius:50%;border:0;background:#e8a33c;color:#2a2118;font-size:32px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}#kursplayer .kgross[hidden]{display:none}
+        #kursplayer .kanim .an .t{stroke:rgba(255,255,255,.9);stroke-width:2.4px;stroke-linejoin:round;font-family:'Baloo 2',Nunito,system-ui,sans-serif;font-weight:700;letter-spacing:.01em}
+        #kursplayer .kanim .an .t.cap{stroke:none;font-weight:800}#kursplayer .kanim .an .t.sub,#kursplayer .kanim .an .t.wort{display:none}
+        #kursplayer.d-b .kanim{max-height:none;width:100%}#kursplayer.d-b .kanim .an{max-height:calc(100dvh - 120px)}
+        #kursplayer .kanim.anstage{aspect-ratio:auto;height:auto;background:#f7f5ef}#kursplayer .kanim.anstage>svg{display:block;width:100%;height:auto}
+        #kursplayer.d-b .kanim.anstage{border:0;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45)}#kursplayer.d-b.mitbild #kbild{flex:1;display:flex;flex-direction:column;justify-content:center}
+        #kursplayer.d-b #kges{display:block;position:relative;width:min(94vw,58dvh,520px);aspect-ratio:1;margin:0 auto;padding:0}
+        #kursplayer.d-b #kges .kbg{position:absolute;inset:0;width:100%;height:100%}
+        #kursplayer.d-b .kpl{position:absolute;transform:translate(-50%,-50%);width:20%;display:flex;flex-direction:column;align-items:center;gap:3px;transition:left .5s,top .5s}
+        #kursplayer.d-b .kpl .kg{width:100%;height:auto;aspect-ratio:1;border:3px solid rgba(243,231,201,.18);background:#f2c68f;transition:transform .25s,box-shadow .25s}
+        #kursplayer.d-b .kpl.katze{width:14%}#kursplayer.d-b .kpl.katze .kg{background:#f3e7c9}#kursplayer.d-b .kpl.gast .kg{background:#cfe2ea;border-style:dashed}
+        #kursplayer.d-b .kpl .kn{font-size:11px;line-height:1.2;color:rgba(243,231,201,.85);white-space:nowrap;font-weight:700;background:rgba(15,36,51,.78);padding:1px 7px;border-radius:9px}
+        #kursplayer.d-b .kpl.an .kg{transform:scale(1.13);border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.35),0 0 26px rgba(232,163,60,.35)}#kursplayer.d-b .kpl.an .kn{color:#f3e7c9}
+        #kursplayer.d-b.laeuft .kpl.an .kg{animation:kglow 2.4s ease-in-out infinite}@keyframes kglow{50%{box-shadow:0 0 0 9px rgba(232,163,60,.18),0 0 34px rgba(232,163,60,.45)}}
+        #kursplayer.d-b:not(.mitlesen) #kspr .ktext,#kursplayer.d-b #kspr .kname{display:none}
+        #kursplayer.d-b.mitbild #kges{width:0;height:0;aspect-ratio:auto;position:static}#kursplayer.d-b.mitbild #kges .kbg,#kursplayer.d-b.mitbild #kges .kpl:not(.an){display:none}
+        #kursplayer.d-b.mitbild #kges .kpl.an{position:fixed;left:auto!important;top:auto!important;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;width:62px;z-index:3}#kursplayer.d-b.mitbild #kges .kpl.an .kn{display:none}#kursplayer.d-b.mitbild #kges .kpl.an{height:auto!important}#kursplayer.d-b.mitbild #kges .kpl.an .kg{transform:none;width:62px;height:62px;flex:none}
+        #kursplayer.d-b.mitwahl #kbild{display:none}#kursplayer.d-b.mitwahl #kspr{display:none}
+        @media (prefers-reduced-motion: reduce){#kursplayer .kpl,#kursplayer .kpl .kg{transition:none;animation:none!important}}
         #kursplayer.d-b{background:#0f2433;color:#f3e7c9}#kursplayer.d-b .kkopf .muted{color:rgba(243,231,201,.65)}#kursplayer.d-b .kkopf .kknopf{background:rgba(255,255,255,.1)}#kursplayer .kanim{max-height:58vh;margin:0 auto}
         #kursplayer #kstage{display:flex;flex-direction:column;gap:8px;margin-top:6px}#kursplayer #kges{display:none}#kursplayer #kspr:empty,#kursplayer #kbild:empty,#kursplayer #kwahl:empty,#kursplayer #kdenk:empty{display:none}
         #kursplayer .kg{width:74px;height:74px;border-radius:50%;overflow:hidden;background:#fffaf0;border:3px solid rgba(255,255,255,.28);flex:0 0 auto;transition:transform .2s,box-shadow .2s,width .2s,height .2s;display:grid;place-items:center}
@@ -774,7 +900,6 @@
         #kursplayer.d-b #kbuehne{background:#0f2433;color:#f3e7c9;border-color:#16334a}#kursplayer.d-b #kbuehne .muted,#kursplayer.d-b #kinfo{color:rgba(243,231,201,.68)}
         #kursplayer.d-b #kplay .btn.ghost{color:#f3e7c9;border-color:rgba(243,231,201,.4);background:transparent}
         #kursplayer.d-b #kstage{min-height:54vh;justify-content:center;text-align:center}
-        #kursplayer.d-b #kges{display:flex;justify-content:center;padding:14px 0 6px}
         #kursplayer.d-b .kring{position:relative;width:136px;height:136px;display:grid;place-items:center}
         #kursplayer.d-b .kring .kg{width:112px;height:112px;border:0;background:#f2c68f}
         #kursplayer.d-b .kring::before,#kursplayer.d-b .kring::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(232,163,60,.55);opacity:0}
@@ -782,7 +907,7 @@
         @keyframes kpuls{from{transform:scale(.85);opacity:1}to{transform:scale(1.35);opacity:0}}
         #kursplayer.d-b #kspr{max-width:30ch;margin:0 auto;color:#f3e7c9}#kursplayer.d-b #kspr .kname{font-size:.9em;letter-spacing:.08em;opacity:.85}#kursplayer.d-b #kspr .ktext{font-size:1.32em;line-height:1.38;margin-top:6px}
         #kursplayer.d-b .kdenk{color:#e8a33c}
-        #kursplayer.d-b.mitbild #kges,#kursplayer.d-b.mitwahl #kges{display:none}#kursplayer.d-b.mitbild #kbild{order:-1}#kursplayer.d-b.mitbild #kstage{justify-content:flex-start}#kursplayer.d-b.mitbild #kspr{max-width:none;text-align:left}#kursplayer.d-b.mitbild #kspr .ktext{font-size:1.05em}#kursplayer.d-b.mitbild .kanim{max-height:62vh}
+        #kursplayer.d-b.mitwahl #kges{display:none}#kursplayer.d-b.mitbild #kbild{order:-1}#kursplayer.d-b.mitbild #kstage{justify-content:center}#kursplayer.d-b.mitbild #kspr{max-width:none;text-align:left}#kursplayer.d-b.mitbild #kspr .ktext{font-size:1.05em}#kursplayer.d-b.mitbild .kanim{max-height:none;width:100%;margin:0 auto;background:transparent;box-shadow:none}#kursplayer.d-b.mitbild .kanim.anstage>svg{width:100%;max-height:calc(100dvh - 150px);margin:0 auto;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45)}
         #kursplayer.d-b .kfrage{background:#fbf3e4;color:#2a2118;border:0;border-radius:20px 20px 10px 10px;text-align:left;padding-top:16px;position:relative}
         #kursplayer.d-b .kfrage::before{content:"";position:absolute;top:6px;left:50%;width:38px;height:4px;margin-left:-19px;border-radius:2px;background:#d9c9a3}
         #kursplayer.d-b .kopt{background:#fff;color:#2a2118;border-color:#e2d4b6}#kursplayer.d-b .kopt .kabc{color:#2f6f8a;opacity:1}#kursplayer.d-b .kfrage .muted{color:#7a6650}
@@ -812,11 +937,12 @@
     };
     document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.onclick = () => { k.modus = b.dataset.mod; save(); chips(); });
     $('#ktem').onchange = e => { k.tempo = +e.target.value; save(); if (lauf && lauf.audio) lauf.audio.playbackRate = k.tempo; };
-    $('#kmit').checked = !!k.mitlesen; $('#kmit').onchange = e => { k.mitlesen = e.target.checked; save(); };
+    const mitKl = () => document.getElementById('kursplayer')?.classList.toggle('mitlesen', !!k.mitlesen);
+    $('#kmit').checked = !!k.mitlesen; $('#kmit').onchange = e => { k.mitlesen = e.target.checked; save(); mitKl(); }; mitKl();
     $('#ktick').checked = k.ticken !== false; $('#ktick').onchange = e => { k.ticken = e.target.checked; save(); };
     chips();
     /* Aussehen: je Folge vorgesehen (FOLGEN[id].design), auf dem Gerät umstellbar (S.cfg.kurs.aussehen {id: a|b|s}, Standard leer, R7) */
-    const ausWahl = () => ((k.aussehen || {})[id]) || f.design || 's';
+    const ausWahl = () => ((k.aussehen || {})[id]) || f.design || (id === 'probe' ? 's' : 'b');   /* v5.52: Nachtbühne ist Standard (Nutzer 08.11.2026) */
     const ausChips = () => document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aus === aussehenAkt)));
     buehnenCrew = []; aussehenSetzen(ausWahl()); ausChips();
     document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
@@ -828,7 +954,7 @@
     let probeA = null;
     const probeAus = () => { if (probeA) { probeA.pause(); URL.revokeObjectURL(probeA.src); probeA = null; } };
     const neu = async () => {
-      const b = await bestand(st), fehltAb = new Set(b.offen.map(it => it.ab));
+      const b = await bestand(st), fehltAb = new Set(b.offen.filter(it => !it.rueck).map(it => it.ab));
       const sfxDa = await Promise.all(st.sfx.map(g => istDa(st, g)));
       /* Abschnitte zum Springen: nur die fertigen */
       /* Abschnitte zum Springen; was noch nicht erzeugt ist, spielt die Gratis-Stimme */
@@ -857,7 +983,7 @@
       else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: ⚙️ oben rechts, dann „Erzeugen“.');
       if (!lauf) zeigeSteuerung(st, false);
     };
-    buehnenCrew = CREWW.filter(w => sprecher(st).includes(w)); if (!buehnenCrew.length) buehnenCrew = ['HINNERK', 'SMILLA'];
+    buehnenCrew = (st.anBord || ['HINNERK', 'SMILLA']).slice(); if (aussehenAkt === 'a') buehnenCrew = buehnenCrew.filter(w => w !== 'BACKBORD');
     { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null); }
     await neu();
     /* Design-Test: beide Folgen mit einem Knopf vertonen (oben in der Bühne, nur mit Schlüssel) */

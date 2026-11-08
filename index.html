@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.51';
+  window.__ver = '5.52';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -740,7 +740,7 @@ const ART = {
     <path d="M24 104 H76 M24 118 H76" stroke="#f4f0e2" stroke-width="5"/>
     <circle cx="50" cy="48" r="26" fill="${SKIN}"/>
     <path d="M25 52 Q22 34 34 28 Q50 20 66 28 Q78 34 75 52 Q72 40 64 38 Q50 34 36 38 Q28 40 25 52 Z" fill="#9a958c"/>
-    <path d="M24 34 Q50 12 76 34 L78 30 Q50 6 22 30 Z" fill="#1f2c3d"/><rect x="22" y="30" width="56" height="7" rx="3" fill="#1f2c3d"/><path d="M62 33 Q74 34 84 40" stroke="#1f2c3d" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M23 35 Q22 13 50 11 Q78 13 77 35 Z" fill="#1f2c3d"/><path d="M30 22 Q50 14 70 22" stroke="#2c3c52" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="50" cy="25" r="3.6" fill="#e3b552"/><rect x="22" y="30" width="56" height="7" rx="3" fill="#162232"/><path d="M62 33 Q74 34 84 40" stroke="#1f2c3d" stroke-width="5" fill="none" stroke-linecap="round"/>
     ${eyes([[41, 50], [59, 50]])}
     ${cheeks([[33, 58], [67, 58]])}
     ${mouth('M44 61 Q50 58 56 61', 50, 61, 4, 3)}</g>`,
@@ -813,7 +813,8 @@ function charSVG(id, extraCls = '') {
 /* Mimik (v5.50, Nutzer 08.11.2026: „Emotionen in den Gesichtern, damit sie in den Folgen mitspielen“):
    mimik(svg, laune) legt Augenbrauen, Augen und Mund über das gezeichnete Gesicht, ohne die Zeichnung zu ändern.
    Launen: normal, froh, lacht, genervt, erschrocken, skeptisch, traurig, nachdenklich. Beim Sprechen bleibt der sprechende Mund. */
-const MIMIK_LAUNEN = ['normal', 'froh', 'lacht', 'genervt', 'erschrocken', 'skeptisch', 'traurig', 'nachdenklich'];
+/* v5.52 (Nutzer 08.11.2026: „erschrocken ist zu extrem für alltägliche Probleme“): dazu harmlosere Launen staunt, besorgt, grinst, zwinkert, zufrieden */
+const MIMIK_LAUNEN = ['normal', 'froh', 'lacht', 'genervt', 'erschrocken', 'skeptisch', 'traurig', 'nachdenklich', 'staunt', 'besorgt', 'grinst', 'zwinkert', 'zufrieden'];
 const MIMIK_FIG = {hinnerk: {braue: '#f6f2e8', dick: 3.4}, kroeger: {braue: '#5b4636'}, klabauter: {braue: '#2f7a3a', ohneMund: true}};
 function mimik(svg, laune) {
   if (!svg || !svg.querySelector) return;
@@ -829,7 +830,7 @@ function mimik(svg, laune) {
   if (!augen.length) return;
   const B = fig.braue || INK, D = fig.dick || 2.4, mitte = augen.length > 1 ? (augen[0].x + augen[1].x) / 2 : 50;
   /* Brauen: Winkel der Innenseite (+ = innen runter = böse, − = innen hoch = traurig), Höhe über dem Auge */
-  const BRAUE = {froh: [0, 7.5], lacht: [-6, 8.5], genervt: [16, 6], erschrocken: [-4, 10.5], skeptisch: [0, 7], traurig: [-20, 7.5], nachdenklich: [8, 7]};
+  const BRAUE = {froh: [0, 7.5], lacht: [-6, 8.5], genervt: [16, 6], erschrocken: [-4, 10.5], skeptisch: [0, 7], traurig: [-20, 7.5], nachdenklich: [8, 7], staunt: [-3, 9], besorgt: [-11, 7.5], grinst: [0, 7.5], zwinkert: [0, 7.5], zufrieden: [-2, 7.5]};
   const [w, h] = BRAUE[laune]; let g = '';
   augen.forEach((e, i) => {
     const links = e.x < mitte || augen.length === 1 ? 1 : -1;
@@ -840,8 +841,11 @@ function mimik(svg, laune) {
     if (laune === 'lacht') g += `<path d="M${e.x - 3.2} ${e.y + 1} Q${e.x} ${e.y - 3.4} ${e.x + 3.2} ${e.y + 1}" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
     if (laune === 'erschrocken') g += `<circle cx="${e.x}" cy="${e.y}" r="${(e.r || 2.6) + 1.6}" fill="#fff" stroke="${INK}" stroke-width="1"/><circle cx="${e.x}" cy="${e.y}" r="${(e.r || 2.6) * .8}" fill="${INK}"/>`;
     if (laune === 'genervt') g += `<path d="M${e.x - 3.6} ${e.y - 1.2} H${e.x + 3.6}" stroke="${SKIN}" stroke-width="2.6"/><path d="M${e.x - 3.6} ${e.y - .2} H${e.x + 3.6}" stroke="${INK}" stroke-width="1.2" stroke-linecap="round"/>`;
+    /* zufrieden: Augen als weiche Bögen; zwinkert: das zweite Auge zu */
+    if (laune === 'zufrieden' || (laune === 'zwinkert' && (augen.length === 1 || i === 1))) g += `<circle cx="${e.x}" cy="${e.y}" r="${(e.r || 2.6) + .9}" fill="${SKIN}"/><path d="M${e.x - 3.2} ${e.y - .4} Q${e.x} ${e.y + 2.6} ${e.x + 3.2} ${e.y - .4}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;
   });
   if (laune === 'lacht' || laune === 'erschrocken') svg.classList.add('mimaugen');
+  if (laune === 'staunt' || laune === 'besorgt') {}   /* Augen bleiben, nur Brauen und Mund */
   if (mund && !fig.ohneMund) {
     const {x, y} = mund, r = Math.max(4, mund.rx || 4);
     const M = {froh: `<path d="M${x - r - 1.5} ${y - 1} Q${x} ${y + 5} ${x + r + 1.5} ${y - 1}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
@@ -850,7 +854,12 @@ function mimik(svg, laune) {
       erschrocken: `<ellipse cx="${x}" cy="${y + 1}" rx="${r * .55}" ry="${r * .75}" fill="${MOUTH}" stroke="${INK}" stroke-width="1"/>`,
       skeptisch: `<path d="M${x - r} ${y + 1} Q${x + 1} ${y + 1.6} ${x + r + 1} ${y - 1.4}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
       traurig: `<path d="M${x - r} ${y + 2.2} Q${x} ${y - 2.4} ${x + r} ${y + 2.2}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
-      nachdenklich: `<path d="M${x - r * .5} ${y + 1} H${x + r * .7}" stroke="${INK}" stroke-width="1.9" stroke-linecap="round"/>`}[laune];
+      nachdenklich: `<path d="M${x - r * .5} ${y + 1} H${x + r * .7}" stroke="${INK}" stroke-width="1.9" stroke-linecap="round"/>`,
+      staunt: `<ellipse cx="${x}" cy="${y + 1}" rx="${r * .38}" ry="${r * .48}" fill="${MOUTH}"/>`,
+      besorgt: `<path d="M${x - r * .8} ${y + 1.6} Q${x} ${y - .4} ${x + r * .8} ${y + 1.6}" stroke="${INK}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+      grinst: `<path d="M${x - r * .7} ${y} Q${x + r * .4} ${y + 3} ${x + r + 1.5} ${y - 2.2}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
+      zwinkert: `<path d="M${x - r - 1} ${y - .6} Q${x} ${y + 4.4} ${x + r + 1} ${y - .6}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
+      zufrieden: `<path d="M${x - r} ${y - .4} Q${x} ${y + 3.6} ${x + r} ${y - .4}" stroke="${INK}" stroke-width="1.8" fill="none" stroke-linecap="round"/>`}[laune];
     if (M) { g += `<g class="mm">${M}</g>`; svg.classList.add('mimmund'); }
   }
   if (laune === 'erschrocken') { const e = augen[augen.length - 1]; g += `<path d="M${e.x + 9} ${e.y - 9} q2.5 4 0 5.5 q-2.5 -1.5 0 -5.5z" fill="#8fd0f0"/>`; }
