@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.30';
+  window.__ver = '5.31';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1904,23 +1904,37 @@ const VOX = (() => {
       else { let cur = ''; p.split(/,\s*/).forEach(q => { if ((cur + ', ' + q).length > 180 && cur) { out.push(cur); cur = q; } else cur = cur ? cur + ', ' + q : q; }); if (cur) out.push(cur); } });
     return out;
   }
-  function playPhoneOne(text, cid) {
+  /* v5.31: Android-Chrome verschluckt Sätze, wenn speak() direkt nach cancel() kommt oder die gewählte Stimme nicht bereit ist.
+     Darum: nur abbrechen, wenn wirklich gesprochen wird, kurz warten; endet ein Satz ohne Start oder viel zu schnell, einmal mit der Standardstimme neu versuchen.
+     Ergebnis: true = hörbar gesprochen, false = stumm geblieben (dann wartet der Aufrufer die Lesezeit ab). */
+  function playPhoneOne(text, cid, ohneWahl) {
     return new Promise(res => {
-      if (!('speechSynthesis' in window)) return res();
+      if (!('speechSynthesis' in window)) return res(false);
       const c = CREW[cid] || GAST_TON[cid] || {}, lang = /mo{4,}in/i.test(text), u = new SpeechSynthesisUtterance(lang ? text.replace(/o{4,}/gi, 'ooo') : text);
       u.lang = 'de-DE'; u.pitch = Math.min(2, c.pitch || 1); u.rate = (c.rate || 1) * (lang ? .6 : 1);
-      const v = phoneVoiceOf(cid); if (v) u.voice = v;
-      let fin = false; const done = () => { if (fin) return; fin = true; clearTimeout(dog); res(); };
-      const dog = setTimeout(() => { log('handystimme', 'Zeitlimit erreicht'); done(); }, 3500 + text.length * 95);
-      u.onend = done; u.onerror = done;
-      current = {stop: () => { try { speechSynthesis.cancel(); } catch (e) {} done(); }};
-      try { speechSynthesis.speak(u); } catch (e) { done(); }
+      const v = ohneWahl ? null : phoneVoiceOf(cid); if (v) u.voice = v;
+      let fin = false, start = 0; const t0 = Date.now();
+      const done = ok => { if (fin) return; fin = true; clearTimeout(dog); res(ok); };
+      const dog = setTimeout(() => { log('handystimme', 'Zeitlimit erreicht'); done(!!start); }, 3500 + text.length * 95);
+      u.onstart = () => { start = Date.now(); };
+      u.onend = () => done(!!start || Date.now() - t0 > 250 + text.length * 25);
+      u.onerror = e => { log('handystimme', 'Fehler: ' + (e && e.error)); done(false); };
+      current = {stop: () => { try { speechSynthesis.cancel(); } catch (e) {} done(true); }};
+      try { speechSynthesis.speak(u); } catch (e) { done(false); }
     });
   }
   async function playPhone(text, cid) {
-    const g = gen; try { speechSynthesis.cancel(); } catch (e) {}
-    for (const part of chunks(text)) { if (g !== gen) return; await playPhoneOne(part, cid); }
+    const g = gen;
+    try { if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); await new Promise(r => setTimeout(r, 160)); } } catch (e) {}
+    let alle = true;
+    for (const part of chunks(text)) { if (g !== gen) return alle;
+      let ok = await playPhoneOne(part, cid);
+      if (!ok && g === gen) { await new Promise(r => setTimeout(r, 220)); ok = await playPhoneOne(part, cid, true); }
+      if (!ok) alle = false; }
+    return alle;
   }
+  /* Einmal im Klick aufrufen: schaltet die Sprachausgabe auf manchen Handys frei */
+  function phoneUnlock() { try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'de-DE'; speechSynthesis.speak(u); } catch (e) {} }
   const readTime = t => new Promise(r => setTimeout(r, 900 + String(t).length * 45));
 
   /* say: ein Satz einer Figur. kind: fixed (fester Satz), story (Podcast), live (freies Gespräch) */
@@ -2094,7 +2108,7 @@ const VOX = (() => {
       const r = await fetchT(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd}, 25000);
       if (r.ok) return {ok: true}; const d = await errDetail(r); return {ok: false, status: r.status, perm: d.perm || r.status === 401 || r.status === 403, msg: d.msg};
     },
-    get canListen() { return !!SR || !!elKey(); }, get phoneVoices() { return phoneSorted(); }, phoneVoiceOf, phoneTest: (cid, t) => playPhone(t, cid), get hasSR() { return !!SR; },
+    get canListen() { return !!SR || !!elKey(); }, get phoneVoices() { return phoneSorted(); }, phoneVoiceOf, phoneTest: (cid, t) => playPhone(t, cid), phoneUnlock, get hasSR() { return !!SR; },
     get exhausted() { return exhausted; }, set exhausted(v) { exhausted = v; }, get keyBad() { return keyBad; },
     resetFlags() { exhausted = false; keyBad = false; voiceList = null; },
     usageToday: () => usage(),

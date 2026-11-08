@@ -316,10 +316,14 @@
       const z = it.zeilen[i]; if (!z.text) continue;
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
-      if (box) box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b> <span class="muted">· Gratis-Stimme</span>` + (cfgK().mitlesen ? `<div class="small" style="margin-top:4px">${esc(z.text)}</div>` : '');
+      /* im Gratis-Modus immer mitlesen: so geht es auch, wenn die Handystimme stumm bleibt */
+      if (box) box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b> <span class="muted">· Gratis-Stimme</span><div class="small" style="margin-top:4px">${esc(z.text)}</div>`;
       if (vorBild && i === it.zeilen.length - 1) { bild(vorBild); me.bildDa = vorBild; }
-      me.handy = true;
-      try { await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
+      me.handy = true; const t0 = Date.now(); let ok = false;
+      try { ok = await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
+      /* stumm oder viel zu schnell fertig: Lesezeit abwarten statt durchzurasen, einmal Bescheid sagen */
+      const lese = 1200 + z.text.length * 55, weg = Date.now() - t0;
+      if ((!ok || weg < lese * .35) && !me.aus) { if (!me.stummHinweis) { me.stummHinweis = true; const i = ui('#kinfo'); if (i) i.textContent = '🔇 Die Handystimme bleibt stumm. Bitte Lautstärke prüfen und in den Android-Einstellungen unter „Sprachausgabe“ eine deutsche Stimme einrichten. Bis dahin läuft der Text zum Mitlesen.'; } await warten(me, Math.max(0, lese - weg)); }
       await warten(me, 220);
     }
     if (!me.gleichWeiter) duckAtmo(false);
@@ -465,7 +469,7 @@
     const echt = !st.ersterFehlt, gratisKnopf = st.luecke ? `<button class="btn${echt ? ' ghost' : ' lamp'}" id="kgratis">${echt ? '🗣️ Ganz hören, Fehlendes mit Gratis-Stimme' : '▶ Abspielen mit Gratis-Stimme'}</button>` : '';
     p.innerHTML = laeuft ? `<button class="btn" id="kpause">⏸ Pause</button> <button class="btn ghost" id="kstop">⏹ Stopp</button>` : (echt ? `<button class="btn lamp" id="kstart">▶ Abspielen</button> ` : '') + gratisKnopf;
     const s = ui('#kstart'); if (s) s.onclick = () => spiele(st, 0);
-    const g = ui('#kgratis'); if (g) g.onclick = () => { AUD.unlock(); spiele(st, 0, true); };
+    const g = ui('#kgratis'); if (g) g.onclick = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, true); };
     const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (!lauf) return; lauf.pause = !lauf.pause; if (lauf.audio) lauf.pause ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
       if (lauf.handy) { try { lauf.pause ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} } pa.textContent = lauf.pause ? '▶ Weiter' : '⏸ Pause'; };
     const so = ui('#kstop'); if (so) so.onclick = () => { stop(); zeigeSteuerung(st, false); };
@@ -523,7 +527,7 @@
       /* Abschnitte zum Springen: nur die fertigen */
       /* Abschnitte zum Springen; was noch nicht erzeugt ist, spielt die Gratis-Stimme */
       $('#kab').innerHTML = st.items.map((it, i) => it.t !== 'abschnitt' ? '' : `<button class="chip" data-ab="${i}"${fehltAb.has(it.ab) ? ' data-gratis="1"' : ''}>${esc(it.titel)} <span class="muted">· ${uhr((st.abschnitte.find(a => a.nr === it.ab) || {}).sek || 0)}${fehltAb.has(it.ab) ? ', Gratis-Stimme' : ''}</span></button>`).join('');
-      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { probeAus(); AUD.unlock(); spiele(st, +x.dataset.ab, !!x.dataset.gratis); });
+      document.querySelectorAll('#kursplayer [data-ab]').forEach(x => x.onclick = () => { probeAus(); AUD.unlock(); if (x.dataset.gratis && VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, +x.dataset.ab, !!x.dataset.gratis); });
       /* 1. Geräusche: einzeln anhören und herunterladen */
       $('#ksfx').innerHTML = st.sfx.length ? st.sfx.map((g, i) => `<div class="krow"><span>${esc(g.name || g.id)} <span class="muted">· ${g.sekunden || 5} s${g.loop ? ', Schleife' : ''}${g.datei ? ', für alle' : ''}</span></span>
         <span>${sfxDa[i] ? `<button class="btn small ghost" data-sfxplay="${i}" aria-label="Anhören">▶</button><button class="btn small ghost" data-sfxdl="${i}" aria-label="Herunterladen">⬇</button>` : `<span class="small muted">fehlt · etwa ${zahl(sfxKosten(g))} Credits</span>`}</span></div>`).join('') : '<p class="small muted">Diese Folge braucht keine eigenen Geräusche.</p>';
