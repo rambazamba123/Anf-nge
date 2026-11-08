@@ -72,6 +72,8 @@ try {
   const kp = JSON.parse(fs.readFileSync(path.join(ROOT, 'podcast/kursplan-sbf.json'), 'utf8'));
   kp.teile.flatMap(t => t.kapitel.flatMap(k => k.folgen)).forEach((l, i) => { PLAN.set(l.id, {...l, i}); l.fragen.forEach(n => FRAGE_LEK.set('sbf:' + n, l.id)); });
   ANIMS = new Set(Object.keys(kp.animationen || {})); if (kp.reviere) REVIERE = kp.reviere;
+  /* v5.54: Jede gebaute Animation darf in eine Folge (Nutzer 08.11.2026: wenn es eine passende gibt, immer nutzen) */
+  for (const f of ['anim.js', 'anim2.js', 'anim3.js', 'anim4.js', 'anim-hoch.js']) { try { for (const m of fs.readFileSync(path.join(__dirname, '..', f), 'utf8').matchAll(/\b(?:def|roh|neu|alt|szene|liste)\('([a-z0-9]+)'/g)) ANIMS.add(m[1]); } catch (e) {} }
 } catch (e) { W(K, 'podcast/kursplan-sbf.json nicht lesbar, Folgen werden ohne Kursplan geprüft'); }
 /* Revier hörbar machen: Wo die Regel vom Revier abhängt, muss es in der Szene ausgesprochen werden (Konzept §10) */
 const REVIER_WORTE = {fahrwasser: /fahrwasser/i, vtg: /verkehrstrennungsgebiet|einbahnweg/i, nok: /kanal/i, frei: /frei(e[nmr]?)?\s+(see|seeraum)|offene[nmr]? see|außerhalb des fahrwassers|weg vom fahrwasser/i, watt: /watt|priel/i, schleuse: /schleuse|schleusn/i,

@@ -40,7 +40,7 @@ SMILLA: Wir fahren rückwärts aus der Box. Hinnerk legt gleich den Rückwärtsg
 [[VORAB: sbf:41]]
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich, erst mal nur raten. Wenn er rückwärts Gas gibt: Wohin zieht das Heck? Alfa: nach Backbord, also links. Bravo: nach Steuerbord, also rechts. Charlie: gar nicht. Die Auflösung kommt gleich.
+SMILLA: Frage an dich, erst mal nur raten. Wenn er rückwärts Gas gibt: Wohin zieht das Heck? Alfa: nach Backbord, also links. Bravo: nach Steuerbord, also rechts. Charlie: gar nicht.
 [[WAHL: *nach Backbord | nach Steuerbord | gar nicht]]
 [[DENKPAUSE: 6]]
 [[AUDIO: Motor]]
@@ -51,9 +51,12 @@ HINNERK: Motor läuft. Lass ihn mal warm werden.
 [[REVIER: hafen]]
 SMILLA: Weil wir eh warten: Weißt du eigentlich, wie so ein Boot fährt? Ist nicht wie beim Auto. Vier Sachen.
 HINNERK: Gleich vier.
+[[ANIM: ruder]]
 SMILLA: Erstens: Der Propeller schiebt. Er drückt Wasser nach hinten, und das Boot geht nach vorn.
 SMILLA: Zweitens: Gelenkt wird mit Wasser. Ein Boot lenkt nur, wenn Wasser am Ruder vorbeiströmt oder der Propeller einen Strom macht. Kein Wasserstrom, keine Lenkung.
+[[ANIM: radeffekt]]
 SMILLA: Drittens: Das Heck rutscht. Kuppelst du ein, schiebt der Propeller das Heck ein Stück zur Seite.
+[[ANIM: sog]]
 SMILLA: Und viertens: Große Schiffe ziehen. Wer neben einem dicken Pott fährt, wird angesaugt.
 HINNERK: Und fünftens: Der Motor muss laufen. Tut er. Noch.
 SMILLA: Merk dir die vier so: Der Propeller schiebt, das Ruder lenkt nur im Strom, das Heck rutscht beim Einkuppeln, und große Pötte ziehen.
@@ -120,6 +123,7 @@ HINNERK: Halt dich fest.
 SMILLA: Guck dir die Lieger an! Die knallen alle an die Stege. Und bei Paul ist die Leine gerissen, glaub ich.
 HINNERK: [[SPRUCH: hi-fluch-02]] Pütz und Persenning!
 SMILLA: An festgemachten Booten fährt man langsam vorbei. Sonst wirft deine Welle sie gegen den Steg, und der Sog zerrt an den Leinen.
+[[ANIM: gleiter]]
 HINNERK: Und Gleitfahrt macht's nich besser. Hat letztes Jahr einer zu Hilke gesagt. „Ich gleite doch, da gibt's keine Welle.“
 SMILLA: Und?
 HINNERK: Hilke hat ihm 'ne Rechnung über drei Fender geschrieben.

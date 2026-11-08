@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.53';
+  window.__ver = '5.54';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1129,6 +1129,13 @@ function weatherToday() {
   if (forced) return forced;
   const d = new Date(); let x = d.getFullYear() * 1000 + (d.getMonth() + 1) * 40 + d.getDate();
   x = Math.imul(x ^ (x >>> 13), 0x5bd1e995); x ^= x >>> 15; const r = ((x >>> 0) % 1000) / 1000;
+  /* v5.54 (Nutzer, 08.11.2026): Das Wetter an Bord passt zur nächsten Folge der Hörreise: meist gleich, öfter etwas schlechter, selten etwas besser */
+  let basis = null; try { basis = HOERREISE[hoerreiseNaechste()][3]; } catch (e) {}
+  if (basis) {
+    if (basis === 'nebel') return r < .6 ? 'nebel' : r < .85 ? 'regen' : 'windig';
+    const R = ['schoen', 'windig', 'regen', 'sturm'], i = Math.max(0, R.indexOf(basis));
+    return R[Math.max(0, Math.min(R.length - 1, r < .55 ? i : r < .85 ? i + 1 : i - 1))];
+  }
   return r < .6 ? 'schoen' : r < .74 ? 'windig' : r < .82 ? 'sturm' : r < .93 ? 'regen' : 'nebel';
 }
 const WX_NAMES = {schoen: 'Schönes Wetter', windig: 'Frischer Wind', sturm: 'Wind und Regen', regen: 'Windstill und Regen', nebel: 'Nebel'};
@@ -5093,7 +5100,8 @@ function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.s
 /* V42: In den drei Wochen vor dem Praxistermin bekommt die Praxis mehr Gewicht im Kurs für heute */
 function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
 /* Hörreise (docs/reise.md, E25): die neuen Folgen; alles Ältere liegt gesammelt unter „Alte Folgen und Tests“ (Nutzer, 07.11.2026) */
-const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten']];
+/* [id, Titel, Untertitel, Wetter der Folge] – das Wetter in der App richtet sich nach der nächsten Folge (weatherToday) */
+const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
