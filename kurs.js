@@ -408,8 +408,17 @@
       blende = setInterval(() => { const d = ziel - a.volume; if (Math.abs(d) < .02 || a !== atmoA) { a.volume = ziel; clearInterval(blende); } else a.volume += d / 3; }, 60);
     } else ATMO_ALLE.forEach(n => { if (atmoPegel[n]) AUD.loop(n, atmoPegel[n] * (leise ? .45 : 1)); });
   }
+  /* Telefon ohne erzeugtes Geräusch (Gratis-Stimme): zweimal klingeln mit dem Tongenerator des Handys */
+  async function klingeln(me) {
+    try {
+      const C = window.AudioContext || window.webkitAudioContext, ac = new C(), g = ac.createGain(); g.connect(ac.destination); g.gain.value = 0;
+      [440, 480].forEach(f => { const o = ac.createOscillator(); o.frequency.value = f; o.connect(g); o.start(); o.stop(ac.currentTime + 3.2); });
+      const t = ac.currentTime; [[0, .9], [1.4, 2.3]].forEach(([a, b]) => { g.gain.setValueAtTime(.12 * sfxLaut(1), t + a); g.gain.setValueAtTime(0, t + b); });
+      await warten(me, 3200); ac.close();
+    } catch (e) {}
+  }
   async function geraeusch(st, it, me) {
-    const b = await blobVon(st, it); if (!b) return;
+    const b = await blobVon(st, it); if (!b) { if (it.gen === 'telefon') await klingeln(me); return; }
     const a = new Audio(URL.createObjectURL(b)); a.volume = sfxLaut(.9); me.neben.push(a);
     const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
     if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
@@ -449,6 +458,7 @@
   const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei', BACKBORD: 'backbord'};
   NAMEN.BACKBORD = NAMEN.BACKBORD || 'Backbord'; NAMEN.SCHLEUSE = NAMEN.SCHLEUSE || 'Schleuse'; NAMEN.POLIZEI = NAMEN.POLIZEI || 'Polizei';
   /* ---------- Nachtbühne (Entwurf B, Nutzer 08.11.2026): alle an Bord als runde Gesichter auf dem Hintergrund, Gäste daneben ---------- */
+  let letzteAbK = 0;
   let szeneArt = 'deck', szeneZeit = null, szeneWetter = null, folgeWetter = null;
   /* Ort aus [[SZENE]] (Nutzer 08.11.2026 gewählt: Kajüte C, Steg B, Fahrt C, Telefon C, Abend B, Besuch A, Schleuse A) */
   function szeneTyp(text) {
@@ -478,68 +488,97 @@
     return `<defs><clipPath id="kbull"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs><g clip-path="url(#kbull)"><rect x="${cx - r}" y="${cy - r}" width="${2 * r}" height="${r * 1.1}" fill="${p.skyT}"/><rect x="${cx - r}" y="${cy - r * .1}" width="${2 * r}" height="${r * .3}" fill="${p.skyB}"/><rect x="${cx - r}" y="${cy + r * .15}" width="${2 * r}" height="${r}" fill="${p.sea}"/><path d="M${cx - r} ${cy + r * .4} q${r / 4} -1.5 ${r / 2} 0 t${r / 2} 0 t${r / 2} 0 t${r / 2} 0" stroke="${p.seaD}" stroke-width=".8" fill="none"/>${sterne}${regen}${nebel}</g><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#c9a46a" stroke-width="2.2"/><circle cx="${cx}" cy="${cy}" r="${r + 1.6}" fill="none" stroke="#8a6a3e" stroke-width=".8"/>`;
   }
   const BECHER = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-2" y="-3" width="4" height="4.4" rx=".8" fill="#f3e7c9"/><path d="M2 -2 q2 0 2 1.5 t-2 1.4" stroke="#f3e7c9" stroke-width=".7" fill="none"/><path d="M-.8 -4.5 q-1 -1.5 0 -3 M.9 -4.5 q1 -1.5 0 -3" stroke="#f3e7c9" stroke-width=".4" fill="none" opacity=".5"/></g>`;
+  /* v5.55 (Nutzer 08.11.2026): Die Bühne ist ein festes Quadrat (0–100), der Hintergrund reicht weit darüber hinaus und wird am Rand abgeschnitten (randlos).
+     Das Boot ist überall dasselbe wie in den Animationen (boot.js). Wasser wird nach dem Boot halb durchsichtig darübergelegt. */
+  const W0 = -150, WB = 400;   /* Hintergrund von x −150 bis 250 */
+  const SEEB = (y, c = '#1d4a63') => `<rect x="${W0}" y="${y}" width="${WB}" height="${260 - y}" fill="${c}"/>`;
+  const WELLEB = (y0, c = '#7fb7cf', o = .35) => `<g class="kwel">${Array.from({length: 30}, (_, i) => { const x = W0 + (i * 53) % WB, y = y0 + 2 + ((i * 29) % 30); return `<path d="M${x} ${y} q3 -2 6 0 t6 0" stroke="${c}" stroke-width=".8" fill="none" opacity="${o}"/>`; }).join('')}</g>`;
+  const UEBER = y => `<rect x="${W0}" y="${y}" width="${WB}" height="${260 - y}" fill="#1d4a63" opacity=".55"/>`;
+  const SEITE = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.seite(o)}</g>` : '';
+  const OBEN = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.oben(o)}</g>` : BOOT_OBEN(x - 50);
+  const ZAPFSAEULE = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-4" y="-17" width="8" height="17" rx="1.4" fill="#c0392b" stroke="#7a2318" stroke-width=".5"/><rect x="-2.8" y="-14.5" width="5.6" height="4" rx=".6" fill="#f3e7c9"/><rect x="-2.8" y="-8.5" width="5.6" height="1.6" fill="#7a2318"/><rect x="-4.6" y="-19" width="9.2" height="2.4" rx="1" fill="#e9dcc3"/><path d="M4 -10 q6 1 7 7 q1 5 7 5" stroke="#1d1d1d" stroke-width=".9" fill="none"/><text x="0" y="-11.3" font-size="2.4" text-anchor="middle" fill="#7a2318" font-weight="700">SUPER</text></g>`;
   const SZ_BG = {
-    tisch: () => `<rect x="0" y="0" width="100" height="36" fill="#3b2617"/>` + [9, 18, 27].map(y => `<path d="M0 ${y}H100" stroke="#2c1c11" stroke-width=".6"/>`).join('') + `<path d="M0 36H100" stroke="#5a3820" stroke-width="1.4"/>`
-      + bullauge(82, 17, 9) + `<defs><radialGradient id="klk"><stop offset="0" stop-color="#e8a33c" stop-opacity=".30"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="62" r="46" fill="url(#klk)"/>`
-      + `<path d="M50 0 V10" stroke="#c9a46a" stroke-width=".7"/><rect x="47" y="10" width="6" height="7" rx="1.6" fill="#e8a33c"/><circle class="klicht" cx="50" cy="14" r="6" fill="#e8a33c" opacity=".2"/>`
+    tisch: () => `<rect x="${W0}" y="-150" width="${WB}" height="186" fill="#3b2617"/>` + [9, 18, 27, 0, -9, -18].map(y => `<path d="M${W0} ${y}H250" stroke="#2c1c11" stroke-width=".6"/>`).join('') + `<path d="M${W0} 36H250" stroke="#5a3820" stroke-width="1.4"/>`
+      + bullauge(82, 17, 9) + `<defs><radialGradient id="klk"><stop offset="0" stop-color="#e8a33c" stop-opacity=".30"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="62" r="52" fill="url(#klk)"/>`
+      + `<path d="M50 -150 V10" stroke="#c9a46a" stroke-width=".7"/><rect x="47" y="10" width="6" height="7" rx="1.6" fill="#e8a33c"/><circle class="klicht" cx="50" cy="14" r="6" fill="#e8a33c" opacity=".2"/>`
       + `<ellipse cx="50" cy="64" rx="25" ry="10.5" fill="#4a2e19"/><ellipse cx="50" cy="62" rx="25" ry="10" fill="#8a5a36"/><ellipse cx="50" cy="62" rx="21" ry="7.6" fill="none" stroke="#a87249" stroke-width=".5" opacity=".7"/>`
       + BECHER(42, 61) + BECHER(57, 63) + `<g transform="translate(50 58)"><rect x="-2.6" y="-4.5" width="5.2" height="6.5" rx="1.2" fill="#2b3a4a"/><path d="M-2.6 -3 h-1.6 v2" stroke="#2b3a4a" stroke-width=".8" fill="none"/></g>`,
-    telefon: () => `<defs><radialGradient id="ktl"><stop offset="0" stop-color="#e8a33c" stop-opacity=".16"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="34" r="40" fill="url(#ktl)"/>`
-      + `<path d="M22 18 q-6 14 0 28 M78 18 q6 14 0 28 M15 12 q-9 20 0 40 M85 12 q9 20 0 40" stroke="#e8a33c" stroke-width="1" fill="none" opacity=".45"/><rect x="4" y="84" width="92" height="8" rx="4" fill="#5a3820" opacity=".8"/><rect x="47" y="85.5" width="6" height="4" rx="1" fill="#2b3a4a"/>`,
-    deck: () => `<rect x="0" y="62" width="100" height="38" fill="#1d4a63"/>` + `<g class="kwel">${WELLE(66, 11)}</g>`
-      + `<rect x="-2" y="48" width="104" height="7" fill="#7a4e2e"/><rect x="-2" y="55" width="104" height="2" fill="#4a2e19"/>` + [6, 22, 38, 54, 70, 86].map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('')
-      + `<circle cx="16" cy="48" r="1.7" fill="#2b1a0e"/><circle cx="92" cy="48" r="1.7" fill="#2b1a0e"/><path d="M28 60 Q22 56 16 48 M90 61 Q92 55 92 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`
-      + `<path d="M26 58 H96 L90 74 H32 Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M44 58 V50 H72 V58" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/>`,
-    fahrt: () => `<rect x="0" y="62" width="100" height="38" fill="#1d4a63"/>` + `<g class="kwel">${WELLE(66, 10)}</g>` + `<path d="M93 62 q-4 3 -8 0 t-8 0 M96 66 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none"/><path d="M4 50 Q8 51 14 52 H86 L82 70 H20 Q10 64 4 50Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M34 52 V43 H62 V52" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/><rect x="85" y="55" width="6" height="16" rx="2" fill="#2b3a4a"/>`,
-    abend: () => `<rect width="100" height="100" fill="#0c1d2a"/>` + STERNE + `<circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/><rect x="0" y="72" width="100" height="28" fill="#132e40"/>` + WELLE(76, 8, '#7fb7cf', .25)
-      + `<path d="M6 62 H90 L82 78 H16 Z" fill="#bfae8e" stroke="#6e4529" stroke-width="1.4"/><path d="M22 62 V53 H74 V62" fill="#cdbd9c" stroke="#8a7a5c" stroke-width=".8"/><path d="M80 62 V30" stroke="#9aa7b1" stroke-width=".8"/><circle cx="80" cy="29" r="1.6" fill="#f3e7c9"/><circle cx="80" cy="29" r="5" fill="#f3e7c9" opacity=".18"/>`,
-    besuch: () => WELLE(4, 14) + BOOT_OBEN(-12) + `<path d="M80 14 C90 22 92 40 91 60 L90 86 Q80 90 70 86 L69 60 C68 40 70 22 80 14Z" fill="#c9d6e0" stroke="#2b4a66" stroke-width="1.4"/><circle cx="80" cy="36" r="3" fill="#3d7bd9"/><circle class="kblau" cx="80" cy="36" r="8" fill="#3d7bd9" opacity=".25"/><path d="M56 40 L69 42 M56 70 L69 70" stroke="#c9b48a" stroke-width=".8"/>`,
-    schleuse: () => `<rect x="0" y="0" width="16" height="100" fill="#8f949c"/><rect x="84" y="0" width="16" height="100" fill="#8f949c"/><rect x="16" y="0" width="68" height="100" fill="#1d4a63"/>` + WELLE(6, 8) + BOOT_OBEN() + `<path d="M16 30 L34 34 M84 74 L66 78" stroke="#c9b48a" stroke-width=".9"/><rect x="16" y="2" width="68" height="4" fill="#5e636b"/>`};
-  /* Plätze in Prozent je Ort; gr = Größe in Prozent der Bühne. Wer steuert (Hinnerk), sitzt in Fahrt am Motor */
+    telefon: () => `<defs><radialGradient id="ktl"><stop offset="0" stop-color="#e8a33c" stop-opacity=".16"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="34" r="44" fill="url(#ktl)"/>`
+      + `<path d="M22 18 q-6 14 0 28 M78 18 q6 14 0 28 M15 12 q-9 20 0 40 M85 12 q9 20 0 40" stroke="#e8a33c" stroke-width="1" fill="none" opacity=".45"/><rect x="${W0}" y="84" width="${WB}" height="8" fill="#5a3820" opacity=".8"/><rect x="47" y="85.5" width="6" height="4" rx="1" fill="#2b3a4a"/>`,
+    deck: (pr) => SEEB(62) + WELLEB(64)
+      + `<rect x="${W0}" y="48" width="${WB}" height="7" fill="#7a4e2e"/><rect x="${W0}" y="55" width="${WB}" height="2" fill="#4a2e19"/>` + Array.from({length: 26}, (_, i) => W0 + 6 + i * 16).map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('')
+      + (pr.zapf ? ZAPFSAEULE(6, 49) : '') + `<circle cx="22" cy="48" r="1.7" fill="#2b1a0e"/><circle cx="96" cy="48" r="1.7" fill="#2b1a0e"/><path d="M28 61 Q24 56 22 48 M90 61 Q95 55 96 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`
+      + `<g class="kschaukel">${SEITE(61, 66, .4)}</g>` + UEBER(66),
+    fahrt: () => SEEB(62) + WELLEB(64) + `<path d="M93 64 q-4 3 -8 0 t-8 0 M98 68 q-4 2 -8 0 M104 64 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none" opacity=".7"/>`
+      + `<g class="kschaukel">${SEITE(50, 64, .45, {bugLinks: true})}</g>` + UEBER(64),
+    abend: () => `<rect x="${W0}" y="-150" width="${WB}" height="420" fill="#0c1d2a"/>` + STERNE + `<circle cx="-30" cy="10" r=".7" fill="#f3e7c9"/><circle cx="130" cy="20" r=".7" fill="#f3e7c9"/><circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/>`
+      + SEEB(72, '#132e40') + WELLEB(74, '#7fb7cf', .25) + `<path d="M76 80 h8 M74 86 h12 M77 92 h6" stroke="#f3e7c9" stroke-width="1" opacity=".35"/>`
+      + `<g class="kschaukel">${SEITE(48, 74, .45, {farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})}</g><path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
+    besuch: () => SEEB(-150) + WELLEB(-60) + WELLEB(0) + WELLEB(40) + `<g transform="rotate(0)">${OBEN(38, 52, .8)}</g>`
+      + `<path d="M80 14 C90 22 92 40 91 60 L90 86 Q80 90 70 86 L69 60 C68 40 70 22 80 14Z" fill="#c9d6e0" stroke="#2b4a66" stroke-width="1.4"/><circle cx="80" cy="36" r="3" fill="#3d7bd9"/><circle class="kblau" cx="80" cy="36" r="8" fill="#3d7bd9" opacity=".25"/><path d="M56 40 L69 42 M56 70 L69 70" stroke="#c9b48a" stroke-width=".8"/>`,
+    schleuse: () => `<rect x="${W0}" y="-150" width="166" height="400" fill="#8f949c"/><rect x="84" y="-150" width="166" height="400" fill="#8f949c"/><rect x="16" y="-150" width="68" height="400" fill="#1d4a63"/>` + OBEN(50, 52, .8) + `<path d="M16 30 L34 34 M84 74 L66 78" stroke="#c9b48a" stroke-width=".9"/><rect x="16" y="2" width="68" height="4" fill="#5e636b"/>`};
+  /* Plätze in Prozent je Ort; gr = Größe in Prozent der Bühne. Klabauter nur wenig größer als Backbord (Nutzer 08.11.2026) */
+  const GROESSE = {BACKBORD: .64, KLABAUTER: .72};
   function anordnen(art, crew) {
     const katze = crew.includes('BACKBORD'), leute = crew.filter(w => w !== 'BACKBORD'), n = leute.length, pl = [];
     const reihe = (ws, x0, x1, y, gr) => ws.forEach((w, i) => pl.push({w, x: ws.length === 1 ? (x0 + x1) / 2 : x0 + (x1 - x0) * i / (ws.length - 1), y, gr}));
     if (art === 'tisch') {
-      const alle = crew.slice(), m = alle.length, start = -90 + (m % 2 ? 0 : 180 / m), gr0 = m <= 3 ? 25 : m === 4 ? 23 : 20;
-      alle.forEach((w, i) => { const a = (start + i * 360 / m) * Math.PI / 180, x = 50 + Math.cos(a) * 37, y = 60 + Math.sin(a) * 23; pl.push({w, x, y, gr: gr0 * (w === 'BACKBORD' ? .7 : 1) * (.82 + .18 * (y - 37) / 46)}); });
+      const alle = crew.slice(), m = alle.length, start = -90 + (m % 2 ? 0 : 180 / m), gr0 = m <= 3 ? 25 : m === 4 ? 24 : 21;
+      alle.forEach((w, i) => { const a = (start + i * 360 / m) * Math.PI / 180, x = 50 + Math.cos(a) * 37, y = 60 + Math.sin(a) * 23; pl.push({w, x, y, gr: gr0 * (.82 + .18 * (y - 37) / 46)}); });
     } else if (art === 'telefon') reihe(crew, crew.length > 3 ? 14 : 24, crew.length > 3 ? 86 : 76, 76, 16);
-    else if (art === 'deck') { reihe(leute, n > 2 ? 40 : 46, n > 2 ? 78 : 72, 48, 18); if (katze) pl.push({w: 'BACKBORD', x: 91, y: 55, gr: 11}); }
+    else if (art === 'deck') { reihe(leute, n > 2 ? 38 : 44, n > 2 ? 76 : 70, 50, 18); if (katze) pl.push({w: 'BACKBORD', x: 88, y: 56, gr: 18}); }
     else if (art === 'fahrt') {
       const helm = leute.includes('HINNERK') ? 'HINNERK' : leute[0], rest = leute.filter(w => w !== helm);
-      if (helm) pl.push({w: helm, x: 79, y: 40, gr: 21}); reihe(rest, 31, rest.length > 2 ? 62 : 55, 38, rest.length > 2 ? 16 : 19); if (katze) pl.push({w: 'BACKBORD', x: 12, y: 44, gr: 12});
+      if (helm) pl.push({w: helm, x: 80, y: 44, gr: 21}); reihe(rest, 34, rest.length > 2 ? 64 : 58, 42, 19); if (katze) pl.push({w: 'BACKBORD', x: 18, y: 50, gr: 19});
     }
-    else if (art === 'abend') { reihe(leute, 30, 68, 44, 18); if (katze) pl.push({w: 'BACKBORD', x: 88, y: 56, gr: 11}); }
-    else { const x = art === 'besuch' ? 38 : 50, ws = (katze ? ['BACKBORD'] : []).concat(leute); const zz = ws.length > 3; ws.forEach((w, i) => pl.push({w, x: zz ? x + (i % 2 ? 7 : -7) : x, y: ws.length === 1 ? 52 : 22 + 56 * i / (ws.length - 1), gr: w === 'BACKBORD' ? 13 : zz ? 17 : 19})); }
+    else if (art === 'abend') { reihe(leute, 32, 66, 44, 18); if (katze) pl.push({w: 'BACKBORD', x: 80, y: 58, gr: 18}); }
+    else { const x = art === 'besuch' ? 38 : 50, ws = (katze ? ['BACKBORD'] : []).concat(leute); const zz = ws.length > 3; ws.forEach((w, i) => pl.push({w, x: zz ? x + (i % 2 ? 7 : -7) : x, y: ws.length === 1 ? 52 : 22 + 56 * i / (ws.length - 1), gr: zz ? 18 : 20})); }
+    pl.forEach(p => { p.gr *= GROESSE[p.w] || 1; });
     return pl.sort((a, b) => a.y - b.y);
   }
-  const SZ_GAST = {tisch: [13, 15, 19], telefon: [50, 32, 36], deck: [13, 39, 18], fahrt: [88, 86, 17], abend: [12, 86, 15], besuch: [80, 62, 19], schleuse: [89, 16, 15]};
+  /* Gäste stehen mit ganzem Körper da (Nutzer 08.11.2026), die Crew bleibt als Gesicht: [x, Füße bei y, Höhe] */
+  const SZ_GAST = {tisch: [12, 62, 30], telefon: [50, 32, 36], deck: [17, 52, 34], fahrt: [88, 72, 26], abend: [12, 72, 26], besuch: [80, 66, 34], schleuse: [91, 40, 30]};
+  let szeneProps = {};
   function buehneB(box, aktiv, laune) {
     let gast = box.dataset.gast || '';
     if (aktiv && !buehnenCrew.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
     /* Harms ist nie an Bord: spricht er, ist es das Telefon */
     const art = gast === 'HARMS' || szeneArt === 'telefon' ? 'telefon' : szeneArt;
     if (art === 'telefon' && !gast) gast = 'HARMS';
-    if (box.dataset.art !== art || box.dataset.gast !== gast || !box.children.length) {
-      box.dataset.art = art; box.dataset.gast = gast;
-      const pl = (w, x, y, gr, k) => `<div class="kpl${k ? ' ' + k : ''}" data-w="${esc(w)}" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${gr.toFixed(1)}%">${gesicht(w)}<span class="kn">${esc(NAMEN[w] || w)}${w === 'HARMS' ? ' 📞' : ''}</span></div>`;
-      const g = SZ_GAST[art] || [86, 86, 18];
-      box.innerHTML = `<svg class="kbg" viewBox="0 0 100 100" aria-hidden="true">${(SZ_BG[art] || SZ_BG.deck)()}</svg>`
+    const wx = szeneWetter || folgeWetter || 'schoen', pk = JSON.stringify(szeneProps) + wx;
+    if (box.dataset.art !== art || box.dataset.gast !== gast || box.dataset.pr !== pk || !box.children.length) {
+      box.dataset.art = art; box.dataset.gast = gast; box.dataset.pr = pk;
+      const name = w => `<span class="kn">${esc(NAMEN[w] || w)}${w === 'HARMS' ? ' 📞' : ''}</span>`;
+      const pl = (w, x, y, gr, k) => `<div class="kpl${k ? ' ' + k : ''}" data-w="${esc(w)}" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${gr.toFixed(1)}%">${gesicht(w)}${name(w)}</div>`;
+      const koerper = (w, x, fuss, h) => GES[w] && typeof charSVG === 'function' && w !== 'HARMS'
+        ? `<div class="kpl gast koerper${w === 'POLIZEI' ? ' polizei' : ''}" data-w="${esc(w)}" style="left:${x}%;top:${fuss}%;width:${(h * 100 / 147).toFixed(1)}%"><div class="kk" data-w="${esc(w)}">${charSVG(GES[w])}</div>${name(w)}</div>`
+        : pl(w, x, art === 'telefon' ? fuss : fuss - h / 3, art === 'telefon' ? h : 18, 'gast');
+      const g = SZ_GAST[art] || [86, 86, 26];
+      box.dataset.wx = wx;
+      /* Wetter: Regen fällt über die Bühne, bei Wind und Sturm schaukelt das Boot stärker (CSS über data-wx) */
+      const regen = /regen|sturm/.test(wx) && art !== 'tisch' && art !== 'telefon' ? `<g class="kregen">${Array.from({length: 60}, (_, i) => `<path d="M${-150 + (i * 37) % 400} ${-150 + (i * 53) % 400} l-2 7" stroke="#cfe2ea" stroke-width=".5" opacity=".5"/>`).join('')}</g>` : '';
+      const nebel = wx === 'nebel' && art !== 'tisch' && art !== 'telefon' ? `<rect x="-150" y="-150" width="400" height="400" fill="#c9d3d9" opacity=".35"/>` : '';
+      box.innerHTML = `<svg class="kbg" viewBox="-75 -75 250 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${(SZ_BG[art] || SZ_BG.deck)(szeneProps)}${nebel}${regen}</svg>`
         + anordnen(art, buehnenCrew.slice()).map(p => pl(p.w, p.x, p.y, p.gr, p.w === 'BACKBORD' ? 'katze' : '')).join('')
-        + (gast ? pl(gast, g[0], g[1], g[2], 'gast' + (gast === 'POLIZEI' ? ' polizei' : '')) : '');
+        + (gast ? koerper(gast, g[0], g[1], g[2]) : '');
     }
     box.querySelectorAll('.kpl').forEach(p => { const an = p.dataset.w === aktiv; p.classList.toggle('an', an); p.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
     launeSetzen(box, aktiv, laune);
   }
   function szeneSetzen(text) {
-    const a = szeneTyp(text); if (!a || a === szeneArt) return;
-    szeneArt = a; const g = ui('#kges'); if (g && aussehenAkt === 'b') { g.dataset.art = ''; g.dataset.gast = ''; buehneB(g, null, null); }
+    const a = szeneTyp(text); if (!a) return;
+    const t = String(text || '').toLowerCase(), neu = a === szeneArt ? {...szeneProps} : {};
+    if (/tankstelle|zapf/.test(t)) neu.zapf = true;
+    if (a === szeneArt && JSON.stringify(neu) === JSON.stringify(szeneProps)) return;
+    const wechsel = a !== szeneArt; szeneArt = a; szeneProps = neu; const g = ui('#kges'); if (g && aussehenAkt === 'b') { g.dataset.art = ''; if (wechsel) g.dataset.gast = ''; buehneB(g, null, null); }
   }
+
   const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
   const gesicht = w => `<div class="kg" data-w="${esc(w)}">${GES[w] && typeof charSVG === 'function' ? charSVG(GES[w]) : `<span class="kgb">${esc(String(NAMEN[w] || w)[0])}</span>`}</div>`;
   /* Mimik der Bühne: Wer spricht, zeigt die Laune der Zeile; die anderen reagieren (lacht einer, grinsen alle) */
   function launeSetzen(box, aktiv, laune) {
     if (typeof mimik !== 'function') return;
-    box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
+    box.querySelectorAll('.kg,.kk').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
       const l = (g.dataset.w || g.closest('[data-w]')?.dataset.w) === aktiv ? (laune || 'normal') : (laune === 'lacht' ? 'froh' : laune === 'erschrocken' ? 'besorgt' : 'normal');
       mimik(s, l); });
   }
@@ -628,6 +667,9 @@
       if (!sv) { box.innerHTML = `<div class="anstage kanim">${A.html(id)}</div>`; sv = A.start(box); }
       mitBild(true); schriftGross(sv);
       if (sv && it.p) { A.phase(sv, it.p); schriftGross(sv); }
+      /* Einmal erklären, was das rote Ausrufezeichen heißt (Nutzer 08.11.2026; später erklärt es Folge 0) */
+      const mk = sv && sv.querySelector('.marke');
+      if (mk && mk.style.display !== 'none' && !cfgK().ausruf) { cfgK().ausruf = 1; save(); box.insertAdjacentHTML('afterbegin', '<div class="kausruf"><b style="color:#ff6b5e">❗</b> Rotes Ausrufezeichen: Das kommt so in der Prüfung dran.</div>'); setTimeout(() => box.querySelector('.kausruf')?.remove(), 6000); }
     } catch (e) {}
   }
   /* Auflösung der Vorab-Frage: den Tipp von vorhin unter dem Bild zeigen (Konzept §7.2, zählt nicht) */
@@ -649,6 +691,9 @@
   function zurufStart(me) {
     /* Nutzer, 08.11.2026: antworten, sobald die Frage sichtbar ist. Während die Stimme noch liest, zählen nur kurze Zurufe (szene.js), danach auch A bis D */
     const w = me.wahlOffen; if (!w || w.getippt || w.fertig || !S.cfg.zuruf || !zurufMoeglich() || !window.SZENE || !SZENE.zuruf) return;
+    /* v5.55: Das offene Mikrofon schaltet manche Handys (vor allem über Bluetooth im Auto) auf schlechteren Ton.
+       Darum hört der Zuruf erst nach dem Vorlesen zu; wer früher antworten will, schaltet das unter ⚙️ ein. */
+    if (!w.gesprochen && !cfgK().zurufFrueh) return;
     if (hoer) { if (w.gesprochen && !hoer.laut && hoer.vorbei) hoer.vorbei(); return; }
     hoer = SZENE.zuruf(p => { hoer = null; const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; });
     if (hoer && w.gesprochen) hoer.laut = true;
@@ -779,7 +824,7 @@
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
-        me.abK = k;
+        me.abK = k; letzteAbK = k;
         const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
@@ -880,12 +925,11 @@
   function zeigeSteuerung(st, laeuft) {
     const p = ui('#kplay'); if (!p) return;
     /* v5.52 (Nutzer 08.11.2026): ohne Text, oben im Kopf. ▶ spielt echte Stimmen, wo es sie gibt; was fehlt, liest die Gratis-Stimme */
-    p.innerHTML = laeuft ? `<button class="kknopf" id="kpause" aria-label="Pause">⏸</button><button class="kknopf" id="kstop" aria-label="Stopp">⏹</button>` : `<button class="kknopf kplay1" id="kstart" aria-label="Abspielen">▶</button>`;
+    /* v5.55 (Nutzer 08.11.2026): unten in der Mitte ein großer Knopf, kein Stopp; „Szene wiederholen“ liegt hinter ⚙️ */
+    p.innerHTML = laeuft ? `<button class="kgross" id="kpause" aria-label="Pause">⏸</button>` : `<button class="kgross" id="kstart" aria-label="Abspielen">▶</button>`;
     const los = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, !!(st.luecke || st.ersterFehlt)); };
     const s = ui('#kstart'); if (s) s.onclick = los;
-    const gr = ui('#kgross'); if (gr) { gr.hidden = laeuft; gr.onclick = los; }
     const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) pauseSetzen(!lauf.pause); };
-    const so = ui('#kstop'); if (so) so.onclick = () => { stop(); zeigeSteuerung(st, false); };
   }
 
   /* ---------- Bildschirm ---------- */
@@ -896,16 +940,17 @@
     /* v5.51 (Nutzer 08.11.2026): Vollbild, am Bildschirm nur die Folge; alles andere hinter dem Zahnrad ⚙️ */
     app.innerHTML = `<div id="kursplayer" class="kvoll"><div class="kkopf"><button class="kknopf" id="back" aria-label="Zurück">←</button>
         <div class="ktitel"><b>${esc(f.titel)}</b><span class="small muted">${esc(f.unter)}<span id="kdauer"></span></span></div>
-        <span id="kplay" class="kplay"></span><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+</div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <button class="kgross" id="kgross" aria-label="Folge abspielen">▶</button></div>
+        <div class="kfuss"><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
-      <p class="status small" id="kinfo">Lade …</p><div id="kpaarbox"></div>
+      <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="auto">🚗 Auto</button><button class="chip" data-mod="interaktiv">👆 Interaktiv</button></div>
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
           <label class="small"><input type="checkbox" id="kmit"> Mitlesen</label><label class="small"><input type="checkbox" id="ktick"> Ticken</label></div>
+        <label class="small" style="display:block;margin-top:6px"><input type="checkbox" id="kzfrueh"> Zuruf schon während des Vorlesens (der Ton wird dabei auf manchen Handys schlechter)</label>
         <div class="kreihe" style="margin-top:8px"><span class="small">Aussehen:</span>${Object.entries(AUSSEHEN).map(([k, v]) => `<button class="chip" data-aus="${k}">${v}</button>`).join('')}</div></div>
       <div class="card"><h3 style="margin-top:0">Abschnitte</h3><div id="kab"></div></div>
       <div class="card" id="ktech"><h3 style="margin-top:0">Erzeugen</h3><p class="small muted" id="kbest">…</p>
@@ -997,12 +1042,38 @@
         #kursplayer.d-b.mitbild #kges .kpl.an{width:58px!important;right:max(8px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}
         #kursplayer.d-b .kbg .kwel{animation:kwel 6s linear infinite}@keyframes kwel{to{transform:translateX(-12px)}}
         #kursplayer.d-b .kbg .klicht{animation:klicht 4s ease-in-out infinite}@keyframes klicht{50%{opacity:.6}}
+        /* v5.55 Feste Bühne: ein Quadrat in der Mitte der freien Fläche, Hintergrund randlos; kein Mitlesetext, kein Wippen (Nutzer: es ruckelt) */
+        #kursplayer.d-b #kbuehne{padding-left:0;padding-right:0}#kursplayer.d-b #kstage{position:relative;flex:1 1 0;min-height:0;margin:0;overflow:hidden;container-type:size}
+        #kursplayer.d-b #kspr{display:none!important}#kursplayer.d-b #kdenk{position:absolute;left:0;right:0;bottom:8px;z-index:2;text-align:center}
+        #kursplayer.d-b:not(.mitbild):not(.mitwahl) #kges{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,100cqh);height:min(100cqw,100cqh);max-width:none;aspect-ratio:auto;overflow:visible}
+        #kursplayer.d-b #kges .kbg{position:absolute;left:50%;top:50%;width:250%;height:250%;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+        #kursplayer .kpl .ch.talking .bod{animation:none}#kursplayer.d-b .kpl.an .kg{transform:none}#kursplayer.d-b .kpl{transition:none}
+        #kursplayer.d-b .kpl.koerper{transform:translate(-50%,-100%)}#kursplayer.d-b .kpl.koerper .kk{width:100%;aspect-ratio:100/147}#kursplayer.d-b .kpl.koerper .kk svg{width:100%;height:100%;display:block}
+        #kursplayer.d-b .kpl.koerper .kn{position:absolute;top:100%;margin-top:2px}#kursplayer.d-b .kpl.koerper.an .kk{filter:drop-shadow(0 0 5px rgba(232,163,60,.9))}
+        #kursplayer.d-b .kbg .kschaukel{transform-box:fill-box;transform-origin:50% 100%;animation:kschauk 5s ease-in-out infinite}@keyframes kschauk{25%{transform:rotate(.8deg) translateY(.3px)}75%{transform:rotate(-.8deg) translateY(-.2px)}}
+        #kursplayer.d-b #kges[data-wx="windig"] .kschaukel,#kursplayer.d-b #kges[data-wx="regen"] .kschaukel{animation-duration:3.6s}#kursplayer.d-b #kges[data-wx="sturm"] .kschaukel{animation:kschauk2 2.4s ease-in-out infinite}@keyframes kschauk2{25%{transform:rotate(2.6deg) translateY(.8px)}75%{transform:rotate(-2.6deg) translateY(-.6px)}}
+        #kursplayer.d-b .kbg .kregen{animation:kregen .8s linear infinite}@keyframes kregen{to{transform:translate(-4px,14px)}}
+        #kursplayer .kfuss{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px max(18px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
+        #kursplayer .kfuss .kgross{margin:0;width:64px;height:64px;font-size:26px}#kursplayer.d-b .kfuss .kknopf{background:rgba(255,255,255,.1);color:#f3e7c9}
+        /* Frage auf dem dunklen Grund: oben groß die Frage, darunter die Antworten als Karten, ohne hellen Zettel (Nutzer 08.11.2026) */
+        #kursplayer.d-b.mitwahl #kstage{overflow-y:auto;padding:4px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+        #kursplayer.d-b .kfrage{background:transparent;color:#f3e7c9;border:0;border-radius:0;padding:4px 0 0;box-shadow:none;transform:none}#kursplayer.d-b .kfrage::before{display:none}
+        #kursplayer.d-b .kfkopf{color:#e8a33c;font-size:.85em;letter-spacing:.06em;text-transform:uppercase}#kursplayer.d-b .kftext{font-family:'Baloo 2',Nunito,sans-serif;font-size:1.45em;line-height:1.3;font-weight:700;margin:6px 0 14px}
+        #kursplayer.d-b .kftext div{font-size:.8em;font-weight:600}#kursplayer.d-b .kopts{grid-template-columns:1fr;gap:10px}
+        #kursplayer.d-b .kopt{background:rgba(255,255,255,.07);color:#f3e7c9;border:1.5px solid rgba(243,231,201,.22);border-radius:14px;min-height:62px;padding:12px 14px;font-size:1.02em;align-items:center}
+        #kursplayer.d-b .kopt .kabc{color:#e8a33c;font-weight:800;opacity:1}#kursplayer.d-b .kopt.ok{background:rgba(70,160,90,.35);border-color:#6fcf8a}#kursplayer.d-b .kopt.no{background:rgba(200,70,60,.35);border-color:#e0786c}
+        #kursplayer.d-b .kfrage .muted,#kursplayer.d-b .kfrage .small{color:rgba(243,231,201,.7)}#kursplayer.d-b .kfrage [data-o="-1"]{color:rgba(243,231,201,.75);border-color:rgba(243,231,201,.3);background:transparent}
+        #kursplayer.d-b.mitbild .kanim.anstage>svg{max-height:100cqh}
+        #kursplayer .kausruf{position:absolute;left:12px;right:12px;top:8px;z-index:3;background:rgba(15,36,51,.9);color:#f3e7c9;border-radius:12px;padding:8px 12px;font-size:.92em;text-align:left}
+        #kursplayer.d-b.mitbild #kges .kpl.an{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
         @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *{animation:none!important}}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
     const panel = $('#kpanel');
     $('#kzahn').onclick = () => { panel.hidden = !panel.hidden; if (!panel.hidden) panel.scrollTop = 0; };
+    /* Szene wiederholen: den aktuellen (sonst den zuletzt gehörten) Abschnitt von vorn */
+    $('#kwdh').onclick = () => { if (!st) return; const k = lauf && lauf.abK != null ? lauf.abK : letzteAbK, g = lauf ? lauf.gratis : !!(st.luecke || st.ersterFehlt); panel.hidden = true; AUD.unlock(); spiele(st, k || 0, g); };
     $('#kzu').onclick = () => { panel.hidden = true; };
     /* ⛶ blendet auch die Leisten des Browsers aus, wo das Handy es erlaubt */
     const vb = $('#kvollbild');
@@ -1018,6 +1089,7 @@
     document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.onclick = () => { k.modus = b.dataset.mod; save(); chips(); });
     $('#ktem').onchange = e => { k.tempo = +e.target.value; save(); if (lauf && lauf.audio) lauf.audio.playbackRate = k.tempo; };
     const mitKl = () => document.getElementById('kursplayer')?.classList.toggle('mitlesen', !!k.mitlesen);
+    $('#kzfrueh').checked = !!k.zurufFrueh; $('#kzfrueh').onchange = e => { k.zurufFrueh = e.target.checked; save(); };
     $('#kmit').checked = !!k.mitlesen; $('#kmit').onchange = e => { k.mitlesen = e.target.checked; save(); mitKl(); }; mitKl();
     $('#ktick').checked = k.ticken !== false; $('#ktick').onchange = e => { k.ticken = e.target.checked; save(); };
     chips();
@@ -1063,8 +1135,9 @@
       else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: ⚙️ oben rechts, dann „Erzeugen“.');
       if (!lauf) zeigeSteuerung(st, false);
     };
+    try { await nachladen('boot.js'); } catch (e) {}
     /* Wetter der Geschichte: aus der Folge (FOLGEN.wetter, sonst HOERREISE in index.html), Szenen können es ändern */
-    { let hr = null; try { hr = typeof HOERREISE !== 'undefined' ? HOERREISE.find(x => x[0] === st.id) : null; } catch (e) {} folgeWetter = (FOLGEN[st.id] && FOLGEN[st.id].wetter) || (hr && hr[3]) || null; szeneWetter = null; szeneZeit = null; }
+    { let hr = null; try { hr = typeof HOERREISE !== 'undefined' ? HOERREISE.find(x => x[0] === st.id) : null; } catch (e) {} folgeWetter = (FOLGEN[st.id] && FOLGEN[st.id].wetter) || (hr && hr[3]) || null; szeneWetter = null; szeneZeit = null; szeneProps = {}; szeneArt = 'deck'; }
     buehnenCrew = (st.anBord || ['HINNERK', 'SMILLA']).slice(); if (aussehenAkt === 'a') buehnenCrew = buehnenCrew.filter(w => w !== 'BACKBORD');
     { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null); }
     await neu();

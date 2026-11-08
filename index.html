@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.54';
+  window.__ver = '5.55';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -763,6 +763,26 @@ const ART = {
     <path d="M26 38 Q50 30 74 38 L74 32 Q50 24 26 32 Z" fill="#1d2f4f"/><path d="M22 30 Q50 8 78 30 Q50 22 22 30 Z" fill="#eef1f4"/><rect x="26" y="30" width="48" height="6" rx="2" fill="#1d4f91"/><circle cx="50" cy="26" r="3.5" fill="#c9a640"/>
     ${eyes([[41, 51], [59, 51]])}
     ${mouth('M44 62 H56', 50, 62, 4, 2.6)}</g>`,
+  /* v5.55 (Nutzer 08.11.2026): Wasserschutzpolizei als zwei Figuren: Polizistin kräftig, Polizist groß und dünn */
+  polizistin: () => `${shadow(42)}<g class="bod">
+    <ellipse cx="50" cy="104" rx="44" ry="38" fill="#1d2f4f"/>
+    <path d="M38 78 L50 92 L62 78 Z" fill="#eef1f4"/><path d="M50 92 V138" stroke="#c9a640" stroke-width="2" stroke-dasharray="2 8"/>
+    <rect x="66" y="98" width="12" height="7" rx="1.5" fill="#c9a640"/><path d="M14 112 H86" stroke="#c9a640" stroke-width="2.4" opacity=".7"/>
+    <path d="M24 46 Q22 66 30 72 L34 56 Z M76 46 Q78 66 70 72 L66 56 Z" fill="#7a4a2a"/>
+    <circle cx="50" cy="50" r="27" fill="${SKIN}"/><circle cx="36" cy="58" r="4.5" fill="${CHEEK}" opacity=".55"/><circle cx="64" cy="58" r="4.5" fill="${CHEEK}" opacity=".55"/>
+    <path d="M26 40 Q50 32 74 40 L74 34 Q50 26 26 34 Z" fill="#1d2f4f"/><path d="M22 32 Q50 10 78 32 Q50 24 22 32 Z" fill="#eef1f4"/><rect x="26" y="32" width="48" height="6" rx="2" fill="#1d4f91"/><circle cx="50" cy="28" r="3.5" fill="#c9a640"/>
+    <circle cx="74" cy="44" r="5" fill="#7a4a2a"/>
+    ${eyes([[41, 52], [59, 52]])}
+    ${mouth('M43 63 Q50 67 57 63', 50, 64, 4.5, 2.6)}</g>`,
+  polizist: () => `${shadow(26)}<g class="bod">
+    <path d="M30 70 Q30 64 38 62 L62 62 Q70 64 70 70 L68 138 Q50 144 32 138 Z" fill="#1d2f4f"/>
+    <path d="M42 64 L50 78 L58 64 Z" fill="#eef1f4"/><path d="M50 78 V138" stroke="#c9a640" stroke-width="2" stroke-dasharray="2 8"/>
+    <rect x="58" y="86" width="9" height="6" rx="1.5" fill="#c9a640"/>
+    <ellipse cx="50" cy="36" rx="19" ry="23" fill="${SKIN}"/>
+    <path d="M31 24 Q50 18 69 24 L69 19 Q50 13 31 19 Z" fill="#1d2f4f"/><path d="M28 18 Q50 -2 72 18 Q50 11 28 18 Z" fill="#eef1f4"/><rect x="31" y="18" width="38" height="5" rx="2" fill="#1d4f91"/><circle cx="50" cy="15" r="3" fill="#c9a640"/>
+    <path d="M44 50 Q50 52 56 50" stroke="#a5765a" stroke-width="2" fill="none"/>
+    ${eyes([[43, 38], [57, 38]])}
+    ${mouth('M45 47 H55', 50, 47, 3.5, 2.2)}</g>`,
 };
 
 /* Figuren-Steckbriefe. role: Platz an Bord. voicePref: Namen vorinstallierter ElevenLabs-Stimmen

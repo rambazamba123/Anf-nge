@@ -61,12 +61,10 @@ HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
 SMILLA: Und die zwei vorne streiten, wer die Leine wirft.
 HINNERK: [[SPRUCH: hi-hafenkino-04]] Und Rückwärtsgang! Zu spät. Klassiker.
 SMILLA: [[INTENTION: lachend]] Au. Wenigstens hatten sie einen Fender draußen. Einen.
-[[ANIM: fender]]
 SMILLA: Jetzt hat der Dicke vorn die Leine in der Hand und weiß nicht, wo er sie reinstecken soll.
 HINNERK: Dat Problem kenn ich.
 SMILLA: Käpt'n!
 HINNERK: Vom Festmachen. Wat denkst du denn.
-[[ANIM: festmacher]]
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
@@ -148,13 +146,14 @@ SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
 SMILLA: Warum eigentlich immer?
 [[AUDIO: Telefon]]
-HINNERK: [[INTENTION: genervt]] Dat is Harms. Um die Uhrzeit.
+HINNERK: [[INTENTION: genervt]] Um die Uhrzeit. Geh du ran, Smilla.
 
 [[ABSCHNITT: Harms ruft an]]
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus, nur die Glocke. „an Land“ ist das Revier ohne Atmo, bis der Player einen eigenen Schalter hat.
-[[SZENE: Smilla stellt das Telefon auf laut. Harms prüft. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
+[[SZENE: Smilla nimmt ab und stellt das Telefon auf laut. Harms ruft an, stellt sich vor und prüft. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
-HARMS: [[SPRUCH: ha-anruf-01]] Harms.
+HARMS: [[SPRUCH: ha-anruf-01]] Harms. Kapitän der Albertine. Ich bilde aus und nehme Prüfungen ab. Am Ende dieser Reise auch deine.
+HARMS: Bis dahin ruf ich an. Jeden Tag ein paar Fragen, genau so, wie sie in der Prüfung stehen.
 HARMS: {{anrede:w=Du bist also die Neue.|m=Du bist also der Neue.|n=Du bist also der Frischfisch.}} Drei Fragen. [[SPRUCH: ha-frage-07]] Prüfungsfrage. Im Wortlaut.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]

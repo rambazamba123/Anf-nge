@@ -142,11 +142,11 @@ S('aufstoppen', {...HF, titel: 'Aufstoppen', nr: 'A2.6', gruppe: 'A2 Anlegen, An
 
 /* ---------- Eigene Zeichnung mit tick im Hochformat (Rahmen wie ANIM.szene: Überschrift, Unterzeile, Marke) ---------- */
 const roh = (id, o) => { const alt = A.defs[id], gr = 1.35;
-  const marke = `<g class="marke" transform="translate(${W - 8} 8)"><rect x="-112" y="0" width="112" height="28" rx="14" fill="#1f5f99"/><text class="t w" x="-56" y="19" text-anchor="middle" font-size="14"></text></g>`;
+  const marke = `<g class="marke" transform="translate(${W - 8} 8)"><circle cx="-20" cy="20" r="18" fill="#d6372b" stroke="#fff" stroke-width="3"/><text x="-20" y="29" text-anchor="middle" font-size="27" font-weight="900" fill="#fff" font-family="Baloo 2,Nunito,sans-serif">!</text></g>`;
   A.defs[id] = {id, titel: o.titel, nr: o.nr, gruppe: o.gruppe, art: o.art || 'pruefung', folge: o.folge || '', wo: o.wo || '', neu: HF.neu, vb: HF.vb, phasen: o.phasen,
     svg: o.svg + T((W - 120) / 2, 26 * gr, '', 'middle', 15 * gr, 'cap') + T(W / 2, HH - 9, '', 'middle', 12 * gr, 'sub') + marke, init: o.init, tick: o.tick,
     enter(s, p, st) { const ph = o.phasen[p] || {}, ce = q(s, '.cap'); ce.textContent = ph.cap || ''; ce.removeAttribute('textLength'); try { if (ce.getComputedTextLength() > W - 130) { ce.setAttribute('textLength', W - 130); ce.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {}
-      q(s, '.sub').textContent = ph.sub || ''; const pr = ph.pr ?? (o.art || 'pruefung') === 'pruefung', mk = q(s, '.marke'); mk.querySelector('rect').setAttribute('fill', pr ? '#1f5f99' : '#6a8f3a'); mk.querySelector('text').textContent = pr ? '📋 Prüfung' : '💡 Wissen';
+      q(s, '.sub').textContent = ph.sub || ''; const pr = ph.pr ?? (o.art || 'pruefung') === 'pruefung', mk = q(s, '.marke'); mk.style.display = pr ? '' : 'none';   /* v5.55 (Nutzer 08.11.2026): rotes Ausrufezeichen = kommt so in der Prüfung, sonst nichts */
       if (o.enter) o.enter(s, p, st); } };
   if (!alt) A.order.push(id); };
 const put = (e, a) => { if (e) for (const k in a) e.setAttribute(k, a[k]); };

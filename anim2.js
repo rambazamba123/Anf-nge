@@ -92,7 +92,7 @@ A.szene = function (id, o) {
   /* v5.38: ohne eigenes Format (alte Querformat-Szene 400 × 300) kommt sie in den Hochformat-Rahmen 400 × 500: oben große Überschrift und Marke, Mitte die Szene, unten die Merkzeile (O168) */
   const rahmen = !o.vb; if (rahmen) { o = {...o, vb: [400, 500], marke: true}; }
   const vb = o.vb || [400, 300], W = vb[0], Hh = vb[1], gr = o.gross ? 1.35 : 1;
-  const marke = o.marke ? `<g class="marke" transform="translate(${W - 8} 8)"><rect x="-112" y="0" width="112" height="28" rx="14" fill="#1f5f99"/><text class="t w" x="-56" y="19" text-anchor="middle" font-size="14"></text></g>` : '';
+  const marke = o.marke ? `<g class="marke" transform="translate(${W - 8} 8)"><circle cx="-20" cy="20" r="18" fill="#d6372b" stroke="#fff" stroke-width="3"/><text x="-20" y="29" text-anchor="middle" font-size="27" font-weight="900" fill="#fff" font-family="Baloo 2,Nunito,sans-serif">!</text></g>` : '';
   const szene = (o.bg || '') + namen.map(n => `<g data-o="${n}">${o.obj[n]}</g>`).join('') + (o.oben || '');
   const svg = rahmen ? `<rect width="400" height="500" fill="#f4efe6"/><rect x="0" y="94" width="400" height="304" fill="#d9cfbb"/><svg x="0" y="96" width="400" height="300" viewBox="0 0 400 300" overflow="hidden">${szene}</svg>` + T(200, 74, '', 'middle', 24, 'cap') + T(200, 436, '', 'middle', 19, 'sub') + `<text class="t wort" x="200" y="428" text-anchor="middle" font-size="17" style="font-weight:700"></text>` + marke
     : szene + T(o.marke ? (W - 120) / 2 : W / 2, 26 * gr, '', 'middle', 15 * gr, 'cap') + T(W / 2, Hh - 9, '', 'middle', 12 * gr, 'sub') + marke;
@@ -102,7 +102,7 @@ A.szene = function (id, o) {
     enter(s, p, st) { st.von = stand(p); st.k = kVon(o.phasen[p] || {}); st.dur = (o.phasen[p] || {}).dur ?? 2.4; { const ce = q(s, '.cap'); ce.textContent = (o.phasen[p] || {}).cap || ''; ce.removeAttribute('textLength'); const mx = rahmen ? W - 20 : o.marke ? W - 130 : W - 16; try { if (ce.getComputedTextLength() > mx) { ce.setAttribute('textLength', mx); ce.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {} } { const su = q(s, '.sub'), ph0 = o.phasen[p] || {}; su.textContent = ph0.sub || '';
       if (rahmen) { const wl = q(s, '.wort'); if (wl) { const z = [], w = (ph0.sub ? '' : ph0.t || '').split(' '); let l = ''; w.forEach(x => { if ((l + ' ' + x).trim().length > 40) { z.push(l.trim()); l = x; } else l += ' ' + x; }); if (l.trim()) z.push(l.trim()); const zz = z.slice(0, 3); if (z.length > 3) zz[2] = zz[2].replace(/[ ,.]*$/, ' …');
         wl.innerHTML = zz.map((t, i) => `<tspan x="200" dy="${i ? 22 : 0}">${t.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</tspan>`).join(''); } } su.removeAttribute('textLength'); try { if (su.getComputedTextLength() > W - 20) { su.setAttribute('textLength', W - 20); su.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {} }
-      const mk = q(s, '.marke'); if (mk) { const pr = (o.phasen[p] || {}).pr ?? (o.art || 'pruefung') === 'pruefung'; mk.querySelector('rect').setAttribute('fill', pr ? '#1f5f99' : '#6a8f3a'); mk.querySelector('text').textContent = pr ? '📋 Prüfung' : '💡 Wissen'; }
+      const mk = q(s, '.marke'); if (mk) { const pr = (o.phasen[p] || {}).pr ?? (o.art || 'pruefung') === 'pruefung'; mk.style.display = pr ? '' : 'none';   /* v5.55 (Nutzer 08.11.2026): rotes Ausrufezeichen = kommt so in der Prüfung, sonst nichts */ }
       if (o.enter) o.enter(s, p, st); zeichne(s, st.von); },
     tick(s, tp, p, st) {
       const u = st.dur ? ez(tp / st.dur) : 1, cur = {};
