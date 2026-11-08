@@ -81,7 +81,7 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim-hoch | ✓ v5.44 (Fluss senkrecht, Strom nach unten) |
 | B1 | gleiter, trimm, pivot, abdrift, hafenstrom, fender, springablegen, ankerpraxis, ankerwache, schleppen2, rueckwaerts | anim-hoch | ✓ v5.46 (Achterspring berichtigt; Drehpunkt wirklich ein Drittel von vorn) |
 | B2–B4 Listen | weste, insel, pyro, seekrank, motorcheck, stottern, winter, toernplanung, hafenregeln | anim-hoch | ✓ v5.46 (Bild oben, Liste groß) |
-| B2–B4 Rest | leck, grund, bergen, batterie, kompass, watt, nachtfahrt, sichtweite; festmacher, mayday, echolot, steilesee, ruder (anim.js) | anim4 / anim.js | ○ |
+| B2–B4 Rest | leck, grund, bergen, batterie, kompass, watt, nachtfahrt, sichtweite; festmacher, mayday, echolot, steilesee, ruder (anim.js) | anim-hoch | ✓ v5.47 |
 
 ## 5. Stand der Sitzungen
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
@@ -100,3 +100,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.44: A10 Binnen neu gezeichnet (Fluss von oben nach unten, Talfahrt nach unten). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder), A1–A4 aus anim2 (wind, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler) und Teil B aus anim4.
 - v5.45: A1.1b, A2.2, A2.7, A3.2 und A4 neu gezeichnet. **Fachfehler berichtigt:** Im Verkehrstrennungsgebiet lagen die Einbahnwege wie im Linksverkehr (Trennzone rechts vom Schiff); jetzt rechter Weg nach Norden, linker nach Süden, Trennzone links vom Schiff (KVR Regel 10). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder) und Teil B aus anim4.
 - v5.46: Teil B: Listen-Animationen gemeinsam im Hochformat (Bild und Punkte werden aus der alten Fassung gelesen), B1 neu gezeichnet. **Fachfehler berichtigt:** Ablegen mit der Achterspring: Die Leine lief vom Heck nach achtern, und der Text sagte „nach vorn zum Poller hinter uns“; jetzt vom Heck schräg nach vorn an Land. Der Drehpunkt dreht das Boot jetzt wirklich um den Punkt ein Drittel von vorn.
+- v5.47: Letzter Stapel neu gezeichnet (Leck, Grundberührung, Bergen, Batterie, Kompass, Watt, Nachtfahrt, Sichtweite, Festmacher, Mayday, Echolot, steile See, Ruder). **Damit sind alle Animationen im Hochformat neu gezeichnet** (alle Einträge in §4 ✓). Der Hochformat-Rahmen aus v5.38 greift nur noch, falls später eine neue Querformat-Szene dazukommt. Nächste Schritte: Rückmeldung des Nutzers zu einzelnen Animationen (Seite „🎞️ Animationen“, Bewertung ✓/✏️).
