@@ -37,6 +37,25 @@
   /* Gratis-Stimme zum Testen (Nutzer, 07.11.2026): Sprecher der Folge → Figur für die Handystimme (VOX.phoneVoiceOf, je Figur eine eigene) */
   const HANDY = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger'};
   const sleep = ms => new Promise(r => setTimeout(r, ms));
+  /* Mimik (v5.50): [[GESICHT: laune]] (nur App) oder die Regie-Marke [[INTENTION: …]] bestimmt das Gesicht; sonst ein paar Wörter */
+  const LAUNE_INT = {lachend: 'lacht', losprustend: 'lacht', humorvoll: 'froh', verschmitzt: 'froh', erleichtert: 'froh', beruhigend: 'froh', ausatmend: 'froh',
+    genervt: 'genervt', schnaubend: 'genervt', sarkastisch: 'skeptisch', trocken: 'skeptisch', seufzend: 'traurig', gähnend: 'nachdenklich',
+    neugierig: 'nachdenklich', nachdenklich: 'nachdenklich', aufgeregt: 'erschrocken', 'überrascht': 'erschrocken', rufend: 'erschrocken'};
+  function launeAus(roh) {
+    const g = roh.match(/\[\[\s*GESICHT\s*:\s*([^\]]*?)\s*\]\]/i); if (g) return g[1].trim().toLowerCase();
+    const i = roh.match(/\[\[\s*INTENTION\s*:\s*([^\]]*?)\s*\]\]/i); if (i && LAUNE_INT[i[1].trim()]) return LAUNE_INT[i[1].trim()];
+    return '';
+  }
+  function launeRaten(z) {
+    if (z.laune) return z.laune;
+    const t = z.text || '';
+    if (/\b(Nicht!|Stopp|Achtung|Vorsicht|Halt dich fest|Oh nein|Hoppla|Au\.)/i.test(t)) return 'erschrocken';
+    if (/\b(Schiet|Pütz|Mist|hackt|Verdammt|Sakra)\b/i.test(t)) return 'genervt';
+    if (/\b(Richtig|Genau|Gut gemacht|Siehste|Punkt für dich|Na also|Sehr gut|Kann's)\b/i.test(t)) return 'froh';
+    if (/^(Hm|Hmm)\b/.test(t)) return 'nachdenklich';
+    if (z.wer === 'HARMS') return 'skeptisch';
+    return '';
+  }
   const ohneCodes = s => s.replace(CODE, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\s+/g, ' ').trim();
 
   /* Skript → Ablauf: [{t: 'abschnitt'|'revier'|'rede'|'pause'|'wahl'|'bild'|'signal'|'ton', …, bereich?}]
@@ -62,7 +81,7 @@
       const f = fig[wer]; if (!f || !f.voice_id) fehlt.add(wer);
       if (rede && rede.zeichen + text.length > max) schluss();
       if (!rede) rede = {t: 'rede', inputs: [], wer: [], zeilen: [], zeichen: 0, ...(bereich ? {bereich} : {})};
-      rede.inputs.push({text, voice_id: (f && f.voice_id) || null}); rede.zeilen.push({wer, text: ohneCodes(roh)});
+      rede.inputs.push({text, voice_id: (f && f.voice_id) || null}); rede.zeilen.push({wer, text: ohneCodes(roh), laune: launeAus(roh)});
       if (!rede.wer.includes(wer)) rede.wer.push(wer); rede.zeichen += text.length;
     };
     const steuer = (kat, wert) => {
@@ -360,7 +379,7 @@
     const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
     if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
   }
-  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); if (lauf.wahlRes) lauf.wahlRes(); zurufStop(); atmoAus(); lauf = null; }
+  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); if (lauf.wahlRes) lauf.wahlRes(); zurufStop(); atmoAus(); lauf = null; wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
   async function warten(me, ms, abbr) { const ende = Date.now() + ms; while (!me.aus && !(abbr && abbr()) && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
   /* Fehlt die echte Sprache, liest im Gratis-Modus die Handystimme Zeile für Zeile (nie ElevenLabs, kostet nichts) */
@@ -395,22 +414,37 @@
   const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei'};
   const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
   const gesicht = w => `<div class="kg" data-w="${esc(w)}">${GES[w] && typeof charSVG === 'function' ? charSVG(GES[w]) : `<span class="kgb">${esc(String(NAMEN[w] || w)[0])}</span>`}</div>`;
-  function gesichter(aktiv) {
+  /* Mimik der Bühne: Wer spricht, zeigt die Laune der Zeile; die anderen reagieren (lacht einer, grinsen alle) */
+  function launeSetzen(box, aktiv, laune) {
+    if (typeof mimik !== 'function') return;
+    box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
+      const l = g.dataset.w === aktiv ? (laune || 'normal') : (laune === 'lacht' ? 'froh' : laune === 'erschrocken' ? 'erschrocken' : (g.dataset.laune || 'normal'));
+      mimik(s, l); });
+  }
+  /* Nach deiner Antwort reagiert die Crew: richtig = alle froh, falsch = Smilla traurig, Hinnerk skeptisch, Harms genervt */
+  function crewReagiert(ok) {
+    const box = ui('#kges'); if (!box || aussehenAkt === 's' || typeof mimik !== 'function') return;
+    box.querySelectorAll('.kg').forEach(g => { const s = g.querySelector('svg'); if (!s) return;
+      mimik(s, ok ? (g.dataset.w === 'HARMS' ? 'nachdenklich' : g.dataset.w === 'KLABAUTER' ? 'lacht' : 'froh') : ({SMILLA: 'traurig', HINNERK: 'skeptisch', HARMS: 'genervt', KLABAUTER: 'erschrocken'}[g.dataset.w] || 'traurig')); });
+  }
+  function gesichter(aktiv, laune) {
     const box = ui('#kges'); if (!box || aussehenAkt === 's') return;
     if (aussehenAkt === 'b') {
       if (!aktiv || OHNE_GESICHT.includes(aktiv)) aktiv = box.dataset.w || buehnenCrew[0] || 'HINNERK';
       if (box.dataset.w !== aktiv) { box.dataset.w = aktiv; box.innerHTML = `<div class="kring">${gesicht(aktiv)}</div>`; }
       box.querySelector('svg')?.classList.toggle('talking', !!lauf);
+      launeSetzen(box, aktiv, laune);
       return;
     }
     let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
     if (box.dataset.gast !== gast || !box.children.length) { box.dataset.gast = gast; box.innerHTML = buehnenCrew.concat(gast ? [gast] : []).map(gesicht).join(''); }
     box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('an', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
+    launeSetzen(box, aktiv, laune);
   }
   function zeigeZeile(z, gratis) {
     const box = ui('#kspr'); if (!box || !z) return;
     if (aussehenAkt === 's') { box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b>${gratis ? ' <span class="muted">· Gratis-Stimme</span>' : ''}<div class="small" style="margin-top:4px">${esc(z.text)}</div>`; return; }
-    gesichter(z.wer);
+    gesichter(z.wer, launeRaten(z));
     box.innerHTML = `<div class="kname">${esc(NAMEN[z.wer] || z.wer)}${gratis ? ' <span class="kgr">· Gratis-Stimme</span>' : ''}</div><div class="ktext">${esc(z.text)}</div>`;
   }
   function aussehenSetzen(d) {
@@ -535,7 +569,7 @@
           me.tipps[it.vorab] = {text: ohneBuchstabe(o.text), ok: o.ok, richtig: ohneBuchstabe((it.opts.find(x => x.ok) || {}).text || '')};
           b.classList.add('gew'); box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">Dein Tipp: <b>${esc(ohneBuchstabe(o.text))}</b>. Die Auflösung kommt.</p>`); await warten(me, 1200); box.innerHTML = ''; return ende();
         }
-        AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8});
+        AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8}); crewReagiert(o.ok);
         if (!o.ok) me.falsch.add(it.id);
         const gezaehlt = it.id && zaehle(it.id, o.ok);
         b.classList.add(o.ok ? 'ok' : 'no');
@@ -554,7 +588,8 @@
   async function spiele(st, ab = 0, gratis = false) {
     stop();
     const me = lauf = {aus: false, pause: false, audio: null, weiter: null, wahlRes: null, wahlOffen: null, vorWahl: null, redeAbbruch: false, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
-    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft'); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
+    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft');
+    me.root = document.getElementById('kursplayer'); wachHalten(true); medienSitzung(st); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
     const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
@@ -570,6 +605,7 @@
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
+        me.abK = k;
         const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
@@ -599,6 +635,13 @@
       if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
       /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
       if (!me.aus && !me.ende && st.id && window.S) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); save(); }
+      /* Im Auto-Modus geht es nach kurzer Ansage mit der nächsten Folge weiter (Auto, Gym); interaktiv bleibt die Fragerunde */
+      const naechste = !me.aus && !me.ende && cfgK().modus === 'auto' ? naechsteFolge(st.id) : null;
+      if (naechste && s) {
+        s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0" id="kweiterbox">⏭ Gleich geht's weiter mit „${esc(FOLGEN[naechste].titel)}“ … <button class="btn small ghost" id="kweiternein">Nicht weiter</button></p>`);
+        const t = setTimeout(() => { if (!lauf && document.getElementById('kweiterbox')) oeffnen(naechste, {start: true, gratis: me.gratis}); else wachHalten(false); }, 6000);
+        const nb = ui('#kweiternein'); if (nb) nb.onclick = () => { clearTimeout(t); wachHalten(false); const b = ui('#kweiterbox'); if (b) b.remove(); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} };
+      } else { wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
     }
   }
   /* B157: am Ende alle Fragen der Folge als Multiple Choice, ohne Geschichte (vorgelesen, Zuruf wie im Quiz) */
@@ -612,6 +655,48 @@
     s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0"><button class="btn lamp wide" id="kfrr">📝 Fragerunde: ${qs.length} Frage${qs.length > 1 ? 'n' : ''} der Folge</button></p>`);
     const b = ui('#kfrr'); if (b) b.onclick = () => { stop(); runQuiz(qs, 'Fragerunde zur Folge', 'learn', {noRequeue: true}); };
   }
+  /* ---------- Sperrbildschirm, Kopfhörer- und Lenkradtasten (v5.50, für Auto und Gym) ---------- */
+  /* Eine stille Schleife hält die Wiedergabe für Android am Leben, auch zwischen zwei Sprachteilen und bei ausgeschaltetem Bildschirm */
+  let stummA = null;
+  const stilleWav = () => { const n = 8000, b = new Uint8Array(44 + n), v = new DataView(b.buffer), s = (o, t) => [...t].forEach((c, i) => b[o + i] = c.charCodeAt(0));
+    s(0, 'RIFF'); v.setUint32(4, 36 + n, true); s(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); s(36, 'data'); v.setUint32(40, n, true); b.fill(128, 44);
+    let x = ''; b.forEach(c => x += String.fromCharCode(c)); return 'data:audio/wav;base64,' + btoa(x); };
+  function wachHalten(an) {
+    try { if (an) { if (!stummA) { stummA = new Audio(stilleWav()); stummA.loop = true; stummA.volume = .01; } stummA.play().catch(() => {}); } else if (stummA) stummA.pause(); } catch (e) {}
+  }
+  function pauseSetzen(p) {
+    if (!lauf) return; lauf.pause = p;
+    if (lauf.audio) p ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
+    if (lauf.handy) { try { p ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} }
+    const pa = ui('#kpause'); if (pa) pa.textContent = p ? '▶ Weiter' : '⏸ Pause';
+    try { navigator.mediaSession.playbackState = p ? 'paused' : 'playing'; } catch (e) {}
+  }
+  /* ⏭ = nächster Abschnitt (am Ende: nächste Folge), ⏮ = Abschnitt von vorn */
+  function springe(st, richtung) {
+    const me = lauf; if (!me) return; const gratis = me.gratis, ab = st.items.map((it, i) => it.t === 'abschnitt' && !(it.bereich && it.bereich.art === 'karte') ? i : -1).filter(i => i >= 0);
+    const jetzt = me.abK || 0;
+    if (richtung < 0) return spiele(st, jetzt, gratis);
+    const nach = ab.find(i => i > jetzt);
+    if (nach != null) return spiele(st, nach, gratis);
+    const n = naechsteFolge(st.id); if (n) { stop(); oeffnen(n, {start: true}); }
+  }
+  function naechsteFolge(id) {
+    const liste = typeof HOERREISE !== 'undefined' ? HOERREISE.map(x => x[0]) : [], i = liste.indexOf(id);
+    return i >= 0 && liste[i + 1] && FOLGEN[liste[i + 1]] ? liste[i + 1] : null;
+  }
+  function medienSitzung(st) {
+    if (!('mediaSession' in navigator)) return;
+    try {
+      const nr = typeof HOERREISE !== 'undefined' ? HOERREISE.findIndex(x => x[0] === st.id) : -1;
+      navigator.mediaSession.metadata = new MediaMetadata({title: st.f.titel, artist: 'Skipper · Hörreise' + (nr >= 0 ? ` · Folge ${nr + 1}` : ''), album: 'Mit der Crew zum Bootsführerschein',
+        artwork: [{src: 'icon-192.png', sizes: '192x192', type: 'image/png'}, {src: 'icon-512.png', sizes: '512x512', type: 'image/png'}]});
+      const set = (a, f) => { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} };
+      set('play', () => pauseSetzen(false)); set('pause', () => pauseSetzen(true));
+      set('nexttrack', () => springe(st, 1)); set('previoustrack', () => springe(st, -1));
+      set('stop', () => { stop(); zeigeSteuerung(st, false); });
+      navigator.mediaSession.playbackState = 'playing';
+    } catch (e) {}
+  }
   function markiere(st, k) {
     let nr = -1; st.items.forEach((it, i) => { if (it.t === 'abschnitt' && i <= k) nr = i; });
     document.querySelectorAll('#kursplayer [data-ab]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.ab === nr)));
@@ -623,13 +708,12 @@
     p.innerHTML = laeuft ? `<button class="btn" id="kpause">⏸ Pause</button> <button class="btn ghost" id="kstop">⏹ Stopp</button>` : (echt ? `<button class="btn lamp" id="kstart">▶ Abspielen</button> ` : '') + gratisKnopf;
     const s = ui('#kstart'); if (s) s.onclick = () => spiele(st, 0);
     const g = ui('#kgratis'); if (g) g.onclick = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, true); };
-    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (!lauf) return; lauf.pause = !lauf.pause; if (lauf.audio) lauf.pause ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
-      if (lauf.handy) { try { lauf.pause ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} } pa.textContent = lauf.pause ? '▶ Weiter' : '⏸ Pause'; };
+    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) pauseSetzen(!lauf.pause); };
     const so = ui('#kstop'); if (so) so.onclick = () => { stop(); zeigeSteuerung(st, false); };
   }
 
   /* ---------- Bildschirm ---------- */
-  async function oeffnen(id = 'probe') {
+  async function oeffnen(id = 'probe', opt = {}) {
     subScreen(); stop();
     if (!FOLGEN[id]) id = 'probe';
     const f = FOLGEN[id];
@@ -659,7 +743,7 @@
         #kursplayer .kg svg{width:139%;margin:-22% 0 0 -19.5%;display:block;align-self:start;justify-self:start}#kursplayer .kgb{font:800 1.6em/1 'Baloo 2',system-ui,sans-serif;color:#6e4529}
         #kursplayer .kname{font-weight:800;font-size:.74em;letter-spacing:.06em;text-transform:uppercase}#kursplayer .kname .kgr{font-weight:600;letter-spacing:0;text-transform:none;opacity:.7}#kursplayer .ktext{font-size:1.08em;line-height:1.42;margin-top:2px}
         #kursplayer.mitwahl #kspr .ktext{display:none}
-        #kursplayer.d-a #kbuehne{background:#fbf3e4;color:#2a2118}#kursplayer.d-a #kbuehne .muted,#kursplayer.d-a #kinfo{color:#7a6650}
+        #kursplayer.d-a #kbuehne{background:#fbf3e4;color:#2a2118}#kursplayer.d-a #kbuehne .muted,#kursplayer.d-a #kinfo{color:#7a6650}#kursplayer.d-a #kplay .btn.ghost,#kursplayer.d-a #kbuehne .btn.small.ghost{color:#2a2118;border-color:#d9c9a3;background:transparent}
         #kursplayer.d-a #kstage{min-height:52vh}
         #kursplayer.d-a #kges{display:flex;justify-content:center;align-items:center;gap:12px;padding:20px 10px 16px;border-radius:14px;background:linear-gradient(#8a5a36,#6e4529);box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
         #kursplayer.d-a .kg.an{border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.4);transform:scale(1.1)}
@@ -801,7 +885,9 @@
     $('#kzip').onclick = () => zipSpeichern(st, ginfo).catch(e => ginfo('Ging nicht: ' + (e.message || e)));
     $('#kcast').onclick = () => { stop(); probeAus(); if (typeof castingOeffnen === 'function') castingOeffnen(); else renderSettings(); };
     /* Wächter: Wer den Bildschirm verlässt (Zurück-Taste, anderer Reiter), beendet die Wiedergabe */
-    const root = $('#kursplayer'), w = setInterval(() => { if (!document.body.contains(root)) { clearInterval(w); stop(); probeAus(); } }, 400);
+    const root = $('#kursplayer'), w = setInterval(() => { if (!document.body.contains(root)) { clearInterval(w); if (!lauf || lauf.root === root) stop(); probeAus(); } }, 400);
+    /* Autostart (nächste Folge im Auto-Modus, ⏭ am Ende): echte Stimmen, wo es sie gibt, sonst die Gratis-Stimme */
+    if (opt.start) { const gratis = opt.gratis || st.ersterFehlt; spiele(st, 0, !!gratis); }
   }
 
   if (typeof window !== 'undefined') window.KURS = {oeffnen, zerlege, stop, animZeigen};
