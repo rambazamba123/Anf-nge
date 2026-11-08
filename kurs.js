@@ -631,7 +631,7 @@
     }
     if (lauf === me) {
       atmoAus(); lauf = null; zeigeSteuerung(st, false); document.getElementById('kursplayer')?.classList.remove('laeuft', 'mitbild'); const s = ui('#kspr');
-      if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unten bei „Erzeugen“ dazuholen.` : `<b>⚓ Ende der Folge.</b> Wie war’s? Sag Claude, was klingt und was nicht.${me.gratis ? ' (Gehört mit der Gratis-Stimme: Betonung und Tempo sind hier noch nicht echt.)' : ''}`;
+      if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unter ⚙️ bei „Erzeugen“ dazuholen.` : `<b>⚓ Ende der Folge.</b> Wie war’s? Sag Claude, was klingt und was nicht.${me.gratis ? ' (Gehört mit der Gratis-Stimme: Betonung und Tempo sind hier noch nicht echt.)' : ''}`;
       if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
       /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
       if (!me.aus && !me.ende && st.id && window.S) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); save(); }
@@ -717,10 +717,15 @@
     subScreen(); stop();
     if (!FOLGEN[id]) id = 'probe';
     const f = FOLGEN[id];
-    app.innerHTML = `<div id="kursplayer"><div class="qhead" style="margin-top:18px"><h1 style="margin:0">🎧 Kajütenfunk</h1><button class="btn small ghost" id="back">Zurück</button></div>
-      <div class="card" id="kbuehne"><p style="margin:0"><b>${esc(f.titel)}</b></p><p class="small muted" style="margin:2px 0 8px">${esc(f.unter)}<span id="kdauer"></span></p>
-        <div id="kplay"></div><div id="kpaarbox"></div><p class="status small" id="kinfo">Lade …</p>
-        <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div></div>
+    /* v5.51 (Nutzer 08.11.2026): Vollbild, am Bildschirm nur die Folge; alles andere hinter dem Zahnrad ⚙️ */
+    app.innerHTML = `<div id="kursplayer" class="kvoll"><div class="kkopf"><button class="kknopf" id="back" aria-label="Zurück">←</button>
+        <div class="ktitel"><b>${esc(f.titel)}</b><span class="small muted">${esc(f.unter)}<span id="kdauer"></span></span></div>
+        <button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+      <div id="kbuehne"><p class="status small" id="kinfo">Lade …</p>
+        <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
+        <div id="kplay"></div></div>
+      <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
+      <div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="auto">🚗 Auto</button><button class="chip" data-mod="interaktiv">👆 Interaktiv</button></div>
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
@@ -736,8 +741,20 @@
         <h4 class="kh">2. Sprache, Abschnitt für Abschnitt</h4><p class="small muted" style="margin:0 0 4px">Du musst nicht alles auf einmal erzeugen. Das Abspielen endet vor dem ersten Abschnitt, der noch fehlt.</p><div id="kabgen"></div>
         <div class="kreihe"><button class="btn ki" id="kgen">🎙️ Alles Fehlende erzeugen</button></div>
         <h4 class="kh">3. Für alle bereitstellen</h4><p class="small muted" style="margin:0 0 4px">ZIP speichern und auf GitHub in den Ordner import hochladen. Danach hört jeder die Folge ohne eigenen Schlüssel.</p>
-        <div class="kreihe"><button class="btn ghost small" id="kzip">📦 ZIP speichern</button></div><p class="status small" id="kginfo"></p></div></div>
-      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}#kursplayer .kanim{max-height:58vh;margin:0 auto}
+        <div class="kreihe"><button class="btn ghost small" id="kzip">📦 ZIP speichern</button></div><p class="status small" id="kginfo"></p></div></div></div>
+      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}
+        #kursplayer.kvoll{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--paper,#fbf3e4);color:var(--ink,#2a2118);overflow:hidden}
+        #kursplayer .kkopf{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px))}
+        #kursplayer .ktitel{flex:1;min-width:0;line-height:1.25}#kursplayer .ktitel b,#kursplayer .ktitel>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        #kursplayer .kknopf{width:42px;height:42px;border-radius:50%;border:0;background:rgba(0,0,0,.07);font-size:19px;line-height:1;color:inherit;display:grid;place-items:center;cursor:pointer;flex:0 0 auto}
+        #kursplayer .kknopf:focus-visible{outline:2px solid var(--lamp,#e8a33c);outline-offset:2px}
+        #kursplayer #kbuehne{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;padding:2px max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px));margin:0;border:0;border-radius:0}
+        #kursplayer #kstage{flex:1 0 auto;justify-content:center}#kursplayer #kinfo{margin:0;font-size:.78em}#kursplayer #kinfo:empty{display:none}
+        #kursplayer #kplay{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px 0 calc(14px + env(safe-area-inset-bottom,0px))}#kursplayer #kplay .btn{min-width:42%}
+        #kursplayer #kpanel{position:fixed;inset:0;z-index:45;background:var(--paper,#fbf3e4);color:var(--ink,#2a2118);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 8px) max(14px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px))}
+        #kursplayer .kpkopf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+        #kursplayer.d-a{background:#fbf3e4;color:#2a2118}#kursplayer.d-a .kkopf .muted{color:#7a6650}
+        #kursplayer.d-b{background:#0f2433;color:#f3e7c9}#kursplayer.d-b .kkopf .muted{color:rgba(243,231,201,.65)}#kursplayer.d-b .kkopf .kknopf{background:rgba(255,255,255,.1)}#kursplayer .kanim{max-height:58vh;margin:0 auto}
         #kursplayer #kstage{display:flex;flex-direction:column;gap:8px;margin-top:6px}#kursplayer #kges{display:none}#kursplayer #kspr:empty,#kursplayer #kbild:empty,#kursplayer #kwahl:empty,#kursplayer #kdenk:empty{display:none}
         #kursplayer .kg{width:74px;height:74px;border-radius:50%;overflow:hidden;background:#fffaf0;border:3px solid rgba(255,255,255,.28);flex:0 0 auto;transition:transform .2s,box-shadow .2s,width .2s,height .2s;display:grid;place-items:center}
         #kursplayer .kg svg{width:139%;margin:-22% 0 0 -19.5%;display:block;align-self:start;justify-self:start}#kursplayer .kgb{font:800 1.6em/1 'Baloo 2',system-ui,sans-serif;color:#6e4529}
@@ -776,7 +793,16 @@
         #kursplayer .kopts{display:grid;gap:6px;margin-top:8px}#kursplayer .kopt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line, rgba(0,0,0,.18));background:var(--bg, #fff);color:inherit;font:inherit;cursor:pointer}
         #kursplayer .kopt .kabc{flex:0 0 auto;min-width:3.9em;font-size:.82em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
         #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}</style>`;
-    $('#back').onclick = () => { stop(); setTab('cabin'); };
+    const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
+    $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
+    /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
+    const panel = $('#kpanel');
+    $('#kzahn').onclick = () => { panel.hidden = !panel.hidden; if (!panel.hidden) panel.scrollTop = 0; };
+    $('#kzu').onclick = () => { panel.hidden = true; };
+    /* ⛶ blendet auch die Leisten des Browsers aus, wo das Handy es erlaubt */
+    const vb = $('#kvollbild');
+    if (!document.documentElement.requestFullscreen) vb.hidden = true;
+    else vb.onclick = () => { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {} };
     const info = t => { const e = $('#kinfo'); if (e) e.textContent = t; }, ginfo = t => { const e = $('#kginfo'); if (e) e.textContent = t; };
     const k = cfgK();
     const chips = () => {
@@ -828,7 +854,7 @@
       const erster = haupt[0];
       st.ersterFehlt = !erster || fehltAb.has(erster.nr); st.luecke = fehltAb.size > 0;
       if (!st.ersterFehlt) info(fehltAb.size ? 'Bereit. „▶ Abspielen“ endet vor dem ersten Abschnitt, der noch fehlt; „🗣️ Ganz hören“ liest den Rest mit der Gratis-Stimme.' : 'Bereit.');
-      else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: unten bei „Erzeugen“.');
+      else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: ⚙️ oben rechts, dann „Erzeugen“.');
       if (!lauf) zeigeSteuerung(st, false);
     };
     buehnenCrew = CREWW.filter(w => sprecher(st).includes(w)); if (!buehnenCrew.length) buehnenCrew = ['HINNERK', 'SMILLA'];
