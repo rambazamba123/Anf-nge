@@ -435,25 +435,30 @@ A.seite = async function (modus) {
   $('#ancopy').onclick = () => { const t = zuText() || '(noch keine Bewertungen oder Notizen)'; if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Kopiert. Jetzt im Chat einfügen.'), () => toast(t)); else toast(t); };
 };
 A.spiele = function (id) {
+  /* v5.33: Ton und Handystimme hier freigeben, solange wir noch im Antippen sind (der Auto-Start per Timer zählt für den Browser nicht als Antippen, darum blieb das Horn stumm) */
+  try { AUD.unlock && AUD.unlock(); if (typeof VOX !== 'undefined' && VOX.phoneUnlock) VOX.phoneUnlock(); } catch (e) {}
   const d = A.defs[id]; let p = 0, auto = false, stopp = false, ton = true;
   gameShell(d.titel, `<div class="anstage" id="anstage"${d.vb ? ` style="aspect-ratio:${d.vb[0]}/${d.vb[1]};max-height:none"` : ''}>${A.html(id)}</div><div class="ancap" id="ancap"></div>
     <div class="anctl"><button class="btn small ghost" id="anz">◀</button><span class="dots" id="andots">${d.phasen.map(() => '<i></i>').join('')}</span><button class="btn small" id="anw">▶</button><button class="btn small ghost" id="anau">⏯ Auto</button><button class="btn small ghost" id="anto" aria-pressed="true">🔊</button><button class="btn small ghost" id="anre">↻</button></div>
     <div class="anctl" style="margin-top:10px"><button class="chip" id="anok">✓ Passt</button><button class="chip" id="anaend">✏️ Ändern</button><button class="btn small ghost" id="annext">Nächste ▶▶</button></div><label class="small muted" style="display:block;margin-top:10px">Was soll anders werden?</label><textarea class="annote" id="annote" placeholder="Zum Beispiel: Pfeil größer, Text kürzer, andere Farbe …">${esc(notes()[id] || '')}</textarea>`);
   const host = $('#anstage'), svg = A.start(host), cap = () => { $('#ancap').innerHTML = `<b>${esc(({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[d.phasen[p].wer] || '')}:</b> ${esc(d.phasen[p].t)}`; document.querySelectorAll('#andots i').forEach((e, i) => e.classList.toggle('on', i === p)); };
-  const gehe = n => { p = cl(n, 0, d.phasen.length - 1); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.phase(svg, p); cap(); }; cap();
+  /* Phasen mit nach(svg): eigener Ton (z. B. Horn) nach dem Vorlesen; im Auto-Lauf wartet die nächste Phase darauf */
+  const tonAus = () => { if (svg.__ton) { try { svg.__ton.stop(); } catch (e) {} svg.__ton = null; } };
+  const nach = () => { const f = d.phasen[p].nach; return ton && f ? Promise.resolve().then(() => f(svg, p)).catch(() => {}) : Promise.resolve(); };
+  const gehe = (n, hand) => { tonAus(); p = cl(n, 0, d.phasen.length - 1); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.phase(svg, p); cap(); if (hand) setTimeout(() => { if (!auto && svg.isConnected) nach(); }, 600); }; cap();
   const sprich = () => ton && (typeof VOX !== 'undefined') ? Promise.resolve(VOX.say(d.phasen[p].wer, d.phasen[p].t, 'local')).catch(() => {}) : Promise.resolve();
   const warte = ms => new Promise(r => setTimeout(r, ms));
-  const lauf = async () => { while (auto && !stopp && svg.isConnected) { await Promise.all([sprich(), warte((d.phasen[p].min || 3.5) * 1000)]); if (!auto || stopp) return; if (p >= d.phasen.length - 1) { auto = false; $('#anau').textContent = '⏯ Auto'; return; } gehe(p + 1); } };
-  $('#anw').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p + 1); }; $('#anz').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p - 1); };
-  $('#anre').onclick = () => { auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p); };
-  $('#anau').onclick = () => { AUD.unlock && AUD.unlock(); auto = !auto; $('#anau').textContent = auto ? '⏸ Stopp' : '⏯ Auto'; if (auto) { if (p >= d.phasen.length - 1) gehe(0); lauf(); } else if ((typeof VOX !== 'undefined')) VOX.stop('anim'); };
-  $('#anto').onclick = () => { ton = !ton; $('#anto').textContent = ton ? '🔊' : '🔇'; $('#anto').setAttribute('aria-pressed', ton); if (!ton && (typeof VOX !== 'undefined')) VOX.stop('anim'); };
+  const lauf = async () => { while (auto && !stopp && svg.isConnected) { await Promise.all([sprich().then(() => auto && !stopp ? nach() : null), warte((d.phasen[p].min || 3.5) * 1000)]); if (!auto || stopp) return; if (p >= d.phasen.length - 1) { auto = false; $('#anau').textContent = '⏯ Auto'; return; } gehe(p + 1); } };
+  $('#anw').onclick = () => { AUD.unlock && AUD.unlock(); auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p + 1, true); }; $('#anz').onclick = () => { AUD.unlock && AUD.unlock(); auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p - 1, true); };
+  $('#anre').onclick = () => { AUD.unlock && AUD.unlock(); auto = false; $('#anau').textContent = '⏯ Auto'; gehe(p, true); };
+  $('#anau').onclick = () => { AUD.unlock && AUD.unlock(); auto = !auto; $('#anau').textContent = auto ? '⏸ Stopp' : '⏯ Auto'; if (auto) { if (p >= d.phasen.length - 1) gehe(0); lauf(); } else { tonAus(); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); } };
+  $('#anto').onclick = () => { ton = !ton; $('#anto').textContent = ton ? '🔊' : '🔇'; $('#anto').setAttribute('aria-pressed', ton); if (!ton) { tonAus(); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); } };
   $('#annote').oninput = e => { notes()[id] = e.target.value; save(); };
   const bz = () => { $('#anok').setAttribute('aria-pressed', String(bew()[id] === 'ok')); $('#anaend').setAttribute('aria-pressed', String(bew()[id] === 'aendern')); }; bz();
   $('#anok').onclick = () => { bew()[id] = bew()[id] === 'ok' ? undefined : 'ok'; save(); bz(); };
   $('#anaend').onclick = () => { bew()[id] = bew()[id] === 'aendern' ? undefined : 'aendern'; save(); bz(); $('#annote').focus(); };
-  $('#annext').onclick = () => { stopp = true; auto = false; if ((typeof VOX !== 'undefined')) VOX.stop('anim'); const l = sortiert(), i = l.indexOf(id); A.spiele(l[(i + 1) % l.length]); };
-  $('#gback').onclick = () => { stopp = true; auto = false; if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.seite(); };
+  $('#annext').onclick = () => { stopp = true; auto = false; tonAus(); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); const l = sortiert(), i = l.indexOf(id); A.spiele(l[(i + 1) % l.length]); };
+  $('#gback').onclick = () => { stopp = true; auto = false; tonAus(); if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.seite(); };
   /* Standard: läuft von selbst durch, mit Vorlesen (Nutzer 08.11.2026) */
   setTimeout(() => { if (!stopp && !auto && svg.isConnected) $('#anau').click(); }, 400);
 };

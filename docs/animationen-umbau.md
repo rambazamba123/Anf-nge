@@ -69,7 +69,7 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A5.1 | lichter | anim.js | ○ |
 | A5.2 | lichtertafel | anim3 | ○ |
 | A5.3–A5.6 | schlepp, manunf, fischer, anker | anim3 | ○ |
-| A6.1 | schall | anim.js | ○ |
+| A6.1 | schall | anim-hoch | ✓ v5.33 (alle 13 Signale des SBF-See-Katalogs, Horn nach dem Vorlesen) |
 | A6.2, A6.3 | nebel, glocke | anim3 | ○ |
 | A7.1–A7.7 | lateral, kennung, kardinal (anim.js), sonderzeichen, sektorenfeuer, tafeln, bruecke | anim3 | ○ |
 | A7.8 | schleuse | anim.js | ○ |
@@ -82,3 +82,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
 - v5.31: Gratis-Stimme repariert (`playPhone`: kein `cancel()` direkt vor `speak()`, zweiter Versuch mit Standardstimme, `phoneUnlock` beim Klick; bleibt sie stumm, wartet der Player die Lesezeit ab und zeigt den Text). Nächster Schritt: Animationen ab §4 oben.
 - v5.32: Neue Datei `anim-hoch.js` (ersetzt alte Fassungen gleicher id, `neuId` in `ANIM.szene`); erster Stapel fertig: boot, radoben, anlegen, ankern, wenden, aufstoppen, begegnung. Bilder geprüft (`BREITE=400 node tools/anim-bilder.js bild.png 0 20 hoch`), Logik: Radeffekt rückwärts immer Heck nach Backbord, Anprall Steuerbord am Heck; Begegnung mit gleichbleibender Peilung 27°, Ausweichen hinter dem Heck. Zu lange Überschriften werden automatisch schmaler. Nächster Stapel: motor, gas, tanken, sog, lichter, schall, kardinal, schleuse, gezeiten, wetter, rad.
+- v5.33: Horn repariert: Der Auto-Start per Timer galt nicht als Antippen, darum gab der Browser den Ton nicht frei. Jetzt gibt `A.spiele` Ton und Handystimme beim Antippen frei, und eine Phase kann mit `nach(svg)` nach dem Vorlesen einen eigenen Ton spielen (Auto-Lauf wartet darauf, `svg.__ton` wird beim Weiterschalten gestoppt). Schallsignale neu im Hochformat mit allen Signalen des Katalogs (Fragen 4, 5, 16, 124, 139–141, 161–164, 178, 186, 188, 279, 281, 282) plus Kursänderung als Wissen; Test: Horn klingt im Auto-Lauf.

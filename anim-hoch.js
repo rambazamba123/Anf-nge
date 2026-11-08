@@ -104,6 +104,42 @@ S('aufstoppen', {...HF, titel: 'Aufstoppen', nr: 'A2.6', gruppe: 'A2 Anlegen, An
     P(H, 'Dann kurz rückwärts. Der Radeffekt zieht das Heck nach Backbord, darum mit dem Ruder gegenhalten, damit der Bug in der alten Richtung bleibt.', {cap: 'Rückwärts aufstoppen, Kurs halten', pr: false, aus: ['strecke'], k: {boot: {y: 160, r: 5}}, dur: 3, fx: s => { zeigPrall(true)(s); qa(s, '.schaum').forEach(e => e.setAttribute('opacity', 1)); }}),
     P(M, 'Steht. Neben der Boje, und der Bug zeigt noch in die alte Richtung. So ist es kursgerecht.', {cap: 'Steht, kursgerecht', pr: false, k: {boot: {r: 0}}, fx: s => { zeigPrall(false)(s); qa(s, '.schaum').forEach(e => e.setAttribute('opacity', 0)); }})]});
 
+/* ---------- A6.1 Schallsignale (SBF See): alle Signale des Katalogs, Nebel siehe A6.2 ---------- */
+(() => {
+  /* Tonfolge als Balken: ● kurz (etwa 1 s), ▬ lang (4 bis 6 s), Doppel-Leerzeichen = Pause zwischen Gruppen; das Horn klingt nach dem Vorlesen (nach) */
+  const toene = sig => { const out = []; let gap = false; for (let i = 0; i < sig.length; i++) { const c = sig[i]; if (c === '●' || c === '▬') { out.push({l: c === '▬', g: gap}); gap = false; } else if (c === ' ' && sig[i + 1] === ' ') gap = true; } return out; };
+  const worte = sig => sig.split(/ {2,}/).map(g => toene(g).map(t => t.l ? 'lang' : 'kurz').join(' – ')).join('   |   ');
+  const leiste = (s, sig) => { const g = q(s, '.leiste'); if (!g) return; const ts = toene(sig || ''); let x = 0; const bs = ts.map((t, i) => { if (i) x += t.g ? 30 : 10; const w = t.l ? 64 : 16, b = {x, w}; x += w; return b; });
+    const k = x > 360 ? 360 / x : 1, x0 = 200 - x * k / 2;
+    g.innerHTML = bs.map(b => `<rect class="tb" x="${(x0 + b.x * k).toFixed(1)}" y="0" width="${(b.w * k).toFixed(1)}" height="30" rx="${(Math.min(15, b.w * k / 2)).toFixed(1)}" fill="#2b4a66"/>`).join('');
+    const w = q(s, '.worte'); if (w) { w.textContent = sig ? worte(sig) : ''; w.removeAttribute('textLength'); try { if (w.getComputedTextLength() > 350) { w.setAttribute('textLength', 350); w.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {} } };
+  const hupe = sig => svg => { if (typeof AUD === 'undefined' || !AUD.horn) return; AUD.unlock && AUD.unlock(); const bars = qa(svg, '.tb'), hw = q(svg, '.hw');
+    const c = AUD.horn(sig, (i, type, d) => { const e = bars[i]; if (e) { e.setAttribute('fill', '#f08a1c'); setTimeout(() => e.setAttribute('fill', '#2b4a66'), d * 1000); } if (hw) { hw.setAttribute('opacity', 1); setTimeout(() => hw.setAttribute('opacity', 0), d * 1000); } });
+    svg.__ton = c; return c.done; };
+  const karte = zeilen => zeilen.map((z, i) => T(0, i * 30, z, 'middle', 22)).join('');
+  const SIG = [
+    ['●  ▬', 'Ein kurzer Ton dauert etwa eine Sekunde. Ein langer Ton vier bis sechs Sekunden. Hör hin: erst kurz, dann lang.', ['kurz: etwa 1 Sekunde', 'lang: etwa 4 bis 6 Sekunden'], 'Fragen 4 und 5', H, 'kurz und lang'],
+    ['▬', 'Ein langer Ton: Damit kündigst du dich an, wenn du in ein Fahrwasser oder einen Hafen einläufst und die Verkehrslage es erfordert.', ['Einlaufen in Fahrwasser', 'und Häfen,', 'wenn der Verkehr es erfordert'], 'Frage 161', M, 'Ein langer Ton'],
+    ['● ● ● ● ●', 'Mindestens fünf kurze Töne: Der Kurshalter weckt den Ausweichpflichtigen auf. Pass auf, du musst ausweichen! Reicht das nicht, kommt das Manöver des letzten Augenblicks.', ['Ausweichpflichtiger wird auf', 'seine Ausweichpflicht', 'aufmerksam gemacht'], 'Fragen 139 und 140', H, 'Mindestens fünf kurze'],
+    ['● ▬ ●', 'Kurz, lang, kurz: Ein Ankerlieger warnt ein Fahrzeug, das ihm gefährlich nahe kommt. Bei verminderter Sicht darf jeder Ankerlieger das zusätzlich geben.', ['Ankerlieger warnt vor', 'gefährlicher Annäherung'], 'Fragen 124 und 141', M, 'kurz – lang – kurz'],
+    ['▬ ● ● ● ●  ▬ ● ● ● ●', 'Zweimal ein langer und vier kurze Töne: das allgemeine Gefahr- und Warnsignal. Das gibt, wer ein anderes Fahrzeug gefährdet oder selbst gefährdet wird.', ['Allgemeines Gefahr- und', 'Warnsignal: gefährdet', 'oder selbst gefährdet'], 'Fragen 162 bis 164', H, 'Gefahr- und Warnsignal'],
+    ['● ● ● ●', 'Vier kurze Töne von der Brücke, dem Sperrwerk oder der Schleuse: Kann gerade nicht geöffnet werden. Fahrt unterbrechen und auf die Freigabe warten.', ['Brücke, Sperrwerk, Schleuse', 'kann nicht geöffnet werden:', 'Fahrt unterbrechen, warten'], 'Frage 178', M, 'Vier kurze'],
+    ['● ▬ ● ●', 'Kurz, lang, kurz, kurz: Die Polizei fordert dich zum Anhalten auf. Dann hältst du an.', ['Polizeifahrzeug fordert', 'zum Anhalten auf'], 'Frage 186', H, 'kurz – lang – kurz – kurz'],
+    ['▬ ▬ ▬  ▬ ▬ ▬', 'Zweimal drei lange Töne: Die Seeschifffahrtsstraße ist gesperrt. Weiterfahrt verboten.', ['Sperrung der Seeschiff-', 'fahrtsstraße:', 'Weiterfahrt verboten'], 'Frage 188', M, 'Zweimal drei lange'],
+    ['● ▬ ● ▬ ● ▬ ● ▬ ● ▬', 'Kurz, lang, immer wieder, mindestens fünfmal: das Bleib-weg-Signal. Gefahrenbereich sofort verlassen!', ['Bleib-weg-Signal:', 'Gefahrenbereich', 'sofort verlassen'], 'Frage 16', H, 'Bleib-weg-Signal'],
+    ['● ● ●  ▬ ▬ ▬  ● ● ●', 'Drei kurz, drei lang, drei kurz, als Licht oder Ton: SOS, das Seenotsignal. Und ein Nebelhorn, das ununterbrochen tönt, heißt ebenfalls: Fahrzeug in Seenot.', ['SOS: Seenotsignal', 'Dauerton des Nebelhorns:', 'Fahrzeug in Seenot'], 'Fragen 279, 281, 282', M, 'Seenot: SOS und Dauerton'],
+    ['●  ● ●  ● ● ●', 'Und noch was für die Praxis: Ein kurzer Ton heißt, ich ändere meinen Kurs nach Steuerbord. Zwei kurze nach Backbord. Drei kurze: Meine Maschine geht rückwärts.', ['1 kurz: Kurs nach Steuerbord', '2 kurz: Kurs nach Backbord', '3 kurz: Maschine rückwärts'], 'Kollisionsverhütungsregeln', H, 'Kursänderung (Praxis)', false]];
+  S('schall', {...HF, titel: 'Schallsignale', nr: 'A6.1', gruppe: 'A6 Schallsignale und Nebel', folge: 'S4.1 bis S4.3',
+    bg: `<rect width="400" height="500" fill="#e4eef5"/><rect x="14" y="196" width="372" height="96" rx="16" fill="#fff" stroke="#b9c8d6" stroke-width="2"/><rect x="14" y="306" width="372" height="150" rx="16" fill="#fff8ea" stroke="#d9c39a" stroke-width="2"/>`,
+    obj: {horn: `<path d="M-30 -14 L6 -14 L36 -34 V34 L6 14 L-30 14Z" fill="#8a6d4a" stroke="#5a4020" stroke-width="3"/><rect x="-44" y="-8" width="16" height="16" rx="4" fill="#5a4020"/>
+        <g class="hw" opacity="0"><path d="M48 -22 Q60 0 48 22" fill="none" stroke="#f08a1c" stroke-width="5"/><path d="M60 -34 Q80 0 60 34" fill="none" stroke="#f08a1c" stroke-width="5"/><path d="M72 -46 Q100 0 72 46" fill="none" stroke="#f08a1c" stroke-width="4" opacity=".7"/></g>`,
+      leiste: '<g class="leiste"></g>', worte: '<text class="t worte" x="200" y="58" text-anchor="middle" font-size="17"></text>',
+      ...Object.fromEntries(SIG.map((x, i) => ['b' + i, karte(x[2])]))},
+    start: {horn: {x: 170, y: 122, s: 1.5}, leiste: {x: 0, y: 212}, worte: {x: 0, y: 212}, ...Object.fromEntries(SIG.map((x, i) => ['b' + i, {x: 200, y: 381 - (x[2].length - 1) * 15, o: 0}]))},
+    enter(s, p) { leiste(s, (SIG[p] || [])[0]); },
+    phasen: SIG.map(([sig, t, , quelle, wer, cap, pr], i) => P(wer, t, {cap, sub: quelle, ...(pr === false ? {pr: false} : {}), an: ['b' + i], aus: SIG.map((x, j) => 'b' + j).filter(n => n !== 'b' + i), dur: .6, nach: hupe(sig)}))});
+})();
+
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
 (() => { const C = [200, 190];
   const peil = (a, b) => { const d = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI - a.r; return Math.round(((d % 360) + 360) % 360); };
