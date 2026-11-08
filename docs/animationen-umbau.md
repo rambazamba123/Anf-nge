@@ -77,7 +77,7 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A8.6 | gezeiten | anim-hoch | ✓ v5.34 (Boot immer sichtbar, Steine mit Kartentiefe, Pegel, Rechnung Wassertiefe, Begriffe nach SBF 249–255) |
 | A8.3–A8.8 | missweisung, peilung, koppel, tidenstrom, seemeile | anim-hoch | ✓ v5.42 (Peilung: an der Linie steht jetzt die Peilung vom Boot, vorher die Gegenpeilung 210°) |
 | A9.1 | wetter | anim-hoch | ✓ v5.36 (Hoch über Tief, Schrift groß) |
-| A9.2–A9.10 | wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim3 | ○ |
+| A9.2–A9.10 | wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim-hoch | ✓ v5.43 (Wetterkarte: Windpfeile waren verkehrt herum, berichtigt) |
 | A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim3 | ○ |
 | B1–B4 | festmacher, mayday, echolot, steilesee (anim.js) und alle aus anim4 | anim4 | ○ |
 
@@ -94,3 +94,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.40: O171 alle Wiedersehen-Formen gut (B176). Übrige Animationen werden in `anim-hoch.js` neu gezeichnet: Hilfe `neu(id, o)` übernimmt Titel und Texte der alten Fassung, `ph` ändert einzelne Phasen; `anim3.js` gibt die Fahrzeuge als `ANIM.fz` frei. Stapel A5 fertig. Bilder-Werkzeug: Filter `=id1,id2` für genaue ids.
 - v5.41: A6 und A7 neu gezeichnet (Nebel, Glocke, Lateral, Kennungen mit Taktbalken, Sonderzeichen, Leit-/Richt-/Quermarkenfeuer, Tafeln, Brücke mit 40 px je Meter).
 - v5.42: A8 neu gezeichnet. Fachlich berichtigt: An der Standlinie stand die Gegenpeilung (vom Leuchtturm zum Boot), jetzt die gemessene Peilung vom Boot (023° und 335°, Schnittwinkel 48°). Koppelort genau 051° und 6 sm, Strom 2 kn genau Südost.
+- v5.43: A9 neu gezeichnet. **Fachfehler berichtigt:** In der Wetterkarte drehte der Wind ums Tief im Uhrzeigersinn nach außen und ums Hoch gegen den Uhrzeigersinn nach innen; jetzt richtig (Tief gegen den Uhrzeigersinn hinein, Hoch mit ihm hinaus, Pfeile berechnet). Wartung von Westen und Rettungsinseln steht nicht im Katalog: Phase als Wissen markiert, ohne feste Frist. Abgeglichen mit SBF 68, 69, 256–258, 261, 263, 267–270, 275.

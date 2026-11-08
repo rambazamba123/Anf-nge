@@ -592,7 +592,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
 
 /* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
 /* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
-const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile', 'wetterkarte', 'beaufort', 'schwerwetter', 'notsignale', 'sicherheit', 'feuer', 'umwelt', 'nationalpark', 'baden'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
 const alt = id => ALT[id] || A.defs[id];
 const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
 
@@ -719,6 +719,62 @@ neu('sektorenfeuer', {bg: nachtH(500), obj: {leit: `<path d="M0 0 L-97 420 L-36 
       kn: zeilen(0, 0, ['1 Knoten =', '1 Seemeile pro Stunde'], 'middle', 20), boot: BO.oben({})},
     start: {keil: {x: 130, y: 560}, tx: {x: 180, y: 90, o: 0}, rand: {x: 360, y: 290, o: 0}, kn: {x: 180, y: 440, o: 0}, boot: {x: 120, y: 360, r: 90, s: .5, o: 0}},
     ph: {3: {k: {boot: {x: 280}}}}});
+})();
+
+/* ---------- A9 Wetter, Natur, Sicherheit ---------- */
+(() => {
+  /* Wind ums Tief gegen den Uhrzeigersinn und leicht hinein, ums Hoch mit dem Uhrzeigersinn und leicht hinaus (Nordhalbkugel); v5.43 berichtigt, vorher verkehrt herum */
+  const windPf = (cx, cy, rx, ry, tief, c) => [0, 90, 180, 270].map(a => { const r = a * Math.PI / 180, px = Math.cos(r), py = -Math.sin(r), x = cx + px * rx, y = cy + py * ry;
+    const tx = tief ? -Math.sin(r) : Math.sin(r), ty = tief ? -Math.cos(r) : Math.cos(r), ix = tief ? -px : px, iy = tief ? -py : py, k = Math.cos(.35), m = Math.sin(.35);
+    const dx = tx * k + ix * m, dy = ty * k + iy * m; return B.pfeil(x - dx * 18, y - dy * 18, x + dx * 18, y + dy * 18, c, 4); }).join('');
+  const isob = (cx, cy, rs) => rs.map(r => `<ellipse cx="${cx}" cy="${cy}" rx="${r * 1.25}" ry="${r}" fill="none" stroke="#556" stroke-width="2"/>`).join('');
+  const TP = [200, 182], HP = [200, 400];
+  neu('wetterkarte', {bg: '<rect width="400" height="500" fill="#eef3f6"/>' + isob(TP[0], TP[1], [26, 52, 78, 104]) + isob(HP[0], HP[1], [36, 70]) + T(TP[0], TP[1] + 10, 'T', 'middle', 30, 'r') + T(HP[0], HP[1] + 10, 'H', 'middle', 30, 'b'),
+    obj: {wt: windPf(TP[0], TP[1], 130, 104, true, '#c0392b'), wh: windPf(HP[0], HP[1], 88, 70, false, '#1f5f99'),
+      eng: '<rect x="44" y="96" width="74" height="172" rx="12" fill="none" stroke="#f2c200" stroke-width="3.5"/>' + T(81, 290, 'eng = viel Wind', 'middle', 16),
+      kf: `<path d="M${TP[0] + 20} ${TP[1] - 30} Q${TP[0] + 70} ${TP[1] + 50} ${TP[0] + 40} ${TP[1] + 150}" stroke="#1f5f99" stroke-width="4" fill="none"/>` + [0, 1, 2, 3].map(i => `<path d="M${TP[0] + 36 + i * 9} ${TP[1] + i * 38} l14 -2 l-7 12z" fill="#1f5f99"/>`).join(''),
+      wf: `<path d="M${TP[0] + 20} ${TP[1] - 30} Q${TP[0] + 100} ${TP[1] - 44} ${TP[0] + 160} ${TP[1] - 120}" stroke="#c0392b" stroke-width="4" fill="none"/>` + [0, 1, 2].map(i => `<circle cx="${TP[0] + 56 + i * 36}" cy="${TP[1] - 40 - i * 24}" r="7" fill="#c0392b"/>`).join(''),
+      baro: zeilen(0, 0, ['Luftdruck fällt rasch:', 'Starkwind oder Sturm'], 'middle', 19, 'r')},
+    start: {wt: {o: 0}, wh: {o: 0}, eng: {o: 0}, kf: {o: 0}, wf: {o: 0}, baro: {x: 200, y: 300, o: 0}}});
+  const BFT = 13;
+  neu('beaufort', {bg: '<rect width="400" height="500" fill="#eef3f6"/>' + Array.from({length: BFT}, (_, i) => `<g transform="translate(${26 + i * 29} 450)"><rect class="bf" data-i="${i}" x="-12" y="${-14 - i * 21}" width="24" height="${14 + i * 21}" rx="3" fill="#9aa9b4"/>${T(0, 22, i, 'middle', 15)}</g>`).join(''),
+    obj: {tx: T(0, 0, '', 'middle', 20), r6: '<rect x="-34" y="-180" width="68" height="196" rx="10" fill="none" stroke="#f2c200" stroke-width="3.5"/>', r8: '<rect x="-68" y="-290" width="136" height="306" rx="10" fill="none" stroke="#f2c200" stroke-width="3.5"/>'},
+    start: {tx: {x: 200, y: 96}, r6: {x: 215, y: 450, o: 0}, r8: {x: 324, y: 450, o: 0}},
+    enter(s, p) { const farben = [i => i === 5 ? '#6ab04c' : '#9aa9b4', i => i >= 6 && i <= 7 ? '#f2c200' : i === 5 ? '#6ab04c' : '#9aa9b4', i => i >= 8 ? (i >= 10 ? '#c0392b' : '#e67e22') : i >= 6 ? '#f2c200' : i === 5 ? '#6ab04c' : '#9aa9b4', i => i >= 10 ? '#c0392b' : i >= 8 ? '#e67e22' : i >= 6 ? '#f2c200' : '#9aa9b4'][p];
+      qa(s, '.bf').forEach(e => e.setAttribute('fill', farben(+e.dataset.i))); const t = q(s, '[data-o="tx"] text'); t.textContent = ['5 = frischer Wind', '6 und 7: Starkwindwarnung', 'ab 8: Sturmwarnung', '10, 11, 12: schwerer Sturm bis Orkan'][p]; fit(t); }});
+  neu('schwerwetter', {bg: '<rect width="400" height="500" fill="#8fa6b4"/>', obj: {see: '<path d="M-400 0 Q-350 -50 -300 0 T-200 0 T-100 0 T0 0 T100 0 T200 0 T300 0 T400 0 T500 0 V260 H-400Z" fill="#3d6f8f"/>', boot: `<g transform="scale(1.4)">${B.seite(70, [], '#fbf8f2')}<rect x="-10" y="-30" width="22" height="14" fill="#cfd6db"/></g>`,
+      hilf: `<g transform="scale(1.4)">${B.seite(70, [], '#e9d9b8')}</g>`, leine: '<path id="sl" stroke="#e8c46a" stroke-width="3" fill="none"/>', ta: '<path d="M0 0 l-20 -11 l0 22z" fill="#c98a12"/>' + T(0, -20, 'Treibanker', 'middle', 16), w: T(0, 0, '', 'middle', 18)},
+    start: {see: {x: 0, y: 330}, boot: {x: 240, y: 320}, hilf: {x: 70, y: 320, o: 0}, ta: {x: 350, y: 330, o: 0}, w: {x: 200, y: 110}},
+    ph: {2: {k: {boot: {x: 310}}}},
+    enter(s, p) { const t = q(s, '[data-o="w"] text'); t.innerHTML = [['Westen an, Gurte einpicken,', 'Luken dicht, alles festzurren'], ['Fahrt vermindern'], ['Schleppleine: mindestens', '2- bis 3-fache Wellenlänge'], ['steuerunfähig: Treibanker', 'hält den Bug in den Wind']][p].map((z, i) => `<tspan x="0" dy="${i ? 24 : 0}">${z}</tspan>`).join(''); },
+    fx(s, tp, p, st, c) { const ph = tp * 2.2, y = Math.sin(ph) * 14; q(s, '[data-o="see"]').setAttribute('transform', `translate(${(-(tp * 40) % 200).toFixed(1)} 330)`); q(s, '[data-o="boot"]').setAttribute('transform', `translate(${c.boot.x.toFixed(1)} ${(320 + y).toFixed(1)}) rotate(${(Math.cos(ph) * (p === 0 ? 14 : 7)).toFixed(1)})`);
+      q(s, '[data-o="hilf"]').setAttribute('transform', `translate(${c.hilf.x.toFixed(1)} ${(320 + Math.sin(ph - 1.6) * 14).toFixed(1)}) rotate(${(Math.cos(ph - 1.6) * 7).toFixed(1)})`);
+      const l = q(s, '#sl'); if (l) l.setAttribute('d', c.hilf.o > .1 ? `M${c.boot.x - 48} ${320 + y - 10} Q${(c.boot.x + c.hilf.x) / 2} 350 ${c.hilf.x + 48} ${320 + Math.sin(ph - 1.6) * 14 - 10}` : ''); }});
+  const ICON = (i, t) => `<g>${T(0, 0, i, 'middle', 42)}${T(0, 32, t, 'middle', 16)}</g>`;
+  const NOT = [['🎆', 'rote Rakete'], ['🔥', 'Handfackel'], ['🟠', 'oranger Rauch'], ['📯', 'Dauerton'], ['💥', 'Knall'], ['··· ━━━ ···', 'SOS'], ['📻', 'Mayday'], ['🏳️⚫', 'Flagge + Ball'], ['N C', 'Flaggen NC'], ['🙆', 'Arme heben']];
+  neu('notsignale', {bg: '<rect width="400" height="500" fill="#f3ead2"/>', obj: {...Object.fromEntries(NOT.map(([i, t], n) => [`n${n}`, ICON(i, t)])), nur: `${T(0, 0, '🆘', 'middle', 70)}${zeilen(0, 60, ['Nur wenn Leib oder Leben', 'in Gefahr ist'], 'middle', 22)}`},
+    start: {...Object.fromEntries(NOT.map((_, n) => [`n${n}`, {x: 110 + (n % 2) * 180, y: 104 + Math.floor(n / 2) * 78, o: 0}])), nur: {x: 200, y: 230}}, ph: {1: {aus: ['nur']}}});
+  neu('sicherheit', {bg: '<rect width="400" height="500" fill="#f3ead2"/>', obj: {weste: ICON('🦺', 'Weste zu, mit Schrittgurt'), gurt: ICON('🪢', 'Gurt einpicken'), lo: ICON('🧯', 'ABC-Pulver oder Schaum'), wart: ICON('🔧', 'prüfen: alle 2 Jahre'), insel: ICON('🛟', 'Rettungsmittel warten')},
+    start: {weste: {x: 110, y: 130, o: 0}, gurt: {x: 290, y: 130, o: 0}, lo: {x: 110, y: 270, o: 0}, wart: {x: 290, y: 270, o: 0}, insel: {x: 200, y: 400, o: 0}},
+    ph: {3: {t: 'Aufblasbare Westen und Rettungsinseln lässt man regelmäßig nach Herstellerangabe warten.', pr: false}}});
+  const flamme = `<path d="M0 0 C-22 -10 -14 -40 0 -60 C4 -40 22 -30 14 -8 C22 -20 18 -34 16 -40 C30 -20 22 0 0 0Z" fill="#f39c12"/><path d="M0 0 C-10 -8 -6 -24 0 -34 C6 -22 12 -10 0 0Z" fill="#ffe28a"/>`;
+  neu('feuer', {bg: '<rect width="400" height="500" fill="#e9dcc0"/><rect y="400" width="400" height="100" fill="#a0784c"/>', obj: {f: flamme, deckel: '<rect x="-60" y="-10" width="120" height="16" rx="5" fill="#666"/>', loe: '<g transform="scale(1.6)"><rect x="-12" y="-40" width="24" height="56" rx="8" fill="#c0392b"/><path d="M0 -40 v-10 h18" stroke="#222" stroke-width="4" fill="none"/></g>', strahl: '<path d="M0 0 Q60 14 120 -8" stroke="#fff" stroke-width="14" opacity=".7" fill="none" stroke-linecap="round"/>', tx: T(0, 0, '', 'middle', 19)},
+    start: {f: {x: 270, y: 400, s: 2}, deckel: {x: 270, y: 250, o: 0}, loe: {x: 70, y: 370}, strahl: {x: 110, y: 392, o: 0}, tx: {x: 200, y: 110}},
+    ph: {0: {k: {deckel: {y: 330}, f: {s: 1.3}}}, 1: {k: {loe: {x: 160}, f: {s: 1.7}}}, 2: {k: {strahl: {x: 190}, f: {s: .6}}}, 3: {k: {f: {s: 0, o: 0}}}},
+    enter(s, p) { const t = q(s, '[data-o="tx"] text'); t.textContent = ['Luft weg: Luken zu, Deckel drauf', 'Löscher erst am Brandherd auslösen', 'von unten löschen, in die Glut', 'bei Gas und Sprit: Zufuhr abdrehen'][p]; fit(t); }});
+  neu('umwelt', {bg: wasser(500) + ufer('M0 0 H400 V70 Q200 104 0 70Z') + Array.from({length: 26}, (_, i) => `<path d="M${8 + i * 15} 82 l3 -34 l3 34" stroke="#6a8a3a" stroke-width="2" fill="#8fb35a"/>`).join(''),
+    obj: {boot: BO.oben({}), muell: `<g>${T(0, 0, '🥫', 'middle', 28)}${B.kreuz(0, -9)}</g>`, oel: '<ellipse rx="44" ry="17" fill="#3a2f2a" opacity=".6"/>' + B.kreuz(0, 0), station: B.kasten(-90, -24, 180, 48, 'Entsorgung im Hafen', '#d7e7d0'), abstand: '<path d="M0 0 V-120" stroke="#fff" stroke-width="3" stroke-dasharray="7 5"/>' + T(12, -60, 'Abstand zum Schilf', 'start', 17)},
+    start: {boot: {x: 200, y: 330, s: .8}, muell: {x: 270, y: 360, o: 0}, oel: {x: 120, y: 400, o: 0}, station: {x: 280, y: 450, o: 0}, abstand: {x: 200, y: 280, o: 0}}});
+  neu('nationalpark', {bg: wasser(500) + '<path d="M60 200 Q150 140 250 190 Q340 250 290 320 Q170 360 80 310Z" fill="#e3d29a" stroke="#c4ae6a" stroke-width="2.5"/>',
+    obj: {zone: '<path d="M24 180 Q150 90 290 170 Q380 250 320 350 Q170 400 40 330Z" fill="#c0392b" opacity=".12" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="9 6"/>', robben: [0, 1, 2].map(i => `<ellipse cx="${160 + i * 34}" cy="${250 + (i % 2) * 18}" rx="16" ry="8" fill="#7b6e63"/>`).join(''),
+      kreis: '<circle r="160" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="9 6"/>', tk: T(0, 0, '300 bis 500 m Abstand', 'middle', 18, 'w'), boot: BO.oben({}), kn: zeilen(0, 0, ['in bestimmten Bereichen', 'höchstens 12 kn über Grund'], 'middle', 17)},
+    start: {zone: {o: 0}, robben: {o: 0}, kreis: {x: 194, y: 258, o: 0}, tk: {x: 194, y: 80, o: 0}, boot: {x: 360, y: 440, s: .5}, kn: {x: 200, y: 448, o: 0}},
+    ph: {3: {k: {boot: {x: 350, y: 110}}}}});
+  neu('baden', {bg: wasser(500) + '<path d="M0 0 H400 V64 Q200 104 0 64Z" fill="#f0dca0"/>' + [70, 160, 250, 330].map(x => `<g transform="translate(${x} 112)">${T(0, 0, '🏊', 'middle', 22)}</g>`).join(''),
+    obj: {boot: BO.oben({}), tx: T(0, 0, '', 'middle', 19), ski: T(0, 0, '🎿', 'middle', 26), zone: '<rect x="-110" y="-56" width="220" height="112" rx="12" fill="none" stroke="#f2c200" stroke-width="3.5" stroke-dasharray="9 6"/>' + T(0, 78, 'freigegeben für Wasserski', 'middle', 16)},
+    start: {boot: {x: 200, y: 420, s: .7}, tx: {x: 200, y: 482}, ski: {x: 270, y: 300, o: 0}, zone: {x: 270, y: 300, o: 0}},
+    ph: {0: {k: {boot: {y: 230, x: 340}}}},
+    enter(s, p) { const t = q(s, '[data-o="tx"] text'); t.textContent = ['Badestelle: höchstens 4,3 kn', 'Wasserski nur in freigegebenen Zonen', 'nicht ankern: Fahrwasser, Hafeneinfahrt'][p]; fit(t); }});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
