@@ -1,5 +1,5 @@
 /* Bilder aller Phasen von Animationen als Kontaktabzug (Arbeitshilfe, docs/animationen-umbau.md §2).
-   Aufruf: python3 -m http.server 8765 (im Repo, eigenes Fenster), dann node tools/anim-bilder.js bild.png <von> <bis> [id-Anfang]
+   Aufruf: python3 -m http.server 8765 (im Repo, eigenes Fenster), dann [BREITE=400] [ZEIT=ms] node tools/anim-bilder.js bild.png <von> <bis> [id-Anfang | hoch]
    Ohne id-Anfang: nur Animationen mit Feld neu; mit id-Anfang: alle, deren id so beginnt. Braucht Playwright (vorinstalliert). */
 const {chromium} = require('playwright');
 (async () => {
@@ -16,7 +16,7 @@ const {chromium} = require('playwright');
     for (const id of ids) { const d = ANIM.defs[id]; d.phasen.forEach((ph, i) => { const c = document.createElement('div'); const vb = d.vb || [400, 300]; c.style.cssText = 'width:' + W + 'px;height:' + Math.round(W * vb[1] / vb[0]) + 'px;background:#fff;position:relative';
       c.innerHTML = ANIM.html(id) + `<div style="position:absolute;left:2px;top:2px;font:10px sans-serif;background:#ffffffcc">${id} ${i}</div>`; G.appendChild(c); const s = ANIM.start(c); ANIM.phase(s, i); }); out.push(id + ':' + d.phasen.length); }
     return out; }, [von, bis, process.argv[5] || '', +(process.env.BREITE || 240)]);
-  await p.waitForTimeout(5000);
+  await p.waitForTimeout(+(process.env.ZEIT || 5000));
   const h = await p.evaluate(() => document.getElementById('g').scrollHeight); await p.setViewportSize({width: 1000, height: Math.min(h + 10, 6000)});
   await p.waitForTimeout(300);
   await p.screenshot({path: datei, fullPage: true});

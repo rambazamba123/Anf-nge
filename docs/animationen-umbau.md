@@ -48,12 +48,12 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
 | A1.5 | motor | anim2 | ○ |
-| A1.7 | gas | anim.js | ○ |
-| A1.8 | tanken | anim2 | ○ |
+| A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
+| A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
 | A2.2 | ablegen | anim2 | ○ |
 | A2.3 | ankern | anim-hoch | ✓ v5.32 |
-| A2.4 | sog | anim.js | ○ |
+| A2.4 | sog | anim-hoch | ✓ v5.35 (Kelvin-Wellen, Boot schaukelt an der Welle, Phase 3 zu schnell / langsam an Liegern) |
 | A2.5 | wenden | anim-hoch | ✓ v5.32 (Anprall markiert) |
 | A2.6 | aufstoppen | anim-hoch | ✓ v5.32 |
 | A2.7 | mob | anim2 | ○ |
@@ -85,3 +85,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.32: Neue Datei `anim-hoch.js` (ersetzt alte Fassungen gleicher id, `neuId` in `ANIM.szene`); erster Stapel fertig: boot, radoben, anlegen, ankern, wenden, aufstoppen, begegnung. Bilder geprüft (`BREITE=400 node tools/anim-bilder.js bild.png 0 20 hoch`), Logik: Radeffekt rückwärts immer Heck nach Backbord, Anprall Steuerbord am Heck; Begegnung mit gleichbleibender Peilung 27°, Ausweichen hinter dem Heck. Zu lange Überschriften werden automatisch schmaler. Nächster Stapel: motor, gas, tanken, sog, lichter, schall, kardinal, schleuse, gezeiten, wetter, rad.
 - v5.33: Horn repariert: Der Auto-Start per Timer galt nicht als Antippen, darum gab der Browser den Ton nicht frei. Jetzt gibt `A.spiele` Ton und Handystimme beim Antippen frei, und eine Phase kann mit `nach(svg)` nach dem Vorlesen einen eigenen Ton spielen (Auto-Lauf wartet darauf, `svg.__ton` wird beim Weiterschalten gestoppt). Schallsignale neu im Hochformat mit allen Signalen des Katalogs (Fragen 4, 5, 16, 124, 139–141, 161–164, 178, 186, 188, 279, 281, 282) plus Kursänderung als Wissen; Test: Horn klingt im Auto-Lauf.
 - v5.34: Hilfsfunktion `roh(id, o)` in `anim-hoch.js` für eigene Zeichnungen mit `tick` im selben Rahmen (Überschrift, Unterzeile, Marke). Ebbe und Flut sowie Schleuse neu im Hochformat. Überschriften jetzt wirklich groß (die CSS-Regel `.an .t.cap{font-size:15px}` hat `gross` überstimmt, entfernt).
+- v5.35: Gas, Tanken, Sog im Hochformat (Phasen 0–2 bzw. 0–3 wie von der Hörreise genutzt, Neues nur angehängt). Bilder-Werkzeug mit `ZEIT=ms` (Moment im Ablauf, z. B. Explosion bei 1900).

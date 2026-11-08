@@ -233,6 +233,162 @@ const komma = (v, n = 1) => v.toFixed(n).replace('.', ',');
     }});
 })();
 
+/* ---------- A1.7 Gas sinkt in die Bilge (SBF 62–64; Hörreise 1-2 nutzt die Phasen 0–2, Reihenfolge bleiben) ---------- */
+(() => { const BI = 358, BO_ = 318;   /* Bilge von BI (unten) bis BO_ (Bodenbretter) */
+  const innen = 'M118 158 H292 V230 H356 L344 296 Q336 350 296 358 H96 Q62 354 54 324 L48 230 H118Z';
+  const rumpf = 'M30 220 H372 Q382 222 377 238 L360 300 Q348 362 298 374 H92 Q48 370 38 330 Z';
+  roh('gas', {titel: 'Gas sinkt in die Bilge', nr: 'A1.7', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G4.1',
+    svg: `<defs><clipPath id="ghin"><path d="${innen}"/></clipPath><clipPath id="ghr"><path d="${rumpf}"/></clipPath>
+        <radialGradient id="gfeuer"><stop offset="0" stop-color="#fff6b0"/><stop offset=".35" stop-color="#ffd23a"/><stop offset=".7" stop-color="#ff7a1a"/><stop offset="1" stop-color="#c0300f" stop-opacity="0"/></radialGradient>
+        <linearGradient id="ggas" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9e27a" stop-opacity=".35"/><stop offset="1" stop-color="#9cc23a" stop-opacity=".8"/></linearGradient>
+        <filter id="gweich"><feGaussianBlur stdDeviation="3"/></filter></defs>
+      <rect width="400" height="500" fill="#dfeaf3"/><rect y="300" width="400" height="200" fill="#5ba7cf"/>${Array.from({length: 10}, (_, i) => `<path d="M${(i * 83) % 360 + 10} ${330 + (i * 47) % 150} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
+      <g id="gwelt">
+        <path d="${rumpf}" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><rect y="300" width="400" height="90" fill="#1f3b63" clip-path="url(#ghr)"/><path d="M34 242 H376" stroke="#c0392b" stroke-width="5"/>
+        <path d="M110 150 L118 158 H292 L302 150 Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2.5"/><path d="M110 150 V222 M302 150 V222" stroke="#5f5446" stroke-width="5"/>
+        <path d="${innen}" fill="#f3ead8" stroke="#8a7a66" stroke-width="2"/>
+        <g clip-path="url(#ghin)"><path id="gfill" fill="url(#ggas)"/><g id="gps" filter="url(#gweich)"></g></g>
+        ${Array.from({length: 7}, (_, i) => `<rect x="${66 + i * 40}" y="${BO_}" width="37" height="7" rx="2" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.2"/>`).join('')}
+        ${T(200, 346, 'Bilge', 'middle', 18)}
+        <g id="gkiste"><rect x="66" y="270" width="88" height="48" rx="4" fill="#d8c3a0" stroke="#7a5a3a" stroke-width="2" fill-opacity=".45"/><rect x="62" y="264" width="96" height="8" rx="3" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.5"/>
+          <g id="gfl1"><rect x="92" y="280" width="28" height="36" rx="10" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="101" y="273" width="10" height="8" fill="#555"/></g>${T(110, 258, 'Backskiste', 'middle', 15)}</g>
+        <g><rect x="236" y="268" width="62" height="50" rx="4" fill="#e6e1d6" stroke="#6b6b6b" stroke-width="2"/><rect x="232" y="262" width="70" height="8" rx="2" fill="#7a7f87"/><circle cx="252" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="280" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/>${T(267, 300, 'Kocher', 'middle', 13)}
+          <path id="gltg" d="M120 312 H236" stroke="#6b6b6b" stroke-width="3"/></g>
+        <g id="gsch"><rect x="270" y="186" width="16" height="22" rx="3" fill="#fff" stroke="#7a6a4a" stroke-width="2"/><rect id="gkn" x="275" y="190" width="6" height="8" rx="2" fill="#7a6a4a"/><path id="gfunk" d="M290 186 l9 -12 l-3 9 l9 -3 l-12 15 l3 -9z" fill="#ffd400" stroke="#c08a00" stroke-width="1.5" opacity="0"/></g>
+        <g id="glampe"><path d="M196 158 V168" stroke="#555" stroke-width="2"/><path d="M186 168 H206 L202 176 H190Z" fill="#e8d27a" stroke="#7a6a4a"/></g>
+        <g id="gkast" opacity="0"><rect x="44" y="176" width="46" height="44" rx="4" fill="#9aa4ae" stroke="#4a525c" stroke-width="2"/><rect x="56" y="182" width="22" height="34" rx="9" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="40" y="212" width="9" height="7" fill="#1d2630"/>${T(68, 168, 'Gaskasten', 'middle', 15)}</g>
+        <g id="gzu" opacity="0"><circle cx="106" cy="275" r="11" fill="#fff" stroke="#1f9a3c" stroke-width="3"/><path d="M99 275 H113" stroke="#1f9a3c" stroke-width="4" stroke-linecap="round"/></g>
+        <g id="gluft" opacity="0" fill="#fff" stroke="#3d8fb8" stroke-width="3"><path d="M150 140 v-26" fill="none"/><path d="M143 120 l7 -10 l7 10z"/><path d="M250 140 v-26" fill="none"/><path d="M243 120 l7 -10 l7 10z"/></g>
+        <g id="gverbot" opacity="0"><circle cx="278" cy="197" r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M264 211 L292 183" stroke="#c0392b" stroke-width="4"/>
+          <g transform="translate(330 196)"><rect x="-9" y="-16" width="18" height="32" rx="4" fill="#2b3a4a"/><rect x="-6" y="-12" width="12" height="20" fill="#8fc6e8"/><circle r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M-14 14 L14 -14" stroke="#c0392b" stroke-width="4"/></g></g>
+      </g>
+      <g id="gboom" opacity="0"><circle id="gball" cx="200" cy="300" r="10" fill="url(#gfeuer)"/><path id="gstern" fill="#ffd23a" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round"/><g id="gsplit"></g></g>
+      <rect id="gflash" width="400" height="500" fill="#fff3c4" opacity="0"/><g id="grauch"></g><g id="gqualm" filter="url(#gweich)"></g>
+      <text class="t gwum" x="200" y="140" text-anchor="middle" font-size="64" fill="#c0392b" opacity="0">WUMM!</text>
+      ${T(200, 470, '', 'middle', 18, 'ghin')}`,
+    phasen: [
+      {wer: M, t: 'Gas und Benzindampf sind schwerer als Luft. Was ausströmt, sinkt nach unten und sammelt sich in der Bilge.', min: 8, cap: 'Gas ist schwerer als Luft'},
+      {wer: H, t: 'Mit Luft gemischt wird es explosiv. Ein Funke vom Lichtschalter reicht.', min: 6, cap: 'Ein Funke reicht'},
+      {wer: M, t: 'Darum steht die Gasflasche an Deck, geschützt vor Sonne, oder in einem Gaskasten mit einer Öffnung ganz unten nach außenbords. Dann läuft das Gas ins Freie.', min: 9, cap: 'An Deck oder Gaskasten: Öffnung unten'},
+      {wer: H, t: 'Und riecht es unten doch nach Gas: Gaszufuhr zu und lüften. Keinen Schalter anfassen, kein Funkgerät, kein Handy.', min: 8, cap: 'Gas im Boot: zu, lüften, kein Schalter'}],
+    enter(s, p, st) { st.ps = []; st.fill = p === 1 ? 1 : p === 3 ? .8 : 0; st.split = null; st.rauch = [];
+      put(q(s, '#gkiste'), {opacity: p === 2 ? .25 : 1}); put(q(s, '#gkast'), {opacity: p === 2 ? 1 : 0}); put(q(s, '#gzu'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gluft'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gverbot'), {opacity: p === 3 ? 1 : 0});
+      q(s, '.ghin').textContent = ['', '', 'Gas läuft nach außenbords ab', ''][p] || ''; },
+    tick(s, tp, p, st) {
+      const dt = st.dt || .016, ps = st.ps, top = BI - st.fill * 58;
+      if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 106, y: 278, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
+      if (p === 2 && Math.random() < dt * 12) ps.push({x: 42, y: 216, vx: -14 - Math.random() * 10, vy: 6, r: 6 + Math.random() * 5, a: 1, raus: true});
+      for (const k of ps) { k.vy += (k.raus ? 22 : 26) * dt; k.vy = Math.min(k.vy, 60); k.x += k.vx * dt; k.y += k.vy * dt; k.r += dt * 2;
+        if (!k.raus) { if (k.x > 330) k.vx = -Math.abs(k.vx); if (k.x < 64) k.vx = Math.abs(k.vx); if (k.y >= top - 4) { k.vx *= .9; k.a -= dt * 2.2; } }
+        else if (k.y > 300) { k.vy *= .2; k.vx -= dt * 10; k.a -= dt * 1.2; } }
+      st.ps = ps.filter(k => k.a > 0 && k.x > -30);
+      if (p === 0) st.fill = Math.min(1, tp / 7); if (p === 3) st.fill = Math.max(0, .8 - tp * .1);
+      const pr = st.ps.filter(k => !k.raus), pa = st.ps.filter(k => k.raus);
+      q(s, '#gps').innerHTML = pr.map(k => `<circle cx="${k.x.toFixed(1)}" cy="${k.y.toFixed(1)}" r="${k.r.toFixed(1)}" fill="#a9cd4a" fill-opacity="${(.55 * k.a).toFixed(2)}"/>`).join('');
+      q(s, '#grauch').innerHTML = pa.map(k => `<circle cx="${k.x.toFixed(1)}" cy="${k.y.toFixed(1)}" r="${k.r.toFixed(1)}" fill="#a9cd4a" fill-opacity="${(.5 * k.a).toFixed(2)}" filter="url(#gweich)"/>`).join('');
+      const fy = BI - st.fill * 58; put(q(s, '#gfill'), {d: st.fill <= 0 ? 'M0 0' : `M40 ${fy} ` + Array.from({length: 10}, (_, i) => `Q${50 + i * 32} ${(fy + Math.sin(tp * 2 + i) * 3).toFixed(1)} ${66 + i * 32} ${fy}`).join(' ') + ` V380 H40Z`});
+      /* Funke und Explosion (Phase 1) */
+      const boom = p === 1 && tp > 1.3, b = boom ? tp - 1.3 : 0;
+      put(q(s, '#gkn'), {y: p === 1 && tp > 1 ? 199 : 190}); put(q(s, '#gfunk'), {opacity: p === 1 && tp > 1 && tp < 1.5 ? 1 : 0});
+      put(q(s, '#gboom'), {opacity: boom ? Math.max(0, 1 - Math.max(0, b - 1.4) / 1.2).toFixed(2) : 0});
+      if (boom) { const r = Math.min(260, 30 + b * 420); put(q(s, '#gball'), {r: r.toFixed(0)});
+        const n = 14, sp = Array.from({length: n * 2}, (_, i) => { const a = i * Math.PI / n, rr = (i % 2 ? .55 : 1) * r * .9; return `${(200 + Math.cos(a) * rr).toFixed(0)} ${(300 + Math.sin(a) * rr * .85).toFixed(0)}`; }); put(q(s, '#gstern'), {d: 'M' + sp.join('L') + 'Z', opacity: Math.max(0, 1 - b / 1.6).toFixed(2)});
+        if (!st.split) st.split = Array.from({length: 16}, (_, i) => ({a: i * .4 + Math.random() * .3, v: 160 + Math.random() * 160, w: 10 + Math.random() * 18, r: Math.random() * 360}));
+        q(s, '#gsplit').innerHTML = st.split.map(k => { const x = 200 + Math.cos(k.a) * k.v * b, y = 310 + Math.sin(k.a) * k.v * b + 160 * b * b; return `<rect x="${(x - k.w / 2).toFixed(0)}" y="${(y - 3).toFixed(0)}" width="${k.w.toFixed(0)}" height="6" rx="2" fill="#8a5a2a" transform="rotate(${(k.r + b * 400).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})"/>`; }).join('');
+        const sh = Math.max(0, 1 - b / 1.2) * 9; put(q(s, '#gwelt'), {transform: `translate(${((Math.random() - .5) * sh).toFixed(1)} ${((Math.random() - .5) * sh).toFixed(1)})`});
+        put(q(s, '#gflash'), {opacity: Math.max(0, .9 - b * 2.2).toFixed(2)}); put(q(s, '.gwum'), {opacity: b > .1 && b < 2.6 ? 1 : 0, 'font-size': (64 + Math.min(1, b * 3) * 16).toFixed(0)});
+        put(q(s, '#gfill'), {opacity: b > .3 ? 0 : 1});
+        if (!st.qu) st.qu = Array.from({length: 18}, (_, i) => ({x: 90 + Math.random() * 220, y: 240 + Math.random() * 100, r: 18 + Math.random() * 22, v: 12 + Math.random() * 18}));
+        q(s, '#gqualm').innerHTML = b < .5 ? '' : st.qu.map(k => `<circle cx="${k.x.toFixed(0)}" cy="${(k.y - (b - .5) * k.v * 3).toFixed(0)}" r="${(k.r * Math.min(2, .6 + (b - .5) * .5)).toFixed(0)}" fill="#5a5a5a" fill-opacity="${Math.min(.75, (b - .5) * .8).toFixed(2)}"/>`).join(''); }
+      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
+    }});
+})();
+
+/* ---------- A1.8 Tanken ohne Knall (SBF 49, 43; Luken und Lüften als Wissen) ---------- */
+(() => { const BX = 262, WL = 336, SK = 1.5, STU = [BX - 66 * SK, WL - 26 * SK];
+  const LISTE = [['Motor aus', 49], ['Keine Schalter betätigen', 49], ['Kein Feuer, nicht rauchen', 49], ['Nichts überlaufen lassen', 49], ['Luken zu', 0], ['Vor dem Start lüften', 0], ['Bilge: Lappen, entsorgen', 43]];
+  roh('tanken', {titel: 'Tanken ohne Knall', nr: 'A1.8', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G4.1',
+    svg: `<rect width="400" height="500" fill="#d9ecf7"/><rect y="250" width="400" height="34" fill="#b98750" stroke="#7a5a3a" stroke-width="2"/>${[40, 120, 200, 280, 360].map(x => `<rect x="${x}" y="284" width="12" height="60" fill="#8a6a44"/>`).join('')}
+      <rect y="300" width="400" height="200" fill="#5ba7cf"/>${Array.from({length: 9}, (_, i) => `<path d="M${(i * 91) % 360 + 10} ${380 + (i * 37) % 100} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
+      <g transform="translate(18 74)"><rect x="0" y="0" width="96" height="176" rx="10" fill="#d9534f" stroke="#7a2a28" stroke-width="3"/><rect x="0" y="0" width="96" height="30" rx="10" fill="#b8403c"/><text class="t w" x="48" y="21" text-anchor="middle" font-size="15">BENZIN</text>
+        <rect x="12" y="40" width="72" height="44" rx="5" fill="#1d2630" stroke="#555" stroke-width="2"/><text class="t tl" x="76" y="58" text-anchor="end" font-size="15" fill="#7dff9a" stroke="none">0,0 l</text><text class="t te" x="76" y="78" text-anchor="end" font-size="13" fill="#ffd36b" stroke="none">0,00 €</text>
+        <rect x="64" y="98" width="24" height="44" rx="6" fill="#7a2a28"/><g id="tzh"><path d="M70 104 h14 v14 l-8 10 h-6z" fill="#2b2b2b"/></g><rect x="-4" y="168" width="104" height="10" rx="3" fill="#7a7f87"/></g>
+      <path id="tschl" fill="none" stroke="#222" stroke-width="9" stroke-linecap="round"/><path id="tschl2" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9"/>
+      <g id="tboot">${BO.seite({})}</g>
+      <g id="tpist" opacity="0"><path d="M0 0 l-22 -8 l-6 6 l18 12 z" fill="#2b2b2b"/><path d="M-26 -4 l-14 4 l2 8 l14 -2z" fill="#2b2b2b"/><rect x="-6" y="-6" width="16" height="6" rx="2" fill="#7a7f87" transform="rotate(30)"/></g>
+      <g id="tlap" opacity="0"><path d="M${STU[0] - 14} ${STU[1] + 2} q6 8 14 2 q8 6 16 -2 l-2 8 q-14 6 -26 0z" fill="#f2f2f2" stroke="#999" stroke-width="1.5"/></g>
+      <g id="tdampf"></g>
+      ${LISTE.map(([t, n], i) => `<g class="tli" data-i="${i}" opacity="0" transform="translate(146 ${66 + i * 27})">${B.haken(0, 0)}${T(14, 6, t, 'start', 16)}</g>`).join('')}`,
+    phasen: [
+      {wer: H, t: 'Bevor getankt wird: Motor aus. Und keine elektrischen Schalter betätigen.', min: 6, cap: 'Vor dem Tanken', z: 2},
+      {wer: M, t: 'Kein offenes Feuer und nicht rauchen. Auch keine Pfeife, Käpt\'n.', min: 6, cap: 'Kein Feuer', z: 3},
+      {wer: H, t: 'Langsam tanken und vorsorgen, dass nichts überläuft. Ein Lappen um den Stutzen fängt Tropfen auf.', min: 9, cap: 'Langsam, nichts überlaufen lassen', z: 4},
+      {wer: M, t: 'Luken zu, damit keine Dämpfe ins Boot ziehen. Benzindampf ist schwerer als Luft. Vor dem Start gut lüften.', min: 9, cap: 'Luken zu, vor dem Start lüften', z: 6, pr: false},
+      {wer: H, t: 'Und ist doch Kraftstoff oder Öl in die Bilge gelaufen: mit Lappen aufnehmen und umweltgerecht entsorgen.', min: 8, cap: 'Kraftstoff in der Bilge', z: 7}],
+    enter(s, p, st) { st.l = 0; qa(s, '.tli').forEach(e => e.setAttribute('opacity', +e.dataset.i < (o => o)(A.defs.tanken.phasen[p].z) ? 1 : 0)); st.ds = []; },
+    tick(s, tp, p, st) {
+      put(q(s, '#tboot'), {transform: `translate(${BX} ${(WL + Math.sin(tp * 1.6) * 1.2).toFixed(1)}) scale(${SK})`});
+      const an = p === 2 || p === 3, zx = 18 + 76, zy = 74 + 112, sx = STU[0], sy = STU[1] - 14;
+      put(q(s, '#tschl'), {d: an ? `M${zx} ${zy + 8} C${zx + 10} ${zy + 90} ${sx - 50} ${sy + 30} ${sx - 26} ${sy - 4}` : `M${zx} ${zy + 8} C${zx + 6} ${zy + 60} ${zx - 50} ${zy + 50} ${zx - 60} ${zy + 20}`}); put(q(s, '#tschl2'), {d: q(s, '#tschl').getAttribute('d')});
+      put(q(s, '#tzh'), {opacity: an ? 0 : 1}); put(q(s, '#tpist'), {opacity: an ? 1 : 0, transform: `translate(${sx} ${sy})`}); put(q(s, '#tlap'), {opacity: an || p === 4 ? 1 : 0});
+      if (p === 2) st.l = Math.min(38.5, tp * 6); else if (p >= 3) st.l = 38.5; q(s, '.tl').textContent = st.l.toFixed(1).replace('.', ',') + ' l'; q(s, '.te').textContent = (st.l * 1.79).toFixed(2).replace('.', ',') + ' €';
+      const dt = st.dt || .016; if (p === 3 && Math.random() < dt * 8) st.ds.push({x: sx - 8 + Math.random() * 16, y: sy, a: 1});
+      st.ds.forEach(k => { k.y += dt * 22; k.x += dt * 4; k.a -= dt * .35; }); st.ds = st.ds.filter(k => k.a > 0);
+      q(s, '#tdampf').innerHTML = st.ds.map(k => `<circle cx="${k.x.toFixed(1)}" cy="${k.y.toFixed(1)}" r="6" fill="#b7d36b" fill-opacity="${(.5 * k.a).toFixed(2)}"/>`).join('');
+    }});
+})();
+
+/* ---------- A2.4 Sog und Schwell großer Schiffe (SBF 34, 37, 61; Hörreise 1-3 nutzt die Phasen 0–3) ---------- */
+(() => { const SH = `<g><path d="M0 -120 C18 -100 24 -60 24 0 V110 Q24 120 14 120 H-14 Q-24 120 -24 110 V0 C-24 -60 -18 -100 0 -120Z" fill="#8a94a0" stroke="#4a525c" stroke-width="3"/>
+    <rect x="-16" y="66" width="32" height="34" rx="4" fill="#eef2f8" stroke="#4a525c" stroke-width="2"/><rect x="-12" y="70" width="24" height="6" fill="#4a6a8a"/>${[-80, -50, -20, 10, 40].map(y => `<rect x="-14" y="${y}" width="28" height="24" rx="2" fill="${['#c0392b', '#2e86c1', '#e0a63a', '#2e8b57', '#c0392b'][(y + 80) / 30]}" stroke="#4a525c" stroke-width="1.2"/>`).join('')}</g>`;
+  const TAN = Math.tan(19.5 * Math.PI / 180);
+  const welle = (cx, by, sy, L, op) => { const out = []; const lam = L * .16;
+    for (let k = 1; k <= 9; k++) { const d = k * lam, w = d * TAN * .92, c = d * .05, y = sy + d, a = (op * (1 - k / 11)).toFixed(2);
+      out.push(`<path d="M${(cx - w).toFixed(1)} ${(y - c).toFixed(1)} Q${cx} ${(y + c * 2).toFixed(1)} ${(cx + w).toFixed(1)} ${(y - c).toFixed(1)}" stroke-opacity="${(a * .6).toFixed(2)}"/>`);
+      for (const sg of [-1, 1]) { const ex = cx + sg * d * TAN, len = 10 + k * 2.4; out.push(`<path d="M${(ex - sg * len * .3).toFixed(1)} ${(y + len * .5).toFixed(1)} Q${(ex + sg * len * .2).toFixed(1)} ${(y).toFixed(1)} ${(ex + sg * len * .7).toFixed(1)} ${(y - len * .55).toFixed(1)}" stroke-opacity="${a}"/>`); } }
+    for (const sg of [-1, 1]) out.push(`<path d="M${cx + sg * 6} ${by + 6} Q${cx + sg * 30} ${by + 20} ${(cx + sg * 44).toFixed(1)} ${(by + 70).toFixed(1)}" stroke-opacity="${op.toFixed(2)}" stroke-width="4"/>`);
+    return out.join(''); };
+  roh('sog', {titel: 'Sog und Schwell großer Schiffe', nr: 'A2.4', gruppe: 'A2 Anlegen, Ankern, Manöver', folge: 'G3.2',
+    svg: `<rect width="400" height="500" fill="#4f9cc6"/><g id="sgg" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"></g><g id="swv" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"></g>
+      <g id="spier" opacity="0"><rect x="340" y="0" width="60" height="500" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>${[60, 190, 320].map((y, i) => `<g class="slieg" data-y="${y}">${BO.oben({farbe: {rumpf: ['#f3e3c3', '#e6eef5', '#f6d9d0'][i]}})}</g>`).join('')}</g>
+      <g id="sship">${SH}</g><g id="sklein">${BO.oben({})}</g>
+      <g id="sar" fill="#f08a1c" stroke="#f08a1c" stroke-width="4"></g><g id="sx" opacity="0"><circle r="16" fill="#fff" stroke="#c0392b" stroke-width="3"/><path d="M-7 -7 L7 7 M7 -7 L-7 7" stroke="#c0392b" stroke-width="3.5"/></g>
+      ${T(0, 0, '', 'start', 20, 'slab')}`,
+    phasen: [
+      {wer: H, t: 'Ein großes Schiff schiebt vorn eine Bugwelle vor sich her und zieht hinten eine Heckwelle hinter sich her. Die kann ein kleines Boot zum Kentern bringen.', min: 9, cap: 'Bugwelle und Heckwelle'},
+      {wer: M, t: 'Zwischen dem großen Schiff und dir fließt das Wasser schneller. Das saugt dich an: der Sog. So kommt es zur Kollision.', min: 8, cap: 'Sog: das Wasser dazwischen zieht'},
+      {wer: H, t: 'Wirst du überholt, schubst dich vorn der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell querschlagen. Im Flachen läufst du sogar auf Grund.', min: 11, cap: 'Überholt werden: Stau, Sog, Schwell'},
+      {wer: M, t: 'Darum: Abstand halten. Und an festgemachten Booten fährst du langsam vorbei, sonst wirft deine Welle sie gegen den Steg. Das gelbe Tafelzeichen sagt dasselbe: Sog und Wellenschlag vermeiden.', min: 11, cap: 'Langsam an Liegern vorbei'}],
+    enter(s, p, st) { st.bx = p === 2 ? 236 : p === 1 ? 228 : 270; st.rot = 0; st.roll = 0; st.by = p === 2 ? 330 : 250; put(q(s, '#spier'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#sship'), {opacity: p === 3 ? 0 : 1}); },
+    tick(s, tp, p, st) {
+      const dt = st.dt || .016;
+      q(s, '#sgg').innerHTML = Array.from({length: 22}, (_, i) => { const x = (i * 71) % 380, y = ((i * 113) % 520 + tp * 8) % 520 - 10; return `<path d="M${x} ${y.toFixed(0)} q9 -4 18 0 t18 0"/>`; }).join('');
+      if (p < 3) {
+        const v = p === 2 ? 30 : 64, sx = 150, sy = 640 - ((tp * v) % 900), stern = sy + 120;
+        put(q(s, '#sship'), {transform: `translate(${sx} ${sy.toFixed(1)})`}); q(s, '#swv').innerHTML = welle(sx, sy - 120, stern, 260, .9);
+        if (p === 2) st.by -= dt * 12;
+        const by = st.by, rel = by - sy; let ziel = p === 2 ? 236 : p === 1 ? 222 : 270, rz = 0, lab = '';
+        const edge = Math.abs(st.bx - sx) - (by - stern) * TAN; const anKante = by > stern && Math.abs(edge) < 16;
+        if (p >= 1 && Math.abs(rel) < 90) { ziel = sx + 52; lab = 'Sog'; }
+        if (p === 2 && rel < -90 && rel > -170) { ziel = 250; rz = 14; lab = 'Stau'; }
+        if (p === 2 && rel > 110 && rel < 220) { rz = -50; lab = 'Schwell'; }
+        if (anKante) st.roll = 1;
+        st.roll = Math.max(0, st.roll - dt * .8); st.bx += (ziel - st.bx) * Math.min(1, dt * 1.4); st.rot += (rz - st.rot) * Math.min(1, dt * 2);
+        const wack = st.roll * Math.sin(tp * 14) * 16;
+        put(q(s, '#sklein'), {transform: `translate(${st.bx.toFixed(1)} ${by.toFixed(1)}) rotate(${(st.rot + wack).toFixed(1)}) scale(.62)`});
+        const ar = q(s, '#sar'), bxx = st.bx; ar.innerHTML = lab === 'Sog' ? `<path d="M${(bxx - 18).toFixed(0)} ${by}H${sx + 40}" fill="none"/><path d="M${sx + 34} ${by - 9}L${sx + 20} ${by}L${sx + 34} ${by + 9}Z" stroke="none"/>` : lab === 'Stau' ? `<path d="M${sx + 30} ${by}H${(bxx - 20).toFixed(0)}" fill="none"/><path d="M${(bxx - 26).toFixed(0)} ${by - 9}L${(bxx - 12).toFixed(0)} ${by}L${(bxx - 26).toFixed(0)} ${by + 9}Z" stroke="none"/>` : '';
+        const sl = q(s, '.slab'); sl.textContent = lab || (anKante ? 'Welle!' : ''); put(sl, {x: Math.min(330, bxx + 18).toFixed(0), y: (by - 26).toFixed(0)}); put(q(s, '#sx'), {opacity: 0});
+      } else {
+        /* Phase 3: erst zu schnell (Lieger schlagen an den Steg), dann langsam */
+        const schnell = tp < 6, y = schnell ? 560 - tp * 90 : 560 - (tp - 6) * 34, by = ((y % 640) + 640) % 640 - 60, bx = 270;
+        q(s, '#swv').innerHTML = schnell ? welle(bx, by - 31, by + 31, 120, .8) : welle(bx, by - 31, by + 31, 60, .35);
+        put(q(s, '#sklein'), {transform: `translate(${bx} ${by.toFixed(1)}) scale(.62)`}); q(s, '#sar').innerHTML = '';
+        qa(s, '.slieg').forEach(e => { const ly = +e.dataset.y, hit = schnell && ly > by + 20 && ly < by + 170, w = hit ? Math.sin(tp * 16 + ly) * 9 : Math.sin(tp * 2 + ly) * 1; put(e, {transform: `translate(${(366 + (hit ? Math.abs(w) * .5 : 0)).toFixed(1)} ${ly}) rotate(${w.toFixed(1)}) scale(.5)`}); });
+        const sl = q(s, '.slab'); sl.textContent = schnell ? 'Zu schnell!' : 'Langsam'; put(sl, {x: 120, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
+      }
+    }});
+})();
+
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
 (() => { const C = [200, 190];
   const peil = (a, b) => { const d = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI - a.r; return Math.round(((d % 360) + 360) % 360); };
