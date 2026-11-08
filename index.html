@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.47';
+  window.__ver = '5.48';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2210,7 +2210,8 @@ const DEFAULT_CFG = {music: .35, amb: .6, sfx: .7, voice: 1, pause: 2, stt: 'pho
 /* ---------- Speicher ---------- */
 /* Nummerierte Umstellungen des Spielstands: [Version, Funktion]. Nie ändern, nur anhängen. */
 const MIGRATIONEN = [
-  [6, v => { /* v5.22: Ausbildungsheft. S.lern legt lern.js beim ersten Öffnen an und übernimmt dabei S.freigaben. Alte Fragen ohne ts bleiben gültig (Dunkelgrün ab Fach 5). */ if (v.lern === undefined) v.lern = null; }]
+  [6, v => { /* v5.22: Ausbildungsheft. S.lern legt lern.js beim ersten Öffnen an und übernimmt dabei S.freigaben. Alte Fragen ohne ts bleiben gültig (Dunkelgrün ab Fach 5). */ if (v.lern === undefined) v.lern = null; }],
+  [7, v => { /* v5.48: Nutzer 08.11.2026: alle Bewertungen und Notizen der Animationen löschen, die Animationen sind neu gezeichnet */ v.animBew = {}; v.animNotes = {}; }]
 ];
 var S = load();
 stashCourse(); basisZusammen(); activateCourse(S.course);

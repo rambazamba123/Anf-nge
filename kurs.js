@@ -306,13 +306,14 @@
     const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
     if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
   }
-  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); atmoAus(); lauf = null; }
+  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); if (lauf.wahlRes) lauf.wahlRes(); zurufStop(); atmoAus(); lauf = null; }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
-  async function warten(me, ms) { const ende = Date.now() + ms; while (!me.aus && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
+  async function warten(me, ms, abbr) { const ende = Date.now() + ms; while (!me.aus && !(abbr && abbr()) && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
   /* Fehlt die echte Sprache, liest im Gratis-Modus die Handystimme Zeile für Zeile (nie ElevenLabs, kostet nichts) */
   async function redeGratis(it, me, vorBild) {
     const box = ui('#kspr'); duckAtmo(true);
-    for (let i = 0; i < it.zeilen.length && !me.aus; i++) {
+    const ab = () => me.redeAbbruch;
+    for (let i = 0; i < it.zeilen.length && !me.aus && !me.redeAbbruch; i++) {
       const z = it.zeilen[i]; if (!z.text) continue;
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
@@ -323,14 +324,22 @@
       try { ok = await VOX.phoneTest(HANDY[z.wer] || String(z.wer).toLowerCase(), z.text); } catch (e) {} finally { me.handy = false; }
       /* stumm oder viel zu schnell fertig: Lesezeit abwarten statt durchzurasen, einmal Bescheid sagen */
       const lese = 1200 + z.text.length * 55, weg = Date.now() - t0;
-      if ((!ok || weg < lese * .35) && !me.aus) { if (!me.stummHinweis) { me.stummHinweis = true; const i = ui('#kinfo'); if (i) i.textContent = '🔇 Die Handystimme bleibt stumm. Bitte Lautstärke prüfen und in den Android-Einstellungen unter „Sprachausgabe“ eine deutsche Stimme einrichten. Bis dahin läuft der Text zum Mitlesen.'; } await warten(me, Math.max(0, lese - weg)); }
-      await warten(me, 220);
+      if ((!ok || weg < lese * .35) && !me.aus) { if (!me.stummHinweis) { me.stummHinweis = true; const i = ui('#kinfo'); if (i) i.textContent = '🔇 Die Handystimme bleibt stumm. Bitte Lautstärke prüfen und in den Android-Einstellungen unter „Sprachausgabe“ eine deutsche Stimme einrichten. Bis dahin läuft der Text zum Mitlesen.'; } await warten(me, Math.max(0, lese - weg), ab); }
+      await warten(me, 220, ab);
     }
     if (!me.gleichWeiter) duckAtmo(false);
-    await warten(me, 250);
+    await warten(me, 250, ab);
+  }
+  /* Antwort getippt, während noch gesprochen wird: Stimme sofort aus (Nutzer, 08.11.2026: wer es weiß, soll nicht warten) */
+  function unterbrich(me) {
+    me.redeAbbruch = true;
+    if (me.audio) { try { me.audio.pause(); } catch (e) {} }
+    if (me.weiter) { const w = me.weiter; me.weiter = null; w(); }
+    if (me.handy || me.gratis) { try { VOX.stop('Antwort getippt'); } catch (e) {} }
   }
   async function rede(st, it, me, vorBild) {
-    const b = await blobVon(st, it); if (!b) { if (me.gratis && !me.aus) await redeGratis(it, me, vorBild); return; }
+    me.redeAbbruch = false;
+    const b = await blobVon(st, it); if (me.redeAbbruch) return; if (!b) { if (me.gratis && !me.aus) await redeGratis(it, me, vorBild); return; }
     const box = ui('#kspr');
     if (box) box.innerHTML = `<b>🎙️ ${it.wer.map(w => esc(NAMEN[w] || w)).join(', ')}</b>` + (cfgK().mitlesen ? it.zeilen.map(z => `<div class="small" style="margin-top:4px"><b>${esc(NAMEN[z.wer] || z.wer)}:</b> ${esc(z.text)}</div>`).join('') : '');
     const a = me.audio = new Audio(URL.createObjectURL(b));
@@ -341,7 +350,7 @@
     await new Promise(res => { a.onended = res; a.onerror = res; me.weiter = res; a.play().catch(res); });
     me.weiter = null; if (me.audio === a) me.audio = null; URL.revokeObjectURL(a.src);
     if (!me.gleichWeiter) duckAtmo(false);   /* folgt direkt die nächste Sprache, bleibt die Atmo leise */
-    await warten(me, 250);
+    await warten(me, 250, () => me.redeAbbruch);
   }
   async function denkpause(s, me, still) {
     if (!still) s = Math.max(DENK_MIN, s);   /* B152: Denkpausen immer mindestens sechs Sekunden */
@@ -358,7 +367,7 @@
   }
   function bild(id) {
     const q = frage(id), box = ui('#kbild');
-    if (box && q && q.img && q.img.length) box.innerHTML = q.img.map(s => `<img src="${esc(s)}" alt="Katalogbild zu Frage ${q.n}" style="max-width:100%;max-height:200px;border-radius:10px;background:#fff">`).join('');
+    if (box && q && q.img && q.img.length) box.innerHTML = q.img.map(s => `<img src="${esc(s)}" alt="Katalogbild zu Frage ${q.n}" style="max-width:100%;max-height:min(46vh,380px);border-radius:12px;background:#fff">`).join('');
   }
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
   async function animZeigen(it) {
@@ -368,7 +377,7 @@
       if (d.raw) { await nachladen('szene.js'); await nachladen('reise.js'); }
       if (A.css) A.css();
       let sv = box.querySelector(`svg[data-anim="${id}"]`);
-      if (!sv) { box.innerHTML = `<div class="anstage" style="max-height:38vh;margin:0 auto">${A.html(id)}</div>`; sv = A.start(box); }
+      if (!sv) { box.innerHTML = `<div class="anstage kanim">${A.html(id)}</div>`; sv = A.start(box); }
       if (sv && it.p) A.phase(sv, it.p);
     } catch (e) {}
   }
@@ -383,36 +392,77 @@
     if (k === 'sbf' && (c === 'sbf' || (c === 'binnen' && +n <= 72))) { record(+n, ok); return true; }
     return false;
   }
-  function wahl(st, it, me) {
+  /* Zuruf (Alfa bis Delta) wie im Quiz, über szene.js; startet erst, wenn die Frage zu Ende gesprochen ist,
+     damit das „Alfa“ aus dem Lautsprecher nicht als Antwort zählt */
+  let hoer = null;
+  function zurufStop() { if (hoer) { try { window.SZENE && SZENE.zurufAus(); } catch (e) {} hoer = null; } const z = ui('#kzinfo'); if (z) z.textContent = ''; }
+  const zurufMoeglich = () => !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  function zurufStart(me) {
+    const w = me.wahlOffen; if (!w || !w.gesprochen || w.getippt || w.fertig || hoer || !S.cfg.zuruf || !zurufMoeglich() || !window.SZENE || !SZENE.zuruf) return;
+    hoer = SZENE.zuruf(p => { hoer = null; const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; });
+    if (hoer) hoer.laut = true;   /* die Frage ist vorbei: auch A bis D */
+  }
+  const FUNKW = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
+  const ohneBuchstabe = s => String(s).replace(/^\s*(Alfa|Alpha|Bravo|Charlie|Delta)\s*[:.]\s*/i, '');
+  /* Was auf dem Bildschirm als Frage steht (Nutzer, 08.11.2026: man muss die Frage immer lesen können) */
+  function frageKopf(it, rede) {
+    const q = it.id ? frage(it.id) : null, harms = it.opts.length ? it.opts.every(o => /^\s*(Alfa|Alpha|Bravo|Charlie|Delta)\s*:/i.test(o.text)) : !!q;
+    if (q && harms) return {text: String(q.q).replace(/\s*\(([●▬\s]+)\)/, '').trim(), img: q.img || []};
+    const z = rede ? rede.zeilen.filter(x => x.text) : [];
+    const sauber = s => String(s).replace(/^.*?Frage an dich[^.:?!]*[.:]\s*/i, '').replace(/\s*\{\{[^}]*\}\}/g, '').trim();
+    if (!z.length) return {text: q ? String(q.q) : '', img: []};
+    if (z.length === 1) return {text: sauber(z[0].text), img: []};
+    return {zeilen: z.slice(-3).map(x => ({wer: NAMEN[x.wer] || x.wer, text: sauber(x.text)})), img: []};
+  }
+  /* Antworten stehen sofort mit der Frage da (Nutzer, 08.11.2026); ein früher Tipp stoppt die Stimme.
+     Reihenfolge wie im Skript, damit Alfa bis Delta zu dem passen, was Harms vorliest; nur die amtlichen Antworten ohne Skript werden gemischt. */
+  function wahl(st, it, me, rede) {
     const box = ui('#kwahl'); if (!box) return Promise.resolve();
-    /* [[WAHL: sbf:30]] ohne eigene Antworten: die vier amtlichen Antworten wie in der Prüfung, die erste ist richtig */
     const q = !it.opts.length && it.id ? frage(it.id) : null;
-    const opts = (q ? q.a.map((text, i) => ({text, ok: !i})) : it.opts).slice().sort(() => Math.random() - .5);
-    box.innerHTML = `<p class="small" style="margin:0 0 6px"><b>${it.vorab ? 'Tipp mal (zählt nicht):' : 'Deine Antwort:'}</b></p>` + opts.map((o, i) => `<button class="btn ghost kopt" data-o="${i}" style="display:block;width:100%;margin:4px 0;text-align:left">${esc(o.text)}</button>`).join('') + `<button class="btn small ghost" data-o="-1" style="margin-top:4px">Weiter ohne Antwort</button>`;
-    box.scrollIntoView({behavior: 'smooth', block: 'center'});
-    return new Promise(res => {
-      me.weiter = res;
+    const opts = q ? q.a.map((text, i) => ({text, ok: !i})).sort(() => Math.random() - .5) : it.opts.slice();
+    const kopf = frageKopf(it, rede);
+    const kopfHtml = kopf.zeilen ? kopf.zeilen.map(z => `<div><b>${esc(z.wer)}:</b> ${esc(z.text)}</div>`).join('') : esc(kopf.text);
+    const bilder = (kopf.img || []).map(s => `<img src="${esc(s)}" alt="Bild zur Frage" style="max-width:100%;max-height:26vh;border-radius:10px;background:#fff;margin-top:6px">`).join('');
+    const zr = zurufMoeglich() ? `<button class="chip" id="kzr" aria-pressed="${!!S.cfg.zuruf}">🎙️ Zuruf</button>` : '';
+    box.innerHTML = `<div class="kfrage"><div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : '🔔 Frage an dich'}</span>${zr}</div>
+      <div class="kftext">${kopfHtml}</div>${bilder}<div class="small muted" id="kzinfo"></div>
+      <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${FUNKW[i] || i + 1}</b><span>${esc(ohneBuchstabe(o.text))}</span></button>`).join('')}</div>
+      <button class="btn small ghost" data-o="-1" style="margin-top:6px">Weiter ohne Antwort</button></div>`;
+    document.getElementById('kursplayer')?.classList.add('mitwahl');
+    const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
+    box.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false};
+    const p = new Promise(res => {
+      const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl'); res(); };
+      me.wahlRes = () => { box.innerHTML = ''; ende(); };
       box.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
-        const o = opts[+b.dataset.o]; me.weiter = null;
+        const o = opts[+b.dataset.o]; me.wahlRes = null; w.getippt = true; unterbrich(me);
         box.querySelectorAll('button').forEach(x => x.disabled = true);
-        if (!o) { box.innerHTML = ''; return res(); }
+        if (!o) { box.innerHTML = ''; return ende(); }
         if (it.vorab) {
-          me.tipps[it.vorab] = {text: o.text, ok: o.ok, richtig: (it.opts.find(x => x.ok) || {}).text || ''};
-          box.innerHTML = `<p class="small" style="margin:0">Dein Tipp: <b>${esc(o.text)}</b>. Die Auflösung kommt.</p>`; await warten(me, 1200); box.innerHTML = ''; return res();
+          me.tipps[it.vorab] = {text: ohneBuchstabe(o.text), ok: o.ok, richtig: ohneBuchstabe((it.opts.find(x => x.ok) || {}).text || '')};
+          b.classList.add('gew'); box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">Dein Tipp: <b>${esc(ohneBuchstabe(o.text))}</b>. Die Auflösung kommt.</p>`); await warten(me, 1200); box.innerHTML = ''; return ende();
         }
         AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8});
         if (!o.ok) me.falsch.add(it.id);
         const gezaehlt = it.id && zaehle(it.id, o.ok);
-        b.style.background = o.ok ? 'var(--stb-soft)' : 'var(--bb-soft)';
-        box.insertAdjacentHTML('beforeend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Richtig!' : '❌ Nicht ganz. Gleich kommt eine Erklärung.'}${gezaehlt ? ' <span class="muted">Zählt in deiner Statistik.</span>' : ''}</p>`);
-        await warten(me, 1400); box.innerHTML = ''; res();
+        b.classList.add(o.ok ? 'ok' : 'no');
+        if (!o.ok) { const r = opts.findIndex(x => x.ok); const rb = box.querySelector(`[data-o="${r}"]`); if (rb) rb.classList.add('ok'); }
+        box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Richtig!' : '❌ Nicht ganz. Gleich kommt eine Erklärung.'}${gezaehlt ? ' <span class="muted">Zählt in deiner Statistik.</span>' : ''}</p>`);
+        await warten(me, 1600); box.innerHTML = ''; ende();
       });
     });
+    w.p = p; return p;
+  }
+  /* Folgt auf diese Rede (nach Glocke oder Bild) eine Wahl? Dann erscheint sie schon jetzt */
+  function wahlNach(st, k) {
+    for (let j = k + 1; j < st.items.length; j++) { const x = st.items[j]; if (x.bereich && x.bereich.art === 'vert') return null; if (x.t === 'wahl') return j; if (x.t !== 'bild' && x.t !== 'ton') return null; }
+    return null;
   }
   async function spiele(st, ab = 0, gratis = false) {
     stop();
-    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
-    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
+    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, wahlRes: null, wahlOffen: null, vorWahl: null, redeAbbruch: false, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
+    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
     const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
@@ -423,6 +473,8 @@
       if (it.bereich && it.bereich.art === 'vert' && !(interaktiv && me.falsch.has(it.bereich.id))) continue;
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
+      /* früh getippt: Glocke und Rest der Frage überspringen, bis zur Wahl */
+      if (me.vorWahl && me.vorWahl.w.getippt && k < me.vorWahl.j) continue;
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
@@ -430,7 +482,12 @@
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
       else if (it.t === 'revier') { if (await atmo(st, it.wert)) await warten(me, 1500); }
-      else if (it.t === 'rede') { const n = st.items[k + 1]; me.gleichWeiter = !!(n && n.t === 'rede'); await rede(st, it, me, n && n.t === 'bild' ? n.id : null); }
+      else if (it.t === 'rede') {
+        const n = st.items[k + 1], j = interaktiv ? wahlNach(st, k) : null; me.gleichWeiter = !!(n && n.t === 'rede');
+        if (j != null && !(me.vorWahl && me.vorWahl.j === j)) { wahl(st, st.items[j], me, it); me.vorWahl = me.wahlOffen ? {j, w: me.wahlOffen} : null; }
+        await rede(st, it, me, n && n.t === 'bild' ? n.id : null);
+        if (me.vorWahl && me.wahlOffen === me.vorWahl.w && wahlNach(st, k) === me.vorWahl.j) { me.wahlOffen.gesprochen = true; zurufStart(me); }
+      }
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
       else if (it.t === 'anim') animZeigen(it);
@@ -438,7 +495,11 @@
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
-      else if (it.t === 'wahl' && interaktiv) { await wahl(st, it, me); if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++; }
+      else if (it.t === 'wahl' && interaktiv) {
+        if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); await w.p; } }
+        else { const p = wahl(st, it, me, null); zurufStart(me); await p; }
+        if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++;
+      }
     }
     if (lauf === me) {
       atmoAus(); lauf = null; zeigeSteuerung(st, false); const s = ui('#kspr');
@@ -499,7 +560,12 @@
         <div class="kreihe"><button class="btn ki" id="kgen">🎙️ Alles Fehlende erzeugen</button></div>
         <h4 class="kh">3. Für alle bereitstellen</h4><p class="small muted" style="margin:0 0 4px">ZIP speichern und auf GitHub in den Ordner import hochladen. Danach hört jeder die Folge ohne eigenen Schlüssel.</p>
         <div class="kreihe"><button class="btn ghost small" id="kzip">📦 ZIP speichern</button></div><p class="status small" id="kginfo"></p></div></div>
-      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
+      <style>.kdenk{font-size:1.1em;font-weight:700;margin-top:6px}#kursplayer .kanim{max-height:58vh;margin:0 auto}#kursplayer.mitwahl #kspr .small{display:none}#kursplayer.mitwahl .kanim{max-height:30vh}
+        #kursplayer .kfrage{border:2px solid var(--lamp, #e8a33c);border-radius:14px;padding:10px 12px;background:var(--card2, rgba(232,163,60,.08))}
+        #kursplayer .kfkopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9em;margin-bottom:6px}
+        #kursplayer .kftext{font-size:1.06em;line-height:1.4}#kursplayer .kftext div{margin:2px 0}
+        #kursplayer .kopts{display:grid;gap:6px;margin-top:8px}#kursplayer .kopt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line, rgba(0,0,0,.18));background:var(--bg, #fff);color:inherit;font:inherit;cursor:pointer}
+        #kursplayer .kopt .kabc{flex:0 0 auto;min-width:3.9em;font-size:.82em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
         #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}</style>`;
     $('#back').onclick = () => { stop(); setTab('cabin'); };
     const info = t => { const e = $('#kinfo'); if (e) e.textContent = t; }, ginfo = t => { const e = $('#kginfo'); if (e) e.textContent = t; };

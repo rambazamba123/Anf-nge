@@ -47,7 +47,7 @@ HINNERK: [[INTENTION: trocken]] Backbord.
 SMILLA: [[INTENTION: seufzend]] Backbord. Du verfressenes Vieh. Das war seiner.
 HINNERK: [[SPRUCH: hi-gruss-05]] Kaffee steht.
 SMILLA: Du tust so, als wär's dir egal.
-HINNERK: Is mir egal. Der hat hier im Hafen mehr Freunde als ich.
+HINNERK: Is mir egal. Der kommt immer irgendwo unter. Der hat in jedem Hafen 'n Kumpel.
 
 [[ABSCHNITT: Hafenkino]]
 [[SZENE: Ein Charterboot kommt ins Hafenbecken und will an den Steg gegenüber. Vier Männer an Bord, alle rufen durcheinander. Hinnerk kommentiert wie ein Fußballreporter.]]
@@ -68,7 +68,7 @@ HINNERK: Vom Festmachen. Wat denkst du denn.
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Vor dem Ablegen steht nicht fest, wer Schiffsführer ist. So wie bei denen da. Was muss dann passieren?
+SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer Schiffsführer ist. So wie bei denen da drüben. Was muss dann passieren?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu. Einer wird bestimmt. Vorher.

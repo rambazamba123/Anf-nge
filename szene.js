@@ -157,5 +157,5 @@ window.SZENE = (() => {
     return ctl;
   }
 
-  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn};
+  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus};
 })();

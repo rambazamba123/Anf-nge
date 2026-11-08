@@ -55,7 +55,7 @@ SMILLA: Erstens: Der Propeller schiebt. Er drückt Wasser nach hinten, und das B
 SMILLA: Zweitens: Gelenkt wird mit Wasser. Ein Boot lenkt nur, wenn Wasser am Ruder vorbeiströmt oder der Propeller einen Strom macht. Kein Wasserstrom, keine Lenkung.
 SMILLA: Drittens: Das Heck rutscht. Kuppelst du ein, schiebt der Propeller das Heck ein Stück zur Seite.
 SMILLA: Und viertens: Große Schiffe ziehen. Wer neben einem dicken Pott fährt, wird angesaugt.
-HINNERK: Und fünftens: Der Motor muss laufen. Dat machen wir heute Nachmittag.
+HINNERK: Und fünftens: Der Motor muss laufen. Tut er. Noch.
 SMILLA: Merk dir die vier so: Der Propeller schiebt, das Ruder lenkt nur im Strom, das Heck rutscht beim Einkuppeln, und große Pötte ziehen.
 
 [[ABSCHNITT: Rückwärts raus]]
@@ -66,7 +66,7 @@ SMILLA: Sind los!
 HINNERK: Rückwärts. Und jetzt kiek mol aufs Heck.
 [[ANIM: radeffekt]]
 SMILLA: Da! Es zieht nach links. Zu Paul seinem Boot.
-HINNERK: Weiß ich. Lass ziehen. Ich will da sowieso hin.
+HINNERK: Weiß ich. Is eingeplant. Gleich geb ich Gas voraus, dann is gut.
 [[AUDIO: Schiffsglocke]]
 [[KATALOG: sbf:41]]
 SMILLA: Auflösung: Das Heck dreht nach Backbord. Bei einem rechtsdrehenden Propeller ist das fast immer so, wenn du rückwärts fährst.
@@ -90,8 +90,6 @@ SMILLA: Ich lag falsch, und genau da verheddern sich viele. Entscheidend ist die
 [[AUDIO: Schiffsglocke]]
 HINNERK: Von achtern. Immer von achtern. Du stehst ja auch nich vor'm Propeller.
 SMILLA: [[SPRUCH: sm-erwischt-01]] Okay. Okay. Punkt für dich, Käpt'n.
-HINNERK: [[SPRUCH: hi-erkennung-04]] Tonne zehn.
-SMILLA: Das ist was ganz anderes!
 SMILLA: Also, sauber: Stell dich hinters Boot und schau nach vorn. Dreht der Propeller bei Vorausfahrt mit der Uhr, ist er rechtsdrehend. Gegen die Uhr ist er linksdrehend.
 
 [[ABSCHNITT: Warum wir links anlegen]]
@@ -110,7 +108,7 @@ SMILLA: Backbord. Denk an das Rad: Kurz vor der Pier legst du den Rückwärtsgan
 [[AUDIO: Schiffsglocke]]
 [[ANIM: anlegen]]
 SMILLA: Backbord. Kurz vor der Pier gehst du rückwärts, um aufzustoppen. Dabei zieht der Radeffekt das Heck nach Backbord, also an die Pier. Er hilft dir.
-HINNERK: An Steuerbord zieht er dich weg. Dat sieht dann aus wie heute früh beim Charter.
+HINNERK: An Steuerbord zieht er dich weg. Dann hängst du 'n Meter vor der Pier, und vorn fuchtelt einer mit der Leine. Wie heute früh beim Charter.
 SMILLA: Merk's dir so: Rechtsdreher legt links an.
 
 [[ABSCHNITT: Der Raser]]
@@ -158,7 +156,7 @@ HINNERK: Darum fährst du nich dicht an so wat ran. Die Welle wirft dich um, der
 SMILLA: Großer Pott, große Welle, großer Sog. Abstand ist Lebensversicherung.
 [[AUDIO: Schiffsglocke]]
 [[ANIM: sog, 2]]
-SMILLA: Und noch schlimmer, wenn so einer dich überholt. Dann gibt's drei Sachen auf einmal.
+SMILLA: Und noch schlimmer, wenn so ein Pott dich überholt. Dann gibt's drei Sachen auf einmal.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Ein großes Schiff überholt dich. Was schubst dich aus dem Kurs? Nenn die drei.
@@ -166,12 +164,12 @@ SMILLA: Frage an dich. Ein großes Schiff überholt dich. Was schubst dich aus d
 [[AUDIO: Schiffsglocke]]
 SMILLA: Stau, Sog und Schwell. Vorn drückt dich der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell quer schlagen.
 HINNERK: Und im Flachen läufste noch auf Grund.
-SMILLA: Und es trifft immer den Kleinen. Das große Schiff läuft nicht aus dem Kurs, du schon. Beim Überholen trifft es immer den Kleinen: Stau, Sog und Schwell schubsen ihn aus dem Kurs, im Flachen auch auf Grund.
+SMILLA: Und es trifft immer den Kleinen. Das große Schiff läuft nicht aus dem Kurs, du schon.
 [[ANIM: sog, 3]]
 [[AUDIO: Schiffsglocke]]
-HINNERK: [[SPRUCH: hi-staunen-07]] Ach du dicker Pott. Dat war knapp. Hat nich mal gewunken.
-SMILLA: Du hast ja auch nicht gewunken.
-HINNERK: Ich bin hier der Kleine.
+HINNERK: [[SPRUCH: hi-staunen-07]] Ach du dicker Pott. Da kommt seine Heckwelle. Festhalten!
+SMILLA: Und das war mit Abstand, Ausguck.
+HINNERK: Achtunddreißig Jahre hab ich die gefahren. Von oben sah dat immer harmlos aus.
 SMILLA: Heute Nachmittag guckst du mal in den Motor, Ausguck.
 HINNERK: Lieber nich.
 [[AUDIO: Telefon]]

@@ -355,7 +355,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | „Sag ich doch.“ | Käpt'n Hinnerk | 6 | 1 |  |
 | „Dor kannst nich meckern.“ | Käpt'n Hinnerk | 3 | 0 |  |
 | „Hinnerk. Mit zwei n und ohne i.“ | Käpt'n Hinnerk | 3 | 0 | nur Tag 2, 3, 4, 7; nur wenn Quirin „Hinni“ sagt |
-| „Tonne zehn.“ | Käpt'n Hinnerk | 3 | 1 | wenn Smilla zu frech wird (auch Smilla selbst) |
+| „Tonne zehn.“ | Käpt'n Hinnerk | 3 | 0 | wenn Smilla zu frech wird (auch Smilla selbst) |
 | „Die See verzeiht nix.“ | Käpt'n Hinnerk | 3 | 0 |  |
 | „Nee, Käpt'n.“ | Smilla | 8 | 0 |  |
 | „Na also, Seegurke. Geht doch.“ | Smilla | 3 | 0 |  |
