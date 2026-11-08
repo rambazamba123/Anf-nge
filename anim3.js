@@ -338,14 +338,16 @@ S('wehr', {titel: 'Brücke und Wehr', nr: 'A10.4', gruppe: 'A10 Binnen', folge: 
     P(M, 'Darum großen Abstand halten und nur die freigegebene Durchfahrt nehmen, meist die Schleuse daneben.', {cap: 'Abstand halten', k: {wir: {x: 300, y: 250, r: 90}}, dur: 3}),
     P(H, 'Eine Tafel mit rot-weiß-rotem Band heißt: Hier geht es nicht durch.', {cap: 'Sperrzeichen', an: ['tafel', 'tt']})]});
 
-const TOENE = [['▬', 'Achtung'], ['●', 'Kurs nach Steuerbord'], ['● ●', 'Kurs nach Backbord'], ['● ● ●', 'Maschine rückwärts'], ['● ● ● ●', 'manövrierunfähig'], ['●●●●●●●●', 'Gefahr eines Zusammenstoßes']];
+const TOENE = [['▬', 'Achtung'], ['●', 'Kurs nach Steuerbord'], ['● ●', 'Kurs nach Backbord'], ['● ● ●', 'Maschine rückwärts'], ['● ● ● ●', 'manövrierunfähig'], ['● ● ● ● ●', 'Überholen nicht möglich'], ['●●●●●●●●', 'Gefahr eines Zusammenstoßes']];
+const hupeB = sig => svg => { if (typeof AUD === 'undefined' || !AUD.horn) return; AUD.unlock && AUD.unlock(); const c = AUD.horn(sig, () => {}); svg.__ton = c; return c.done; };   /* Ton nach dem Vorlesen (v5.33) */
 S('binnenschall', {titel: 'Schallsignale auf Binnengewässern', nr: 'A10.5', gruppe: 'A10 Binnen', folge: 'Binnen',
   bg: '<rect width="400" height="300" fill="#eef3f6"/>', obj: Object.fromEntries(TOENE.map(([z, t], i) => [`t${i}`, `${T(-150, 5, z, 'start', 16)}${T(10, 5, t, 'start', 13)}`])),
-  start: Object.fromEntries(TOENE.map((_, i) => [`t${i}`, {x: 200, y: 60 + i * 40, o: 0}])),
-  phasen: [P(H, 'Auf dem Fluss: Ein langer Ton heißt Achtung.', {cap: 'Ein langer Ton', an: ['t0']}),
+  start: Object.fromEntries(TOENE.map((_, i) => [`t${i}`, {x: 200, y: 52 + i * 34, o: 0}])),
+  phasen: [P(H, 'Auf dem Fluss: Ein langer Ton heißt Achtung.', {cap: 'Ein langer Ton', an: ['t0'], nach: hupeB('▬')}),
     P(M, 'Ein kurzer: Ich gehe nach Steuerbord. Zwei kurze: nach Backbord. Drei kurze: Meine Maschine geht rückwärts.', {cap: 'Kurze Töne: Kurs und Maschine', an: ['t1', 't2', 't3']}),
-    P(H, 'Vier kurze: Ich bin manövrierunfähig.', {cap: 'Vier kurze', an: ['t4']}),
-    P(M, 'Eine Folge sehr kurzer Töne: Achtung, es droht ein Zusammenstoß.', {cap: 'Sehr kurze Töne: Gefahr', an: ['t5']})]});
+    P(H, 'Vier kurze: Ich bin manövrierunfähig.', {cap: 'Vier kurze', an: ['t4'], nach: hupeB('● ● ● ●')}),
+    P(M, 'Fünf kurze: Überholen ist nicht möglich.', {cap: 'Fünf kurze', an: ['t5'], nach: hupeB('● ● ● ● ●')}),
+    P(H, 'Eine Folge sehr kurzer Töne: Achtung, es droht ein Zusammenstoß.', {cap: 'Sehr kurze Töne: Gefahr', an: ['t6']})]});
 
 S('wasserski', {titel: 'Wasserski auf dem Fluss', nr: 'A10.6', gruppe: 'A10 Binnen', folge: 'Binnen', art: 'pruefung',
   bg: B.wasser('#6a9fb8') + B.ufer('M0 0 H400 V40 Q200 60 0 40Z') + B.ufer('M0 300 H400 V262 Q200 242 0 262Z'),

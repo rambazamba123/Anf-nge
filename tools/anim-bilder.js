@@ -8,12 +8,12 @@ const {chromium} = require('playwright');
   const errs = []; p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));
   await p.addInitScript(() => { try { localStorage.setItem('skipper-sbfsee-v1', JSON.stringify({introV5: true, profile: {name: 'T', exam: '2026-12-01', minutes: 30, exp: 'none', goal: 'sbf', facts: []}})); } catch (e) {} });
   await p.goto('http://localhost:8765/index.html'); await p.waitForTimeout(2500);
-  const info = await p.evaluate(async ([von, bis, nur, breite]) => { const process_filter = id => nur === 'hoch' ? (ANIM.defs[id].neu === '5.32') : nur ? id.startsWith(nur) : ANIM.defs[id].neu;
+  const info = await p.evaluate(async ([von, bis, nur, breite]) => { const process_filter = id => nur === 'alt' ? (ANIM.defs[id].neu !== '5.32') : nur === 'hoch' ? (ANIM.defs[id].neu === '5.32') : nur ? id.startsWith(nur) : ANIM.defs[id].neu;
     await nachladen('anim.js'); await ANIM.bereit; await nachladen('szene.js'); await nachladen('reise.js'); ANIM.css();
     const W = breite; const ids = ANIM.order.filter(id => process_filter(id)).slice(von, bis);
     document.body.innerHTML = '<div id="g" style="display:flex;flex-wrap:wrap;gap:4px;background:#333;padding:4px"></div>';
     const G = document.getElementById('g'); const out = [];
-    for (const id of ids) { const d = ANIM.defs[id]; d.phasen.forEach((ph, i) => { const c = document.createElement('div'); const vb = d.vb || [400, 300]; c.style.cssText = 'width:' + W + 'px;height:' + Math.round(W * vb[1] / vb[0]) + 'px;background:#fff;position:relative';
+    for (const id of ids) { const d = ANIM.defs[id]; d.phasen.forEach((ph, i) => { const c = document.createElement('div'); const vb = d.vb || [400, 500]; c.style.cssText = 'width:' + W + 'px;height:' + Math.round(W * vb[1] / vb[0]) + 'px;background:#fff;position:relative';
       c.innerHTML = ANIM.html(id) + `<div style="position:absolute;left:2px;top:2px;font:10px sans-serif;background:#ffffffcc">${id} ${i}</div>`; G.appendChild(c); const s = ANIM.start(c); ANIM.phase(s, i); }); out.push(id + ':' + d.phasen.length); }
     return out; }, [von, bis, process.argv[5] || '', +(process.env.BREITE || 240)]);
   await p.waitForTimeout(+(process.env.ZEIT || 5000));

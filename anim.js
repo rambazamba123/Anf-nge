@@ -23,7 +23,10 @@ const css = () => { if (document.getElementById('ancss')) return; const s = docu
 A.css = css;
 
 /* ---------- Laufzeit ---------- */
-A.html = id => { const d = A.defs[id]; if (d.raw) return window.REISE.grafik(id).replace('<svg class="gr"', `<svg class="gr an" data-anim="${id}"`); const vb = d.vb || [400, 300]; return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 ${vb[0]} ${vb[1]}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}">${d.svg}</svg>`; };
+A.html = id => { const d = A.defs[id]; if (d.raw) return window.REISE.grafik(id).replace('<svg class="gr"', `<svg class="gr an" data-anim="${id}"`); const vb = d.vb || [400, 300];
+  /* v5.38: alte eigene Zeichnungen im Querformat kommen in den Hochformat-Rahmen (Titel oben, Szene in der Mitte) */
+  if (!d.vb) return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}"><rect width="400" height="500" fill="#f4efe6"/><rect x="0" y="94" width="400" height="304" fill="#d9cfbb"/><svg x="0" y="96" width="400" height="300" viewBox="0 0 400 300" overflow="hidden">${d.svg}</svg><text class="t" x="200" y="74" text-anchor="middle" font-size="24">${d.titel}</text></svg>`;
+  return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 ${vb[0]} ${vb[1]}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}">${d.svg}</svg>`; };
 A.start = host => {
   const svg = host.querySelector('svg.an'); if (!svg) return null; const d = A.defs[svg.dataset.anim]; if (!d) return svg;
   const st = svg._an = {t0: performance.now(), last: performance.now(), p: 0, m: {}};
@@ -438,7 +441,7 @@ A.spiele = function (id) {
   /* v5.33: Ton und Handystimme hier freigeben, solange wir noch im Antippen sind (der Auto-Start per Timer zählt für den Browser nicht als Antippen, darum blieb das Horn stumm) */
   try { AUD.unlock && AUD.unlock(); if (typeof VOX !== 'undefined' && VOX.phoneUnlock) VOX.phoneUnlock(); } catch (e) {}
   const d = A.defs[id]; let p = 0, auto = false, stopp = false, ton = true;
-  gameShell(d.titel, `<div class="anstage" id="anstage"${d.vb ? ` style="aspect-ratio:${d.vb[0]}/${d.vb[1]};max-height:none"` : ''}>${A.html(id)}</div><div class="ancap" id="ancap"></div>
+  gameShell(d.titel, `<div class="anstage" id="anstage"${!d.raw ? ` style="aspect-ratio:${(d.vb || [400, 500])[0]}/${(d.vb || [400, 500])[1]};max-height:none"` : ''}>${A.html(id)}</div><div class="ancap" id="ancap"></div>
     <div class="anctl"><button class="btn small ghost" id="anz">◀</button><span class="dots" id="andots">${d.phasen.map(() => '<i></i>').join('')}</span><button class="btn small" id="anw">▶</button><button class="btn small ghost" id="anau">⏯ Auto</button><button class="btn small ghost" id="anto" aria-pressed="true">🔊</button><button class="btn small ghost" id="anre">↻</button></div>
     <div class="anctl" style="margin-top:10px"><button class="chip" id="anok">✓ Passt</button><button class="chip" id="anaend">✏️ Ändern</button><button class="btn small ghost" id="annext">Nächste ▶▶</button></div><label class="small muted" style="display:block;margin-top:10px">Was soll anders werden?</label><textarea class="annote" id="annote" placeholder="Zum Beispiel: Pfeil größer, Text kürzer, andere Farbe …">${esc(notes()[id] || '')}</textarea>`);
   const host = $('#anstage'), svg = A.start(host), cap = () => { $('#ancap').innerHTML = `<b>${esc(({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[d.phasen[p].wer] || '')}:</b> ${esc(d.phasen[p].t)}`; document.querySelectorAll('#andots i').forEach((e, i) => e.classList.toggle('on', i === p)); };
