@@ -156,7 +156,7 @@ for (const datei of dateien) {
       else if (kat === 'TEMPO') { if (!(cfg.tempo_werte || []).includes(wert.trim())) F(ort, `[[TEMPO: ${wert}]] – erlaubt: ${(cfg.tempo_werte || []).join(', ')}`); else tagPruef(cfg.tempo_tags, kat, wert, ort); }
       else if (kat === 'AUDIO') tagPruef(cfg.audio_tags, kat, wert, ort);
       /* [[GESICHT: laune]] (v5.50): nur für die Mimik in der App, geht nicht an ElevenLabs */
-      else if (kat === 'GESICHT') { if (!['normal', 'froh', 'lacht', 'genervt', 'erschrocken', 'skeptisch', 'traurig', 'nachdenklich'].includes(wert.trim())) F(ort, `[[GESICHT: ${wert}]] – erlaubt: normal, froh, lacht, genervt, erschrocken, skeptisch, traurig, nachdenklich`); }
+      else if (kat === 'GESICHT') { { const L = ['normal', 'froh', 'lacht', 'genervt', 'erschrocken', 'skeptisch', 'traurig', 'nachdenklich', 'staunt', 'besorgt', 'grinst', 'zwinkert', 'zufrieden']; if (!L.includes(wert.trim())) F(ort, `[[GESICHT: ${wert}]] – erlaubt: ${L.join(', ')}`); } }
       else if (kat === 'FIGUR') { if (!FIG[wert.trim()]) F(ort, `[[FIGUR: ${wert}]] ist keine Figur der Konfiguration`); }
       else if (kat === 'FRAGE') IDS(wert, ort, fragen).forEach(id => alleFragen.add(id));
       else if (kat === 'SZENE' || kat === 'SCHRITT' || kat === 'ABSCHNITT') { if (L.vert) { F(L.vert.ort, `[[VERTIEFUNG: ${L.vert.id}]] nicht mit [[VERTIEFUNG: ende]] geschlossen`); L.vert = null; } szeneNeu(ort); if (kat !== 'SZENE') { L.schritte++; L.karte = null; } }

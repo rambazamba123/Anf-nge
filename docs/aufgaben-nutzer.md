@@ -3,7 +3,7 @@
 > **Wozu:** Hier steht alles, was nur du tun kannst. Claude schreibt die Liste fort: Neues kommt dazu, Erledigtes wird abgehakt (✓) und nach einiger Zeit gelöscht.
 > **Spalte „Was Claude tun kann“:** Hier steht, was ich dir dabei abnehmen kann. Sag einfach „mach Aufgabe 3“.
 > **Dateien hochladen geht immer so:** github.com → Repository → Ordner `import` → „Add file“ → „Upload files“ → „Commit changes“. Was privat bleiben soll (amtliche PDFs), gehört in `quellen/` auf deinem Rechner und wird nie hochgeladen.
-> Stand: 07.11.2026
+> Stand: 08.11.2026
 
 ## Jetzt wichtig: Hörreise
 | Nr. | Aufgabe | Was Claude tun kann |
@@ -13,9 +13,12 @@
 | 3 | **★-Punkte festlegen:** Ortsnamen (Kuttershaven, Brede, Elvmünde, Klappdörp, Moorende, Groter Sand, Lüttoog, Harmsoog), Inhalt der Kiste ab Fach 3. (✓ Harms hat kein Geheimnis, 07.11.) (✓ Albertine für Harms' Schiff, 07.11.) | Ich schlage zu jedem Punkt zwei, drei Varianten mit Begründung vor, du wählst nur noch. |
 | 4 | **`docs/dialog-regeln.md` prüfen:** Klingen die Regeln so, wie du es dir vorstellst? | Ich schreibe dir drei kurze Beispielszenen nach den Regeln, an denen du sofort hörst, ob es passt. |
 | 5 | **Stimmen:** Erst die aktuellen anhören: Einstellungen → „Ton, Schrift und Stimmen“ → „🎧 Stimmen der Crew anhören“ (kostet nichts). Dann für jede Rolle mit „Fehlt“ eine Stimme auf ElevenLabs suchen und mir die **Voice-ID im Chat schicken**: Jasper, Hafenmeister Klüverhafen, Schleusenwärter Klappdörp, Seenotretter. Passt Quirin (Alexander)? | Ich trage die IDs in `podcast/audio_config.json` und `podcast/casting.json` ein. Wenn du mir Merkmale nennst, suche ich Vorschläge aus der Bibliothek heraus. |
-| 6 | **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
+| 6 | ✓ Freisprechen im Auto geht (08.11., Folge 3). Noch offen: **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
 | 7 | Falls noch nicht geschehen: **die gehörte Kajütenfunk-Probefolge als ZIP** hochladen (Hocker → Kajütenfunk → „📦 ZIP speichern“), damit sie fest in der App ist. | Den Einbau danach mache ich (`tools/kurs-import.js`). |
 
+| 23 | **Szenen wählen:** im Artifact „Szenen der Hörreise“ je Ort A, B oder C antippen und unten „Auswahl kopieren“, dann in den Chat schicken. | Ich baue die gewählten Szenen ein und nehme sie für alle Folgen. |
+| 24 | **Folge 2 und 3 vertonen und hören:** Hocker → Folge 2 oder 3 → ⚙️ → „🎙️ Folge 2 und 3 vertonen“ (jetzt mit den Sätzen der Crew nach deiner Antwort, ein paar hundert Credits mehr). Danach hören und mir sagen, was stört. Gefällt es: ⚙️ → „📦 ZIP speichern“ und in den Ordner `import` hochladen. | Ich baue das ZIP für alle ein (`tools/kurs-import.js`), dann hört jeder die echten Stimmen ohne Schlüssel. |
+| 25 | **Aussprache und Regie-Töne freigeben:** Beim Hören von Folge 2 und 3 auf „Moin“, „Hinnerk“, „Harms“, „Smilla“, „Pütz“, „Radeffekt“ achten (A31) und auf Lachen, Schnauben, Möwen (Audio-Tags, A14). Schreib mir „klingt gut“ oder was falsch klingt. | Ich trage die Freigaben ein; falsch Gesprochenes kommt ins Ausspracheverzeichnis. Danach meldet das Prüfwerkzeug keine Fehler mehr. |
 | 22 | **Animationen bewerten** (v5.29, 79 neue): Frei üben → „🎞️ Animationen“ → Filter „Neu“, je Animation ansehen und „✓ Passt“ oder „✏️ Ändern“ mit Notiz; am Ende „📋 Alle Bewertungen und Notizen kopieren“ und mir in den Chat schicken. (✓ HR29 bestätigt, 08.11.) | Ich arbeite die Notizen gesammelt ab und gleiche die fachlichen Punkte mit den Originalen ab, sobald `quellen/` da ist. |
 
 | 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F7 entschieden (07.11.). Offen: F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
