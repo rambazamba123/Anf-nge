@@ -398,7 +398,7 @@ def('ruder', {titel: 'Ruder und Schraubenstrom', gruppe: 'A1 Boot, Antrieb, Moto
   }});
 
 /* v5.29: alle weiteren Animationen aus docs/animationen-liste.md liegen in anim2.js (A1–A4), anim3.js (A5–A10) und anim4.js (Teil B); nacheinander laden, weil sie den Baukasten aus anim2.js nutzen */
-A.bereit = typeof window.nachladen === 'function' ? window.nachladen('boot.js').then(() => window.nachladen('anim2.js')).then(() => window.nachladen('anim3.js')).then(() => window.nachladen('anim4.js')).then(() => window.nachladen('anim-test.js')).catch(e => console.warn('Animationen: ' + e.message)) : Promise.resolve();
+A.bereit = typeof window.nachladen === 'function' ? window.nachladen('boot.js').then(() => window.nachladen('anim2.js')).then(() => window.nachladen('anim3.js')).then(() => window.nachladen('anim4.js')).then(() => window.nachladen('anim-hoch.js')).catch(e => console.warn('Animationen: ' + e.message)) : Promise.resolve();
 
 /* ---------- Knoten (A3) verweist auf das Knotenbrett ---------- */
 A.knoten = {titel: 'Prüfungsknoten', gruppe: 'A3 Knoten', art: 'pruefung', folge: 'G1.2, S10.1', wo: 'Knotenbrett (fertig)'};

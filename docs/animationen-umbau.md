@@ -42,24 +42,24 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 
 | Nr. | id | Datei | Status |
 |---|---|---|---|
-| A1.1 | boot | anim2 | ○ (Vorlage T1 H) |
+| A1.1 | boot | anim-hoch | ✓ v5.32 |
 | A1.1b | wind | anim2 | ○ |
 | A1.2 | rad | reise.js (raw) | ○ |
-| A1.3 | radoben | anim2 | ○ (Vorlage T2 H) |
+| A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
 | A1.5 | motor | anim2 | ○ |
 | A1.7 | gas | anim.js | ○ |
 | A1.8 | tanken | anim2 | ○ |
-| A2.1 | anlegen | anim.js | ○ |
+| A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
 | A2.2 | ablegen | anim2 | ○ |
-| A2.3 | ankern | anim2 | ○ (Vorlage T3 H) |
+| A2.3 | ankern | anim-hoch | ✓ v5.32 |
 | A2.4 | sog | anim.js | ○ |
-| A2.5 | wenden | anim2 | ○ |
-| A2.6 | aufstoppen | anim2 | ○ |
+| A2.5 | wenden | anim-hoch | ✓ v5.32 (Anprall markiert) |
+| A2.6 | aufstoppen | anim-hoch | ✓ v5.32 |
 | A2.7 | mob | anim2 | ○ |
 | A3.2 | knotenpraxis | anim2 | ○ |
 | A4.1 | grundregeln | anim2 | ○ |
-| A4.2 | begegnung | anim.js | ○ |
+| A4.2 | begegnung | anim-hoch | ✓ v5.32 (Peilung live, genau 27°) |
 | A4.3 | rangleiter | anim2 | ○ |
 | A4.4 | kurshalter | anim2 | ○ |
 | A4.5 | revierkarte | anim2 | ○ |
@@ -81,3 +81,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 ## 5. Stand der Sitzungen
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
 - v5.31: Gratis-Stimme repariert (`playPhone`: kein `cancel()` direkt vor `speak()`, zweiter Versuch mit Standardstimme, `phoneUnlock` beim Klick; bleibt sie stumm, wartet der Player die Lesezeit ab und zeigt den Text). Nächster Schritt: Animationen ab §4 oben.
+- v5.32: Neue Datei `anim-hoch.js` (ersetzt alte Fassungen gleicher id, `neuId` in `ANIM.szene`); erster Stapel fertig: boot, radoben, anlegen, ankern, wenden, aufstoppen, begegnung. Bilder geprüft (`BREITE=400 node tools/anim-bilder.js bild.png 0 20 hoch`), Logik: Radeffekt rückwärts immer Heck nach Backbord, Anprall Steuerbord am Heck; Begegnung mit gleichbleibender Peilung 27°, Ausweichen hinter dem Heck. Zu lange Überschriften werden automatisch schmaler. Nächster Stapel: motor, gas, tanken, sog, lichter, schall, kardinal, schleuse, gezeiten, wetter, rad.
