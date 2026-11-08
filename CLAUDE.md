@@ -119,7 +119,7 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
 - **H10** Inhalte, sobald der Nutzer liefert (Story, Figuren, Folgen)
 
 ## 7. Code-Karte
-*Grundstock Stand v4.95, spätere Versionen in den Einträgen (zuletzt v5.33). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
+*Grundstock Stand v4.95, spätere Versionen in den Einträgen (zuletzt v5.34). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
@@ -296,6 +296,7 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
 - [x] v5.31 Gratis-Stimme repariert (Nutzer 08.11.2026: Testfolge lief stumm und blitzschnell durch): `playPhone` bricht nur ab, wenn wirklich gesprochen wird, wartet dann kurz, versucht einen verschluckten Satz einmal mit der Standardstimme und meldet, ob er hörbar war; `VOX.phoneUnlock` beim Klick; `redeGratis` wartet bei stummer Stimme die Lesezeit ab; im Gratis-Modus läuft der Text immer mit, dazu ein Hinweis zur Android-Sprachausgabe. Arbeitsplan `docs/animationen-umbau.md`, Bilder-Werkzeug `tools/anim-bilder.js`
 - [x] v5.32 Animationen im Hochformat, Stapel 1 (Nutzer 08.11.2026, O168): `anim-hoch.js` (400 × 500, große Schrift, Marke Prüfung/Wissen, Boot aus `boot.js`) für Boot und Seiten, Radeffekt von oben, Anlegen, Ankern, Wenden, Aufstoppen, Begegnung; Phasen als Bilder auf Logik geprüft; Stand in `docs/animationen-umbau.md` §4
 - [x] v5.33 Horn in den Animationen repariert (Ton wird beim Antippen freigegeben, Phasen-Feld `nach(svg)` spielt nach dem Vorlesen, `svg.__ton`), Schallsignale im Hochformat mit allen Signalen des SBF-See-Katalogs
+- [x] v5.34 Ebbe und Flut (Pegel, Steine, Wassertiefe) und Schleuse (Drempel, Leine nachlassen) im Hochformat; `roh(id, o)` für eigene Zeichnungen; große Überschriften wirken jetzt
 - [x] Strategie-Gutachten (04.11.2026, Nutzer: „Strategischer Entwicklungsauftrag“, noch keine Änderungen am Projekt): `docs/archiv/strategie-gutachten.md` (Bestandsaufnahme mit Code-Belegen, Widersprüche W1–W11, fachliche Prüfung, Grundsatzentscheidungen G1–G26, Kompetenzmodell, Roadmap, Fragen F1–F4)
 ### Jetzt dran
 - **Umbau aller Animationen auf Hochformat (Nutzer 08.11.2026, O168):** Arbeitsplan mit allen Kommentaren des Nutzers und Liste zum Abhaken in `docs/animationen-umbau.md`. Dort weitermachen, wenn eine Sitzung abbricht. Bilder der Phasen mit `node tools/anim-bilder.js`. Davor: Gratis-Stimme der Testfolgen reparieren (lief stumm und blitzschnell durch).

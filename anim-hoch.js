@@ -140,6 +140,99 @@ S('aufstoppen', {...HF, titel: 'Aufstoppen', nr: 'A2.6', gruppe: 'A2 Anlegen, An
     phasen: SIG.map(([sig, t, , quelle, wer, cap, pr], i) => P(wer, t, {cap, sub: quelle, ...(pr === false ? {pr: false} : {}), an: ['b' + i], aus: SIG.map((x, j) => 'b' + j).filter(n => n !== 'b' + i), dur: .6, nach: hupe(sig)}))});
 })();
 
+/* ---------- Eigene Zeichnung mit tick im Hochformat (Rahmen wie ANIM.szene: Überschrift, Unterzeile, Marke) ---------- */
+const roh = (id, o) => { const alt = A.defs[id], gr = 1.35;
+  const marke = `<g class="marke" transform="translate(${W - 8} 8)"><rect x="-112" y="0" width="112" height="28" rx="14" fill="#1f5f99"/><text class="t w" x="-56" y="19" text-anchor="middle" font-size="14"></text></g>`;
+  A.defs[id] = {id, titel: o.titel, nr: o.nr, gruppe: o.gruppe, art: o.art || 'pruefung', folge: o.folge || '', wo: o.wo || '', neu: HF.neu, vb: HF.vb, phasen: o.phasen,
+    svg: o.svg + T((W - 120) / 2, 26 * gr, '', 'middle', 15 * gr, 'cap') + T(W / 2, HH - 9, '', 'middle', 12 * gr, 'sub') + marke, init: o.init, tick: o.tick,
+    enter(s, p, st) { const ph = o.phasen[p] || {}, ce = q(s, '.cap'); ce.textContent = ph.cap || ''; ce.removeAttribute('textLength'); try { if (ce.getComputedTextLength() > W - 130) { ce.setAttribute('textLength', W - 130); ce.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {}
+      q(s, '.sub').textContent = ph.sub || ''; const pr = ph.pr ?? (o.art || 'pruefung') === 'pruefung', mk = q(s, '.marke'); mk.querySelector('rect').setAttribute('fill', pr ? '#1f5f99' : '#6a8f3a'); mk.querySelector('text').textContent = pr ? '📋 Prüfung' : '💡 Wissen';
+      if (o.enter) o.enter(s, p, st); } };
+  if (!alt) A.order.push(id); };
+const put = (e, a) => { if (e) for (const k in a) e.setAttribute(k, a[k]); };
+const ez = u => { u = Math.max(0, Math.min(1, u)); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; };
+const lp = (a, b, u) => a + (b - a) * Math.max(0, Math.min(1, u));
+const komma = (v, n = 1) => v.toFixed(n).replace('.', ',');
+
+/* ---------- A8.6 Ebbe und Flut (SBF See 249–255; Wassertiefe = Kartentiefe + Höhe als Wissen) ---------- */
+(() => { const KN = 330, SC = 38, NW = .4, HW = 3.6, MID = (HW + NW) / 2, AMP = (HW - NW) / 2, TK = .5, X0 = 70;
+  const yh = h => KN - h * SC, hoehe = ph => MID - AMP * Math.cos(2 * Math.PI * ph);
+  const steine = [[108, 346, 9], [124, 341, 11], [142, 343, 10], [160, 340, 12], [178, 344, 9], [194, 348, 8], [133, 350, 7], [170, 351, 8]];
+  const boden = `M${X0} ${yh(-2.3)} L96 ${yh(-2.3)} Q104 ${yh(-.6)} 118 ${yh(-.5)} L196 ${yh(-.5)} Q210 ${yh(-.6)} 220 ${yh(-2.3)} L400 ${yh(-2.3)} V500 H${X0}Z`;
+  roh('gezeiten', {titel: 'Ebbe und Flut', nr: 'A8.6', gruppe: 'A8 Navigation', folge: 'S7.4',
+    svg: `<rect width="400" height="500" fill="#cfe9f7"/><rect id="gzw" x="${X0}" y="200" width="${400 - X0}" height="300" fill="#3d8fb8"/><path id="gzs" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+      <path d="${boden}" fill="#d8b87a" stroke="#a8824f" stroke-width="2"/>${steine.map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * .75}" fill="#8f949c" stroke="#5e636b" stroke-width="1.6"/>`).join('')}
+      <path d="M62 ${KN}H400" stroke="#2b3a4a" stroke-width="2" stroke-dasharray="7 5"/>${T(244, KN + 20, 'Kartennull', 'middle', 15)}
+      <rect x="8" y="${yh(4.2)}" width="54" height="${(6.6) * SC}" rx="6" fill="#fff" stroke="#5e636b" stroke-width="2"/>${[-2, -1, 0, 1, 2, 3, 4].map(m => `<path d="M8 ${yh(m)}H${m % 2 ? 22 : 30}" stroke="#2b3a4a" stroke-width="2"/>${T(56, yh(m) + 5, m + ' m', 'end', 13)}`).join('')}
+      <g id="gzb">${BO.seite({})}</g>
+      <g id="gzhub" opacity="0"><path id="gzhp" stroke="#f08a1c" stroke-width="4" fill="none"/>${T(0, 0, '', 'start', 17, 'gzht')}</g>
+      <g id="gzm" opacity="0"><path id="gzrot" stroke="#c0392b" stroke-width="4"/><path id="gzbl" stroke="#1f5f99" stroke-width="4"/><path id="gzgr" stroke="#1f9a3c" stroke-width="5" fill="none"/></g>
+      <g transform="translate(14 48)"><rect width="372" height="92" rx="12" fill="#fff" stroke="#b9c8d6" stroke-width="2"/><path id="gzc" fill="none" stroke="#3d8fb8" stroke-width="3"/><circle id="gzd" r="7" fill="#f08a1c" stroke="#fff" stroke-width="2"/>
+        ${T(20, 84, 'NW', 'middle', 14)}${T(186, 22, 'HW', 'middle', 14)}${T(352, 84, 'NW', 'middle', 14)}${T(186, 84, 'eine Tide: etwa 12 h 25 min', 'middle', 13)}</g>
+      ${T(200, 448, '', 'middle', 17, 'gz1')}${T(200, 476, '', 'middle', 21, 'gz2')}`,
+    phasen: [
+      {wer: H, t: 'Zweimal am Tag steigt das Wasser und fällt wieder. Von einem Niedrigwasser bis zum nächsten Niedrigwasser: Das ist eine Tide.', min: 10, cap: 'Tide: Niedrigwasser bis Niedrigwasser'},
+      {wer: M, t: 'Flut: Das Wasser steigt vom Niedrigwasser zum folgenden Hochwasser.', min: 7, cap: 'Flut: das Wasser steigt'},
+      {wer: H, t: 'Hochwasser: der höchste Wasserstand, da geht das Steigen ins Fallen über.', min: 5, cap: 'Hochwasser'},
+      {wer: M, t: 'Ebbe: Das Wasser fällt vom Hochwasser zum folgenden Niedrigwasser.', min: 7, cap: 'Ebbe: das Wasser fällt'},
+      {wer: H, t: 'Niedrigwasser: der niedrigste Stand, da geht das Fallen ins Steigen über. Der Unterschied zwischen Hochwasser und Niedrigwasser heißt Tidenhub.', min: 8, cap: 'Niedrigwasser und Tidenhub'},
+      {wer: M, t: 'Und wie tief ist es über den Steinen? In der Karte steht die Kartentiefe, gemessen ab Kartennull: null Komma fünf Meter. Dazu kommt der Wasserstand, jetzt null Komma vier. Macht null Komma neun Meter.', min: 11, cap: 'Wassertiefe = Kartentiefe + Wasserstand', pr: false},
+      {wer: H, t: 'Bei Hochwasser sind es da gut vier Meter. Bei Niedrigwasser nicht mal einer. Mit einem Meter Tiefgang sitzt du dann auf den Steinen.', min: 9, cap: 'Bei Niedrigwasser zu flach!', pr: false},
+      {wer: M, t: 'Wann Hochwasser und Niedrigwasser sind und wie groß der Tidenhub ist, steht in den Gezeitentafeln oder im Gezeitenkalender vom BSH.', min: 8, cap: 'Gezeitentafeln des BSH'}],
+    tick(s, tp, p) {
+      let ph; if (p === 0) ph = Math.min(tp / 9, 1); else if (p === 1) ph = ez(tp / 5) * .5; else if (p === 2) ph = .5; else if (p === 3) ph = .5 + ez(tp / 5) * .5; else if (p === 6) ph = tp < 3.5 ? 1 + ez(tp / 3.5) * .5 : tp < 5 ? 1.5 : 1.5 + ez((tp - 5) / 3.5) * .5; else ph = 1;
+      const h = hoehe(ph), ys = yh(h);
+      put(q(s, '#gzw'), {y: ys.toFixed(1), height: (500 - ys).toFixed(1)}); put(q(s, '#gzs'), {d: `M${X0} ${ys} ` + Array.from({length: 11}, (_, i) => `q 8 ${i % 2 ? 3 : -3} 16 0`).join(' ') + ` M240 ${ys} ` + Array.from({length: 9}, (_, i) => `q 9 ${i % 2 ? 3 : -3} 18 0`).join(' ')});
+      put(q(s, '#gzb'), {transform: `translate(318 ${(ys + Math.sin(tp * 2) * 1.2).toFixed(1)}) scale(.62)`});
+      put(q(s, '#gzc'), {d: 'M' + Array.from({length: 49}, (_, i) => { const a = i / 48; return `${(20 + a * 332).toFixed(1)} ${(50 + Math.cos(2 * Math.PI * a) * 26).toFixed(1)}`; }).join('L')});
+      const f = ph % 1 === 0 && ph > 0 ? 1 : ph % 1; put(q(s, '#gzd'), {cx: (20 + f * 332).toFixed(1), cy: (50 + Math.cos(2 * Math.PI * f) * 26).toFixed(1)});
+      const hub = p === 4; put(q(s, '#gzhub'), {opacity: hub ? 1 : 0}); if (hub) { put(q(s, '#gzhp'), {d: `M70 ${yh(HW)}H84M77 ${yh(HW)}V${yh(NW)}M70 ${yh(NW)}H84`}); const t = q(s, '.gzht'); put(t, {x: 90, y: (yh(MID) + 6).toFixed(1)}); t.textContent = 'Tidenhub ' + komma(HW - NW) + ' m'; }
+      const mess = p === 5 || p === 6; put(q(s, '#gzm'), {opacity: mess ? 1 : 0});
+      if (mess) { put(q(s, '#gzrot'), {d: `M140 ${KN}V${yh(-TK)}`}); put(q(s, '#gzbl'), {d: `M150 ${KN}V${ys}`}); put(q(s, '#gzgr'), {d: `M164 ${yh(-TK)}H174V${ys}H164`}); }
+      const t1 = q(s, '.gz1'), t2 = q(s, '.gz2');
+      if (mess) { t1.textContent = `Wasserstand ${komma(h)} m + Kartentiefe ${komma(TK)} m`; t2.textContent = `= Wassertiefe ${komma(h + TK)} m`; put(t2, {fill: h + TK < 1 ? '#c0392b' : '#1f7a3a'}); }
+      else { t1.textContent = `Wasserstand: ${komma(h)} m über Kartennull`; t2.textContent = p === 4 ? `Tidenhub: ${komma(HW)} − ${komma(NW)} = ${komma(HW - NW)} m` : p === 7 ? 'Gezeitentafeln, Gezeitenkalender' : ''; put(t2, {fill: '#2b3a4a'}); }
+    }});
+})();
+
+/* ---------- A7.8 Schleuse: Talfahrt (Binnen 117, 119; SBF 21, 28, 30) ---------- */
+(() => { const YU = 190, YL = 330, BOD = 420, GO = 113, GU = 295, POLLER = [252, 160];
+  const ampel = (x, y, id) => `<g transform="translate(${x} ${y})"><path d="M0 18V60" stroke="#444" stroke-width="5"/><rect x="-11" y="-26" width="22" height="46" rx="8" fill="#2a2a2a"/><circle id="${id}r" cx="0" cy="-13" r="7" fill="#555"/><circle id="${id}g" cx="0" cy="7" r="7" fill="#555"/></g>`;
+  roh('schleuse', {titel: 'Schleuse: Talfahrt', nr: 'A7.8', gruppe: 'A10 Binnen', folge: 'G6.3, Binnen',
+    svg: `<rect width="400" height="500" fill="#cfe9f7"/><rect x="${GO}" y="150" width="${GU - GO}" height="${BOD - 150}" fill="#c4c9cf"/>${[180, 230, 280, 330, 380].map(y => `<path d="M${GO} ${y}H${GU}" stroke="#aeb4bb" stroke-width="2"/>`).join('')}
+      <rect id="swu" x="0" y="${YU}" width="${GO + 1}" height="${300 - YU}" fill="#3d8fb8"/><rect id="swk" x="${GO}" y="${YU}" width="${GU - GO + 1}" height="${BOD - YU}" fill="#3d8fb8"/><rect id="swl" x="${GU}" y="${YL}" width="${400 - GU}" height="${BOD - YL}" fill="#3d8fb8"/>
+      <path d="M0 300H${GO}V${BOD}H0Z" fill="#a8824f"/><path d="M${GO} 322H152Q158 322 158 330V${BOD}H${GO}Z" fill="#8f949c" stroke="#5e636b" stroke-width="2"/><rect x="0" y="${BOD}" width="400" height="${500 - BOD}" fill="#a8824f"/>
+      <rect x="${GO - 8}" y="140" width="16" height="12" fill="#7a7f87"/><rect x="${GU - 8}" y="140" width="16" height="12" fill="#7a7f87"/><rect x="${GO}" y="146" width="${GU - GO}" height="6" fill="#9aa0a7"/>
+      <g fill="#3a3f45"><rect x="${POLLER[0] - 6}" y="${POLLER[1] - 12}" width="12" height="12" rx="3"/></g>
+      <path id="sleine" stroke="#e8d27a" stroke-width="3" fill="none"/>
+      <rect id="sgo" x="${GO - 4}" y="152" width="8" height="${300 - 152}" fill="#5a5f66" stroke="#33373c" stroke-width="1.5"/><rect id="sgu" x="${GU - 4}" y="152" width="8" height="${BOD - 152}" fill="#5a5f66" stroke="#33373c" stroke-width="1.5"/>
+      <rect x="${GO - 4}" y="152" width="8" height="${300 - 152}" fill="none" stroke="#5a5f66" stroke-width="1.5" stroke-dasharray="5 4"/><rect x="${GU - 4}" y="152" width="8" height="${BOD - 152}" fill="none" stroke="#5a5f66" stroke-width="1.5" stroke-dasharray="5 4"/><g id="sbt">${BO.seite({})}</g>
+      ${ampel(GO - 26, 102, 'sao')}${ampel(GU + 26, 102, 'sau')}
+      ${T(50, 290, 'Oberwasser', 'middle', 15)}${T(204, 410, 'Kammer', 'middle', 15)}${T(350, 410, 'Unterwasser', 'middle', 15)}
+      <g id="sdr" opacity="0">${B.pfeil(136, 452, 136, 428, '#c0392b', 4)}${T(136, 472, 'Drempel', 'middle', 16, 'r')}</g>`,
+    phasen: [
+      {wer: H, t: 'Wir fahren zu Tal und warten vor der Schleuse. Ein rotes Licht: Einfahrt verboten.', min: 6, cap: 'Rot: Einfahrt verboten, warten'},
+      {wer: M, t: 'Rot und Grün zusammen: Einfahren dürfen wir noch nicht, aber das Öffnen wird vorbereitet.', min: 6, cap: 'Rot und Grün: Öffnen wird vorbereitet'},
+      {wer: H, t: 'Grün: Wir fahren ein. Weit genug nach vorn, damit wir beim Leeren nicht auf dem Drempel aufsetzen.', min: 7, cap: 'Grün: einfahren, weg vom Drempel'},
+      {wer: M, t: 'Festmachen, aber so, dass wir die Leine nachlassen können. Nie festknoten, wir sinken ja gleich.', min: 6, cap: 'Leine so, dass man nachlassen kann'},
+      {wer: H, t: 'Das obere Tor schließt, und das Wasser läuft ab. Wir sinken mit und lassen die Leine nach.', min: 9, cap: 'Wasser läuft ab: Leine nachlassen'},
+      {wer: M, t: 'Wasser gleich hoch: Das untere Tor öffnet, Grün, und wir fahren aus.', min: 7, cap: 'Tor auf, Grün: ausfahren'}],
+    tick(s, tp, p) {
+      let x = 50, yC = YU, go = 1, gu = 1, ao = 'r', au = 'r', leine = false;
+      if (p === 1) ao = 'rg';
+      else if (p === 2) { ao = 'g'; go = 1 - ez(tp / 1.4); x = lp(50, 236, ez((tp - 1.2) / 4)); }
+      else if (p === 3) { go = 0; x = 236; leine = true; }
+      else if (p === 4) { go = ez(tp / 1.4); x = 236; leine = true; yC = lp(YU, YL, ez((tp - 1.6) / 6)); }
+      else if (p === 5) { x = lp(236, 360, ez((tp - 1.4) / 3.5)); yC = YL; gu = 1 - ez(tp / 1.2); au = tp > 1 ? 'g' : 'r'; leine = false; }
+      put(q(s, '#swk'), {y: yC.toFixed(1), height: (BOD - yC).toFixed(1)});
+      put(q(s, '#sgo'), {opacity: go.toFixed(2)}); put(q(s, '#sgu'), {opacity: gu.toFixed(2)});
+      const surf = x < GO ? YU : x < GU ? yC : YL; put(q(s, '#sbt'), {transform: `translate(${x.toFixed(1)} ${(surf + Math.sin(tp * 2) * .8).toFixed(1)}) scale(.55)`});
+      const bx = x + 30, by = surf - 12; put(q(s, '#sleine'), {d: leine ? `M${bx.toFixed(1)} ${by.toFixed(1)} Q${((bx + POLLER[0]) / 2).toFixed(1)} ${(Math.max(by, POLLER[1]) + 10).toFixed(1)} ${POLLER[0]} ${POLLER[1] - 6}` : 'M0 0'});
+      const lampe = (id, z) => { put(q(s, '#' + id + 'r'), {fill: z.includes('r') ? '#ff4a3d' : '#555'}); put(q(s, '#' + id + 'g'), {fill: z.includes('g') ? '#2ee06a' : '#555'}); }; lampe('sao', ao); lampe('sau', au);
+      put(q(s, '#sdr'), {opacity: p === 2 || p === 4 ? 1 : 0});
+    }});
+})();
+
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
 (() => { const C = [200, 190];
   const peil = (a, b) => { const d = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI - a.r; return Math.round(((d % 360) + 360) % 360); };
