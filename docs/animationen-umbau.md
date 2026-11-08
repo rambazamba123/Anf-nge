@@ -48,12 +48,12 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
 | A1.5 | motor | anim2 | ○ |
-| A1.7 | gas | anim.js | ○ |
-| A1.8 | tanken | anim2 | ○ |
+| A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
+| A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
 | A2.2 | ablegen | anim2 | ○ |
 | A2.3 | ankern | anim-hoch | ✓ v5.32 |
-| A2.4 | sog | anim.js | ○ |
+| A2.4 | sog | anim-hoch | ✓ v5.35 (Kelvin-Wellen, Boot schaukelt an der Welle, Phase 3 zu schnell / langsam an Liegern) |
 | A2.5 | wenden | anim-hoch | ✓ v5.32 (Anprall markiert) |
 | A2.6 | aufstoppen | anim-hoch | ✓ v5.32 |
 | A2.7 | mob | anim2 | ○ |
@@ -69,11 +69,12 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A5.1 | lichter | anim.js | ○ |
 | A5.2 | lichtertafel | anim3 | ○ |
 | A5.3–A5.6 | schlepp, manunf, fischer, anker | anim3 | ○ |
-| A6.1 | schall | anim.js | ○ |
+| A6.1 | schall | anim-hoch | ✓ v5.33 (alle 13 Signale des SBF-See-Katalogs, Horn nach dem Vorlesen) |
 | A6.2, A6.3 | nebel, glocke | anim3 | ○ |
 | A7.1–A7.7 | lateral, kennung, kardinal (anim.js), sonderzeichen, sektorenfeuer, tafeln, bruecke | anim3 | ○ |
-| A7.8 | schleuse | anim.js | ○ |
-| A8.3–A8.8 | missweisung, peilung, koppel, gezeiten (anim.js), tidenstrom, seemeile | anim3 | ○ |
+| A7.8 | schleuse | anim-hoch | ✓ v5.34 (heller Strich war eine Lücke im Wasser; Drempel, Leine nachlassen, Rot+Grün nach Binnen 117/119) |
+| A8.6 | gezeiten | anim-hoch | ✓ v5.34 (Boot immer sichtbar, Steine mit Kartentiefe, Pegel, Rechnung Wassertiefe, Begriffe nach SBF 249–255) |
+| A8.3–A8.8 | missweisung, peilung, koppel, tidenstrom, seemeile | anim3 | ○ |
 | A9.1–A9.10 | wetter (anim.js), wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim3 | ○ |
 | A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim3 | ○ |
 | B1–B4 | festmacher, mayday, echolot, steilesee (anim.js) und alle aus anim4 | anim4 | ○ |
@@ -82,3 +83,6 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
 - v5.31: Gratis-Stimme repariert (`playPhone`: kein `cancel()` direkt vor `speak()`, zweiter Versuch mit Standardstimme, `phoneUnlock` beim Klick; bleibt sie stumm, wartet der Player die Lesezeit ab und zeigt den Text). Nächster Schritt: Animationen ab §4 oben.
 - v5.32: Neue Datei `anim-hoch.js` (ersetzt alte Fassungen gleicher id, `neuId` in `ANIM.szene`); erster Stapel fertig: boot, radoben, anlegen, ankern, wenden, aufstoppen, begegnung. Bilder geprüft (`BREITE=400 node tools/anim-bilder.js bild.png 0 20 hoch`), Logik: Radeffekt rückwärts immer Heck nach Backbord, Anprall Steuerbord am Heck; Begegnung mit gleichbleibender Peilung 27°, Ausweichen hinter dem Heck. Zu lange Überschriften werden automatisch schmaler. Nächster Stapel: motor, gas, tanken, sog, lichter, schall, kardinal, schleuse, gezeiten, wetter, rad.
+- v5.33: Horn repariert: Der Auto-Start per Timer galt nicht als Antippen, darum gab der Browser den Ton nicht frei. Jetzt gibt `A.spiele` Ton und Handystimme beim Antippen frei, und eine Phase kann mit `nach(svg)` nach dem Vorlesen einen eigenen Ton spielen (Auto-Lauf wartet darauf, `svg.__ton` wird beim Weiterschalten gestoppt). Schallsignale neu im Hochformat mit allen Signalen des Katalogs (Fragen 4, 5, 16, 124, 139–141, 161–164, 178, 186, 188, 279, 281, 282) plus Kursänderung als Wissen; Test: Horn klingt im Auto-Lauf.
+- v5.34: Hilfsfunktion `roh(id, o)` in `anim-hoch.js` für eigene Zeichnungen mit `tick` im selben Rahmen (Überschrift, Unterzeile, Marke). Ebbe und Flut sowie Schleuse neu im Hochformat. Überschriften jetzt wirklich groß (die CSS-Regel `.an .t.cap{font-size:15px}` hat `gross` überstimmt, entfernt).
+- v5.35: Gas, Tanken, Sog im Hochformat (Phasen 0–2 bzw. 0–3 wie von der Hörreise genutzt, Neues nur angehängt). Bilder-Werkzeug mit `ZEIT=ms` (Moment im Ablauf, z. B. Explosion bei 1900).
