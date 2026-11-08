@@ -290,6 +290,12 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - **Für die Geschichte:** Wiedersehen tragen die roten Fäden. Die Crew erinnert sich an Erlebtes (das Heck in Kuttershaven, Hinnerks Rempler), Running Gags bekommen Anlass, und man merkt, dass man besser wird: Was am Anfang erklärt werden musste, entscheidest du später allein.
   - Stand 08.11.: 22 Wiedersehen und 3 Ernstfälle im Plan, jeder System-Block kommt mindestens einmal wieder.
 
+- **HR31 Quirin irrt, wo Binnen anders ist** (N 08.11., B175): Immer wenn eine Binnenregel von der Seeregel abweicht, macht Quirin genau diesen Fehler, überzeugt und aus Erfahrung („Is bei uns auf der Donau aa so“). Die Crew stellt es richtig und sagt dazu, dass er auf dem Fluss recht hätte. So lernt man den Binnenschein gleich mit.
+  - Beispiel: Begegnung im engen Fahrwasser (Frage 36). Quirin: „Der gegen den Strom fährt, muss ausweichen.“ Auf See: Fahrt runter und genug Passierabstand.
+  - Quirin ist von 2-7 bis 4-5 und ab 7-3 an Bord. In dieser Zeit wird jede passende Abweichung zu einem Wiedersehen der Form „Du korrigierst“ (Vorschlag W3, noch im Test, O171).
+  - Fachlich: Die Binnenregel wird nur genannt, wenn sie belegt ist (R8, ohne `quellen/` markieren).
+- **Formen fürs Wiedersehen W1–W9** (Vorschlag 08.11., im Test, O171): Du entscheidest, die Crew fragt dich, du korrigierst, du erklärst einem Neuen, ein Gast fragt, du meldest als Ausguck, Wette in der Crew, Hinnerk macht etwas falsch, Klabauter fängt das Merkwort an. Hörprobe: Hocker → „🧪 Test: Wiedersehen W1–W9“ (`podcast/skripte/test-wiedersehen.md`). Bei „du erklärst“ (W4) wählst du die Erklärung; wählst du falsch, handelt der andere danach, es geht etwas schief, und die Crew erklärt es richtig (zählt als falsch).
+
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
 - Was prüfbar ist, kommt in ein Werkzeug:

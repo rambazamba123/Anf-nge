@@ -16,6 +16,8 @@
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin'},
+    /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
+    'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
     'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */

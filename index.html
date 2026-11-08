@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.29';
+  window.__ver = '5.30';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5040,8 +5040,8 @@ function alteFolgen() {
 /* Hocker: Hörreise hören; alles Ältere unter „Alte Folgen und Tests“ */
 function hockerWahl() {
   if (bgChat) return bgStop();
-  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3><p class="small muted" style="margin:0 0 8px">🎧 Hörreise. Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('alt', '🗄️ Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche')}`);
-  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+  const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3><p class="small muted" style="margin:0 0 8px">🎧 Hörreise. Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren, am besten interaktiv')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('alt', '🗄️ Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); if (b.dataset.m === 'animtest') return nachladen('anim.js').then(() => ANIM.seite('test')).catch(() => toast('Die Animationen ließen sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
 async function bgSit() {
   if (bgChat) return bgStop();
