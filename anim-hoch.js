@@ -592,7 +592,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
 
 /* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
 /* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
-const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile', 'wetterkarte', 'beaufort', 'schwerwetter', 'notsignale', 'sicherheit', 'feuer', 'umwelt', 'nationalpark', 'baden', 'bergtal', 'faehre', 'wehr', 'binnenschall', 'wasserski', 'segeln', 'wind', 'ablegen', 'mob', 'knotenpraxis', 'grundregeln', 'rangleiter', 'kurshalter', 'revierkarte', 'vtg', 'fahrwasser', 'segler'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile', 'wetterkarte', 'beaufort', 'schwerwetter', 'notsignale', 'sicherheit', 'feuer', 'umwelt', 'nationalpark', 'baden', 'bergtal', 'faehre', 'wehr', 'binnenschall', 'wasserski', 'segeln', 'wind', 'ablegen', 'mob', 'knotenpraxis', 'grundregeln', 'rangleiter', 'kurshalter', 'revierkarte', 'vtg', 'fahrwasser', 'segler', 'gleiter', 'trimm', 'pivot', 'abdrift', 'hafenstrom', 'fender', 'springablegen', 'ankerpraxis', 'ankerwache', 'schleppen2', 'rueckwaerts', 'weste', 'insel', 'pyro', 'leck', 'grund', 'seekrank', 'bergen', 'motorcheck', 'stottern', 'batterie', 'kompass', 'winter', 'toernplanung', 'hafenregeln', 'watt', 'nachtfahrt', 'sichtweite'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
 const alt = id => ALT[id] || A.defs[id];
 const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
 
@@ -858,6 +858,55 @@ neu('sektorenfeuer', {bg: nachtH(500), obj: {leit: `<path d="M0 0 L-97 420 L-36 
     obj: {wir: BO.oben({}), s1: `<g transform="scale(1.5)">${B.segler(40)}</g>`, s2: `<g transform="scale(1.5)">${B.segler(-40)}</g>`, kegel: `<g transform="scale(1.4)">${B.kegel(0, 0, false, 9)}</g>` + T(0, 38, 'Kegel, Spitze unten', 'middle', 16), x: T(0, 0, '= Maschinenfahrzeug', 'middle', 18)},
     start: {wir: {x: 130, y: 430, s: .55}, s1: {x: 290, y: 200}, s2: {x: 110, y: 200, o: 0, r: 180}, kegel: {x: 290, y: 100, o: 0}, x: {x: 290, y: 290, o: 0}},
     ph: {0: {k: {wir: {weg: [[170, 370], [260, 330], [350, 340]]}}}, 1: {k: {wir: {x: 130, y: 430, r: 0}}}, 2: {k: {s1: {x: 290, y: 250}, s2: {x: 110, y: 250}}}}});
+})();
+
+/* ---------- Teil B: Listen (großes Bild oben, Haken-Liste darunter) ---------- */
+(() => { ['weste', 'insel', 'pyro', 'seekrank', 'motorcheck', 'stottern', 'winter', 'toernplanung', 'hafenregeln'].forEach(id => { const d = alt(id); if (!d) return;
+    const bild = (d.svg.match(/translate\(88 165\)"><text[^>]*>([^<]*)</) || [])[1] || '✔️', pk = [...d.svg.matchAll(/class="lp" data-i="(\d+)"[^>]*>[\s\S]*?<text[^>]*>([^<]*)<\/text>/g)].map(m => m[2]);
+    neu(id, {bg: `<rect width="400" height="500" fill="#f3ead2"/>${T(200, 168, bild, 'middle', 110)}` + pk.map((t, i) => `<g class="lp" data-i="${i}" opacity="0" transform="translate(40 ${240 + i * 40})"><g transform="scale(1.5)">${B.haken(0, 0)}</g>${T(24, 7, t, 'start', 19)}</g>`).join(''), obj: {}, start: {}}); });
+})();
+
+/* ---------- B1 Seemannschaft ---------- */
+(() => { const bootS = (c = '#fbf8f2') => B.seite(110, [], c, false) + '<rect x="-24" y="-32" width="40" height="16" rx="3" fill="#cfd6db" stroke="#555"/><path d="M-55 -6 H48" stroke="#c0392b" stroke-width="3"/>';
+  const txt = arr => (s, p) => { const t = q(s, '[data-o="tx"] text'); if (t) { t.textContent = arr[p] || ''; fit(t); } };
+  neu('gleiter', {bg: tagH(330), obj: {boot: bootS(), welle: '<path d="M30 0 Q60 -14 90 0 M-60 0 Q-90 -10 -120 0" stroke="#fff" stroke-width="4" fill="none"/>', tx: T(0, 0, '', 'middle', 19)},
+    start: {boot: {x: 200, y: 332, s: 2}, welle: {x: 200, y: 332, o: .4, s: 2}, tx: {x: 200, y: 120}}, enter: txt(['langsam: das Boot schiebt das Wasser weg', 'schneller: Bug hoch, große Welle, viel Sprit', 'gleiten: das Boot liegt oben auf dem Wasser']),
+    ph: {1: {k: {boot: {r: -9, y: 340}, welle: {o: 1, s: 2.8}}}, 2: {k: {boot: {r: -3, y: 324}, welle: {o: .6, s: 2}}}}});
+  neu('trimm', {bg: tagH(330), obj: {boot: bootS(), klappe: '<path d="M-56 4 L-72 10" stroke="#333" stroke-width="5"/>', tx: T(0, 0, '', 'middle', 19)}, start: {boot: {x: 200, y: 332, r: -10, s: 2}, klappe: {x: 200, y: 332, r: -10, s: 2, o: 0}, tx: {x: 200, y: 120}},
+    enter: txt(['Bug zu hoch: das Boot stampft, man sieht nichts', 'Trimmklappen runter: Heck hoch, Bug runter', 'zu weit: der Bug schneidet in die Welle']), ph: {1: {k: {boot: {r: -3}, klappe: {r: -3}}}, 2: {k: {boot: {r: 4}, klappe: {r: 4}}}}});
+  /* Drehpunkt: das Boot ist so verschoben, dass es sich um den Punkt ein Drittel von vorn dreht */
+  neu('pivot', {bg: wasser(), obj: {boot: `<g transform="translate(0 17)">${BO.oben({})}</g><circle r="5" fill="#f08a1c" stroke="#fff" stroke-width="2"/>`, tx: zeilen(0, 0, ['Drehpunkt etwa', 'ein Drittel von vorn'], 'middle', 19)},
+    start: {boot: {x: 200, y: 250, s: 2.2}, tx: {x: 200, y: 446, o: 0}}, ph: {1: {k: {boot: {r: 35}}}, 2: {k: {boot: {r: 0}}}}});
+  neu('abdrift', {bg: wasser() + [0, 1, 2, 3].map(i => B.pfeil(20, 110 + i * 100, 80, 110 + i * 100, '#fff', 4, 'fl')).join('') + T(50, 88, 'Wind', 'middle', 16),
+    obj: {boot: BO.oben({}), soll: '<path d="M0 0 V-360" stroke="#fff" stroke-width="3" stroke-dasharray="7 5"/>', ist: '<path d="M0 0 L90 -340" stroke="#f08a1c" stroke-width="3" stroke-dasharray="7 5"/>'},
+    start: {boot: {x: 190, y: 440, s: .55}, soll: {x: 190, y: 440, o: 0}, ist: {x: 190, y: 440, o: 0}}, ph: {0: {k: {boot: {y: 350}}}, 1: {k: {boot: {x: 250, y: 200, r: 28}}}, 2: {k: {boot: {x: 214, y: 100, r: -10}}}}});
+  neu('hafenstrom', {bg: wasser() + pier(500, 72) + [0, 1, 2, 3].map(i => B.pfeil(310, 40 + i * 115, 310, 110 + i * 115, '#fff', 4, 'fl')).join('') + T(346, 34, 'Strom', 'middle', 16),
+    obj: {boot: BO.oben({})}, start: {boot: {x: 220, y: 90, r: 180, s: .55}}, ph: {0: {k: {boot: {x: 120, y: 320}}}, 1: {k: {boot: {weg: [[220, 440], [290, 410], [220, 370]]}}}, 2: {k: {boot: {x: 96, y: 260, r: 0}}}}});
+  neu('fender', {bg: tagH(310) + '<rect x="0" y="268" width="400" height="52" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>' + T(360, 300, 'Steg', 'middle', 16),
+    obj: {boot: `<g transform="scale(1.5)">${B.seite(220, [], '#fbf8f2', false)}<path d="M-110 -8 H96" stroke="#c0392b" stroke-width="3"/></g>`, f: [-100, -15, 70].map(x => `<path d="M${x} -46 V-6" stroke="#ddd" stroke-width="2"/><rect x="${x - 9}" y="-6" width="18" height="40" rx="9" fill="#2e86c1"/>`).join(''),
+      x: `<g transform="scale(1.6)">${B.kreuz(0, 0)}</g>${T(0, 34, 'zu hoch', 'middle', 18, 'r')}`, ok: `<g transform="scale(1.6)">${B.haken(0, 0)}</g>${T(0, 34, 'richtig', 'middle', 18, 'gr')}`},
+    start: {boot: {x: 200, y: 360}, f: {x: 200, y: 232}, x: {x: 330, y: 130, o: 0}, ok: {x: 330, y: 130, o: 0}}, ph: {1: {k: {f: {y: 272}}}}});
+  /* Achterspring: vom Heck schräg nach vorn an Land (v5.46 berichtigt, vorher nach achtern) */
+  const PO = [64, 110];
+  neu('springablegen', {bg: wasser() + pier(500, 72) + `<circle cx="${PO[0]}" cy="${PO[1]}" r="8" fill="#333"/><circle cx="64" cy="390" r="8" fill="#333"/>`, obj: {boot: BO.oben({}), leine: ''}, start: {boot: {x: 104, y: 260, s: .62}},
+    ph: {0: {t: 'Liegt der Wind auf dem Steg, nehmen wir eine Achterspring: vom Heck schräg nach vorn zum Poller an Land.'}, 1: {k: {boot: {x: 112, r: 32}}}, 3: {k: {boot: {weg: [[190, 150], [250, 60]]}}}},
+    fx(s, tp, p, st, c) { const b = c.boot, th = b.r * Math.PI / 180, lx = -12 * b.s, ly = 46 * b.s, x = b.x + lx * Math.cos(th) - ly * Math.sin(th), y = b.y + lx * Math.sin(th) + ly * Math.cos(th);
+      q(s, '[data-o="leine"]').innerHTML = p < 3 ? `<path d="M${x.toFixed(1)} ${y.toFixed(1)} L${PO[0]} ${PO[1]}" stroke="#e8c46a" stroke-width="4"/>` : ''; }});
+  neu('ankerpraxis', {bg: '<rect width="400" height="200" fill="#bfe0f2"/><rect y="200" width="400" height="230" fill="#4d93bd"/><path d="M0 430 H400 V500 H0Z" fill="#c9b27c"/>',
+    obj: {boot: `<g transform="scale(1.6)">${B.seite(80, [], '#fbf8f2', false)}</g>`, kurz: '<path d="M0 0 Q26 110 80 226" stroke="#333" stroke-width="3.5" fill="none"/>' + T(92, 150, 'zu kurz:', 'start', 17, 'r') + T(92, 172, 'Zug nach oben', 'start', 17, 'r'),
+      lang: '<path d="M0 0 Q70 210 236 226" stroke="#333" stroke-width="3.5" fill="none"/>' + T(150, 180, 'lang: Zug flach', 'middle', 17, 'gr'), a1: T(0, 0, '⚓', 'middle', 30), tx: zeilen(0, 0, ['Kette: 3- bis 5-mal die Wassertiefe', 'mit Leine mehr'], 'middle', 19)},
+    start: {boot: {x: 90, y: 200}, kurz: {x: 150, y: 200, o: 0}, lang: {x: 150, y: 200, o: 0}, a1: {x: 230, y: 436, o: 0}, tx: {x: 200, y: 90, o: 0}}, ph: {1: {k: {a1: {x: 386}}}}});
+  const LM = [[120, 74], [300, 70]];
+  neu('ankerwache', {bg: wasser() + ufer('M0 0 H400 V90 Q200 126 0 90Z') + '<path d="M120 74 l0 -30 l8 0 l0 30z" fill="#8a5a3a"/><path d="M300 70 l0 -38 l8 0 l0 38z" fill="#fff" stroke="#333"/>',
+    obj: {kreis: '<circle r="100" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 6"/><circle r="5" fill="#222"/>', boot: BO.oben({}), peil: '<path class="apl" stroke="#f2c200" stroke-width="3" stroke-dasharray="7 5" fill="none"/>', alarm: zeilen(0, 0, ['Peilung wandert:', 'der Anker slippt!'], 'middle', 20, 'r')},
+    start: {kreis: {x: 200, y: 290}, boot: {x: 200, y: 380, r: 180, s: .5}, peil: {o: 0}, alarm: {x: 200, y: 456, o: 0}},
+    ph: {0: {k: {boot: {weg: [[280, 330], [285, 260]]}}}, 2: {k: {boot: {x: 330, y: 400}}}},
+    fx(s, tp, p, st, c) { const l = q(s, '.apl'); if (l) l.setAttribute('d', LM.map(([x, y]) => `M${c.boot.x.toFixed(1)} ${c.boot.y.toFixed(1)} L${x + 4} ${y - 20}`).join(' ')); }});
+  neu('schleppen2', {bg: wasser(), obj: {zug: BO.oben({}), anh: BO.oben({farbe: {rumpf: '#efe3c4'}}), leine: '<path class="sl2" stroke="#e8c46a" stroke-width="3" fill="none"/>', hp: T(0, 0, 'Hahnepot', 'start', 16), tx: zeilen(0, 0, ['lange Leine,', 'ruhige Fahrt'], 'middle', 19)},
+    start: {zug: {x: 200, y: 110, s: .6}, anh: {x: 200, y: 400, s: .6}, hp: {x: 226, y: 368}, tx: {x: 310, y: 250, o: 0}}, ph: {1: {k: {zug: {y: 80}, anh: {y: 370}, hp: {y: 338}}}},
+    fx(s, tp, p, st, c) { const l = q(s, '.sl2'), ay = c.anh.y - 30, zy = c.zug.y + 34; if (l) l.setAttribute('d', `M${c.anh.x - 9} ${ay + 6} L${c.anh.x} ${ay - 16} L${c.anh.x + 9} ${ay + 6} M${c.anh.x} ${ay - 16} Q${c.anh.x + 6} ${(ay + zy) / 2} ${c.zug.x} ${zy}`); }});
+  neu('rueckwaerts', {bg: wasser(), obj: {boot: BO.oben({}) + prall()}, start: {boot: {x: 200, y: 130, s: .62}},
+    ph: {0: {k: {boot: {y: 210, r: 14}}, fx: zeigPrall(true)}, 1: {k: {boot: {y: 310, r: 4}}, fx: zeigPrall(false)}, 2: {k: {boot: {y: 400, r: 0}}, fx: zeigPrall(false)}}});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
