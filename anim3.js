@@ -23,6 +23,7 @@ const nacht = f => `<g opacity=".28">${B.seite(f.L, f.m, '#8c99a6', !f.segel)}</
 const tag = f => `${B.seite(f.L, f.m, '#4a4f57', !f.segel)}${f.segel ? '<path d="M5 -100 L5 -22 L-40 -22Z" fill="#fff" stroke="#888"/>' : ''}${f.tag.map(form).join('')}`;
 const paar = (f, nachtS = .72, tagS = .72) => `<rect x="0" y="40" width="200" height="225" fill="#142033"/><rect x="0" y="210" width="200" height="55" fill="#0b1726"/><rect x="200" y="40" width="200" height="225" fill="#bfe0f2"/><rect x="200" y="210" width="200" height="55" fill="#4d93bd"/>
   <g transform="translate(100 214) scale(${nachtS})">${nacht(f)}</g><g transform="translate(300 214) scale(${tagS})">${tag(f)}</g>${T(100, 58, 'Nacht', 'middle', 12, 'w')}${T(300, 58, 'Tag', 'middle', 12)}${T(300, 254, f.tt, 'middle', 11, 'w')}`;
+A.fz = {F, nacht, tag, form};   /* für die Hochformat-Fassungen in anim-hoch.js (v5.40) */
 const reihe = (keys, texte) => ({obj: Object.fromEntries(keys.map(k => [k, paar(F[k])])), start: Object.fromEntries(keys.map((k, i) => [k, {o: i ? 0 : 1}])),
   phasen: keys.map((k, i) => ({...P(texte[i][0], texte[i][1]), cap: F[k].n, an: [k], aus: keys.filter(x => x !== k), dur: .4}))});
 

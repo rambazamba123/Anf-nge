@@ -8,7 +8,7 @@ const {chromium} = require('playwright');
   const errs = []; p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));
   await p.addInitScript(() => { try { localStorage.setItem('skipper-sbfsee-v1', JSON.stringify({introV5: true, profile: {name: 'T', exam: '2026-12-01', minutes: 30, exp: 'none', goal: 'sbf', facts: []}})); } catch (e) {} });
   await p.goto('http://localhost:8765/index.html'); await p.waitForTimeout(2500);
-  const info = await p.evaluate(async ([von, bis, nur, breite]) => { const process_filter = id => nur === 'alt' ? (ANIM.defs[id].neu !== '5.32') : nur === 'hoch' ? (ANIM.defs[id].neu === '5.32') : nur ? id.startsWith(nur) : ANIM.defs[id].neu;
+  const info = await p.evaluate(async ([von, bis, nur, breite]) => { const process_filter = id => nur.startsWith('=') ? nur.slice(1).split(',').includes(id) : nur === 'alt' ? (ANIM.defs[id].neu !== '5.32') : nur === 'hoch' ? (ANIM.defs[id].neu === '5.32') : nur ? id.startsWith(nur) : ANIM.defs[id].neu;
     await nachladen('anim.js'); await ANIM.bereit; await nachladen('szene.js'); await nachladen('reise.js'); ANIM.css();
     const W = breite; const ids = ANIM.order.filter(id => process_filter(id)).slice(von, bis);
     document.body.innerHTML = '<div id="g" style="display:flex;flex-wrap:wrap;gap:4px;background:#333;padding:4px"></div>';

@@ -43,7 +43,7 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | Nr. | id | Datei | Status |
 |---|---|---|---|
 | A1.1 | boot | anim-hoch | ✓ v5.32 |
-| A1.1b | wind | anim2 | ○ |
+| A1.1b | wind | anim-hoch | ✓ v5.45 |
 | A1.2 | rad | anim-hoch | ✓ v5.37 (eigene Zeichnung statt reise.js; Bogen trifft die Rumpfhälfte, Drehpfeil, Heck weicht aus) |
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
@@ -51,35 +51,37 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
 | A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
-| A2.2 | ablegen | anim2 | ○ |
+| A2.2 | ablegen | anim-hoch | ✓ v5.45 |
 | A2.3 | ankern | anim-hoch | ✓ v5.32 |
 | A2.4 | sog | anim-hoch | ✓ v5.35 (Kelvin-Wellen, Boot schaukelt an der Welle, Phase 3 zu schnell / langsam an Liegern) |
 | A2.5 | wenden | anim-hoch | ✓ v5.32 (Anprall markiert) |
 | A2.6 | aufstoppen | anim-hoch | ✓ v5.32 |
-| A2.7 | mob | anim2 | ○ |
-| A3.2 | knotenpraxis | anim2 | ○ |
-| A4.1 | grundregeln | anim2 | ○ |
+| A2.7 | mob | anim-hoch | ✓ v5.45 |
+| A3.2 | knotenpraxis | anim-hoch | ✓ v5.45 |
+| A4.1 | grundregeln | anim-hoch | ✓ v5.45 |
 | A4.2 | begegnung | anim-hoch | ✓ v5.32 (Peilung live, genau 27°) |
-| A4.3 | rangleiter | anim2 | ○ |
-| A4.4 | kurshalter | anim2 | ○ |
-| A4.5 | revierkarte | anim2 | ○ |
-| A4.6 | vtg | anim2 | ○ |
-| A4.7 | fahrwasser | anim2 | ○ |
-| A4.8 | segler | anim2 | ○ |
+| A4.3 | rangleiter | anim-hoch | ✓ v5.45 |
+| A4.4 | kurshalter | anim-hoch | ✓ v5.45 |
+| A4.5 | revierkarte | anim-hoch | ✓ v5.45 |
+| A4.6 | vtg | anim-hoch | ✓ v5.45 (Einbahnwege berichtigt) |
+| A4.7 | fahrwasser | anim-hoch | ✓ v5.45 |
+| A4.8 | segler | anim-hoch | ✓ v5.45 |
 | A5.1 | lichter | anim-hoch | ✓ v5.36 (zweite Ansicht: so siehst du das Boot, es dreht sich mit; Fehler behoben: von vorn fehlte Rot) |
-| A5.2 | lichtertafel | anim3 | ○ |
-| A5.3–A5.6 | schlepp, manunf, fischer, anker | anim3 | ○ |
+| A5.2 | lichtertafel | anim-hoch | ✓ v5.40 (Nacht oben, Tag unten, Schiffe größer) |
+| A5.3–A5.6 | schlepp, manunf, fischer, anker | anim-hoch | ✓ v5.40 (Bagger mit zwei Rot/zwei Grün nachts, Schlepp mit Übersicht der Topplichter) |
 | A6.1 | schall | anim-hoch | ✓ v5.33 (alle 13 Signale des SBF-See-Katalogs, Horn nach dem Vorlesen) |
-| A6.2, A6.3 | nebel, glocke | anim3 | ○ |
+| A6.2, A6.3 | nebel, glocke | anim-hoch | ✓ v5.41 |
 | A7.3 | kardinal | anim-hoch | ✓ v5.36 (Marke, sicherer Sektor grün, Uhr klein unten) |
-| A7.1–A7.7 | lateral, kennung, sonderzeichen, sektorenfeuer, tafeln, bruecke | anim3 | ○ |
+| A7.1–A7.7 | lateral, kennung, sonderzeichen, sektorenfeuer, tafeln, bruecke | anim-hoch | ✓ v5.41 (Kennungen als Taktbalken über 12 s mit laufendem Zeiger) |
 | A7.8 | schleuse | anim-hoch | ✓ v5.34 (heller Strich war eine Lücke im Wasser; Drempel, Leine nachlassen, Rot+Grün nach Binnen 117/119) |
 | A8.6 | gezeiten | anim-hoch | ✓ v5.34 (Boot immer sichtbar, Steine mit Kartentiefe, Pegel, Rechnung Wassertiefe, Begriffe nach SBF 249–255) |
-| A8.3–A8.8 | missweisung, peilung, koppel, tidenstrom, seemeile | anim3 | ○ |
+| A8.3–A8.8 | missweisung, peilung, koppel, tidenstrom, seemeile | anim-hoch | ✓ v5.42 (Peilung: an der Linie steht jetzt die Peilung vom Boot, vorher die Gegenpeilung 210°) |
 | A9.1 | wetter | anim-hoch | ✓ v5.36 (Hoch über Tief, Schrift groß) |
-| A9.2–A9.10 | wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim3 | ○ |
-| A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim3 | ○ |
-| B1–B4 | festmacher, mayday, echolot, steilesee (anim.js) und alle aus anim4 | anim4 | ○ |
+| A9.2–A9.10 | wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim-hoch | ✓ v5.43 (Wetterkarte: Windpfeile waren verkehrt herum, berichtigt) |
+| A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim-hoch | ✓ v5.44 (Fluss senkrecht, Strom nach unten) |
+| B1 | gleiter, trimm, pivot, abdrift, hafenstrom, fender, springablegen, ankerpraxis, ankerwache, schleppen2, rueckwaerts | anim-hoch | ✓ v5.46 (Achterspring berichtigt; Drehpunkt wirklich ein Drittel von vorn) |
+| B2–B4 Listen | weste, insel, pyro, seekrank, motorcheck, stottern, winter, toernplanung, hafenregeln | anim-hoch | ✓ v5.46 (Bild oben, Liste groß) |
+| B2–B4 Rest | leck, grund, bergen, batterie, kompass, watt, nachtfahrt, sichtweite; festmacher, mayday, echolot, steilesee, ruder (anim.js) | anim-hoch | ✓ v5.47 |
 
 ## 5. Stand der Sitzungen
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
@@ -91,3 +93,11 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.36: Lichterkarussell, Kardinalzeichen, Wetter im Hochformat; Hilfsfunktion `fit(e, max)` macht zu lange Texte schmaler. Nächster Stapel: motor, rad, dann die übrigen A-Animationen der Reihe nach.
 - v5.37: Motor und Radeffekt neu im Hochformat. Damit sind alle vom Nutzer kommentierten Animationen umgebaut (außer B1.6 Knotenbrett-Kommentarfeld). Nächster Schritt: die übrigen A-Animationen der Reihe nach (wind, ruder, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler, lichtertafel …).
 - v5.38: Alle übrigen Animationen laufen jetzt im Hochformat-Rahmen 400 × 500 (`ANIM.szene` ohne `vb`: oben große Überschrift und Marke, Mitte die alte Szene, unten der Satz der Crew in bis zu drei Zeilen; alte eigene Zeichnungen aus anim.js mit Titel oben). Alle 70 übrigen Animationen als Bilder durchgesehen: fachlich in Ordnung bis auf **Ablegen** (die „Vorspring“ lief vom Bug nach vorn wie eine Vorleine, jetzt vom Bug schräg nach achtern an Land, berichtigt). Binnen-Schallsignale um „fünf kurze: Überholen nicht möglich“ (Binnen 161) ergänzt, mit Horn (v5.39). Weiter: die Szenen einzeln für das Hochformat neu zeichnen (größer, Boot aus boot.js), Reihenfolge wie §4.
+- v5.40: O171 alle Wiedersehen-Formen gut (B176). Übrige Animationen werden in `anim-hoch.js` neu gezeichnet: Hilfe `neu(id, o)` übernimmt Titel und Texte der alten Fassung, `ph` ändert einzelne Phasen; `anim3.js` gibt die Fahrzeuge als `ANIM.fz` frei. Stapel A5 fertig. Bilder-Werkzeug: Filter `=id1,id2` für genaue ids.
+- v5.41: A6 und A7 neu gezeichnet (Nebel, Glocke, Lateral, Kennungen mit Taktbalken, Sonderzeichen, Leit-/Richt-/Quermarkenfeuer, Tafeln, Brücke mit 40 px je Meter).
+- v5.42: A8 neu gezeichnet. Fachlich berichtigt: An der Standlinie stand die Gegenpeilung (vom Leuchtturm zum Boot), jetzt die gemessene Peilung vom Boot (023° und 335°, Schnittwinkel 48°). Koppelort genau 051° und 6 sm, Strom 2 kn genau Südost.
+- v5.43: A9 neu gezeichnet. **Fachfehler berichtigt:** In der Wetterkarte drehte der Wind ums Tief im Uhrzeigersinn nach außen und ums Hoch gegen den Uhrzeigersinn nach innen; jetzt richtig (Tief gegen den Uhrzeigersinn hinein, Hoch mit ihm hinaus, Pfeile berechnet). Wartung von Westen und Rettungsinseln steht nicht im Katalog: Phase als Wissen markiert, ohne feste Frist. Abgeglichen mit SBF 68, 69, 256–258, 261, 263, 267–270, 275.
+- v5.44: A10 Binnen neu gezeichnet (Fluss von oben nach unten, Talfahrt nach unten). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder), A1–A4 aus anim2 (wind, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler) und Teil B aus anim4.
+- v5.45: A1.1b, A2.2, A2.7, A3.2 und A4 neu gezeichnet. **Fachfehler berichtigt:** Im Verkehrstrennungsgebiet lagen die Einbahnwege wie im Linksverkehr (Trennzone rechts vom Schiff); jetzt rechter Weg nach Norden, linker nach Süden, Trennzone links vom Schiff (KVR Regel 10). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder) und Teil B aus anim4.
+- v5.46: Teil B: Listen-Animationen gemeinsam im Hochformat (Bild und Punkte werden aus der alten Fassung gelesen), B1 neu gezeichnet. **Fachfehler berichtigt:** Ablegen mit der Achterspring: Die Leine lief vom Heck nach achtern, und der Text sagte „nach vorn zum Poller hinter uns“; jetzt vom Heck schräg nach vorn an Land. Der Drehpunkt dreht das Boot jetzt wirklich um den Punkt ein Drittel von vorn.
+- v5.47: Letzter Stapel neu gezeichnet (Leck, Grundberührung, Bergen, Batterie, Kompass, Watt, Nachtfahrt, Sichtweite, Festmacher, Mayday, Echolot, steile See, Ruder). **Damit sind alle Animationen im Hochformat neu gezeichnet** (alle Einträge in §4 ✓). Der Hochformat-Rahmen aus v5.38 greift nur noch, falls später eine neue Querformat-Szene dazukommt. Nächste Schritte: Rückmeldung des Nutzers zu einzelnen Animationen (Seite „🎞️ Animationen“, Bewertung ✓/✏️).
