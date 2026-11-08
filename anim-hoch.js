@@ -592,7 +592,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
 
 /* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
 /* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
-const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
 const alt = id => ALT[id] || A.defs[id];
 const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
 
@@ -686,6 +686,39 @@ neu('sektorenfeuer', {bg: nachtH(500), obj: {leit: `<path d="M0 0 L-97 420 L-36 
     start: {wasser: {x: 200, y: DB + 4.8 * PM}, boot: {x: 200, y: DB + 4.8 * PM}, rot: {x: 200, y: 124, o: 0}, gruen: {x: 200, y: 133, o: 0}},
     ph: {1: {k: {wasser: {y: DB + 2.8 * PM}, boot: {y: DB + 2.8 * PM}}}, 3: {k: {boot: {x: 520}}}},
     fx(s, tp, p, st, c) { const w = c.wasser.y, m = q(s, '[data-o="mass"]'); if (!m) return; m.setAttribute('transform', `translate(300 ${w})`); m.querySelector('path').setAttribute('d', `M0 0 V${DB - w}`); const t = m.querySelector('text'); t.setAttribute('y', (DB - w) / 2); t.textContent = `${((w - DB) / PM).toFixed(1).replace('.', ',')} m frei`; }});
+})();
+
+/* ---------- A8 Navigation ---------- */
+(() => { const karteH = () => `<rect width="400" height="500" fill="#f3ead2"/><g stroke="#d9cba6" stroke-width="1">${[80, 160, 240, 320, 400, 480].map(y => `<path d="M0 ${y}H400"/>`).join('')}${[80, 160, 240, 320].map(x => `<path d="M${x} 0V500"/>`).join('')}</g>`;
+  const rose = (r = 140) => `<circle r="${r}" fill="#fffaf0" stroke="#7a6a56" stroke-width="2.5"/>${Array.from({length: 36}, (_, i) => { const a = i * 10 * Math.PI / 180, l = i % 9 ? 8 : 18; return `<path d="M${(Math.sin(a) * r).toFixed(1)} ${(-Math.cos(a) * r).toFixed(1)} L${(Math.sin(a) * (r - l)).toFixed(1)} ${(-Math.cos(a) * (r - l)).toFixed(1)}" stroke="#7a6a56" stroke-width="2"/>`; }).join('')}${T(0, -r + 38, 'N', 'middle', 18)}${T(r - 30, 6, 'O', 'middle', 18)}${T(0, r - 22, 'S', 'middle', 18)}${T(-r + 30, 6, 'W', 'middle', 18)}`;
+  const nadel = (c, l = 134, w = 5) => B.pfeil(0, 0, 0, -l, c, w);
+  neu('missweisung', {bg: karteH(), obj: {rose: rose(), rn: nadel('#1f5f99'), mn: nadel('#c0392b'), kn: nadel('#1f9a3c'), kurs: B.pfeil(0, 0, 140, 0, '#222', 6), tx: '<text class="t" x="0" y="0" text-anchor="middle" font-size="20"></text>',
+      leg: T(0, 0, 'Blau: geografisch Nord · Rot: magnetisch Nord', 'middle', 16) + T(0, 22, 'Grün: Kompass-Nord', 'middle', 16)},
+    start: {rose: {x: 200, y: 250}, rn: {x: 200, y: 250}, mn: {x: 200, y: 250, o: 0}, kn: {x: 200, y: 250, o: 0}, kurs: {x: 200, y: 250}, tx: {x: 200, y: 418}, leg: {x: 200, y: 76}},
+    enter(s, p) { q(s, '[data-o="tx"] text').innerHTML = [['rwK 090°', 'Kurs auf der Karte, zum Kartennord'], ['Mw 3° Ost', 'die Nadel zeigt zum Magnetpol'], ['mwK = rwK − Mw', '= 090° − 3° = 087°'], ['Abl 2° West', 'Eisen an Bord lenkt ab'], ['MgK = mwK − Abl', '= 087° − (−2°) = 089°']][p].map((t, i) => `<tspan x="0" dy="${i ? 26 : 0}">${t}</tspan>`).join(''); }});
+  const turm = (c = '#8a5a3a') => `<g transform="scale(1.4)"><path d="M-6 0 L-4 -22 L4 -22 L6 0Z" fill="${c}" stroke="#333"/><path d="M-5 -22 L0 -30 L5 -22Z" fill="#c0392b"/></g>`;
+  const LT = [330, 116], KT = [80, 126], WIR = [210, 400], linie = (o, c, txt, lx, ly) => { const dx = WIR[0] - o[0], dy = WIR[1] - o[1]; return `<path d="M0 0 L${(dx * 1.22).toFixed(0)} ${(dy * 1.22).toFixed(0)}" stroke="${c}" stroke-width="3"/>` + T(lx, ly, txt, 'middle', 18, c === '#c0392b' ? 'r' : 'b'); };
+  const brg = o => Math.round(((Math.atan2(o[0] - WIR[0], WIR[1] - o[1]) * 180 / Math.PI) + 360) % 360), drei = n => String(n).padStart(3, '0') + '°';
+  neu('peilung', {bg: karteH() + ufer('M0 40 H400 V112 Q300 146 200 122 T0 134Z'), obj: {lt: turm('#fff') + T(0, -50, 'Leuchtturm', 'middle', 16), kt: turm() + T(0, -50, 'Kirche', 'middle', 16),
+      l1: linie(LT, '#c0392b', 'Peilung ' + drei(brg(LT)), -10, 110), l2: linie(KT, '#1f5f99', 'Peilung ' + drei(brg(KT)), 70, 110),
+      wir: BO.oben({}), x: '<circle r="13" fill="none" stroke="#f08a1c" stroke-width="4"/>' + T(20, 30, 'Standort', 'start', 17), schlecht: zeilen(0, 0, ['Schnittwinkel möglichst', 'zwischen 30° und 150°'], 'middle', 17)},
+    start: {lt: {x: LT[0], y: LT[1]}, kt: {x: KT[0], y: KT[1]}, l1: {x: LT[0], y: LT[1], o: 0}, l2: {x: KT[0], y: KT[1], o: 0}, wir: {x: WIR[0], y: WIR[1], s: .55}, x: {x: WIR[0], y: WIR[1], o: 0}, schlecht: {x: 200, y: 452, o: 0}}});
+  const S0 = [86, 420], KO = [S0[0] + 240 * Math.sin(51 * Math.PI / 180), S0[1] - 240 * Math.cos(51 * Math.PI / 180)], BOR = [KO[0] + 57, KO[1] + 57];
+  neu('koppel', {bg: karteH(), obj: {start: '<circle r="8" fill="#222"/>' + T(-6, 30, 'Abfahrt 10:00', 'start', 16), kv: B.pfeil(0, 0, KO[0] - S0[0], KO[1] - S0[1], '#222', 4) + T(60, -96, 'Kurs 051°, 6 kn, 1 h', 'middle', 16),
+      ko: '<path d="M-9 -9 L9 9 M9 -9 L-9 9" stroke="#222" stroke-width="4"/>' + T(-14, -14, 'Koppelort', 'end', 16), strom: B.pfeil(0, 0, 57, 57, '#1f5f99', 5) + T(40, 84, 'Strom 2 kn', 'middle', 16, 'b'),
+      bo: '<circle r="11" fill="none" stroke="#f08a1c" stroke-width="4"/>' + T(-14, 30, 'Besteckort', 'end', 16), boot: BO.oben({})},
+    start: {start: {x: S0[0], y: S0[1]}, kv: {x: S0[0], y: S0[1], o: 0}, ko: {x: KO[0], y: KO[1], o: 0}, strom: {x: KO[0], y: KO[1], o: 0}, bo: {x: BOR[0], y: BOR[1], o: 0}, boot: {x: S0[0], y: S0[1], r: 51, s: .45}},
+    ph: {0: {k: {boot: {x: KO[0], y: KO[1]}}}, 3: {k: {boot: {x: BOR[0], y: BOR[1]}}}}});
+  neu('tidenstrom', {bg: wasser(500) + ufer('M0 0 H130 Q108 220 138 500 H0Z') + ufer('M400 0 H270 Q292 220 262 500 H400Z') + T(200, 484, 'zur See', 'middle', 17) + T(200, 70, 'landeinwärts', 'middle', 17),
+    obj: {flut: [0, 1, 2].map(i => B.pfeil(0, 440 - i * 120, 0, 360 - i * 120, '#fff', 6, 'fl')).join(''), ebb: [0, 1, 2].map(i => B.pfeil(0, 120 + i * 120, 0, 200 + i * 120, '#ffe28a', 6, 'fl')).join(''), still: zeilen(0, 260, ['Stillwasser:', 'der Strom kentert'], 'middle', 20),
+      wind: [0, 1].map(i => B.pfeil(-70 + i * 140, 200, -70 + i * 140, 130, '#c0392b', 5)).join('') + T(0, 226, 'Wind von See', 'middle', 18, 'r'), see: Array.from({length: 7}, (_, i) => `<path d="M${-34 + (i % 2) * 18} ${270 + i * 30} l13 -20 l13 20" fill="#fff" stroke="#356" stroke-width="2"/>`).join('')},
+    start: {flut: {x: 200, y: 0, o: 0}, ebb: {x: 200, y: 0, o: 0}, still: {x: 200, y: 0, o: 0}, wind: {x: 200, y: 0, o: 0}, see: {x: 200, y: 0, o: 0}}});
+  neu('seemeile', {bg: '<rect width="400" height="500" fill="#f3ead2"/><circle cx="130" cy="560" r="400" fill="#9ccbe8" stroke="#356" stroke-width="3"/>',
+    obj: {keil: '<path d="M0 0 L104 -386 A400 400 0 0 1 200 -346Z" fill="#f2c200" opacity=".55" stroke="#7a6014" stroke-width="2"/>' + T(120, -250, "1'", 'middle', 22), tx: zeilen(0, 0, ['1 Bogenminute Breite', '= 1 Seemeile = 1852 m'], 'middle', 20),
+      rand: '<rect x="-12" y="-150" width="24" height="300" fill="#fff" stroke="#333" stroke-width="2"/>' + Array.from({length: 16}, (_, i) => `<path d="M-12 ${-150 + i * 20} h${i % 2 ? 8 : 16}" stroke="#333" stroke-width="1.5"/>`).join('') + T(0, 176, 'Breitenrand', 'middle', 16),
+      kn: zeilen(0, 0, ['1 Knoten =', '1 Seemeile pro Stunde'], 'middle', 20), boot: BO.oben({})},
+    start: {keil: {x: 130, y: 560}, tx: {x: 180, y: 90, o: 0}, rand: {x: 360, y: 290, o: 0}, kn: {x: 180, y: 440, o: 0}, boot: {x: 120, y: 360, r: 90, s: .5, o: 0}},
+    ph: {3: {k: {boot: {x: 280}}}}});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
