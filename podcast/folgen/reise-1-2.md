@@ -163,11 +163,12 @@ HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
 SMILLA: Solange.
 
 [[ABSCHNITT: Logbuch]]
-# HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms spricht als Sprachnachricht, den Rahmen hält Smilla.
-[[SZENE: Smilla sitzt am Kartentisch mit dem Logbuch. Auf dem Handy eine Sprachnachricht von Harms. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
+# HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms ruft selbst an (Nutzer 08.11.2026: nicht ankündigen lassen).
+[[SZENE: Smilla sitzt am Kartentisch mit dem Logbuch. Das Telefon klingelt, Harms ruft an. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
-SMILLA: Logbuch. Erster Tag, Kuttershaven, Vormittag. Getankt, Streichholz konfisziert, Gashahn erklärt. Und unter jeden Tag kommen Harms' Fragen. Er hat sie aufs Handy gesprochen.
-HARMS: Harms. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
+SMILLA: Logbuch. Erster Tag, Kuttershaven, Vormittag. Getankt, Streichholz konfisziert, Gashahn erklärt.
+[[AUDIO: Telefon]]
+HARMS: Harms. Tanken und Gas. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
