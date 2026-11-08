@@ -153,6 +153,7 @@ const put = (e, a) => { if (e) for (const k in a) e.setAttribute(k, a[k]); };
 const ez = u => { u = Math.max(0, Math.min(1, u)); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; };
 const lp = (a, b, u) => a + (b - a) * Math.max(0, Math.min(1, u));
 const komma = (v, n = 1) => v.toFixed(n).replace('.', ',');
+const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength'); try { if (e.getComputedTextLength() > max) { e.setAttribute('textLength', max); e.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (x) {} };
 
 /* ---------- A8.6 Ebbe und Flut (SBF See 249–255; Wassertiefe = Kartentiefe + Höhe als Wissen) ---------- */
 (() => { const KN = 330, SC = 38, NW = .4, HW = 3.6, MID = (HW + NW) / 2, AMP = (HW - NW) / 2, TK = .5, X0 = 70;
@@ -387,6 +388,96 @@ const komma = (v, n = 1) => v.toFixed(n).replace('.', ',');
         const sl = q(s, '.slab'); sl.textContent = schnell ? 'Zu schnell!' : 'Langsam'; put(sl, {x: 120, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
       }
     }});
+})();
+
+/* ---------- A5.1 Lichterkarussell: oben von oben, unten so, wie du das Boot siehst (Nutzer 08.11.2026) ---------- */
+(() => { const C = [200, 170], R = 96;
+  const sek = f => ({top: f <= 112.5 || f >= 247.5, gr: f <= 112.5 || f >= 357, ro: f >= 247.5 || f <= 3, he: f >= 112.5 && f <= 247.5});   /* genau von vorn (± 3°) sieht man beide Seitenlichter */
+  const bogen = (r, a0, a1) => { const P = a => [C[0] + r * Math.sin(a * Math.PI / 180), C[1] - r * Math.cos(a * Math.PI / 180)]; const [x0, y0] = P(a0), [x1, y1] = P(a1); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 ${(a1 - a0) > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+  const glow = (id, c, r) => `<g id="${id}" opacity="0"><circle r="${r * 2.8}" fill="${c}" opacity=".28"/><circle r="${r}" fill="${c}"/></g>`;
+  roh('lichter', {titel: 'Lichterkarussell', nr: 'A5.1', gruppe: 'A5 Lichter und Signalkörper', folge: 'G5.1, S3.1',
+    svg: `<rect width="400" height="500" fill="#0f1d36"/>${Array.from({length: 24}, (_, i) => `<circle cx="${(i * 97) % 390 + 5}" cy="${(i * 53) % 270 + 40}" r="${i % 3 ? .9 : 1.4}" fill="#fff" opacity=".5"/>`).join('')}
+      <path d="${bogen(66, -112.5, 112.5)}" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="4"/><path d="${bogen(56, 0, 112.5)}" fill="none" stroke="#2ee06a" stroke-width="10"/><path d="${bogen(56, 247.5, 360)}" fill="none" stroke="#ff4a3d" stroke-width="10"/><path d="${bogen(76, 112.5, 247.5)}" fill="none" stroke="#fffbe0" stroke-opacity=".85" stroke-width="4" stroke-dasharray="6 4"/>
+      <g transform="translate(${C[0]} ${C[1]}) scale(.9)">${BO.oben({lichter: true, nacht: true})}</g>
+      <g id="leye"><circle r="13" fill="#ffd36a" stroke="#fff" stroke-width="2.5"/><circle r="5" fill="#0f1d36"/></g>
+      ${T(C[0] + 24, C[1] - R - 6, 'voraus', 'start', 16, 'lw')}${T(C[0] + 24, C[1] + R + 14, 'achteraus', 'start', 16, 'lw')}
+      <rect x="14" y="296" width="372" height="170" rx="16" fill="#132748" stroke="#3b5580" stroke-width="2"/>${T(200, 320, 'So siehst du das Boot', 'middle', 16, 'lw')}
+      <path d="M24 420 H376" stroke="#3d6a9a" stroke-width="2"/><g id="lsil"></g>
+      ${glow('lgT', '#ffffff', 6)}${glow('lgR', '#ff4a3d', 6)}${glow('lgG', '#2ee06a', 6)}${glow('lgH', '#fffbe0', 6)}
+      ${T(200, 455, '', 'middle', 17, 'lw lsee')}<style>.an .lw{fill:#e8eef8;stroke:#0f1d36}</style>`,
+    phasen: [
+      {wer: M, t: 'Kommt ein Motorboot genau auf dich zu, siehst du Rot und Grün nebeneinander und darüber das weiße Topplicht.', min: 7, cap: 'Von vorn: Rot, Grün, Topplicht'},
+      {wer: H, t: 'Siehst du es von der Seite, siehst du nur eine Seitenlampe, hier Grün von Steuerbord, dazu das Topplicht.', min: 7, cap: 'Von der Seite: Grün und Topplicht'},
+      {wer: M, t: 'Von achtern siehst du nur das weiße Hecklicht.', min: 5, cap: 'Von achtern: nur das Hecklicht'},
+      {wer: H, t: 'Und jetzt gehst du einmal ganz herum. Schau unten, wann welche Lampe angeht und wie das Boot sich dreht.', min: 14, cap: 'Einmal rundherum'}],
+    init(s, st) { st.phi = 0; },
+    tick(s, tp, p, st) {
+      const dt = st.dt || .016; if (p === 3) st.phi = (st.phi + 26 * dt) % 360; else { const t = [0, 90, 180][p], d = ((t - st.phi + 540) % 360) - 180; st.phi = (st.phi + d * Math.min(1, dt * 3.5) + 360) % 360; }
+      const f = st.phi, fr = f * Math.PI / 180; put(q(s, '#leye'), {transform: `translate(${(C[0] + R * Math.sin(fr)).toFixed(1)} ${(C[1] - R * Math.cos(fr)).toFixed(1)})`});
+      /* Ansicht: Beobachter in Richtung f (0 = voraus, 90 = Steuerbord) schaut aufs Boot; rechts im Bild = (−cos f, sin f) in Bootskoordinaten (x Steuerbord, y voraus) */
+      const rx = -Math.cos(fr), ry = Math.sin(fr), px = (x, y) => 200 + (x * rx + y * ry) * 2.1, WL = 420;
+      const xb = px(0, 44), xs = px(0, -44), w = Math.abs(rx) * 0 + Math.abs(Math.cos(fr)) * 0 + 19 * Math.abs(Math.sin(fr + Math.PI / 2)) * 0;
+      const umriss = [[0, 44], [14, 26], [19, 0], [18, -44], [-18, -44], [-19, 0], [-14, 26]].map(([x, y]) => px(x, y)), lo = Math.min(...umriss), hi = Math.max(...umriss);
+      const vorn = xb, bugHoch = 8; const kab = [px(-10, 6), px(10, 6), px(10, -20), px(-10, -20)], k0 = Math.min(...kab), k1 = Math.max(...kab);
+      q(s, '#lsil').innerHTML = `<path d="M${lo.toFixed(1)} ${WL - 28} L${hi.toFixed(1)} ${WL - 28} L${(hi - 6).toFixed(1)} ${WL} L${(lo + 6).toFixed(1)} ${WL}Z" fill="#1e2a3d" stroke="#4d6a8f" stroke-width="2"/>
+        <path d="M${vorn.toFixed(1)} ${WL - 28 - bugHoch} L${vorn.toFixed(1)} ${WL - 28}" stroke="#4d6a8f" stroke-width="3"/>
+        <rect x="${k0.toFixed(1)}" y="${WL - 58}" width="${Math.max(6, k1 - k0).toFixed(1)}" height="30" rx="4" fill="#26354c" stroke="#4d6a8f" stroke-width="2"/>
+        <path d="M${px(0, 10).toFixed(1)} ${WL - 58} V${WL - 110}" stroke="#4d6a8f" stroke-width="3"/>`;
+      const z = sek(f), L = [['lgT', px(0, 10), WL - 112, z.top], ['lgR', px(-19, 22), WL - 32, z.ro], ['lgG', px(19, 22), WL - 32, z.gr], ['lgH', px(0, -44), WL - 34, z.he]];
+      L.forEach(([id, x, y, an]) => put(q(s, '#' + id), {transform: `translate(${x.toFixed(1)} ${y})`, opacity: an ? 1 : 0}));
+      q(s, '.lsee').textContent = 'Du siehst: ' + [z.top && 'Topplicht', z.ro && 'Rot', z.gr && 'Grün', z.he && 'Hecklicht'].filter(Boolean).join(', ');
+    }});
+})();
+
+/* ---------- A7.3 Kardinalzeichen als Uhr (Marke Prüfung immer an derselben Stelle, O170) ---------- */
+(() => { const M0 = [200, 268], RK = 150;
+  const K = [['N', 'nord', [200, 170], 'Nord: schwarz über gelb', 'Kegel: Spitzen nach oben', 'ununterbrochen schnell', 0],
+    ['O', 'ost', [334, 300], 'Ost: schwarz, gelb, schwarz', 'Kegel: Basis an Basis', '3 Blitze, wie 3 Uhr', 90],
+    ['S', 'sued', [200, 428], 'Süd: gelb über schwarz', 'Kegel: Spitzen nach unten', '6 Blitze + 1 langer, wie 6 Uhr', 180],
+    ['W', 'west', [66, 300], 'West: gelb, schwarz, gelb', 'Kegel: Spitzen zueinander', '9 Blitze, wie 9 Uhr', 270]];
+  const blitz = (n, t) => { if (n === 'N') return Math.floor(t / .12) % 2 === 0; const per = {O: 5, S: 7.2, W: 7.6}[n], c = {O: 3, S: 6, W: 9}[n], u = t % per; if (u < c * .5) return (u % .5) < .25; if (n === 'S') return u > c * .5 + .3 && u < c * .5 + 1.5; return false; };
+  const keil = a => { const P = d => [M0[0] + RK * Math.sin(d * Math.PI / 180), M0[1] - RK * Math.cos(d * Math.PI / 180)], [x0, y0] = P(a - 45), [x1, y1] = P(a + 45); return `M${M0[0]} ${M0[1]} L${x0.toFixed(1)} ${y0.toFixed(1)} A${RK} ${RK} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}Z`; };
+  roh('kardinal', {titel: 'Kardinalzeichen als Uhr', nr: 'A7.3', gruppe: 'A7 Zeichen, Tonnen, Feuer, Tafeln', folge: 'S5.4',
+    svg: `<rect width="400" height="500" fill="#5ba7cf"/><circle cx="${M0[0]}" cy="${M0[1]}" r="${RK}" fill="#fff" fill-opacity=".14" stroke="#fff" stroke-opacity=".6" stroke-width="3"/>
+      <g transform="translate(364 458)"><circle r="28" fill="#fff" stroke="#2b3a4a" stroke-width="3"/>${[12, 3, 6, 9].map(h => { const a = (h % 12) * 30 * Math.PI / 180; return `<text class="t" x="${(19 * Math.sin(a)).toFixed(0)}" y="${(-19 * Math.cos(a) + 4).toFixed(0)}" text-anchor="middle" font-size="11" stroke="none">${h}</text>`; }).join('')}<path id="kzeig" d="M0 0 V-16" stroke="#c0392b" stroke-width="3.5" stroke-linecap="round"/><circle r="3" fill="#2b3a4a"/></g>
+      <path id="kkeil" fill="#2ee06a" fill-opacity=".35" stroke="#1f9a3c" stroke-width="2" opacity="0"/>
+      <g transform="translate(${M0[0]} ${M0[1]})"><path d="M-30 4 Q-20 -18 0 -12 Q22 -18 30 2 Q18 20 0 16 Q-20 20 -30 4Z" fill="#6b5a45" stroke="#3a2e22" stroke-width="2.5"/><path d="M-14 -4 L10 6 M-4 -12 L4 12" stroke="#3a2e22" stroke-width="3"/>${T(0, 40, 'Gefahr', 'middle', 16, 'r')}</g>
+      ${K.map(([n, art, [x, y]]) => `<g class="kt" data-n="${n}" transform="translate(${x} ${y}) scale(1.35)">${B.tonne(art)}<circle class="kl" cx="0" cy="-70" r="5" fill="#555" stroke="#222"/><circle class="kg" cx="0" cy="-70" r="13" fill="#ffe45a" opacity="0"/></g>`).join('')}
+      ${K.map(([n, , [x, y]]) => T(x + (n === 'W' ? -30 : n === 'O' ? 30 : 0), y + (n === 'N' ? -100 : 22), n, 'middle', 22, 'w')).join('')}
+      ${T(176, 450, '', 'middle', 18, 'kt1')}${T(176, 476, '', 'middle', 16, 'kt2')}`,
+    phasen: [
+      {wer: M, t: 'Vier Tonnen stehen um die Gefahrenstelle: Nord, Ost, Süd und West. Du fährst an der Seite vorbei, nach der die Tonne heißt.', min: 8, cap: 'Vier Tonnen um die Gefahr'},
+      {wer: H, t: 'Das Nordzeichen steht im Norden der Gefahr: Fahr nördlich vorbei. Beide Kegel zeigen nach oben, und es blitzt ununterbrochen schnell.', min: 8, cap: 'Nord: nördlich vorbei'},
+      {wer: M, t: 'Ost: östlich vorbei. Die Kegel stehen Basis an Basis, und es blitzt dreimal, wie drei Uhr.', min: 8, cap: 'Ost: östlich vorbei'},
+      {wer: H, t: 'Süd: südlich vorbei. Beide Kegel zeigen nach unten. Es blitzt sechsmal und dann noch einmal lang, wie sechs Uhr.', min: 9, cap: 'Süd: südlich vorbei'},
+      {wer: M, t: 'West: westlich vorbei. Die Kegel zeigen mit den Spitzen zueinander, und es blitzt neunmal, wie neun Uhr.', min: 9, cap: 'West: westlich vorbei'}],
+    enter(s, p) { const k = K[p - 1]; put(q(s, '#kkeil'), {opacity: k ? 1 : 0, d: k ? keil(k[6]) : 'M0 0'}); qa(s, '.kt').forEach(e => put(e, {opacity: !k || e.dataset.n === k[0] ? 1 : .45}));
+      q(s, '.kt1').textContent = k ? k[3] : 'Die Tonne sagt, wo das sichere Wasser ist'; q(s, '.kt2').textContent = k ? k[4] + ' · ' + k[5] : ''; fit(q(s, '.kt1'), 300); fit(q(s, '.kt2'), 300);
+      put(q(s, '#kzeig'), {transform: `rotate(${k ? k[6] : 0})`, opacity: k ? 1 : .3}); },
+    tick(s, tp, p) { qa(s, '.kt').forEach(e => { const n = e.dataset.n, i = K.findIndex(k => k[0] === n), on = (p === 0 || p === i + 1) && blitz(n, tp + i * .7); put(e.querySelector('.kl'), {fill: on ? '#ffe45a' : '#555'}); put(e.querySelector('.kg'), {opacity: on ? .45 : 0}); }); }});
+})();
+
+/* ---------- A9.1 Warum der Wind weht (Schrift größer, Nutzer 08.11.2026) ---------- */
+(() => { const HP = [200, 170], TP = [200, 370];
+  roh('wetter', {titel: 'Warum der Wind weht', nr: 'A9.1', gruppe: 'A9 Wetter, Natur, Sicherheit', folge: 'G7.1, S9.1',
+    svg: `<rect width="400" height="500" fill="#e3eef4"/>${[30, 56, 82].map(r => `<circle cx="${HP[0]}" cy="${HP[1]}" r="${r}" fill="none" stroke="#b5a2cc" stroke-width="2.5"/><circle cx="${TP[0]}" cy="${TP[1]}" r="${r}" fill="none" stroke="#9ab" stroke-width="2.5"/>`).join('')}
+      <text class="t" x="${HP[0]}" y="${HP[1] + 14}" text-anchor="middle" font-size="42" fill="#6a3d9a">H</text><text class="t" x="${TP[0]}" y="${TP[1] + 14}" text-anchor="middle" font-size="42" fill="#2a6a9a">T</text>
+      ${T(310, HP[1] - 60, 'Hoch:', 'middle', 18)}${T(310, HP[1] - 38, 'viel Druck', 'middle', 18)}${T(310, TP[1] + 50, 'Tief:', 'middle', 18)}${T(310, TP[1] + 72, 'wenig Druck', 'middle', 18)}
+      <g id="wdr" opacity="0">${B.pfeil(HP[0], HP[1] + 40, HP[0], TP[1] - 40, '#f08a1c', 6)}</g><g id="wpt"></g>${T(200, 478, '', 'middle', 18, 'wn')}`,
+    phasen: [
+      {wer: M, t: 'Hier ein Hoch, dort ein Tief. Im Hoch drückt die Luft stärker, im Tief schwächer.', min: 6, cap: 'Hoch und Tief'},
+      {wer: H, t: 'Die Luft will vom hohen zum tiefen Druck. Das ist der Wind.', min: 6, cap: 'Druckunterschied macht Wind'},
+      {wer: M, t: 'Durch die Erddrehung wird sie abgelenkt. Auf der Nordhalbkugel strömt sie im Hoch im Uhrzeigersinn hinaus und im Tief gegen den Uhrzeigersinn hinein.', min: 10, cap: 'Erddrehung lenkt ab'},
+      {wer: H, t: 'Merk dir: Um das Tief dreht der Wind gegen den Uhrzeigersinn.', min: 6, cap: 'Tief: gegen den Uhrzeigersinn'}],
+    init(s, st) { st.pts = Array.from({length: 64}, (_, i) => ({a: Math.random() * 6.28, r: 10 + Math.random() * 74, x: 160 + Math.random() * 80, y: HP[1] + 30 + Math.random() * 140, g: i % 2})); q(s, '#wpt').innerHTML = st.pts.map(() => `<circle r="4" fill="#2b6a9a"/>`).join(''); },
+    enter(s, p) { put(q(s, '#wdr'), {opacity: p === 1 ? 1 : 0}); q(s, '.wn').textContent = ['', 'vom Hoch zum Tief', 'Hoch: im Uhrzeigersinn hinaus · Tief: gegen ihn hinein', 'Nordhalbkugel'][p] || ''; fit(q(s, '.wn')); },
+    tick(s, tp, p, st) { const dt = st.dt || .016, cs = q(s, '#wpt').children;
+      st.pts.forEach((o, i) => { let x, y;
+        if (p === 0) { x = o.x; y = o.y; }
+        else if (p === 1) { o.y += 80 * dt; if (o.y > TP[1] - 30) { o.y = HP[1] + 30; o.x = 160 + Math.random() * 80; } x = o.x; y = o.y; }
+        else if (o.g) { o.a -= 1.0 * dt; o.r -= 12 * dt; if (o.r < 10) { o.r = 84; o.a = Math.random() * 6.28; } x = TP[0] + o.r * Math.cos(o.a); y = TP[1] + o.r * Math.sin(o.a); }
+        else { o.a += 1.0 * dt; o.r += 12 * dt; if (o.r > 84) { o.r = 10; o.a = Math.random() * 6.28; } x = HP[0] + o.r * Math.cos(o.a); y = HP[1] + o.r * Math.sin(o.a); }
+        put(cs[i], {cx: x.toFixed(1), cy: y.toFixed(1), opacity: p === 0 ? 0 : (p === 3 && !o.g ? .25 : 1)}); }); }});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
