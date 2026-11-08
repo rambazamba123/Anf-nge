@@ -44,10 +44,10 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 |---|---|---|---|
 | A1.1 | boot | anim-hoch | ✓ v5.32 |
 | A1.1b | wind | anim2 | ○ |
-| A1.2 | rad | reise.js (raw) | ○ |
+| A1.2 | rad | anim-hoch | ✓ v5.37 (eigene Zeichnung statt reise.js; Bogen trifft die Rumpfhälfte, Drehpfeil, Heck weicht aus) |
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
-| A1.5 | motor | anim2 | ○ |
+| A1.5 | motor | anim-hoch | ✓ v5.37 (Einbaumotor im Schnitt mit Boot und Wasser, Flüssigkeiten fließen, Warnleuchten nach Frage 52–55, Phase 5 nach Frage 60) |
 | A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
 | A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
@@ -66,16 +66,18 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A4.6 | vtg | anim2 | ○ |
 | A4.7 | fahrwasser | anim2 | ○ |
 | A4.8 | segler | anim2 | ○ |
-| A5.1 | lichter | anim.js | ○ |
+| A5.1 | lichter | anim-hoch | ✓ v5.36 (zweite Ansicht: so siehst du das Boot, es dreht sich mit; Fehler behoben: von vorn fehlte Rot) |
 | A5.2 | lichtertafel | anim3 | ○ |
 | A5.3–A5.6 | schlepp, manunf, fischer, anker | anim3 | ○ |
 | A6.1 | schall | anim-hoch | ✓ v5.33 (alle 13 Signale des SBF-See-Katalogs, Horn nach dem Vorlesen) |
 | A6.2, A6.3 | nebel, glocke | anim3 | ○ |
-| A7.1–A7.7 | lateral, kennung, kardinal (anim.js), sonderzeichen, sektorenfeuer, tafeln, bruecke | anim3 | ○ |
+| A7.3 | kardinal | anim-hoch | ✓ v5.36 (Marke, sicherer Sektor grün, Uhr klein unten) |
+| A7.1–A7.7 | lateral, kennung, sonderzeichen, sektorenfeuer, tafeln, bruecke | anim3 | ○ |
 | A7.8 | schleuse | anim-hoch | ✓ v5.34 (heller Strich war eine Lücke im Wasser; Drempel, Leine nachlassen, Rot+Grün nach Binnen 117/119) |
 | A8.6 | gezeiten | anim-hoch | ✓ v5.34 (Boot immer sichtbar, Steine mit Kartentiefe, Pegel, Rechnung Wassertiefe, Begriffe nach SBF 249–255) |
 | A8.3–A8.8 | missweisung, peilung, koppel, tidenstrom, seemeile | anim3 | ○ |
-| A9.1–A9.10 | wetter (anim.js), wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim3 | ○ |
+| A9.1 | wetter | anim-hoch | ✓ v5.36 (Hoch über Tief, Schrift groß) |
+| A9.2–A9.10 | wetterkarte, beaufort, schwerwetter, notsignale, sicherheit, feuer, umwelt, nationalpark, baden | anim3 | ○ |
 | A10.1–A10.7 | bergtal, faehre, wehr, binnenschall, wasserski, segeln | anim3 | ○ |
 | B1–B4 | festmacher, mayday, echolot, steilesee (anim.js) und alle aus anim4 | anim4 | ○ |
 
@@ -86,3 +88,5 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.33: Horn repariert: Der Auto-Start per Timer galt nicht als Antippen, darum gab der Browser den Ton nicht frei. Jetzt gibt `A.spiele` Ton und Handystimme beim Antippen frei, und eine Phase kann mit `nach(svg)` nach dem Vorlesen einen eigenen Ton spielen (Auto-Lauf wartet darauf, `svg.__ton` wird beim Weiterschalten gestoppt). Schallsignale neu im Hochformat mit allen Signalen des Katalogs (Fragen 4, 5, 16, 124, 139–141, 161–164, 178, 186, 188, 279, 281, 282) plus Kursänderung als Wissen; Test: Horn klingt im Auto-Lauf.
 - v5.34: Hilfsfunktion `roh(id, o)` in `anim-hoch.js` für eigene Zeichnungen mit `tick` im selben Rahmen (Überschrift, Unterzeile, Marke). Ebbe und Flut sowie Schleuse neu im Hochformat. Überschriften jetzt wirklich groß (die CSS-Regel `.an .t.cap{font-size:15px}` hat `gross` überstimmt, entfernt).
 - v5.35: Gas, Tanken, Sog im Hochformat (Phasen 0–2 bzw. 0–3 wie von der Hörreise genutzt, Neues nur angehängt). Bilder-Werkzeug mit `ZEIT=ms` (Moment im Ablauf, z. B. Explosion bei 1900).
+- v5.36: Lichterkarussell, Kardinalzeichen, Wetter im Hochformat; Hilfsfunktion `fit(e, max)` macht zu lange Texte schmaler. Nächster Stapel: motor, rad, dann die übrigen A-Animationen der Reihe nach.
+- v5.37: Motor und Radeffekt neu im Hochformat. Damit sind alle vom Nutzer kommentierten Animationen umgebaut (außer B1.6 Knotenbrett-Kommentarfeld). Nächster Schritt: die übrigen A-Animationen der Reihe nach (wind, ruder, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler, lichtertafel …).
