@@ -86,6 +86,7 @@ const kVon = ph => { const k = {...(ph.k || {})}; (ph.an || []).forEach(n => { k
 const ziel = (von, k) => { if (!k) return von; const z = {...von, ...k}; delete z.weg; delete z.dreh; if (k.weg) { const e = wegAt(wegPunkte(von, k), 1, k.dreh || 0); z.x = e.x; z.y = e.y; if (k.r == null) z.r = e.r; } return z; };
 const winkel = (a, b) => { let d = ((b - a) % 360 + 540) % 360 - 180; return a + d; };
 A.szene = function (id, o) {
+  const neuId = !!A.defs[id];
   const namen = Object.keys(o.obj || {});
   /* v5.30: o.vb [Breite, Höhe] (Hochformat 400 × 500 im Test), o.gross = größere Schrift, o.marke = Marke „Prüfung“ oder „Wissen“ je Phase oben rechts (O170, Feld pr in der Phase, Standard aus art) */
   const vb = o.vb || [400, 300], W = vb[0], Hh = vb[1], gr = o.gross ? 1.35 : 1;
@@ -94,7 +95,7 @@ A.szene = function (id, o) {
   const stand = p => { const st = {}; namen.forEach(n => { st[n] = {...ST0, ...((o.start || {})[n] || {})}; }); for (let i = 0; i < p; i++) { const k = kVon(o.phasen[i]); namen.forEach(n => { st[n] = ziel(st[n], k[n]); }); } return st; };
   const zeichne = (s, st) => namen.forEach(n => { const e = s.querySelector(`[data-o="${n}"]`), v = st[n]; if (!e) return; e.setAttribute('transform', `translate(${v.x.toFixed(1)} ${v.y.toFixed(1)}) rotate(${v.r.toFixed(1)}) scale(${v.s.toFixed(3)})`); e.setAttribute('opacity', Math.max(0, Math.min(1, v.o)).toFixed(2)); });
   A.defs[id] = {id, titel: o.titel, nr: o.nr, gruppe: o.gruppe, art: o.art || 'pruefung', folge: o.folge || '', wo: o.wo || '', neu: o.neu || '5.29', vb: o.vb, svg, phasen: o.phasen,
-    enter(s, p, st) { st.von = stand(p); st.k = kVon(o.phasen[p] || {}); st.dur = (o.phasen[p] || {}).dur ?? 2.4; q(s, '.cap').textContent = (o.phasen[p] || {}).cap || ''; q(s, '.sub').textContent = (o.phasen[p] || {}).sub || '';
+    enter(s, p, st) { st.von = stand(p); st.k = kVon(o.phasen[p] || {}); st.dur = (o.phasen[p] || {}).dur ?? 2.4; { const ce = q(s, '.cap'); ce.textContent = (o.phasen[p] || {}).cap || ''; ce.removeAttribute('textLength'); const mx = o.marke ? W - 130 : W - 16; try { if (ce.getComputedTextLength() > mx) { ce.setAttribute('textLength', mx); ce.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } } catch (e) {} } q(s, '.sub').textContent = (o.phasen[p] || {}).sub || '';
       const mk = q(s, '.marke'); if (mk) { const pr = (o.phasen[p] || {}).pr ?? (o.art || 'pruefung') === 'pruefung'; mk.querySelector('rect').setAttribute('fill', pr ? '#1f5f99' : '#6a8f3a'); mk.querySelector('text').textContent = pr ? '📋 Prüfung' : '💡 Wissen'; }
       if (o.enter) o.enter(s, p, st); zeichne(s, st.von); },
     tick(s, tp, p, st) {
@@ -103,7 +104,7 @@ A.szene = function (id, o) {
         if (k.weg) { const w = wegAt(wegPunkte(v, k), u, k.dreh || 0); cur[n] = {...v, x: w.x, y: w.y, r: k.r != null ? lp(v.r, k.r, u) : lp(v.r, winkel(v.r, w.r), Math.min(1, u * 6)), o: lp(v.o, k.o ?? v.o, u), s: lp(v.s, k.s ?? v.s, u)}; }
         else { const z = ziel(v, k); cur[n] = {x: lp(v.x, z.x, u), y: lp(v.y, z.y, u), r: lp(v.r, winkel(v.r, z.r), u), o: lp(v.o, z.o, u), s: lp(v.s, z.s, u)}; } });
       zeichne(s, cur); const ph = o.phasen[p] || {}; if (ph.fx) ph.fx(s, tp, st, cur); if (o.fx) o.fx(s, tp, p, st, cur); }};
-  A.order.push(id);
+  if (!neuId) A.order.push(id);   /* Hochformat-Fassungen (anim-hoch.js) ersetzen die alten an derselben Stelle der Liste */
 };
 const S = A.szene;
 const P = (wer, t, rest = {}) => ({wer, t, min: Math.max(4, Math.round(t.length / 15)), ...rest});
