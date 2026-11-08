@@ -12,7 +12,7 @@ hoerreise: ja
 [[ABSCHNITT: W1 Du entscheidest]]
 [[SZENE: Elvmünde, Fahrwasser von See kommend. Grüne Tonne voraus.]]
 [[REVIER: fahrwasser]]
-HINNERK: Du hast die Pinne. Da vorn die grüne Tonne. Wo lässt du sie?
+HINNERK: Du hast die Pinne. Da vorn die grüne Tonne. Wo lässt du sie? Alfa: rechts von uns, an Steuerbord. Bravo: links von uns, an Backbord.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:157 | *rechts von uns, an Steuerbord | links von uns, an Backbord]]
@@ -26,7 +26,7 @@ SMILLA: Weißt noch, in der Kajüte? Von See kommend hast du die grünen Tonnen 
 [[ABSCHNITT: W2 Die Crew fragt dich]]
 [[SZENE: Offenes Wasser. Ein Motorboot kommt von rechts.]]
 [[REVIER: frei]]
-SMILLA: Du, guck mal. Der da kommt von rechts, und die Peilung steht. Wer muss weg, wir oder der?
+SMILLA: Du, guck mal. Der da kommt von rechts, und die Peilung steht. Wer muss weg? Alfa: wir. Bravo: der andere.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:15 | *wir | der andere]]
@@ -41,7 +41,7 @@ HINNERK: Rechts kommt, hat Vorfahrt. Wie auf der Straße. Wir gehen nach rechts 
 [[SZENE: Enges Fahrwasser in der Elvmünde, Ebbstrom. Ein Frachter kommt gegen den Strom entgegen. Quirin steht vorn.]]
 [[REVIER: fahrwasser]]
 QUIRIN: Ganz easy. Der fahrt gegen den Strom, also muss der ausweichen. Is bei uns auf der Donau aa so.
-HINNERK: Und? Hat er recht?
+HINNERK: Und? Hat er recht? Alfa: Quirin hat recht. Bravo: Nein, langsamer werden und genug Abstand halten.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:36 | Quirin hat recht | *Nein: langsamer werden und genug Abstand halten]]
@@ -56,7 +56,7 @@ SMILLA: Quirin hat die Binnenregel im Kopf. Hier gilt: Geschwindigkeit runter un
 [[ABSCHNITT: W4 Du erklärst es Quirin]]
 [[SZENE: Hafen Moorende. Quirin will rückwärts aus der Box.]]
 [[REVIER: hafen]]
-QUIRIN: I woaß es eh. Aber sag du's, du warst doch dabei: Warum zieht bei der Frieda des Heck beim Rückwärtsfahren nach links?
+QUIRIN: I woaß es eh. Aber sag du's, du warst doch dabei: Warum zieht bei der Frieda des Heck beim Rückwärtsfahren nach links? Alfa: der Propeller dreht rückwärts andersrum. Bravo: der Wind drückt's weg. Charlie: des Ruder steht schief.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:41 | *Der Propeller dreht rückwärts andersherum und zieht das Heck nach Backbord | Der Wind drückt das Heck weg | Das Ruder steht schief]]
@@ -73,7 +73,7 @@ SMILLA: Stopp! Das war nicht der Wind. Rückwärts zieht der rechtsdrehende Prop
 [[SZENE: Steg Klüverhafen. Die Hafenmeisterin steht mit Klemmbrett da.]]
 [[REVIER: hafen]]
 HAFENMEISTER: Moin. Ich muss eintragen, wer bei euch Schiffsführer ist. Wie legt ihr das fest?
-HINNERK: Frag den Neuen.
+HINNERK: Frag den Neuen. Alfa: wer gerade am Ruder steht. Bravo: wird vor der Fahrt bestimmt. Charlie: der mit dem ältesten Schein.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:1 | Wer gerade am Ruder steht | *Das wird vor der Fahrt bestimmt | Der mit dem ältesten Schein]]
@@ -88,7 +88,7 @@ SMILLA: Nicht wer steuert und nicht wer am längsten fährt. Vor der Fahrt wird 
 [[ABSCHNITT: W6 Du meldest als Ausguck]]
 [[SZENE: Vormittag auf See. Ein Segelboot mit gesetzten Segeln, unter dem Vorstag hängt ein schwarzer Kegel, Spitze unten.]]
 [[REVIER: frei]]
-HINNERK: Ausguck! Was ist das da vorn für einer? Melden.
+HINNERK: Ausguck! Was ist das da vorn für einer? Melden. Alfa: ein Segler mit Motor, also Maschinenfahrzeug. Bravo: ein Fischer. Charlie: einer vor Anker.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:7 | *Ein Segler mit Motor, also ein Maschinenfahrzeug | Ein Fischer | Einer vor Anker]]
@@ -103,7 +103,7 @@ SMILLA: Ein schwarzer Kegel mit der Spitze nach unten zeigt: Das Segelboot fähr
 [[SZENE: Kajüte am Abend, der Wetterbericht läuft leise.]]
 [[REVIER: an Land]]
 HINNERK: Sturmwarnung gibt's ab Windstärke sieben. Wett ich.
-SMILLA: Acht. Wette gilt. Wer verliert, spült ab.
+SMILLA: Acht. Wette gilt. Wer verliert, spült ab. Alfa: Hinnerk, ab sieben. Bravo: Smilla, ab acht.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:268 | Hinnerk: ab sieben | *Smilla: ab acht]]
@@ -119,7 +119,7 @@ SMILLA: Sechs und sieben gibt eine Starkwindwarnung, ab acht eine Sturmwarnung. 
 [[SZENE: Elvmünde. Ein großer Frachter fährt vorbei, Hinnerk hält mit der Frieda auf seine Heckwelle zu.]]
 [[REVIER: fahrwasser]]
 HINNERK: Pass auf, jetzt surfen wir ein bisschen auf seiner Welle. Ganz dicht ran.
-SMILLA: Sag du's ihm.
+SMILLA: Sag du's ihm. Alfa: Passt schon, er kann das. Bravo: Abstand halten, Welle und Sog sind gefährlich.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:34 | Passt schon, er kann das | *Abstand halten, Welle und Sog sind gefährlich]]
@@ -135,7 +135,7 @@ SMILLA: Dicht an einem großen Schiff kann dich die Bug- oder Heckwelle umwerfen
 [[SZENE: Abends auf dem Kajütdach. Klabauter plustert sich auf.]]
 [[REVIER: hafen]]
 KLABAUTER: Langer Ton! Langer Ton! Wie lang? Wie lang?
-SMILLA: Na? Weißt du's? Wie lang ist ein langer Ton?
+SMILLA: Na? Weißt du's? Wie lang ist ein langer Ton? Alfa: etwa zwei bis sechs Sekunden. Bravo: etwa vier bis sechs. Charlie: etwa sechs bis acht.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:5 | etwa zwei bis sechs Sekunden | *etwa vier bis sechs Sekunden | etwa sechs bis acht Sekunden]]

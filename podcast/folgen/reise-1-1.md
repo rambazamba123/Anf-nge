@@ -91,7 +91,7 @@ HINNERK: [[INTENTION: schnaubend]] Der steuert ja nich. Der sagt nur an.
 SMILLA: Zählt auch. Wer bestimmt, welchen Kurs und wie schnell, für den gilt dasselbe wie für den am Ruder.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen? Null Komma fünf oder null Komma acht?
+SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen? Alfa: ab null Komma fünf. Bravo: ab null Komma acht.
 [[WAHL: sbf:2 | *ab 0,5 Promille | ab 0,8 Promille]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:2]]
@@ -116,7 +116,7 @@ SMILLA: Woher weißt du, dass die keinen haben?
 HINNERK: Sieht man. Sonnenhut.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Hinnerk sagt: Ohne Führerschein ist so ein Boot verboten. Hat er recht?
+SMILLA: Frage an dich. Hinnerk sagt: Ohne Führerschein ist so ein Boot verboten. Hat er recht? Alfa: Ja, ohne Schein geht nichts. Bravo: Nicht unbedingt, es kommt auf den Motor an.
 [[WAHL: sbf:59 | Ja, ohne Schein geht nichts | *Nicht unbedingt, es kommt auf den Motor an]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:59]]

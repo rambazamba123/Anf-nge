@@ -128,6 +128,7 @@ for (const datei of dateien) {
   const betont = [];
   /* Folgenprüfung (nur mit „folge: G…/S…/B…“ im Kopf) */
   const L = {katalog: new Set(), offen: null, irrtum: new Map(), merk: 0, denk: 0, rueck: new Set(), baustein: null, revier: false, stimmen: new Set(), schritte: 0, zahlen: [], ohneRevier: [], szeneText: '', szeneRevier: null, szeneOrt: null, wahl: 0, wahlOffen: null, vorab: null, wahlIds: new Map(), vert: null, verts: new Map(), karte: null, karten: new Map()};
+  let letzteRede = '';
   const ENTSCH = LR.denkpause_entscheidung || '5';
   const szeneNeu = ort => {
     if (lek && L.stimmen.size > (LR.stimmen_je_szene_max || 3)) S(ort, `${L.stimmen.size} Stimmen in einer Szene (höchstens ${LR.stimmen_je_szene_max || 3}): ${[...L.stimmen].join(', ')}`);
@@ -140,6 +141,7 @@ for (const datei of dateien) {
     if (!z || z.startsWith('#') || /^<!--.*-->$/.test(z)) continue;
     const m = z.match(/^([A-ZÄÖÜ][A-ZÄÖÜ0-9_]*):\s*(.*)$/);
     const codesTeil = m ? m[2] : z;
+    if (m) letzteRede = m[2];
     for (const c of codesTeil.matchAll(CODE)) {
       const [, kat, wert = ''] = c;
       if (!KATS.has(kat)) { F(ort, `unbekannter Regiecode [[${kat}]] (A7)`); continue; }
@@ -176,6 +178,8 @@ for (const datei of dateien) {
         if (teile.length) { if (teile.length < 2 || teile.length > 4) F(ort, `[[WAHL]] braucht 2 bis 4 Antworten (oder nur die Katalogfrage sbf:123)`); else if (teile.filter(o => o.startsWith('*')).length !== 1) F(ort, `[[WAHL]]: genau eine Antwort mit * als richtig markieren`); }
         else if (!idTeil) F(ort, `[[WAHL]] ohne Antworten und ohne Fragen-ID`);
         const vorab = !!L.vorab;
+        /* HR38 (Nutzer, 08.11.2026): Wer im Auto hört, schaut nicht hin. Vor jeder Wahl sagt die Stimme die Antworten mit Funkwort und kurz an */
+        if (REISE) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
         if (!idTeil && !vorab && lek) S(ort, `[[WAHL]] ohne Fragen-ID: Die Antwort zählt sonst nicht in der Statistik. Form: [[WAHL: sbf:123 | … | *…]]`);
         if (id && !vorab && (lek || REISE) && !L.wahlIds.has(id)) L.wahlIds.set(id, ort);
         if (REISE && teile.length) L.wahlN = teile.length;

@@ -43,7 +43,7 @@ HINNERK: Wir tanken grad.
 HAFENMEISTER: Seh ich. Tanken kannst du. Nur Bezahlen nicht. Und dein Hafenkino heute früh beim Charterboot? [[SPRUCH: hm-hafen-03]] Hab ich gesehen. Alle haben das gesehen.
 SMILLA: [[INTENTION: lachend]] Hinnerk hat's kommentiert. Wie Fußball.
 HAFENMEISTER: Hat er bei dir damals auch gemacht, Smilla.
-SMILLA: Danke, Hilke.
+SMILLA: [[INTENTION: genervt]] Musst du das jetzt erzählen, Hilke?
 HINNERK: [[SPRUCH: hi-anrede-04]] Fass mal mit an, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Frischfisch}}. Den Reservekanister. Hier rüber.
 HINNERK: So. Erst mal die Pfeife an.
 [[AUDIO: Streichholz]]
@@ -70,7 +70,7 @@ SMILLA: Käpt'n, der Motor läuft noch.
 HINNERK: Weiß ich. Leerlauf reicht nich. Motor aus. Ganz.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Hinnerk sagt: Beim Tanken muss der Motor ganz aus sein, Leerlauf reicht nicht. Hat er recht?
+SMILLA: Frage an dich. Hinnerk sagt: Beim Tanken muss der Motor ganz aus sein, Leerlauf reicht nicht. Hat er recht? Alfa: Ja, der Motor muss aus. Bravo: Nein, Leerlauf reicht.
 [[WAHL: sbf:49 | *Ja, der Motor muss aus | Nein, Leerlauf reicht]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:49]]
@@ -113,7 +113,7 @@ SMILLA: Und?
 HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand noch auf der Treppe, halb draußen. Sein Boot hatte keins.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Ergänz den Satz: Propan und Butan, das Gas aus der Flasche, sind … als Luft.
+SMILLA: Frage an dich. Ergänz den Satz: Propan und Butan, das Gas aus der Flasche, sind … als Luft. Alfa: schwerer. Bravo: leichter.
 [[WAHL: sbf:63 | *schwerer | leichter]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:63]]

@@ -40,7 +40,7 @@ SMILLA: Wir fahren rückwärts aus der Box. Hinnerk legt gleich den Rückwärtsg
 [[VORAB: sbf:41]]
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich, erst mal nur raten. Wenn er rückwärts Gas gibt: Wohin zieht das Heck? Nach Backbord, also links, nach Steuerbord, also rechts, oder gar nicht? Die Auflösung kommt gleich.
+SMILLA: Frage an dich, erst mal nur raten. Wenn er rückwärts Gas gibt: Wohin zieht das Heck? Alfa: nach Backbord, also links. Bravo: nach Steuerbord, also rechts. Charlie: gar nicht. Die Auflösung kommt gleich.
 [[WAHL: *nach Backbord | nach Steuerbord | gar nicht]]
 [[DENKPAUSE: 6]]
 [[AUDIO: Motor]]
@@ -81,7 +81,7 @@ SMILLA: Rechtsdrehend heißt übrigens: Von vorne gesehen dreht er sich in Vorau
 HINNERK: Nee.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Oh. Frage an dich: Ich hab gesagt, rechtsdrehend heißt, von vorne gesehen im Uhrzeigersinn. Hab ich recht?
+SMILLA: Oh. Frage an dich: Ich hab gesagt, rechtsdrehend heißt, von vorne gesehen im Uhrzeigersinn. Hab ich recht? Alfa: Ja, von vorne gesehen. Bravo: Nein, von achtern gesehen.
 [[WAHL: sbf:44 | Ja, von vorne gesehen | *Nein, von achtern gesehen]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:44]]
@@ -99,7 +99,7 @@ HINNERK: Heute Abend Schilfwinkel, morgen Klüverhafen. Da legen wir mit Backbor
 SMILLA: Weißt du, warum?
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Unser Propeller ist ein Rechtsdreher. Mit welcher Seite legst du lieber an die Pier: Backbord oder Steuerbord?
+SMILLA: Frage an dich. Unser Propeller ist ein Rechtsdreher. Mit welcher Seite legst du lieber an die Pier? Alfa: Backbord. Bravo: Steuerbord.
 [[WAHL: sbf:48 | *Backbord | Steuerbord]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:48]]
