@@ -131,8 +131,10 @@ window.SZENE = (() => {
       rec.onresult = ev => {
         for (let i = ev.resultIndex; i < ev.results.length; i++) for (let a = 0; a < ev.results[i].length; a++) {
           /* Solange noch vorgelesen wird, zählt nur ein kurzer, fertiger Zuruf („Alfa“); was der Lautsprecher vorliest, ist länger („Alfa: Motor aus …“) */
-          if (!h.laut && (!ev.results[i].isFinal || String(ev.results[i][a].transcript).trim().split(/\s+/).length > 3)) continue;
-          const p = deute(ev.results[i][a].transcript, h.laut);
+          /* Im Auto hört das Mikrofon die Stimme mit: zählt auch, wenn das Funkwort das letzte Wort ist (die Stimme liest nach dem Funkwort immer weiter) */
+          const tr = String(ev.results[i][a].transcript).toLowerCase().replace(/[.,!?:]/g, ' ').trim(), ws = tr.split(/\s+/);
+          if (!h.laut && (!ev.results[i].isFinal || (ws.length > 3 && deute(ws[ws.length - 1], false) < 0))) continue;
+          const p = !h.laut && ws.length > 3 ? deute(ws[ws.length - 1], false) : deute(tr, h.laut);
           if (p >= 0 && !h.aus) { h.aus = true; try { rec.abort(); } catch (e) {} anzeige && anzeige(''); return onPlatz(p); }
         }
       };

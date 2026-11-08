@@ -51,7 +51,8 @@ SMILLA: [[INTENTION: aufgeregt]] Käpt'n! Nicht! Gib her!
 HINNERK: Wat denn?
 SMILLA: Du stehst an der Zapfsäule. Mit 'nem Streichholz.
 HAFENMEISTER: An meiner Tankstelle. Hinnerk, ich glaub, es hackt.
-HINNERK: [[INTENTION: schnaubend]] Macht man seit vierzig Jahren so. Ging immer gut.
+HINNERK: [[INTENTION: schnaubend]] Mach ich seit vierzig Jahren so. Und Hilke hat noch nie wat gesagt.
+HAFENMEISTER: Weil ich's noch nie gesehen hab.
 SMILLA: Einmal geht's nicht gut. Und dann reicht's für immer. Die Streichhölzer bleiben bei mir.
 HAFENMEISTER: Weißt du, warum ich da so pingelig bin?
 HINNERK: Erzähl. Machst du ja eh.
@@ -78,8 +79,10 @@ SMILLA: Die Falle ist der Leerlauf. Ein laufender Motor ist heiß und macht Funk
 [[VERTIEFUNG: ende]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Ja, hat er. Aus heißt aus.
+[[ANIM: tanken]]
 SMILLA: Pass auf, beim Tanken gibt's vier Sachen. Motor aus. Keine elektrischen Schalter, denn jeder Schalter macht einen kleinen Funken. Kein offenes Feuer.
 HINNERK: Ja, ja.
+[[ANIM: tanken, 2]]
 SMILLA: Und viertens: vorsorgen, dass nichts überläuft.
 HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
@@ -97,6 +100,7 @@ HINNERK: [[INTENTION: genervt]] Schiet. Da glänzt wat. Bisschen Öl.
 SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du damit?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
+[[ANIM: tanken, 4]]
 HINNERK: Lappen. Aufnehmen. Ab an Land in die Tonne.
 HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer. Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
 SMILLA: Neutralisieren oder verteilen ist also verboten. Ins Wasser darf es sowieso nicht.

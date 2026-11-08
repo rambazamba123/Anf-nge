@@ -61,10 +61,12 @@ HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
 SMILLA: Und die zwei vorne streiten, wer die Leine wirft.
 HINNERK: [[SPRUCH: hi-hafenkino-04]] Und Rückwärtsgang! Zu spät. Klassiker.
 SMILLA: [[INTENTION: lachend]] Au. Wenigstens hatten sie einen Fender draußen. Einen.
+[[ANIM: fender]]
 SMILLA: Jetzt hat der Dicke vorn die Leine in der Hand und weiß nicht, wo er sie reinstecken soll.
 HINNERK: Dat Problem kenn ich.
 SMILLA: Käpt'n!
 HINNERK: Vom Festmachen. Wat denkst du denn.
+[[ANIM: festmacher]]
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]

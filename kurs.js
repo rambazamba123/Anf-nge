@@ -449,11 +449,12 @@
   const GES = {HINNERK: 'hinnerk', SMILLA: 'smilla', KLABAUTER: 'klabauter', HARMS: 'kroeger', HAFENMEISTER: 'hafen', JASPER: 'jasper', POLIZEI: 'polizei', BACKBORD: 'backbord'};
   NAMEN.BACKBORD = NAMEN.BACKBORD || 'Backbord'; NAMEN.SCHLEUSE = NAMEN.SCHLEUSE || 'Schleuse'; NAMEN.POLIZEI = NAMEN.POLIZEI || 'Polizei';
   /* ---------- Nachtbühne (Entwurf B, Nutzer 08.11.2026): alle an Bord als runde Gesichter auf dem Hintergrund, Gäste daneben ---------- */
-  let szeneArt = 'deck', szeneZeit = null;
+  let szeneArt = 'deck', szeneZeit = null, szeneWetter = null, folgeWetter = null;
   /* Ort aus [[SZENE]] (Nutzer 08.11.2026 gewählt: Kajüte C, Steg B, Fahrt C, Telefon C, Abend B, Besuch A, Schleuse A) */
   function szeneTyp(text) {
     const t = String(text || '').toLowerCase();
     const z = /früh|morgen/.test(t) ? 'morgen' : /vormittag|mittag/.test(t) ? 'tag' : /abend/.test(t) ? 'abend' : /nacht/.test(t) ? 'nacht' : null; if (z) szeneZeit = z;
+    const wx = /sturm|böen|orkan/.test(t) ? 'sturm' : /regen|schauer|niesel/.test(t) ? 'regen' : /nebel|diesig/.test(t) ? 'nebel' : /frischer wind|kräftiger wind|windig/.test(t) ? 'windig' : /sonne|klar|wolkenlos/.test(t) ? 'schoen' : null; if (wx) szeneWetter = wx;
     if (/schleuse/.test(t)) return 'schleuse';
     if (/wasserschutz|polizei|längsseits kommt|kommt längsseits/.test(t)) return 'besuch';
     if (/telefon|sprachnachricht|ruft an/.test(t)) return 'telefon';
@@ -469,7 +470,8 @@
   /* Bullauge wie in der Kajüte der App: Himmel und See nach Tageszeit (aus der Szene, sonst echte Uhrzeit) und Wetter */
   function bullauge(cx, cy, r) {
     let p = {skyT: '#8fc3e3', skyB: '#d3e8f1', sea: '#3f86a6', seaD: '#2f6f8f', cloud: '#fff'}, wx = 'klar', day = szeneZeit;
-    try { day = day || dayPart(); wx = weatherToday(); p = palette(day, wx); } catch (e) {}
+    /* Wetter der Geschichte (Szene, sonst Folge), nicht das Wetter des Tages in der App */
+    try { day = day || dayPart(); wx = szeneWetter || folgeWetter || weatherToday(); p = palette(day, wx); } catch (e) {}
     const regen = /regen|sturm/.test(wx) ? Array.from({length: 7}, (_, i) => `<path d="M${cx - r + 2 + i * r / 3.4} ${cy - r} l-2 ${r * 2}" stroke="#cfe2ea" stroke-width=".5" opacity=".7"/>`).join('') : '';
     const nebel = /nebel/.test(wx) ? `<rect x="${cx - r}" y="${cy - r}" width="${2 * r}" height="${2 * r}" fill="#dfe6ea" opacity=".55"/>` : '';
     const sterne = day === 'nacht' ? `<circle cx="${cx - r / 3}" cy="${cy - r / 2}" r=".5" fill="#fff"/><circle cx="${cx + r / 3}" cy="${cy - r / 3}" r=".5" fill="#fff"/>` : `<ellipse cx="${cx - r / 3}" cy="${cy - r / 2.4}" rx="${r / 2.6}" ry="${r / 6}" fill="${p.cloud}" opacity=".8"/>`;
@@ -479,14 +481,16 @@
   const SZ_BG = {
     tisch: () => `<rect x="0" y="0" width="100" height="36" fill="#3b2617"/>` + [9, 18, 27].map(y => `<path d="M0 ${y}H100" stroke="#2c1c11" stroke-width=".6"/>`).join('') + `<path d="M0 36H100" stroke="#5a3820" stroke-width="1.4"/>`
       + bullauge(82, 17, 9) + `<defs><radialGradient id="klk"><stop offset="0" stop-color="#e8a33c" stop-opacity=".30"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="62" r="46" fill="url(#klk)"/>`
-      + `<path d="M50 0 V10" stroke="#c9a46a" stroke-width=".7"/><rect x="47" y="10" width="6" height="7" rx="1.6" fill="#e8a33c"/><circle cx="50" cy="14" r="6" fill="#e8a33c" opacity=".2"/>`
+      + `<path d="M50 0 V10" stroke="#c9a46a" stroke-width=".7"/><rect x="47" y="10" width="6" height="7" rx="1.6" fill="#e8a33c"/><circle class="klicht" cx="50" cy="14" r="6" fill="#e8a33c" opacity=".2"/>`
       + `<ellipse cx="50" cy="64" rx="25" ry="10.5" fill="#4a2e19"/><ellipse cx="50" cy="62" rx="25" ry="10" fill="#8a5a36"/><ellipse cx="50" cy="62" rx="21" ry="7.6" fill="none" stroke="#a87249" stroke-width=".5" opacity=".7"/>`
       + BECHER(42, 61) + BECHER(57, 63) + `<g transform="translate(50 58)"><rect x="-2.6" y="-4.5" width="5.2" height="6.5" rx="1.2" fill="#2b3a4a"/><path d="M-2.6 -3 h-1.6 v2" stroke="#2b3a4a" stroke-width=".8" fill="none"/></g>`,
     telefon: () => `<defs><radialGradient id="ktl"><stop offset="0" stop-color="#e8a33c" stop-opacity=".16"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="34" r="40" fill="url(#ktl)"/>`
       + `<path d="M22 18 q-6 14 0 28 M78 18 q6 14 0 28 M15 12 q-9 20 0 40 M85 12 q9 20 0 40" stroke="#e8a33c" stroke-width="1" fill="none" opacity=".45"/><rect x="4" y="84" width="92" height="8" rx="4" fill="#5a3820" opacity=".8"/><rect x="47" y="85.5" width="6" height="4" rx="1" fill="#2b3a4a"/>`,
-    deck: () => `<rect x="0" y="0" width="100" height="24" fill="#6e4529"/><path d="M0 24H100" stroke="#3a2414" stroke-width="1.2"/>` + [10, 30, 50, 70, 90].map(x => `<path d="M${x} 0V24" stroke="#55361f" stroke-width=".6"/><rect x="${x - 1.5}" y="24" width="3" height="42" fill="#55361f"/>`).join('')
-      + `<rect x="0" y="66" width="100" height="34" fill="#1d4a63"/>` + WELLE(70, 10) + `<path d="M8 56 H90 L82 72 H18 Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M30 56 V47 H62 V56" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/><path d="M16 56 L10 24 M86 56 L90 24" stroke="#c9b48a" stroke-width=".8"/>`,
-    fahrt: () => `<rect x="0" y="62" width="100" height="38" fill="#1d4a63"/>` + WELLE(66, 9) + `<path d="M93 62 q-4 3 -8 0 t-8 0 M96 66 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none"/><path d="M4 50 Q8 51 14 52 H86 L82 70 H20 Q10 64 4 50Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M34 52 V43 H62 V52" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/><rect x="85" y="55" width="6" height="16" rx="2" fill="#2b3a4a"/>`,
+    deck: () => `<rect x="0" y="62" width="100" height="38" fill="#1d4a63"/>` + `<g class="kwel">${WELLE(66, 11)}</g>`
+      + `<rect x="-2" y="48" width="104" height="7" fill="#7a4e2e"/><rect x="-2" y="55" width="104" height="2" fill="#4a2e19"/>` + [6, 22, 38, 54, 70, 86].map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('')
+      + `<circle cx="16" cy="48" r="1.7" fill="#2b1a0e"/><circle cx="92" cy="48" r="1.7" fill="#2b1a0e"/><path d="M28 60 Q22 56 16 48 M90 61 Q92 55 92 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`
+      + `<path d="M26 58 H96 L90 74 H32 Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M44 58 V50 H72 V58" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/>`,
+    fahrt: () => `<rect x="0" y="62" width="100" height="38" fill="#1d4a63"/>` + `<g class="kwel">${WELLE(66, 10)}</g>` + `<path d="M93 62 q-4 3 -8 0 t-8 0 M96 66 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none"/><path d="M4 50 Q8 51 14 52 H86 L82 70 H20 Q10 64 4 50Z" fill="#e9dcc3" stroke="#6e4529" stroke-width="1.4"/><path d="M34 52 V43 H62 V52" fill="#f6eedd" stroke="#b9a37f" stroke-width=".8"/><rect x="85" y="55" width="6" height="16" rx="2" fill="#2b3a4a"/>`,
     abend: () => `<rect width="100" height="100" fill="#0c1d2a"/>` + STERNE + `<circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/><rect x="0" y="72" width="100" height="28" fill="#132e40"/>` + WELLE(76, 8, '#7fb7cf', .25)
       + `<path d="M6 62 H90 L82 78 H16 Z" fill="#bfae8e" stroke="#6e4529" stroke-width="1.4"/><path d="M22 62 V53 H74 V62" fill="#cdbd9c" stroke="#8a7a5c" stroke-width=".8"/><path d="M80 62 V30" stroke="#9aa7b1" stroke-width=".8"/><circle cx="80" cy="29" r="1.6" fill="#f3e7c9"/><circle cx="80" cy="29" r="5" fill="#f3e7c9" opacity=".18"/>`,
     besuch: () => WELLE(4, 14) + BOOT_OBEN(-12) + `<path d="M80 14 C90 22 92 40 91 60 L90 86 Q80 90 70 86 L69 60 C68 40 70 22 80 14Z" fill="#c9d6e0" stroke="#2b4a66" stroke-width="1.4"/><circle cx="80" cy="36" r="3" fill="#3d7bd9"/><circle class="kblau" cx="80" cy="36" r="8" fill="#3d7bd9" opacity=".25"/><path d="M56 40 L69 42 M56 70 L69 70" stroke="#c9b48a" stroke-width=".8"/>`,
@@ -499,7 +503,7 @@
       const alle = crew.slice(), m = alle.length, start = -90 + (m % 2 ? 0 : 180 / m), gr0 = m <= 3 ? 25 : m === 4 ? 23 : 20;
       alle.forEach((w, i) => { const a = (start + i * 360 / m) * Math.PI / 180, x = 50 + Math.cos(a) * 37, y = 60 + Math.sin(a) * 23; pl.push({w, x, y, gr: gr0 * (w === 'BACKBORD' ? .7 : 1) * (.82 + .18 * (y - 37) / 46)}); });
     } else if (art === 'telefon') reihe(crew, crew.length > 3 ? 14 : 24, crew.length > 3 ? 86 : 76, 76, 16);
-    else if (art === 'deck') { reihe(leute, n > 2 ? 22 : 34, n > 2 ? 66 : 62, 45, 19); if (katze) pl.push({w: 'BACKBORD', x: 84, y: 52, gr: 13}); }
+    else if (art === 'deck') { reihe(leute, n > 2 ? 40 : 46, n > 2 ? 78 : 72, 48, 18); if (katze) pl.push({w: 'BACKBORD', x: 91, y: 55, gr: 11}); }
     else if (art === 'fahrt') {
       const helm = leute.includes('HINNERK') ? 'HINNERK' : leute[0], rest = leute.filter(w => w !== helm);
       if (helm) pl.push({w: helm, x: 79, y: 40, gr: 21}); reihe(rest, 31, rest.length > 2 ? 62 : 55, 38, rest.length > 2 ? 16 : 19); if (katze) pl.push({w: 'BACKBORD', x: 12, y: 44, gr: 12});
@@ -508,7 +512,7 @@
     else { const x = art === 'besuch' ? 38 : 50, ws = (katze ? ['BACKBORD'] : []).concat(leute); const zz = ws.length > 3; ws.forEach((w, i) => pl.push({w, x: zz ? x + (i % 2 ? 7 : -7) : x, y: ws.length === 1 ? 52 : 22 + 56 * i / (ws.length - 1), gr: w === 'BACKBORD' ? 13 : zz ? 17 : 19})); }
     return pl.sort((a, b) => a.y - b.y);
   }
-  const SZ_GAST = {tisch: [13, 15, 19], telefon: [50, 32, 36], deck: [50, 12, 19], fahrt: [88, 86, 17], abend: [12, 86, 15], besuch: [80, 62, 19], schleuse: [89, 16, 15]};
+  const SZ_GAST = {tisch: [13, 15, 19], telefon: [50, 32, 36], deck: [13, 39, 18], fahrt: [88, 86, 17], abend: [12, 86, 15], besuch: [80, 62, 19], schleuse: [89, 16, 15]};
   function buehneB(box, aktiv, laune) {
     let gast = box.dataset.gast || '';
     if (aktiv && !buehnenCrew.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
@@ -611,7 +615,7 @@
     if (!sv) return;
     sv.querySelectorAll('text').forEach(t => { if (t.dataset.gr || /\b(cap|sub|wort)\b/.test(t.getAttribute('class') || '')) return; const fs = parseFloat(t.getAttribute('font-size')); if (fs) { t.setAttribute('font-size', (fs * 1.22).toFixed(1)); t.dataset.gr = '1'; } });
     /* Hochformat-Rahmen: unten stand der Satz der Crew, der jetzt gesprochen wird; Ausschnitt ohne den leeren Streifen */
-    if (sv.getAttribute('viewBox') === '0 0 400 500' && sv.querySelector('.t.wort')) sv.setAttribute('viewBox', '0 40 400 366');
+    if (aussehenAkt !== 'b' && sv.getAttribute('viewBox') === '0 0 400 500' && sv.querySelector('.t.wort')) sv.setAttribute('viewBox', '0 40 400 366');
   }
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
   async function animZeigen(it) {
@@ -691,8 +695,12 @@
         box.querySelectorAll('button').forEach(x => x.disabled = true);
         if (!o) { box.innerHTML = ''; return ende(); }
         if (it.vorab) {
+          /* Nutzer, 08.11.2026: auch beim Raten gleich sagen, ob es stimmt (zählt weiter nicht in der Statistik) */
           me.tipps[it.vorab] = {text: ohneBuchstabe(o.text), ok: o.ok, richtig: ohneBuchstabe((it.opts.find(x => x.ok) || {}).text || '')};
-          b.classList.add('gew'); box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">Dein Tipp: <b>${esc(ohneBuchstabe(o.text))}</b>. Die Auflösung kommt.</p>`); await warten(me, 1200); box.innerHTML = ''; return ende();
+          AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8}); crewReagiert(o.ok); b.classList.add(o.ok ? 'ok' : 'no');
+          if (!o.ok) { const r = opts.findIndex(x => x.ok); const rb = box.querySelector(`[data-o="${r}"]`); if (rb) rb.classList.add('ok'); }
+          box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Gut geraten!' : '❌ Nicht ganz. Warum, erklären wir gleich.'} <span class="muted">Zählt nicht.</span></p>`);
+          await warten(me, 500); await rueckmeldung(st, me, o.ok); await warten(me, 300); box.innerHTML = ''; return ende();
         }
         AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8}); crewReagiert(o.ok);
         if (!o.ok) me.falsch.add(it.id);
@@ -704,6 +712,17 @@
       });
     });
     w.p = p; return p;
+  }
+  /* Nutzer, 08.11.2026: Kommt nach der Frage acht Sekunden keine Antwort, tickt die Uhr; nach weiteren vier Sekunden geht es ohne Antwort weiter
+     (sonst bleibt die Folge stehen, wenn der Zuruf nicht klappt oder keiner antworten kann). Pause hält die Uhr an. */
+  async function wahlUhr(me) {
+    const w = me.wahlOffen; if (!w || w.uhr || w.fertig || w.getippt) return; w.uhr = true;
+    const offen = () => !me.aus && !w.fertig && !w.getippt && me.wahlOffen === w;
+    const lauf = async ms => { let t = 0; while (t < ms && offen()) { await sleep(200); if (!me.pause) t += 200; } };
+    await lauf(8000); if (!offen()) return;
+    AUD.ticks(4, .6); await lauf(4000); if (!offen()) return;
+    if (w.it.id && !w.it.vorab) me.falsch.add(w.it.id);   /* die genauere Erklärung hilft, wenn keiner antworten konnte */
+    const b = ui('#kwahl [data-o="-1"]'); if (b && !b.disabled) b.click();
   }
   /* Nach deiner Antwort sagt einer aus der Crew kurz, ob es stimmt (wer gefragt hat, sonst Smilla); bei falsch erklärt danach die Vertiefung */
   async function rueckmeldung(st, me, ok) {
@@ -770,7 +789,7 @@
         if (j != null && !(me.vorWahl && me.vorWahl.j === j)) { wahl(st, st.items[j], me, it); me.vorWahl = me.wahlOffen ? {j, w: me.wahlOffen} : null; zurufStart(me); }
         if (me.pfeife) pfeifeAus(me);
         await rede(st, it, me, n && n.t === 'bild' ? n.id : null);
-        if (me.vorWahl && me.wahlOffen === me.vorWahl.w && wahlNach(st, k) === me.vorWahl.j) { me.wahlOffen.gesprochen = true; zurufStart(me); }
+        if (me.vorWahl && me.wahlOffen === me.vorWahl.w && wahlNach(st, k) === me.vorWahl.j) { me.wahlOffen.gesprochen = true; zurufStart(me); wahlUhr(me); }
       }
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
@@ -781,8 +800,8 @@
       else if (it.t === 'szene') szeneSetzen(it.text);
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
       else if (it.t === 'wahl' && interaktiv) {
-        if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); await w.p; } }
-        else { const p = wahl(st, it, me, null); zurufStart(me); await p; }
+        if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); wahlUhr(me); await w.p; } }
+        else { const p = wahl(st, it, me, null); zurufStart(me); wahlUhr(me); await p; }
         if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++;
       }
     }
@@ -968,7 +987,17 @@
         #kursplayer .kftext{font-size:1.06em;line-height:1.4}#kursplayer .kftext div{margin:2px 0}
         #kursplayer .kopts{display:grid;gap:6px;margin-top:8px}#kursplayer .kopt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line, rgba(0,0,0,.18));background:var(--bg, #fff);color:inherit;font:inherit;cursor:pointer}
         #kursplayer .kopt .kabc{flex:0 0 auto;min-width:3.9em;font-size:.82em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
-        #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}</style>`;
+        #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}
+        /* v5.54 Nachtbühne: Kein Text schiebt die Bühne (Nutzer: die Figuren sprangen). Wer spricht, leuchtet nur, wächst kaum */
+        #kursplayer.d-b.laeuft:not(.mitlesen) #kspr{display:none}#kursplayer.d-b .kpl.an .kg{transform:scale(1.05)}
+        /* Animation randlos über die ganze Breite, so hoch wie möglich; wer spricht, sitzt unten rechts im Bild */
+        #kursplayer.d-b.mitbild #kbuehne{padding-left:0;padding-right:0}#kursplayer.d-b.mitbild #kstage{margin-top:0;gap:0}
+        #kursplayer.d-b.mitbild #kbild{position:relative}#kursplayer.d-b.mitbild .kanim.anstage{width:100%;border-radius:0;box-shadow:none;background:transparent}
+        #kursplayer.d-b.mitbild .kanim.anstage>svg{width:100%;height:auto;max-height:calc(100dvh - 64px);border-radius:0;box-shadow:none}
+        #kursplayer.d-b.mitbild #kges .kpl.an{width:58px!important;right:max(8px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+        #kursplayer.d-b .kbg .kwel{animation:kwel 6s linear infinite}@keyframes kwel{to{transform:translateX(-12px)}}
+        #kursplayer.d-b .kbg .klicht{animation:klicht 4s ease-in-out infinite}@keyframes klicht{50%{opacity:.6}}
+        @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *{animation:none!important}}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
@@ -1034,6 +1063,8 @@
       else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: ⚙️ oben rechts, dann „Erzeugen“.');
       if (!lauf) zeigeSteuerung(st, false);
     };
+    /* Wetter der Geschichte: aus der Folge (FOLGEN.wetter, sonst HOERREISE in index.html), Szenen können es ändern */
+    { let hr = null; try { hr = typeof HOERREISE !== 'undefined' ? HOERREISE.find(x => x[0] === st.id) : null; } catch (e) {} folgeWetter = (FOLGEN[st.id] && FOLGEN[st.id].wetter) || (hr && hr[3]) || null; szeneWetter = null; szeneZeit = null; }
     buehnenCrew = (st.anBord || ['HINNERK', 'SMILLA']).slice(); if (aussehenAkt === 'a') buehnenCrew = buehnenCrew.filter(w => w !== 'BACKBORD');
     { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null); }
     await neu();
