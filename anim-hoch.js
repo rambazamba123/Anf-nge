@@ -592,7 +592,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
 
 /* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
 /* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
-const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
 const alt = id => ALT[id] || A.defs[id];
 const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
 
@@ -624,6 +624,68 @@ const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel:
       tag: `${tagF(298, 192)}${T(16, 322, 'Tag', 'start', 18)}<g transform="translate(270 440) scale(.75)">${B.seite(120, [[25, 60]])}${B.rhombus(25, -60)}</g><g transform="translate(90 440) scale(.7)">${B.seite(120, [[0, 40]], '#4a4f57', false)}${B.rhombus(0, -42)}</g><path d="M182 440 Q160 452 132 440" stroke="#555" stroke-width="2" fill="none"/>${T(200, 478, 'Schleppe über 200 m: Rhombus', 'middle', 17, 'w')}`},
     start: {nacht: {}, zug: {x: 300, y: 250}, anh: {x: 80, y: 250}, leine: {x: 236, y: 246}, drei: {x: 326, y: 153, o: 0}, warn: {o: 0}, tag: {o: 0}, leg: {}},
     ph: {1: {an: ['drei', 'warn']}, 2: {an: ['tag'], aus: ['leg']}}});
+})();
+
+/* ---------- Hintergründe im Hochformat ---------- */
+const LF = A.hilfe.LF || {w: '#fff7d6', r: '#ff4a3d', g: '#3ddc6a', y: '#ffc93d'};
+const tagH = (see = 330) => `<rect width="400" height="${see}" fill="#bfe0f2"/><rect y="${see}" width="400" height="${500 - see}" fill="#4d93bd"/>${Array.from({length: 9}, (_, i) => `<path d="M${(i * 83) % 360 + 10} ${see + 26 + (i * 41) % Math.max(20, 480 - see - 26)} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}`;
+const nachtH = (see = 330) => `<rect width="400" height="${see}" fill="#142033"/><rect y="${see}" width="400" height="${500 - see}" fill="#0b1726"/>${Array.from({length: 24}, (_, i) => `<circle cx="${(i * 83) % 390 + 5}" cy="${(i * 37) % Math.max(40, see - 60) + 50}" r="${i % 3 ? .9 : 1.4}" fill="#fff" opacity=".55"/>`).join('')}`;
+const nebelH = (op = .62) => `<rect width="400" height="500" fill="#e8edf0" opacity="${op}"/>`;
+const welleH = (n = 3, r0 = 16, d = 20) => Array.from({length: n}, (_, i) => `<circle r="${r0 + i * d}" fill="none" stroke="#fff" stroke-width="3" opacity="${.85 - i * .22}"/>`).join('');
+const zeilen = (x, y, arr, a = 'middle', sz = 18, cls = '', dy = 24) => arr.map((t, i) => T(x, y + i * dy, t, a, sz, cls)).join('');
+
+/* ---------- A6 Nebel und Glocke ---------- */
+neu('nebel', {bg: wasser(500, '#7fa9c0'), obj: {sektor: '<path d="M0 0 L-250 0 A250 250 0 0 1 250 0 Z" fill="#f2c200" opacity=".22"/><path d="M-200 0 H200" stroke="#f2c200" stroke-width="3" stroke-dasharray="8 6"/>' + T(150, -8, 'querab', 'middle', 15),
+    fremd: `<g transform="scale(1.3)">${B.schiff(90, 20)}</g>`, ton: welleH(), neb: nebelH(.7), wir: BO.oben({lichter: true}), aus: T(0, 0, '👀 Ausguck', 'middle', 18), sig: T(0, 0, '▬  alle 2 Minuten', 'middle', 20)},
+  start: {wir: {x: 200, y: 400, s: 1.1}, sektor: {x: 200, y: 400, o: 0}, fremd: {x: 240, y: 130, r: 180, o: 0}, ton: {x: 240, y: 130, o: 0}, aus: {x: 200, y: 318, o: 0}, neb: {}, sig: {x: 200, y: 476, o: 0}},
+  ph: {4: {k: {neb: {o: .35}, fremd: {x: 320, y: 230}}}},
+  fx(s, tp) { const t = q(s, '[data-o="ton"]'); if (t) t.setAttribute('transform', t.getAttribute('transform').replace(/scale\([^)]*\)/, `scale(${(.6 + (tp % 1.6) / 1.6).toFixed(2)})`)); }});
+neu('glocke', {bg: tagH(330) + nebelH(.5), obj: {schiff: `<g transform="scale(1.4)">${B.seite(220, [[80, 60]], '#4a4f57')}</g>`, glocke: `<g transform="scale(1.6)"><path d="M-10 6 Q-10 -14 0 -14 Q10 -14 10 6 Z" fill="#c9a227" stroke="#7a6014"/><circle cy="9" r="3" fill="#7a6014"/></g>`,
+    gong: '<circle r="15" fill="#b08d57" stroke="#6b5332" stroke-width="3"/>', w1: welleH(2), w2: welleH(2), uhr: T(0, 0, '', 'middle', 19), grund: `<g transform="scale(1.4)">${B.ball(-40, -60)}${B.ball(-40, -44)}${B.ball(-40, -28)}</g>`},
+  start: {schiff: {x: 200, y: 340}, glocke: {x: 312, y: 240}, gong: {x: 74, y: 284, o: 0}, w1: {x: 312, y: 236, o: 0}, w2: {x: 74, y: 284, o: 0}, uhr: {x: 200, y: 120}, grund: {x: 200, y: 340, o: 0}},
+  enter(s, p) { q(s, '[data-o="uhr"] text').textContent = ['jede Minute etwa 5 s Glocke vorn', 'ab 100 m: dazu Gong achtern', 'zusätzlich erlaubt: ● ▬ ●', 'auf Grund: 3 Schläge, läuten, 3 Schläge'][p] || ''; fit(q(s, '[data-o="uhr"] text')); },
+  fx(s, tp) { const sw = Math.sin(tp * 12) * (tp % 4 < 2 ? 18 : 0), gl = q(s, '[data-o="glocke"] path'); if (gl) gl.setAttribute('transform', `rotate(${sw.toFixed(1)} 0 -14)`);
+    if (tp % 2 < .05 && typeof AUD !== 'undefined' && AUD.sfx && document.getElementById('anstage')) try { AUD.sfx('glocke', {vol: .25, dur: .8}); } catch (e) {} }});
+
+/* ---------- A7 Zeichen, Tonnen, Feuer, Tafeln ---------- */
+neu('lateral', {bg: wasser(500) + ufer('M0 0 H140 Q100 150 122 300 Q106 420 92 500 H0Z') + ufer('M400 0 H262 Q302 160 286 300 Q300 420 312 500 H400Z'),
+  obj: Object.assign({wir: BO.oben({}), mitte: `${B.tonne('mitte')}${T(26, -14, 'Ansteuerung', 'start', 15)}`, pf: B.pfeil(0, 0, 0, -70, '#fff', 5) + T(0, 22, 'von See', 'middle', 15),
+      lab: T(0, 0, 'Backbord: rot, gerade Nummern', 'middle', 17, 'r') + T(0, 24, 'Steuerbord: grün, ungerade', 'middle', 17, 'gr')},
+    Object.fromEntries([0, 1, 2].flatMap(i => [[`r${i}`, B.tonne('rot', {nr: [2, 4, 6][i]})], [`g${i}`, B.tonne('gruen', {nr: [1, 3, 5][i]})]]))),
+  start: Object.assign({wir: {x: 215, y: 478, s: .62}, mitte: {x: 160, y: 452, o: 0}, pf: {x: 352, y: 470, o: 0}, lab: {x: 200, y: 70, o: 0}}, Object.fromEntries([0, 1, 2].flatMap(i => [[`r${i}`, {x: 150, y: 400 - i * 120, o: 0}], [`g${i}`, {x: 256, y: 400 - i * 120, o: 0}]]))),
+  ph: {0: {k: {wir: {y: 440, x: 228}}}, 2: {k: {wir: {x: 236, y: 130}}}, 3: {k: {wir: {x: 172, y: 420, r: 180}}}}});
+(() => { const MU = {F: [[1, 0]], Fl: [[.4, 3.6]], LFl: [[2, 6]], Q: [[.55, .55]], Oc: [[3, 1]], Iso: [[2, 2]], 'Fl(2)': [[.4, .7], [.4, 3.5]]};
+  const an = (m, t) => { const ps = MU[m], per = ps.reduce((a, [x, y]) => a + x + y, 0); let x = t % per; for (const [a, b] of ps) { if (x < a) return true; x -= a; if (x < b) return false; x -= b; } return false; };
+  const NA = [['F', 'Festfeuer'], ['Fl', 'Blitz'], ['LFl', 'Blink'], ['Q', 'Funkel'], ['Oc', 'Unterbrochen'], ['Iso', 'Gleichtakt'], ['Fl(2)', 'Blitzgruppe']], Y = i => 84 + i * 56, X0 = 196, SPAN = 12, PX = 180 / SPAN;
+  const balken = m => { let out = '', st = null; for (let t = 0; t <= SPAN + .001; t += .05) { const o = t < SPAN && an(m, t); if (o && st === null) st = t; if (!o && st !== null) { out += `<rect x="${(X0 + st * PX).toFixed(1)}" y="-7" width="${Math.max(1.5, (t - st) * PX).toFixed(1)}" height="14" rx="2" fill="#fff7d6"/>`; st = null; } } return out; };
+  neu('kennung', {bg: nachtH(500) + NA.map(([m, n], i) => `<g transform="translate(0 ${Y(i)})"><circle class="lp" data-m="${m}" cx="40" cy="0" r="12" fill="#fff7d6"/>${T(64, -3, n, 'start', 17, 'w')}${T(64, 16, m, 'start', 14, 'w')}<rect x="${X0}" y="-9" width="180" height="18" rx="4" fill="#26354c"/>${balken(m)}</g>`).join('') + `<path class="kcur" d="M${X0} 60 V${Y(6) + 20}" stroke="#f08a1c" stroke-width="2.5"/>${T(X0 + 90, Y(6) + 42, '12 Sekunden', 'middle', 14, 'w')}`,
+    obj: {rahmen: '<rect x="-190" y="-26" width="380" height="52" rx="12" fill="none" stroke="#f2c200" stroke-width="3"/>', rahmen2: '<rect x="-190" y="-26" width="380" height="52" rx="12" fill="none" stroke="#f2c200" stroke-width="3"/>'},
+    start: {rahmen: {x: 200, y: Y(0)}, rahmen2: {x: 200, y: Y(1), o: 0}},
+    ph: {0: {an: ['rahmen2'], k: {rahmen: {y: Y(0)}}}, 1: {aus: ['rahmen2'], k: {rahmen: {y: Y(2)}}}, 2: {k: {rahmen: {y: Y(3)}}}, 3: {k: {rahmen: {y: Y(4)}}}, 4: {k: {rahmen: {y: Y(5)}}}, 5: {k: {rahmen: {y: Y(6)}}}},
+    fx(s, tp) { qa(s, '.lp').forEach(e => { const o = an(e.dataset.m, tp); e.setAttribute('opacity', o ? 1 : .1); e.setAttribute('r', o ? 12 : 9); }); const c = q(s, '.kcur'); if (c) c.setAttribute('transform', `translate(${((tp % SPAN) * PX).toFixed(1)} 0)`); }});
+})();
+neu('sonderzeichen', {bg: tagH(400), obj: {e: `<g transform="scale(2.2)">${B.tonne('einzel')}</g>`, ge: `<g transform="scale(2.2)">${B.tonne('gelb')}</g>`, mi: `<g transform="scale(2.2)">${B.tonne('mitte')}</g>`,
+    te: zeilen(0, 0, ['Einzelgefahr:', 'rundum befahrbar', 'Blitzgruppe 2'], 'middle', 20), tg: zeilen(0, 0, ['Sonderzeichen gelb:', 'Sperr- oder Sondergebiet'], 'middle', 20), tm: zeilen(0, 0, ['Mitte, Ansteuerung:', 'rundum freies Wasser'], 'middle', 20)},
+  start: {e: {x: 80, y: 410, o: 0}, ge: {x: 200, y: 410, o: 0}, mi: {x: 320, y: 410, o: 0}, te: {x: 200, y: 110, o: 0}, tg: {x: 200, y: 110, o: 0}, tm: {x: 200, y: 110, o: 0}}});
+neu('sektorenfeuer', {bg: nachtH(500), obj: {leit: `<path d="M0 0 L-97 420 L-36 420Z" fill="#ff4a3d" opacity=".35"/><path d="M0 0 L-36 420 L36 420Z" fill="#fff7d6" opacity=".4"/><path d="M0 0 L36 420 L97 420Z" fill="#3ddc6a" opacity=".35"/>${B.licht(0, 0, LF.w, 8)}`, wir: BO.oben({lichter: true, nacht: true}),
+    unter: B.licht(0, 0, LF.w, 7), ober: B.licht(0, 0, LF.w, 7), linie: '<path d="M0 0 V400" stroke="#fff" stroke-width="2" stroke-dasharray="6 5" opacity=".7"/>',
+    quer: `<path d="M0 0 L380 -40 L380 40Z" fill="#fff7d6" opacity=".35"/>${B.licht(0, 0, LF.w, 8)}`, tq: T(0, 0, 'Quermarke: hier Kurs ändern', 'middle', 17, 'w')},
+  start: {leit: {x: 200, y: 60}, wir: {x: 192, y: 440, s: .55}, unter: {x: 200, y: 96, o: 0}, ober: {x: 200, y: 66, o: 0}, linie: {x: 200, y: 80, o: 0}, quer: {x: 16, y: 260, o: 0}, tq: {x: 220, y: 210, o: 0}},
+  ph: {0: {k: {wir: {y: 360}}}, 1: {k: {wir: {x: 148, y: 404}}}, 2: {k: {wir: {x: 200, y: 400}}}, 3: {k: {wir: {x: 200, y: 268}}}}});
+(() => { const tafel = (rand, voll, sym, schraeg) => `<rect x="-34" y="-34" width="68" height="68" rx="4" fill="${voll}" stroke="${rand}" stroke-width="7"/>${sym}${schraeg ? '<path d="M-30 30 L30 -30" stroke="#c9302c" stroke-width="7"/>' : ''}`;
+  const zwei = '<path d="M-18 14 l6 -24 l6 24z M6 14 l6 -24 l6 24z" fill="#222"/>';
+  neu('tafeln', {bg: '<rect width="400" height="500" fill="#dfe9d6"/>', obj: {v: `<g transform="scale(1.5)">${tafel('#c9302c', '#fff', zwei, true)}</g>`, gb: `<g transform="scale(1.5)">${tafel('#c9302c', '#fff', '<path d="M-14 -8 h10 l12 -10 v36 l-12 -10 h-10z" fill="#222"/><path d="M14 -10 q8 10 0 20" stroke="#222" stroke-width="3" fill="none"/>', false)}</g>`,
+      hi: `<g transform="scale(1.5)">${tafel('#1f5f99', '#1f5f99', '<text x="0" y="16" font-size="44" text-anchor="middle" fill="#fff" font-weight="900">P</text>', false)}</g>`,
+      tv: zeilen(0, 0, ['Verbot:', 'rot mit Balken'], 'start', 20), tgb: zeilen(0, 0, ['Gebot:', 'rot ohne Balken'], 'start', 20), thi: zeilen(0, 0, ['Hinweis:', 'blau'], 'start', 20)},
+    start: {v: {x: 100, y: 130, o: 0}, gb: {x: 100, y: 265, o: 0}, hi: {x: 100, y: 400, o: 0}, tv: {x: 180, y: 124, o: 0}, tgb: {x: 180, y: 259, o: 0}, thi: {x: 180, y: 394, o: 0}}});
+})();
+(() => { const DB = 150, PM = 40;   /* Unterkante der Brücke, Pixel je Meter */
+  neu('bruecke', {bg: '<rect width="400" height="500" fill="#bfe0f2"/><rect x="0" y="116" width="400" height="34" fill="#8a8f95"/><rect x="40" y="150" width="26" height="350" fill="#8a8f95"/><rect x="334" y="150" width="26" height="350" fill="#8a8f95"/>',
+    obj: {wasser: '<rect x="-400" y="0" width="800" height="400" fill="#4d93bd"/>', boot: `<g transform="scale(1.33)">${B.seite(90, [[0, 70]], '#fbf8f2', false)}<rect x="-14" y="-30" width="30" height="14" fill="#cfd6db"/></g>`, mass: '<path d="M0 0 V-1" stroke="#fff" stroke-width="2.5"/>' + T(8, 0, '', 'start', 17),
+      rot: B.licht(0, 0, LF.r, 7) + B.licht(0, 18, LF.r, 7), gruen: B.licht(0, 0, LF.g, 7)},
+    start: {wasser: {x: 200, y: DB + 4.8 * PM}, boot: {x: 200, y: DB + 4.8 * PM}, rot: {x: 200, y: 124, o: 0}, gruen: {x: 200, y: 133, o: 0}},
+    ph: {1: {k: {wasser: {y: DB + 2.8 * PM}, boot: {y: DB + 2.8 * PM}}}, 3: {k: {boot: {x: 520}}}},
+    fx(s, tp, p, st, c) { const w = c.wasser.y, m = q(s, '[data-o="mass"]'); if (!m) return; m.setAttribute('transform', `translate(300 ${w})`); m.querySelector('path').setAttribute('d', `M0 0 V${DB - w}`); const t = m.querySelector('text'); t.setAttribute('y', (DB - w) / 2); t.textContent = `${((w - DB) / PM).toFixed(1).replace('.', ',')} m frei`; }});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
