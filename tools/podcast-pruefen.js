@@ -122,7 +122,7 @@ for (const datei of dateien) {
   /* Probefolge (Kopf „status: probe“, Konzept Anhang H): gekürzt, darum sind fehlende Teile der vollen Folge nur Warnungen */
   const PROBE = kopf.status === 'probe', SV = PROBE ? W : S;
   /* Folge der Hörreise (Kopf „folge: 1-1“, docs/reise.md §7): Denkpausen nach HR14 immer sechs Sekunden, Vertiefungen wie im Kurs */
-  const REISE = /^\d-\d+$/.test(String(kopf.folge || '').trim());
+  const REISE = /^\d-\d+$/.test(String(kopf.folge || '').trim()) || String(kopf.hoerreise || '').trim() === 'ja';   /* hoerreise: ja = Testskript nach den Regeln der Hörreise */
   if (lek && PLAN.size && !P) F(D, `Folge ${lek} steht nicht im Kursplan`);
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
   const betont = [];

@@ -23,7 +23,7 @@ const css = () => { if (document.getElementById('ancss')) return; const s = docu
 A.css = css;
 
 /* ---------- Laufzeit ---------- */
-A.html = id => { const d = A.defs[id]; if (d.raw) return window.REISE.grafik(id).replace('<svg class="gr"', `<svg class="gr an" data-anim="${id}"`); return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}">${d.svg}</svg>`; };
+A.html = id => { const d = A.defs[id]; if (d.raw) return window.REISE.grafik(id).replace('<svg class="gr"', `<svg class="gr an" data-anim="${id}"`); const vb = d.vb || [400, 300]; return `<svg class="an" data-anim="${id}" data-p="0" viewBox="0 0 ${vb[0]} ${vb[1]}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${d.titel}">${d.svg}</svg>`; };
 A.start = host => {
   const svg = host.querySelector('svg.an'); if (!svg) return null; const d = A.defs[svg.dataset.anim]; if (!d) return svg;
   const st = svg._an = {t0: performance.now(), last: performance.now(), p: 0, m: {}};
@@ -398,7 +398,7 @@ def('ruder', {titel: 'Ruder und Schraubenstrom', gruppe: 'A1 Boot, Antrieb, Moto
   }});
 
 /* v5.29: alle weiteren Animationen aus docs/animationen-liste.md liegen in anim2.js (A1–A4), anim3.js (A5–A10) und anim4.js (Teil B); nacheinander laden, weil sie den Baukasten aus anim2.js nutzen */
-A.bereit = typeof window.nachladen === 'function' ? window.nachladen('anim2.js').then(() => window.nachladen('anim3.js')).then(() => window.nachladen('anim4.js')).catch(e => console.warn('Animationen: ' + e.message)) : Promise.resolve();
+A.bereit = typeof window.nachladen === 'function' ? window.nachladen('boot.js').then(() => window.nachladen('anim2.js')).then(() => window.nachladen('anim3.js')).then(() => window.nachladen('anim4.js')).then(() => window.nachladen('anim-test.js')).catch(e => console.warn('Animationen: ' + e.message)) : Promise.resolve();
 
 /* ---------- Knoten (A3) verweist auf das Knotenbrett ---------- */
 A.knoten = {titel: 'Prüfungsknoten', gruppe: 'A3 Knoten', art: 'pruefung', folge: 'G1.2, S10.1', wo: 'Knotenbrett (fertig)'};
@@ -408,23 +408,24 @@ const notes = () => { S.animNotes = S.animNotes || {}; return S.animNotes; };
 const bew = () => { S.animBew = S.animBew || {}; return S.animBew; };   /* {id: 'ok' | 'aendern'}, Standard leer (R7) */
 const NR = {rad: 'A1.2', ruder: 'A1.4', gas: 'A1.7', anlegen: 'A2.1', sog: 'A2.4', begegnung: 'A4.2', lichter: 'A5.1', schall: 'A6.1', kardinal: 'A7.3', schleuse: 'A7.8', gezeiten: 'A8.6', wetter: 'A9.1', festmacher: 'B1.6', mayday: 'B2.4', echolot: 'B3.4', steilesee: 'B4.4'};
 Object.entries(NR).forEach(([id, n]) => { if (A.defs[id] && !A.defs[id].nr) A.defs[id].nr = n; });
-const nrKey = n => String(n || 'Z9.99').replace(/^([AB])(\d+)\.(\d+)(\w?)$/, (_, a, b, c, d) => `${a}${b.padStart(2, '0')}.${c.padStart(2, '0')}${d}`);
+const nrKey = n => /^T/.test(n || '') ? '0' + n : String(n || 'Z9.99').replace(/^([AB])(\d+)\.(\d+)(\w?)$/, (_, a, b, c, d) => `${a}${b.padStart(2, '0')}.${c.padStart(2, '0')}${d}`);
 const sortiert = () => A.order.slice().sort((x, y) => nrKey(A.defs[x].nr).localeCompare(nrKey(A.defs[y].nr)));
 const zuText = () => sortiert().map(id => { const d = A.defs[id], t = (notes()[id] || '').trim(), b = bew()[id]; if (!t && !b) return ''; return `${d.nr || ''} ${d.titel} (${id}): ${b === 'ok' ? '✓ passt' : b === 'aendern' ? '✏️ ändern' : ''}${t ? ' – ' + t : ''}`; }).filter(Boolean).join('\n');
-const GRUPPEN = {A1: 'A1 Boot, Antrieb, Motor', A2: 'A2 Anlegen, Ankern, Manöver', A3: 'A3 Knoten', A4: 'A4 Ausweichen und Verkehr', A5: 'A5 Lichter und Signalkörper', A6: 'A6 Schallsignale und Nebel', A7: 'A7 Zeichen, Tonnen, Feuer, Tafeln', A8: 'A8 Navigation', A9: 'A9 Wetter, Natur, Sicherheit', A10: 'A10 Binnen',
+const GRUPPEN = {T: '🧪 Test: Bühne (Hochformat oder näher rangezoomt)', A1: 'A1 Boot, Antrieb, Motor', A2: 'A2 Anlegen, Ankern, Manöver', A3: 'A3 Knoten', A4: 'A4 Ausweichen und Verkehr', A5: 'A5 Lichter und Signalkörper', A6: 'A6 Schallsignale und Nebel', A7: 'A7 Zeichen, Tonnen, Feuer, Tafeln', A8: 'A8 Navigation', A9: 'A9 Wetter, Natur, Sicherheit', A10: 'A10 Binnen',
   B1: 'B1 Seemannschaft (Zusatz)', B2: 'B2 Sicherheit (Zusatz)', B3: 'B3 Technik (Zusatz)', B4: 'B4 Revier und Planung (Zusatz)'};
 let filter = 'alle';
-A.seite = async function () {
+A.seite = async function (modus) {
+  if (modus === 'test') filter = 'test';
   css(); await window.nachladen('szene.js'); await window.nachladen('reise.js'); await A.bereit;
   const ids = sortiert(), n = ids.length, nNeu = ids.filter(id => A.defs[id].neu).length, nBew = ids.filter(id => bew()[id]).length;
-  const passt = id => filter === 'alle' || (filter === 'neu' && A.defs[id].neu) || (filter === 'offen' && !bew()[id]) || (filter === 'aendern' && bew()[id] === 'aendern');
+  const passt = id => (filter === 'test' ? /^T/.test(A.defs[id].nr || '') : filter === 'alle') || (filter === 'neu' && A.defs[id].neu) || (filter === 'offen' && !bew()[id]) || (filter === 'aendern' && bew()[id] === 'aendern');
   let gruppe = '', html = '';
   for (const id of ids.filter(passt)) { const d = A.defs[id], t = (notes()[id] || '').trim(), b = bew()[id];
-    const gk = (String(d.nr || '').match(/^[AB]\d+/) || [''])[0]; if (gk !== gruppe) { gruppe = gk; html += `<h3>${esc(GRUPPEN[gk] || d.gruppe)}</h3>`; }
+    const gk = (String(d.nr || '').match(/^([AB]\d+|T)/) || [''])[0]; if (gk !== gruppe) { gruppe = gk; html += `<h3>${esc(GRUPPEN[gk] || d.gruppe)}</h3>`; }
     html += `<div class="card"><b>${esc(d.nr || '')} ${esc(d.titel)}</b><div class="small muted" style="margin:3px 0">${d.neu ? '<span class="tag2 z">neu</span>' : ''}${d.art === 'zusatz' ? '<span class="tag2">Zusatz</span>' : ''}${d.folge && d.folge !== '–' ? `<span class="tag2">${esc(d.folge)}</span>` : ''}${b === 'ok' ? '<span class="tag2 z">✓ passt</span>' : b === 'aendern' ? '<span class="tag2">✏️ ändern</span>' : ''}${t ? '<span class="tag2">📝 Notiz</span>' : ''}</div><button class="btn small" data-an="${id}">▶ Ansehen</button></div>`;
   }
   gameShell('Animationen', `<div class="anlist"><p class="small muted" style="margin:0 0 6px">${n} Animationen, davon ${nNeu} neu. Bewertet: ${nBew}. Tippe auf „Ansehen“, dann „✓ Passt“ oder „✏️ Ändern“ und schreib dazu, was anders werden soll.</p>
-    <div class="anctl" style="margin:6px 0">${[['alle', 'Alle'], ['neu', 'Neu'], ['offen', 'Noch nicht bewertet'], ['aendern', 'Zu ändern']].map(([k, t]) => `<button class="chip" data-fi="${k}" aria-pressed="${filter === k}">${t}</button>`).join('')}</div>
+    <div class="anctl" style="margin:6px 0">${[['test', '🧪 Test'], ['alle', 'Alle'], ['neu', 'Neu'], ['offen', 'Noch nicht bewertet'], ['aendern', 'Zu ändern']].map(([k, t]) => `<button class="chip" data-fi="${k}" aria-pressed="${filter === k}">${t}</button>`).join('')}</div>
     ${html || '<p class="small muted">Hier ist gerade nichts.</p>'}<div class="card"><b>A3.1 ${esc(A.knoten.titel)}</b><div class="small muted" style="margin:3px 0"><span class="tag2">${esc(A.knoten.folge)}</span></div><button class="btn small" id="ankn">🪢 Zum Knotenbrett</button></div>
     <h3>Meine Rückmeldung</h3><p class="small muted" style="margin:0 0 6px">Kopieren und Claude im Chat schicken. Die Notizen bleiben nur auf diesem Handy.</p><button class="btn small" id="ancopy">📋 Alle Bewertungen und Notizen kopieren</button></div>`);
   $('#gback').onclick = () => { setTab('cabin'); };
@@ -435,7 +436,7 @@ A.seite = async function () {
 };
 A.spiele = function (id) {
   const d = A.defs[id]; let p = 0, auto = false, stopp = false, ton = true;
-  gameShell(d.titel, `<div class="anstage" id="anstage">${A.html(id)}</div><div class="ancap" id="ancap"></div>
+  gameShell(d.titel, `<div class="anstage" id="anstage"${d.vb ? ` style="aspect-ratio:${d.vb[0]}/${d.vb[1]};max-height:none"` : ''}>${A.html(id)}</div><div class="ancap" id="ancap"></div>
     <div class="anctl"><button class="btn small ghost" id="anz">◀</button><span class="dots" id="andots">${d.phasen.map(() => '<i></i>').join('')}</span><button class="btn small" id="anw">▶</button><button class="btn small ghost" id="anau">⏯ Auto</button><button class="btn small ghost" id="anto" aria-pressed="true">🔊</button><button class="btn small ghost" id="anre">↻</button></div>
     <div class="anctl" style="margin-top:10px"><button class="chip" id="anok">✓ Passt</button><button class="chip" id="anaend">✏️ Ändern</button><button class="btn small ghost" id="annext">Nächste ▶▶</button></div><label class="small muted" style="display:block;margin-top:10px">Was soll anders werden?</label><textarea class="annote" id="annote" placeholder="Zum Beispiel: Pfeil größer, Text kürzer, andere Farbe …">${esc(notes()[id] || '')}</textarea>`);
   const host = $('#anstage'), svg = A.start(host), cap = () => { $('#ancap').innerHTML = `<b>${esc(({hinnerk: 'Käpt\'n', smilla: 'Smilla', klabauter: 'Klabauter'})[d.phasen[p].wer] || '')}:</b> ${esc(d.phasen[p].t)}`; document.querySelectorAll('#andots i').forEach((e, i) => e.classList.toggle('on', i === p)); };
@@ -453,5 +454,7 @@ A.spiele = function (id) {
   $('#anaend').onclick = () => { bew()[id] = bew()[id] === 'aendern' ? undefined : 'aendern'; save(); bz(); $('#annote').focus(); };
   $('#annext').onclick = () => { stopp = true; auto = false; if ((typeof VOX !== 'undefined')) VOX.stop('anim'); const l = sortiert(), i = l.indexOf(id); A.spiele(l[(i + 1) % l.length]); };
   $('#gback').onclick = () => { stopp = true; auto = false; if ((typeof VOX !== 'undefined')) VOX.stop('anim'); A.seite(); };
+  /* Standard: läuft von selbst durch, mit Vorlesen (Nutzer 08.11.2026) */
+  setTimeout(() => { if (!stopp && !auto && svg.isConnected) $('#anau').click(); }, 400);
 };
 })();
