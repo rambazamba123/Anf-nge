@@ -43,7 +43,7 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | Nr. | id | Datei | Status |
 |---|---|---|---|
 | A1.1 | boot | anim-hoch | ✓ v5.32 |
-| A1.1b | wind | anim2 | ○ |
+| A1.1b | wind | anim-hoch | ✓ v5.45 |
 | A1.2 | rad | anim-hoch | ✓ v5.37 (eigene Zeichnung statt reise.js; Bogen trifft die Rumpfhälfte, Drehpfeil, Heck weicht aus) |
 | A1.3 | radoben | anim-hoch | ✓ v5.32 |
 | A1.4 | ruder | anim.js | ○ |
@@ -51,21 +51,21 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A1.7 | gas | anim-hoch | ✓ v5.35 (Kajüte im Schnitt, große Explosion mit Rauch, keine Strichlinie, Phase 3 Gasgeruch nach Frage 64) |
 | A1.8 | tanken | anim-hoch | ✓ v5.35 (große Zapfsäule mit Anzeige, echter Schlauch, Liste nach Frage 49 und 43) |
 | A2.1 | anlegen | anim-hoch | ✓ v5.32 (Rückwärts mit Radeffekt) |
-| A2.2 | ablegen | anim2 | ○ |
+| A2.2 | ablegen | anim-hoch | ✓ v5.45 |
 | A2.3 | ankern | anim-hoch | ✓ v5.32 |
 | A2.4 | sog | anim-hoch | ✓ v5.35 (Kelvin-Wellen, Boot schaukelt an der Welle, Phase 3 zu schnell / langsam an Liegern) |
 | A2.5 | wenden | anim-hoch | ✓ v5.32 (Anprall markiert) |
 | A2.6 | aufstoppen | anim-hoch | ✓ v5.32 |
-| A2.7 | mob | anim2 | ○ |
-| A3.2 | knotenpraxis | anim2 | ○ |
-| A4.1 | grundregeln | anim2 | ○ |
+| A2.7 | mob | anim-hoch | ✓ v5.45 |
+| A3.2 | knotenpraxis | anim-hoch | ✓ v5.45 |
+| A4.1 | grundregeln | anim-hoch | ✓ v5.45 |
 | A4.2 | begegnung | anim-hoch | ✓ v5.32 (Peilung live, genau 27°) |
-| A4.3 | rangleiter | anim2 | ○ |
-| A4.4 | kurshalter | anim2 | ○ |
-| A4.5 | revierkarte | anim2 | ○ |
-| A4.6 | vtg | anim2 | ○ |
-| A4.7 | fahrwasser | anim2 | ○ |
-| A4.8 | segler | anim2 | ○ |
+| A4.3 | rangleiter | anim-hoch | ✓ v5.45 |
+| A4.4 | kurshalter | anim-hoch | ✓ v5.45 |
+| A4.5 | revierkarte | anim-hoch | ✓ v5.45 |
+| A4.6 | vtg | anim-hoch | ✓ v5.45 (Einbahnwege berichtigt) |
+| A4.7 | fahrwasser | anim-hoch | ✓ v5.45 |
+| A4.8 | segler | anim-hoch | ✓ v5.45 |
 | A5.1 | lichter | anim-hoch | ✓ v5.36 (zweite Ansicht: so siehst du das Boot, es dreht sich mit; Fehler behoben: von vorn fehlte Rot) |
 | A5.2 | lichtertafel | anim-hoch | ✓ v5.40 (Nacht oben, Tag unten, Schiffe größer) |
 | A5.3–A5.6 | schlepp, manunf, fischer, anker | anim-hoch | ✓ v5.40 (Bagger mit zwei Rot/zwei Grün nachts, Schlepp mit Übersicht der Topplichter) |
@@ -96,3 +96,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.42: A8 neu gezeichnet. Fachlich berichtigt: An der Standlinie stand die Gegenpeilung (vom Leuchtturm zum Boot), jetzt die gemessene Peilung vom Boot (023° und 335°, Schnittwinkel 48°). Koppelort genau 051° und 6 sm, Strom 2 kn genau Südost.
 - v5.43: A9 neu gezeichnet. **Fachfehler berichtigt:** In der Wetterkarte drehte der Wind ums Tief im Uhrzeigersinn nach außen und ums Hoch gegen den Uhrzeigersinn nach innen; jetzt richtig (Tief gegen den Uhrzeigersinn hinein, Hoch mit ihm hinaus, Pfeile berechnet). Wartung von Westen und Rettungsinseln steht nicht im Katalog: Phase als Wissen markiert, ohne feste Frist. Abgeglichen mit SBF 68, 69, 256–258, 261, 263, 267–270, 275.
 - v5.44: A10 Binnen neu gezeichnet (Fluss von oben nach unten, Talfahrt nach unten). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder), A1–A4 aus anim2 (wind, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler) und Teil B aus anim4.
+- v5.45: A1.1b, A2.2, A2.7, A3.2 und A4 neu gezeichnet. **Fachfehler berichtigt:** Im Verkehrstrennungsgebiet lagen die Einbahnwege wie im Linksverkehr (Trennzone rechts vom Schiff); jetzt rechter Weg nach Norden, linker nach Süden, Trennzone links vom Schiff (KVR Regel 10). Offen: anim.js-Zeichnungen (festmacher, mayday, echolot, steilesee, ruder) und Teil B aus anim4.

@@ -119,7 +119,7 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
 - **H10** Inhalte, sobald der Nutzer liefert (Story, Figuren, Folgen)
 
 ## 7. Code-Karte
-*Grundstock Stand v4.95, spätere Versionen in den Einträgen (zuletzt v5.44). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
+*Grundstock Stand v4.95, spätere Versionen in den Einträgen (zuletzt v5.45). ✓ = erledigt, ◐ = teilweise, ⏳ = wartet (siehe §8).*
 - **KI und Kosten:**
   - KI-Schalter `S.cfg.ki` (Standard an), `kiOn()`, `applyKi()` setzt `body.noki` und `body.nodev`
   - Kostenknöpfe haben die Klasse `.ki` (grau („ausgegraut“) mit ✦) und verschwinden bei ausgeschalteter KI. Automatische KI-Aufrufe gibt es nicht.
@@ -307,6 +307,7 @@ Der alte Fahrplan (Blöcke A–F, V1–V42) liegt in `docs/archiv/claude-v4-stat
 - [x] v5.42 Navigation (A8: Missweisung, Peilung, Koppelort, Tidenstrom, Seemeile) im Hochformat; Peilung statt Gegenpeilung an der Standlinie
 - [x] v5.43 Wetter, Natur und Sicherheit (A9) im Hochformat; Windpfeile der Wetterkarte berichtigt (waren verkehrt herum)
 - [x] v5.44 Binnen-Animationen (A10) im Hochformat, Fluss senkrecht
+- [x] v5.45 Luv/Lee, Ablegen, Mensch über Bord, Knotenpraxis und Ausweichregeln (A4) im Hochformat; Verkehrstrennungsgebiet berichtigt (Einbahnwege lagen wie im Linksverkehr)
 - [x] Strategie-Gutachten (04.11.2026, Nutzer: „Strategischer Entwicklungsauftrag“, noch keine Änderungen am Projekt): `docs/archiv/strategie-gutachten.md` (Bestandsaufnahme mit Code-Belegen, Widersprüche W1–W11, fachliche Prüfung, Grundsatzentscheidungen G1–G26, Kompetenzmodell, Roadmap, Fragen F1–F4)
 ### Jetzt dran
 - **Umbau aller Animationen auf Hochformat (Nutzer 08.11.2026, O168):** Arbeitsplan mit allen Kommentaren des Nutzers und Liste zum Abhaken in `docs/animationen-umbau.md`. Dort weitermachen, wenn eine Sitzung abbricht. Bilder der Phasen mit `BREITE=400 ZEIT=ms node tools/anim-bilder.js bild.png von bis [id | hoch | alt]` (vorher `python3 -m http.server 8765`). Stand v5.39: alle kommentierten Animationen neu in `anim-hoch.js`, alle übrigen im Hochformat-Rahmen und auf Logik geprüft; weiter mit dem Neuzeichnen der übrigen fürs Hochformat (Liste §4). Gratis-Stimme ist repariert (v5.31), Horn in den Animationen auch (v5.33).

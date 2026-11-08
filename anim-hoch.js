@@ -592,7 +592,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
 
 /* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
 /* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
-const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile', 'wetterkarte', 'beaufort', 'schwerwetter', 'notsignale', 'sicherheit', 'feuer', 'umwelt', 'nationalpark', 'baden', 'bergtal', 'faehre', 'wehr', 'binnenschall', 'wasserski', 'segeln'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker', 'nebel', 'glocke', 'lateral', 'kennung', 'sonderzeichen', 'sektorenfeuer', 'tafeln', 'bruecke', 'missweisung', 'peilung', 'koppel', 'tidenstrom', 'seemeile', 'wetterkarte', 'beaufort', 'schwerwetter', 'notsignale', 'sicherheit', 'feuer', 'umwelt', 'nationalpark', 'baden', 'bergtal', 'faehre', 'wehr', 'binnenschall', 'wasserski', 'segeln', 'wind', 'ablegen', 'mob', 'knotenpraxis', 'grundregeln', 'rangleiter', 'kurshalter', 'revierkarte', 'vtg', 'fahrwasser', 'segler'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
 const alt = id => ALT[id] || A.defs[id];
 const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
 
@@ -805,6 +805,59 @@ neu('sektorenfeuer', {bg: nachtH(500), obj: {leit: `<path d="M0 0 L-97 420 L-36 
     start: {sg: {x: 130, y: 380, r: -45}, tx: {x: 200, y: 476}, tote: {x: 200, y: 330, o: 0}},
     ph: {0: {k: {sg: {x: 180, y: 320}}}, 2: {k: {sg: {r: 45, x: 210, y: 270}}}, 3: {k: {sg: {r: 200, x: 250, y: 320}}}},
     enter(s, p) { q(s, '[data-o="tx"] text').textContent = ['am Wind: schräg gegen den Wind', 'genau gegen den Wind geht nicht', 'Wende: Bug durch den Wind', 'Halse: Heck durch den Wind'][p]; }});
+})();
+
+/* ---------- A1.1b, A2.2, A2.7, A3.2, A4 Ausweichen und Verkehr ---------- */
+(() => { const wind = (x, y, l = 60) => B.pfeil(x, y, x, y + l, '#fff', 4, 'fl');
+  neu('wind', {bg: wasser(), obj: {boot: BO.oben({lichter: true}), wind: [0, 50, 100].map(d => B.pfeil(-90, d - 50, -30, d - 50, '#fff', 4, 'fl')).join(''), luv: '<path d="M-36 -60 Q-56 0 -36 60" stroke="#f2c200" stroke-width="9" fill="none" opacity=".85"/>', lee: '<path d="M36 -60 Q56 0 36 60" stroke="#5a7d9a" stroke-width="9" fill="none" opacity=".85"/>', tluv: T(0, 0, 'Luv', 'middle', 22), tlee: T(0, 0, 'Lee', 'middle', 22)},
+    start: {boot: {x: 200, y: 270, s: 2.2}, wind: {x: 120, y: 270, o: 0}, luv: {x: 200, y: 270, o: 0}, lee: {x: 200, y: 270, o: 0}, tluv: {x: 110, y: 170, o: 0}, tlee: {x: 290, y: 170, o: 0}},
+    ph: {3: {k: {wind: {x: 280, r: 180}, tluv: {x: 290}, tlee: {x: 110}, luv: {r: 180}, lee: {r: 180}}}}});
+  neu('ablegen', {bg: wasser() + pier(500, 72) + '<circle cx="64" cy="110" r="8" fill="#333"/><circle cx="64" cy="380" r="8" fill="#333"/>',
+    obj: {boot: BO.oben({}), wind: [0, 60, 120].map(d => B.pfeil(0, d, 70, d, '#fff', 4, 'fl')).join(''), spring: '', tw: T(0, 0, '', 'middle', 17)},
+    start: {boot: {x: 104, y: 250, s: .62}, wind: {x: 190, y: 190, o: 0}, tw: {x: 250, y: 90}},
+    enter(s, p) { q(s, '[data-o="tw"] text').textContent = p < 2 ? 'Wind ablandig (vom Steg weg)' : 'Wind auflandig (drückt an den Steg)'; },
+    ph: {1: {k: {boot: {x: 190}}}, 2: {k: {boot: {x: 104, y: 250, r: 0}, wind: {x: 300, y: 310, r: 180}}, fx: s => { q(s, '[data-o="spring"]').innerHTML = '<path d="M104 222 L64 380" stroke="#e8c46a" stroke-width="4"/>'; }},
+      3: {k: {boot: {r: -35, x: 112}}, fx: s => { q(s, '[data-o="spring"]').innerHTML = '<path d="M96 226 L64 380" stroke="#e8c46a" stroke-width="4"/>'; }}, 4: {k: {boot: {weg: [[170, 300], [250, 330]], dreh: 180}}, fx: s => { q(s, '[data-o="spring"]').innerHTML = ''; }}}});
+  neu('mob', {bg: wasser() + wind(40, 70) + T(40, 60, 'Wind', 'middle', 16), obj: {boot: BO.oben({}), mensch: `<g transform="scale(1.4)">${B.mensch()}</g>`, ring: `<g transform="scale(1.4)">${B.ring()}</g>`, zeig: B.pfeil(0, 0, -70, 0, '#f2c200', 4), ruf: T(0, 0, '„Mensch über Bord!“', 'middle', 20)},
+    start: {boot: {x: 200, y: 330, s: .6}, mensch: {x: 200, y: 330, o: 0}, ring: {x: 200, y: 330, o: 0}, zeig: {o: 0}, ruf: {x: 200, y: 96, o: 0}},
+    ph: {0: {k: {boot: {y: 210}, mensch: {o: 1, x: 200, y: 352}, ring: {o: 1, x: 230, y: 338}, zeig: {o: 1, x: 270, y: 260}}}, 1: {k: {boot: {weg: [[150, 130], [80, 190], [90, 320]]}, zeig: {o: 0}}},
+      2: {k: {boot: {weg: [[150, 440], [186, 410], [196, 362]]}}}, 3: {k: {mensch: {x: 206, y: 350}, ring: {x: 220, y: 336}}}}});
+  neu('knotenpraxis', {bg: wasser() + '<rect y="380" width="400" height="120" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>',
+    obj: {pal: `<g transform="scale(1.5)"><rect x="-8" y="0" width="16" height="30" rx="4" fill="#555"/><path d="M0 4 C-20 4 -20 18 0 18 C20 18 20 4 0 4 M0 18 C0 -24 -8 -40 -20 -50" stroke="#e8c46a" stroke-width="4" fill="none"/></g>${T(0, 76, 'Palstek um den Poller', 'middle', 16)}`,
+      rund: `<g transform="scale(1.5)"><circle r="10" fill="none" stroke="#888" stroke-width="4"/><path d="M0 10 c-14 0 -14 -18 0 -18 c14 0 14 18 0 18 M-6 12 q-10 10 -4 20 M0 -8 C0 -24 8 -40 20 -50" stroke="#e8c46a" stroke-width="4" fill="none"/></g>${zeilen(0, 70, ['Rundtörn +', 'zwei halbe Schläge'], 'middle', 16)}`,
+      webe: `<g transform="scale(1.5)"><path d="M-70 0 H70" stroke="#999" stroke-width="5"/><path d="M-6 0 C-6 -12 6 -12 6 0 C6 12 -6 12 -6 0 M0 6 V50" stroke="#e8c46a" stroke-width="4" fill="none"/><ellipse cx="0" cy="66" rx="12" ry="18" fill="#2e86c1"/></g>${T(0, -26, 'Webeleinstek: Fender an der Reling', 'middle', 16)}`,
+      stopper: `<path d="M-160 0 H160" stroke="#c98a12" stroke-width="6"/><g transform="scale(1.5)"><path d="M-10 0 c4 -12 10 -12 12 0 c4 12 10 12 12 0 M14 0 V40" stroke="#e8c46a" stroke-width="4" fill="none"/></g>${B.pfeil(-160, 0, -190, 0, '#f08a1c', 4)}${T(0, -18, 'Stopperstek unter Last', 'middle', 16)}`},
+    start: {pal: {x: 96, y: 372, o: 0}, rund: {x: 300, y: 392, o: 0}, webe: {x: 200, y: 100, o: 0}, stopper: {x: 200, y: 290, o: 0}}});
+  neu('grundregeln', {bg: wasser(), obj: {a: BO.oben({lichter: true}), b: BO.oben({lichter: true}), seg: `<g transform="scale(1.4)">${B.segler(30)}</g>`},
+    start: {a: {x: 200, y: 440, s: .55}, b: {x: 200, y: 60, r: 180, s: .55}, seg: {x: 380, y: 250, o: 0, r: -90}},
+    ph: {0: {k: {a: {weg: [[200, 340], [250, 260], [250, 150]]}, b: {weg: [[200, 160], [150, 240], [150, 350]]}}}, 1: {k: {a: {x: 200, y: 440, r: 0}, b: {x: 380, y: 250, r: -90}}},
+      2: {k: {a: {weg: [[200, 360], [260, 290], [330, 230]]}, b: {weg: [[180, 250], [30, 250]]}}}, 3: {k: {a: {x: 200, y: 440, r: 0}, seg: {x: 330, y: 250}}}}});
+  const RG = [['mu', 'manövrierunfähig'], ['mb', 'manövrierbehindert'], ['tg', 'tiefgangbehindert'], ['fi', 'fischend'], ['se', 'Segelfahrzeug'], ['ma', 'Maschinenfahrzeug']], RC = ['#c0392b', '#d35400', '#8e44ad', '#2980b9', '#16a085', '#7f8c8d'];
+  neu('rangleiter', {bg: '<rect width="400" height="500" fill="#f3ead2"/>', obj: {...Object.fromEntries(RG.map(([k, t], i) => [k, `<rect x="-140" y="-22" width="280" height="44" rx="10" fill="${RC[i]}"/>${T(0, 7, `${i + 1}. ${t}`, 'middle', 19, 'w')}`])),
+      pf: B.pfeil(0, 0, 0, -300, '#f08a1c', 5), du: T(0, 0, 'Du', 'middle', 18)},
+    start: {...Object.fromEntries(RG.map(([k], i) => [k, {x: 180, y: 96 + i * 62, o: 0}])), pf: {x: 360, y: 430, o: 0}, du: {x: 360, y: 456, o: 0}}});
+  neu('kurshalter', {bg: wasser(), obj: {wir: BO.oben({lichter: true}), er: BO.oben({lichter: true, farbe: {rumpf: '#efe3c4'}}), ton: '<g class="bl">' + [0, 1, 2, 3, 4].map(i => `<circle cx="${i * 18}" cy="0" r="6" fill="#fff"/>`).join('') + '</g>'},
+    start: {wir: {x: 200, y: 420, s: .55}, er: {x: 50, y: 250, r: 90, s: .55}, ton: {x: 230, y: 476, o: 0}},
+    ph: {0: {k: {wir: {y: 370}, er: {x: 110}}}, 1: {k: {wir: {y: 330}, er: {x: 150}}}, 2: {k: {wir: {weg: [[206, 300], [260, 272], [350, 262]]}, er: {x: 162}}}}});
+  neu('revierkarte', {bg: '<rect width="400" height="500" fill="#f3ead2"/>' + ufer('M0 500 V340 Q80 326 130 370 L180 500Z') + ufer('M400 500 V330 Q320 316 262 370 L220 500Z'),
+    obj: {see: `<rect x="14" y="56" width="372" height="190" rx="14" fill="#9ccbe8" opacity=".55"/>${zeilen(200, 110, ['Hohe See:', 'Kollisionsverhütungsregeln (KVR)'], 'middle', 18)}`,
+      str: `<path d="M160 500 L188 246 L212 246 L240 500Z" fill="#5ba7cf" opacity=".6"/>${zeilen(200, 330, ['Seeschifffahrtsstraße', '(SeeSchStrO)'], 'middle', 16, 'w', 20)}`,
+      fw: `<path d="M182 500 L196 246 M218 500 L204 246" stroke="#c0392b" stroke-width="3.5" stroke-dasharray="8 6"/>${T(200, 420, 'Fahrwasser', 'middle', 16)}`,
+      vtg: `<rect x="50" y="170" width="300" height="60" fill="none" stroke="#a12fbf" stroke-width="3.5" stroke-dasharray="9 5"/>${T(200, 207, 'Verkehrstrennungsgebiet', 'middle', 17, 'b')}`},
+    start: {see: {o: 0}, str: {o: 0}, fw: {o: 0}, vtg: {o: 0}}});
+  /* VTG senkrecht: rechter Einbahnweg nach Norden, linker nach Süden, Trennzone jeweils links vom Schiff (v5.45 berichtigt, vorher wie im Linksverkehr) */
+  neu('vtg', {bg: wasser(500, '#6fb2d6') + `<rect x="170" y="0" width="60" height="500" fill="#d7a6e3" opacity=".55"/>${T(200, 260, 'Trennzone', 'middle', 15, '', '')}`.replace('<text class="t "', '<text class="t" transform="rotate(-90 200 255)"') + [110, 250, 390].map(y => B.pfeil(290, y + 30, 290, y - 30, '#fff', 4) + B.pfeil(110, y - 30, 110, y + 30, '#fff', 4)).join('') + `<rect x="352" y="0" width="48" height="500" fill="#a9c48a" opacity=".55"/>${T(376, 260, 'Küstenverkehrszone', 'middle', 14).replace('<text class="t "', '<text class="t" transform="rotate(-90 376 255)"')}`,
+    obj: {s1: `<g transform="scale(1.2)">${B.schiff(110, 24)}</g>`, s2: `<g transform="scale(1.2)">${B.schiff(120, 24, '#8a4f4f')}</g>`, wir: BO.oben({}), schraeg: '<g transform="scale(1.8)">' + B.kreuz(0, 0) + '</g>'},
+    start: {s1: {x: 290, y: 620, r: 0}, s2: {x: 110, y: -120, r: 180}, wir: {x: 30, y: 300, r: 90, s: .5}, schraeg: {x: 0, y: 0, o: 0}},
+    ph: {0: {k: {s1: {y: 300}, s2: {y: 200}}}, 1: {k: {s1: {y: 90}, s2: {y: 430}, wir: {x: 330}}}, 2: {k: {wir: {x: 30, y: 300, r: 90}, schraeg: {x: 200, y: 160}}}, 3: {k: {wir: {x: 376, y: 140, r: 0}}}}});
+  neu('fahrwasser', {bg: wasser() + [80, 190, 300, 410].map(y => `<g transform="translate(120 ${y}) scale(1.4)">${B.punkt('rot')}</g><g transform="translate(280 ${y}) scale(1.4)">${B.punkt('gruen')}</g>`).join('') + B.pfeil(366, 470, 366, 400, '#fff', 4) + T(366, 492, 'von See', 'middle', 14),
+    obj: {gross: `<g transform="scale(1.3)">${B.schiff(120, 22)}</g>`, wir: BO.oben({}), anker: T(0, 0, '⚓ Ankern verboten', 'middle', 20) + '<g transform="translate(0 26) scale(1.6)">' + B.kreuz(0, 0) + '</g>', quer: '<path d="M110 0 H290" stroke="#fff" stroke-width="3" stroke-dasharray="7 5"/>'},
+    start: {gross: {x: 168, y: -110, r: 180}, wir: {x: 250, y: 460, s: .5}, anker: {x: 200, y: 240, o: 0}, quer: {x: 0, y: 300, o: 0}},
+    ph: {0: {k: {wir: {y: 300}, gross: {y: 130}}}, 1: {k: {wir: {y: 140}, gross: {y: 380}}}, 2: {k: {gross: {y: 640}, wir: {x: 340, y: 300, r: 90}}}}});
+  neu('segler', {bg: wasser() + B.pfeil(30, 70, 100, 70, '#fff', 4, 'fl') + T(64, 58, 'Wind', 'middle', 16),
+    obj: {wir: BO.oben({}), s1: `<g transform="scale(1.5)">${B.segler(40)}</g>`, s2: `<g transform="scale(1.5)">${B.segler(-40)}</g>`, kegel: `<g transform="scale(1.4)">${B.kegel(0, 0, false, 9)}</g>` + T(0, 38, 'Kegel, Spitze unten', 'middle', 16), x: T(0, 0, '= Maschinenfahrzeug', 'middle', 18)},
+    start: {wir: {x: 130, y: 430, s: .55}, s1: {x: 290, y: 200}, s2: {x: 110, y: 200, o: 0, r: 180}, kegel: {x: 290, y: 100, o: 0}, x: {x: 290, y: 290, o: 0}},
+    ph: {0: {k: {wir: {weg: [[170, 370], [260, 330], [350, 340]]}}}, 1: {k: {wir: {x: 130, y: 430, r: 0}}}, 2: {k: {s1: {x: 290, y: 250}, s2: {x: 110, y: 250}}}}});
 })();
 
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
