@@ -358,7 +358,7 @@
   async function animZeigen(it) {
     const box = ui('#kbild'); if (!box) return;
     try {
-      await nachladen('anim.js'); const A = window.ANIM, id = (A.alias && A.alias[it.id]) || it.id, d = A.defs[id]; if (!d) return;
+      await nachladen('anim.js'); if (window.ANIM && window.ANIM.bereit) await window.ANIM.bereit; const A = window.ANIM, id = (A.alias && A.alias[it.id]) || it.id, d = A.defs[id]; if (!d) return;
       if (d.raw) { await nachladen('szene.js'); await nachladen('reise.js'); }
       if (A.css) A.css();
       let sv = box.querySelector(`svg[data-anim="${id}"]`);

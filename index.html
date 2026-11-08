@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.28';
+  window.__ver = '5.29';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4953,7 +4953,7 @@ function renderFrei() {
       ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
     ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${i + 1}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
       ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
-      ['🎞️', 'Animationen', 'Je Gruppe ein Beispiel: Radeffekt, Ausweichen, Lichter, Gezeiten und mehr', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
+      ['🎞️', 'Animationen', 'Alle Animationen zum Testen und Kommentieren: Boot, Manöver, Lichter, Tonnen, Wetter, Sicherheit', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
       ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
       ['🗄️', 'Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, 3D-Welt', () => alteFolgen()]]],
     ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],

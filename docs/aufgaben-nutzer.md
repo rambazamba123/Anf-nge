@@ -16,7 +16,7 @@
 | 6 | **Nach der Technik-Probe:** Am Handy testen, ob das Hörspiel bei gesperrtem Bildschirm weiterläuft, die Pausen stimmen und „Mitantworten“ dich versteht. | Ich baue die Probe und schreibe dir genau auf, was du antippen und worauf du achten sollst. |
 | 7 | Falls noch nicht geschehen: **die gehörte Kajütenfunk-Probefolge als ZIP** hochladen (Hocker → Kajütenfunk → „📦 ZIP speichern“), damit sie fest in der App ist. | Den Einbau danach mache ich (`tools/kurs-import.js`). |
 
-| 22 | **HR29 entscheiden:** Sollen wichtige Themen in der Geschichte öfter wiederkommen, wo es passt (Feld `wieder`, zum Beispiel Radeffekt beim nächsten Anlegen)? Ich habe es als Vorschlag eingetragen und schon neun Stellen gesetzt. | Ich zeige dir die Liste der Blöcke, die bisher nie wiederkommen (`node tools/reiseplan.js --warn`), und schlage je Block eine Szene vor. |
+| 22 | **Animationen bewerten** (v5.29, 79 neue): Frei üben → „🎞️ Animationen“ → Filter „Neu“, je Animation ansehen und „✓ Passt“ oder „✏️ Ändern“ mit Notiz; am Ende „📋 Alle Bewertungen und Notizen kopieren“ und mir in den Chat schicken. (✓ HR29 bestätigt, 08.11.) | Ich arbeite die Notizen gesammelt ab und gleiche die fachlichen Punkte mit den Originalen ab, sobald `quellen/` da ist. |
 
 | 20 | **Figurenkarten bewerten** (`podcast/figuren.md`, Fassung 2.1). ✓ F1–F7 entschieden (07.11.). Offen: F8 Stimmen (Aufgabe 5). Und: Reichen dir die Klassiker in der Sprüchekiste (`podcast/sprueche.json`, 521 Sprüche)? | Ich kann dir je Figur eine kurze Probeszene schreiben, die du mit der Gratis-Stimme anhörst. |
 

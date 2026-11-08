@@ -111,6 +111,13 @@
      "bloecke": [
       "G1.2",
       "G5.2"
+     ],
+     "wieder": "1",
+     "lage": [
+      {
+       "was": "Hinnerk geht ans Telefon und lässt die Pinne los. Wer führt jetzt das Boot? Smilla klärt es, du hörst mit.",
+       "fragen": "1"
+      }
      ]
     },
     {
@@ -127,7 +134,8 @@
      ],
      "bloecke": [
       "G2.2"
-     ]
+     ],
+     "wieder": "43,49"
     },
     {
      "id": "1-6",
@@ -146,6 +154,13 @@
      "bloecke": [
       "G3.1",
       "G7.1"
+     ],
+     "wieder": "61",
+     "lage": [
+      {
+       "was": "Im engen Fluss liegen Boote am Ufer fest, und Hinnerk will mit voller Fahrt vorbei. Du sagst, was zu tun ist.",
+       "fragen": "61"
+      }
      ]
     },
     {
@@ -166,11 +181,17 @@
       "G4.2",
       "G5.1"
      ],
-     "wieder": "64",
+     "wieder": "2,64",
      "ernstfall": [
       {
        "was": "Beim Kochen riecht es plötzlich nach Gas (Backbord am Kocher). Man muss reagieren: Hahn zu, lüften, keine Funken.",
        "fragen": "64"
+      }
+     ],
+     "lage": [
+      {
+       "was": "Nach dem Feierabendbier will Hinnerk „nur schnell“ umankern. Darf er das?",
+       "fragen": "2"
       }
      ]
     }
@@ -229,7 +250,8 @@
      ],
      "bloecke": [
       "S5.3"
-     ]
+     ],
+     "wieder": "157"
     },
     {
      "id": "2-3",
@@ -250,7 +272,13 @@
      "bloecke": [
       "S6.1"
      ],
-     "wieder": "34,37"
+     "wieder": "34,37",
+     "lage": [
+      {
+       "was": "Ein Frachter überholt im engen Fahrwasser, die Frieda tanzt. Du entscheidest, wie weit ihr Platz macht und ob ihr Fahrt rausnehmt.",
+       "fragen": "34,37"
+      }
+     ]
     },
     {
      "id": "2-4",
@@ -272,6 +300,13 @@
      "bloecke": [
       "S2.1",
       "S2.3"
+     ],
+     "wieder": "14,15",
+     "lage": [
+      {
+       "was": "Ein Motorboot kommt von Steuerbord auf Kollisionskurs. Hinnerk fragt nur: „Und?“ Du entscheidest.",
+       "fragen": "15"
+      }
      ]
     },
     {
@@ -288,7 +323,8 @@
      ],
      "bloecke": [
       "S4.3"
-     ]
+     ],
+     "wieder": "161"
     },
     {
      "id": "2-6",
@@ -306,7 +342,13 @@
      ],
      "set": "Mini-Klampe",
      "bloecke": [],
-     "wieder": "35,48"
+     "wieder": "35,40,48",
+     "lage": [
+      {
+       "was": "Anlegen in Klüverhafen: Wind und Strom von vorn, der Platz ist an Backbord frei. Du sagst Hinnerk, wie er anlegen soll.",
+       "fragen": "35,40,48"
+      }
+     ]
     },
     {
      "id": "2-7",
@@ -321,7 +363,8 @@
       "K-FAH-02"
      ],
      "bloecke": [],
-     "stoff": []
+     "stoff": [],
+     "wieder": "157,195,196,122,163"
     }
    ]
   },
@@ -355,7 +398,8 @@
      "bloecke": [
       "G6.1",
       "G6.2"
-     ]
+     ],
+     "wieder": "141,163"
     },
     {
      "id": "3-2",
@@ -395,7 +439,8 @@
       "webelein"
      ],
      "set": "Ring",
-     "bloecke": []
+     "bloecke": [],
+     "wieder": "30"
     },
     {
      "id": "3-4",
@@ -417,6 +462,17 @@
      "bloecke": [
       "S6.2",
       "S6.4"
+     ],
+     "wieder": "36,52,53",
+     "lage": [
+      {
+       "was": "Im Kanal kommt ein großes Schiff entgegen, es wird eng. Du entscheidest, wie ihr begegnet.",
+       "fragen": "36"
+      },
+      {
+       "was": "Mitten im Kanal piept der Temperaturalarm. Du sagst, was jetzt zu tun ist und woran es liegen kann.",
+       "fragen": "53"
+      }
      ]
     },
     {
@@ -439,6 +495,17 @@
      "bloecke": [
       "S2.2",
       "S2.4"
+     ],
+     "wieder": "6,7,4,5,17",
+     "lage": [
+      {
+       "was": "Ein Segler mit eingeholten Segeln tuckert unter Motor vor euch her. Wer weicht wem aus?",
+       "fragen": "6,7"
+      },
+      {
+       "was": "Ein schnelles Motorboot will überholen, aber am Ufer steht ein Überholverbot. Was sagst du ihm?",
+       "fragen": "17"
+      }
      ]
     },
     {
@@ -476,7 +543,13 @@
       "K-MAN-02"
      ],
      "bloecke": [],
-     "wieder": "41,47"
+     "wieder": "41,47,48",
+     "lage": [
+      {
+       "was": "Rückwärts aus der Box zieht das Heck nach Backbord, genau wie in 1-3. Du entscheidest, an welcher Seite du anlegst.",
+       "fragen": "41,48"
+      }
+     ]
     },
     {
      "id": "3-8",
@@ -527,7 +600,8 @@
      "navi": "N3",
      "bloecke": [
       "S7.4"
-     ]
+     ],
+     "wieder": "236"
     },
     {
      "id": "4-2",
@@ -546,6 +620,13 @@
      ],
      "bloecke": [
       "S5.4"
+     ],
+     "wieder": "157,195,196",
+     "lage": [
+      {
+       "was": "Im Priel verwechselt Quirin Rot und Grün. Du sagst, an welcher Seite die Frieda bleibt.",
+       "fragen": "157"
+      }
      ]
     },
     {
@@ -570,6 +651,13 @@
      "bloecke": [
       "S6.2",
       "S6.3"
+     ],
+     "wieder": "1,2,200,202",
+     "lage": [
+      {
+       "was": "Die Wasserschutzpolizei fragt: Wer ist hier Schiffsführer? Hinnerk zeigt auf dich.",
+       "fragen": "1"
+      }
      ]
     },
     {
@@ -590,6 +678,13 @@
      "bloecke": [
       "S8.1",
       "S8.2"
+     ],
+     "wieder": "32,33",
+     "lage": [
+      {
+       "was": "Am Seehundsand will Hinnerk für ein Foto näher ran. Du entscheidest.",
+       "fragen": "32"
+      }
      ]
     },
     {
@@ -637,6 +732,13 @@
      "navi": "N3",
      "bloecke": [
       "S4.2"
+     ],
+     "wieder": "35,40,48",
+     "lage": [
+      {
+       "was": "Beim Anlegen in Lüttoog ruft Jasper lauter falsche Tipps. Du entscheidest, wem du glaubst.",
+       "fragen": "35,40,48"
+      }
      ]
     }
    ]
@@ -670,7 +772,8 @@
      "set": "Mini-Laternen",
      "bloecke": [
       "S3.1"
-     ]
+     ],
+     "wieder": "11,12"
     },
     {
      "id": "5-2",
@@ -707,7 +810,8 @@
      "bloecke": [
       "S3.4",
       "S3.5"
-     ]
+     ],
+     "wieder": "82,83"
     },
     {
      "id": "5-4",
@@ -728,7 +832,8 @@
      "bloecke": [
       "S5.1",
       "S5.5"
-     ]
+     ],
+     "wieder": "198,199"
     },
     {
      "id": "5-5",
@@ -755,7 +860,13 @@
       "S3.2",
       "S7.2"
      ],
-     "wieder": "14,15"
+     "wieder": "14,15,125,127,91,113",
+     "lage": [
+      {
+       "was": "Nachts allein am Ruder: Rot und Grün voraus, die Peilung steht. Du entscheidest, was du tust.",
+       "fragen": "14,125"
+      }
+     ]
     },
     {
      "id": "5-6",
@@ -771,7 +882,7 @@
       "K-SCW-01"
      ],
      "bloecke": [],
-     "wieder": "84,116-118,138,274",
+     "wieder": "84,116-118,138,271,274",
      "ernstfall": [
       {
        "was": "Plötzlich Nebel. Du weißt aus 4-5 und 4-6, was zu tun ist: Fahrt runter, Signal geben, Ausguck, horchen. Irgendwo vorlicher tutet ein Frachter.",
@@ -800,7 +911,8 @@
      "bloecke": [
       "S9.4"
      ],
-     "set": "Mini-Rettungsring"
+     "set": "Mini-Rettungsring",
+     "wieder": "67,68"
     }
    ]
   },
@@ -829,7 +941,8 @@
      "bloecke": [
       "S9.1",
       "S9.5"
-     ]
+     ],
+     "wieder": "71,72,114"
     },
     {
      "id": "6-2",
@@ -851,7 +964,13 @@
       "S7.3",
       "S9.2"
      ],
-     "wieder": "8,9"
+     "wieder": "8,9,240,241,183",
+     "lage": [
+      {
+       "was": "Auf der Karte liegt ein militärisches Warngebiet auf eurem Kurs. Du entscheidest, ob und wie ihr durchfahrt.",
+       "fragen": "183"
+      }
+     ]
     },
     {
      "id": "6-3",
@@ -870,6 +989,17 @@
      ],
      "bloecke": [
       "S6.6"
+     ],
+     "wieder": "73,125,148,150",
+     "lage": [
+      {
+       "was": "Ein Frachter kommt von Steuerbord, die Peilung steht. Ihr seid klein, er ist groß. Du entscheidest.",
+       "fragen": "125"
+      },
+      {
+       "was": "Vor dem Verkehrstrennungsgebiet arbeitet ein Bagger. Du entscheidest, an welcher Seite ihr vorbeifahrt.",
+       "fragen": "148"
+      }
      ]
     },
     {
@@ -888,6 +1018,13 @@
      ],
      "bloecke": [
       "S9.3"
+     ],
+     "wieder": "263,268",
+     "lage": [
+      {
+       "was": "Das Barometer fällt rasch. Hinnerk will den Schlag trotzdem zu Ende fahren. Du entscheidest mit.",
+       "fragen": "263"
+      }
      ]
     },
     {
@@ -904,7 +1041,7 @@
       "K-SCW-01"
      ],
      "bloecke": [],
-     "wieder": "276,278",
+     "wieder": "259,276,278",
      "ernstfall": [
       {
        "was": "Eine Welle, Smilla rutscht aus und geht über Bord. Die Sicherheitsleine hält sie längsseits, und ihr holt sie so, wie ihr es mit Oskar geübt habt.",
@@ -927,7 +1064,7 @@
       "K-KNO-04"
      ],
      "bloecke": [],
-     "wieder": "277,279,281,283",
+     "wieder": "256-258,277,279,281,283",
      "ernstfall": [
       {
        "was": "Eine rote Rakete, dann Dauerton: Jaspers Boot ist in Not und kentert fast. Du erkennst die Notsignale aus 6-1 und weißt aus 5-7, was beim Kentern zu tun ist.",
@@ -964,7 +1101,13 @@
      "navi": "N6",
      "bloecke": [],
      "stoff": [],
-     "wieder": "157,209"
+     "wieder": "129,157,201,209,245,88,221,223",
+     "lage": [
+      {
+       "was": "Du führst: vor dir eine Kardinaltonne, ein Segler von der Seite, Strom quer. Keiner sagt dir mehr, was richtig ist.",
+       "fragen": "129,201,245"
+      }
+     ]
     },
     {
      "id": "7-2",
@@ -979,7 +1122,14 @@
       "K-SIG-01"
      ],
      "bloecke": [],
-     "stoff": []
+     "stoff": [],
+     "wieder": "35,40,48",
+     "lage": [
+      {
+       "was": "Einlaufen bei Harms: Du legst selbst an, neben der Albertine, Wind von der Seite.",
+       "fragen": "35,40,48"
+      }
+     ]
     },
     {
      "id": "7-3",
