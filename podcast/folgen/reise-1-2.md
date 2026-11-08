@@ -40,12 +40,12 @@ HAFENMEISTER: [[SPRUCH: hm-hafen-04]] Hinnerk, dein Strom ist nicht bezahlt.
 HINNERK: Moin, Hilke.
 HAFENMEISTER: Moin. Strom. Drei Wochen.
 HINNERK: Wir tanken grad.
-HAFENMEISTER: Seh ich. Und heute früh das Charterboot gegenüber hab ich auch gesehen. [[SPRUCH: hm-hafen-03]] Hab ich gesehen. Alle haben das gesehen.
+HAFENMEISTER: Seh ich. Tanken kannst du. Nur Bezahlen nicht. Und dein Hafenkino heute früh beim Charterboot? [[SPRUCH: hm-hafen-03]] Hab ich gesehen. Alle haben das gesehen.
 SMILLA: [[INTENTION: lachend]] Hinnerk hat's kommentiert. Wie Fußball.
 HAFENMEISTER: Hat er bei dir damals auch gemacht, Smilla.
 SMILLA: Danke, Hilke.
 HINNERK: [[SPRUCH: hi-anrede-04]] Fass mal mit an, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Frischfisch}}. Den Reservekanister. Hier rüber.
-HINNERK: So. Erst mal eine anstecken.
+HINNERK: So. Erst mal die Pfeife an.
 [[AUDIO: Streichholz]]
 SMILLA: [[INTENTION: aufgeregt]] Käpt'n! Nicht! Gib her!
 HINNERK: Wat denn?
@@ -66,8 +66,8 @@ HINNERK: Ja, ja. Is ja gut.
 [[ABSCHNITT: Tanken]]
 [[SZENE: Hinnerk steckt die Zapfpistole in den Tankstutzen der Frieda. Die Hafenmeisterin steht auf dem Steg daneben, Hafen.]]
 [[REVIER: hafen]]
-SMILLA: Käpt'n, der Motor läuft noch. Leerlauf.
-HINNERK: Leerlauf zählt nich. Motor aus. Ganz.
+SMILLA: Käpt'n, der Motor läuft noch.
+HINNERK: Weiß ich. Leerlauf reicht nich. Motor aus. Ganz.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Hinnerk sagt: Beim Tanken muss der Motor ganz aus sein, Leerlauf reicht nicht. Hat er recht?
@@ -108,9 +108,9 @@ HINNERK: Natürlich.
 [[REVIER: hafen]]
 HAFENMEISTER: Wenigstens die Gasflasche steht bei dir richtig, Hinnerk.
 HINNERK: Steht da seit dreißig Jahren.
-HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten in der Backskiste, ganz unten im Boot. Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens macht er den Kühlschrank an.
+HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten in der Backskiste, ganz unten im Boot. Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
 SMILLA: Und?
-HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand an Deck. Das Boot nicht.
+HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand noch auf der Treppe, halb draußen. Sein Boot hatte keins.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Ergänz den Satz: Propan und Butan, das Gas aus der Flasche, sind … als Luft.
@@ -155,13 +155,14 @@ SMILLA: Wer nicht kocht, dreht zu: Haupthahn und Absperrventile schließen. Leer
 HINNERK: Wär ja auch Verschwendung.
 [[AUDIO: Katze]]
 SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
-HINNERK: Noch nich.
+HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
+SMILLA: Solange.
 
 [[ABSCHNITT: Logbuch]]
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms spricht als Sprachnachricht, den Rahmen hält Smilla.
 [[SZENE: Smilla sitzt am Kartentisch mit dem Logbuch. Auf dem Handy eine Sprachnachricht von Harms. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
-SMILLA: Logbuch. Erster Tag, Kuttershaven. Getankt, Streichholz konfisziert, Gashahn erklärt. Und unter jeden Tag kommen Harms' Fragen. Er hat sie aufs Handy gesprochen.
+SMILLA: Logbuch. Erster Tag, Kuttershaven, Vormittag. Getankt, Streichholz konfisziert, Gashahn erklärt. Und unter jeden Tag kommen Harms' Fragen. Er hat sie aufs Handy gesprochen.
 HARMS: Harms. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]
@@ -218,5 +219,5 @@ HARMS: Was ist zu beachten, wenn eine Flüssiggasanlage außer Betrieb gesetzt w
 [[WAHL: sbf:66 | Alfa: Die Anlage ist gasfrei zu machen. | Bravo: Gasflasche fachgerecht entsorgen. | *Charlie: Haupthahn und Absperrventile sind zu schließen. | Delta: Der Flüssiggasbehälter ist vollständig zu entleeren.]]
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
-HARMS: Charlie. Zudrehen. [[SPRUCH: ha-ende-02]] Morgen wieder.
+HARMS: Charlie. Zudrehen. [[SPRUCH: ha-ende-04]] Ende.
 HINNERK: Und jetzt: Leinen los.

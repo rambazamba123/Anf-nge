@@ -38,8 +38,8 @@ HINNERK: Rechts kommt, hat Vorfahrt. Wie auf der Straße. Wir gehen nach rechts 
 [[VERTIEFUNG: ende]]
 
 [[ABSCHNITT: W3 Du korrigierst Quirin]]
-[[SZENE: Im Kanal. Ein Frachter kommt gegen den Strom entgegen. Quirin steht vorn.]]
-[[REVIER: nok]]
+[[SZENE: Enges Fahrwasser in der Elvmünde, Ebbstrom. Ein Frachter kommt gegen den Strom entgegen. Quirin steht vorn.]]
+[[REVIER: fahrwasser]]
 QUIRIN: Ganz easy. Der fahrt gegen den Strom, also muss der ausweichen. Is bei uns auf der Donau aa so.
 HINNERK: Und? Hat er recht?
 [[AUDIO: Schiffsglocke]]
@@ -56,13 +56,13 @@ SMILLA: Quirin hat die Binnenregel im Kopf. Hier gilt: Geschwindigkeit runter un
 [[ABSCHNITT: W4 Du erklärst es Quirin]]
 [[SZENE: Hafen Moorende. Quirin will rückwärts aus der Box.]]
 [[REVIER: hafen]]
-QUIRIN: Jetzt sag amal: Warum zieht des Heck beim Rückwärtsfahren immer nach links? Erklär's mir, du warst doch dabei.
+QUIRIN: I woaß es eh. Aber sag du's, du warst doch dabei: Warum zieht bei der Frieda des Heck beim Rückwärtsfahren nach links?
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:41 | *Der Propeller dreht rückwärts andersherum und zieht das Heck nach Backbord | Der Wind drückt das Heck weg | Das Ruder steht schief]]
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
-QUIRIN: Ah, der Radeffekt. Dann leg i des Ruder gleich a bisserl dagegen.
+QUIRIN: Passt. Radeffekt. Drum halt i gleich a bisserl dagegen.
 HINNERK: Siehste. Geht doch.
 [[VERTIEFUNG: sbf:41]]
 QUIRIN: Gut, dann geb i Gas und lass den Wind machen … Hoppla, jetzt hängt des Heck am Nachbarn!
@@ -72,7 +72,7 @@ SMILLA: Stopp! Das war nicht der Wind. Rückwärts zieht der rechtsdrehende Prop
 [[ABSCHNITT: W5 Ein Gast fragt]]
 [[SZENE: Steg Klüverhafen. Die Hafenmeisterin steht mit Klemmbrett da.]]
 [[REVIER: hafen]]
-HAFENMEISTER: Moin. Wer von euch ist eigentlich der Schiffsführer?
+HAFENMEISTER: Moin. Ich muss eintragen, wer bei euch Schiffsführer ist. Wie legt ihr das fest?
 HINNERK: Frag den Neuen.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
@@ -80,7 +80,7 @@ HINNERK: Frag den Neuen.
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 HAFENMEISTER: Richtig. Steht es nicht fest, wird der verantwortliche Schiffsführer vor der Fahrt bestimmt. Also, wer?
-HINNERK: Ich. Seit heute Morgen. Wie immer.
+HINNERK: Ich. Heute früh bestimmt. Von mir.
 [[VERTIEFUNG: sbf:1]]
 SMILLA: Nicht wer steuert und nicht wer am längsten fährt. Vor der Fahrt wird bestimmt, wer der verantwortliche Schiffsführer ist.
 [[VERTIEFUNG: ende]]
@@ -110,9 +110,9 @@ SMILLA: Acht. Wette gilt. Wer verliert, spült ab.
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Ab acht. Sechs und sieben ist Starkwind. Hinnerk, das Spülbecken wartet.
-HINNERK: Hm. Ist auch so'n Wetter heute.
+HINNERK: Hm. Abwaschen is auch Seemannschaft.
 [[VERTIEFUNG: sbf:268]]
-SMILLA: Sechs und sieben gibt eine Starkwindwarnung, ab acht eine Sturmwarnung. Der Käpt'n spült trotzdem.
+SMILLA: Sechs und sieben gibt eine Starkwindwarnung, ab acht eine Sturmwarnung. Und der Käpt'n spült.
 [[VERTIEFUNG: ende]]
 
 [[ABSCHNITT: W8 Hinnerk macht was Falsches]]
@@ -134,14 +134,14 @@ SMILLA: Dicht an einem großen Schiff kann dich die Bug- oder Heckwelle umwerfen
 [[ABSCHNITT: W9 Klabauter fängt an]]
 [[SZENE: Abends auf dem Kajütdach. Klabauter plustert sich auf.]]
 [[REVIER: hafen]]
-KLABAUTER: Langer Ton! Langer Ton! Vier bis …
-SMILLA: Na? Mach weiter. Wie lang ist ein langer Ton?
+KLABAUTER: Langer Ton! Langer Ton! Wie lang? Wie lang?
+SMILLA: Na? Weißt du's? Wie lang ist ein langer Ton?
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 [[WAHL: sbf:5 | etwa zwei bis sechs Sekunden | *etwa vier bis sechs Sekunden | etwa sechs bis acht Sekunden]]
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
-KLABAUTER: Sechs! Sechs!
+KLABAUTER: Vier bis sechs! Vier bis sechs!
 SMILLA: Vier bis sechs Sekunden. Und ein kurzer etwa eine.
 [[VERTIEFUNG: sbf:5]]
 SMILLA: Ein langer Ton dauert etwa vier bis sechs Sekunden, ein kurzer etwa eine Sekunde.
