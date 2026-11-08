@@ -80,3 +80,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 
 ## 5. Stand der Sitzungen
 - 08.11.2026: Plan angelegt. Zuerst wird die Gratis-Stimme der Testfolgen repariert (Nutzer: „Es läuft blitzschnell alles durch, man hört nichts außer der Glocke“), dann die Animationen.
+- v5.31: Gratis-Stimme repariert (`playPhone`: kein `cancel()` direkt vor `speak()`, zweiter Versuch mit Standardstimme, `phoneUnlock` beim Klick; bleibt sie stumm, wartet der Player die Lesezeit ab und zeigt den Text). Nächster Schritt: Animationen ab §4 oben.

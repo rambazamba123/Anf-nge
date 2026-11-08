@@ -78,8 +78,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     await ev(page, () => { REISE.stopLauf(); S.reise = null; S.cfg.fallback = 'phone'; save(); setTab('cabin'); }); });
   /* H5: Rundgang 1 läuft unten im Bild, „Szene überspringen“ beendet ihn und merkt ihn sich */
   await schritt('03g-rundgang', page, async () => {
-    await ev(page, () => { S.rundgang1 = false; rundgangStarten(); }); await sleep(1500);
-    if (!await page.$('.rgpanel') || !await page.$('.rgblink')) throw new Error('Rundgang zeigt nichts');
+    await ev(page, () => { S.rundgang1 = false; rundgangStarten(); });
+    /* bis zu vier Sekunden warten: ohne Handystimme laufen die Sätze unterschiedlich schnell durch */
+    let sah = false; for (let i = 0; i < 20 && !sah; i++) { await sleep(200); sah = !!(await page.$('.rgpanel')) && !!(await page.$('.rgblink')); }
+    if (!sah) throw new Error('Rundgang zeigt nichts');
     await ev(page, () => document.querySelector('#szende').click()); await sleep(800);
     if (await page.$('.rgpanel') || !await ev(page, () => S.rundgang1)) throw new Error('Rundgang endet nicht');
     await ev(page, () => setTab('cabin')); });
