@@ -35,7 +35,7 @@
     "nie_im_satz_trennen": true,
     "sprecherwechsel_zusammenhalten": true
   },
-  "regie_kategorien": ["PRON", "INTENTION", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL", "ABSCHNITT", "WAHL", "ANIM", "HOERKARTE", "VERTIEFUNG", "SPRUCH"],
+  "regie_kategorien": ["PRON", "INTENTION", "GESICHT", "PAUSE", "TEMPO", "BETONUNG", "SZENE", "FIGUR", "PRUEFUNG", "AUDIO", "FRAGE", "SCHRITT", "REVIER", "KATALOG", "FALLE", "IRRTUM", "BERICHTIGUNG", "DENKPAUSE", "MERKHILFE", "BAUSTEIN", "RUECKBLICK", "VORAB", "BILD", "SIGNAL", "ABSCHNITT", "WAHL", "ANIM", "HOERKARTE", "VERTIEFUNG", "SPRUCH"],
   "lektion_regeln": {
     "_hinweis": "Regeln für Folgenskripte des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 5, §5, §7, §10, §16 und Anhang A). Denkpausen kurz, weil sie auch im Auto-Modus laufen (Nutzer, 23.10.2026: „Nicht zu lange“); 3 s erinnern, 5 s entscheiden (mit [[WAHL]]), 6 s Kernsätze. Merkhilfen ausgebaut (Nutzer, 23.10.2026). tools/podcast-pruefen.js wendet sie an, sobald im Kopf „folge:“ (oder aus Fassung 3 „lektion:“) steht.",
     "revier_werte": ["frei", "fahrwasser", "vtg", "nok", "hafen", "watt", "schleuse", "an Land", "fluss", "binnensee"],

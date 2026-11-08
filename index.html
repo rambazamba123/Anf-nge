@@ -560,7 +560,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.49';
+  window.__ver = '5.50';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -809,6 +809,54 @@ const ROLE_NAMES = {K: "Käpt'n", M: 'Matrosin', T: 'Bordtier', P: 'Prüfer'};
 
 function charSVG(id, extraCls = '') {
   return `<svg class="ch ${extraCls}" data-ch="${id}" viewBox="0 -2 100 147" aria-hidden="true">${ART[id]()}</svg>`;
+}
+/* Mimik (v5.50, Nutzer 08.11.2026: „Emotionen in den Gesichtern, damit sie in den Folgen mitspielen“):
+   mimik(svg, laune) legt Augenbrauen, Augen und Mund über das gezeichnete Gesicht, ohne die Zeichnung zu ändern.
+   Launen: normal, froh, lacht, genervt, erschrocken, skeptisch, traurig, nachdenklich. Beim Sprechen bleibt der sprechende Mund. */
+const MIMIK_LAUNEN = ['normal', 'froh', 'lacht', 'genervt', 'erschrocken', 'skeptisch', 'traurig', 'nachdenklich'];
+const MIMIK_FIG = {hinnerk: {braue: '#f6f2e8', dick: 3.4}, kroeger: {braue: '#5b4636'}, klabauter: {braue: '#2f7a3a', ohneMund: true}};
+function mimik(svg, laune) {
+  if (!svg || !svg.querySelector) return;
+  laune = MIMIK_LAUNEN.includes(laune) ? laune : 'normal';
+  if (svg.dataset.laune === laune) return;
+  svg.dataset.laune = laune;
+  if (!document.getElementById('mimikcss')) { const s = document.createElement('style'); s.id = 'mimikcss'; s.textContent = '.ch .mim{pointer-events:none}.ch .mim .mm{transition:opacity .15s}.ch.talking .mim .mm{opacity:0}.ch.mimmund:not(.talking) .mouth .c{opacity:0}.ch.mimaugen .eyes{opacity:0}.ch .mim{animation:mimrein .25s ease-out}@keyframes mimrein{from{opacity:.2}to{opacity:1}}'; document.head.appendChild(s); }
+  const alt = svg.querySelector('g.mim'); if (alt) alt.remove();
+  svg.classList.remove('mimmund', 'mimaugen');
+  if (laune === 'normal') return;
+  const fig = MIMIK_FIG[svg.dataset.ch] || {}, augen = [...svg.querySelectorAll('.eyes circle')].map(c => ({x: +c.getAttribute('cx'), y: +c.getAttribute('cy'), r: +c.getAttribute('r')}));
+  const mo = svg.querySelector('.mouth .o'), mund = mo ? {x: +mo.getAttribute('cx'), y: +mo.getAttribute('cy'), rx: +mo.getAttribute('rx')} : null;
+  if (!augen.length) return;
+  const B = fig.braue || INK, D = fig.dick || 2.4, mitte = augen.length > 1 ? (augen[0].x + augen[1].x) / 2 : 50;
+  /* Brauen: Winkel der Innenseite (+ = innen runter = böse, − = innen hoch = traurig), Höhe über dem Auge */
+  const BRAUE = {froh: [0, 7.5], lacht: [-6, 8.5], genervt: [16, 6], erschrocken: [-4, 10.5], skeptisch: [0, 7], traurig: [-20, 7.5], nachdenklich: [8, 7]};
+  const [w, h] = BRAUE[laune]; let g = '';
+  augen.forEach((e, i) => {
+    const links = e.x < mitte || augen.length === 1 ? 1 : -1;
+    let ww = w * links, hh = h;
+    if ((laune === 'skeptisch' || laune === 'nachdenklich') && (augen.length === 1 || i === 1)) { ww = -10 * links; hh = h + 3.5; }
+    const y = e.y - hh;
+    g += `<path d="M${e.x - 4.5} ${y} Q${e.x} ${y - 1.6} ${e.x + 4.5} ${y}" stroke="${B}" stroke-width="${D}" fill="none" stroke-linecap="round" transform="rotate(${ww} ${e.x} ${y})"/>`;
+    if (laune === 'lacht') g += `<path d="M${e.x - 3.2} ${e.y + 1} Q${e.x} ${e.y - 3.4} ${e.x + 3.2} ${e.y + 1}" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    if (laune === 'erschrocken') g += `<circle cx="${e.x}" cy="${e.y}" r="${(e.r || 2.6) + 1.6}" fill="#fff" stroke="${INK}" stroke-width="1"/><circle cx="${e.x}" cy="${e.y}" r="${(e.r || 2.6) * .8}" fill="${INK}"/>`;
+    if (laune === 'genervt') g += `<path d="M${e.x - 3.6} ${e.y - 1.2} H${e.x + 3.6}" stroke="${SKIN}" stroke-width="2.6"/><path d="M${e.x - 3.6} ${e.y - .2} H${e.x + 3.6}" stroke="${INK}" stroke-width="1.2" stroke-linecap="round"/>`;
+  });
+  if (laune === 'lacht' || laune === 'erschrocken') svg.classList.add('mimaugen');
+  if (mund && !fig.ohneMund) {
+    const {x, y} = mund, r = Math.max(4, mund.rx || 4);
+    const M = {froh: `<path d="M${x - r - 1.5} ${y - 1} Q${x} ${y + 5} ${x + r + 1.5} ${y - 1}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
+      lacht: `<path d="M${x - r - 1.5} ${y - 1.5} Q${x} ${y + 9} ${x + r + 1.5} ${y - 1.5} Z" fill="${MOUTH}" stroke="${INK}" stroke-width="1.2" stroke-linejoin="round"/>`,
+      genervt: `<path d="M${x - r} ${y + .5} H${x + r}" stroke="${INK}" stroke-width="1.9" stroke-linecap="round"/>`,
+      erschrocken: `<ellipse cx="${x}" cy="${y + 1}" rx="${r * .55}" ry="${r * .75}" fill="${MOUTH}" stroke="${INK}" stroke-width="1"/>`,
+      skeptisch: `<path d="M${x - r} ${y + 1} Q${x + 1} ${y + 1.6} ${x + r + 1} ${y - 1.4}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
+      traurig: `<path d="M${x - r} ${y + 2.2} Q${x} ${y - 2.4} ${x + r} ${y + 2.2}" stroke="${INK}" stroke-width="1.9" fill="none" stroke-linecap="round"/>`,
+      nachdenklich: `<path d="M${x - r * .5} ${y + 1} H${x + r * .7}" stroke="${INK}" stroke-width="1.9" stroke-linecap="round"/>`}[laune];
+    if (M) { g += `<g class="mm">${M}</g>`; svg.classList.add('mimmund'); }
+  }
+  if (laune === 'erschrocken') { const e = augen[augen.length - 1]; g += `<path d="M${e.x + 9} ${e.y - 9} q2.5 4 0 5.5 q-2.5 -1.5 0 -5.5z" fill="#8fd0f0"/>`; }
+  if (laune === 'traurig' && augen.length > 1) g += `<path d="M${augen[0].x - 1} ${augen[0].y + 4} q1.4 2.6 0 3.6 q-1.4 -1 0 -3.6z" fill="#8fd0f0" opacity=".85"/>`;
+  const ziel = (svg.querySelector('.mouth') || svg.querySelector('.eyes')).closest('g.bod') || svg;
+  ziel.insertAdjacentHTML('beforeend', `<g class="mim">${g}</g>`);
 }
 function charG(id, x, y, s = 1, extraCls = '') {
   return `<g class="ch ${extraCls}" data-ch="${id}" transform="translate(${x} ${y}) scale(${s})">${ART[id]()}</g>`;
