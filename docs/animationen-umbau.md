@@ -67,8 +67,8 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 | A4.7 | fahrwasser | anim2 | ○ |
 | A4.8 | segler | anim2 | ○ |
 | A5.1 | lichter | anim-hoch | ✓ v5.36 (zweite Ansicht: so siehst du das Boot, es dreht sich mit; Fehler behoben: von vorn fehlte Rot) |
-| A5.2 | lichtertafel | anim3 | ○ |
-| A5.3–A5.6 | schlepp, manunf, fischer, anker | anim3 | ○ |
+| A5.2 | lichtertafel | anim-hoch | ✓ v5.40 (Nacht oben, Tag unten, Schiffe größer) |
+| A5.3–A5.6 | schlepp, manunf, fischer, anker | anim-hoch | ✓ v5.40 (Bagger mit zwei Rot/zwei Grün nachts, Schlepp mit Übersicht der Topplichter) |
 | A6.1 | schall | anim-hoch | ✓ v5.33 (alle 13 Signale des SBF-See-Katalogs, Horn nach dem Vorlesen) |
 | A6.2, A6.3 | nebel, glocke | anim3 | ○ |
 | A7.3 | kardinal | anim-hoch | ✓ v5.36 (Marke, sicherer Sektor grün, Uhr klein unten) |
@@ -91,3 +91,4 @@ Reihenfolge: zuerst die kommentierten, dann Prüfungsstoff (A), dann Zusatz (B).
 - v5.36: Lichterkarussell, Kardinalzeichen, Wetter im Hochformat; Hilfsfunktion `fit(e, max)` macht zu lange Texte schmaler. Nächster Stapel: motor, rad, dann die übrigen A-Animationen der Reihe nach.
 - v5.37: Motor und Radeffekt neu im Hochformat. Damit sind alle vom Nutzer kommentierten Animationen umgebaut (außer B1.6 Knotenbrett-Kommentarfeld). Nächster Schritt: die übrigen A-Animationen der Reihe nach (wind, ruder, ablegen, mob, knotenpraxis, grundregeln, rangleiter, kurshalter, revierkarte, vtg, fahrwasser, segler, lichtertafel …).
 - v5.38: Alle übrigen Animationen laufen jetzt im Hochformat-Rahmen 400 × 500 (`ANIM.szene` ohne `vb`: oben große Überschrift und Marke, Mitte die alte Szene, unten der Satz der Crew in bis zu drei Zeilen; alte eigene Zeichnungen aus anim.js mit Titel oben). Alle 70 übrigen Animationen als Bilder durchgesehen: fachlich in Ordnung bis auf **Ablegen** (die „Vorspring“ lief vom Bug nach vorn wie eine Vorleine, jetzt vom Bug schräg nach achtern an Land, berichtigt). Binnen-Schallsignale um „fünf kurze: Überholen nicht möglich“ (Binnen 161) ergänzt, mit Horn (v5.39). Weiter: die Szenen einzeln für das Hochformat neu zeichnen (größer, Boot aus boot.js), Reihenfolge wie §4.
+- v5.40: O171 alle Wiedersehen-Formen gut (B176). Übrige Animationen werden in `anim-hoch.js` neu gezeichnet: Hilfe `neu(id, o)` übernimmt Titel und Texte der alten Fassung, `ph` ändert einzelne Phasen; `anim3.js` gibt die Fahrzeuge als `ANIM.fz` frei. Stapel A5 fertig. Bilder-Werkzeug: Filter `=id1,id2` für genaue ids.

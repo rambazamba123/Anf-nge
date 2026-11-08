@@ -590,6 +590,42 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
     }});
 })();
 
+/* ======================= v5.40: übrige Animationen fürs Hochformat neu gezeichnet ======================= */
+/* alt(id): die alte Fassung (Texte der Phasen bleiben, Nutzer 08.11.2026 „Zeichne die übrigen Animationen um“) */
+const ALT = {}; ['lichtertafel', 'schlepp', 'manunf', 'fischer', 'anker'].forEach(id => { if (A.defs[id]) ALT[id] = A.defs[id]; });
+const alt = id => ALT[id] || A.defs[id];
+const neu = (id, o) => { const d = alt(id); if (!d) return; S(id, {...HF, titel: d.titel, nr: d.nr, gruppe: d.gruppe, art: d.art, folge: d.folge, ...o, phasen: o.phasen || d.phasen.map((ph, i) => ({...ph, ...((o.ph || {})[i] || {})}))}); };
+
+/* ---------- A5 Lichter und Signalkörper: Nacht oben, Tag unten ---------- */
+(() => { const FZ = A.fz; if (!FZ) return; const LFw = '#fffbe0';
+  const nachtF = (y0 = 72, h = 206) => `<rect x="0" y="${y0}" width="400" height="${h}" fill="#142033"/><rect x="0" y="${y0 + h - 44}" width="400" height="44" fill="#0b1726"/>`;
+  const tagF = (y0 = 284, h = 206) => `<rect x="0" y="${y0}" width="400" height="${h}" fill="#bfe0f2"/><rect x="0" y="${y0 + h - 50}" width="400" height="50" fill="#4d93bd"/>`;
+  const paarH = (f, s = Math.min(1.6, 280 / f.L)) => `${nachtF()}${tagF()}<g transform="translate(206 234) scale(${s})">${FZ.nacht(f)}</g><g transform="translate(206 440) scale(${s})">${FZ.tag(f)}</g>${T(16, 98, 'Nacht', 'start', 18, 'w')}${T(16, 308, 'Tag', 'start', 18)}${T(200, 476, f.tt, 'middle', 17, 'w')}`;
+  const bg = '<rect width="400" height="500" fill="#f3ead2"/>';
+  const reiheH = id => { const d = alt(id); const keys = Object.keys(d.phasen.reduce((m, ph) => { (ph.an || []).forEach(k => m[k] = 1); return m; }, {})); return keys; };
+  ['lichtertafel', 'fischer'].forEach(id => { const d = alt(id); if (!d) return; const keys = ['motor', 'segler', 'schlepper', 'trawler', 'fischer', 'tiefgang', 'unf', 'beh', 'anker', 'grund'].filter(k => d.phasen.some(ph => (ph.an || []).includes(k)));
+    neu(id, {bg, obj: Object.fromEntries(keys.map(k => [k, paarH(FZ.F[k])])), start: Object.fromEntries(keys.map((k, i) => [k, {o: i ? 0 : 1}]))}); });
+  const F = FZ.F;
+  neu('manunf', {bg, obj: {unf: paarH(F.unf), beh: paarH(F.beh),
+      bag: `${tagF(72, 206)}${nachtF(284, 206)}<g transform="translate(200 228) scale(.95)">${B.seite(200, [[-40, 70], [40, 70]], '#6b5a2e')}${B.ball(-40, -86)}${B.ball(-40, -68)}${B.rhombus(40, -88)}${B.rhombus(40, -64)}</g>
+        <g transform="translate(200 440) scale(.95)"><g opacity=".28">${B.seite(200, [[-40, 70], [40, 70], [0, 84]], '#8c99a6')}</g>${B.licht(-40, -84, '#ff4a3d', 5)}${B.licht(-40, -68, '#ff4a3d', 5)}${B.licht(40, -84, '#2ee06a', 5)}${B.licht(40, -68, '#2ee06a', 5)}${B.licht(0, -102, '#ff4a3d', 5)}${B.licht(0, -88, LFw, 5)}${B.licht(0, -74, '#ff4a3d', 5)}</g>
+        ${T(90, 100, 'Bälle: hier nicht', 'middle', 16, 'r')}${T(310, 100, 'Rhomben: hier vorbei', 'middle', 16, 'gr')}${T(90, 312, 'zwei Rot: nicht', 'middle', 16, 'w')}${T(310, 312, 'zwei Grün: vorbei', 'middle', 16, 'w')}${T(16, 268, 'Tag', 'start', 16)}${T(16, 480, 'Nacht', 'start', 16, 'w')}`},
+    start: {beh: {o: 0}, bag: {o: 0}}});
+  neu('anker', {bg, obj: {a: paarH(F.anker),
+      g50: `${nachtF()}${tagF()}<g transform="translate(200 234) scale(1.1)"><g opacity=".28">${B.seite(260, [[96, 70], [-96, 40]], '#8c99a6')}</g>${B.licht(96, -88, LFw, 5)}${B.licht(-96, -58, LFw, 5)}</g><g transform="translate(200 440) scale(1.1)">${B.seite(260, [[96, 70], [-96, 40]])}${B.ball(96, -84)}</g>
+        ${T(16, 98, 'Nacht', 'start', 18, 'w')}${T(16, 308, 'Tag', 'start', 18)}${T(200, 126, 'vorn höher, achtern niedriger', 'middle', 17, 'w')}${T(200, 476, 'ein Ball', 'middle', 17, 'w')}`,
+      gr: paarH(F.grund)}, start: {g50: {o: 0}, gr: {o: 0}}});
+  /* Schleppverband: oben Nacht mit Schlepper, Leine und Anhang, unten Tag mit Rhombus */
+  neu('schlepp', {bg, obj: {nacht: `${nachtF(72, 220)}${Array.from({length: 18}, (_, i) => `<circle cx="${(i * 89) % 390 + 5}" cy="${90 + (i * 37) % 110}" r="1" fill="#fff" opacity=".6"/>`).join('')}${T(16, 98, 'Nacht', 'start', 18, 'w')}`,
+      zug: `<g transform="scale(1.05)">${FZ.nacht(F.schlepper)}</g>`, anh: `<g transform="scale(.95)"><g opacity=".28">${B.seite(120, [], '#8c99a6', false)}</g>${B.licht(48, -22, '#2ee06a', 5)}${B.licht(-58, -20, LFw, 4)}</g>`,
+      leine: '<path d="M-140 0 Q-70 18 0 0" stroke="#c9c9c9" stroke-width="2.5" fill="none" opacity=".7"/>', drei: B.licht(0, 0, LFw, 5),
+      warn: T(200, 140, 'nie dazwischen durchfahren!', 'middle', 18, 'w'),
+      leg: `<rect x="14" y="304" width="372" height="176" rx="16" fill="#fff8ea" stroke="#d9c39a" stroke-width="2"/><g transform="translate(70 360)"><rect x="-20" y="-34" width="40" height="68" rx="10" fill="#142033"/>${B.licht(0, -12, LFw, 6)}${B.licht(0, 12, LFw, 6)}</g>${T(110, 366, 'zwei Topplichter: bis 200 m', 'start', 18)}<g transform="translate(70 438)"><rect x="-20" y="-40" width="40" height="80" rx="10" fill="#142033"/>${B.licht(0, -22, LFw, 6)}${B.licht(0, 0, LFw, 6)}${B.licht(0, 22, LFw, 6)}</g>${T(110, 444, 'drei: Schleppe über 200 m', 'start', 18)}`,
+      tag: `${tagF(298, 192)}${T(16, 322, 'Tag', 'start', 18)}<g transform="translate(270 440) scale(.75)">${B.seite(120, [[25, 60]])}${B.rhombus(25, -60)}</g><g transform="translate(90 440) scale(.7)">${B.seite(120, [[0, 40]], '#4a4f57', false)}${B.rhombus(0, -42)}</g><path d="M182 440 Q160 452 132 440" stroke="#555" stroke-width="2" fill="none"/>${T(200, 478, 'Schleppe über 200 m: Rhombus', 'middle', 17, 'w')}`},
+    start: {nacht: {}, zug: {x: 300, y: 250}, anh: {x: 80, y: 250}, leine: {x: 236, y: 246}, drei: {x: 326, y: 153, o: 0}, warn: {o: 0}, tag: {o: 0}, leg: {}},
+    ph: {1: {an: ['drei', 'warn']}, 2: {an: ['tag'], aus: ['leg']}}});
+})();
+
 /* ---------- A4.2 Begegnung: die Peilung bleibt stehen ---------- */
 (() => { const C = [200, 190];
   const peil = (a, b) => { const d = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI - a.r; return Math.round(((d % 360) + 360) % 360); };
