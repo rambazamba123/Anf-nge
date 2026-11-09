@@ -1125,6 +1125,59 @@
     {"id": "hm-hafen-04", "t": "Hinnerk, dein Strom ist nicht bezahlt.", "b": 2},
     {"id": "hm-hafen-05", "t": "Liegeplatz drei. Und diesmal mit Fendern.", "b": 2}
    ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "harms",
+   "name": "Verdrücken, wenn Harms anruft",
+   "bedarf": 30,
+   "hinweis": "Nutzer 09.11.2026: Bevor Harms prüft, verabschiedet sich die Crew. Hinnerk geht Harms aus dem Weg (alte Geschichte).",
+   "s": [
+    {"id": "hi-harms-01", "t": "Dat is Harms. Ich bin dann mal an Deck."},
+    {"id": "hi-harms-02", "t": "Mit dem red ich nich. Du schon."},
+    {"id": "hi-harms-03", "t": "Da halt ich mich raus. Ganz weit raus."},
+    {"id": "hi-harms-04", "t": "Ich muss … wat am Motor gucken. Dringend."},
+    {"id": "hi-harms-05", "t": "Grüß ihn nich von mir."},
+    {"id": "hi-harms-06", "t": "Da musste allein durch. Ich auch, damals."},
+    {"id": "hi-harms-07", "t": "Sag ihm, ich bin nich da."},
+    {"id": "hi-harms-08", "t": "Ich geh mal Leinen zählen."},
+    {"id": "hi-harms-09", "t": "Wenn der knurrt: nich zurückknurren."},
+    {"id": "hi-harms-10", "t": "Dat is deine Prüfung, nich meine. Tschüs."}
+   ]
+  },
+  {
+   "wer": "smilla",
+   "lage": "harms",
+   "name": "Daumen drücken, wenn Harms anruft",
+   "bedarf": 30,
+   "hinweis": "Nutzer 09.11.2026: Bevor Harms prüft, verabschiedet sich die Crew. Smilla macht Mut und geht.",
+   "s": [
+    {"id": "sm-harms-01", "t": "Da halten wir uns raus. Viel Glück!"},
+    {"id": "sm-harms-02", "t": "Da musst du allein durch. Ich drück die Daumen, draußen."},
+    {"id": "sm-harms-03", "t": "Kein Vorsagen, sonst fliegen wir beide. Bin weg."},
+    {"id": "sm-harms-04", "t": "Tief durchatmen. Erst lesen, dann tippen."},
+    {"id": "sm-harms-05", "t": "Ich bin in der Plicht. Du schaffst das."},
+    {"id": "sm-harms-06", "t": "Harms will dich hören, nicht mich. Tschö!"},
+    {"id": "sm-harms-07", "t": "Wenn er knurrt: Das heißt nix. Der knurrt immer."},
+    {"id": "sm-harms-08", "t": "Ich kann mir das nicht anhören. Bin oben."},
+    {"id": "sm-harms-09", "t": "Langsam lesen. Die Falle steckt im Detail."},
+    {"id": "sm-harms-10", "t": "Er beißt nicht. Meistens. Bin weg."}
+   ]
+  },
+  {
+   "wer": "klabauter",
+   "lage": "harms",
+   "name": "Flüchten, wenn Harms anruft",
+   "bedarf": 18,
+   "hinweis": "Nutzer 09.11.2026: Klabauter fliegt kreischend davon, ab 1-6 an Bord.",
+   "s": [
+    {"id": "kl-harms-01", "t": "Harms! Harms! Weg hier! Weg hier!"},
+    {"id": "kl-harms-02", "t": "Prüfung! Prüfung! Kraaah!"},
+    {"id": "kl-harms-03", "t": "Allein durch! Allein durch!"},
+    {"id": "kl-harms-04", "t": "Raushalten! Raushalten!"},
+    {"id": "kl-harms-05", "t": "Viel Glück! Glück! Glück!"},
+    {"id": "kl-harms-06", "t": "Ich nicht da! Nicht da!"}
+   ]
   }
  ]
 }

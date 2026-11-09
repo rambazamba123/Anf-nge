@@ -84,6 +84,7 @@ SMILLA: Pass auf, beim Tanken gibt's vier Sachen. Motor aus. Keine elektrischen 
 HINNERK: Ja, ja.
 [[ANIM: tanken, 2]]
 SMILLA: Und viertens: vorsorgen, dass nichts überläuft.
+[[ANIM: tanken, 3]]
 HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
 HAFENMEISTER: Die Leute denken immer: Fenster zu und Feuerlöscher bereit, dann passt das. Passt nicht, wenn der Motor im Leerlauf tuckert oder einer am Schalter dreht.
@@ -97,10 +98,10 @@ HINNERK: Bilge gucken. Mach ich immer nach'm Tanken.
 HINNERK: [[INTENTION: genervt]] Schiet. Da glänzt wat. Bisschen Öl.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du damit?
+SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du damit? Lüften und abwarten? Spülmittel drauf? Oder mit einem Lappen aufnehmen?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
-[[ANIM: tanken, 4]]
+[[ANIM: tanken, 5]]
 HINNERK: Lappen. Aufnehmen. Ab an Land in die Tonne.
 HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer. Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
 SMILLA: Neutralisieren oder verteilen ist also verboten. Ins Wasser darf es sowieso nicht.
@@ -146,7 +147,7 @@ HINNERK: War noch Gas da. Augenbrauen hatte er danach keine mehr.
 SMILLA: Dümmer geht's nicht.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Es riecht im Boot nach Gas. Nenn drei Dinge, die du dann tust.
+SMILLA: Frage an dich. Es riecht im Boot nach Gas. Was tust du? Licht an und nachsehen, wo es herkommt? Oder Gas zu, Luken auf und keinen Schalter anfassen?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Gaszufuhr absperren. Lüften. Und alles lassen, was einen Funken macht: keine Schalter, kein Funkgerät, kein Handy. Merk's dir so: Hahn zu, Luken auf, Finger weg von allem, was Funken machen kann.
@@ -168,6 +169,8 @@ SMILLA: Solange.
 [[REVIER: an Land]]
 SMILLA: Logbuch. Erster Tag, Kuttershaven, Vormittag. Getankt, Streichholz konfisziert, Gashahn erklärt.
 [[AUDIO: Telefon]]
+SMILLA: [[SPRUCH: sm-harms-03]] Kein Vorsagen, sonst fliegen wir beide. Bin weg.
+HINNERK: [[SPRUCH: hi-harms-04]] Ich muss … wat am Motor gucken. Dringend.
 HARMS: Harms. Tanken und Gas. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]

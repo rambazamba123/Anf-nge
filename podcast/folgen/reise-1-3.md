@@ -51,12 +51,9 @@ HINNERK: Motor läuft. Lass ihn mal warm werden.
 [[REVIER: hafen]]
 SMILLA: Weil wir eh warten: Weißt du eigentlich, wie so ein Boot fährt? Ist nicht wie beim Auto. Vier Sachen.
 HINNERK: Gleich vier.
-[[ANIM: ruder]]
 SMILLA: Erstens: Der Propeller schiebt. Er drückt Wasser nach hinten, und das Boot geht nach vorn.
 SMILLA: Zweitens: Gelenkt wird mit Wasser. Ein Boot lenkt nur, wenn Wasser am Ruder vorbeiströmt oder der Propeller einen Strom macht. Kein Wasserstrom, keine Lenkung.
-[[ANIM: radeffekt]]
 SMILLA: Drittens: Das Heck rutscht. Kuppelst du ein, schiebt der Propeller das Heck ein Stück zur Seite.
-[[ANIM: sog]]
 SMILLA: Und viertens: Große Schiffe ziehen. Wer neben einem dicken Pott fährt, wird angesaugt.
 HINNERK: Und fünftens: Der Motor muss laufen. Tut er. Noch.
 SMILLA: Merk dir die vier so: Der Propeller schiebt, das Ruder lenkt nur im Strom, das Heck rutscht beim Einkuppeln, und große Pötte ziehen.
@@ -110,8 +107,11 @@ SMILLA: Backbord. Denk an das Rad: Kurz vor der Pier legst du den Rückwärtsgan
 [[VERTIEFUNG: ende]]
 [[AUDIO: Schiffsglocke]]
 [[ANIM: anlegen]]
-SMILLA: Backbord. Kurz vor der Pier gehst du rückwärts, um aufzustoppen. Dabei zieht der Radeffekt das Heck nach Backbord, also an die Pier. Er hilft dir.
+SMILLA: Backbord. Du fährst langsam und spitz an die Pier und kuppelst kurz vorher aus.
+[[ANIM: anlegen, 2]]
+SMILLA: Dann gehst du rückwärts, um aufzustoppen. Dabei zieht der Radeffekt das Heck nach Backbord, also an die Pier. Er hilft dir.
 HINNERK: An Steuerbord zieht er dich weg. Dann hängst du 'n Meter vor der Pier, und vorn fuchtelt einer mit der Leine. Wie heute früh beim Charter.
+[[ANIM: anlegen, 3]]
 SMILLA: Merk's dir so: Rechtsdreher legt links an.
 
 [[ABSCHNITT: Der Raser]]
@@ -163,7 +163,7 @@ SMILLA: Großer Pott, große Welle, großer Sog. Abstand ist Lebensversicherung.
 SMILLA: Und noch schlimmer, wenn so ein Pott dich überholt. Dann gibt's drei Sachen auf einmal.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Ein großes Schiff überholt dich. Was schubst dich aus dem Kurs? Nenn die drei.
+SMILLA: Frage an dich. Ein großes Schiff überholt dich. Was schubst dich aus dem Kurs? Nur seine Bugwelle? Oder auch etwas an der Seite und am Heck?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Stau, Sog und Schwell. Vorn drückt dich der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell quer schlagen.
@@ -182,6 +182,8 @@ HINNERK: Lieber nich.
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Zwölf Fragen, trocken und zügig.
 [[SZENE: Smilla stellt das Telefon auf laut. Harms prüft. Keine Musik, kein Fluss, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
+SMILLA: [[SPRUCH: sm-harms-01]] Da halten wir uns raus. Viel Glück!
+HINNERK: [[SPRUCH: hi-harms-03]] Da halt ich mich raus. Ganz weit raus.
 HARMS: [[SPRUCH: ha-anruf-02]] Hier Harms. Wo seid ihr? Egal. Zwölf Fragen. Zügig.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]

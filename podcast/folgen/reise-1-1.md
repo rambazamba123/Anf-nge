@@ -68,7 +68,7 @@ HINNERK: Vom Festmachen. Wat denkst du denn.
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer Schiffsführer ist. So wie bei denen da drüben. Was muss dann passieren?
+SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer Schiffsführer ist. So wie bei denen da drüben. Was muss dann passieren? Wählt ihr einen? Oder wird einer bestimmt?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu. Einer wird bestimmt. Vorher.
@@ -152,6 +152,9 @@ HINNERK: [[INTENTION: genervt]] Um die Uhrzeit. Geh du ran, Smilla.
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus, nur die Glocke. „an Land“ ist das Revier ohne Atmo, bis der Player einen eigenen Schalter hat.
 [[SZENE: Smilla nimmt ab und stellt das Telefon auf laut. Harms ruft an, stellt sich vor und prüft. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
+SMILLA: Frieda, Smilla? … Moment. Für dich. Ich stell laut.
+HINNERK: [[SPRUCH: hi-harms-02]] Mit dem red ich nich. Du schon.
+SMILLA: [[SPRUCH: sm-harms-05]] Ich bin in der Plicht. Du schaffst das.
 HARMS: [[SPRUCH: ha-anruf-01]] Harms. Kapitän der Albertine. Ich bilde aus und nehme Prüfungen ab. Am Ende dieser Reise auch deine.
 HARMS: Bis dahin ruf ich an. Jeden Tag ein paar Fragen, genau so, wie sie in der Prüfung stehen.
 HARMS: {{anrede:w=Du bist also die Neue.|m=Du bist also der Neue.|n=Du bist also der Frischfisch.}} Drei Fragen. [[SPRUCH: ha-frage-07]] Prüfungsfrage. Im Wortlaut.
