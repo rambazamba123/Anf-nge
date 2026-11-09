@@ -88,7 +88,6 @@ SMILLA: Und viertens: vorsorgen, dass nichts überläuft.
 HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
 HAFENMEISTER: Die Leute denken immer: Fenster zu und Feuerlöscher bereit, dann passt das. Passt nicht, wenn der Motor im Leerlauf tuckert oder einer am Schalter dreht.
-SMILLA: Genau, achte auf zwei Sachen: Motor aus, nicht Leerlauf. Und keine Schalter. Beides kann einen Funken machen.
 SMILLA: Merk's dir so: Beim Tanken ist alles aus. Motor aus, nicht nur im Leerlauf. Schalter und Feuer bleiben aus, ein Lappen liegt bereit gegen Überlaufen.
 [[AUDIO: Schiffsglocke]]
 HINNERK: Voll. Und keen Tropfen daneben.
@@ -125,7 +124,7 @@ SMILLA: Frage an dich. Ergänz den Satz: Propan und Butan, das Gas aus der Flasc
 SMILLA: Schwerer. Wäre Gas leichter als Luft, würde es durch die Luke nach oben abziehen, und es wäre viel weniger gefährlich. Aber Propan und Butan sind schwerer. Sie laufen nach unten, sammeln sich unbemerkt in der Bilge und bilden dort mit Luft ein explosives Gemisch. Ein Funke reicht.
 [[VERTIEFUNG: ende]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Schwerer. Gas benimmt sich wie Wasser: Es läuft nach unten und sammelt sich in der Bilge. Mit Luft gemischt knallt es.
+SMILLA: Schwerer. Gas benimmt sich wie Wasser: Es läuft nach unten und sammelt sich in der Bilge.
 [[ANIM: gas, 2]]
 SMILLA: Und darum steht die Flasche an Deck, im Schatten, wegen der Sonne. Geht das nicht, dann in einem eigenen Kasten mit einem Loch ganz unten nach außenbords. Da kann das Gas raus.
 HAFENMEISTER: Ein Lüftungsloch oben nützt nix. Gas geht nicht nach oben.
@@ -139,8 +138,6 @@ HINNERK: Ja, ja.
 HINNERK: Kiek mol. Dat is der Haupthahn. Und dat da unten am Kocher, dat sind die Ventile.
 SMILLA: Er macht Einweisung. Das macht er nur, wenn er sich vorher blamiert hat.
 HINNERK: Ich mach Einweisung, weil's Zeit is.
-HINNERK: Wenn's hier mal nach Gas riecht: Hahn zu. Luken auf. Und dann fasst keiner wat an.
-SMILLA: Kein Lichtschalter, kein Funkgerät, kein Handy. Auch nicht schnell anrufen, um Hilfe zu holen. Jeder Schalter, jedes Handy kann einen Funken machen.
 HINNERK: Ich kannt mal einen, der wollt mit'm Feuerzeug gucken, ob noch Gas da is.
 SMILLA: Und?
 HINNERK: War noch Gas da. Augenbrauen hatte er danach keine mehr.
@@ -150,7 +147,9 @@ SMILLA: Dümmer geht's nicht.
 SMILLA: Frage an dich. Es riecht im Boot nach Gas. Was tust du? Licht an und nachsehen, wo es herkommt? Oder Gas zu, Luken auf und keinen Schalter anfassen?
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Gaszufuhr absperren. Lüften. Und alles lassen, was einen Funken macht: keine Schalter, kein Funkgerät, kein Handy. Merk's dir so: Hahn zu, Luken auf, Finger weg von allem, was Funken machen kann.
+HINNERK: Hahn zu. Luken auf. Und dann fasst keiner wat an.
+SMILLA: Kein Lichtschalter, kein Funkgerät, kein Handy. Auch nicht schnell anrufen, um Hilfe zu holen. Jeder Schalter, jedes Handy kann einen Funken machen.
+SMILLA: Merk's dir so: Hahn zu, Luken auf, Finger weg von allem, was Funken machen kann.
 HINNERK: Und bevor du wieder aufmachst?
 SMILLA: Prüfst du. Ist die Anlage abgenommen? Sind Leitungen und Anschlüsse dicht? Dann erst Haupthahn und Ventile auf.
 HINNERK: Is abgenommen. Papier liegt im Kartentisch.

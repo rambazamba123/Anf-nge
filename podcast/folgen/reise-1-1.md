@@ -98,7 +98,7 @@ SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen
 SMILLA: Kein Drama, die null Komma acht ist die bekannteste Falle. Auf dem Wasser gilt dieselbe feste Grenze wie beim Auto: null Komma fünf Promille. Und das ist nur die feste Grenze. Wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen. Und auch nicht ansagen, wo's langgeht.
 [[VERTIEFUNG: ende]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Null Komma fünf. Wie beim Auto. Null Komma acht ist die Falle, auf die alle reinfallen.
+SMILLA: Null Komma fünf. Null Komma acht ist die Falle, auf die alle reinfallen.
 SMILLA: Aber jetzt kommt der Teil, den kaum einer kennt. Auch mit null Promille darfst du nicht ans Ruder, wenn du nicht sicher führen kannst. Völlig übermüdet. Tabletten, die dich duselig machen. Drogen sowieso. Und körperliche oder geistige Mängel. Wer zum Beispiel nicht richtig sieht-
 HINNERK: [[SPRUCH: hi-ertappt-04]] Wer will Kaffee?
 SMILLA: Käpt'n, ich red grad.

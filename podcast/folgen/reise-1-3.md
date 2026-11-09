@@ -95,8 +95,8 @@ SMILLA: Also, sauber: Stell dich hinters Boot und schau nach vorn. Dreht der Pro
 [[ABSCHNITT: Warum wir links anlegen]]
 [[SZENE: Die Frieda ist aus der Box. Hinnerk dreht sie im Hafenbecken Richtung Ausfahrt. Hafen.]]
 [[REVIER: hafen]]
-HINNERK: Heute Abend Schilfwinkel, morgen Klüverhafen. Da legen wir mit Backbord an.
-SMILLA: Weißt du, warum?
+HINNERK: Heute Abend Schilfwinkel, morgen Klüverhafen. Da legen wir an der Pier an. Mit der richtigen Seite.
+SMILLA: Weißt du, mit welcher?
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Unser Propeller ist ein Rechtsdreher. Mit welcher Seite legst du lieber an die Pier? Alfa: Backbord. Bravo: Steuerbord.
@@ -122,7 +122,7 @@ SMILLA: Was ist das denn? Der fährt ja Vollgas im Hafen.
 HINNERK: Halt dich fest.
 SMILLA: Guck dir die Lieger an! Die knallen alle an die Stege. Und bei Paul ist die Leine gerissen, glaub ich.
 HINNERK: [[SPRUCH: hi-fluch-02]] Pütz und Persenning!
-SMILLA: An festgemachten Booten fährt man langsam vorbei. Sonst wirft deine Welle sie gegen den Steg, und der Sog zerrt an den Leinen.
+SMILLA: An festgemachten Booten fährt man langsam vorbei.
 [[ANIM: gleiter]]
 HINNERK: Und Gleitfahrt macht's nich besser. Hat letztes Jahr einer zu Hilke gesagt. „Ich gleite doch, da gibt's keine Welle.“
 SMILLA: Und?
@@ -156,7 +156,7 @@ SMILLA: Eng hier. Darum Gas weg und Platz lassen. Durchrasen macht nur Welle und
 SMILLA: Mach mal die Augen zu. Die Fähre schiebt vorn eine Bugwelle vor sich her und zieht hinten eine Heckwelle hinter sich her.
 [[ANIM: sog, 1]]
 SMILLA: Und zwischen ihr und uns fließt das Wasser schneller. Das saugt an. Kommst du zu dicht ran, zieht dich der Sog an die Bordwand.
-HINNERK: Darum fährst du nich dicht an so wat ran. Die Welle wirft dich um, der Sog zieht dich ran.
+HINNERK: Mit der Fähre hab ich mal 'nen Segler angesaugt. Hing an uns wie 'ne Klette, bis ich Gas weggenommen hab.
 SMILLA: Großer Pott, große Welle, großer Sog. Abstand ist Lebensversicherung.
 [[AUDIO: Schiffsglocke]]
 [[ANIM: sog, 2]]
