@@ -135,7 +135,9 @@ window.SZENE = (() => {
           const tr = String(ev.results[i][a].transcript).toLowerCase().replace(/[.,!?:]/g, ' ').trim(), ws = tr.split(/\s+/);
           if (!h.laut && (!ev.results[i].isFinal || (ws.length > 3 && deute(ws[ws.length - 1], false) < 0))) continue;
           const p = !h.laut && ws.length > 3 ? deute(ws[ws.length - 1], false) : deute(tr, h.laut);
-          if (p >= 0 && !h.aus) { h.aus = true; try { rec.abort(); } catch (e) {} anzeige && anzeige(''); return onPlatz(p); }
+          /* „Alfa easy“, „tricky Bravo“: Selbsteinschätzung im selben Zuruf (Nutzer 09.11.2026); die Spracherkennung schreibt „easy“ oft eingedeutscht */
+          const et = /\b(easy|easi|isi|isy|iesi|ihsi)\b/.test(tr) ? 'easy' : /\b(tricky|tricki|trickie|trikki|triki|tricke)\b/.test(tr) ? 'tricky' : null;
+          if (p >= 0 && !h.aus) { h.aus = true; try { rec.abort(); } catch (e) {} anzeige && anzeige(''); return onPlatz(p, {et, text: tr}); }
         }
       };
       rec.onerror = ev => { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { h.aus = true; anzeige && anzeige('🎙️ Kein Mikrofon erlaubt'); } };

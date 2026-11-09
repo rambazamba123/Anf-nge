@@ -83,7 +83,7 @@
       const f = fig[wer]; if (!f || !f.voice_id) fehlt.add(wer);
       if (rede && rede.zeichen + text.length > max) schluss();
       if (!rede) rede = {t: 'rede', inputs: [], wer: [], zeilen: [], zeichen: 0, ...(bereich ? {bereich} : {})};
-      rede.inputs.push({text, voice_id: (f && f.voice_id) || null}); rede.zeilen.push({wer, text: ohneCodes(roh), laune: launeAus(roh)});
+      rede.inputs.push({text, voice_id: (f && f.voice_id) || null}); rede.zeilen.push({wer, text: ohneCodes(roh), laune: launeAus(roh), ...(/\[\[\s*SPRUCH\s*:\s*[a-z]+-harms-/.test(roh) ? {abgang: true} : {})});
       if (!rede.wer.includes(wer)) rede.wer.push(wer); rede.zeichen += text.length;
     };
     const steuer = (kat, wert) => {
@@ -494,6 +494,9 @@
   const SEEB = (y, c = '#1d4a63') => `<rect x="${W0}" y="${y}" width="${WB}" height="${260 - y}" fill="${c}"/>`;
   const WELLEB = (y0, c = '#7fb7cf', o = .35) => `<g class="kwel">${Array.from({length: 30}, (_, i) => { const x = W0 + (i * 53) % WB, y = y0 + 2 + ((i * 29) % 30); return `<path d="M${x} ${y} q3 -2 6 0 t6 0" stroke="${c}" stroke-width=".8" fill="none" opacity="${o}"/>`; }).join('')}</g>`;
   const UEBER = y => `<rect x="${W0}" y="${y}" width="${WB}" height="${260 - y}" fill="#1d4a63" opacity=".55"/>`;
+  /* v5.56: Drehpunkt des Schaukelns je Ort (Wasserlinie in der Bootsmitte); die Crew an Bord schaukelt um denselben Punkt mit (Nutzer 09.11.2026) */
+  const SCHAUKEL = {deck: [61, 66], fahrt: [50, 64], abend: [48, 74]};
+  const SCHAUKELG = (art, inhalt) => { const d = SCHAUKEL[art]; return `<g class="kschaukel" style="transform-origin:${d[0] + 75}px ${d[1] + 75}px">${inhalt}</g>`; };
   const SEITE = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.seite(o)}</g>` : '';
   const OBEN = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.oben(o)}</g>` : BOOT_OBEN(x - 50);
   const ZAPFSAEULE = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-4" y="-17" width="8" height="17" rx="1.4" fill="#c0392b" stroke="#7a2318" stroke-width=".5"/><rect x="-2.8" y="-14.5" width="5.6" height="4" rx=".6" fill="#f3e7c9"/><rect x="-2.8" y="-8.5" width="5.6" height="1.6" fill="#7a2318"/><rect x="-4.6" y="-19" width="9.2" height="2.4" rx="1" fill="#e9dcc3"/><path d="M4 -10 q6 1 7 7 q1 5 7 5" stroke="#1d1d1d" stroke-width=".9" fill="none"/><text x="0" y="-11.3" font-size="2.4" text-anchor="middle" fill="#7a2318" font-weight="700">SUPER</text></g>`;
@@ -508,12 +511,12 @@
     deck: (pr) => SEEB(62) + WELLEB(64)
       + `<rect x="${W0}" y="48" width="${WB}" height="7" fill="#7a4e2e"/><rect x="${W0}" y="55" width="${WB}" height="2" fill="#4a2e19"/>` + Array.from({length: 26}, (_, i) => W0 + 6 + i * 16).map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('')
       + (pr.zapf ? ZAPFSAEULE(6, 49) : '') + `<circle cx="22" cy="48" r="1.7" fill="#2b1a0e"/><circle cx="96" cy="48" r="1.7" fill="#2b1a0e"/><path d="M28 61 Q24 56 22 48 M90 61 Q95 55 96 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`
-      + `<g class="kschaukel">${SEITE(61, 66, .4)}</g>` + UEBER(66),
+      + SCHAUKELG('deck', SEITE(61, 66, .4)) + UEBER(66),
     fahrt: () => SEEB(62) + WELLEB(64) + `<path d="M93 64 q-4 3 -8 0 t-8 0 M98 68 q-4 2 -8 0 M104 64 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none" opacity=".7"/>`
-      + `<g class="kschaukel">${SEITE(50, 64, .45, {bugLinks: true})}</g>` + UEBER(64),
+      + SCHAUKELG('fahrt', SEITE(50, 64, .45, {bugLinks: true})) + UEBER(64),
     abend: () => `<rect x="${W0}" y="-150" width="${WB}" height="420" fill="#0c1d2a"/>` + STERNE + `<circle cx="-30" cy="10" r=".7" fill="#f3e7c9"/><circle cx="130" cy="20" r=".7" fill="#f3e7c9"/><circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/>`
       + SEEB(72, '#132e40') + WELLEB(74, '#7fb7cf', .25) + `<path d="M76 80 h8 M74 86 h12 M77 92 h6" stroke="#f3e7c9" stroke-width="1" opacity=".35"/>`
-      + `<g class="kschaukel">${SEITE(48, 74, .45, {farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})}</g><path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
+      + SCHAUKELG('abend', SEITE(48, 74, .45, {farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})) + `<path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
     besuch: () => SEEB(-150) + WELLEB(-60) + WELLEB(0) + WELLEB(40) + `<g transform="rotate(0)">${OBEN(38, 52, .8)}</g>`
       + `<path d="M80 14 C90 22 92 40 91 60 L90 86 Q80 90 70 86 L69 60 C68 40 70 22 80 14Z" fill="#c9d6e0" stroke="#2b4a66" stroke-width="1.4"/><circle cx="80" cy="36" r="3" fill="#3d7bd9"/><circle class="kblau" cx="80" cy="36" r="8" fill="#3d7bd9" opacity=".25"/><path d="M56 40 L69 42 M56 70 L69 70" stroke="#c9b48a" stroke-width=".8"/>`,
     schleuse: () => `<rect x="${W0}" y="-150" width="166" height="400" fill="#8f949c"/><rect x="84" y="-150" width="166" height="400" fill="#8f949c"/><rect x="16" y="-150" width="68" height="400" fill="#1d4a63"/>` + OBEN(50, 52, .8) + `<path d="M16 30 L34 34 M84 74 L66 78" stroke="#c9b48a" stroke-width=".9"/><rect x="16" y="2" width="68" height="4" fill="#5e636b"/>`};
@@ -525,7 +528,7 @@
     if (art === 'tisch') {
       const alle = crew.slice(), m = alle.length, start = -90 + (m % 2 ? 0 : 180 / m), gr0 = m <= 3 ? 25 : m === 4 ? 24 : 21;
       alle.forEach((w, i) => { const a = (start + i * 360 / m) * Math.PI / 180, x = 50 + Math.cos(a) * 37, y = 60 + Math.sin(a) * 23; pl.push({w, x, y, gr: gr0 * (.82 + .18 * (y - 37) / 46)}); });
-    } else if (art === 'telefon') reihe(crew, crew.length > 3 ? 14 : 24, crew.length > 3 ? 86 : 76, 76, 16);
+    } else if (art === 'telefon') reihe(crew, crew.length > 3 ? 14 : 22, crew.length > 3 ? 86 : 78, 76, crew.length > 3 ? 18 : 22);
     else if (art === 'deck') { reihe(leute, n > 2 ? 38 : 44, n > 2 ? 76 : 70, 50, 18); if (katze) pl.push({w: 'BACKBORD', x: 88, y: 56, gr: 18}); }
     else if (art === 'fahrt') {
       const helm = leute.includes('HINNERK') ? 'HINNERK' : leute[0], rest = leute.filter(w => w !== helm);
@@ -539,6 +542,15 @@
   /* Gäste stehen mit ganzem Körper da (Nutzer 08.11.2026), die Crew bleibt als Gesicht: [x, Füße bei y, Höhe] */
   const SZ_GAST = {tisch: [12, 62, 30], telefon: [50, 32, 36], deck: [17, 52, 34], fahrt: [88, 72, 26], abend: [12, 72, 26], besuch: [80, 66, 34], schleuse: [91, 40, 30]};
   let szeneProps = {};
+  /* v5.56 (Nutzer 09.11.2026): Ruft Harms an, verabschiedet sich die Crew (Sprüche der Lage „harms“) und geht aus dem Bild; Harms prüft allein */
+  let weg = new Set(), letzteZeile = null;
+  function abgangPruefen(z) {
+    const l = letzteZeile; letzteZeile = z || null; if (!l || !l.abgang || l === z || weg.has(l.wer)) return;
+    const box = ui('#kges'), el = box && box.querySelector(`.kpl[data-w="${l.wer}"]`);
+    const fertig = () => { weg.add(l.wer); if (buehnenCrew.filter(w => CREWW.includes(w)).every(w => weg.has(w))) weg.add('BACKBORD'); if (box && aussehenAkt === 'b') { box.dataset.art = ''; buehneB(box, z ? z.wer : null, null); } };
+    if (el) { el.classList.add('geht'); setTimeout(fertig, 1100); } else fertig();
+  }
+  const wegReset = () => { weg = new Set(); letzteZeile = null; };
   function buehneB(box, aktiv, laune) {
     let gast = box.dataset.gast || '';
     if (aktiv && !buehnenCrew.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
@@ -548,7 +560,8 @@
     const wx = szeneWetter || folgeWetter || 'schoen', pk = JSON.stringify(szeneProps) + wx;
     if (box.dataset.art !== art || box.dataset.gast !== gast || box.dataset.pr !== pk || !box.children.length) {
       box.dataset.art = art; box.dataset.gast = gast; box.dataset.pr = pk;
-      const name = w => `<span class="kn">${esc(NAMEN[w] || w)}${w === 'HARMS' ? ' 📞' : ''}</span>`;
+      /* Namen nur bei Gästen; die feste Crew kennt man (Nutzer 09.11.2026) */
+      const name = w => FESTE_CREW.includes(w) ? '' : `<span class="kn">${esc(NAMEN[w] || w)}${w === 'HARMS' ? ' 📞' : ''}</span>`;
       const pl = (w, x, y, gr, k) => `<div class="kpl${k ? ' ' + k : ''}" data-w="${esc(w)}" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${gr.toFixed(1)}%">${gesicht(w)}${name(w)}</div>`;
       const koerper = (w, x, fuss, h) => GES[w] && typeof charSVG === 'function' && w !== 'HARMS'
         ? `<div class="kpl gast koerper${w === 'POLIZEI' ? ' polizei' : ''}" data-w="${esc(w)}" style="left:${x}%;top:${fuss}%;width:${(h * 100 / 147).toFixed(1)}%"><div class="kk" data-w="${esc(w)}">${charSVG(GES[w])}</div>${name(w)}</div>`
@@ -559,7 +572,9 @@
       const regen = /regen|sturm/.test(wx) && art !== 'tisch' && art !== 'telefon' ? `<g class="kregen">${Array.from({length: 60}, (_, i) => `<path d="M${-150 + (i * 37) % 400} ${-150 + (i * 53) % 400} l-2 7" stroke="#cfe2ea" stroke-width=".5" opacity=".5"/>`).join('')}</g>` : '';
       const nebel = wx === 'nebel' && art !== 'tisch' && art !== 'telefon' ? `<rect x="-150" y="-150" width="400" height="400" fill="#c9d3d9" opacity=".35"/>` : '';
       box.innerHTML = `<svg class="kbg" viewBox="-75 -75 250 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${(SZ_BG[art] || SZ_BG.deck)(szeneProps)}${nebel}${regen}</svg>`
-        + anordnen(art, buehnenCrew.slice()).map(p => pl(p.w, p.x, p.y, p.gr, p.w === 'BACKBORD' ? 'katze' : '')).join('')
+        + (SCHAUKEL[art] ? `<div class="kbord" style="transform-origin:${SCHAUKEL[art][0]}% ${SCHAUKEL[art][1]}%">` : '')
+        + anordnen(art, buehnenCrew.filter(w => !weg.has(w))).map(p => pl(p.w, p.x, p.y, p.gr, p.w === 'BACKBORD' ? 'katze' : '')).join('')
+        + (SCHAUKEL[art] ? '</div>' : '')
         + (gast ? koerper(gast, g[0], g[1], g[2]) : '');
     }
     box.querySelectorAll('.kpl').forEach(p => { const an = p.dataset.w === aktiv; p.classList.toggle('an', an); p.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
@@ -573,7 +588,7 @@
     const wechsel = a !== szeneArt; szeneArt = a; szeneProps = neu; const g = ui('#kges'); if (g && aussehenAkt === 'b') { g.dataset.art = ''; if (wechsel) g.dataset.gast = ''; buehneB(g, null, null); }
   }
 
-  const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
+  const CREWW = ['HINNERK', 'SMILLA', 'KLABAUTER'], FESTE_CREW = CREWW.concat('BACKBORD'), OHNE_GESICHT = ['ERZAEHLER', 'FUNK'];
   const gesicht = w => `<div class="kg" data-w="${esc(w)}">${GES[w] && typeof charSVG === 'function' ? charSVG(GES[w]) : `<span class="kgb">${esc(String(NAMEN[w] || w)[0])}</span>`}</div>`;
   /* Mimik der Bühne: Wer spricht, zeigt die Laune der Zeile; die anderen reagieren (lacht einer, grinsen alle) */
   function launeSetzen(box, aktiv, laune) {
@@ -598,6 +613,9 @@
   }
   function zeigeZeile(z, gratis) {
     const box = ui('#kspr'); if (!box || !z) return;
+    abgangPruefen(z);
+    /* Wer gegangen ist und wieder spricht, ist wieder da (nach dem Anruf) */
+    if (weg.has(z.wer)) { weg.delete(z.wer); weg.delete('BACKBORD'); const g0 = ui('#kges'); if (g0) g0.dataset.art = ''; }
     if (aussehenAkt === 's') { box.innerHTML = `<b>🗣️ ${esc(NAMEN[z.wer] || z.wer)}</b>${gratis ? ' <span class="muted">· Gratis-Stimme</span>' : ''}<div class="small" style="margin-top:4px">${esc(z.text)}</div>`; return; }
     gesichter(z.wer, launeRaten(z));
     box.innerHTML = `<div class="kname">${esc(NAMEN[z.wer] || z.wer)}${gratis ? ' <span class="kgr">· Gratis-Stimme</span>' : ''}</div><div class="ktext">${esc(z.text)}</div>`;
@@ -657,7 +675,13 @@
     if (aussehenAkt !== 'b' && sv.getAttribute('viewBox') === '0 0 400 500' && sv.querySelector('.t.wort')) sv.setAttribute('viewBox', '0 40 400 366');
   }
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
-  async function animZeigen(it) {
+  /* v5.56 (Nutzer 09.11.2026: „Anlegen hat nicht abgespielt“): Ruft das Skript nur [[ANIM: id]] ohne spätere Phasen auf, läuft die Animation von selbst durch */
+  function animAllein(st, k) {
+    const it = st.items[k]; if (it.p) return false;
+    for (let j = k + 1; j < st.items.length && st.items[j].t !== 'abschnitt'; j++) if (st.items[j].t === 'anim' && st.items[j].id === it.id) return false;
+    return true;
+  }
+  async function animZeigen(it, allein) {
     const box = ui('#kbild'); if (!box) return;
     try {
       await nachladen('anim.js'); if (window.ANIM && window.ANIM.bereit) await window.ANIM.bereit; const A = window.ANIM, id = (A.alias && A.alias[it.id]) || it.id, d = A.defs[id]; if (!d) return;
@@ -667,6 +691,12 @@
       if (!sv) { box.innerHTML = `<div class="anstage kanim">${A.html(id)}</div>`; sv = A.start(box); }
       mitBild(true); schriftGross(sv);
       if (sv && it.p) { A.phase(sv, it.p); schriftGross(sv); }
+      if (sv && allein && d.phasen && d.phasen.length > 1) (async () => {
+        for (let q = 1; q < d.phasen.length; q++) {
+          let t = Math.max(3, Math.min(d.phasen[q - 1].min || 4, 6)) * 1000; while (t > 0) { await sleep(200); if (!sv.isConnected) return; if (!(lauf && lauf.pause)) t -= 200; }
+          A.phase(sv, q); schriftGross(sv);
+        }
+      })();
       /* Einmal erklären, was das rote Ausrufezeichen heißt (Nutzer 08.11.2026; später erklärt es Folge 0) */
       const mk = sv && sv.querySelector('.marke');
       if (mk && mk.style.display !== 'none' && !cfgK().ausruf) { cfgK().ausruf = 1; save(); box.insertAdjacentHTML('afterbegin', '<div class="kausruf"><b style="color:#ff6b5e">❗</b> Rotes Ausrufezeichen: Das kommt so in der Prüfung dran.</div>'); setTimeout(() => box.querySelector('.kausruf')?.remove(), 6000); }
@@ -691,18 +721,21 @@
   function zurufStart(me) {
     /* Nutzer, 08.11.2026: antworten, sobald die Frage sichtbar ist. Während die Stimme noch liest, zählen nur kurze Zurufe (szene.js), danach auch A bis D */
     const w = me.wahlOffen; if (!w || w.getippt || w.fertig || !S.cfg.zuruf || !zurufMoeglich() || !window.SZENE || !SZENE.zuruf) return;
-    /* v5.55: Das offene Mikrofon schaltet manche Handys (vor allem über Bluetooth im Auto) auf schlechteren Ton.
-       Darum hört der Zuruf erst nach dem Vorlesen zu; wer früher antworten will, schaltet das unter ⚙️ ein. */
-    if (!w.gesprochen && !cfgK().zurufFrueh) return;
+    /* v5.56 (Nutzer 09.11.2026): Das Mikrofon hört ab der sichtbaren Frage zu, auch bei Harms. Wird der Ton auf einem Handy
+       dabei schlechter (offenes Mikrofon, Bluetooth im Auto), lässt sich das unter ⚙️ ausschalten: dann erst nach dem Vorlesen. */
+    if (!w.gesprochen && cfgK().zurufFrueh === false) return;
     if (hoer) { if (w.gesprochen && !hoer.laut && hoer.vorbei) hoer.vorbei(); return; }
-    hoer = SZENE.zuruf(p => { hoer = null; const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; });
+    /* „Easy Alfa“, „Alfa tricky“: die Selbsteinschätzung kommt mit dem Zuruf (Nutzer 09.11.2026) */
+    hoer = SZENE.zuruf((p, x) => { hoer = null; if (x && x.et && w.etSetzen) w.etSetzen(x.et); const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; });
     if (hoer && w.gesprochen) hoer.laut = true;
   }
   const FUNKW = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
+  /* Harms liest den amtlichen Wortlaut mit Alfa bis Delta: Das ist immer eine echte Frage, auch im Auto-Modus (Nutzer 09.11.2026) */
+  const harmsFrage = it => !!(it && it.t === 'wahl' && !it.vorab && it.opts.length > 1 && it.opts.every(o => /^\s*(Alfa|Alpha|Bravo|Charlie|Delta)\s*:/i.test(o.text)));
   const ohneBuchstabe = s => String(s).replace(/^\s*(Alfa|Alpha|Bravo|Charlie|Delta)\s*[:.]\s*/i, '');
   /* Was auf dem Bildschirm als Frage steht (Nutzer, 08.11.2026: man muss die Frage immer lesen können) */
   function frageKopf(it, rede) {
-    const q = it.id ? frage(it.id) : null, harms = it.opts.length ? it.opts.every(o => /^\s*(Alfa|Alpha|Bravo|Charlie|Delta)\s*:/i.test(o.text)) : !!q;
+    const q = it.id ? frage(it.id) : null, harms = it.opts.length ? harmsFrage(it) : !!q;
     if (q && harms) return {text: String(q.q).replace(/\s*\(([●▬\s]+)\)/, '').trim(), img: q.img || []};
     const z = rede ? rede.zeilen.filter(x => x.text) : [];
     const sauber = s => String(s).replace(/^.*?Frage an dich[^.:?!]*[.:]\s*/i, '').replace(/\s*\{\{[^}]*\}\}/g, '').replace(/\s+Alfa:.*$/, '').trim();
@@ -719,15 +752,24 @@
     const kopf = frageKopf(it, rede);
     const kopfHtml = kopf.zeilen ? kopf.zeilen.map(z => `<div><b>${esc(z.wer)}:</b> ${esc(z.text)}</div>`).join('') : esc(kopf.text);
     const bilder = (kopf.img || []).map(s => `<img src="${esc(s)}" alt="Bild zur Frage" style="max-width:100%;max-height:26vh;border-radius:10px;background:#fff;margin-top:6px">`).join('');
+    /* Easy/Tricky wie im Quiz bei den amtlichen Fragen von Harms; fließt in die Statistik (selbstEinschaetzung in index.html) */
+    const et = harmsFrage(it) && it.id && String(it.id).startsWith('sbf:') && typeof selbstEinschaetzung === 'function';
     const zr = zurufMoeglich() ? `<button class="chip" id="kzr" aria-pressed="${!!S.cfg.zuruf}">🎙️ Zuruf</button>` : '';
-    box.innerHTML = `<div class="kfrage"><div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : '🔔 Frage an dich'}</span>${zr}</div>
+    /* Harms oben, die Frage darunter (Nutzer 09.11.2026) */
+    const kh = harmsFrage(it) ? `<div class="kharms">${gesicht('HARMS')}<span><b>Kapitän Harms</b><br><span class="small">📞 prüft. Im Wortlaut.</span></span></div>` : '';
+    box.innerHTML = `<div class="kfrage">${kh}<div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : kh ? '🔔 Prüfungsfrage' : '🔔 Frage an dich'}</span>${zr}</div>
       <div class="kftext">${kopfHtml}</div>${bilder}<div class="small muted" id="kzinfo"></div>
+      ${et ? `<div class="kselbst"><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button><span class="small muted">sag z. B. „Alfa easy“</span></div>` : ''}
       <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${FUNKW[i] || i + 1}</b><span>${esc(ohneBuchstabe(o.text))}</span></button>`).join('')}</div>
       <button class="btn small ghost" data-o="-1" style="margin-top:6px">Weiter ohne Antwort</button></div>`;
     document.getElementById('kursplayer')?.classList.add('mitwahl');
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
-    box.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false};
+    { const sb = document.getElementById('kbuehne'); if (sb) sb.scrollTop = 0; box.scrollIntoView({block: 'start'}); }
+    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null};
+    const etAnwenden = () => { const e = w.etBasis; if (!e) return; selbstEinschaetzung(e.n, e.ok, e.vor, e.nach, w.et);
+      const i = box.querySelector('#ketinfo'); if (i) i.textContent = !w.et ? '' : w.et === 'easy' ? (e.ok ? '😎 Easy: kommt erst später wieder.' : '😎 Vertippt: zählt nicht als Fehler, kommt zur Bestätigung wieder.') : (e.ok ? '🤔 Tricky: zählt als Glückstreffer, kommt morgen wieder.' : '🤔 Tricky: kommt öfter.'); };
+    w.etSetzen = v => { if (!et) return; w.et = w.et === v ? null : v; box.querySelectorAll('[data-et]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.et === w.et))); etAnwenden(); };
+    box.querySelectorAll('[data-et]').forEach(b => b.onclick = () => w.etSetzen(b.dataset.et));
     me.frager = rede && rede.zeilen.length ? rede.zeilen[rede.zeilen.length - 1].wer : null;
     const p = new Promise(res => {
       const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl');
@@ -737,7 +779,7 @@
       me.wahlRes = () => { box.innerHTML = ''; ende(); };
       box.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
         const o = opts[+b.dataset.o]; me.wahlRes = null; w.getippt = true; unterbrich(me);
-        box.querySelectorAll('button').forEach(x => x.disabled = true);
+        box.querySelectorAll('button:not([data-et])').forEach(x => x.disabled = true);
         if (!o) { box.innerHTML = ''; return ende(); }
         if (it.vorab) {
           /* Nutzer, 08.11.2026: auch beim Raten gleich sagen, ob es stimmt (zählt weiter nicht in der Statistik) */
@@ -749,11 +791,15 @@
         }
         AUD.sfx(o.ok ? 'richtig' : 'falsch', {vol: .8}); crewReagiert(o.ok);
         if (!o.ok) me.falsch.add(it.id);
+        const nr = et ? +String(it.id).split(':')[1] : 0, vor = nr && S.qs[nr] ? {...S.qs[nr]} : null;
         const gezaehlt = it.id && zaehle(it.id, o.ok);
+        if (gezaehlt && nr && S.qs[nr]) { w.etBasis = {n: nr, ok: o.ok, vor, nach: {...S.qs[nr]}}; if (w.et) etAnwenden(); }
         b.classList.add(o.ok ? 'ok' : 'no');
         if (!o.ok) { const r = opts.findIndex(x => x.ok); const rb = box.querySelector(`[data-o="${r}"]`); if (rb) rb.classList.add('ok'); }
-        box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Richtig!' : '❌ Nicht ganz. Gleich kommt eine Erklärung.'}${gezaehlt ? ' <span class="muted">Zählt in deiner Statistik.</span>' : ''}</p>`);
-        await warten(me, 500); await rueckmeldung(st, me, o.ok); await warten(me, 300); box.innerHTML = ''; ende();
+        box.querySelector('.kopts').insertAdjacentHTML('afterend', `<p class="small" style="margin:6px 0 0">${o.ok ? '✅ Richtig!' : '❌ Nicht ganz. Gleich kommt eine Erklärung.'}${gezaehlt ? ' <span class="muted">Zählt in deiner Statistik.</span>' : ''}</p>${et ? '<p class="small" id="ketinfo" style="margin:4px 0 0"></p>' : ''}`);
+        if (w.et) etAnwenden();
+        /* Zeit zum Nachtippen von Easy oder Tricky */
+        await warten(me, et && !w.et ? 1800 : 500); await rueckmeldung(st, me, o.ok); await warten(me, 300); box.innerHTML = ''; ende();
       });
     });
     w.p = p; return p;
@@ -809,11 +855,12 @@
     AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft');
     me.root = document.getElementById('kursplayer'); wachHalten(true); medienSitzung(st); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
+    wegReset();
     const fehltAb = me.gratis ? new Set() : new Set((await bestand(st)).offen.filter(it => !it.rueck).map(it => it.ab));
     /* Revier der Stelle, an der es losgeht */
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'szene' && szeneTyp(st.items[k].text)) { szeneSetzen(st.items[k].text); break; }
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
-    const interaktiv = cfgK().modus === 'interaktiv';
+    const interaktiv = cfgK().modus === 'interaktiv', echt = x => interaktiv || harmsFrage(x);
     for (let k = ab; k < st.items.length && !me.aus; k++) {
       const it = st.items[k];
       if (it.bereich && it.bereich.art === 'vert' && !(interaktiv && me.falsch.has(it.bereich.id))) continue;
@@ -824,27 +871,28 @@
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
-        me.abK = k; letzteAbK = k;
+        me.abK = k; letzteAbK = k; if (weg.size) { wegReset(); const g0 = ui('#kges'); if (g0) g0.dataset.art = ''; }
         const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
       else if (it.t === 'revier') { if (await atmo(st, it.wert)) await warten(me, 1500); }
       else if (it.t === 'rede') {
-        const n = st.items[k + 1], j = interaktiv ? wahlNach(st, k) : null; me.gleichWeiter = !!(n && n.t === 'rede');
+        const n = st.items[k + 1], j0 = wahlNach(st, k), j = j0 != null && echt(st.items[j0]) ? j0 : null; me.gleichWeiter = !!(n && n.t === 'rede');
         if (j != null && !(me.vorWahl && me.vorWahl.j === j)) { wahl(st, st.items[j], me, it); me.vorWahl = me.wahlOffen ? {j, w: me.wahlOffen} : null; zurufStart(me); }
         if (me.pfeife) pfeifeAus(me);
         await rede(st, it, me, n && n.t === 'bild' ? n.id : null);
+        if (letzteZeile && letzteZeile.abgang) abgangPruefen(null);
         if (me.vorWahl && me.wahlOffen === me.vorWahl.w && wahlNach(st, k) === me.vorWahl.j) { me.wahlOffen.gesprochen = true; zurufStart(me); wahlUhr(me); }
       }
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
-      else if (it.t === 'anim') animZeigen(it);
+      else if (it.t === 'anim') animZeigen(it, animAllein(st, k));
       else if (it.t === 'tipp') { if (interaktiv) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'szene') szeneSetzen(it.text);
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
-      else if (it.t === 'wahl' && interaktiv) {
+      else if (it.t === 'wahl' && echt(it)) {
         if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); wahlUhr(me); await w.p; } }
         else { const p = wahl(st, it, me, null); zurufStart(me); wahlUhr(me); await p; }
         if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++;
@@ -950,7 +998,7 @@
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
           <label class="small"><input type="checkbox" id="kmit"> Mitlesen</label><label class="small"><input type="checkbox" id="ktick"> Ticken</label></div>
-        <label class="small" style="display:block;margin-top:6px"><input type="checkbox" id="kzfrueh"> Zuruf schon während des Vorlesens (der Ton wird dabei auf manchen Handys schlechter)</label>
+        <label class="small" style="display:block;margin-top:6px"><input type="checkbox" id="kzfrueh"> Zuruf schon während des Vorlesens (wird der Ton auf deinem Handy dabei schlechter, hier ausschalten)</label>
         <div class="kreihe" style="margin-top:8px"><span class="small">Aussehen:</span>${Object.entries(AUSSEHEN).map(([k, v]) => `<button class="chip" data-aus="${k}">${v}</button>`).join('')}</div></div>
       <div class="card"><h3 style="margin-top:0">Abschnitte</h3><div id="kab"></div></div>
       <div class="card" id="ktech"><h3 style="margin-top:0">Erzeugen</h3><p class="small muted" id="kbest">…</p>
@@ -1050,7 +1098,15 @@
         #kursplayer .kpl .ch.talking .bod{animation:none}#kursplayer.d-b .kpl.an .kg{transform:none}#kursplayer.d-b .kpl{transition:none}
         #kursplayer.d-b .kpl.koerper{transform:translate(-50%,-100%)}#kursplayer.d-b .kpl.koerper .kk{width:100%;aspect-ratio:100/147}#kursplayer.d-b .kpl.koerper .kk svg{width:100%;height:100%;display:block}
         #kursplayer.d-b .kpl.koerper .kn{position:absolute;top:100%;margin-top:2px}#kursplayer.d-b .kpl.koerper.an .kk{filter:drop-shadow(0 0 5px rgba(232,163,60,.9))}
-        #kursplayer.d-b .kbg .kschaukel{transform-box:fill-box;transform-origin:50% 100%;animation:kschauk 5s ease-in-out infinite}@keyframes kschauk{25%{transform:rotate(.8deg) translateY(.3px)}75%{transform:rotate(-.8deg) translateY(-.2px)}}
+        #kursplayer.d-b .kbg .kschaukel{transform-box:view-box;animation:kschauk 5s ease-in-out infinite}@keyframes kschauk{25%{transform:rotate(.8deg) translateY(.3px)}75%{transform:rotate(-.8deg) translateY(-.2px)}}
+        #kursplayer.d-b .kbord{position:absolute;inset:0;animation:kbord 5s ease-in-out infinite}@keyframes kbord{25%{transform:rotate(.8deg) translateY(.3%)}75%{transform:rotate(-.8deg) translateY(-.2%)}}
+        #kursplayer.d-b #kges[data-wx="windig"] .kbord,#kursplayer.d-b #kges[data-wx="regen"] .kbord{animation-duration:3.6s}#kursplayer.d-b #kges[data-wx="sturm"] .kbord{animation:kbord2 2.4s ease-in-out infinite}@keyframes kbord2{25%{transform:rotate(2.6deg) translateY(.8%)}75%{transform:rotate(-2.6deg) translateY(-.6%)}}
+        #kursplayer.d-b.mitbild .kbord{animation:none!important;transform:none!important;position:static}
+        #kursplayer.d-b.laeuft .kpl.an .kg{animation:none}
+        #kursplayer.mitwahl #kstage,#kursplayer.mitbild #kstage{justify-content:flex-start;justify-content:safe center}
+        #kursplayer .kharms{display:flex;align-items:center;gap:12px;margin:0 0 10px}#kursplayer .kharms .kg{width:64px;height:64px;flex:none;border-radius:50%;overflow:hidden;display:grid;background:#cfe2ea;border:3px solid #e8a33c}#kursplayer.d-b .kharms{color:#f3e7c9}
+        #kursplayer.d-b .kpl.geht{animation:kgeht 1.1s ease-in forwards}@keyframes kgeht{0%{transform:translate(-50%,-50%)}20%{transform:translate(-50%,-50%) rotate(-10deg)}40%{transform:translate(-50%,-50%) rotate(10deg)}60%{transform:translate(-50%,-50%) rotate(-6deg);opacity:1}100%{transform:translate(-50%,40%) scale(.5);opacity:0}}
+        #kursplayer .kselbst{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 2px}#kursplayer .kselbst .chip[aria-pressed="true"]{background:var(--lamp,#e8a33c);color:#1a1a1a;border-color:var(--lamp,#e8a33c)}#kursplayer.d-b .kselbst .chip{background:rgba(243,231,201,.1);color:#f3e7c9;border-color:rgba(243,231,201,.3)}#kursplayer.d-b .kselbst .chip[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a;border-color:#e8a33c}
         #kursplayer.d-b #kges[data-wx="windig"] .kschaukel,#kursplayer.d-b #kges[data-wx="regen"] .kschaukel{animation-duration:3.6s}#kursplayer.d-b #kges[data-wx="sturm"] .kschaukel{animation:kschauk2 2.4s ease-in-out infinite}@keyframes kschauk2{25%{transform:rotate(2.6deg) translateY(.8px)}75%{transform:rotate(-2.6deg) translateY(-.6px)}}
         #kursplayer.d-b .kbg .kregen{animation:kregen .8s linear infinite}@keyframes kregen{to{transform:translate(-4px,14px)}}
         #kursplayer .kfuss{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px max(18px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
@@ -1066,7 +1122,7 @@
         #kursplayer.d-b.mitbild .kanim.anstage>svg{max-height:100cqh}
         #kursplayer .kausruf{position:absolute;left:12px;right:12px;top:8px;z-index:3;background:rgba(15,36,51,.9);color:#f3e7c9;border-radius:12px;padding:8px 12px;font-size:.92em;text-align:left}
         #kursplayer.d-b.mitbild #kges .kpl.an{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
-        @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *{animation:none!important}}</style>`;
+        @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *,#kursplayer.d-b .kbord{animation:none!important}}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
@@ -1089,7 +1145,7 @@
     document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.onclick = () => { k.modus = b.dataset.mod; save(); chips(); });
     $('#ktem').onchange = e => { k.tempo = +e.target.value; save(); if (lauf && lauf.audio) lauf.audio.playbackRate = k.tempo; };
     const mitKl = () => document.getElementById('kursplayer')?.classList.toggle('mitlesen', !!k.mitlesen);
-    $('#kzfrueh').checked = !!k.zurufFrueh; $('#kzfrueh').onchange = e => { k.zurufFrueh = e.target.checked; save(); };
+    $('#kzfrueh').checked = k.zurufFrueh !== false; $('#kzfrueh').onchange = e => { k.zurufFrueh = e.target.checked; save(); };
     $('#kmit').checked = !!k.mitlesen; $('#kmit').onchange = e => { k.mitlesen = e.target.checked; save(); mitKl(); }; mitKl();
     $('#ktick').checked = k.ticken !== false; $('#ktick').onchange = e => { k.ticken = e.target.checked; save(); };
     chips();

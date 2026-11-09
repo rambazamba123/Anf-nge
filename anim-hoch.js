@@ -305,35 +305,52 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
     }});
 })();
 
-/* ---------- A1.8 Tanken ohne Knall (SBF 49, 43; Luken und Lüften als Wissen) ---------- */
-(() => { const BX = 262, WL = 336, SK = 1.5, STU = [BX - 66 * SK, WL - 26 * SK];
+/* ---------- A1.8 Tanken ohne Knall (SBF 49, 43; Luken und Lüften als Wissen) ----------
+   v5.56 (Nutzer 09.11.2026): Tankdeckel seitlich am Rumpf geht auf, der Schlauch wird rangeführt, der Lappen kommt erst, wenn er gesagt wird;
+   Deckel, Zapfpistole und Lappen schaukeln mit dem Boot. Phasen: 0 vorher, 1 kein Feuer, 2 Deckel auf und tanken, 3 Lappen, 4 Luken und Lüften, 5 Bilge. */
+(() => { const BX = 262, WL = 336, SK = 1.5, FL = [-42, -22], ZX = 18 + 76, ZY = 74 + 112;
   const LISTE = [['Motor aus', 49], ['Keine Schalter betätigen', 49], ['Kein Feuer, nicht rauchen', 49], ['Nichts überlaufen lassen', 49], ['Luken zu', 0], ['Vor dem Start lüften', 0], ['Bilge: Lappen, entsorgen', 43]];
+  const kl = x => Math.max(0, Math.min(1, x)), weich = x => x * x * (3 - 2 * x);
   roh('tanken', {titel: 'Tanken ohne Knall', nr: 'A1.8', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G4.1',
     svg: `<rect width="400" height="500" fill="#d9ecf7"/><rect y="250" width="400" height="34" fill="#b98750" stroke="#7a5a3a" stroke-width="2"/>${[40, 120, 200, 280, 360].map(x => `<rect x="${x}" y="284" width="12" height="60" fill="#8a6a44"/>`).join('')}
       <rect y="300" width="400" height="200" fill="#5ba7cf"/>${Array.from({length: 9}, (_, i) => `<path d="M${(i * 91) % 360 + 10} ${380 + (i * 37) % 100} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
       <g transform="translate(18 74)"><rect x="0" y="0" width="96" height="176" rx="10" fill="#d9534f" stroke="#7a2a28" stroke-width="3"/><rect x="0" y="0" width="96" height="30" rx="10" fill="#b8403c"/><text class="t w" x="48" y="21" text-anchor="middle" font-size="15">BENZIN</text>
-        <rect x="12" y="40" width="72" height="44" rx="5" fill="#1d2630" stroke="#555" stroke-width="2"/><text class="t tl" x="76" y="58" text-anchor="end" font-size="15" fill="#7dff9a" stroke="none">0,0 l</text><text class="t te" x="76" y="78" text-anchor="end" font-size="13" fill="#ffd36b" stroke="none">0,00 €</text>
-        <rect x="64" y="98" width="24" height="44" rx="6" fill="#7a2a28"/><g id="tzh"><path d="M70 104 h14 v14 l-8 10 h-6z" fill="#2b2b2b"/></g><rect x="-4" y="168" width="104" height="10" rx="3" fill="#7a7f87"/></g>
+        <rect x="12" y="40" width="72" height="44" rx="5" fill="#1d2630" stroke="#555" stroke-width="2"/><text class="t tl" x="76" y="58" text-anchor="end" font-size="13" fill="#7dff9a" stroke="none">0,0 l</text><text class="t te" x="76" y="78" text-anchor="end" font-size="11" fill="#ffd36b" stroke="none">0,00 €</text>
+        <rect x="64" y="98" width="24" height="44" rx="6" fill="#7a2a28"/><rect x="-4" y="168" width="104" height="10" rx="3" fill="#7a7f87"/></g>
       <path id="tschl" fill="none" stroke="#222" stroke-width="9" stroke-linecap="round"/><path id="tschl2" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9"/>
       <g id="tboot">${BO.seite({})}</g>
-      <g id="tpist" opacity="0"><path d="M0 0 l-22 -8 l-6 6 l18 12 z" fill="#2b2b2b"/><path d="M-26 -4 l-14 4 l2 8 l14 -2z" fill="#2b2b2b"/><rect x="-6" y="-6" width="16" height="6" rx="2" fill="#7a7f87" transform="rotate(30)"/></g>
-      <g id="tlap" opacity="0"><path d="M${STU[0] - 14} ${STU[1] + 2} q6 8 14 2 q8 6 16 -2 l-2 8 q-14 6 -26 0z" fill="#f2f2f2" stroke="#999" stroke-width="1.5"/></g>
+      <g id="tstutzen"><circle r="8.5" fill="#d0d4da" stroke="#555" stroke-width="2"/><circle r="5" fill="#2b2b2b"/><text class="t" x="0" y="-14" text-anchor="middle" font-size="11" fill="#333" stroke="none">TANK</text>
+        <g id="tdeckel"><circle cx="0" cy="0" r="8" fill="#9aa1aa" stroke="#555" stroke-width="2"/><path d="M-4 0 H4" stroke="#555" stroke-width="2"/></g></g>
+      <g id="tlap" opacity="0"><path d="M-16 6 q6 8 14 2 q8 6 16 -2 l-2 9 q-14 7 -26 0z" fill="#f2f2f2" stroke="#999" stroke-width="1.5"/><path d="M-10 9 l3 4 M2 8 l2 5" stroke="#c9c9c9" stroke-width="1.2"/></g>
+      <g id="tpist"><path d="M0 0 l-24 -9 l-6 6 l20 13 z" fill="#2b2b2b"/><path d="M-28 -5 l-14 4 l2 9 l14 -2z" fill="#2b2b2b"/><rect x="-4" y="-5" width="16" height="6" rx="2" fill="#7a7f87" transform="rotate(25)"/></g>
       <g id="tdampf"></g>
       ${LISTE.map(([t, n], i) => `<g class="tli" data-i="${i}" opacity="0" transform="translate(146 ${66 + i * 27})">${B.haken(0, 0)}${T(14, 6, t, 'start', 16)}</g>`).join('')}`,
     phasen: [
       {wer: H, t: 'Bevor getankt wird: Motor aus. Und keine elektrischen Schalter betätigen.', min: 6, cap: 'Vor dem Tanken', z: 2},
       {wer: M, t: 'Kein offenes Feuer und nicht rauchen. Auch keine Pfeife, Käpt\'n.', min: 6, cap: 'Kein Feuer', z: 3},
-      {wer: H, t: 'Langsam tanken und vorsorgen, dass nichts überläuft. Ein Lappen um den Stutzen fängt Tropfen auf.', min: 9, cap: 'Langsam, nichts überlaufen lassen', z: 4},
+      {wer: H, t: 'Tankdeckel auf, Zapfpistole rein. Und langsam tanken.', min: 7, cap: 'Deckel auf, langsam tanken', z: 3},
+      {wer: M, t: 'Vorsorgen, dass nichts überläuft: Ein Lappen unter dem Stutzen fängt Tropfen auf.', min: 7, cap: 'Lappen drunter, nichts überlaufen', z: 4},
       {wer: M, t: 'Luken zu, damit keine Dämpfe ins Boot ziehen. Benzindampf ist schwerer als Luft. Vor dem Start gut lüften.', min: 9, cap: 'Luken zu, vor dem Start lüften', z: 6, pr: false},
       {wer: H, t: 'Und ist doch Kraftstoff oder Öl in die Bilge gelaufen: mit Lappen aufnehmen und umweltgerecht entsorgen.', min: 8, cap: 'Kraftstoff in der Bilge', z: 7}],
-    enter(s, p, st) { st.l = 0; qa(s, '.tli').forEach(e => e.setAttribute('opacity', +e.dataset.i < (o => o)(A.defs.tanken.phasen[p].z) ? 1 : 0)); st.ds = []; },
+    enter(s, p, st) { st.l = p >= 3 ? 25 : 0; qa(s, '.tli').forEach(e => e.setAttribute('opacity', +e.dataset.i < A.defs.tanken.phasen[p].z ? 1 : 0)); st.ds = []; },
     tick(s, tp, p, st) {
-      put(q(s, '#tboot'), {transform: `translate(${BX} ${(WL + Math.sin(tp * 1.6) * 1.2).toFixed(1)}) scale(${SK})`});
-      const an = p === 2 || p === 3, zx = 18 + 76, zy = 74 + 112, sx = STU[0], sy = STU[1] - 14;
-      put(q(s, '#tschl'), {d: an ? `M${zx} ${zy + 8} C${zx + 10} ${zy + 90} ${sx - 50} ${sy + 30} ${sx - 26} ${sy - 4}` : `M${zx} ${zy + 8} C${zx + 6} ${zy + 60} ${zx - 50} ${zy + 50} ${zx - 60} ${zy + 20}`}); put(q(s, '#tschl2'), {d: q(s, '#tschl').getAttribute('d')});
-      put(q(s, '#tzh'), {opacity: an ? 0 : 1}); put(q(s, '#tpist'), {opacity: an ? 1 : 0, transform: `translate(${sx} ${sy})`}); put(q(s, '#tlap'), {opacity: an || p === 4 ? 1 : 0});
-      if (p === 2) st.l = Math.min(38.5, tp * 6); else if (p >= 3) st.l = 38.5; q(s, '.tl').textContent = st.l.toFixed(1).replace('.', ',') + ' l'; q(s, '.te').textContent = (st.l * 1.79).toFixed(2).replace('.', ',') + ' €';
-      const dt = st.dt || .016; if (p === 3 && Math.random() < dt * 8) st.ds.push({x: sx - 8 + Math.random() * 16, y: sy, a: 1});
+      /* Boot schaukelt; Stutzen, Deckel, Pistole und Lappen hängen am selben Punkt des Rumpfs */
+      const dy = Math.sin(tp * 1.6) * 2.2, rot = Math.sin(tp * 1.6 + .6) * .8;
+      put(q(s, '#tboot'), {transform: `translate(${BX} ${(WL + dy).toFixed(1)}) rotate(${rot.toFixed(2)}) scale(${SK})`});
+      const ra = rot * Math.PI / 180, lx = FL[0] * SK, ly = FL[1] * SK, fx = BX + lx * Math.cos(ra) - ly * Math.sin(ra), fy = WL + dy + lx * Math.sin(ra) + ly * Math.cos(ra);
+      put(q(s, '#tstutzen'), {transform: `translate(${fx.toFixed(1)} ${fy.toFixed(1)})`});
+      const auf = p === 2 ? weich(kl(tp / .9)) : p === 3 ? 1 : 0;
+      put(q(s, '#tdeckel'), {transform: `translate(-8 0) rotate(${(-120 * auf).toFixed(0)}) translate(8 0)`});
+      /* Pistole: hängt an der Säule, wird in Phase 2 rangeführt, ab Phase 4 wieder weg */
+      const ran = p === 2 ? weich(kl((tp - 1) / 1.6)) : p === 3 ? 1 : 0, hx = ZX + 2, hy = ZY - 2, px = hx + (fx - 4 - hx) * ran, py = hy + (fy - 6 - hy) * ran;
+      put(q(s, '#tpist'), {transform: `translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${(ran * -10).toFixed(0)})`});
+      put(q(s, '#tschl'), {d: `M${ZX} ${ZY + 8} C${ZX + 12} ${ZY + 70 + 30 * ran} ${px - 60} ${py + 40} ${px - 34} ${py + 2}`}); put(q(s, '#tschl2'), {d: q(s, '#tschl').getAttribute('d')});
+      /* Lappen erst, wenn er gesagt wird (Phase 3); in der Bilge (Phase 5) wieder da */
+      put(q(s, '#tlap'), {opacity: p === 3 ? weich(kl(tp / .6)).toFixed(2) : p === 5 ? 1 : 0, transform: `translate(${fx.toFixed(1)} ${(fy + 4).toFixed(1)})`});
+      if (p === 2) st.l = Math.min(25, Math.max(0, tp - 2.6) * 5); else if (p === 3) st.l = Math.min(38.5, 25 + tp * 3); else if (p >= 4) st.l = 38.5;
+      q(s, '.tl').textContent = st.l.toFixed(1).replace('.', ',') + ' l'; q(s, '.te').textContent = (st.l * 1.79).toFixed(2).replace('.', ',') + ' €';
+      /* Dampf kriecht nach unten (schwerer als Luft) */
+      const dt = st.dt || .016; if (p === 4 && Math.random() < dt * 8) st.ds.push({x: fx - 8 + Math.random() * 16, y: fy, a: 1});
       st.ds.forEach(k => { k.y += dt * 22; k.x += dt * 4; k.a -= dt * .35; }); st.ds = st.ds.filter(k => k.a > 0);
       q(s, '#tdampf').innerHTML = st.ds.map(k => `<circle cx="${k.x.toFixed(1)}" cy="${k.y.toFixed(1)}" r="6" fill="#b7d36b" fill-opacity="${(.5 * k.a).toFixed(2)}"/>`).join('');
     }});

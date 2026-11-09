@@ -346,7 +346,7 @@ Die Klassiker jeder Figur stehen in `podcast/sprueche.json`: je Figur und Lage (
 - Im Skript: `HINNERK: [[SPRUCH: hi-lob-02]] Geht doch.` Das Werkzeug zählt mit und läuft vor jedem Commit.
 
 <!-- SPRUECHE:START -->
-Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (521 Sprüche in 67 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
+Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (547 Sprüche in 70 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
 
 **Erkennungssätze**
 
@@ -435,6 +435,9 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Jasper | Segel gegen Motor | 4 | 4 | 4 | 0 |
 | Jasper | Nach der Rettung (6-6) | 3 | 3 | 2 | 0 |
 | Hafenmeisterin Kuttershaven | Hafenmeisterin Kuttershaven | 5 | 10 | 6 | 2 |
+| Käpt'n Hinnerk | Verdrücken, wenn Harms anruft | 10 | 30 | 30 | 3 |
+| Smilla | Daumen drücken, wenn Harms anruft | 10 | 30 | 30 | 3 |
+| Klabauter | Flüchten, wenn Harms anruft | 6 | 18 | 18 | 0 |
 <!-- SPRUECHE:END -->
 
 ## 11a. Warum heißt das Boot Frieda? [fest] (F6)

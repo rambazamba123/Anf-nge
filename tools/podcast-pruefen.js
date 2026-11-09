@@ -201,6 +201,11 @@ for (const datei of dateien) {
         if (REISE) { /* HR14: immer sechs Sekunden */ }
         else if (L.wahlOffen && wert.trim() !== ENTSCH) W(ort, `Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von ${ENTSCH} Sekunden`);
         if (lek && !L.wahlOffen && !L.karte && wert.trim() === ENTSCH) W(ort, `Entscheidungs-Denkpause (${ENTSCH} s) ohne [[WAHL]]: Im interaktiven Modus erscheinen dort keine Antwortknöpfe (K10)`);
+        /* HR44 (Nutzer, 09.11.2026): Nachdenkfrage ohne Antwortknöpfe: Möglichkeiten natürlich vorlesen („Machst du X? Oder Y?“), ohne Funkwörter */
+        if (REISE && !L.wahlOffen && /Frage an dich/i.test(letzteRede)) {
+          if (/\b(Alfa|Bravo|Charlie|Delta):/.test(letzteRede)) F(ort, 'Nachdenkfrage ohne [[WAHL]] mit Funkwörtern: Möglichkeiten natürlich vorlesen, ohne Alfa und Bravo (HR44)');
+          else if (!/\boder\b/i.test(letzteRede)) W(ort, 'Nachdenkfrage ohne Möglichkeiten: kurz sagen, was in Frage kommt („Machst du X? Oder Y?“, HR44)');
+        }
         L.wahlOffen = null;
       }
       else if (kat === 'MERKHILFE') L.merk++;
