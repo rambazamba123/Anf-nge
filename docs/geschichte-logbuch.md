@@ -23,11 +23,11 @@
 ### 1-2 „Gas, Sprit und Streichholz“ (Bootstankstelle, Vormittag, schön)
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
-| sbf:49 Tanken: Motor aus (nicht Leerlauf), keine Schalter, kein Feuer, nichts überlaufen | Hinnerks Streichholz an der Zapfsäule; Lappen unter dem Stutzen | **7** in zwei Minuten (Zeilen 70–92) | 1-4 oder Klüverhafen: Hinnerk greift beim Tanken zur Pfeife, Smilla guckt nur |
+| sbf:49 Tanken: Motor aus (nicht Leerlauf), keine Schalter, kein Feuer, nichts überlaufen | Hinnerks Streichholz an der Zapfsäule; Lappen unter dem Stutzen | 6 (vorher 7; „Genau …“ gestrichen) | 1-4 oder Klüverhafen: Hinnerk greift beim Tanken zur Pfeife, Smilla guckt nur |
 | sbf:43 Öl in der Bilge: Lappen, an Land entsorgen, kein Spülmittel | Hinnerks Bilgenblick, Hilkes Lappen „kosten extra“ | 4 | jedes spätere Tanken: „Bilge gucken“ als Ritual, ein Satz |
-| sbf:63 Gas schwerer als Luft, explosiv mit Luft | „Wasser, das du nicht siehst“; die Luke im Hafenbecken | **6** über drei Szenen | 1-7 Ernstfall Gas (HR28) |
+| sbf:63 Gas schwerer als Luft, explosiv mit Luft | „Wasser, das du nicht siehst“; die Luke im Hafenbecken | 5 über drei Szenen (doppeltes „knallt es“ gestrichen) | 1-7 Ernstfall Gas (HR28) |
 | sbf:62 Flasche an Deck, Kasten mit Öffnung unten | Gaskasten der Frieda | 2 | 1-7 |
-| sbf:64 Gasgeruch: absperren, lüften, kein Funke, kein Handy | Hinnerks Bekannter mit Feuerzeug, ohne Augenbrauen | 4, die Antwort steht schon vor der Frage | 1-7 Ernstfall Gas |
+| sbf:64 Gasgeruch: absperren, lüften, kein Funke, kein Handy | Hinnerks Bekannter mit Feuerzeug, ohne Augenbrauen | 3, Frage jetzt vor der Einweisung | 1-7 Ernstfall Gas |
 | sbf:65 Vor Inbetriebnahme: abgenommen, dicht, darf man selbst | Papier im Kartentisch | 2 | – |
 | sbf:66 Außer Betrieb: Haupthahn und Ventile zu | Backbord auf dem Kocher | 2 | jeden Abend ein Satz: „Hahn zu?“ |
 
@@ -39,7 +39,7 @@
 | sbf:47, 48 Wozu: Manövrieren; Anlegen mit Backbord | „Rechtsdreher legt links an“ | 4 | Klüverhafen 2-x: Anlegen mit Backbord als Wiedersehen |
 | sbf:50 Außenborder lenkt über Schraubenstrom und Richtung | „Ohne Gas keen Strom, ohne Strom keene Lenkung“ | 3 | Ablegen, Anlegen |
 | sbf:51 Einbau rückwärts: Ruder wirkt spät | die Fähre, „jeden Tag 'ne Andacht“ | 3 | – |
-| sbf:34, 37, 61 Lieger langsam passieren, Sog, Stau, Schwell | Raser im Hafen, Hilkes Rechnung über drei Fender; die Fähre | **5** am Stück (Zeilen 154–160) | 2-x Elbe: Frachter überholt, ein Satz „Stau, Sog, Schwell“ |
+| sbf:34, 37, 61 Lieger langsam passieren, Sog, Stau, Schwell | Raser im Hafen, Hilkes Rechnung über drei Fender; die Fähre | 4 (Hinnerk erzählt statt zu wiederholen; Raser gekürzt) | 2-x Elbe: Frachter überholt, ein Satz „Stau, Sog, Schwell“ |
 
 ## 3. Requisiten und Running Gags
 - **Streichholz:** Smilla hat sie konfisziert (1-2). Hinnerks Pfeife geht nur kurz an, Smilla nimmt sie ihm weg.
@@ -67,7 +67,7 @@
 
 **Meinung.** Wiederholung ist richtig, aber verteilt wirkt sie stärker als gestapelt (verteiltes Lernen). Verwirrend wird es nicht, wenn das Echo kurz ist und am selben Bild hängt. Darum: ein bisschen weniger in der Folge, dafür ein Satz ein bis drei Folgen später. Harms' Fragerunde am Ende bleibt, sie ist der trockene Prüfungsteil.
 
-**Vorschlag (leicht, noch nicht umgesetzt, wartet auf Bestätigung):**
+**Umgesetzt in v5.57** (Nutzer 09.11.2026: „HR46 ja“). Dazu fand das neue Prüfwerkzeug in 1-3 eine verratene Frage (Hinnerk sagte „mit Backbord“ direkt vor der Backbord-Frage), ebenfalls behoben:
 1. 1-2 „Tanken“: Zeile 91 („Genau, achte auf zwei Sachen …“) streichen; der Merksatz (Zeile 92) reicht nach Hilkes Satz.
 2. 1-2 „Die Gasflasche“: in Zeile 128 „Mit Luft gemischt knallt es“ streichen (steht schon in Zeile 62).
 3. 1-2 „Der Gashahn“: die Frage vor Hinnerks Einweisung stellen (erst Haupthahn zeigen und die Feuerzeug-Geschichte, dann die Frage, dann „Hahn zu, Luken auf, Finger weg“ als Auflösung). Spart eine ganze Wiederholung und macht die Frage echt.

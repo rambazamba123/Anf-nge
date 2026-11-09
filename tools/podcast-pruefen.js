@@ -128,14 +128,23 @@ for (const datei of dateien) {
   if (lek && PLAN.size && !P) F(D, `Folge ${lek} steht nicht im Kursplan`);
   const beitraege = [], fragen = new Set(), offeneBegriffe = new Map(), fehlAbk = new Map();
   const betont = [];
+  /* HR46: Jede Folge der Hörreise steht im Story-Logbuch (Fakten, Anker, Nennungen, Echos), sonst geht beim Schreiben etwas verloren */
+  if (/^\d-\d+$/.test(String(kopf.folge || '').trim())) {
+    let lb = ''; try { lb = require('fs').readFileSync(require('path').join(__dirname, '..', 'docs', 'geschichte-logbuch.md'), 'utf8'); } catch (e) {}
+    if (!new RegExp('^### ' + String(kopf.folge).trim().replace('-', '\\-') + ' ', 'm').test(lb)) F(D, `Folge ${String(kopf.folge).trim()} fehlt im Story-Logbuch docs/geschichte-logbuch.md (HR46): Fakten, Anker, Nennungen und Echos eintragen`);
+  }
   /* Folgenprüfung (nur mit „folge: G…/S…/B…“ im Kopf) */
   const L = {katalog: new Set(), offen: null, irrtum: new Map(), merk: 0, denk: 0, rueck: new Set(), baustein: null, revier: false, stimmen: new Set(), schritte: 0, zahlen: [], ohneRevier: [], szeneText: '', szeneRevier: null, szeneOrt: null, wahl: 0, wahlOffen: null, vorab: null, wahlIds: new Map(), vert: null, verts: new Map(), karte: null, karten: new Map()};
   let letzteRede = '';
+  /* HR46 (Nutzer 09.11.2026): Fakt nicht stapeln, Frage nicht verraten, Story-Logbuch fortschreiben */
+  const reden = [], H46 = {merk: 0, harms: false};
+  const INHALT = t => String(t).toLowerCase().replace(/\[\[[^\]]*\]\]|\{\{[^}]*\}\}/g, ' ').match(/[a-zäöüß]{5,}/g) || [];
+  const STOPP = new Set(['nicht', 'immer', 'schon', 'einen', 'einer', 'eine', 'unser', 'unsere', 'keine', 'kein', 'dann', 'wenn', 'darf', 'muss', 'musst', 'werden', 'wird', 'hast', 'haben', 'beide', 'alles', 'etwas', 'unbedingt', 'kommt', 'welche', 'frage']);
   const ENTSCH = LR.denkpause_entscheidung || '5';
   const szeneNeu = ort => {
     if (lek && L.stimmen.size > (LR.stimmen_je_szene_max || 3)) S(ort, `${L.stimmen.size} Stimmen in einer Szene (höchstens ${LR.stimmen_je_szene_max || 3}): ${[...L.stimmen].join(', ')}`);
     if (lek && L.szeneRevier && REVIER_WORTE[L.szeneRevier] && L.szeneText && !REVIER_WORTE[L.szeneRevier].test(L.szeneText)) W(L.szeneOrt, `Revier „${L.szeneRevier}“ wird in der Szene nicht ausgesprochen; das Revier muss man hören (Konzept §10)`);
-    L.stimmen = new Set(); L.revier = false; L.szeneText = ''; L.szeneRevier = null; L.szeneOrt = null;
+    H46.merk = 0; L.stimmen = new Set(); L.revier = false; L.szeneText = ''; L.szeneRevier = null; L.szeneOrt = null;
   };
   for (; i < zeilen.length; i++) {
     /* Anrede nach Wahl (docs/reise.md HR24): {{anrede:w=…|m=…|n=…}}; geprüft wird mit der neutralen Variante */
@@ -143,7 +152,15 @@ for (const datei of dateien) {
     if (!z || z.startsWith('#') || /^<!--.*-->$/.test(z)) continue;
     const m = z.match(/^([A-ZÄÖÜ][A-ZÄÖÜ0-9_]*):\s*(.*)$/);
     const codesTeil = m ? m[2] : z;
-    if (m) letzteRede = m[2];
+    if (m) { letzteRede = m[2]; reden.push(m[2]); if (reden.length > 6) reden.shift();
+      if (REISE && !L.vert) {
+        const ohne = m[2].replace(/\[\[[^\]]*\]\]/g, '').trim();
+        if (m[1] === 'HARMS') H46.harms = true;
+        if (!H46.harms) H46.geschichte = (H46.geschichte || 0) + ohne.length;
+        const aufl = H46.aufl; H46.aufl = false;   /* erste Rede nach einer Denkpause ist die Auflösung: dort ist „Genau“ die Antwort */
+        if (/\bMerk('s)? (dir|euch)\b/i.test(ohne) && ++H46.merk === 2) W(ort, 'Zweiter Merksatz in derselben Szene: ein Merksatz je Fakt reicht (HR46)');
+        if (/^Genau[,.!]/.test(ohne) && m[1] !== 'HARMS' && !aufl) W(ort, '„Genau, …“ wiederholt meist nur, was gerade gesagt wurde: streichen oder etwas Neues sagen (HR46)');
+      } }
     for (const c of codesTeil.matchAll(CODE)) {
       const [, kat, wert = ''] = c;
       if (!KATS.has(kat)) { F(ort, `unbekannter Regiecode [[${kat}]] (A7)`); continue; }
@@ -182,6 +199,12 @@ for (const datei of dateien) {
         const vorab = !!L.vorab;
         /* HR38 (Nutzer, 08.11.2026): Wer im Auto hört, schaut nicht hin. Vor jeder Wahl sagt die Stimme die Antworten mit Funkwort und kurz an */
         if (REISE) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
+        /* HR46: Steht die richtige Antwort schon in den Sätzen direkt vor der Frage, ist die Frage verraten (außer bei „Hat er recht?“) */
+        if (REISE && !vorab && !H46.harms && teile.length && !/recht\?|stimmt das/i.test(letzteRede)) {
+          const r = (teile.find(o => o.startsWith('*')) || '').replace(/^\*\s*/, ''), w = INHALT(r).filter(x => !STOPP.has(x));
+          const davor = reden.slice(0, -1).slice(-3).join(' ').toLowerCase();
+          if (w.length && w.every(x => davor.includes(x))) W(ort, `Frage verraten: „${r}“ steht schon in den Sätzen davor. Erst fragen, dann erklären (HR46)`);
+        }
         if (!idTeil && !vorab && lek) S(ort, `[[WAHL]] ohne Fragen-ID: Die Antwort zählt sonst nicht in der Statistik. Form: [[WAHL: sbf:123 | … | *…]]`);
         if (id && !vorab && (lek || REISE) && !L.wahlIds.has(id)) L.wahlIds.set(id, ort);
         if (REISE && teile.length) L.wahlN = teile.length;
@@ -201,6 +224,7 @@ for (const datei of dateien) {
         if (REISE) { /* HR14: immer sechs Sekunden */ }
         else if (L.wahlOffen && wert.trim() !== ENTSCH) W(ort, `Nach [[WAHL]] gehört eine Entscheidungs-Denkpause von ${ENTSCH} Sekunden`);
         if (lek && !L.wahlOffen && !L.karte && wert.trim() === ENTSCH) W(ort, `Entscheidungs-Denkpause (${ENTSCH} s) ohne [[WAHL]]: Im interaktiven Modus erscheinen dort keine Antwortknöpfe (K10)`);
+        H46.aufl = true;
         /* HR44 (Nutzer, 09.11.2026): Nachdenkfrage ohne Antwortknöpfe: Möglichkeiten natürlich vorlesen („Machst du X? Oder Y?“), ohne Funkwörter */
         if (REISE && !L.wahlOffen && /Frage an dich/i.test(letzteRede)) {
           if (/\b(Alfa|Bravo|Charlie|Delta):/.test(letzteRede)) F(ort, 'Nachdenkfrage ohne [[WAHL]] mit Funkwörtern: Möglichkeiten natürlich vorlesen, ohne Alfa und Bravo (HR44)');
@@ -307,6 +331,10 @@ for (const datei of dateien) {
   const vertZeichen = beitraege.filter(b => b.vert).reduce((s, b) => s + b.n, 0);
   const kartenZeichen = beitraege.filter(b => b.karte).reduce((s, b) => s + b.n, 0);
   if (P && P.minuten && !PROBE && (min < P.minuten * .7 || min > P.minuten * 1.3)) W(D, `etwa ${min.toFixed(1)} Minuten Sprechtext, geplant sind ${P.minuten} (ohne Denkpausen und Geräusche)`);
+  /* HR46: Die Geschichte (bis Harms anruft, ohne Vertiefungen) soll so lang sein wie in 1-1 bis 1-3 nach der Kürzung; das Werkzeug zeigt es nur an */
+  if (REISE && H46.geschichte) { const gm = H46.geschichte / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60; console.log(`${D}: Geschichte bis zum Anruf etwa ${gm.toFixed(1)} Minuten Sprechtext`);
+    /* Maßstab: 1-1 bis 1-3 nach der Kürzung vom 09.11.2026 (5,4 bis 6,9 Minuten) */
+    if (/^\d-\d+$/.test(String(kopf.folge || '').trim()) && (gm < 4.5 || gm > 8)) W(D, `Geschichte etwa ${gm.toFixed(1)} Minuten Sprechtext, die Folgen 1-1 bis 1-3 liegen bei 5,4 bis 6,9: Dichte nach HR46 prüfen (Fakten gestapelt? Szene zu lang oder zu knapp?)`); }
   console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen${lek ? `, ${L.schritte} Abschnitte, ${L.denk} Denkpausen, ${L.wahl} Antwortknöpfe, ${L.verts.size} Vertiefungen (${vertZeichen} Zeichen), ${L.merk} Merkhilfen, ${L.karten.size} Hörkarten (${kartenZeichen} Zeichen)` : ''}`);
 }
 if (dateien.length) console.log(`Abdeckung SBF See: ${[...alleFragen].filter(x => x.startsWith('sbf:')).length} von ${KAT.sbf.size} Fragen`);

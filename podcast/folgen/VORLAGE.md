@@ -15,6 +15,9 @@ status: vorlage
 # Hörreise (07.11.2026): Klassiker der Figuren aus podcast/sprueche.json mit [[SPRUCH: id]] im Satz der Figur (gezählt, docs/reise.md HR25);
 # Anrede nach Wahl als {{anrede:w=min Deern|m=min Jung|n=Landratte}}, nur kurz und am Satzanfang (HR24).
 # Denkpausen: 3 s erinnern, 5 s entscheiden, 6 s Kernsätze. Danach sagt die Folge immer die Lösung, auch im Auto-Modus.
+# Hörreise, Dichte (docs/reise.md HR46): je Fakt Anlass → Frage → kurze Auflösung → höchstens ein Merksatz. Kein zweites „Genau, …“, die Antwort nie direkt vor der Frage.
+#   Statt Wiederholung in derselben Folge ein Echo ein bis drei Folgen später (ein Satz am selben Bild). Vorher und nachher docs/geschichte-logbuch.md lesen und fortschreiben.
+# Vor dem Abgeben: docs/fehler-katalog.md Teil A durchgehen.
 
 [[ABSCHNITT: Einstieg]]
 [[SZENE: Kieler Förde zur Kieler Woche, am Rand der Regattabahnen. Hinnerk am Ruder, ein anderes Segelboot kommt näher.]]
