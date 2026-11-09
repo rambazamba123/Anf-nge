@@ -577,7 +577,8 @@
         + (SCHAUKEL[art] ? '</div>' : '')
         + (gast ? koerper(gast, g[0], g[1], g[2]) : '');
     }
-    box.querySelectorAll('.kpl').forEach(p => { const an = p.dataset.w === aktiv; p.classList.toggle('an', an); p.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
+    /* Klasse „ksp“ = spricht gerade. Nicht „an“: anim.js setzt global .an{height:100%} (v5.58: daher sprang der Sprecher nach oben, sobald in der Folge eine Animation lief) */
+    box.querySelectorAll('.kpl').forEach(p => { const an = p.dataset.w === aktiv; p.classList.toggle('ksp', an); p.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
     launeSetzen(box, aktiv, laune);
   }
   function szeneSetzen(text) {
@@ -608,7 +609,7 @@
     if (aussehenAkt === 'b') return buehneB(box, aktiv, laune);
     let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
     if (box.dataset.gast !== gast || !box.children.length) { box.dataset.gast = gast; box.innerHTML = buehnenCrew.concat(gast ? [gast] : []).map(gesicht).join(''); }
-    box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('an', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
+    box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('ksp', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
     launeSetzen(box, aktiv, laune);
   }
   function zeigeZeile(z, gratis) {
@@ -1036,11 +1037,11 @@
         #kursplayer.d-b .kpl .kg{width:100%;height:auto;aspect-ratio:1;border:3px solid rgba(243,231,201,.18);background:#f2c68f;transition:transform .25s,box-shadow .25s}
         #kursplayer.d-b .kpl.katze{width:14%}#kursplayer.d-b .kpl.katze .kg{background:#f3e7c9}#kursplayer.d-b .kpl.gast .kg{background:#cfe2ea;border-style:dashed}#kursplayer.d-b .kpl.polizei .kg{border:3px solid #3d7bd9;box-shadow:0 0 0 4px rgba(61,123,217,.3)}#kursplayer.d-b .kbg .kblau{animation:kblau 1.2s ease-in-out infinite}@keyframes kblau{50%{opacity:.05}}
         #kursplayer.d-b .kpl .kn{font-size:11px;line-height:1.2;color:rgba(243,231,201,.85);white-space:nowrap;font-weight:700;background:rgba(15,36,51,.78);padding:1px 7px;border-radius:9px}
-        #kursplayer.d-b .kpl.an .kg{transform:scale(1.13);border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.35),0 0 26px rgba(232,163,60,.35)}#kursplayer.d-b .kpl.an .kn{color:#f3e7c9}
-        #kursplayer.d-b.laeuft .kpl.an .kg{animation:kglow 2.4s ease-in-out infinite}@keyframes kglow{50%{box-shadow:0 0 0 9px rgba(232,163,60,.18),0 0 34px rgba(232,163,60,.45)}}
+        #kursplayer.d-b .kpl.ksp .kg{transform:scale(1.13);border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.35),0 0 26px rgba(232,163,60,.35)}#kursplayer.d-b .kpl.ksp .kn{color:#f3e7c9}
+        #kursplayer.d-b.laeuft .kpl.ksp .kg{animation:kglow 2.4s ease-in-out infinite}@keyframes kglow{50%{box-shadow:0 0 0 9px rgba(232,163,60,.18),0 0 34px rgba(232,163,60,.45)}}
         #kursplayer.d-b:not(.mitlesen) #kspr .ktext,#kursplayer.d-b #kspr .kname{display:none}
         #kursplayer.d-b.mitbild #kges{width:0;height:0;aspect-ratio:auto;position:static}#kursplayer.d-b.mitbild #kges .kbg,#kursplayer.d-b.mitbild #kges .kpl:not(.an){display:none}
-        #kursplayer.d-b.mitbild #kges .kpl.an{position:fixed;left:auto!important;top:auto!important;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;width:62px;z-index:3}#kursplayer.d-b.mitbild #kges .kpl.an .kn{display:none}#kursplayer.d-b.mitbild #kges .kpl.an{height:auto!important}#kursplayer.d-b.mitbild #kges .kpl.an .kg{transform:none;width:62px;height:62px;flex:none}
+        #kursplayer.d-b.mitbild #kges .kpl.ksp{position:fixed;left:auto!important;top:auto!important;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;width:62px;z-index:3}#kursplayer.d-b.mitbild #kges .kpl.ksp .kn{display:none}#kursplayer.d-b.mitbild #kges .kpl.ksp{height:auto!important}#kursplayer.d-b.mitbild #kges .kpl.ksp .kg{transform:none;width:62px;height:62px;flex:none}
         #kursplayer.d-b.mitwahl #kbild{display:none}#kursplayer.d-b.mitwahl #kspr{display:none}
         @media (prefers-reduced-motion: reduce){#kursplayer .kpl,#kursplayer .kpl .kg{transition:none;animation:none!important}}
         #kursplayer.d-b{background:#0f2433;color:#f3e7c9}#kursplayer.d-b .kkopf .muted{color:rgba(243,231,201,.65)}#kursplayer.d-b .kkopf .kknopf{background:rgba(255,255,255,.1)}#kursplayer .kanim{max-height:58vh;margin:0 auto}
@@ -1052,7 +1053,7 @@
         #kursplayer.d-a #kbuehne{background:#fbf3e4;color:#2a2118}#kursplayer.d-a #kbuehne .muted,#kursplayer.d-a #kinfo{color:#7a6650}#kursplayer.d-a #kplay .btn.ghost,#kursplayer.d-a #kbuehne .btn.small.ghost{color:#2a2118;border-color:#d9c9a3;background:transparent}
         #kursplayer.d-a #kstage{min-height:52vh}
         #kursplayer.d-a #kges{display:flex;justify-content:center;align-items:center;gap:12px;padding:20px 10px 16px;border-radius:14px;background:linear-gradient(#8a5a36,#6e4529);box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
-        #kursplayer.d-a .kg.an{border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.4);transform:scale(1.1)}
+        #kursplayer.d-a .kg.ksp{border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.4);transform:scale(1.1)}
         #kursplayer.d-a #kspr{background:#fffaf0;border-radius:14px;padding:10px 12px;position:relative;box-shadow:0 2px 0 rgba(0,0,0,.08);color:#2a2118;font-size:1em}
         #kursplayer.d-a #kspr::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top:0;border-bottom-color:#fffaf0}
         #kursplayer.d-a #kspr .kname{color:#8a5a36}
@@ -1082,12 +1083,12 @@
         #kursplayer .kopt .kabc{flex:0 0 auto;min-width:3.9em;font-size:.82em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
         #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}
         /* v5.54 Nachtbühne: Kein Text schiebt die Bühne (Nutzer: die Figuren sprangen). Wer spricht, leuchtet nur, wächst kaum */
-        #kursplayer.d-b.laeuft:not(.mitlesen) #kspr{display:none}#kursplayer.d-b .kpl.an .kg{transform:scale(1.05)}
+        #kursplayer.d-b.laeuft:not(.mitlesen) #kspr{display:none}#kursplayer.d-b .kpl.ksp .kg{transform:scale(1.05)}
         /* Animation randlos über die ganze Breite, so hoch wie möglich; wer spricht, sitzt unten rechts im Bild */
         #kursplayer.d-b.mitbild #kbuehne{padding-left:0;padding-right:0}#kursplayer.d-b.mitbild #kstage{margin-top:0;gap:0}
         #kursplayer.d-b.mitbild #kbild{position:relative}#kursplayer.d-b.mitbild .kanim.anstage{width:100%;border-radius:0;box-shadow:none;background:transparent}
         #kursplayer.d-b.mitbild .kanim.anstage>svg{width:100%;height:auto;max-height:calc(100dvh - 64px);border-radius:0;box-shadow:none}
-        #kursplayer.d-b.mitbild #kges .kpl.an{width:58px!important;right:max(8px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+        #kursplayer.d-b.mitbild #kges .kpl.ksp{width:58px!important;right:max(8px,env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}
         #kursplayer.d-b .kbg .kwel{animation:kwel 6s linear infinite}@keyframes kwel{to{transform:translateX(-12px)}}
         #kursplayer.d-b .kbg .klicht{animation:klicht 4s ease-in-out infinite}@keyframes klicht{50%{opacity:.6}}
         /* v5.55 Feste Bühne: ein Quadrat in der Mitte der freien Fläche, Hintergrund randlos; kein Mitlesetext, kein Wippen (Nutzer: es ruckelt) */
@@ -1095,14 +1096,14 @@
         #kursplayer.d-b #kspr{display:none!important}#kursplayer.d-b #kdenk{position:absolute;left:0;right:0;bottom:8px;z-index:2;text-align:center}
         #kursplayer.d-b:not(.mitbild):not(.mitwahl) #kges{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,100cqh);height:min(100cqw,100cqh);max-width:none;aspect-ratio:auto;overflow:visible}
         #kursplayer.d-b #kges .kbg{position:absolute;left:50%;top:50%;width:250%;height:250%;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
-        #kursplayer .kpl .ch.talking .bod{animation:none}#kursplayer.d-b .kpl.an .kg{transform:none}#kursplayer.d-b .kpl{transition:none}
+        #kursplayer .kpl .ch.talking .bod{animation:none}#kursplayer.d-b .kpl.ksp .kg{transform:none}#kursplayer.d-b .kpl{transition:none}
         #kursplayer.d-b .kpl.koerper{transform:translate(-50%,-100%)}#kursplayer.d-b .kpl.koerper .kk{width:100%;aspect-ratio:100/147}#kursplayer.d-b .kpl.koerper .kk svg{width:100%;height:100%;display:block}
-        #kursplayer.d-b .kpl.koerper .kn{position:absolute;top:100%;margin-top:2px}#kursplayer.d-b .kpl.koerper.an .kk{filter:drop-shadow(0 0 5px rgba(232,163,60,.9))}
+        #kursplayer.d-b .kpl.koerper .kn{position:absolute;top:100%;margin-top:2px}#kursplayer.d-b .kpl.koerper.ksp .kk{filter:drop-shadow(0 0 5px rgba(232,163,60,.9))}
         #kursplayer.d-b .kbg .kschaukel{transform-box:view-box;animation:kschauk 5s ease-in-out infinite}@keyframes kschauk{25%{transform:rotate(.8deg) translateY(.3px)}75%{transform:rotate(-.8deg) translateY(-.2px)}}
         #kursplayer.d-b .kbord{position:absolute;inset:0;animation:kbord 5s ease-in-out infinite}@keyframes kbord{25%{transform:rotate(.8deg) translateY(.3%)}75%{transform:rotate(-.8deg) translateY(-.2%)}}
         #kursplayer.d-b #kges[data-wx="windig"] .kbord,#kursplayer.d-b #kges[data-wx="regen"] .kbord{animation-duration:3.6s}#kursplayer.d-b #kges[data-wx="sturm"] .kbord{animation:kbord2 2.4s ease-in-out infinite}@keyframes kbord2{25%{transform:rotate(2.6deg) translateY(.8%)}75%{transform:rotate(-2.6deg) translateY(-.6%)}}
         #kursplayer.d-b.mitbild .kbord{animation:none!important;transform:none!important;position:static}
-        #kursplayer.d-b.laeuft .kpl.an .kg{animation:none}
+        #kursplayer.d-b.laeuft .kpl.ksp .kg{animation:none}
         #kursplayer.mitwahl #kstage,#kursplayer.mitbild #kstage{justify-content:flex-start;justify-content:safe center}
         #kursplayer .kharms{display:flex;align-items:center;gap:12px;margin:0 0 10px}#kursplayer .kharms .kg{width:64px;height:64px;flex:none;border-radius:50%;overflow:hidden;display:grid;background:#cfe2ea;border:3px solid #e8a33c}#kursplayer.d-b .kharms{color:#f3e7c9}
         #kursplayer.d-b .kpl.geht{animation:kgeht 1.1s ease-in forwards}@keyframes kgeht{0%{transform:translate(-50%,-50%)}20%{transform:translate(-50%,-50%) rotate(-10deg)}40%{transform:translate(-50%,-50%) rotate(10deg)}60%{transform:translate(-50%,-50%) rotate(-6deg);opacity:1}100%{transform:translate(-50%,40%) scale(.5);opacity:0}}
@@ -1121,7 +1122,7 @@
         #kursplayer.d-b .kfrage .muted,#kursplayer.d-b .kfrage .small{color:rgba(243,231,201,.7)}#kursplayer.d-b .kfrage [data-o="-1"]{color:rgba(243,231,201,.75);border-color:rgba(243,231,201,.3);background:transparent}
         #kursplayer.d-b.mitbild .kanim.anstage>svg{max-height:100cqh}
         #kursplayer .kausruf{position:absolute;left:12px;right:12px;top:8px;z-index:3;background:rgba(15,36,51,.9);color:#f3e7c9;border-radius:12px;padding:8px 12px;font-size:.92em;text-align:left}
-        #kursplayer.d-b.mitbild #kges .kpl.an{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+        #kursplayer.d-b.mitbild #kges .kpl.ksp{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
         @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *,#kursplayer.d-b .kbord{animation:none!important}}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };

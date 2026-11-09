@@ -14,7 +14,7 @@ const ez = u => u < 0 ? 0 : u > 1 ? 1 : u * u * (3 - 2 * u), lp = (a, b, u) => a
 const q = (s, sel) => s.querySelector(sel), put = (el, o) => { if (el) for (const k in o) el.setAttribute(k, o[k]); };
 const T = (x, y, txt, a = 'middle', sz = 13, cls = '') => `<text class="t ${cls}" x="${x}" y="${y}" text-anchor="${a}" font-size="${sz}">${txt}</text>`;
 const def = (id, o) => { A.defs[id] = {id, ...o}; A.order.push(id); };
-const CSS = `.an{width:100%;height:100%;display:block}.an .t{font-family:Nunito,Helvetica,Arial,sans-serif;font-weight:800;fill:#2b3a4a;stroke:#fff;stroke-width:3;paint-order:stroke}
+const CSS = `svg.an{width:100%;height:100%;display:block}.an .t{font-family:Nunito,Helvetica,Arial,sans-serif;font-weight:800;fill:#2b3a4a;stroke:#fff;stroke-width:3;paint-order:stroke}
 .anstage{aspect-ratio:4/3;width:100%;max-height:54vh;border-radius:14px;overflow:hidden;border:2px solid var(--line,#c9b99a);background:#f7f5ef}.ancap{margin:8px 0;padding:10px 12px;border-radius:12px;background:#fff8ea;color:#2a2019;font-size:.98rem;line-height:1.4;min-height:4.2em}
 .ancap b{color:#b86b00}.anctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.anctl .dots{display:flex;gap:5px;margin:0 4px}.anctl .dots i{width:9px;height:9px;border-radius:50%;background:#c9b99a}.anctl .dots i.on{background:#f08a1c}
 .anlist .card{margin:6px 0}.anlist .tag2{display:inline-block;font-size:.7rem;padding:.1em .55em;border-radius:999px;background:#e8dfc9;color:#4a3a22;margin-right:4px}.anlist .tag2.z{background:#d7e7d0}.anlist h3{margin:14px 0 4px;font-size:1rem}

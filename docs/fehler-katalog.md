@@ -34,6 +34,8 @@
 | Bühne rutscht beim Sprechen (v5.54) | Mitlesetext schob das Layout | ⚙ buehne-pruefen (Sprung) |
 | Gesicht wippt beim Sprechen (v5.55) | Animation `talkbob` aus index.html wirkte auch im Player | ⚙ buehne-pruefen; ✋ bei neuen CSS-Regeln für `.talking` nach Bewegung suchen |
 | Gesichter stehen still, das Boot schaukelt darunter, wirkt wie Springen (v5.56) | nur der Hintergrund schaukelte | ✋ alles, was zum Boot gehört, schaukelt mit (`.kbord`) |
+| Sprecher springt nach oben, aber erst, nachdem in der Folge eine Animation lief (v5.58, Pixel) | `anim.js` setzt global `.an{height:100%}`, der Sprecher hieß auch `.an` | ⚙ buehne-pruefen lädt vorher eine Animation; ✋ keine kurzen, allgemeinen Klassennamen (`an`, `ok`, `t`), Regeln aus nachgeladenen Dateien immer auf ihr eigenes Element beschränken (`svg.an`) |
+| Test grün, Handy zeigt den Fehler (v5.56 → v5.58) | Test stieg mitten in der Folge ein, ohne den Zustand davor (geladene Animation) | ✋ Tests so starten, wie der Nutzer hört: Abschnitte davor oder ihre Nebenwirkungen mitnehmen |
 | Lange Frage oben abgeschnitten (v5.56) | `justify-content: center` in einem Flex-Kasten, der überläuft | ⚙ buehne-pruefen; ✋ immer `safe center` |
 | `position: fixed` landet falsch (v5.56) | ein Vorfahr hat `transform` | ✋ bei fixed-Elementen alle Vorfahren ohne transform halten (mitbild: `.kbord` ohne Animation) |
 | Alter Gast blieb nach Ortswechsel stehen (v5.55) | `dataset.gast` nicht zurückgesetzt | ✋ beim Szenenwechsel alle Zustände der Bühne zurücksetzen |

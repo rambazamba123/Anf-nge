@@ -1,7 +1,7 @@
 /* Bühnentest der Hörreise (docs/fehler-katalog.md Teil B): findet Fehler, die frühere Läufe erst am Handy des Nutzers gezeigt haben.
    Aufruf: python3 -m http.server 8765 (im Repo, eigenes Fenster), dann node tests/buehne-pruefen.js
    Prüft mit Gratis-Stimme (schnell gestellt) und Handy-Maßen (Pixel 7):
-   1. Gesichter springen nicht: Position jedes Gesichts bleibt beim Sprecherwechsel gleich (v5.54, v5.55, v5.56).
+   1. Gesichter springen nicht: Position jedes Gesichts bleibt beim Sprecherwechsel gleich (v5.54, v5.55, v5.56; v5.58 mit vorher geladener Animation).
    2. Die Frage ist oben nicht abgeschnitten (v5.56: Flex-Zentrierung schob lange Fragen über den Rand).
    3. Eine Animation, die das Skript ohne Phasen aufruft, läuft weiter (v5.56: Anlegen blieb im ersten Bild stehen).
    4. Vor Harms verabschiedet sich die Crew, danach ist Harms allein; seine Frage hat Easy/Tricky (HR45).
@@ -20,6 +20,8 @@ async function oeffne(b, id, abschnitt) {
   await p.addInitScript(x => { if (!sessionStorage.getItem('i')) { localStorage.clear(); localStorage.setItem('skipper-sbfsee-v1', x); sessionStorage.setItem('i', '1'); } }, JSON.stringify(STAND));
   await p.goto('http://localhost:8765/index.html'); await sleep(2500);
   const tz = await p.$('.tapzone'); if (tz) { await tz.click(); await sleep(400); }
+  /* v5.58: Erst eine Animation laden wie in der echten Folge (anim.js bringt globale Regeln mit; .an{height:100%} ließ den Sprecher nach oben springen) */
+  await p.evaluate(async () => { await nachladen('anim.js'); if (window.ANIM && ANIM.bereit) await ANIM.bereit; if (ANIM.css) ANIM.css(); });
   await p.evaluate(async id => { await nachladen('kurs.js'); VOX.phoneTest = () => new Promise(r => setTimeout(() => r(true), 700)); KURS.oeffnen(id); }, id); await sleep(2500);
   await p.click('#kzahn'); await sleep(300);
   const gefunden = await p.evaluate(t => { const x = [...document.querySelectorAll('#kursplayer [data-ab]')].find(e => e.textContent.startsWith(t)); if (x) x.click(); return !!x; }, abschnitt);
@@ -28,7 +30,7 @@ async function oeffne(b, id, abschnitt) {
   return {p, ctx, errs};
 }
 /* Position der Gesichter (Rahmen .kg), gerundet; bei schaukelndem Boot schwankt sie um wenige Pixel, Sprünge sind größer */
-const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#kges .kpl')].map(e => { const r = (e.querySelector('.kg') || e).getBoundingClientRect(); return [e.dataset.w + (e.classList.contains('an') ? '*' : ''), [r.x, r.y, r.width]]; })));
+const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#kges .kpl')].map(e => { const r = (e.querySelector('.kg') || e).getBoundingClientRect(); return [e.dataset.w + (e.classList.contains('ksp') ? '*' : ''), [r.x, r.y, r.width]]; })));
 
 (async () => {
   const b = await pw.chromium.launch();
