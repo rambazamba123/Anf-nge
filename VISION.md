@@ -2,6 +2,8 @@
 
 Stand 28.10.2026, Fassung 1 (gilt; Antworten O88–O92 vom Nutzer eingearbeitet).
 
+> **Stand 10.11.2026:** Wie Box, Reisekarte, Kajüte und Deck zusammenspielen, steht in `docs/spielkonzept.md` (Entwurf zur Freigabe, SK1–SK17). Was erst ganz am Ende geklärt wird (Recht, Lizenzen, Box als Produkt), steht in `docs/am-ende-klaeren.md`.
+
 **Was diese Datei ist:**
 - Sie ist der Anker für alles Weitere: Was soll Skipper werden, wie fühlt es sich an, wie läuft es ab und in welcher Reihenfolge bauen wir es.
 - Sie gilt vor älteren Ziel- und Fahrplan-Angaben in `CLAUDE.md` (§1 und §6). Was die App heute wirklich kann, steht weiter in `CLAUDE.md` §7 („Der Code ist die Wahrheit“).

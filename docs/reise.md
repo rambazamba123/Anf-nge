@@ -126,6 +126,8 @@ Die Grundzüge sind bestätigt (`podcast/figuren.md`), die Sprechweisen regelt `
 **Ausbildungsheft:** Es misst, was du weißt, verstehst und kannst (`lern.js`). Die Geschichte richtet sich danach: Was freigegeben ist, darfst du; sonst macht es die Crew.
 
 ## 4. Die Kiste (Starter-Set)
+> **Seit 10.11.2026:** Die Box ist ein Pier mit Klampe, Poller und Ring, dazu Modell, Leinen und Seekarte. Wie Box, Karte und Folgen zusammenhängen, steht in `docs/spielkonzept.md` §2 und §5 (Entwurf); die Fächer unten gelten, bis SK2 entschieden ist.
+
 Auf dem Tisch steht von Anfang an die **Miniatur-Frieda**. Es ist dasselbe Boot wie in der App. Die Spielverpackung hat Fächer, die man erst öffnet, wenn die Geschichte sie braucht: „Mach mal Fach zwei auf.“
 | Tag | Fach | Inhalt (★ außer Tau, Ring, Klampe noch Vorschlag) | wofür |
 |---|---|---|---|
@@ -139,6 +141,8 @@ Auf dem Tisch steht von Anfang an die **Miniatur-Frieda**. Es ist dasselbe Boot 
 Jede Übung hat zwei Wege: virtuell in der App und echt mit der Kiste („Hält er? Ehrlich.“). Beide zählen im Heft getrennt.
 
 ## 5. Orte und Szenen (erfunden, nach Kapiteln)
+> **Seit 10.11.2026:** Die Orte der Reise sollen auf der Reisekarte liegen, die auch in der Box ist, und ihre Elemente müssen auf der Übungskarte 49 vorkommen. Vorschlag in `docs/spielkonzept.md` SK7 und SK8 (Orte auf der Seekarte 7). Bis zur Entscheidung gilt der Absatz unten.
+
 Wir bauen keine freie Welt, sondern **kleine Szenen**, die stark voneinander abweichen dürfen. Gebaut wird nur, was die Folgen brauchen. Zwischen den Szenen fährt die Frieda auf einer kleinen Übersichtskarte weiter (Zeitraffer), oder es kommt ein Schnitt in die Kajüte.
 | Tag | Ort | Ausschnitte, die wir bauen | eigener Look |
 |---|---|---|---|
