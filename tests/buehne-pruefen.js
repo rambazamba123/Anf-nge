@@ -6,7 +6,9 @@
    3. Eine Animation, die das Skript ohne Phasen aufruft, läuft weiter (v5.56: Anlegen blieb im ersten Bild stehen).
    4. Vor Harms verabschiedet sich die Crew, danach ist Harms allein; seine Frage hat Easy/Tricky (HR45).
    5. Feste Crew ohne Namensschild (HR42).
-   6. Keine Fehler in der Konsole. */
+   6. Keine Fehler in der Konsole.
+   7. v5.59: An Deck steht die Crew mit Körper im Boot (nichts ragt über Bug oder Heck), während einer Animation ist das Gesicht des Sprechers sichtbar
+      (v5.58 hatte die Regel .kpl:not(.an) übersehen, als die Klasse in ksp umbenannt wurde). */
 const pw = require('playwright');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const STAND = {profile: {name: 'Test', exam: '2026-12-01', minutes: 30, exp: 'none', goal: 'sbf', facts: []}, introV5: true, introDone: true, cabinWelcome: true, seenCabin: true, course: 'sbf',
@@ -40,6 +42,9 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
       if (vorher && sp && vorher.sp !== sp) { wechsel++; for (const [k, v] of Object.entries(l)) { const w = k.replace('*', ''), a = vorher.l[w] || vorher.l[w + '*']; if (a && (Math.abs(a[1] - v[1]) > 6 || Math.abs(a[2] - v[2]) > 4)) spruenge++; } }
       const n = {}; for (const [k, v] of Object.entries(l)) n[k.replace('*', '')] = v; vorher = {sp, l: n}; }
     wechsel ? (spruenge ? schlecht(`Gesichter springen beim Sprecherwechsel (${spruenge}×)`) : ok(`Gesichter bleiben stehen (${wechsel} Sprecherwechsel)`)) : schlecht('kein Sprecherwechsel beobachtet');
+    const bord = await p.evaluate(() => { const k = [...document.querySelectorAll('#kges g.kpl.kb')].filter(g => !['KLABAUTER', 'BACKBORD'].includes(g.dataset.w)), b = document.querySelector('#kges .boot-seite');
+      if (!b || !k.length) return {n: k.length}; const r = b.getBoundingClientRect(); return {n: k.length, raus: k.filter(g => { const q = g.getBoundingClientRect(); return q.left < r.left - 2 || q.right > r.right + 2; }).map(g => g.dataset.w)}; });
+    !bord.n ? schlecht('An Deck keine Crew mit Körper') : bord.raus.length ? schlecht('Crew ragt aus dem Boot: ' + bord.raus.join(', ')) : ok(`Crew steht mit Körper im Boot (${bord.n})`);
     const namen = await p.evaluate(() => [...document.querySelectorAll('#kges .kpl .kn')].map(e => e.closest('.kpl').dataset.w));
     namen.some(w => ['HINNERK', 'SMILLA', 'KLABAUTER', 'BACKBORD'].includes(w)) ? schlecht('Feste Crew hat Namensschilder: ' + namen.join(', ')) : ok('Namensschilder nur bei Gästen');
     errs.length ? schlecht('Konsole (1-2): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (1-2 Gasflasche)'); await ctx.close(); }
@@ -54,6 +59,8 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
   /* 3: Animation ohne Phasen läuft weiter (Der Raser: [[ANIM: gleiter]]) */
   { const {p, ctx, errs} = await oeffne(b, 'reise-1-3', 'Der Raser'); let erst = null, spaeter = null;
     for (let i = 0; i < 120; i++) { await sleep(400); const t = await p.evaluate(() => { const s = document.querySelector('#kbild svg'); return s ? [...s.querySelectorAll('text')].map(x => x.textContent).join('|') : null; }); if (t && !erst) erst = t; if (erst && t && t !== erst) { spaeter = t; break; } }
+    const sp = await p.evaluate(() => { const k = document.querySelector('#kursplayer.mitbild #kges div.kpl.ksp'); return k ? getComputedStyle(k).display : 'keiner'; });
+    sp === 'keiner' ? ok('(kein Sprecher während der Animation erfasst)') : sp !== 'none' ? ok('Sprecher-Gesicht während der Animation sichtbar') : schlecht('Sprecher-Gesicht während der Animation versteckt');
     !erst ? schlecht('Animation im Raser erscheint nicht') : spaeter ? ok('Animation ohne Phasen läuft weiter') : schlecht('Animation bleibt im ersten Bild stehen');
     errs.length ? schlecht('Konsole (1-3): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (1-3 Raser)'); await ctx.close(); }
   await b.close();

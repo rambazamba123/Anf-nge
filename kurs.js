@@ -495,13 +495,38 @@
   const WELLEB = (y0, c = '#7fb7cf', o = .35) => `<g class="kwel">${Array.from({length: 30}, (_, i) => { const x = W0 + (i * 53) % WB, y = y0 + 2 + ((i * 29) % 30); return `<path d="M${x} ${y} q3 -2 6 0 t6 0" stroke="${c}" stroke-width=".8" fill="none" opacity="${o}"/>`; }).join('')}</g>`;
   const UEBER = y => `<rect x="${W0}" y="${y}" width="${WB}" height="${260 - y}" fill="#1d4a63" opacity=".55"/>`;
   /* v5.56: Drehpunkt des Schaukelns je Ort (Wasserlinie in der Bootsmitte); die Crew an Bord schaukelt um denselben Punkt mit (Nutzer 09.11.2026) */
-  const SCHAUKEL = {deck: [61, 66], fahrt: [50, 64], abend: [48, 74]};
+  const SCHAUKEL = {deck: [61, 66], fahrt: [50, 64], abend: [48, 74], tisch: [55, 70]};
+  /* v5.59 (Nutzer 10.11.2026, Entwurf „Crew an Bord“): An Deck und in Fahrt steht die Crew mit ganzem Körper im Boot, klein und ganz innerhalb des Rumpfs
+     (Beine verdeckt die Bordwand, was hinter Bug oder Heck herausragen würde, schneidet der Clip ab). Sie ist Teil der Bootszeichnung und schaukelt darum sicher mit.
+     In der Kajüte sieht man das Boot von außen, die Crew schaut aus den Bullaugen; unten ein Balken mit den Gesichtern zeigt, wer spricht.
+     Plätze: [x, Füße bei y, Höhe] in Bühnen-Einheiten; dach = Höhe des Kajütdachs (Klabauter und Backbord sitzen oben). */
+  const ANBORD = {
+    deck: {clip: 'M-150 -150 H250 V55.6 H93 V95 H30 V55.6 H-150Z', helm: [38, 60.5, 25], vorn: [81, 60, 24], dritt: [31.5, 61, 22], dach: 43.8, klab: 70, katze: 52},
+    fahrt: {clip: 'M-150 -150 H250 V52.3 H86 V95 H14 V52.3 H-150Z', helm: [79, 57, 27], vorn: [24, 57, 26], dritt: [72, 57.5, 24], dach: 39, klab: 41, katze: 59}};
+  let ANB = {hinten: '', oben: '', luken: ''}, kanbId = 0;
+  const imSvg = (w, x, y, wd, ht, extra = '') => charSVG(GES[w]).replace(/^<svg class="ch\s*"/, `<svg class="ch" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${wd.toFixed(1)}" height="${ht.toFixed(1)}"${extra}`);
+  const koerperSvg = (w, [x, fuss, h]) => GES[w] && typeof charSVG === 'function' ? `<g class="kpl kb" data-w="${w}"><g class="kk" data-w="${w}">${imSvg(w, x - h * .34, fuss - h, h * 100 / 147, h)}</g></g>` : '';
+  const lukeSvg = (w, cx, cy, r) => { if (!GES[w] || typeof charSVG !== 'function') return ''; const id = 'kluk' + (kanbId++);
+    return `<g class="kpl kl" data-w="${w}"><clipPath id="${id}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath><circle cx="${cx}" cy="${cy}" r="${r}" fill="#cfe2ea"/><g clip-path="url(#${id})"><g class="kk" data-w="${w}">${imSvg(w, cx - r, cy - r, 2 * r, 2 * r, ' preserveAspectRatio="xMidYMid slice"').replace(/viewBox="[^"]*"/, 'viewBox="24 18 52 52"')}</g></g><circle class="klr" cx="${cx}" cy="${cy}" r="${r + .3}" fill="none"/></g>`; };
+  function anBordSvg(art, crew) {
+    ANB = {hinten: '', oben: '', luken: ''};
+    const leute = crew.filter(w => w !== 'BACKBORD' && w !== 'KLABAUTER');
+    if (art === 'tisch') { const ws = leute.concat(crew.filter(w => w === 'KLABAUTER' || w === 'BACKBORD')).slice(0, 3); ANB.luken = ws.map((w, i) => lukeSvg(w, 55 + .55 * [-34, -18, -2][i], 48.55, 2.25)).join(''); return; }
+    const a = ANBORD[art]; if (!a) return;
+    const helm = leute.includes('HINNERK') ? 'HINNERK' : leute[0], rest = leute.filter(w => w !== helm), id = 'kanb' + (kanbId++);
+    const reihe = [rest[1] && [rest[1], a.dritt], helm && [helm, a.helm], rest[0] && [rest[0], a.vorn]].filter(Boolean);
+    ANB.hinten = `<clipPath id="${id}"><path d="${a.clip}"/></clipPath><g clip-path="url(#${id})">${reihe.map(([w, pl]) => koerperSvg(w, pl)).join('')}</g>`;
+    ANB.oben = (crew.includes('KLABAUTER') ? koerperSvg('KLABAUTER', [a.klab, a.dach + .4, 11]) : '') + (crew.includes('BACKBORD') ? koerperSvg('BACKBORD', [a.katze, a.dach + .6, 10]) : '');
+  }
   const SCHAUKELG = (art, inhalt) => { const d = SCHAUKEL[art]; return `<g class="kschaukel" style="transform-origin:${d[0] + 75}px ${d[1] + 75}px">${inhalt}</g>`; };
   const SEITE = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.seite(o)}</g>` : '';
   const OBEN = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.oben(o)}</g>` : BOOT_OBEN(x - 50);
   const ZAPFSAEULE = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-4" y="-17" width="8" height="17" rx="1.4" fill="#c0392b" stroke="#7a2318" stroke-width=".5"/><rect x="-2.8" y="-14.5" width="5.6" height="4" rx=".6" fill="#f3e7c9"/><rect x="-2.8" y="-8.5" width="5.6" height="1.6" fill="#7a2318"/><rect x="-4.6" y="-19" width="9.2" height="2.4" rx="1" fill="#e9dcc3"/><path d="M4 -10 q6 1 7 7 q1 5 7 5" stroke="#1d1d1d" stroke-width=".9" fill="none"/><text x="0" y="-11.3" font-size="2.4" text-anchor="middle" fill="#7a2318" font-weight="700">SUPER</text></g>`;
   const SZ_BG = {
-    tisch: () => `<rect x="${W0}" y="-150" width="${WB}" height="186" fill="#3b2617"/>` + [9, 18, 27, 0, -9, -18].map(y => `<path d="M${W0} ${y}H250" stroke="#2c1c11" stroke-width=".6"/>`).join('') + `<path d="M${W0} 36H250" stroke="#5a3820" stroke-width="1.4"/>`
+    /* v5.59: Kajüte = das Boot von außen, die Crew in den Bullaugen (Nutzer 10.11.2026); vor Anker ohne Steg. Die alte Tisch-Ansicht bleibt als tischAlt */
+    tisch: (pr) => SEEB(62) + WELLEB(64) + (pr.anker ? '' : `<rect x="${W0}" y="48" width="${WB}" height="7" fill="#7a4e2e"/><rect x="${W0}" y="55" width="${WB}" height="2" fill="#4a2e19"/>` + Array.from({length: 26}, (_, i) => W0 + 6 + i * 16).map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('') + `<path d="M26 64 Q22 56 20 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`)
+      + SCHAUKELG('tisch', SEITE(55, 70, .55) + ANB.luken) + UEBER(70),
+    tischAlt: () => `<rect x="${W0}" y="-150" width="${WB}" height="186" fill="#3b2617"/>` + [9, 18, 27, 0, -9, -18].map(y => `<path d="M${W0} ${y}H250" stroke="#2c1c11" stroke-width=".6"/>`).join('') + `<path d="M${W0} 36H250" stroke="#5a3820" stroke-width="1.4"/>`
       + bullauge(82, 17, 9) + `<defs><radialGradient id="klk"><stop offset="0" stop-color="#e8a33c" stop-opacity=".30"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="62" r="52" fill="url(#klk)"/>`
       + `<path d="M50 -150 V10" stroke="#c9a46a" stroke-width=".7"/><rect x="47" y="10" width="6" height="7" rx="1.6" fill="#e8a33c"/><circle class="klicht" cx="50" cy="14" r="6" fill="#e8a33c" opacity=".2"/>`
       + `<ellipse cx="50" cy="64" rx="25" ry="10.5" fill="#4a2e19"/><ellipse cx="50" cy="62" rx="25" ry="10" fill="#8a5a36"/><ellipse cx="50" cy="62" rx="21" ry="7.6" fill="none" stroke="#a87249" stroke-width=".5" opacity=".7"/>`
@@ -511,9 +536,9 @@
     deck: (pr) => SEEB(62) + WELLEB(64)
       + `<rect x="${W0}" y="48" width="${WB}" height="7" fill="#7a4e2e"/><rect x="${W0}" y="55" width="${WB}" height="2" fill="#4a2e19"/>` + Array.from({length: 26}, (_, i) => W0 + 6 + i * 16).map(x => `<path d="M${x} 48V55" stroke="#5c3a21" stroke-width=".5"/><rect x="${x - 1.4}" y="55" width="2.8" height="10" fill="#4a2e19"/>`).join('')
       + (pr.zapf ? ZAPFSAEULE(6, 49) : '') + `<circle cx="22" cy="48" r="1.7" fill="#2b1a0e"/><circle cx="96" cy="48" r="1.7" fill="#2b1a0e"/><path d="M28 61 Q24 56 22 48 M90 61 Q95 55 96 48" stroke="#c9b48a" stroke-width=".8" fill="none"/>`
-      + SCHAUKELG('deck', SEITE(61, 66, .4)) + UEBER(66),
+      + SCHAUKELG('deck', ANB.hinten + SEITE(61, 66, .4) + ANB.oben) + UEBER(66),
     fahrt: () => SEEB(62) + WELLEB(64) + `<path d="M93 64 q-4 3 -8 0 t-8 0 M98 68 q-4 2 -8 0 M104 64 q-4 2 -8 0" stroke="#7fb7cf" stroke-width="1" fill="none" opacity=".7"/>`
-      + SCHAUKELG('fahrt', SEITE(50, 64, .45, {bugLinks: true})) + UEBER(64),
+      + SCHAUKELG('fahrt', ANB.hinten + SEITE(50, 64, .45, {bugLinks: true}) + ANB.oben) + UEBER(64),
     abend: () => `<rect x="${W0}" y="-150" width="${WB}" height="420" fill="#0c1d2a"/>` + STERNE + `<circle cx="-30" cy="10" r=".7" fill="#f3e7c9"/><circle cx="130" cy="20" r=".7" fill="#f3e7c9"/><circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/>`
       + SEEB(72, '#132e40') + WELLEB(74, '#7fb7cf', .25) + `<path d="M76 80 h8 M74 86 h12 M77 92 h6" stroke="#f3e7c9" stroke-width="1" opacity=".35"/>`
       + SCHAUKELG('abend', SEITE(48, 74, .45, {farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})) + `<path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
@@ -540,7 +565,7 @@
     return pl.sort((a, b) => a.y - b.y);
   }
   /* Gäste stehen mit ganzem Körper da (Nutzer 08.11.2026), die Crew bleibt als Gesicht: [x, Füße bei y, Höhe] */
-  const SZ_GAST = {tisch: [12, 62, 30], telefon: [50, 32, 36], deck: [17, 52, 34], fahrt: [88, 72, 26], abend: [12, 72, 26], besuch: [80, 66, 34], schleuse: [91, 40, 30]};
+  const SZ_GAST = {tisch: [15, 52, 32], telefon: [50, 32, 36], deck: [17, 52, 34], fahrt: [88, 72, 26], abend: [12, 72, 26], besuch: [80, 66, 34], schleuse: [91, 40, 30]};
   let szeneProps = {};
   /* v5.56 (Nutzer 09.11.2026): Ruft Harms an, verabschiedet sich die Crew (Sprüche der Lage „harms“) und geht aus dem Bild; Harms prüft allein */
   let weg = new Set(), letzteZeile = null;
@@ -571,10 +596,14 @@
       /* Wetter: Regen fällt über die Bühne, bei Wind und Sturm schaukelt das Boot stärker (CSS über data-wx) */
       const regen = /regen|sturm/.test(wx) && art !== 'tisch' && art !== 'telefon' ? `<g class="kregen">${Array.from({length: 60}, (_, i) => `<path d="M${-150 + (i * 37) % 400} ${-150 + (i * 53) % 400} l-2 7" stroke="#cfe2ea" stroke-width=".5" opacity=".5"/>`).join('')}</g>` : '';
       const nebel = wx === 'nebel' && art !== 'tisch' && art !== 'telefon' ? `<rect x="-150" y="-150" width="400" height="400" fill="#c9d3d9" opacity=".35"/>` : '';
+      const crew = buehnenCrew.filter(w => !weg.has(w)), mitKoerper = !!ANBORD[art] || art === 'tisch';
+      anBordSvg(art, crew);
+      /* Mit Körpern an Bord: die Gesichter als HTML nur für die Animation (klein unten rechts, wer spricht); in der Kajüte als Balken unten */
+      const html = art === 'tisch' ? '<div class="kbalken"></div>' + crew.map((w, i) => pl(w, 50 + (i - (crew.length - 1) / 2) * 17, 91.5, 14 * (GROESSE[w] || 1), 'balk' + (w === 'BACKBORD' ? ' katze' : ''))).join('')
+        : mitKoerper ? crew.map(w => pl(w, 50, 50, 10, 'nurbild')).join('')
+        : (SCHAUKEL[art] ? `<div class="kbord" style="transform-origin:${SCHAUKEL[art][0]}% ${SCHAUKEL[art][1]}%">` : '') + anordnen(art, crew).map(p => pl(p.w, p.x, p.y, p.gr, p.w === 'BACKBORD' ? 'katze' : '')).join('') + (SCHAUKEL[art] ? '</div>' : '');
       box.innerHTML = `<svg class="kbg" viewBox="-75 -75 250 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${(SZ_BG[art] || SZ_BG.deck)(szeneProps)}${nebel}${regen}</svg>`
-        + (SCHAUKEL[art] ? `<div class="kbord" style="transform-origin:${SCHAUKEL[art][0]}% ${SCHAUKEL[art][1]}%">` : '')
-        + anordnen(art, buehnenCrew.filter(w => !weg.has(w))).map(p => pl(p.w, p.x, p.y, p.gr, p.w === 'BACKBORD' ? 'katze' : '')).join('')
-        + (SCHAUKEL[art] ? '</div>' : '')
+        + html
         + (gast ? koerper(gast, g[0], g[1], g[2]) : '');
     }
     /* Klasse „ksp“ = spricht gerade. Nicht „an“: anim.js setzt global .an{height:100%} (v5.58: daher sprang der Sprecher nach oben, sobald in der Folge eine Animation lief) */
@@ -585,6 +614,7 @@
     const a = szeneTyp(text); if (!a) return;
     const t = String(text || '').toLowerCase(), neu = a === szeneArt ? {...szeneProps} : {};
     if (/tankstelle|zapf/.test(t)) neu.zapf = true;
+    if (/vor anker|ankerbucht|bucht|reede|schilfwinkel/.test(t)) neu.anker = true;
     if (a === szeneArt && JSON.stringify(neu) === JSON.stringify(szeneProps)) return;
     const wechsel = a !== szeneArt; szeneArt = a; szeneProps = neu; const g = ui('#kges'); if (g && aussehenAkt === 'b') { g.dataset.art = ''; if (wechsel) g.dataset.gast = ''; buehneB(g, null, null); }
   }
@@ -727,7 +757,8 @@
     if (!w.gesprochen && cfgK().zurufFrueh === false) return;
     if (hoer) { if (w.gesprochen && !hoer.laut && hoer.vorbei) hoer.vorbei(); return; }
     /* „Easy Alfa“, „Alfa tricky“: die Selbsteinschätzung kommt mit dem Zuruf (Nutzer 09.11.2026) */
-    hoer = SZENE.zuruf((p, x) => { hoer = null; if (x && x.et && w.etSetzen) w.etSetzen(x.et); const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; });
+    /* v5.59: das Skript geht mit (echo), damit szene.js die vorgelesene Antwort vom Zuruf unterscheiden kann */
+    hoer = SZENE.zuruf((p, x) => { hoer = null; if (x && x.et && w.etSetzen) w.etSetzen(x.et); const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; }, {echo: w.echo});
     if (hoer && w.gesprochen) hoer.laut = true;
   }
   const FUNKW = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
@@ -755,7 +786,7 @@
     const bilder = (kopf.img || []).map(s => `<img src="${esc(s)}" alt="Bild zur Frage" style="max-width:100%;max-height:26vh;border-radius:10px;background:#fff;margin-top:6px">`).join('');
     /* Easy/Tricky wie im Quiz bei den amtlichen Fragen von Harms; fließt in die Statistik (selbstEinschaetzung in index.html) */
     const et = harmsFrage(it) && it.id && String(it.id).startsWith('sbf:') && typeof selbstEinschaetzung === 'function';
-    const zr = zurufMoeglich() ? `<button class="chip" id="kzr" aria-pressed="${!!S.cfg.zuruf}">🎙️ Zuruf</button>` : '';
+    const zr = zurufMoeglich() ? `<button class="chip" id="kzr" aria-pressed="${!!S.cfg.zuruf}">🎙️ Mitreden</button>` : '';
     /* Harms oben, die Frage darunter (Nutzer 09.11.2026) */
     const kh = harmsFrage(it) ? `<div class="kharms">${gesicht('HARMS')}<span><b>Kapitän Harms</b><br><span class="small">📞 prüft. Im Wortlaut.</span></span></div>` : '';
     box.innerHTML = `<div class="kfrage">${kh}<div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : kh ? '🔔 Prüfungsfrage' : '🔔 Frage an dich'}</span>${zr}</div>
@@ -766,7 +797,7 @@
     document.getElementById('kursplayer')?.classList.add('mitwahl');
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
     { const sb = document.getElementById('kbuehne'); if (sb) sb.scrollTop = 0; box.scrollIntoView({block: 'start'}); }
-    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null};
+    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null, echo: opts.map(o => ohneBuchstabe(o.text))};
     const etAnwenden = () => { const e = w.etBasis; if (!e) return; selbstEinschaetzung(e.n, e.ok, e.vor, e.nach, w.et);
       const i = box.querySelector('#ketinfo'); if (i) i.textContent = !w.et ? '' : w.et === 'easy' ? (e.ok ? '😎 Easy: kommt erst später wieder.' : '😎 Vertippt: zählt nicht als Fehler, kommt zur Bestätigung wieder.') : (e.ok ? '🤔 Tricky: zählt als Glückstreffer, kommt morgen wieder.' : '🤔 Tricky: kommt öfter.'); };
     w.etSetzen = v => { if (!et) return; w.et = w.et === v ? null : v; box.querySelectorAll('[data-et]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.et === w.et))); etAnwenden(); };
@@ -861,10 +892,11 @@
     /* Revier der Stelle, an der es losgeht */
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'szene' && szeneTyp(st.items[k].text)) { szeneSetzen(st.items[k].text); break; }
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
-    const interaktiv = cfgK().modus === 'interaktiv', echt = x => interaktiv || harmsFrage(x);
+    /* v5.59: Modus lässt sich mitten in der Folge umschalten (⚓ Vor Anker / ⛵ In Fahrt). In Fahrt mit 🎙️ Mitreden ist jede Frage echt: man antwortet laut */
+    const interaktiv = () => cfgK().modus === 'interaktiv', echt = x => interaktiv() || harmsFrage(x) || (!!S.cfg.zuruf && zurufMoeglich());
     for (let k = ab; k < st.items.length && !me.aus; k++) {
       const it = st.items[k];
-      if (it.bereich && it.bereich.art === 'vert' && !(interaktiv && me.falsch.has(it.bereich.id))) continue;
+      if (it.bereich && it.bereich.art === 'vert' && !me.falsch.has(it.bereich.id)) continue;
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
       /* früh getippt: Glocke und Rest der Frage überspringen, bis zur Wahl */
@@ -888,7 +920,7 @@
       else if (it.t === 'pause') await denkpause(it.s, me, it.still);
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
       else if (it.t === 'anim') animZeigen(it, animAllein(st, k));
-      else if (it.t === 'tipp') { if (interaktiv) tipp(it, me); }
+      else if (it.t === 'tipp') { if (interaktiv()) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'szene') szeneSetzen(it.text);
@@ -954,6 +986,13 @@
     const liste = typeof HOERREISE !== 'undefined' ? HOERREISE.map(x => x[0]) : [], i = liste.indexOf(id);
     return i >= 0 && liste[i + 1] && FOLGEN[liste[i + 1]] ? liste[i + 1] : null;
   }
+  /* v5.59: Steht eine Frage da, heißt die Taste ⏯ (Kopfhörer, Lenkrad) „jetzt antworten“: die Stimme hört auf, das Mikrofon hört zu */
+  function jetztAntworten() {
+    const me = lauf, w = me && me.wahlOffen; if (!w || w.fertig || w.getippt || !zurufMoeglich()) return false;
+    if (!S.cfg.zuruf) { S.cfg.zuruf = true; save(); const z = ui('#kzr'); if (z) z.setAttribute('aria-pressed', 'true'); }
+    unterbrich(me); if (me.gratis && typeof VOX !== 'undefined') VOX.stop('Antworten');
+    w.gesprochen = true; if (hoer && hoer.vorbei) hoer.vorbei(); else zurufStart(me); return true;
+  }
   function medienSitzung(st) {
     if (!('mediaSession' in navigator)) return;
     try {
@@ -961,7 +1000,7 @@
       navigator.mediaSession.metadata = new MediaMetadata({title: st.f.titel, artist: 'Skipper · Hörreise' + (nr >= 0 ? ` · Folge ${nr + 1}` : ''), album: 'Mit der Crew zum Bootsführerschein',
         artwork: [{src: 'icon-192.png', sizes: '192x192', type: 'image/png'}, {src: 'icon-512.png', sizes: '512x512', type: 'image/png'}]});
       const set = (a, f) => { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} };
-      set('play', () => pauseSetzen(false)); set('pause', () => pauseSetzen(true));
+      set('play', () => { if (!jetztAntworten()) pauseSetzen(false); }); set('pause', () => { if (!jetztAntworten()) pauseSetzen(true); });
       set('nexttrack', () => springe(st, 1)); set('previoustrack', () => springe(st, -1));
       set('stop', () => { stop(); zeigeSteuerung(st, false); });
       navigator.mediaSession.playbackState = 'playing';
@@ -992,10 +1031,10 @@
 </div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <div class="kfuss"><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
+        <div class="kfuss"><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kmod" id="kmod">⚓ Vor Anker</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
       <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
-      <div class="card"><div class="kreihe"><button class="chip" data-mod="auto">🚗 Auto</button><button class="chip" data-mod="interaktiv">👆 Interaktiv</button></div>
+      <div class="card"><div class="kreihe"><button class="chip" data-mod="interaktiv">⚓ Vor Anker</button><button class="chip" data-mod="auto">⛵ In Fahrt</button></div>
         <p class="small muted" id="kmodtxt" style="margin:6px 0"></p>
         <div class="kreihe"><label class="small">Tempo <select id="ktem"><option value="0.9">langsam</option><option value="1">normal</option><option value="1.1">zügig</option></select></label>
           <label class="small"><input type="checkbox" id="kmit"> Mitlesen</label><label class="small"><input type="checkbox" id="ktick"> Ticken</label></div>
@@ -1040,7 +1079,7 @@
         #kursplayer.d-b .kpl.ksp .kg{transform:scale(1.13);border-color:#e8a33c;box-shadow:0 0 0 5px rgba(232,163,60,.35),0 0 26px rgba(232,163,60,.35)}#kursplayer.d-b .kpl.ksp .kn{color:#f3e7c9}
         #kursplayer.d-b.laeuft .kpl.ksp .kg{animation:kglow 2.4s ease-in-out infinite}@keyframes kglow{50%{box-shadow:0 0 0 9px rgba(232,163,60,.18),0 0 34px rgba(232,163,60,.45)}}
         #kursplayer.d-b:not(.mitlesen) #kspr .ktext,#kursplayer.d-b #kspr .kname{display:none}
-        #kursplayer.d-b.mitbild #kges{width:0;height:0;aspect-ratio:auto;position:static}#kursplayer.d-b.mitbild #kges .kbg,#kursplayer.d-b.mitbild #kges .kpl:not(.an){display:none}
+        #kursplayer.d-b.mitbild #kges{width:0;height:0;aspect-ratio:auto;position:static}#kursplayer.d-b.mitbild #kges .kbg,#kursplayer.d-b.mitbild #kges .kbalken,#kursplayer.d-b.mitbild #kges .kpl:not(.ksp){display:none}
         #kursplayer.d-b.mitbild #kges .kpl.ksp{position:fixed;left:auto!important;top:auto!important;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:none;width:62px;z-index:3}#kursplayer.d-b.mitbild #kges .kpl.ksp .kn{display:none}#kursplayer.d-b.mitbild #kges .kpl.ksp{height:auto!important}#kursplayer.d-b.mitbild #kges .kpl.ksp .kg{transform:none;width:62px;height:62px;flex:none}
         #kursplayer.d-b.mitwahl #kbild{display:none}#kursplayer.d-b.mitwahl #kspr{display:none}
         @media (prefers-reduced-motion: reduce){#kursplayer .kpl,#kursplayer .kpl .kg{transition:none;animation:none!important}}
@@ -1106,12 +1145,17 @@
         #kursplayer.d-b.laeuft .kpl.ksp .kg{animation:none}
         #kursplayer.mitwahl #kstage,#kursplayer.mitbild #kstage{justify-content:flex-start;justify-content:safe center}
         #kursplayer .kharms{display:flex;align-items:center;gap:12px;margin:0 0 10px}#kursplayer .kharms .kg{width:64px;height:64px;flex:none;border-radius:50%;overflow:hidden;display:grid;background:#cfe2ea;border:3px solid #e8a33c}#kursplayer.d-b .kharms{color:#f3e7c9}
-        #kursplayer.d-b .kpl.geht{animation:kgeht 1.1s ease-in forwards}@keyframes kgeht{0%{transform:translate(-50%,-50%)}20%{transform:translate(-50%,-50%) rotate(-10deg)}40%{transform:translate(-50%,-50%) rotate(10deg)}60%{transform:translate(-50%,-50%) rotate(-6deg);opacity:1}100%{transform:translate(-50%,40%) scale(.5);opacity:0}}
+        #kursplayer.d-b .kpl.geht{animation:kgeht 1.1s ease-in forwards}
+        #kursplayer.d-b g.kpl{transition:opacity 1s;transform:none!important;animation:none!important}#kursplayer.d-b g.kpl.geht{animation:none;opacity:0}
+        #kursplayer.d-b g.kpl.kb.ksp>.kk>svg{filter:drop-shadow(0 0 .8px #e8a33c) drop-shadow(0 0 2px rgba(232,163,60,.85))}
+        #kursplayer.d-b g.kpl .klr{stroke:transparent;stroke-width:.7}#kursplayer.d-b g.kpl.kl.ksp .klr{stroke:#e8a33c}
+        #kursplayer.d-b:not(.mitbild) #kges .kpl.nurbild{display:none}
+        #kursplayer.d-b #kges .kbalken{position:absolute;left:0;right:0;bottom:0;height:17%;background:rgba(8,20,30,.88);border-top:1px solid rgba(243,231,201,.16)}@keyframes kgeht{0%{transform:translate(-50%,-50%)}20%{transform:translate(-50%,-50%) rotate(-10deg)}40%{transform:translate(-50%,-50%) rotate(10deg)}60%{transform:translate(-50%,-50%) rotate(-6deg);opacity:1}100%{transform:translate(-50%,40%) scale(.5);opacity:0}}
         #kursplayer .kselbst{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 2px}#kursplayer .kselbst .chip[aria-pressed="true"]{background:var(--lamp,#e8a33c);color:#1a1a1a;border-color:var(--lamp,#e8a33c)}#kursplayer.d-b .kselbst .chip{background:rgba(243,231,201,.1);color:#f3e7c9;border-color:rgba(243,231,201,.3)}#kursplayer.d-b .kselbst .chip[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a;border-color:#e8a33c}
         #kursplayer.d-b #kges[data-wx="windig"] .kschaukel,#kursplayer.d-b #kges[data-wx="regen"] .kschaukel{animation-duration:3.6s}#kursplayer.d-b #kges[data-wx="sturm"] .kschaukel{animation:kschauk2 2.4s ease-in-out infinite}@keyframes kschauk2{25%{transform:rotate(2.6deg) translateY(.8px)}75%{transform:rotate(-2.6deg) translateY(-.6px)}}
         #kursplayer.d-b .kbg .kregen{animation:kregen .8s linear infinite}@keyframes kregen{to{transform:translate(-4px,14px)}}
         #kursplayer .kfuss{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px max(18px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px))}
-        #kursplayer .kfuss .kgross{margin:0;width:64px;height:64px;font-size:26px}#kursplayer.d-b .kfuss .kknopf{background:rgba(255,255,255,.1);color:#f3e7c9}
+        #kursplayer .kfuss .kgross{margin:0;width:64px;height:64px;font-size:26px}#kursplayer .kmod{font:700 .9em var(--body,inherit);border-radius:999px;padding:8px 12px;border:1.5px solid rgba(243,231,201,.35);background:rgba(255,255,255,.08);color:inherit;white-space:nowrap;cursor:pointer}#kursplayer.d-b .kfuss .kknopf{background:rgba(255,255,255,.1);color:#f3e7c9}
         /* Frage auf dem dunklen Grund: oben groß die Frage, darunter die Antworten als Karten, ohne hellen Zettel (Nutzer 08.11.2026) */
         #kursplayer.d-b.mitwahl #kstage{overflow-y:auto;padding:4px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
         #kursplayer.d-b .kfrage{background:transparent;color:#f3e7c9;border:0;border-radius:0;padding:4px 0 0;box-shadow:none;transform:none}#kursplayer.d-b .kfrage::before{display:none}
@@ -1141,9 +1185,12 @@
     const chips = () => {
       document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mod === k.modus)));
       $('#ktem').value = String(k.tempo || 1);
-      $('#kmodtxt').textContent = k.modus === 'auto' ? 'Läuft durch, auch mit ausgeschaltetem Bildschirm. Nach jeder Denkpause kommt die Lösung.' : 'Hält an den Fragen an: Antwort tippen, sie zählt in deiner Statistik. Bei falscher Antwort erklärt die Crew es nochmal anders.';
+      $('#kmodtxt').textContent = k.modus === 'auto' ? '⛵ In Fahrt: für Auto, Rad oder Gym. Läuft durch, du antwortest laut (🎙️ Mitreden, Bildschirm an). Aufgaben zum Anfassen landen in der Reisekarte für später.' : '⚓ Vor Anker: für den Tisch. Antwort tippen oder sagen, sie zählt in deiner Statistik; Aufgaben gleich mitmachen. Bei falscher Antwort erklärt die Crew es nochmal anders.';
+      const m = $('#kmod'); if (m) { m.textContent = k.modus === 'auto' ? '⛵ In Fahrt' : '⚓ Vor Anker'; m.setAttribute('aria-label', 'Modus: ' + m.textContent + ' (antippen zum Umschalten)'); }
     };
-    document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.onclick = () => { k.modus = b.dataset.mod; save(); chips(); });
+    const modus = m => { k.modus = m; if (m === 'auto' && zurufMoeglich()) { S.cfg.zuruf = true; if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); const z = ui('#kzr'); if (z) z.setAttribute('aria-pressed', 'true'); if (lauf) zurufStart(lauf); } save(); chips(); };
+    document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.onclick = () => modus(b.dataset.mod));
+    $('#kmod').onclick = () => modus(k.modus === 'auto' ? 'interaktiv' : 'auto');
     $('#ktem').onchange = e => { k.tempo = +e.target.value; save(); if (lauf && lauf.audio) lauf.audio.playbackRate = k.tempo; };
     const mitKl = () => document.getElementById('kursplayer')?.classList.toggle('mitlesen', !!k.mitlesen);
     $('#kzfrueh').checked = k.zurufFrueh !== false; $('#kzfrueh').onchange = e => { k.zurufFrueh = e.target.checked; save(); };

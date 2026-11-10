@@ -46,6 +46,10 @@
 | Lautsprecher-„Alfa“ zählte als Antwort (v5.54) | Erkennung hört die eigene Stimme | ✋ während die Stimme läuft, nur kurze fertige Zurufe (szene.js) |
 | Harms-Fragen im Auto-Modus nur Denkpause (v5.56) | `interaktiv` steuerte alle Wahlen | ⚙ buehne-pruefen (Harms-Frage) |
 | Smoke-Test suchte entfernten Knopf (v5.55) | ID umbenannt | ✋ bei entfernten IDs `tests/smoke/rauchtest.js` durchsuchen |
+| Reinreden ging nicht, sobald die Frage dastand (v5.56–v5.58) | Das Mikrofon hört die Stimme mit; der Filter ließ während des Vorlesens nur ganz kurze, fertige Zurufe durch, im Gemisch aus Lautsprecher und eigener Stimme kam das fast nie vor | ⚙ `node tests/zuruf-pruefen.js` (im pre-commit bei `szene.js`): Lautsprecher-Text gegen das Skript (echo); ✋ am Handy prüfen, was „🎙️ gehört: …“ anzeigt |
+| Sprecher während einer Animation unsichtbar (v5.58 → v5.59) | Klasse `an` in `ksp` umbenannt, die Regel `.kpl:not(.an)` übersehen | ⚙ buehne-pruefen prüft das Gesicht in der Animation; ✋ bei jeder Umbenennung alle Dateien durchsuchen, auch CSS in Zeichenketten |
+| Figuren im SVG um eine halbe Bühne verschoben (v5.59 beim Bau) | CSS für die HTML-Gesichter (`.kpl{transform:translate(-50%,-50%)}`) traf auch das SVG-Element gleicher Klasse | ✋ SVG-Teile nie mit einer Klasse versehen, die für HTML gestylt ist, ohne `g.kpl{transform:none}` |
+| `charSVG` fing mit `class="ch "` an (Leerzeichen), Ersetzen griff nicht (v5.59 beim Bau) | Text-Ersetzen auf festen Wortlaut | ✋ Markup mit regulären Ausdrücken anpassen, Ergebnis im Bild prüfen |
 | Neue Version kam am Handy nicht an | `__ver`/`VERSION` nicht erhöht | ✋ R4, beide gleich |
 
 ## Teil C: Animationen
@@ -55,6 +59,7 @@
 | Propeller drehte nicht um die eigene Achse (v5.08) | `transform-box` falsch | ✋ Drehpunkte in SVG mit `view-box` und Koordinaten setzen |
 | Anzeige-Text zu breit nach Vergrößerung (v5.56 Zapfsäule) | `schriftGross` vergrößert Texte | ✋ Kontaktabzug bei 320 px Breite |
 | Horn und Vorlesen stumm (v5.12, v5.33) | `window.VOX` leer (const), Ton vor der ersten Berührung gesperrt | ✋ Ton erst nach Tippen freigeben, Objekte nicht über `window.` suchen |
+| Nicht in jeder Grafik dasselbe Boot (Nutzer 10.11.2026) | `boot.js` hat nur „von oben“ und „von der Seite“; Ansichten von hinten, im Schnitt und nah habe ich je Animation selbst gezeichnet; ältere Seitenansichten benutzen noch den allgemeinen Rumpf `B.seite` aus `anim2.js`; kein Werkzeug prüft es | ✋ jede neue Animation nimmt das Boot aus `boot.js`; fehlt eine Ansicht, kommt sie dort dazu, nicht in die Animation (Vorschlag: Werkzeug, das eigene Boote meldet) |
 | Windpfeile verkehrt (v5.43), Verkehrstrennungsgebiet wie Linksverkehr (v5.45), Achterspring und Vorspring falsch (v5.38, v5.46), Gegenpeilung statt Peilung (v5.42) | Richtung nicht gegen die Regel geprüft | ✋ jede Richtung, Seite und Leine im Kontaktabzug gegen die amtliche Antwort prüfen |
 
 ## Teil D: 3D-Welt
