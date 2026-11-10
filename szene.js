@@ -119,25 +119,55 @@ window.SZENE = (() => {
     if (auchLaut) { const w = t.split(/\s+/).pop(); for (let i = 0; i < 4; i++) if (LAUT[i].test(w)) return i; }
     return -1;
   }
+  /* v5.59 (Nutzer 10.11.2026: „sofort reinreden, sobald die Frage dasteht“ ging nicht). Ursache: Während die Stimme liest, hört das Mikrofon sie mit.
+     Bisher zählte dann nur ein ganz kurzer, fertiger Zuruf oder ein Funkwort ganz am Ende; im Gemisch aus Lautsprecher und eigener Stimme kam das fast nie vor.
+     Jetzt vergleichen wir mit dem Skript: Auf ein Funkwort aus dem Lautsprecher folgt der Text genau dieser Antwort („Bravo: Leerlauf“).
+     Folgt etwas anderes (oder nichts mehr), war es der Mensch. echo[k] = Text der Antwort k in der angezeigten Reihenfolge. */
+  const STOPP = new Set(['der', 'die', 'das', 'den', 'dem', 'des', 'ein', 'eine', 'einen', 'einem', 'und', 'oder', 'mit', 'auf', 'bei', 'nur', 'für', 'von', 'vom', 'zum', 'zur', 'ist', 'sind', 'man', 'wird', 'nicht', 'kein', 'keine']);
+  const inhalt = s => String(s).toLowerCase().replace(/[^a-zäöüß0-9 ]/g, ' ').split(/\s+/).filter(x => x.length > 1 && !STOPP.has(x));
+  /* ähnlich genug (die Erkennung schreibt „Lehrlauf“ statt „Leerlauf“): die ersten fünf Buchstaben mit höchstens zwei Abweichungen */
+  function gleich(a, b) { if (a.length < 4 || b.length < 4) return a === b; a = a.slice(0, 5); b = b.slice(0, 5); const d = Array.from({length: a.length + 1}, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length] <= 2; }
+  const ETW = t => /\b(easy|easi|isi|isy|iesi|ihsi)\b/.test(t) ? 'easy' : /\b(tricky|tricki|trickie|trikki|triki|tricke)\b/.test(t) ? 'tricky' : null;
+  const folgtText = (folge, antwort) => { const soll = inhalt(antwort || '').slice(0, 4); return soll.length > 0 && folge.some(f => soll.some(x => gleich(f, x))); };
+  function funkImText(ws, echo) {
+    let offen = null;
+    for (let i = 0; i < ws.length; i++) for (let k = 0; k < 4; k++) if (FUNK[k].test(ws[i])) {
+      /* was nach dem Funkwort kommt, bis zum nächsten Funkwort */
+      const rest = ws.slice(i + 1), n = rest.findIndex(x => FUNK.some(F => F.test(x))), bis = n < 0 ? rest : rest.slice(0, n), folge = bis.filter(x => !ETW(x) && !STOPP.has(x)).slice(0, 3);
+      if (!folge.length) { if (rest.length) return {p: k, offen: false}; offen = {p: k, offen: true}; continue; }
+      if (!folgtText(folge, echo && echo[k])) return {p: k, offen: false};
+    }
+    return offen || {p: -1};
+  }
   function zurufAus() { if (hoer) { hoer.aus = true; try { hoer.rec && hoer.rec.abort(); } catch (e) {} if (hoer.anzeige) hoer.anzeige(''); } hoer = null; }
-  function zuruf(onPlatz, anzeige) {
+  function zuruf(onPlatz, anzeige, opt = {}) {
     zurufAus();
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return null;
-    const h = hoer = {aus: false, laut: false, rec: null, anzeige, bis: Date.now() + 60000};
+    const h = hoer = {aus: false, laut: false, rec: null, anzeige, bis: Date.now() + 60000, offen: null, warte: 0};
+    const nimm = (p, et, text) => { if (h.aus) return; h.aus = true; h.offen = null; clearTimeout(h.warte); try { h.rec && h.rec.abort(); } catch (e) {} anzeige && anzeige(''); onPlatz(p, {et, text}); };
     const start = () => {
       if (h.aus) return;
       if (Date.now() > h.bis) { anzeige && anzeige(''); return; }
       const rec = h.rec = new SR(); rec.lang = 'de-DE'; rec.interimResults = true; rec.continuous = true; rec.maxAlternatives = 3;
       rec.onresult = ev => {
-        for (let i = ev.resultIndex; i < ev.results.length; i++) for (let a = 0; a < ev.results[i].length; a++) {
-          /* Solange noch vorgelesen wird, zählt nur ein kurzer, fertiger Zuruf („Alfa“); was der Lautsprecher vorliest, ist länger („Alfa: Motor aus …“) */
-          /* Im Auto hört das Mikrofon die Stimme mit: zählt auch, wenn das Funkwort das letzte Wort ist (die Stimme liest nach dem Funkwort immer weiter) */
-          const tr = String(ev.results[i][a].transcript).toLowerCase().replace(/[.,!?:]/g, ' ').trim(), ws = tr.split(/\s+/);
-          if (!h.laut && (!ev.results[i].isFinal || (ws.length > 3 && deute(ws[ws.length - 1], false) < 0))) continue;
-          const p = !h.laut && ws.length > 3 ? deute(ws[ws.length - 1], false) : deute(tr, h.laut);
+        for (let i = ev.resultIndex; i < ev.results.length; i++) {
+          const alts = [...ev.results[i]].map(x => String(x.transcript).toLowerCase().replace(/[.,!?:]/g, ' ').replace(/\s+/g, ' ').trim()), tr = alts[0] || '', ws = tr.split(' ').filter(Boolean);
+          if (anzeige && tr) anzeige('🎙️ gehört: „' + ws.slice(-6).join(' ') + '“');
           /* „Alfa easy“, „tricky Bravo“: Selbsteinschätzung im selben Zuruf (Nutzer 09.11.2026); die Spracherkennung schreibt „easy“ oft eingedeutscht */
-          const et = /\b(easy|easi|isi|isy|iesi|ihsi)\b/.test(tr) ? 'easy' : /\b(tricky|tricki|trickie|trikki|triki|tricke)\b/.test(tr) ? 'tricky' : null;
-          if (p >= 0 && !h.aus) { h.aus = true; try { rec.abort(); } catch (e) {} anzeige && anzeige(''); return onPlatz(p, {et, text: tr}); }
+          const et = ETW(tr);
+          if (h.laut) { for (const t of alts) { const p = deute(t, true); if (p >= 0) return nimm(p, ETW(t) || et, t); } continue; }
+          if (!opt.echo) {
+            /* ohne Skript (alter Weg): nur ein kurzer, fertiger Zuruf oder ein Funkwort am Ende */
+            if (!ev.results[i].isFinal) continue;
+            const p = ws.length > 3 ? deute(ws[ws.length - 1], false) : deute(tr, false); if (p >= 0) return nimm(p, et, tr); continue;
+          }
+          /* ein Funkwort stand am Ende des vorigen Ergebnisses: der Anfang dieses Ergebnisses entscheidet */
+          if (h.offen && i > h.offen.i && ws.length) { const o = h.offen; h.offen = null; clearTimeout(h.warte); if (!folgtText(ws.slice(0, 3), opt.echo[o.p])) return nimm(o.p, o.et, o.tr); }
+          let offen = null;
+          for (const t of alts) { const f = funkImText(t.split(' ').filter(Boolean), opt.echo); if (f.p < 0) continue; if (!f.offen) return nimm(f.p, ETW(t) || et, t); offen = offen || {p: f.p, et: ETW(t) || et, tr: t, i}; }
+          if (offen) { if (!h.offen || h.offen.i !== i || h.offen.p !== offen.p) { h.offen = offen; clearTimeout(h.warte); h.warte = setTimeout(() => { const o = h.offen; if (o) nimm(o.p, o.et, o.tr); }, 1300); } }
+          else if (h.offen && h.offen.i === i) { h.offen = null; clearTimeout(h.warte); }
         }
       };
       rec.onerror = ev => { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { h.aus = true; anzeige && anzeige('🎙️ Kein Mikrofon erlaubt'); } };
@@ -146,7 +176,7 @@ window.SZENE = (() => {
     };
     start();
     /* nach dem Vorlesen: neu starten, damit Reste aus dem Lautsprecher nicht zählen, dann auch A bis D */
-    h.vorbei = () => { if (h.aus) return; h.laut = true; h.bis = Date.now() + 30000; try { h.rec && h.rec.abort(); } catch (e) {} };
+    h.vorbei = () => { if (h.aus) return; clearTimeout(h.warte); h.offen = null; h.laut = true; h.bis = Date.now() + 30000; try { h.rec && h.rec.abort(); } catch (e) {} };
     return h;
   }
   /* q: {q, a[4]} (a[0] richtig), order: angezeigte Reihenfolge, opt.onPick(k) bekommt den Index in q.a */
@@ -154,7 +184,7 @@ window.SZENE = (() => {
     const wer = sprecher(opt.wer || 'M');
     const ctl = {aus: false, stop() { this.aus = true; zurufAus(); VOX.stop('Frage beantwortet'); }};
     const anzeige = t => { const el = opt.anzeigeEl || document.getElementById('zurufinfo'); if (el) el.textContent = t; };
-    const h = zurufAn() && opt.onPick ? zuruf(p => { if (!ctl.aus) { ctl.aus = true; VOX.stop('Zuruf'); opt.onPick(order[p]); } }, anzeige) : null;
+    const h = zurufAn() && opt.onPick ? zuruf(p => { if (!ctl.aus) { ctl.aus = true; VOX.stop('Zuruf'); opt.onPick(order[p]); } }, anzeige, {echo: order.map(k => q.a[k])}) : null;
     (async () => {
       /* Frage und Antworten stehen schon auf dem Bildschirm: keine zweite Sprechblase (Nutzer, 01.11.2026) */
       if (vorlesenAn()) { window.__vorlesen = true; try { await VOX.say(wer, text(q, order), 'local'); } finally { window.__vorlesen = false; } }
@@ -163,5 +193,5 @@ window.SZENE = (() => {
     return ctl;
   }
 
-  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus};
+  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus, _funk: funkImText};
 })();

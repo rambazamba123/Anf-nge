@@ -1,6 +1,8 @@
 # Spielkonzept: Box, Reisekarte, Kajüte und Deck
 
-Fassung 1 vom 10.11.2026, **Entwurf zur Freigabe** (R16).
+Fassung 1 vom 10.11.2026, **Entwurf zur Freigabe** (R16). Fassung 1.1 vom 10.11.2026 abends mit den ersten Antworten des Nutzers (unten mit ✓ markiert).
+
+**Antworten vom 10.11.2026 abends (kurz):** SK1 ✓ fester Pier-Plan, die Leinenpunkte am Modell passen genau dazu. SK2 ✓ Tütchen (darin liegen die Sachen). SK5 ✓ Kurs selbst zeichnen und selbst navigieren. SK7 geändert: Seekarte 7 bleibt **Übungskarte**, für die Reise zeichnet der Nutzer eine **neue, kleine Karte** im Stil einer Piratenkarte (§3a). SK8 ✓. SK14 ✓ (Törn fällt weg; der „alte Probetag“ ist der erste Versuch einer Reise am Kartentisch aus v4.97–v5.04, heute unter „Alte Folgen und Tests“; fällt mit weg). Neu: HR47 Navigieren unterwegs, HR48 Umwege, SK18 Modi „⚓ Vor Anker“ und „⛵ In Fahrt“.
 
 **Was diese Datei ist:**
 - Sie beschreibt, wie die Teile zusammenspielen: die Box auf dem Tisch, die Reisekarte auf Papier und in der App, die Hörreise und die Lernfunktionen in der Kajüte, die Spaßabteilung an Deck.
@@ -37,7 +39,7 @@ Du kaufst eine kleine Box. Ihre Verpackung ist ein Stück Pier mit Klampe, Polle
 - Sie ist **Navigationsschule**: nichts Kompliziertes, aber die Grundlagen sicher.
 - Man sieht der Karte **nicht an, wohin der Weg führt**. Man navigiert von Ort zu Ort.
 - In den ersten Seetagen **navigiert die Crew und bringt es dir bei**, langsam übernimmst du, **etwa ab Tag 4 machst du es allein** und wirst zum Navigierprofi.
-- Bis zur Freigabe der offiziellen Übungskarte 49 nehmen wir eine eigene Karte. **Die Reise muss so geplant sein, dass alle Elemente auch auf der Karte 49 vorkommen.**
+- *(überholt am 10.11. abends, siehe §3a)* Bis zur Freigabe der offiziellen Übungskarte 49 nehmen wir eine eigene Karte. **Die Reise muss so geplant sein, dass alle Elemente auch auf der Karte 49 vorkommen.**
 
 **Wer navigiert (Leiter, passt zu den Stufen N0–N6 aus `docs/reise.md` §3):**
 | Tag | Wer navigiert | was du tust | Stufe |
@@ -85,8 +87,34 @@ Du kaufst eine kleine Box. Ihre Verpackung ist ein Stück Pier mit Klampe, Polle
 
 - Elemente, die die Reise auf jeden Fall braucht und die die Karte 49 haben muss: Lateraltonnen eines Fahrwassers, Kardinaltonnen, Einzelgefahrenzeichen, Sonderzeichen, Leuchtturm mit Kennung, Richtfeuer oder Leitfeuer, Wrack, Watt mit Tiefenangaben, Strom-Raute mit Tabelle, Gezeitenangaben, Kompassrose mit Missweisung, Verkehrstrennungsgebiet, Sperrgebiet oder Naturschutzgebiet, Peilobjekte an Land (Kirchtürme, Türme). Diese Liste prüfen wir am Original, sobald es in `quellen/` liegt.
 
+## 3a Die neue Reisekarte (zeichnet der Nutzer)
+**✓ Nutzer, 10.11.2026 abends:** „Die Karte ist ungefähr so groß wie die Übungskarte 49. Das ist für unseren Zweck viel zu groß. Ich erstelle eine neue Karte, etwa ein Fünftel so groß, spannender, eher wie eine Piratenkarte. Man muss nur navigieren können. Die Strecke muss nicht beidseitig sein; ab und zu bauen wir einen Umweg ein, damit man auch auf einer kleinen Karte genug herumkommt.“ Seekarte 7 bleibt als Übung.
+
+**Meine Meinung:** Richtig so. Eine kleine Karte ist am Tisch handlich, passt in die Box und überfordert nicht. Wichtig ist nur: Die **Navigationsaufgabe in der echten Prüfung läuft auf der Karte 49**. Darum zwei Karten mit klaren Rollen: die Piratenkarte für die Reise und die Grundlagen, die Seekarte 7 (ähnlich der 49) als Übung in der Navigationsschule für die Prüfungsaufgaben (SK16).
+
+**Kartenauftrag (was die Karte haben muss, damit man richtig navigieren kann):**
+- **Größe:** DIN A4 quer, Gebiet etwa 20 × 14 Seemeilen; die längste Etappe 8 bis 12 cm, damit Dreieck und Zirkel sinnvoll arbeiten.
+- **Ränder:** Breitengrad-Skala links und rechts mit Minuten und Zehnteln (daran misst der Zirkel die Distanz), Längengrad-Skala oben und unten. Ein dünnes Gitter darf sein.
+- **Kompassrose** mit Missweisung (Wert, Jahr, jährliche Änderung).
+- **Seezeichen normgerecht**, auch im Piratenstil: rote und grüne Fahrwassertonnen, eine Mitte-Fahrwasser-Tonne, vier Kardinaltonnen um ein Wrack, eine Einzelgefahrenstelle, gelbe Sonderzeichen, ein Leuchtturm mit Kennung (am besten Sektorenfeuer), ein Richtfeuer-Paar.
+- **Tiefen:** Tiefenzahlen, Linien bei 2, 5 und 10 m, Watt (fällt trocken), ein Priel mit Pricken.
+- **Strom und Tide:** eine Strom-Raute mit kleiner Tabelle, Gezeitenangaben für den Heimathafen.
+- **Peilobjekte an Land:** Kirchturm, Funkmast oder Windrad, damit man Kreuzpeilungen machen kann.
+- **Gebiete:** ein Sperrgebiet, ein Naturschutzgebiet (Seehunde), ein kleines Verkehrstrennungsgebiet vor der offenen See, ein Ankerplatz.
+- **Orte der Reise** (Tabelle SK8): Kuttershaven mit Tankstelle, Fluss Brede mit Ankerbucht Schilfwinkel, Fahrwasser Elvmünde, Klüverhafen, Schleuse Klappdörp mit Kanal nach Moorende, Watt Groter Sand mit Wrack und Seehundsand, Insel Lüttoog, Ansteuerung mit Leuchtturm, offene See, Insel Harmsoog mit Hafen.
+- **Kein Weg eingezeichnet.** Neben jedem Ort ein unauffälliges Kästchen zum Ausmalen (SK6).
+- **Piratenstil:** Papier, gezeichnete Küsten, Verzierungen, Seeungeheuer am Rand, alles erlaubt, solange Zeichen, Zahlen und Skalen lesbar bleiben.
+- **Lieferung:** am besten als SVG, sonst als großes PNG. Claude eicht daraus die Kartendaten (wie bei der Seekarte 7, `tools/karte7-extrahieren.js`), legt die Orte fest und baut die Aufgaben.
+
 ## 4. Die App: drei Orte
 **✓ (10.11.2026):** Die wichtigsten Funktionen sind die **Hörreise** (Name noch offen), die **normale Lernfunktion** (Prüfungsfragen), die **Knotenkunde** und die **Navigationsschule**. Sie funktionieren **unabhängig voneinander**, und **immer leitet die Crew an**, wie ein gutes Lehrmeisterteam, Schritt für Schritt. Die App wird insgesamt schlichter.
+
+### 4.0 Zwei Modi der Hörreise (SK18, v5.59 gebaut)
+- **✓ Nutzer, 10.11.:** Kajütenfunk antippen, dann „am Schreibtisch / in der Kajüte“ oder „unterwegs / nebenbei“; man soll während der Folge umschalten können; unterwegs ist der Zuruf an.
+- **Namen (Vorschlag, eingebaut):** **⚓ Vor Anker** (du sitzt still, hast Hände und Zeit: tippen, Aufgaben gleich mitmachen) und **⛵ In Fahrt** (du bist unterwegs: zuhören, laut antworten, Aufgaben landen in der Reisekarte für später). Der Zuruf heißt jetzt **🎙️ Mitreden**.
+- Weitere Namen zur Wahl: „Am Kartentisch / Auf Wache“, „In der Kajüte / Unterwegs“, „Mitmachen / Nebenbei“; für den Zuruf „Zurufen“ oder „Laut antworten“. Umbenennen ist eine Zeile.
+- Umschalten jederzeit unten in der Leiste (Knopf neben ▶). In Fahrt schaltet Mitreden ein; dann ist jede Frage echt (du antwortest laut, nach zwölf Sekunden geht es ohne Antwort weiter). Die Taste ⏯ an Kopfhörer oder Lenkrad heißt bei offener Frage „jetzt antworten“: die Stimme hört auf, das Mikrofon hört zu.
+- Grenze: Mitreden braucht den eingeschalteten Bildschirm (die Spracherkennung des Browsers hört bei ausgeschaltetem Bildschirm nicht zu).
 
 ### 4.1 Kajüte: Lernen (das Herzstück)
 - **✓** Die Hörreise findet in der Kajüte statt. Wer sie durchspielt, lernt alles in sinnvoller Reihenfolge.
@@ -145,24 +173,25 @@ Jede Folge der Hörreise ist eine Station auf der Reisekarte. Für die Skripte g
 - Bis dahin ist alles frei. Was offen ist (welche Teile frei bleiben, Code ohne Server, Weitergabe), steht in `docs/am-ende-klaeren.md`.
 
 ## 9. Offene Fragen (bitte mit Nummer beantworten)
-- **SK1** Pier-Plan mit festen Plätzen (Poller, Klampe, Ring) und drehbarem Wind- und Strompfeil? (Empfehlung: ja)
-- **SK2** Tütchen nach Tagen statt Fächer, drei bis vier Stück? Oder gar keine Überraschung, alles liegt offen?
+- **SK1** ✓ Pier-Plan mit festen Plätzen; die Leinenpunkte am Modell passen genau dazu. Offen: der drehbare Wind- und Strompfeil.
+- **SK2** ✓ Tütchen: nummerierte Papiertütchen in der Box, darin Tau, Ring, Klampe und so weiter; aufmachen, wenn die Crew es sagt.
 - **SK3** Kursdreieck und Zirkel in die Box?
-- **SK5/SK6** Bleistiftspur in der App und ausmalbare Kästchen auf der Papierkarte?
-- **SK7** Erst eigene Karte, Wechsel auf die Karte 49 als Datenaustausch? (Empfehlung: ja)
-- **SK8** Die Orte der Geschichte kommen auf die Reisekarte (Seekarte 7 erweitert), statt erfundener Einzelorte ohne Karte? Das ändert E24 („nicht Seekarte 7“).
+- **SK5** ✓ Kurs selbst zeichnen, selbst navigieren. **SK6** Kästchen zum Ausmalen: mit auf die neue Karte (§3a)?
+- **SK7** ✓ geändert: Seekarte 7 bleibt Übung, die Reise bekommt eine kleine Piratenkarte vom Nutzer (§3a).
+- **SK8** ✓ Die Orte der Geschichte liegen auf der Reisekarte (jetzt auf der neuen kleinen Karte).
 - **SK9** Fünf Gegenstände in der Kajüte wie in der Tabelle?
 - **SK11** Häfen an Deck erst frei, wenn die Reise sie erreicht hat?
 - **SK12/SK13** Ausbau als Belohnung fürs Lernen, Minispiele als Fundstücke?
-- **SK14** Leiste unten „Deck · Kajüte · Karte“, „Frei üben“ geht in der Kajüte auf?
+- **SK14** ✓ alle Punkte; Törn und alter Probetag fallen weg.
 - **SK15** Die Regeln aus §5 als feste Regeln für die Folgen (HR47 ff.)?
+- **SK18** ✓ Modi Vor Anker und In Fahrt, umschaltbar in der Folge (§4.0); Namen noch bestätigen.
 - **SK17 Name der Hörreise.** Vorschläge: „Frieda funkt“, „Sieben Tage Frieda“, „Leinen los“, „Kurs Harmsoog“, „Logbuch der Frieda“, „Kajütenfunk“ (der alte Name). Meine Wahl: „Frieda funkt“, kurz, nach Hören klingend, mit dem Boot im Namen. Vor der Veröffentlichung Markenrecherche (`docs/am-ende-klaeren.md`).
 
 ## 10. Reihenfolge (Vorschlag)
 | Schritt | Was |
 |---|---|
 | **S1** | Strukturen: diese Datei, `docs/am-ende-klaeren.md`, Verweise in `VISION.md`, `CLAUDE.md`, `docs/reise.md` (10.11.2026 ✓ angelegt) |
-| **S2** | Antworten SK1–SK17 einarbeiten; Reisekarte festlegen (Seekarte 7 erweitern oder neu, A4-Druckfassung) |
+| **S2** | Antworten SK1–SK17 einarbeiten (◐ 10.11.); neue kleine Reisekarte vom Nutzer (§3a) eichen und Orte festlegen |
 | **S3** | Reisekarte in der App: Stationen nach Tagen, Kacheln, Farben, Bleistiftspur; noch ohne neue Aufgaben |
 | **S4** | Kajüte neu ordnen (SK9, SK14); Minispiele raus |
 | **S5** | Aufgaben mit den Händen: Stoppuhr, Knoten am Pier, Anlegen mit dem Modell, Kurs auf Papier eintippen |

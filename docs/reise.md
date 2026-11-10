@@ -126,7 +126,7 @@ Die Grundzüge sind bestätigt (`podcast/figuren.md`), die Sprechweisen regelt `
 **Ausbildungsheft:** Es misst, was du weißt, verstehst und kannst (`lern.js`). Die Geschichte richtet sich danach: Was freigegeben ist, darfst du; sonst macht es die Crew.
 
 ## 4. Die Kiste (Starter-Set)
-> **Seit 10.11.2026:** Die Box ist ein Pier mit Klampe, Poller und Ring, dazu Modell, Leinen und Seekarte. Wie Box, Karte und Folgen zusammenhängen, steht in `docs/spielkonzept.md` §2 und §5 (Entwurf); die Fächer unten gelten, bis SK2 entschieden ist.
+> **Seit 10.11.2026:** Die Box ist ein Pier mit Klampe, Poller und Ring, dazu Modell, Leinen und Seekarte. Wie Box, Karte und Folgen zusammenhängen, steht in `docs/spielkonzept.md` §2 und §5 (Entwurf); SK2 ist entschieden (10.11.): statt Fächern nummerierte Tütchen, die Tabelle unten gilt sinngemäß („Mach mal Tütchen zwei auf“).
 
 Auf dem Tisch steht von Anfang an die **Miniatur-Frieda**. Es ist dasselbe Boot wie in der App. Die Spielverpackung hat Fächer, die man erst öffnet, wenn die Geschichte sie braucht: „Mach mal Fach zwei auf.“
 | Tag | Fach | Inhalt (★ außer Tau, Ring, Klampe noch Vorschlag) | wofür |
@@ -319,6 +319,14 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - **Vor dem Schreiben** liest Claude das Story-Logbuch `docs/geschichte-logbuch.md` (geplante Echos, offene Fäden, Running Gags) und baut die fälligen Echos ein. **Nach dem Schreiben** trägt Claude die Folge dort ein: Fakten mit Anker und Nennungen, neue Echos, Requisiten, offene Fäden. Ohne Eintrag bricht `podcast-pruefen.js` ab.
   - **Länge:** So geschrieben, wird die Geschichte bis zu Harms' Anruf so lang wie in 1-1 bis 1-3 nach der Kürzung; `podcast-pruefen.js` zeigt die Minuten und warnt, wenn eine Folge deutlich daneben liegt. Dann nicht strecken oder quetschen, sondern Dichte und Szenen prüfen.
   - ⚙ Geprüft: zweiter Merksatz je Szene, „Genau, …“ außerhalb der Auflösung, verratene Frage, fehlender Logbuch-Eintrag, Länge der Geschichte.
+- **HR47 Navigieren unterwegs** (N 10.11.): Wer ⛵ In Fahrt hört (Auto, Rad, Gym), kann nicht messen und nicht zeichnen. Jede Navigationsstelle hat darum zwei Wege:
+  - **⚓ Vor Anker:** Die Folge hält an („Leg das Dreieck an, ich warte“), du misst auf der Papierkarte und tippst oder sagst den Wert; die Crew prüft.
+  - **⛵ In Fahrt:** Die Crew navigiert **laut denkend** (Smilla legt an und sagt, was sie tut: „Dreieck an Klüverhafen, Kurs ablesen … zwei-vier-null“), Hinnerk schätzt dagegen, und an der Station entsteht die Aufgabe **„Kurs selbst nachmessen“** für diesen Tag (offene Kachel auf der Reisekarte, Haken erst, wenn gemacht).
+  - Das gilt auch ab Tag 4, wenn du eigentlich allein navigierst: Unterwegs sagt die Crew einen Satz wie „Am Steuer misst keiner, das mach ich. Heute Abend rechnest du nach.“ (fester Satz, R10).
+  - Im Skript steht die Stelle einmal mit beiden Wegen (`[[NAVI: id]]` mit Text für Vor Anker und für In Fahrt); die Lösung rechnet die App aus den Kartendaten.
+- **HR48 Kleine Karte, Umwege** (N 10.11.): Die Reisekarte ist klein (etwa ein Fünftel der Karte 7, `docs/spielkonzept.md` §3a). Damit die Reise trotzdem genug Strecke hat, braucht die Geschichte ab und zu einen **Umweg**: etwas vergessen, ein Ersatzteil holen, Hochwasser abwarten, eine Sperrung, Wetter. Höchstens einer je Tag, immer mit Grund aus der Geschichte, nie als Füllstoff.
+  - Ein Umweg fährt bekannte Strecke anders: Gegenkurs, andere Seite einer Insel, durchs Watt statt außen herum. Das ist eine neue Navigationsaufgabe auf vertrautem Gebiet und eine gute Stelle für ein Echo (HR46).
+  - Die Strecke muss nicht in beide Richtungen befahren werden; der Rückweg bleibt Bonus (E24).
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
