@@ -10,11 +10,11 @@
        {frage: 123}                                                 amtliche Frage mit Vorlesen und Zuruf (opt.frage(n) liefert sie)
      Ergebnis: Promise {ende: 'fertig'|'abgebrochen', wahlen: {wert…}}
    SZENE.frage(q, order, opt): Frage und Antworten vorlesen (Handystimme, kostet nichts), dazu Zuruf.
-     Zuruf (VS43, Nutzer 28.10.2026): während des Vorlesens zählen nur Alfa, Bravo, Charlie, Delta; danach auch A bis D.
+     Zuruf (VS43, Nutzer 28.10.2026; seit v5.61, 11.11.2026): vorgelesen wird mit Alfa bis Delta, antworten nur mit A, B, C oder D.
      Vorgelesen werden die Antworten mit „A, B, C, D“, damit das Mikrofon die Funkwörter nicht aus dem Lautsprecher hört. */
 window.SZENE = (() => {
   const NAMEN = {hinnerk: "Käpt'n", smilla: 'Smilla', klabauter: 'Klabauter', kroeger: 'Harms'};
-  const BUCHST = ['A', 'B', 'C', 'D'];
+  const BUCHST = ['A', 'B', 'C', 'D'], FUNKN = ['Alfa', 'Bravo', 'Charlie', 'Delta'];
   let aktiv = null, hoer = null;
 
   /* ---------- Szenen ---------- */
@@ -108,7 +108,7 @@ window.SZENE = (() => {
   function zurufAn() { return !!(S.cfg && S.cfg.zuruf) && !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
   function text(q, order) {
     const f = String(q.q).replace(/\s*\(([●▬\s]+)\)/, '').trim();
-    return f + ' ' + order.map((k, j) => BUCHST[j] + ': ' + String(q.a[k]).trim().replace(/[.!?]*$/, '.')).join(' ');
+    return f + ' ' + order.map((k, j) => FUNKN[j] + ': ' + String(q.a[k]).trim().replace(/[.!?]*$/, '.')).join(' ');
   }
   /* Funkwörter und Buchstaben → Platz 0–3 der angezeigten Reihenfolge */
   const FUNK = [/\balfa\b|\balpha\b/, /\bbravo\b/, /\bcharl(ie|y|i)\b|\btschar?l/, /\bdelta\b/];
@@ -140,6 +140,11 @@ window.SZENE = (() => {
     }
     return offen || {p: -1};
   }
+  /* Buchstabe A–D irgendwo im Erkannten; Artikel wie „die“ oder „der“ zählen nicht */
+  function buchstabeImText(ws) {
+    for (let i = 0; i < ws.length; i++) for (let k = 0; k < 4; k++) if (LAUT[k].test(ws[i])) return {p: k, amEnde: i === ws.length - 1};
+    return {p: -1};
+  }
   function zurufAus() { if (hoer) { hoer.aus = true; try { hoer.rec && hoer.rec.abort(); } catch (e) {} if (hoer.anzeige) hoer.anzeige(''); } hoer = null; }
   function zuruf(onPlatz, anzeige, opt = {}) {
     zurufAus();
@@ -150,29 +155,19 @@ window.SZENE = (() => {
       if (h.aus) return;
       if (Date.now() > h.bis) { anzeige && anzeige(''); return; }
       const rec = h.rec = new SR(); rec.lang = 'de-DE'; rec.interimResults = true; rec.continuous = true; rec.maxAlternatives = 3;
+      /* v5.61 (Nutzer 11.11.2026): Vorgelesen wird mit Alfa, Bravo, Charlie, Delta; ausgelöst wird nur mit dem Buchstaben A, B, C oder D.
+         So kann die Stimme aus dem Lautsprecher nie selbst antworten. Ein Buchstabe ganz am Ende eines noch offenen Ergebnisses wartet,
+         bis das Ergebnis fertig ist oder etwas folgt (aus einem halb erkannten „Alfa“ wird sonst kurz ein „a“). */
       rec.onresult = ev => {
         for (let i = ev.resultIndex; i < ev.results.length; i++) {
-          const alts = [...ev.results[i]].map(x => String(x.transcript).toLowerCase().replace(/[.,!?:]/g, ' ').replace(/\s+/g, ' ').trim()), tr = alts[0] || '', ws = tr.split(' ').filter(Boolean);
-          if (anzeige && tr) anzeige('🎙️ gehört: „' + ws.slice(-6).join(' ') + '“');
-          /* „Alfa easy“, „tricky Bravo“: Selbsteinschätzung im selben Zuruf (Nutzer 09.11.2026); die Spracherkennung schreibt „easy“ oft eingedeutscht */
-          const et = ETW(tr);
-          if (h.laut) { for (const t of alts) { const p = deute(t, true); if (p >= 0) return nimm(p, ETW(t) || et, t); } continue; }
-          if (!opt.echo) {
-            /* ohne Skript (alter Weg): nur ein kurzer, fertiger Zuruf oder ein Funkwort am Ende */
-            if (!ev.results[i].isFinal) continue;
-            const p = ws.length > 3 ? deute(ws[ws.length - 1], false) : deute(tr, false); if (p >= 0) return nimm(p, et, tr); continue;
-          }
-          /* ein Funkwort stand am Ende des vorigen Ergebnisses: der Anfang dieses Ergebnisses entscheidet */
-          if (h.offen && i > h.offen.i && ws.length) { const o = h.offen; h.offen = null; clearTimeout(h.warte); if (!folgtText(ws.slice(0, 3), opt.echo[o.p])) return nimm(o.p, o.et, o.tr); }
-          let offen = null;
-          for (const t of alts) { const f = funkImText(t.split(' ').filter(Boolean), opt.echo); if (f.p < 0) continue; if (!f.offen) return nimm(f.p, ETW(t) || et, t); offen = offen || {p: f.p, et: ETW(t) || et, tr: t, i}; }
-          if (offen) { if (!h.offen || h.offen.i !== i || h.offen.p !== offen.p) { h.offen = offen; clearTimeout(h.warte); h.warte = setTimeout(() => { const o = h.offen; if (o) nimm(o.p, o.et, o.tr); }, 1300); } }
-          else if (h.offen && h.offen.i === i) { h.offen = null; clearTimeout(h.warte); }
+          const fertig = ev.results[i].isFinal, alts = [...ev.results[i]].map(x => String(x.transcript).toLowerCase().replace(/[.,!?:;]/g, ' ').replace(/\s+/g, ' ').trim()), tr = alts[0] || '';
+          if (anzeige && tr) anzeige('🎙️ gehört: „' + tr.split(' ').slice(-6).join(' ') + '“');
+          for (const t of alts) { const b = buchstabeImText(t.split(' ').filter(Boolean)); if (b.p >= 0 && (fertig || !b.amEnde)) return nimm(b.p, ETW(t) || ETW(tr), t); }
         }
       };
       rec.onerror = ev => { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { h.aus = true; anzeige && anzeige('🎙️ Kein Mikrofon erlaubt'); } };
       rec.onend = () => { if (!h.aus) setTimeout(start, 120); };
-      try { rec.start(); anzeige && anzeige(h.laut ? '🎙️ Ich höre: Alfa bis Delta oder A bis D' : '🎙️ Ich höre: Alfa, Bravo, Charlie, Delta'); } catch (e) { setTimeout(start, 300); }
+      try { rec.start(); anzeige && anzeige('🎙️ Sag A, B, C oder D'); } catch (e) { setTimeout(start, 300); }
     };
     start();
     /* nach dem Vorlesen: neu starten, damit Reste aus dem Lautsprecher nicht zählen, dann auch A bis D */
@@ -193,5 +188,5 @@ window.SZENE = (() => {
     return ctl;
   }
 
-  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus, _funk: funkImText};
+  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus, _funk: funkImText, _buchstabe: buchstabeImText};
 })();

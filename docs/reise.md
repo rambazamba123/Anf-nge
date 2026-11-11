@@ -327,6 +327,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 - **HR48 Kleine Karte, Umwege** (N 10.11.): Die Reisekarte ist klein (etwa ein Fünftel der Karte 7, `docs/spielkonzept.md` §3a). Damit die Reise trotzdem genug Strecke hat, braucht die Geschichte ab und zu einen **Umweg**: etwas vergessen, ein Ersatzteil holen, Hochwasser abwarten, eine Sperrung, Wetter. Höchstens einer je Tag, immer mit Grund aus der Geschichte, nie als Füllstoff.
   - Ein Umweg fährt bekannte Strecke anders: Gegenkurs, andere Seite einer Insel, durchs Watt statt außen herum. Das ist eine neue Navigationsaufgabe auf vertrautem Gebiet und eine gute Stelle für ein Echo (HR46).
   - Die Strecke muss nicht in beide Richtungen befahren werden; der Rückweg bleibt Bonus (E24).
+- **HR49 Antworten: vorgelesen mit Funkwort, gesagt mit Buchstabe** (N 11.11.): Die Crew liest die Antworten mit „Alfa, Bravo, Charlie, Delta“ vor (wie bisher, HR38). Auf dem Bildschirm stehen A, B, C, D, und ausgelöst wird nur, wenn du **A, B, C oder D** sagst (auch „A easy“). So kann die Stimme aus dem Lautsprecher nie selbst antworten. ⚙ `tests/zuruf-pruefen.js`.
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
