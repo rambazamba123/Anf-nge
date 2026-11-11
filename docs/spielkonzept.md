@@ -14,6 +14,32 @@ Fassung 1 vom 10.11.2026, **Entwurf zur Freigabe** (R16). Fassung 1.1 vom 10.11.
 - **SK…** = Vorschlag von Claude oder offene Frage. Gilt erst nach Antwort.
 - Was erst ganz am Ende geklärt wird (Recht, Lizenzen, Freischaltung, Vertrieb), steht in `docs/am-ende-klaeren.md`.
 
+## 0. Rückmeldung vom 11.11.2026 (Leitfaden Fassung 1) und Stand
+Artifact „Skipper Leitfaden“, Fassung 2, mit Nummern LF24–LF44. ✓ = in der App gebaut, ◇ = im Entwurf gezeigt, wartet auf deine Freigabe, ! = geht nicht wie gewünscht (Begründung dabei).
+
+| Nr. | Wunsch des Nutzers | Stand |
+|---|---|---|
+| N1 | Zuruf: vorgelesen wird mit Alfa, Bravo, Charlie, Delta; ausgelöst nur mit A, B, C, D; an den Antworten steht A–D (HR49) | ✓ v5.61, im Hörspiel und im Quiz; Test `tests/zuruf-pruefen.js` |
+| N2 | Deck: Boot schaut nach links, freies Wasser, kein Steg, kein Ruder-Text; Motor antippen = 3D, Kajüte antippen = Kajüte; ohne Text; Fernglas zeigt das Antippbare (ohne Easter-Eggs) | ◇ LF24, LF25 |
+| N3 | Klabauter schwebt über dem Dach | ✓ v5.61 (er stand über der schrägen Frontscheibe; jetzt mitten auf dem Dach) |
+| N4 | Unter dem Boot: eine aus der Crew empfiehlt vier Happen (an die Geschichte angepasst; Nachholen zuerst, wenn die Geschichte weiter ist als der eigene Stand; Wackelkandidaten; auch Knoten); kleines Rad dreht neue Happen | ◇ LF27–LF29; baut auf `todayPath` auf |
+| N5 | Darunter das Prüfungsboot-Rennen im neuen Look; antippen = Statistik (je Bereich: sitzen, gesehen); gibt es schon, nur neuer Platz | ◇ LF27, LF30 |
+| N6 | Oben rechts ⚙️ Einstellungen mit den Entwicklerwerkzeugen; gemeinsam durchgehen, ist aufgebläht | ◇ Vorschlag SK22 unten |
+| N7 | Kajüte: die alte, gemütliche Szene bleibt; Spielekiste weg; Knotenbrett bleibt; Karte auf dem Tisch präsenter, führt zur Kartenübersicht (offene Missionen, bisherige Reise); Symbole ja, aber nicht der Hocker | ◇ LF31–LF33 (Funkgerät statt Hocker) |
+| N8 | Mehr Symbole, weniger Text; Knotensymbol anpassen | ◇ eigene Symbole im Entwurf |
+| N9 | Kajütenfunk: Symbole mittig; Vor Anker mit vier Schaltern (Navigation = Stift/Zirkel/Dreieck, Knoten = Klampe/Boot/Knoten, Praxis = Steuerrad, Lichter = Auge), farbig = mache ich selbst, grau = die Crew erklärt; In Fahrt mit Kippschalter Ohr+Sprechen (Mitreden) oder nur Ohr | ◇ LF34–LF36; in der App gibt es bisher nur den Moduswechsel |
+| N10 | Leiste unten verschwindet nach 15 Sekunden, Finger unten holt sie zurück | ✓ v5.61 |
+| N11 | Vollbild als Standard | ✓ v5.61 (der Browser erlaubt es erst nach dem ersten Tippen auf ▶) |
+| N12 | Statt Vollbild-Knopf ganz links ⟵: pausiert, zur Kartenübersicht | ✓ v5.61 (bis die Reisekarte gebaut ist: Liste der Folgen am Kartentisch) |
+| N13 | Minimiermodus: Blase mit Stopp und Vergrößern, verschiebbar, während man andere Apps bedient | ◇ LF41; ! über anderen Apps geht das in einer Web-App nicht (nur in einer echten Android-App), innerhalb von Skipper ja; außerhalb steuern Benachrichtigung und Sperrbildschirm |
+| N14 | Frage so groß wie möglich; die längste Frage der Folge bestimmt die Größe | ✓ v5.61 (`frageGroesse`) |
+| N15 | Reisekarte: Kacheln mit mehr Symbolen; je Station sammeln sich unerledigte Aufgaben und Fragen in einer Kiste; dort einzeln abarbeiten (auch nur eine), Stand bleibt; Farbe der Kiste nach Stand | ◇ LF42–LF44 |
+
+**SK22 Einstellungen aufräumen (Vorschlag):**
+- **Für alle sichtbar:** Schein und Termine; Name und Anrede; Ton (Musik, Geräusche, Lautstärke der Stimmen); große Schrift; Gratis-Stimme je Figur; Vorlesen und Mitreden; Rundgang wiederholen; Sicherung (Spielstand speichern und laden); Über die App (Haftung, Quellen, Lizenzen).
+- **In die Werkstatt (nur mit Entwickler-Schalter):** KI und Schlüssel, Klönen, Stimmen, Stimmen-Casting, Hörprobe, Stimmenpaket, Zuhören, Crew-Charakter, Protokoll, Selbsttest, Alte Folgen und Tests.
+- **An andere Stellen:** Boot-Look → Ausbau an Deck (SK12); Trophäen und Rekorde → Statistik unter dem Rennen; Törn-Logbuch → fällt mit dem Törn weg.
+
 ## 1. Das Spiel in einem Absatz
 Du kaufst eine kleine Box. Ihre Verpackung ist ein Stück Pier mit Klampe, Poller und Ring; darin liegen ein 3D-gedrucktes Modell der Frieda, Leinen und eine kleine Seekarte. Die App ist die Crew dazu. In der Kajüte lernst du: Herzstück ist die Hörreise, eine Geschichte in sieben Tagen, in der Hinnerk, Smilla und Klabauter dich zum Bootsführerschein bringen. Daneben stehen die Lernkartei mit allen Prüfungsfragen, die Knotenkunde und die Navigationsschule; jede funktioniert für sich, jede führt die Crew Schritt für Schritt. Die Reise verläuft auf derselben Seekarte, die vor dir auf dem Tisch liegt: Du siehst ihr nicht an, wohin es geht, sondern navigierst von Ort zu Ort, erst schaut die Crew dir über die Schulter, ab dem vierten Tag machst du es allein. An jedem Ort warten Aufgaben: Knoten am Pier mit Stoppuhr, Anlegen mit der Modell-Frieda, Kurs und Distanz auf der Papierkarte, manchmal eine Übung im 3D-Fenster. An Deck ist die Spaßabteilung: Ruder antippen und mit der Frieda frei herumfahren, dort weiter, wo du zuletzt warst, Häfen erkunden, Minispiele finden, das Boot ausbauen. Wer die Hörreise durchspielt, hat alles in sinnvoller Reihenfolge gelernt.
 

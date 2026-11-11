@@ -501,8 +501,8 @@
      In der Kajüte sieht man das Boot von außen, die Crew schaut aus den Bullaugen; unten ein Balken mit den Gesichtern zeigt, wer spricht.
      Plätze: [x, Füße bei y, Höhe] in Bühnen-Einheiten; dach = Höhe des Kajütdachs (Klabauter und Backbord sitzen oben). */
   const ANBORD = {
-    deck: {clip: 'M-150 -150 H250 V55.6 H93 V95 H30 V55.6 H-150Z', helm: [38, 60.5, 25], vorn: [81, 60, 24], dritt: [31.5, 61, 22], dach: 43.8, klab: 70, katze: 52},
-    fahrt: {clip: 'M-150 -150 H250 V52.3 H86 V95 H14 V52.3 H-150Z', helm: [79, 57, 27], vorn: [24, 57, 26], dritt: [72, 57.5, 24], dach: 39, klab: 41, katze: 59}};
+    deck: {clip: 'M-150 -150 H250 V55.6 H93 V95 H30 V55.6 H-150Z', helm: [38, 60.5, 25], vorn: [81, 60, 24], dritt: [31.5, 61, 22], dach: 43.8, klab: 63.5, katze: 51},
+    fahrt: {clip: 'M-150 -150 H250 V52.3 H86 V95 H14 V52.3 H-150Z', helm: [79, 57, 27], vorn: [24, 57, 26], dritt: [72, 57.5, 24], dach: 39, klab: 47.5, katze: 60}};
   let ANB = {hinten: '', oben: '', luken: ''}, kanbId = 0;
   const imSvg = (w, x, y, wd, ht, extra = '') => charSVG(GES[w]).replace(/^<svg class="ch\s*"/, `<svg class="ch" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${wd.toFixed(1)}" height="${ht.toFixed(1)}"${extra}`);
   const koerperSvg = (w, [x, fuss, h]) => GES[w] && typeof charSVG === 'function' ? `<g class="kpl kb" data-w="${w}"><g class="kk" data-w="${w}">${imSvg(w, x - h * .34, fuss - h, h * 100 / 147, h)}</g></g>` : '';
@@ -516,7 +516,7 @@
     const helm = leute.includes('HINNERK') ? 'HINNERK' : leute[0], rest = leute.filter(w => w !== helm), id = 'kanb' + (kanbId++);
     const reihe = [rest[1] && [rest[1], a.dritt], helm && [helm, a.helm], rest[0] && [rest[0], a.vorn]].filter(Boolean);
     ANB.hinten = `<clipPath id="${id}"><path d="${a.clip}"/></clipPath><g clip-path="url(#${id})">${reihe.map(([w, pl]) => koerperSvg(w, pl)).join('')}</g>`;
-    ANB.oben = (crew.includes('KLABAUTER') ? koerperSvg('KLABAUTER', [a.klab, a.dach + .4, 11]) : '') + (crew.includes('BACKBORD') ? koerperSvg('BACKBORD', [a.katze, a.dach + .6, 10]) : '');
+    ANB.oben = (crew.includes('KLABAUTER') ? koerperSvg('KLABAUTER', [a.klab, a.dach + 1.1, 11]) : '') + (crew.includes('BACKBORD') ? koerperSvg('BACKBORD', [a.katze, a.dach + .6, 10]) : '');
   }
   const SCHAUKELG = (art, inhalt) => { const d = SCHAUKEL[art]; return `<g class="kschaukel" style="transform-origin:${d[0] + 75}px ${d[1] + 75}px">${inhalt}</g>`; };
   const SEITE = (x, y, k, o = {}) => window.BOOT ? `<g transform="translate(${x} ${y}) scale(${k})">${BOOT.seite(o)}</g>` : '';
@@ -791,8 +791,8 @@
     const kh = harmsFrage(it) ? `<div class="kharms">${gesicht('HARMS')}<span><b>Kapitän Harms</b><br><span class="small">📞 prüft. Im Wortlaut.</span></span></div>` : '';
     box.innerHTML = `<div class="kfrage">${kh}<div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : kh ? '🔔 Prüfungsfrage' : '🔔 Frage an dich'}</span>${zr}</div>
       <div class="kftext">${kopfHtml}</div>${bilder}<div class="small muted" id="kzinfo"></div>
-      ${et ? `<div class="kselbst"><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button><span class="small muted">sag z. B. „Alfa easy“</span></div>` : ''}
-      <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${FUNKW[i] || i + 1}</b><span>${esc(ohneBuchstabe(o.text))}</span></button>`).join('')}</div>
+      ${et ? `<div class="kselbst"><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button><span class="small muted">sag z. B. „A easy“</span></div>` : ''}
+      <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${'ABCDEF'[i] || i + 1}</b><span>${esc(ohneBuchstabe(o.text))}</span></button>`).join('')}</div>
       <button class="btn small ghost" data-o="-1" style="margin-top:6px">Weiter ohne Antwort</button></div>`;
     document.getElementById('kursplayer')?.classList.add('mitwahl');
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
@@ -1015,9 +1015,38 @@
     /* v5.52 (Nutzer 08.11.2026): ohne Text, oben im Kopf. ▶ spielt echte Stimmen, wo es sie gibt; was fehlt, liest die Gratis-Stimme */
     /* v5.55 (Nutzer 08.11.2026): unten in der Mitte ein großer Knopf, kein Stopp; „Szene wiederholen“ liegt hinter ⚙️ */
     p.innerHTML = laeuft ? `<button class="kgross" id="kpause" aria-label="Pause">⏸</button>` : `<button class="kgross" id="kstart" aria-label="Abspielen">▶</button>`;
-    const los = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); spiele(st, 0, !!(st.luecke || st.ersterFehlt)); };
+    const los = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); vollAn(); spiele(st, 0, !!(st.luecke || st.ersterFehlt)); };
     const s = ui('#kstart'); if (s) s.onclick = los;
-    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) pauseSetzen(!lauf.pause); };
+    const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) { if (lauf.pause) vollAn(); pauseSetzen(!lauf.pause); } };
+    fussZeigen();
+  }
+  /* v5.61: Vollbild ist Standard; der Browser erlaubt es nur nach einem Tippen, darum beim Start und beim Weiterspielen */
+  function vollAn() { try { if (!document.fullscreenElement && document.documentElement.requestFullscreen && cfgK().vollbild !== false) document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {} }
+  let fussT = 0;
+  function fussZeigen() {
+    const f = ui('.kfuss'); if (!f) return; f.classList.remove('weg'); clearTimeout(fussT);
+    fussT = setTimeout(() => { const g = ui('.kfuss'), pn = ui('#kpanel'); if (g && lauf && !lauf.pause && (!pn || pn.hidden)) g.classList.add('weg'); }, 15000);
+  }
+  /* v5.61 (Nutzer 11.11.2026): „Wenn eine Frage kommt, so groß wie möglich. Die mit dem längsten Text bestimmt die Größe.“
+     Alle Fragen der Folge werden unsichtbar in voller Breite gesetzt; die Schrift wächst, bis die längste gerade noch auf den Bildschirm passt. */
+  function frageGroesse(st) {
+    const kp = document.getElementById('kursplayer'), wahlBox = ui('#kwahl'); if (!kp || !wahlBox || !st || !st.items) return;
+    const texte = [];
+    st.items.forEach((it, k) => { if (it.t !== 'wahl') return; let rede = null; for (let j = k - 1; j >= 0 && j > k - 6; j--) if (st.items[j].t === 'rede') { rede = st.items[j]; break; }
+      const q = !it.opts.length && it.id ? frage(it.id) : null, kopf = frageKopf(it, rede), opts = q ? q.a : it.opts.map(o => ohneBuchstabe(o.text));
+      texte.push({kopf: kopf.zeilen ? kopf.zeilen.map(z => `<div><b>${esc(z.wer)}:</b> ${esc(z.text)}</div>`).join('') : esc(kopf.text), opts, bild: (kopf.img || []).length > 0, harms: harmsFrage(it)}); });
+    if (!texte.length) return;
+    const breite = (ui('#kstage') || kp).clientWidth || window.innerWidth, kopfH = (ui('.kkopf') || {}).offsetHeight || 56, fussH = (ui('.kfuss') || {}).offsetHeight || 80;
+    const hoehe = window.innerHeight - kopfH - fussH - 16;
+    const m = document.createElement('div'); m.className = 'kmess'; m.style.cssText = `position:absolute;left:-9999px;top:0;width:${breite}px;visibility:hidden`; wahlBox.parentNode.appendChild(m);
+    let klein = 3;
+    for (const t of texte) {
+      m.innerHTML = `<div class="kfrage">${t.harms ? '<div class="kharms" style="height:3.2em"></div>' : ''}<div class="kfkopf"><span>🔔 Frage an dich</span></div><div class="kftext">${t.kopf}</div>${t.bild ? '<div style="height:26vh"></div>' : ''}<div class="small">&nbsp;</div><div class="kopts">${t.opts.map((o, i) => `<button class="kopt"><b class="kabc">${'ABCDEF'[i]}</b><span>${esc(o)}</span></button>`).join('')}</div><button class="btn small ghost" style="margin-top:6px">Weiter ohne Antwort</button></div>`;
+      const box = m.firstChild; let lo = .8, hi = Math.min(klein, 2.6);
+      for (let n = 0; n < 9; n++) { const mid = (lo + hi) / 2; box.style.fontSize = mid + 'em'; if (box.offsetHeight <= hoehe) lo = mid; else hi = mid; }
+      klein = Math.min(klein, lo);
+    }
+    m.remove(); kp.style.setProperty('--kfs', (klein * .97).toFixed(3) + 'em');
   }
 
   /* ---------- Bildschirm ---------- */
@@ -1031,7 +1060,7 @@
 </div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <div class="kfuss"><button class="kknopf" id="kvollbild" aria-label="Ganzer Bildschirm">⛶</button><button class="kmod" id="kmod">⚓ Vor Anker</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
+        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod">⚓ Vor Anker</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
       <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="interaktiv">⚓ Vor Anker</button><button class="chip" data-mod="auto">⛵ In Fahrt</button></div>
@@ -1116,10 +1145,11 @@
         #kursplayer.d-b .kopt{background:#fff;color:#2a2118;border-color:#e2d4b6}#kursplayer.d-b .kopt .kabc{color:#2f6f8a;opacity:1}#kursplayer.d-b .kfrage .muted{color:#7a6650}
         @media (prefers-reduced-motion: reduce){#kursplayer .kring::before,#kursplayer .kring::after{animation:none!important}}#kursplayer.mitwahl #kspr .small{display:none}#kursplayer.mitwahl .kanim{max-height:30vh}
         #kursplayer .kfrage{border:2px solid var(--lamp, #e8a33c);border-radius:14px;padding:10px 12px;background:var(--card2, rgba(232,163,60,.08))}
+        #kursplayer .kfrage{font-size:var(--kfs,1em)}#kursplayer .kfuss{transition:transform .6s ease,opacity .6s ease}#kursplayer .kfuss.weg{transform:translateY(115%);opacity:0;pointer-events:none}
         #kursplayer .kfkopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9em;margin-bottom:6px}
         #kursplayer .kftext{font-size:1.06em;line-height:1.4}#kursplayer .kftext div{margin:2px 0}
         #kursplayer .kopts{display:grid;gap:6px;margin-top:8px}#kursplayer .kopt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line, rgba(0,0,0,.18));background:var(--bg, #fff);color:inherit;font:inherit;cursor:pointer}
-        #kursplayer .kopt .kabc{flex:0 0 auto;min-width:3.9em;font-size:.82em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
+        #kursplayer .kopt .kabc{flex:0 0 auto;min-width:1.6em;font-size:1em;letter-spacing:.02em;opacity:.8;padding-top:1px}#kursplayer .kopt.ok{background:var(--stb-soft);border-color:var(--stb, #2e8b57)}#kursplayer .kopt.no{background:var(--bb-soft);border-color:var(--bb, #c0392b)}#kursplayer .kopt.gew{border-color:var(--lamp, #e8a33c);border-width:2.5px}#kursplayer [data-ab]{display:block;width:100%;text-align:left;margin:3px 0}#kursplayer .kreihe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}#kursplayer .kreihe .chip{flex:0 0 auto}
         #kursplayer [data-ab][aria-pressed="true"] .muted{color:inherit;opacity:.85}#kursplayer .kh{margin:14px 0 4px}#kursplayer .krow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line, rgba(0,0,0,.08))}#kursplayer .krow .btn{margin-left:4px}
         /* v5.54 Nachtbühne: Kein Text schiebt die Bühne (Nutzer: die Figuren sprangen). Wer spricht, leuchtet nur, wächst kaum */
         #kursplayer.d-b.laeuft:not(.mitlesen) #kspr{display:none}#kursplayer.d-b .kpl.ksp .kg{transform:scale(1.05)}
@@ -1177,9 +1207,13 @@
     $('#kwdh').onclick = () => { if (!st) return; const k = lauf && lauf.abK != null ? lauf.abK : letzteAbK, g = lauf ? lauf.gratis : !!(st.luecke || st.ersterFehlt); panel.hidden = true; AUD.unlock(); spiele(st, k || 0, g); };
     $('#kzu').onclick = () => { panel.hidden = true; };
     /* ⛶ blendet auch die Leisten des Browsers aus, wo das Handy es erlaubt */
-    const vb = $('#kvollbild');
-    if (!document.documentElement.requestFullscreen) vb.hidden = true;
-    else vb.onclick = () => { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {} };
+    /* v5.61 (Nutzer 11.11.2026): links unten zurück: pausieren und zur Reisekarte (bis sie gebaut ist: Liste der Folgen am Kartentisch) */
+    $('#kkarte').onclick = () => { stop(); vollAus(); if (typeof hoerreiseWahl === 'function') hoerreiseWahl(); else setTab('cabin'); };
+    /* Leiste unten verschwindet nach 15 Sekunden ohne Berühren; ein Finger im unteren Viertel holt sie zurück. Nur Verschieben, kein neues Layout: die Bühne springt nicht */
+    $('#kursplayer').addEventListener('pointerdown', e => { const f = ui('.kfuss'); if (!f) return; if (!f.classList.contains('weg') || e.clientY > window.innerHeight * .75) fussZeigen(); }, true);
+    fussZeigen();
+    /* Frage so groß wie möglich: die längste Frage der Folge bestimmt die Schrift für alle */
+    window.addEventListener('resize', () => { if (st && document.getElementById('kursplayer')) frageGroesse(st); });
     const info = t => { const e = $('#kinfo'); if (e) e.textContent = t; }, ginfo = t => { const e = $('#kginfo'); if (e) e.textContent = t; };
     const k = cfgK();
     const chips = () => {
@@ -1207,6 +1241,7 @@
     const zahl = n => Math.round(n).toLocaleString('de-DE'), uhr = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
     const haupt = st.abschnitte.filter(a => !a.karte), gesamtSek = haupt.reduce((s, a) => s + a.sek, 0);
     $('#kdauer').textContent = ` · etwa ${Math.round(gesamtSek / 60)} Minuten`;
+    setTimeout(() => frageGroesse(st), 60);
     let probeA = null;
     const probeAus = () => { if (probeA) { probeA.pause(); URL.revokeObjectURL(probeA.src); probeA = null; } };
     const neu = async () => {
