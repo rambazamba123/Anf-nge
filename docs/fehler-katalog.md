@@ -50,6 +50,9 @@
 | Sprecher während einer Animation unsichtbar (v5.58 → v5.59) | Klasse `an` in `ksp` umbenannt, die Regel `.kpl:not(.an)` übersehen | ⚙ buehne-pruefen prüft das Gesicht in der Animation; ✋ bei jeder Umbenennung alle Dateien durchsuchen, auch CSS in Zeichenketten |
 | Figuren im SVG um eine halbe Bühne verschoben (v5.59 beim Bau) | CSS für die HTML-Gesichter (`.kpl{transform:translate(-50%,-50%)}`) traf auch das SVG-Element gleicher Klasse | ✋ SVG-Teile nie mit einer Klasse versehen, die für HTML gestylt ist, ohne `g.kpl{transform:none}` |
 | `charSVG` fing mit `class="ch "` an (Leerzeichen), Ersetzen griff nicht (v5.59 beim Bau) | Text-Ersetzen auf festen Wortlaut | ✋ Markup mit regulären Ausdrücken anpassen, Ergebnis im Bild prüfen |
+| Tisch, Bullaugen und Knotenbrett der neuen Kajüte unsichtbar (v5.62 beim Bau) | Die Klasse `.hs` gab es in index.html schon (Hinweis-Schild, `position:absolute`, `transform`); sie traf die SVG-Gruppen | ⚙ Rauchtest prüft `[data-spot]` in der Kajüte; ✋ neue Klassen vorher mit `grep` in index.html suchen (jetzt `.szh`) |
+| Wasser hinter dem Boot fast unsichtbar, Wellen „blass“ (Leitfaden Fassung 4.1) | Die vorderste Welle war bis zum unteren Rand gefüllt und deckte alle Reihen dahinter ab | ✋ vordere Wellen nur als schmaler Streifen oder nach unten auslaufend (`auslauf` in `szenerie.js`), im Bild prüfen |
+| Wellen ruckelten, Regen fiel nicht (Leitfaden) | Muster wanderte nicht genau um seine eigene Länge; Regen sprang nur hin und her | ✋ Wiederholung genau P und Weg genau P; Regen als doppeltes Muster, das genau eine Bildhöhe rutscht |
 | Neue Version kam am Handy nicht an | `__ver`/`VERSION` nicht erhöht | ✋ R4, beide gleich |
 
 ## Teil C: Animationen

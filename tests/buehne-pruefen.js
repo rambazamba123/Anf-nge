@@ -25,7 +25,7 @@ async function oeffne(b, id, abschnitt) {
   /* v5.58: Erst eine Animation laden wie in der echten Folge (anim.js bringt globale Regeln mit; .an{height:100%} ließ den Sprecher nach oben springen) */
   await p.evaluate(async () => { await nachladen('anim.js'); if (window.ANIM && ANIM.bereit) await ANIM.bereit; if (ANIM.css) ANIM.css(); });
   await p.evaluate(async id => { await nachladen('kurs.js'); VOX.phoneTest = () => new Promise(r => setTimeout(() => r(true), 700)); KURS.oeffnen(id); }, id); await sleep(2500);
-  await p.click('#kzahn'); await sleep(300);
+  await p.click('#kzahn'); await sleep(300); await p.click('#kemehr'); await sleep(300);
   const gefunden = await p.evaluate(t => { const x = [...document.querySelectorAll('#kursplayer [data-ab]')].find(e => e.textContent.startsWith(t)); if (x) x.click(); return !!x; }, abschnitt);
   if (!gefunden) schlecht(`${id}: Abschnitt „${abschnitt}“ nicht gefunden`);
   await sleep(200); const z = await p.$('#kzu'); if (z && await z.isVisible()) await z.click();

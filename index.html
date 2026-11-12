@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.61';
+  window.__ver = '5.62';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2796,6 +2796,7 @@ function setTab(t) {
   /* An Bord gilt immer der Crew-Schein (in „Meine Prüfungen“ darf man jeden Schein lernen) */
   if (['deck', 'cabin', 'funk', 'talk'].includes(t)) scheinAktiv(S.crewSchein);
   const from = tab; stopAll(); tab = t; window.TOERN_STILL = false;
+  if (t === 'deck' && from !== 'deck' && window.DECK) DECK.neuerBesuch();
   if (t === 'cabin' && from !== 'cabin' && AUD.ready) AUD.sfx('schritte', {vol: .55});
   if (t === 'log' && from !== 'log' && AUD.ready) AUD.sfx('buchAuf', {vol: .6});
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
@@ -3332,6 +3333,8 @@ function courseCard() {
 /* ---------- Kajüte: hier wird gelernt ---------- */
 function renderCabin() {
   place = 'kajuete'; soundFor('kajuete'); returnTo = 'cabin';
+  const bereit = deckBereit(); if (bereit === null) return;
+  if (bereit) { S.tour = S.tour || {}; S.tour.cabin = true; DECK.kajuete(); kajueteBegruessung(); return; }
   const needAge = false, path = todayPath(), next = path.find(s => !s.done), done = path.filter(s => s.done).length;
   app.innerHTML = `<div class="topbar"><button class="btn small ghost" id="updeck">↑ An Deck</button><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
   ${cabinScene(S.crew)}
@@ -3386,6 +3389,10 @@ function renderCabin() {
   scheduleCatWalk(); catPlace();
   /* Erster Besuch: alles Antippbare leuchtet kurz auf */
   if (!S.seenCabin) { S.seenCabin = true; save(); setTimeout(() => { sc.classList.add('reveal'); setTimeout(() => sc.classList.remove('reveal'), 3200); }, 700); }
+  kajueteBegruessung();
+}
+/* Begrüßung, Schein-Einführung und Necken beim Betreten der Kajüte (alte und neue Kajüte) */
+function kajueteBegruessung() {
   if (window.SZENE && SZENE.schutz) { /* Rundgang läuft: keine Begrüßung dazwischen */ }
   else if (S.profile && !S.cabinWelcome) setTimeout(cabinWelcome, 900);
   /* V5: Wer schon begrüßt wurde, hört einmal die Einführung zu seinem Schein (auch bestehende Nutzer, weil sie neu ist) */
@@ -4113,6 +4120,7 @@ function renderSettings() {
 
 
   <details class="werkstatt" id="werkstatt"><summary><b>🔧 Werkstatt</b> <span class="small muted">KI, Schlüssel, Stimmen erzeugen, Casting, Protokoll</span></summary>
+  <div class="card"><b>🗄️ Alte Folgen und Tests</b><p class="small muted" style="margin:4px 0 8px">3D-Folgen, Rohbau, alter Probetag, Test Wiedersehen, Test Bühne, Crew-Gespräche. Nur zum Vergleichen.</p><button class="btn ghost" id="altefolgen">Öffnen</button></div>
   <div class="card ki"><b>✦ Mit der KI-Crew klönen</b><p class="small muted" style="margin:4px 0 8px">Freies Gespräch mit eigenem Schlüssel. Nicht Teil der Reise, dort ist alles fest geschrieben.</p><button class="btn ki" id="toklon">Gespräch öffnen</button></div>
 
   <h2>KI und Schlüssel</h2>
@@ -4236,6 +4244,7 @@ function renderSettings() {
   $('#sv').onclick = () => zieleOeffnen();
   $('#course').onchange = () => { const v = $('#course').value; switchCourse(v); LOG.add('schein', 'gewechselt zu ' + COURSES[v].short); toast('Jetzt lernst du für den ' + COURSES[v].name + '.'); renderSettings(); };
   $('#rg1').onclick = () => { AUD.unlock(); rundgangStarten(); };
+  $('#altefolgen').onclick = () => { AUD.click(); alteFolgen(); };
   $('#intro').onclick = () => { stopAll(); S.introDone = false; save(); AUD.unlock(); runIntro(); };
   $('#src').onclick = renderSources;
   $('#bk').onclick = doBackup;
@@ -4598,8 +4607,20 @@ function standKarte(path, next) {
     ${offen.length ? `<h4 style="margin:12px 0 4px">Noch offen</h4><ul class="small" style="margin:0;padding-left:18px">${offen.slice(0, 4).map(o => `<li>${o}</li>`).join('')}</ul>` : ''}
     <p class="small muted" style="margin:10px 0 0">Alles zur Prüfung, Schritt für Schritt: in der Kajüte beim Käpt'n unter „Meine Prüfungen“.</p></section>`;
 }
+/* v5.62 (Leitfaden Fassung 4): Deck, Happen, Rennen, Statistik und Kajüte kommen aus deck.js mit den Zeichnungen aus szenerie.js.
+   Bis die Dateien geladen sind, ist die Seite kurz leer; lassen sie sich nicht laden, bleibt die alte Ansicht. */
+let deckLaden = null, deckFehler = false;
+function deckBereit(neu) {
+  if (window.DECK && window.SZENERIE && window.BOOT) return true;
+  if (deckFehler) return false;
+  if (!deckLaden) deckLaden = nachladen('boot.js').then(() => nachladen('szenerie.js')).then(() => nachladen('deck.js')).then(() => { if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); }).catch(() => { deckFehler = true; if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); });
+  app.innerHTML = '<div class="ddeck" style="min-height:70vh;background:#0f2433"></div>';
+  return null;
+}
 function renderBoat() {
   place = 'deck'; soundFor('deck'); returnTo = 'deck';
+  const bereit = deckBereit(); if (bereit === null) return;
+  if (bereit) { S.tour = S.tour || {}; S.tour.boat = true; return DECK.deck(); }
   const left = daysLeft(), path = todayPath(), done = path.filter(s => s.done).length, next = path.find(s => !s.done), ph = lernPhase();
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
@@ -5055,8 +5076,7 @@ function renderFrei() {
     ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${i + 1}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
       ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
       ['🎞️', 'Animationen', 'Alle Animationen zum Testen und Kommentieren: Boot, Manöver, Lichter, Tonnen, Wetter, Sicherheit', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
-      ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
-      ['🗄️', 'Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, 3D-Welt', () => alteFolgen()]]],
+      ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }]]],
     ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
       ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
       ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()],
@@ -5127,21 +5147,23 @@ function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nach
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
 function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${i + 1} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
 function hoerreiseWahl() {
-  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('alt', '🗄️ Alte Folgen und Tests', 'Was vor der Hörreise gebaut wurde')}`);
-  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
 /* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
 function alteFolgen() {
-  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
+  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
   const weltSeite = o => nachladen('welt.js').then(() => WELT.seite(o)).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); });
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); const m = b.dataset.m;
     if (m === 'crew') return bgSit(); if (m.startsWith('w:')) return welt3dFolge(m.slice(2)); if (m === 'w3d') return weltSeite({folge: 'probe'}); if (m === 'welt') return weltSeite();
     if (m === 'rohbau') return folgeOeffnen('folge-01'); if (m === 'probetag') return reiseOeffnen();
+    if (m === 'animtest') return nachladen('anim.js').then(() => ANIM.seite('test')).catch(() => toast('Die Animationen ließen sich nicht laden.')); if (m.startsWith('kurs:')) return hoerreiseOeffnen(m.slice(5));
     nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });
 }
 /* Hocker: Hörreise hören; alles Ältere unter „Alte Folgen und Tests“ */
 function hockerWahl() {
   if (bgChat) return bgStop();
+  if (window.DECK) return DECK.funkStart();
   const w = sheet(`<h3 style="margin-top:0">🛋️ Hinsetzen</h3><p class="small muted" style="margin:0 0 8px">🎧 Hörreise. Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren, am besten interaktiv')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('alt', '🗄️ Alte Folgen und Tests', '3D-Folgen, Rohbau, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche')}`);
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'alt') return alteFolgen(); if (b.dataset.m === 'animtest') return nachladen('anim.js').then(() => ANIM.seite('test')).catch(() => toast('Die Animationen ließen sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
