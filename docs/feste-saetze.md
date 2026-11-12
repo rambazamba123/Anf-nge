@@ -188,3 +188,13 @@ Neue feste Sätze im Kennenlernen (`ONB`, `ONB2` in `index.html`, kommen ins Sti
 - Käpt'n (männlich): „Jo. Dann bist du ab heute unser Jung an Bord. Nimm's als Ehre.“
 - Smilla (neutral): „Geht klar. Dann bleibst du unsere Landratte, bis du was Besseres verdient hast.“
 - Klabauter (Freigabe in 3D, `welt-folge.js`): „Kann's! Kann's!“ statt „Kann er! Kann er!“ (geschlechtsneutral).
+
+## Neu in v5.62 (Deck und Happen, Nutzer 12.11.2026)
+Titel über den Happen (wechselt bei jedem neuen Besuch an Deck, kein gesprochener Satz): Vier Happen für heute · Deine Tagesration · Heute auf dem Zettel · Vier Häppchen bis zum Kaffee · Kleine Wache für heute.
+Satz der Crew über den Happen (`deck.js` `SATZ`, beim Antippen des Gesichts vorgelesen):
+- Smilla (Nachholen): „Erst das Nachholen. Die Geschichte ist schon weiter als du.“
+- Smilla (alles im Plan): „Läuft. Vier Happen, dann gibt’s Kaffee.“
+- Smilla (Prüfung bald): „Nicht mehr lange bis Harms. Ab jetzt nur noch Wackelkandidaten.“
+- Käpt'n (lange weg): „Moin. Lange nicht gesehen. Wir fangen leicht an.“
+- Käpt'n (alles grün): „Alles grün. Dann bleibt’s so. Kurz was auffrischen.“
+Nach dem Drehen am Rad (`DREH`): „Na gut, neue Mischung.“ · „Noch mal? Wählerisch heute.“ · „Schluss mit Würfeln. Die vier nehmen wir.“

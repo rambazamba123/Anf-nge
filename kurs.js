@@ -904,6 +904,8 @@
       markiere(st, k);
       if (it.t === 'abschnitt') {
         if (fehltAb.has(it.ab)) { me.ende = it.titel; break; }
+        /* v5.62 (Nutzer 12.11.2026): Schalter „Harms am Ende“ aus = die Folge endet vor dem Anruf */
+        if (cfgK().harms === false && /harms/i.test(it.titel || '')) { me.ohneHarms = true; break; }
         me.abK = k; letzteAbK = k; if (weg.size) { wegReset(); const g0 = ui('#kges'); if (g0) g0.dataset.art = ''; }
         const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
       }
@@ -1010,11 +1012,12 @@
     let nr = -1; st.items.forEach((it, i) => { if (it.t === 'abschnitt' && i <= k) nr = i; });
     document.querySelectorAll('#kursplayer [data-ab]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.ab === nr)));
   }
+  const ZEICHEN = {play: '<svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><path d="M14 9 L31 20 L14 31 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>', pause: '<svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true"><rect x="11" y="9" width="6" height="22" rx="2" fill="currentColor"/><rect x="23" y="9" width="6" height="22" rx="2" fill="currentColor"/></svg>'};
   function zeigeSteuerung(st, laeuft) {
     const p = ui('#kplay'); if (!p) return;
     /* v5.52 (Nutzer 08.11.2026): ohne Text, oben im Kopf. ▶ spielt echte Stimmen, wo es sie gibt; was fehlt, liest die Gratis-Stimme */
     /* v5.55 (Nutzer 08.11.2026): unten in der Mitte ein großer Knopf, kein Stopp; „Szene wiederholen“ liegt hinter ⚙️ */
-    p.innerHTML = laeuft ? `<button class="kgross" id="kpause" aria-label="Pause">⏸</button>` : `<button class="kgross" id="kstart" aria-label="Abspielen">▶</button>`;
+    p.innerHTML = laeuft ? `<button class="kgross" id="kpause" aria-label="Pause">${ZEICHEN.pause}</button>` : `<button class="kgross" id="kstart" aria-label="Abspielen">${ZEICHEN.play}</button>`;
     const los = () => { AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); vollAn(); spiele(st, 0, !!(st.luecke || st.ersterFehlt)); };
     const s = ui('#kstart'); if (s) s.onclick = los;
     const pa = ui('#kpause'); if (pa) pa.onclick = () => { if (lauf) { if (lauf.pause) vollAn(); pauseSetzen(!lauf.pause); } };
@@ -1060,7 +1063,8 @@
 </div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod">⚓ Vor Anker</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div></div>
+        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+        <div id="keinst" hidden><div class="kekipp"><button data-ek="reden" aria-label="hören und laut antworten"><svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M9 16 Q9 6 18 6 Q27 6 27 16 Q27 22 21 26 Q18 28 18 32 Q18 36 13 36 Q9 36 9 32"/><path d="M14 17 Q14 12 18 12 Q22 12 22 16"/><path d="M33 12 Q36 20 33 28 M38 8 Q43 20 38 32"/></svg></button><button data-ek="ohr" aria-label="nur hören"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg></button></div><button class="keharms" id="keharms" aria-label="Harms am Ende"><svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg></button><button class="kemehr" id="kemehr">Mehr …</button></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
       <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="interaktiv">⚓ Vor Anker</button><button class="chip" data-mod="auto">⛵ In Fahrt</button></div>
@@ -1093,7 +1097,10 @@
         #kursplayer .kpkopf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
         #kursplayer.d-a{background:#fbf3e4;color:#2a2118}#kursplayer.d-a .kkopf .muted{color:#7a6650}
         #kursplayer .kplay{display:flex;gap:6px}#kursplayer .kplay1{background:#e8a33c;color:#2a2118}
-        #kursplayer .kgross{display:block;margin:6px auto calc(18px + env(safe-area-inset-bottom,0px));width:76px;height:76px;border-radius:50%;border:0;background:#e8a33c;color:#2a2118;font-size:32px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}#kursplayer .kgross[hidden]{display:none}
+        #kursplayer .kgross{display:block;margin:6px auto calc(18px + env(safe-area-inset-bottom,0px));width:76px;height:76px;border-radius:50%;border:0;background:#e8a33c;color:#2a2118;font-size:32px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}#kursplayer .kgross[hidden]{display:none}#kursplayer .kgross{display:grid;place-items:center;padding:0;line-height:0}#kursplayer .kgross svg{display:block}#kursplayer #kstart svg{margin-left:4px}
+        #kursplayer #keinst{position:absolute;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:6;background:rgba(15,36,51,.96);border:1px solid rgba(243,231,201,.18);border-radius:20px;padding:14px;display:flex;align-items:center;justify-content:space-around;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#f3e7c9}#kursplayer #keinst[hidden]{display:none}
+        #kursplayer .kekipp{display:grid;grid-template-columns:1fr 1fr;border:2px solid rgba(243,231,201,.25);border-radius:999px;overflow:hidden}#kursplayer .kekipp button{width:74px;height:62px;border:0;background:transparent;color:#5b6770;display:grid;place-items:center;cursor:pointer}#kursplayer .kekipp button svg{width:42px;height:36px}#kursplayer .kekipp button[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a}
+        #kursplayer .keharms{width:66px;height:66px;border-radius:18px;border:3px solid #e8a33c;background:rgba(232,163,60,.12);display:grid;place-items:center;cursor:pointer}#kursplayer .keharms svg{width:42px;height:42px}#kursplayer .keharms[aria-pressed="false"]{border-color:rgba(243,231,201,.2);background:transparent}#kursplayer .keharms[aria-pressed="false"] svg{filter:grayscale(1);opacity:.45}#kursplayer .kemehr{border:0;background:none;color:#f3e7c9;opacity:.75;font:700 .8rem inherit;text-decoration:underline;cursor:pointer}
         #kursplayer .kanim .an .t{stroke:rgba(255,255,255,.9);stroke-width:2.4px;stroke-linejoin:round;font-family:'Baloo 2',Nunito,system-ui,sans-serif;font-weight:700;letter-spacing:.01em}
         #kursplayer .kanim .an .t.cap{stroke:none;font-weight:800}#kursplayer .kanim .an .t.sub,#kursplayer .kanim .an .t.wort{display:none}
         #kursplayer.d-b .kanim{max-height:none;width:100%}#kursplayer.d-b .kanim .an{max-height:calc(100dvh - 120px)}
@@ -1202,7 +1209,12 @@
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
     const panel = $('#kpanel');
-    $('#kzahn').onclick = () => { panel.hidden = !panel.hidden; if (!panel.hidden) panel.scrollTop = 0; };
+    /* v5.62 (Nutzer 12.11.2026): Das kleine Zahnrad öffnet zwei Schalter: laut antworten oder nur hören, Harms am Ende. „Mehr …“ öffnet das alte Fenster (Abschnitte, Erzeugen) */
+    const einst = $('#keinst'), einstZeigen = () => { const kk = cfgK(); einst.querySelectorAll('[data-ek]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.ek === 'reden') === !!S.cfg.zuruf))); $('#keharms').setAttribute('aria-pressed', String(kk.harms !== false)); };
+    $('#kzahn').onclick = () => { einst.hidden = !einst.hidden; if (!einst.hidden) { einstZeigen(); fussZeigen(); } };
+    einst.querySelectorAll('[data-ek]').forEach(b => b.onclick = () => { S.cfg.zuruf = b.dataset.ek === 'reden' && zurufMoeglich(); if (S.cfg.zuruf && window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); save(); einstZeigen(); const z = ui('#kzr'); if (z) z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (lauf) { if (S.cfg.zuruf) zurufStart(lauf); else if (typeof zurufStop === 'function') zurufStop(lauf); } });
+    $('#keharms').onclick = () => { const kk = cfgK(); kk.harms = kk.harms === false; save(); einstZeigen(); };
+    $('#kemehr').onclick = () => { einst.hidden = true; panel.hidden = false; panel.scrollTop = 0; };
     /* Szene wiederholen: den aktuellen (sonst den zuletzt gehörten) Abschnitt von vorn */
     $('#kwdh').onclick = () => { if (!st) return; const k = lauf && lauf.abK != null ? lauf.abK : letzteAbK, g = lauf ? lauf.gratis : !!(st.luecke || st.ersterFehlt); panel.hidden = true; AUD.unlock(); spiele(st, k || 0, g); };
     $('#kzu').onclick = () => { panel.hidden = true; };
@@ -1216,6 +1228,8 @@
     window.addEventListener('resize', () => { if (st && document.getElementById('kursplayer')) frageGroesse(st); });
     const info = t => { const e = $('#kinfo'); if (e) e.textContent = t; }, ginfo = t => { const e = $('#kginfo'); if (e) e.textContent = t; };
     const k = cfgK();
+    /* v5.62 (Nutzer 12.11.2026): Es gibt nur noch „In Fahrt“; Antworten tippen geht trotzdem */
+    if (k.modus !== 'auto') { k.modus = 'auto'; save(); }
     const chips = () => {
       document.querySelectorAll('#kursplayer [data-mod]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mod === k.modus)));
       $('#ktem').value = String(k.tempo || 1);
