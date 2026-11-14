@@ -54,6 +54,9 @@
 | Wasser hinter dem Boot fast unsichtbar, Wellen „blass“ (Leitfaden Fassung 4.1) | Die vorderste Welle war bis zum unteren Rand gefüllt und deckte alle Reihen dahinter ab | ✋ vordere Wellen nur als schmaler Streifen oder nach unten auslaufend (`auslauf` in `szenerie.js`), im Bild prüfen |
 | Wellen ruckelten, Regen fiel nicht (Leitfaden) | Muster wanderte nicht genau um seine eigene Länge; Regen sprang nur hin und her | ✋ Wiederholung genau P und Weg genau P; Regen als doppeltes Muster, das genau eine Bildhöhe rutscht |
 | Telefon in der neuen Kajüte „ging nicht“ (v5.62) | Harms kommt erst nach etwa sechs Sekunden Tuten; die Wackel-Anzeige suchte das alte Telefon `.scene.cabin .phone` | ✋ jede Aktion braucht sofort eine sichtbare Rückmeldung; Selektoren beim Umbau mit umstellen |
+| Wellen im Bullauge der Kajüte standen still (v5.63) | Die Bewegungsregel `.wl` galt nur für `.szenerie` (Deck), nicht für die Kajüte `.panosvg` | ✋ neue SVG-Bereiche: prüfen, ob die CSS-Regeln ihre Klasse mit abdecken (jetzt `.szenerie .wl,.panosvg .wl`) |
+| „Windig“ zeigte schon Sturm, Regen am Tag zeigte Nacht (bis v5.63) | Zuordnung Wetter → Stimmung hatte nur Sturm- und Nachtbilder | ✋ jede Kombination aus Wetter und Tageszeit einmal ansehen (Tabelle im Grafik-Update) |
+| Blase beim Minimieren ohne Aussehen (v5.64 beim Bau) | Das `<style>` des Players stand neben ihm in `#app` und verschwand beim Seitenwechsel | ✋ beim Umhängen eines Bereichs sein `<style>` mitnehmen |
 | Neue Version kam am Handy nicht an | `__ver`/`VERSION` nicht erhöht | ✋ R4, beide gleich |
 
 ## Teil C: Animationen

@@ -423,7 +423,7 @@
     const fertig = new Promise(res => { a.onended = res; a.onerror = res; a.play().catch(res); });
     if (!it.parallel) await fertig; else await warten(me, 1200);   /* parallel: das Gespräch setzt nach einem Moment ein */
   }
-  function stop() { if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); if (lauf.wahlRes) lauf.wahlRes(); zurufStop(); atmoAus(); lauf = null; wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
+  function stop() { blaseAus(); if (!lauf) return; lauf.aus = true; if (lauf.gratis && typeof VOX !== 'undefined') VOX.stop('Kajütenfunk'); if (lauf.audio) { lauf.audio.pause(); lauf.audio = null; } lauf.neben.forEach(a => a.pause()); if (lauf.weiter) lauf.weiter(); if (lauf.wahlRes) lauf.wahlRes(); zurufStop(); atmoAus(); lauf = null; wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
   const ui = sel => document.querySelector('#kursplayer ' + sel);
   async function warten(me, ms, abbr) { const ende = Date.now() + ms; while (!me.aus && !(abbr && abbr()) && Date.now() < ende) { await sleep(Math.min(200, ende - Date.now())); while (me.pause && !me.aus) await sleep(200); } }
   /* Fehlt die echte Sprache, liest im Gratis-Modus die Handystimme Zeile für Zeile (nie ElevenLabs, kostet nichts) */
@@ -635,6 +635,7 @@
       mimik(s, ok ? (g.dataset.w === 'HARMS' ? 'nachdenklich' : g.dataset.w === 'KLABAUTER' ? 'lacht' : 'froh') : ({SMILLA: 'besorgt', HINNERK: 'skeptisch', HARMS: 'genervt', KLABAUTER: 'staunt', BACKBORD: 'normal'}[g.dataset.w] || 'besorgt')); });
   }
   function gesichter(aktiv, laune) {
+    if (aktiv && aktiv !== blaseWer) { blaseWer = aktiv; if (blase) blaseZeigen(); }
     const box = ui('#kges'); if (!box || aussehenAkt === 's') return;
     if (aussehenAkt === 'b') return buehneB(box, aktiv, laune);
     let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
@@ -687,6 +688,17 @@
     if (!still && cfgK().ticken) AUD.ticks(s, .35);
     await warten(me, s * 1000);
     if (box) box.innerHTML = '';
+  }
+  /* v5.64 Schlagworte zu den amtlichen Fragen für „Frage in Fahrt“ (data/schlagworte-sbf.json, tools/schlagworte-pruefen.js) */
+  let SW = null;
+  const swLaden = () => SW ? Promise.resolve(SW) : fetch('data/schlagworte-sbf.json?v=' + (typeof __ver !== 'undefined' ? __ver : '')).then(r => r.json()).then(d => (SW = d.q || {})).catch(() => (SW = {}));
+  const swNorm = s => String(s).toLowerCase().replace(/[^a-zäöüß0-9]/g, '');
+  /* je Antwort das Schlagwort; null, wenn eine Antwort nicht zum amtlichen Text passt (z. B. von Harms zusammengelegt) */
+  function schlagworte(it, q0, opts) {
+    if (!SW || !it.id || !/^sbf:/.test(String(it.id))) return null;
+    const q = q0 || frage(it.id), e = SW[String(it.id).split(':')[1]]; if (!q || !e) return null;
+    const kw = opts.map(o => { const t = swNorm(ohneBuchstabe(o.text)), i = q.a.findIndex(a => swNorm(a) === t); return i >= 0 ? e.a[i] : null; });
+    return kw.every(Boolean) ? {t: e.t, kw} : null;
   }
   /* Katalogfrage zu „sbf:21“ oder „bin:95“ */
   function frage(id) {
@@ -782,6 +794,8 @@
     const q = !it.opts.length && it.id ? frage(it.id) : null;
     const opts = q ? q.a.map((text, i) => ({text, ok: !i})).sort(() => Math.random() - .5) : it.opts.slice();
     const kopf = frageKopf(it, rede);
+    /* v5.64 Frage in Fahrt (Nutzer 12./14.11.2026): großes Bild oder Symbol mit Thema, Knöpfe nur mit Schlagworten; antippen = ganzer Text zum Lesen */
+    const fahrt = cfgK().modus !== 'interaktiv' && cfgK().fahrtFrage !== false ? schlagworte(it, q, opts) : null;
     const kopfHtml = kopf.zeilen ? kopf.zeilen.map(z => `<div><b>${esc(z.wer)}:</b> ${esc(z.text)}</div>`).join('') : esc(kopf.text);
     const bilder = (kopf.img || []).map(s => `<img src="${esc(s)}" alt="Bild zur Frage" style="max-width:100%;max-height:26vh;border-radius:10px;background:#fff;margin-top:6px">`).join('');
     /* Easy/Tricky wie im Quiz bei den amtlichen Fragen von Harms; fließt in die Statistik (selbstEinschaetzung in index.html) */
@@ -789,22 +803,26 @@
     const zr = zurufMoeglich() ? `<button class="chip" id="kzr" aria-pressed="${!!S.cfg.zuruf}">🎙️ Mitreden</button>` : '';
     /* Harms oben, die Frage darunter (Nutzer 09.11.2026) */
     const kh = harmsFrage(it) ? `<div class="kharms">${gesicht('HARMS')}<span><b>Kapitän Harms</b><br><span class="small">📞 prüft. Im Wortlaut.</span></span></div>` : '';
-    box.innerHTML = `<div class="kfrage">${kh}<div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : kh ? '🔔 Prüfungsfrage' : '🔔 Frage an dich'}</span>${zr}</div>
-      <div class="kftext">${kopfHtml}</div>${bilder}<div class="small muted" id="kzinfo"></div>
+    const sym = window.SZENERIE && SZENERIE.SYM && SZENERIE.SYM.frage ? SZENERIE.SYM.frage : '<span style="font-size:3.4em">🔔</span>';
+    const fbild = fahrt ? `<button class="kfbild" id="kfbild" aria-label="Frage zum Lesen aufklappen">${(kopf.img || []).length ? kopf.img.map(s => `<img src="${esc(s)}" alt="Bild zur Frage">`).join('') : `<span class="kfsym">${sym}</span>`}<b class="kfthema">${esc(fahrt.t)}</b><span class="small kfhin">Antippen: Frage lesen</span></button>` : '';
+    box.innerHTML = `<div class="kfrage${fahrt ? ' fahrt' : ''}">${kh}<div class="kfkopf"><span>${it.vorab ? '🎲 Tipp mal (zählt nicht)' : kh ? '🔔 Prüfungsfrage' : '🔔 Frage an dich'}</span>${zr}</div>
+      ${fbild}<div class="kftext">${kopfHtml}</div>${fahrt ? '' : bilder}<div class="small muted" id="kzinfo"></div>
       ${et ? `<div class="kselbst"><button class="chip" data-et="easy" aria-pressed="false">😎 Easy</button><button class="chip" data-et="tricky" aria-pressed="false">🤔 Tricky</button><span class="small muted">sag z. B. „A easy“</span></div>` : ''}
-      <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${'ABCDEF'[i] || i + 1}</b><span>${esc(ohneBuchstabe(o.text))}</span></button>`).join('')}</div>
+      <div class="kopts">${opts.map((o, i) => `<button class="kopt" data-o="${i}"><b class="kabc">${'ABCDEF'[i] || i + 1}</b>${fahrt ? `<span><span class="kkw">${esc(fahrt.kw[i])}</span><span class="klang">${esc(ohneBuchstabe(o.text))}</span></span>` : `<span>${esc(ohneBuchstabe(o.text))}</span>`}</button>`).join('')}</div>
       <button class="btn small ghost" data-o="-1" style="margin-top:6px">Weiter ohne Antwort</button></div>`;
     document.getElementById('kursplayer')?.classList.add('mitwahl');
+    { const fb = ui('#kfbild'); if (fb) fb.onclick = () => { const k = box.querySelector('.kfrage'); k.classList.toggle('lesen'); fb.querySelector('.kfhin').textContent = k.classList.contains('lesen') ? 'Antippen: wieder groß' : 'Antippen: Frage lesen'; }; }
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
     { const sb = document.getElementById('kbuehne'); if (sb) sb.scrollTop = 0; box.scrollIntoView({block: 'start'}); }
     const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null, echo: opts.map(o => ohneBuchstabe(o.text))};
+    if (window.KURS_MINI) blaseZeigen();
     const etAnwenden = () => { const e = w.etBasis; if (!e) return; selbstEinschaetzung(e.n, e.ok, e.vor, e.nach, w.et);
       const i = box.querySelector('#ketinfo'); if (i) i.textContent = !w.et ? '' : w.et === 'easy' ? (e.ok ? '😎 Easy: kommt erst später wieder.' : '😎 Vertippt: zählt nicht als Fehler, kommt zur Bestätigung wieder.') : (e.ok ? '🤔 Tricky: zählt als Glückstreffer, kommt morgen wieder.' : '🤔 Tricky: kommt öfter.'); };
     w.etSetzen = v => { if (!et) return; w.et = w.et === v ? null : v; box.querySelectorAll('[data-et]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.et === w.et))); etAnwenden(); };
     box.querySelectorAll('[data-et]').forEach(b => b.onclick = () => w.etSetzen(b.dataset.et));
     me.frager = rede && rede.zeilen.length ? rede.zeilen[rede.zeilen.length - 1].wer : null;
     const p = new Promise(res => {
-      const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl');
+      const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl'); if (window.KURS_MINI) blaseZeigen();
         /* Nachtbühne: nach der Frage wieder Vollbild auf die Crew */
         if (aussehenAkt === 'b') { const bb = ui('#kbild'); if (bb) bb.innerHTML = ''; mitBild(false); }
         res(); };
@@ -940,7 +958,8 @@
       /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
       if (!me.aus && !me.ende && st.id && window.S) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); save(); }
       /* Im Auto-Modus geht es nach kurzer Ansage mit der nächsten Folge weiter (Auto, Gym); interaktiv bleibt die Fragerunde */
-      const naechste = !me.aus && !me.ende && cfgK().modus === 'auto' ? naechsteFolge(st.id) : null;
+      const naechste = !me.aus && !me.ende && cfgK().modus === 'auto' && !window.KURS_MINI ? naechsteFolge(st.id) : null;
+      if (window.KURS_MINI) blaseZeigen();
       if (naechste && s) {
         s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0" id="kweiterbox">⏭ Gleich geht's weiter mit „${esc(FOLGEN[naechste].titel)}“ … <button class="btn small ghost" id="kweiternein">Nicht weiter</button></p>`);
         const t = setTimeout(() => { if (!lauf && document.getElementById('kweiterbox')) oeffnen(naechste, {start: true, gratis: me.gratis}); else wachHalten(false); }, 6000);
@@ -968,11 +987,45 @@
   function wachHalten(an) {
     try { if (an) { if (!stummA) { stummA = new Audio(stilleWav()); stummA.loop = true; stummA.volume = .01; } stummA.play().catch(() => {}); } else if (stummA) stummA.pause(); } catch (e) {}
   }
+  /* ---------- v5.64 Minimieren (Nutzer 12./14.11.2026): Die Folge läuft als Blase weiter, man klickt in der App herum (Praxis, 3D, Fragen); die App ist dabei stumm ---------- */
+  let blase = null, blaseWer = 'HINNERK';
+  function minimieren() {
+    const root = document.getElementById('kursplayer'); if (!root || !lauf) return;
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+    window.KURS_MINI = true; AUD.hush(true); root.classList.add('kmini');
+    /* das Aussehen des Players steht als <style> neben ihm: mitnehmen, sonst hat die Blase kein Aussehen */
+    if (root.parentNode) [...root.parentNode.querySelectorAll(':scope > style')].forEach(x => root.appendChild(x));
+    document.body.appendChild(root);
+    blaseZeigen(); setTab('cabin');
+  }
+  function groesser() {
+    const root = document.getElementById('kursplayer'); if (!root) return blaseAus();
+    subScreen(); window.KURS_MINI = false; AUD.hush(false);
+    app.innerHTML = ''; app.appendChild(root); root.classList.remove('kmini'); blaseWeg();
+    if (cfgK().vollbild !== false) vollAn(); fussZeigen();
+  }
+  function blaseZeigen() {
+    if (!window.KURS_MINI) return;
+    if (!blase) { blase = document.createElement('div'); blase.id = 'kblase'; document.body.appendChild(blase); }
+    const ende = !lauf, frage = !!(lauf && lauf.wahlOffen && !lauf.wahlOffen.fertig);
+    blase.className = (frage ? 'frage' : '') + (ende ? ' ende' : '');
+    blase.innerHTML = `<button class="kbgross" id="kbgross" aria-label="Folge wieder groß zeigen">${gesicht(blaseWer)}${frage ? '<span class="kbq">?</span>' : ''}</button>
+      ${ende ? '<span class="kbende">⚓ Ende</span>' : `<button class="kbpause" id="kbpause" aria-label="${lauf.pause ? 'Weiter' : 'Pause'}">${lauf.pause ? ZEICHEN.play : ZEICHEN.pause}</button>`}`;
+    blase.querySelector('#kbgross').onclick = () => { AUD.unlock(); groesser(); };
+    const pb = blase.querySelector('#kbpause'); if (pb) pb.onclick = () => { if (!lauf) return; pauseSetzen(!lauf.pause); blaseZeigen(); };
+  }
+  function blaseWeg() { if (blase) { blase.remove(); blase = null; } }
+  /* Folge beendet oder neu geöffnet: kleiner Player und Blase ganz weg, App wieder mit Ton */
+  function blaseAus() {
+    if (!window.KURS_MINI && !blase) return;
+    window.KURS_MINI = false; if (typeof AUD !== 'undefined') AUD.hush(false); blaseWeg();
+    const root = document.getElementById('kursplayer'); if (root && root.classList.contains('kmini')) root.remove();
+  }
   function pauseSetzen(p) {
     if (!lauf) return; lauf.pause = p;
     if (lauf.audio) p ? lauf.audio.pause() : lauf.audio.play().catch(() => {});
     if (lauf.handy) { try { p ? speechSynthesis.pause() : speechSynthesis.resume(); } catch (e) {} }
-    const pa = ui('#kpause'); if (pa) { pa.textContent = p ? '▶' : '⏸'; pa.setAttribute('aria-label', p ? 'Weiter' : 'Pause'); }
+    const pa = ui('#kpause'); if (pa) { pa.innerHTML = p ? ZEICHEN.play : ZEICHEN.pause; pa.setAttribute('aria-label', p ? 'Weiter' : 'Pause'); }
     try { navigator.mediaSession.playbackState = p ? 'paused' : 'playing'; } catch (e) {}
   }
   /* ⏭ = nächster Abschnitt (am Ende: nächste Folge), ⏮ = Abschnitt von vorn */
@@ -1054,7 +1107,7 @@
 
   /* ---------- Bildschirm ---------- */
   async function oeffnen(id = 'probe', opt = {}) {
-    subScreen(); stop();
+    subScreen(); stop(); swLaden();
     if (!FOLGEN[id]) id = 'probe';
     const f = FOLGEN[id];
     /* v5.51 (Nutzer 08.11.2026): Vollbild, am Bildschirm nur die Folge; alles andere hinter dem Zahnrad ⚙️ */
@@ -1063,7 +1116,7 @@
 </div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
-        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kmini" aria-label="Kleiner: weiterhören und in der App bleiben"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" opacity=".45"/><circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/><path d="M7 7 L12.5 12.5 M12.5 8.5 V12.5 H8.5"/></svg></button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
         <div id="keinst" hidden><div class="kekipp"><button data-ek="reden" aria-label="hören und laut antworten"><svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 36 V30 C7 28 5 23 5 17 C5 9 11 4 18 4 C25 4 29 9 29 14 L32.5 20 L29.5 21 V25 C29.5 27 28 28 26 28 H22 V36"/><path d="M26.5 23.5 H30" stroke-width="2"/><circle cx="21" cy="13" r="1.3" fill="currentColor" stroke="none"/><path d="M35 15 Q38 20 35 25 M39.5 11 Q44.5 20 39.5 29" stroke-width="2.6"/></svg></button><button data-ek="ohr" aria-label="nur hören"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg></button></div><button class="keharms" id="keharms" aria-label="Harms am Ende"><svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg></button><button class="kemehr" id="kemehr">Mehr …</button></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
       <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
@@ -1152,6 +1205,19 @@
         #kursplayer.d-b .kopt{background:#fff;color:#2a2118;border-color:#e2d4b6}#kursplayer.d-b .kopt .kabc{color:#2f6f8a;opacity:1}#kursplayer.d-b .kfrage .muted{color:#7a6650}
         @media (prefers-reduced-motion: reduce){#kursplayer .kring::before,#kursplayer .kring::after{animation:none!important}}#kursplayer.mitwahl #kspr .small{display:none}#kursplayer.mitwahl .kanim{max-height:30vh}
         #kursplayer .kfrage{border:2px solid var(--lamp, #e8a33c);border-radius:14px;padding:10px 12px;background:var(--card2, rgba(232,163,60,.08))}
+        #kursplayer .kfrage.fahrt .kftext,#kursplayer .kfrage.fahrt .klang{display:none}#kursplayer .kfrage.fahrt.lesen .kftext,#kursplayer .kfrage.fahrt.lesen .klang{display:block}
+        #kursplayer .kfbild{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:4px 0 8px}
+        #kursplayer .kfbild img{max-width:100%;max-height:min(40vh,340px);border-radius:12px;background:#fff}#kursplayer .kfsym svg{width:84px;height:84px;color:var(--lamp,#e8a33c)}
+        #kursplayer .kfthema{font-family:var(--display,inherit);font-size:1.45em;line-height:1.15;text-align:center}#kursplayer .kfhin{opacity:.7}
+        #kursplayer .kfrage.fahrt .kkw{display:block;font-size:1.22em;font-weight:700;line-height:1.2}#kursplayer .kfrage.fahrt.lesen .kkw{font-size:.86em;opacity:.75}#kursplayer .kfrage.fahrt.lesen .klang{font-size:.9em}
+        #kursplayer .kfrage.fahrt.lesen .kfbild img{max-height:18vh}#kursplayer .kfrage.fahrt.lesen .kfsym{display:none}
+        #kursplayer.kmini{display:none!important}
+        #kblase{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:200;display:flex;align-items:center;gap:6px;padding:6px 8px 6px 6px;border-radius:999px;background:rgba(15,36,51,.94);border:1.5px solid rgba(232,163,60,.6);box-shadow:0 8px 22px rgba(0,0,0,.4);color:#f3e7c9}
+        #kblase .kbgross{position:relative;width:58px;height:58px;border-radius:50%;border:2px solid #9aa3a8;background:#f2c68f;padding:0;overflow:hidden;cursor:pointer}#kblase .kbgross .kg{width:100%;height:100%}#kblase .kbgross svg{width:100%;height:100%;transform:scale(1.9) translateY(19%)}
+        #kblase .kbpause{width:46px;height:46px;border-radius:50%;border:0;background:#e8a33c;color:#1d1408;display:grid;place-items:center;cursor:pointer}#kblase .kbpause svg{width:24px;height:24px}
+        #kblase .kbq{position:absolute;right:-2px;top:-2px;width:22px;height:22px;border-radius:50%;background:#c0392b;color:#fff;font:700 15px/22px sans-serif;text-align:center}
+        #kblase.frage{animation:kbpuls 1.4s ease-in-out infinite}@keyframes kbpuls{50%{box-shadow:0 0 0 8px rgba(232,163,60,.25),0 8px 22px rgba(0,0,0,.4)}}#kblase .kbende{font-weight:700;padding:0 8px}
+        @media (prefers-reduced-motion:reduce){#kblase.frage{animation:none}}
         #kursplayer .kfrage{font-size:var(--kfs,1em)}#kursplayer .kfuss{transition:transform .6s ease,opacity .6s ease}#kursplayer .kfuss.weg{transform:translateY(115%);opacity:0;pointer-events:none}
         #kursplayer .kfkopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9em;margin-bottom:6px}
         #kursplayer .kftext{font-size:1.06em;line-height:1.4}#kursplayer .kftext div{margin:2px 0}
@@ -1220,6 +1286,7 @@
     $('#kzu').onclick = () => { panel.hidden = true; };
     /* ⛶ blendet auch die Leisten des Browsers aus, wo das Handy es erlaubt */
     /* v5.61 (Nutzer 11.11.2026): links unten zurück: pausieren und zur Reisekarte (bis sie gebaut ist: Liste der Folgen am Kartentisch) */
+    $('#kmini').onclick = () => { if (!lauf) return info('Erst abspielen, dann kleiner machen.'); minimieren(); };
     $('#kkarte').onclick = () => { stop(); vollAus(); if (typeof hoerreiseWahl === 'function') hoerreiseWahl(); else setTab('cabin'); };
     /* Leiste unten verschwindet nach 15 Sekunden ohne Berühren; ein Finger im unteren Viertel holt sie zurück. Nur Verschieben, kein neues Layout: die Bühne springt nicht */
     $('#kursplayer').addEventListener('pointerdown', e => { const f = ui('.kfuss'); if (!f) return; if (!f.classList.contains('weg') || e.clientY > window.innerHeight * .75) fussZeigen(); }, true);
@@ -1352,6 +1419,8 @@
 
   if (typeof window !== 'undefined') window.KURS = {oeffnen, zerlege, stop, animZeigen,
     /* nur für Tests: Szene setzen und einen Sprecher zeigen */
+    /* nur für Tests: eine amtliche Frage so zeigen, wie sie in der Folge käme (Frage in Fahrt) */
+    _wahl(id) { return swLaden().then(() => wahl({}, {t: 'wahl', id, opts: []}, {tipps: {}, falsch: new Set(), root: ui('#kwahl')}, null)); },
     _test(text, wer, crew) { if (crew) buehnenCrew = crew; szeneArt = ''; szeneSetzen(text); const g = ui('#kges'); if (g) { g.dataset.gast = ''; gesichter(wer || null); } }};
   if (typeof module !== 'undefined') module.exports = {zerlege};
 })();
