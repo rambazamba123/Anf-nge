@@ -578,13 +578,13 @@ const GEN = {
     hint: ['Zirkel wählen und die beiden Tonnen antippen.', 'Dann am Gelenk zum Breitenrand ziehen, ungefähr auf derselben Höhe, und die Minuten ablesen: 1\' = 1 sm.'], expl: `Die Distanz beträgt ${comma(kd.d)} sm.`, ctrl: c => { const d = c.zirkelSm(); return d != null ? `Zirkel misst ${comma(d)} sm` : ''; }, soll: c => c.addLine(proj(a.lat, a.lon), proj(b.lat, b.lon), 'soll')}; },
   rw2mg() { const rwk = ri(0, 359), abl = pick([-6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6]), m = mw(), mg = n360(rwk - m - abl);
     return {text: `Der rwK beträgt <b>${fmtDeg(rwk)}</b>. Die Ablenkung beträgt <b>${fmtSigned(abl)}</b>, die Mw ist der Seekarte zu entnehmen. Wie lautet der MgK?`, chart: {center: ROSE(), tools: ['hand'], width: 420}, fields: [{k: 'mw', l: 'Mw', t: 'sdeg'}, {k: 'mg', l: 'MgK', t: 'deg'}], sol: {mw: m, mg}, tol: {mw: 0, mg: 1}, geg: {rwk: gd(rwk), abl: gs(abl)},
-      hint: ['Die Mw steht in der Kompassrose: 3° E, also +3°.', 'Von der Karte zum Kompass: MgK = rwK − Mw − Abl.'], expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(m)}) − (${fmtSigned(abl)}) = ${fmtDeg(mg)}.`}; },
+      hint: ['Die Mw steht in der Kompassrose: 3° E, also +3°.', 'Von der Karte zum Kompass: MgK = rwK − Mw − Abl.'], diag: {mw: g => num(g) === -m ? 'Die Mw ist östlich (E), also plus.' : null, mg: g => angDiff(g, n360(rwk + m + abl)) <= 1 ? 'Vorzeichen vertauscht: Von der Karte zum Kompass ziehst du Mw und Abl. ab.' : angDiff(g, n360(rwk - m + abl)) <= 1 || angDiff(g, n360(rwk + m - abl)) <= 1 ? 'Eins der beiden Vorzeichen stimmt nicht. Rechne langsam: rwK − (Mw) − (Abl.).' : null}, expl: `MgK = ${fmtDeg(rwk)} − (${fmtSigned(m)}) − (${fmtSigned(abl)}) = ${fmtDeg(mg)}.`}; },
   mg2rw() { const row = pick(K.deviation), mg = n360(row[0] + pick([0, 0, 10, -10])), abl = Math.round(ablenkung(mg)), m = mw(), rw = n360(mg + abl + m);
     const tab = ABL_TAB();
     return {text: `Am Steuerkompass liegt der MgK <b>${fmtDeg(mg)}</b> an. Die Ablenkung entnimmst du der Ablenkungstabelle (zwischen den Werten gleichmäßig verteilen), die Mw der Karte (3° E). Wie lautet der rwK?${tab}`, chart: null, fields: [{k: 'abl', l: 'Abl.', t: 'sdeg'}, {k: 'rw', l: 'rwK', t: 'deg'}], sol: {abl, rw}, tol: {abl: 1, rw: 1}, geg: {mgk: gd(mg), mw: gs(m)},
-      hint: ['Such in der Tabelle die Ablenkung zum MgK. Liegt er zwischen zwei Werten, rechne anteilig.', 'Vom Kompass zur Karte: rwK = MgK + Abl. + Mw.'], expl: `Abl. bei ${fmtDeg(mg)}: ${fmtSigned(abl)}. rwK = ${fmtDeg(mg)} + (${fmtSigned(abl)}) + (${fmtSigned(m)}) = ${fmtDeg(rw)}.`}; },
+      hint: ['Such in der Tabelle die Ablenkung zum MgK. Liegt er zwischen zwei Werten, rechne anteilig.', 'Vom Kompass zur Karte: rwK = MgK + Abl. + Mw.'], diag: {abl: g => abl && num(g) === -abl ? 'Vorzeichen der Ablenkung: Lies in der Tabelle genau, ob E (plus) oder W (minus) dasteht.' : null, rw: g => angDiff(g, n360(mg - abl - m)) <= 1 ? 'Vorzeichen vertauscht: Vom Kompass zur Karte zählst du Abl. und Mw dazu.' : null}, expl: `Abl. bei ${fmtDeg(mg)}: ${fmtSigned(abl)}. rwK = ${fmtDeg(mg)} + (${fmtSigned(abl)}) + (${fmtSigned(m)}) = ${fmtDeg(rw)}.`}; },
   peilRechnen() { const mgp = ri(0, 359), m = mw(), rwp = n360(mgp + m);
-    return {text: `Mit dem Handpeilkompass peilst du einen Leuchtturm in <b>${fmtDeg(mgp)}</b> (MgP). Die Ablenkung beträgt 0°, die Mw ist 3° E. Wie lautet die rwP?`, chart: null, fields: [{k: 'rwp', l: 'rwP', t: 'deg'}], sol: {rwp}, tol: {rwp: 1}, geg: {pmg: gd(mgp), pabl: '0', pmw: gs(m)}, peil: true, hint: ['Peilungen rechnest du wie Kurse: rwP = MgP + Abl. + Mw.'], expl: `rwP = ${fmtDeg(mgp)} + 0° + 3° = ${fmtDeg(rwp)}.`}; },
+    return {text: `Mit dem Handpeilkompass peilst du einen Leuchtturm in <b>${fmtDeg(mgp)}</b> (MgP). Die Ablenkung beträgt 0°, die Mw ist 3° E. Wie lautet die rwP?`, chart: null, fields: [{k: 'rwp', l: 'rwP', t: 'deg'}], sol: {rwp}, tol: {rwp: 1}, geg: {pmg: gd(mgp), pabl: '0', pmw: gs(m)}, peil: true, hint: ['Peilungen rechnest du wie Kurse: rwP = MgP + Abl. + Mw.'], diag: {rwp: g => angDiff(g, n360(mgp - m)) <= 1 ? 'Andersherum: Vom Kompass zur Karte zählst du die Mw dazu.' : null}, expl: `rwP = ${fmtDeg(mgp)} + 0° + 3° = ${fmtDeg(rwp)}.`}; },
   kreuz() {
     let ship, o1, o2, p1, p2;
     for (let i = 0; i < 400; i++) { ship = seaPoint(); const P = PEIL(); o1 = pick(P); o2 = pick(P); if (o1 === o2) continue; const a = kursDist(ship, o1), b = kursDist(ship, o2), dd = angDiff(a.k, b.k); if (a.d < 2 || b.d < 2 || a.d > 14 || b.d > 14 || dd < 50 || dd > 130) continue; p1 = a.k; p2 = b.k; break; }
@@ -797,6 +797,18 @@ function grade(task, vals, ctl) {
   });
   return res;
 }
+/* v5.64 Fehlerdiagnose: sagt bei typischen Fehlern, was wahrscheinlich passiert ist (gezieltes Feedback statt nur „falsch“) */
+const VORGABE_T = {deg: v => String(Math.round(n360(v))).padStart(3, '0'), sdeg: v => (v > 0 ? '+' : '') + comma(Math.round(v * 10) / 10), sm: v => comma(v), kn: v => comma(v), m: v => comma(v), min: v => String(Math.round(v))};
+function diagnose(task, f, got) {
+  const g = num(got), sol = task.sol[f.k]; if (got == null || got === '' || isNaN(g)) return null;
+  const eigen = task.diag && task.diag[f.k] ? task.diag[f.k](got) : null; if (eigen) return eigen;
+  if (f.t === 'deg' && angDiff(g, n360(sol + 180)) <= 3) return 'Das ist genau der Gegenkurs. Hast du das Dreieck andersherum abgelesen? Schau, in welche Richtung du fährst.';
+  if (f.t === 'sm' && sol > 0 && Math.abs(g * Math.cos(55.3 * Math.PI / 180) - sol) <= Math.max(.25, sol * .08)) return 'Am oberen oder unteren Rand gemessen? Seemeilen misst du nur am seitlichen Breitenrand (1 Minute = 1 sm).';
+  if (f.t === 'min' && sol > 0 && Math.abs(g * 60 - sol) <= Math.max(1, sol * .03)) return 'Das sind Stunden. Mal 60, dann hast du Minuten.';
+  if ((f.t === 'sm' || f.t === 'kn') && sol > 0 && Math.abs(g / 60 - sol) <= Math.max(.15, sol * .03)) return 'Minuten und Stunden verwechselt? Fahrt ist Seemeilen pro Stunde, also durch 60 teilen.';
+  if (f.t === 'sdeg' && sol && g === -sol) return 'Nur das Vorzeichen stimmt nicht: E heißt plus, W heißt minus.';
+  return null;
+}
 const solText = (f, v) => f.t === 'deg' ? fmtDeg(v) : f.t === 'sdeg' ? fmtSigned(v) : f.t === 'sm' ? comma(v) + ' sm' : f.t === 'kn' ? comma(v) + ' kn' : f.t === 'lat' ? fmtLat(v) : f.t === 'lon' ? fmtLon(v) : f.t === 'min' ? Math.round(v) + ' min' : f.t === 'm' ? comma(v) + ' m' : f.t === 'pos' ? fmtPos(v) : String(v);
 const EINHEIT = {deg: '°', sdeg: '°', sm: 'sm', kn: 'kn', min: 'min', m: 'm', lat: "' N", lon: "' E"};
 function fieldHTML(f) {
@@ -943,6 +955,8 @@ NAV.task = function (task, opts) {
   };
   if ($('#xhint')) $('#xhint').onclick = zeigeStufe;
   if (guided) zeigeStufe();
+  /* v5.64 Lückenaufgabe: die ersten Teile sind vorgegeben, du rechnest den letzten (Rückwärts-Ausblenden nach Renkl und Atkinson) */
+  if (opts.vorgabe) task.fields.slice(0, opts.vorgabe).forEach(f => { const i = root.querySelector(`[data-pane="antwort"] input[data-k="${f.k}"]`); if (!i || !VORGABE_T[f.t]) return; i.value = VORGABE_T[f.t](task.sol[f.k]); i.disabled = true; i.classList.add('nvorgabe'); i.closest('.nfield').insertAdjacentHTML('beforeend', '<span class="small muted nvhin">vorgegeben</span>'); });
   if (!exam) setTimeout(() => smillaSagt(guided ? 'gefuehrt' : 'start'), 600);
   $('#xcheck').onclick = () => {
     root.querySelectorAll('[data-pane="antwort"] [data-k]').forEach(i => { vals[i.dataset.k] = i.value; });
@@ -953,7 +967,7 @@ NAV.task = function (task, opts) {
     reiter('antwort'); root.classList.add('fbon');
     root.querySelectorAll('[data-pane="antwort"] input, [data-mc] button').forEach(i => { i.disabled = true; });
     $('#xbtns').remove(); $('#xmess').innerHTML = '';
-    $('#xfb').innerHTML = `<div class="fb" style="margin-top:8px">${task.fields.map(f => `<p style="margin:2px 0">${res[f.k].ok ? '<span class="nok">✓</span>' : '<span class="nno">✗</span>'} ${esc(f.l || 'Antwort')}: ${res[f.k].ok ? 'richtig' : `deine ${esc(String(res[f.k].got || '–'))}, richtig ${esc(solText(f, task.sol[f.k]))}`}</p>`).join('')}
+    $('#xfb').innerHTML = `<div class="fb" style="margin-top:8px">${task.fields.map(f => `<p style="margin:2px 0">${res[f.k].ok ? '<span class="nok">✓</span>' : '<span class="nno">✗</span>'} ${esc(f.l || 'Antwort')}: ${res[f.k].ok ? 'richtig' : `deine ${esc(String(res[f.k].got || '–'))}, richtig ${esc(solText(f, task.sol[f.k]))}`}</p>${res[f.k].ok ? '' : (dg => dg ? `<p class="small ndiag" style="margin:0 0 6px 18px">🔎 ${esc(dg)}</p>` : '')(diagnose(task, f, res[f.k].got))}`).join('')}
       <p class="small" style="margin:8px 0 0">${NAV.linkTerms(esc(task.expl))}</p>${task.soll ? '<p class="small muted" style="margin:4px 0 0">Die Lösung ist in der Karte gestrichelt eingezeichnet.</p>' : ''}<button class="btn wide lamp" id="xnext" style="margin-top:10px">${opts.nextLabel || 'Nächste Aufgabe'}</button></div>`;
     NAV.bindTerms($('#xfb'));
     if (ctl && task.soll) task.soll(ctl);
@@ -1136,10 +1150,13 @@ NAV.beispiel = function (id) {
   gameShell(l.t + ': Beispiel', `<div class="ntask">${task.scen ? `<div class="card small">${NAV.linkTerms(task.scen)}</div>` : ''}
     ${karte ? '<div id="nchartbox"></div>' : ''}
     ${steps.map((t, i) => `<div class="card small"><b>${steps.length > 1 ? 'Teil ' + (i + 1) + ': ' : 'Aufgabe: '}</b>${NAV.linkTerms(t.text)}<p style="margin:8px 0 0"><b>So wird's gemacht:</b></p>${weg(t)}</div>`).join('')}
+    ${l.warum ? `<div class="card nwarum"><b>🤔 Warum eigentlich?</b><p style="margin:4px 0 8px">${esc(l.warum.q)}</p><div class="menu">${l.warum.a.map((t, i) => ({t, i})).sort(() => Math.random() - .5).map(o => `<button class="menuitem" data-w="${o.i}">${esc(o.t)}</button>`).join('')}</div><p class="small" id="wfb" style="margin:6px 0 0"></p></div>` : ''}
     <button class="btn lamp wide" id="bok" style="margin:10px 0 6px">Jetzt du: geführte Übung</button><button class="btn ghost wide" id="bnoch" style="margin-bottom:24px">Noch ein Beispiel</button></div>`);
   NAV.bindTerms(app);
   if (karte) { const ctl = NAV.mountChart($('#nchartbox'), {center: karte.chart.center, width: karte.chart.width || 520, tools: ['hand'], tool: 'hand'}); if (karte.chart.hi) ctl.highlight(karte.chart.hi); steps.forEach(t => { if (t.soll) t.soll(ctl); }); }
   s.bsp = 1; save();
+  /* v5.64 Selbsterklärung: eine Warum-Frage zum Beispiel (wer erklärt, warum ein Schritt so ist, behält ihn besser) */
+  app.querySelectorAll('[data-w]').forEach(b => b.onclick = () => { const ok = b.dataset.w === '0'; AUD.sfx(ok ? 'richtig' : 'falsch', {vol: .4}); app.querySelectorAll('[data-w]').forEach(x => { x.disabled = true; if (x.dataset.w === '0') x.classList.add('ok'); }); if (!ok) b.classList.add('no'); $('#wfb').innerHTML = (ok ? '✅ Genau. ' : '❌ Nicht ganz. ') + NAV.linkTerms(esc(l.warum.e)); NAV.bindTerms($('#wfb')); s.warum = 1; save(); });
   $('#gback').onclick = () => NAV.lesson(id);
   $('#bok').onclick = () => NAV.exercise(id, 'guided');
   $('#bnoch').onclick = () => NAV.beispiel(id);
@@ -1160,15 +1177,61 @@ NAV.exercise = function (id, mode) {
       $('#gback').onclick = () => NAV.lesson(id); $('#again').onclick = () => NAV.exercise(id, mode); $('#tol').onclick = () => NAV.lesson(id);
     }});
   }
-  NAV.task(task, {title: l.t, mode, meta, back: () => NAV.lesson(id), next: () => NAV.exercise(id, mode),
+  const vorgabe = mode === 'guided' && task.fields.length > 1 ? Math.max(0, task.fields.length - 1 - (s.fade || 0)) : 0;
+  NAV.task(task, {title: l.t, mode, meta: () => meta() + (vorgabe ? ' · erster Teil vorgegeben' : ''), vorgabe, back: () => NAV.lesson(id), next: () => NAV.exercise(id, mode),
     onResult: (ok, res, t, usedHint) => {
-      if (ok) { s.n++; if (mode === 'guided') s.gef = 1; if (mode === 'free') s.frei = 1; }
+      if (ok) { s.n++; if (mode === 'guided') { s.gef = 1; s.fade = (s.fade || 0) + 1; } if (mode === 'free') s.frei = 1; }
       if (mode === 'master') {
         s.serie = ok ? s.serie + 1 : 0;
         if (ok && s.serie >= 3 && !s.sterne) { s.sterne = 1; setTimeout(() => { toast(`⭐ Stern für „${l.t}“!`); AUD.sfx('glocke', {vol: .5}); }, 400); LOG.add('navi', 'Stern ' + id); }
       }
       save();
     }});
+};
+/* ---------- v5.64 Sprungmarken: Geschichte, Happen und Aufgaben springen an die richtige Stelle der Schule ----------
+   NAV.oeffne('L3') Lektion · 'L3:erkl' | 'L3:bsp' | 'L3:guided' | 'L3:free' | 'L3:master' ein Schritt · 'werkzeug' Werkzeugkunde · 'pfad' Lernpfad
+   NAV.ueben(ziel, {n, zurueck, titel}) kurze Übungsrunde: ziel = Fertigkeit aus data/navi.json „fertigkeiten“ (z. B. 'kurs-messen'),
+   Aufgabentyp ('kursMessen'), Lektion ('L2') oder eine Liste davon; geführt, solange die Lektion noch keine freie Übung hat, sonst frei.
+   Ergebnis: Promise mit {richtig, von}; zurueck() wird am Ende aufgerufen. */
+const FERTIG = () => NV.fertigkeiten || [];
+NAV.fertigkeit = id => FERTIG().find(f => f.id === id) || null;
+function typenAus(ziel) {
+  return [].concat(ziel).flatMap(z => { const f = NAV.fertigkeit(z); if (f) return [{typ: f.typ, lek: f.lek, t: f.t}];
+    if (GEN[z]) { const l = (NV.lektionen || []).find(x => x.typen.includes(z)); return [{typ: z, lek: l ? l.id : null, t: l ? l.t : z}]; }
+    const l = lekOf(z); return l ? l.typen.map(typ => ({typ, lek: l.id, t: l.t})) : []; });
+}
+NAV.oeffne = function (ziel) {
+  const [id, schritt] = String(ziel).split(':');
+  if (id === 'werkzeug') return NAV.werkzeugkunde(); if (id === 'pfad') return NAV.path(); if (!lekOf(id)) return NAV.hub();
+  if (!schritt) return NAV.lesson(id); if (schritt === 'erkl') return NAV.erklaerung(id); if (schritt === 'bsp') return NAV.beispiel(id);
+  return NAV.exercise(id, schritt);
+};
+NAV.ueben = function (ziel, o = {}) {
+  const liste = typenAus(ziel).filter(x => GEN[x.typ]); if (!liste.length) { toast('Diese Übung gibt es noch nicht.'); return Promise.resolve({richtig: 0, von: 0}); }
+  const n = o.n || 3, erg = [];
+  return new Promise(fertig => {
+    const ende = () => { const richtig = erg.filter(Boolean).length; AUD.sfx(richtig >= Math.ceil(n * .66) ? 'richtig' : 'falsch', {vol: .4});
+      gameShell(o.titel || 'Übung', `<div class="card"><h2 style="margin:0">${richtig} von ${n} richtig</h2><p class="muted">${richtig === n ? 'Sitzt. Weiter in der Geschichte.' : richtig ? 'Fast. In der Navigationsschule kannst du das in Ruhe üben.' : 'Das üben wir noch: In der Navigationsschule gibt es die Erklärung und ein vorgerechnetes Beispiel.'}</p>
+        <div class="row"><button class="btn lamp" id="uweiter">${o.zurueck ? 'Zurück' : 'Fertig'}</button>${liste[0].lek ? `<button class="btn ghost" id="ulek">Zur Lektion</button>` : ''}</div></div>`);
+      const zu = () => { fertig({richtig, von: n}); if (o.zurueck) o.zurueck(); else NAV.hub(); };
+      $('#gback').onclick = zu; $('#uweiter').onclick = zu; const ul = $('#ulek'); if (ul) ul.onclick = () => { fertig({richtig, von: n}); NAV.lesson(liste[0].lek); };
+    };
+    const runde = i => {
+      if (i >= n) return ende();
+      const x = liste[i % liste.length], s = x.lek ? lekState(x.lek) : {}, mode = s.frei ? 'free' : 'guided', task = GEN[x.typ]();
+      if (task.steps) return NAV.multi(task, {title: o.titel || x.t, mode, back: () => ende(), done: pts => { erg.push(pts >= (task.need || 7)); runde(i + 1); }});
+      NAV.task(task, {title: o.titel || x.t, mode, meta: () => `${x.t} · Aufgabe ${i + 1} von ${n}`, back: () => ende(), next: () => runde(i + 1), nextLabel: i + 1 < n ? 'Nächste Aufgabe' : 'Fertig',
+        onResult: ok => { erg.push(ok); if (ok && x.lek) { s.n++; save(); } }});
+    };
+    runde(0);
+  });
+};
+/* Gemischt wiederholen: Aufgaben aus allen Lektionen, die du schon geübt hast, durcheinander (gemischtes Üben, Rohrer und Taylor) */
+NAV.mischen = function () {
+  const L = (NV.lektionen || []).filter(l => l.id !== 'L9' && l.id !== 'L11' && (lekState(l.id).gef || lekState(l.id).sterne));
+  if (L.length < 2) return toast('Erst zwei Lektionen bis zur geführten Übung, dann lohnt sich das Mischen.');
+  const typen = L.flatMap(l => l.typen).sort(() => Math.random() - .5);
+  return NAV.ueben(typen.slice(0, 5), {n: 5, titel: 'Gemischt wiederholen', zurueck: () => NAV.hub()});
 };
 /* Der Törn liegt seit Törn 2.0 (5.14) in toern.js. */
 NAV.hub = async function () {
@@ -1179,6 +1242,7 @@ NAV.hub = async function () {
     ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${wkZuerst(naechste) ? 'Werkzeugkunde' : esc(naechste.t)}</button>` : ''}
     <div class="menu">
       <button class="menuitem" data-n="path"><b>Lernpfad</b><span class="small muted">${stars} von ${L.length} Lektionen mit Stern · von den Grundlagen bis zur Gesamtaufgabe</span></button>
+      <button class="menuitem" data-n="mischen"><b>🔀 Gemischt wiederholen</b><span class="small muted">Fünf Aufgaben aus allem, was du schon geübt hast, durcheinander</span></button>
       <button class="menuitem" data-n="exam"><b>Prüfungsmodus</b><span class="small muted">9 Teilaufgaben wie in der Prüfung, ohne Hilfen, 25 Minuten</span></button>
       <button class="menuitem" data-n="fibel"><b>Navi-Fibel</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>
       <button class="menuitem" data-n="werkzeugkunde"><b>${n.werkzeug ? '✓ ' : ''}Werkzeugkunde</b><span class="small muted">Kreuz, Bleistift, Kursdreieck und Zirkel Schritt für Schritt ausprobieren</span></button>
