@@ -140,12 +140,12 @@
     Z().stil();
     const lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] || [], kurs = nl.length ? nl.filter(l => lek[l] && lek[l].sterne).length / nl.length : 0;
     const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.filter(k => knotenWert(k) >= .5).length;
-    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man})}</div>
+    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: 'hafen'})}</div>
       ${geschoben ? '' : '<span class="dpf l" id="dpl">‹</span><span class="dpf r" id="dpr">›</span>'}
       ${!courseBucket(S.course).examSet ? `<button class="dtermin" id="cdsave">🎯 Prüfungstermin eintragen</button>` : ''}
       <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><p class="dkinfo" id="dkinfo"></p></div>`;
-    const pa = $('#dpano'), sv = pa.querySelector('svg'), passe = () => { const h = pa.clientHeight; sv.style.height = h + 'px'; sv.style.width = (h * 1.5) + 'px'; };
-    passe(); pa.scrollLeft = panoX != null ? panoX : (pa.scrollWidth - pa.clientWidth) * .47;
+    const pa = $('#dpano'), sv = pa.querySelector('svg'), vb = sv.viewBox.baseVal, passe = () => { const h = pa.clientHeight; sv.style.height = h + 'px'; sv.style.width = (h * vb.width / vb.height) + 'px'; };
+    passe(); const tischX = 205 / vb.width; pa.scrollLeft = panoX != null ? panoX : Math.max(0, pa.scrollWidth * tischX - pa.clientWidth / 2);
     const weg = () => { if (geschoben) return; geschoben = true; ['#dpl', '#dpr'].forEach(s => { const e = $(s); if (e) { e.style.opacity = 0; setTimeout(() => e.remove(), 400); } }); };
     let x0 = pa.scrollLeft; pa.onscroll = () => { panoX = pa.scrollLeft; if (Math.abs(pa.scrollLeft - x0) > 12) weg(); };
     const pl = $('#dpl'), pr = $('#dpr'); if (pl) pl.onclick = () => { weg(); pa.scrollBy({left: -pa.clientWidth * .8, behavior: 'smooth'}); }; if (pr) pr.onclick = () => { weg(); pa.scrollBy({left: pa.clientWidth * .8, behavior: 'smooth'}); };
@@ -157,7 +157,7 @@
     $('#gear').onclick = () => { AUD.click(); returnTo = 'cabin'; renderSettings(); };
     const info = t => { const i = $('#dkinfo'); if (i) { i.textContent = t; clearTimeout(info.t); info.t = setTimeout(() => { i.textContent = ''; }, 2600); } };
     const TUN = {tel: () => harmsKommt(), knoten: () => knotenBrett(), navi: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }, buch: () => meinePruefungen(), praxis: () => maneuverGame(), karte: () => hoerreiseWahl(),
-      hocker: () => funkStart(), funk: () => info('Das Funkgerät kommt später, wenn du den Funkschein machst.'), tuer: () => setTab('deck'), bull1: () => setTab('deck'), bull2: () => setTab('deck'), bull3: () => setTab('deck')};
+      hocker: () => funkStart(), funk: () => info('Das Funkgerät kommt später, wenn du den Funkschein machst.'), tuer: () => setTab('deck'), bull1: () => setTab('deck'), bull2: () => setTab('deck'), bull3: () => setTab('deck'), bull4: () => setTab('deck'), motor: () => motorGame(), motor2: () => motorGame(), mtuer: () => motorGame()};
     pa.querySelectorAll('.szh[data-hot]').forEach(el => { const go = () => { AUD.unlock(); AUD.click(); (TUN[el.dataset.hot] || (() => {}))(); }; el.addEventListener('click', go); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }); });
     pa.querySelectorAll('.ch[data-ch]').forEach(g => g.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); if (CREW[g.dataset.ch]) charMenu(g.dataset.ch); }));
   }
@@ -187,7 +187,8 @@
   const CSS = `:root{--d-dunkel:#2f8f4e;--d-gelb:#e9c23f;--d-lamp:#e8a33c;--d-papier:#f3e7c9;--d-tinte:#2b2118}
   .dges{display:inline-block;border-radius:50%;overflow:hidden;background:#f2c68f;position:relative;flex:none;cursor:pointer}
   .dic{width:26px;height:26px;display:block}
-  .ddeck{position:relative;display:flex;flex-direction:column;margin:0 -16px -86px;padding-bottom:70px;min-height:100dvh;background:#0f2433;color:#f3e7c9}
+  .ddeck{position:relative;display:flex;flex-direction:column;margin:0 -16px -86px;padding-bottom:calc(78px + env(safe-area-inset-bottom,0px));min-height:100dvh;background:#0f2433;color:#f3e7c9}
+  .ddeck .dempf{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,calc(100% - 32px));margin:0;z-index:3;background:rgba(15,36,51,.82);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
   .ddeck .dszene{position:relative;flex:1 1 auto;min-height:46vh}.ddeck .dszene>svg{position:absolute;inset:0}.ddeck .dszene .dhot{fill:transparent;cursor:pointer}.ddeck .dszene .ch{cursor:pointer}
   .ddeck .dgear,.dkaj .dgear{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:10px;width:42px;height:42px;border-radius:12px;border:0;background:rgba(15,36,51,.7);color:#f3e7c9;display:grid;place-items:center;z-index:4}
   .ddeck .dgear svg,.dkaj .dgear svg{width:24px;height:24px}
