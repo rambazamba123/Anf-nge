@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.62';
+  window.__ver = '5.63';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4782,9 +4782,10 @@ const HARMS = {
 async function harmsKommt(via) {
   if ($('#harms')) return;
   closeSheet(); AUD.unlock(); VOX.stop('Harms'); LOG.add('prüfung', 'Harms gerufen' + (via ? ' über ' + via : ' per Telefon'));
-  const wait = ms => new Promise(r => setTimeout(r, ms)), ph = $('.scene.cabin .phone');
+  /* v5.63: auch das rote Telefon der neuen Kajüte: es wackelt sofort und der Hörer hebt ab, damit man sieht, dass es klappt */
+  const wait = ms => new Promise(r => setTimeout(r, ms)), ph = $('.scene.cabin .phone') || $('.panosvg [data-hot="tel"]');
   if (via) await VOX.say(cid(via), HARMS.holen[via], 'fixed');
-  else { if (ph) ph.classList.add('ab'); await AUD.tuut(2); if (ph) ph.classList.remove('ab'); }
+  else { if (ph) ph.classList.add('ab', 'klingelt'); toast('📞 Tuut … tuut … Harms geht ran.', 3500); await AUD.tuut(2); if (ph) ph.classList.remove('ab', 'klingelt'); }
   AUD.sfx('schritte', {vol: .4, dur: 1.2}); await wait(700); AUD.sfx('klopfen', {vol: .8}); await wait(700); AUD.sfx('tuerAuf', {vol: .5});
   const line = HARMS.kommt[Math.random() * HARMS.kommt.length | 0];
   const w = document.createElement('div'); w.id = 'harms'; w.className = 'harms';

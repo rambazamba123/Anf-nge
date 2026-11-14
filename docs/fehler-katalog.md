@@ -53,6 +53,7 @@
 | Tisch, Bullaugen und Knotenbrett der neuen Kajüte unsichtbar (v5.62 beim Bau) | Die Klasse `.hs` gab es in index.html schon (Hinweis-Schild, `position:absolute`, `transform`); sie traf die SVG-Gruppen | ⚙ Rauchtest prüft `[data-spot]` in der Kajüte; ✋ neue Klassen vorher mit `grep` in index.html suchen (jetzt `.szh`) |
 | Wasser hinter dem Boot fast unsichtbar, Wellen „blass“ (Leitfaden Fassung 4.1) | Die vorderste Welle war bis zum unteren Rand gefüllt und deckte alle Reihen dahinter ab | ✋ vordere Wellen nur als schmaler Streifen oder nach unten auslaufend (`auslauf` in `szenerie.js`), im Bild prüfen |
 | Wellen ruckelten, Regen fiel nicht (Leitfaden) | Muster wanderte nicht genau um seine eigene Länge; Regen sprang nur hin und her | ✋ Wiederholung genau P und Weg genau P; Regen als doppeltes Muster, das genau eine Bildhöhe rutscht |
+| Telefon in der neuen Kajüte „ging nicht“ (v5.62) | Harms kommt erst nach etwa sechs Sekunden Tuten; die Wackel-Anzeige suchte das alte Telefon `.scene.cabin .phone` | ✋ jede Aktion braucht sofort eine sichtbare Rückmeldung; Selektoren beim Umbau mit umstellen |
 | Neue Version kam am Handy nicht an | `__ver`/`VERSION` nicht erhöht | ✋ R4, beide gleich |
 
 ## Teil C: Animationen

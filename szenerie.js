@@ -159,7 +159,7 @@
     frage: `<svg viewBox="0 0 40 40" ${KL} stroke-width="2.6"><circle cx="20" cy="20" r="15"/><path d="M15 15 Q15 10 20 10 Q25 10 25 15 Q25 19 20 21 V24"/><circle cx="20" cy="29.5" r="1.4" fill="currentColor"/></svg>`,
     funk: `<svg viewBox="0 0 40 40" ${KL} stroke-width="2.4"><rect x="5" y="14" width="30" height="20" rx="4"/><circle cx="14" cy="24" r="5"/><path d="M23 20 H31 M23 25 H31 M23 30 H29 M28 14 L33 5"/></svg>`,
     ohr: `<svg viewBox="0 0 40 40" ${KL} stroke-width="2.6"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg>`,
-    reden: `<svg viewBox="0 0 48 40" ${KL} stroke-width="2.6"><path d="M9 16 Q9 6 18 6 Q27 6 27 16 Q27 22 21 26 Q18 28 18 32 Q18 36 13 36 Q9 36 9 32"/><path d="M14 17 Q14 12 18 12 Q22 12 22 16"/><path d="M33 12 Q36 20 33 28 M38 8 Q43 20 38 32"/></svg>`,
+    reden: `<svg viewBox="0 0 48 40" ${KL} stroke-width="2.4"><path d="M13 36 V30 C7 28 5 23 5 17 C5 9 11 4 18 4 C25 4 29 9 29 14 L32.5 20 L29.5 21 V25 C29.5 27 28 28 26 28 H22 V36"/><path d="M26.5 23.5 H30" stroke-width="2"/><circle cx="21" cy="13" r="1.3" fill="currentColor" stroke="none"/><path d="M35 15 Q38 20 35 25 M39.5 11 Q44.5 20 39.5 29" stroke-width="2.6"/></svg>`,
     harms: '<svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg>',
     play: '<svg viewBox="0 0 40 40"><path d="M14 9 L31 20 L14 31 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
     pause: '<svg viewBox="0 0 40 40"><rect x="11" y="9" width="6" height="22" rx="2" fill="currentColor"/><rect x="23" y="9" width="6" height="22" rx="2" fill="currentColor"/></svg>',
@@ -167,6 +167,7 @@
     zurueck: `<svg viewBox="0 0 40 40" ${KL} stroke-width="3"><path d="M24 8 L12 20 L24 32"/></svg>`};
 
   /* ---------- Kajüte: Panorama 300 × 200, links der Bug, rechts der Niedergang ---------- */
+  const szh = (id, spot, label, inner) => hs(id, spot, label, inner);
   const hs = (id, spot, label, inner) => `<g class="szh" data-hot="${id}"${spot ? ` data-spot="${spot}"` : ''} role="button" tabindex="0" aria-label="${label}">${inner}</g>`;
   const zub = inner => `<g class="zub">${inner}</g>`;
   function bullauge(st, cx, cy, r, id) { const s = STIM[st] || STIM.fahrt, alt = BX; BX = [cx - r, cx + r]; const kid = neuId('bu');
@@ -194,7 +195,7 @@
       <path d="${feld.map((q, i) => (i ? 'L' : 'M') + q.join(' ')).join(' ')}" stroke="#2b2118" stroke-width=".7" stroke-dasharray="1.5 1.5" fill="none"/>${feld.map((q, i) => `<circle cx="${q[0]}" cy="${q[1]}" r="2.3" fill="${i && i <= n ? '#f0b53e' : '#fbf6ea'}" stroke="#2b2118" stroke-width=".5"/>`).join('')}
       <g transform="translate(${bx} ${by - 1})"><path d="M0 -6 Q3.4 -1.5 2.8 4 H-2.8 Q-3.4 -1.5 0 -6Z" fill="#fbf6ea" stroke="#2b2118" stroke-width=".8"/><path d="M0 -4 V3" stroke="#c2473b" stroke-width="1"/></g></g>`); }
   const buecher = (x, y, w) => hs('buch', 'buecher', 'Bücher: alle Prüfungsfragen', `<rect x="${x}" y="${y + 9}" width="${w}" height="1.8" fill="#4a2e19"/>${['#a83a2a', '#2e6a8a', '#c79a2a', '#3a7a4a', '#7a4a8a', '#b5562f'].map((c, i) => `<rect x="${f2(x + 1 + i * (w - 2) / 6)}" y="${y + (i % 2) * 1.2}" width="${f2((w - 2) / 6 - .5)}" height="${f2(9 - (i % 2) * 1.2)}" fill="${c}" rx=".4"/>`).join('')}`);
-  const telefon = (x, y, s = 1) => hs('tel', 'telefon', 'Rotes Telefon: Harms prüft', `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 4 Q0 0 4 0 H12 Q16 0 16 4 L14 6 L12 4 H4 L2 6 Z" fill="#d0402f" stroke="#7a2318" stroke-width=".7"/><rect x="1.5" y="7" width="13" height="10" rx="2" fill="#d0402f" stroke="#7a2318" stroke-width=".7"/><circle cx="8" cy="12" r="3" fill="#f3e7c9" stroke="#7a2318" stroke-width=".5"/><path d="M15 13 q4 2 2 5 q-2 3 2 5" stroke="#7a2318" stroke-width=".8" fill="none"/></g>`);
+  const telefon = (x, y, s = 1) => hs('tel', 'telefon', 'Rotes Telefon: Harms prüft', `<g transform="translate(${x} ${y}) scale(${s})"><path class="hoerer" d="M0 4 Q0 0 4 0 H12 Q16 0 16 4 L14 6 L12 4 H4 L2 6 Z" fill="#d0402f" stroke="#7a2318" stroke-width=".7"/><rect x="1.5" y="7" width="13" height="10" rx="2" fill="#d0402f" stroke="#7a2318" stroke-width=".7"/><circle cx="8" cy="12" r="3" fill="#f3e7c9" stroke="#7a2318" stroke-width=".5"/><path d="M15 13 q4 2 2 5 q-2 3 2 5" stroke="#7a2318" stroke-width=".8" fill="none"/></g>`);
   const funk = (x, y) => hs('funk', 'funk', 'Funkgerät: kommt später mit dem Funkschein', `<g class="zub"><rect x="${x}" y="${y}" width="14" height="8" rx="1.5" fill="#3a2a1e" stroke="#1e140c" stroke-width=".5"/><circle cx="${x + 4}" cy="${y + 4}" r="2" fill="#5a4a3a"/><rect x="${x + 8}" y="${y + 2}" width="4" height="1" fill="#8a7a6a"/><rect x="${x + 8}" y="${y + 4.5}" width="4" height="1" fill="#8a7a6a"/><path d="M${x + 12} ${y} l2 -6" stroke="#5a4a3a" stroke-width=".7"/><g transform="translate(${x + 13} ${y + 7})"><circle r="2.6" fill="#2b1a0e" stroke="#c9a46a" stroke-width=".4"/><rect x="-1.2" y="-.4" width="2.4" height="1.9" rx=".3" fill="#c9a46a"/><path d="M-.8 -.4 v-.7 a.8 .8 0 0 1 1.6 0 v.7" stroke="#c9a46a" stroke-width=".4" fill="none"/></g></g>`);
   const hocker = (x, y, s = 1) => hs('hocker', 'hocker', 'Hocker: Folge starten', `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="10" ry="3.4" fill="none" stroke="#e8a33c" stroke-width="1.6" class="hockerglow"/><path d="M-6 2 L-8 16 M6 2 L8 16 M0 3 V16 M-7 10 H7" stroke="#5a3820" stroke-width="1.6"/><ellipse cx="0" cy="0" rx="8" ry="2.6" fill="#a8402e"/><ellipse cx="0" cy="-.6" rx="7" ry="1.8" fill="#c25a3e"/></g>`);
   /* Schiffsuhr aus Messing mit der Uhrzeit der App */
@@ -203,52 +204,103 @@
       ${Array.from({length: 12}, (_, i) => { const a = i * 30 * Math.PI / 180, l0 = i % 3 ? r * .82 : r * .7; return `<path d="M${f2(x + Math.cos(a) * l0)} ${f2(y + Math.sin(a) * l0)} L${f2(x + Math.cos(a) * r * .92)} ${f2(y + Math.sin(a) * r * .92)}" stroke="#2b2118" stroke-width="${i % 3 ? .3 : .55}"/>`; }).join('')}
       ${hand(wh, r * .5, .8, '#2b2118')}${hand(wm, r * .76, .5, '#2b2118')}<circle cx="${x}" cy="${y}" r=".6" fill="#c0392b"/><circle cx="${f2(x - r * .4)}" cy="${f2(y - r * .45)}" r="${f2(r * .25)}" fill="#fff" opacity=".25"/></g>`; }
 
+  /* Bootsküche links (Zubehör): Gaskocher in kardanischer Aufhängung mit Topf und Kessel, Spüle, Gashahn, Schapps mit Tellern und Bechern */
+  function kombuese(x) { return zub(`<g transform="translate(${x} 0)">
+    <rect x="2" y="56" width="58" height="26" rx="1.5" fill="#6a4529" stroke="#3b2414" stroke-width=".7"/><path d="M2 66 H60 M2 76 H60" stroke="#3b2414" stroke-width=".6"/>
+    ${[0, 1, 2, 3, 4, 5, 6].map(i => `<ellipse cx="${6 + i * 4.2}" cy="62" rx="1.8" ry="3.4" fill="#e9e2cf" stroke="#9a8a6a" stroke-width=".3"/>`).join('')}
+    ${[0, 1, 2].map(i => `<rect x="${36 + i * 7}" y="70" width="4.4" height="5.4" rx="1" fill="${['#c0392b', '#2e6a8a', '#e9c23f'][i]}"/><path d="M${40.4 + i * 7} 71.4 q1.6 0 1.6 1.6 q0 1.6 -1.6 1.6" stroke="${['#c0392b', '#2e6a8a', '#e9c23f'][i]}" stroke-width=".7" fill="none"/>`).join('')}
+    <path d="M4 86 H58" stroke="#c9a46a" stroke-width=".8"/>${[10, 20, 30].map((hx, i) => `<path d="M${hx} 86 v3" stroke="#c9a46a" stroke-width=".6"/>`).join('')}<path d="M8 89 h4 v2 a3 3 0 0 1 -6 0 v-2z" fill="#3a3a3a"/><path d="M18 89 l4 0 l0 12 l-4 0z" fill="#e9e2cf"/><path d="M28 89 q3 6 0 12" stroke="#8a6a3a" stroke-width="1.2" fill="none"/>
+    <rect x="0" y="112" width="62" height="3" rx="1" fill="#b98a5a"/><path d="M0 110.6 H62" stroke="#8a6440" stroke-width="1.1"/>
+    <rect x="1" y="115" width="60" height="35" fill="#5e3e26" stroke="#3b2414" stroke-width=".6"/><path d="M31 115 V150 M1 132 H61" stroke="#3b2414" stroke-width=".6"/>${[[26, 124], [36, 124], [26, 141], [36, 141]].map(([kx, ky]) => `<circle cx="${kx}" cy="${ky}" r=".9" fill="#c9a46a"/>`).join('')}
+    <!-- Gaskocher kardanisch: Bügel links und rechts, der Kocher pendelt -->
+    <path d="M5 112 V97 M29 112 V97" stroke="#8a8f94" stroke-width="1.4"/><g class="kardan" style="transform-origin:17px 97px"><rect x="6" y="98" width="22" height="9" rx="1.2" fill="#b7bdc2" stroke="#6b7177" stroke-width=".6"/><path d="M6 98 H28" stroke="#6b7177" stroke-width="1.2"/>
+      <rect x="8" y="91" width="9" height="7" rx="1" fill="#3a4a5a"/><path d="M7.5 91 H17.5" stroke="#26323d" stroke-width="1"/><path d="M12.5 91 v-1.4" stroke="#26323d" stroke-width="1"/><path class="dampf" d="M11 88 q-1.5 -3 0 -6 q1.5 -3 0 -6" stroke="#f3f6f8" stroke-width=".9" fill="none" opacity=".6"/><path class="dampf d2" d="M14 88 q1.5 -3 0 -6 q-1.5 -3 0 -6" stroke="#f3f6f8" stroke-width=".8" fill="none" opacity=".5"/>
+      <path d="M19 98 q0 -6 5 -6 q5 0 5 6 z" fill="#c9a24a" stroke="#8a6a2a" stroke-width=".5"/><path d="M29 94 q3 0 4 -3" stroke="#8a6a2a" stroke-width=".9" fill="none"/><path d="M21 92 q3 -3 6 0" stroke="#3a3a3a" stroke-width=".8" fill="none"/>
+      <circle cx="12" cy="104.5" r="1.1" fill="#3a3a3a"/><circle cx="22" cy="104.5" r="1.1" fill="#3a3a3a"/></g>
+    <g transform="translate(17 120)"><circle r="2.6" fill="#d0402f" stroke="#7a2318" stroke-width=".5"/><path d="M-2 0 H2" stroke="#fff" stroke-width=".9"/></g><path d="M17 122.6 V150" stroke="#c9a46a" stroke-width=".7" stroke-dasharray="1.4 1"/>
+    <!-- Spüle mit Hahn und Handpumpe -->
+    <ellipse cx="46" cy="112.5" rx="10" ry="1.8" fill="#6b7177"/><ellipse cx="46" cy="112.3" rx="8.4" ry="1.2" fill="#3e454c"/><path d="M52 112 V104 q0 -2 -2.4 -2 h-3" stroke="#a9b0b6" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M40 112 v-6 h2 v6" fill="#8a8f94"/><path d="M41 106 l3 -2" stroke="#8a8f94" stroke-width=".9"/>
+    <path d="M58 104 h3 v8 h-3z" fill="#e9e2cf" stroke="#9a8a6a" stroke-width=".3"/></g>`); }
+
+  /* Maschinenraum hinter der kleinen Tür unter dem Niedergang, im Schnitt: Benzintank, Batterien mit Hauptschalter, Bilgepumpe, Feuerlöscher, Werkzeug; darüber die Plicht, hinten am Spiegel hängt der Außenborder */
+  function maschinenraum(x, W, st) { const s = STIM[st] || STIM.fahrt;
+    return `<g class="mraum">
+    <rect x="${x}" y="0" width="${W - x}" height="58" fill="${s.him[1]}"/><path d="M${x} 52 H${W}" stroke="#e9e2cf" stroke-width="3.2"/><path d="M${x} 50 H${W - 6}" stroke="#7a4e2e" stroke-width="1.2"/>
+    <path d="M${W - 8} 22 V58" stroke="#e9e2cf" stroke-width="2.4"/><path d="M${x + 22} 52 l18 -10" stroke="#8a5a33" stroke-width="1.6" stroke-linecap="round"/>
+    <rect x="${x}" y="56" width="${W - x}" height="5" fill="#7a4e2e"/><path d="M${x} 56 H${W}" stroke="#a87249" stroke-width=".8"/>
+    <rect x="${x}" y="61" width="${W - x}" height="89" fill="#2b1d12"/>${Array.from({length: 9}, (_, i) => `<path d="M${x} ${66 + i * 10} H${W - 6}" stroke="#22170e" stroke-width=".5"/>`).join('')}
+    <path d="M${W - 6} 22 L${W - 1} 22 L${W - 4} 150 L${W - 8} 150 Z" fill="#e9e2cf" stroke="#9a8a6a" stroke-width=".5"/>
+    <circle cx="${x + 34}" cy="68" r="5" fill="#ffd27a" opacity=".22"/><circle cx="${x + 34}" cy="66" r="1.4" fill="#ffe2a0"/>
+    ${szh('motor', 'motor', 'Maschinenraum: Motorkunde', `
+      <rect x="${x + 6}" y="104" width="20" height="30" rx="2" fill="#b0402f" stroke="#6a1f17" stroke-width=".7"/><rect x="${x + 9}" y="108" width="14" height="6" rx="1" fill="#f3e7c9"/><path d="M${x + 12} 111 h${8}" stroke="#2b2118" stroke-width=".6"/><path d="M${x + 16} 104 V61" stroke="#2b2118" stroke-width="1.6"/><text x="${x + 16}" y="125" text-anchor="middle" font-size="4" fill="#f3e7c9" font-family="sans-serif">TANK</text>
+      <rect x="${x + 30}" y="122" width="12" height="12" rx="1" fill="#2f3b45"/><rect x="${x + 43}" y="122" width="12" height="12" rx="1" fill="#2f3b45"/><rect x="${x + 32}" y="120" width="3" height="2" fill="#c0392b"/><rect x="${x + 38}" y="120" width="3" height="2" fill="#2b2b2b"/><rect x="${x + 45}" y="120" width="3" height="2" fill="#c0392b"/><rect x="${x + 51}" y="120" width="3" height="2" fill="#2b2b2b"/>
+      <circle cx="${x + 42}" cy="104" r="4.2" fill="#2b2b2b"/><path d="M${x + 42} 101 v6" stroke="#d0402f" stroke-width="2" stroke-linecap="round"/>
+      <path d="M${x + 4} 146 h${W - x - 14}" stroke="#4d7b95" stroke-width="2.4" opacity=".7"/><rect x="${x + 48}" y="140" width="8" height="6" rx="2" fill="#5a6a72"/><path d="M${x + 52} 140 V112 q0 -4 4 -4 h${W - x - 64}" stroke="#7a8a92" stroke-width="1.1" fill="none"/>
+      <rect x="${x + 4}" y="74" width="5" height="16" rx="2.4" fill="#d0402f"/><path d="M${x + 5} 74 h3 v-2 h-3z" fill="#2b2b2b"/>
+      <path d="M${x + 22} 76 l6 10 M${x + 30} 74 v14 M${x + 34} 76 l-3 10" stroke="#a9b0b6" stroke-width="1.2" stroke-linecap="round"/><path d="M${x + 21} 74 h16" stroke="#8a6440" stroke-width="1.2"/>`)}
+    ${szh('motor2', 'motor', 'Außenborder am Spiegel: Motorkunde', `<g transform="translate(${W - 2} 30)"><rect x="-1" y="0" width="8" height="10" rx="2.4" fill="#3a3f44"/><path d="M1 10 h4 v26 h-4z" fill="#4a5056"/><path d="M0 36 h6 l1 4 h-8z" fill="#3a3f44"/><path d="M-2 6 h-5" stroke="#8a8f94" stroke-width="1.2"/></g>`)}
+    </g>`; }
+
+  /* Niedergang im Schnitt von der Seite: Wange schräg, Stufen als Bretter, Handlauf, oben die Luke mit Schiebeluk; darunter die kleine Tür zum Maschinenraum */
+  function niedergang(x, st) { const s = STIM[st] || STIM.fahrt;
+    const x0 = x, y0 = 150, x1 = x + 40, y1 = 16, stufen = 7;
+    const tritt = Array.from({length: stufen}, (_, i) => { const k = (i + 1) / (stufen + 1), sx = x0 + (x1 - x0) * k, sy = y0 + (y1 - y0) * k; return `<rect x="${f2(sx - 10)}" y="${f2(sy - 1.2)}" width="12" height="2.6" rx=".8" fill="#a87249" stroke="#5a3820" stroke-width=".5"/><path d="M${f2(sx - 10)} ${f2(sy + 1.6)} h12" stroke="#3b2414" stroke-width=".5" opacity=".6"/>`; }).join('');
+    return `<rect x="${x + 22}" y="0" width="30" height="16" fill="${s.him[1]}"/><path d="M${x + 22} 14 H${x + 54}" stroke="#2a1a0e" stroke-width="1.6"/><rect x="${x + 40}" y="8" width="16" height="4" rx="1" fill="#8a5a33"/><path d="M${x + 22} 16 L${x + 54} 16 L${x + 50} 150 L${x + 6} 150 Z" fill="#ffe9b8" opacity=".1"/>
+      ${szh('tuer', 'deck', 'Niedergang: an Deck', `<path d="M${x0} ${y0} L${x1} ${y1}" stroke="#5a3820" stroke-width="3.6" stroke-linecap="round"/>${tritt}<path d="M${x0 + 10} ${y0 - 34} L${x1 + 8} ${y1 + 8}" stroke="#c9a46a" stroke-width="1.2" stroke-linecap="round"/><path d="M${x0 + 10} ${y0 - 34} v8 M${x1 + 8} ${y1 + 8} v-6" stroke="#c9a46a" stroke-width="1"/>`)}
+      ${szh('mtuer', 'motor', 'Kleine Tür: Maschinenraum', `<rect x="${x + 16}" y="118" width="16" height="32" rx="2" fill="#5a3820" stroke="#2a1a0e" stroke-width=".8"/><rect x="${x + 18}" y="120" width="12" height="28" rx="1.4" fill="#2b1d12"/><path d="M${x + 18} 120 L${x + 26} 122 L${x + 26} 146 L${x + 18} 148 Z" fill="#6a4529" stroke="#2a1a0e" stroke-width=".5"/><circle cx="${x + 24.6}" cy="134" r=".8" fill="#c9a46a"/><path d="M${x + 22} 126 l3 -2" stroke="#ffd27a" stroke-width=".5" opacity=".6"/>`)}`; }
+
   function kajuete(o = {}) {
-    const W = 300, st = o.stim || 'fahrt', fig = o.fig || (() => ''), sp = x => `<path d="M${x} 16 Q${x - 3} 80 ${x + 2} 146" stroke="#3f2816" stroke-width="5" fill="none"/><path d="M${x + 1.5} 16 Q${x - 1.5} 80 ${x + 3.5} 146" stroke="#7a5233" stroke-width=".8" fill="none"/>`;
-    const holz = (y0, y1, c1, c2) => `<rect y="${y0}" width="${W}" height="${y1 - y0}" fill="${c1}"/>${Array.from({length: Math.ceil((y1 - y0) / 9)}, (_, i) => `<path d="M0 ${y0 + i * 9} H${W}" stroke="${c2}" stroke-width=".5"/>`).join('')}`;
+    const K = 64, W = 452, MR = 382, st = o.stim || 'fahrt', fig = o.fig || (() => ''), sp = x => `<path d="M${x} 16 Q${x - 3} 80 ${x + 2} 146" stroke="#3f2816" stroke-width="5" fill="none"/><path d="M${x + 1.5} 16 Q${x - 1.5} 80 ${x + 3.5} 146" stroke="#7a5233" stroke-width=".8" fill="none"/>`;
+    const holz = (y0, y1, c1, c2, w) => `<rect y="${y0}" width="${w}" height="${y1 - y0}" fill="${c1}"/>${Array.from({length: Math.ceil((y1 - y0) / 9)}, (_, i) => `<path d="M0 ${y0 + i * 9} H${w}" stroke="${c2}" stroke-width=".5"/>`).join('')}`;
     const route = (pk, fb) => `<path d="M${pk.map(p => p.join(' ')).join(' L')}" stroke="#3a3a3a" stroke-width=".6" stroke-dasharray="2 1.2" fill="none"/>${pk.map(([x, y], i) => fb[i] ? `<rect x="${x - 1.8}" y="${y - 1.1}" width="3.6" height="2.2" rx=".5" fill="${fb[i]}" stroke="#2b2118" stroke-width=".35"/>` : '').join('')}`;
     return `<svg class="panosvg" viewBox="0 0 ${W} 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Kajüte, nach links und rechts schieben">
     <defs><linearGradient id="pw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a4529"/><stop offset="1" stop-color="#4f331e"/></linearGradient>
       <radialGradient id="pschein" cx=".5" cy=".42" r=".5"><stop offset="0" stop-color="#ffd58a" stop-opacity=".55"/><stop offset=".45" stop-color="#f0b050" stop-opacity=".22"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient>
       <linearGradient id="pkegel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe3a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffe3a8" stop-opacity="0"/></linearGradient>
       <radialGradient id="plk2"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".22"/><stop offset="1" stop-color="#e8a33c" stop-opacity="0"/></radialGradient></defs>
-    <rect width="${W}" height="150" fill="url(#pw)"/>${Array.from({length: 15}, (_, i) => `<path d="M0 ${18 + i * 9} Q150 ${22 + i * 9} ${W} ${18 + i * 9}" stroke="#432a17" stroke-width=".5" fill="none"/>`).join('')}
-    <path d="M0 0 H${W} V14 Q150 24 0 14 Z" fill="#3a2414"/>${[20, 60, 100, 180, 220, 260].map(x => `<path d="M${x} 0 V${f2(16 + 4 * Math.sin(x / W * Math.PI))}" stroke="#2a1a0e" stroke-width="4"/>`).join('')}
-    <path d="M0 14 Q150 24 ${W} 14" stroke="#7a5233" stroke-width="1.2" fill="none"/>
+    <rect width="${MR}" height="150" fill="url(#pw)"/>${Array.from({length: 15}, (_, i) => `<path d="M0 ${18 + i * 9} Q${MR / 2} ${22 + i * 9} ${MR} ${18 + i * 9}" stroke="#432a17" stroke-width=".5" fill="none"/>`).join('')}
+    <path d="M0 0 H${MR} V14 Q${MR / 2} 24 0 14 Z" fill="#3a2414"/>${[20, 60, 100, 164, 224, 284, 344].map(x => `<path d="M${x} 0 V${f2(16 + 4 * Math.sin(x / MR * Math.PI))}" stroke="#2a1a0e" stroke-width="4"/>`).join('')}
+    <path d="M0 14 Q${MR / 2} 24 ${MR} 14" stroke="#7a5233" stroke-width="1.2" fill="none"/>
     <path d="M0 14 L18 20 L26 150 L0 150 Z" fill="#3f2816" opacity=".55"/><path d="M18 20 L26 150" stroke="#2a1a0e" stroke-width="1.4"/>
-    ${sp(62)}${sp(98)}${sp(200)}${sp(250)}
-    <circle cx="228" cy="80" r="50" fill="url(#plk2)"/>
-    ${bullauge(st, 42, 42, 9, 'bull1')}${bullauge(st, 122, 40, 11, 'bull2')}${bullauge(st, 172, 40, 11, 'bull3')}
-    ${zub(`<rect x="190" y="18" width="9" height="11" rx="1" fill="#3a2a1e" stroke="#c9a46a" stroke-width=".6"/><path d="M191 26 l3 -3 l2 2 l2 -2 v4 h-7z" fill="#7a9a8a"/>`)}
+    ${sp(62)}${sp(K + 62)}${sp(K + 98)}${sp(K + 200)}${sp(K + 250)}
+    ${bullauge(st, 42, 42, 9, 'bull1')}${bullauge(st, 94, 36, 8, 'bull4')}
     ${zub(`<path d="M26 122 L60 122 L60 150 L27 150 Z" fill="#5a3b22"/><path d="M27 116 Q40 112 60 114 L60 124 L27 124 Z" fill="#6f87a0"/><ellipse cx="36" cy="114" rx="7" ry="3" fill="#e9e2cf"/><path d="M44 116 L60 115 L60 124 L44 124 Z" fill="#a8463a"/>`)}
     ${buecher(28, 70, 30)}<path d="M27 81 H59" stroke="#7a5233" stroke-width=".8"/>
-    ${telefon(101, 62, .8)}
-    ${knotenbrett(72, 42, .5, o.knoten || 0)}
-    <path d="M100 116 Q140 110 196 116 L196 140 L100 140 Z" fill="#7a3a2e"/><path d="M100 116 Q140 110 196 116" stroke="#9a4a3a" stroke-width="2.5" fill="none"/>
-    ${zub(`<path d="M104 98 h20 v3 h-20z" fill="#5a3b22"/><rect x="106" y="90" width="4" height="8" fill="#a8603a"/><path d="M108 90 q-3 -4 -1 -7 M108 90 q3 -4 1 -8" stroke="#4a8a4a" stroke-width="1.1" fill="none"/><path d="M114 98 v-5 h4 v5" fill="#4a6a8a"/>`)}
-    ${uhr(147, 70, 5, o.stunde != null ? o.stunde : 10)}
-    <!-- gemütlicher Schein über dem Tisch, Lampe tiefer -->
-    <ellipse cx="141" cy="128" rx="92" ry="74" fill="url(#pschein)" class="schein"/>
-    <path d="M134 50 L148 50 L176 150 L106 150 Z" fill="url(#pkegel)"/>
-    <path d="M141 0 V40" stroke="#c9a46a" stroke-width=".7"/><path d="M134 49 L136.5 40 H145.5 L148 49 Z" fill="#c9a46a"/><path d="M134 49 H148" stroke="#8a6420" stroke-width=".8"/><ellipse cx="141" cy="50" rx="4" ry="2.6" fill="#ffe2a0" class="flacker"/>
-    ${fig('hinnerk', 116, 150, 50)}${fig('smilla', 166, 150, 46)}${fig('klabauter', 82, 41, 12)}
-    ${o.gast ? fig(o.gast, 284, 131, 46) : ''}
-    ${holz(150, 200, '#3a2619', '#2c1c11')}
-    ${zub(`<ellipse cx="140" cy="184" rx="40" ry="8.8" fill="#8a3b2e"/><ellipse cx="140" cy="184" rx="30" ry="6.4" fill="#c9a24a"/><ellipse cx="140" cy="184" rx="20" ry="4" fill="#8a3b2e"/>`)}
-    ${hs('karte', 'tisch', 'Kartentisch: Reisekarte', `<ellipse cx="141" cy="151" rx="36" ry="11.5" fill="#4a2e19"/><ellipse cx="141" cy="148.5" rx="36" ry="11" fill="#8a5a36"/><ellipse cx="141" cy="148" rx="33" ry="9.6" fill="none" stroke="#a87249" stroke-width=".6"/><path d="M138 152 V174" stroke="#4a2e19" stroke-width="4.5"/><path d="M128 176 H150" stroke="#4a2e19" stroke-width="2.5"/>
-      <!-- Karte liegt flach auf dem Tisch, leicht gedreht, mit Schatten, Kompass und Bleistift -->
-      <path d="M118.5 145.6 L161 143.4 L166.5 152.2 L114 154.4 Z" fill="#000" opacity=".18"/>
-      <path d="M118 144.4 L161 142.2 L166 151 L113.5 153.2 Z" fill="#efe2bf" stroke="#8a6a3e" stroke-width=".45"/><path d="M128 143.9 C132 146 131 149 125 152.8 L113.5 153.2 L118 144.4 Z" fill="#cfe0c0" opacity=".85"/><path d="M161 142.2 L166 151 L156 151.4 C154 148 158 145 161 142.2 Z" fill="#cfe0c0" opacity=".85"/>
-      ${route([[121, 150.6], [131, 148.6], [140, 149.6], [149, 146.4], [157, 145.4]], ['#2f8f4e', '#2f8f4e', '#8fcf6a', '#e9c23f', null])}<path d="M156 144.2 l2 1.4 m0 -1.4 l-2 1.4" stroke="#c0392b" stroke-width=".7"/>
-      <g transform="translate(160 149.5) scale(1 .45)"><circle r="2.6" fill="none" stroke="#3d5f8f" stroke-width=".45"/><path d="M0 -3 L.7 0 L0 3 L-.7 0Z" fill="#3d5f8f"/></g><path d="M147 152.2 L158 150.6" stroke="#e8b84a" stroke-width="1" stroke-linecap="round"/><path d="M158 150.6 l1 -.15" stroke="#2b2118" stroke-width="1"/>`)}
-    ${zub(`<path d="M119 141 h5 v-4 q0 -2 -2.5 -2 q-2.5 0 -2.5 2 z" fill="#4a6a8a"/><path d="M124 138 q2 0 2 2" stroke="#4a6a8a" stroke-width=".7" fill="none"/>`)}
-    ${fig('backbord', 100, 192, 13)}${hocker(141, 178, 1.1)}
-    ${wandkarte(203, 54, .58, o.kurs || 0)}${manbrett(212, 21, .5, o.manoever || 0)}
-    <path d="M204 116 H250 V122 H204 Z" fill="#7a4e2e"/><path d="M206 122 V150 M248 122 V150" stroke="#4a2e19" stroke-width="2.5"/>${zub(`<rect x="210" y="111" width="14" height="5" fill="#2b3a4a"/><path d="M226 116 l8 -3 l8 3" stroke="#c9a46a" stroke-width=".7" fill="none"/>`)}
-    ${funk(214, 98)}
-    <g class="szh" data-hot="tuer" data-spot="deck" role="button" tabindex="0" aria-label="Niedergang: an Deck"><path d="M262 0 H${W} V14 H262 Z" fill="${(STIM[st] || STIM.fahrt).him[1]}"/><path d="M262 14 H${W}" stroke="#2a1a0e" stroke-width="1.4"/><path d="M262 14 L300 14 L300 150 L280 150 Z" fill="#ffe9b8" opacity=".12"/>
-      ${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${264 + i * 4} ${30 + i * 20} H${W}" stroke="#9a6a3e" stroke-width="3.4"/><path d="M${264 + i * 4} ${31.8 + i * 20} H${W}" stroke="#4a2e19" stroke-width=".6"/>`).join('')}<path d="M262 14 L282 150" stroke="#4a2e19" stroke-width="2.4"/><path d="M296 14 V150" stroke="#4a2e19" stroke-width="2.4"/></g>
-    ${zub(`<path d="M248 44 q-3 20 2 40 h6 q4 -20 1 -40 z" fill="#d9a52a"/><path d="M250 44 h7" stroke="#8a6420" stroke-width="1.2"/>`)}
+    ${kombuese(K - 0)}
+    <g transform="translate(${K} 0)">
+      <circle cx="228" cy="80" r="50" fill="url(#plk2)"/>
+      ${bullauge(st, 122, 40, 11, 'bull2')}${bullauge(st, 172, 40, 11, 'bull3')}
+      ${zub(`<rect x="190" y="18" width="9" height="11" rx="1" fill="#3a2a1e" stroke="#c9a46a" stroke-width=".6"/><path d="M191 26 l3 -3 l2 2 l2 -2 v4 h-7z" fill="#7a9a8a"/>`)}
+      ${telefon(101, 62, .8)}
+      ${knotenbrett(72, 42, .5, o.knoten || 0)}
+      <path d="M100 116 Q140 110 196 116 L196 140 L100 140 Z" fill="#7a3a2e"/><path d="M100 116 Q140 110 196 116" stroke="#9a4a3a" stroke-width="2.5" fill="none"/>
+      ${zub(`<path d="M104 98 h20 v3 h-20z" fill="#5a3b22"/><rect x="106" y="90" width="4" height="8" fill="#a8603a"/><path d="M108 90 q-3 -4 -1 -7 M108 90 q3 -4 1 -8" stroke="#4a8a4a" stroke-width="1.1" fill="none"/><path d="M114 98 v-5 h4 v5" fill="#4a6a8a"/>`)}
+      ${uhr(147, 70, 5, o.stunde != null ? o.stunde : 10)}
+      <ellipse cx="141" cy="128" rx="92" ry="74" fill="url(#pschein)" class="schein"/>
+      <path d="M134 50 L148 50 L176 150 L106 150 Z" fill="url(#pkegel)"/>
+      <path d="M141 0 V40" stroke="#c9a46a" stroke-width=".7"/><path d="M134 49 L136.5 40 H145.5 L148 49 Z" fill="#c9a46a"/><path d="M134 49 H148" stroke="#8a6420" stroke-width=".8"/><ellipse cx="141" cy="50" rx="4" ry="2.6" fill="#ffe2a0" class="flacker"/>
+      ${fig('hinnerk', 116, 150, 50)}${fig('smilla', 166, 150, 46)}${fig('klabauter', 82, 41, 12)}
+    </g>
+    ${niedergang(K + 258, st)}
+    ${maschinenraum(MR, W, st)}
+    <path d="M${MR} 14 V150" stroke="#2a1a0e" stroke-width="3"/><path d="M${MR + 1.6} 61 V150" stroke="#5a3820" stroke-width="1"/>
+    ${o.gast ? fig(o.gast, K + 264, 117, 46) : ''}
+    ${holz(150, 200, '#3a2619', '#2c1c11', W)}
+    <path d="M${MR} 150 V200" stroke="#22170e" stroke-width="2"/>
+    <g transform="translate(${K} 0)">
+      ${zub(`<ellipse cx="140" cy="184" rx="40" ry="8.8" fill="#8a3b2e"/><ellipse cx="140" cy="184" rx="30" ry="6.4" fill="#c9a24a"/><ellipse cx="140" cy="184" rx="20" ry="4" fill="#8a3b2e"/>`)}
+      ${szh('karte', 'tisch', 'Kartentisch: Reisekarte', `<ellipse cx="141" cy="151" rx="36" ry="11.5" fill="#4a2e19"/><ellipse cx="141" cy="148.5" rx="36" ry="11" fill="#8a5a36"/><ellipse cx="141" cy="148" rx="33" ry="9.6" fill="none" stroke="#a87249" stroke-width=".6"/><path d="M138 152 V174" stroke="#4a2e19" stroke-width="4.5"/><path d="M128 176 H150" stroke="#4a2e19" stroke-width="2.5"/>
+        <path d="M118.5 145.6 L161 143.4 L166.5 152.2 L114 154.4 Z" fill="#000" opacity=".18"/>
+        <path d="M118 144.4 L161 142.2 L166 151 L113.5 153.2 Z" fill="#efe2bf" stroke="#8a6a3e" stroke-width=".45"/><path d="M128 143.9 C132 146 131 149 125 152.8 L113.5 153.2 L118 144.4 Z" fill="#cfe0c0" opacity=".85"/><path d="M161 142.2 L166 151 L156 151.4 C154 148 158 145 161 142.2 Z" fill="#cfe0c0" opacity=".85"/>
+        ${route([[121, 150.6], [131, 148.6], [140, 149.6], [149, 146.4], [157, 145.4]], ['#2f8f4e', '#2f8f4e', '#8fcf6a', '#e9c23f', null])}<path d="M156 144.2 l2 1.4 m0 -1.4 l-2 1.4" stroke="#c0392b" stroke-width=".7"/>
+        <g transform="translate(160 149.5) scale(1 .45)"><circle r="2.6" fill="none" stroke="#3d5f8f" stroke-width=".45"/><path d="M0 -3 L.7 0 L0 3 L-.7 0Z" fill="#3d5f8f"/></g><path d="M147 152.2 L158 150.6" stroke="#e8b84a" stroke-width="1" stroke-linecap="round"/><path d="M158 150.6 l1 -.15" stroke="#2b2118" stroke-width="1"/>`)}
+      ${zub(`<path d="M119 141 h5 v-4 q0 -2 -2.5 -2 q-2.5 0 -2.5 2 z" fill="#4a6a8a"/><path d="M124 138 q2 0 2 2" stroke="#4a6a8a" stroke-width=".7" fill="none"/>`)}
+      ${fig('backbord', 100, 192, 13)}${hocker(141, 178, 1.1)}
+      ${wandkarte(203, 54, .58, o.kurs || 0)}${manbrett(212, 21, .5, o.manoever || 0)}
+      <path d="M204 116 H250 V122 H204 Z" fill="#7a4e2e"/><path d="M206 122 V150 M248 122 V150" stroke="#4a2e19" stroke-width="2.5"/>${zub(`<rect x="210" y="111" width="14" height="5" fill="#2b3a4a"/><path d="M226 116 l8 -3 l8 3" stroke="#c9a46a" stroke-width=".7" fill="none"/>`)}
+      ${funk(214, 98)}
+      ${zub(`<path d="M244 44 q-3 20 2 40 h6 q4 -20 1 -40 z" fill="#d9a52a"/><path d="M246 44 h7" stroke="#8a6420" stroke-width="1.2"/>`)}
+    </g>
     </svg>`; }
 
   const CSS = `.szenerie{width:100%;height:100%;display:block}
@@ -279,6 +331,10 @@
   .panosvg .flacker{animation:szflacker 4s ease-in-out infinite}@keyframes szflacker{40%{opacity:.85}45%{opacity:1}70%{opacity:.9}}
   .panosvg .schein{animation:szschein 5s ease-in-out infinite}@keyframes szschein{50%{opacity:.85}}
   .panosvg .ch .mouth .o{opacity:0}
+  .panosvg .kardan{transform-box:view-box;animation:szkardan 5s ease-in-out infinite}@keyframes szkardan{25%{transform:rotate(2deg)}75%{transform:rotate(-2deg)}}
+  .panosvg .dampf{animation:szdampf 3s ease-in-out infinite}.panosvg .dampf.d2{animation-delay:1.4s}@keyframes szdampf{0%{opacity:0;transform:translateY(2px)}40%{opacity:.6}100%{opacity:0;transform:translateY(-5px)}}
+  .panosvg [data-hot="tel"].klingelt{animation:szkling .12s linear infinite}@keyframes szkling{50%{transform:translateX(.6px)}}
+  .panosvg [data-hot="tel"].ab .hoerer{transform:translate(6px,-6px) rotate(-18deg)}
   @media (prefers-reduced-motion:reduce){.szenerie *,.panosvg *,.miniharms *{animation:none!important}}`;
   function stil() { if (document.getElementById('szenerie-css')) return; const st = document.createElement('style'); st.id = 'szenerie-css'; st.textContent = CSS; document.head.appendChild(st); }
 
