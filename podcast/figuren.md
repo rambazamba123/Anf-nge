@@ -347,7 +347,7 @@ Die Klassiker jeder Figur stehen in `podcast/sprueche.json`: je Figur und Lage (
 - Im Skript: `HINNERK: [[SPRUCH: hi-lob-02]] Geht doch.` Das Werkzeug zählt mit und läuft vor jedem Commit.
 
 <!-- SPRUECHE:START -->
-Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (547 Sprüche in 70 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
+Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (555 Sprüche in 71 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
 
 **Erkennungssätze**
 
@@ -375,7 +375,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 
 | Figur | Lage | Varianten | möglich | Bedarf | benutzt |
 |---|---|---|---|---|---|
-| Käpt'n Hinnerk | Grüßen | 14 | 42 | 30 | 2 |
+| Käpt'n Hinnerk | Grüßen | 15 | 45 | 30 | 3 |
 | Käpt'n Hinnerk | Zustimmen | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Ablehnen | 12 | 36 | 24 | 0 |
 | Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 1 |
@@ -386,8 +386,9 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 1 |
 | Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 1 |
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
-| Käpt'n Hinnerk | Wetter nach Gefühl | 8 | 24 | 15 | 0 |
+| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 1 |
+| Käpt'n Hinnerk | Wetter nach Gefühl | 9 | 27 | 15 | 1 |
+| Käpt'n Hinnerk | Spuren des Plotters (HR53) | 6 | 7 (max) | 6 | 1 |
 | Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 2 |
 | Käpt'n Hinnerk | Hafenkino-Reporter | 6 | 4 (max) | – | 1 |
 | Käpt'n Hinnerk | Warum heißt das Boot Frieda? (jedes Mal anders, die Wahrheit kommt nie) | 7 | 7 (max) | – | 0 |

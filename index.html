@@ -4627,7 +4627,7 @@ function renderBoat() {
   app.innerHTML = `${boatScene(S.crew).replace('class="scene boat"', 'class="scene boat ov"').replace(/<div class="panohint"[^>]*>[^<]*<\/div>/, '')}
     <div class="homecard">
       <div class="homehead"><h1>${S.profile.name ? 'Moin, ' + esc(S.profile.name) + '!' : 'Moin!'}</h1><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)} · ${left === 0 ? 'heute Prüfung' : left + ' Tage'}</button></div>
-      <button class="btn wide reiseknopf" id="toreise"><small>🎧 Hörreise mit der Crew</small><b>Folge ${hoerreiseNaechste() + 1}: ${esc(HOERREISE[hoerreiseNaechste()][1])}</b></button>
+      <button class="btn wide reiseknopf" id="toreise"><small>🎧 Hörreise mit der Crew</small><b>Folge ${hoerreiseNr(HOERREISE[hoerreiseNaechste()][0])}: ${esc(HOERREISE[hoerreiseNaechste()][1])}</b></button>
       ${next ? `<button class="btn wide lamp kursheute" id="kursheute"><small>⛵ Kurs für heute</small><b>${esc(next.label)}</b></button>` : extraWahlHtml()}
       <div class="pathmini" aria-label="Heute ${done} von ${path.length} Etappen geschafft">${path.map(s => `<span class="dot ${s.done ? 'done' : ''}" title="${esc(s.label)}"></span>`).join('')}<span class="small muted">${done === path.length ? 'Tagesziel geschafft' : `Heute ${done} von ${path.length} Happen`}</span></div>
       <button class="linkbtn phasezeile" id="phase">Phase ${ph.nr} von 3: <b>${esc(ph.name)}</b> · ${esc(ph.info)}</button>
@@ -5079,7 +5079,7 @@ function renderFrei() {
       ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
       ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
       ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
-    ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${i + 1}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
+    ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${hoerreiseNr(id)}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
       ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
       ['🎞️', 'Animationen', 'Alle Animationen zum Testen und Kommentieren: Boot, Manöver, Lichter, Tonnen, Wetter, Sicherheit', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
       ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }]]],
@@ -5147,13 +5147,15 @@ function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.s
 function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
 /* Hörreise (docs/reise.md, E25): die neuen Folgen; alles Ältere liegt gesammelt unter „Alte Folgen und Tests“ (Nutzer, 07.11.2026) */
 /* [id, Titel, Untertitel, Wetter der Folge] – das Wetter in der App richtet sich nach der nächsten Folge (weatherToday) */
-const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen', 'hafen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
+const HOERREISE = [['reise-0-1', 'Anheuern', 'Folge 0: der Abend vor der Reise · etwa 4 Minuten', 'schoen'], ['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen', 'hafen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
 /* Gast der nächsten Folge (fünftes Feld in HOERREISE): sitzt vorher schon in der Kajüte (GU5), sonst niemand */
+/* Nummer zum Anzeigen: reise-0-1 → 0, reise-1-2 → 1-2 */
+function hoerreiseNr(id) { const n = String(id).replace(/^reise-/, ''); return n === '0-1' ? '0' : n; }
 function hoerreiseGast() { const e = HOERREISE[hoerreiseNaechste()]; return (e && e[4]) || null; }
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
-function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${i + 1} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
+function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${hoerreiseNr(id)} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
 function hoerreiseWahl() {
   const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });

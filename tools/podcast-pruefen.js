@@ -334,7 +334,7 @@ for (const datei of dateien) {
   /* HR46: Die Geschichte (bis Harms anruft, ohne Vertiefungen) soll so lang sein wie in 1-1 bis 1-3 nach der Kürzung; das Werkzeug zeigt es nur an */
   if (REISE && H46.geschichte) { const gm = H46.geschichte / (cfg.sprechtempo_zeichen_pro_sekunde || 13.9) / 60; console.log(`${D}: Geschichte bis zum Anruf etwa ${gm.toFixed(1)} Minuten Sprechtext`);
     /* Maßstab: 1-1 bis 1-3 nach der Kürzung vom 09.11.2026 (5,4 bis 6,9 Minuten) */
-    if (/^\d-\d+$/.test(String(kopf.folge || '').trim()) && (gm < 4.5 || gm > 8)) W(D, `Geschichte etwa ${gm.toFixed(1)} Minuten Sprechtext, die Folgen 1-1 bis 1-3 liegen bei 5,4 bis 6,9: Dichte nach HR46 prüfen (Fakten gestapelt? Szene zu lang oder zu knapp?)`); }
+    if (/^[1-9]-\d+$/.test(String(kopf.folge || '').trim()) && (gm < 4.5 || gm > 8)) W(D, `Geschichte etwa ${gm.toFixed(1)} Minuten Sprechtext, die Folgen 1-1 bis 1-3 liegen bei 5,4 bis 6,9: Dichte nach HR46 prüfen (Fakten gestapelt? Szene zu lang oder zu knapp?)`); }
   console.log(`${D}: ${beitraege.length} Beiträge, ${zeichen} Zeichen, etwa ${min.toFixed(1)} Minuten, mindestens ${anfragen} Anfragen, ${fragen.size} Katalogfragen${lek ? `, ${L.schritte} Abschnitte, ${L.denk} Denkpausen, ${L.wahl} Antwortknöpfe, ${L.verts.size} Vertiefungen (${vertZeichen} Zeichen), ${L.merk} Merkhilfen, ${L.karten.size} Hörkarten (${kartenZeichen} Zeichen)` : ''}`);
 }
 if (dateien.length) console.log(`Abdeckung SBF See: ${[...alleFragen].filter(x => x.startsWith('sbf:')).length} von ${KAT.sbf.size} Fragen`);

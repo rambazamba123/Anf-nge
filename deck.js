@@ -176,7 +176,7 @@
     const zeichnen = () => {
       const reden = !!S.cfg.zuruf, harms = k.harms !== false;
       app.innerHTML = `<div class="dseite dfunk"><div class="dkopf"><button class="dzur" id="dzur" aria-label="Zurück in die Kajüte">${ic('zurueck')}</button></div>
-        <div class="dftitel"><small>Folge ${Math.max(0, i) + 1}</small><b>${esc(titel)}</b></div>
+        <div class="dftitel"><small>Folge ${typeof hoerreiseNr === "function" ? hoerreiseNr(fid) : Math.max(0, i) + 1}</small><b>${esc(titel)}</b></div>
         <div class="dkipp"><button data-k="reden" aria-pressed="${reden}" aria-label="hören und laut antworten">${ic('reden', '')}</button><button data-k="ohr" aria-pressed="${!reden}" aria-label="nur hören">${ic('ohr', '')}</button></div>
         <button class="dharms" id="dharms" aria-pressed="${harms}" aria-label="Harms am Ende: ${harms ? 'an' : 'aus'}">${ic('harms', '')}</button>
         <button class="dplay" id="dplay" aria-label="Folge starten">${ic('play', '')}</button>

@@ -62,7 +62,8 @@
     {"id": "hi-gruss-11", "t": "Da kommt ja wer."},
     {"id": "hi-gruss-12", "t": "Moin. Hast du gut gelegen? Ich nich. Die Koje is zu kurz. Seit vierzig Jahren."},
     {"id": "hi-gruss-13", "t": "Moin. Erst Kaffee, dann reden."},
-    {"id": "hi-gruss-14", "t": "Ah, Besuch. Wisch dir die Füße ab, dat is 'n Schiff und kein Kuhstall."}
+    {"id": "hi-gruss-14", "t": "Ah, Besuch. Wisch dir die Füße ab, dat is 'n Schiff und kein Kuhstall."},
+    {"id": "hi-gruss-15", "t": "Mooooooooin!", "tage": [1], "hinweis": "der lange Moin, nur am ersten Morgen (HR55)"}
    ]
   },
   {
@@ -290,7 +291,23 @@
     {"id": "hi-wetter-05", "t": "Dat bleibt so. Heute Nachmittag nich mehr."},
     {"id": "hi-wetter-06", "t": "Die Möwen sitzen am Strand. Dat wird nix."},
     {"id": "hi-wetter-07", "t": "Wenn Backbord ins Vorschiff kriecht, kommt Dreck."},
-    {"id": "hi-wetter-08", "t": "Schönes Wetter. Viel zu schön. Dat trau ich nich."}
+    {"id": "hi-wetter-08", "t": "Schönes Wetter. Viel zu schön. Dat trau ich nich."},
+    {"id": "hi-wetter-09", "t": "Fällt 'n büschen. Nachmittags kommt Wind."}
+   ]
+  },
+  {
+   "wer": "hinnerk",
+   "lage": "plotter",
+   "name": "Spuren des Plotters (HR53)",
+   "bedarf": 6,
+   "max": 7,
+   "s": [
+    {"id": "hi-plotter-01", "t": "Bauch.", "hinweis": "Antwort auf: Woher weißt du das so genau?"},
+    {"id": "hi-plotter-02", "t": "Batterie. Nix weiter."},
+    {"id": "hi-plotter-03", "t": "Dat weiß ich so. Auf die Zehntelmeile."},
+    {"id": "hi-plotter-04", "t": "Wecker. Hab ich mir gestellt."},
+    {"id": "hi-plotter-05", "t": "Lass mal. Ich guck morgens. Dat reicht."},
+    {"id": "hi-plotter-06", "t": "Dat piept nich. Dat bist du."}
    ]
   },
   {

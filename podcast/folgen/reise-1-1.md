@@ -3,12 +3,15 @@ folge: 1-1
 titel: Erster Morgen
 status: entwurf
 ---
-# Hörreise, Tag 1, Folge 1-1 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, noch nicht vertont.
+# Hörreise, Tag 1, Folge 1-1 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (docs/folgen-tag1-neu.md, HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-1.md  ·  node tools/sprueche-pruefen.js
 #
 # FOLGENBLATT
-# Kopf: 1-1 „Erster Morgen“ (Titel noch offen) · Tag 1 · Kuttershaven, Cockpit der Frieda am Steg · früher Morgen, Sonne, wenig Wind · Revier Hafen (hörbar: Möwen, Wellen am Steg)
-# Vorher: Folge 0 „Anheuern“ am Abend davor (kommt später). Du kennst Hinnerk, Smilla, Klabauter und Backbord schon; niemand stellt sich vor.
+# Kopf: 1-1 „Erster Morgen“ · Tag 1 · Kuttershaven, Cockpit der Frieda am Steg · früher Morgen, klar, kaum Wind; das Barometer fällt leicht (Wetterbogen Tag 1, HR55) · Revier Hafen (hörbar: Möwen, Wellen am Steg)
+# Vorher: Folge 0 „Anheuern“ am Abend davor (reise-0-1). Du kennst Hinnerk, Smilla, Klabauter und Backbord schon; niemand stellt sich vor. Harms kennst du nur vom Erzählen.
+# Karte (HR51): Kuttershaven → aus dem Hafen nach Nordosten → nach Westen in die Brede → die Brede rauf bis Schilfwinkel, sieben Komma zwei Seemeilen (tools/karte-pruefen.js --tabelle). Bei fünf Knoten knapp anderthalb Stunden: Darum „Katzensprung“, unterwegs wird geübt.
+# Navigation nebenbei (T8): Smilla zeigt das Tagesziel auf der Karte, Knoten = Seemeilen in der Stunde, Fahrzeit grob. Keine Frage dazu.
+# Hinnerks Geheimnis (HR53): erste Spur „Bauch.“ (er weiß die Strecke auf die Zehntelmeile). „Vor Dunkelwerden. Immer.“ bleibt.
 # Blöcke: G1.1 ▸ „Wer führt das Boot?“ mit den Fragen 1, 2, 59. Ausführlich: Frage 2 (Schwerpunkt im Kursplan). Kurz: 1 und 59.
 # Überblick: U1 „Wer an Bord das Sagen hat und welche Papiere man braucht“ (HR4, HR5), aus dem Hafenkino heraus, mit Merksatz am Ende.
 # Muster: lage (Lage zuerst, HR6). Ein Charterboot legt chaotisch an; alles, was die Crew erklärt, kommt aus dem, was drüben schiefgeht.
@@ -22,7 +25,7 @@ status: entwurf
 # Bilder: keine (die drei Fragen haben keine Katalogbilder). Mögliche Animation später: das Charterboot beim Anlegen.
 # Fragerunde: Rahmen „Harms ruft an“ (HR18); bei Frage 2 liest Harms den gemeinsamen Teil der Antworten nur einmal (HR27): Musik und Atmo aus, nur die Glocke, trocken und zügig. Neue Fragen 1, 2, 59 mit allen vier amtlichen
 #   Antworten, Alfa bis Delta (HR17). Fällige ältere: keine (erste Folge). Die richtige Antwort steht jedes Mal an einer anderen Stelle.
-# Haken: Smilla: „Warum eigentlich immer?“ Das Telefon rettet Hinnerk. Nach Harms nur ein kurzer Satz.
+# Haken: Smilla: „Warum eigentlich immer?“ Eine Sprachnachricht von Harms rettet Hinnerk: sieben Tage bis zur Prüfung auf der Albertine in Harmsoog, wer zu spät kommt, fährt allein heim (HR50: die Frist steht in der Geschichte, nicht nur im Anruf). Harms ruft danach zur Fragerunde an; nach Harms kein Satz mehr.
 # Heft: nichts freigegeben; die drei Fragen zählen als „gehört“ oder, mit Antwort, für die Lernkartei.
 # Anreden: zwei (Hinnerk, Harms), HR24. Klassiker aus der Sprüchekiste mit [[SPRUCH]] markiert (HR25).
 # Fachlich: Fragen 1, 2, 59 nach data/sbf.json, Merksätze wie data/karten-sbf.json. Die Grenze von fünfzehn PS (elf Komma null drei Kilowatt) für
@@ -30,12 +33,11 @@ status: entwurf
 # Länge: etwa sieben Minuten mit Fragerunde.
 
 [[ABSCHNITT: Kaffee ohne Papagei]]
-[[SZENE: Kuttershaven, früher Morgen. Die Frieda liegt am Steg im Hafen. Hinnerk sitzt mit Kaffee im Cockpit. Smilla kommt aus der Kajüte.]]
+[[SZENE: Kuttershaven, früher Morgen, klarer Himmel, kaum Wind. Die Frieda liegt am Steg im Hafen. Hinnerk sitzt mit Kaffee im Cockpit. Smilla kommt aus der Kajüte.]]
 [[REVIER: hafen]]
 [[AUDIO: Möwen]]
-SMILLA: Käpt'n? Hast du Klabauter gesehen?
-HINNERK: [[SPRUCH: hi-gruss-01]] Moin.
-SMILLA: Moin. Hast du?
+HINNERK: [[SPRUCH: hi-gruss-15]] Mooooooooin!
+SMILLA: Moin. Nicht so laut. Hast du Klabauter gesehen?
 HINNERK: Nee.
 SMILLA: Gestern Abend hat er dich noch angekreischt, weißt du noch? Und heute früh ist die Stange leer.
 HINNERK: Der kommt wieder.
@@ -48,6 +50,16 @@ SMILLA: [[INTENTION: seufzend]] Backbord. Du verfressenes Vieh. Das war seiner.
 HINNERK: [[SPRUCH: hi-gruss-05]] Kaffee steht.
 SMILLA: Du tust so, als wär's dir egal.
 HINNERK: Is mir egal. Der kommt immer irgendwo unter. Der hat in jedem Hafen 'n Kumpel.
+[[AUDIO: Klopfen]]
+SMILLA: Was klopfst du da?
+HINNERK: [[SPRUCH: hi-wetter-09]] Barometer. Fällt 'n büschen. Nachmittags kommt Wind.
+SMILLA: Und wo fahren wir heute hin? Zeig mal auf der Karte.
+SMILLA: Hier ist Kuttershaven. Raus aus dem Hafen, dann nach Westen in die Brede. Und die Brede rauf bis zum Schilfwinkel.
+HINNERK: Sieben Komma zwei Meilen.
+SMILLA: Woher weißt du das so genau?
+HINNERK: [[SPRUCH: hi-plotter-01]] Bauch.
+SMILLA: Bei fünf Knoten, also fünf Seemeilen in der Stunde, sind wir in anderthalb Stunden da. Das ist ja ein Katzensprung.
+HINNERK: Erster Tag. Wir üben unterwegs.
 
 [[ABSCHNITT: Hafenkino]]
 [[SZENE: Ein Charterboot kommt ins Hafenbecken und will an den Steg gegenüber. Vier Männer an Bord, alle rufen durcheinander. Hinnerk kommentiert wie ein Fußballreporter.]]
@@ -146,17 +158,23 @@ SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
 SMILLA: Warum eigentlich immer?
 [[AUDIO: Telefon]]
-HINNERK: [[INTENTION: genervt]] Um die Uhrzeit. Geh du ran, Smilla.
+HINNERK: [[INTENTION: genervt]] Sprachnachricht. Um die Uhrzeit. Von Harms.
+SMILLA: Mach laut.
+HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog. {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord. Sieben Tage. Wer zu spät kommt, fährt allein heim.
+SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.
+HINNERK: Sieben Tage. Schaffen wir.
+SMILLA: Du hast meine Frage nicht beantwortet.
+HINNERK: Frühstück.
 
 [[ABSCHNITT: Harms ruft an]]
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus, nur die Glocke. „an Land“ ist das Revier ohne Atmo, bis der Player einen eigenen Schalter hat.
-[[SZENE: Smilla nimmt ab und stellt das Telefon auf laut. Harms ruft an, stellt sich vor und prüft. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
+[[SZENE: Das Telefon klingelt, Harms ruft zurück. Smilla nimmt ab und stellt auf laut. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
 [[REVIER: an Land]]
 SMILLA: Frieda, Smilla? … Moment. Für dich. Ich stell laut.
 HINNERK: [[SPRUCH: hi-harms-02]] Mit dem red ich nich. Du schon.
 SMILLA: [[SPRUCH: sm-harms-05]] Ich bin in der Plicht. Du schaffst das.
-HARMS: [[SPRUCH: ha-anruf-01]] Harms. Kapitän der Albertine. Ich bilde aus und nehme Prüfungen ab. Am Ende dieser Reise auch deine.
-HARMS: Bis dahin ruf ich an. Jeden Tag ein paar Fragen, genau so, wie sie in der Prüfung stehen.
+HARMS: [[SPRUCH: ha-anruf-01]] Harms. Kapitän der Albertine. Meine Nachricht hast du gehört.
+HARMS: Bis wir uns sehen, ruf ich an. Jeden Tag ein paar Fragen, genau so, wie sie in der Prüfung stehen.
 HARMS: {{anrede:w=Du bist also die Neue.|m=Du bist also der Neue.|n=Du bist also der Frischfisch.}} Drei Fragen. [[SPRUCH: ha-frage-07]] Prüfungsfrage. Im Wortlaut.
 HARMS: [[SPRUCH: ha-frage-01]] Frage.
 [[AUDIO: Schiffsglocke]]
@@ -183,4 +201,3 @@ HARMS: Unter welchen Voraussetzungen darf ein Sportboot mit Elektromotor ohne Fa
 [[AUDIO: Schiffsglocke]]
 HARMS: Alfa. Sieben Komma fünf Kilowatt.
 HARMS: Sieben Tage. Dann sitzt du vor mir. [[SPRUCH: ha-ende-03]] Grüß Hinnerk. Oder lass es.
-SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.

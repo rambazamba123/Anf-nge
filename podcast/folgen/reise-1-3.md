@@ -3,12 +3,14 @@ folge: 1-3
 titel: Das Heck zieht weg
 status: entwurf
 ---
-# Hörreise, Tag 1, Folge 1-3 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, noch nicht vertont.
+# Hörreise, Tag 1, Folge 1-3 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-3.md  ·  node tools/sprueche-pruefen.js
 #
 # FOLGENBLATT
 # Kopf: 1-3 „Das Heck zieht weg“ · Tag 1 · Kuttershaven: Liegeplatz, Hafenbecken, Ausfahrt in die Brede · später Vormittag, Sonne, leichter Wind · Revier Hafen, dann Fluss
-# Vorher: 1-2 (getankt, Gashahn erklärt). Jetzt wird abgelegt. Die Frieda hat einen Außenborder, die Fähre eine Einbaumaschine mit Ruder.
+# Vorher: 1-2 (getankt, Gashahn erklärt). Jetzt wird abgelegt (die Frieda liegt nach dem Tanken wieder in ihrer Box). Die Frieda hat einen Außenborder, die Fähre eine Einbaumaschine mit Ruder.
+# Karte (HR51): aus der Box rückwärts, im Hafenbecken drehen, Ausfahrt nach Nordosten (Kurs null-vier-null), grüne Tonne Ka eins bleibt beim Auslaufen links, dann Kurs zwei-sieben-null nach Westen in die Brede.
+# Navigation nebenbei (T8): Kurs in Grad und Himmelsrichtung, Uhrzeit-Peilung „auf zwölf Uhr“, grüne Tonne in einem Satz (Tonnen kommen an Tag 2, HR46). Box (T11): einmal „Schieb deine Frieda rückwärts vom Pier“.
 # Blöcke: G2.1 ◼ „Propeller, Ruder und Radeffekt“ (41, 44–48, 50, 51) und G3.2 ◼ „Große Schiffe, kleine Boote“ (34, 36, 37, 61). Zwei System-Blöcke, jeder zusammen erklärt (HR2).
 #   Ausführlich: 41, 46, 48 (Radeffekt und Anlegeseite), 34, 37 (Sog und Schwell). Kurz: 44, 45, 47, 50, 51, 36, 61.
 # Überblick: U2 „Wie ein Boot fährt“ (HR4, HR5): früh in der Folge, solange der Motor warm wird; Merksatz am Ende. Der Motor selbst (G2.2) kommt in 1-5.
@@ -36,7 +38,7 @@ status: entwurf
 [[AUDIO: Möwen]]
 SMILLA: [[SPRUCH: sm-anrede-01]] Na, {{anrede:w=Leichtmatrosin|m=Leichtmatrose|n=Bordküken}}? Du bist heute Ausguck. Vorn stehen, gucken, Bescheid sagen.
 HINNERK: Und nix anfassen.
-SMILLA: Wir fahren rückwärts aus der Box. Hinnerk legt gleich den Rückwärtsgang ein.
+SMILLA: Strom nicht bezahlt, aber getankt. Wir fahren rückwärts aus der Box.
 [[VORAB: sbf:41]]
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
@@ -61,6 +63,7 @@ SMILLA: Merk dir die vier so: Der Propeller schiebt, das Ruder lenkt nur im Stro
 [[ABSCHNITT: Rückwärts raus]]
 [[SZENE: Smilla wirft die Vorleine los. Hinnerk legt den Rückwärtsgang ein, die Frieda setzt aus der Box zurück. Hafen.]]
 [[REVIER: hafen]]
+SMILLA: Wenn deine Frieda vor dir am Pier liegt: Schieb sie rückwärts weg. Genau so fahren wir jetzt raus.
 HINNERK: Leinen los.
 SMILLA: Sind los!
 HINNERK: Rückwärts. Und jetzt kiek mol aufs Heck.
@@ -119,10 +122,8 @@ SMILLA: Merk's dir so: Rechtsdreher legt links an.
 [[REVIER: hafen]]
 [[AUDIO: Motor]]
 SMILLA: Was ist das denn? Der fährt ja Vollgas im Hafen.
-HINNERK: Halt dich fest.
 SMILLA: Guck dir die Lieger an! Die knallen alle an die Stege. Und bei Paul ist die Leine gerissen, glaub ich.
 HINNERK: [[SPRUCH: hi-fluch-02]] Pütz und Persenning!
-SMILLA: An festgemachten Booten fährt man langsam vorbei.
 [[ANIM: gleiter]]
 HINNERK: Und Gleitfahrt macht's nich besser. Hat letztes Jahr einer zu Hilke gesagt. „Ich gleite doch, da gibt's keine Welle.“
 SMILLA: Und?
@@ -130,9 +131,13 @@ HINNERK: Hilke hat ihm 'ne Rechnung über drei Fender geschrieben.
 SMILLA: An Liegern vorbei wie an einem schlafenden Hund: leise und langsam, damit Sog und Welle sie nicht gegen den Steg werfen.
 
 [[ABSCHNITT: Die Fähre]]
-[[SZENE: Ausfahrt in die Brede. Fluss, breites Fahrwasser. Von vorn kommt die Fähre aus Elvmünde, groß und weiß. Smilla vorn bei dir, Hinnerk am Außenborder.]]
+[[SZENE: Hafenausfahrt von Kuttershaven Richtung Brede, Sonne, leichter Wind. Breites Fahrwasser, links die grüne Tonne. Von vorn kommt die Fähre aus Elvmünde, groß und weiß. Smilla vorn bei dir, Hinnerk am Außenborder.]]
 [[REVIER: fluss]]
-SMILLA: Ausguck, guck mal geradeaus. Was kommt da?
+HINNERK: Kurs null-vier-null.
+SMILLA: Null-vier-null Grad. Zwischen Nord und Ost, also ungefähr Nordost.
+HINNERK: Grün lassen wir rechts liegen, wenn wir von See kommen.
+SMILLA: Wir fahren raus. Also bleibt die grüne Tonne links. Ka eins steht drauf.
+SMILLA: Ausguck, guck mal auf zwölf Uhr, genau vorn. Was kommt da?
 HINNERK: Die Fähre. So eine bin ich achtunddreißig Jahre gefahren.
 SMILLA: Und die hat ein Ruder, wir nicht.
 [[ANIM: ruder]]
@@ -174,6 +179,7 @@ SMILLA: Und es trifft immer den Kleinen. Das große Schiff läuft nicht aus dem 
 HINNERK: [[SPRUCH: hi-staunen-07]] Ach du dicker Pott. Da kommt seine Heckwelle. Festhalten!
 SMILLA: Und das war mit Abstand, Ausguck.
 HINNERK: Achtunddreißig Jahre hab ich die gefahren. Von oben sah dat immer harmlos aus.
+HINNERK: So. Ruder rum. Zwei-sieben-null, ab nach Westen in die Brede.
 SMILLA: Heute Nachmittag guckst du mal in den Motor, Ausguck.
 HINNERK: Lieber nich.
 [[AUDIO: Telefon]]
