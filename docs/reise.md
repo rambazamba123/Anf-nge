@@ -141,7 +141,7 @@ Auf dem Tisch steht von Anfang an die **Miniatur-Frieda**. Es ist dasselbe Boot 
 Jede Übung hat zwei Wege: virtuell in der App und echt mit der Kiste („Hält er? Ehrlich.“). Beide zählen im Heft getrennt.
 
 ## 5. Orte und Szenen (erfunden, nach Kapiteln)
-> **Seit 10.11.2026:** Die Orte der Reise sollen auf der Reisekarte liegen, die auch in der Box ist, und ihre Elemente müssen auf der Übungskarte 49 vorkommen. Vorschlag in `docs/spielkonzept.md` SK7 und SK8 (Orte auf der Seekarte 7). Bis zur Entscheidung gilt der Absatz unten.
+> **Seit 15.11.2026 (HR51):** Alle Orte liegen auf der Reisekarte **Brede-Bucht** (`data/karte-brede.json`, `brede.js`, 18 × 24 sm, Platzhalter bis zur Karte des Nutzers). Die Elemente sollen später auch auf der Übungskarte 49 vorkommen (`docs/spielkonzept.md` SK7, SK8). Die Tabelle unten nennt die Szenen; Lage, Seezeichen, Strecken und Gezeiten stehen in der Karte.
 
 Wir bauen keine freie Welt, sondern **kleine Szenen**, die stark voneinander abweichen dürfen. Gebaut wird nur, was die Folgen brauchen. Zwischen den Szenen fährt die Frieda auf einer kleinen Übersichtskarte weiter (Zeitraffer), oder es kommt ein Schnitt in die Kajüte.
 | Tag | Ort | Ausschnitte, die wir bauen | eigener Look |
@@ -155,7 +155,17 @@ Wir bauen keine freie Welt, sondern **kleine Szenen**, die stark voneinander abw
 | 6 | **Offene See** | Verkehrstrennungsgebiet, Sturm mit hohen Wellen | weit, grau, Gischt |
 | 7 | **Harmsoog** | Hafen mit Harms' Segelschiff, Prüfungsbecken | festlich, Wimpel |
 
-Die Kajüte bleibt 2D. Nahansichten (Motor, Klampe, Leinen) werden in 3D gebaut. Die alte Seekarte 7 bleibt für „Frei üben“. Die Navigation der Reise läuft auf der Übungskarte der Reise (★ wird nach Abschnitt 5 neu gezeichnet).
+Die Kajüte bleibt 2D. Nahansichten (Motor, Klampe, Leinen) werden in 3D gebaut. Die alte Seekarte 7 bleibt für „Frei üben“. Die Navigation der Reise läuft auf der Reisekarte Brede-Bucht (HR51, HR52).
+
+| Tag | Route laut Karte | etwa |
+|---|---|---|
+| 1 | Kuttershaven → Tonne KH → Brede → Schilfwinkel | 7 sm |
+| 2 | Schilfwinkel → Brede → KH → Elv-Tonne → Tonnenkette E1–E6 → Klüverhafen | 20 sm |
+| 3 | Klüverhafen → Schleuse Klappdörp → Moorkanal → Moorende | 9,5 sm |
+| 4 | Moorende → Priel im Groter Sand → Seehundsand → Wrack → Lüttoog (Umweg außen herum) | 12,5 sm |
+| 5 | Lüttoog → Hörn-Tonne → Reede Elv (Nacht, Leuchtturm Elvhörn) | 11 sm |
+| 6 | Reede Elv → Verkehrstrennungsgebiet (rechtwinklig queren) → Reede Harmsoog | 13 sm |
+| 7 | Reede Harmsoog → Hafen Harmsoog | 2 sm |
 
 ## 6. Aufgaben in 3D
 - **Wann:** im Modus Mitmachen direkt in der Folge, sonst später über die Kachel ⛵ der Etappe. Jede 3D-Aufgabe dauert wenige Minuten und beginnt sofort in der Szene, ohne Schwenk über das Boot.
@@ -254,7 +264,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 
 ### 7.7 Bilder, Animationen, Aufgaben
 - **HR19 Bilder laufen mit:** Bilder und Animationen erscheinen während der Geschichte (wie im Kajütenfunk). Gesprochen wird so, dass man sie nicht braucht.
-- **HR20 Aufgaben:** Aufgaben mit Händen oder Augen (3D, Knoten, Karte, Bildfragen) laufen im Mitmachen direkt. Im Hörspiel macht sie die Crew, und sie landen in der Etappe (Abschnitt 3).
+- **HR20 Aufgaben** (neu 15.11., T3): Aufgaben mit Händen oder Augen (Karte, Knoten, 3D, Bildfragen) laufen **nicht in der Folge**. Die Crew macht sie und sagt dabei, was sie tut („Dreieck an, Kurs ablesen …“); du übst sie in der **Abendwache** desselben Tages (HR52). Keine Stelle einer Folge wartet auf Tippen, Messen oder Zeichnen; es gibt nur noch ⛵ In Fahrt. *(Vorher: im Mitmachen direkt, im Hörspiel in der Etappe.)*
 
 ### 7.8 Crew und Gespräch
 - **HR21 Die Crew wächst langsam** (N 07.11.): Hinnerk und Smilla von Anfang an; Klabauter ist einfach abgehauen, die Crew vermisst ihn, und er landet in 1-6 wieder an Bord; Quirin steigt in 2-7 zu. Wer noch nicht da ist, spricht nicht. ⚙ (`crew`, Feld `wer`)
@@ -319,15 +329,49 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - **Vor dem Schreiben** liest Claude das Story-Logbuch `docs/geschichte-logbuch.md` (geplante Echos, offene Fäden, Running Gags) und baut die fälligen Echos ein. **Nach dem Schreiben** trägt Claude die Folge dort ein: Fakten mit Anker und Nennungen, neue Echos, Requisiten, offene Fäden. Ohne Eintrag bricht `podcast-pruefen.js` ab.
   - **Länge:** So geschrieben, wird die Geschichte bis zu Harms' Anruf so lang wie in 1-1 bis 1-3 nach der Kürzung; `podcast-pruefen.js` zeigt die Minuten und warnt, wenn eine Folge deutlich daneben liegt. Dann nicht strecken oder quetschen, sondern Dichte und Szenen prüfen.
   - ⚙ Geprüft: zweiter Merksatz je Szene, „Genau, …“ außerhalb der Auflösung, verratene Frage, fehlender Logbuch-Eintrag, Länge der Geschichte.
-- **HR47 Navigieren unterwegs** (N 10.11.): Wer ⛵ In Fahrt hört (Auto, Rad, Gym), kann nicht messen und nicht zeichnen. Jede Navigationsstelle hat darum zwei Wege:
-  - **⚓ Vor Anker:** Die Folge hält an („Leg das Dreieck an, ich warte“), du misst auf der Papierkarte und tippst oder sagst den Wert; die Crew prüft.
-  - **⛵ In Fahrt:** Die Crew navigiert **laut denkend** (Smilla legt an und sagt, was sie tut: „Dreieck an Klüverhafen, Kurs ablesen … zwei-vier-null“), Hinnerk schätzt dagegen, und an der Station entsteht die Aufgabe **„Kurs selbst nachmessen“** für diesen Tag (offene Kachel auf der Reisekarte, Haken erst, wenn gemacht).
-  - Das gilt auch ab Tag 4, wenn du eigentlich allein navigierst: Unterwegs sagt die Crew einen Satz wie „Am Steuer misst keiner, das mach ich. Heute Abend rechnest du nach.“ (fester Satz, R10).
-  - Im Skript steht die Stelle einmal mit beiden Wegen (`[[NAVI: id]]` mit Text für Vor Anker und für In Fahrt); die Lösung rechnet die App aus den Kartendaten.
+- **HR47 Navigieren unterwegs** (N 10.11., neu 15.11., T3): Wer zuhört (Auto, Rad, Gym), kann nicht messen und nicht zeichnen. In der Folge navigiert die Crew darum **laut denkend**: Smilla legt an und sagt, was sie tut („Dreieck an Klüverhafen, Kurs ablesen … zwei-vier-null“), Hinnerk schätzt dagegen. Die Zahlen stimmen mit der Reisekarte (HR51).
+  - Was du selbst misst, planst du **am Abend vorher** in der Navi-Folge der Abendwache (HR52): Am Morgen fährt die Crew genau die Etappe, die du geplant hast, und erwähnt das („Dein Kurs von gestern Abend, null-sieben-sieben. Passt.“).
+  - Ab Tag 4, wenn du eigentlich allein navigierst, sagt die Crew unterwegs einen festen Satz wie „Am Steuer misst keiner. Heute Abend rechnest du nach.“ (R10).
+  - Der frühere Weg „⚓ Vor Anker“ (Folge hält an, du misst) fällt weg.
 - **HR48 Kleine Karte, Umwege** (N 10.11.): Die Reisekarte ist klein (etwa ein Fünftel der Karte 7, `docs/spielkonzept.md` §3a). Damit die Reise trotzdem genug Strecke hat, braucht die Geschichte ab und zu einen **Umweg**: etwas vergessen, ein Ersatzteil holen, Hochwasser abwarten, eine Sperrung, Wetter. Höchstens einer je Tag, immer mit Grund aus der Geschichte, nie als Füllstoff.
   - Ein Umweg fährt bekannte Strecke anders: Gegenkurs, andere Seite einer Insel, durchs Watt statt außen herum. Das ist eine neue Navigationsaufgabe auf vertrautem Gebiet und eine gute Stelle für ein Echo (HR46).
   - Die Strecke muss nicht in beide Richtungen befahren werden; der Rückweg bleibt Bonus (E24).
 - **HR49 Antworten: vorgelesen mit Funkwort, gesagt mit Buchstabe** (N 11.11.): Die Crew liest die Antworten mit „Alfa, Bravo, Charlie, Delta“ vor (wie bisher, HR38). Auf dem Bildschirm stehen A, B, C, D, und ausgelöst wird nur, wenn du **A, B, C oder D** sagst (auch „A easy“). So kann die Stimme aus dem Lautsprecher nie selbst antworten. ⚙ `tests/zuruf-pruefen.js`.
+- **HR50 Nichts nur im Anruf** (N 14.11., T1, T3): „Harms am Ende“ lässt sich abschalten. Was die Geschichte braucht (Frist, Ziel, Wendung), passiert **in der Geschichte**, nie nur in Harms' Anruf. Der Anruf am Ende ist die trockene Fragerunde. Beispiel: Die sieben Tage kommen in 1-1 als Sprachnachricht von Harms auf Hinnerks altem Handy, mitten in der Szene.
+- **HR51 Karte = Welt** (N 15.11.): Die Reisekarte (`data/karte-brede.json`, gezeichnet von `brede.js`; Platzhalter „Brede-Bucht“, bis die Karte des Nutzers kommt) ist die Welt der Geschichte. Karte und Geschichte sind verwoben, darum:
+  1. **Jeder Ort** einer Folge steht auf der Karte, mit demselben Namen (`orte`). Ein neuer Ort kommt zuerst auf die Karte, dann in die Folge.
+  2. **Richtungen und Seiten** stimmen: Wer aus Kuttershaven ausläuft, fährt nach Nordosten zur Ansteuerungstonne KH und biegt dann nach Westen in die Brede; die grüne Tonne liegt beim Auslaufen links. Was die Crew über Kurs, Tonnen und Landmarken sagt, lässt sich auf der Karte nachmessen.
+  3. **Strecke und Zeit:** Fahrzeit = Strecke durch Fahrt. Die Frieda läuft etwa **5 kn** (höchstens 7). Die Tagesstrecken liefert `node tools/karte-pruefen.js --tabelle` (Tag 1 etwa 7 sm, Tag 2 etwa 20 sm, Tag 7 nur 2 sm). „Vor Dunkelwerden“ und jede genannte Uhrzeit müssen damit aufgehen.
+  4. **Gezeiten** sind fest (`gezeiten`): Hochwasser Kuttershaven an Tag 1 um 11:00, jeden Tag gut 50 Minuten später. Der Priel im Groter Sand geht nur zwei Stunden um Hochwasser, der Trockenfallplatz nur bei Niedrigwasser. Wer davon spricht, hält sich an die Tabelle.
+  5. **Seezeichen** heißen wie auf der Karte (KH, K1, K2, Elv, E1 bis E6, Hörn, Wrack Nord und West) und haben die Kennung von dort. Gesprochen: „Ka eins“, „E vier“, „die Hörn-Tonne“.
+  6. **Umwege** (HR48) sind echte andere Wege auf der Karte (`abkuerzungen`), mit Grund aus der Geschichte (Hochwasser verpasst, Sperrung, Wetter).
+  7. **Navigation folgt der Reise:** Die Navi-Folge am Abend von Tag n plant die Etappe von Tag n+1 auf genau dieser Karte (HR52). Die Geschichte hängt nie davon ab, ob du richtig geplant hast: Am Morgen fährt die Crew den richtigen Weg, und Hinnerk kommt sowieso an (HR53).
+  8. **Ortsnamen werden fest**, sobald eine Folge vertont ist. Danach ändert sich auf der Karte nur noch, was in keiner vertonten Folge vorkommt. In den Navi-Folgen sind Namen und Zahlen dagegen Bausteine (`{platzhalter}`) und lassen sich jederzeit tauschen.
+  9. **Die Karte wächst mit der Geschichte:** Auf der Reisekarte der App sieht man nur, was die Reise schon erreicht hat (Routen der gefahrenen Tage). Die ganze Karte liegt gedruckt in der Box.
+  - ⚙ `tools/karte-pruefen.js` (pre-commit): Orte im Reiseplan auf der Karte, Routen schließen aneinander an und enden an einem Ort, Meilen in den Folgen passen zur Tagesstrecke, keine alten Ortsnamen.
+- **HR52 Abendwache und Navi-Folge** (N 14.–15.11., T2, NF1–NF14): Am Ende jedes Reisetags kommt die **Abendwache**: Fragerunde des Tages (HR30), dann die **Navi-Folge** am Kartentisch, dazu Knoten oder Handgriffe, die der Tag gezeigt hat (HR20).
+  - **Rahmen:** Abends vor Anker oder im Hafen, Lampe an. Du planst die Etappe von morgen (HR51 Punkt 7). Am Morgen greift die Folge das auf.
+  - **Bühne:** Kartentisch von oben, die Hände der Crew führen Dreieck und Zirkel. Keine Sprechblasen; einschaltbar, dann tippt man selbst weiter. Tags Holztisch und Seekarte, abends Rotlicht und Nachtkarte.
+  - **Kippschalter am Anfang:** „In der App“ oder „Am Tisch mit Papierkarte“, mitten in der Folge umschaltbar. Die Erklärung ist gleich; nur ein bis drei Sätze zum Handgriff gibt es zweimal („Nimm dein Kursdreieck“ und „Tipp aufs Dreieck“), vertont wie die Anrede-Varianten. In der App blinkt das Werkzeug.
+  - **Gebündelt am Anfang:** Besonders am Anfang fasst eine Navi-Folge **mehrere Lektionen** zusammen (Folge 1: Grundlagen mit Grad, Seemeile und Knoten plus Kurs und Distanz messen). Das geht schneller, und es wird **zusammen abgeprüft**.
+  - **Test am Ende jeder Navi-Folge:** drei Aufgaben zu allem, was die Folge gebündelt hat, ohne Hilfe der Crew. Bestanden schaltet die Stufe frei; nicht bestanden: Die Crew macht eine Übungsrunde mit Hilfe, dann noch ein Versuch. Am Ende einer Stufe prüft Harms kurz (drei Aufgaben, H-b), an Tag 7 die ganze Navigation an Bord der Albertine (H-d); ab Tag 4 hat er eine Rechenfrage in der Fragerunde (H-a).
+  - **Erst zeigen, dann selbst, dann allein:** Am Anfang rechnet die Crew vor, und du machst **manches selbst**, wo es leicht ist. Die App merkt sich je Fertigkeit, wie gut du bist (`fertigkeiten` in `data/navi.json`), und passt sich an: Wer schnell richtig liegt, bekommt weniger Erklärung und springt weiter; wer hängt, bekommt mehr Hilfe der Crew (Tipp, Rechenweg, Lösung) und eine Lückenaufgabe ohne Ansage. Höchstens drei Aufgaben je Folge plus freiwillige Zusatzrunde.
+  - **Feste Aufgabe und Übung:** Die Aufgabe der Geschichte ist voll vertont; Übungsrunden bauen sich aus Zahl-Bausteinen (`{tonne}`, `{kurs}`, `{sm}`).
+  - **Falsch geplant:** Die Frieda-Figur fährt den geplanten Kurs auf der Karte ab, läuft auf oder streift etwas, und ein Teil geht kaputt (HR54).
+  - **Die Crew:** Smilla leitet, Klabauter wiederholt das Merkwort, Hinnerk ist selten dabei (er „guckt morgens“, HR53).
+  - Dieselbe Navi-Folge ist zugleich der Einstieg in eine Stufe der Navigationsschule (NF1 c); dort steht sie oben, darunter Lexikon und Lektionen.
+- **HR53 Hinnerks Geheimnis** (N 14.11., HG): Hinnerk sieht nachts schlecht und versteckt in der Ölzeugtasche ein Handy mit Kartenplotter. Er schaut nur morgens kurz auf die Karte und kommt immer an, auch nachts; die Crew staunt. Darum entgleist die Geschichte nie, wenn deine Planung danebenliegt.
+  - **Spuren**, sparsam, höchstens eine je Tag und nie im Mittelpunkt: ein Piepen aus der Tasche, „Batterie“, er dreht sich zum Lesen weg, er weiß die Entfernung „aus dem Bauch“ auf die Zehntelmeile. Niemand spricht es aus.
+  - **Auflösung in zwei Stufen** (passt zu `podcast/figuren.md` F4): **Tag 5, Nacht:** Ein Feuer zeigt ihm kein Handy; er liest die Kennung falsch und gibt zu, dass er nachts schlecht sieht. Er gibt dir die Nachtwache. **Tag 6, Verkehrstrennungsgebiet im Sturm:** Das Handy wird nass und geht aus, der Plotter kommt ans Licht, und du navigierst nach deiner Planung vom Vorabend. Lehre, einmal und ohne Zeigefinger: „Das Ding kann ausfallen. Darum lernst du's auf Papier.“
+  - Hinnerk bleibt dabei kein Betrüger und kein Trottel: Er kann navigieren, er schämt sich nur für die Augen.
+  - Spuren und Auflösung führt das Story-Logbuch (`docs/geschichte-logbuch.md`).
+- **HR54 Schaden nur am Kartentisch** (N 14.11., B2, NF7): In der Hörreise geht durch deine Entscheidungen nie etwas kaputt; sie ist vertont und läuft für alle gleich. Schaden gibt es nur in der Navi-Folge: Ein falscher Kurs lässt die Frieda-Figur auflaufen, und ein Teil aus `schaeden` (Propeller, Ruder, Fender, Badeleiter) kommt ins **Mängelbuch** der Abendwache. Klabauter schreibt es auf, die Crew sagt, was es morgen bedeutet hätte. Repariert ist es, sobald du die Aufgabe richtig gelöst hast. Kein Spielstand geht dabei verloren.
+- **HR55 Kleinigkeiten mit Wirkung** (N 14.11., T-e bis T-g, T9, T10):
+  - Die erste Zeile jeder Tagesfolge ist ein Moin aus der Kiste (HR25); der lange gehört Hinnerk am ersten Morgen.
+  - `[[SZENE]]` nennt Ort, Tageszeit und Wetter so, dass die Stimmung der App daraus folgt (HR40). Das Wetter eines Tages hat einen kleinen Bogen (Tag 1: klar, Barometer fällt leicht, nachmittags Brise, klare Nacht).
+  - Die Dinge der Kajüte dürfen mitspielen: Barometer, Schiffsglocke (Glasen), Rettungsring „Frieda“, Knotenbrett.
+  - Eigene Antworten der Crew bei Nachdenkfragen haben **höchstens fünf Wörter** (sie stehen groß auf dem Bildschirm, Frage in Fahrt).
+  - Gäste sitzen in der Kajüte der App nur, wenn die nächste Folge einen hat (GU5).
 
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).

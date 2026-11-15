@@ -75,7 +75,7 @@
 **Innen** [neu]
 - **Was er will:** Smilla sicher zur Albertine bringen und dabei so tun, als wäre ihm das egal. Und nicht allein heimfahren.
 - **Was er braucht:** zugeben, dass er Hilfe braucht, und Smilla gehen lassen.
-- **Was er verbirgt:** Er sieht nachts schlecht [fest] (E20), und er weiß es selbst längst. Er will es nur nicht zugeben [fest] (Nutzer, 07.11.2026, F4). Eigentlich dürfte er so gar nicht mehr allein fahren: Körperliche Mängel schließen vom Führen aus (Frage 2). Darum wird er in 1-1 bei genau dieser Frage still. Darum ankert er „immer“ vor Dunkelheit, und darum braucht die Frieda dich. In der Nacht von Tag 5 gibt er es zu.
+- **Was er verbirgt:** Er sieht nachts schlecht [fest] (E20), und er weiß es selbst längst. Er will es nur nicht zugeben [fest] (Nutzer, 07.11.2026, F4). Eigentlich dürfte er so gar nicht mehr allein fahren: Körperliche Mängel schließen vom Führen aus (Frage 2). Darum wird er in 1-1 bei genau dieser Frage still. Darum ankert er „immer“ vor Dunkelheit, und darum braucht die Frieda dich. In der Nacht von Tag 5 gibt er es zu. **Zweite Schicht (Nutzer 14.11.2026, HG, `docs/reise.md` HR53):** Damit niemand merkt, wie schlecht er nachts sieht, hat er in der Ölzeugtasche ein Handy mit Kartenplotter. Er guckt nur morgens kurz auf die Karte und kommt trotzdem immer an, auch nachts; die Crew staunt. Spuren: ein Piepen aus der Tasche, „Batterie“, die Entfernung „aus dem Bauch“ auf die Zehntelmeile. An Tag 6 wird das Handy im Sturm nass, und du navigierst. Lehre: „Das Ding kann ausfallen. Darum lernst du's auf Papier.“ Er bleibt dabei kein Betrüger: Er kann navigieren, er schämt sich nur für die Augen.
 - **Sein Widerspruch:** Er predigt „Die See verzeiht nix“ und fährt selbst nach Gefühl. Regeln, die er für Papierkram hält, übergeht er. Bei Sicherheit ist er dagegen der Strengste an Bord.
 
 **Bogen über die Reise** [neu]
@@ -86,6 +86,7 @@
 | 3 | In Schleuse und Kanal ist er der Lernende, Quirin der Profi. Er schweigt. |
 | 4 | Am Wrack will er müde ankern; die Wasserschutzpolizei kommt. Er lässt dich zum ersten Mal ankern. |
 | 5 | Er liest ein Feuer falsch. Dann sagt er es: Er sieht nachts schlecht. Er gibt dir die Nachtwache. |
+| 6 | Im Verkehrstrennungsgebiet wird sein Plotter-Handy nass. Er gibt es zu und lässt dich navigieren. |
 | 6 | Im Sturm ist er ruhig und klar. Danach, leise: „Skipper.“ Zum ersten Mal. |
 | 7 | Smilla geht. Er zündet sich die Pfeife an und sagt nichts. Harms und er reden über die Elbe. |
 

@@ -5147,9 +5147,11 @@ function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.s
 function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
 /* Hörreise (docs/reise.md, E25): die neuen Folgen; alles Ältere liegt gesammelt unter „Alte Folgen und Tests“ (Nutzer, 07.11.2026) */
 /* [id, Titel, Untertitel, Wetter der Folge] – das Wetter in der App richtet sich nach der nächsten Folge (weatherToday) */
-const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
+const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen', 'hafen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
+/* Gast der nächsten Folge (fünftes Feld in HOERREISE): sitzt vorher schon in der Kajüte (GU5), sonst niemand */
+function hoerreiseGast() { const e = HOERREISE[hoerreiseNaechste()]; return (e && e[4]) || null; }
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
 function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${i + 1} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
 function hoerreiseWahl() {

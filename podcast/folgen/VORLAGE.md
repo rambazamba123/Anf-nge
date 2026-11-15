@@ -17,7 +17,14 @@ status: vorlage
 # Denkpausen: 3 s erinnern, 5 s entscheiden, 6 s Kernsätze. Danach sagt die Folge immer die Lösung, auch im Auto-Modus.
 # Hörreise, Dichte (docs/reise.md HR46): je Fakt Anlass → Frage → kurze Auflösung → höchstens ein Merksatz. Kein zweites „Genau, …“, die Antwort nie direkt vor der Frage.
 #   Statt Wiederholung in derselben Folge ein Echo ein bis drei Folgen später (ein Satz am selben Bild). Vorher und nachher docs/geschichte-logbuch.md lesen und fortschreiben.
-# Vor dem Abgeben: docs/fehler-katalog.md Teil A durchgehen.
+# Hörreise ab 15.11.2026 (docs/reise.md HR50–HR55):
+#   Karte = Welt (HR51): Jeder Ort, jede Tonne, jede Richtung und jede Meile steht so auf der Reisekarte (data/karte-brede.json). Strecken und Fahrzeiten: node tools/karte-pruefen.js --tabelle.
+#     Frieda läuft etwa fünf Knoten. Gezeiten aus „gezeiten“ (Hochwasser Tag 1 um elf, jeden Tag gut fünfzig Minuten später). Seezeichen heißen wie auf der Karte („Ka eins“, „E vier“).
+#   Nichts nur im Anruf (HR50): Was die Geschichte braucht, passiert in der Geschichte; Harms am Ende ist abschaltbar.
+#   Keine Stelle wartet auf Tippen oder Messen (HR20): Die Crew macht es laut denkend, geübt wird in der Abendwache (HR52). Navigation in der Folge: Zahlen von der Karte, kein „Mach mal, ich warte“.
+#   Hinnerks Geheimnis (HR53): höchstens eine Spur je Tag (Piepen, „Batterie“, Entfernung „aus dem Bauch“), nie im Mittelpunkt; im Logbuch eintragen.
+#   Erste Zeile einer Tagesfolge ist ein Moin aus der Kiste; [[SZENE]] nennt Ort, Tageszeit und Wetter (Stimmung der App); eigene Antworten der Crew höchstens fünf Wörter (HR55).
+# Vor dem Abgeben: docs/fehler-katalog.md Teil A durchgehen, node tools/karte-pruefen.js laufen lassen.
 
 [[ABSCHNITT: Einstieg]]
 [[SZENE: Kieler Förde zur Kieler Woche, am Rand der Regattabahnen. Hinnerk am Ruder, ein anderes Segelboot kommt näher.]]

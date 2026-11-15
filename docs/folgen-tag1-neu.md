@@ -1,4 +1,6 @@
-# Tag 1 neu: Grundlagen zur Besprechung (14.11.2026, Entwurf)
+# Tag 1 neu: Grundlagen (14.11.2026, entschieden 15.11.2026)
+
+> **Entschieden (Nutzer 15.11.2026):** T1–T12 wie empfohlen. T1 ja (Sprachnachricht), T2 „Abendwache“, T3 ja (jetzt HR20, HR47, HR50 in `docs/reise.md`), T4 ja, T5 Obergrenze 25.000 Credits, erst Gratis-Stimme, dann eine Folge vertonen, T6 Folge 0 jetzt, T7 Wetterbogen, T8 Navigation nur nebenbei, T9 langer Moin für Hinnerk, T10 höchstens fünf Wörter, T11 „Schieb deine Frieda“ einmal in 1-3, T12 Länge bleibt. **Neu durch die Karte (HR51):** Schilfwinkel liegt gut sieben Meilen weg, nicht zwölf; Kurs aus dem Hafen null-vier-null.
 
 > Auftrag des Nutzers (14.11.2026): Die drei ersten Folgen neu schreiben, mit allem, was sich seit 1-1 bis 1-3 geändert hat. Vorher die Grundlagen und das Konzept mit ihm besprechen. Die Abendwache (V1–V8) soll getestet werden.
 > Noch kein Skript ist geändert. Nach deinem Okay schreibe ich die Folgen und prüfe sie mit allen Werkzeugen (`podcast-pruefen`, `logik-pruefen`, `sprueche-pruefen`, Fehlerkatalog Teil A).

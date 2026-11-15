@@ -140,7 +140,7 @@
     Z().stil();
     const lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] || [], kurs = nl.length ? nl.filter(l => lek[l] && lek[l].sterne).length / nl.length : 0;
     const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.filter(k => knotenWert(k) >= .5).length;
-    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: 'hafen'})}</div>
+    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: typeof hoerreiseGast === 'function' ? hoerreiseGast() : null})}</div>
       ${geschoben ? '' : '<span class="dpf l" id="dpl">‹</span><span class="dpf r" id="dpr">›</span>'}
       ${!courseBucket(S.course).examSet ? `<button class="dtermin" id="cdsave">🎯 Prüfungstermin eintragen</button>` : ''}
       <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><p class="dkinfo" id="dkinfo"></p></div>`;
