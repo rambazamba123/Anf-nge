@@ -140,7 +140,7 @@
     Z().stil();
     const lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] || [], kurs = nl.length ? nl.filter(l => lek[l] && lek[l].sterne).length / nl.length : 0;
     const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.filter(k => knotenWert(k) >= .5).length;
-    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: 'hafen'})}</div>
+    app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: typeof hoerreiseGast === 'function' ? hoerreiseGast() : null})}</div>
       ${geschoben ? '' : '<span class="dpf l" id="dpl">‹</span><span class="dpf r" id="dpr">›</span>'}
       ${!courseBucket(S.course).examSet ? `<button class="dtermin" id="cdsave">🎯 Prüfungstermin eintragen</button>` : ''}
       <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><p class="dkinfo" id="dkinfo"></p></div>`;
@@ -176,7 +176,7 @@
     const zeichnen = () => {
       const reden = !!S.cfg.zuruf, harms = k.harms !== false;
       app.innerHTML = `<div class="dseite dfunk"><div class="dkopf"><button class="dzur" id="dzur" aria-label="Zurück in die Kajüte">${ic('zurueck')}</button></div>
-        <div class="dftitel"><small>Folge ${Math.max(0, i) + 1}</small><b>${esc(titel)}</b></div>
+        <div class="dftitel"><small>Folge ${typeof hoerreiseNr === "function" ? hoerreiseNr(fid) : Math.max(0, i) + 1}</small><b>${esc(titel)}</b></div>
         <div class="dkipp"><button data-k="reden" aria-pressed="${reden}" aria-label="hören und laut antworten">${ic('reden', '')}</button><button data-k="ohr" aria-pressed="${!reden}" aria-label="nur hören">${ic('ohr', '')}</button></div>
         <button class="dharms" id="dharms" aria-pressed="${harms}" aria-label="Harms am Ende: ${harms ? 'an' : 'aus'}">${ic('harms', '')}</button>
         <button class="dplay" id="dplay" aria-label="Folge starten">${ic('play', '')}</button>

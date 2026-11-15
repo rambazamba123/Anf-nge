@@ -12,6 +12,14 @@
 
 ## 2. Folgen
 
+### 0-1 „Anheuern“ (Kuttershaven, Abend vor Tag 1, klar)
+| Fakt | Anker | Nennungen | Echo geplant |
+|---|---|---|---|
+| Der Handel: Smilla zur Albertine nach Harmsoog bringen, unterwegs lernen, Harms prüft; bestanden = zurück als neue Crew, sonst fährt Hinnerk allein | Reisekarte auf dem Kajütdach | 1 | 1-1: Harms' Sprachnachricht mit der Frist (sieben Tage) |
+| Direkt sechzehn Seemeilen, die Reise nimmt den langen Weg (HR51) | Smillas Finger auf der Karte | 1 | Tag 6/7: „Jetzt sind's wirklich nur noch …“ |
+| Kiste: Karte, Pier mit Klampe, Poller, Ring, Miniatur-Frieda, zwei Leinen; Abendwache am Kartentisch | Smillas Holzkiste, „Hinnerk macht alles mit Klebeband“ | 1 | Abendwache Tag 1 (Navi-Folge 1), 1-3 „Schieb deine Frieda“ |
+| Hinnerk und Harms: „Über den red ich nich.“ | – | 1 | jedes Telefonat (Lage `harms`), Garn in 4-5 |
+
 ### 1-1 „Erster Morgen“ (Kuttershaven, Morgen, schön)
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
@@ -19,6 +27,9 @@
 | sbf:2 0,5 Promille, auch darunter nicht, wer nicht sicher führt | Anlegerbier um halb neun | 4 (Frage, Vertiefung, Auflösung, Merksatz) + Überblick | Abend in 1-7 oder Hafenfest: Hinnerk lehnt das Bier ab, ein Satz |
 | sbf:59 Elektro ohne Schein bis 7,5 kW Dauerbetrieb | Leih-Elektroboot, Sonnenhut | 3 + Zahlenspiel 15 PS / 7,5 kW | Klüverhafen: wieder ein Sonnenhut, Hinnerk: „Sieben Komma fünf.“ |
 | Überblick U1: einer sagt an, keiner getrunken, Schein passt | alles vom Morgen | 1 | – |
+| Tagesziel Schilfwinkel, sieben Komma zwei Seemeilen, Knoten = Seemeilen in der Stunde, anderthalb Stunden (Navigation nebenbei) | Reisekarte am Tisch, Hinnerks „Bauch.“ | 2 | Abendwache Tag 1: Distanz und Fahrzeit selbst messen |
+| Barometer fällt leicht, nachmittags Wind (Wetterbogen Tag 1) | Hinnerk klopft ans Glas | 1 | 1-4/1-6: Brise kommt; Frage 71 in 1-6 |
+| Frist: sieben Tage, Prüfung auf der Albertine in Harmsoog (HR50) | Harms' Sprachnachricht auf Hinnerks Handy | 1 | jeden Tag ein Satz Countdown |
 
 ### 1-2 „Gas, Sprit und Streichholz“ (Bootstankstelle, Vormittag, schön)
 | Fakt | Anker | Nennungen | Echo geplant |
@@ -30,6 +41,8 @@
 | sbf:64 Gasgeruch: absperren, lüften, kein Funke, kein Handy | Hinnerks Bekannter mit Feuerzeug, ohne Augenbrauen | 3, Frage jetzt vor der Einweisung | 1-7 Ernstfall Gas |
 | sbf:65 Vor Inbetriebnahme: abgenommen, dicht, darf man selbst | Papier im Kartentisch | 2 | – |
 | sbf:66 Außer Betrieb: Haupthahn und Ventile zu | Backbord auf dem Kocher | 2 | jeden Abend ein Satz: „Hahn zu?“ |
+| Hochwasser um elf, in der Brede den Strom mit (erste Spur Gezeiten, HR51) | Smilla gibt Hilkes Satz weiter | 1 | Tag 2: Strom in der Elv; Tag 4 Priel nur bei Hochwasser |
+| Voller Tank für sieben Tage, nicht sieben Meilen | Hinnerk an der Zapfsäule | 1 | – |
 
 ### 1-3 „Das Heck zieht weg“ (Ausfahrt aus der Box, Fähre, schön)
 | Fakt | Anker | Nennungen | Echo geplant |
@@ -40,6 +53,8 @@
 | sbf:50 Außenborder lenkt über Schraubenstrom und Richtung | „Ohne Gas keen Strom, ohne Strom keene Lenkung“ | 3 | Ablegen, Anlegen |
 | sbf:51 Einbau rückwärts: Ruder wirkt spät | die Fähre, „jeden Tag 'ne Andacht“ | 3 | – |
 | sbf:34, 37, 61 Lieger langsam passieren, Sog, Stau, Schwell | Raser im Hafen, Hilkes Rechnung über drei Fender; die Fähre | 4 (Hinnerk erzählt statt zu wiederholen; Raser gekürzt) | 2-x Elbe: Frachter überholt, ein Satz „Stau, Sog, Schwell“ |
+| Kurs null-vier-null = Nordost; „auf zwölf Uhr“; grüne Tonne Ka eins beim Auslaufen links; Kurs zwei-sieben-null in die Brede (nebenbei) | Ausguck vorn, die Fähre | je 1 | Tag 2: Tonnen als Block |
+| Box: „Schieb deine Frieda rückwärts vom Pier“ | Ablegen aus der Box | 1 | Abendwache |
 
 ## 3. Requisiten und Running Gags
 - **Streichholz:** Smilla hat sie konfisziert (1-2). Hinnerks Pfeife geht nur kurz an, Smilla nimmt sie ihm weg.
@@ -51,11 +66,15 @@
 - **Hinnerk und Harms:** Hinnerk redet nicht mit ihm, verdrückt sich bei jedem Anruf (Lage `harms`). Die Vorgeschichte (Elbe, Nebel) kommt in 4-5.
 - **Hinnerk 38 Jahre Fähre:** 1-3. „Von oben sah dat immer harmlos aus.“
 - **Ausguck:** deine Rolle seit 1-3. Am Nachmittag: in den Motor gucken (angekündigt, offen).
+- **Hinnerks Plotter (HR53):** Spuren: 1-1 „Bauch.“ (Strecke auf die Zehntelmeile). Höchstens eine je Tag. Auflösung: Tag 5 Augen (Feuer falsch gelesen), Tag 6 Handy nass im Verkehrstrennungsgebiet.
+- **Kiste und Abendwache:** seit 0-1. Smilla hat die Kiste gebaut, Hinnerk durfte nicht helfen (Klebeband).
+- **Hundewache:** Hinnerk droht in 0-1 damit, wer bei der Abendwache einschläft.
 
 ## 4. Offene Fäden
 - Warum ankert Hinnerk immer vor Dunkelwerden? (1-1 Ende, Smillas Frage unbeantwortet, Harms ruft dazwischen.) Antwort: Hinnerk sieht nachts schlecht (E20); kommt im Schilfwinkel.
 - Motor-Nachmittag (1-3 angekündigt).
-- Strom bezahlen (1-2).
+- Strom bezahlen (1-2). 1-2: „Morgen.“
+- Sieben Tage (1-1): Countdown läuft.
 
 ## 5. Pacing: Bewertung der Folgen 1-1 bis 1-3 (09.11.2026)
 **Befund.** Das Muster ist überall gleich: Ein Fakt kommt in der Szene, dann als Frage, in der Auflösung, eine zweite Figur bestätigt („Genau, …“), dann der Merksatz, und am Ende fragt Harms ihn noch einmal im Wortlaut. Das sind fünf bis sieben Nennungen in wenigen Minuten. Am dichtesten:

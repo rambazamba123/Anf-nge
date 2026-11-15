@@ -14,6 +14,8 @@
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
+    /* Folge 0 (Nutzer, 15.11.2026, T6): der Abend vor Tag 1, Kennenlernen und Kiste, ohne Prüfungsfragen */
+    'reise-0-1': {datei: 'podcast/folgen/reise-0-1.md', titel: 'Anheuern', unter: 'Hörreise, Folge 0 (Entwurf): der Abend vor der Reise', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
@@ -172,7 +174,9 @@
   function anBordListe(id, plan, sprecherSet) {
     const fid = String(id).replace(/^reise-/, ''), n = x => { const [t, k] = String(x).split('-').map(Number); return t * 100 + k; };
     let crew;
-    if (plan && plan.crew && /^\d+-\d+$/.test(fid)) crew = plan.crew.filter(c => (n(fid) >= n(c.ab) && (!c.bis || n(fid) <= n(c.bis))) || (c.zurueck && n(fid) >= n(c.zurueck))).map(c => c.wer.toUpperCase()).filter(w => w !== 'JASPER');
+    /* Folge 0 „Anheuern“: der Abend vor Tag 1, Klabauter ist noch da (er haut erst in der Nacht ab) */
+    if (/^0-/.test(fid)) crew = ['HINNERK', 'SMILLA', 'KLABAUTER'];
+    else if (plan && plan.crew && /^\d+-\d+$/.test(fid)) crew = plan.crew.filter(c => (n(fid) >= n(c.ab) && (!c.bis || n(fid) <= n(c.bis))) || (c.zurueck && n(fid) >= n(c.zurueck))).map(c => c.wer.toUpperCase()).filter(w => w !== 'JASPER');
     else crew = ['HINNERK', 'SMILLA', 'KLABAUTER', 'QUIRIN'].filter(w => sprecherSet.has(w));
     if (!crew.length) crew = ['HINNERK', 'SMILLA'];
     return crew.concat('BACKBORD');

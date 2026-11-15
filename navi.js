@@ -1231,25 +1231,36 @@ NAV.mischen = function () {
   const L = (NV.lektionen || []).filter(l => l.id !== 'L9' && l.id !== 'L11' && (lekState(l.id).gef || lekState(l.id).sterne));
   if (L.length < 2) return toast('Erst zwei Lektionen bis zur geführten Übung, dann lohnt sich das Mischen.');
   const typen = L.flatMap(l => l.typen).sort(() => Math.random() - .5);
-  return NAV.ueben(typen.slice(0, 5), {n: 5, titel: 'Gemischt wiederholen', zurueck: () => NAV.hub()});
+  return NAV.ueben(typen.slice(0, 3), {n: 3, titel: 'Gemischt wiederholen', zurueck: () => NAV.hub()});   /* N2 (Nutzer 15.11.2026): drei Aufgaben */
 };
 /* Der Törn liegt seit Törn 2.0 (5.14) in toern.js. */
 NAV.hub = async function () {
   await NAV.init();
   const n = S_(), stars = Object.values(n.lek).reduce((a, l) => a + (l.sterne ? 1 : 0), 0);
   const L = NV.lektionen || [], naechste = L.find(l => !lekState(l.id).sterne);
-  gameShell('Navigationsschule', `<p class="small muted" style="margin:6px 0 10px">Am Kartentisch der Kliev-Mündung. Die Karte ist erfunden und selbst gezeichnet (Maßstab etwa 1 : 100 000), gerechnet wird wie auf der echten Seekarte.</p>
+  /* v5.65 Menü M1 (docs/navi-folge-plan.md, Nutzer 15.11.2026): oben die Navi-Folge der Abendwache als Fahrwasser der Stufen, darunter Lernpfad und Nachschlagen wie bisher */
+  const nf = S.navifolge || {}, nfFertig = nf.fertig || {}, nfTest = nf.test || {};
+  const STUFEN = [['nf1', 'Grundlagen und Messen', 'Grad, Seemeile, Knoten · Kurs und Distanz · Fahrzeit', 1], [null, 'Kurse umrechnen', 'Missweisung und Ablenkung', 2], [null, 'Peilen', 'Standlinie, Kreuzpeilung, Feuer', 3], [null, 'Koppeln', 'Fahrt, Zeit, Strecke, Koppelort', 4], [null, 'Strom und Gezeiten', 'Vorhalten, Tidenhub, Durchfahrt', 5]];
+  const fahrwasser = `<div class="nffahr">${STUFEN.map(([id, t, u, abend], i) => { const ok = id && nfTest[id] && nfTest[id].ok, frei = !!id; return `<button class="nffst ${ok ? 'ok' : ''} ${frei ? '' : 'zu'}" ${frei ? `data-nf="${id}"` : 'disabled'}><span class="nfton ${i % 2 ? 'rot' : 'gruen'}">${ok ? '✓' : i + 1}</span><span><b>${esc(t)}</b><small>${esc(u)}</small><small class="muted">${frei ? `Abendwache Tag ${abend}${nfFertig[id] ? ' · gemacht' : ''}${nfTest[id] ? ' · Test ' + nfTest[id].n + '/' + nfTest[id].von : ''}` : 'kommt mit der Reise'}</small></span></button>`; }).join('')}</div>`;
+  gameShell('Navigationsschule', `<div class="nfheld"><small>🌙 Navi-Folge am Kartentisch</small><b>Mit Smilla die Etappe von morgen planen</b><span class="small">Erst zeigt die Crew, dann machst du, am Ende ein kurzer Test. Auf der Reisekarte Brede-Bucht.</span></div>
+    ${fahrwasser}
+    <p class="small muted" style="margin:12px 0 6px">Lernpfad und Nachschlagen (Kliev-Mündung, erfundene Karte, gerechnet wie auf der echten Seekarte):</p>
     ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${wkZuerst(naechste) ? 'Werkzeugkunde' : esc(naechste.t)}</button>` : ''}
+    <style>.nfheld{display:grid;gap:2px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#22364a,#2b5876);color:#fff;margin:6px 0 10px}.nfheld small{opacity:.8}.nfheld b{font-size:1.15rem}
+    .nffahr{position:relative;display:grid;gap:8px;padding-left:10px}.nffahr::before{content:"";position:absolute;left:27px;top:10px;bottom:10px;width:16px;background:repeating-linear-gradient(#bfe0f2 0 10px,#d6ecf8 10px 20px);border-radius:8px}
+    .nffst{position:relative;display:flex;gap:12px;align-items:center;text-align:left;padding:8px 10px;border-radius:12px;border:2px solid var(--line,#ddd);background:var(--card,#fff);color:inherit;font:inherit}.nffst span:last-child{display:grid}.nffst small{font-size:.8rem}.nffst.zu{opacity:.55}.nffst.ok{border-color:#2f9e55}
+    .nfton{flex:0 0 34px;height:34px;display:grid;place-items:center;font-weight:800;color:#fff;border-radius:6px;z-index:1}.nfton.gruen{background:#2f9e55;clip-path:polygon(50% 0,100% 100%,0 100%);padding-top:8px}.nfton.rot{background:#d33a2f}</style>
     <div class="menu">
       <button class="menuitem" data-n="path"><b>Lernpfad</b><span class="small muted">${stars} von ${L.length} Lektionen mit Stern · von den Grundlagen bis zur Gesamtaufgabe</span></button>
-      <button class="menuitem" data-n="mischen"><b>🔀 Gemischt wiederholen</b><span class="small muted">Fünf Aufgaben aus allem, was du schon geübt hast, durcheinander</span></button>
+      <button class="menuitem" data-n="mischen"><b>🔀 Gemischt wiederholen</b><span class="small muted">Drei Aufgaben aus allem, was du schon geübt hast, durcheinander</span></button>
       <button class="menuitem" data-n="exam"><b>Prüfungsmodus</b><span class="small muted">9 Teilaufgaben wie in der Prüfung, ohne Hilfen, 25 Minuten</span></button>
-      <button class="menuitem" data-n="fibel"><b>Navi-Fibel</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>
+      <button class="menuitem" data-n="fibel"><b>📖 Navi-Fibel (Lexikon)</b><span class="small muted">Alle Begriffe mit Erklärung und Merkhilfe</span></button>
       <button class="menuitem" data-n="werkzeugkunde"><b>${n.werkzeug ? '✓ ' : ''}Werkzeugkunde</b><span class="small muted">Kreuz, Bleistift, Kursdreieck und Zirkel Schritt für Schritt ausprobieren</span></button>
       <button class="menuitem" data-n="free"><b>Freie Karte</b><span class="small muted">Kursdreieck, Zirkel, Bleistift und Lupe ausprobieren</span></button>
       <button class="menuitem" data-n="old"><b>Amtliche Aufgaben</b><span class="small muted">Die 15 Originalaufgaben als Text (dafür brauchst du die BSH-Übungskarte 49)</span></button>
     </div>`);
   const nw = $('#nweiter'); if (nw) nw.onclick = () => { AUD.click(); wkZuerst(naechste) ? NAV.werkzeugkunde() : NAV.lesson(naechste.id); };
+  app.querySelectorAll('[data-nf]').forEach(b => b.onclick = () => { AUD.click(); if (typeof naviFolgeOeffnen === 'function') naviFolgeOeffnen(b.dataset.nf); });
   app.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { AUD.click(); const k = b.dataset.n; if (k === 'free') NAV.freeChart(); else if (k === 'old') navGame(); else if (NAV[k]) NAV[k](); });
 };
 })();

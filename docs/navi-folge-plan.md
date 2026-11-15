@@ -1,4 +1,6 @@
-# Navi-Folge und neue Navigationsschule: Plan (15.11.2026, Entwurf)
+# Navi-Folge und neue Navigationsschule: Plan (15.11.2026, entschieden)
+
+> **Entschieden (Nutzer 15.11.2026):** alle Vorschläge wie hier beschrieben; G1 Szene A am Tag, B abends; G2 Seekarte K1, Nachtkarte K4; G3 Menü M1 (Lernpfad als Fahrwasser, von Claude gewählt); G4 Brede-Bucht als Platzhalter mit Schleuse am Fluss = Reisekarte (`data/karte-brede.json`, `brede.js`); S1 Abend vor der Etappe, S3 Hinnerks Geheimnis, S2 Navigation an Umweg-Tagen; H-b und H-d sicher, H-a ab Tag 4, H-c ab und zu; B1 Kippschalter, B2 Schaden nur am Kartentisch. **Neu:** am Anfang mehrere Lektionen gebündelt und zusammen abgeprüft, Test nach jeder Navi-Folge, anfangs manches selbst, die App passt sich an. Als Regeln in `docs/reise.md` HR51–HR54.
 
 > Auftrag des Nutzers (14./15.11.2026): Für die Navigation eine **interaktive Folge** am Kartentisch. Die Crew ist aktiv dabei wie eine kleine Folge, erklärt und begleitet; es soll sich wie eine Geschichte anfühlen, mit Fragen und eigenen Aufgaben. Die Navigationsschule wird grundsätzlich umgebaut: Im Vordergrund steht die Folge, das ausführliche Lexikon (jede Aufgabe, jedes Thema) bleibt, wird aber übersichtlicher.
 > Grafik-Entwürfe zum Ansehen: Artifact „Navi-Folge am Kartentisch“ (Szenen A/B/C, Kartenstile K1–K4, Menü M1/M2). In der App ist noch nichts gebaut.

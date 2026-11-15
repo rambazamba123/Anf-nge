@@ -3,12 +3,14 @@ folge: 1-2
 titel: Gas, Sprit und Streichholz
 status: entwurf
 ---
-# Hörreise, Tag 1, Folge 1-2 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, noch nicht vertont.
+# Hörreise, Tag 1, Folge 1-2 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-2.md  ·  node tools/sprueche-pruefen.js
 #
 # FOLGENBLATT
 # Kopf: 1-2 „Gas, Sprit und Streichholz“ · Tag 1 · Kuttershaven, Bootstankstelle am Steg, danach Kajüte der Frieda · Vormittag nach dem Frühstück, Sonne · Revier Hafen
-# Vorher: 1-1 (Hafenkino, Harms hat angerufen). Gleich wird abgelegt, vorher wird getankt.
+# Vorher: 1-1 (Hafenkino, Harms' Sprachnachricht: sieben Tage). Gleich wird abgelegt, vorher wird getankt.
+# Karte und Gezeiten (HR51): Hochwasser Kuttershaven Tag 1 um elf. Wer jetzt (gegen halb zehn) losmacht, hat in der Brede den Flutstrom mit. Smilla gibt Hilkes Satz weiter, ohne Erklärung (erste Spur zu den Gezeiten).
+# Fahrzeit (T8): Smilla wundert sich über den vollen Tank für sieben Meilen; Hinnerk: sieben Tage, nicht sieben Meilen.
 # Blöcke: G4.1 ◼ „Sprit und Gas: was sich in der Bilge sammelt“ (System-Block, HR2) mit den Fragen 43, 49, 62, 63, 64, 65, 66.
 #   Ausführlich: 49 (Tanken), 63 (warum gefährlich), 64 (Gas im Boot). Kurz: 43, 62, 65, 66.
 # Überblick: keiner (U2 kommt in 1-3). Das Prinzip des Blocks trägt alle Fragen: Dampf und Gas sind schwerer als Luft und kriechen nach unten.
@@ -26,7 +28,7 @@ status: entwurf
 # Bilder und Animation: Mini-Animation „gas“ (anim.js, v5.27): Phase 0 Gas sinkt in die Bilge, Phase 1 ein Funke reicht, Phase 2 Flasche an Deck mit Loch unten. Keine Katalogbilder.
 # Fragerunde: Rahmen „Logbuch“ (HR18, 1-1 war „Harms ruft an“). Smilla schreibt Logbuch, die Fragen kommen als Sprachnachricht von Harms (HR12: den Wortlaut liest immer Harms).
 #   Alle sieben Fragen mit allen vier amtlichen Antworten; bei 49, 62 und 63 liest Harms den gemeinsamen Teil nur einmal (HR27). Richtige Antwort an wechselnder Stelle.
-# Haken: Hinnerk: „Und jetzt: Leinen los.“ Die nächste Folge (1-3) ist das Ablegen.
+# Haken: Hinnerk: „Und jetzt: Leinen los.“ steht vor dem Logbuch (HR50: ohne Harms endet die Folge mit dem Haken). Die nächste Folge (1-3) ist das Ablegen.
 # Anreden: eine (Hinnerk). Klassiker aus der Sprüchekiste mit [[SPRUCH]] markiert (HR25).
 # Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json. Die Geschichten der Hafenmeisterin sind erzählt, keine Statistik. Ohne quellen/ geprüft (R8).
 # Länge: etwa elf Minuten mit Fragerunde. Zweite Fassung vom 07.11.2026 (Ernstfall nach 1-7, Pfeife, Animation).
@@ -93,6 +95,8 @@ SMILLA: Merk's dir so: Beim Tanken ist alles aus. Motor aus, nicht nur im Leerla
 HINNERK: Voll. Und keen Tropfen daneben.
 HAFENMEISTER: Fast keiner.
 HINNERK: [[INTENTION: schnaubend]] Fast.
+SMILLA: Für sieben Meilen hätte der halbe Tank gereicht.
+HINNERK: Wir fahren sieben Tage. Nich sieben Meilen.
 HINNERK: Bilge gucken. Mach ich immer nach'm Tanken.
 HINNERK: [[INTENTION: genervt]] Schiet. Da glänzt wat. Bisschen Öl.
 [[AUDIO: Schiffsglocke]]
@@ -161,6 +165,10 @@ HINNERK: Wär ja auch Verschwendung.
 SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
 HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
 SMILLA: Solange.
+SMILLA: Hilke sagt, Hochwasser ist um elf. Wenn wir jetzt losmachen, haben wir in der Brede den Strom mit.
+HINNERK: Und jetzt: Leinen los.
+SMILLA: Und der Strom? Der von Hilke?
+HINNERK: Morgen.
 
 [[ABSCHNITT: Logbuch]]
 # HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms ruft selbst an (Nutzer 08.11.2026: nicht ankündigen lassen).
@@ -227,4 +235,3 @@ HARMS: Was ist zu beachten, wenn eine Flüssiggasanlage außer Betrieb gesetzt w
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 HARMS: Charlie. Zudrehen. [[SPRUCH: ha-ende-04]] Ende.
-HINNERK: Und jetzt: Leinen los.

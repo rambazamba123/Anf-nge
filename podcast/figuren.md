@@ -75,7 +75,7 @@
 **Innen** [neu]
 - **Was er will:** Smilla sicher zur Albertine bringen und dabei so tun, als wäre ihm das egal. Und nicht allein heimfahren.
 - **Was er braucht:** zugeben, dass er Hilfe braucht, und Smilla gehen lassen.
-- **Was er verbirgt:** Er sieht nachts schlecht [fest] (E20), und er weiß es selbst längst. Er will es nur nicht zugeben [fest] (Nutzer, 07.11.2026, F4). Eigentlich dürfte er so gar nicht mehr allein fahren: Körperliche Mängel schließen vom Führen aus (Frage 2). Darum wird er in 1-1 bei genau dieser Frage still. Darum ankert er „immer“ vor Dunkelheit, und darum braucht die Frieda dich. In der Nacht von Tag 5 gibt er es zu.
+- **Was er verbirgt:** Er sieht nachts schlecht [fest] (E20), und er weiß es selbst längst. Er will es nur nicht zugeben [fest] (Nutzer, 07.11.2026, F4). Eigentlich dürfte er so gar nicht mehr allein fahren: Körperliche Mängel schließen vom Führen aus (Frage 2). Darum wird er in 1-1 bei genau dieser Frage still. Darum ankert er „immer“ vor Dunkelheit, und darum braucht die Frieda dich. In der Nacht von Tag 5 gibt er es zu. **Zweite Schicht (Nutzer 14.11.2026, HG, `docs/reise.md` HR53):** Damit niemand merkt, wie schlecht er nachts sieht, hat er in der Ölzeugtasche ein Handy mit Kartenplotter. Er guckt nur morgens kurz auf die Karte und kommt trotzdem immer an, auch nachts; die Crew staunt. Spuren: ein Piepen aus der Tasche, „Batterie“, die Entfernung „aus dem Bauch“ auf die Zehntelmeile. An Tag 6 wird das Handy im Sturm nass, und du navigierst. Lehre: „Das Ding kann ausfallen. Darum lernst du's auf Papier.“ Er bleibt dabei kein Betrüger: Er kann navigieren, er schämt sich nur für die Augen.
 - **Sein Widerspruch:** Er predigt „Die See verzeiht nix“ und fährt selbst nach Gefühl. Regeln, die er für Papierkram hält, übergeht er. Bei Sicherheit ist er dagegen der Strengste an Bord.
 
 **Bogen über die Reise** [neu]
@@ -86,6 +86,7 @@
 | 3 | In Schleuse und Kanal ist er der Lernende, Quirin der Profi. Er schweigt. |
 | 4 | Am Wrack will er müde ankern; die Wasserschutzpolizei kommt. Er lässt dich zum ersten Mal ankern. |
 | 5 | Er liest ein Feuer falsch. Dann sagt er es: Er sieht nachts schlecht. Er gibt dir die Nachtwache. |
+| 6 | Im Verkehrstrennungsgebiet wird sein Plotter-Handy nass. Er gibt es zu und lässt dich navigieren. |
 | 6 | Im Sturm ist er ruhig und klar. Danach, leise: „Skipper.“ Zum ersten Mal. |
 | 7 | Smilla geht. Er zündet sich die Pfeife an und sagt nichts. Harms und er reden über die Elbe. |
 
@@ -346,7 +347,7 @@ Die Klassiker jeder Figur stehen in `podcast/sprueche.json`: je Figur und Lage (
 - Im Skript: `HINNERK: [[SPRUCH: hi-lob-02]] Geht doch.` Das Werkzeug zählt mit und läuft vor jedem Commit.
 
 <!-- SPRUECHE:START -->
-Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (547 Sprüche in 70 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
+Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (555 Sprüche in 71 Lagen). Budget = Einsätze auf der ganzen Reise mit 46 Folgen; zwischen zwei Einsätzen desselben Spruchs liegen mindestens 2 Folgen.
 
 **Erkennungssätze**
 
@@ -374,7 +375,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 
 | Figur | Lage | Varianten | möglich | Bedarf | benutzt |
 |---|---|---|---|---|---|
-| Käpt'n Hinnerk | Grüßen | 14 | 42 | 30 | 2 |
+| Käpt'n Hinnerk | Grüßen | 15 | 45 | 30 | 3 |
 | Käpt'n Hinnerk | Zustimmen | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Ablehnen | 12 | 36 | 24 | 0 |
 | Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 1 |
@@ -385,8 +386,9 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 1 |
 | Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 1 |
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
-| Käpt'n Hinnerk | Wetter nach Gefühl | 8 | 24 | 15 | 0 |
+| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 1 |
+| Käpt'n Hinnerk | Wetter nach Gefühl | 9 | 27 | 15 | 1 |
+| Käpt'n Hinnerk | Spuren des Plotters (HR53) | 6 | 7 (max) | 6 | 1 |
 | Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 2 |
 | Käpt'n Hinnerk | Hafenkino-Reporter | 6 | 4 (max) | – | 1 |
 | Käpt'n Hinnerk | Warum heißt das Boot Frieda? (jedes Mal anders, die Wahrheit kommt nie) | 7 | 7 (max) | – | 0 |

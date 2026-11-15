@@ -30,6 +30,8 @@ const F = (d, z, t) => fehler.push(`✖ ${path.basename(d)}:${z}: ${t}`), H = (d
 /* Wer ist wann an Bord? */
 const anBord = (wer, id) => {
   const c = (plan.crew || []).find(x => x.wer === wer); if (!c) return true;   /* Gäste ohne Eintrag (Hafenmeisterin, Harms am Telefon) prüft das nicht */
+  /* Folge 0 „Anheuern“ (HR26): der Abend vor Tag 1, die Stamm-Crew ist da, auch Klabauter (er haut erst in der Nacht ab, crew-Hinweis) */
+  if (/^0-/.test(id)) return ['hinnerk', 'smilla', 'klabauter'].includes(wer);
   const n = nr(id), drin = n >= nr(c.ab) && (!c.bis || n <= nr(c.bis)), zurueck = c.zurueck && n >= nr(c.zurueck);
   const gast = Array.isArray(c.gast) ? c.gast.includes(id) : false;
   return drin || zurueck || gast;

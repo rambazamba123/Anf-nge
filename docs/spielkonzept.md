@@ -175,9 +175,9 @@ Du kaufst eine kleine Box. Ihre Verpackung ist ein Stück Pier mit Klampe, Polle
 - Der **alte Törn** und der **alte Probetag** (`reise.js`) fallen weg; ihre Spielstände bleiben lesbar (R7).
 
 ## 5. Wie Hörreise, Box und Karte zusammenhängen (wichtig fürs Schreiben)
-Jede Folge der Hörreise ist eine Station auf der Reisekarte. Für die Skripte gilt deshalb (Vorschlag **SK15**, wird nach Freigabe eine Regel in `docs/reise.md` §7):
+Jede Folge der Hörreise ist eine Station auf der Reisekarte. Für die Skripte gilt deshalb (**SK15**, seit 15.11.2026 als HR51 bis HR55 in `docs/reise.md` §7; wo der Text unten abweicht, gilt §7: kein Anhalten im Mitmachen mehr, Handgriffe in der Abendwache):
 1. **Die Box liegt auf dem Tisch.** Die Crew spricht so, als lägen Pier, Modell, Leinen und Karte vor dir: „Nimm deine Frieda, leg sie an den Pier, Bug zum Poller.“ Wer die Box nicht hat oder gerade im Auto sitzt, versteht trotzdem alles (HR19).
-2. **Handgriffe sind Aufgaben der Station.** Im Modus Mitmachen hält die Folge an („Mach mal, ich warte“), im Hörspiel macht es die Crew, und die Aufgabe landet als offene Kachel an der Station (HR20).
+2. **Handgriffe sind Aufgaben der Station.** In der Folge macht es die Crew und sagt, was sie tut; du machst es in der **Abendwache** desselben Tages, am Pier der Box oder in der App (HR20, HR52). Die Folge hält nie an.
 3. **Die Karte ist die Papierkarte.** Navigationsstellen nennen nur, was auf der Reisekarte steht, und nur Dinge, die es auch auf der Karte 49 gibt (§3).
 4. **Wer navigiert, folgt der Leiter in §3.** Ab Tag 4 fragt die Crew dich nach dem Kurs, statt ihn zu sagen.
 5. **Das Ziel des Tages nennt die Crew am Morgen**, nie früher.
