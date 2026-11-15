@@ -64,6 +64,10 @@ ALLE.forEach((f, i) => { const v = ALLE[i - 1];
   if (f.abfrage === 'klabauter' && i < AB.klabauter) fehler.push(`${f.id}: Klabauter-Quiz, bevor Klabauter an Bord ist`);
   if (v && f.muster && f.muster === v.muster) fehler.push(`${f.id}: dasselbe Ablaufmuster wie ${v.id} (${f.muster})`);
   if (v && f.abfrage && f.abfrage === v.abfrage) fehler.push(`${f.id}: dieselbe Abschluss-Abfrage wie ${v.id}`); });
+/* Abendwache (HR52): die Navi-Folge des Abends gibt es, und sie plant die Etappe des nächsten Tages */
+{ let NF = {folgen: []}; try { NF = JSON.parse(fs.readFileSync(R + 'data/navi-folgen.json', 'utf8')); } catch (e) {}
+  for (const t of P.tage) { const a = t.abend; if (!a) continue;
+    if (a.navi) { const f = NF.folgen.find(x => x.id === a.navi); if (!f) fehler.push(`Tag ${t.nr}: Abendwache nennt Navi-Folge ${a.navi}, die es in data/navi-folgen.json nicht gibt`); else { if (f.abend !== t.nr) fehler.push(`Navi-Folge ${a.navi} gehört laut data/navi-folgen.json zum Abend von Tag ${f.abend}, nicht Tag ${t.nr}`); if (a.plant !== t.nr + 1 || f.plant !== t.nr + 1) fehler.push(`Tag ${t.nr}: die Abendwache plant die Etappe von Tag ${t.nr + 1} (HR51 Punkt 7)`); } } } }
 if (fehler.length) { fehler.forEach(x => console.error('Fehler: ' + x)); process.exit(1); }
 if (process.argv.includes('--warn')) warn.forEach(x => console.log('Hinweis: ' + x));
 if (process.argv.includes('--check')) { console.log(`Reiseplan in Ordnung: ${P.tage.length} Tage, ${n} Folgen, 285 Fragen.`); process.exit(0); }
@@ -71,7 +75,7 @@ const DU = {zuhoeren: '👂 zuhören', ausguck: '👀 Ausguck', handgriffe: '✋
 const ART = {kajuete: '🌧️', garn: '🧶', hafen: '⚓', fahrt: '☀️', anker: '🌊', schleuse: '🚧', nacht: '🌙', nebel: '🌫️', sturm: '⛈️', pruef: '📝', abschied: '👋'};
 let md = '';
 for (const t of P.tage) {
-  md += `\n### Tag ${t.nr}: ${t.titel}\n**Wo:** ${t.ort} · **Du:** ${t.du}${t.knoten ? ' · **Knoten:** ' + t.knoten.join(', ') : ''}${t.navi ? ' · **Navigation:** ' + t.navi : ''}\n\n**Geschichte:** ${t.story}\n\n**Kiste:** ${t.set} · **Haken:** ${t.haken}\n\n| Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |\n|---|---|---|---|---|---|---|\n`;
+  md += `\n### Tag ${t.nr}: ${t.titel}\n**Wo:** ${t.ort} · **Du:** ${t.du}${t.knoten ? ' · **Knoten:** ' + t.knoten.join(', ') : ''}${t.navi ? ' · **Navigation:** ' + t.navi : ''}\n\n**Geschichte:** ${t.story}\n\n**Kiste:** ${t.set} · **Haken:** ${t.haken}${t.abend ? `\n\n**🌙 Abendwache:** ${t.abend.hinweis || ''}` : ''}\n\n| Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |\n|---|---|---|---|---|---|---|\n`;
   for (const f of t.folgen) { const u = (P.ueberblicke || []).filter(x => x.folge === f.id).map(x => `<br>🧭 *Überblick: ${x.titel}*`).join('');
     const ef = (f.ernstfall || []).map(e => `<br>🚨 *Ernstfall: ${e.was}*`).join('') + (f.lage || []).map(e => `<br>🔁 *Wiedersehen: ${e.was}*`).join('');
     md += `| ${f.id} | ${ART[f.art] || ''} | ${f.titel} | ${f.ort} | ${DU[f.du] || f.du} | ${f.text}${u}${ef} | ${f.fragen || '–'}${f.wieder ? '<br>↻ ' + f.wieder : ''}${(f.bloecke || []).length ? '<br>' + f.bloecke.map(b => `${b} ${BL[b].form === 'system' ? '◼' : '▸'}`).join(' ') : ''} |\n`; }

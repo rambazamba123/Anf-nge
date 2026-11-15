@@ -1,0 +1,70 @@
+{
+  "hinweis": "Navi-Folgen der Abendwache (docs/reise.md HR52, docs/navi-folge-plan.md). Am Kartentisch der Reisekarte Brede-Bucht (data/karte-brede.json). Jede Folge plant die Etappe des nächsten Tages (HR51 Punkt 7). Platzhalter in geschweiften Klammern rechnet navifolge.js aus der Karte: {von} {nach} (gesprochene Namen), {kurs} (drei Ziffern in Worten), {kursZahl}, {sm} (Seemeilen in Worten), {smZahl}, {min} (Minuten bei {fahrt} Knoten), {fahrt}. Sätze mit „app“ und „papier“ gibt es zweimal (Kippschalter, HR52). Namen und Zahlen nur hier und in der Karte ändern.",
+  "sprech": {"KH": "Ka-Ha-Tonne", "K1": "Ka eins", "K2": "Ka zwei", "B1": "Be eins", "B2": "Be zwei", "Elv": "Elv-Tonne", "E1": "E eins", "E2": "E zwei", "E3": "E drei", "E4": "E vier", "E5": "E fünf", "E6": "E sechs", "Hörn": "Hörn-Tonne", "Wrack N": "Wrack Nord", "Wrack W": "Wrack West", "Moor": "Moor-Tonne"},
+  "toleranz": {"kurs": 3, "distanz": 0.2, "fahrzeit": 6},
+  "uebung": [["K2", "KH"], ["KH", "Hörn"], ["Hörn", "Elv"], ["E1", "Elv"], ["Hörn", "Wrack W"], ["B2", "K1"], ["Elv", "E6"]],
+  "folgen": [
+    {"id": "nf1", "titel": "Kurs und Distanz", "abend": 1, "plant": 2, "stufe": "Grundlagen und Messen",
+     "lektionen": ["Grad und Himmelsrichtung", "Seemeile und Knoten", "Kurs messen", "Distanz messen", "Fahrzeit"],
+     "fertigkeiten": ["kurs", "distanz", "fahrzeit"],
+     "beispiel": ["B2", "KH"], "aufgabe": ["KH", "Elv"], "fahrt": 5,
+     "schritte": [
+       {"sag": "s", "t": "So. Abendwache. Lampe an, Kaffee hin, Karte raus. Morgen fahren wir zur Elv und dann die Tonnen rauf nach Klüverhafen. Und heute Abend planst du das mit mir."},
+       {"sag": "k", "t": "Abendwache! Abendwache!"},
+       {"sag": "s", "app": "Deine Werkzeuge liegen unten: Bleistift, Kursdreieck, Zirkel. Was blinkt, nimmst du.", "papier": "Nimm deine Karte aus der Kiste, dazu Bleistift, Kursdreieck und Zirkel. Hier tippst du nur die Zahlen ein."},
+       {"zeige": "ganz"},
+       {"sag": "s", "t": "Erst das Wichtigste. Norden ist auf der Karte immer oben. Rechts ist Osten, unten Süden, links Westen. Und die Richtung messen wir in Grad, rundherum dreihundertsechzig."},
+       {"frage": "Null Grad ist Norden. Wo liegen neunzig Grad?", "opts": ["Osten", "Süden", "Westen"], "ok": 0, "fk": "grad", "richtig": "Osten. Halbe Runde, hundertachtzig, ist Süden, zweihundertsiebzig ist Westen.", "falsch": "Osten. Rechts herum gezählt: neunzig Osten, hundertachtzig Süden, zweihundertsiebzig Westen."},
+       {"sag": "s", "t": "Und die Strecke in Seemeilen. Eine Seemeile ist genau eine Minute am Breitenrand. Das ist der Streifen links und rechts an der Karte. Nie unten messen, unten ist die Länge, die passt nicht."},
+       {"frage": "Wo misst du eine Strecke ab?", "opts": ["am Breitenrand, links oder rechts", "am Längenrand, oben oder unten"], "ok": 0, "fk": "seemeile", "richtig": "Genau. Links oder rechts, eine Minute ist eine Meile.", "falsch": "Links oder rechts, am Breitenrand. Oben und unten sind die Minuten kürzer."},
+       {"vormachen": "kurs", "von": "{bvon}", "nach": "{bnach}", "fk": "kurs"},
+       {"vormachen": "distanz", "von": "{bvon}", "nach": "{bnach}", "fk": "distanz"},
+       {"sag": "h", "t": "Dat hätt ich auch so gefahren. Ungefähr."},
+       {"aufgabe": "kurs", "von": "{avon}", "nach": "{anach}", "fk": "kurs", "geschichte": true},
+       {"aufgabe": "distanz", "von": "{avon}", "nach": "{anach}", "fk": "distanz", "geschichte": true},
+       {"sag": "s", "t": "Und jetzt die Zeit. Knoten heißt Seemeilen in der Stunde. Die Frieda läuft {fahrt} Knoten."},
+       {"aufgabe": "fahrzeit", "von": "{avon}", "nach": "{anach}", "fk": "fahrzeit", "geschichte": true},
+       {"sag": "s", "t": "Also morgen: von der {von} zur {nach}, Kurs {kurs}, {sm} Seemeilen, gut {min} Minuten. Ich schreib's ins Logbuch."},
+       {"test": ["kurs", "distanz", "fahrzeit"]},
+       {"ende": true}
+     ]}
+  ],
+  "saetze": {
+    "vor_kurs": [
+      {"w": "s", "t": "Ich mach's dir einmal vor. Von der {von} zur {nach}. Erst die Linie mit dem Bleistift."},
+      {"w": "s", "t": "Jetzt das Dreieck. Die Mitte auf den Anfang, die lange Kante genau auf einen Meridian, eine Nord-Süd-Linie."},
+      {"w": "s", "t": "Und wo die Kurslinie die Skala schneidet, steht der Kurs. Hier: {kurs}. {kursZahl} Grad."}
+    ],
+    "vor_distanz": [
+      {"w": "s", "t": "Jetzt die Strecke. Zirkel auf Anfang und Ende."},
+      {"w": "s", "t": "Und dann rüber an den Breitenrand. Jeder kleine Strich ist eine Zehntelmeile."},
+      {"w": "k", "t": "Breitenrand! Breitenrand!"},
+      {"w": "s", "t": "{sm} Seemeilen. So. Die nächste machst du."}
+    ],
+    "kannst_schon": [
+      {"w": "s", "t": "Das kannst du schon. Dann gleich selbst."},
+      {"w": "s", "t": "Das hattest du gestern sicher. Mach mal."}
+    ],
+    "auf_kurs": {
+      "app": ["Von der {von} zur {nach}. Was blinkt, nimmst du. Dann sag mir den Kurs.", "Linie steht. Leg das Dreieck an.", "Das Dreieck liegt. Lies ab."],
+      "papier": ["Von der {von} zur {nach}. Linie ziehen, Dreieck anlegen, und dann tipp den Kurs ein.", "Von der {von} zur {nach}. Erst die Linie, dann das Dreieck mit der Mitte auf den Anfang.", "Die lange Kante auf den Meridian, und wo die Linie die Skala schneidet, steht der Kurs."]
+    },
+    "auf_distanz": {
+      "app": ["Und wie weit ist das? Zirkel nehmen.", "Zirkel steht auf Anfang und Ende. Jetzt rüber an den Rand.", "Der Zirkel steht am Breitenrand. Zähl die Minuten."],
+      "papier": ["Und wie weit ist das? Zirkel, Breitenrand, und tipp die Meilen ein.", "Zirkel auf Anfang und Ende, dann an den Breitenrand links.", "Jeder kleine Strich am Rand ist eine Zehntelmeile."]
+    },
+    "auf_fahrzeit": ["{sm} Seemeilen bei {fahrt} Knoten. Wie viele Minuten brauchen wir?", "Rechne: Meilen durch Knoten gibt Stunden. Mal sechzig gibt Minuten.", "{sm} durch {fahrt} gibt {std} Stunden. Mal sechzig. Wie viele Minuten?"],
+    "richtig": [{"w": "s", "t": "Passt. Hinnerk, hörst du?"}, {"w": "s", "t": "Genau so."}, {"w": "k", "t": "Richtig! Richtig!"}],
+    "gegenkurs": [{"w": "s", "t": "Andersrum! Das ist der Gegenkurs. Wir wollen hin, nicht zurück."}, {"w": "k", "t": "Andersrum! Andersrum!"}],
+    "falsch": [{"w": "s", "t": "Nicht ganz. Ich helf dir."}],
+    "loesung": [{"w": "s", "t": "Richtig wäre {loesung}. Merk dir, wo du dich verschaut hast."}],
+    "unten_gemessen": [{"w": "s", "t": "Zu viel. Hast du unten gemessen? Unten sind die Minuten kürzer, da kommen zu viele raus. Immer links oder rechts."}],
+    "fehlerfahrt": [{"w": "s", "t": "Mal sehen, was mit {falsch} Grad morgen passiert wäre."}],
+    "auflauf": {"watt": [{"w": "h", "t": "Groter Sand. Na prima."}], "land": [{"w": "h", "t": "Dat is Land. Da wohnen Kühe."}], "frei": [{"w": "s", "t": "Kein Rums. Aber wir wären an der Tonne vorbei, mitten rein ins Fahrwasser der Frachter."}]},
+    "nach_schaden": [{"w": "s", "t": "Kommt ins Mängelbuch. Repariert ist es, wenn du's richtig hast. Also nochmal."}],
+    "test_start": [{"w": "s", "t": "Und jetzt der Test. Drei Aufgaben, alles von heute, ohne meine Hilfe. Ich guck nur zu."}],
+    "test_gut": [{"w": "s", "t": "Bestanden. Navigation morgen machst du mit."}, {"w": "k", "t": "Bestanden! Bestanden!"}],
+    "test_schlecht": [{"w": "s", "t": "Noch nicht ganz. Wir üben eine Runde mit Hilfe, dann noch ein Versuch. Kein Problem."}],
+    "ende": [{"w": "s", "t": "Feierabend. Morgen früh fahren wir genau das. Gode Nacht."}, {"w": "h", "t": "Licht aus, Ohren zu."}]
+  }
+}

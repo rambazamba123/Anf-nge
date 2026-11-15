@@ -18,8 +18,9 @@
    "titel": "Leinen los",
    "ort": "Kuttershaven → Fluss Brede → Ankerbucht Schilfwinkel",
    "du": "Passagier: zuhören, Ausguck, kleine Handgriffe",
-   "story": "Aufbruch zu Smillas neuem Schiff. Klabauter ist verschwunden, Hinnerk tut gelassen. Abends im Schilfwinkel landet er wieder auf dem Kajütdach. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs Albertine. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
-   "haken": "Harms am Telefon: „Sieben Tage. Wer zu spät kommt, fährt allein heim.“",
+   "story": "Aufbruch zu Smillas neuem Schiff. Klabauter ist verschwunden, Hinnerk tut gelassen. Abends im Schilfwinkel landet er wieder auf dem Kajütdach. Harms schickt eine Sprachnachricht: Prüfung in sieben Tagen, an Bord seines Segelschiffs Albertine. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).",
+   "haken": "Harms' Sprachnachricht in 1-1 (HR50): „Sieben Tage. Wer zu spät kommt, fährt allein heim.“",
+   "abend": {"navi": "nf1", "plant": 2, "fragerunde": true, "handgriffe": "Feuerlöscher und Westen aus 1-7, mit der Miniatur-Frieda vom Pier ablegen", "hinweis": "Abendwache Tag 1 (HR52): Fragerunde des Tages, Navi-Folge 1 „Kurs und Distanz“ (Grundlagen, Kurs, Distanz, Fahrzeit gebündelt, Test am Ende), plant die Etappe Ka-Ha-Tonne → Elv-Tonne von Tag 2."},
    "set": "Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu.",
    "folgen": [
     {

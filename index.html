@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.64';
+  window.__ver = '5.65';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5075,6 +5075,7 @@ function renderFrei() {
       ...(sks ? [['✅', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten', () => loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Ließ sich nicht laden.'))]] : []),
       ...(SIG_QS.length ? [['📯', 'Schallsignale', 'Hören und erkennen', () => hornQuiz()]] : [])]],
     ['Praxis', [['📒', 'Ausbildungsheft', 'Was du weißt, verstehst und kannst, und was du an Bord schon darfst', () => heftOeffnen()],
+      ['🌙', 'Abendwache: Kurs und Distanz', 'Navi-Folge 1 am Kartentisch mit Smilla: Grundlagen, Kurs, Distanz, Fahrzeit, am Ende ein Test', () => naviFolgeOeffnen('nf1')],
       ['🧭', 'Navigation auf Seekarte 7', 'Aufgaben nach Stufen auf der echten Karte, der Zirkel zählt für dich', () => navi7Oeffnen()],
       ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
       ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
@@ -5127,6 +5128,8 @@ function geraeuscheSeite() {
   }).catch(() => { $('#glist').innerHTML = '<p class="muted">Die Liste ließ sich nicht laden.</p>'; });
 }
 /* H3: Reise am Kartentisch (reise.js, data/reise.json), erst als Probe-Etappe */
+/* Navi-Folge der Abendwache am Kartentisch der Reisekarte Brede-Bucht (v5.65, docs/reise.md HR52) */
+function naviFolgeOeffnen(id) { return nachladen('brede.js').then(() => nachladen('navifolge.js')).then(() => NAVIFOLGE.start(id || 'nf1')).catch(e => { console.error(e); toast('Die Abendwache ließ sich nicht laden. Prüf dein Internet.'); }); }
 function navi7Oeffnen() { return nachladen('navi7.js').then(() => NAVI7.seite()).catch(e => { console.error(e); toast('Die Navigation ließ sich nicht laden. Prüf dein Internet.'); }); }
 function reiseOeffnen() { return nachladen('szene.js').then(() => nachladen('reise.js')).then(() => REISE.oeffnen()).catch(() => toast('Die Reise ließ sich nicht laden. Prüf dein Internet.')); }
 /* Freigaben „Was ich an Bord darf“ (Gesamtplan §2): neu → geübt → freigegeben (zweimal hintereinander richtig). Spielstand S.freigaben {id: {n, frei, d}} (R7) */
@@ -5157,8 +5160,8 @@ function hoerreiseGast() { const e = HOERREISE[hoerreiseNaechste()]; return (e &
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
 function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${hoerreiseNr(id)} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
 function hoerreiseWahl() {
-  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
-  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('nf:nf1', '🌙 Abendwache Tag 1: Kurs und Distanz', 'Navi-Folge am Kartentisch · plant die Etappe von Tag 2')}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m.startsWith('nf:')) return naviFolgeOeffnen(b.dataset.m.slice(3)); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
 /* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
 function alteFolgen() {

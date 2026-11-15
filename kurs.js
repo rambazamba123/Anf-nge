@@ -174,7 +174,9 @@
   function anBordListe(id, plan, sprecherSet) {
     const fid = String(id).replace(/^reise-/, ''), n = x => { const [t, k] = String(x).split('-').map(Number); return t * 100 + k; };
     let crew;
-    if (plan && plan.crew && /^\d+-\d+$/.test(fid)) crew = plan.crew.filter(c => (n(fid) >= n(c.ab) && (!c.bis || n(fid) <= n(c.bis))) || (c.zurueck && n(fid) >= n(c.zurueck))).map(c => c.wer.toUpperCase()).filter(w => w !== 'JASPER');
+    /* Folge 0 „Anheuern“: der Abend vor Tag 1, Klabauter ist noch da (er haut erst in der Nacht ab) */
+    if (/^0-/.test(fid)) crew = ['HINNERK', 'SMILLA', 'KLABAUTER'];
+    else if (plan && plan.crew && /^\d+-\d+$/.test(fid)) crew = plan.crew.filter(c => (n(fid) >= n(c.ab) && (!c.bis || n(fid) <= n(c.bis))) || (c.zurueck && n(fid) >= n(c.zurueck))).map(c => c.wer.toUpperCase()).filter(w => w !== 'JASPER');
     else crew = ['HINNERK', 'SMILLA', 'KLABAUTER', 'QUIRIN'].filter(w => sprecherSet.has(w));
     if (!crew.length) crew = ['HINNERK', 'SMILLA'];
     return crew.concat('BACKBORD');

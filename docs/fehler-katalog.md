@@ -7,6 +7,7 @@
 ## Werkzeuge
 - ⚙ `node tools/podcast-pruefen.js <folge>`: Skripte (HR38 Funkwörter, HR44 Nachdenkfragen, HR46 Dichte, Logbuch, Länge). Läuft im pre-commit.
 - ⚙ `node tools/logik-pruefen.js`: Figur nicht an Bord, „Morgen wieder“, fast doppelte Sätze, Spruch ohne Anlass. Läuft im pre-commit.
+- ⚙ `node tools/karte-pruefen.js` (`--tabelle` für Strecken und Fahrzeiten): Orte, Routen und Meilen der Folgen gegen die Reisekarte (HR51). Läuft im pre-commit.
 - ⚙ `node tests/buehne-pruefen.js` (vorher `python3 -m http.server 8765`): Bühne der Hörreise am Handy-Maß. **Nach jeder Änderung an `kurs.js`, am Player-CSS oder an Folgen von Hand laufen lassen** (dauert etwa zwei Minuten, darum nicht im pre-commit).
 - ⚙ `BREITE=320 ZEIT=4000 node tools/anim-bilder.js bild.png 0 9 =<id>`: alle Phasen einer Animation als Kontaktabzug. Nach jeder Änderung an einer Animation ansehen.
 - ⚙ `node --check <datei>.js` nach jeder Bearbeitung mit Python oder sed (v5.55, v5.56: kaputte Zeile nach mehrzeiligem Ersetzen).
@@ -27,6 +28,9 @@
 | Gast stellt sich nicht vor, Bekannte stellen sich neu vor (v5.25) | Vorstellungssätze | ✋ HR26 |
 | Wetter aus der App statt aus der Geschichte (v5.54) | Szene ohne Wetterwort | ✋ Wetter in `HOERREISE` und im Szenentext |
 | Story-Logbuch nicht fortgeschrieben | Folge fehlt dort | ⚙ podcast-pruefen bricht ab |
+| Strecke passt nicht zur Karte (v5.65: „zwölf Meilen“ bis Schilfwinkel, auf der Karte sieben) | Meilen, Fahrzeit, Richtung in der Folge | ⚙ karte-pruefen; ✋ Kurs und Seite der Tonne auf der Karte nachmessen (HR51) |
+| Geschichte hängt am abschaltbaren Anruf (v5.65: Frist nur bei Harms, „Leinen los“ nach der Fragerunde) | wichtiger Satz im Abschnitt mit „Harms“ im Titel | ✋ HR50 |
+| Folgen schließen nicht aneinander (v5.65: 1-2 endet an der Tankstelle, 1-3 beginnt in der Box) | erste Szene der Folge gegen die letzte der vorigen | ✋ Ort und Lage der Frieda am Übergang lesen |
 
 ## Teil B: Player und Bühne (`kurs.js`, CSS)
 | Fehler (Version) | Ursache | Prüfen |
@@ -59,6 +63,9 @@
 | Blase beim Minimieren ohne Aussehen (v5.64 beim Bau) | Das `<style>` des Players stand neben ihm in `#app` und verschwand beim Seitenwechsel | ✋ beim Umhängen eines Bereichs sein `<style>` mitnehmen |
 | Neue Version kam am Handy nicht an | `__ver`/`VERSION` nicht erhöht | ✋ R4, beide gleich |
 
+| Navi-Folge: Zahlentasten bleiben nach einer Aufgabe stehen, man tippt in eine erledigte Aufgabe (v5.65) | Tasten sichtbar während Smilla spricht | ⚙ `aufgabe` räumt die Leiste ab; ✋ Lauf mit Playwright |
+| Navi-Folge: Werkzeug doppelt angetippt, Animation läuft zweimal (v5.65) | Zirkel springt | ⚙ Sperre `Z.werkzeugLaeuft` |
+
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |
 |---|---|---|
@@ -78,6 +85,6 @@
 
 ## Teil E: Arbeitsweise
 - Vor dem Commit `node --check` auf jede geänderte JS-Datei; nach mehrzeiligem Ersetzen die Stelle ansehen.
-- Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben.
+- Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.
 - Was der Nutzer meldet und ich nicht nachstellen kann: messen (Position, Zeit), mehrere Ursachen ausschließen, dann die wahrscheinlichste beheben und offen sagen, dass es eine Vermutung ist (v5.56 „Springen“).
 - Änderungen an Sätzen machen vertonte Abschnitte ungültig: Kürzungen sammeln und zusammen mit anderen Änderungen machen, dem Nutzer sagen, welche Abschnitte neu fällig sind.

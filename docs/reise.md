@@ -404,9 +404,11 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 ### Tag 1: Leinen los
 **Wo:** Kuttershaven → Fluss Brede → Ankerbucht Schilfwinkel · **Du:** Passagier: zuhören, Ausguck, kleine Handgriffe
 
-**Geschichte:** Aufbruch zu Smillas neuem Schiff. Klabauter ist verschwunden, Hinnerk tut gelassen. Abends im Schilfwinkel landet er wieder auf dem Kajütdach. Harms ruft an: Prüfung in sieben Tagen, an Bord seines Segelschiffs Albertine. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).
+**Geschichte:** Aufbruch zu Smillas neuem Schiff. Klabauter ist verschwunden, Hinnerk tut gelassen. Abends im Schilfwinkel landet er wieder auf dem Kajütdach. Harms schickt eine Sprachnachricht: Prüfung in sieben Tagen, an Bord seines Segelschiffs Albertine. Hinnerk will „vor Dunkelheit ankern, immer“ (erste Spur seines Geheimnisses).
 
-**Kiste:** Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu. · **Haken:** Harms am Telefon: „Sieben Tage. Wer zu spät kommt, fährt allein heim.“
+**Kiste:** Die Miniatur-Frieda steht schon auf dem Tisch; die Kiste bleibt zu. · **Haken:** Harms' Sprachnachricht in 1-1 (HR50): „Sieben Tage. Wer zu spät kommt, fährt allein heim.“
+
+**🌙 Abendwache:** Abendwache Tag 1 (HR52): Fragerunde des Tages, Navi-Folge 1 „Kurs und Distanz“ (Grundlagen, Kurs, Distanz, Fahrzeit gebündelt, Test am Ende), plant die Etappe Ka-Ha-Tonne → Elv-Tonne von Tag 2.
 
 | Folge | | Titel | Ort | Du | Was passiert | Fragen · Blöcke |
 |---|---|---|---|---|---|---|

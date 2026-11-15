@@ -113,6 +113,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     /* 5.10: beim ersten Öffnen erklärt die Crew, danach nicht mehr */
     if (!await page.$('#einf')) throw new Error('keine Einführung'); await ev(page, () => document.querySelector('#einfx').click());
     await ev(page, () => navSchool()); await sleep(800); if (await page.$('#einf')) throw new Error('Einführung doppelt'); });
+  /* v5.65: Navigationsschule mit Navi-Folge oben (Menü M1), Navi-Folge 1 startet am Kartentisch mit Karte, Gesichtern und Bühne */
+  await schritt('06b-navifolge', page, async () => { await ev(page, () => navSchool()); await sleep(900);
+    if (!await page.$('[data-nf="nf1"]')) throw new Error('Navi-Folge fehlt in der Navigationsschule'); await ev(page, () => document.querySelector('[data-nf="nf1"]').click()); await sleep(1500);
+    if (!await page.$('#nflos')) throw new Error('kein Startbild der Navi-Folge'); await ev(page, () => { S.navifolge.blasen = true; document.getElementById('nflos').click(); }); await sleep(1200);
+    if (!await page.$('#nfsvg .hart')) throw new Error('keine Reisekarte am Kartentisch'); if (await ev(page, () => document.querySelectorAll('#nfges .nfg').length) !== 3) throw new Error('Gesichter fehlen');
+    await ev(page, () => NAVIFOLGE.stop()); });
   /* 5.11: SKS-Stufe am Kartentisch (Versegelung, Doppelpeilung, Peilung und Abstand, Kartenaufgabe) */
   /* V26: Lektion 0, fünf Schritte, Hilfe in drei Stufen */
   await schritt('08-navi-L0', page, async () => { await ev(page, () => NAV.lesson('L0')); await sleep(500); await ev(page, () => document.querySelector('[data-m=erkl]').click()); await sleep(700); await ev(page, () => { VOX.stop(); document.getElementById('lok').click(); }); await sleep(800);
