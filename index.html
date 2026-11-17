@@ -327,6 +327,7 @@ nav.tabs svg{width:26px;height:26px}
 .sheethead svg{width:64px;height:auto;flex:none}
 .menu{display:flex;flex-direction:column;gap:8px}
 .menuitem{text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:14px;padding:10px 12px;color:var(--ink);min-height:48px}
+.freik{display:grid;grid-template-columns:1fr 1fr;gap:10px}.freikachel{display:grid;gap:2px;justify-items:start;text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:18px;padding:14px 14px 12px;color:var(--ink);min-height:104px;cursor:pointer}.freikachel .fki{font-size:1.9rem;line-height:1}.freikachel b{font-family:var(--display,inherit);font-size:1.12rem}.freikachel small{color:var(--muted,inherit);opacity:.8;font-size:.8rem;line-height:1.25}
 .menuitem b{display:block;font-family:var(--hfont);font-size:1.02rem;line-height:1.2}
 .menuitem small{color:var(--muted)}
 .menuitem.ki{background:#d3cec6;border-color:#9d978e;color:#3f3b35}
@@ -562,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.66';
+  window.__ver = '5.67';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5068,33 +5069,37 @@ function nachladen(datei) { return NACH[datei] || (NACH[datei] = new Promise((re
 function renderFrei() {
   soundFor('deck'); place = 'frei'; returnTo = 'frei';
   const sks = S.course === 'sks', go = f => () => { AUD.unlock(); AUD.click(); lernHeim = 'frei'; f(); };
-  const E = [
-    ['Fragen', [['🔁', 'Wiederholen', 'Die fälligen Fragen, die wackligsten zuerst', () => reviewSession('Wiederholen')],
+  /* v5.67 (Tester: „etwas unübersichtlich“): sechs Kacheln statt einer langen Liste; jede öffnet ein Blatt mit den bisherigen Einträgen. Tests und alte Fassungen liegen unter „Alte Folgen und Tests“ */
+  const K = [
+    ['❓', 'Fragen', 'Wiederholen, Kapitel, Fallen', [['🔁', 'Wiederholen', 'Die fälligen Fragen, die wackligsten zuerst', () => reviewSession('Wiederholen')],
       ['📚', 'Kapitel', 'Fragen Thema für Thema', () => chaptersSheet()],
       ['⚠️', sks ? 'Wackelkandidaten' : 'Prüfungsfallen', sks ? 'Fragen, die noch nicht sitzen' : 'Antworten, die fast gleich klingen', () => trapRound()],
       ...(sks ? [['✅', 'Ankreuz-Runde', 'SKS-Fragen mit drei Antworten', () => loadToern().then(() => TOERN.mcRunde()).catch(() => toast('Ließ sich nicht laden.'))]] : []),
-      ...(SIG_QS.length ? [['📯', 'Schallsignale', 'Hören und erkennen', () => hornQuiz()]] : [])]],
-    ['Praxis', [['📒', 'Ausbildungsheft', 'Was du weißt, verstehst und kannst, und was du an Bord schon darfst', () => heftOeffnen()],
-      ['🌙', 'Abendwache: Kurs und Distanz', 'Navi-Folge 1 am Kartentisch mit Smilla: Grundlagen, Kurs, Distanz, Fahrzeit, am Ende ein Test', () => naviFolgeOeffnen('nf1')],
-      ['🧭', 'Navigation auf Seekarte 7', 'Aufgaben nach Stufen auf der echten Karte, der Zirkel zählt für dich', () => navi7Oeffnen()],
-      ['📐', 'Navigationsschule (alte Übungskarte)', 'Lektionen und Prüfung auf der erfundenen Karte', () => navSchool()],
-      ['🪢', 'Knoten', 'Alle Prüfungsknoten als Animation, mit echtem Tau üben', () => knotenBrett()],
-      ['⚓', 'Manöver', 'Die Manöver der praktischen Prüfung', () => maneuverGame()]]],
-    ['Nachschlagen und Hören', [...HOERREISE.map(([id, t, u], i) => ['🎧', `Hörreise: Folge ${hoerreiseNr(id)}`, `${t} (Entwurf)`, () => hoerreiseOeffnen(id)]),
-      ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))],
-      ['🎞️', 'Animationen', 'Alle Animationen zum Testen und Kommentieren: Boot, Manöver, Lichter, Tonnen, Wetter, Sicherheit', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
-      ['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }]]],
-    ['Prüfung und Spaß', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
-      ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()],
-      ['🎲', 'Spielekiste', 'Nur Spaß, Rekorde gibt es nur hier', () => gamesHub()],
-      ['🧰', 'Was du zum Üben brauchst', 'Leinen, Karte, Dreieck, Zirkel: die Einkaufsliste', () => uebungsListe()]]]
+      ...(SIG_QS.length ? [['📯', 'Schallsignale', 'Hören und erkennen', () => hornQuiz()]] : []),
+      ['🚦', S.course === 'binnen' ? 'Zeichen Binnen' : 'Seezeichen', 'Grundkurs mit den Bildern aus dem Katalog', () => seezeichenKurs(szArt(S.course))]]],
+    ['🧭', 'Navigation', 'Kurs, Distanz, Karte', [['🌙', 'Abendwache: Kurs und Distanz', 'Navi-Folge 1 am Kartentisch mit Smilla: Grundlagen, Kurs, Distanz, Fahrzeit, am Ende ein Test', () => naviFolgeOeffnen('nf1')],
+      ['📐', 'Navigationsschule', 'Lektionen, Übungen und Prüfung (bisherige Übungskarte)', () => navSchool()]]],
+    ['🪢', 'Knoten', 'Alle Prüfungsknoten', () => knotenBrett()],
+    ['⚓', 'Manöver', 'Praktische Prüfung', () => maneuverGame()],
+    ['📖', 'Nachschlagen', 'Lexikon, Animationen, Heft', [['📖', 'Lexikon', 'Begriffe von A bis Z', () => { returnTo = 'frei'; renderLexikon(); }],
+      ['🎞️', 'Animationen', 'Boot, Manöver, Lichter, Tonnen, Wetter, Sicherheit', () => nachladen('anim.js').then(() => ANIM.seite()).catch(e => { console.error(e); toast('Die Animationen ließen sich nicht laden.'); })],
+      ['📒', 'Ausbildungsheft', 'Was du weißt, verstehst und kannst, und was du an Bord schon darfst', () => heftOeffnen()],
+      ['🧰', 'Was du zum Üben brauchst', 'Leinen, Karte, Dreieck, Zirkel: die Einkaufsliste', () => uebungsListe()]]],
+    ['🎓', 'Prüfung', 'Stand und Probeprüfung', [['📋', 'Meine Prüfungen', 'Stand je Thema, wie in der Prüfung aufgebaut', () => meinePruefungen()],
+      ['📞', 'Probeprüfung', 'Kapitän Harms prüft', () => harmsKommt()]]]
   ];
-  const fn = [];
+  const Z = [['🎧', 'Hörreise: alle Folgen', () => hoerreiseWahl()], ['🎲', 'Spielekiste', () => gamesHub()], ['🗄️', 'Alte Folgen und Tests', () => alteFolgen()]];
   app.innerHTML = `<div class="topbar"><span class="tag">Frei üben</span><span></span><button class="coursechip" id="crs" aria-label="Schein wechseln">${esc(COURSE.short)}</button></div>
-    <p class="small muted" style="margin:4px 0 10px">Alles ohne Reise, jederzeit. Die Crew empfiehlt dir an Deck, was als Nächstes dran ist.</p>
-    ${E.map(([h, l]) => `<h3 style="margin:14px 0 6px">${esc(h)}</h3><div class="menu frei">${l.map(([ico, t, d, f]) => { fn.push(f); return `<button class="menuitem" data-f="${fn.length - 1}"><b>${ico} ${esc(t)}</b><small>${esc(d)}</small></button>`; }).join('')}</div>`).join('')}`;
+    <p class="small muted" style="margin:4px 0 10px">Alles ohne Reise, jederzeit. Was als Nächstes dran ist, steht an Deck.</p>
+    <div class="freik">${K.map(([ico, t, d], i) => `<button class="freikachel" data-k="${i}"><span class="fki">${ico}</span><b>${esc(t)}</b><small>${esc(d)}</small></button>`).join('')}</div>
+    <div class="menu frei" style="margin-top:14px">${Z.map(([ico, t], i) => `<button class="menuitem" data-z="${i}"><b>${ico} ${esc(t)}</b></button>`).join('')}</div>`;
   $('#crs').onclick = courseSheet;
-  app.querySelectorAll('[data-f]').forEach(b => b.onclick = go(fn[+b.dataset.f]));
+  app.querySelectorAll('[data-k]').forEach(b => b.onclick = () => {
+    const [ico, t, , l] = K[+b.dataset.k]; if (typeof l === 'function') return go(l)();
+    AUD.click(); const w = sheet(`<h3 style="margin-top:0">${ico} ${esc(t)}</h3>${l.map(([i2, t2, d2], j) => menuBtn(String(j), `${i2} ${esc(t2)}`, esc(d2))).join('')}`);
+    w.querySelectorAll('[data-m]').forEach(x => x.onclick = () => { closeSheet(); go(l[+x.dataset.m][3])(); });
+  });
+  app.querySelectorAll('[data-z]').forEach(b => b.onclick = go(Z[+b.dataset.z][2]));
 }
 /* H9 (VISION.md §9, erster Schritt): Einkaufsliste fürs Üben mit den Händen. Das Starter-Set kommt später. */
 /* v5.22 Ausbildungsheft (lern.js, data/kompetenzen.json) */
@@ -5167,10 +5172,11 @@ function hoerreiseWahl() {
 }
 /* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
 function alteFolgen() {
-  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('kurs:reise-1-3', '🎧 Folge 1-3, alte Fassung', 'Das Heck zieht weg · zum Vergleich mit der neuen Machart')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
+  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('kurs:reise-1-3', '🎧 Folge 1-3, alte Fassung', 'Das Heck zieht weg · zum Vergleich mit der neuen Machart')}${menuBtn('navi7', '🧭 Navigation auf Seekarte 7', 'Aufgaben auf der früheren Karte (vor der Reisekarte Brede-Bucht)')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
   const weltSeite = o => nachladen('welt.js').then(() => WELT.seite(o)).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); });
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); const m = b.dataset.m;
     if (m === 'crew') return bgSit(); if (m.startsWith('w:')) return welt3dFolge(m.slice(2)); if (m === 'w3d') return weltSeite({folge: 'probe'}); if (m === 'welt') return weltSeite();
+    if (m === 'navi7') return navi7Oeffnen();
     if (m === 'rohbau') return folgeOeffnen('folge-01'); if (m === 'probetag') return reiseOeffnen();
     if (m === 'animtest') return nachladen('anim.js').then(() => ANIM.seite('test')).catch(() => toast('Die Animationen ließen sich nicht laden.')); if (m.startsWith('kurs:')) return hoerreiseOeffnen(m.slice(5));
     nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); });

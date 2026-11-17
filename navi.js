@@ -1244,9 +1244,10 @@ NAV.hub = async function () {
   const fahrwasser = `<div class="nffahr">${STUFEN.map(([id, t, u, abend], i) => { const ok = id && nfTest[id] && nfTest[id].ok, frei = !!id; return `<button class="nffst ${ok ? 'ok' : ''} ${frei ? '' : 'zu'}" ${frei ? `data-nf="${id}"` : 'disabled'}><span class="nfton ${i % 2 ? 'rot' : 'gruen'}">${ok ? '✓' : i + 1}</span><span><b>${esc(t)}</b><small>${esc(u)}</small><small class="muted">${frei ? `Abendwache Tag ${abend}${nfFertig[id] ? ' · gemacht' : ''}${nfTest[id] ? ' · Test ' + nfTest[id].n + '/' + nfTest[id].von : ''}` : 'kommt mit der Reise'}</small></span></button>`; }).join('')}</div>`;
   gameShell('Navigationsschule', `<div class="nfheld"><small>🌙 Navi-Folge am Kartentisch</small><b>Mit Smilla die Etappe von morgen planen</b><span class="small">Erst zeigt die Crew, dann machst du, am Ende ein kurzer Test. Auf der Reisekarte Brede-Bucht.</span></div>
     ${fahrwasser}
-    <p class="small muted" style="margin:12px 0 6px">Lernpfad und Nachschlagen (Kliev-Mündung, erfundene Karte, gerechnet wie auf der echten Seekarte):</p>
+    <details class="nfalt"${stars || n.werkzeug ? ' open' : ''}><summary>Übungen der bisherigen Navigationsschule</summary>
+    <p class="small muted" style="margin:8px 0 6px">Lernpfad, Prüfungsmodus und Fibel. Diese Übungen laufen noch auf einer eigenen Übungskarte (Kliev-Mündung), gerechnet wird wie auf der echten Seekarte.</p>
     ${naechste ? `<button class="btn lamp wide" id="nweiter" style="margin-bottom:10px">Weiter lernen: ${wkZuerst(naechste) ? 'Werkzeugkunde' : esc(naechste.t)}</button>` : ''}
-    <style>.nfheld{display:grid;gap:2px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#22364a,#2b5876);color:#fff;margin:6px 0 10px}.nfheld small{opacity:.8}.nfheld b{font-size:1.15rem}
+    <style>.nfalt{margin-top:14px;border:2px solid var(--line,#ddd);border-radius:14px;padding:10px 12px}.nfalt summary{font-weight:800;cursor:pointer;padding:4px 0}.nfheld{display:grid;gap:2px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#22364a,#2b5876);color:#fff;margin:6px 0 10px}.nfheld small{opacity:.8}.nfheld b{font-size:1.15rem}
     .nffahr{position:relative;display:grid;gap:8px;padding-left:10px}.nffahr::before{content:"";position:absolute;left:27px;top:10px;bottom:10px;width:16px;background:repeating-linear-gradient(#bfe0f2 0 10px,#d6ecf8 10px 20px);border-radius:8px}
     .nffst{position:relative;display:flex;gap:12px;align-items:center;text-align:left;padding:8px 10px;border-radius:12px;border:2px solid var(--line,#ddd);background:var(--card,#fff);color:inherit;font:inherit}.nffst span:last-child{display:grid}.nffst small{font-size:.8rem}.nffst.zu{opacity:.55}.nffst.ok{border-color:#2f9e55}
     .nfton{flex:0 0 34px;height:34px;display:grid;place-items:center;font-weight:800;color:#fff;border-radius:6px;z-index:1}.nfton.gruen{background:#2f9e55;clip-path:polygon(50% 0,100% 100%,0 100%);padding-top:8px}.nfton.rot{background:#d33a2f}</style>
@@ -1258,7 +1259,7 @@ NAV.hub = async function () {
       <button class="menuitem" data-n="werkzeugkunde"><b>${n.werkzeug ? '✓ ' : ''}Werkzeugkunde</b><span class="small muted">Kreuz, Bleistift, Kursdreieck und Zirkel Schritt für Schritt ausprobieren</span></button>
       <button class="menuitem" data-n="free"><b>Freie Karte</b><span class="small muted">Kursdreieck, Zirkel, Bleistift und Lupe ausprobieren</span></button>
       <button class="menuitem" data-n="old"><b>Amtliche Aufgaben</b><span class="small muted">Die 15 Originalaufgaben als Text (dafür brauchst du die BSH-Übungskarte 49)</span></button>
-    </div>`);
+    </div></details>`);
   const nw = $('#nweiter'); if (nw) nw.onclick = () => { AUD.click(); wkZuerst(naechste) ? NAV.werkzeugkunde() : NAV.lesson(naechste.id); };
   app.querySelectorAll('[data-nf]').forEach(b => b.onclick = () => { AUD.click(); if (typeof naviFolgeOeffnen === 'function') naviFolgeOeffnen(b.dataset.nf); });
   app.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { AUD.click(); const k = b.dataset.n; if (k === 'free') NAV.freeChart(); else if (k === 'old') navGame(); else if (NAV[k]) NAV[k](); });

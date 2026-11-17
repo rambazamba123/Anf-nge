@@ -145,6 +145,18 @@ window.SZENE = (() => {
     for (let i = 0; i < ws.length; i++) for (let k = 0; k < 4; k++) if (LAUT[k].test(ws[i])) return {p: k, amEnde: i === ws.length - 1};
     return {p: -1};
   }
+  /* v5.67 Natürliche Entweder-oder-Frage (docs/reise.md HR59): „Backbord oder Steuerbord?“ darf man mit dem Wort selbst beantworten.
+     worte[k] = Wörter, die nur in Antwort k vorkommen. Es zählt nur, wenn Wörter genau EINER Antwort gehört wurden: Der Fragesatz aus dem
+     Lautsprecher enthält immer beide. Gehört wird damit erst nach dem Vorlesen (h.laut) und nur im fertigen Ergebnis. */
+  const SCHWACH = new Set(['kann', 'werden', 'wird', 'sich', 'noch', 'dann', 'auch', 'sein', 'gesehen', 'passiert']);
+  function antwortWorte(antworten) {
+    const w = antworten.map(a => inhalt(a).filter(x => x.length >= 3 && !SCHWACH.has(x)));
+    return w.map((ws, k) => ws.filter(x => !w.some((o, j) => j !== k && o.some(y => gleich(x, y)))));
+  }
+  function wortImText(ws, worte) {
+    const treffer = worte.map(soll => soll.some(x => ws.some(g => gleich(g, x)))), n = treffer.filter(Boolean).length;
+    return {p: n === 1 ? treffer.indexOf(true) : -1};
+  }
   function zurufAus() { if (hoer) { hoer.aus = true; try { hoer.rec && hoer.rec.abort(); } catch (e) {} if (hoer.anzeige) hoer.anzeige(''); } hoer = null; }
   function zuruf(onPlatz, anzeige, opt = {}) {
     zurufAus();
@@ -163,11 +175,12 @@ window.SZENE = (() => {
           const fertig = ev.results[i].isFinal, alts = [...ev.results[i]].map(x => String(x.transcript).toLowerCase().replace(/[.,!?:;]/g, ' ').replace(/\s+/g, ' ').trim()), tr = alts[0] || '';
           if (anzeige && tr) anzeige('🎙️ gehört: „' + tr.split(' ').slice(-6).join(' ') + '“');
           for (const t of alts) { const b = buchstabeImText(t.split(' ').filter(Boolean)); if (b.p >= 0 && (fertig || !b.amEnde)) return nimm(b.p, ETW(t) || ETW(tr), t); }
+          if (opt.worte && h.laut && fertig) for (const t of alts) { const w = wortImText(t.split(' ').filter(Boolean), opt.worte); if (w.p >= 0) return nimm(w.p, null, t); }
         }
       };
       rec.onerror = ev => { if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') { h.aus = true; anzeige && anzeige('🎙️ Kein Mikrofon erlaubt'); } };
       rec.onend = () => { if (!h.aus) setTimeout(start, 120); };
-      try { rec.start(); anzeige && anzeige('🎙️ Sag A, B, C oder D'); } catch (e) { setTimeout(start, 300); }
+      try { rec.start(); anzeige && anzeige(opt.worte ? '🎙️ Sag die Antwort (oder A, B)' : '🎙️ Sag A, B, C oder D'); } catch (e) { setTimeout(start, 300); }
     };
     start();
     /* nach dem Vorlesen: neu starten, damit Reste aus dem Lautsprecher nicht zählen, dann auch A bis D */
@@ -188,5 +201,5 @@ window.SZENE = (() => {
     return ctl;
   }
 
-  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus, _funk: funkImText, _buchstabe: buchstabeImText};
+  return {spiele, stop, frage, text, deute, vorlesenAn, zurufAn, zuruf, zurufAus, _funk: funkImText, _buchstabe: buchstabeImText, _wort: wortImText, antwortWorte};
 })();

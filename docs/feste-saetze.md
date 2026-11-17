@@ -198,3 +198,11 @@ Satz der Crew über den Happen (`deck.js` `SATZ`, beim Antippen des Gesichts vor
 - Käpt'n (lange weg): „Moin. Lange nicht gesehen. Wir fangen leicht an.“
 - Käpt'n (alles grün): „Alles grün. Dann bleibt’s so. Kurz was auffrischen.“
 Nach dem Drehen am Rad (`DREH`): „Na gut, neue Mischung.“ · „Noch mal? Wählerisch heute.“ · „Schluss mit Würfeln. Die vier nehmen wir.“
+
+## Harms fragt zurück (v5.67, `kurs.js` `HARMS_AN`, `HARMS_AB`; HR57)
+Gesprochen bisher nur mit der Gratis-Stimme (Art `local`). `{n}` = „Eine Frage“ bis „Fünf Fragen“. Kommen ins Stimmenpaket, sobald der Nutzer die Runde nach dem Hörtest bestätigt (dann je Zahl ein eigener Satz).
+- Harms, Ansage: „Harms. {n} von neulich. Kurz und knapp.“ · „Harms hier. {n}. Mal sehen, was hängen geblieben ist.“ · „Harms. Nicht auflegen. {n}, dann ist Ruhe.“
+- Harms, vor jeder Frage: „Frage.“ · „Nächste.“
+- Harms, Auflösung: „Alfa ist richtig.“ (ebenso Bravo, Charlie, Delta)
+- Harms, Schluss: „Das war's. Weitermachen.“ · „Reicht für heute. Wiederhören.“ · „Gut. Ich melde mich wieder.“
+

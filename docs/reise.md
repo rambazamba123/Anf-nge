@@ -76,7 +76,9 @@ Die Grundzüge sind bestätigt (`podcast/figuren.md`), die Sprechweisen regelt `
 ## 3. Die Hörreise: so wird gelernt
 **Grundidee (E25):** Die Reise ist vor allem eine **Hörreise**, gemacht für Auto, Gym und Spaziergang: ein Hörspiel, in dem du zum Schiffsführer ausgebildet wirst, mit Zwischenfragen wie im Kajütenfunk. Bilder und Animationen laufen mit, wenn man draufschauen kann. Was Hände oder Augen braucht (3D, Knoten mit Tau, Karte, Bildfragen), ist eine Aufgabe für später.
 
-**Zwei Modi und ein Schalter:**
+> **Stand 17.11.2026 (GL1–GL8, `docs/plan-hoerspiel-neu.md`):** Wir machen ein **Hörspiel**. Neue Folgen folgen der einen Seite `podcast/schreibkarte.md` und den Regeln HR56–HR60 (§7.11). Der Player kennt nur noch „In Fahrt“ mit dem Schalter 🎙️ Mitreden (v5.62); die Tabelle unten beschreibt den Stand vom 07.11. und gilt nur noch für das, was sie über Zählen und Aufschieben sagt. Navigation: Es gilt HR52 (Abendwache ab Tag 1), nicht mehr die Liste „Navigation“ weiter unten.
+
+**Zwei Modi und ein Schalter (Stand 07.11., siehe Hinweis oben):**
 | Modus | so läuft es |
 |---|---|
 | 🎧 **Hörspiel** | Alles läuft durch, nichts wartet. Fragen kommen mit Glocke und kurzer Denkpause, danach die Lösung. Bilder erscheinen, wenn der Bildschirm an ist. Aufgaben macht die Crew; sie landen in der Etappe. |
@@ -85,7 +87,7 @@ Die Grundzüge sind bestätigt (`podcast/figuren.md`), die Sprechweisen regelt `
 - Wechseln geht jederzeit mit einem Knopf, auch mitten in der Folge. Voreinstellung nach dem Lernort aus dem Kennenlernen.
 - Im Hörspiel muss man nie tippen (Handy beim Fahren nur per Stimme).
 - **Was zählt:** Ohne Antwort zählt eine Frage als „gehört“. Eine richtige Antwort, gesprochen oder getippt, zählt fürs Wiederholen. Dunkelgrün wird eine Frage erst, wenn sie auch einmal in Prüfungsform (vier Antworten auf dem Bildschirm) sitzt.
-- **Länge:** 7–15 Minuten, je nachdem, was die Folge braucht. Folgen laufen auf Wunsch hintereinander weiter wie ein Podcast.
+- **Länge:** so lang, wie die Szene trägt (HR56, HR58). Neue Folgen sind eher kurz (etwa fünf bis acht Minuten), zwei bis drei ergeben einen Hörtag von 20 bis 40 Minuten. Folgen laufen auf Wunsch hintereinander weiter wie ein Podcast.
 
 **Übersicht und Etappen:**
 - Eine schlichte, gut gezeichnete Karte der sieben Reisetage, die Frieda rückt vor. Jede Folge ist eine Station.
@@ -112,7 +114,7 @@ Die Grundzüge sind bestätigt (`podcast/figuren.md`), die Sprechweisen regelt `
   - Tag 5: Stopperstek, Schotstek
 - Ab Tag 5 kann man alle Knoten.
 
-**Navigation:**
+**Navigation (alter Plan vom 07.11.; ersetzt durch HR52: Navi-Folge in der Abendwache ab Tag 1):**
 - N0 Karte lesen (Tag 2)
 - N1–N2 Position, Kurs und Distanz (Tag 3)
 - N3 Zeit, Fahrt und Tide (Tag 4)
@@ -246,6 +248,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Entscheiden musst immer du.
 
 ### 7.6 Fragerunde am Ende
+> **Seit 16.11.2026 im Test (GL3, HR57):** In neuen Folgen fragt Harms **zurück**: Fragen aus früheren Folgen, nie die gerade gehörten. HR17, HR18 und HR30 gelten für die Folgen der alten Machart (1-1, 1-2) weiter, bis der Hörtest entschieden ist.
 - **HR17 Trocken lernen** (N 07.11.):
   - Die Abschluss-Abfrage ist das Lernen der amtlichen Fragen: die neuen Fragen der Folge plus fällige ältere, zusammengesetzt aus den Hörkarten.
   - Im Hörspiel vorgelesen mit den vier Antworten (Alfa bis Delta), mit Denkpause oder Antwort per Stimme.
@@ -315,7 +318,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
 - **HR35 Die Figuren spielen mit** (N 08.11., B179): Die Gesichter auf der Bühne zeigen Gefühle: normal, froh, lacht, genervt, erschrocken, skeptisch, traurig, nachdenklich, seit v5.52 auch die sanfteren staunt, besorgt, grinst, zwinkert und zufrieden (Nutzer 08.11.: die großen Augen sind zu extrem für Alltagsprobleme; „erschrocken“ nur noch, wenn das Skript es ausdrücklich setzt). Die Laune einer Zeile kommt aus `[[GESICHT: laune]]` (nur für die App, geht nicht an ElevenLabs, ändert also keine Vertonung) oder aus der Regie-Marke `[[INTENTION: …]]` (lachend → lacht, genervt → genervt, aufgeregt → staunt …), sonst aus ein paar Wörtern („Schiet“ → genervt, „Richtig“ → froh). Die anderen reagieren mit: Lacht einer, grinsen alle; nach deiner Antwort freut sich die Crew oder schaut skeptisch. Beim Schreiben neuer Folgen setzt Claude `[[GESICHT]]` dort, wo das Gesicht etwas erzählt, was der Satz allein nicht zeigt.
 - **HR36 Die Bühne zeigt, wer wo ist** (N 08.11., B180): Im Dunkelmodus (Nachtbühne, Standard für alle Folgen) stehen alle, die laut Reiseplan an Bord sind, als runde Gesichter auf dem Hintergrund, ohne Balken: in der Kajüte im Kreis um den Tisch, am Steg und in Fahrt an ihrem Platz im Boot (wer steuert, sitzt am Motor). Gäste stehen sichtbar außerhalb (Hilke auf dem Steg, Harms am Telefon in der Ecke). Den Ort liest die App aus `[[SZENE: …]]`. Immer nur eins im Vollbild: die Crew, solange geredet wird, die Animation (wer spricht, klein in der Ecke) oder die Frage. Kein Text zum Mitlesen im Dunkelmodus, oben nur Symbole (⏸ ⏹ ⛶ ⚙). Gewählt am 08.11. (B181): Kajüte im Lichtkegel mit etwas Perspektive, Tisch mit Kaffee in der Mitte und Bullauge mit Wetter wie in der App; Steg von der Seite mit dem Gast oben auf dem Steg; Fahrt von der Seite mit Hinnerk am Motor; Telefon mit Harms groß und der Crew klein in einer Reihe; Abend auf dem Kajütdach mit Mond; Besuch als zwei Boote nebeneinander; Schleuse von oben mit dem Wärter auf der Mauer. Hinnerks Pfeife geht nur mit dem Streichholz an und ist aus, sobald jemand weiterredet.
 - **HR37 Glocke, Antwort, Rückmeldung** (N 08.11., B180): Die Schiffsglocke läutet genau einmal, wenn eine Frage kommt; doppelte Glocken im Skript spielt die App nur einmal, eine Glocke nach der Frage gar nicht. Dann die Frage, dann deine Antwort, dann ein Ton für richtig oder falsch, dann sagt einer aus der Crew (der, der gefragt hat) kurz, ob es stimmt (Sätze aus der Sprüchekiste, werden mit der Folge vertont). Bei falsch erklärt die Crew danach genauer (Vertiefung).
-- **HR38 Antworten werden vorgelesen** (N 08.11., B181): Im Auto schaut niemand auf den Bildschirm. Vor jeder Wahl liest die Stimme alle Antworten mit Funkwort und kurz vor („Alfa: ab null Komma fünf. Bravo: ab null Komma acht.“), auch bei den Fragen der Crew, nicht nur bei Harms. Man darf antworten, sobald die Frage sichtbar ist: Der Zuruf hört sofort mit; solange die Stimme noch liest, zählt nur ein kurzer Zuruf („Alfa“), damit die vorgelesene Antwort aus dem Lautsprecher nichts auslöst. Im Auto hört das Mikrofon die Stimme mit; darum zählt während des Vorlesens auch ein Funkwort am Ende eines längeren erkannten Satzes. Ein erkannter Zuruf wirkt wie Antippen: Die Stimme hört auf, die Auflösung kommt. `podcast-pruefen.js` meldet eine Wahl ohne vorgelesene Antworten als Fehler.
+- **HR38 Antworten werden vorgelesen** (N 08.11., B181): Im Auto schaut niemand auf den Bildschirm. Vor jeder Wahl liest die Stimme alle Antworten mit Funkwort und kurz vor („Alfa: ab null Komma fünf. Bravo: ab null Komma acht.“), auch bei den Fragen der Crew, nicht nur bei Harms. Man darf antworten, sobald die Frage sichtbar ist: Der Zuruf hört sofort mit; solange die Stimme noch liest, zählt nur ein kurzer Zuruf („Alfa“), damit die vorgelesene Antwort aus dem Lautsprecher nichts auslöst. Im Auto hört das Mikrofon die Stimme mit; darum zählt während des Vorlesens auch ein Funkwort am Ende eines längeren erkannten Satzes. Ein erkannter Zuruf wirkt wie Antippen: Die Stimme hört auf, die Auflösung kommt. `podcast-pruefen.js` meldet eine Wahl ohne vorgelesene Antworten als Fehler. **Im Test seit 16.11.2026 (GL4, HR59):** Eine echte Entweder-oder-Frage mit zwei Antworten, die im Fragesatz selbst stehen, braucht keine Funkwörter.
 - **HR39 Keine Frage hält die Folge an** (N 08.11., B182): Nach jeder Frage, auch nach einer zum Raten, sagt die App sofort, ob es stimmt (Ton, dann ein Satz der Crew); beim Raten zählt es weiter nicht. Kommt acht Sekunden nach dem Ende der Frage keine Antwort, tickt die Uhr; nach weiteren vier Sekunden geht es ohne Antwort weiter, mit der genaueren Erklärung (Vertiefung). Pause hält die Uhr an. Darum im Skript nach einer Ratefrage kein „Die Auflösung kommt gleich“.
 - **HR40 Das Wetter gehört der Geschichte** (N 08.11., B182): Jede Folge hat ein Wetter (heute in `HOERREISE` in index.html, vierte Angabe; Szenen können es mit Wörtern wie Regen, Nebel, Sturm ändern). Das Bullauge in der Hörreise zeigt das Wetter der Geschichte. Das Wetter an Bord in der App richtet sich nach der nächsten Folge: meist gleich, öfter etwas schlechter, selten etwas besser, nie ganz anders.
 - **HR41 Animationen nutzen, wo es eine gibt** (N 08.11., B182): Gibt es zu dem, worüber die Crew gerade redet, eine Animation, kommt sie ins Skript, aber nur, wenn sie genau das zeigt, worüber gerade geredet wird (Nutzer 08.11.: zwei unpassende in Folge 1 wieder entfernt) (`[[ANIM: id]]`, alle gebauten Animationen sind erlaubt, nicht nur die aus dem Kursplan). Animationen laufen im Dunkelmodus randlos über die ganze Breite.
@@ -327,7 +330,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Nicht: ein zweites „Genau, …“ einer anderen Figur, außer es bringt etwas Neues (Falle, Grund, Geschichte, Gefühl). Nicht: zwei Merksätze in einer Szene. Nicht: die Antwort in den Sätzen direkt vor der Frage („Da legen wir mit Backbord an. Weißt du, warum? … Mit welcher Seite?“). Ausnahme: „Hinnerk sagt X. Hat er recht?“
   - Statt der vierten und fünften Wiederholung: ein **Echo** ein bis drei Folgen später, ein Satz am selben Anker (Streichholz, Lappen, das Rad unten am Grund), ohne neue Erklärung. Größere Wiederholung bleibt das Wiedersehen (HR29).
   - **Vor dem Schreiben** liest Claude das Story-Logbuch `docs/geschichte-logbuch.md` (geplante Echos, offene Fäden, Running Gags) und baut die fälligen Echos ein. **Nach dem Schreiben** trägt Claude die Folge dort ein: Fakten mit Anker und Nennungen, neue Echos, Requisiten, offene Fäden. Ohne Eintrag bricht `podcast-pruefen.js` ab.
-  - **Länge:** So geschrieben, wird die Geschichte bis zu Harms' Anruf so lang wie in 1-1 bis 1-3 nach der Kürzung; `podcast-pruefen.js` zeigt die Minuten und warnt, wenn eine Folge deutlich daneben liegt. Dann nicht strecken oder quetschen, sondern Dichte und Szenen prüfen.
+  - **Länge:** So geschrieben, wird die Geschichte bis zu Harms' Anruf so lang wie in 1-1 bis 1-3 nach der Kürzung; `podcast-pruefen.js` zeigt die Minuten und warnt, wenn eine Folge deutlich daneben liegt. Dann nicht strecken oder quetschen, sondern Dichte und Szenen prüfen. **Seit 16.11.2026 (GL1, HR56):** Für Folgen der neuen Machart (`machart: neu`) gibt es kein Längenfenster mehr; `tools/dichte-messer.js` zeigt Hinweise zur Lernlast.
   - ⚙ Geprüft: zweiter Merksatz je Szene, „Genau, …“ außerhalb der Auflösung, verratene Frage, fehlender Logbuch-Eintrag, Länge der Geschichte.
 - **HR47 Navigieren unterwegs** (N 10.11., neu 15.11., T3): Wer zuhört (Auto, Rad, Gym), kann nicht messen und nicht zeichnen. In der Folge navigiert die Crew darum **laut denkend**: Smilla legt an und sagt, was sie tut („Dreieck an Klüverhafen, Kurs ablesen … zwei-vier-null“), Hinnerk schätzt dagegen. Die Zahlen stimmen mit der Reisekarte (HR51).
   - Was du selbst misst, planst du **am Abend vorher** in der Navi-Folge der Abendwache (HR52): Am Morgen fährt die Crew genau die Etappe, die du geplant hast, und erwähnt das („Dein Kurs von gestern Abend, null-sieben-sieben. Passt.“).
@@ -373,6 +376,27 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - Eigene Antworten der Crew bei Nachdenkfragen haben **höchstens fünf Wörter** (sie stehen groß auf dem Bildschirm, Frage in Fahrt).
   - Gäste sitzen in der Kajüte der App nur, wenn die nächste Folge einen hat (GU5).
 
+### 7.11 Neue Machart: Hörspiel zuerst (N 16.11., GL1–GL8)
+Anlass: Tester fanden die Folgen „etwas unübersichtlich“ und „manchmal zu schnell“. Der Nutzer will natürlichere Gespräche und mehr Ruhe, aber **kein strenges Regelwerk**: „Stell dir vor, wir würden ein Hörspiel machen!“ Darum sind HR56–HR60 Leitplanken mit Begründung, keine Quoten. Geschrieben wird nach der einen Seite `podcast/schreibkarte.md`; Beispiele stehen in `podcast/dialog-beispiele.md`. Plan und Stand: `docs/plan-hoerspiel-neu.md`.
+
+- **HR56 Lernlast statt Stoppuhr** (GL1): Es gibt keine feste Zahl von Fragen je Folge und keine Mindest- oder Höchstlänge. Manche Fragen gehören zusammen und gehen als **Bündel** in einer Szene (Radeffekt 41 mit 46), manche brauchen eine **Szene für sich** (48 Anlegeseite), manche fallen **nebenbei** (47).
+  - Das Folgenblatt nennt je Frage ihr Gewicht (Szene, Bündel, nebenbei) und je Kapitel in einem Satz, **was neu war**. Steht dort mehr als ein Satz, ist das Kapitel zu voll.
+  - Nach jeder Auflösung kommt **Luft**: ein paar Zeilen, in denen nichts gelernt wird (ein Witz, ein Blick, ein Handgriff). Luft ist keine Füllpause (Bible A4 meint tote Zeit); sie ist die Zeit, in der sich das Gehörte setzt.
+  - ⚙ `node tools/dichte-messer.js` zeigt Sprechzeit, Fragen mit Gewicht, Redeanteile, lange Zeilen und Vortrags-Ketten. Es gibt **nur Hinweise** und bricht nie ab. Ein Hinweis wird entweder behoben oder im Folgenblatt begründet.
+- **HR57 Harms fragt zurück** (GL3): Direkt nach einer Folge deren Fragen abzufragen, prüft nur das Kurzzeitgedächtnis. Harms fragt darum **mit Abstand**: Fragen aus früheren Folgen und fällige ältere, nie die der Folge, die gerade lief.
+  - Neue Skripte haben **keinen Harms-Abschnitt** mehr. Die Runde stellt der Player aus dem Lernstand zusammen (null bis etwa fünf Fragen, je nachdem, was fällig ist); manchmal ruft Harms gar nicht an. Rahmen und Ton bleiben wie in HR18 und HR45.
+  - Die Fragen einer Folge kommen im Skript als `[[WAHL: sbf:n | …]]` oder still als `[[STOFF: sbf:n, …]]` vor; daraus weiß der Player, was die Folge eingeführt hat.
+  - Im Test: ob der Abstand von einer Folge reicht oder ob es der nächste Hörtag sein soll.
+- **HR58 Hörtag statt Reisetag** (GL2, Entwurf zum Testen): Ein **Hörtag** ist eine Sitzung von 20 bis 40 Minuten, zwei bis drei kurze Folgen. Ein Reisetag der Geschichte darf mehrere Hörtage haben. Der ganze Reiseplan wird erst neu verteilt, wenn die drei Gold-Folgen gehört und bewertet sind (Etappe 5 im Plan); bis dahin gilt `data/reiseplan.json` für die Geschichte, nicht für die Menge je Folge.
+  - Folge: „In sieben Tagen zum SBF See“ wird dann eher „in sieben Reisetagen“; wie die Frist in 1-1 genannt wird, entscheidet der Nutzer mit dem neuen Plan.
+- **HR59 Fragen klingen wie Fragen** (GL4, Test): Wo die Szene eine echte Entweder-oder-Frage hergibt, stellt die Crew sie so, wie Menschen fragen („Backbord oder Steuerbord?“), mit zwei Antworten und ohne Funkwörter. Beide Antworten stehen im Fragesatz, damit man sie auch im Auto kennt. Nicht jede Frage ist so eine; Fragen mit vier Antworten und alle Fragen von Harms bleiben bei Alfa bis Delta (HR38, HR44, HR45).
+  - ⚙ `podcast-pruefen.js` lässt bei `machart: neu` eine Wahl mit zwei Antworten ohne Funkwörter durch, wenn „oder“ und beide Antworten im Satz davor stehen.
+- **HR60 Wer wie viel redet** (GL5): Keine Quote. Smilla und Hinnerk tragen die Folgen, dazu die Gäste. Klabauter ist Nebenfigur, Backbord miaut manchmal. Je nach Folge darf das anders sein.
+  - Woran man eine gute Szene erkennt, steht auf der Schreibkarte: Niemand hält Vorträge, jede Figur will gerade etwas, erst wird gezeigt und dann benannt. Smillas Bogen (`podcast/figuren.md`: „erklärt an Tag 1 und 2 zu viel auf einmal, Hinnerk bremst“) wird gespielt, indem Hinnerk sie **unterbricht**, nicht indem sie lange redet.
+- **Marken der neuen Machart:** Kopf `machart: neu`; `[[HEUTE: a | b | c]]` (Karte am Anfang: worum es geht), `[[MITNEHMEN: a | b | c]]` (Karte am Ende), `[[STOFF: sbf:n, …]]` (Fragen eines Kapitels ohne eigene Wahl). Kapitel sind die `[[ABSCHNITT]]`e und heißen wie das, was passiert.
+- **Gold-Folgen:** `podcast/skripte/gold-heck.md`, `gold-motor.md`, `gold-faehre.md` (zusammen der Stoff der alten 1-3) sind das Muster und der Vergleich. Die alte 1-3 bleibt unter „Alte Folgen und Tests“.
+- **Folge 0 entfällt** (GL8). Offen ist damit, wo Kennenlernen, Anrede und die Kiste erklärt werden (Vorschlag: im App-Start wie bisher, die Kiste beim ersten Gebrauch in der Folge).
+
 ### 7.9 So verbessern wir weiter
 - Nach jedem Hören fragt Claude: „Was hat gestört, was war gut?“ Daraus wird eine neue Regel hier oder ein Beispiel in der Beispiel-Bibliothek (`docs/dialog-regeln.md` §2b).
 - Was prüfbar ist, kommt in ein Werkzeug:
@@ -381,6 +405,7 @@ Jede Rückmeldung des Nutzers zu den Folgen wird hier eine nummerierte Regel (**
   - die 3D-Aufgaben in `tools/folgen-pruefen.js`
   - die Sprüche in `tools/sprueche-pruefen.js`
 - Alle vier laufen vor jedem Commit.
+- Dazu `tools/dichte-messer.js` (HR56) von Hand vor jedem Abgeben einer Folge; es gibt nur Hinweise.
 
 ### 7.10 Folgenblatt (Vorlage für jede Folge)
 - **Kopf:** Folge, Titel, Tag, Ort und Szene(n), Tageszeit und Wetter, Revier (hörbar)

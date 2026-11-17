@@ -54,19 +54,24 @@ Jede Prüfungsfrage hat ein Gewicht. Das Gewicht bestimmt, wie viel Raum sie in 
 Der Nutzer muss kein Modell umstellen: Die Hauptsitzung (Fable 5.2) schreibt Grundlagen und Folgen und gibt Code-Arbeit an ein Opus-Untermodell ab.
 | Etappe | Inhalt | Wer |
 |---|---|---|
-| **1 Grundlagen** | Schreibkarte, Regeln HR56–HR58, neue Vorlage, Widersprüche in `docs/reise.md` bereinigen, `CLAUDE.md` verschlanken, Navi-Schreibregeln, Dichte-Messer | Hauptsitzung (Fable 5.2) |
-| **2 Gold-Folgen** | Beispiel-Bibliothek; die alte 1-3 neu als zwei Folgen in neuer Machart (`podcast/skripte/gold-heck.md`, `gold-faehre.md`); der Nutzer hört erst mit der Gratis-Stimme, dann eine vertonte Szene | Hauptsitzung (Fable 5.2), mit dem Nutzer |
+| **1 Grundlagen** | Schreibkarte, Regeln HR56–HR60, neue Vorlage, Widersprüche in `docs/reise.md` bereinigen, `CLAUDE.md` verschlanken, Navi-Schreibregeln, Dichte-Messer | Hauptsitzung (Fable 5.2) |
+| **2 Gold-Folgen** | Beispiel-Bibliothek; die alte 1-3 neu als drei Folgen in neuer Machart (`podcast/skripte/gold-heck.md`, `gold-motor.md`, `gold-faehre.md`); der Nutzer hört erst mit der Gratis-Stimme, dann eine vertonte Szene | Hauptsitzung (Fable 5.2), mit dem Nutzer |
 | **3 Player und Übersicht** | Atempausen, Kapitel, Rahmenkarten, Harms fragt zurück, Rückmelde-Knopf, natürliche Entweder-oder-Antwort per Zuruf (Test), Deck-Knopf „Weiter“, „Frei üben“ in sechs Kacheln, eine Karte vorn, Folge 0 raus | Opus-Untermodell, parallel |
 | **4 Navi-Folge** | Wachen mit „Schritt 2 von 4“, erst tun, dann Begriff, Einstufung, Schritt-Zettel, Test am nächsten Abend, Lektionstexte nach `docs/navi-schreibregeln.md` | Opus für Code, Fable für Texte |
 | **5 Reiseplan und Serie** | Reiseplan nach Lernlast und Hörtagen neu verteilen, dann die Folgen in Serie (höchstens zwei bis drei je Sitzung, jede mit Hörer-Probe durch ein zweites Modell) | Fable schreibt, zweites Modell prüft |
 
-## 5. Stand
+## 5. Stand (17.11.2026, v5.67)
 - [x] Plan abgelegt (16.11.2026)
-- [ ] Etappe 1 Grundlagen
-- [ ] Etappe 2 Gold-Folgen
-- [ ] Etappe 3 Player und Übersicht
-- [ ] Etappe 4 Navi-Folge
-- [ ] Etappe 5 Reiseplan und Serie
+- [x] **Etappe 1 Grundlagen:** `podcast/schreibkarte.md`, Regeln HR56–HR60 (`docs/reise.md` §7.11, Hinweise an HR17/HR18/HR30/HR38/HR46 und §3), neue `podcast/folgen/VORLAGE.md` (alte im Archiv), `podcast/dialog-beispiele.md`, `docs/navi-schreibregeln.md`, `tools/dichte-messer.js`, Klarstellung Bible A4, `CLAUDE.md` verschlankt (Code-Karte und alter Status ausgelagert)
+- [x] **Etappe 2 Gold-Folgen, erster Teil:** aus der alten 1-3 wurden **drei** Folgen (gold-1 „Das Heck will zu Paul“, gold-2 „Ohne Gas kein Ruder“, gold-3 „Dicke Pötte“), je vier Fragen. In der App als Folge 1-3 bis 1-5, mit der Gratis-Stimme hörbar. Offen: Hörtest des Nutzers, danach eine Szene vertonen
+- [x] **Etappe 3 Player und Übersicht:** Atempausen mit drei Stufen, Kapitelpunkte und Titel, Karten „Heute an Bord“ und „Das nimmst du mit“, Ende als Blatt, „Harms fragt zurück“, Rückmeldung der Tester, Antwortwort per Zuruf, Deck-Knopf „Weiter mit der Crew“, „Frei üben“ in sechs Kacheln, Seekarte 7 unter „Alte Folgen und Tests“, alte Navigationsschule eingeklappt. Von der Hauptsitzung gebaut (die Untermodelle waren am Nutzungslimit)
+- [ ] **Etappe 4 Navi-Folge** nach `docs/navi-schreibregeln.md` (Wachen mit Schrittanzeige, Einstufung, Schritt-Zettel, Test am nächsten Abend)
+- [ ] **Etappe 5 Reiseplan und Serie** (erst nach dem Hörtest)
+
+### Was der Dichte-Messer zu den Gold-Folgen sagt (ehrlich)
+- gold-1: 3,5 Minuten reiner Sprechtext (mit Denkpausen, Glocken, Atempausen und Animation etwa sechs), Lernlast 10. Hinweis „viel“: begründet, weil 41 und 46 dieselbe Sache sind (Radeffekt und sein Name) und 47 nur ein Satz ist. Echte Last: zwei Dinge.
+- gold-3: 3,0 Minuten Sprechtext, Lernlast 8. Hinweis „viel“: 34, 36 und 37 sind ein Bündel (große Schiffe machen Wasser), 61 hat seine eigene Szene. Wenn es beim Hören trotzdem zu voll wirkt, wandert 37 in die erste Folge von Tag 2 (Frachter auf der Elv).
+- Smilla spricht in gold-1 und gold-3 rund 64 % der Wörter (alte 1-3: rund 70 %), aber in kurzen Zeilen (im Schnitt zehn Wörter). Keine Quote (GL5); beim Hören prüfen, ob es nach Gespräch klingt.
 
 ## 6. Offen (braucht den Nutzer)
 - **Hörtest der Gold-Folgen:** Gefällt die Machart? Erst dann Etappe 5.
