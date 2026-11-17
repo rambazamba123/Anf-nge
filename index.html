@@ -562,7 +562,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.65';
+  window.__ver = '5.66';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5150,12 +5150,14 @@ function zieleOeffnen(zurueck) { return nachladen('ziele.js').then(() => ZIELE.s
 function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[S.course]; if (!z || !z.praxis) return false; const d = dayNum(new Date(z.praxis + 'T12:00')) - today(); return d >= 0 && d <= 21; }
 /* Hörreise (docs/reise.md, E25): die neuen Folgen; alles Ältere liegt gesammelt unter „Alte Folgen und Tests“ (Nutzer, 07.11.2026) */
 /* [id, Titel, Untertitel, Wetter der Folge] – das Wetter in der App richtet sich nach der nächsten Folge (weatherToday) */
-const HOERREISE = [['reise-0-1', 'Anheuern', 'Folge 0: der Abend vor der Reise · etwa 4 Minuten', 'schoen'], ['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen', 'hafen'], ['reise-1-3', 'Das Heck zieht weg', 'Radeffekt, Fähre und Sog · etwa 14 Minuten', 'schoen']];
+const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Hinnerk, Smilla und Harms · etwa 7 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'mit der Hafenmeisterin · etwa 11 Minuten', 'schoen', 'hafen'],
+  /* v5.66 neue Machart zum Testen (docs/plan-hoerspiel-neu.md): die alte 1-3 als drei Folgen, ohne Harms-Abschnitt; die alte Fassung liegt unter „Alte Folgen und Tests“ */
+  ['gold-1', 'Das Heck will zu Paul', 'Neue Machart · Ablegen und Radeffekt · etwa 6 Minuten', 'schoen', 'hafen'], ['gold-2', 'Ohne Gas kein Ruder', 'Neue Machart · Propeller und Außenborder · etwa 6 Minuten', 'schoen'], ['gold-3', 'Dicke Pötte', 'Neue Machart · der Raser und die Fähre · etwa 6 Minuten', 'schoen']];
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
 /* Gast der nächsten Folge (fünftes Feld in HOERREISE): sitzt vorher schon in der Kajüte (GU5), sonst niemand */
 /* Nummer zum Anzeigen: reise-0-1 → 0, reise-1-2 → 1-2 */
-function hoerreiseNr(id) { const n = String(id).replace(/^reise-/, ''); return n === '0-1' ? '0' : n; }
+function hoerreiseNr(id) { const n = String(id).replace(/^reise-/, ''); return n === '0-1' ? '0' : ({'gold-1': '1-3', 'gold-2': '1-4', 'gold-3': '1-5'})[n] || n; }
 function hoerreiseGast() { const e = HOERREISE[hoerreiseNaechste()]; return (e && e[4]) || null; }
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
 function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${hoerreiseNr(id)} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
@@ -5165,7 +5167,7 @@ function hoerreiseWahl() {
 }
 /* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
 function alteFolgen() {
-  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
+  const w = sheet(`<h3 style="margin-top:0">🗄️ Alte Folgen und Tests</h3><p class="small muted" style="margin:0 0 8px">Vor der Hörreise gebaut. Bleibt zum Vergleichen und Testen, wird aber nicht weiterentwickelt.</p>${FOLGEN3D.map(([id, t, u]) => menuBtn('w:' + id, '🎬 ' + t.replace(' (neu)', ''), u)).join('')}${menuBtn('w3d', '🎬 3D-Testfolge: Probefahrt', 'Ablegen, Fahrwasser, Nebel, Fragen, Anlegen und Knoten')}${menuBtn('welt', '🌊 3D-Welt (Test)', 'Dein Boot drehbar, Kamera dahinter, Tonnen, Möwen, Nacht')}${menuBtn('kurs:reise-1-3', '🎧 Folge 1-3, alte Fassung', 'Das Heck zieht weg · zum Vergleich mit der neuen Machart')}${menuBtn('rohbau', '🚧 Folge 1 in 2D (alter Rohbau)', 'Dieselbe Folge ohne 3D')}${menuBtn('probetag', '🧭 Alter Probetag: Erste Meilen über die Elbe', 'Die Reise am Kartentisch vor der Hörreise')}${menuBtn('kurs', '🎧 Kajütenfunk: alte Probefolge', 'Brücken und Schleusen, mit Quirin · etwa 7 Minuten')}${menuBtn('kurs:test-wiedersehen', '🧪 Test: Wiedersehen W1–W9', 'Neun kurze Szenen zum Ausprobieren')}${menuBtn('animtest', '🧪 Test: Bühne der Animationen', 'Hochformat oder näher rangezoomt, je drei Beispiele')}${menuBtn('crew', '💬 Der Crew zuhören', 'Die alten Gespräche im Hintergrund')}`);
   const weltSeite = o => nachladen('welt.js').then(() => WELT.seite(o)).catch(e => { console.error(e); toast('Die 3D-Welt ließ sich nicht laden.'); });
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); const m = b.dataset.m;
     if (m === 'crew') return bgSit(); if (m.startsWith('w:')) return welt3dFolge(m.slice(2)); if (m === 'w3d') return weltSeite({folge: 'probe'}); if (m === 'welt') return weltSeite();

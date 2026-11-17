@@ -12,7 +12,14 @@
 
 ## 2. Folgen
 
-### 0-1 „Anheuern“ (Kuttershaven, Abend vor Tag 1, klar)
+### Gold-Folgen der neuen Machart (17.11.2026, Test; ersetzen die alte 1-3)
+| Folge | Fakten (Anker) | Neu angelegt für später |
+|---|---|---|
+| gold-1 „Das Heck will zu Paul“ | 41, 46 Radeffekt (das Heck will zu Pauls Boot, „Rad unten am Grund“); 48 Anlegeseite (Aufstoppen in Klüverhafen); 47 nebenbei | Hilke mit dem Quittungsblock (42 Euro Strom, „Dat wird teurer“); Pauls Fender mit Hinnerks Namen; Echo: jedes Ablegen rückwärts „Kiek aufs Heck“; Klüverhafen Tag 2: Anlegen mit Backbord |
+| gold-2 „Ohne Gas kein Ruder“ | 44, 45 Drehrichtung von achtern (Smilla irrt „von vorne“); 50 Außenborder lenkt mit dem Schraubenstrom (Motor drehen ohne Gas); 51 Fähre rückwärts („jeden Tag 'ne Andacht“) | der Mann mit dem Linksdreher; Hinnerks kalter Kaffee; „Für die Ausbildung“ als Smillas Hebel |
+| gold-3 „Dicke Pötte“ | 61 Lieger (der Raser, Hilkes Rechnung über drei Fender); 34, 36 die Fähre in der engen Ausfahrt (Sog, Heckwelle); 37 überholt werden | Pauls Kaffeebecher; Kaffee über Bord; Echo Tag 2 Elv: Frachter überholt, „Stau, Sog, Schwell“; Motor am Nachmittag (offen) |
+
+### 0-1 „Anheuern“ (entfallen am 16.11.2026, GL8; Skript in `podcast/archiv/folgen/`)
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
 | Der Handel: Smilla zur Albertine nach Harmsoog bringen, unterwegs lernen, Harms prüft; bestanden = zurück als neue Crew, sonst fährt Hinnerk allein | Reisekarte auf dem Kajütdach | 1 | 1-1: Harms' Sprachnachricht mit der Frist (sieben Tage) |

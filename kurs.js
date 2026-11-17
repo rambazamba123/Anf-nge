@@ -14,8 +14,10 @@
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
-    /* Folge 0 (Nutzer, 15.11.2026, T6): der Abend vor Tag 1, Kennenlernen und Kiste, ohne Prüfungsfragen */
-    'reise-0-1': {datei: 'podcast/folgen/reise-0-1.md', titel: 'Anheuern', unter: 'Hörreise, Folge 0 (Entwurf): der Abend vor der Reise', wetter: 'schoen'},
+    /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
+    'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Das Heck will zu Paul', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
+    'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Ohne Gas kein Ruder', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
+    'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
@@ -94,6 +96,8 @@
       else if (kat === 'REVIER') dazu({t: 'revier', wert});
       else if (kat === 'DENKPAUSE') dazu({t: 'pause', s: +wert || 3});
       else if (kat === 'PAUSE') dazu({t: 'pause', s: wert === 'dramatisch' ? 1.5 : .7, still: true});
+      /* v5.66 [[STOFF: sbf:41, sbf:46]]: Diese Szene behandelt diese Fragen (stiller Marker, damit folgenFragen sie kennt, auch ohne Wahl) */
+      else if (kat === 'STOFF') wert.split(',').map(x => x.trim()).filter(x => /^(sbf|bin):\d+$/.test(x)).forEach(id => items.push({t: 'stoff', id, ...(bereich ? {bereich} : {})}));
       else if (kat === 'VORAB') { vorab = wert; vorabOffen.add(wert); }
       /* Auflösung der Vorab-Frage: beim ersten Katalogsatz dazu zeigt die App den Tipp von vorhin */
       else if (kat === 'KATALOG' && !bereich) wert.split(',').map(x => x.trim()).filter(x => vorabOffen.delete(x)).forEach(id => dazu({t: 'tipp', id}));

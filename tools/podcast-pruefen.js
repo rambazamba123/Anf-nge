@@ -198,7 +198,11 @@ for (const datei of dateien) {
         else if (!idTeil) F(ort, `[[WAHL]] ohne Antworten und ohne Fragen-ID`);
         const vorab = !!L.vorab;
         /* HR38 (Nutzer, 08.11.2026): Wer im Auto hört, schaut nicht hin. Vor jeder Wahl sagt die Stimme die Antworten mit Funkwort und kurz an */
-        if (REISE) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
+        /* GL4 (Nutzer, 16.11.2026, Test): In der neuen Machart (Kopf „machart: neu“) darf eine Frage mit genau zwei Antworten natürlich gestellt werden
+           („Backbord oder Steuerbord?“), wenn der Satz davor „oder“ enthält und aus jeder Antwort ein kennzeichnendes Wort nennt */
+        const NEU = String(kopf.machart || '').trim() === 'neu';
+        const natuerlich = NEU && teile.length === 2 && /\boder\b/i.test(letzteRede) && teile.every(o => (o.replace(/^\*\s*/, '').toLowerCase().match(/[a-zäöüß]{3,}/g) || []).filter(w => !/^(der|die|das|und|oder|ein|eine|nur|wird|kann|mit|dem|den|sich|will|zur|vom)$/.test(w)).some(w => letzteRede.toLowerCase().includes(w)));
+        if (REISE && !natuerlich) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
         /* HR46: Steht die richtige Antwort schon in den Sätzen direkt vor der Frage, ist die Frage verraten (außer bei „Hat er recht?“) */
         if (REISE && !vorab && !H46.harms && teile.length && !/recht\?|stimmt das/i.test(letzteRede)) {
           const r = (teile.find(o => o.startsWith('*')) || '').replace(/^\*\s*/, ''), w = INHALT(r).filter(x => !STOPP.has(x));
