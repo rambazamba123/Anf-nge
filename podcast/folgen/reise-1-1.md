@@ -2,44 +2,49 @@
 folge: 1-1
 titel: Erster Morgen
 status: entwurf
+machart: neu
 ---
-# Hörreise, Tag 1, Folge 1-1 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (docs/folgen-tag1-neu.md, HR50–HR55), noch nicht vertont.
+# Hörreise, Tag 1, Folge 1-1 (docs/reise.md §7). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), am 17.11.2026 auf die neue Machart umgestellt (podcast/schreibkarte.md, HR56–HR60): ohne Harms-Abschnitt, natürliche Fragen, kein Aufzählungs-Überblick. Noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-1.md  ·  node tools/sprueche-pruefen.js
 #
 # FOLGENBLATT
 # Kopf: 1-1 „Erster Morgen“ · Tag 1 · Kuttershaven, Cockpit der Frieda am Steg · früher Morgen, klar, kaum Wind; das Barometer fällt leicht (Wetterbogen Tag 1, HR55) · Revier Hafen (hörbar: Möwen, Wellen am Steg)
-# Vorher: Folge 0 „Anheuern“ am Abend davor (reise-0-1). Du kennst Hinnerk, Smilla, Klabauter und Backbord schon; niemand stellt sich vor. Harms kennst du nur vom Erzählen.
+# Vorher: Du bist gestern Abend an Bord gekommen (Folge 0 entfällt seit 16.11.2026, GL8; die Namen kennt man aus dem Kennenlernen beim App-Start). Niemand hält eine Vorstellungsrunde; Klabauter wird erwähnt, Harms kennt man nur vom Erzählen.
 # Karte (HR51): Kuttershaven → aus dem Hafen nach Nordosten → nach Westen in die Brede → die Brede rauf bis Schilfwinkel, sieben Komma zwei Seemeilen (tools/karte-pruefen.js --tabelle). Bei fünf Knoten knapp anderthalb Stunden: Darum „Katzensprung“, unterwegs wird geübt.
 # Navigation nebenbei (T8): Smilla zeigt das Tagesziel auf der Karte, Knoten = Seemeilen in der Stunde, Fahrzeit grob. Keine Frage dazu.
 # Hinnerks Geheimnis (HR53): erste Spur „Bauch.“ (er weiß die Strecke auf die Zehntelmeile). „Vor Dunkelwerden. Immer.“ bleibt.
 # Blöcke: G1.1 ▸ „Wer führt das Boot?“ mit den Fragen 1, 2, 59. Ausführlich: Frage 2 (Schwerpunkt im Kursplan). Kurz: 1 und 59.
-# Überblick: U1 „Wer an Bord das Sagen hat und welche Papiere man braucht“ (HR4, HR5), aus dem Hafenkino heraus, mit Merksatz am Ende.
+# Überblick: U1 „Wer an Bord das Sagen hat und welche Papiere man braucht“ (HR4, HR5), als kurzes Gespräch über die vier vom Charterboot, ein Merksatz am Ende (kein „Erstens, zweitens“).
+# Lernlast (HR56): Szene: 2 (Promille, Schwerpunkt). Regel: 1 (bestimmt, nicht gewählt) und 59 (Elektroboot). Was war neu? (2) Einer wird vor der Fahrt bestimmt. (3) Null Komma fünf, und wer nicht sicher führen kann, auch darunter nicht. (4) Elektroboot ohne Schein bis sieben Komma fünf Kilowatt.
 # Muster: lage (Lage zuerst, HR6). Ein Charterboot legt chaotisch an; alles, was die Crew erklärt, kommt aus dem, was drüben schiefgeht.
 # Rolle: zuhören (Passagier). Keine Aufgabe, nichts wandert in die Etappe.
 # Crew: Hinnerk, Smilla; am Ende Harms am Telefon. Klabauter fehlt (wird vermisst), Backbord stumm. Höchstens zwei Stimmen je Szene.
 #   Wer irrt: Hinnerk bei Frage 59 (Formalie, „Hat er recht?“, das einzige der Folge, HR15). Wer erklärt: Hinnerk Frage 1, Smilla Frage 2 und 59 (HR10).
 #   Geheimnis: Bei „wer nicht richtig sieht“ fällt Hinnerk Smilla ins Wort und bietet Kaffee an (erste Spur, F4). „Vor Dunkelwerden. Immer.“ (zweite Spur).
-# Zwischenfragen (HR13): Frage 1 offen · Frage 2 entweder-oder, richtig gegen die gefährlichste Falle · Frage 59 „Hat er recht?“. Denkpause immer sechs Sekunden (HR14).
+# Zwischenfragen: alle drei als natürliches Entweder-oder (HR59, Test): gewählt oder bestimmt · null Komma fünf oder null Komma acht · ohne Schein nichts oder auf den Motor kommt es an. Denkpause sechs Sekunden.
 #   Signal (HR12): zwei Glockenschläge für „Frage an dich“, ein Schlag für die Auflösung.
 # Erklärformen (HR10): Frage 1 Warum („keine Demokratie“) · Frage 2 Vergleich (Straße) und Falle · Frage 59 Zahlenspiel.
 # Bilder: keine (die drei Fragen haben keine Katalogbilder). Mögliche Animation später: das Charterboot beim Anlegen.
-# Fragerunde: Rahmen „Harms ruft an“ (HR18); bei Frage 2 liest Harms den gemeinsamen Teil der Antworten nur einmal (HR27): Musik und Atmo aus, nur die Glocke, trocken und zügig. Neue Fragen 1, 2, 59 mit allen vier amtlichen
-#   Antworten, Alfa bis Delta (HR17). Fällige ältere: keine (erste Folge). Die richtige Antwort steht jedes Mal an einer anderen Stelle.
-# Haken: Smilla: „Warum eigentlich immer?“ Eine Sprachnachricht von Harms rettet Hinnerk: sieben Tage bis zur Prüfung auf der Albertine in Harmsoog, wer zu spät kommt, fährt allein heim (HR50: die Frist steht in der Geschichte, nicht nur im Anruf). Harms ruft danach zur Fragerunde an; nach Harms kein Satz mehr.
+# Fragerunde: kein Harms-Abschnitt (HR57). Harms meldet sich nur per Sprachnachricht mit der Frist (HR50) und kündigt an, dass er zwischendurch anruft. Nach der ersten Folge gibt es noch nichts zurückzufragen.
+# Haken: Smilla: „Warum eigentlich immer?“ Eine Sprachnachricht von Harms rettet Hinnerk: sieben Tage bis zur Prüfung auf der Albertine in Harmsoog, wer zu spät kommt, fährt allein heim (HR50). Die Frage bleibt offen: „Frühstück.“
 # Heft: nichts freigegeben; die drei Fragen zählen als „gehört“ oder, mit Antwort, für die Lernkartei.
 # Anreden: zwei (Hinnerk, Harms), HR24. Klassiker aus der Sprüchekiste mit [[SPRUCH]] markiert (HR25).
 # Fachlich: Fragen 1, 2, 59 nach data/sbf.json, Merksätze wie data/karten-sbf.json. Die Grenze von fünfzehn PS (elf Komma null drei Kilowatt) für
 #   Verbrennungsmotoren steht im Merksatz der App; ohne quellen/ geprüft (R8).
-# Länge: etwa sieben Minuten mit Fragerunde.
+# Länge: etwa sechs Minuten.
+
+[[HEUTE: Erster Morgen an Bord der Frieda | Hafenkino: Wer hat auf einem Boot das Sagen? | Wann man nicht ans Ruder darf]]
 
 [[ABSCHNITT: Kaffee ohne Papagei]]
 [[SZENE: Kuttershaven, früher Morgen, klarer Himmel, kaum Wind. Die Frieda liegt am Steg im Hafen. Hinnerk sitzt mit Kaffee im Cockpit. Smilla kommt aus der Kajüte.]]
 [[REVIER: hafen]]
 [[AUDIO: Möwen]]
 HINNERK: [[SPRUCH: hi-gruss-15]] Mooooooooin!
-SMILLA: Moin. Nicht so laut. Hast du Klabauter gesehen?
+SMILLA: Moin. Nicht so laut. Unser Neuer schläft vielleicht noch.
+HINNERK: Der is wach. Der hat die Möwen gehört.
+SMILLA: Erste Nacht an Bord, ne? Man hört jedes Knarzen. Sag mal, Käpt'n, hast du Klabauter gesehen?
 HINNERK: Nee.
-SMILLA: Gestern Abend hat er dich noch angekreischt, weißt du noch? Und heute früh ist die Stange leer.
+SMILLA: Gestern Abend, als unser Neuer an Bord kam, hat er noch rumgekreischt. Und heute früh ist die Stange leer.
 HINNERK: Der kommt wieder.
 SMILLA: Und wenn nicht?
 HINNERK: [[INTENTION: trocken]] Dann nich.
@@ -54,11 +59,12 @@ HINNERK: Is mir egal. Der kommt immer irgendwo unter. Der hat in jedem Hafen 'n 
 SMILLA: Was klopfst du da?
 HINNERK: [[SPRUCH: hi-wetter-09]] Barometer. Fällt 'n büschen. Nachmittags kommt Wind.
 SMILLA: Und wo fahren wir heute hin? Zeig mal auf der Karte.
-SMILLA: Hier ist Kuttershaven. Raus aus dem Hafen, dann nach Westen in die Brede. Und die Brede rauf bis zum Schilfwinkel.
-HINNERK: Sieben Komma zwei Meilen.
+HINNERK: Hier. Kuttershaven. Raus aus'm Hafen, rum nach Westen in die Brede.
+SMILLA: Und dann?
+HINNERK: Die Brede rauf bis zum Schilfwinkel. Sieben Komma zwei Meilen.
 SMILLA: Woher weißt du das so genau?
 HINNERK: [[SPRUCH: hi-plotter-01]] Bauch.
-SMILLA: Bei fünf Knoten, also fünf Seemeilen in der Stunde, sind wir in anderthalb Stunden da. Das ist ja ein Katzensprung.
+SMILLA: Fünf Knoten, also fünf Seemeilen in der Stunde. Dann sind wir in anderthalb Stunden da. Ein Katzensprung.
 HINNERK: Erster Tag. Wir üben unterwegs.
 
 [[ABSCHNITT: Hafenkino]]
@@ -66,8 +72,7 @@ HINNERK: Erster Tag. Wir üben unterwegs.
 [[REVIER: hafen]]
 HINNERK: Kiek mol. Gegenüber. Charter.
 SMILLA: Oh nein. Die vier von der Hafenkneipe gestern?
-HINNERK: Hafenkino. Setz dich, dat lohnt sich.
-SMILLA: Hafenkino heißt: Man guckt zu, wie andere anlegen. Besser als Fernsehen.
+HINNERK: Hafenkino. Setz dich, dat lohnt sich. Besser als Fernsehen.
 SMILLA: Wer steuert da eigentlich? Der mit der Mütze?
 HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
 SMILLA: Und die zwei vorne streiten, wer die Leine wirft.
@@ -78,15 +83,19 @@ HINNERK: Dat Problem kenn ich.
 SMILLA: Käpt'n!
 HINNERK: Vom Festmachen. Wat denkst du denn.
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
+HINNERK: Die stimmen gleich ab, wer schuld is.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer Schiffsführer ist. So wie bei denen da drüben. Was muss dann passieren? Wählt ihr einen? Oder wird einer bestimmt?
+SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer das Boot führt, so wie bei denen da drüben. Wird dann einer gewählt, oder wird einer bestimmt?
+[[WAHL: sbf:1 | gewählt | *bestimmt]]
 [[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu. Einer wird bestimmt. Vorher.
-HINNERK: Bestimmt. Nich gewählt. An Bord is keine Demokratie.
-SMILLA: Klingt hart, ist aber logisch. Wenn's eng wird, ist keine Zeit zum Abstimmen. Einer sagt an, die anderen machen. Und das steht fest, bevor die Leinen losgehen.
-SMILLA: Und noch was: Nur weil einer einen Führerschein hat, ist er noch lange nicht Schiffsführer. Bestimmt werden muss er trotzdem.
+[[VERTIEFUNG: sbf:1]]
+SMILLA: Bestimmt, nicht gewählt. Einer muss vor dem Ablegen festgelegt werden, und dann gilt das. Und nur weil jemand einen Führerschein hat, ist er noch nicht automatisch der Schiffsführer. Auch der muss bestimmt werden.
+[[VERTIEFUNG: ende]]
+HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu.
+HINNERK: An Bord is keine Demokratie. Einer wird bestimmt. Vorher.
+SMILLA: Wenn's eng wird, ist keine Zeit zum Abstimmen.
+HINNERK: Kiek. Jetzt zeigen alle vier auf den Dicken.
 SMILLA: Bei uns ist das ja klar, oder?
 HINNERK: Ich.
 SMILLA: Und wer hat das bestimmt?
@@ -100,23 +109,27 @@ SMILLA: Hast du das gehört? Zisch. Halb neun morgens.
 HINNERK: Anlegerbier.
 SMILLA: Die wollen in einer Stunde wieder raus, Käpt'n. Hat der mit der Mütze gestern in der Kneipe erzählt. Und jetzt hat er die Dose.
 HINNERK: [[INTENTION: schnaubend]] Der steuert ja nich. Der sagt nur an.
-SMILLA: Zählt auch. Wer bestimmt, welchen Kurs und wie schnell, für den gilt dasselbe wie für den am Ruder.
+SMILLA: Zählt auch. Wer ansagt, welcher Kurs und wie schnell, für den gilt dasselbe wie für den am Ruder.
+HINNERK: Hm.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen? Alfa: ab null Komma fünf. Bravo: ab null Komma acht.
-[[WAHL: sbf:2 | *ab 0,5 Promille | ab 0,8 Promille]]
+SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen: ab null Komma fünf, oder ab null Komma acht?
+[[WAHL: sbf:2 | *null Komma fünf Promille | null Komma acht Promille]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:2]]
-SMILLA: Kein Drama, die null Komma acht ist die bekannteste Falle. Auf dem Wasser gilt dieselbe feste Grenze wie beim Auto: null Komma fünf Promille. Und das ist nur die feste Grenze. Wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen. Und auch nicht ansagen, wo's langgeht.
+SMILLA: Null Komma fünf. Die null Komma acht ist die bekannteste Falle. Auf dem Wasser gilt dieselbe feste Grenze wie beim Auto. Und wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen und auch nicht ansagen.
 [[VERTIEFUNG: ende]]
-[[AUDIO: Schiffsglocke]]
-SMILLA: Null Komma fünf. Null Komma acht ist die Falle, auf die alle reinfallen.
-SMILLA: Aber jetzt kommt der Teil, den kaum einer kennt. Auch mit null Promille darfst du nicht ans Ruder, wenn du nicht sicher führen kannst. Völlig übermüdet. Tabletten, die dich duselig machen. Drogen sowieso. Und körperliche oder geistige Mängel. Wer zum Beispiel nicht richtig sieht-
+SMILLA: Null Komma fünf. Wie auf der Straße.
+HINNERK: Der mit der Mütze hat jetzt die zweite Dose.
+SMILLA: Und das Verrückte: Auch mit null Promille darfst du nicht ans Ruder, wenn du nicht sicher führen kannst.
+HINNERK: Übermüdet.
+SMILLA: Tabletten. Oder wer nicht richtig sieht-
 HINNERK: [[SPRUCH: hi-ertappt-04]] Wer will Kaffee?
 SMILLA: Käpt'n, ich red grad.
 HINNERK: Kaffee. Ja oder nein.
 SMILLA: [[PAUSE: kurz]] Ja.
-SMILLA: Also, merk's dir so: Null Komma fünf Promille, wie auf der Straße. Und wer schon vorher wackelt, bleibt auch darunter vom Ruder weg.
+HINNERK: Siehste.
+SMILLA: Wo war ich? Ach so. Wer schon vorher wackelt, bleibt auch unter null Komma fünf vom Ruder weg.
 
 [[ABSCHNITT: Leise vorbei]]
 [[SZENE: Ein kleines Leih-Elektroboot surrt durchs Hafenbecken, ein Pärchen mit Sonnenhüten. Hinnerk kommt mit zwei Bechern aus der Kajüte.]]
@@ -128,16 +141,17 @@ SMILLA: Woher weißt du, dass die keinen haben?
 HINNERK: Sieht man. Sonnenhut.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Hinnerk sagt: Ohne Führerschein ist so ein Boot verboten. Hat er recht? Alfa: Ja, ohne Schein geht nichts. Bravo: Nicht unbedingt, es kommt auf den Motor an.
-[[WAHL: sbf:59 | Ja, ohne Schein geht nichts | *Nicht unbedingt, es kommt auf den Motor an]]
+SMILLA: Frage an dich. Hinnerk sagt, ohne Schein geht bei so einem Boot gar nichts. Stimmt das, oder kommt es auf den Motor an?
+[[WAHL: sbf:59 | ohne Schein geht nichts | *es kommt auf den Motor an]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:59]]
 SMILLA: Ganz so streng ist es nicht. Für kleine Elektroboote braucht man keinen Schein, solange der Motor höchstens sieben Komma fünf Kilowatt hat, und zwar im Dauerbetrieb gemessen, nicht nur mal kurz. Darum gibt es überall die Leihboote ohne Führerschein. Ist der Motor stärker, brauchst du einen.
 [[VERTIEFUNG: ende]]
-[[AUDIO: Schiffsglocke]]
-SMILLA: Nicht unbedingt, Käpt'n. Mit Elektromotor darfst du ohne Schein fahren, wenn er höchstens sieben Komma fünf Kilowatt hat. Im Dauerbetrieb, nicht nur mal kurz.
+SMILLA: Kommt auf den Motor an, Käpt'n. Elektro bis sieben Komma fünf Kilowatt geht ohne Schein. Im Dauerbetrieb, nicht nur mal kurz.
 HINNERK: Sieben Komma fünf. Dat is doch nix.
-SMILLA: Für so eine Nussschale reicht's. Merk's dir als Zahlenspiel: Beim Verbrennungsmotor geht's ohne Schein bis fünfzehn Pferdestärken. Beim Elektromotor bis sieben Komma fünf. Die halbe Zahl, aber in Kilowatt.
+SMILLA: Für so eine Nussschale reicht's. Merk's dir als Zahlenspiel: Benziner ohne Schein bis fünfzehn Pferdestärken.
+HINNERK: Pferde. Sind dat.
+SMILLA: Elektro bis sieben Komma fünf. Die halbe Zahl, aber in Kilowatt.
 HINNERK: [[SPRUCH: hi-erkennung-01]] Sag ich doch.
 SMILLA: Du hast gesagt, das ist verboten.
 HINNERK: Für die mit Sonnenhut.
@@ -145,14 +159,18 @@ HINNERK: Für die mit Sonnenhut.
 [[ABSCHNITT: Wer das Sagen hat]]
 [[SZENE: Die vier vom Charterboot stapfen mit Brötchentüten über den Steg. Hinnerk und Smilla schauen ihnen nach. Hafen.]]
 [[REVIER: hafen]]
-SMILLA: Weißt du was? Du hast heute Morgen schon fast alles gesehen, worum es beim Sagen-Haben an Bord geht. Drei Sachen.
-HINNERK: Gleich drei.
-SMILLA: Erstens: Einer hat das Sagen. Der Schiffsführer. Er steht fest, bevor es losgeht, und er trägt die Verantwortung für Boot und Leute.
-SMILLA: Zweitens: Der ist fit. Nüchtern, wach, und er bekommt mit, was um ihn herum los ist.
-HINNERK: Hm.
-SMILLA: Drittens: Er hat den Schein, den sein Boot verlangt, und die Papiere an Bord. Wann genau du welchen Schein brauchst und was die Wasserschutzpolizei sehen will, das kommt alles noch, unterwegs.
-HINNERK: Und viertens: Fender raus.
-SMILLA: [[INTENTION: lachend]] Viertens: Fender raus. Aber merk dir die drei so: Einer sagt an. Keiner hat getrunken. Und der Schein passt zum Boot.
+SMILLA: Weißt du, was die vier heute Morgen alles falsch gemacht haben?
+HINNERK: Allet.
+SMILLA: Keiner hatte das Sagen.
+HINNERK: Einer hatte 'n Bier.
+SMILLA: Und die mit dem Sonnenhut dürfen ohne Schein fahren. Die haben alles richtig gemacht.
+HINNERK: Trotzdem. Sonnenhut.
+SMILLA: Darum geht's in den nächsten Tagen immer wieder, bei Regeln und Papieren.
+HINNERK: Einer sagt an.
+SMILLA: Keiner hat getrunken.
+HINNERK: Und der Schein passt zum Boot.
+HINNERK: Und Fender raus.
+SMILLA: [[INTENTION: lachend]] Und Fender raus.
 HINNERK: Nach'm Frühstück Leinen los. Heute Abend liegen wir im Schilfwinkel vor Anker.
 SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
@@ -160,44 +178,11 @@ SMILLA: Warum eigentlich immer?
 [[AUDIO: Telefon]]
 HINNERK: [[INTENTION: genervt]] Sprachnachricht. Um die Uhrzeit. Von Harms.
 SMILLA: Mach laut.
-HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog. {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord. Sieben Tage. Wer zu spät kommt, fährt allein heim.
+HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog.
+HARMS: {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord. Bis dahin ruf ich zwischendurch an und frag ab, was hängen geblieben ist.
+HARMS: Sieben Tage. Wer zu spät kommt, fährt allein heim.
 SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.
 HINNERK: Sieben Tage. Schaffen wir.
 SMILLA: Du hast meine Frage nicht beantwortet.
 HINNERK: Frühstück.
-
-[[ABSCHNITT: Harms ruft an]]
-# HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus, nur die Glocke. „an Land“ ist das Revier ohne Atmo, bis der Player einen eigenen Schalter hat.
-[[SZENE: Das Telefon klingelt, Harms ruft zurück. Smilla nimmt ab und stellt auf laut. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
-[[REVIER: an Land]]
-SMILLA: Frieda, Smilla? … Moment. Für dich. Ich stell laut.
-HINNERK: [[SPRUCH: hi-harms-02]] Mit dem red ich nich. Du schon.
-SMILLA: [[SPRUCH: sm-harms-05]] Ich bin in der Plicht. Du schaffst das.
-HARMS: [[SPRUCH: ha-anruf-01]] Harms. Kapitän der Albertine. Meine Nachricht hast du gehört.
-HARMS: Bis wir uns sehen, ruf ich an. Jeden Tag ein paar Fragen, genau so, wie sie in der Prüfung stehen.
-HARMS: {{anrede:w=Du bist also die Neue.|m=Du bist also der Neue.|n=Du bist also der Frischfisch.}} Drei Fragen. [[SPRUCH: ha-frage-07]] Prüfungsfrage. Im Wortlaut.
-HARMS: [[SPRUCH: ha-frage-01]] Frage.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was ist zu tun, wenn vor Antritt der Fahrt nicht feststeht, wer Schiffsführer ist? Alfa: Der verantwortliche Schiffsführer muss gewählt werden. Bravo: Der verantwortliche Schiffsführer muss bestimmt werden. Charlie: Ein Inhaber eines Sportbootführerscheins muss die Fahrzeugführung übernehmen. Delta: Ein Inhaber eines Sportbootführerscheins muss die Verantwortung übernehmen.
-[[WAHL: sbf:1 | Alfa: Der verantwortliche Schiffsführer muss gewählt werden. | *Bravo: Der verantwortliche Schiffsführer muss bestimmt werden. | Charlie: Ein Inhaber eines Sportbootführerscheins muss die Fahrzeugführung übernehmen. | Delta: Ein Inhaber eines Sportbootführerscheins muss die Verantwortung übernehmen.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Bravo. Bestimmt, nicht gewählt.
-HARMS: [[SPRUCH: ha-frage-02]] Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: In welchen Fällen darf weder ein Sportboot geführt noch dessen Kurs oder Geschwindigkeit selbstständig bestimmt werden? Alle vier Antworten beginnen gleich: Wenn man infolge körperlicher oder geistiger Mängel oder infolge des Genusses alkoholischer Getränke oder anderer berauschender Mittel in der sicheren Führung behindert ist, oder wenn eine Blutalkoholkonzentration von so viel Promille oder mehr im Körper vorhanden ist. Alfa: null Komma acht. Bravo: eins Komma null. Charlie: null Komma fünf. Delta: null Komma drei.
-[[WAHL: sbf:2 | Alfa: … Blutalkoholkonzentration von 0,8 Promille oder mehr | Bravo: … Blutalkoholkonzentration von 1,0 Promille oder mehr | *Charlie: … Blutalkoholkonzentration von 0,5 Promille oder mehr | Delta: … Blutalkoholkonzentration von 0,3 Promille oder mehr]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Charlie. Null Komma fünf.
-HARMS: [[SPRUCH: ha-frage-13]] Letzte.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Unter welchen Voraussetzungen darf ein Sportboot mit Elektromotor ohne Fahrerlaubnis geführt werden? Alfa: Die Antriebsleistung beträgt höchstens sieben Komma fünf Kilowatt, Betriebsart S eins, Dauerbetrieb. Bravo: Es darf immer ohne Fahrerlaubnis geführt werden, unabhängig von der Antriebsleistung. Charlie: Bis zu einer Antriebsleistung von elf Komma null drei Kilowatt, Betriebsart S eins, Dauerbetrieb. Delta: Es darf nie ohne Fahrerlaubnis geführt werden, unabhängig von der Antriebsleistung.
-[[WAHL: sbf:59 | *Alfa: Die Antriebsleistung beträgt höchstens 7,5 Kilowatt Betriebsart S1 (Dauerbetrieb). | Bravo: Es darf immer ohne Fahrerlaubnis geführt werden, unabhängig von der Antriebsleistung. | Charlie: Bis zu einer Antriebsleistung von 11,03 Kilowatt Betriebsart S1 (Dauerbetrieb). | Delta: Es darf nie ohne Fahrerlaubnis geführt werden, unabhängig von der Antriebsleistung.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Alfa. Sieben Komma fünf Kilowatt.
-HARMS: Sieben Tage. Dann sitzt du vor mir. [[SPRUCH: ha-ende-03]] Grüß Hinnerk. Oder lass es.
+[[MITNEHMEN: Steht vor der Fahrt nicht fest, wer führt, wird der Schiffsführer bestimmt, nicht gewählt | Ab null Komma fünf Promille nicht mehr führen, und auch darunter nicht, wenn man nicht sicher führen kann | Elektroboot ohne Führerschein, wenn der Motor höchstens sieben Komma fünf Kilowatt Dauerleistung hat]]

@@ -204,7 +204,7 @@ for (const datei of dateien) {
         const natuerlich = NEU && teile.length === 2 && /\boder\b/i.test(letzteRede) && teile.every(o => (o.replace(/^\*\s*/, '').toLowerCase().match(/[a-zäöüß]{3,}/g) || []).filter(w => !/^(der|die|das|und|oder|ein|eine|nur|wird|kann|mit|dem|den|sich|will|zur|vom)$/.test(w)).some(w => letzteRede.toLowerCase().includes(w)));
         if (REISE && !natuerlich) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
         /* HR46: Steht die richtige Antwort schon in den Sätzen direkt vor der Frage, ist die Frage verraten (außer bei „Hat er recht?“) */
-        if (REISE && !vorab && !H46.harms && teile.length && !/recht\?|stimmt das/i.test(letzteRede)) {
+        if (REISE && !vorab && !H46.harms && teile.length && !/recht[?,]|stimmt das/i.test(letzteRede)) {
           const r = (teile.find(o => o.startsWith('*')) || '').replace(/^\*\s*/, ''), w = INHALT(r).filter(x => !STOPP.has(x));
           const davor = reden.slice(0, -1).slice(-3).join(' ').toLowerCase();
           if (w.length && w.every(x => davor.includes(x))) W(ort, `Frage verraten: „${r}“ steht schon in den Sätzen davor. Erst fragen, dann erklären (HR46)`);

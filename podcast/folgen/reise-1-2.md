@@ -2,6 +2,7 @@
 folge: 1-2
 titel: Gas, Sprit und Streichholz
 status: entwurf
+machart: neu
 ---
 # Hörreise, Tag 1, Folge 1-2 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-2.md  ·  node tools/sprueche-pruefen.js
@@ -26,12 +27,14 @@ status: entwurf
 # Erklärformen (HR10): Prinzip als Bild im Kopf (unsichtbares Wasser) · 49 Unterschiede der Antworten (HR27) · 43 Falle aus dem Hafenalltag (Spülmittel)
 #   · 63 Lücke mit Warum · 64 Einweisung („Wenn's hier mal nach Gas riecht …“) · Feuerzeug als Garn-Splitter · 65 und 66 je ein Satz mit Merksatz.
 # Bilder und Animation: Mini-Animation „gas“ (anim.js, v5.27): Phase 0 Gas sinkt in die Bilge, Phase 1 ein Funke reicht, Phase 2 Flasche an Deck mit Loch unten. Keine Katalogbilder.
-# Fragerunde: Rahmen „Logbuch“ (HR18, 1-1 war „Harms ruft an“). Smilla schreibt Logbuch, die Fragen kommen als Sprachnachricht von Harms (HR12: den Wortlaut liest immer Harms).
-#   Alle sieben Fragen mit allen vier amtlichen Antworten; bei 49, 62 und 63 liest Harms den gemeinsamen Teil nur einmal (HR27). Richtige Antwort an wechselnder Stelle.
-# Haken: Hinnerk: „Und jetzt: Leinen los.“ steht vor dem Logbuch (HR50: ohne Harms endet die Folge mit dem Haken). Die nächste Folge (1-3) ist das Ablegen.
+# Fragerunde: kein Harms-Abschnitt mehr (17.11.2026, HR57). Der Player lässt Harms danach Fragen aus 1-1 zurückfragen. Die Fragen dieser Folge stehen als [[WAHL]] oder [[STOFF]] im Skript.
+# Lernlast (HR56): ein Bündel „Dampf und Gas kriechen nach unten“ (System-Block, alle sieben Fragen Gewicht Bündel). Was war neu? (1) Gas und Benzindampf sind schwerer als Luft. (2) Beim Tanken ist alles aus, auch der Motor. Öl aus der Bilge mit dem Lappen. (3) Die Gasflasche steht an Deck oder im Kasten mit Loch unten. (4) Riecht es nach Gas: Hahn zu, Luken auf, nichts anfassen; erst prüfen, dann auf; wer nicht kocht, dreht zu.
+# Haken: Hinnerk: „Und jetzt: Leinen los.“ – „Und der Strom?“ – „Morgen.“ Die nächste Folge (gold-1, in der App 1-3) beginnt an der Tankstelle mit Hilkes Quittungsblock.
 # Anreden: eine (Hinnerk). Klassiker aus der Sprüchekiste mit [[SPRUCH]] markiert (HR25).
 # Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json. Die Geschichten der Hafenmeisterin sind erzählt, keine Statistik. Ohne quellen/ geprüft (R8).
-# Länge: etwa elf Minuten mit Fragerunde. Zweite Fassung vom 07.11.2026 (Ernstfall nach 1-7, Pfeife, Animation).
+# Länge: etwa acht Minuten. Zweite Fassung vom 07.11.2026 (Ernstfall nach 1-7, Pfeife, Animation); am 17.11.2026 auf die neue Machart umgestellt (ohne Harms-Abschnitt, natürliche Fragen, Tanken als Handlung statt Aufzählung).
+
+[[HEUTE: Tanken an der Bootstankstelle | Warum Gas und Benzindampf gefährlich sind | Was tun, wenn es nach Gas riecht]]
 
 [[ABSCHNITT: An der Tankstelle]]
 [[SZENE: Bootstankstelle am Steg in Kuttershaven, Vormittag. Die Frieda liegt längsseits an der Zapfsäule im Hafen. Hinnerk am Tankstutzen, Smilla an der Leine. Schritte auf dem Steg.]]
@@ -69,29 +72,29 @@ HINNERK: Ja, ja. Is ja gut.
 [[ABSCHNITT: Tanken]]
 [[SZENE: Hinnerk steckt die Zapfpistole in den Tankstutzen der Frieda. Die Hafenmeisterin steht auf dem Steg daneben, Hafen.]]
 [[REVIER: hafen]]
+[[STOFF: sbf:49, sbf:43]]
 SMILLA: Käpt'n, der Motor läuft noch.
 HINNERK: Weiß ich. Leerlauf reicht nich. Motor aus. Ganz.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Hinnerk sagt: Beim Tanken muss der Motor ganz aus sein, Leerlauf reicht nicht. Hat er recht? Alfa: Ja, der Motor muss aus. Bravo: Nein, Leerlauf reicht.
-[[WAHL: sbf:49 | *Ja, der Motor muss aus | Nein, Leerlauf reicht]]
+SMILLA: Frage an dich. Hinnerk sagt, beim Tanken muss der Motor ganz aus sein. Hat er recht, oder reicht Leerlauf?
+[[WAHL: sbf:49 | *der Motor muss aus | Leerlauf reicht]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:49]]
 SMILLA: Die Falle ist der Leerlauf. Ein laufender Motor ist heiß und macht Funken, auch wenn sich der Propeller nicht dreht. Und genau darum geht es beim Tanken: Unten sammelt sich Dampf, und alles, was zünden kann, muss aus sein. Also Motor aus, keine elektrischen Schalter, kein Feuer, und ein Lappen liegt bereit, falls etwas überläuft.
 [[VERTIEFUNG: ende]]
-[[AUDIO: Schiffsglocke]]
-SMILLA: Ja, hat er. Aus heißt aus.
+SMILLA: Hat er recht. Aus heißt aus.
 [[ANIM: tanken]]
-SMILLA: Pass auf, beim Tanken gibt's vier Sachen. Motor aus. Keine elektrischen Schalter, denn jeder Schalter macht einen kleinen Funken. Kein offenes Feuer.
-HINNERK: Ja, ja.
+HINNERK: Und jetzt fasst keiner 'n Schalter an. Jeder Schalter macht 'n kleinen Funken.
 [[ANIM: tanken, 2]]
-SMILLA: Und viertens: vorsorgen, dass nichts überläuft.
+SMILLA: Feuer hatten wir ja schon.
+HINNERK: Hatten wir.
 [[ANIM: tanken, 3]]
 HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
 HAFENMEISTER: Die Leute denken immer: Fenster zu und Feuerlöscher bereit, dann passt das. Passt nicht, wenn der Motor im Leerlauf tuckert oder einer am Schalter dreht.
-SMILLA: Merk's dir so: Beim Tanken ist alles aus. Motor aus, nicht nur im Leerlauf. Schalter und Feuer bleiben aus, ein Lappen liegt bereit gegen Überlaufen.
-[[AUDIO: Schiffsglocke]]
+SMILLA: Beim Tanken ist alles aus. Motor, Schalter, Feuer.
+[[AUDIO: Motor]]
 HINNERK: Voll. Und keen Tropfen daneben.
 HAFENMEISTER: Fast keiner.
 HINNERK: [[INTENTION: schnaubend]] Fast.
@@ -106,7 +109,8 @@ SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du dam
 [[AUDIO: Schiffsglocke]]
 [[ANIM: tanken, 5]]
 HINNERK: Lappen. Aufnehmen. Ab an Land in die Tonne.
-HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer. Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
+HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer.
+HAFENMEISTER: Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
 SMILLA: Neutralisieren oder verteilen ist also verboten. Ins Wasser darf es sowieso nicht.
 HAFENMEISTER: Öl in der Bilge gehört in den Lappen, nicht ins Hafenbecken. Aufnehmen und an Land entsorgen. Lappen gibt's bei mir. Kosten extra.
 HINNERK: Natürlich.
@@ -114,23 +118,26 @@ HINNERK: Natürlich.
 [[ABSCHNITT: Die Gasflasche]]
 [[SZENE: Die Hafenmeisterin klopft auf den Gaskasten an Deck der Frieda, Steg, Hafen.]]
 [[REVIER: hafen]]
+[[STOFF: sbf:63, sbf:62]]
 HAFENMEISTER: Wenigstens die Gasflasche steht bei dir richtig, Hinnerk.
 HINNERK: Steht da seit dreißig Jahren.
-HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten in der Backskiste, ganz unten im Boot. Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
+HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten in der Backskiste. Ganz unten im Boot.
+HINNERK: Oha.
+HAFENMEISTER: Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
 SMILLA: Und?
 HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand noch auf der Treppe, halb draußen. Sein Boot hatte keins.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Ergänz den Satz: Propan und Butan, das Gas aus der Flasche, sind … als Luft. Alfa: schwerer. Bravo: leichter.
+SMILLA: Frage an dich. Propan und Butan, das Gas aus der Flasche: Ist das schwerer oder leichter als Luft?
 [[WAHL: sbf:63 | *schwerer | leichter]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:63]]
 SMILLA: Schwerer. Wäre Gas leichter als Luft, würde es durch die Luke nach oben abziehen, und es wäre viel weniger gefährlich. Aber Propan und Butan sind schwerer. Sie laufen nach unten, sammeln sich unbemerkt in der Bilge und bilden dort mit Luft ein explosives Gemisch. Ein Funke reicht.
 [[VERTIEFUNG: ende]]
-[[AUDIO: Schiffsglocke]]
 SMILLA: Schwerer. Gas benimmt sich wie Wasser: Es läuft nach unten und sammelt sich in der Bilge.
+HINNERK: Darum steht meine an Deck. Im Schatten.
 [[ANIM: gas, 2]]
-SMILLA: Und darum steht die Flasche an Deck, im Schatten, wegen der Sonne. Geht das nicht, dann in einem eigenen Kasten mit einem Loch ganz unten nach außenbords. Da kann das Gas raus.
+SMILLA: Und wo's an Deck nicht geht: ein eigener Kasten mit einem Loch ganz unten nach außenbords. Da kann das Gas raus.
 HAFENMEISTER: Ein Lüftungsloch oben nützt nix. Gas geht nicht nach oben.
 HAFENMEISTER: So. Ich hab noch drei Charterboote vor mir. Und du, Hinnerk, der Strom. Heute.
 HINNERK: Ja, ja.
@@ -139,6 +146,7 @@ HINNERK: Ja, ja.
 [[ABSCHNITT: Der Gashahn]]
 [[SZENE: Wieder an Bord, die Frieda liegt noch an der Tankstelle im Hafen. Hinnerk klappt den Gaskasten auf und zeigt dir den Haupthahn. Smilla lehnt am Niedergang.]]
 [[REVIER: hafen]]
+[[STOFF: sbf:64, sbf:65, sbf:66]]
 HINNERK: Kiek mol. Dat is der Haupthahn. Und dat da unten am Kocher, dat sind die Ventile.
 SMILLA: Er macht Einweisung. Das macht er nur, wenn er sich vorher blamiert hat.
 HINNERK: Ich mach Einweisung, weil's Zeit is.
@@ -169,69 +177,4 @@ SMILLA: Hilke sagt, Hochwasser ist um elf. Wenn wir jetzt losmachen, haben wir i
 HINNERK: Und jetzt: Leinen los.
 SMILLA: Und der Strom? Der von Hilke?
 HINNERK: Morgen.
-
-[[ABSCHNITT: Logbuch]]
-# HR18: Wenn Harms prüft, ist es ernst. Musik und Atmo aus („an Land“ ist das Revier ohne Atmo). Harms ruft selbst an (Nutzer 08.11.2026: nicht ankündigen lassen).
-[[SZENE: Smilla sitzt am Kartentisch mit dem Logbuch. Das Telefon klingelt, Harms ruft an. Keine Musik, kein Hafen, nur die Schiffsglocke.]]
-[[REVIER: an Land]]
-SMILLA: Logbuch. Erster Tag, Kuttershaven, Vormittag. Getankt, Streichholz konfisziert, Gashahn erklärt.
-[[AUDIO: Telefon]]
-SMILLA: [[SPRUCH: sm-harms-03]] Kein Vorsagen, sonst fliegen wir beide. Bin weg.
-HINNERK: [[SPRUCH: hi-harms-04]] Ich muss … wat am Motor gucken. Dringend.
-HARMS: Harms. Tanken und Gas. Sieben Fragen. Im Wortlaut. Wer mitschreibt, ist im Vorteil.
-HARMS: [[SPRUCH: ha-frage-01]] Frage.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was muss beim Tanken beachtet werden? Alle vier Antworten enden gleich: Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer. Davor steht: Alfa: Motor in Leerlaufstellung, keine elektrischen Schalter betätigen. Bravo: Fenster schließen, keine elektrischen Schalter betätigen. Charlie: Motor abstellen, Feuerlöscher bereithalten. Delta: Motor abstellen, keine elektrischen Schalter betätigen.
-[[WAHL: sbf:49 | Alfa: Motor in Leerlaufstellung, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer. | Bravo: Fenster schließen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer. | Charlie: Motor abstellen, Feuerlöscher bereithalten, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer. | *Delta: Motor abstellen, keine elektrischen Schalter betätigen, Vorbereitung gegen das Überlaufen von Kraftstoff treffen, kein offenes Feuer.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Delta. Motor abstellen, keine Schalter.
-HARMS: [[SPRUCH: ha-frage-02]] Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was ist zu unternehmen, wenn Treibstoff oder Öl in die Bilge gelangt? Alfa: Räume lüften und abwarten. Bravo: Mit Lappen aufnehmen und umweltgerecht entsorgen. Charlie: Gleichmäßig verteilen. Delta: Mit entsprechendem Mittel neutralisieren.
-[[WAHL: sbf:43 | Alfa: Räume lüften und abwarten. | *Bravo: Mit Lappen aufnehmen und umweltgerecht entsorgen. | Charlie: Gleichmäßig verteilen. | Delta: Mit entsprechendem Mittel neutralisieren.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Bravo. Lappen.
-HARMS: Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Warum sind die Flüssiggase Propan und Butan an Bord besonders gefährlich? Alle Antworten beginnen mit: Beide Gase sind. Alfa: schwerer als Luft und bilden mit Luft ein explosives Gemisch. Bravo: leichter als Luft und bilden mit Luft ein explosives Gemisch. Charlie: schwerer als Wasser und bilden mit Wasser ein explosives Gemisch. Delta: schwerer als Luft und bilden mit Wasser ein explosives Gemisch.
-[[WAHL: sbf:63 | *Alfa: Beide Gase sind schwerer als Luft und bilden mit Luft ein explosives Gemisch. | Bravo: Beide Gase sind leichter als Luft und bilden mit Luft ein explosives Gemisch. | Charlie: Beide Gase sind schwerer als Wasser und bilden mit Wasser ein explosives Gemisch. | Delta: Beide Gase sind schwerer als Luft und bilden mit Wasser ein explosives Gemisch.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Alfa. Schwerer als Luft, explosiv mit Luft.
-HARMS: Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Wo sollen die Gasbehälter einer Flüssiggasanlage gelagert werden? Alfa: Möglichst unten im Schiff, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat. Bravo: genauso, aber möglichst auf dem Vorschiff. Charlie: genauso, aber möglichst an Deck. Delta: Möglichst an Deck, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der oben belüftet ist.
-[[WAHL: sbf:62 | Alfa: Möglichst unten im Schiff, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat. | Bravo: Möglichst auf dem Vorschiff, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat. | *Charlie: Möglichst an Deck, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der in Bodenhöhe eine Öffnung nach außenbords hat. | Delta: Möglichst an Deck, geschützt vor Sonneneinstrahlung, sonst in einem besonders abgeschlossenen Raum für Gasbehälter, der oben belüftet ist.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Charlie. An Deck, Öffnung unten.
-HARMS: Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was ist zu tun, wenn Flüssiggas in das Innere des Bootes gelangt? Alfa: Gasleitung entleeren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keine Telefone benutzen. Bravo: Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keinen Funk und keine Mobiltelefone benutzen. Charlie: Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und per Telefon Hilfe holen. Delta: Gasleitung entleeren und die Gasfreiheit mit dem Feuerzeug prüfen sowie über Funk oder Mobiltelefon Hilfe anfordern.
-[[WAHL: sbf:64 | Alfa: Gasleitung entleeren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keine Telefone benutzen. | *Bravo: Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und keinen Funk und keine Mobiltelefone benutzen. | Charlie: Gaszuführung absperren und für Lüftung sorgen. Außerdem keine elektrischen Schalter betätigen und per Telefon Hilfe holen. | Delta: Gasleitung entleeren und die Gasfreiheit mit dem Feuerzeug prüfen sowie über Funk oder Mobiltelefon Hilfe anfordern.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Bravo. Absperren, lüften, kein Funke.
-HARMS: Nächste.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was ist vor Inbetriebnahme einer Flüssiggasanlage zu prüfen? Alfa: Die Anlage muss abgenommen sein, die Inbetriebnahme darf nur durch eine besonders geprüfte Person erfolgen. Bravo: Die Anlage muss abgenommen sein und jährlich überprüft werden. Die Inbetriebnahme darf nur durch eine besonders geprüfte Person erfolgen. Charlie: Die Abnahme der Anlage darf nicht länger als drei Jahre zurückliegen. Haupthahn und andere Absperrventile sind zu öffnen. Delta: Die Anlage muss abgenommen sein, Leitungen und Anschlüsse müssen dicht sein. Haupthahn und andere Absperrventile sind zu öffnen.
-[[WAHL: sbf:65 | Alfa: Die Anlage muss abgenommen sein, die Inbetriebnahme darf nur durch eine besonders geprüfte Person erfolgen. | Bravo: Die Anlage muss abgenommen sein und jährlich überprüft werden. Die Inbetriebnahme darf nur durch eine besonders geprüfte Person erfolgen. | Charlie: Die Abnahme der Anlage darf nicht länger als drei Jahre zurückliegen. Haupthahn und andere Absperrventile sind zu öffnen. | *Delta: Die Anlage muss abgenommen sein, Leitungen und Anschlüsse müssen dicht sein. Haupthahn und andere Absperrventile sind zu öffnen.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Delta. Abgenommen, dicht, dann auf.
-HARMS: [[SPRUCH: ha-frage-13]] Letzte.
-[[AUDIO: Schiffsglocke]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Was ist zu beachten, wenn eine Flüssiggasanlage außer Betrieb gesetzt wird? Alfa: Die Anlage ist gasfrei zu machen. Bravo: Gasflasche fachgerecht entsorgen. Charlie: Haupthahn und Absperrventile sind zu schließen. Delta: Der Flüssiggasbehälter ist vollständig zu entleeren.
-[[WAHL: sbf:66 | Alfa: Die Anlage ist gasfrei zu machen. | Bravo: Gasflasche fachgerecht entsorgen. | *Charlie: Haupthahn und Absperrventile sind zu schließen. | Delta: Der Flüssiggasbehälter ist vollständig zu entleeren.]]
-[[DENKPAUSE: 6]]
-[[AUDIO: Schiffsglocke]]
-HARMS: Charlie. Zudrehen. [[SPRUCH: ha-ende-04]] Ende.
+[[MITNEHMEN: Benzindampf und Gas sind schwerer als Luft und sammeln sich unten in der Bilge | Beim Tanken alles aus: Motor, Schalter, Feuer, und ein Lappen gegen Überlaufen. Öl in der Bilge mit dem Lappen aufnehmen | Riecht es nach Gas: Hahn zu, Luken auf, nichts anfassen, was Funken macht]]
