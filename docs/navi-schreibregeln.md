@@ -1,6 +1,6 @@
 # Schreibregeln für die Navi-Folgen und die Navigationsschule
 
-> Stand 17.11.2026, Entwurf zum Testen (Plan `docs/plan-hoerspiel-neu.md`, Etappe 4). Gilt für die Texte in `data/navi-folgen.json` (Navi-Folge der Abendwache, HR52) und für neue oder überarbeitete Lektionstexte in `data/navi.json`. Didaktik dahinter: `docs/navigation-didaktik.md`. Für die Hörreise selbst gilt `podcast/schreibkarte.md`.
+> Stand 17.11.2026, umgesetzt in v5.68 für Navi-Folge 1, Entwurf zum Testen (Plan `docs/plan-hoerspiel-neu.md`, Etappe 4). Gilt für die Texte in `data/navi-folgen.json` (Navi-Folge der Abendwache, HR52) und für neue oder überarbeitete Lektionstexte in `data/navi.json`. Didaktik dahinter: `docs/navigation-didaktik.md`. Für die Hörreise selbst gilt `podcast/schreibkarte.md`.
 > Anlass: Tester fanden die App „etwas unübersichtlich“ und „manchmal zu schnell“. Bei der Navigation heißt das: zu viele Begriffe auf einmal, und man weiß nicht, wo man gerade ist.
 
 **Leitbild:** Smilla sitzt abends mit dir am Kartentisch und plant die Etappe von morgen. Sie zeigt es einmal, dann machst du. Es ist ein Gespräch am Tisch, kein Lehrbuch.
@@ -24,14 +24,14 @@
 ## 4. Hilfe passt sich an, ohne zu bestrafen
 - Wer einen Handgriff zweimal ohne Hilfe schafft, sieht das Vormachen nicht mehr (Stufe „sicher“). Wer hängt, bekommt den nächsten Tipp, nie eine Uhr.
 - Ein Fehler wird erst gedeutet („Du hast unten gemessen, am Längenrand. Entfernung immer links oder rechts am Breitenrand.“), dann darf man noch einmal. Die Fehlerfahrt (Frieda fährt den falschen Kurs) ist ein Spaß, kein Urteil; der Text dazu bleibt freundlich.
-- **Einstufung am Anfang** (geplant): drei kurze Aufgaben. Wer sie kann, überspringt die Wache und bekommt nur den Test.
+- **Einstufung am Anfang** (v5.68): „Ich kann das schon“ auf dem Startbild. Drei Aufgaben ohne Hilfe; wer mindestens zwei schafft, hat die Folge samt Test erledigt, sonst geht es normal von vorn los.
 
 ## 5. Schritt-Zettel statt Rechenweg im Kopf
-- Zu jeder mehrschrittigen Aufgabe gibt es einen **Zettel** mit den Schritten in Reihenfolge (geplant): „1 Linie ziehen · 2 Dreieck anlegen · 3 Kurs ablesen · 4 Distanz abgreifen“. Der laufende Schritt ist markiert. In der Stufe „sicher“ ist der Zettel zugeklappt.
+- Zu jeder mehrschrittigen Aufgabe gibt es einen **Zettel** mit den Schritten in Reihenfolge (v5.68, `ZETTEL` in `navifolge.js`): „1 Linie ziehen · 2 Dreieck anlegen · 3 Kurs ablesen · 4 Distanz abgreifen“. Der laufende Schritt ist markiert. In der Stufe „sicher“ und im Test erscheint er nicht.
 - Derselbe Zettel mit denselben Wörtern in Navi-Folge, Navigationsschule und (später) als Karte in der Box.
 
 ## 6. Test mit Abstand
-- Der Test einer Navi-Folge kommt **am nächsten Abend** vor der neuen Folge (geplant; heute direkt am Ende). So prüft er, was hängen geblieben ist, nicht, was man gerade eben getan hat. Das ist dieselbe Idee wie „Harms fragt zurück“ (HR57).
+- Der Test einer Navi-Folge kommt **am nächsten Abend** (v5.68: Schritt `{test, spaeter: true}`; das Startbild und das Deck bieten ihn ab dem Tag danach groß an, „Test lieber gleich“ bleibt möglich). So prüft er, was hängen geblieben ist, nicht, was man gerade eben getan hat. Das ist dieselbe Idee wie „Harms fragt zurück“ (HR57).
 - Drei Aufgaben ohne Hilfe, bestanden ab zwei. Wer nicht besteht, bekommt eine Übungsrunde mit Vormachen, keinen Tadel.
 
 ## 7. Verbindung zur Geschichte

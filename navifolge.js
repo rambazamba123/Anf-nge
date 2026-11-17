@@ -8,7 +8,7 @@
 (function () {
   let D = null;
   const Z = {lauf: 0, folge: null, weiter: null, fehlerfahrt: false, werte: {}};
-  const st = () => { const s = S.navifolge = S.navifolge || {}; s.fk = s.fk || {}; s.fertig = s.fertig || {}; s.test = s.test || {}; s.maengel = s.maengel || []; if (!s.ort) s.ort = 'app'; if (s.blasen == null) s.blasen = false; return s; };
+  const st = () => { const s = S.navifolge = S.navifolge || {}; s.fk = s.fk || {}; s.fertig = s.fertig || {}; s.test = s.test || {}; s.maengel = s.maengel || []; s.pos = s.pos || {}; if (!s.ort) s.ort = 'app'; if (s.blasen == null) s.blasen = false; return s; };
   const K = () => BREDE.daten, f2 = v => Math.round(v * 100) / 100, pick = a => a[Math.random() * a.length | 0];
   const warte = ms => new Promise(r => setTimeout(r, ms));
   const ZIFF = ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
@@ -138,6 +138,19 @@
     return `<div class="nfwerkz">${noetig.map(w => `<button type="button" data-w="${w}" class="${fertig.includes(w) ? 'erledigt' : (noetig.find(x => !fertig.includes(x)) === w ? 'blink' : '')}" aria-label="${WERKZ[w][1]}">${WERKZ[w][0]}<small>${WERKZ[w][1]}</small></button>`).join('')}</div>`;
   }
 
+  /* v5.68 Schritt-Zettel (docs/navi-schreibregeln.md §5): die Schritte einer Aufgabe in Reihenfolge, der laufende markiert; wer es sicher kann, sieht ihn nicht mehr */
+  const ZETTEL = {kurs: ['Linie ziehen', 'Dreieck anlegen', 'Kurs ablesen'], distanz: ['Zirkel auf Anfang und Ende', 'an den Breitenrand', 'Meilen ablesen'], fahrzeit: ['Meilen durch Knoten', 'mal sechzig', 'Minuten eintippen']};
+  function zettelHTML(art, fertig, zeigen) {
+    if (!zeigen || !ZETTEL[art]) return '';
+    const jetzt = art === 'kurs' ? ['linie', 'dreieck'].filter(w => fertig.includes(w)).length : art === 'distanz' ? (fertig.includes('zirkel') ? 2 : 0) : -1;
+    return `<ol class="nfzettel" aria-label="Schritte">${ZETTEL[art].map((t, i) => `<li class="${i < jetzt ? 'war' : i === jetzt ? 'an' : ''}">${t}</li>`).join('')}</ol>`;
+  }
+  /* v5.68 Wo bin ich: „Wache 2 von 3 · Schritt 2 von 4“ */
+  function woZeigen() {
+    const el = $s('nfwo'), w = Z.wo; if (!el) return; if (!w) { el.hidden = true; return; }
+    el.hidden = false; el.innerHTML = `<b>${w.test ? esc(w.titel) : `Wache ${w.w} von ${w.wn} · ${esc(w.titel)}`}</b>${w.sn ? `<span>Schritt ${Math.max(1, Math.min(w.s, w.sn))} von ${w.sn}</span>` : ''}`;
+  }
+
   /* ---------- Vormachen ---------- */
   async function vormachen(art, s, L) {
     aufraeumen();
@@ -167,6 +180,7 @@
     const tol = D.toleranz[art], test = !!opt.test, ort = st().ort;
     const noetig = art === 'kurs' ? ['linie', 'dreieck'] : art === 'distanz' ? ['zirkel'] : [];
     let hilfe = test ? 0 : Math.max(0, 2 - stufe(opt.fk || art) - (opt.geschichte ? 1 : 0)), fertig = [], versuche = 0;
+    const zettelAn = !test && stufe(opt.fk || art) < 2;
     const soll = art === 'kurs' ? Math.round(s.kurs) : art === 'distanz' ? Math.round(s.sm * 10) / 10 : Math.round(s.min);
     const einheit = art === 'kurs' ? '°' : art === 'distanz' ? 'sm' : 'min';
     Z.soll = {art, soll, test};   /* für Tests (tests/navifolge-pruefen.js) */
@@ -178,7 +192,7 @@
     if (ort === 'app' && !test) zeigeHilfe(hilfe);
     const auftrag = () => art === 'fahrzeit' ? text(D.saetze.auf_fahrzeit[Math.min(hilfe, 2)], {s}) : text(D.saetze['auf_' + art][ort][Math.min(hilfe, 2)], {s});
     const zeichne = () => unten(`<div class="nfauf"><b>${test ? '🧪 Test · ' : ''}${art === 'kurs' ? 'Kurs' : art === 'distanz' ? 'Distanz' : 'Fahrzeit'}:</b> ${esc(sprechName(s.von))} → ${esc(sprechName(s.nach))}${art === 'fahrzeit' ? ` · ${zahl1(s.sm)} sm bei ${s.fahrt} kn` : ''}</div>
-      ${noetig.length ? werkzeugLeiste(noetig, fertig) : ''}<div class="nfeingabe"><span id="nffeld" class="nffeld"></span><span id="nferg" class="nferg"></span></div><div class="nftasten" id="nftasten"></div>`);
+      ${zettelHTML(art, fertig, zettelAn)}${noetig.length ? werkzeugLeiste(noetig, fertig) : ''}<div class="nfeingabe"><span id="nffeld" class="nffeld"></span><span id="nferg" class="nferg"></span></div><div class="nftasten" id="nftasten"></div>`);
     zeichne();
     const knoepfe = () => document.querySelectorAll('#nfu .nfwerkz [data-w]').forEach(b => b.onclick = async () => {
       const w = b.dataset.w; if (fertig.includes(w) || Z.werkzeugLaeuft) return; Z.werkzeugLaeuft = true; const vorher = noetig[noetig.indexOf(w) - 1]; if (vorher && !fertig.includes(vorher)) { Z.werkzeugLaeuft = false; toast('Erst ' + WERKZ[vorher][1] + '.'); return; }
@@ -188,6 +202,7 @@
       if (w === 'zirkel') { await anim(700, e => zirkel(s.a, [s.a[0] + (s.b[0] - s.a[0]) * e, s.a[1] + (s.b[1] - s.a[1]) * e]), L); const [y0, y1] = randY(s); zoom([[-30, y0 + 6], [40, y1 - 6]], 6); await anim(900, e => zirkel([s.a[0] + (-8 - s.a[0]) * e, s.a[1] + (y0 - s.a[1]) * e], [s.b[0] + (-8 - s.b[0]) * e, s.b[1] + (y1 - s.b[1]) * e]), L); }
       if (!fertig.includes(w)) fertig.push(w); Z.werkzeugLaeuft = false;
       const leiste = document.querySelector('#nfu .nfwerkz'); if (leiste) leiste.outerHTML = werkzeugLeiste(noetig, fertig); knoepfe();
+      const ze = document.querySelector('#nfu .nfzettel'); if (ze) ze.outerHTML = zettelHTML(art, fertig, zettelAn);
     });
     knoepfe();
     if (!test || versuche === 0) await sprich('s', auftrag(), L);
@@ -218,6 +233,7 @@
       hilfe = Math.min(2, hilfe + 1); if (ort === 'app') zeigeHilfe(hilfe);
       const ef = $s('nferg'); if (ef) ef.textContent = '';
       if (document.querySelector('#nfu .nfwerkz')) { document.querySelector('#nfu .nfwerkz').outerHTML = werkzeugLeiste(noetig, fertig); knoepfe(); }
+      { const ze = document.querySelector('#nfu .nfzettel'); if (ze) ze.outerHTML = zettelHTML(art, fertig, zettelAn); }
       await sprich('s', auftrag(), L);
     }
     return {ok: false};
@@ -268,16 +284,18 @@
 
   /* ---------- Test: drei Aufgaben ohne Hilfe zu allem, was die Folge gebündelt hat ---------- */
   function testStrecken() { const p = [...D.uebung].sort(() => Math.random() - .5); return p.slice(0, 3).map(([a, b]) => strecke(a, b, Z.folge.fahrt)); }
-  async function testlauf(arten, L) {
+  async function testlauf(arten, L, einstufung) {
     const id = Z.folge.id;
-    for (let runde = 0; runde < 2 && L === Z.lauf; runde++) {
-      await saetze(D.saetze.test_start, L);
+    for (let runde = 0; runde < (einstufung ? 1 : 2) && L === Z.lauf; runde++) {
+      Z.wo = {test: true, titel: einstufung ? 'Einstufung' : 'Test ohne Hilfe', s: 0, sn: arten.length}; woZeigen();
+      await saetze(einstufung ? D.saetze.einstufung_start : D.saetze.test_start, L);
       const str = testStrecken(); let gut = 0;
-      for (let i = 0; i < arten.length && L === Z.lauf; i++) { const r = await aufgabe(arten[i], str[i], {test: true, fk: arten[i]}, L); if (r.ok) gut++; }
+      for (let i = 0; i < arten.length && L === Z.lauf; i++) { Z.wo.s = i + 1; woZeigen(); const r = await aufgabe(arten[i], str[i], {test: true, fk: arten[i]}, L); if (r.ok) gut++; }
       if (L !== Z.lauf) return;
       const t = st().test[id] = {ok: gut >= 2, n: gut, von: arten.length, d: heute()}; try { save(); } catch (e) {}
       unten(`<div class="nfauf nftest"><b>${t.ok ? '✅ Test bestanden' : '🔁 Noch nicht'}</b> ${gut} von ${arten.length} richtig</div>`);
-      if (t.ok) { await saetze([pick(D.saetze.test_gut)], L); return true; }
+      if (t.ok) { await saetze(einstufung ? D.saetze.einstufung_gut : [pick(D.saetze.test_gut)], L); return true; }
+      if (einstufung) { delete st().test[id]; try { save(); } catch (e) {} await saetze(D.saetze.einstufung_nein, L); return false; }
       await saetze(D.saetze.test_schlecht, L);
       if (runde === 0) { const ueb = testStrecken(); for (let i = 0; i < arten.length && L === Z.lauf; i++) await aufgabe(arten[i], ueb[i], {fk: arten[i]}, L); }
     }
@@ -285,27 +303,63 @@
   }
 
   /* ---------- Ablauf ---------- */
-  async function spiele(f) {
+  /* v5.68 Wachen (docs/navi-schreibregeln.md §1): Schritt {wache, ziel, sitzt} teilt die Folge. Oben steht immer, wo man ist; nach jeder Wache kann man aufhören, die Stelle wird gemerkt (S.navifolge.pos) */
+  const ZAEHLT = sc => !!(sc.frage || sc.vormachen || sc.aufgabe);
+  function wachenVon(f) {
+    const ws = []; f.schritte.forEach((sc, i) => { if (sc.wache) ws.push({i, titel: sc.wache, ziel: sc.ziel || '', sitzt: sc.sitzt || '', n: 0}); else if (ws.length && ZAEHLT(sc)) ws[ws.length - 1].n++; });
+    return ws;
+  }
+  async function spiele(f, ab = 0) {
     const L = ++Z.lauf; Z.folge = f; Z.fehlerfahrt = false; Z.werkzeugLaeuft = false;
     const bsp = strecke(f.beispiel[0], f.beispiel[1], f.fahrt), auf = strecke(f.aufgabe[0], f.aufgabe[1], f.fahrt);
     Z.werte = {s: auf};
     const ersetze = v => v === '{bvon}' ? bsp : v === '{avon}' ? auf : null;
-    for (const sc of f.schritte) {
+    const ws = wachenVon(f); let wi = -1; Z.wo = null; woZeigen();
+    for (let k = ab; k < f.schritte.length; k++) {
+      const sc = f.schritte[k];
       if (L !== Z.lauf) return;
+      if (sc.wache) {
+        const vor = ws[wi]; wi = ws.findIndex(w => w.i === k);
+        if (vor) {   /* Ende der vorigen Wache: ein Satz, was jetzt sitzt, dann weiter oder für heute Schluss */
+          st().pos[f.id] = k; try { save(); } catch (e) {}
+          aufraeumen(); zoom('ganz');
+          unten(`<div class="nfauf nfwende"><b>✓ Wache ${wi} geschafft.</b> ${esc(vor.sitzt)}</div><div class="nfwahl"><button class="btn" id="nfweiter">Weiter: ${esc(ws[wi].titel)}</button><button class="btn ghost" id="nfschluss">Für heute Schluss</button></div>`);
+          const wahl = await new Promise(r => { $s('nfweiter').onclick = () => r(true); $s('nfschluss').onclick = () => r(false); });
+          if (L !== Z.lauf) return; if (!wahl) return NF.start(f.id);
+        }
+        Z.wo = {w: wi + 1, wn: ws.length, titel: ws[wi].titel, s: 0, sn: ws[wi].n}; woZeigen();
+        unten(`<div class="nfauf nfwkarte"><small>Wache ${wi + 1} von ${ws.length}</small><b>${esc(ws[wi].titel)}</b>${ws[wi].ziel ? `<span>Danach: ${esc(ws[wi].ziel)}</span>` : ''}</div>`);
+        await warte(2400); continue;
+      }
+      if (Z.wo && ZAEHLT(sc)) { Z.wo.s++; woZeigen(); }
       if (sc.sag) { unten(''); await sprich(sc.sag, text(ortText(sc.t !== undefined ? sc.t : sc)), L); }
       else if (sc.zeige) zoom(sc.zeige === 'ganz' ? 'ganz' : sc.zeige.map(BREDE.punkt), 30);
       else if (sc.frage) await frage(sc, L);
       else if (sc.vormachen) { unten(''); const s = ersetze(sc.von) || strecke(sc.von, sc.nach, f.fahrt); if (stufe(sc.fk) >= 2) await saetze([pick(D.saetze.kannst_schon)], L); else await vormachen(sc.vormachen, s, L); }
       else if (sc.aufgabe) await aufgabe(sc.aufgabe, ersetze(sc.von) || strecke(sc.von, sc.nach, f.fahrt), {fk: sc.fk, geschichte: sc.geschichte}, L);
-      else if (sc.test) await testlauf(sc.test, L);
+      else if (sc.test && !sc.spaeter) await testlauf(sc.test, L);
       else if (sc.ende) break;
     }
     if (L !== Z.lauf) return;
-    st().fertig[f.id] = heute(); try { save(); } catch (e) {}
+    const spaeter = f.schritte.find(sc => sc.test && sc.spaeter), tOk = st().test[f.id] && st().test[f.id].ok;
+    st().fertig[f.id] = heute(); delete st().pos[f.id]; try { save(); } catch (e) {}
     await saetze(D.saetze.ende, L);
-    zoom('ganz'); aufraeumen();
-    unten(`<div class="nfauf"><b>⚓ Feierabend.</b> Die Etappe für morgen steht im Logbuch.</div><div class="nfwahl"><button class="btn" id="nfextra">➕ Zusatzrunde (drei Aufgaben)</button><button class="btn ghost" id="nfzu">Zurück</button></div>`);
+    if (spaeter && !tOk) await saetze(D.saetze.test_morgen, L);
+    Z.wo = null; woZeigen(); zoom('ganz'); aufraeumen();
+    unten(`<div class="nfauf"><b>⚓ Feierabend.</b> Die Etappe für morgen steht im Logbuch.${spaeter && !tOk ? ' Den kurzen Test gibt es morgen Abend: dann zeigt sich, was hängen geblieben ist.' : ''}</div><div class="nfwahl">${spaeter && !tOk ? '<button class="btn ghost" id="nftestjetzt">📝 Test lieber gleich</button>' : ''}<button class="btn" id="nfextra">➕ Zusatzrunde (drei Aufgaben)</button><button class="btn ghost" id="nfzu">Zurück</button></div>`);
     $s('nfextra').onclick = () => zusatz(f); $s('nfzu').onclick = () => NF.start(f.id);
+    const tj = $s('nftestjetzt'); if (tj) tj.onclick = () => nurTest(f);
+  }
+  /* Test mit Abstand (docs/navi-schreibregeln.md §6) oder Einstufung am Anfang (§4): drei Aufgaben ohne Hilfe am selben Kartentisch */
+  async function nurTest(f, einstufung) {
+    const L = ++Z.lauf; Z.folge = f; Z.fehlerfahrt = true;
+    const arten = (f.schritte.find(sc => sc.test) || {}).test || f.fertigkeiten;
+    const ok = await testlauf(arten, L, einstufung);
+    if (L !== Z.lauf) return;
+    Z.wo = null; woZeigen();
+    if (einstufung && ok) { st().fertig[f.id] = heute(); delete st().pos[f.id]; try { save(); } catch (e) {} }
+    if (einstufung && !ok) return spiele(f);
+    NF.start(f.id);
   }
   async function zusatz(f) {
     const L = ++Z.lauf; Z.folge = f;
@@ -325,37 +379,47 @@
     await NF.laden(); const f = D.folgen.find(x => x.id === id) || D.folgen[0], s = st();
     s.stil = nachts() ? 'K4' : 'K1';
     const fertig = s.fertig[f.id], t = s.test[f.id];
+    const ws = wachenVon(f), pi = s.pos[f.id], wn = ws.findIndex(w => w.i === pi), wPos = !fertig && wn > 0 ? {nr: wn + 1, titel: ws[wn].titel} : null;
+    const hatTest = f.schritte.some(sc => sc.test), testOffen = !!fertig && hatTest && !(t && t.ok), testFaellig = testOffen && fertig < heute();
     rahmen(f, `<div class="nfstart">
       <div class="nfbild">${BREDE.svg(s.stil, {vb: '0 280 300 200', par: 'xMidYMid slice', routen: Array.from({length: f.abend}, (_, i) => i + 1)})}</div>
       <p class="small muted">Abendwache Tag ${f.abend} · plant die Etappe von Tag ${f.plant}${fertig ? ' · ✓ gemacht ' + fertig.split('-').reverse().join('.') : ''}${t ? ' · Test ' + t.n + '/' + t.von : ''}</p>
       <h2>${esc(f.titel)}</h2>
-      <p class="small">Heute zusammen: ${f.lektionen.map(esc).join(' · ')}. Am Ende ein kurzer Test.</p>
+      <p class="small">Heute zusammen: ${f.lektionen.map(esc).join(' · ')}. ${hatTest ? 'Den kurzen Test gibt es am nächsten Abend.' : ''}</p>
       <div class="nfschalter" role="group" aria-label="Wo übst du?"><button type="button" data-ort="app" aria-pressed="${s.ort === 'app'}">📱 In der App</button><button type="button" data-ort="papier" aria-pressed="${s.ort === 'papier'}">📄 Am Tisch mit Papierkarte</button></div>
       <label class="nfkipp"><input type="checkbox" id="nfbl" ${s.blasen ? 'checked' : ''}> 💬 Sprechblasen (Tippen = weiter)</label>
       ${s.maengel.length ? `<div class="nfmaengel">🔧 Mängelbuch: ${s.maengel.map(m => { const sd = (K().schaeden || []).find(x => x.id === m); return esc(sd ? sd.name : m); }).join(', ')}. Ein richtiger Kurs repariert es.</div>` : ''}
-      <button class="btn wide" id="nflos">⚓ Los geht's</button></div>`);
+      ${wPos ? `<button class="btn wide" id="nfweiterpos">⚓ Weiter bei Wache ${wPos.nr}: ${esc(wPos.titel)}</button>` : ''}
+      ${testOffen ? `<button class="btn ${testFaellig ? 'wide' : 'ghost'}" id="nftest">📝 ${testFaellig ? 'Test von neulich: drei Aufgaben ohne Hilfe' : 'Test schon heute machen'}</button>` : ''}
+      <button class="btn ${wPos || testFaellig ? 'ghost' : 'wide'}" id="nflos">${wPos ? 'Von vorn anfangen' : fertig ? '↺ Noch einmal von vorn' : '⚓ Los geht\'s'}</button>
+      ${!fertig && !wPos ? '<button class="btn ghost small" id="nfeinst">Ich kann das schon: Einstufung mit drei Aufgaben</button>' : ''}</div>`);
     document.querySelectorAll('.nfschalter [data-ort]').forEach(b => b.onclick = () => { s.ort = b.dataset.ort; document.querySelectorAll('.nfschalter [data-ort]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); try { save(); } catch (e) {} });
     $s('nfbl').onchange = e => { s.blasen = e.target.checked; try { save(); } catch (x) {} };
-    $s('nflos').onclick = () => { try { AUD.unlock && AUD.unlock(); VOX.phoneUnlock && VOX.phoneUnlock(); } catch (e) {} NF.tisch(f); };
+    const los = modus => () => { try { AUD.unlock && AUD.unlock(); VOX.phoneUnlock && VOX.phoneUnlock(); } catch (e) {} NF.tisch(f, modus); };
+    $s('nflos').onclick = los(); const wp = $s('nfweiterpos'); if (wp) wp.onclick = los({ab: pi});
+    const tb = $s('nftest'); if (tb) tb.onclick = los({test: true}); const eb = $s('nfeinst'); if (eb) eb.onclick = los({einstufung: true});
   };
-  NF.tisch = function (f) {
+  NF.tisch = function (f, modus = {}) {
     const s = st(), szene = s.stil === 'K4' ? 'B' : 'A';
     Z.folge = f;
     rahmen(f, `<div class="nfw"><div class="nfbuehne" id="nfb">${buehneHTML(s.stil, szene)}
       <div class="nfges" id="nfges">${['s', 'k', 'h'].map(w => `<div class="nfg" data-w="${w}" title="${NAMEN[w]}">${charSVG(cidVon(w))}</div>`).join('')}</div>
       <div class="nfblase" id="nfblase" hidden></div><div class="nfpanel" id="nfpanel" hidden></div>
       <div class="nfkopf"><button type="button" id="nfort" title="App oder Papierkarte">${s.ort === 'app' ? '📱' : '📄'}</button><button type="button" id="nfbtn" aria-pressed="${s.blasen}" title="Sprechblasen">💬</button></div></div>
-      <div class="nfunten" id="nfu"></div></div>`);
+      <div class="nfwo" id="nfwo" hidden></div><div class="nfunten" id="nfu"></div></div>`);
     $s('nfb').addEventListener('click', e => { if (e.target.closest('button')) return; if (Z.weiter) Z.weiter(); });
     $s('nfort').onclick = () => { s.ort = s.ort === 'app' ? 'papier' : 'app'; $s('nfort').textContent = s.ort === 'app' ? '📱' : '📄'; toast(s.ort === 'app' ? 'In der App' : 'Am Tisch mit Papierkarte'); try { save(); } catch (e) {} };
     $s('nfbtn').onclick = () => { s.blasen = !s.blasen; $s('nfbtn').setAttribute('aria-pressed', String(s.blasen)); try { save(); } catch (e) {} };
-    spiele(f);
+    if (modus.test || modus.einstufung) nurTest(f, !!modus.einstufung); else spiele(f, modus.ab || 0);
   };
   NF.stop = () => { Z.lauf++; };
-  NF.stand = id => { const s = st(); return {fertig: s.fertig[id], test: s.test[id], maengel: s.maengel.slice()}; };
+  NF.stand = id => { const s = st(); return {fertig: s.fertig[id], test: s.test[id], maengel: s.maengel.slice(), pos: s.pos[id]}; };
   NF.liste = () => (D ? D.folgen : []).map(f => ({id: f.id, titel: f.titel, abend: f.abend, plant: f.plant, stufe: f.stufe, lektionen: f.lektionen}));
   NF._z = Z; NF._strecke = strecke;
-  NF.css = `.nfstart{padding:8px 16px 24px;display:grid;gap:10px}.nfstart h2{margin:0;font-family:var(--display,inherit)}.nfbild{border-radius:14px;overflow:hidden;height:170px;box-shadow:0 2px 10px #0003}.nfbild svg{width:100%;height:100%;display:block}
+  NF.css = `.nfwo{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:6px 12px;font-size:.84rem;background:color-mix(in srgb,var(--accent,#e2a03f) 14%,transparent);border-bottom:1px solid var(--line,#ddd)}.nfwo[hidden]{display:none}.nfwo span{opacity:.8;white-space:nowrap}
+    .nfwkarte{display:grid;gap:2px;text-align:center;padding:14px 12px}.nfwkarte small{opacity:.7}.nfwkarte b{font-family:var(--display,inherit);font-size:1.3rem}.nfwkarte span{font-size:.92rem}
+    .nfzettel{list-style:none;display:flex;flex-wrap:wrap;gap:4px 6px;margin:4px 0 6px;padding:0;counter-reset:z;font-size:.8rem}.nfzettel li{counter-increment:z;padding:3px 8px;border-radius:999px;border:1px solid var(--line,#ccc);opacity:.7}.nfzettel li::before{content:counter(z) " "}.nfzettel li.an{opacity:1;border-color:var(--accent,#e2a03f);background:color-mix(in srgb,var(--accent,#e2a03f) 20%,transparent);font-weight:700}.nfzettel li.war{opacity:.5;text-decoration:line-through}
+    `+`.nfstart{padding:8px 16px 24px;display:grid;gap:10px}.nfstart h2{margin:0;font-family:var(--display,inherit)}.nfbild{border-radius:14px;overflow:hidden;height:170px;box-shadow:0 2px 10px #0003}.nfbild svg{width:100%;height:100%;display:block}
     .nfschalter{display:grid;grid-template-columns:1fr 1fr;gap:6px}.nfschalter button{padding:10px 8px;border-radius:12px;border:2px solid var(--line,#ccc);background:var(--card,#fff);color:inherit;font:inherit;font-weight:700}.nfschalter button[aria-pressed=true]{border-color:var(--accent,#e2a03f);background:color-mix(in srgb,var(--accent,#e2a03f) 18%,transparent)}
     .nfkipp{display:flex;gap:8px;align-items:center}.nfmaengel{background:#fff3d6;color:#5a3a00;border-radius:10px;padding:8px 10px;font-size:.92rem}
     .nfw{display:flex;flex-direction:column;height:calc(100dvh - 56px);min-height:0}.nfbuehne{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;background:#3a2414}.nfsvg{position:absolute;inset:0;width:100%;height:100%;display:block}

@@ -115,8 +115,10 @@
     if (typeof HOERREISE === 'undefined' || !HOERREISE.length) return '';
     const g = (S.hoerreise && S.hoerreise.gehoert) || {}, alle = HOERREISE.every(([id]) => g[id]), [id, titel] = HOERREISE[hoerreiseNaechste()];
     const nf = S.navifolge && S.navifolge.fertig && S.navifolge.fertig.nf1, abend = !nf && HOERREISE.slice(0, 2).every(([x]) => g[x]);
+    /* v5.68: Der Test der Navi-Folge kommt mit Abstand, frühestens am Tag danach (docs/navi-schreibregeln.md §6) */
+    const nt = S.navifolge && S.navifolge.test && S.navifolge.test.nf1, testOffen = !!nf && !(nt && nt.ok) && nf < new Date().toISOString().slice(0, 10);
     return `<button class="dweiter" id="dweiter" data-id="${esc(id)}"${alle ? ' data-alle="1"' : ''}><span class="dwp">▶</span><span><small>${alle ? 'Alle Folgen gehört' : 'Weiter mit der Crew'}</small><b>${alle ? 'Noch einmal hören' : `Folge ${hoerreiseNr(id)}: ${esc(titel)}`}</b></span></button>
-      ${abend ? '<button class="dabend" id="dabend">🌙 Abendwache offen: Kurs und Distanz am Kartentisch</button>' : ''}`;
+      ${abend ? '<button class="dabend" id="dabend">🌙 Abendwache offen: Kurs und Distanz am Kartentisch</button>' : testOffen ? '<button class="dabend" id="dabend">🌙 Abendwache: kurzer Test von neulich (drei Aufgaben)</button>' : ''}`;
   }
   function deck() {
     Z().stil(); if (stopHarms) stopHarms();
