@@ -8,6 +8,7 @@
 - ⚙ `node tools/podcast-pruefen.js <folge>`: Skripte (HR38 Funkwörter, HR44 Nachdenkfragen, HR46 Dichte, Logbuch, Länge). Läuft im pre-commit.
 - ⚙ `node tools/logik-pruefen.js`: Figur nicht an Bord, „Morgen wieder“, fast doppelte Sätze, Spruch ohne Anlass. Läuft im pre-commit.
 - ⚙ `node tools/karte-pruefen.js` (`--tabelle` für Strecken und Fahrzeiten): Orte, Routen und Meilen der Folgen gegen die Reisekarte (HR51). Läuft im pre-commit.
+- ⚙ `node tools/dichte-messer.js [datei]` (v5.66): Sprechzeit, neue Fragen mit Lernlast, Redeanteile, Vortrags-Ketten, Aufzählungen, lange Zeilen. Gibt nur Hinweise (HR56); vor jedem Abgeben einer Folge ansehen und Abweichungen im Folgenblatt begründen.
 - ⚙ `node tests/buehne-pruefen.js` (vorher `python3 -m http.server 8765`): Bühne der Hörreise am Handy-Maß. **Nach jeder Änderung an `kurs.js`, am Player-CSS oder an Folgen von Hand laufen lassen** (dauert etwa zwei Minuten, darum nicht im pre-commit).
 - ⚙ `BREITE=320 ZEIT=4000 node tools/anim-bilder.js bild.png 0 9 =<id>`: alle Phasen einer Animation als Kontaktabzug. Nach jeder Änderung an einer Animation ansehen.
 - ⚙ `node --check <datei>.js` nach jeder Bearbeitung mit Python oder sed (v5.55, v5.56: kaputte Zeile nach mehrzeiligem Ersetzen).
@@ -30,6 +31,9 @@
 | Story-Logbuch nicht fortgeschrieben | Folge fehlt dort | ⚙ podcast-pruefen bricht ab |
 | Strecke passt nicht zur Karte (v5.65: „zwölf Meilen“ bis Schilfwinkel, auf der Karte sieben) | Meilen, Fahrzeit, Richtung in der Folge | ⚙ karte-pruefen; ✋ Kurs und Seite der Tonne auf der Karte nachmessen (HR51) |
 | Geschichte hängt am abschaltbaren Anruf (v5.65: Frist nur bei Harms, „Leinen los“ nach der Fragerunde) | wichtiger Satz im Abschnitt mit „Harms“ im Titel | ✋ HR50 |
+| Zu dicht, zu schnell (Tester 16.11.2026: 1-3 mit zwölf Fragen in sieben Minuten, danach zwölf Harms-Fragen; Tag 1 mit 55 neuen Fragen) | „Was war neu?“ lässt sich je Kapitel nicht in einem Satz sagen; keine Zeile ohne Stoff nach einer Auflösung | ⚙ dichte-messer; ✋ Schreibkarte Punkt 3 und 4, Folgenblatt „Lernlast“ (HR56) |
+| Vortrag statt Gespräch (v5.65: Smilla rund 70 % der Wörter, „Vier Sachen. Erstens …“) | eine Figur redet mehrere Zeilen am Stück, die andere liefert Stichworte; Aufzählung im Dialog | ⚙ dichte-messer (Kette, Aufzählung, Redeanteil als Hinweis); ✋ Namen abdecken, laut lesen (Schreibkarte 5, 6, 9) |
+| Abfrage direkt nach der Folge prüft nur das Kurzzeitgedächtnis (bis v5.66) | Harms-Abschnitt am Ende eines neuen Skripts | ✋ neue Skripte ohne Harms-Abschnitt, Fragen als `[[WAHL]]` oder `[[STOFF]]` (HR57) |
 | Folgen schließen nicht aneinander (v5.65: 1-2 endet an der Tankstelle, 1-3 beginnt in der Box) | erste Szene der Folge gegen die letzte der vorigen | ✋ Ort und Lage der Frieda am Übergang lesen |
 
 ## Teil B: Player und Bühne (`kurs.js`, CSS)
@@ -65,6 +69,9 @@
 
 | Navi-Folge: Zahlentasten bleiben nach einer Aufgabe stehen, man tippt in eine erledigte Aufgabe (v5.65) | Tasten sichtbar während Smilla spricht | ⚙ `aufgabe` räumt die Leiste ab; ✋ Lauf mit Playwright |
 | Navi-Folge: Werkzeug doppelt angetippt, Animation läuft zweimal (v5.65) | Zirkel springt | ⚙ Sperre `Z.werkzeugLaeuft` |
+
+| Ende der Folge in der Nachtbühne unsichtbar (bis v5.66: Text, Fragerunde-Knopf und „Gleich geht's weiter“ standen in `#kspr`, das dort ausgeblendet ist) | nach der letzten Zeile passiert scheinbar nichts, dann startet plötzlich die nächste Folge | ✋ Ende jeder Folge am Handy-Maß ansehen: Blatt `#kblatt` mit Karte und Knöpfen (v5.67) |
+| Kein Halt im Player (Tester 16.11.2026: „unübersichtlich“, „zu schnell“) | 0,2 s zwischen Sprechern, kein Kapitel sichtbar | ✋ Tempo-Stufe „Normal“ durchhören; Kapitelpunkte und Titel erscheinen (v5.67) |
 
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |

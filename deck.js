@@ -110,6 +110,14 @@
   }
 
   /* ---------- Deck ---------- */
+  /* v5.67 (Tester: „etwas unübersichtlich“): ein klarer nächster Schritt an Deck: die nächste Folge der Hörreise, dazu die Abendwache, wenn sie offen ist */
+  function weiterKnopf() {
+    if (typeof HOERREISE === 'undefined' || !HOERREISE.length) return '';
+    const g = (S.hoerreise && S.hoerreise.gehoert) || {}, alle = HOERREISE.every(([id]) => g[id]), [id, titel] = HOERREISE[hoerreiseNaechste()];
+    const nf = S.navifolge && S.navifolge.fertig && S.navifolge.fertig.nf1, abend = !nf && HOERREISE.slice(0, 2).every(([x]) => g[x]);
+    return `<button class="dweiter" id="dweiter" data-id="${esc(id)}"${alle ? ' data-alle="1"' : ''}><span class="dwp">▶</span><span><small>${alle ? 'Alle Folgen gehört' : 'Weiter mit der Crew'}</small><b>${alle ? 'Noch einmal hören' : `Folge ${hoerreiseNr(id)}: ${esc(titel)}`}</b></span></button>
+      ${abend ? '<button class="dabend" id="dabend">🌙 Abendwache offen: Kurs und Distanz am Kartentisch</button>' : ''}`;
+  }
   function deck() {
     Z().stil(); if (stopHarms) stopHarms();
     /* „Lange weg“: einmal je App-Start, ob der letzte Besuch fünf oder mehr Tage her ist (S.zuletztDa, Standard leer) */
@@ -122,10 +130,13 @@
     const szeneFuer = h => { const hz = h * .55, hot = `<rect class="dhot" data-go="kajuete" x="36" y="${(hz - 20).toFixed(1)}" width="28" height="15" rx="3"/><rect class="dhot" data-go="motor" x="83" y="${(hz - 13).toFixed(1)}" width="10" height="20" rx="3"/>`; return Z().szene({h, stim: st, fig, hot}); };
     app.innerHTML = `<div class="ddeck"><div class="dszene">${szeneFuer(100)}</div>
       <button class="dempf" id="dempf">${gesicht(wer, 46)}<span><b>${TITEL[S.deckTitel]}</b></span><span class="dpf">›</span></button>
+      ${weiterKnopf()}
       ${rennen()}
       <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button></div>`;
     const box = app.querySelector('.dszene'); if (box.clientWidth) { const h = Math.max(70, Math.round(100 * box.clientHeight / box.clientWidth)); if (h !== 100) box.innerHTML = szeneFuer(h); }
     $('#dempf').onclick = () => { AUD.unlock(); AUD.click(); happen(); };
+    const dw = $('#dweiter'); if (dw) dw.onclick = () => { AUD.unlock(); AUD.click(); if (dw.dataset.alle) return hoerreiseWahl(); hoerreiseOeffnen(dw.dataset.id); };
+    const da = $('#dabend'); if (da) da.onclick = () => { AUD.unlock(); AUD.click(); naviFolgeOeffnen('nf1'); };
     $('#drennen').onclick = () => { AUD.unlock(); AUD.click(); if (!examIsoOf(S.course)) return zieleOeffnen(() => setTab('deck')); statistik(); };
     $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); };
     app.querySelectorAll('.dszene [data-go]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); if (el.dataset.go === 'kajuete') goBelow(); else nachladen('welt.js').then(() => WELT.seite()).catch(fehlt); }));
@@ -200,6 +211,9 @@
   .ddeck .dgear svg,.dkaj .dgear svg{width:24px;height:24px}
   .dempf{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:10px 12px 0;background:rgba(255,255,255,.07);border:1.5px solid rgba(232,163,60,.55);border-radius:16px;padding:10px 12px;color:inherit;font:inherit;text-align:left;cursor:pointer}
   .dempf b{font-family:var(--display,inherit);font-size:1.12rem}.dempf .dpf{color:var(--d-lamp);font-size:1.6rem}
+  .dweiter{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin:8px 12px 0;background:#e8a33c;color:#1d1a14;border:0;border-radius:16px;padding:10px 14px;font:inherit;text-align:left;cursor:pointer}
+  .dweiter .dwp{width:38px;height:38px;border-radius:50%;background:rgba(29,26,20,.14);display:grid;place-items:center;font-size:1.1rem}.dweiter small{display:block;font-size:.76rem;font-weight:700;opacity:.75}.dweiter b{display:block;font-family:var(--display,inherit);font-size:1.08rem;line-height:1.2}
+  .dabend{display:block;margin:6px 12px 0;background:none;border:1px dashed rgba(243,231,201,.35);border-radius:12px;padding:8px 12px;color:#f3e7c9;font:600 .86rem inherit;text-align:left;cursor:pointer}
   .drennen{margin:10px 12px 12px;background:#152a38;border:1px solid rgba(243,231,201,.15);border-radius:16px;padding:10px 12px;cursor:pointer;font:inherit;color:inherit;text-align:left;display:grid;gap:6px}
   .drk{display:flex;justify-content:space-between;gap:8px;font-size:.86rem}.drk b{font-family:var(--display,inherit)}.drk span{color:#f0b36a;white-space:nowrap}
   .drspur{position:relative;height:56px;display:block}.drwasser{position:absolute;left:0;right:30px;top:24px;height:20px;border-radius:10px;background:linear-gradient(90deg,#1d4a63,#28607e)}

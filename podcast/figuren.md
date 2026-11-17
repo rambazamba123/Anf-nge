@@ -375,7 +375,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 
 | Figur | Lage | Varianten | möglich | Bedarf | benutzt |
 |---|---|---|---|---|---|
-| Käpt'n Hinnerk | Grüßen | 15 | 45 | 30 | 3 |
+| Käpt'n Hinnerk | Grüßen | 15 | 45 | 30 | 2 |
 | Käpt'n Hinnerk | Zustimmen | 14 | 42 | 36 | 0 |
 | Käpt'n Hinnerk | Ablehnen | 12 | 36 | 24 | 0 |
 | Käpt'n Hinnerk | Warnen | 12 | 36 | 24 | 1 |
@@ -386,7 +386,7 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Käpt'n Hinnerk | Fluchen (jeder Fluch einmal) | 20 | 20 | 18 | 1 |
 | Käpt'n Hinnerk | Ertappt | 10 | 30 | 18 | 1 |
 | Käpt'n Hinnerk | Garn anfangen | 8 | 24 | 15 | 0 |
-| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 1 |
+| Käpt'n Hinnerk | Abend und Abschied | 10 | 30 | 21 | 0 |
 | Käpt'n Hinnerk | Wetter nach Gefühl | 9 | 27 | 15 | 1 |
 | Käpt'n Hinnerk | Spuren des Plotters (HR53) | 6 | 7 (max) | 6 | 1 |
 | Käpt'n Hinnerk | Dich ansprechen | 11 | 32 | 24 | 2 |

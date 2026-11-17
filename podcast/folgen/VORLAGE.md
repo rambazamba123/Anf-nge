@@ -1,94 +1,92 @@
 ---
-folge: S2.2
-titel: Begegnen, Kreuzen, Überholen, Segeln
+folge: 2-1
+titel: Titel wie das, was passiert
 status: vorlage
+hoerreise: ja
+machart: neu
 ---
-# Vorlage für ein Folgenskript des Hörkurses (docs/konzept-kajuetenfunk.md, Fassung 5: Bauplan §7, Rahmen §6, Skriptform Anhang A, Ablaufplan Anhang C).
-# Kopieren als podcast/folgen/<Folge>.md, Punkt durch Bindestrich ersetzt (S2.2 → S2-2.md), Kopf anpassen, dann schreiben.
-# Prüfen beim Schreiben: node tools/podcast-pruefen.js --entwurf podcast/folgen/S2-2.md
-# Diese Datei selbst wird weder geprüft noch vertont. Gezeigt sind ein Teil des Einstiegs, eine Regel mit Antwortknöpfen und Vertiefung,
-# der Fallen-Check, der Abschluss und eine Hörkarte; alles andere folgt demselben Muster.
-# Rahmen dieser Folge laut Kursplan: Törn (Kieler Woche, drei Begegnungen). Jede Folge hat ihren eigenen Rahmen, kein Schema F (Konzept §6.2).
-# Regeln: Zahlen in Worten, Abkürzungen ausgeschrieben, höchstens drei Stimmen je Szene, jede Szene mit Revier, und das Revier wird ausgesprochen.
-# Antwortknöpfe: erst die Frage sprechen, dann [[WAHL: sbf:123 | … | *…]], direkt danach [[DENKPAUSE: 5]]. Die Antwort zählt in der Statistik.
-# Wer falsch antwortet, hört im interaktiven Modus die Vertiefung ([[VERTIEFUNG: sbf:123]] … [[VERTIEFUNG: ende]]); im Auto-Modus fällt sie weg.
-# Hörreise (07.11.2026): Klassiker der Figuren aus podcast/sprueche.json mit [[SPRUCH: id]] im Satz der Figur (gezählt, docs/reise.md HR25);
-# Anrede nach Wahl als {{anrede:w=min Deern|m=min Jung|n=Landratte}}, nur kurz und am Satzanfang (HR24).
-# Denkpausen: 3 s erinnern, 5 s entscheiden, 6 s Kernsätze. Danach sagt die Folge immer die Lösung, auch im Auto-Modus.
-# Hörreise, Dichte (docs/reise.md HR46): je Fakt Anlass → Frage → kurze Auflösung → höchstens ein Merksatz. Kein zweites „Genau, …“, die Antwort nie direkt vor der Frage.
-#   Statt Wiederholung in derselben Folge ein Echo ein bis drei Folgen später (ein Satz am selben Bild). Vorher und nachher docs/geschichte-logbuch.md lesen und fortschreiben.
-# Hörreise ab 15.11.2026 (docs/reise.md HR50–HR55):
-#   Karte = Welt (HR51): Jeder Ort, jede Tonne, jede Richtung und jede Meile steht so auf der Reisekarte (data/karte-brede.json). Strecken und Fahrzeiten: node tools/karte-pruefen.js --tabelle.
-#     Frieda läuft etwa fünf Knoten. Gezeiten aus „gezeiten“ (Hochwasser Tag 1 um elf, jeden Tag gut fünfzig Minuten später). Seezeichen heißen wie auf der Karte („Ka eins“, „E vier“).
-#   Nichts nur im Anruf (HR50): Was die Geschichte braucht, passiert in der Geschichte; Harms am Ende ist abschaltbar.
-#   Keine Stelle wartet auf Tippen oder Messen (HR20): Die Crew macht es laut denkend, geübt wird in der Abendwache (HR52). Navigation in der Folge: Zahlen von der Karte, kein „Mach mal, ich warte“.
-#   Hinnerks Geheimnis (HR53): höchstens eine Spur je Tag (Piepen, „Batterie“, Entfernung „aus dem Bauch“), nie im Mittelpunkt; im Logbuch eintragen.
-#   Erste Zeile einer Tagesfolge ist ein Moin aus der Kiste; [[SZENE]] nennt Ort, Tageszeit und Wetter (Stimmung der App); eigene Antworten der Crew höchstens fünf Wörter (HR55).
-# Vor dem Abgeben: docs/fehler-katalog.md Teil A durchgehen, node tools/karte-pruefen.js laufen lassen.
+# Vorlage für eine Folge der Hörreise, neue Machart (seit 16.11.2026). Diese Datei wird weder geprüft noch vertont.
+# Kopieren als podcast/folgen/reise-<tag>-<n>.md, Kopf anpassen. Die alte Vorlage (Kajütenfunk, Fassung 5) liegt in podcast/archiv/VORLAGE-kajuetenfunk.md.
+#
+# ZUERST LESEN: podcast/schreibkarte.md (eine Seite), zwei, drei Beispiele aus podcast/dialog-beispiele.md, docs/geschichte-logbuch.md (Echos, offene Fäden).
+# Muster zum Abgucken: podcast/skripte/gold-heck.md, gold-motor.md, gold-faehre.md.
+# Nachschlagen: docs/reise.md §7 (HR-Regeln, neu HR56–HR60), docs/fehler-katalog.md Teil A.
+#
+# FOLGENBLATT (ausfüllen, bevor die erste Zeile Dialog steht)
+# Wo und wann: Ort auf der Reisekarte (data/karte-brede.json), Tageszeit, Wetter. Schließt an welche Folge an, mit welchem Satz?
+# Szene vor Stoff: Was passiert hier, auch wenn niemand etwas lernen müsste? Wer will was? Was geht schief, worüber lachen wir?
+# Lernlast (HR56): je Frage ihr Gewicht. „Szene: 48“ (eigene Szene), „Bündel: 41 mit 46“ (ein Prinzip, mehrere Fragen), „nebenbei: 47“ (ein Satz).
+#   „Was war neu?“ je Kapitel in EINEM Satz. Braucht ein Kapitel zwei Sätze, ist es zu voll: teilen.
+# Fragen: Welche zwei, drei lohnen das Nachdenken? Welche davon ist ein echtes Entweder-oder (HR59)? Alles andere als [[STOFF]].
+# Wer irrt: nicht immer Hinnerk. Der Irrtum ist am besten die Falle der amtlichen Frage.
+# Zeigen, dann benennen: Was sieht oder hört man, bevor das Fachwort fällt?
+# Luft: Welche zwei, drei Momente tragen keinen Stoff (Handgriff, Geräusch, Frotzelei, Blick aufs Wasser)?
+# Karte (HR51): Orte, Tonnen, Kurse und Meilen wie auf der Reisekarte (node tools/karte-pruefen.js --tabelle). Bild: höchstens eine Animation je Fakt.
+# Echos: Was aus früheren Folgen kommt hier in einem Satz wieder? Was legt diese Folge für später an? (danach ins Logbuch)
+# Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json. Was nicht im Katalog steht, hier nennen (R8).
+# KEIN Harms-Abschnitt: Harms fragt mit Abstand zurück, der Player stellt seine Runde zusammen (HR57).
+#
+# VOR DEM ABGEBEN
+#   node tools/podcast-pruefen.js --entwurf <datei>   ·   node tools/dichte-messer.js <datei> (nur Hinweise: beheben oder hier begründen)
+#   node tools/karte-pruefen.js   ·   Namen abdecken: Erkennt man am Satz, wer spricht?   ·   jede Szene einmal laut lesen
 
-[[ABSCHNITT: Einstieg]]
-[[SZENE: Kieler Förde zur Kieler Woche, am Rand der Regattabahnen. Hinnerk am Ruder, ein anderes Segelboot kommt näher.]]
-[[REVIER: frei]]
-[[BAUSTEIN: streit]]
-HINNERK: Moin. Kiek mol, wie viel Tuch heute auf der Förde is. Und wir sind weit weg vom Fahrwasser, da haben wir unsere Ruhe.
-SMILLA: Ruhe? Da kommt einer, Käpt'n. Wir haben beide den Wind von Steuerbord.
-HINNERK: Wer muss jetzt weg, der oder wir?
-[[VORAB: sbf:126]]
-SMILLA: Zwei Segler, Wind von derselben Seite. Wer muss ausweichen? Tipp mal. Die Auflösung kommt.
-[[WAHL: der Kleinere | der Leewärtige | *der Luvwärtige]]
-[[DENKPAUSE: 5]]
-# Vorab-Frage: Im interaktiven Modus zeigt die App die Knöpfe ohne richtig oder falsch und merkt sich den Tipp. Der Tipp zählt nicht in der Statistik.
+[[HEUTE: Was passiert (kein Fachwort) | Die eine Frage, um die es geht | Wozu man das morgen braucht]]
 
-[[SZENE: Cockpit, Harms ist am Telefon zugeschaltet.]]
-[[REVIER: frei]]
-[[RUECKBLICK: sbf:125]]
-HARMS: Moin. Ihr seid auf freier See, also frag ich. Woran erkennst du, dass es mit einem anderen Schiff eng wird?
-[[DENKPAUSE: 3]]
-HARMS: Der Abstand wird kleiner, und die Peilung ändert sich nicht.
-# zweite Rückblick-Frage aus einer anderen früheren Folge, zum Beispiel sbf:15 aus G5.2, nach demselben Muster
-SMILLA: Heute drei Begegnungen auf freier See: entgegen, überholen und Segler unter sich.
+[[ABSCHNITT: Leise raus]]
+[[SZENE: Kuttershaven, Bootstankstelle am Steg im Hafen, später Vormittag, Sonne, kaum Wind. Wer wo steht, was man sieht.]]
+[[REVIER: hafen]]
+[[AUDIO: Möwen]]
+# Anfang hakt ein: jemand will etwas. Kein „Heute lernen wir“.
+HAFENMEISTER: Zweiundvierzig Euro, Hinnerk. Ich hol den Quittungsblock. Und du bleibst, wo du bist.
+HINNERK: Wo soll ich denn hin.
+HINNERK: [[INTENTION: flüsternd]] Jetzt. Schnell.
+SMILLA: Du haust ab. Wegen zweiundvierzig Euro Strom.
+HINNERK: Ich leg ab. Dat is wat anderes.
 
-[[ABSCHNITT: Überholen]]
-[[SZENE: Unter Motor, ein langsames Motorboot fährt vor uns her.]]
-[[REVIER: frei]]
-SMILLA: Wir sind immer noch weit weg vom Fahrwasser. Vor uns tuckert ein Motorboot, und wir sind schneller.
-[[IRRTUM: sbf:137]]
-HINNERK: Wir segeln, der hat 'n Motor. Also muss der aus'm Weg.
-[[BERICHTIGUNG: sbf:137]]
-SMILLA: Nee, Käpt'n. Wer überholt, weicht aus, immer. Ob Segel oder Motor, ist dabei egal. Der Vordere sieht dich ja nicht kommen.
-HINNERK: Sag ich doch. Wir weichen aus.
-[[ANIM: begegnung, ueberholen]]
-SMILLA: Überholer bist du, wenn du von hinten kommst, aus dem Bereich, in dem man nachts nur sein Hecklicht sieht.
-[[KATALOG: sbf:81]]
-SMILLA: Im Katalog heißt das: Wenn es sich einem anderen Fahrzeug aus einer Richtung von mehr als zweiundzwanzigeinhalb Grad achterlicher als querab, also aus dem Bereich des Hecklichtes, nähert.
-[[KATALOG: sbf:137]]
-SMILLA: Und was muss es tun? Es hat dem zu überholenden Fahrzeug auszuweichen.
-[[MERKHILFE: gilt beim Überholen]]
-KLABAUTER: [[AUDIO: Schiffsglocke]] Krrah! Merken! Heck gesehen? Du weichst aus!
-SMILLA: Du segelst und holst ein langsames Motorboot von hinten ein. Wer weicht aus?
-[[WAHL: sbf:137 | *du | das Motorboot]]
-[[DENKPAUSE: 5]]
-[[VERTIEFUNG: sbf:137]]
-SMILLA: Stell dir vor, du fährst Fahrrad und holst einen Fußgänger ein. Der guckt nach vorn, nicht nach hinten. Du siehst ihn, er sieht dich nicht. Darum fährst du um ihn herum. Auf dem Wasser genauso: Segel oder Motor zählt hier nicht, nur wer von hinten kommt.
-[[VERTIEFUNG: ende]]
-SMILLA: Du. Wer das Heck sieht, hat die Arbeit.
+[[ABSCHNITT: Das Heck will zu Paul]]
+[[SZENE: Die Frieda setzt von der Tankstelle zurück, ihr Heck schwenkt nach Backbord auf Pauls Boot zu. Hafen von Kuttershaven, Sonne.]]
+[[REVIER: hafen]]
+[[STOFF: sbf:41, sbf:46]]
+# Zeigen: erst passiert es.
+HINNERK: Rückwärts. Kiek mol aufs Heck.
+[[AUDIO: Motor]]
+SMILLA: Äh. Käpt'n. Wir fahren schief.
+HINNERK: Jo. Jeden Morgen.
+# Luft: ein Lacher, bevor erklärt wird.
+SMILLA: Darum hängt bei Paul dieser riesige Fender.
+HINNERK: Da steht mein Name drauf. Find ich nich nett.
+# Benennen: ein Bild, ein Satz, das Fachwort zuletzt und einmal.
+[[ANIM: radeffekt]]
+HINNERK: Dat macht der Propeller. Stell dir vor, der is 'n Rad, dat unten über'n Grund rollt.
+SMILLA: Nur das Heck. Der Bug bleibt, wo er ist.
+HINNERK: Nennt sich Radeffekt.
 
-[[ABSCHNITT: Fallen und Abschluss]]
-[[SZENE: Harms prüft den Hörer, am Telefon im Cockpit.]]
-[[REVIER: frei]]
-HARMS: Ihr seid immer noch auf freier See. Jetzt frag ich dich.
-[[FALLE: sbf:81]]
-HARMS: Stimmt's? Überholer ist, wer sich einem anderen Fahrzeug aus einer Richtung von mehr als hundertzwölfeinhalb Grad achterlicher als querab nähert, im Bereich der Seitenlichter.
-[[DENKPAUSE: 3]]
-HARMS: Falsch. Zweiundzwanzigeinhalb Grad, im Bereich des Hecklichtes.
-SMILLA: Nenn die drei Fälle von heute. Laut, wenn keiner zuhört.
+[[ABSCHNITT: Welche Seite?]]
+[[SZENE: Die Frieda tuckert langsam durchs Hafenbecken von Kuttershaven, Sonne. Hinnerk am Außenborder, Smilla vorn bei dir. Hafen.]]
+[[REVIER: hafen]]
+[[STOFF: sbf:48]]
+# Die Frage ergibt sich aus dem, was man eben gesehen hat. Beide Antworten stehen im Fragesatz (HR59).
+SMILLA: Morgen legen wir an einer langen Pier an. Kurz davor gibt Hinnerk rückwärts. Und was macht das Heck dann?
+HINNERK: Wat es immer macht.
+[[AUDIO: Schiffsglocke]]
+[[AUDIO: Schiffsglocke]]
+SMILLA: Frage an dich. Beim Aufstoppen zieht das Heck nach links. An welcher Seite willst du dann die Pier haben: Backbord oder Steuerbord?
+[[WAHL: sbf:48 | *Backbord | Steuerbord]]
 [[DENKPAUSE: 6]]
-KLABAUTER: [[AUDIO: Schiffsglocke]] Krrah! Merken! Entgegen: beide Steuerbord! Überholer weicht immer! Lee vor Luv!
+# Vertiefung: nur wer falsch antwortet, hört sie. Herleiten, nicht wiederholen.
+[[VERTIEFUNG: sbf:48]]
+SMILLA: Denk an eben. Rückwärts zieht das Heck nach Backbord. Liegt die Pier links, zieht es dich genau dorthin. Liegt sie rechts, zieht es dich weg.
+[[VERTIEFUNG: ende]]
+# Auflösung: eine Figur, ein Satz. Dann Luft, kein zweites „Genau“.
+HINNERK: Backbord. Dann zieht dich dat Heck von allein ran.
+SMILLA: Und an Steuerbord hängst du einen Meter vor der Pier, und vorne fuchtelt einer mit der Leine.
+HINNERK: Wie die vom Charter heute früh.
 
-# Hörkarten: nach der Folge, eine je Frage der Folge, höchstens zwei Stimmen, etwa 20 bis 25 Sekunden. Der Merksatz ist derselbe wie in der App (data/karten-sbf.json).
-[[HOERKARTE: sbf:137]]
-SMILLA: Du überholst ein anderes Boot. Was musst du tun?
-[[DENKPAUSE: 3]]
-[[KATALOG: sbf:137]]
-SMILLA: Es hat dem zu überholenden Fahrzeug auszuweichen. Immer, auch als Segler gegenüber einem Motorboot, denn der Vordere sieht dich nicht kommen.
-KLABAUTER: Heck gesehen? Du weichst aus!
+[[ABSCHNITT: Raus]]
+[[SZENE: Kurz vor der Hafenausfahrt von Kuttershaven, Sonne. Hinnerk nimmt das Gas zurück. Hafen.]]
+[[REVIER: hafen]]
+# Ende lässt offen: Die nächste Folge nimmt den Satz auf.
+HINNERK: Wart mal. Hörst du dat?
+SMILLA: Was?
+HINNERK: Da kommt wat Großes.
+[[MITNEHMEN: Der eine Satz zum Prinzip | Wie es heißt | Was du damit tust]]

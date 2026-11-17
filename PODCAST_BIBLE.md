@@ -363,6 +363,7 @@ Diese Liste gilt für das Skript. Für den Ton gelten zusätzlich die Freigabere
   - Keine übertriebenen Reaktionen auf gewöhnliches Prüfungswissen.
   - Erlaubt bleiben Klabauters Wiederholungen (P43) und bewusste Rückgriffe auf frühere Folgen (P59).
   - Keine Wiederholungen und keine Pausen, nur um die Laufzeit zu füllen. Die Geschichte füllt die Zeit.
+  - **Klarstellung für die Hörreise (Nutzer 16.11.2026: „entschleunigt“, GL1; `docs/reise.md` HR56):** Gemeint ist tote Zeit. **Luft** nach einer Auflösung (ein paar Zeilen Handlung, Witz oder Geräusch ohne neuen Stoff) ist keine Füllpause, sondern gewollt: In ihr setzt sich das Gehörte. Der Player lässt dazu zwischen Sprechern, Fragen und Kapiteln kurze Atempausen (einstellbar).
 
 ### 14.3 Drei Ebenen
 - **A5 PFLICHT** (AR 2.1, 13): Die Produktion trennt drei Ebenen.

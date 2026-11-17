@@ -14,8 +14,10 @@
   const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
-    /* Folge 0 (Nutzer, 15.11.2026, T6): der Abend vor Tag 1, Kennenlernen und Kiste, ohne Prüfungsfragen */
-    'reise-0-1': {datei: 'podcast/folgen/reise-0-1.md', titel: 'Anheuern', unter: 'Hörreise, Folge 0 (Entwurf): der Abend vor der Reise', wetter: 'schoen'},
+    /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
+    'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Das Heck will zu Paul', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
+    'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Ohne Gas kein Ruder', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
+    'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
@@ -75,8 +77,9 @@
     const TAGS = {INTENTION: cfg.intentionen, PAUSE: cfg.pause_tags, TEMPO: cfg.tempo_tags};
     const tagVon = (kat, wert) => { const e = (TAGS[kat] || {})[(wert || '').trim()]; return e ? e.tag : ''; };
     const zeilen = txt.split('\n'), items = [], fehlt = new Set(), vorabOffen = new Set();
-    let i = 0, rede = null, bereich = null, vorab = null;
-    if (zeilen[0] && zeilen[0].trim() === '---') { i = 1; while (i < zeilen.length && zeilen[i].trim() !== '---') i++; i++; }
+    let i = 0, rede = null, bereich = null, vorab = null, neu = false;
+    const karten = {heute: [], mit: []};   /* v5.67: [[HEUTE: a | b | c]] und [[MITNEHMEN: a | b | c]] stehen nur auf dem Bildschirm */
+    if (zeilen[0] && zeilen[0].trim() === '---') { i = 1; while (i < zeilen.length && zeilen[i].trim() !== '---') { if (/^machart:\s*neu\b/.test(zeilen[i].trim())) neu = true; i++; } i++; }
     const schluss = () => { if (rede) { items.push(rede); rede = null; } };
     const dazu = it => { schluss(); items.push(bereich ? {...it, bereich} : it); };
     const sprich = (wer, roh) => {
@@ -94,6 +97,9 @@
       else if (kat === 'REVIER') dazu({t: 'revier', wert});
       else if (kat === 'DENKPAUSE') dazu({t: 'pause', s: +wert || 3});
       else if (kat === 'PAUSE') dazu({t: 'pause', s: wert === 'dramatisch' ? 1.5 : .7, still: true});
+      /* v5.66 [[STOFF: sbf:41, sbf:46]]: Diese Szene behandelt diese Fragen (stiller Marker, damit folgenFragen sie kennt, auch ohne Wahl) */
+      else if (kat === 'STOFF') wert.split(',').map(x => x.trim()).filter(x => /^(sbf|bin):\d+$/.test(x)).forEach(id => items.push({t: 'stoff', id, ...(bereich ? {bereich} : {})}));
+      else if (kat === 'HEUTE' || kat === 'MITNEHMEN') karten[kat === 'HEUTE' ? 'heute' : 'mit'] = wert.split('|').map(x => x.trim()).filter(Boolean);
       else if (kat === 'VORAB') { vorab = wert; vorabOffen.add(wert); }
       /* Auflösung der Vorab-Frage: beim ersten Katalogsatz dazu zeigt die App den Tipp von vorhin */
       else if (kat === 'KATALOG' && !bereich) wert.split(',').map(x => x.trim()).filter(x => vorabOffen.delete(x)).forEach(id => dazu({t: 'tipp', id}));
@@ -124,7 +130,7 @@
     schluss();
     /* Abschnittsnummer an jedem Teil: Erzeugt und abgespielt wird Abschnitt für Abschnitt (Bible A13) */
     let nr = -1; items.forEach(it => { if (it.t === 'abschnitt') nr++; it.ab = nr; });
-    return {items, fehlt: [...fehlt]};
+    return {items, fehlt: [...fehlt], karten, neu};
   }
   const schluessel = (modell, it) => 'kurs:' + hash(modell + '|' + FORMAT + '|' + JSON.stringify(it.inputs));
   const sfxSchluessel = (modell, g) => 'sfx:' + hash([modell, FORMAT, g.prompt, g.sekunden, !!g.loop, g.einfluss].join('|'));
@@ -151,7 +157,7 @@
     /* Geräusche: nur die, die das Skript nennt, und die Atmo der Reviere darin */
     const sfxModell = gd.modell || 'eleven_text_to_sound_v2', alle = Object.entries(gd.geraeusche || {}).map(([gid, g]) => ({...g, id: gid, key: sfxSchluessel(sfxModell, g)}));
     const ger = {}; alle.forEach(g => { if (g.name) ger[g.name] = g; });
-    const {items, fehlt} = zerlege(txt, cfg, ger);
+    const {items, fehlt, karten, neu} = zerlege(txt, cfg, ger);
     items.forEach(it => {
       if (it.t === 'rede') it.key = schluessel(modell, it);
       if (it.t === 'ton' && it.gen) { const g = alle.find(x => x.id === it.gen); it.key = g.key; it.datei = g.datei; }
@@ -168,7 +174,7 @@
     });
     const sprecherSet = new Set(items.filter(it => it.t === 'rede').flatMap(it => it.wer));
     const rueck = rueckBauen(kiste, cfg, modell, sprecherSet);
-    return {id, f, cfg, items, fehlt, pub, modell, stimmen, sfx, sfxModell, abschnitte, anBord: anBordListe(id, plan, sprecherSet), rueck};
+    return {id, f, cfg, items, fehlt, pub, modell, stimmen, sfx, sfxModell, abschnitte, anBord: anBordListe(id, plan, sprecherSet), rueck, karten, neu};
   }
   /* Wer ist an Bord? Laut Reiseplan (crew: ab, bis, zurueck), dazu immer Bordkatze Backbord (stumm). Ohne Plan: wer in der Folge spricht. */
   function anBordListe(id, plan, sprecherSet) {
@@ -391,6 +397,8 @@
   /* ---------- Abspielen ---------- */
   let lauf = null;
   const cfgK = () => (S.cfg.kurs = S.cfg.kurs || {modus: 'interaktiv', tempo: 1, mitlesen: false, ticken: true});
+  /* v5.67 Atempausen (Tester: „manchmal zu schnell“): S.cfg.kurs.ruhe = 'ruhig' | 'normal' | 'zuegig' (Standard normal; zügig = wie bis v5.66) */
+  const RUHE = {zuegig: 0, normal: 1, ruhig: 1.6}, ruheStufe = () => (RUHE[cfgK().ruhe] == null ? 'normal' : cfgK().ruhe), luft = ms => Math.round(ms * RUHE[ruheStufe()]);
   const sfxLaut = f => Math.max(0, Math.min(1, f * (S.cfg.sfx == null ? .7 : S.cfg.sfx)));
   /* Atmo des Reviers: erzeugtes Geräusch in Schleife, sonst die Geräusche der App. Gibt true zurück, wenn sie neu einsetzt. */
   let atmoA = null, atmoWert = null, atmoPegel = {};
@@ -446,7 +454,7 @@
       /* stumm oder viel zu schnell fertig: Lesezeit abwarten statt durchzurasen, einmal Bescheid sagen */
       const lese = 1200 + z.text.length * 55, weg = Date.now() - t0;
       if ((!ok || weg < lese * .35) && !me.aus) await warten(me, Math.max(0, lese - weg), ab);
-      await warten(me, 220, ab);
+      { const nx = it.zeilen[i + 1]; await warten(me, 220 + luft(nx && nx.wer !== z.wer ? 230 : 60), ab); }
     }
     if (!me.gleichWeiter) duckAtmo(false);
     await warten(me, 250, ab);
@@ -774,7 +782,7 @@
     if (hoer) { if (w.gesprochen && !hoer.laut && hoer.vorbei) hoer.vorbei(); return; }
     /* „Easy Alfa“, „Alfa tricky“: die Selbsteinschätzung kommt mit dem Zuruf (Nutzer 09.11.2026) */
     /* v5.59: das Skript geht mit (echo), damit szene.js die vorgelesene Antwort vom Zuruf unterscheiden kann */
-    hoer = SZENE.zuruf((p, x) => { hoer = null; if (x && x.et && w.etSetzen) w.etSetzen(x.et); const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; }, {echo: w.echo});
+    hoer = SZENE.zuruf((p, x) => { hoer = null; if (x && x.et && w.etSetzen) w.etSetzen(x.et); const b = ui(`#kwahl [data-o="${p}"]`); if (b && !b.disabled) b.click(); }, t => { const z = ui('#kzinfo'); if (z) z.textContent = t; }, {echo: w.echo, worte: w.worte});
     if (hoer && w.gesprochen) hoer.laut = true;
   }
   const FUNKW = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
@@ -818,7 +826,9 @@
     { const fb = ui('#kfbild'); if (fb) fb.onclick = () => { const k = box.querySelector('.kfrage'); k.classList.toggle('lesen'); fb.querySelector('.kfhin').textContent = k.classList.contains('lesen') ? 'Antippen: wieder groß' : 'Antippen: Frage lesen'; }; }
     const z = ui('#kzr'); if (z) z.onclick = () => { S.cfg.zuruf = !S.cfg.zuruf; save(); z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (S.cfg.zuruf) { if (window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); zurufStart(me); } else zurufStop(); };
     { const sb = document.getElementById('kbuehne'); if (sb) sb.scrollTop = 0; box.scrollIntoView({block: 'start'}); }
-    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null, echo: opts.map(o => ohneBuchstabe(o.text))};
+    const w = me.wahlOffen = {it, gesprochen: !rede, fertig: false, et: null, etBasis: null, echo: opts.map(o => ohneBuchstabe(o.text)),
+      /* v5.67 natürliche Entweder-oder-Frage (HR59): zwei eigene Antworten ohne Funkwörter darf man mit dem Wort selbst beantworten */
+      worte: st.neu && !q && opts.length === 2 && !harmsFrage(it) && window.SZENE && SZENE.antwortWorte ? SZENE.antwortWorte(opts.map(o => o.text)) : null};
     if (window.KURS_MINI) blaseZeigen();
     const etAnwenden = () => { const e = w.etBasis; if (!e) return; selbstEinschaetzung(e.n, e.ok, e.vor, e.nach, w.et);
       const i = box.querySelector('#ketinfo'); if (i) i.textContent = !w.et ? '' : w.et === 'easy' ? (e.ok ? '😎 Easy: kommt erst später wieder.' : '😎 Vertippt: zählt nicht als Fehler, kommt zur Bestätigung wieder.') : (e.ok ? '🤔 Tricky: zählt als Glückstreffer, kommt morgen wieder.' : '🤔 Tricky: kommt öfter.'); };
@@ -905,8 +915,8 @@
   }
   async function spiele(st, ab = 0, gratis = false) {
     stop();
-    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, wahlRes: null, wahlOffen: null, vorWahl: null, redeAbbruch: false, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false};
-    AUD.unlock(); AUD.playMusic(null); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft');
+    const me = lauf = {aus: false, pause: false, audio: null, weiter: null, wahlRes: null, wahlOffen: null, vorWahl: null, redeAbbruch: false, falsch: new Set(), neben: [], tipps: {}, gleichWeiter: false, ende: null, gratis: !!gratis, handy: false, kapN: 0};
+    AUD.unlock(); AUD.playMusic(null); blattAus(); zeigeSteuerung(st, true); nachladen('szene.js').catch(() => {}); document.getElementById('kursplayer')?.classList.add('laeuft');
     me.root = document.getElementById('kursplayer'); wachHalten(true); medienSitzung(st); { const i = ui('#kinfo'); if (i) i.textContent = ''; }
     /* Abschnitte, deren Sprache noch fehlt: Dort endet der Ausschnitt (Nutzer, 24.10.2026: lieber den Schluss weglassen als kürzen) */
     wegReset();
@@ -930,6 +940,8 @@
         if (cfgK().harms === false && /harms/i.test(it.titel || '')) { me.ohneHarms = true; break; }
         me.abK = k; letzteAbK = k; if (weg.size) { wegReset(); const g0 = ui('#kges'); if (g0) g0.dataset.art = ''; }
         const b = ui('#kbild'); if (b) b.innerHTML = ''; mitBild(false); const g = ui('#kges'); if (g && aussehenAkt === 'a' && g.dataset.gast) { g.dataset.gast = ''; gesichter(null); } if (it.bereich && it.bereich.art === 'karte') atmoAus();
+        /* v5.67 Kapitel: Punkte oben, Titel kurz eingeblendet, beim Wechsel ein Moment Luft */
+        kapitelZeigen(st, k, true); if (me.kapN++ && !(it.bereich && it.bereich.art === 'karte')) await warten(me, luft(1500));
       }
       /* Neues Revier: erst einen Moment nur das Geräusch, dann der erste Satz (Konzept §7.2, §10.3) */
       else if (it.t === 'revier') { if (await atmo(st, it.wert)) await warten(me, 1500); }
@@ -941,46 +953,157 @@
         if (letzteZeile && letzteZeile.abgang) abgangPruefen(null);
         if (me.vorWahl && me.wahlOffen === me.vorWahl.w && wahlNach(st, k) === me.vorWahl.j) { me.wahlOffen.gesprochen = true; zurufStart(me); wahlUhr(me); }
       }
-      else if (it.t === 'pause') await denkpause(it.s, me, it.still);
+      else if (it.t === 'pause') { await denkpause(it.s, me, it.still); if (!it.still) await warten(me, luft(500)); }
       else if (it.t === 'bild') { if (me.bildDa !== it.id) bild(it.id); me.bildDa = null; }
       else if (it.t === 'anim') animZeigen(it, animAllein(st, k));
       else if (it.t === 'tipp') { if (interaktiv()) tipp(it, me); }
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
-      else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
+      else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'glocke' && !(me.vorWahl && me.vorWahl.w.getippt)) await warten(me, luft(600)); if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'szene') szeneSetzen(it.text);
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
       else if (it.t === 'wahl' && echt(it)) {
         if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); wahlUhr(me); await w.p; } }
         else { const p = wahl(st, it, me, null); zurufStart(me); wahlUhr(me); await p; }
         if (st.items[k + 1] && st.items[k + 1].t === 'pause') k++;
+        await warten(me, luft(900));   /* nach der Antwort ein Moment, bevor die Crew auflöst */
       }
     }
     if (lauf === me) {
       atmoAus(); lauf = null; zeigeSteuerung(st, false); document.getElementById('kursplayer')?.classList.remove('laeuft', 'mitbild'); const s = ui('#kspr');
       if (s) s.innerHTML = me.aus ? '' : me.ende ? `<b>⚓ Hier endet der Ausschnitt.</b> Der Abschnitt „${esc(me.ende)}“ ist noch nicht erzeugt. Du kannst ihn unter ⚙️ bei „Erzeugen“ dazuholen.` : `<b>⚓ Ende der Folge.</b> Wie war’s? Sag Claude, was klingt und was nicht.${me.gratis ? ' (Gehört mit der Gratis-Stimme: Betonung und Tempo sind hier noch nicht echt.)' : ''}`;
-      if (s && !me.aus && !me.ende) fragerundeKnopf(st, s);
-      /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7) */
-      if (!me.aus && !me.ende && st.id && window.S) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); save(); }
-      /* Im Auto-Modus geht es nach kurzer Ansage mit der nächsten Folge weiter (Auto, Gym); interaktiv bleibt die Fragerunde */
-      const naechste = !me.aus && !me.ende && cfgK().modus === 'auto' && !window.KURS_MINI ? naechsteFolge(st.id) : null;
+      /* Durchgehört: für den Knopf „Hörreise“ an Deck (nächste Folge); Standard leer (R7). v5.67: dazu, welche Fragen die Folge eingeführt hat (für „Harms fragt zurück“) */
+      const fertig = !me.aus && !me.ende;
+      if (fertig && st.id && window.S && !st.harmsRunde) { S.hoerreise = S.hoerreise || {}; S.hoerreise.gehoert = S.hoerreise.gehoert || {}; S.hoerreise.gehoert[st.id] = new Date().toISOString().slice(0, 10); S.hoerreise.stoff = S.hoerreise.stoff || {}; S.hoerreise.stoff[st.id] = folgenNummern(st); save(); }
       if (window.KURS_MINI) blaseZeigen();
-      if (naechste && s) {
-        s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0" id="kweiterbox">⏭ Gleich geht's weiter mit „${esc(FOLGEN[naechste].titel)}“ … <button class="btn small ghost" id="kweiternein">Nicht weiter</button></p>`);
-        const t = setTimeout(() => { if (!lauf && document.getElementById('kweiterbox')) oeffnen(naechste, {start: true, gratis: me.gratis}); else wachHalten(false); }, 6000);
-        const nb = ui('#kweiternein'); if (nb) nb.onclick = () => { clearTimeout(t); wachHalten(false); const b = ui('#kweiterbox'); if (b) b.remove(); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} };
+      /* v5.67: Das Ende steht als Blatt über der Bühne (in der Nachtbühne war der Text bisher unsichtbar): Mitnehmen-Karte, Tempo-Frage, Harms fragt zurück, Fragerunde, nächste Folge */
+      const auto = fertig && cfgK().modus === 'auto' && !window.KURS_MINI, naechste = fertig ? naechsteFolge(st.id) : null;
+      const runde = fertig && st.neu && !st.harmsRunde && cfgK().harms !== false ? harmsRunde(st.id) : [];
+      if (fertig) {
+        const bl = blattEnde(st, me, runde, naechste);
+        const zaehler = (text, sek, fn) => {
+          if (!bl) return fn();
+          bl.insertAdjacentHTML('beforeend', `<div class="kbl kbw" id="kweiterbox">${text} <button class="btn small ghost" id="kweiternein">Nicht jetzt</button></div>`);
+          const t = setTimeout(() => { if (!lauf && document.getElementById('kweiterbox')) fn(); else wachHalten(false); }, sek * 1000);
+          const nb = ui('#kweiternein'); if (nb) nb.onclick = () => { clearTimeout(t); wachHalten(false); const b = ui('#kweiterbox'); if (b) b.remove(); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} };
+        };
+        if (auto && runde.length) zaehler('☎️ Gleich ruft Harms an …', 5, () => harmsStart(st, runde));
+        else if (auto && naechste) zaehler(`⏭ Gleich geht's weiter mit „${esc(FOLGEN[naechste].titel)}“ …`, (st.karten && st.karten.mit.length) ? 10 : 6, () => oeffnen(naechste, {start: true, gratis: me.gratis}));
+        else { wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
       } else { wachHalten(false); try { navigator.mediaSession.playbackState = 'none'; } catch (e) {} }
     }
   }
   /* B157: am Ende alle Fragen der Folge als Multiple Choice, ohne Geschichte (vorgelesen, Zuruf wie im Quiz) */
-  function folgenFragen(st) {
+  function folgenNummern(st) {
     const ns = [];
     st.items.forEach(it => [it.id, it.bereich && it.bereich.id].forEach(id => { const m = /^(?:sbf|bin):(\d+)$/.exec(id || ''); if (m && !ns.includes(+m[1])) ns.push(+m[1]); }));
-    return ns.map(n => typeof QN !== 'undefined' && QN[n]).filter(q => q && q.kind !== 'open');
+    return ns;
   }
-  function fragerundeKnopf(st, s) {
-    const qs = folgenFragen(st); if (!qs.length) return;
-    s.insertAdjacentHTML('beforeend', `<p style="margin:10px 0 0"><button class="btn lamp wide" id="kfrr">📝 Fragerunde: ${qs.length} Frage${qs.length > 1 ? 'n' : ''} der Folge</button></p>`);
-    const b = ui('#kfrr'); if (b) b.onclick = () => { stop(); runQuiz(qs, 'Fragerunde zur Folge', 'learn', {noRequeue: true}); };
+  function folgenFragen(st) { return (st.fragenVon || folgenNummern(st)).map(n => typeof QN !== 'undefined' && QN[n]).filter(q => q && q.kind !== 'open'); }
+  /* ---------- v5.67 Blatt über der Bühne: „Heute an Bord“ vor dem Start, am Ende „Das nimmst du mit“, Tempo-Frage, Harms, Fragerunde ---------- */
+  function blattAus() { const b = ui('#kblatt'); if (b) { b.hidden = true; b.innerHTML = ''; delete b.dataset.ende; } }
+  const liste = punkte => `<ul>${punkte.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  function blattStart(st) {
+    const b = ui('#kblatt'); if (!b || lauf || b.dataset.ende) return;
+    const h = (st.karten && st.karten.heute) || []; if (!h.length) return blattAus();
+    b.innerHTML = `<div class="kbl"><h3>Heute an Bord</h3>${liste(h)}</div>`; b.hidden = false;
+  }
+  function blattEnde(st, me, runde, naechste) {
+    const b = ui('#kblatt'); if (!b) return null;
+    const mit = (!st.harmsRunde && st.karten && st.karten.mit) || [], qs = folgenFragen(st);
+    b.innerHTML = (st.harmsRunde ? '<div class="kbl"><h3>☎️ Harms hat aufgelegt</h3><p class="small" style="margin:0">Was noch wackelt, fragt er später wieder.</p></div>' : mit.length ? `<div class="kbl"><h3>Das nimmst du mit</h3>${liste(mit)}</div>` : '<div class="kbl"><h3>⚓ Ende der Folge</h3></div>')
+      + (st.harmsRunde ? '' : `<div class="kbl kbr"><b>Wie war das Tempo?</b><div class="kr3"><button data-rk="langsam"><span>🐢</span>zu langsam</button><button data-rk="passt"><span>👍</span>passt</button><button data-rk="schnell"><span>🐇</span>zu schnell</button></div>
+          <button class="klink" id="kunklar">Etwas unklar? Schreib's kurz auf</button><div id="kunklarbox" hidden><textarea id="kunklartxt" rows="2" maxlength="400" placeholder="Was war unklar oder ging zu schnell?"></textarea><button class="btn small" id="kunklarok">Speichern</button></div></div>`)
+      + `<div class="kbl kbk">${runde.length ? `<button class="btn lamp wide" id="kharmsr">☎️ Harms fragt zurück (${runde.length} Frage${runde.length > 1 ? 'n' : ''} von neulich)</button>` : ''}
+          ${qs.length ? `<button class="btn wide" id="kfrr">📝 Fragerunde: ${qs.length} Frage${qs.length > 1 ? 'n' : ''} der Folge</button>` : ''}
+          ${naechste ? `<button class="btn wide" id="knaechste">⏭ Weiter: ${esc(FOLGEN[naechste].titel)}</button>` : ''}</div>`;
+    b.hidden = false; b.dataset.ende = '1'; b.scrollTop = 0;
+    const ohneZaehler = () => { const w = ui('#kweiternein'); if (w) w.click(); };
+    b.querySelectorAll('[data-rk]').forEach(x => x.onclick = () => { ohneZaehler(); rueckMerken(st, me, x.dataset.rk); b.querySelectorAll('[data-rk]').forEach(y => y.setAttribute('aria-pressed', String(y === x))); });
+    const u = ui('#kunklar'); if (u) u.onclick = () => { ohneZaehler(); ui('#kunklarbox').hidden = false; ui('#kunklartxt').focus(); };
+    const uo = ui('#kunklarok'); if (uo) uo.onclick = () => { const t = ui('#kunklartxt').value.trim(); if (t) rueckMerken(st, me, 'text', t); ui('#kunklarbox').innerHTML = '<span class="small">Danke, ist notiert.</span>'; };
+    const hb = ui('#kharmsr'); if (hb) hb.onclick = () => { ohneZaehler(); AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); harmsStart(st, runde); };
+    const fb = ui('#kfrr'); if (fb) fb.onclick = () => { ohneZaehler(); delete b.dataset.ende; stop(); runQuiz(qs, 'Fragerunde zur Folge', 'learn', {noRequeue: true}); };
+    const nb = ui('#knaechste'); if (nb) nb.onclick = () => { ohneZaehler(); AUD.unlock(); if (VOX.phoneUnlock) VOX.phoneUnlock(); oeffnen(naechste, {start: true, gratis: me.gratis}); };
+    return b;
+  }
+  /* ---------- v5.67 Rückmeldung der Tester: S.hoerreise.rueck[] (Standard leer, R7), höchstens 200 Einträge ---------- */
+  function rueckMerken(st, me, art, t) {
+    if (!window.S) return; S.hoerreise = S.hoerreise || {}; const r = S.hoerreise.rueck = S.hoerreise.rueck || [];
+    const k = me && me.abK != null ? st.items[me.abK] : null;
+    r.push({id: st.id, ab: k ? k.ab + 1 : 0, k: k ? k.titel : '', art, ...(t ? {t: String(t).slice(0, 400)} : {}), d: new Date().toISOString().slice(0, 16), ruhe: ruheStufe(), v: window.__ver || ''});
+    if (r.length > 200) r.splice(0, r.length - 200); save();
+  }
+  const RUECK_ART = {langsam: 'zu langsam', passt: 'Tempo passt', schnell: 'zu schnell', stelle: 'hier zu schnell', text: 'Notiz'};
+  function rueckText() {
+    const r = (window.S && S.hoerreise && S.hoerreise.rueck) || [];
+    return r.length ? 'Skipper, Rückmeldung zur Hörreise\n' + r.map(x => `${x.d.replace('T', ' ')} · ${(FOLGEN[x.id] || {}).titel || x.id}${x.k ? ' · Kapitel ' + x.ab + ' „' + x.k + '“' : ''} · ${RUECK_ART[x.art] || x.art}${x.t ? ': ' + x.t : ''} (Tempo-Stufe ${x.ruhe}, v${x.v})`).join('\n') : '';
+  }
+  /* ---------- v5.67 Kapitel: Punkte oben (antippen = Liste zum Springen), Titel kurz eingeblendet ---------- */
+  const kapitelVon = st => st.items.map((it, i) => it.t === 'abschnitt' && !(it.bereich && it.bereich.art === 'karte') ? {i, titel: it.titel} : null).filter(Boolean);
+  let kapT = 0;
+  function kapitelZeigen(st, k, mitTitel) {
+    const box = ui('#kkap'); if (!box) return; const kap = kapitelVon(st);
+    if (kap.length < 2) { box.hidden = true; return; }
+    let akt = -1; kap.forEach((c, n) => { if (c.i <= k) akt = n; });
+    box.hidden = false; box.innerHTML = `<button id="kkapb" aria-label="Kapitel ${akt + 1} von ${kap.length}: ${esc((kap[akt] || {}).titel || '')}. Antippen für die Liste">${kap.map((c, n) => `<i class="${n === akt ? 'an' : n < akt ? 'war' : ''}"></i>`).join('')}</button>`;
+    ui('#kkapb').onclick = () => kapitelListe(st, akt);
+    const t = ui('#kkapt'); if (!t || !mitTitel || akt < 0) return;
+    t.innerHTML = `<span>${esc(kap[akt].titel)}</span>`; t.hidden = false; requestAnimationFrame(() => t.classList.add('an'));
+    clearTimeout(kapT); kapT = setTimeout(() => { t.classList.remove('an'); setTimeout(() => { if (!t.classList.contains('an')) t.hidden = true; }, 700); }, 2600);
+  }
+  function kapitelListe(st, akt) {
+    const b = ui('#kblatt'); if (!b || b.dataset.ende) return; if (ui('#kkapl')) return blattAus();
+    b.innerHTML = `<div class="kbl" id="kkapl"><h3>Kapitel</h3>${kapitelVon(st).map((c, n) => `<button class="kkz${n === akt ? ' an' : ''}" data-kap="${c.i}">${n + 1}. ${esc(c.titel)}</button>`).join('')}<button class="klink" id="kkapzu">Schließen</button></div>`; b.hidden = false;
+    b.querySelectorAll('[data-kap]').forEach(x => x.onclick = () => { const g = lauf ? lauf.gratis : !!(st.luecke || st.ersterFehlt); blattAus(); AUD.unlock(); spiele(st, +x.dataset.kap, g); });
+    ui('#kkapzu').onclick = blattAus;
+  }
+  /* ---------- v5.67 „Harms fragt zurück“ (docs/reise.md HR57): Fragen aus früheren Folgen, nie aus der gerade gehörten ---------- */
+  const HARMS_AN = ['Harms. {n} von neulich. Kurz und knapp.', 'Harms hier. {n}. Mal sehen, was hängen geblieben ist.', 'Harms. Nicht auflegen. {n}, dann ist Ruhe.'];
+  const HARMS_AB = ['Das war\'s. Weitermachen.', 'Reicht für heute. Wiederhören.', 'Gut. Ich melde mich wieder.'];
+  const HARMS_ZAHL = ['', 'Eine Frage', 'Zwei Fragen', 'Drei Fragen', 'Vier Fragen', 'Fünf Fragen'];
+  function harmsRunde(id) {
+    if (!window.S || typeof QN === 'undefined' || !(COURSE && COURSE.id === 'sbf')) return [];
+    const h = S.hoerreise || {}, geh = h.gehoert || {}, stoff = h.stoff || {}, reihe = typeof HOERREISE !== 'undefined' ? HOERREISE.map(x => x[0]) : [];
+    const eigene = new Set(stoff[id] || []), pos = f => { const i = reihe.indexOf(f); return i < 0 ? 999 : i; }, hier = pos(id);
+    const frueher = Object.keys(stoff).filter(f => f !== id && geh[f] && pos(f) < hier).sort((a, b) => pos(b) - pos(a));   /* die jüngste zuerst */
+    const kand = [];
+    frueher.forEach((f, fi) => (stoff[f] || []).forEach(n => {
+      if (eigene.has(n) || !QN[n] || QN[n].kind === 'open' || (QN[n].a || []).length < 2 || kand.some(k => k.n === n)) return;
+      const z = S.qs && S.qs[n], fb = typeof farbe === 'function' ? farbe(z) : 'grau', due = typeof isDue === 'function' && !!z && isDue(n);
+      /* Rang: fällig, wacklig, noch nie beantwortet, aus der Folge direkt davor, Rest. Was dunkelgrün sitzt und nicht fällig ist, lässt Harms in Ruhe */
+      const rang = due ? 0 : ['rot', 'orange', 'gelb'].includes(fb) ? 1 : !z ? 2 : fb === 'dunkelgruen' ? 9 : fi === 0 ? 3 : 4;
+      if (rang < 9) kand.push({n, rang});
+    }));
+    kand.sort((a, b) => a.rang - b.rang);
+    const dringend = kand.filter(k => k.rang <= 2).slice(0, 5), rest = kand.filter(k => k.rang > 2).slice(0, Math.max(0, 3 - dringend.length));
+    return [...dringend, ...rest].map(k => k.n);
+  }
+  function harmsStart(st, runde) {
+    const FW = ['Alfa', 'Bravo', 'Charlie', 'Delta'], items = [], sag = text => ({t: 'rede', inputs: [{text, voice_id: null}], wer: ['HARMS'], zeilen: [{wer: 'HARMS', text, laune: null}], zeichen: text.length, key: 'kurs:harmsrunde', ab: 0});
+    const zufall = a => a[Math.floor(Math.random() * a.length)];
+    items.push({t: 'abschnitt', titel: 'Harms fragt zurück', ab: 0}, {t: 'szene', text: 'Das Telefon klingelt, Harms ruft an.', ab: 0}, {t: 'revier', wert: 'an Land', ab: 0}, {t: 'ton', gen: 'telefon', key: 'sfx:harmsrunde', ab: 0});
+    items.push(sag(zufall(HARMS_AN).replace('{n}', HARMS_ZAHL[runde.length] || 'Ein paar Fragen')));
+    runde.forEach((n, qi) => {
+      const q = QN[n], opts = q.a.slice(0, 4).map((text, i) => ({text, ok: !i})).sort(() => Math.random() - .5).map((o, i) => ({text: FW[i] + ': ' + o.text, ok: o.ok}));
+      const ok = opts.find(o => o.ok);
+      items.push(sag(qi ? 'Nächste.' : 'Frage.'), {t: 'ton', name: 'glocke', ab: 0}, sag(String(q.q).replace(/\s*\(([●▬\s]+)\)/, '').trim() + ' ' + opts.map(o => o.text.replace(/[.\s]*$/, '.')).join(' ')),
+        {t: 'wahl', id: 'sbf:' + n, vorab: null, opts, ab: 0}, {t: 'pause', s: 6, ab: 0}, sag(ok.text.split(':')[0] + ' ist richtig.'));
+    });
+    items.push(sag(zufall(HARMS_AB)));
+    const st2 = {...st, items, harmsRunde: true, fragenVon: folgenNummern(st), karten: {heute: [], mit: []}, abschnitte: [{nr: 0, titel: 'Harms fragt zurück', sek: 0, zeichen: 0}], sfx: []};
+    const b = ui('#kblatt'); if (b) delete b.dataset.ende;
+    return spiele(st2, 0, true);
+  }
+  /* Für Folgen, die vor v5.67 gehört wurden: ihre Fragen einmal aus dem Skript nachtragen (nur lesen, kein Abspielen) */
+  async function stoffNachtragen() {
+    if (!window.S) return; const h = S.hoerreise = S.hoerreise || {}; h.stoff = h.stoff || {}; let neu = false;
+    for (const id of Object.keys(h.gehoert || {})) {
+      if (h.stoff[id] || !FOLGEN[id]) continue;
+      try { const r = await fetch(FOLGEN[id].datei); if (!r.ok) continue; const ns = [];
+        for (const c of (await r.text()).matchAll(/\[\[\s*(?:WAHL|STOFF|KATALOG|VERTIEFUNG|HOERKARTE|VORAB)\s*:([^\]]*)\]\]/g)) for (const m of c[1].matchAll(/sbf:(\d+)/g)) if (!ns.includes(+m[1])) ns.push(+m[1]);
+        h.stoff[id] = ns; neu = true; } catch (e) {}
+    }
+    if (neu) save();
   }
   /* ---------- Sperrbildschirm, Kopfhörer- und Lenkradtasten (v5.50, für Auto und Gym) ---------- */
   /* Eine stille Schleife hält die Wiedergabe für Android am Leben, auch zwischen zwei Sprachteilen und bei ausgeschaltetem Bildschirm */
@@ -1120,8 +1243,11 @@
 </div>
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
+        <div id="kkap" hidden></div><div id="kkapt" hidden></div><div id="kblatt" hidden></div>
         <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kmini" aria-label="Kleiner: weiterhören und in der App bleiben"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" opacity=".45"/><circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/><path d="M7 7 L12.5 12.5 M12.5 8.5 V12.5 H8.5"/></svg></button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
-        <div id="keinst" hidden><div class="kekipp"><button data-ek="reden" aria-label="hören und laut antworten"><svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 36 V30 C7 28 5 23 5 17 C5 9 11 4 18 4 C25 4 29 9 29 14 L32.5 20 L29.5 21 V25 C29.5 27 28 28 26 28 H22 V36"/><path d="M26.5 23.5 H30" stroke-width="2"/><circle cx="21" cy="13" r="1.3" fill="currentColor" stroke="none"/><path d="M35 15 Q38 20 35 25 M39.5 11 Q44.5 20 39.5 29" stroke-width="2.6"/></svg></button><button data-ek="ohr" aria-label="nur hören"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg></button></div><button class="keharms" id="keharms" aria-label="Harms am Ende"><svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg></button><button class="kemehr" id="kemehr">Mehr …</button></div></div>
+        <div id="keinst" hidden><div class="kekipp"><button data-ek="reden" aria-label="hören und laut antworten"><svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 36 V30 C7 28 5 23 5 17 C5 9 11 4 18 4 C25 4 29 9 29 14 L32.5 20 L29.5 21 V25 C29.5 27 28 28 26 28 H22 V36"/><path d="M26.5 23.5 H30" stroke-width="2"/><circle cx="21" cy="13" r="1.3" fill="currentColor" stroke="none"/><path d="M35 15 Q38 20 35 25 M39.5 11 Q44.5 20 39.5 29" stroke-width="2.6"/></svg></button><button data-ek="ohr" aria-label="nur hören"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg></button></div><button class="keharms" id="keharms" aria-label="Harms am Ende"><svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg></button><button class="kemehr" id="kemehr">Mehr …</button>
+          <div class="keruhe"><span>Tempo der Folge</span><div><button data-ruhe="ruhig">Ruhig</button><button data-ruhe="normal">Normal</button><button data-ruhe="zuegig">Zügig</button></div></div>
+          <div class="kerueck"><button id="kestelle">✋ Hier war's zu schnell</button><button id="kekopie">📋 Rückmeldungen kopieren</button></div></div></div>
       <div id="kpanel" hidden><div class="kpkopf"><b>⚙️ Einstellungen und Erzeugen</b><button class="kknopf" id="kzu" aria-label="Schließen">✕</button></div>
       <p class="status small" id="kinfo">Lade …</p><button class="btn" id="kwdh" style="width:100%;margin:4px 0 10px">↺ Szene wiederholen</button><div id="kpaarbox"></div>
       <div class="card"><div class="kreihe"><button class="chip" data-mod="interaktiv">⚓ Vor Anker</button><button class="chip" data-mod="auto">⛵ In Fahrt</button></div>
@@ -1155,7 +1281,21 @@
         #kursplayer.d-a{background:#fbf3e4;color:#2a2118}#kursplayer.d-a .kkopf .muted{color:#7a6650}
         #kursplayer .kplay{display:flex;gap:6px}#kursplayer .kplay1{background:#e8a33c;color:#2a2118}
         #kursplayer .kgross{display:block;margin:6px auto calc(18px + env(safe-area-inset-bottom,0px));width:76px;height:76px;border-radius:50%;border:0;background:#e8a33c;color:#2a2118;font-size:32px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}#kursplayer .kgross[hidden]{display:none}#kursplayer .kgross{display:grid;place-items:center;padding:0;line-height:0}#kursplayer .kgross svg{display:block}#kursplayer #kstart svg{margin-left:4px}
-        #kursplayer #keinst{position:absolute;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:6;background:rgba(15,36,51,.96);border:1px solid rgba(243,231,201,.18);border-radius:20px;padding:14px;display:flex;align-items:center;justify-content:space-around;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#f3e7c9}#kursplayer #keinst[hidden]{display:none}
+        #kursplayer #keinst{position:absolute;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:6;background:rgba(15,36,51,.96);border:1px solid rgba(243,231,201,.18);border-radius:20px;padding:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-around;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#f3e7c9}#kursplayer #keinst[hidden]{display:none}
+        #kursplayer .keruhe,#kursplayer .kerueck{flex:1 0 100%;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.86rem}#kursplayer .keruhe div{display:flex;border:2px solid rgba(243,231,201,.25);border-radius:999px;overflow:hidden}
+        #kursplayer .keruhe button{border:0;background:transparent;color:#f3e7c9;font:700 .86rem inherit;padding:9px 12px;cursor:pointer}#kursplayer .keruhe button[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a}
+        #kursplayer .kerueck button{flex:1;border:1.5px solid rgba(243,231,201,.3);background:rgba(255,255,255,.06);color:#f3e7c9;font:700 .8rem inherit;padding:9px 6px;border-radius:12px;cursor:pointer}
+        #kursplayer #kkap{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 56px);z-index:5;display:flex;justify-content:center;pointer-events:none}#kursplayer #kkap[hidden],#kursplayer #kkapt[hidden],#kursplayer #kblatt[hidden]{display:none}
+        #kursplayer #kkapb{pointer-events:auto;display:flex;gap:7px;align-items:center;border:0;background:rgba(15,36,51,.55);border-radius:999px;padding:9px 12px;cursor:pointer}#kursplayer #kkapb i{width:8px;height:8px;border-radius:50%;background:rgba(243,231,201,.35)}#kursplayer #kkapb i.war{background:rgba(243,231,201,.75)}#kursplayer #kkapb i.an{background:#e8a33c;width:20px;border-radius:999px}
+        #kursplayer #kkapt{position:absolute;left:16px;right:16px;top:calc(env(safe-area-inset-top,0px) + 92px);z-index:5;text-align:center;pointer-events:none;opacity:0;transition:opacity .6s}#kursplayer #kkapt.an{opacity:1}
+        #kursplayer #kkapt span{display:inline-block;background:rgba(15,36,51,.88);color:#f3e7c9;font:800 1.25rem/1.25 var(--head,inherit);padding:9px 18px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.35);text-wrap:balance}
+        #kursplayer.mitwahl #kkapt{display:none}
+        #kursplayer #kblatt{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 92px);bottom:calc(100px + env(safe-area-inset-bottom,0px));z-index:5;overflow-y:auto;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;pointer-events:none}#kursplayer.mitwahl #kkap,#kursplayer.mitbild #kkap{display:none}
+        #kursplayer .kbl{pointer-events:auto;background:rgba(15,36,51,.95);color:#f3e7c9;border:1px solid rgba(243,231,201,.2);border-radius:18px;padding:14px 16px;box-shadow:0 10px 26px rgba(0,0,0,.4)}#kursplayer .kbl h3{margin:0 0 6px;font-size:1.02rem;color:#e8a33c}
+        #kursplayer .kbl ul{margin:0;padding-left:1.15em}#kursplayer .kbl li{margin:5px 0;font-size:1.02rem;line-height:1.35}#kursplayer .kbk{display:flex;flex-direction:column;gap:8px}#kursplayer .kbk:empty{display:none}
+        #kursplayer .kr3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 4px}#kursplayer .kr3 button span{display:block;font-size:1.3rem}#kursplayer .kr3 button{border:1.5px solid rgba(243,231,201,.3);background:rgba(255,255,255,.06);color:#f3e7c9;font:700 .82rem inherit;padding:10px 4px;border-radius:12px;cursor:pointer}#kursplayer .kr3 button[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a;border-color:#e8a33c}
+        #kursplayer .klink{border:0;background:none;color:#f3e7c9;opacity:.8;font:600 .84rem inherit;text-decoration:underline;padding:8px 0;cursor:pointer}#kursplayer #kunklarbox textarea{width:100%;box-sizing:border-box;border-radius:10px;border:1px solid rgba(243,231,201,.3);background:rgba(255,255,255,.08);color:#f3e7c9;font:inherit;padding:8px;margin-bottom:6px}
+        #kursplayer .kkz{display:block;width:100%;text-align:left;border:0;border-top:1px solid rgba(243,231,201,.12);background:none;color:#f3e7c9;font:600 1rem inherit;padding:11px 2px;cursor:pointer}#kursplayer .kkz.an{color:#e8a33c}#kursplayer .kbw{font-size:.95rem}
         #kursplayer .kekipp{display:grid;grid-template-columns:1fr 1fr;border:2px solid rgba(243,231,201,.25);border-radius:999px;overflow:hidden}#kursplayer .kekipp button{width:74px;height:62px;border:0;background:transparent;color:#5b6770;display:grid;place-items:center;cursor:pointer}#kursplayer .kekipp button svg{width:42px;height:36px}#kursplayer .kekipp button[aria-pressed="true"]{background:#e8a33c;color:#1a1a1a}
         #kursplayer .keharms{width:66px;height:66px;border-radius:18px;border:3px solid #e8a33c;background:rgba(232,163,60,.12);display:grid;place-items:center;cursor:pointer}#kursplayer .keharms svg{width:42px;height:42px}#kursplayer .keharms[aria-pressed="false"]{border-color:rgba(243,231,201,.2);background:transparent}#kursplayer .keharms[aria-pressed="false"] svg{filter:grayscale(1);opacity:.45}#kursplayer .kemehr{border:0;background:none;color:#f3e7c9;opacity:.75;font:700 .8rem inherit;text-decoration:underline;cursor:pointer}
         #kursplayer .kanim .an .t{stroke:rgba(255,255,255,.9);stroke-width:2.4px;stroke-linejoin:round;font-family:'Baloo 2',Nunito,system-ui,sans-serif;font-weight:700;letter-spacing:.01em}
@@ -1280,11 +1420,17 @@
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
     const panel = $('#kpanel');
     /* v5.62 (Nutzer 12.11.2026): Das kleine Zahnrad öffnet zwei Schalter: laut antworten oder nur hören, Harms am Ende. „Mehr …“ öffnet das alte Fenster (Abschnitte, Erzeugen) */
-    const einst = $('#keinst'), einstZeigen = () => { const kk = cfgK(); einst.querySelectorAll('[data-ek]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.ek === 'reden') === !!S.cfg.zuruf))); $('#keharms').setAttribute('aria-pressed', String(kk.harms !== false)); };
+    const einst = $('#keinst'), einstZeigen = () => { const kk = cfgK(); einst.querySelectorAll('[data-ruhe]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ruhe === ruheStufe()))); einst.querySelectorAll('[data-ek]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.ek === 'reden') === !!S.cfg.zuruf))); $('#keharms').setAttribute('aria-pressed', String(kk.harms !== false)); };
     $('#kzahn').onclick = () => { einst.hidden = !einst.hidden; if (!einst.hidden) { einstZeigen(); fussZeigen(); } };
     einst.querySelectorAll('[data-ek]').forEach(b => b.onclick = () => { S.cfg.zuruf = b.dataset.ek === 'reden' && zurufMoeglich(); if (S.cfg.zuruf && window.VOX && VOX.phoneUnlock) VOX.phoneUnlock(); save(); einstZeigen(); const z = ui('#kzr'); if (z) z.setAttribute('aria-pressed', String(!!S.cfg.zuruf)); if (lauf) { if (S.cfg.zuruf) zurufStart(lauf); else if (typeof zurufStop === 'function') zurufStop(lauf); } });
     $('#keharms').onclick = () => { const kk = cfgK(); kk.harms = kk.harms === false; save(); einstZeigen(); };
     $('#kemehr').onclick = () => { einst.hidden = true; panel.hidden = false; panel.scrollTop = 0; };
+    /* v5.67: Tempo der Folge (Atempausen) und Rückmeldung der Tester */
+    einst.querySelectorAll('[data-ruhe]').forEach(b => b.onclick = () => { cfgK().ruhe = b.dataset.ruhe; save(); einstZeigen(); });
+    $('#kestelle').onclick = () => { if (!st) return; rueckMerken(st, lauf, 'stelle'); const b = $('#kestelle'); b.textContent = '✓ Notiert, danke'; setTimeout(() => { b.textContent = '✋ Hier war\'s zu schnell'; }, 1800); };
+    $('#kekopie').onclick = async () => { const t = rueckText(), b = $('#kekopie'); if (!t) { b.textContent = 'Noch keine Rückmeldungen'; setTimeout(() => { b.textContent = '📋 Rückmeldungen kopieren'; }, 1800); return; }
+      try { await navigator.clipboard.writeText(t); b.textContent = '✓ Kopiert: jetzt einfügen und schicken'; setTimeout(() => { b.textContent = '📋 Rückmeldungen kopieren'; }, 2500); }
+      catch (e) { einst.hidden = true; const bl = ui('#kblatt'); if (bl) { bl.innerHTML = `<div class="kbl"><h3>Rückmeldungen</h3><p class="small" style="margin:0 0 6px">Text markieren, kopieren und schicken:</p><textarea rows="8" readonly style="width:100%;box-sizing:border-box">${esc(t)}</textarea><button class="klink" id="kkapzu">Schließen</button></div>`; bl.hidden = false; ui('#kkapzu').onclick = blattAus; } } };
     /* Szene wiederholen: den aktuellen (sonst den zuletzt gehörten) Abschnitt von vorn */
     $('#kwdh').onclick = () => { if (!st) return; const k = lauf && lauf.abK != null ? lauf.abK : letzteAbK, g = lauf ? lauf.gratis : !!(st.luecke || st.ersterFehlt); panel.hidden = true; AUD.unlock(); spiele(st, k || 0, g); };
     $('#kzu').onclick = () => { panel.hidden = true; };
@@ -1323,6 +1469,7 @@
     document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
     let st;
     try { st = await laden(id); st.id = id; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
+    stoffNachtragen();
     const zahl = n => Math.round(n).toLocaleString('de-DE'), uhr = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
     const haupt = st.abschnitte.filter(a => !a.karte), gesamtSek = haupt.reduce((s, a) => s + a.sek, 0);
     $('#kdauer').textContent = ` · etwa ${Math.round(gesamtSek / 60)} Minuten`;
@@ -1357,7 +1504,7 @@
       st.ersterFehlt = !erster || fehltAb.has(erster.nr); st.luecke = fehltAb.size > 0;
       if (!st.ersterFehlt) info(fehltAb.size ? 'Bereit. „▶ Abspielen“ endet vor dem ersten Abschnitt, der noch fehlt; „🗣️ Ganz hören“ liest den Rest mit der Gratis-Stimme.' : 'Bereit.');
       else info(st.pub ? 'Für diese Fassung fehlen Teile. Zum Testen liest die Gratis-Stimme des Handys.' : 'Noch keine echten Stimmen. Zum Testen liest die Gratis-Stimme des Handys (kostet nichts). Echte Stimmen: ⚙️ oben rechts, dann „Erzeugen“.');
-      if (!lauf) zeigeSteuerung(st, false);
+      if (!lauf) { zeigeSteuerung(st, false); kapitelZeigen(st, 0, false); blattStart(st); }
     };
     try { await nachladen('boot.js'); } catch (e) {}
     /* Wetter der Geschichte: aus der Folge (FOLGEN.wetter, sonst HOERREISE in index.html), Szenen können es ändern */
@@ -1425,6 +1572,7 @@
     /* nur für Tests: Szene setzen und einen Sprecher zeigen */
     /* nur für Tests: eine amtliche Frage so zeigen, wie sie in der Folge käme (Frage in Fahrt) */
     _wahl(id) { return swLaden().then(() => wahl({}, {t: 'wahl', id, opts: []}, {tipps: {}, falsch: new Set(), root: ui('#kwahl')}, null)); },
+    _harmsRunde: id => harmsRunde(id), _ruhe: () => ruheStufe(), _rueckText: () => rueckText(),
     _test(text, wer, crew) { if (crew) buehnenCrew = crew; szeneArt = ''; szeneSetzen(text); const g = ui('#kges'); if (g) { g.dataset.gast = ''; gesichter(wer || null); } }};
   if (typeof module !== 'undefined') module.exports = {zerlege};
 })();
