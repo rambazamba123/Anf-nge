@@ -18,8 +18,8 @@
     'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Das Heck will zu Paul', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
     'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Ohne Gas kein Ruder', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
     'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
-    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf), mit Hinnerk, Smilla und Harms'},
-    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf), mit der Hafenmeisterin', design: 'b'},
+    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf): Hafenkino, wer das Sagen hat'},
+    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf): Tanken mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
     'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
     'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};

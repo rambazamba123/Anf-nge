@@ -424,21 +424,21 @@ Erzeugt mit `node tools/sprueche-pruefen.js --md` aus `podcast/sprueche.json` (5
 | Klabauter | Plappert die Crew nach | 6 | 12 | 10 | 0 |
 | Klabauter | Ruf und Antwort (Rahmen fürs Merkwort) | 8 | 24 | 20 | 0 |
 | Klabauter | Unglück, Müdigkeit, Rückkehr | 6 | 6 | 6 | 0 |
-| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 2 |
-| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 10 |
+| Kapitän Harms | Anruf eröffnen | 10 | 30 | 18 | 1 |
+| Kapitän Harms | Frage stellen (darf in einer Folge öfter kommen) | 15 | 90 | 80 | 3 |
 | Kapitän Harms | Richtig (darf in einer Folge öfter kommen) | 11 | 66 | 60 | 0 |
 | Kapitän Harms | Falsch (darf in einer Folge öfter kommen) | 10 | 40 | 30 | 0 |
 | Kapitän Harms | Nachhaken | 7 | 21 | 15 | 0 |
 | Kapitän Harms | Haltung | 5 | 10 | 8 | 0 |
-| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 3 |
+| Kapitän Harms | Anruf beenden | 9 | 27 | 18 | 1 |
 | Kapitän Harms | Mit Hinnerk | 4 | 8 | 8 | 0 |
 | Jasper | Ganz einfach | 5 | 10 | 6 | 0 |
 | Jasper | Falsche Faustregeln (Smilla klärt jede in derselben Szene auf) | 6 | 6 | 6 | 0 |
 | Jasper | Segel gegen Motor | 4 | 4 | 4 | 0 |
 | Jasper | Nach der Rettung (6-6) | 3 | 3 | 2 | 0 |
 | Hafenmeisterin Kuttershaven | Hafenmeisterin Kuttershaven | 5 | 10 | 6 | 2 |
-| Käpt'n Hinnerk | Verdrücken, wenn Harms anruft | 10 | 30 | 30 | 3 |
-| Smilla | Daumen drücken, wenn Harms anruft | 10 | 30 | 30 | 3 |
+| Käpt'n Hinnerk | Verdrücken, wenn Harms anruft | 10 | 30 | 30 | 1 |
+| Smilla | Daumen drücken, wenn Harms anruft | 10 | 30 | 30 | 1 |
 | Klabauter | Flüchten, wenn Harms anruft | 6 | 18 | 18 | 0 |
 <!-- SPRUECHE:END -->
 

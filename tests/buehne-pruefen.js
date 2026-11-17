@@ -49,14 +49,22 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     namen.some(w => ['HINNERK', 'SMILLA', 'KLABAUTER', 'BACKBORD'].includes(w)) ? schlecht('Feste Crew hat Namensschilder: ' + namen.join(', ')) : ok('Namensschilder nur bei Gästen');
     errs.length ? schlecht('Konsole (1-2): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (1-2 Gasflasche)'); await ctx.close(); }
   /* 4 und 2: Harms ruft an */
-  { const {p, ctx, errs} = await oeffne(b, 'reise-1-1', 'Harms ruft an'); let gingen = false, allein = false;
+  /* seit v5.69 haben 1-1 und 1-2 keinen Harms-Abschnitt mehr (neue Machart); die alte 1-3 hat ihn noch */
+  { const {p, ctx, errs} = await oeffne(b, 'reise-1-3', 'Harms ruft an'); let gingen = false, allein = false;
     for (let i = 0; i < 150; i++) { await sleep(300); const s = await p.evaluate(() => ({g: !!document.querySelector('#kges .kpl.geht'), w: [...document.querySelectorAll('#kges .kpl')].map(e => e.dataset.w), f: !!document.querySelector('#kwahl .kharms')}));
       if (s.g) gingen = true; if (s.w.length === 1 && s.w[0] === 'HARMS') allein = true; if (s.f) break; }
     gingen ? ok('Crew verabschiedet sich vor Harms') : schlecht('Crew geht vor Harms nicht ab'); allein ? ok('Harms ist allein') : schlecht('Harms nicht allein auf der Bühne');
     const f = await p.evaluate(() => { const k = document.querySelector('#kwahl .kfrage'); if (!k) return null; const r = k.getBoundingClientRect(); return {top: r.top, et: !!k.querySelector('[data-et]'), harms: !!k.querySelector('.kharms')}; });
     if (!f) schlecht('Harms-Frage erscheint nicht'); else { f.top >= 0 ? ok('Frage oben nicht abgeschnitten') : schlecht(`Frage oben abgeschnitten (${Math.round(f.top)} px)`); f.et && f.harms ? ok('Harms über der Frage, Easy/Tricky da') : schlecht('Harms-Kopf oder Easy/Tricky fehlt'); }
-    errs.length ? schlecht('Konsole (1-1): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (1-1 Harms)'); await ctx.close(); }
+    errs.length ? schlecht('Konsole (alte 1-3 Harms): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (alte 1-3 Harms)'); await ctx.close(); }
   /* 3: Animation ohne Phasen läuft weiter (Der Raser: [[ANIM: gleiter]]) */
+  /* v5.67 Harms fragt zurück (HR57): nie Fragen der eben gehörten Folge, ohne frühere Folge keine Runde */
+  { const {p, ctx} = await oeffne(b, 'gold-1', 'Leise raus');
+    const r = await p.evaluate(() => { const vorher = JSON.stringify(S.hoerreise || {}); S.hoerreise = {gehoert: {'reise-1-1': '2026-11-16', 'reise-1-2': '2026-11-16'}, stoff: {'reise-1-1': [1, 2, 59], 'reise-1-2': [49, 63], 'gold-1': [41, 46, 47, 48]}};
+      const mit = KURS._harmsRunde('gold-1'); S.hoerreise = {gehoert: {}, stoff: {}}; const ohne = KURS._harmsRunde('gold-1'); S.hoerreise = JSON.parse(vorher); return {mit, ohne}; });
+    r.mit.length && r.mit.length <= 5 && !r.mit.some(n => [41, 46, 47, 48].includes(n)) ? ok(`Harms fragt zurück: ${r.mit.length} Fragen aus früheren Folgen`) : schlecht('Harms-Runde falsch: ' + JSON.stringify(r.mit));
+    r.ohne.length === 0 ? ok('Ohne frühere Folge ruft Harms nicht an') : schlecht('Harms-Runde ohne frühere Folge: ' + JSON.stringify(r.ohne));
+    await ctx.close(); }
   { const {p, ctx, errs} = await oeffne(b, 'reise-1-3', 'Der Raser'); let erst = null, spaeter = null;
     for (let i = 0; i < 120; i++) { await sleep(400); const t = await p.evaluate(() => { const s = document.querySelector('#kbild svg'); return s ? [...s.querySelectorAll('text')].map(x => x.textContent).join('|') : null; }); if (t && !erst) erst = t; if (erst && t && t !== erst) { spaeter = t; break; } }
     const sp = await p.evaluate(() => { const k = document.querySelector('#kursplayer.mitbild #kges div.kpl.ksp'); return k ? getComputedStyle(k).display : 'keiner'; });

@@ -28,6 +28,7 @@
 | Hinnerk und Harms: „Über den red ich nich.“ | – | 1 | jedes Telefonat (Lage `harms`), Garn in 4-5 |
 
 ### 1-1 „Erster Morgen“ (Kuttershaven, Morgen, schön)
+> 17.11.2026 auf die neue Machart umgestellt: Du bist gestern Abend an Bord gekommen (Folge 0 entfällt), Fragen als Entweder-oder, Überblick U1 als Wechselrede („Einer sagt an.“ – „Keiner hat getrunken.“ – „Und der Schein passt zum Boot.“), kein Harms-Anruf; Harms kündigt in der Sprachnachricht an, dass er zwischendurch anruft und abfragt. Neu: der Mann mit der Mütze trinkt die zweite Dose; „Pferde. Sind dat.“
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
 | sbf:1 Schiffsführer wird bestimmt, nicht gewählt | Charter-Crew: vier Leute, vier Kapitäne | 4 (Frage, Hinnerk 2×, Smilla) + „Wer hat das bestimmt? Ich.“ | 1-3: Ausguck-Rolle („Einer sagt an“), später bei jedem Ablegen ein Satz |
@@ -39,6 +40,7 @@
 | Frist: sieben Tage, Prüfung auf der Albertine in Harmsoog (HR50) | Harms' Sprachnachricht auf Hinnerks Handy | 1 | jeden Tag ein Satz Countdown |
 
 ### 1-2 „Gas, Sprit und Streichholz“ (Bootstankstelle, Vormittag, schön)
+> 17.11.2026 auf die neue Machart umgestellt: Logbuch und Harms' Sprachnachricht mit sieben Fragen gestrichen (Harms fragt später zurück), Tanken als Handlung (Hinnerk: Schalter, Lappen) statt „vier Sachen“, Hinnerks Gasflasche „an Deck, im Schatten“. Der Strom bleibt offen und wird in gold-1 zur Flucht vor dem Quittungsblock.
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
 | sbf:49 Tanken: Motor aus (nicht Leerlauf), keine Schalter, kein Feuer, nichts überlaufen | Hinnerks Streichholz an der Zapfsäule; Lappen unter dem Stutzen | 6 (vorher 7; „Genau …“ gestrichen) | 1-4 oder Klüverhafen: Hinnerk greift beim Tanken zur Pfeife, Smilla guckt nur |
