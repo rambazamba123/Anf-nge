@@ -27,3 +27,6 @@ stimmen*.zip
 # Probesätze aus tools/stimmenpaket.js --probe
 import/probe/
 import/geschichten-*.json
+
+# Lektorat-Pakete (werden von tools/lektorat.js neu gebaut)
+podcast/lektorat/pakete/

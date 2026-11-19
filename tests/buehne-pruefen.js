@@ -58,6 +58,14 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     if (!f) schlecht('Harms-Frage erscheint nicht'); else { f.top >= 0 ? ok('Frage oben nicht abgeschnitten') : schlecht(`Frage oben abgeschnitten (${Math.round(f.top)} px)`); f.et && f.harms ? ok('Harms über der Frage, Easy/Tricky da') : schlecht('Harms-Kopf oder Easy/Tricky fehlt'); }
     errs.length ? schlecht('Konsole (alte 1-3 Harms): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (alte 1-3 Harms)'); await ctx.close(); }
   /* 3: Animation ohne Phasen läuft weiter (Der Raser: [[ANIM: gleiter]]) */
+  /* v5.70 Handystimme: kein Stück, das nur aus Zeichen besteht, keine Anführungszeichen (Nutzer 17.11.2026: „Anführungszeichen … Punkt“) */
+  { const {p, ctx} = await oeffne(b, 'gold-3', 'Der Raser');
+    const r = await p.evaluate(async () => { const cfg = await (await fetch('podcast/audio_config.json')).json(), schlecht = [];
+      for (const id of HOERREISE.map(x => x[0])) { const f = await (await fetch(KURS._datei ? KURS._datei(id) : '')).text().catch(() => '');
+        if (!f) continue; KURS.zerlege(f, cfg, {}).items.filter(i => i.t === 'rede').forEach(i => i.zeilen.forEach(z => VOX._chunks(z.text).forEach(c => { if (/[„“”"«»]/.test(c) || c.split(/\s+/).some(w => w && !/[A-Za-zÄÖÜäöüß0-9]/.test(w))) schlecht.push(id + ': ' + c.slice(0, 60)); }))); }
+      return schlecht; });
+    r.length ? schlecht('Handystimme liest Zeichen vor: ' + r.slice(0, 3).join(' | ')) : ok('Handystimme: keine Zeichen-Reste in allen Folgen der Hörreise');
+    await ctx.close(); }
   /* v5.67 Harms fragt zurück (HR57): nie Fragen der eben gehörten Folge, ohne frühere Folge keine Runde */
   { const {p, ctx} = await oeffne(b, 'gold-1', 'Leise raus');
     const r = await p.evaluate(() => { const vorher = JSON.stringify(S.hoerreise || {}); S.hoerreise = {gehoert: {'reise-1-1': '2026-11-16', 'reise-1-2': '2026-11-16'}, stoff: {'reise-1-1': [1, 2, 59], 'reise-1-2': [49, 63], 'gold-1': [41, 46, 47, 48]}};

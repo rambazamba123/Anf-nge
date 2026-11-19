@@ -356,53 +356,75 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
     }});
 })();
 
-/* ---------- A2.4 Sog und Schwell großer Schiffe (SBF 34, 37, 61; Hörreise 1-3 nutzt die Phasen 0–3) ---------- */
+/* ---------- A2.4 Sog und Schwell großer Schiffe (SBF 34, 36, 37, 61; gold-3 „Dicke Pötte“ steuert die Phasen: 4 beim Raser, 0–3 bei der Fähre) ---------- */
 (() => { const SH = `<g><path d="M0 -120 C18 -100 24 -60 24 0 V110 Q24 120 14 120 H-14 Q-24 120 -24 110 V0 C-24 -60 -18 -100 0 -120Z" fill="#8a94a0" stroke="#4a525c" stroke-width="3"/>
     <rect x="-16" y="66" width="32" height="34" rx="4" fill="#eef2f8" stroke="#4a525c" stroke-width="2"/><rect x="-12" y="70" width="24" height="6" fill="#4a6a8a"/>${[-80, -50, -20, 10, 40].map(y => `<rect x="-14" y="${y}" width="28" height="24" rx="2" fill="${['#c0392b', '#2e86c1', '#e0a63a', '#2e8b57', '#c0392b'][(y + 80) / 30]}" stroke="#4a525c" stroke-width="1.2"/>`).join('')}</g>`;
   const TAN = Math.tan(19.5 * Math.PI / 180);
-  const welle = (cx, by, sy, L, op) => { const out = []; const lam = L * .16;
-    for (let k = 1; k <= 9; k++) { const d = k * lam, w = d * TAN * .92, c = d * .05, y = sy + d, a = (op * (1 - k / 11)).toFixed(2);
-      out.push(`<path d="M${(cx - w).toFixed(1)} ${(y - c).toFixed(1)} Q${cx} ${(y + c * 2).toFixed(1)} ${(cx + w).toFixed(1)} ${(y - c).toFixed(1)}" stroke-opacity="${(a * .6).toFixed(2)}"/>`);
-      for (const sg of [-1, 1]) { const ex = cx + sg * d * TAN, len = 10 + k * 2.4; out.push(`<path d="M${(ex - sg * len * .3).toFixed(1)} ${(y + len * .5).toFixed(1)} Q${(ex + sg * len * .2).toFixed(1)} ${(y).toFixed(1)} ${(ex + sg * len * .7).toFixed(1)} ${(y - len * .55).toFixed(1)}" stroke-opacity="${a}"/>`); } }
-    for (const sg of [-1, 1]) out.push(`<path d="M${cx + sg * 6} ${by + 6} Q${cx + sg * 30} ${by + 20} ${(cx + sg * 44).toFixed(1)} ${(by + 70).toFixed(1)}" stroke-opacity="${op.toFixed(2)}" stroke-width="4"/>`);
+  /* v5.70 (Nutzer 17.11.2026): eine einzige Vorbeifahrt. Erst die Bugwelle (die Frieda schaukelt), dann zieht der Sog sie heran, dann die Heckwelle (schaukelt stark).
+     Die Phasen geben nur das Ziel der Fahrt vor; was mit der Frieda passiert, ergibt sich aus der Lage zum Schiff. Phase 4: Lieger am Steg, im Wasser, mit Fendern. */
+  const ARM = Math.tan(30 * Math.PI / 180);   /* Wellenarme stehen steil nach außen (Zeichnung, nicht maßstäblich) */
+  const SX = 130, BY = 260, BX0 = 258, NAH = SX + 66;
+  const ZIEL = [400, 286, 150, -60], DAUER = [3.5, 3.5, 5, 5];
+  const arme = (cx, oy, op, w, n) => { const out = []; for (let k = 0; k < n; k++) for (const sg of [-1, 1]) { const y0 = oy + k * 13, x0 = cx + sg * (14 + k * 3);
+      out.push(`<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} Q${(cx + sg * 120).toFixed(1)} ${(y0 + 120 * ARM * .9).toFixed(1)} ${(cx + sg * 300).toFixed(1)} ${(y0 + 300 * ARM).toFixed(1)}" stroke-opacity="${(op * (1 - k / (n + 1))).toFixed(2)}" stroke-width="${w}"/>`); }
     return out.join(''); };
+  const LY = [70, 200, 330];
   roh('sog', {titel: 'Sog und Schwell großer Schiffe', nr: 'A2.4', gruppe: 'A2 Anlegen, Ankern, Manöver', folge: 'G3.2',
-    svg: `<rect width="400" height="500" fill="#4f9cc6"/><g id="sgg" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"></g><g id="swv" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"></g>
-      <g id="spier" opacity="0"><rect x="340" y="0" width="60" height="500" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>${[60, 190, 320].map((y, i) => `<g class="slieg" data-y="${y}">${BO.oben({farbe: {rumpf: ['#f3e3c3', '#e6eef5', '#f6d9d0'][i]}})}</g>`).join('')}</g>
-      <g id="sship">${SH}</g><g id="sklein">${BO.oben({})}</g>
+    svg: `<rect width="400" height="500" fill="#4f9cc6"/><g id="sgg" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"></g><g id="swv" fill="none" stroke="#fff" stroke-linecap="round"></g>
+      <g id="spier" opacity="0"><rect x="364" y="0" width="36" height="500" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => `<path d="M364 ${i * 50 + 25}H400" stroke="#8a6a44" stroke-width="2"/>`).join('')}
+        ${LY.map((y, i) => `<g class="slieg" data-y="${y}">${BO.oben({farbe: {rumpf: ['#f3e3c3', '#e6eef5', '#f6d9d0'][i]}})}<g fill="#2e86c1"><rect x="19" y="-24" width="7" height="16" rx="3"/><rect x="19" y="10" width="7" height="16" rx="3"/></g><path d="M18 -40 L46 -52 M18 40 L46 52" stroke="#e8c46a" stroke-width="3"/></g>`).join('')}</g>
+      <g id="sship">${SH}</g><g id="ssp" fill="#fff"></g><g id="sklein">${BO.oben({})}</g>
       <g id="sar" fill="#f08a1c" stroke="#f08a1c" stroke-width="4"></g><g id="sx" opacity="0"><circle r="16" fill="#fff" stroke="#c0392b" stroke-width="3"/><path d="M-7 -7 L7 7 M7 -7 L-7 7" stroke="#c0392b" stroke-width="3.5"/></g>
       ${T(0, 0, '', 'start', 20, 'slab')}`,
     phasen: [
-      {wer: H, t: 'Ein großes Schiff schiebt vorn eine Bugwelle vor sich her und zieht hinten eine Heckwelle hinter sich her. Die kann ein kleines Boot zum Kentern bringen.', min: 9, cap: 'Bugwelle und Heckwelle'},
-      {wer: M, t: 'Zwischen dem großen Schiff und dir fließt das Wasser schneller. Das saugt dich an: der Sog. So kommt es zur Kollision.', min: 8, cap: 'Sog: das Wasser dazwischen zieht'},
-      {wer: H, t: 'Wirst du überholt, schubst dich vorn der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell querschlagen. Im Flachen läufst du sogar auf Grund.', min: 11, cap: 'Überholt werden: Stau, Sog, Schwell'},
-      {wer: M, t: 'Darum: Abstand halten. Und an festgemachten Booten fährst du langsam vorbei, sonst wirft deine Welle sie gegen den Steg. Das gelbe Tafelzeichen sagt dasselbe: Sog und Wellenschlag vermeiden.', min: 11, cap: 'Langsam an Liegern vorbei'}],
-    enter(s, p, st) { st.bx = p === 2 ? 236 : p === 1 ? 228 : 270; st.rot = 0; st.roll = 0; st.by = p === 2 ? 330 : 250; put(q(s, '#spier'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#sship'), {opacity: p === 3 ? 0 : 1}); },
+      {wer: H, t: 'Ein großes Schiff kommt von hinten und fährt an uns vorbei. Viel Platz ist nicht.', min: 4, cap: 'Ein großes Schiff kommt'},
+      {wer: M, t: 'Erst kommt seine Bugwelle. Die Frieda schaukelt.', min: 4, cap: 'Bugwelle: es schaukelt'},
+      {wer: H, t: 'Jetzt ist es neben uns. Das Wasser dazwischen fließt schneller und zieht uns zum Schiff hin: der Sog.', min: 6, cap: 'Sog: es zieht dich heran'},
+      {wer: M, t: 'Und hinten die Heckwelle, die stärkste. Ganz dicht dran kann ein kleines Boot kentern oder ans Schiff gezogen werden. Darum: Abstand halten.', min: 7, cap: 'Heckwelle: Abstand halten'},
+      {wer: H, t: 'Und wer selbst zu schnell an festgemachten Booten vorbeifährt, wirft sie gegen den Steg. Darum langsam vorbei, damit sie ruhig liegen bleiben.', min: 9, cap: 'Langsam an Liegern vorbei'}],
+    enter(s, p, st) {
+      if (p === 0 || st.sy == null) { st.sy = 690; st.bx = BX0; st.roll = 0; st.trifft = {}; }
+      st.von = st.sy; st.lab = ''; st.labT = 0;
+      put(q(s, '#spier'), {opacity: p === 4 ? 1 : 0}); put(q(s, '#sship'), {opacity: p === 4 ? 0 : 1});
+    },
     tick(s, tp, p, st) {
       const dt = st.dt || .016;
       q(s, '#sgg').innerHTML = Array.from({length: 22}, (_, i) => { const x = (i * 71) % 380, y = ((i * 113) % 520 + tp * 8) % 520 - 10; return `<path d="M${x} ${y.toFixed(0)} q9 -4 18 0 t18 0"/>`; }).join('');
-      if (p < 3) {
-        const v = p === 2 ? 30 : 64, sx = 150, sy = 640 - ((tp * v) % 900), stern = sy + 120;
-        put(q(s, '#sship'), {transform: `translate(${sx} ${sy.toFixed(1)})`}); q(s, '#swv').innerHTML = welle(sx, sy - 120, stern, 260, .9);
-        if (p === 2) st.by -= dt * 12;
-        const by = st.by, rel = by - sy; let ziel = p === 2 ? 236 : p === 1 ? 222 : 270, rz = 0, lab = '';
-        const edge = Math.abs(st.bx - sx) - (by - stern) * TAN; const anKante = by > stern && Math.abs(edge) < 16;
-        if (p >= 1 && Math.abs(rel) < 90) { ziel = sx + 52; lab = 'Sog'; }
-        if (p === 2 && rel < -90 && rel > -170) { ziel = 250; rz = 14; lab = 'Stau'; }
-        if (p === 2 && rel > 110 && rel < 220) { rz = -50; lab = 'Schwell'; }
-        if (anKante) st.roll = 1;
-        st.roll = Math.max(0, st.roll - dt * .8); st.bx += (ziel - st.bx) * Math.min(1, dt * 1.4); st.rot += (rz - st.rot) * Math.min(1, dt * 2);
-        const wack = st.roll * Math.sin(tp * 14) * 16;
-        put(q(s, '#sklein'), {transform: `translate(${st.bx.toFixed(1)} ${by.toFixed(1)}) rotate(${(st.rot + wack).toFixed(1)}) scale(.62)`});
-        const ar = q(s, '#sar'), bxx = st.bx; ar.innerHTML = lab === 'Sog' ? `<path d="M${(bxx - 18).toFixed(0)} ${by}H${sx + 40}" fill="none"/><path d="M${sx + 34} ${by - 9}L${sx + 20} ${by}L${sx + 34} ${by + 9}Z" stroke="none"/>` : lab === 'Stau' ? `<path d="M${sx + 30} ${by}H${(bxx - 20).toFixed(0)}" fill="none"/><path d="M${(bxx - 26).toFixed(0)} ${by - 9}L${(bxx - 12).toFixed(0)} ${by}L${(bxx - 26).toFixed(0)} ${by + 9}Z" stroke="none"/>` : '';
-        const sl = q(s, '.slab'); sl.textContent = lab || (anKante ? 'Welle!' : ''); put(sl, {x: Math.min(330, bxx + 18).toFixed(0), y: (by - 26).toFixed(0)}); put(q(s, '#sx'), {opacity: 0});
+      const sl = q(s, '.slab');
+      if (p < 4) {
+        /* Fahrt des Schiffs: in der Phasendauer zum Ziel, danach langsam weiter (es hält nie an) */
+        const u = Math.min(1, tp / DAUER[p]); st.sy = u < 1 ? lp(st.von, ZIEL[p], u) : ZIEL[p] - (tp - DAUER[p]) * 6;
+        const bow = st.sy - 120, stern = st.sy + 120, dx = Math.abs(st.bx - SX);
+        put(q(s, '#sship'), {transform: `translate(${SX} ${st.sy.toFixed(1)})`});
+        q(s, '#swv').innerHTML = arme(SX, bow + 8, .95, 3, 3) + arme(SX, stern - 4, 1, 4.5, 4);
+        /* Wo stehen die Wellenarme an der Stelle der Frieda? */
+        const yBug = bow + 8 + dx * ARM, yHeck = stern - 4 + dx * ARM;
+        if (!st.trifft.bug && Math.abs(BY - yBug) < 18) { st.trifft.bug = 1; st.roll = Math.max(st.roll, .8); st.lab = 'Bugwelle!'; st.labT = 2.2; }
+        if (!st.trifft.heck && Math.abs(BY - yHeck) < 18) { st.trifft.heck = 1; st.roll = Math.max(st.roll, 1.5); st.lab = 'Heckwelle!'; st.labT = 2.6; }
+        /* Der Sog zieht erst, wenn die Bugwelle durch ist (Reihenfolge wie beim Überholtwerden: Welle, Sog, Heckwelle) */
+        const neben = st.trifft.bug && BY > bow + 10 && BY < stern - 10;
+        if (neben) { st.bx += (NAH - st.bx) * Math.min(1, dt * 1.5); if (st.labT <= 0) st.lab = 'Sog'; }
+        else if (st.lab === 'Sog') st.lab = '';
+        st.roll = Math.max(0, st.roll - dt * .55); st.labT -= dt;
+        if (st.labT <= 0 && st.lab !== 'Sog') st.lab = '';
+        const r1 = Math.min(1, st.roll), wack = r1 * Math.sin(tp * 11) * (st.roll > 1 ? 28 : 18), quer = r1 * Math.sin(tp * 11 + 1) * (st.roll > 1 ? 9 : 6), hoch = 1 + r1 * .08 * Math.sin(tp * 11 + 2);
+        put(q(s, '#sklein'), {transform: `translate(${(st.bx + quer).toFixed(1)} ${BY}) rotate(${wack.toFixed(1)}) scale(${(.8 * hoch).toFixed(3)})`});
+        /* Gischt um die Frieda, solange sie schaukelt */
+        q(s, '#ssp').innerHTML = st.roll > .15 ? Array.from({length: 9}, (_, i) => { const a = i / 9 * Math.PI * 2 + tp * 2, r = 30 + 10 * Math.sin(tp * 9 + i); return `<circle cx="${(st.bx + Math.cos(a) * r * .7).toFixed(1)}" cy="${(BY + Math.sin(a) * r * 1.1).toFixed(1)}" r="${(3 + 3 * r1).toFixed(1)}" opacity="${(.85 * r1).toFixed(2)}"/>`; }).join('') : '';
+        q(s, '#sar').innerHTML = neben && st.lab === 'Sog' ? `<path d="M${(st.bx - 20).toFixed(0)} ${BY}H${SX + 36}" fill="none"/><path d="M${SX + 32} ${BY - 9}L${SX + 18} ${BY}L${SX + 32} ${BY + 9}Z" stroke="none"/>` : '';
+        sl.textContent = st.lab; put(sl, {x: Math.min(290, st.bx + 30).toFixed(0), y: BY - 48, fill: st.lab === 'Heckwelle!' ? '#c0392b' : '#fff'});
+        put(q(s, '#sx'), {opacity: 0});
       } else {
-        /* Phase 3: erst zu schnell (Lieger schlagen an den Steg), dann langsam */
-        const schnell = tp < 6, y = schnell ? 560 - tp * 90 : 560 - (tp - 6) * 34, by = ((y % 640) + 640) % 640 - 60, bx = 270;
-        q(s, '#swv').innerHTML = schnell ? welle(bx, by - 31, by + 31, 120, .8) : welle(bx, by - 31, by + 31, 60, .35);
-        put(q(s, '#sklein'), {transform: `translate(${bx} ${by.toFixed(1)}) scale(.62)`}); q(s, '#sar').innerHTML = '';
-        qa(s, '.slieg').forEach(e => { const ly = +e.dataset.y, hit = schnell && ly > by + 20 && ly < by + 170, w = hit ? Math.sin(tp * 16 + ly) * 9 : Math.sin(tp * 2 + ly) * 1; put(e, {transform: `translate(${(366 + (hit ? Math.abs(w) * .5 : 0)).toFixed(1)} ${ly}) rotate(${w.toFixed(1)}) scale(.5)`}); });
-        const sl = q(s, '.slab'); sl.textContent = schnell ? 'Zu schnell!' : 'Langsam'; put(sl, {x: 120, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
+        /* Phase 4: erst zu schnell (die Lieger schlagen gegen den Steg), dann langsam (sie liegen ruhig) */
+        const schnell = tp < 5.5, y = schnell ? 600 - tp * 110 : 600 - (tp - 5.5) * 34, by = ((y % 700) + 700) % 700 - 80, bx = 220;
+        q(s, '#swv').innerHTML = schnell ? arme(bx, by + 30, .9, 3, 3) : arme(bx, by + 30, .35, 2, 2);
+        put(q(s, '#sklein'), {transform: `translate(${bx} ${by.toFixed(1)}) scale(.62)`}); q(s, '#sar').innerHTML = ''; let gischt = '';
+        qa(s, '.slieg').forEach(e => { const ly = +e.dataset.y, welle = by + 30 + (334 - bx) * ARM, hit = schnell && ly > welle - 60 && ly < welle + 90;
+          const w = hit ? Math.sin(tp * 15 + ly) * 13 : Math.sin(tp * 1.6 + ly) * .8, stoss = hit ? Math.max(0, Math.sin(tp * 15 + ly)) * 7 : 0;
+          if (hit) gischt += [0, 1, 2, 3].map(k => `<circle cx="${(356 + Math.sin(tp * 9 + k) * 4).toFixed(1)}" cy="${(ly - 24 + k * 16).toFixed(1)}" r="${(4 + 2 * Math.abs(Math.sin(tp * 12 + k))).toFixed(1)}" opacity=".9"/>`).join('');
+          put(e, {transform: `translate(${(334 + stoss).toFixed(1)} ${ly}) rotate(${w.toFixed(1)}) scale(.62)`}); });
+        q(s, '#ssp').innerHTML = gischt;
+        sl.textContent = schnell ? 'Zu schnell!' : 'Langsam: alles ruhig'; put(sl, {x: 40, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
       }
     }});
 })();

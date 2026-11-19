@@ -1572,7 +1572,7 @@
     /* nur für Tests: Szene setzen und einen Sprecher zeigen */
     /* nur für Tests: eine amtliche Frage so zeigen, wie sie in der Folge käme (Frage in Fahrt) */
     _wahl(id) { return swLaden().then(() => wahl({}, {t: 'wahl', id, opts: []}, {tipps: {}, falsch: new Set(), root: ui('#kwahl')}, null)); },
-    _harmsRunde: id => harmsRunde(id), _ruhe: () => ruheStufe(), _rueckText: () => rueckText(),
+    _harmsRunde: id => harmsRunde(id), _datei: id => FOLGEN[id] && FOLGEN[id].datei, _ruhe: () => ruheStufe(), _rueckText: () => rueckText(),
     _test(text, wer, crew) { if (crew) buehnenCrew = crew; szeneArt = ''; szeneSetzen(text); const g = ui('#kges'); if (g) { g.dataset.gast = ''; gesichter(wer || null); } }};
   if (typeof module !== 'undefined') module.exports = {zerlege};
 })();
