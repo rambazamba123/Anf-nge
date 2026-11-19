@@ -60,14 +60,15 @@ Der Nutzer muss kein Modell umstellen: Die Hauptsitzung (Fable 5.2) schreibt Gru
 | **4 Navi-Folge** | Wachen mit „Schritt 2 von 4“, erst tun, dann Begriff, Einstufung, Schritt-Zettel, Test am nächsten Abend, Lektionstexte nach `docs/navi-schreibregeln.md` | Opus für Code, Fable für Texte |
 | **5 Reiseplan und Serie** | Reiseplan nach Lernlast und Hörtagen neu verteilen, dann die Folgen in Serie (höchstens zwei bis drei je Sitzung, jede mit Hörer-Probe durch ein zweites Modell) | Fable schreibt, zweites Modell prüft |
 
-## 5. Stand (17.11.2026, v5.69)
+## 5. Stand (19.11.2026, v5.70)
 - [x] Plan abgelegt (16.11.2026)
 - [x] **Etappe 1 Grundlagen:** `podcast/schreibkarte.md`, Regeln HR56–HR60 (`docs/reise.md` §7.11, Hinweise an HR17/HR18/HR30/HR38/HR46 und §3), neue `podcast/folgen/VORLAGE.md` (alte im Archiv), `podcast/dialog-beispiele.md`, `docs/navi-schreibregeln.md`, `tools/dichte-messer.js`, Klarstellung Bible A4, `CLAUDE.md` verschlankt (Code-Karte und alter Status ausgelagert)
 - [x] **Etappe 2 Gold-Folgen, erster Teil:** aus der alten 1-3 wurden **drei** Folgen (gold-1 „Das Heck will zu Paul“, gold-2 „Ohne Gas kein Ruder“, gold-3 „Dicke Pötte“), je vier Fragen. In der App als Folge 1-3 bis 1-5, mit der Gratis-Stimme hörbar. Offen: Hörtest des Nutzers, danach eine Szene vertonen
 - [x] **Etappe 3 Player und Übersicht:** Atempausen mit drei Stufen, Kapitelpunkte und Titel, Karten „Heute an Bord“ und „Das nimmst du mit“, Ende als Blatt, „Harms fragt zurück“, Rückmeldung der Tester, Antwortwort per Zuruf, Deck-Knopf „Weiter mit der Crew“, „Frei üben“ in sechs Kacheln, Seekarte 7 unter „Alte Folgen und Tests“, alte Navigationsschule eingeklappt. Von der Hauptsitzung gebaut (die Untermodelle waren am Nutzungslimit)
 - [x] **Etappe 4 Navi-Folge** (v5.68): Navi-Folge 1 mit drei Wachen, Schrittanzeige, Schritt-Zettel, Einstufung und Test am nächsten Abend; Texte nach `docs/navi-schreibregeln.md`
 - [x] **Tag 1 komplett neue Machart** (v5.69): 1-1 und 1-2 umgestellt (ohne Harms-Abschnitt, natürliche Fragen, kein Vortrag, ohne Bezug auf Folge 0)
-- [ ] **Etappe 5 Reiseplan und Serie** (erst nach dem Hörtest)
+- [x] **Lektorat** (v5.70, HR61): zweiter, unabhängiger Lauf über Tag 1 (zwei Durchgänge, zusammen 13 Fehler und rund 55 Hinweise, eingearbeitet; `docs/lektorat/tag-1.md`); Animation sog als eine Vorbeifahrt, Lieger im Wasser; Handystimme ohne „Anführungszeichen“; gold-1 heißt „Leise raus“, gold-2 „Warten auf die Fähre“
+- [ ] **Etappe 5 Reiseplan und Serie** (erst nach dem Hörtest). Stand der Inhalte: geschrieben sind 1-1, 1-2 und gold-1 bis gold-3 (22 der 285 Fragen). Der Reiseplan hat noch die alte Aufteilung (7 Tage, 1-1 bis 7-5; Plan-Folgen 1-4 „Rechts halten“ und 1-5 „Garn“ sind nicht geschrieben, in der App heißen gold-2 und gold-3 „1-4“ und „1-5“; „Dicke Pötte“ ist zugleich der Titel von gold-3 und von Plan-Folge 2-3). Wird beim Neuverteilen bereinigt.
 
 ### Was der Dichte-Messer zu den Gold-Folgen sagt (ehrlich)
 - gold-1: 3,5 Minuten reiner Sprechtext (mit Denkpausen, Glocken, Atempausen und Animation etwa sechs), Lernlast 10. Hinweis „viel“: begründet, weil 41 und 46 dieselbe Sache sind (Radeffekt und sein Name) und 47 nur ein Satz ist. Echte Last: zwei Dinge.
