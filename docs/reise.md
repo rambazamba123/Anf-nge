@@ -8,14 +8,14 @@
 ## 1. Die Geschichte in Kürze
 - **Ziel der Reise:** Wir bringen Smilla zu ihrem neuen Schiff. Das ist ein Segelschiff, auf dem Kapitän Harms Segelkurse gibt (die „Albertine“, liegt auf der Insel Harmsoog; Name bestätigt am 07.11.2026). Dort nimmt Harms auch dir die Prüfung ab und gibt dir den Schein.
 - **Warum du gebraucht wirst:**
-  - Beim Anheuern sagt man dir: Du musst die Prüfung bestehen, sonst muss Hinnerk allein heimfahren.
+  - Beim Anheuern sagt man dir: Du musst die Prüfung bestehen, sonst muss Hinnerk allein heimfahren. (Seit Folge 0 entfällt, GL8: Das sagt Harms in seiner Sprachnachricht in 1-1.)
   - Später kommt dazu: Hinnerk sieht nachts schlecht. Er weiß es selbst und gibt es nicht zu, auch vor sich nicht. Darum will er „vor Dunkelheit ankern, immer“. Eigentlich dürfte er nachts gar nicht mehr fahren (Frage 2: körperliche Mängel). Das kommt an Tag 5 raus, und ab da gehst du die Nachtwachen.
-- **Sieben Tage:**
+- **Sieben Tage** (seit E26 vorläufig: Mit Hörtagen von 20 bis 40 Minuten wird die Reise länger, neu verteilt in Etappe 5 von `docs/plan-hoerspiel-neu.md`):
   - Die Reise dauert sieben Reisetage. Wer frei hat und ein gutes Gedächtnis, kann sie in sieben echten Tagen durchspielen, sogar schneller.
   - Jeder Tag besteht aus mehreren Folgen und lässt sich jederzeit unterbrechen.
   - In der Praxis lernt man, so viel man will. Es darf auch mehrere Wochen dauern.
 - **Bonus:**
-  - **Folge 0 „Anheuern“** (Nutzer, 07.11.2026) ist der erste Start der App: Am Abend vor der Abfahrt kommst du an Bord, lernst Hinnerk, Smilla, Klabauter und Backbord kennen und machst mit der Crew die Grundeinstellungen. Harms wird nur erwähnt. Sie zählt nicht als erster Tag und wird später ausgearbeitet, zusammen mit dem geführten Rundgang durch die App (HR26).
+  - **Folge 0 „Anheuern“** (Nutzer, 07.11.2026; **entfallen am 16.11.2026, GL8**, Skript im Archiv; offen, wo Kennenlernen und Kiste stattdessen erklärt werden) war als erster Start der App gedacht: Am Abend vor der Abfahrt kommst du an Bord, lernst Hinnerk, Smilla, Klabauter und Backbord kennen und machst mit der Crew die Grundeinstellungen. Harms wird nur erwähnt. Sie zählt nicht als erster Tag und wird später ausgearbeitet, zusammen mit dem geführten Rundgang durch die App (HR26).
   - Der Rückweg nach dem Ziel ist ebenfalls Bonus.
 - **Die Crew wächst:**
   - Tag 1 morgens: Hinnerk, Smilla und du. Klabauter gehört zur Frieda, ist aber einfach abgehauen. Alle vermissen ihn; Hinnerk tut gleichgültig und legt trotzdem jeden Abend Zwieback raus.
