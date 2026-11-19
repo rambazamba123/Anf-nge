@@ -15,7 +15,7 @@
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
-    'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Das Heck will zu Paul', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
+    'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Leise raus', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
     'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Warten auf die Fähre', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
     'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf): Hafenkino, wer das Sagen hat'},

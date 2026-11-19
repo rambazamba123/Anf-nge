@@ -38,12 +38,12 @@ S('boot', {...HF, titel: 'Das Boot und seine Seiten', nr: 'A1.1', gruppe: 'A1 Bo
 
 /* ---------- A1.3 Radeffekt von oben: welche Seite zum Anlegen ---------- */
 S('radoben', {...HF, titel: 'Radeffekt von oben: Anlegeseite', nr: 'A1.3', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G2.1, G3.1',
-  bg: wasser() + pier(HH, 64), obj: {boot: BO.oben() + fender + prall(), txt: T(0, 0, '', 'middle', 18)},
-  start: {boot: {x: 250, y: 330, s: 1.7}, txt: {x: 240, y: 470}},
+  bg: wasser(), obj: {steg: pier(HH, 64), boot: BO.oben() + fender + prall(), txt: T(0, 0, '', 'middle', 18)},
+  start: {steg: {x: 0, y: 0, o: 0}, boot: {x: 250, y: 330, s: 1.7}, txt: {x: 240, y: 470}},
   enter(s, p) { q(s, '[data-o="txt"] text').textContent = ['Heck wandert nach Backbord', 'Backbord an der Pier', 'Heck zieht zur Pier', 'Steuerbord an der Pier', 'Heck zieht weg'][p] || ''; },
   phasen: [
     P(H, 'Erst im freien Wasser: Wir legen den Rückwärtsgang ein. Der rechtsdrehende Propeller wirft das Wasser rechts gegen das Heck, und das Heck wandert nach links, nach Backbord.', {cap: 'Rückwärts: Heck nach Backbord', k: {boot: {y: 360, r: 20}}, dur: 3.5, fx: zeigPrall(true)}),
-    P(M, 'Jetzt liegen wir mit Backbord an der Pier und wollen beim Anlegen aufstoppen.', {cap: 'Backbord zur Pier', k: {boot: {x: 106, y: 250, r: -12}}, dur: 2.5, fx: zeigPrall(false)}),
+    P(M, 'Jetzt liegen wir mit Backbord an der Pier und wollen beim Anlegen aufstoppen.', {cap: 'Backbord zur Pier', an: ['steg'], k: {boot: {x: 106, y: 250, r: -12}}, dur: 2.5, fx: zeigPrall(false)}),
     P(H, 'Rückwärts einkuppeln: Das Heck zieht zur Pier, das Boot legt sich von selbst parallel. Darum ist mit rechtsdrehendem Propeller Backbord die gute Seite.', {cap: 'Der Radeffekt hilft', k: {boot: {x: 99, r: 0}}, dur: 2.5, fx: zeigPrall(true)}),
     P(M, 'Andersherum, mit Steuerbord an der Pier …', {cap: 'Jetzt mit Steuerbord an der Pier', k: {boot: {x: 99, y: 250, r: 180}}, dur: .3, fx: zeigPrall(false)}),
     P(H, '… zieht das Heck beim Aufstoppen weg vom Steg, und das Boot steht schräg.', {cap: 'Steuerbordseite: Heck zieht weg', k: {boot: {x: 125, r: 205}}, dur: 2.5, fx: zeigPrall(true)})]});
@@ -246,23 +246,24 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       <rect width="400" height="500" fill="#dfeaf3"/><rect y="300" width="400" height="200" fill="#5ba7cf"/>${Array.from({length: 10}, (_, i) => `<path d="M${(i * 83) % 360 + 10} ${330 + (i * 47) % 150} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
       <g id="gwelt">
         <path d="${rumpf}" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><rect y="300" width="400" height="90" fill="#1f3b63" clip-path="url(#ghr)"/><path d="M34 242 H376" stroke="#c0392b" stroke-width="5"/>
-        <path id="gluke" d="M110 150 L118 158 H292 L302 150 Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2.5"/><path d="M110 150 V222 M302 150 V222" stroke="#5f5446" stroke-width="5"/>
+        <g id="gluke"><rect x="150" y="136" width="112" height="22" rx="4" fill="#b9874f" stroke="#7a5a3a" stroke-width="2.5"/><path d="M160 147 H252" stroke="#7a5a3a" stroke-width="2"/><rect x="198" y="128" width="16" height="9" rx="3" fill="#7a5a3a"/></g><path d="M110 150 L118 158 H292 L302 150 Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2.5"/><path d="M110 150 V222 M302 150 V222" stroke="#5f5446" stroke-width="5"/>
         <path d="${innen}" fill="#f3ead8" stroke="#8a7a66" stroke-width="2"/>
         <g clip-path="url(#ghin)"><path id="gfill" fill="url(#ggas)"/><g id="gps" filter="url(#gweich)"></g></g>
         ${Array.from({length: 7}, (_, i) => `<rect x="${66 + i * 40}" y="${BO_}" width="37" height="7" rx="2" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.2"/>`).join('')}
         ${T(200, 346, 'Bilge', 'middle', 18)}
-        <g id="gkiste"><rect x="66" y="270" width="88" height="48" rx="4" fill="#d8c3a0" stroke="#7a5a3a" stroke-width="2" fill-opacity=".45"/><rect x="62" y="264" width="96" height="8" rx="3" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.5"/>
+        <g id="gkiste" transform="translate(31 128) scale(.72)"><rect x="66" y="270" width="88" height="48" rx="4" fill="#d8c3a0" stroke="#7a5a3a" stroke-width="2" fill-opacity=".45"/><rect x="62" y="264" width="96" height="8" rx="3" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.5"/>
           <g id="gfl1"><rect x="92" y="280" width="28" height="36" rx="10" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="101" y="273" width="10" height="8" fill="#555"/></g>${T(110, 258, 'Schapp', 'middle', 15)}</g>
         <g><rect x="236" y="268" width="62" height="50" rx="4" fill="#e6e1d6" stroke="#6b6b6b" stroke-width="2"/><rect x="232" y="262" width="70" height="8" rx="2" fill="#7a7f87"/><circle cx="252" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="280" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/>${T(267, 300, 'Kocher', 'middle', 13)}
-          <path id="gltg" d="M120 312 H236" stroke="#6b6b6b" stroke-width="3"/></g>
+          <path id="gltg" d="M118 334 V312 H236" stroke="#6b6b6b" stroke-width="3" fill="none"/></g>
         <g id="gsch"><rect x="270" y="186" width="16" height="22" rx="3" fill="#fff" stroke="#7a6a4a" stroke-width="2"/><rect id="gkn" x="275" y="190" width="6" height="8" rx="2" fill="#7a6a4a"/><path id="gfunk" d="M290 186 l9 -12 l-3 9 l9 -3 l-12 15 l3 -9z" fill="#ffd400" stroke="#c08a00" stroke-width="1.5" opacity="0"/></g>
         <g id="glampe"><path d="M196 158 V168" stroke="#555" stroke-width="2"/><path d="M186 168 H206 L202 176 H190Z" fill="#e8d27a" stroke="#7a6a4a"/></g>
         <g id="gkast" opacity="0"><rect x="44" y="176" width="46" height="44" rx="4" fill="#9aa4ae" stroke="#4a525c" stroke-width="2"/><rect x="56" y="182" width="22" height="34" rx="9" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="40" y="212" width="9" height="7" fill="#1d2630"/>${T(68, 168, 'Gaskasten', 'middle', 15)}</g>
-        <g id="gzu" opacity="0"><circle cx="106" cy="275" r="11" fill="#fff" stroke="#1f9a3c" stroke-width="3"/><path d="M99 275 H113" stroke="#1f9a3c" stroke-width="4" stroke-linecap="round"/></g>
+        <g id="gzu" opacity="0" transform="translate(0 50)"><circle cx="106" cy="275" r="11" fill="#fff" stroke="#1f9a3c" stroke-width="3"/><path d="M99 275 H113" stroke="#1f9a3c" stroke-width="4" stroke-linecap="round"/></g>
         <g id="gluft" opacity="0" fill="#fff" stroke="#3d8fb8" stroke-width="3"><path d="M150 140 v-26" fill="none"/><path d="M143 120 l7 -10 l7 10z"/><path d="M250 140 v-26" fill="none"/><path d="M243 120 l7 -10 l7 10z"/></g>
         <g id="gverbot" opacity="0"><circle cx="278" cy="197" r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M264 211 L292 183" stroke="#c0392b" stroke-width="4"/>
           <g transform="translate(330 196)"><rect x="-9" y="-16" width="18" height="32" rx="4" fill="#2b3a4a"/><rect x="-6" y="-12" width="12" height="20" fill="#8fc6e8"/><circle r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M-14 14 L14 -14" stroke="#c0392b" stroke-width="4"/></g></g>
       </g>
+      <g id="gloch" opacity="0"><path d="M150 150 L162 168 L176 156 L190 174 L206 158 L222 176 L238 160 L252 172 L262 150 Z" fill="#2b2b2b"/><path d="M120 200 l20 14 M290 196 l-18 18 M200 230 l6 22" stroke="#2b2b2b" stroke-width="4" stroke-linecap="round"/></g>
       <g id="gboom" opacity="0"><circle id="gball" cx="200" cy="300" r="10" fill="url(#gfeuer)"/><path id="gstern" fill="#ffd23a" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round"/><g id="gsplit"></g></g>
       <rect id="gflash" width="400" height="500" fill="#fff3c4" opacity="0"/><g id="grauch"></g><g id="gqualm" filter="url(#gweich)"></g>
       <text class="t gwum" x="200" y="140" text-anchor="middle" font-size="64" fill="#c0392b" opacity="0">WUMM!</text>
@@ -277,7 +278,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       q(s, '.ghin').textContent = ['', '', 'Gas läuft nach außenbords ab', ''][p] || ''; },
     tick(s, tp, p, st) {
       const dt = st.dt || .016, ps = st.ps, top = BI - st.fill * 58;
-      if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 106, y: 278, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
+      if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 107, y: 332, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
       if (p === 2 && Math.random() < dt * 12) ps.push({x: 42, y: 216, vx: -14 - Math.random() * 10, vy: 6, r: 6 + Math.random() * 5, a: 1, raus: true});
       for (const k of ps) { k.vy += (k.raus ? 22 : 26) * dt; k.vy = Math.min(k.vy, 60); k.x += k.vx * dt; k.y += k.vy * dt; k.r += dt * 2;
         if (!k.raus) { if (k.x > 330) k.vx = -Math.abs(k.vx); if (k.x < 64) k.vx = Math.abs(k.vx); if (k.y >= top - 4) { k.vx *= .9; k.a -= dt * 2.2; } }
@@ -298,12 +299,13 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
         q(s, '#gsplit').innerHTML = st.split.map(k => { const x = 200 + Math.cos(k.a) * k.v * b, y = 310 + Math.sin(k.a) * k.v * b + 160 * b * b; return `<rect x="${(x - k.w / 2).toFixed(0)}" y="${(y - 3).toFixed(0)}" width="${k.w.toFixed(0)}" height="6" rx="2" fill="#8a5a2a" transform="rotate(${(k.r + b * 400).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})"/>`; }).join('');
         const sh = Math.max(0, 1 - b / 1.2) * 9; put(q(s, '#gwelt'), {transform: `translate(${((Math.random() - .5) * sh).toFixed(1)} ${((Math.random() - .5) * sh).toFixed(1)})`});
         /* v5.70 (Lektorat): die Luke fliegt weg wie in Hilkes Geschichte */
-        put(q(s, '#gluke'), {transform: `translate(${(b * 40).toFixed(0)} ${(-Math.min(260, b * 330) + 60 * b * b).toFixed(0)}) rotate(${(b * 160).toFixed(0)} 206 154)`});
+        put(q(s, '#gloch'), {opacity: b > .5 ? 1 : 0});
+        put(q(s, '#gluke'), {transform: `translate(${(b * 40).toFixed(0)} ${(-Math.min(260, b * 330) + 60 * b * b).toFixed(0)}) rotate(${(b * 160).toFixed(0)} 206 147)`, opacity: b > 2.2 ? 0 : 1});
         put(q(s, '#gflash'), {opacity: Math.max(0, .9 - b * 2.2).toFixed(2)}); put(q(s, '.gwum'), {opacity: b > .1 && b < 2.6 ? 1 : 0, 'font-size': (64 + Math.min(1, b * 3) * 16).toFixed(0)});
         put(q(s, '#gfill'), {opacity: b > .3 ? 0 : 1});
         if (!st.qu) st.qu = Array.from({length: 18}, (_, i) => ({x: 90 + Math.random() * 220, y: 240 + Math.random() * 100, r: 18 + Math.random() * 22, v: 12 + Math.random() * 18}));
         q(s, '#gqualm').innerHTML = b < .5 ? '' : st.qu.map(k => `<circle cx="${k.x.toFixed(0)}" cy="${Math.max(110, k.y - (b - .5) * k.v * 3).toFixed(0)}" r="${(k.r * Math.min(2, .6 + (b - .5) * .5)).toFixed(0)}" fill="#5a5a5a" fill-opacity="${Math.min(.75, (b - .5) * .8).toFixed(2)}"/>`).join(''); }
-      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gluke'), {transform: ''}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
+      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gluke'), {transform: ''}); put(q(s, '#gloch'), {opacity: 0}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
     }});
 })();
 

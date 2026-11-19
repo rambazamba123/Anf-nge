@@ -31,11 +31,10 @@ machart: neu
 SMILLA: Der fährt Vollgas. Im Hafen!
 HINNERK: Festhalten.
 SMILLA: [[INTENTION: aufgeregt]] Guck dir die Boote an den Stegen an! Die knallen alle gegeneinander.
-[[ANIM: sog, 4]]
 HINNERK: Pütz und Persenning!
 SMILLA: Beim Segler da vorne fliegt der Kaffeebecher.
 HINNERK: Kaffee gehört nich an Deck.
-SMILLA: Und weg ist er. Hat sich nicht mal umgedreht.
+SMILLA: Und der Raser ist weg. Hat sich nicht mal umgedreht.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Du fährst in einem engen Hafen an festgemachten Booten vorbei. Was ist richtig: schnell durch, damit es kurz ist, oder Gas weg?
@@ -45,13 +44,14 @@ SMILLA: Frage an dich. Du fährst in einem engen Hafen an festgemachten Booten v
 SMILLA: Gas weg. Je schneller ein Boot fährt, desto mehr Welle und Sog macht es. Die Boote am Steg können nicht ausweichen. Sie werden gegen den Steg und gegeneinander geworfen, und der Sog zerrt an ihren Leinen. Darum fährst du so langsam vorbei, dass sie ruhig liegen bleiben.
 [[VERTIEFUNG: ende]]
 HINNERK: Gas weg. So langsam, dat die liegen bleiben.
-[[ANIM: sog, 5]]
+[[ANIM: sog, 4]]
 SMILLA: Sonst wirft deine Welle sie gegen den Steg, und dein Sog zerrt an ihren Leinen.
 HINNERK: Letztes Jahr hat einer zu Hilke gesagt: „Ich gleite doch. Da gibt's keine Welle.“
 SMILLA: Und?
 HINNERK: Hilke hat ihm 'ne Rechnung über drei Fender geschrieben.
 SMILLA: Die kann das.
 HINNERK: Die kann dat.
+[[ANIM: sog, 5]]
 SMILLA: Merk's dir so: An Liegern vorbei wie an einem schlafenden Hund. Leise und langsam.
 HINNERK: Der Segler winkt.
 SMILLA: Das ist kein Winken, Käpt'n.
@@ -87,7 +87,7 @@ SMILLA: Der war eh kalt.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 HINNERK: Und dat war mit Abstand.
-SMILLA: Frage an dich. Was droht einem kleinen Boot, das ganz dicht an so ein Schiff heranfährt: Es wird nur nass, oder es kann kentern und herangezogen werden?
+SMILLA: Frage an dich, du hast es eben gespürt. Was droht einem kleinen Boot, das ganz dicht an so ein Schiff heranfährt: Es wird nur nass, oder es kann kentern und herangezogen werden?
 [[WAHL: sbf:34 | es wird nur nass | *es kann kentern und herangezogen werden]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:34]]
@@ -107,7 +107,7 @@ HINNERK: So. Frei. Kurs null-vier-null.
 SMILLA: Null-vier-null Grad. Ungefähr Nordost.
 HINNERK: Bis zur grünen Tonne. Die bleibt links. Dann rum nach Westen, in die Brede.
 SMILLA: Und wenn uns da draußen so ein Dicker überholt?
-HINNERK: Dann bleibt der dreimal so lang neben dir.
+HINNERK: Dann bleibt der viel länger neben dir als die Fähre eben.
 SMILLA: Erst schiebt dich sein Stau zur Seite, dann zieht dich der Sog ran, und am Ende schüttelt dich der Schwell. Im Flachen kannst du dabei sogar auf Grund laufen.
 HINNERK: Trifft immer den Kleinen. Der Große merkt nix.
 SMILLA: Also: Platz machen, lange bevor er da ist.

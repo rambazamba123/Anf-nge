@@ -56,7 +56,7 @@ SMILLA: Hm. Frage an dich, und ich bin selbst gespannt. Ob ein Propeller rechtsd
 [[VERTIEFUNG: sbf:44]]
 SMILLA: Von achtern, also von hinten. Stell dich hinters Boot und schau nach vorn, in Fahrtrichtung. Dreht der Propeller bei Vorausfahrt mit der Uhr, ist er rechtsdrehend. Von vorne sähe dieselbe Drehung genau andersrum aus, darum gehört die Blickrichtung immer dazu.
 [[VERTIEFUNG: ende]]
-HINNERK: Von achtern. So, wie du am Ruder stehst und nach vorn guckst.
+HINNERK: Von achtern. So, wie du hinten am Steuer sitzt und nach vorn guckst.
 SMILLA: Okay. Punkt für dich, Käpt'n.
 SMILLA: Also richtig: Du stehst hinterm Boot und schaust nach vorn. Das Boot fährt voraus. Dreht der Propeller mit der Uhr, ist er ein Rechtsdreher.
 HINNERK: Und gegen die Uhr?

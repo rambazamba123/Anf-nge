@@ -86,7 +86,7 @@ HINNERK: Vom Festmachen. Wat denkst du denn.
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer das Boot führt, so wie bei denen da drüben. Wird dann einer gewählt, oder wird einer bestimmt?
+SMILLA: Frage an dich. Angenommen, vor der Fahrt steht nicht fest, wer das Boot führt. Wird dann einer gewählt, oder wird einer bestimmt?
 [[WAHL: sbf:1 | gewählt | *bestimmt]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:1]]
@@ -95,7 +95,7 @@ SMILLA: Bestimmt, nicht gewählt. Einer muss vor dem Ablegen festgelegt werden, 
 HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu.
 HINNERK: An Bord is keine Demokratie. Einer wird bestimmt. Vorher.
 SMILLA: Wenn's eng wird, ist keine Zeit zum Abstimmen.
-HINNERK: Kiek. Jetzt zeigen alle vier auf den Dicken. Abgestimmt.
+HINNERK: Kiek. Jetzt zeigen alle auf den mit der Mütze. Abgestimmt.
 SMILLA: Bei uns ist das ja klar, oder?
 HINNERK: Ich.
 SMILLA: Und wer hat das bestimmt?
@@ -152,7 +152,7 @@ HINNERK: Sieben Komma fünf. Dat is doch nix.
 SMILLA: Für so eine Nussschale reicht's. Und pass auf, da steckt eine Falle drin.
 SMILLA: Elf Komma null drei Kilowatt, das ist die Grenze für Verbrennungsmotoren. Fünfzehn Pferdestärken.
 HINNERK: Pferdestärken. Dat sind Pferde.
-SMILLA: Für Elektro gilt das nicht. Elektro: sieben Komma fünf Kilowatt. Ungefähr die Hälfte.
+SMILLA: Für Elektro gilt das nicht. Elektro: sieben Komma fünf Kilowatt. Deutlich weniger.
 HINNERK: [[SPRUCH: hi-erkennung-01]] Sag ich doch.
 SMILLA: Du hast gesagt, das ist verboten.
 HINNERK: Für die mit Sonnenhut.
@@ -177,7 +177,7 @@ SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
 SMILLA: Warum eigentlich immer?
 [[AUDIO: Telefon]]
-HINNERK: [[INTENTION: genervt]] Sprachnachricht. Um die Uhrzeit. Von Harms.
+HINNERK: [[INTENTION: genervt]] Sprachnachricht. Von Harms.
 SMILLA: Mach laut.
 HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog.
 HARMS: {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord. Bis dahin ruf ich zwischendurch an und frag ab, was hängen geblieben ist.

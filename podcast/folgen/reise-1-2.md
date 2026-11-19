@@ -61,7 +61,6 @@ HAFENMEISTER: Weil ich's noch nie gesehen hab.
 SMILLA: Einmal geht's nicht gut. Und dann reicht's für immer. Die Streichhölzer bleiben bei mir.
 HAFENMEISTER: Weißt du, warum ich da so pingelig bin?
 HINNERK: Erzähl. Machst du ja eh.
-[[ANIM: gas, 0]]
 HAFENMEISTER: Benzindampf und Gas sind schwerer als Luft. Die steigen nicht weg. Die kriechen nach unten. Ins Boot, in die Bilge, ganz nach unten.
 HAFENMEISTER: Stell dir Wasser vor, das du nicht siehst. Es läuft in jede Ecke und bleibt da liegen. Und da wartet es auf einen Funken.
 SMILLA: Und mit Luft gemischt knallt es.
@@ -72,7 +71,9 @@ HINNERK: Ja, ja. Is ja gut.
 [[SZENE: Hinnerk steckt die Zapfpistole in den Tankstutzen der Frieda. Die Hafenmeisterin steht auf dem Steg daneben, Hafen.]]
 [[REVIER: hafen]]
 [[STOFF: sbf:49, sbf:43]]
+[[AUDIO: Motor]]
 SMILLA: Käpt'n, der Motor läuft noch.
+HAFENMEISTER: Hinnerk.
 HINNERK: Weiß ich.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
@@ -107,7 +108,7 @@ SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du dam
 [[DENKPAUSE: 6]]
 [[AUDIO: Schiffsglocke]]
 [[ANIM: tanken, 5]]
-HINNERK: Lappen. Aufnehmen. Ab an Land in die Tonne.
+HINNERK: Lappen. Aufnehmen. Ab an Land in die Öltonne.
 HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer.
 HAFENMEISTER: Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
 SMILLA: Lüften und abwarten hilft also nicht, Spülmittel auch nicht. Und ins Wasser darf es sowieso nicht.
@@ -121,6 +122,7 @@ HINNERK: Natürlich.
 HAFENMEISTER: Wenigstens die Gasflasche steht bei dir richtig, Hinnerk.
 HINNERK: Steht da seit dreißig Jahren.
 HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten im Boot. In einem Schapp unter den Bodenbrettern.
+[[ANIM: gas, 0]]
 HINNERK: Oha.
 HAFENMEISTER: Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
 [[ANIM: gas, 1]]
@@ -139,7 +141,7 @@ HINNERK: Darum steht meine an Deck. Im Schatten.
 [[ANIM: gas, 2]]
 SMILLA: Und wo's an Deck nicht geht: ein eigener Kasten mit einem Loch ganz unten nach außenbords. Da kann das Gas raus.
 HAFENMEISTER: Ein Lüftungsloch oben nützt nix. Gas geht nicht nach oben.
-HAFENMEISTER: So. Ich hab noch drei Charterboote vor mir. Und du, Hinnerk, der Strom. Heute.
+HAFENMEISTER: So. Ich hab noch drei Charterboote vor mir. Hochwasser ist um elf, falls ihr raus wollt. Und du, Hinnerk, der Strom. Heute.
 HINNERK: Ja, ja.
 [[AUDIO: Schritte]]
 
@@ -173,7 +175,7 @@ HINNERK: Wär ja auch Verschwendung.
 SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
 HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
 SMILLA: Solange.
-SMILLA: Hilke sagt, Hochwasser ist um elf. Wenn wir jetzt losmachen, haben wir in der Brede den Strom mit.
+SMILLA: Hochwasser um elf, hat Hilke gesagt. Wenn wir jetzt losmachen, haben wir in der Brede den Strom mit.
 HINNERK: Gleich geht's los.
 SMILLA: Und Hilkes Stromrechnung?
 HINNERK: Morgen.

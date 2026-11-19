@@ -66,6 +66,11 @@ function mechanik(txt, name) {
     if (vorher && /^(Und|Genau|Richtig|Stimmt)[.?!]?$/.test(t) && vorher.wer === m[1]) f.push({n, art: 'Hinweis', t: `„${t}“ antwortet auf die eigene Zeile davor (gleiche Figur)`});
     vorher = {wer: m[1], t};
   });
+  /* zwei Bild-Zeilen direkt hintereinander (nur Regie dazwischen): die erste ist nie zu sehen (Lektorat 19.11.2026) */
+  let letzteAnim = null;
+  z.forEach((roh, i) => { const t = roh.trim(); if (!t || t.startsWith('#')) return;
+    if (/^\[\[ANIM:/.test(t)) { if (letzteAnim) f.push({n: i + 1, art: 'Fehler', t: `zwei Bild-Zeilen hintereinander (Z.${letzteAnim} wird nie zu sehen sein): einen Satz dazwischen setzen`}); letzteAnim = i + 1; return; }
+    if (/^[A-ZÄÖÜ_]+:/.test(t) || /^\[\[(WAHL|DENKPAUSE|ABSCHNITT)/.test(t)) letzteAnim = null; });
   return f.map(x => ({...x, datei: name}));
 }
 /* ---------- Zusammenhang ---------- */

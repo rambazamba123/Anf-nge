@@ -1,6 +1,6 @@
 ---
 folge: gold-1
-titel: Das Heck will zu Paul
+titel: Leise raus
 status: test
 hoerreise: ja
 machart: neu
@@ -29,6 +29,7 @@ machart: neu
 [[SZENE: Kuttershaven, Bootstankstelle am Steg im Hafen, später Vormittag, Sonne, kaum Wind. Die Frieda liegt mit Steuerbord an der Tankstelle. Schräg hinter ihr, an Backbord, liegt Pauls Boot am Nachbarsteg. Hilke steht auf dem Steg, Hinnerk am Außenborder, Smilla an der Vorleine, du stehst vorn.]]
 [[REVIER: hafen]]
 [[AUDIO: Möwen]]
+[[AUDIO: Schritte]]
 HAFENMEISTER: Zweiundvierzig Euro, Hinnerk. Ich hol den Quittungsblock. Und du bleibst, wo du bist.
 HINNERK: Wo soll ich denn hin.
 [[AUDIO: Schritte]]
@@ -100,7 +101,7 @@ HINNERK: Dat wird teurer.
 [[STOFF: sbf:47, sbf:48]]
 [[AUDIO: Möwen]]
 HINNERK: Kaffee is kalt.
-SMILLA: Weil du ihn an der Tankstelle hast stehen lassen.
+SMILLA: Weil du ihn an der Tankstelle nicht angerührt hast.
 HINNERK: Abgelegt.
 SMILLA: So. Du hast es jetzt zweimal gesehen. Und morgen brauchst du es.
 HINNERK: Morgen is Klüverhafen.
@@ -116,12 +117,12 @@ SMILLA: Frage an dich. Beim Aufstoppen zieht das Heck nach links. An welcher Sei
 [[VERTIEFUNG: sbf:48]]
 SMILLA: Denk an eben. Rückwärts zieht das Heck nach Backbord, also nach links. Liegt die Pier links, zieht es dich genau dorthin, und du liegst von allein längsseits. Liegt sie rechts, zieht es dich von ihr weg.
 [[VERTIEFUNG: ende]]
-HINNERK: Backbord. Dann zieht dich dat Heck von allein ran.
 [[ANIM: radoben, 2]]
+HINNERK: Backbord. Dann zieht dich dat Heck von allein ran.
 [[ANIM: radoben, 4]]
 SMILLA: Und an Steuerbord zieht es dich weg. Dann hängst du einen Meter vor der Pier, und vorne fuchtelt einer mit der Leine.
-HINNERK: Wie die vom Charter heute früh.
-SMILLA: Genau die. Rückwärts zu spät, und keiner wusste, wohin mit der Leine.
+HINNERK: Wie der Dicke vom Charter heute früh. Leine in der Hand und keine Ahnung, wohin.
+SMILLA: Genau der.
 HINNERK: Merk dir: Rechtsdreher legt links an.
 SMILLA: Rechtsdreher, so heißt unser Propeller. Was das genau bedeutet, zeig ich dir gleich am Motor.
 HINNERK: Erst mal raus hier.

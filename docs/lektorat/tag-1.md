@@ -78,3 +78,32 @@
 - Umbau-Reste (Ort, Requisiten, Geräusche) waren die häufigste Fehlerart: Nach jedem Umbau einer Folge den Lektor erneut laufen lassen.
 - Karten „Heute an Bord“ und Kapitelnamen können Antworten verraten: in den Auftrag aufgenommen (Punkt 6), `tools/lektorat.js` zeigt sie in der Hörfassung.
 - Neu im Player: `[[ANIM: id, 0]]` hält eine Phase fest; ohne Zahl läuft eine Animation ganz durch, wenn im Kapitel keine weitere Phase folgt.
+
+# Zweiter Lauf am 19.11.2026 (frischer Lektor, prüft die Korrekturen)
+Ergebnis: Die Korrekturen aus dem ersten Lauf tragen fast alle. Neu oder offen waren zwei Fehler und einige Bezugsfehler, wie sie bei Umbauten typisch sind.
+
+| Folge | Befund | Schwere | Entscheidung |
+|---|---|---|---|
+| 1-1 | „Ungefähr die Hälfte“ (7,5 kW sind zwei Drittel von 11,03 kW; mischt kW und PS) | Fehler | ✓ „Deutlich weniger.“ |
+| 1-1 | Wer sagt an, die Mütze oder der Dicke? | Hinweis | ✓ „alle zeigen auf den mit der Mütze“ |
+| 1-1 | „so wie bei denen da drüben“ passt nicht zu „vor der Fahrt“ | Hinweis | ✓ „Angenommen, vor der Fahrt steht nicht fest …“ |
+| 1-1 | „Um die Uhrzeit“ um halb neun | Hinweis | ✓ gestrichen |
+| 1-2 | Laufender Motor war nie zu hören, Hilke sagt nichts | Hinweis | ✓ Motorgeräusch zu Beginn von Kapitel 2, Hilke: „Hinnerk.“ |
+| 1-2 | „in die Tonne“: ölige Lappen nicht in den Hausmüll | Hinweis | ✓ „Öltonne“ |
+| 1-2 | „Hilke sagt, Hochwasser um elf“: hat sie nie gesagt | Hinweis | ✓ Hilke sagt es beim Gehen |
+| 1-3 | Bild „Backbord an der Pier“ nie zu sehen (zwei Bild-Zeilen direkt hintereinander) | Fehler | ✓ Phase 2 vor Hinnerks „Backbord …“, Phase 4 danach |
+| 1-3 | Charter-Vergleich passt nicht (sie sind dagegengefahren) | Hinweis | ✓ „Wie der Dicke vom Charter heute früh. Leine in der Hand und keine Ahnung, wohin.“ |
+| 1-3 | Kaffee „stehen lassen“ und trotzdem in der Hand | Hinweis | ✓ „nicht angerührt“ |
+| 1-3 | Hilke spricht, ohne dass man sie kommen hört | Hinweis | ✓ Schritte davor |
+| 1-3 | Titel „Das Heck will zu Paul“ verrät die Ratefrage | Hinweis | ✓ Folge heißt „Leise raus“ |
+| 1-4 | „am Ruder“ und dreißig Zeilen später „Wir haben kein Ruder“ | Hinweis | ✓ „hinten am Steuer sitzt“ |
+| 1-5 | „Und weg ist er“ klingt nach dem Kaffeebecher | Hinweis | ✓ „Und der Raser ist weg.“ |
+| 1-5 | „dreimal so lang“ ohne Bezug und als feste Regel | Hinweis | ✓ „viel länger neben dir als die Fähre eben“ |
+| 1-5 | Frage nach Sog und Welle direkt nach dem Erlebnis | Hinweis | ◐ bewusst als Abruf angekündigt („du hast es eben gespürt“) |
+| radoben P0 | Steg an der falschen Seite, Heck zieht auf ihn zu | Hinweis | ✓ Steg erst ab Phase 1; ◐ die Drehung um die Mitte bleibt (Zeichnung) |
+| gas | Schapp über statt unter den Bodenbrettern | Hinweis | ✓ unter die Bretter gezeichnet |
+| gas P1 | Luke nur ein Strich, Boot danach heil | Hinweis | ✓ Holzluke fliegt weg, danach Loch im Aufbau und Risse |
+| gas P0 in Kapitel 1 | Flasche unten zu sehen, bevor Hilke sagt, dass Hinnerks richtig steht | Hinweis | ✓ Animation erst bei Hilkes Geschichte in Kapitel 3 |
+| sog P4 | „Zu schnell“ steht während der Frage auf dem Bildschirm | Hinweis | ✓ Phase 4 erst nach der Auflösung, Phase 5 beim Merksatz |
+
+Neue Fehlerart für den Katalog: **zwei Bild-Zeilen direkt hintereinander** (die erste ist nie zu sehen). → `tools/lektorat.js --mechanik` meldet das jetzt.
