@@ -22,7 +22,7 @@ machart: neu
 # Fachlich: Fragen 34, 36, 37, 61 nach data/sbf.json, Merksätze wie data/karten-sbf.json. Ohne quellen/ geprüft (R8).
 # Länge: etwa sechs Minuten.
 
-[[HEUTE: Langsam an festgemachten Booten vorbei | Eng wird's: Fahrt raus und Platz lassen | Abstand zu großen Schiffen]]
+[[HEUTE: Wie man an festgemachten Booten vorbeifährt | Eng wird's: Fahrt raus und Platz lassen | Abstand zu großen Schiffen]]
 
 [[ABSCHNITT: Der Raser]]
 [[SZENE: Vor der Hafenausfahrt von Kuttershaven, später Vormittag, Sonne, leichter Wind. Links und rechts liegen Boote an den Stegen im Hafen. Die Frieda wartet auf die Fähre, Hinnerk am Außenborder, Smilla und du am Heck. Von hinten kommt ein schnelles Motorboot.]]
@@ -33,8 +33,8 @@ HINNERK: Festhalten.
 SMILLA: [[INTENTION: aufgeregt]] Guck dir die Boote an den Stegen an! Die knallen alle gegeneinander.
 [[ANIM: sog, 4]]
 HINNERK: Pütz und Persenning!
-SMILLA: Bei Paul fliegt der Kaffeebecher. Da hat ihm auch dein Fender nicht geholfen.
-HINNERK: Is nich mein Fender.
+SMILLA: Beim Segler da vorne fliegt der Kaffeebecher.
+HINNERK: Kaffee gehört nich an Deck.
 SMILLA: Und weg ist er. Hat sich nicht mal umgedreht.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
@@ -45,6 +45,7 @@ SMILLA: Frage an dich. Du fährst in einem engen Hafen an festgemachten Booten v
 SMILLA: Gas weg. Je schneller ein Boot fährt, desto mehr Welle und Sog macht es. Die Boote am Steg können nicht ausweichen. Sie werden gegen den Steg und gegeneinander geworfen, und der Sog zerrt an ihren Leinen. Darum fährst du so langsam vorbei, dass sie ruhig liegen bleiben.
 [[VERTIEFUNG: ende]]
 HINNERK: Gas weg. So langsam, dat die liegen bleiben.
+[[ANIM: sog, 5]]
 SMILLA: Sonst wirft deine Welle sie gegen den Steg, und dein Sog zerrt an ihren Leinen.
 HINNERK: Letztes Jahr hat einer zu Hilke gesagt: „Ich gleite doch. Da gibt's keine Welle.“
 SMILLA: Und?
@@ -52,7 +53,7 @@ HINNERK: Hilke hat ihm 'ne Rechnung über drei Fender geschrieben.
 SMILLA: Die kann das.
 HINNERK: Die kann dat.
 SMILLA: Merk's dir so: An Liegern vorbei wie an einem schlafenden Hund. Leise und langsam.
-HINNERK: Paul winkt.
+HINNERK: Der Segler winkt.
 SMILLA: Das ist kein Winken, Käpt'n.
 
 [[ABSCHNITT: Die Fähre]]
@@ -106,11 +107,13 @@ HINNERK: So. Frei. Kurs null-vier-null.
 SMILLA: Null-vier-null Grad. Ungefähr Nordost.
 HINNERK: Bis zur grünen Tonne. Die bleibt links. Dann rum nach Westen, in die Brede.
 SMILLA: Und wenn uns da draußen so ein Dicker überholt?
-HINNERK: Dann dauert dat Ganze dreimal so lang.
+HINNERK: Dann bleibt der dreimal so lang neben dir.
 SMILLA: Erst schiebt dich sein Stau zur Seite, dann zieht dich der Sog ran, und am Ende schüttelt dich der Schwell. Im Flachen kannst du dabei sogar auf Grund laufen.
 HINNERK: Trifft immer den Kleinen. Der Große merkt nix.
 SMILLA: Also: Platz machen, lange bevor er da ist.
 HINNERK: Sag ich doch.
+SMILLA: Hast du nicht.
+HINNERK: Hab ich gedacht.
 SMILLA: Heute Nachmittag guckst du mal in den Motor, Ausguck.
 HINNERK: Lieber nich.
 [[MITNEHMEN: An festgemachten Booten langsam vorbei, wegen Sog und Wellenschlag | Im engen Fahrwasser: Fahrt herabsetzen und Abstand halten | Große Schiffe: Die Welle wirft um, der Sog zieht heran. Beim Überholen trifft es den Kleinen]]

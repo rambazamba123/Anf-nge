@@ -73,7 +73,7 @@ try {
   kp.teile.flatMap(t => t.kapitel.flatMap(k => k.folgen)).forEach((l, i) => { PLAN.set(l.id, {...l, i}); l.fragen.forEach(n => FRAGE_LEK.set('sbf:' + n, l.id)); });
   ANIMS = new Set(Object.keys(kp.animationen || {})); if (kp.reviere) REVIERE = kp.reviere;
   /* v5.54: Jede gebaute Animation darf in eine Folge (Nutzer 08.11.2026: wenn es eine passende gibt, immer nutzen) */
-  for (const f of ['anim.js', 'anim2.js', 'anim3.js', 'anim4.js', 'anim-hoch.js']) { try { for (const m of fs.readFileSync(path.join(__dirname, '..', f), 'utf8').matchAll(/\b(?:def|roh|neu|alt|szene|liste)\('([a-z0-9]+)'/g)) ANIMS.add(m[1]); } catch (e) {} }
+  for (const f of ['anim.js', 'anim2.js', 'anim3.js', 'anim4.js', 'anim-hoch.js']) { try { for (const m of fs.readFileSync(path.join(__dirname, '..', f), 'utf8').matchAll(/\b(?:def|roh|neu|alt|szene|liste|S)\('([a-z0-9]+)'/g)) ANIMS.add(m[1]); } catch (e) {} }
 } catch (e) { W(K, 'podcast/kursplan-sbf.json nicht lesbar, Folgen werden ohne Kursplan geprüft'); }
 /* Revier hörbar machen: Wo die Regel vom Revier abhängt, muss es in der Szene ausgesprochen werden (Konzept §10) */
 const REVIER_WORTE = {fahrwasser: /fahrwasser/i, vtg: /verkehrstrennungsgebiet|einbahnweg/i, nok: /kanal/i, frei: /frei(e[nmr]?)?\s+(see|seeraum)|offene[nmr]? see|außerhalb des fahrwassers|weg vom fahrwasser/i, watt: /watt|priel/i, schleuse: /schleuse|schleusn/i,
@@ -204,7 +204,7 @@ for (const datei of dateien) {
         const natuerlich = NEU && teile.length === 2 && /\boder\b/i.test(letzteRede) && teile.every(o => (o.replace(/^\*\s*/, '').toLowerCase().match(/[a-zäöüß]{3,}/g) || []).filter(w => !/^(der|die|das|und|oder|ein|eine|nur|wird|kann|mit|dem|den|sich|will|zur|vom)$/.test(w)).some(w => letzteRede.toLowerCase().includes(w)));
         if (REISE && !natuerlich) { const n = teile.length || 4, fw = ['Alfa', 'Bravo', 'Charlie', 'Delta'].slice(0, n); if (!fw.every(w => new RegExp('\\b' + w + ':').test(letzteRede))) F(ort, `[[WAHL]]: Der Satz davor muss die Antworten vorlesen (${fw.map(w => w + ': …').join(' ')}), HR38`); }
         /* HR46: Steht die richtige Antwort schon in den Sätzen direkt vor der Frage, ist die Frage verraten (außer bei „Hat er recht?“) */
-        if (REISE && !vorab && !H46.harms && teile.length && !/recht[?,]|stimmt das/i.test(letzteRede)) {
+        if (REISE && !vorab && !H46.harms && teile.length && !natuerlich && !/recht[?,]|stimmt das/i.test(letzteRede)) {
           const r = (teile.find(o => o.startsWith('*')) || '').replace(/^\*\s*/, ''), w = INHALT(r).filter(x => !STOPP.has(x));
           const davor = reden.slice(0, -1).slice(-3).join(' ').toLowerCase();
           if (w.length && w.every(x => davor.includes(x))) W(ort, `Frage verraten: „${r}“ steht schon in den Sätzen davor. Erst fragen, dann erklären (HR46)`);

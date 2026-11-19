@@ -61,11 +61,10 @@ HAFENMEISTER: Weil ich's noch nie gesehen hab.
 SMILLA: Einmal geht's nicht gut. Und dann reicht's für immer. Die Streichhölzer bleiben bei mir.
 HAFENMEISTER: Weißt du, warum ich da so pingelig bin?
 HINNERK: Erzähl. Machst du ja eh.
-[[ANIM: gas]]
+[[ANIM: gas, 0]]
 HAFENMEISTER: Benzindampf und Gas sind schwerer als Luft. Die steigen nicht weg. Die kriechen nach unten. Ins Boot, in die Bilge, ganz nach unten.
 HAFENMEISTER: Stell dir Wasser vor, das du nicht siehst. Es läuft in jede Ecke und bleibt da liegen. Und da wartet es auf einen Funken.
 SMILLA: Und mit Luft gemischt knallt es.
-[[ANIM: gas, 1]]
 HAFENMEISTER: Richtig. Darum ist an meiner Tankstelle alles aus, was einen Funken machen kann. Auch dein Streichholz, Hinnerk.
 HINNERK: Ja, ja. Is ja gut.
 
@@ -74,16 +73,17 @@ HINNERK: Ja, ja. Is ja gut.
 [[REVIER: hafen]]
 [[STOFF: sbf:49, sbf:43]]
 SMILLA: Käpt'n, der Motor läuft noch.
-HINNERK: Weiß ich. Leerlauf reicht nich. Motor aus. Ganz.
+HINNERK: Weiß ich.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Hinnerk sagt, beim Tanken muss der Motor ganz aus sein. Hat er recht, oder reicht Leerlauf?
-[[WAHL: sbf:49 | *der Motor muss aus | Leerlauf reicht]]
+SMILLA: Frage an dich. Reicht beim Tanken Leerlauf, oder muss der Motor ganz aus?
+[[WAHL: sbf:49 | Leerlauf reicht | *der Motor muss ganz aus]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:49]]
 SMILLA: Die Falle ist der Leerlauf. Ein laufender Motor ist heiß und macht Funken, auch wenn sich der Propeller nicht dreht. Und genau darum geht es beim Tanken: Unten sammelt sich Dampf, und alles, was zünden kann, muss aus sein. Also Motor aus, keine elektrischen Schalter, kein Feuer, und ein Lappen liegt bereit, falls etwas überläuft.
 [[VERTIEFUNG: ende]]
-SMILLA: Hat er recht. Aus heißt aus.
+HINNERK: Ganz aus. Leerlauf reicht nich. So. Is aus.
+SMILLA: Aus heißt aus.
 [[ANIM: tanken]]
 HINNERK: Und jetzt fasst keiner 'n Schalter an. Jeder Schalter macht 'n kleinen Funken.
 [[ANIM: tanken, 2]]
@@ -94,7 +94,6 @@ HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
 HAFENMEISTER: Die Leute denken immer: Fenster zu und Feuerlöscher bereit, dann passt das. Passt nicht, wenn der Motor im Leerlauf tuckert oder einer am Schalter dreht.
 SMILLA: Beim Tanken ist alles aus. Motor, Schalter, Feuer.
-[[AUDIO: Motor]]
 HINNERK: Voll. Und keen Tropfen daneben.
 HAFENMEISTER: Fast keiner.
 HINNERK: [[INTENTION: schnaubend]] Fast.
@@ -111,7 +110,7 @@ SMILLA: Frage an dich. In der Bilge schwimmt ein bisschen Öl. Was machst du dam
 HINNERK: Lappen. Aufnehmen. Ab an Land in die Tonne.
 HAFENMEISTER: Und kein Spülmittel drauf. Das seh ich jeden Sommer.
 HAFENMEISTER: Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht mehr, und er pumpt die Brühe ins Hafenbecken.
-SMILLA: Neutralisieren oder verteilen ist also verboten. Ins Wasser darf es sowieso nicht.
+SMILLA: Lüften und abwarten hilft also nicht, Spülmittel auch nicht. Und ins Wasser darf es sowieso nicht.
 HAFENMEISTER: Öl in der Bilge gehört in den Lappen, nicht ins Hafenbecken. Aufnehmen und an Land entsorgen. Lappen gibt's bei mir. Kosten extra.
 HINNERK: Natürlich.
 
@@ -121,14 +120,15 @@ HINNERK: Natürlich.
 [[STOFF: sbf:63, sbf:62]]
 HAFENMEISTER: Wenigstens die Gasflasche steht bei dir richtig, Hinnerk.
 HINNERK: Steht da seit dreißig Jahren.
-HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten in der Backskiste. Ganz unten im Boot.
+HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten im Boot. In einem Schapp unter den Bodenbrettern.
 HINNERK: Oha.
 HAFENMEISTER: Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
+[[ANIM: gas, 1]]
 SMILLA: Und?
 HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand noch auf der Treppe, halb draußen. Sein Boot hatte keins.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Propan und Butan, das Gas aus der Flasche: Ist das schwerer oder leichter als Luft?
+SMILLA: Frage an dich, Hilke hat's vorhin schon gesagt. Propan und Butan, das Gas aus der Flasche: Ist das schwerer oder leichter als Luft?
 [[WAHL: sbf:63 | *schwerer | leichter]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:63]]
@@ -174,7 +174,7 @@ SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
 HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
 SMILLA: Solange.
 SMILLA: Hilke sagt, Hochwasser ist um elf. Wenn wir jetzt losmachen, haben wir in der Brede den Strom mit.
-HINNERK: Und jetzt: Leinen los.
-SMILLA: Und der Strom? Der von Hilke?
+HINNERK: Gleich geht's los.
+SMILLA: Und Hilkes Stromrechnung?
 HINNERK: Morgen.
 [[MITNEHMEN: Benzindampf und Gas sind schwerer als Luft und sammeln sich unten in der Bilge | Beim Tanken alles aus: Motor, Schalter, Feuer, und ein Lappen gegen Überlaufen. Öl in der Bilge mit dem Lappen aufnehmen | Riecht es nach Gas: Hahn zu, Luken auf, nichts anfassen, was Funken macht]]

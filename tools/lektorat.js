@@ -96,7 +96,7 @@ async function film(animId, phasen, ziel) {
   for (const ph of folge) { await p.evaluate(ph => ANIM.phase(window.__sv, ph), ph); const dauer = Math.max(3, Math.min(8, (info.phasen[ph] || {}).min || 4));
     for (let t = 0; t < dauer; t += 1) { await sleep(1000); bilder.push({ph, b64: (await p.screenshot()).toString('base64')}); } }
   const g = await b.newPage({viewport: {width: 1240, height: 800}});
-  await g.setContent(`<body style="margin:0;background:#222;display:flex;flex-wrap:wrap;gap:4px;width:1240px;font:13px sans-serif">${bilder.map((x, i) => `<div style="position:relative"><img src="data:image/png;base64,${x.b64}" width="200"><span style="position:absolute;left:2px;top:2px;background:#fff;padding:0 3px">${i} · P${x.ph}</span></div>`).join('')}</body>`);
+  await g.setContent(`<body style="margin:0;background:#222;display:flex;flex-wrap:wrap;gap:4px;width:1240px;font:13px sans-serif">${bilder.map((x, i) => `<div style="position:relative"><img src="data:image/png;base64,${x.b64}" width="200"><span style="position:absolute;left:2px;bottom:4px;background:#fff;padding:0 3px">${i} · P${x.ph}</span></div>`).join('')}</body>`);
   await sleep(400); await g.screenshot({path: ziel, fullPage: true}); await b.close();
   return {...info, folge, n: bilder.length, errs};
 }

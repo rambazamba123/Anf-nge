@@ -16,7 +16,7 @@
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
     'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Das Heck will zu Paul', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
-    'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Ohne Gas kein Ruder', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
+    'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Warten auf die Fähre', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
     'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf): Hafenkino, wer das Sagen hat'},
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf): Tanken mit der Hafenmeisterin', design: 'b'},
@@ -111,7 +111,7 @@
       else if (kat === 'HOERKARTE') { schluss(); bereich = {art: 'karte', id: wert}; items.push({t: 'abschnitt', titel: 'Hörkarte', bereich}); }
       else if (kat === 'BILD') dazu({t: 'bild', id: wert});
       /* Mini-Animation (HR19, v5.27): [[ANIM: gas]] zeigt sie, [[ANIM: gas, 2]] schaltet auf Phase 2 */
-      else if (kat === 'ANIM') { const [aid, ph] = wert.split(',').map(x => x.trim()); dazu({t: 'anim', id: aid, p: +ph || 0}); }
+      else if (kat === 'ANIM') { const [aid, ph] = wert.split(',').map(x => x.trim()); dazu({t: 'anim', id: aid, p: +ph || 0, ...(ph !== undefined ? {fest: true} : {})}); }   /* v5.70: [[ANIM: gas, 0]] hält Phase 0 fest (kein Durchlauf) */
       else if (kat === 'SIGNAL') dazu({t: 'signal', muster: wert});
       else if (kat === 'AUDIO' && ger[wert]) dazu({t: 'ton', gen: ger[wert].id, parallel: !!ger[wert].parallel});
       else if (kat === 'AUDIO' && TOENE[wert]) dazu({t: 'ton', name: TOENE[wert]});
@@ -732,7 +732,7 @@
   /* Mini-Animation aus anim.js im Bildfeld; läuft weiter, bis der Abschnitt wechselt. Fehlt sie, bleibt das Feld leer (gesprochen ist alles verständlich, HR19) */
   /* v5.56 (Nutzer 09.11.2026: „Anlegen hat nicht abgespielt“): Ruft das Skript nur [[ANIM: id]] ohne spätere Phasen auf, läuft die Animation von selbst durch */
   function animAllein(st, k) {
-    const it = st.items[k]; if (it.p) return false;
+    const it = st.items[k]; if (it.p || it.fest) return false;
     for (let j = k + 1; j < st.items.length && st.items[j].t !== 'abschnitt'; j++) if (st.items[j].t === 'anim' && st.items[j].id === it.id) return false;
     return true;
   }

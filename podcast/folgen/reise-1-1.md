@@ -44,7 +44,7 @@ SMILLA: Moin. Nicht so laut. Unser Neuer schläft vielleicht noch.
 HINNERK: Der is wach. Der hat die Möwen gehört.
 SMILLA: Erste Nacht an Bord, ne? Man hört jedes Knarzen. Sag mal, Käpt'n, hast du Klabauter gesehen?
 HINNERK: Nee.
-SMILLA: Gestern Abend, als unser Neuer an Bord kam, hat er noch rumgekreischt. Und heute früh ist die Stange leer.
+SMILLA: Gestern Abend, als unser Neuer an Bord kam, hat Klabauter noch rumgekreischt. Und heute früh ist die Stange leer.
 HINNERK: Der kommt wieder.
 SMILLA: Und wenn nicht?
 HINNERK: [[INTENTION: trocken]] Dann nich.
@@ -72,6 +72,7 @@ HINNERK: Erster Tag. Wir üben unterwegs.
 [[REVIER: hafen]]
 HINNERK: Kiek mol. Gegenüber. Charter.
 SMILLA: Oh nein. Die vier von der Hafenkneipe gestern?
+HINNERK: Verlegen von der Charterbasis rüber. Zwanzig Meter. Dat reicht schon.
 HINNERK: Hafenkino. Setz dich, dat lohnt sich. Besser als Fernsehen.
 SMILLA: Wer steuert da eigentlich? Der mit der Mütze?
 HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
@@ -83,7 +84,6 @@ HINNERK: Dat Problem kenn ich.
 SMILLA: Käpt'n!
 HINNERK: Vom Festmachen. Wat denkst du denn.
 SMILLA: Vier Leute, vier Kapitäne. Und keiner ist es.
-HINNERK: Die stimmen gleich ab, wer schuld is.
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Frage an dich. Vor der Fahrt steht nicht fest, wer das Boot führt, so wie bei denen da drüben. Wird dann einer gewählt, oder wird einer bestimmt?
@@ -95,7 +95,7 @@ SMILLA: Bestimmt, nicht gewählt. Einer muss vor dem Ablegen festgelegt werden, 
 HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu.
 HINNERK: An Bord is keine Demokratie. Einer wird bestimmt. Vorher.
 SMILLA: Wenn's eng wird, ist keine Zeit zum Abstimmen.
-HINNERK: Kiek. Jetzt zeigen alle vier auf den Dicken.
+HINNERK: Kiek. Jetzt zeigen alle vier auf den Dicken. Abgestimmt.
 SMILLA: Bei uns ist das ja klar, oder?
 HINNERK: Ich.
 SMILLA: Und wer hat das bestimmt?
@@ -117,9 +117,9 @@ SMILLA: Frage an dich. Ab wie viel Promille darf man kein Sportboot mehr führen
 [[WAHL: sbf:2 | *null Komma fünf Promille | null Komma acht Promille]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:2]]
-SMILLA: Null Komma fünf. Die null Komma acht ist die bekannteste Falle. Auf dem Wasser gilt dieselbe feste Grenze wie beim Auto. Und wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen und auch nicht ansagen.
+SMILLA: Null Komma fünf. Die null Komma acht ist die bekannteste Falle. Und wer schon vorher wackelt, übermüdet ist oder Tabletten genommen hat, die ihn duselig machen, darf auch darunter nicht führen und auch nicht ansagen.
 [[VERTIEFUNG: ende]]
-SMILLA: Null Komma fünf. Wie auf der Straße.
+SMILLA: Null Komma fünf. Merk dir die Zahl.
 HINNERK: Der mit der Mütze hat jetzt die zweite Dose.
 SMILLA: Und das Verrückte: Auch mit null Promille darfst du nicht ans Ruder, wenn du nicht sicher führen kannst.
 HINNERK: Übermüdet.
@@ -149,9 +149,10 @@ SMILLA: Ganz so streng ist es nicht. Für kleine Elektroboote braucht man keinen
 [[VERTIEFUNG: ende]]
 SMILLA: Kommt auf den Motor an, Käpt'n. Elektro bis sieben Komma fünf Kilowatt geht ohne Schein. Im Dauerbetrieb, nicht nur mal kurz.
 HINNERK: Sieben Komma fünf. Dat is doch nix.
-SMILLA: Für so eine Nussschale reicht's. Merk's dir als Zahlenspiel: Benziner ohne Schein bis fünfzehn Pferdestärken.
-HINNERK: Pferde. Sind dat.
-SMILLA: Elektro bis sieben Komma fünf. Die halbe Zahl, aber in Kilowatt.
+SMILLA: Für so eine Nussschale reicht's. Und pass auf, da steckt eine Falle drin.
+SMILLA: Elf Komma null drei Kilowatt, das ist die Grenze für Verbrennungsmotoren. Fünfzehn Pferdestärken.
+HINNERK: Pferdestärken. Dat sind Pferde.
+SMILLA: Für Elektro gilt das nicht. Elektro: sieben Komma fünf Kilowatt. Ungefähr die Hälfte.
 HINNERK: [[SPRUCH: hi-erkennung-01]] Sag ich doch.
 SMILLA: Du hast gesagt, das ist verboten.
 HINNERK: Für die mit Sonnenhut.
@@ -165,7 +166,7 @@ SMILLA: Keiner hatte das Sagen.
 HINNERK: Einer hatte 'n Bier.
 SMILLA: Und die mit dem Sonnenhut dürfen ohne Schein fahren. Die haben alles richtig gemacht.
 HINNERK: Trotzdem. Sonnenhut.
-SMILLA: Darum geht's in den nächsten Tagen immer wieder, bei Regeln und Papieren.
+SMILLA: Wer führt, wer darf, welcher Schein: Darum geht's in den nächsten Tagen immer wieder.
 HINNERK: Einer sagt an.
 SMILLA: Keiner hat getrunken.
 HINNERK: Und der Schein passt zum Boot.
@@ -182,6 +183,7 @@ HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Smilla mustert in sieben Tagen bei
 HARMS: {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord. Bis dahin ruf ich zwischendurch an und frag ab, was hängen geblieben ist.
 HARMS: Sieben Tage. Wer zu spät kommt, fährt allein heim.
 SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.
+SMILLA: Neues Schiff, neuer Job für mich. Ihr zwei bringt mich hin, und Harms prüft dich gleich mit.
 HINNERK: Sieben Tage. Schaffen wir.
 SMILLA: Du hast meine Frage nicht beantwortet.
 HINNERK: Frühstück.

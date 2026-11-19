@@ -1,6 +1,6 @@
 ---
 folge: gold-2
-titel: Ohne Gas kein Ruder
+titel: Warten auf die Fähre
 status: test
 hoerreise: ja
 machart: neu
@@ -36,7 +36,7 @@ HINNERK: Kaffee trinken.
 SMILLA: Der ist kalt.
 HINNERK: Kalter Kaffee macht schön.
 SMILLA: Dann trink mehr.
-HINNERK: [[INTENTION: trocken]] Tonne zehn, Smilla.
+HINNERK: [[INTENTION: trocken]] Ich trink, wann ich will.
 SMILLA: [[INTENTION: lachend]] Schon gut. Fünf Minuten reichen mir. Komm mal mit nach hinten. Ich hab dir was versprochen.
 
 [[ABSCHNITT: Von wo guckst du?]]
@@ -46,9 +46,8 @@ SMILLA: [[INTENTION: lachend]] Schon gut. Fünf Minuten reichen mir. Komm mal mi
 SMILLA: Da unten sitzt er, der Propeller. Unserer ist ein Rechtsdreher.
 HINNERK: Hm.
 SMILLA: Das heißt: Von vorne gesehen dreht er sich im Uhrzeigersinn.
-HINNERK: Nee.
-SMILLA: Wieso nee?
 HINNERK: Von wo guckst du?
+SMILLA: Wie, von wo?
 [[AUDIO: Schiffsglocke]]
 [[AUDIO: Schiffsglocke]]
 SMILLA: Hm. Frage an dich, und ich bin selbst gespannt. Ob ein Propeller rechtsdrehend heißt: Gilt das von vorne gesehen oder von achtern gesehen, also von hinten?
@@ -57,8 +56,7 @@ SMILLA: Hm. Frage an dich, und ich bin selbst gespannt. Ob ein Propeller rechtsd
 [[VERTIEFUNG: sbf:44]]
 SMILLA: Von achtern, also von hinten. Stell dich hinters Boot und schau nach vorn, in Fahrtrichtung. Dreht der Propeller bei Vorausfahrt mit der Uhr, ist er rechtsdrehend. Von vorne sähe dieselbe Drehung genau andersrum aus, darum gehört die Blickrichtung immer dazu.
 [[VERTIEFUNG: ende]]
-HINNERK: Von achtern. Du stehst ja auch nich vor'm Propeller.
-HINNERK: Jedenfalls nich lange.
+HINNERK: Von achtern. So, wie du am Ruder stehst und nach vorn guckst.
 SMILLA: Okay. Punkt für dich, Käpt'n.
 SMILLA: Also richtig: Du stehst hinterm Boot und schaust nach vorn. Das Boot fährt voraus. Dreht der Propeller mit der Uhr, ist er ein Rechtsdreher.
 HINNERK: Und gegen die Uhr?
@@ -67,7 +65,7 @@ HINNERK: Hatten wir mal einen im Hafen. Bei dem zog dat Heck rückwärts nach re
 SMILLA: Und?
 HINNERK: Dann hat er dat Boot verkauft.
 
-[[ABSCHNITT: Ohne Gas kein Ruder]]
+[[ABSCHNITT: Wie lenkt ein Außenborder?]]
 [[SZENE: Am Heck der Frieda vor der Hafenausfahrt von Kuttershaven, Sonne. Der Außenborder tuckert im Leerlauf, die Fähre ist noch ein Stück weg. Smilla zeigt auf den Motor, Hinnerk stellt den Becher ab. Hafen.]]
 [[REVIER: hafen]]
 [[STOFF: sbf:50]]
@@ -91,7 +89,7 @@ SMILLA: Da. Jetzt schwenkt das Heck.
 [[ANIM: ruder]]
 HINNERK: Wir haben kein Ruder. Bei uns is der Propeller dat Ruder. Der pustet Wasser nach hinten. Und wohin er pustet, von da drückt er dat Heck weg.
 SMILLA: Der Wasserstrahl heißt Schraubenstrom. Du lenkst also mit dem Schraubenstrom und mit der Richtung, in die der Propeller zeigt.
-HINNERK: Ohne Gas keen Strom. Ohne Strom keen Ruder.
+HINNERK: Ohne Gas keen Schraubenstrom. Und ohne den keen Ruder.
 SMILLA: Darum nimmt er beim Anlegen nie ganz das Gas raus, bevor wir da sind.
 HINNERK: Dat hat sie gemerkt. Nach zwei Jahren.
 
