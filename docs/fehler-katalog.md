@@ -8,6 +8,7 @@
 - ⚙ `node tools/podcast-pruefen.js <folge>`: Skripte (HR38 Funkwörter, HR44 Nachdenkfragen, HR46 Dichte, Logbuch, Länge). Läuft im pre-commit.
 - ⚙ `node tools/logik-pruefen.js`: Figur nicht an Bord, „Morgen wieder“, fast doppelte Sätze, Spruch ohne Anlass. Läuft im pre-commit.
 - ⚙ `node tools/karte-pruefen.js` (`--tabelle` für Strecken und Fahrzeiten): Orte, Routen und Meilen der Folgen gegen die Reisekarte (HR51). Läuft im pre-commit.
+- ⚙ `node tools/lektorat.js <folge> [--bilder]` (v5.70, HR61): Paket für den unabhängigen Lektor (Unteragent mit `podcast/lektorat-auftrag.md`); `--anim <id>` für eine Animation, `--mechanik` im pre-commit. **Vor jedem Bericht über neue oder geänderte Folgen und Animationen.** Befunde in `docs/lektorat/<folge>.md`.
 - ⚙ `node tools/dichte-messer.js [datei]` (v5.66): Sprechzeit, neue Fragen mit Lernlast, Redeanteile, Vortrags-Ketten, Aufzählungen, lange Zeilen. Gibt nur Hinweise (HR56); vor jedem Abgeben einer Folge ansehen und Abweichungen im Folgenblatt begründen.
 - ⚙ `node tests/buehne-pruefen.js` (vorher `python3 -m http.server 8765`): Bühne der Hörreise am Handy-Maß. **Nach jeder Änderung an `kurs.js`, am Player-CSS oder an Folgen von Hand laufen lassen** (dauert etwa zwei Minuten, darum nicht im pre-commit).
 - ⚙ `BREITE=320 ZEIT=4000 node tools/anim-bilder.js bild.png 0 9 =<id>`: alle Phasen einer Animation als Kontaktabzug. Nach jeder Änderung an einer Animation ansehen.
@@ -31,6 +32,7 @@
 | Story-Logbuch nicht fortgeschrieben | Folge fehlt dort | ⚙ podcast-pruefen bricht ab |
 | Strecke passt nicht zur Karte (v5.65: „zwölf Meilen“ bis Schilfwinkel, auf der Karte sieben) | Meilen, Fahrzeit, Richtung in der Folge | ⚙ karte-pruefen; ✋ Kurs und Seite der Tonne auf der Karte nachmessen (HR51) |
 | Geschichte hängt am abschaltbaren Anruf (v5.65: Frist nur bei Harms, „Leinen los“ nach der Fragerunde) | wichtiger Satz im Abschnitt mit „Harms“ im Titel | ✋ HR50 |
+| Sätze, die im Zusammenhang keinen Sinn ergeben (Nutzer 17.11.2026: „mehrere Stellen unlogisch, unsinnig oder nicht passend“) | Antwort ohne Frage, Reaktion auf etwas, das niemand gesagt hat, Bezug auf Unbekanntes | ⚙ Lektorat mit unabhängigem Lauf (HR61); ✋ Paket lesen wie ein Zuhörer |
 | Zu dicht, zu schnell (Tester 16.11.2026: 1-3 mit zwölf Fragen in sieben Minuten, danach zwölf Harms-Fragen; Tag 1 mit 55 neuen Fragen) | „Was war neu?“ lässt sich je Kapitel nicht in einem Satz sagen; keine Zeile ohne Stoff nach einer Auflösung | ⚙ dichte-messer; ✋ Schreibkarte Punkt 3 und 4, Folgenblatt „Lernlast“ (HR56) |
 | Vortrag statt Gespräch (v5.65: Smilla rund 70 % der Wörter, „Vier Sachen. Erstens …“) | eine Figur redet mehrere Zeilen am Stück, die andere liefert Stichworte; Aufzählung im Dialog | ⚙ dichte-messer (Kette, Aufzählung, Redeanteil als Hinweis); ✋ Namen abdecken, laut lesen (Schreibkarte 5, 6, 9) |
 | Abfrage direkt nach der Folge prüft nur das Kurzzeitgedächtnis (bis v5.66) | Harms-Abschnitt am Ende eines neuen Skripts | ✋ neue Skripte ohne Harms-Abschnitt, Fragen als `[[WAHL]]` oder `[[STOFF]]` (HR57) |
@@ -71,6 +73,7 @@
 | Navi-Folge: Werkzeug doppelt angetippt, Animation läuft zweimal (v5.65) | Zirkel springt | ⚙ Sperre `Z.werkzeugLaeuft` |
 
 | Ende der Folge in der Nachtbühne unsichtbar (bis v5.66: Text, Fragerunde-Knopf und „Gleich geht's weiter“ standen in `#kspr`, das dort ausgeblendet ist) | nach der letzten Zeile passiert scheinbar nichts, dann startet plötzlich die nächste Folge | ✋ Ende jeder Folge am Handy-Maß ansehen: Blatt `#kblatt` mit Karte und Knöpfen (v5.67) |
+| Handystimme liest „Anführungszeichen“ und „Punkt“ vor (Nutzer 17.11.2026, „Dicke Pötte“: Zitat „Ich gleite doch …“) | Ursache: `chunks()` in index.html trennte am Satzende und klebte den Rest „““ mit Leerzeichen an, Android las das Zeichen als Wort | ⚙ seit v5.70 entfernt `sprechbar()` Anführungszeichen vor dem Vorlesen; `tests/buehne-pruefen.js` prüft alle Folgen über `VOX._chunks`; `tools/lektorat.js --mechanik` meldet offene Anführungszeichen |
 | Kein Halt im Player (Tester 16.11.2026: „unübersichtlich“, „zu schnell“) | 0,2 s zwischen Sprechern, kein Kapitel sichtbar | ✋ Tempo-Stufe „Normal“ durchhören; Kapitelpunkte und Titel erscheinen (v5.67) |
 
 ## Teil C: Animationen
@@ -82,6 +85,11 @@
 | Horn und Vorlesen stumm (v5.12, v5.33) | `window.VOX` leer (const), Ton vor der ersten Berührung gesperrt | ✋ Ton erst nach Tippen freigeben, Objekte nicht über `window.` suchen |
 | Nicht in jeder Grafik dasselbe Boot (Nutzer 10.11.2026) | `boot.js` hat nur „von oben“ und „von der Seite“; Ansichten von hinten, im Schnitt und nah habe ich je Animation selbst gezeichnet; ältere Seitenansichten benutzen noch den allgemeinen Rumpf `B.seite` aus `anim2.js`; kein Werkzeug prüft es | ✋ jede neue Animation nimmt das Boot aus `boot.js`; fehlt eine Ansicht, kommt sie dort dazu, nicht in die Animation (Vorschlag: Werkzeug, das eigene Boote meldet) |
 | Windpfeile verkehrt (v5.43), Verkehrstrennungsgebiet wie Linksverkehr (v5.45), Achterspring und Vorspring falsch (v5.38, v5.46), Gegenpeilung statt Peilung (v5.42) | Richtung nicht gegen die Regel geprüft | ✋ jede Richtung, Seite und Leine im Kontaktabzug gegen die amtliche Antwort prüfen |
+
+| Zwei Bild-Zeilen direkt hintereinander, die erste ist nie zu sehen (Lektorat 19.11.2026, 1-3 „Backbord an der Pier“) | `[[ANIM: id, 2]]` und `[[ANIM: id, 4]]` ohne Satz dazwischen | ⚙ `tools/lektorat.js --mechanik` (pre-commit) |
+| Umbau-Reste: Ort, Requisiten, Geräusche, Bezüge passen nach einem Umbau nicht mehr (Lektorat 19.11.2026: „Jeden Morgen“ an der Tankstelle, Motorgeräusch beim Tanken, „Tonne zehn“) | Lektor-Befunde „Anschluss“ und „Sinn“ | ⚙ nach jedem Umbau das Lektorat erneut laufen lassen (HR61) |
+| Lieger sehen aus, als lägen sie an Land (Nutzer 17.11.2026, Animation „sog“) | Boote mitten auf dem Steg gezeichnet (Steg x 340–400, Boote bei x 366) | ✋ Filmstreifen ansehen (`node tools/lektorat.js --anim <id>`); Boote immer im Wasser, mit Leinen und Fendern am Steg |
+| Sog und Wellen als getrennte Bilder statt einer Vorbeifahrt (Nutzer 17.11.2026) | Phasen zeigen Begriffe nacheinander, nicht den Ablauf, den man erlebt | ✋ Vorgänge als ein Durchlauf bauen, die Phasen nur als Takt; Phasen im Skript an die passenden Sätze binden (`[[ANIM: id, n]]`) |
 
 ## Teil D: 3D-Welt
 | Fehler (Version) | Ursache | Prüfen |

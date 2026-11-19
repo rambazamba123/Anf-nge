@@ -27,7 +27,8 @@ for (const d of dateien) {
     if (vert) return;
     for (const c of z.matchAll(/\[\[(STOFF|WAHL|KATALOG):\s*([^\]]*)\]\]/g)) for (const id of c[2].matchAll(/sbf:(\d+)/g)) { if (harms) { if (c[1] === 'WAHL') st.harmsFragen++; } else { st.fragen.add(+id[1]); if (kap) kap.f.add(+id[1]); } }
     if (harms) return;
-    if (/^\[\[ANIM:/.test(z)) { st.anim++; return; }
+    /* Eine Animation, die nur die Phase weiterschaltet ([[ANIM: id, 2]] nach [[ANIM: id]] im selben Kapitel), zählt nicht neu */
+    if ((m = z.match(/^\[\[ANIM:\s*([a-z0-9-]+)\s*(?:,\s*(\d+))?/i))) { const kid = (kap ? kap.t : '') + '|' + m[1]; st.animK = st.animK || new Set(); if (!(m[2] && st.animK.has(kid))) st.anim++; st.animK.add(kid); return; }
     if (/^\[\[WAHL/.test(z)) { st.glocken++; return; }
     if (!(m = z.match(/^([A-ZÄÖÜ_]+):\s*(.*)$/))) return;
     const txt = m[2].replace(/\[\[[^\]]*\]\]/g, '').replace(/\{\{anrede:w=([^|]*)\|[^}]*\}\}/g, '$1').trim(), w = woerter(txt);

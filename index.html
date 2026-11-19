@@ -563,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.69';
+  window.__ver = '5.70';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -1983,9 +1983,14 @@ const VOX = (() => {
     return (wahl && liste.find(v => v.voiceURI === wahl)) || liste[(PHONE_REIHE[cid] || 0) % Math.max(1, liste.length)] || null;
   }
   /* Android schneidet lange Sätze ab: deshalb in Stücke von höchstens 180 Zeichen teilen */
+  /* v5.70 (Nutzer 17.11.2026: „dann sagt jemand Anführungszeichen und dann jemand Punkt“): Anführungszeichen werden nie gesprochen;
+     ein Stück ohne Buchstaben und Ziffern (Rest wie „“.“) hängt ohne Leerzeichen am Satz davor, sonst liest Android das Zeichen vor */
+  const sprechbar = t => String(t).replace(/[„“”"«»‚‘’]/g, '').replace(/(^|\s)(…|\.\.\.|–|—)(?=\s|$)/g, ' ').replace(/\s+([.,!?;:…])/g, '$1').replace(/\s+/g, ' ').trim();
   function chunks(text) {
+    text = sprechbar(text);
     const parts = String(text).match(/[^.!?;:]+[.!?;:]*\s*/g) || [String(text)], out = [];
     parts.forEach(p => { p = p.trim(); if (!p) return; const last = out[out.length - 1];
+      if (last && !/[A-Za-zÄÖÜäöüß0-9]/.test(p)) { out[out.length - 1] = last + p; return; }
       if (last && (last + ' ' + p).length <= 180) out[out.length - 1] = last + ' ' + p;
       else if (p.length <= 180) out.push(p);
       else { let cur = ''; p.split(/,\s*/).forEach(q => { if ((cur + ', ' + q).length > 180 && cur) { out.push(cur); cur = q; } else cur = cur ? cur + ', ' + q : q; }); if (cur) out.push(cur); } });
@@ -2197,7 +2202,7 @@ const VOX = (() => {
       const r = await fetchT(EL_BASE + '/v1/speech-to-text', {method: 'POST', headers: {'xi-api-key': elKey()}, body: fd}, 25000);
       if (r.ok) return {ok: true}; const d = await errDetail(r); return {ok: false, status: r.status, perm: d.perm || r.status === 401 || r.status === 403, msg: d.msg};
     },
-    get canListen() { return !!SR || !!elKey(); }, get phoneVoices() { return phoneSorted(); }, phoneVoiceOf, phoneTest: (cid, t) => playPhone(t, cid), phoneUnlock, get hasSR() { return !!SR; },
+    get canListen() { return !!SR || !!elKey(); }, get phoneVoices() { return phoneSorted(); }, phoneVoiceOf, phoneTest: (cid, t) => playPhone(t, cid), phoneUnlock, _chunks: t => chunks(t), get hasSR() { return !!SR; },
     get exhausted() { return exhausted; }, set exhausted(v) { exhausted = v; }, get keyBad() { return keyBad; },
     resetFlags() { exhausted = false; keyBad = false; voiceList = null; },
     usageToday: () => usage(),
@@ -5157,7 +5162,7 @@ function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[
 /* [id, Titel, Untertitel, Wetter der Folge] – das Wetter in der App richtet sich nach der nächsten Folge (weatherToday) */
 const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Neue Machart · Hafenkino: wer das Sagen hat · etwa 6 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'Neue Machart · Tanken mit der Hafenmeisterin · etwa 8 Minuten', 'schoen', 'hafen'],
   /* v5.66 neue Machart zum Testen (docs/plan-hoerspiel-neu.md): die alte 1-3 als drei Folgen, ohne Harms-Abschnitt; die alte Fassung liegt unter „Alte Folgen und Tests“ */
-  ['gold-1', 'Das Heck will zu Paul', 'Neue Machart · Ablegen und Radeffekt · etwa 6 Minuten', 'schoen', 'hafen'], ['gold-2', 'Ohne Gas kein Ruder', 'Neue Machart · Propeller und Außenborder · etwa 6 Minuten', 'schoen'], ['gold-3', 'Dicke Pötte', 'Neue Machart · der Raser und die Fähre · etwa 6 Minuten', 'schoen']];
+  ['gold-1', 'Leise raus', 'Neue Machart · Ablegen und Radeffekt · etwa 6 Minuten', 'schoen', 'hafen'], ['gold-2', 'Warten auf die Fähre', 'Neue Machart · Propeller und Außenborder · etwa 6 Minuten', 'schoen'], ['gold-3', 'Dicke Pötte', 'Neue Machart · der Raser und die Fähre · etwa 6 Minuten', 'schoen']];
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
 /* Gast der nächsten Folge (fünftes Feld in HOERREISE): sitzt vorher schon in der Kajüte (GU5), sonst niemand */

@@ -38,12 +38,12 @@ S('boot', {...HF, titel: 'Das Boot und seine Seiten', nr: 'A1.1', gruppe: 'A1 Bo
 
 /* ---------- A1.3 Radeffekt von oben: welche Seite zum Anlegen ---------- */
 S('radoben', {...HF, titel: 'Radeffekt von oben: Anlegeseite', nr: 'A1.3', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G2.1, G3.1',
-  bg: wasser() + pier(HH, 64), obj: {boot: BO.oben() + fender + prall(), txt: T(0, 0, '', 'middle', 18)},
-  start: {boot: {x: 250, y: 330, s: 1.7}, txt: {x: 240, y: 470}},
+  bg: wasser(), obj: {steg: pier(HH, 64), boot: BO.oben() + fender + prall(), txt: T(0, 0, '', 'middle', 18)},
+  start: {steg: {x: 0, y: 0, o: 0}, boot: {x: 250, y: 330, s: 1.7}, txt: {x: 240, y: 470}},
   enter(s, p) { q(s, '[data-o="txt"] text').textContent = ['Heck wandert nach Backbord', 'Backbord an der Pier', 'Heck zieht zur Pier', 'Steuerbord an der Pier', 'Heck zieht weg'][p] || ''; },
   phasen: [
     P(H, 'Erst im freien Wasser: Wir legen den Rückwärtsgang ein. Der rechtsdrehende Propeller wirft das Wasser rechts gegen das Heck, und das Heck wandert nach links, nach Backbord.', {cap: 'Rückwärts: Heck nach Backbord', k: {boot: {y: 360, r: 20}}, dur: 3.5, fx: zeigPrall(true)}),
-    P(M, 'Jetzt liegen wir mit Backbord an der Pier und wollen beim Anlegen aufstoppen.', {cap: 'Backbord zur Pier', k: {boot: {x: 106, y: 250, r: -12}}, dur: 2.5, fx: zeigPrall(false)}),
+    P(M, 'Jetzt liegen wir mit Backbord an der Pier und wollen beim Anlegen aufstoppen.', {cap: 'Backbord zur Pier', an: ['steg'], k: {boot: {x: 106, y: 250, r: -12}}, dur: 2.5, fx: zeigPrall(false)}),
     P(H, 'Rückwärts einkuppeln: Das Heck zieht zur Pier, das Boot legt sich von selbst parallel. Darum ist mit rechtsdrehendem Propeller Backbord die gute Seite.', {cap: 'Der Radeffekt hilft', k: {boot: {x: 99, r: 0}}, dur: 2.5, fx: zeigPrall(true)}),
     P(M, 'Andersherum, mit Steuerbord an der Pier …', {cap: 'Jetzt mit Steuerbord an der Pier', k: {boot: {x: 99, y: 250, r: 180}}, dur: .3, fx: zeigPrall(false)}),
     P(H, '… zieht das Heck beim Aufstoppen weg vom Steg, und das Boot steht schräg.', {cap: 'Steuerbordseite: Heck zieht weg', k: {boot: {x: 125, r: 205}}, dur: 2.5, fx: zeigPrall(true)})]});
@@ -246,38 +246,39 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       <rect width="400" height="500" fill="#dfeaf3"/><rect y="300" width="400" height="200" fill="#5ba7cf"/>${Array.from({length: 10}, (_, i) => `<path d="M${(i * 83) % 360 + 10} ${330 + (i * 47) % 150} q8 -5 16 0 t16 0" stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"/>`).join('')}
       <g id="gwelt">
         <path d="${rumpf}" fill="#fbf8f2" stroke="#5f5446" stroke-width="3"/><rect y="300" width="400" height="90" fill="#1f3b63" clip-path="url(#ghr)"/><path d="M34 242 H376" stroke="#c0392b" stroke-width="5"/>
-        <path d="M110 150 L118 158 H292 L302 150 Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2.5"/><path d="M110 150 V222 M302 150 V222" stroke="#5f5446" stroke-width="5"/>
+        <g id="gluke"><rect x="150" y="136" width="112" height="22" rx="4" fill="#b9874f" stroke="#7a5a3a" stroke-width="2.5"/><path d="M160 147 H252" stroke="#7a5a3a" stroke-width="2"/><rect x="198" y="128" width="16" height="9" rx="3" fill="#7a5a3a"/></g><path d="M110 150 L118 158 H292 L302 150 Z" fill="#cfd6db" stroke="#5f5446" stroke-width="2.5"/><path d="M110 150 V222 M302 150 V222" stroke="#5f5446" stroke-width="5"/>
         <path d="${innen}" fill="#f3ead8" stroke="#8a7a66" stroke-width="2"/>
         <g clip-path="url(#ghin)"><path id="gfill" fill="url(#ggas)"/><g id="gps" filter="url(#gweich)"></g></g>
         ${Array.from({length: 7}, (_, i) => `<rect x="${66 + i * 40}" y="${BO_}" width="37" height="7" rx="2" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.2"/>`).join('')}
         ${T(200, 346, 'Bilge', 'middle', 18)}
-        <g id="gkiste"><rect x="66" y="270" width="88" height="48" rx="4" fill="#d8c3a0" stroke="#7a5a3a" stroke-width="2" fill-opacity=".45"/><rect x="62" y="264" width="96" height="8" rx="3" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.5"/>
-          <g id="gfl1"><rect x="92" y="280" width="28" height="36" rx="10" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="101" y="273" width="10" height="8" fill="#555"/></g>${T(110, 258, 'Backskiste', 'middle', 15)}</g>
+        <g id="gkiste" transform="translate(31 128) scale(.72)"><rect x="66" y="270" width="88" height="48" rx="4" fill="#d8c3a0" stroke="#7a5a3a" stroke-width="2" fill-opacity=".45"/><rect x="62" y="264" width="96" height="8" rx="3" fill="#b9874f" stroke="#7a5a3a" stroke-width="1.5"/>
+          <g id="gfl1"><rect x="92" y="280" width="28" height="36" rx="10" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="101" y="273" width="10" height="8" fill="#555"/></g>${T(110, 258, 'Schapp', 'middle', 15)}</g>
         <g><rect x="236" y="268" width="62" height="50" rx="4" fill="#e6e1d6" stroke="#6b6b6b" stroke-width="2"/><rect x="232" y="262" width="70" height="8" rx="2" fill="#7a7f87"/><circle cx="252" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="280" cy="262" r="6" fill="none" stroke="#333" stroke-width="2.5"/>${T(267, 300, 'Kocher', 'middle', 13)}
-          <path id="gltg" d="M120 312 H236" stroke="#6b6b6b" stroke-width="3"/></g>
+          <path id="gltg" d="M118 334 V312 H236" stroke="#6b6b6b" stroke-width="3" fill="none"/></g>
         <g id="gsch"><rect x="270" y="186" width="16" height="22" rx="3" fill="#fff" stroke="#7a6a4a" stroke-width="2"/><rect id="gkn" x="275" y="190" width="6" height="8" rx="2" fill="#7a6a4a"/><path id="gfunk" d="M290 186 l9 -12 l-3 9 l9 -3 l-12 15 l3 -9z" fill="#ffd400" stroke="#c08a00" stroke-width="1.5" opacity="0"/></g>
         <g id="glampe"><path d="M196 158 V168" stroke="#555" stroke-width="2"/><path d="M186 168 H206 L202 176 H190Z" fill="#e8d27a" stroke="#7a6a4a"/></g>
         <g id="gkast" opacity="0"><rect x="44" y="176" width="46" height="44" rx="4" fill="#9aa4ae" stroke="#4a525c" stroke-width="2"/><rect x="56" y="182" width="22" height="34" rx="9" fill="#d6332c" stroke="#7a1f1a" stroke-width="2"/><rect x="40" y="212" width="9" height="7" fill="#1d2630"/>${T(68, 168, 'Gaskasten', 'middle', 15)}</g>
-        <g id="gzu" opacity="0"><circle cx="106" cy="275" r="11" fill="#fff" stroke="#1f9a3c" stroke-width="3"/><path d="M99 275 H113" stroke="#1f9a3c" stroke-width="4" stroke-linecap="round"/></g>
+        <g id="gzu" opacity="0" transform="translate(0 50)"><circle cx="106" cy="275" r="11" fill="#fff" stroke="#1f9a3c" stroke-width="3"/><path d="M99 275 H113" stroke="#1f9a3c" stroke-width="4" stroke-linecap="round"/></g>
         <g id="gluft" opacity="0" fill="#fff" stroke="#3d8fb8" stroke-width="3"><path d="M150 140 v-26" fill="none"/><path d="M143 120 l7 -10 l7 10z"/><path d="M250 140 v-26" fill="none"/><path d="M243 120 l7 -10 l7 10z"/></g>
         <g id="gverbot" opacity="0"><circle cx="278" cy="197" r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M264 211 L292 183" stroke="#c0392b" stroke-width="4"/>
           <g transform="translate(330 196)"><rect x="-9" y="-16" width="18" height="32" rx="4" fill="#2b3a4a"/><rect x="-6" y="-12" width="12" height="20" fill="#8fc6e8"/><circle r="20" fill="none" stroke="#c0392b" stroke-width="4"/><path d="M-14 14 L14 -14" stroke="#c0392b" stroke-width="4"/></g></g>
       </g>
+      <g id="gloch" opacity="0"><path d="M150 150 L162 168 L176 156 L190 174 L206 158 L222 176 L238 160 L252 172 L262 150 Z" fill="#2b2b2b"/><path d="M120 200 l20 14 M290 196 l-18 18 M200 230 l6 22" stroke="#2b2b2b" stroke-width="4" stroke-linecap="round"/></g>
       <g id="gboom" opacity="0"><circle id="gball" cx="200" cy="300" r="10" fill="url(#gfeuer)"/><path id="gstern" fill="#ffd23a" stroke="#ff7a1a" stroke-width="4" stroke-linejoin="round"/><g id="gsplit"></g></g>
       <rect id="gflash" width="400" height="500" fill="#fff3c4" opacity="0"/><g id="grauch"></g><g id="gqualm" filter="url(#gweich)"></g>
       <text class="t gwum" x="200" y="140" text-anchor="middle" font-size="64" fill="#c0392b" opacity="0">WUMM!</text>
       ${T(200, 470, '', 'middle', 18, 'ghin')}`,
     phasen: [
       {wer: M, t: 'Gas und Benzindampf sind schwerer als Luft. Was ausströmt, sinkt nach unten und sammelt sich in der Bilge.', min: 8, cap: 'Gas ist schwerer als Luft'},
-      {wer: H, t: 'Mit Luft gemischt wird es explosiv. Ein Funke vom Lichtschalter reicht.', min: 6, cap: 'Ein Funke reicht'},
+      {wer: H, t: 'Steht das Gas über Nacht bis zum Lichtschalter, wird es mit Luft explosiv. Ein Funke reicht.', min: 6, cap: 'Ein Funke reicht'},
       {wer: M, t: 'Darum steht die Gasflasche an Deck, geschützt vor Sonne, oder in einem Gaskasten mit einer Öffnung ganz unten nach außenbords. Dann läuft das Gas ins Freie.', min: 9, cap: 'An Deck oder Gaskasten: Öffnung unten'},
       {wer: H, t: 'Und riecht es unten doch nach Gas: Gaszufuhr zu und lüften. Keinen Schalter anfassen, kein Funkgerät, kein Handy.', min: 8, cap: 'Gas im Boot: zu, lüften, kein Schalter'}],
-    enter(s, p, st) { st.ps = []; st.fill = p === 1 ? 1 : p === 3 ? .8 : 0; st.split = null; st.rauch = [];
+    enter(s, p, st) { st.ps = []; st.fill = p === 1 ? 2.75 : p === 3 ? .8 : 0; st.split = null; st.rauch = [];
       put(q(s, '#gkiste'), {opacity: p === 2 ? .25 : 1}); put(q(s, '#gkast'), {opacity: p === 2 ? 1 : 0}); put(q(s, '#gzu'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gluft'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gverbot'), {opacity: p === 3 ? 1 : 0});
       q(s, '.ghin').textContent = ['', '', 'Gas läuft nach außenbords ab', ''][p] || ''; },
     tick(s, tp, p, st) {
       const dt = st.dt || .016, ps = st.ps, top = BI - st.fill * 58;
-      if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 106, y: 278, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
+      if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 107, y: 332, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
       if (p === 2 && Math.random() < dt * 12) ps.push({x: 42, y: 216, vx: -14 - Math.random() * 10, vy: 6, r: 6 + Math.random() * 5, a: 1, raus: true});
       for (const k of ps) { k.vy += (k.raus ? 22 : 26) * dt; k.vy = Math.min(k.vy, 60); k.x += k.vx * dt; k.y += k.vy * dt; k.r += dt * 2;
         if (!k.raus) { if (k.x > 330) k.vx = -Math.abs(k.vx); if (k.x < 64) k.vx = Math.abs(k.vx); if (k.y >= top - 4) { k.vx *= .9; k.a -= dt * 2.2; } }
@@ -297,11 +298,14 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
         if (!st.split) st.split = Array.from({length: 16}, (_, i) => ({a: i * .4 + Math.random() * .3, v: 160 + Math.random() * 160, w: 10 + Math.random() * 18, r: Math.random() * 360}));
         q(s, '#gsplit').innerHTML = st.split.map(k => { const x = 200 + Math.cos(k.a) * k.v * b, y = 310 + Math.sin(k.a) * k.v * b + 160 * b * b; return `<rect x="${(x - k.w / 2).toFixed(0)}" y="${(y - 3).toFixed(0)}" width="${k.w.toFixed(0)}" height="6" rx="2" fill="#8a5a2a" transform="rotate(${(k.r + b * 400).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})"/>`; }).join('');
         const sh = Math.max(0, 1 - b / 1.2) * 9; put(q(s, '#gwelt'), {transform: `translate(${((Math.random() - .5) * sh).toFixed(1)} ${((Math.random() - .5) * sh).toFixed(1)})`});
+        /* v5.70 (Lektorat): die Luke fliegt weg wie in Hilkes Geschichte */
+        put(q(s, '#gloch'), {opacity: b > .5 ? 1 : 0});
+        put(q(s, '#gluke'), {transform: `translate(${(b * 40).toFixed(0)} ${(-Math.min(260, b * 330) + 60 * b * b).toFixed(0)}) rotate(${(b * 160).toFixed(0)} 206 147)`, opacity: b > 2.2 ? 0 : 1});
         put(q(s, '#gflash'), {opacity: Math.max(0, .9 - b * 2.2).toFixed(2)}); put(q(s, '.gwum'), {opacity: b > .1 && b < 2.6 ? 1 : 0, 'font-size': (64 + Math.min(1, b * 3) * 16).toFixed(0)});
         put(q(s, '#gfill'), {opacity: b > .3 ? 0 : 1});
         if (!st.qu) st.qu = Array.from({length: 18}, (_, i) => ({x: 90 + Math.random() * 220, y: 240 + Math.random() * 100, r: 18 + Math.random() * 22, v: 12 + Math.random() * 18}));
-        q(s, '#gqualm').innerHTML = b < .5 ? '' : st.qu.map(k => `<circle cx="${k.x.toFixed(0)}" cy="${(k.y - (b - .5) * k.v * 3).toFixed(0)}" r="${(k.r * Math.min(2, .6 + (b - .5) * .5)).toFixed(0)}" fill="#5a5a5a" fill-opacity="${Math.min(.75, (b - .5) * .8).toFixed(2)}"/>`).join(''); }
-      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
+        q(s, '#gqualm').innerHTML = b < .5 ? '' : st.qu.map(k => `<circle cx="${k.x.toFixed(0)}" cy="${Math.max(110, k.y - (b - .5) * k.v * 3).toFixed(0)}" r="${(k.r * Math.min(2, .6 + (b - .5) * .5)).toFixed(0)}" fill="#5a5a5a" fill-opacity="${Math.min(.75, (b - .5) * .8).toFixed(2)}"/>`).join(''); }
+      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gluke'), {transform: ''}); put(q(s, '#gloch'), {opacity: 0}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
     }});
 })();
 
@@ -309,7 +313,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
    v5.56 (Nutzer 09.11.2026): Tankdeckel seitlich am Rumpf geht auf, der Schlauch wird rangeführt, der Lappen kommt erst, wenn er gesagt wird;
    Deckel, Zapfpistole und Lappen schaukeln mit dem Boot. Phasen: 0 vorher, 1 kein Feuer, 2 Deckel auf und tanken, 3 Lappen, 4 Luken und Lüften, 5 Bilge. */
 (() => { const BX = 262, WL = 336, SK = 1.5, FL = [-42, -22], ZX = 18 + 76, ZY = 74 + 112;
-  const LISTE = [['Motor aus', 49], ['Keine Schalter betätigen', 49], ['Kein Feuer, nicht rauchen', 49], ['Nichts überlaufen lassen', 49], ['Luken zu', 0], ['Vor dem Start lüften', 0], ['Bilge: Lappen, entsorgen', 43]];
+  const LISTE = [['Motor aus', 49], ['Keine Schalter betätigen', 49], ['Kein Feuer, nicht rauchen', 49], ['Nichts überlaufen lassen', 49], ['Danach: Bilge gucken', 0], ['Öl: Lappen, an Land entsorgen', 43]];
   const kl = x => Math.max(0, Math.min(1, x)), weich = x => x * x * (3 - 2 * x);
   roh('tanken', {titel: 'Tanken ohne Knall', nr: 'A1.8', gruppe: 'A1 Boot, Antrieb, Motor', folge: 'G4.1',
     svg: `<rect width="400" height="500" fill="#d9ecf7"/><rect y="250" width="400" height="34" fill="#b98750" stroke="#7a5a3a" stroke-width="2"/>${[40, 120, 200, 280, 360].map(x => `<rect x="${x}" y="284" width="12" height="60" fill="#8a6a44"/>`).join('')}
@@ -321,18 +325,23 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       <g id="tboot">${BO.seite({})}</g>
       <g id="tstutzen"><circle r="8.5" fill="#d0d4da" stroke="#555" stroke-width="2"/><circle r="5" fill="#2b2b2b"/><text class="t" x="0" y="-14" text-anchor="middle" font-size="11" fill="#333" stroke="none">TANK</text>
         <g id="tdeckel"><circle cx="0" cy="0" r="8" fill="#9aa1aa" stroke="#555" stroke-width="2"/><path d="M-4 0 H4" stroke="#555" stroke-width="2"/></g></g>
-      <g id="tlap" opacity="0"><path d="M-16 6 q6 8 14 2 q8 6 16 -2 l-2 9 q-14 7 -26 0z" fill="#f2f2f2" stroke="#999" stroke-width="1.5"/><path d="M-10 9 l3 4 M2 8 l2 5" stroke="#c9c9c9" stroke-width="1.2"/></g>
+      <g id="tlap" opacity="0"><path d="M-16 6 q6 8 14 2 q8 6 16 -2 l-2 9 q-14 7 -26 0z" fill="#f3d36b" stroke="#a88a2a" stroke-width="1.5"/><path d="M-10 9 l3 4 M2 8 l2 5" stroke="#c9c9c9" stroke-width="1.2"/></g>
       <g id="tpist"><path d="M0 0 l-24 -9 l-6 6 l20 13 z" fill="#2b2b2b"/><path d="M-28 -5 l-14 4 l2 9 l14 -2z" fill="#2b2b2b"/><rect x="-4" y="-5" width="16" height="6" rx="2" fill="#7a7f87" transform="rotate(25)"/></g>
       <g id="tdampf"></g>
+      <g id="tbilge" opacity="0" transform="translate(-30 278)"><defs><clipPath id="tbk"><circle cx="300" cy="150" r="66"/></clipPath><linearGradient id="toel" x1="0" x2="1"><stop offset="0" stop-color="#8a5ab8"/><stop offset=".35" stop-color="#3fa7a0"/><stop offset=".7" stop-color="#d8b23a"/><stop offset="1" stop-color="#b8556a"/></linearGradient></defs>
+        <circle cx="300" cy="150" r="70" fill="#fff" stroke="#5f5446" stroke-width="4"/><g clip-path="url(#tbk)"><rect x="230" y="80" width="140" height="140" fill="#f3ead8"/><path d="M234 186 Q300 214 366 186 V230 H234Z" fill="#8f949c"/>
+          <path d="M246 190 Q300 206 354 190 Q300 200 246 190Z" fill="url(#toel)" opacity=".9"/>${[0, 1, 2, 3].map(i => `<rect x="${236 + i * 34}" y="160" width="30" height="7" rx="2" fill="#b9874f" stroke="#7a5a3a"/>`).join('')}
+          <g id="tbl" transform="translate(330 190)"><path d="M-22 -4 q8 -10 20 -2 q10 -8 22 0 l-3 10 q-18 8 -36 0z" fill="#f3d36b" stroke="#a88a2a" stroke-width="1.5"/></g></g>
+        ${T(300, 112, 'Bilge', 'middle', 15)}</g>
       ${LISTE.map(([t, n], i) => `<g class="tli" data-i="${i}" opacity="0" transform="translate(146 ${66 + i * 27})">${B.haken(0, 0)}${T(14, 6, t, 'start', 16)}</g>`).join('')}`,
     phasen: [
       {wer: H, t: 'Bevor getankt wird: Motor aus. Und keine elektrischen Schalter betätigen.', min: 6, cap: 'Vor dem Tanken', z: 2},
       {wer: M, t: 'Kein offenes Feuer und nicht rauchen. Auch keine Pfeife, Käpt\'n.', min: 6, cap: 'Kein Feuer', z: 3},
       {wer: H, t: 'Tankdeckel auf, Zapfpistole rein. Und langsam tanken.', min: 7, cap: 'Deckel auf, langsam tanken', z: 3},
       {wer: M, t: 'Vorsorgen, dass nichts überläuft: Ein Lappen unter dem Stutzen fängt Tropfen auf.', min: 7, cap: 'Lappen drunter, nichts überlaufen', z: 4},
-      {wer: M, t: 'Luken zu, damit keine Dämpfe ins Boot ziehen. Benzindampf ist schwerer als Luft. Vor dem Start gut lüften.', min: 9, cap: 'Luken zu, vor dem Start lüften', z: 6, pr: false},
-      {wer: H, t: 'Und ist doch Kraftstoff oder Öl in die Bilge gelaufen: mit Lappen aufnehmen und umweltgerecht entsorgen.', min: 8, cap: 'Kraftstoff in der Bilge', z: 7}],
-    enter(s, p, st) { st.l = p >= 3 ? 25 : 0; qa(s, '.tli').forEach(e => e.setAttribute('opacity', +e.dataset.i < A.defs.tanken.phasen[p].z ? 1 : 0)); st.ds = []; },
+      {wer: M, t: 'Benzindampf ist schwerer als Luft und kriecht nach unten. Darum nach dem Tanken in die Bilge gucken.', min: 8, cap: 'Danach: Bilge gucken', z: 5, pr: false},
+      {wer: H, t: 'Und ist doch Kraftstoff oder Öl in die Bilge gelaufen: mit dem Lappen aufnehmen und an Land entsorgen. Kein Spülmittel.', min: 8, cap: 'Öl in der Bilge: Lappen', z: 6}],
+    enter(s, p, st) { put(q(s, '#tbilge'), {opacity: p === 5 ? 1 : 0}); st.l = p >= 3 ? 25 : 0; qa(s, '.tli').forEach(e => e.setAttribute('opacity', +e.dataset.i < A.defs.tanken.phasen[p].z ? 1 : 0)); st.ds = []; },
     tick(s, tp, p, st) {
       /* Boot schaukelt; Stutzen, Deckel, Pistole und Lappen hängen am selben Punkt des Rumpfs */
       const dy = Math.sin(tp * 1.6) * 2.2, rot = Math.sin(tp * 1.6 + .6) * .8;
@@ -346,7 +355,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       put(q(s, '#tpist'), {transform: `translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${(ran * -10).toFixed(0)})`});
       put(q(s, '#tschl'), {d: `M${ZX} ${ZY + 8} C${ZX + 12} ${ZY + 70 + 30 * ran} ${px - 60} ${py + 40} ${px - 34} ${py + 2}`}); put(q(s, '#tschl2'), {d: q(s, '#tschl').getAttribute('d')});
       /* Lappen erst, wenn er gesagt wird (Phase 3); in der Bilge (Phase 5) wieder da */
-      put(q(s, '#tlap'), {opacity: p === 3 ? weich(kl(tp / .6)).toFixed(2) : p === 5 ? 1 : 0, transform: `translate(${fx.toFixed(1)} ${(fy + 4).toFixed(1)})`});
+      put(q(s, '#tlap'), {opacity: p === 3 ? weich(kl(tp / .6)).toFixed(2) : 0, transform: `translate(${fx.toFixed(1)} ${(fy + 6).toFixed(1)}) scale(1.8)`});
       if (p === 2) st.l = Math.min(25, Math.max(0, tp - 2.6) * 5); else if (p === 3) st.l = Math.min(38.5, 25 + tp * 3); else if (p >= 4) st.l = 38.5;
       q(s, '.tl').textContent = st.l.toFixed(1).replace('.', ',') + ' l'; q(s, '.te').textContent = (st.l * 1.79).toFixed(2).replace('.', ',') + ' €';
       /* Dampf kriecht nach unten (schwerer als Luft) */
@@ -356,53 +365,82 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
     }});
 })();
 
-/* ---------- A2.4 Sog und Schwell großer Schiffe (SBF 34, 37, 61; Hörreise 1-3 nutzt die Phasen 0–3) ---------- */
-(() => { const SH = `<g><path d="M0 -120 C18 -100 24 -60 24 0 V110 Q24 120 14 120 H-14 Q-24 120 -24 110 V0 C-24 -60 -18 -100 0 -120Z" fill="#8a94a0" stroke="#4a525c" stroke-width="3"/>
-    <rect x="-16" y="66" width="32" height="34" rx="4" fill="#eef2f8" stroke="#4a525c" stroke-width="2"/><rect x="-12" y="70" width="24" height="6" fill="#4a6a8a"/>${[-80, -50, -20, 10, 40].map(y => `<rect x="-14" y="${y}" width="28" height="24" rx="2" fill="${['#c0392b', '#2e86c1', '#e0a63a', '#2e8b57', '#c0392b'][(y + 80) / 30]}" stroke="#4a525c" stroke-width="1.2"/>`).join('')}</g>`;
+/* ---------- A2.4 Sog und Schwell großer Schiffe (SBF 34, 36, 37, 61; gold-3 „Dicke Pötte“ steuert die Phasen: 4 und 5 beim Raser, 0–3 bei der Fähre) ---------- */
+(() => {
   const TAN = Math.tan(19.5 * Math.PI / 180);
-  const welle = (cx, by, sy, L, op) => { const out = []; const lam = L * .16;
-    for (let k = 1; k <= 9; k++) { const d = k * lam, w = d * TAN * .92, c = d * .05, y = sy + d, a = (op * (1 - k / 11)).toFixed(2);
-      out.push(`<path d="M${(cx - w).toFixed(1)} ${(y - c).toFixed(1)} Q${cx} ${(y + c * 2).toFixed(1)} ${(cx + w).toFixed(1)} ${(y - c).toFixed(1)}" stroke-opacity="${(a * .6).toFixed(2)}"/>`);
-      for (const sg of [-1, 1]) { const ex = cx + sg * d * TAN, len = 10 + k * 2.4; out.push(`<path d="M${(ex - sg * len * .3).toFixed(1)} ${(y + len * .5).toFixed(1)} Q${(ex + sg * len * .2).toFixed(1)} ${(y).toFixed(1)} ${(ex + sg * len * .7).toFixed(1)} ${(y - len * .55).toFixed(1)}" stroke-opacity="${a}"/>`); } }
-    for (const sg of [-1, 1]) out.push(`<path d="M${cx + sg * 6} ${by + 6} Q${cx + sg * 30} ${by + 20} ${(cx + sg * 44).toFixed(1)} ${(by + 70).toFixed(1)}" stroke-opacity="${op.toFixed(2)}" stroke-width="4"/>`);
+  /* v5.70 (Nutzer 17.11.2026): eine einzige Vorbeifahrt. Erst die Bugwelle (die Frieda schaukelt), dann zieht der Sog sie heran, dann die Heckwelle (schaukelt stark).
+     Lektorat 19.11.2026: wie in „Dicke Pötte“ kommt die weiße Fähre entgegen, beide halten sich rechts (Backbord an Backbord), links die Mole.
+     Die Phasen geben nur das Ziel der Fahrt vor; was mit der Frieda passiert, ergibt sich aus der Lage zum Schiff. Phase 4 und 5: Lieger am Steg, zu schnell und langsam. */
+  const ARM = Math.tan(30 * Math.PI / 180);   /* Wellenarme stehen steil nach außen (Zeichnung, nicht maßstäblich) */
+  const SX = 272, BY = 260, BX0 = 150, NAH = SX - 70, L2 = 150;
+  const ZIEL = [420, 320, 140, -80], DAUER = [3.5, 3.5, 5, 5];
+  const FAEHRE = `<g><path d="M0 -150 C22 -128 28 -80 28 0 V138 Q28 150 16 150 H-16 Q-28 150 -28 138 V0 C-28 -80 -22 -128 0 -150Z" fill="#f7f7f4" stroke="#4a525c" stroke-width="3"/>
+    <path d="M-28 10 H28 M-28 18 H28" stroke="#1f5f99" stroke-width="4"/><rect x="-20" y="-70" width="40" height="150" rx="6" fill="#e3e8ee" stroke="#4a525c" stroke-width="2"/>
+    ${[-56, -36, -16, 4, 24, 44, 64].map(y => `<rect x="-14" y="${y}" width="28" height="10" rx="2" fill="#4a6a8a"/>`).join('')}<rect x="-24" y="-96" width="48" height="20" rx="4" fill="#fff" stroke="#4a525c" stroke-width="2"/><rect x="-18" y="-92" width="36" height="7" fill="#1d2630"/>
+    <rect x="-7" y="96" width="14" height="22" rx="3" fill="#c0392b"/></g>`;
+  const arme = (cx, oy, op, w, n) => { const out = []; for (let k = 0; k < n; k++) for (const sg of [-1, 1]) { const y0 = oy + k * 13, x0 = cx + sg * (14 + k * 3);
+      out.push(`<path d="M${x0.toFixed(1)} ${y0.toFixed(1)} Q${(cx + sg * 120).toFixed(1)} ${(y0 + 120 * ARM * .9).toFixed(1)} ${(cx + sg * 300).toFixed(1)} ${(y0 + 300 * ARM).toFixed(1)}" stroke-opacity="${(op * (1 - k / (n + 1))).toFixed(2)}" stroke-width="${w}"/>`); }
     return out.join(''); };
+  const LY = [70, 200, 330];
   roh('sog', {titel: 'Sog und Schwell großer Schiffe', nr: 'A2.4', gruppe: 'A2 Anlegen, Ankern, Manöver', folge: 'G3.2',
-    svg: `<rect width="400" height="500" fill="#4f9cc6"/><g id="sgg" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"></g><g id="swv" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"></g>
-      <g id="spier" opacity="0"><rect x="340" y="0" width="60" height="500" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>${[60, 190, 320].map((y, i) => `<g class="slieg" data-y="${y}">${BO.oben({farbe: {rumpf: ['#f3e3c3', '#e6eef5', '#f6d9d0'][i]}})}</g>`).join('')}</g>
-      <g id="sship">${SH}</g><g id="sklein">${BO.oben({})}</g>
+    svg: `<rect width="400" height="500" fill="#4f9cc6"/><g id="sgg" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"></g><g id="swv" fill="none" stroke="#fff" stroke-linecap="round"></g>
+      <g id="smole"><rect x="0" y="0" width="46" height="500" fill="#9aa1a8" stroke="#5e636b" stroke-width="3"/>${Array.from({length: 14}, (_, i) => `<ellipse cx="${46 + (i % 2) * 4}" cy="${i * 38 + 12}" rx="10" ry="8" fill="#8a9098" stroke="#5e636b" stroke-width="1.5"/>`).join('')}${T(24, 488, 'Mole', 'middle', 14)}</g>
+      <g id="spier" opacity="0"><rect x="364" y="0" width="36" height="500" fill="#b98750" stroke="#7a5a3a" stroke-width="3"/>${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => `<path d="M364 ${i * 50 + 25}H400" stroke="#8a6a44" stroke-width="2"/>`).join('')}
+        ${LY.map((y, i) => `<g class="slieg" data-y="${y}">${BO.oben({farbe: {rumpf: ['#f3e3c3', '#e6eef5', '#f6d9d0'][i]}})}<g fill="#2e86c1"><rect x="19" y="-24" width="7" height="16" rx="3"/><rect x="19" y="10" width="7" height="16" rx="3"/></g><path d="M18 -40 L46 -52 M18 40 L46 52" stroke="#e8c46a" stroke-width="3"/></g>`).join('')}</g>
+      <g id="sship">${FAEHRE}</g><g id="ssp" fill="#fff"></g><g id="sklein">${BO.oben({})}</g><g id="sraser" opacity="0">${BO.oben({farbe: {rumpf: '#d6372b'}})}</g>
       <g id="sar" fill="#f08a1c" stroke="#f08a1c" stroke-width="4"></g><g id="sx" opacity="0"><circle r="16" fill="#fff" stroke="#c0392b" stroke-width="3"/><path d="M-7 -7 L7 7 M7 -7 L-7 7" stroke="#c0392b" stroke-width="3.5"/></g>
-      ${T(0, 0, '', 'start', 20, 'slab')}`,
+      ${T(0, 0, '', 'end', 20, 'slab')}`,
     phasen: [
-      {wer: H, t: 'Ein großes Schiff schiebt vorn eine Bugwelle vor sich her und zieht hinten eine Heckwelle hinter sich her. Die kann ein kleines Boot zum Kentern bringen.', min: 9, cap: 'Bugwelle und Heckwelle'},
-      {wer: M, t: 'Zwischen dem großen Schiff und dir fließt das Wasser schneller. Das saugt dich an: der Sog. So kommt es zur Kollision.', min: 8, cap: 'Sog: das Wasser dazwischen zieht'},
-      {wer: H, t: 'Wirst du überholt, schubst dich vorn der Stau weg, in der Mitte zieht dich der Sog ran, und am Heck kann dich der Schwell querschlagen. Im Flachen läufst du sogar auf Grund.', min: 11, cap: 'Überholt werden: Stau, Sog, Schwell'},
-      {wer: M, t: 'Darum: Abstand halten. Und an festgemachten Booten fährst du langsam vorbei, sonst wirft deine Welle sie gegen den Steg. Das gelbe Tafelzeichen sagt dasselbe: Sog und Wellenschlag vermeiden.', min: 11, cap: 'Langsam an Liegern vorbei'}],
-    enter(s, p, st) { st.bx = p === 2 ? 236 : p === 1 ? 228 : 270; st.rot = 0; st.roll = 0; st.by = p === 2 ? 330 : 250; put(q(s, '#spier'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#sship'), {opacity: p === 3 ? 0 : 1}); },
+      {wer: H, t: 'Ein großes Schiff kommt uns entgegen. Wir halten uns rechts, aber viel Platz ist nicht.', min: 4, cap: 'Das große Schiff kommt'},
+      {wer: M, t: 'Erst erreicht uns seine Bugwelle. Die Frieda schaukelt.', min: 4, cap: 'Bugwelle: es schaukelt'},
+      {wer: H, t: 'Jetzt ist es neben uns. Das Wasser dazwischen fließt schneller und zieht uns zum Schiff hin: der Sog.', min: 6, cap: 'Sog: es zieht dich heran'},
+      {wer: M, t: 'Und dann die Heckwelle, die stärkste. Ganz dicht dran kann ein kleines Boot kentern oder ans Schiff gezogen werden. Darum: Abstand halten.', min: 7, cap: 'Heckwelle: Abstand halten'},
+      {wer: H, t: 'Wer zu schnell an festgemachten Booten vorbeifährt, wirft sie mit seiner Welle gegen den Steg.', min: 6, cap: 'Zu schnell an Liegern vorbei'},
+      {wer: M, t: 'Langsam vorbei: Die Welle ist klein, die Boote liegen ruhig.', min: 6, cap: 'Langsam an Liegern vorbei'}],
+    enter(s, p, st) {
+      if (p === 0 || st.sy == null) { st.sy = 780; st.bx = BX0; st.roll = 0; st.trifft = {}; }
+      st.von = st.sy; st.lab = ''; st.labT = 0;
+      const lieger = p >= 4; put(q(s, '#spier'), {opacity: lieger ? 1 : 0}); put(q(s, '#smole'), {opacity: lieger ? 0 : 1}); put(q(s, '#sship'), {opacity: lieger ? 0 : 1});
+      put(q(s, '#sraser'), {opacity: p === 4 ? 1 : 0}); put(q(s, '#sklein'), {opacity: p === 4 ? 0 : 1}); q(s, '#ssp').innerHTML = '';
+    },
     tick(s, tp, p, st) {
       const dt = st.dt || .016;
       q(s, '#sgg').innerHTML = Array.from({length: 22}, (_, i) => { const x = (i * 71) % 380, y = ((i * 113) % 520 + tp * 8) % 520 - 10; return `<path d="M${x} ${y.toFixed(0)} q9 -4 18 0 t18 0"/>`; }).join('');
-      if (p < 3) {
-        const v = p === 2 ? 30 : 64, sx = 150, sy = 640 - ((tp * v) % 900), stern = sy + 120;
-        put(q(s, '#sship'), {transform: `translate(${sx} ${sy.toFixed(1)})`}); q(s, '#swv').innerHTML = welle(sx, sy - 120, stern, 260, .9);
-        if (p === 2) st.by -= dt * 12;
-        const by = st.by, rel = by - sy; let ziel = p === 2 ? 236 : p === 1 ? 222 : 270, rz = 0, lab = '';
-        const edge = Math.abs(st.bx - sx) - (by - stern) * TAN; const anKante = by > stern && Math.abs(edge) < 16;
-        if (p >= 1 && Math.abs(rel) < 90) { ziel = sx + 52; lab = 'Sog'; }
-        if (p === 2 && rel < -90 && rel > -170) { ziel = 250; rz = 14; lab = 'Stau'; }
-        if (p === 2 && rel > 110 && rel < 220) { rz = -50; lab = 'Schwell'; }
-        if (anKante) st.roll = 1;
-        st.roll = Math.max(0, st.roll - dt * .8); st.bx += (ziel - st.bx) * Math.min(1, dt * 1.4); st.rot += (rz - st.rot) * Math.min(1, dt * 2);
-        const wack = st.roll * Math.sin(tp * 14) * 16;
-        put(q(s, '#sklein'), {transform: `translate(${st.bx.toFixed(1)} ${by.toFixed(1)}) rotate(${(st.rot + wack).toFixed(1)}) scale(.62)`});
-        const ar = q(s, '#sar'), bxx = st.bx; ar.innerHTML = lab === 'Sog' ? `<path d="M${(bxx - 18).toFixed(0)} ${by}H${sx + 40}" fill="none"/><path d="M${sx + 34} ${by - 9}L${sx + 20} ${by}L${sx + 34} ${by + 9}Z" stroke="none"/>` : lab === 'Stau' ? `<path d="M${sx + 30} ${by}H${(bxx - 20).toFixed(0)}" fill="none"/><path d="M${(bxx - 26).toFixed(0)} ${by - 9}L${(bxx - 12).toFixed(0)} ${by}L${(bxx - 26).toFixed(0)} ${by + 9}Z" stroke="none"/>` : '';
-        const sl = q(s, '.slab'); sl.textContent = lab || (anKante ? 'Welle!' : ''); put(sl, {x: Math.min(330, bxx + 18).toFixed(0), y: (by - 26).toFixed(0)}); put(q(s, '#sx'), {opacity: 0});
+      const sl = q(s, '.slab');
+      if (p < 4) {
+        /* Fahrt der Fähre: in der Phasendauer zum Ziel, danach langsam weiter (sie hält nie an) */
+        const u = Math.min(1, tp / DAUER[p]); st.sy = u < 1 ? lp(st.von, ZIEL[p], u) : ZIEL[p] - (tp - DAUER[p]) * 6;
+        const bow = st.sy - L2, stern = st.sy + L2, dx = Math.abs(st.bx - SX);
+        put(q(s, '#sship'), {transform: `translate(${SX} ${st.sy.toFixed(1)})`});
+        q(s, '#swv').innerHTML = arme(SX, bow + 8, .95, 3, 3) + arme(SX, stern - 4, 1, 4.5, 4);
+        /* Wo stehen die Wellenarme an der Stelle der Frieda? */
+        const yBug = bow + 8 + dx * ARM, yHeck = stern - 4 + dx * ARM;
+        if (!st.trifft.bug && Math.abs(BY - yBug) < 18) { st.trifft.bug = 1; st.roll = Math.max(st.roll, .8); st.lab = 'Bugwelle!'; st.labT = 2.2; }
+        if (!st.trifft.heck && Math.abs(BY - yHeck) < 18) { st.trifft.heck = 1; st.roll = Math.max(st.roll, 1.5); st.lab = 'Heckwelle!'; st.labT = 2.6; }
+        /* Der Sog zieht erst, wenn die Bugwelle durch ist (Reihenfolge: Welle, Sog, Heckwelle) */
+        const neben = st.trifft.bug && BY > bow + 10 && BY < stern - 10;
+        if (neben) { st.bx += (NAH - st.bx) * Math.min(1, dt * 1.5); if (st.labT <= 0) st.lab = 'Sog'; }
+        else if (st.lab === 'Sog') st.lab = '';
+        st.roll = Math.max(0, st.roll - dt * .55); st.labT -= dt;
+        if (st.labT <= 0 && st.lab !== 'Sog') st.lab = '';
+        const r1 = Math.min(1, st.roll), wack = r1 * Math.sin(tp * 11) * (st.roll > 1 ? 28 : 18), quer = r1 * Math.sin(tp * 11 + 1) * (st.roll > 1 ? 9 : 6), hoch = 1 + r1 * .08 * Math.sin(tp * 11 + 2);
+        /* Die Frieda fährt aus dem Hafen hinaus (Bug nach unten im Bild), die Fähre kommt herein */
+        put(q(s, '#sklein'), {transform: `translate(${(st.bx + quer).toFixed(1)} ${BY}) rotate(${(180 + wack).toFixed(1)}) scale(${(.8 * hoch).toFixed(3)})`});
+        q(s, '#ssp').innerHTML = st.roll > .15 ? Array.from({length: 9}, (_, i) => { const a = i / 9 * Math.PI * 2 + tp * 2, r = 30 + 10 * Math.sin(tp * 9 + i); return `<circle cx="${(st.bx + Math.cos(a) * r * .7).toFixed(1)}" cy="${(BY + Math.sin(a) * r * 1.1).toFixed(1)}" r="${(3 + 3 * r1).toFixed(1)}" opacity="${(.85 * r1).toFixed(2)}"/>`; }).join('') : '';
+        q(s, '#sar').innerHTML = neben && st.lab === 'Sog' ? `<path d="M${(st.bx + 20).toFixed(0)} ${BY}H${SX - 40}" fill="none"/><path d="M${SX - 36} ${BY - 9}L${SX - 22} ${BY}L${SX - 36} ${BY + 9}Z" stroke="none"/>` : '';
+        sl.textContent = st.lab; put(sl, {x: Math.max(110, st.bx - 26).toFixed(0), y: BY - 48, fill: st.lab === 'Heckwelle!' ? '#c0392b' : '#fff'});
+        put(q(s, '#sx'), {opacity: 0});
       } else {
-        /* Phase 3: erst zu schnell (Lieger schlagen an den Steg), dann langsam */
-        const schnell = tp < 6, y = schnell ? 560 - tp * 90 : 560 - (tp - 6) * 34, by = ((y % 640) + 640) % 640 - 60, bx = 270;
-        q(s, '#swv').innerHTML = schnell ? welle(bx, by - 31, by + 31, 120, .8) : welle(bx, by - 31, by + 31, 60, .35);
-        put(q(s, '#sklein'), {transform: `translate(${bx} ${by.toFixed(1)}) scale(.62)`}); q(s, '#sar').innerHTML = '';
-        qa(s, '.slieg').forEach(e => { const ly = +e.dataset.y, hit = schnell && ly > by + 20 && ly < by + 170, w = hit ? Math.sin(tp * 16 + ly) * 9 : Math.sin(tp * 2 + ly) * 1; put(e, {transform: `translate(${(366 + (hit ? Math.abs(w) * .5 : 0)).toFixed(1)} ${ly}) rotate(${w.toFixed(1)}) scale(.5)`}); });
-        const sl = q(s, '.slab'); sl.textContent = schnell ? 'Zu schnell!' : 'Langsam'; put(sl, {x: 120, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
+        /* Phase 4: der Raser, zu schnell (die Lieger schlagen gegen den Steg). Phase 5: die Frieda, langsam (sie liegen ruhig) */
+        const schnell = p === 4, y = schnell ? 600 - (tp * 120) % 760 : 600 - (tp * 34) % 760, by = y, bx = 220;
+        q(s, '#swv').innerHTML = schnell ? arme(bx, by + 30, .9, 3, 3) : arme(bx, by + 30, .35, 2, 2);
+        put(q(s, schnell ? '#sraser' : '#sklein'), {transform: `translate(${bx} ${by.toFixed(1)}) scale(.62)`}); q(s, '#sar').innerHTML = ''; let gischt = '';
+        qa(s, '.slieg').forEach(e => { const ly = +e.dataset.y, welle = by + 30 + (334 - bx) * ARM, hit = schnell && ly > welle - 60 && ly < welle + 90;
+          const w = hit ? Math.sin(tp * 15 + ly) * 13 : Math.sin(tp * 1.6 + ly) * .8, stoss = hit ? Math.max(0, Math.sin(tp * 15 + ly)) * 7 : 0;
+          if (hit) gischt += [0, 1, 2, 3].map(k => `<circle cx="${(356 + Math.sin(tp * 9 + k) * 4).toFixed(1)}" cy="${(ly - 24 + k * 16).toFixed(1)}" r="${(4 + 2 * Math.abs(Math.sin(tp * 12 + k))).toFixed(1)}" opacity=".9"/>`).join('');
+          put(e, {transform: `translate(${(334 + stoss).toFixed(1)} ${ly}) rotate(${w.toFixed(1)}) scale(.62)`}); });
+        q(s, '#ssp').innerHTML = gischt;
+        sl.textContent = schnell ? 'Zu schnell!' : 'Langsam: alles ruhig'; put(sl, {x: 300, y: 470, fill: schnell ? '#c0392b' : '#1f7a3a'}); put(q(s, '#sx'), {opacity: schnell ? 1 : 0, transform: `translate(${bx - 52} ${by.toFixed(0)})`});
       }
     }});
 })();
