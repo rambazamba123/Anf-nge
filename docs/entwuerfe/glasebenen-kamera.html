@@ -67,7 +67,7 @@ p{margin:0}
   <header style="display:flex;flex-direction:column;gap:6px">
     <span class="eyebrow">Hörreise · Filmprobe · Glasebenen</span>
     <h1>Glasebenen-Kamera</h1>
-    <p class="lead">Eine Szene: die Frieda auf der Brede, eine grüne Tonne an Steuerbord voraus, Schilf an Backbord, der Leuchtturm im Norden. Fünf Blickwinkel, viele Einstellungen, zehn Übergänge. Einfach durchklicken.</p>
+    <p class="lead">Eine Szene: die Frieda auf der Brede, eine grüne Tonne an Steuerbord voraus, Schilf an Backbord, der Leuchtturm im Norden. Fünf Blickwinkel, viele Einstellungen, neun Übergänge. Einfach durchklicken, oder die Musterszene laufen lassen: Sie zeigt, welcher Wechsel zu welchem Moment passt.</p>
   </header>
 
   <div class="buehne" id="buehne">
@@ -80,9 +80,10 @@ p{margin:0}
     <div class="ueber" id="wisch"></div>
     <div class="anzeige" id="anzeige">Seite · Totale</div>
   </div>
+  <p class="klein" id="grund" aria-live="polite" style="min-height:1.4em;margin-top:-4px"></p>
 
   <div class="leiste">
-    <button class="btn haupt" type="button" id="tour" aria-pressed="false">▶ Rundfahrt</button>
+    <button class="btn haupt" type="button" id="tour" aria-pressed="false">▶ Musterszene</button>
     <button class="btn" type="button" id="vertigo">Hitchcock-Zoom</button>
     <button class="btn" type="button" id="zufallAlles">Überrasch mich</button>
   </div>
@@ -313,6 +314,27 @@ function friedaD34V() {
     ${licht(-20, -34, ROT)}${licht(30, -78, WEISS)}
   </g>`;
 }
+/* von oben mit Tiefe: jede Höhe ist eine eigene Schicht (data-h), die sich nach der Kamera neigt.
+   Was hoch ist (Kajüte, Köpfe, Mast), liegt weiter vorn und wandert stärker. */
+const HS = (h, inner, cx = 200, cy = 300, sk = 1.7) => `<g data-h="${h}" data-cx="${cx}" data-cy="${cy}" data-s="${sk}">${inner}</g>`;
+const RUMPF_OBEN = 'M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z';
+function friedaOben3D() {
+  const kab = 'M-11 -4 H11 V20 H-11Z', wand = dunkel(P.rumpf, .2);
+  return HS(0, `<path d="${RUMPF_OBEN}" fill="${P.unter}"/>`) +
+    [.07, .14, .21].map((h, i) => HS(h, `<path d="${RUMPF_OBEN}" fill="${dunkel(P.rumpf, .26 - i * .05)}"/>`)).join('') +
+    HS(.12, `<rect x="-6" y="48" width="12" height="12" rx="3" fill="${dunkel(P.motor, .2)}"/>`) + HS(.3, `<rect x="-6" y="48" width="12" height="12" rx="3" fill="${P.motor}"/><rect x="-2" y="40" width="4" height="9" fill="${P.holz}"/>`) +
+    HS(.28, `<path d="${RUMPF_OBEN}" fill="${P.rumpf}" stroke="${dunkel(P.rumpf, .35)}" stroke-width="1.2"/>
+      <path d="M0 -46 C14 -33 16.5 -6 15.5 22 L15 45 M0 -46 C-14 -33 -16.5 -6 -15.5 22 L-15 45" stroke="${P.streifen}" stroke-width="2.2" fill="none"/>
+      <path d="M0 -42 C10 -32 12 -14 12 -6 L-12 -6 C-12 -14 -10 -32 0 -42Z" fill="${P.deck}"/><rect x="-13" y="22" width="26" height="22" rx="3" fill="${P.deck}"/>
+      ${[-10, 14].map(y => `<ellipse cx="20.5" cy="${y}" rx="3" ry="5" fill="${P.rumpf}" stroke="${wand}" stroke-width=".6"/>`).join('')}`) +
+    HS(.4, `<path d="M-10 -34 Q0 -50 10 -34" stroke="${P.motor}" stroke-width="1.2" fill="none"/>`) +
+    [.36, .44, .52].map(h => HS(h, `<path d="${kab}" fill="${wand}"/>`)).join('') +
+    HS(.6, `<path d="${kab}" fill="${P.dach}" stroke="${dunkel(P.dach, .25)}" stroke-width=".8"/><path d="M-8 -1 H8 M-8 3 H8" stroke="${hell(P.dach, .25)}" stroke-width="1.2"/>`) +
+    HS(.42, `<ellipse cx="0" cy="34" rx="8.5" ry="5.5" fill="${P.hJacke}"/>`) + HS(.58, `<circle cx="0" cy="35" r="5" fill="${P.hMuetze}"/><path d="M-2.5 31 L2.5 31 L0 28Z" fill="#141a26"/>`) +
+    HS(.4, `<ellipse cx="0" cy="-27" rx="6.5" ry="4.5" fill="${P.sJacke}"/>`) + HS(.52, `<circle cx="0" cy="-28" r="4.2" fill="${P.sHaar}"/><path d="M0 -24 Q-2 -19 -1 -16" stroke="${P.sHaar}" stroke-width="2.4" fill="none"/>`) +
+    [.62, .68, .74, .8, .86, .92, .97].map(h => HS(h, `<circle cx="0" cy="14" r="1.5" fill="${P.motor}"/>`)).join('') + HS(1, `<rect x="-1.8" y="12.2" width="3.6" height="3.6" fill="${P.motor}"/>${licht(0, 14, WEISS, 1.4)}`) +
+    HS(.32, licht(-19.5, -18, ROT, 1.6) + licht(19.5, -18, GRUEN, 1.6) + licht(0, 49, WEISS, 1.4));
+}
 /* von oben, Bug nach oben, 100 lang */
 function friedaOben() {
   return `<path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="${P.rumpf}" stroke="${dunkel(P.rumpf, .35)}" stroke-width="1.6"/>
@@ -436,16 +458,20 @@ const BLICKE = {
         {d: .15, svg: `<path d="M-60 -60 L40 -60 Q70 60 50 200 Q34 360 60 560 L-60 560Z" fill="${P.schilf}"/>` + Array.from({length: 40}, (_, i) => `<circle cx="${(i * 37) % 90 - 30}" cy="${(i * 61) % 620 - 50}" r="${4 + i % 5}" fill="${i % 2 ? P.schilfD : P.schilfH}" opacity=".8"/>`).join('')},
         {d: .2, svg: P.nacht || lichtId === 'nebel' ? '' : [0, 1, 2].map(i => `<ellipse cx="${100 + i * 130}" cy="${80 + i * 150}" rx="90" ry="60" fill="url(#schatten)" data-welle="${5 + i},0,${i},0"/>`).join('')},
         {d: .3, svg: `<path d="M-60 40 L150 92 L144 116 L-60 70Z" fill="${P.mole}"/>` + Array.from({length: 8}, (_, i) => `<circle cx="${-40 + i * 24}" cy="${52 + i * 6.3}" r="5" fill="${dunkel(P.mole, .2)}"/>`).join('') +
-          `<circle cx="${150 + sx}" cy="${104 + sy}" r="18" fill="#000" opacity=".25"/><circle cx="150" cy="104" r="17" fill="${P.turm}"/><circle cx="150" cy="104" r="11" fill="${P.turmR}"/><circle cx="150" cy="104" r="5" fill="${P.nacht ? '#fff3c8' : P.fenster}"/>` +
-          (P.nacht ? `<g data-strahl="150,104"><path d="M150 104 L420 70 L420 140Z" fill="url(#strahl)" opacity=".7"/></g>` : '')},
-        {d: .35, svg: `<ellipse cx="${312 + sx * 1.4}" cy="${140 + sy * 1.4}" rx="16" ry="14" fill="#000" opacity=".22"/><circle cx="312" cy="140" r="14" fill="${P.tonne}"/><circle cx="312" cy="140" r="6" fill="${P.tonneD}"/><circle cx="308" cy="136" r="2.5" fill="${hell(P.tonne, .4)}"/>` + (P.nacht ? `<g data-blink="1">${licht(312, 140, GRUEN, 3.2)}</g>` : '')},
+          `<ellipse cx="${150 + sx * 3}" cy="${104 + sy * 3}" rx="22" ry="14" fill="#000" opacity=".2" transform="rotate(${az} ${150 + sx * 3} ${104 + sy * 3})"/>` +
+          Array.from({length: 9}, (_, i) => { const h = i * .2, r = 17 - i * .8; return HS(h, `<circle cx="150" cy="104" r="${r}" fill="${i % 2 ? P.turmR : P.turm}" stroke="${dunkel(P.turm, .3)}" stroke-width=".5"/>`, 150, 104, 1); }).join('') +
+          HS(1.8, `<circle cx="150" cy="104" r="8" fill="${P.nacht ? '#fff3c8' : P.fenster}"/>`, 150, 104, 1) + HS(1.95, `<circle cx="150" cy="104" r="5.5" fill="${P.turmR}"/>`, 150, 104, 1) +
+          (P.nacht ? HS(1.8, `<g data-strahl="150,104"><path d="M150 104 L420 70 L420 140Z" fill="url(#strahl)" opacity=".7"/></g>`, 150, 104, 1) : '')},
+        {d: .35, svg: `<ellipse cx="${312 + sx * 1.6}" cy="${140 + sy * 1.6}" rx="17" ry="13" fill="#000" opacity=".22"/>` +
+          [[0, 14, P.tonneD], [.12, 12, P.tonne], [.24, 9.5, P.tonne], [.36, 7, P.tonneD], [.48, 4.5, P.tonne], [.6, 2.2, hell(P.tonne, .3)]].map(([h, r, c]) => HS(h, `<circle cx="312" cy="140" r="${r}" fill="${c}"/>`, 312, 140, 1)).join('') +
+          HS(.75, `<circle cx="312" cy="140" r="1.6" fill="${P.tonneD}"/>` + (P.nacht ? `<g data-blink="1">${licht(312, 140, GRUEN, 3.2)}</g>` : ''), 312, 140, 1)},
         {d: .55, svg: `<g data-boot="0">
             <path data-fluss="-22" d="M196 380 Q170 450 120 560 M204 380 Q230 450 280 560" stroke="${P.glanz}" stroke-width="3" fill="none" stroke-dasharray="12 10" opacity=".8"/>
             <path data-fluss="-26" d="M200 384 V560" stroke="${P.glanz}" stroke-width="5" fill="none" stroke-dasharray="6 9" opacity=".5"/>
             <path d="M192 216 Q170 236 150 262 M208 216 Q230 236 250 262" stroke="${P.glanz}" stroke-width="2.4" fill="none" opacity=".8"/>
-            <g transform="translate(${200 + sx * .8} ${300 + sy * .8}) scale(1.7)" opacity=".22"><path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="#000"/></g>
+            <g transform="translate(${200 + sx * 1.3} ${300 + sy * 1.3}) scale(1.74)" opacity=".24"><path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="#000"/></g>
             ${P.nacht ? `<g transform="translate(200 300) scale(1.7)"><path d="M0 -6 L-74 25 Q-60 -130 0 -150 Q60 -130 74 25Z" fill="${WEISS}" opacity=".07"/><path d="M-19 -18 L-19 -92 Q-70 -80 -86 10Z" fill="${ROT}" opacity=".2"/><path d="M19 -18 L19 -92 Q70 -80 86 10Z" fill="${GRUEN}" opacity=".2"/><path d="M0 49 L-58 73 Q0 130 58 73Z" fill="${WEISS}" opacity=".14"/></g>` : ''}
-            <g transform="translate(200 300) scale(1.7)">${friedaOben()}${P.nacht ? licht(-19.5, -18, ROT, 1.6) + licht(19.5, -18, GRUEN, 1.6) + licht(0, 49, WEISS, 1.4) + licht(0, -6, WEISS, 1.4) : ''}</g></g>`},
+            <g transform="translate(200 300) scale(1.7)">${friedaOben3D()}</g></g>`},
         {d: .8, svg: moewe(-60, 420, 470, 60, 14, 2, 1.6) + `<g opacity=".25">${moewe(-40, 450, 490, 90, 14, 2, 1.6).replace(P.moewe, '#000').replace(P.moeweD, '#000')}</g>`},
         {d: .9, svg: nebelband(120, 200, 380, 120, .55) + nebelband(320, 420, 340, 110, .5)}
       ];
@@ -506,9 +532,10 @@ function orbitEbenen() {
     {d: .95, svg: schilf(-1300, 1700, 560, 60, 160, 60, 7)}
   ];
 }
-let WELLEN = [], FLUSS = [], MOEWEN = [], BLINK = [], STRAHL = [], DRIFT = [], BOOTE = [], WIND = [], GISCHT = [], FUNKEL = [], MUEHLE = [];
+let HOEHE = [], WELLEN = [], FLUSS = [], MOEWEN = [], BLINK = [], STRAHL = [], DRIFT = [], BOOTE = [], WIND = [], GISCHT = [], FUNKEL = [], MUEHLE = [];
 function sammeln() {
   const q = s => [...welt.querySelectorAll(s)];
+  HOEHE = q('[data-h]').map(el => ({el, h: +el.dataset.h, cx: +el.dataset.cx, cy: +el.dataset.cy, s: +el.dataset.s}));
   WELLEN = q('[data-welle]').map(el => { const [sp, amp, ph, per] = el.dataset.welle.split(',').map(Number); return {el, sp, amp, ph, per, b: el.getAttribute('transform') || ''}; });
   FLUSS = q('[data-fluss]').map(el => ({el, sp: +el.dataset.fluss}));
   MOEWEN = q('[data-moewe]').map(el => { const [x0, y0, x1, y1, dur, ph] = el.dataset.moewe.split(',').map(Number); return {el, x0, y0, x1, y1, dur, ph, flug: el.querySelector('.flug')}; });
@@ -565,6 +592,15 @@ function zeichne(now) {
   const t = (now - t0) / 1000;
   tweens = tweens.filter(w => { const u = Math.min(1, (now - w.start) / w.dur), e = EASE[w.ease](u); for (const k in w.ziel) w.obj[k] = w.von[k] + (w.ziel[k] - w.von[k]) * e; if (u >= 1) { w.res(); return false; } return true; });
   for (const p in SETS) kameraAnwenden(p, t);
+  if (SETS.oben && SETS.oben.classList.contains('an')) {
+    /* Die Kamera hängt etwas südwestlich und schwebt: Hohes neigt sich vom Bildmittelpunkt weg und wandert stärker */
+    const c = CAM.oben, wx = Math.sin(t * .31) * 3 + (c.fx - 200) * -.04, wy = Math.cos(t * .27) * 3 + (c.fy - 250) * -.04;
+    for (const o of HOEHE) {
+      const lx = ((o.cx - 200) * .05 + 11 + wx) * o.h, ly = ((o.cy - 250) * .05 - 15 + wy) * o.h, sc = 1 + o.h * .07;
+      const ox = o.s === 1 ? o.cx : 0, oy = o.s === 1 ? o.cy : 0;
+      o.el.setAttribute('transform', `translate(${(lx / o.s + ox).toFixed(2)} ${(ly / o.s + oy).toFixed(2)}) scale(${sc.toFixed(3)}) translate(${-ox} ${-oy})`);
+    }
+  }
   const bob = Math.sin(t * 1.6) * 1.8, roll = Math.sin(t * 1.2) * 1.2;
   for (const b of BOOTE) b.el.setAttribute('transform', `translate(0 ${bob.toFixed(2)}) rotate(${roll.toFixed(2)})`);
   for (const w of WELLEN) { const dx = w.per ? ((((t * w.sp) % w.per) + w.per) % w.per) - w.per : Math.sin(t * .05 + w.ph) * w.sp * 6; w.el.setAttribute('transform', `${w.b} translate(${dx.toFixed(1)} ${(Math.sin(t * 1.1 + w.ph) * w.amp).toFixed(1)})`); }
@@ -642,13 +678,6 @@ const UEBERGANG = {
     await Promise.all([tw(G, {extraBlur: 13}, 700, 'in'), tw(CAM[a], {df: 1}, 700, 'in')]);
     Object.assign(CAM[n], zielC, {df: 1}); zeige(n); if (a !== n) Object.assign(CAM[a], zielCamFuer(a));
     await Promise.all([tw(G, {extraBlur: 0}, 800, 'out'), tw(CAM[n], {df: zielC.df}, 1500, 'inout')]); }},
-  wischer: {name: 'Vordergrund-Wischer', erkl: 'Etwas Nahes zieht groß und unscharf durchs Bild: ein Schilfbüschel, ein Pfahl, eine Möwe. Dahinter ist geschnitten.', fn: async (a, n) => {
-    const art = BLICKE[n].top ? 'moewe' : ['schilf', 'pfahl', 'moewe'][Math.floor(Math.random() * 3)];
-    const form = {schilf: schilf(-20, 620, 640, 420, 640, 34, 9), pfahl: `<rect x="110" y="-80" width="380" height="760" rx="40" fill="${P.holz}"/><path d="M150 -80 V680 M230 -80 V680 M330 -80 V680" stroke="${dunkel(P.holz, .25)}" stroke-width="10"/>`,
-      moewe: `<g transform="translate(300 250) scale(14)"><path d="M-16 -2 Q-8 -10 0 0 Q8 -10 16 -2 Q8 -5 0 3 Q-8 -5 -16 -2Z" fill="${P.moewe}"/></g>`}[art];
-    wisch.innerHTML = `<svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0 -25%;width:150%;height:100%;filter:blur(${art === 'moewe' ? 10 : 7}px)">${form}</svg>`;
-    const lauf = wisch.animate([{transform: 'translateX(130%)'}, {transform: 'translateX(-130%)'}], {duration: reduziert ? 300 : 1200, easing: 'cubic-bezier(.4,.1,.6,.9)', fill: 'both'});
-    await warte(reduziert ? 150 : 600); zeige(n); await lauf.finished; lauf.cancel(); wisch.innerHTML = ''; }},
   platten: {name: 'Glasplatten', erkl: 'Wie am Tricktisch: Die Glasplatten werden einzeln herausgezogen, vorn zuerst. Kurz sieht man das Leuchtpult. Dann schieben sich die neuen Platten hinein, hinten zuerst.', fn: async (a, n, zielC) => {
     const LA = [...EBENEN[a]].sort((x, y) => y.d - x.d);
     await Promise.all(LA.map((L, i) => ani(L.eb, [{transform: 'none'}, {transform: `translateX(${-W() * 1.25}px) rotate(-2deg)`}], 520, 'ease-in', {delay: i * 85})));
@@ -685,7 +714,7 @@ async function gehe(p, v, uid = uebergangId) {
     if (a === p) {
       if (uid === 'fahrt') await tw(CAM[p], ziel, 1500);
       else if (uid === 'schnitt') Object.assign(CAM[p], ziel);
-      else { const fx = UEBERGANG[uid]; await fx.fn(a, p, ziel); if (uid === 'nebel' || uid === 'licht' || uid === 'wischer') Object.assign(CAM[p], ziel); }
+      else { const fx = UEBERGANG[uid]; await fx.fn(a, p, ziel); if (uid === 'nebel' || uid === 'licht') Object.assign(CAM[p], ziel); }
     } else {
       if (!['fahrt', 'orbit', 'kran', 'schaerfe', 'platten', 'atem'].includes(uid)) Object.assign(CAM[p], ziel);
       await UEBERGANG[uid].fn(a, p, ziel);
@@ -698,7 +727,7 @@ async function gehe(p, v, uid = uebergangId) {
 }
 function zufallFuer(a, p) {
   let l = Object.keys(UEBERGANG).filter(k => k !== 'schnitt');
-  if (a === p) l = ['fahrt', 'schaerfe', 'nebel', 'atem', 'wischer'];
+  if (a === p) l = ['fahrt', 'schaerfe', 'atem'];
   return l[Math.floor(Math.random() * l.length)];
 }
 let anzeigeTimer;
@@ -708,28 +737,36 @@ function anzeigen(p, v, uid) {
 }
 
 /* ============================================================
-   8. Hitchcock-Zoom, Rundfahrt, Überrasch mich
+   8. Hitchcock-Zoom, Musterszene, Überrasch mich
    ============================================================ */
-$('#vertigo').onclick = async () => {
+async function vertigo() {
   if (laeuft) return; laeuft = true;
   const c = CAM[blick], v0 = c.vert;
   await tw(c, {vert: 1}, 1700, 'inout'); await warte(400); await tw(c, {vert: v0}, 1500, 'inout');
   laeuft = false;
-};
+}
+$('#vertigo').onclick = vertigo;
+/* Musterszene nach den Film-Regeln (docs/film-regeln.md): Heimat ist die Seite, jeder Wechsel hat einen Grund */
 const TOUR = [
-  ['seite', 0, 'nebel', 2600], ['seite', 1, 'fahrt', 2600], ['heck', 1, 'orbit', 2800], ['schulter', 0, 'fahrt', 2800], ['schulter', 1, 'schaerfe', 2600],
-  ['oben', 0, 'kran', 2800], ['oben', 3, 'fahrt', 3200], ['bug', 0, 'wischer', 2600], ['bug', 2, 'schaerfe', 2400], ['bug', 1, 'fahrt', 2200],
-  ['seite', 2, 'orbit', 2800], ['seite', 4, 'atem', 2600], ['heck', 3, 'licht', 2600], ['seite', 0, 'platten', 2600]
+  ['seite', 0, 'platten', 4200, 'Folgenanfang: neues Bühnenbild'], ['seite', 1, 'fahrt', 4000, 'Jemand sagt etwas Wichtiges: Zufahrt'],
+  ['seite', 4, 'schaerfe', 3200, 'Etwas Bestimmtes zeigen: Schärfe verlegen'], ['seite', 0, 'fahrt', 3200, 'Zurück in die Ruhe'],
+  ['oben', 0, 'kran', 5000, 'Lehrbild von oben: Kranfahrt'], ['seite', 0, 'kran', 3600, 'Zurück an Bord'],
+  ['heck', 1, 'orbit', 4200, 'Manöver: einmal herum, von achtern'], ['seite', 0, 'orbit', 3600, 'Zurück zur Seite'],
+  ['seite', 1, 'vertigo', 3800, 'Schreckmoment: Hitchcock-Zoom'], ['seite', 2, 'atem', 4200, 'Hinnerk erzählt von früher: Atemzug'],
+  ['seite', 0, 'atem', 3200, 'Zurück in die Gegenwart'], ['schulter', 0, 'fahrt', 4200, 'Du bist dran: über die Schulter'],
+  ['seite', 0, 'nebel', 4000, 'Ortswechsel: Nebelblende']
 ];
 let tourAn = false;
 $('#tour').onclick = async () => {
-  tourAn = !tourAn; $('#tour').setAttribute('aria-pressed', tourAn); $('#tour').textContent = tourAn ? '■ Rundfahrt anhalten' : '▶ Rundfahrt';
+  tourAn = !tourAn; $('#tour').setAttribute('aria-pressed', tourAn); $('#tour').textContent = tourAn ? '■ Musterszene anhalten' : '▶ Musterszene'; if (!tourAn) $('#grund').textContent = '';
   let i = 0;
   while (tourAn) {
-    const [p, v, u, halt] = TOUR[i % TOUR.length];
+    const [p, v, u, halt, grund] = TOUR[i % TOUR.length];
     while (laeuft) await warte(100);
     if (!tourAn) break;
-    await gehe(p, v, u); await warte(halt); i++;
+    $('#grund').textContent = grund;
+    if (u === 'vertigo') { if (blick !== p || variante !== v) await gehe(p, v, 'fahrt'); await vertigo(); } else await gehe(p, v, u);
+    await warte(halt); i++;
   }
 };
 $('#zufallAlles').onclick = () => {
