@@ -75,6 +75,9 @@
 | Ende der Folge in der Nachtbühne unsichtbar (bis v5.66: Text, Fragerunde-Knopf und „Gleich geht's weiter“ standen in `#kspr`, das dort ausgeblendet ist) | nach der letzten Zeile passiert scheinbar nichts, dann startet plötzlich die nächste Folge | ✋ Ende jeder Folge am Handy-Maß ansehen: Blatt `#kblatt` mit Karte und Knöpfen (v5.67) |
 | Handystimme liest „Anführungszeichen“ und „Punkt“ vor (Nutzer 17.11.2026, „Dicke Pötte“: Zitat „Ich gleite doch …“) | Ursache: `chunks()` in index.html trennte am Satzende und klebte den Rest „““ mit Leerzeichen an, Android las das Zeichen als Wort | ⚙ seit v5.70 entfernt `sprechbar()` Anführungszeichen vor dem Vorlesen; `tests/buehne-pruefen.js` prüft alle Folgen über `VOX._chunks`; `tools/lektorat.js --mechanik` meldet offene Anführungszeichen |
 | Kein Halt im Player (Tester 16.11.2026: „unübersichtlich“, „zu schnell“) | 0,2 s zwischen Sprechern, kein Kapitel sichtbar | ✋ Tempo-Stufe „Normal“ durchhören; Kapitelpunkte und Titel erscheinen (v5.67) |
+| Filmbühne bleibt beim ersten Kamerawechsel stehen, Folge hängt (v5.71, vor dem Hochladen gefunden) | `oeffnen` leerte `#kges` nach dem Aufbau; die Zeichenschleife in `film.js` hält an, wenn die Bühne nicht mehr im Dokument ist, Tweens kamen nie an | ⚙ buehne-pruefen (Filmbühne steht und läuft); ✋ wer `#kges` leert, baut die Filmbühne neu (`FILMB.mount`) |
+| Gezoomte Bildebenen unscharf (v5.71) | `will-change: transform` lässt Chrome die Ebene einmal klein rastern und dann vergrößern | ✋ in `film.js` kein `will-change` auf `.fb-cam`; Schärfe beim Zoom auf Fender und Lehrbild ansehen |
+| Bild verrät die Antwort (v5.71, Lektorat Filmprobe: Draufsicht zeigte bei der Frage nach der Anlegeseite schon die Pier an Backbord) | Bild-Marken liefen vor der Frage weiter | ✋ während einer Frage nichts zeigen, was die Antwort ist (`pier=.5` zeigt beide Seiten); Lektorat prüft Bild gegen Frage |
 
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |

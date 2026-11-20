@@ -79,6 +79,13 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     sp === 'keiner' ? ok('(kein Sprecher während der Animation erfasst)') : sp !== 'none' ? ok('Sprecher-Gesicht während der Animation sichtbar') : schlecht('Sprecher-Gesicht während der Animation versteckt');
     !erst ? schlecht('Animation im Raser erscheint nicht') : spaeter ? ok('Animation ohne Phasen läuft weiter') : schlecht('Animation bleibt im ersten Bild stehen');
     errs.length ? schlecht('Konsole (1-3): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (1-3 Raser)'); await ctx.close(); }
+  /* v5.71 Filmbühne: nach dem Öffnen steht die Bühne im Dokument und die Zeichenschleife läuft (Fehler: #kges wurde nach dem Aufbau geleert, Kamera und Handlung blieben stehen) */
+  { const {p, ctx, errs} = await oeffne(b, 'film-a', 'Das Heck will zu Paul');
+    const r = await p.evaluate(async () => { const da = !!document.querySelector('#kges .fb'); FILMB.tu({fender: [.5, 200]}); await new Promise(x => setTimeout(x, 700));
+      const s = FILMB.zustand; return {da, fender: s.s.fender, ort: s.ort}; });
+    r.da ? ok('Filmbühne steht im Player') : schlecht('Filmbühne fehlt im Player (#kges .fb)');
+    Math.abs(r.fender - .5) < .01 ? ok(`Filmbühne läuft (Ort ${r.ort})`) : schlecht('Filmbühne steht still: Handlung kommt nicht an (' + r.fender + ')');
+    errs.length ? schlecht('Konsole (Filmprobe A): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Filmprobe A)'); await ctx.close(); }
   await b.close();
   console.log(fehler.length ? `${fehler.length} Fehler.` : 'Bühne in Ordnung.'); process.exit(fehler.length ? 1 : 0);
 })();

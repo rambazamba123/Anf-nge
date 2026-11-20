@@ -12,7 +12,7 @@
 |---|---|---|
 | FK3 | Eine Figur sagt etwas Wichtiges oder zeigt ein Gefühl | Kamerafahrt im selben Blick (Zufahrt auf Halbnah oder Nah), danach zurück zur Totale |
 | FK4 | Die Crew zeigt auf etwas (Tonne, Fender, Zapfsäule) | Schärfenzieher: Schärfe dorthin legen, ohne Schnitt |
-| FK5 | Lehrbild: Radeffekt, Ausweichen, Kurs, Abstand | Kranfahrt nach oben, danach Kranfahrt zurück. Von oben immer mit Tiefe (Höhenschichten: Kajüte, Köpfe und Mast neigen sich) |
+| FK5 | Lehrbild: Radeffekt, Ausweichen, Kurs, Abstand | **Aus dem Blick, in dem die Sache Sinn ergibt** (Nutzer, 20.11.2026: „Lehrbild je nachdem, was gebraucht wird … die Perspektive, aus der auch die Animation Sinn machen würde“). Radeffekt und „Rad am Grund“: von achtern, abgetaucht unter die Wasserlinie (Übergang *tauchen*), danach wieder auftauchen. Anlegeseite, Ausweichen, Kurs, Abstand: von oben (Kranfahrt nach oben und zurück, immer mit Tiefe: Kajüte, Köpfe und Mast neigen sich). Seitenlichter, Schallsignal, Tiefgang: von der Seite. Nie ein Blick, aus dem man das Gezeigte nicht sieht (beim Radeffekt von oben sieht man das Rad nicht) |
 | FK6 | Manöver oder Begegnung | Orbit: zum Heck („wohin fährt sie“), zum Bug („was kommt uns entgegen“), danach zurück zur Seite |
 | FK7 | Du tust etwas (steuern, Ausguck, Aufgabe) | Über die Schulter |
 | FK8 | Hinnerk erzählt von früher (Garn, Rückblende) | Atemzug hinein und wieder heraus |
@@ -27,7 +27,20 @@
 
 ## Licht und Glas
 - **FK15** Das Licht folgt der Geschichte: Tageszeit und Wetter aus `[[SZENE]]` (Morgen, Mittag, Abend, Nebel, Nacht). Nachts stimmen die Lichter je Blick (Seite: rotes Seitenlicht und Topplicht; von achtern nur das Hecklicht; von vorn Rot rechts, Grün links, Topplicht oben).
-- **FK16** Eine Glasart für alle Folgen (weich, klar, Papier oder Tusche; noch offen).
+- **FK16** Eine Glasart für alle Folgen: **weich** (Nutzer, 20.11.2026).
 
-## Marke im Skript (Vorschlag)
-`[[KAMERA: blick, einstellung, übergang]]`, zum Beispiel `[[KAMERA: oben, vogel, kran]]` oder `[[KAMERA: seite, halbnah, fahrt]]`. Ohne Marke beginnt jedes Kapitel mit `seite, totale`. Der Dichte-Messer zählt die Blickwechsel je Kapitel und gibt einen Hinweis, wenn es mehr als einer ist (FK2).
+## Marken im Skript (seit v5.71, `film.js`)
+- `[[ORT: name, übergang, blick]]` neues Bühnenbild (`tankstelle`, `becken`, `kluever`, `ausfahrt`). Das erste ORT einer Folge kommt immer mit Glasplatten (FK11).
+- `[[KAMERA: blick, einstellung, übergang]]` im selben Ort, z. B. `[[KAMERA: heck, totale, orbit]]`, `[[KAMERA: seite, hilke, schaerfe]]`, `[[KAMERA: schnitt, totale, tauchen]]`. Übergänge: `fahrt`, `schaerfe`, `orbit`, `kran`, `tauchen`, `atem`, `nebel`, `licht`, `platten`, `schnitt`.
+- `[[TU: name=wert/ms, …]]` Handlung im Bild (z. B. `p=.7/5000` Frieda fährt zurück, `fender=1/600`). Ein TU nur mit Sprüngen (0 bis 10 ms) direkt nach ORT oder KAMERA gilt genau im Moment des Bildwechsels, man sieht den Sprung nicht.
+- `[[VERTIGO: an]]` Hitchcock-Zoom (FK9).
+- `[[HARMS: anfang]] … [[HARMS: ende]]` Harms von außen (Rückblick „Was bisher geschah“); `[[HARMS: frage]]` hält den Film an (Bild friert ein) und stellt bis zu zwei Fragen früherer Folgen; `[[HARMS: anruf]]` dasselbe am Telefon in der Geschichte. Mit „Harms aus“ entfällt alles davon.
+- `[[KISTE: Aufgabe]]` nur in der Stufe „Mit Händen“: Bild friert ein, Karte mit der Aufgabe, Erledigt oder Später.
+
+Ohne Marke bleibt der Blick, wie er ist. Der Dichte-Messer soll später die Blickwechsel je Kapitel zählen (FK2; noch nicht gebaut).
+
+## Proben (v5.71)
+Drei Fassungen derselben Folge „Leise raus“ in `podcast/skripte/film-leise-raus-a.md`, `-b.md`, `-c.md` (in der App unter Hocker → Kajütenfunk → „Filmprobe“):
+- **A Hafenkomödie:** geradeaus erzählt; Harms erzählt am Anfang, was bisher geschah, und hält einmal an.
+- **B Der Fender:** beginnt mit dem Rumms an Pauls Fender, Harms spult zehn Minuten zurück; die Ratefrage wird zum Rätsel „Warum ist das passiert?“; Kapitel 2 landet wieder im selben Bild.
+- **C Du bist Ausguck:** du hast einen Posten, jede Frage ist deine Meldung; Harms ruft in der Geschichte an.

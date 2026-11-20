@@ -563,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.70';
+  window.__ver = '5.71';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -5163,6 +5163,11 @@ function praxisBald() { const z = S.ziele && S.ziele.scheine && S.ziele.scheine[
 const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Neue Machart · Hafenkino: wer das Sagen hat · etwa 6 Minuten', 'schoen'], ['reise-1-2', 'Gas, Sprit und Streichholz', 'Neue Machart · Tanken mit der Hafenmeisterin · etwa 8 Minuten', 'schoen', 'hafen'],
   /* v5.66 neue Machart zum Testen (docs/plan-hoerspiel-neu.md): die alte 1-3 als drei Folgen, ohne Harms-Abschnitt; die alte Fassung liegt unter „Alte Folgen und Tests“ */
   ['gold-1', 'Leise raus', 'Neue Machart · Ablegen und Radeffekt · etwa 6 Minuten', 'schoen', 'hafen'], ['gold-2', 'Warten auf die Fähre', 'Neue Machart · Propeller und Außenborder · etwa 6 Minuten', 'schoen'], ['gold-3', 'Dicke Pötte', 'Neue Machart · der Raser und die Fähre · etwa 6 Minuten', 'schoen']];
+/* v5.71 Filmprobe (E27, docs/film-regeln.md): „Leise raus“ in drei Fassungen auf der Filmbühne (film.js) */
+function filmWahl() {
+  const w = sheet(`<h3 style="margin-top:0">🎬 Filmprobe: Leise raus</h3><p class="small muted" style="margin:0 0 8px">Dieselbe Szene in drei Fassungen, mit Film statt Gesichtern. Vor dem Start wählst du: nur hören, mitsprechen oder mit Händen, und Harms an oder aus. Gratis-Stimme des Handys.</p>${menuBtn('kurs:film-a', '🎬 A: Hafenkomödie', 'klassisch erzählt, Harms von außen · etwa 6 Minuten')}${menuBtn('kurs:film-b', '🎬 B: Der Fender', 'fängt mit dem Rumms an, dann zehn Minuten vorher · etwa 6 Minuten')}${menuBtn('kurs:film-c', '🎬 C: Du bist Ausguck', 'du hast eine Aufgabe, Harms ruft an · etwa 6 Minuten')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+}
 function hoerreiseOeffnen(id) { lernHeim = null; returnTo = 'cabin'; return nachladen('kurs.js').then(() => KURS.oeffnen(id)).catch(() => toast('Die Hörreise ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 /* nächste Folge, die noch nicht ganz durchgehört ist (S.hoerreise.gehoert, Standard leer) */
 /* Gast der nächsten Folge (fünftes Feld in HOERREISE): sitzt vorher schon in der Kajüte (GU5), sonst niemand */
@@ -5172,8 +5177,8 @@ function hoerreiseGast() { const e = HOERREISE[hoerreiseNaechste()]; return (e &
 function hoerreiseNaechste() { const g = (S.hoerreise && S.hoerreise.gehoert) || {}; const i = HOERREISE.findIndex(([id]) => !g[id]); return i < 0 ? HOERREISE.length - 1 : i; }
 function hoerreiseKnoepfe() { return HOERREISE.map(([id, t, u], i) => menuBtn('kurs:' + id, `🎧 Folge ${hoerreiseNr(id)} „${t}“`, u + (S.hoerreise && S.hoerreise.gehoert && S.hoerreise.gehoert[id] ? ' · ✓ gehört' : ''))).join(''); }
 function hoerreiseWahl() {
-  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${hoerreiseKnoepfe()}${menuBtn('nf:nf1', '🌙 Abendwache Tag 1: Kurs und Distanz', 'Navi-Folge am Kartentisch · plant die Etappe von Tag 2')}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
-  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m.startsWith('nf:')) return naviFolgeOeffnen(b.dataset.m.slice(3)); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
+  const w = sheet(`<h3 style="margin-top:0">🎧 Hörreise</h3><p class="small muted" style="margin:0 0 8px">Ohne echte Stimmen liest die Gratis-Stimme des Handys, zum Testen.</p>${menuBtn('film', '🎬 Filmprobe: Leise raus in drei Fassungen', 'Neu zum Testen: Film statt Gesichter, drei Arten zu erzählen')}${hoerreiseKnoepfe()}${menuBtn('nf:nf1', '🌙 Abendwache Tag 1: Kurs und Distanz', 'Navi-Folge am Kartentisch · plant die Etappe von Tag 2')}${menuBtn('probe', '🎧 Alte Probefolge: Schleuse mit Quirin', 'Kajütenfunk vor der Hörreise · etwa 7 Minuten')}`);
+  w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); if (b.dataset.m === 'film') return filmWahl(); if (b.dataset.m.startsWith('nf:')) return naviFolgeOeffnen(b.dataset.m.slice(3)); if (b.dataset.m === 'probe') return nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(() => toast('Der Kajütenfunk ließ sich nicht laden.')); hoerreiseOeffnen(b.dataset.m.slice(5)); });
 }
 /* Alles Ältere an einer Stelle: 3D-Folgen, Rohbau 2D, alter Probetag, Kajütenfunk-Probe, Crew-Gespräche, 3D-Welt */
 function alteFolgen() {
