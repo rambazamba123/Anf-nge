@@ -105,7 +105,7 @@ SMILLA: Komm mit nach vorn, Ausguck. Morgen brauchen wir dich wieder. In Klüver
 SMILLA: Da legen wir an einer langen Pier an. Kurz davor gibt Hinnerk rückwärts, zum Aufstoppen.
 HINNERK: Und du sagst mir vorher, wo ich ranfahren soll.
 [[AUDIO: Schiffsglocke]]
-SMILLA: Ausguck, Frage an dich. Beim Aufstoppen gibt er rückwärts. Was rätst du Hinnerk: die Pier an Backbord oder an Steuerbord?
+SMILLA: Ausguck, Frage an dich. Beim Aufstoppen gibt er rückwärts. Was rätst du dem Käpt'n? Die Pier an Backbord oder an Steuerbord?
 [[WAHL: sbf:48 | *Backbord | Steuerbord]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:48]]
