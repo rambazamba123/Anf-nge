@@ -1,0 +1,774 @@
+<title>Glasebenen-Kamera</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: eine Bühne im Hochformat (400 × 500 wie die App), darunter Bedienfelder zum Durchklicken: Blick, Einstellung, Übergang, Nähe, Licht, Glas.
+   Farben und Schriften wie die App; Akzent gelb-orange wie die Weiter-Knöpfe (E7). */
+:root{
+  --bg:#dfe9e6; --paper:#fbf6ec; --ink:#2a2019; --muted:#6c5f52; --line:#e1d5bf;
+  --sea:#2d5f6a; --accent:#f0a23a; --accent-ink:#3a2408; --chip:#f3ece0;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif; --bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15212a; --paper:#22303a; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854; --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --chip:#2a3a45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15212a; --paper:#22303a; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854; --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --chip:#2a3a45; color-scheme:dark}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--hfont);font-size:20px;line-height:1.15;margin:0}
+p{margin:0}
+.lead{color:var(--muted)}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+
+.buehne{position:relative;width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:#0d0b0a;box-shadow:0 10px 30px rgba(20,15,10,.28);isolation:isolate}
+.innen{position:absolute;inset:0;overflow:hidden}
+.welt{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#f6eedb 0%,#cdbf9f 55%,#5b513f 100%)}
+.set{position:absolute;inset:0;visibility:hidden}
+.set.an{visibility:visible}
+.rig{position:absolute;inset:0;transform-origin:50% 55%}
+.eb{position:absolute;inset:0}
+.cam{position:absolute;inset:-10%;transform-origin:50% 50%;will-change:transform}
+.cam svg{width:100%;height:100%;display:block}
+.ueber{position:absolute;inset:0;pointer-events:none}
+#blende{background:var(--nebel,#eeeae0);opacity:0}
+#flare{opacity:0}
+#wisch{transform:translateX(120%)}
+.kasch{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(30,40,45,.38) 100%)}
+.korn{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.2}
+.anzeige{position:absolute;left:10px;top:10px;font:800 12px var(--bfont);color:#fff;background:rgba(0,0,0,.42);padding:3px 9px;border-radius:20px;letter-spacing:.02em;pointer-events:none;transition:opacity .4s}
+
+.feld{display:flex;flex-direction:column;gap:6px}
+.feld>b{font-family:var(--hfont);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.reihe{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;border:1.5px solid var(--line);background:var(--chip);color:var(--ink);font:700 13px/1.15 var(--bfont);padding:7px 10px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip svg{width:26px;height:20px;flex:none}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 22%,var(--paper));box-shadow:0 0 0 1px var(--accent) inset}
+.chip:focus-visible,.btn:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+.blicke{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.blicke .chip{flex-direction:column;padding:6px 2px;font-size:12px;justify-content:center;min-width:0}
+.blicke .chip svg{width:34px;height:26px}
+.leiste{display:flex;gap:8px;flex-wrap:wrap}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:800 14px var(--bfont);padding:9px 14px;border-radius:11px;cursor:pointer}
+.btn.haupt{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.karte{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.karte ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.klein{font-size:12.5px;color:var(--muted)}
+.trenn{height:1px;background:var(--line);margin:2px 0}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="defs"></defs></svg>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <span class="eyebrow">Hörreise · Filmprobe · Glasebenen</span>
+    <h1>Glasebenen-Kamera</h1>
+    <p class="lead">Eine Szene: die Frieda auf der Brede, eine grüne Tonne an Steuerbord voraus, Schilf an Backbord, der Leuchtturm im Norden. Fünf Blickwinkel, viele Einstellungen, zehn Übergänge. Einfach durchklicken.</p>
+  </header>
+
+  <div class="buehne" id="buehne">
+    <div class="innen" id="innen"><div class="welt" id="welt"></div></div>
+    <div class="kasch"></div>
+    <svg class="korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><filter id="kornF"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .16  0 0 0 0 .1  0 0 0 .6 0"/></filter><rect width="400" height="500" filter="url(#kornF)"/></svg>
+    <div class="ueber" id="papier" style="opacity:0;mix-blend-mode:multiply"></div>
+    <div class="ueber" id="blende"></div>
+    <div class="ueber" id="flare"></div>
+    <div class="ueber" id="wisch"></div>
+    <div class="anzeige" id="anzeige">Seite · Totale</div>
+  </div>
+
+  <div class="leiste">
+    <button class="btn haupt" type="button" id="tour" aria-pressed="false">▶ Rundfahrt</button>
+    <button class="btn" type="button" id="vertigo">Hitchcock-Zoom</button>
+    <button class="btn" type="button" id="zufallAlles">Überrasch mich</button>
+  </div>
+
+  <div class="feld"><b>Blick</b><div class="blicke" id="blicke"></div></div>
+  <div class="feld"><b>Einstellung</b><div class="reihe" id="einst"></div></div>
+  <div class="feld"><b>Übergang</b><div class="reihe" id="uebergang"></div></div>
+  <div class="feld"><b>Nähe</b><div class="reihe" id="naehe"></div></div>
+  <div class="feld"><b>Licht</b><div class="reihe" id="licht"></div></div>
+  <div class="feld"><b>Glas</b><div class="reihe" id="glas"></div></div>
+
+  <section class="karte">
+    <h2>Was du siehst</h2>
+    <ul>
+      <li><b>Alles ist eine Welt.</b> Tonne, Schilf, Leuchtturm und Sonne stehen in jedem Blick dort, wo sie wirklich wären. Von achtern ist die Tonne rechts voraus, vom Bug aus treibt sie riesig und unscharf links vor der Linse vorbei.</li>
+      <li><b>Unschärfe nach Tiefe.</b> Jede Glasebene hat ihren Abstand. Scharf ist, worauf die Kamera stellt (meist die Frieda). „Durchs Schilf“ oder „Tonne scharf“ verlegen die Schärfe.</li>
+      <li><b>Nachts stimmen die Lichter:</b> von der Seite das rote Seitenlicht und das Topplicht, von achtern nur das weiße Hecklicht, von vorn Rot rechts, Grün links und oben das Topplicht. Die Tonne blitzt grün, der Leuchtturm dreht.</li>
+      <li><b>Der Hitchcock-Zoom</b> lässt die Frieda gleich groß, während die Welt dahinter wächst. Für Schreckmomente.</li>
+    </ul>
+    <div class="trenn"></div>
+    <h2>Die Übergänge</h2>
+    <ul id="erklaer"></ul>
+    <p class="klein">Vorbild: Juri Norstein und seine Glasplatten-Technik („Der Igel im Nebel“, 1975). Alles hier ist selbst gezeichnet. Kein Ton, nur Bild.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const reduziert = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============================================================
+   1. Licht (Farben je Tageszeit) und Glas (Machart)
+   ============================================================ */
+const BASIS = {
+  rumpf: '#f1ece1', streifen: '#b45a48', unter: '#3d5568', dach: '#c3c9c6', fenster: '#8aa9b4', deck: '#d9cdb2', holz: '#8d6a4a', motor: '#3b3f44',
+  haut: '#eec09a', hJacke: '#3d4c63', hBart: '#ece8e0', hMuetze: '#2a3446', sJacke: '#c45a45', sHaar: '#e9bf62', hose: '#40506a',
+  tonne: '#3f8a5c', tonneD: '#2c6644', schilf: '#7d8a52', schilfD: '#55603a', schilfH: '#b8a76a',
+  haus: ['#b07a5c', '#d8c7a5', '#8fa38a', '#c49a6c', '#a7b6bb'], dachF: '#6e4a3e', hfenster: '#5a6e78',
+  ferne: '#a9b2a6', ferne2: '#8f9a90', mole: '#8b8676', turm: '#f1ece1', turmR: '#b4473b', glanz: '#f4f0e2', moewe: '#f6f3ea', moeweD: '#5a6570',
+  wolke: '#f4efe2', nacht: false
+};
+const LICHT = {
+  morgen: {name: 'Morgen', h: ['#a9bfc4', '#d9dfd6', '#efe5cf'], w: ['#9fb3ae', '#4f7476'], nebel: .42, nebelFarbe: '#f1ede2', sonne: {az: 100, el: .22, farbe: '#fff2cf'}},
+  mittag: {name: 'Mittag', h: ['#86b1cc', '#c4dbe4', '#e6eee9'], w: ['#86adbd', '#3d6c84'], nebel: .06, nebelFarbe: '#eef3f2', sonne: {az: 180, el: .88, farbe: '#fffbe8'}, ferne: '#9aaa9c'},
+  abend: {name: 'Abend', h: ['#535b84', '#d68b72', '#f2c78f'], w: ['#806f86', '#363852'], nebel: .22, nebelFarbe: '#f0cfae', sonne: {az: 265, el: .14, farbe: '#ffc584'},
+    ferne: '#8a7c88', ferne2: '#6c6274', glanz: '#ffd7a4', haus: ['#9a6150', '#c7a988', '#7e8a76', '#b08260', '#8f9aa3'], wolke: '#f6c9a6', rumpf: '#f3e3d2'},
+  nebel: {name: 'Nebel', h: ['#cfd2cd', '#e0e1db', '#e9e7df'], w: ['#bcc4bf', '#93a19e'], nebel: .9, nebelFarbe: '#ecebe5', sonne: null, ferne: '#c9ccc6', ferne2: '#bdc2bc'},
+  nacht: {name: 'Nacht', h: ['#060c17', '#122139', '#22344f'], w: ['#1a2c3e', '#060e17'], nebel: .16, nebelFarbe: '#22324a', sonne: null, mond: {az: 150, el: .52, farbe: '#f3efd8'}, nacht: true,
+    rumpf: '#8f979f', streifen: '#5d3532', unter: '#1f2c3a', dach: '#5f666c', deck: '#5e584c', fenster: '#f0c46a', haut: '#8c7768', hJacke: '#1d2531', hBart: '#9a9790', sJacke: '#5e322c', sHaar: '#7d6e48',
+    tonne: '#1f4532', tonneD: '#163324', schilf: '#283020', schilfD: '#1a2015', schilfH: '#3b3a2a', haus: ['#33303a', '#3d3a42', '#2f3635', '#3b332f', '#333a40'], dachF: '#1f1b1f', hfenster: '#f3c86a',
+    ferne: '#18212f', ferne2: '#111825', mole: '#272930', turm: '#6d7178', turmR: '#3d2626', glanz: '#c8d6e6', moewe: '#8a939d', wolke: '#26324a'}
+};
+const GLAS = {
+  weich: {name: 'Weich', blur: 1, tusche: false, papier: 0},
+  klar: {name: 'Klar', blur: .22, tusche: false, papier: 0},
+  papier: {name: 'Papier', blur: .55, tusche: false, papier: .55},
+  tusche: {name: 'Tusche', blur: .8, tusche: true, papier: .35}
+};
+let lichtId = 'morgen', glasId = 'weich';
+let P = {};
+function palette() { P = {...BASIS, ...LICHT[lichtId]}; }
+
+/* ============================================================
+   2. Kleine Helfer zum Zeichnen
+   ============================================================ */
+const mix = (a, b, t) => { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const A = h(a), B = h(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+const dunkel = (c, t = .18) => mix(c, '#000000', t);
+const hell = (c, t = .2) => mix(c, '#ffffff', t);
+const licht = (x, y, c, r = 2.6) => P.nacht ? `<circle cx="${x}" cy="${y}" r="${r * 5}" fill="${c}" opacity=".32" filter="url(#glow)"/><circle cx="${x}" cy="${y}" r="${r * 2}" fill="${c}" opacity=".55" filter="url(#glow)"/><circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>` : '';
+const ROT = '#ff4a3d', GRUEN = '#3ddc6a', WEISS = '#fff7d6';
+function defs() {
+  $('#defs').innerHTML = `
+    <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.h[0]}"/><stop offset=".6" stop-color="${P.h[1]}"/><stop offset="1" stop-color="${P.h[2]}"/></linearGradient>
+    <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.w[0]}"/><stop offset="1" stop-color="${P.w[1]}"/></linearGradient>
+    <radialGradient id="ng" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${P.nebelFarbe}" stop-opacity=".95"/><stop offset="1" stop-color="${P.nebelFarbe}" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${(P.sonne || P.mond || {farbe: '#fff'}).farbe}" stop-opacity=".95"/><stop offset=".25" stop-color="${(P.sonne || P.mond || {farbe: '#fff'}).farbe}" stop-opacity=".55"/><stop offset="1" stop-color="${(P.sonne || P.mond || {farbe: '#fff'}).farbe}" stop-opacity="0"/></radialGradient>
+    <linearGradient id="strahl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff3c8" stop-opacity=".75"/><stop offset="1" stop-color="#fff3c8" stop-opacity="0"/></linearGradient>
+    <radialGradient id="schatten" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="weichF" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>`;
+  document.documentElement.style.setProperty('--nebel', P.nebelFarbe);
+  $('#blende').style.background = `radial-gradient(ellipse at 50% 50%, ${P.nebelFarbe}, ${mix(P.nebelFarbe, P.nacht ? '#000000' : '#ffffff', .25)})`;
+}
+
+/* Wellenstreifen (Kämme mit Periode per, nach unten gefüllt) */
+function streifen(y, amp, per, fill, sp, glanz = true, xa = -140, xb = 600) {
+  let k = `M${xa} ${y}`;
+  for (let x = xa; x < xb; x += per) k += ` Q${x + per * .25} ${y - amp} ${x + per * .5} ${y} T${x + per} ${y}`;
+  return `<g data-welle="${sp},${amp * .35},${(y % 7)},${per}"><path d="${k} L${xb} ${y + 140} L${xa} ${y + 140}Z" fill="${fill}"/>${glanz ? `<path d="${k}" fill="none" stroke="${P.glanz}" stroke-width="1.4" stroke-dasharray="${per * .25} ${per * .75}" opacity="${P.nacht ? .35 : .7}"/>` : ''}</g>`;
+}
+const nebelband = (x, y, w, h, op) => `<ellipse cx="${x}" cy="${y}" rx="${w / 2}" ry="${h / 2}" fill="url(#ng)" opacity="${(op * P.nebel).toFixed(2)}" data-drift="${3 + (x % 5)},${y % 9}"/>`;
+function himmel(blickAz) {
+  let s = `<rect x="-60" y="-60" width="520" height="640" fill="url(#hg)"/>`;
+  if (P.nacht) s += Array.from({length: 46}, (_, i) => `<circle cx="${(i * 97) % 480 - 40}" cy="${(i * 53) % 230 - 20}" r="${i % 5 ? .8 : 1.4}" fill="#f4f1e2" opacity="${.4 + (i % 4) * .15}"/>`).join('');
+  const k = P.sonne || P.mond;
+  if (k) {
+    const rel = ((k.az - blickAz + 540) % 360) - 180;
+    if (Math.abs(rel) < 58) {
+      const x = 200 + rel / 58 * 250, y = 260 - k.el * 230;
+      s += `<circle cx="${x}" cy="${y}" r="${P.sonne ? 110 : 70}" fill="url(#sg)"/><circle cx="${x}" cy="${y}" r="${P.sonne ? 22 : 15}" fill="${k.farbe}" opacity="${P.nacht ? 1 : .9}"/>`;
+    } else if (Math.abs(rel) < 140) {
+      const x = rel > 0 ? 470 : -70;
+      s += `<circle cx="${x}" cy="${230 - k.el * 120}" r="230" fill="url(#sg)" opacity=".7"/>`;
+    }
+  }
+  if (!P.nacht && lichtId !== 'nebel') s += [[60, 70, 1], [300, 120, .8], [190, 40, .6], [380, 60, .7]].map(([x, y, sk]) => `<g transform="translate(${x} ${y}) scale(${sk})" data-welle="${sk * 3},0,${x % 4},0"><path d="M-46 0 Q-40 -18 -22 -16 Q-14 -32 6 -27 Q20 -38 32 -22 Q50 -22 48 0Z" fill="${P.wolke}" opacity=".75"/></g>`).join('');
+  return s;
+}
+function glitzer(blickAz, y0, y1) {
+  const k = P.sonne || P.mond; if (!k) return '';
+  const rel = ((k.az - blickAz + 540) % 360) - 180; if (Math.abs(rel) >= 58) return '';
+  const x = 200 + rel / 58 * 250; let s = '';
+  for (let i = 0; i < 26; i++) { const y = y0 + (y1 - y0) * (i / 26), w = 6 + i * 1.6; s += `<path d="M${x - w / 2 + ((i * 37) % 13) - 6} ${y} h${w * (.3 + (i % 3) * .2)}" stroke="${k.farbe}" stroke-width="${1.2 + i * .05}" opacity="${.75 - i * .015}" data-funkel="${i}"/>`; }
+  return s;
+}
+
+/* ============================================================
+   3. Figuren und die Frieda aus allen Richtungen
+   ============================================================ */
+function hinnerk() {
+  return `<g><path d="M-8 0 V-20 M7 0 V-20" stroke="${P.hose}" stroke-width="7.5" stroke-linecap="round"/>
+    <path d="M-15 -17 Q-18 -44 -5 -49 L6 -49 Q18 -45 15 -17 Z" fill="${P.hJacke}"/>
+    <path d="M8 -42 Q17 -34 20 -24" stroke="${P.hJacke}" stroke-width="7.5" stroke-linecap="round" fill="none"/><circle cx="20" cy="-23" r="3.8" fill="${P.haut}"/>
+    <circle cx="2" cy="-58" r="9.6" fill="${P.haut}"/><path d="M-6.5 -57 Q-7.5 -44 3 -43 Q12.5 -44 12.5 -55.5 Q8 -51.5 3.5 -52.5 Q-1 -51.5 -6.5 -57Z" fill="${P.hBart}"/>
+    <circle cx="11.6" cy="-59.5" r="2.8" fill="${dunkel(P.haut, .1)}"/><path d="M-9.5 -63 Q-8.5 -72 2 -72.5 Q11.5 -72 12 -63 Z" fill="${P.hMuetze}"/><path d="M7 -63.6 L18 -62.6 L14 -60.4 L6 -61Z" fill="#141a26"/></g>`;
+}
+function smilla() {
+  return `<g><path d="M-4.5 0 V-19 M4 0 V-19" stroke="${P.hose}" stroke-width="5.6" stroke-linecap="round"/>
+    <path d="M-8.5 -17 Q-10.5 -40 -3 -44 L4 -44 Q10.5 -40 8.5 -17Z" fill="${P.sJacke}"/><path d="M5 -38 Q12 -31 14 -23" stroke="${P.sJacke}" stroke-width="5.6" stroke-linecap="round" fill="none"/>
+    <path d="M-6 -57 Q-17 -55 -16 -43 Q-11.5 -49 -5.5 -52Z" fill="${P.sHaar}"/><circle cx="1" cy="-52" r="8.2" fill="${P.haut}"/>
+    <path d="M-7.5 -53 Q-8 -62.5 1 -62 Q8.6 -61.6 8.8 -56 Q4 -58.5 -1 -57.4 Q-4.5 -55 -7.5 -49Z" fill="${P.sHaar}"/></g>`;
+}
+function ruecken() {
+  return `<g><path d="M-17 10 Q-19 -24 -6 -30 L6 -30 Q19 -24 17 10Z" fill="${P.hJacke}"/><path d="M12 -22 Q22 -12 28 -4" stroke="${P.hJacke}" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="0" cy="-40" r="10" fill="${P.haut}"/><path d="M-10.5 -43 Q-10 -53 0 -53.5 Q10 -53 10.5 -43 Q0 -46 -10.5 -43Z" fill="${P.hMuetze}"/></g>`;
+}
+function kopfVorn(c, haar) {
+  return `<g><path d="M-11 12 Q-11 -2 0 -4 Q11 -2 11 12Z" fill="${c}"/><circle cx="0" cy="-12" r="8" fill="${P.haut}"/><path d="M-8 -12 Q-8.4 -21 0 -21 Q8.4 -21 8.2 -12 Q4 -16.5 0 -16 Q-4 -16.5 -8 -12Z" fill="${haar}"/></g>`;
+}
+/* Seite: Bug links (Blick von Westen auf die Backbordseite), Wasserlinie y 0 */
+function friedaSeite() {
+  const hull = `<path d="M-80 -6 L66 -6 Q76 -8 82 -24 L80 -26 L-78 -26 L-80 -24Z" fill="${P.rumpf}"/>
+    <path d="M-80 -6 L66 -6 Q72 -6 74 -10 L70 6 Q62 12 40 12 L-74 10 L-80 4Z" fill="${P.unter}"/>
+    <path d="M-79 -14 L78 -14" stroke="${P.streifen}" stroke-width="3.5"/>
+    <path d="M-46 -26 L-44 -52 L18 -52 L34 -26Z" fill="${P.rumpf}"/><path d="M-44 -52 L18 -52 L20 -56 L-42 -56Z" fill="${P.dach}"/>
+    <path d="M20 -50 L31 -29 L22 -29 L13 -50Z" fill="${P.fenster}"/>${[-34, -18, -2].map(x => `<circle cx="${x}" cy="-39" r="4.6" fill="${P.fenster}"/>`).join('')}
+    <path d="M40 -26 V-36 H78 L80 -26" fill="none" stroke="${P.motor}" stroke-width="1.4"/>
+    <rect x="-92" y="-34" width="12" height="18" rx="3" fill="${P.motor}"/><rect x="-88" y="-16" width="4" height="26" fill="${P.motor}"/><path d="M-86 -27 L-62 -33" stroke="${P.motor}" stroke-width="2.6"/>`;
+  return `<g data-boot="1">
+    <g transform="translate(66 -14) scale(.56) scale(-1 1)">${hinnerk()}</g>
+    <g transform="scale(-1 1)">${hull}</g>
+    <path d="M36 -56 V-78" stroke="${P.motor}" stroke-width="1.6"/><rect x="34" y="-82" width="4" height="4" fill="${P.motor}"/>
+    <g transform="translate(-60 -26) scale(.52)">${smilla()}</g>
+    <g data-gischt="1"><path d="M-84 10 Q-96 4 -108 10 Q-96 8 -88 14Z" fill="${P.glanz}"/><path d="M-100 8 q-6 -5 -12 0" stroke="${P.glanz}" stroke-width="1.6" fill="none"/></g>
+    <path data-fluss="16" d="M-70 14 Q0 17 80 14 T150 16" stroke="${P.glanz}" stroke-width="1.6" fill="none" stroke-dasharray="7 11" opacity=".55"/>
+    ${licht(-30, -31, ROT)}${licht(36, -82, WEISS)}
+  </g>`;
+}
+/* Heck: von achtern (Süden), Wasserlinie y 0 */
+function friedaHeck() {
+  return `<g data-boot="1">
+    <path d="M0 -72 V-92" stroke="${P.motor}" stroke-width="1.6"/><rect x="-2" y="-96" width="4" height="4" fill="${P.motor}"/>
+    <path d="M-34 -40 L-30 -68 L30 -68 L34 -40Z" fill="${P.rumpf}"/><path d="M-31 -66 L31 -66 L33 -72 L-33 -72Z" fill="${P.dach}"/>
+    <rect x="-9" y="-62" width="18" height="22" rx="2" fill="${P.holz}"/>
+    <g transform="translate(23 -66) scale(.5)">${kopfVorn(P.sJacke, P.sHaar)}</g>
+    <path d="M-62 -40 L62 -40 L56 0 Q30 15 0 17 Q-30 15 -56 0 Z" fill="${P.rumpf}"/>
+    <path d="M-60.5 -30 L60.5 -30 L59.6 -24.5 L-59.6 -24.5Z" fill="${P.streifen}"/>
+    <path d="M-56 0 Q-30 15 0 17 Q30 15 56 0 L54.6 8 Q30 22 0 24 Q-30 22 -54.6 8Z" fill="${P.unter}"/>
+    <text x="0" y="-9" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="12" letter-spacing="1" fill="${P.nacht ? '#3a4552' : '#1f3b63'}">FRIEDA</text>
+    ${[-50, -36].map(y => `<ellipse cx="64" cy="${y + 22}" rx="5" ry="9" fill="${P.rumpf}" stroke="${dunkel(P.rumpf, .2)}" stroke-width=".8"/>`).join('')}
+    <g transform="translate(-26 -34) scale(.62)">${ruecken()}</g>
+    <rect x="-10" y="-60" width="20" height="24" rx="5" fill="${P.motor}"/><rect x="-3.5" y="-37" width="7" height="44" fill="${P.motor}"/>
+    ${licht(0, -41, WEISS, 3)}
+  </g>`;
+}
+/* Bug: von vorn (Norden), Wasserlinie y 0. Backbord ist vom Betrachter aus rechts */
+function friedaBug() {
+  return `<g data-boot="1">
+    <path d="M10 -54 V-80" stroke="${P.motor}" stroke-width="1.6"/><rect x="8" y="-84" width="4" height="4" fill="${P.motor}"/>
+    <g transform="translate(10 -56) scale(.55)">${kopfVorn(P.hJacke, P.hMuetze)}</g>
+    <path d="M-22 -26 L-18 -50 L18 -50 L22 -26Z" fill="${P.rumpf}"/><path d="M-19 -50 L19 -50 L20 -54 L-20 -54Z" fill="${P.dach}"/>
+    <path d="M-16 -46 L-2 -46 L-2 -32 L-18 -32Z M16 -46 L2 -46 L2 -32 L18 -32Z" fill="${P.fenster}"/>
+    <path d="M-33 -26 L33 -26 Q31 -6 0 16 Q-31 -6 -33 -26Z" fill="${P.rumpf}"/>
+    <path d="M-32 -17 Q-14 -6 0 -2 Q14 -6 32 -17 L31 -13 Q14 -2 0 2 Q-14 -2 -31 -13Z" fill="${P.streifen}"/>
+    <path d="M-31 -6 Q-18 4 0 16 Q18 4 31 -6 Q22 8 0 22 Q-22 8 -31 -6Z" fill="${P.unter}"/>
+    <path d="M-24 -26 L-26 -34 L26 -34 L24 -26" stroke="${P.motor}" stroke-width="1.2" fill="none"/>
+    <g transform="translate(-9 -26) scale(.5)">${kopfVorn(P.sJacke, P.sHaar)}</g>
+    <g data-gischt="1"><path d="M-6 12 Q-30 4 -46 10 Q-34 6 -18 14Z M6 12 Q30 4 46 10 Q34 6 18 14Z" fill="${P.glanz}" opacity=".9"/>
+    <path d="M-40 10 q-8 -6 -16 0 M40 10 q8 -6 16 0" stroke="${P.glanz}" stroke-width="2" fill="none"/></g>
+    ${licht(-23, -30, GRUEN)}${licht(23, -30, ROT)}${licht(10, -84, WEISS)}
+  </g>`;
+}
+/* Dreiviertel von hinten (Backbordwinkel achtern): Bug links fern, Spiegel rechts nah */
+function friedaD34H() {
+  const sch = dunkel(P.rumpf, .12);
+  return `<g data-boot="1">
+    <path d="M12 -56 V-78" stroke="${P.motor}" stroke-width="1.6"/>
+    <path d="M-84 -22 Q-50 -27 26 -30 L26 -6 Q-30 2 -78 -8 Z" fill="${P.rumpf}"/><path d="M-78 -8 Q-30 2 26 -6 L26 6 Q-20 12 -70 0Z" fill="${P.unter}"/>
+    <path d="M-82 -16 Q-40 -19 26 -20" stroke="${P.streifen}" stroke-width="3"/>
+    <path d="M26 -30 L66 -27 L62 -3 Q46 5 26 -6Z" fill="${sch}"/><path d="M26 -20 L65 -18" stroke="${P.streifen}" stroke-width="3"/>
+    <path d="M26 -6 Q46 5 62 -3 L60 4 Q44 11 26 6Z" fill="${P.unter}"/>
+    <path d="M-44 -26 L-42 -52 L10 -54 L22 -28Z" fill="${P.rumpf}"/><path d="M10 -54 L24 -52 L32 -28 L22 -28Z" fill="${sch}"/>
+    <path d="M-43 -52 L10 -54 L24 -52 L20 -57 L6 -58 L-41 -56Z" fill="${P.dach}"/>
+    ${[-30, -14].map(x => `<circle cx="${x}" cy="-40" r="4" fill="${P.fenster}"/>`).join('')}
+    <g transform="translate(-62 -24) scale(.42)">${smilla()}</g>
+    <g transform="translate(34 -28) scale(.5)">${ruecken()}</g>
+    <rect x="40" y="-46" width="12" height="18" rx="4" fill="${P.motor}"/><rect x="44" y="-30" width="4" height="36" fill="${P.motor}"/>
+    ${licht(46, -29, WEISS, 3)}
+  </g>`;
+}
+/* Dreiviertel von vorn (Backbordbug): Bug links nah, Heck rechts fern */
+function friedaD34V() {
+  const sch = hell(P.rumpf, .1);
+  return `<g data-boot="1">
+    <path d="M30 -54 V-76" stroke="${P.motor}" stroke-width="1.6"/>
+    <path d="M-86 -32 Q10 -28 84 -22 L80 -8 Q20 2 -62 8 Q-80 -6 -86 -32Z" fill="${P.rumpf}"/>
+    <path d="M-62 8 Q20 2 80 -8 L76 2 Q20 12 -54 14 Z" fill="${P.unter}"/><path d="M-84 -24 Q10 -20 82 -15" stroke="${P.streifen}" stroke-width="3.2"/>
+    <path d="M-30 -28 L-26 -52 L-12 -54 L-14 -28Z" fill="${sch}"/><path d="M-27 -48 L-14 -50 L-15 -36 L-28 -35Z" fill="${P.fenster}"/>
+    <path d="M-14 -28 L-12 -54 L40 -52 L46 -26Z" fill="${P.rumpf}"/><path d="M-26 -52 L-12 -54 L40 -52 L38 -56 L-12 -58 L-24 -56Z" fill="${P.dach}"/>
+    ${[0, 16, 30].map(x => `<circle cx="${x}" cy="-40" r="4" fill="${P.fenster}"/>`).join('')}
+    <path d="M-82 -31 L-80 -39 L-42 -36" stroke="${P.motor}" stroke-width="1.2" fill="none"/>
+    <g transform="translate(-54 -30) scale(.5)">${smilla()}</g>
+    <g transform="translate(64 -14) scale(.46) scale(-1 1)">${hinnerk()}</g>
+    <rect x="80" y="-34" width="8" height="14" rx="3" fill="${P.motor}"/>
+    <g data-gischt="1"><path d="M-64 8 Q-84 0 -98 8 Q-84 4 -70 12Z" fill="${P.glanz}" opacity=".9"/></g>
+    ${licht(-20, -34, ROT)}${licht(30, -78, WEISS)}
+  </g>`;
+}
+/* von oben, Bug nach oben, 100 lang */
+function friedaOben() {
+  return `<path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="${P.rumpf}" stroke="${dunkel(P.rumpf, .35)}" stroke-width="1.6"/>
+    <path d="M0 -46 C14 -33 16.5 -6 15.5 22 L15 45 M0 -46 C-14 -33 -16.5 -6 -15.5 22 L-15 45" stroke="${P.streifen}" stroke-width="2.2" fill="none"/>
+    <path d="M0 -42 C10 -32 12 -14 12 -6 L-12 -6 C-12 -14 -10 -32 0 -42Z" fill="${P.deck}"/>
+    <path d="M-11 -4 H11 V20 H-11Z" fill="${P.dach}"/><rect x="-13" y="22" width="26" height="22" rx="3" fill="${P.deck}"/>
+    <circle cx="0" cy="36" r="6" fill="${P.hMuetze}"/><circle cx="0" cy="-28" r="4.6" fill="${P.sHaar}"/>
+    <rect x="-6" y="48" width="12" height="12" rx="3" fill="${P.motor}"/>`;
+}
+
+/* ============================================================
+   4. Die Welt aus fünf Blickwinkeln (Ebenen mit Tiefe d: 0 fern … 1 nah)
+   ============================================================ */
+function moewe(x0, y0, x1, y1, dur, ph, s = 1) {
+  return `<g data-moewe="${x0},${y0},${x1},${y1},${dur},${ph}"><g transform="scale(${s})"><g class="flug"><path d="M-16 -2 Q-8 -10 0 0 Q8 -10 16 -2 Q8 -5 0 3 Q-8 -5 -16 -2Z" fill="${P.moewe}" stroke="${P.moeweD}" stroke-width=".6"/></g></g></g>`;
+}
+function tonne(x, y, h, mitLicht = true) {
+  const w = h * .62;
+  return `<g><path d="M${x - w / 2} ${y} L${x} ${y - h} L${x + w / 2} ${y}Z" fill="${P.tonne}"/><path d="M${x - w * .34} ${y - h * .32} L${x + w * .34} ${y - h * .32} L${x + w * .27} ${y - h * .45} L${x - w * .27} ${y - h * .45}Z" fill="${P.tonneD}"/>
+    <path d="M${x} ${y - h} V${y - h * 1.18}" stroke="${P.tonneD}" stroke-width="${h * .05}"/><ellipse cx="${x}" cy="${y}" rx="${w * .6}" ry="${h * .07}" fill="${dunkel(P.w[0], .2)}" opacity=".5"/>
+    ${mitLicht && P.nacht ? `<g data-blink="1">${licht(x, y - h * 1.2, GRUEN, Math.min(5, Math.max(2.4, h * .06)))}</g>` : ''}</g>`;
+}
+function leuchtturm(x, y, h) {
+  const w = h * .16;
+  let s = `<path d="M${x - w} ${y} L${x - w * .6} ${y - h} L${x + w * .6} ${y - h} L${x + w} ${y}Z" fill="${P.turm}"/>`;
+  for (let i = 1; i < 4; i += 2) { const a = y - h * i / 4, b = y - h * (i + 1) / 4; s += `<path d="M${x - w * (1 - .4 * i / 4)} ${a} L${x - w * (1 - .4 * (i + 1) / 4)} ${b} L${x + w * (1 - .4 * (i + 1) / 4)} ${b} L${x + w * (1 - .4 * i / 4)} ${a}Z" fill="${P.turmR}"/>`; }
+  s += `<rect x="${x - w * .7}" y="${y - h - h * .16}" width="${w * 1.4}" height="${h * .16}" fill="${P.nacht ? '#fff3c8' : P.fenster}"/><path d="M${x - w * .9} ${y - h - h * .16} L${x} ${y - h - h * .3} L${x + w * .9} ${y - h - h * .16}Z" fill="${P.turmR}"/>`;
+  if (P.nacht) s += `<g data-strahl="${x},${y - h - h * .08}"><path d="M${x} ${y - h - h * .08} L${x + 260} ${y - h - 30} L${x + 260} ${y - h + 14}Z" fill="url(#strahl)" opacity=".8"/></g>${licht(x, y - h - h * .08, '#fff3c8', 3)}`;
+  return s;
+}
+function haeuser(y, sk, n = 7, x0 = -20) {
+  let s = '';
+  for (let i = 0; i < n; i++) { const w = (30 + (i * 7) % 18) * sk, h = (38 + (i * 13) % 30) * sk, x = x0 + i * 62 * sk, c = P.haus[i % P.haus.length];
+    s += `<path d="M${x} ${y} V${y - h * .65} L${x + w / 2} ${y - h} L${x + w} ${y - h * .65} V${y}Z" fill="${c}"/><rect x="${x + w * .3}" y="${y - h * .5}" width="${w * .16}" height="${h * .16}" fill="${P.hfenster}"/><rect x="${x + w * .58}" y="${y - h * .5}" width="${w * .16}" height="${h * .16}" fill="${P.hfenster}"/>`; }
+  return s;
+}
+function schilf(xa, xb, y, hMin, hMax, n, seed = 1) {
+  let s = '';
+  for (let i = 0; i < n; i++) { const r = ((i * 9301 + seed * 49297) % 233280) / 233280, x = xa + (xb - xa) * ((i + r * .8) / n), h = hMin + (hMax - hMin) * r, b = (r - .5) * 30;
+    s += `<path d="M${x} ${y} Q${x + b * .3} ${y - h * .5} ${x + b} ${y - h}" stroke="${i % 3 ? P.schilf : P.schilfD}" stroke-width="${3 + r * 3}" fill="none" stroke-linecap="round"/>`;
+    if (i % 4 === 0) s += `<ellipse cx="${x + b}" cy="${y - h - 6}" rx="3" ry="9" fill="${P.schilfH}" transform="rotate(${b * .6} ${x + b} ${y - h - 6})"/>`; }
+  return `<g data-wind="${seed}">${s}</g>`;
+}
+function kielwasserSeite() { return ''; }
+
+const BLICKE = {
+  seite: {name: 'Seite', az: 90, peil: 270,
+    icon: '<path d="M4 16 L28 16 L26 20 L7 20Z" fill="currentColor"/><path d="M11 16 L12 11 L22 11 L24 16" fill="currentColor" opacity=".6"/><path d="M17 3 V7" stroke="currentColor" stroke-width="2"/><path d="M14 4 L17 8 L20 4" fill="none" stroke="currentColor" stroke-width="2"/>',
+    varianten: [{n: 'Totale', c: {}}, {n: 'Halbnah', c: {z: 1.55, fx: 205, fy: 318}}, {n: 'Nah', c: {z: 2.6, fx: 268, fy: 292}}, {n: 'Tief', c: {z: 1.1, oy: -34, fy: 330}}, {n: 'Durchs Schilf', c: {z: 1.25, df: .95, fy: 360}}],
+    bau: () => [
+      {d: 0, svg: himmel(90)},
+      {d: .1, svg: `<path d="M-60 284 Q20 262 90 270 T240 266 T470 272 L470 300 L-60 300Z" fill="${P.ferne2}"/>` + leuchtturm(28, 270, 46) + haeuser(272, .55, 6, 170) + `<g transform="translate(330 268)"><path d="M-5 0 L-3 -30 L3 -30 L5 0Z" fill="${P.ferne}"/><g data-muehle="330,238"><path d="M0 -30 L0 -52 M0 -30 L22 -30 M0 -30 L0 -8 M0 -30 L-22 -30" stroke="${P.ferne}" stroke-width="3"/></g></g>`},
+      {d: .2, svg: nebelband(120, 284, 380, 40, .9) + nebelband(360, 290, 300, 34, .8)},
+      {d: .25, svg: tonne(118, 298, 24)},
+      {d: .35, svg: `<rect x="-60" y="292" width="520" height="300" fill="url(#wg)"/>` + glitzer(90, 296, 360) + streifen(298, 3, 30, P.w[0], 6) + streifen(316, 4, 40, mix(P.w[0], P.w[1], .35), 9)},
+      {d: .45, svg: nebelband(200, 318, 520, 30, .7) + moewe(-60, 150, 470, 120, 16, 0, .9)},
+      {d: .55, svg: `<g transform="translate(200 334) scale(1.4)">${friedaSeite()}</g>`},
+      {d: .7, svg: streifen(352, 6, 54, mix(P.w[0], P.w[1], .6), 16) + streifen(400, 8, 70, P.w[1], 22)},
+      {d: .95, svg: schilf(-50, 90, 540, 120, 210, 16, 1) + schilf(330, 460, 540, 90, 180, 12, 2) + schilf(80, 330, 540, 30, 70, 10, 3)}
+    ]},
+  heck: {name: 'Heck', az: 0, peil: 180,
+    icon: '<path d="M9 20 L23 20 L25 13 L7 13Z" fill="currentColor"/><path d="M12 13 L13 7 L19 7 L20 13" fill="currentColor" opacity=".6"/><circle cx="16" cy="24" r="2.4" fill="currentColor"/>',
+    varianten: [{n: 'Totale', c: {}}, {n: 'Tief', c: {z: 1.1, oy: -30, fy: 340}}, {n: 'Nah', c: {z: 2.0, fx: 200, fy: 322}}, {n: 'Zur Tonne', c: {z: 2.4, fx: 312, fy: 278, df: .25}}],
+    bau: () => [
+      {d: 0, svg: himmel(0)},
+      {d: .1, svg: `<path d="M-60 278 L140 274 L150 266 L240 268 Q330 262 470 274 L470 300 L-60 300Z" fill="${P.ferne2}"/><path d="M40 270 L130 266 L130 272 L40 276Z" fill="${P.mole}"/>` + leuchtturm(76, 270, 70) + haeuser(272, .45, 5, 220)},
+      {d: .2, svg: nebelband(250, 280, 420, 36, .9) + nebelband(60, 286, 300, 30, .7)},
+      {d: .25, svg: tonne(312, 290, 38)},
+      {d: .35, svg: `<rect x="-60" y="286" width="520" height="300" fill="url(#wg)"/>` + glitzer(0, 290, 360) + streifen(292, 2.5, 26, P.w[0], 4) + streifen(312, 4, 38, mix(P.w[0], P.w[1], .35), -6)},
+      {d: .45, svg: nebelband(200, 316, 520, 28, .6) + moewe(470, 160, -60, 110, 18, 6, .8)},
+      {d: .55, svg: `<g transform="translate(200 338) scale(1.25)">${friedaHeck()}</g>`},
+      {d: .62, svg: `<path data-fluss="-14" d="M182 368 Q150 420 90 520 M218 368 Q250 420 310 520" stroke="${P.glanz}" stroke-width="3" fill="none" stroke-dasharray="14 10" opacity=".75"/><path data-fluss="-20" d="M195 372 Q190 440 175 520 M205 372 Q210 440 225 520" stroke="${P.glanz}" stroke-width="2" fill="none" stroke-dasharray="8 12" opacity=".6"/>`},
+      {d: .7, svg: streifen(392, 6, 52, mix(P.w[0], P.w[1], .6), 12, false) + streifen(452, 8, 68, P.w[1], -16, false)},
+      {d: .95, svg: schilf(-60, 70, 540, 140, 240, 14, 4)}
+    ]},
+  schulter: {name: 'Schulter', az: 0, peil: 180, hoch: true,
+    icon: '<circle cx="9" cy="17" r="6" fill="currentColor"/><path d="M14 22 L22 9 L26 22Z" fill="currentColor" opacity=".55"/><path d="M20 9 L24 9" stroke="currentColor" stroke-width="2"/>',
+    varianten: [{n: 'Normal', c: {}}, {n: 'Tonne scharf', c: {z: 1.95, fx: 300, fy: 252, df: .28}}, {n: 'Hinnerk scharf', c: {df: .95, z: 1.12, fx: 150, fy: 400}}, {n: 'Kajüte nah', c: {z: 1.6, fx: 205, fy: 330}}],
+    bau: () => [
+      {d: 0, svg: himmel(0)},
+      {d: .1, svg: `<path d="M-60 252 L140 248 L150 241 L240 243 Q330 238 470 248 L470 270 L-60 270Z" fill="${P.ferne2}"/><path d="M30 244 L120 241 L120 246 L30 249Z" fill="${P.mole}"/>` + leuchtturm(64, 245, 52) + haeuser(247, .38, 5, 230)},
+      {d: .2, svg: nebelband(220, 254, 440, 30, .9)},
+      {d: .28, svg: tonne(300, 268, 46)},
+      {d: .4, svg: `<rect x="-60" y="256" width="520" height="320" fill="url(#wg)"/>` + glitzer(0, 260, 330) + streifen(262, 2, 22, P.w[0], 3) + streifen(280, 3, 30, mix(P.w[0], P.w[1], .3), -5) + streifen(310, 5, 44, mix(P.w[0], P.w[1], .55), 8)},
+      {d: .6, svg: `<path data-fluss="-24" d="M186 270 Q120 300 -40 360 M214 270 Q280 300 440 360" stroke="${P.glanz}" stroke-width="3" fill="none" stroke-dasharray="16 10" opacity=".85"/><path data-fluss="-30" d="M190 276 Q110 330 -40 420 M210 276 Q290 330 440 420" stroke="${P.glanz}" stroke-width="2" fill="none" stroke-dasharray="10 14" opacity=".6"/>`},
+      {d: .75, svg: `<path d="M-40 520 L196 262 L204 262 L440 520Z" fill="${P.rumpf}"/>
+        <path d="M-40 512 L194 266 M440 512 L206 266" stroke="${P.streifen}" stroke-width="4"/>
+        <path d="M40 520 L150 392 L250 392 L360 520Z" fill="${P.deck}"/>
+        <path d="M140 394 L148 312 L252 312 L260 394Z" fill="${dunkel(P.rumpf, .1)}"/><path d="M182 394 L186 332 L214 332 L218 394Z" fill="${P.holz}"/>
+        <path d="M148 312 L160 292 L240 292 L252 312Z" fill="${P.dach}"/><path d="M160 292 L196 262 L204 262 L240 292Z" fill="${hell(P.rumpf, .1)}"/>
+        <path d="M200 292 V266" stroke="${P.motor}" stroke-width="2"/><rect x="197" y="262" width="6" height="5" fill="${P.motor}"/>
+        <g transform="translate(228 290) scale(.42)">${kopfVorn(P.sJacke, P.sHaar)}</g>
+        ${P.nacht ? `<ellipse cx="200" cy="470" rx="160" ry="50" fill="#fff7d6" opacity=".08"/>` : ''}`},
+      {d: .95, svg: `<path d="M420 560 L236 468" stroke="${P.holz}" stroke-width="15" stroke-linecap="round"/>
+        <path d="M-70 540 Q-60 420 30 398 L118 398 Q196 420 206 540Z" fill="${P.hJacke}"/>
+        <path d="M168 446 Q210 452 236 468" stroke="${P.hJacke}" stroke-width="34" stroke-linecap="round" fill="none"/><circle cx="240" cy="470" r="15" fill="${P.haut}"/>
+        <circle cx="74" cy="352" r="44" fill="${P.haut}"/><path d="M30 352 Q34 312 74 308 Q114 312 118 352 Q74 336 30 352Z" fill="${P.hMuetze}"/><path d="M32 360 Q74 346 116 360 L118 372 Q74 356 30 372Z" fill="${P.hMuetze}"/>
+        <path d="M34 382 Q74 398 114 382" stroke="${P.hBart}" stroke-width="8" fill="none"/>`}
+    ]},
+  bug: {name: 'Bug', az: 180, peil: 0,
+    icon: '<path d="M10 9 L22 9 Q21 17 16 22 Q11 17 10 9Z" fill="currentColor"/><path d="M12 9 L13 4 L19 4 L20 9" fill="currentColor" opacity=".6"/><circle cx="16" cy="25" r="2" fill="currentColor"/>',
+    varianten: [{n: 'Wasserhöhe', c: {}}, {n: 'Nah', c: {z: 1.9, fx: 200, fy: 312}}, {n: 'Tonne scharf', c: {df: .95, z: 1.05, fx: 150}}, {n: 'Hoch', c: {oy: 34, z: 1.12, fy: 300}}],
+    bau: () => [
+      {d: 0, svg: himmel(180)},
+      {d: .1, svg: `<path d="M-60 280 Q60 270 200 274 T470 276 L470 300 L-60 300Z" fill="${P.ferne2}"/>` + haeuser(276, .62, 8, -30) + [20, 120, 260, 360].map(x => `<path d="M${x} 276 V214" stroke="${P.ferne}" stroke-width="1.6"/>`).join('')},
+      {d: .2, svg: nebelband(200, 286, 520, 40, .9)},
+      {d: .35, svg: `<rect x="-60" y="288" width="520" height="300" fill="url(#wg)"/>` + glitzer(180, 292, 360) + streifen(294, 3, 30, P.w[0], -5) + streifen(314, 4, 40, mix(P.w[0], P.w[1], .35), 7)},
+      {d: .45, svg: nebelband(260, 316, 480, 26, .6) + moewe(-60, 130, 470, 170, 20, 3, .9)},
+      {d: .55, svg: `<g transform="translate(200 334) scale(1.3)">${friedaBug()}</g>`},
+      {d: .7, svg: streifen(362, 6, 56, mix(P.w[0], P.w[1], .6), -14) + streifen(420, 8, 72, P.w[1], 18)},
+      {d: .95, svg: tonne(40, 520, 280) + schilf(350, 460, 540, 80, 170, 9, 5)}
+    ]},
+  oben: {name: 'Oben', az: null, peil: null, top: true,
+    icon: '<rect x="3" y="3" width="26" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".5"/><path d="M16 6 C20 9 21 14 20 22 L12 22 C11 14 12 9 16 6Z" fill="currentColor"/>',
+    varianten: [{n: 'Vogel', c: {}}, {n: 'Nah', c: {z: 1.9, fx: 200, fy: 300}}, {n: 'Schräg', c: {kipp: 38, z: 1.55, fy: 290}}, {n: 'Kreisend', c: {kreis: 1, z: 1.3}}],
+    bau: () => {
+      const k = P.sonne || P.mond, az = k ? k.az : 135, sx = -Math.sin(az * Math.PI / 180) * 10, sy = Math.cos(az * Math.PI / 180) * 10;
+      return [
+        {d: 0, svg: `<rect x="-60" y="-60" width="520" height="640" fill="url(#wg)"/><path d="M-60 -60 L80 -60 Q110 200 90 560 L-60 560Z" fill="${hell(P.w[0], .12)}" opacity=".6"/>` +
+          Array.from({length: 34}, (_, i) => `<path d="M${(i * 71) % 460 - 30} ${(i * 113) % 600 - 50} q9 -5 18 0" stroke="${P.glanz}" stroke-width="1.5" fill="none" opacity="${P.nacht ? .25 : .5}" data-welle="${2 + i % 3},0,${i},0"/>`).join('')},
+        {d: .15, svg: `<path d="M-60 -60 L40 -60 Q70 60 50 200 Q34 360 60 560 L-60 560Z" fill="${P.schilf}"/>` + Array.from({length: 40}, (_, i) => `<circle cx="${(i * 37) % 90 - 30}" cy="${(i * 61) % 620 - 50}" r="${4 + i % 5}" fill="${i % 2 ? P.schilfD : P.schilfH}" opacity=".8"/>`).join('')},
+        {d: .2, svg: P.nacht || lichtId === 'nebel' ? '' : [0, 1, 2].map(i => `<ellipse cx="${100 + i * 130}" cy="${80 + i * 150}" rx="90" ry="60" fill="url(#schatten)" data-welle="${5 + i},0,${i},0"/>`).join('')},
+        {d: .3, svg: `<path d="M-60 40 L150 92 L144 116 L-60 70Z" fill="${P.mole}"/>` + Array.from({length: 8}, (_, i) => `<circle cx="${-40 + i * 24}" cy="${52 + i * 6.3}" r="5" fill="${dunkel(P.mole, .2)}"/>`).join('') +
+          `<circle cx="${150 + sx}" cy="${104 + sy}" r="18" fill="#000" opacity=".25"/><circle cx="150" cy="104" r="17" fill="${P.turm}"/><circle cx="150" cy="104" r="11" fill="${P.turmR}"/><circle cx="150" cy="104" r="5" fill="${P.nacht ? '#fff3c8' : P.fenster}"/>` +
+          (P.nacht ? `<g data-strahl="150,104"><path d="M150 104 L420 70 L420 140Z" fill="url(#strahl)" opacity=".7"/></g>` : '')},
+        {d: .35, svg: `<ellipse cx="${312 + sx * 1.4}" cy="${140 + sy * 1.4}" rx="16" ry="14" fill="#000" opacity=".22"/><circle cx="312" cy="140" r="14" fill="${P.tonne}"/><circle cx="312" cy="140" r="6" fill="${P.tonneD}"/><circle cx="308" cy="136" r="2.5" fill="${hell(P.tonne, .4)}"/>` + (P.nacht ? `<g data-blink="1">${licht(312, 140, GRUEN, 3.2)}</g>` : '')},
+        {d: .55, svg: `<g data-boot="0">
+            <path data-fluss="-22" d="M196 380 Q170 450 120 560 M204 380 Q230 450 280 560" stroke="${P.glanz}" stroke-width="3" fill="none" stroke-dasharray="12 10" opacity=".8"/>
+            <path data-fluss="-26" d="M200 384 V560" stroke="${P.glanz}" stroke-width="5" fill="none" stroke-dasharray="6 9" opacity=".5"/>
+            <path d="M192 216 Q170 236 150 262 M208 216 Q230 236 250 262" stroke="${P.glanz}" stroke-width="2.4" fill="none" opacity=".8"/>
+            <g transform="translate(${200 + sx * .8} ${300 + sy * .8}) scale(1.7)" opacity=".22"><path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="#000"/></g>
+            ${P.nacht ? `<g transform="translate(200 300) scale(1.7)"><path d="M0 -6 L-74 25 Q-60 -130 0 -150 Q60 -130 74 25Z" fill="${WEISS}" opacity=".07"/><path d="M-19 -18 L-19 -92 Q-70 -80 -86 10Z" fill="${ROT}" opacity=".2"/><path d="M19 -18 L19 -92 Q70 -80 86 10Z" fill="${GRUEN}" opacity=".2"/><path d="M0 49 L-58 73 Q0 130 58 73Z" fill="${WEISS}" opacity=".14"/></g>` : ''}
+            <g transform="translate(200 300) scale(1.7)">${friedaOben()}${P.nacht ? licht(-19.5, -18, ROT, 1.6) + licht(19.5, -18, GRUEN, 1.6) + licht(0, 49, WEISS, 1.4) + licht(0, -6, WEISS, 1.4) : ''}</g></g>`},
+        {d: .8, svg: moewe(-60, 420, 470, 60, 14, 2, 1.6) + `<g opacity=".25">${moewe(-40, 450, 490, 90, 14, 2, 1.6).replace(P.moewe, '#000').replace(P.moeweD, '#000')}</g>`},
+        {d: .9, svg: nebelband(120, 200, 380, 120, .55) + nebelband(320, 420, 340, 110, .5)}
+      ];
+    }}
+};
+/* Zwischenbilder für den Orbit (Peilung von der Frieda aus: 180 achtern, 270 Backbord querab, 0/360 voraus) */
+const ORBIT_BOOT = {180: friedaHeck, 225: friedaD34H, 270: friedaSeite, 315: friedaD34V, 360: friedaBug};
+
+/* ============================================================
+   5. Aufbau der Sets
+   ============================================================ */
+const welt = $('#welt');
+const SETS = {}, EBENEN = {}, CAM = {};
+const NULLCAM = {z: 1, fx: 200, fy: 250, ox: 0, oy: 0, df: .55, kipp: 0, drehOff: 0, kreis: 0, vert: 0};
+let blick = 'seite', variante = 0, naehe = 1;
+const NAEHE = [{n: 'Weit', f: 1}, {n: 'Mittel', f: 1.3}, {n: 'Nah', f: 1.75}];
+const SV = s => `<svg viewBox="-40 -50 480 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
+function zielCam(p, v) {
+  const c = {...NULLCAM, ...BLICKE[p].varianten[v].c};
+  c.z = c.z * NAEHE[naehe].f;
+  if (NAEHE[naehe].f > 1 && !BLICKE[p].varianten[v].c.fx) { const boot = {seite: [200, 315], heck: [200, 320], schulter: [210, 330], bug: [200, 312], oben: [200, 300]}[p]; c.fx = boot[0]; c.fy = boot[1]; }
+  return c;
+}
+function bauen() {
+  palette(); defs();
+  welt.innerHTML = '';
+  for (const p of [...Object.keys(BLICKE), 'orbit']) {
+    const set = document.createElement('div'); set.className = 'set' + (p === blick ? ' an' : ''); set.dataset.p = p;
+    const rig = document.createElement('div'); rig.className = 'rig'; set.appendChild(rig);
+    const ebenen = p === 'orbit' ? orbitEbenen() : BLICKE[p].bau();
+    EBENEN[p] = [];
+    for (const e of ebenen) {
+      if (!e.svg) continue;
+      const eb = document.createElement('div'); eb.className = 'eb'; eb.dataset.d = e.d;
+      const cam = document.createElement('div'); cam.className = 'cam';
+      if (p === 'orbit' && e.d > 0 && !e.slot) { cam.style.inset = '-10% -160%'; cam.innerHTML = `<svg viewBox="-640 -50 1680 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${e.svg}</svg>`; } else cam.innerHTML = SV(e.svg);
+      eb.appendChild(cam); rig.appendChild(eb);
+      EBENEN[p].push({d: e.d, eb, cam, slot: e.slot, last: {}});
+    }
+    welt.appendChild(set); SETS[p] = set;
+    if (!CAM[p]) CAM[p] = p === 'orbit' ? {...NULLCAM} : zielCam(p, 0);
+  }
+  CAM[blick] = zielCam(blick, variante);
+  sammeln();
+  $('#papier').style.opacity = GLAS[glasId].papier;
+  $('#papier').innerHTML = GLAS[glasId].papier ? `<svg viewBox="0 0 400 500" preserveAspectRatio="none" style="width:100%;height:100%"><filter id="papF"><feTurbulence type="fractalNoise" baseFrequency=".035 .6" numOctaves="3" seed="9"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .48  0 0 0 0 .36  0 0 0 .9 -.2"/></filter><rect width="400" height="500" filter="url(#papF)"/></svg>` : '';
+  $('#innen').style.filter = GLAS[glasId].tusche ? 'grayscale(.9) sepia(.4) contrast(1.06) brightness(1.02)' : '';
+}
+function orbitEbenen() {
+  const land = `<path d="M-1300 280 Q-900 262 -500 274 T300 270 T1100 276 T1700 270 L1700 300 L-1300 300Z" fill="${P.ferne2}"/>` + haeuser(276, .5, 30, -1200) + leuchtturm(-260, 272, 50) + leuchtturm(860, 272, 50);
+  return [
+    {d: 0, svg: `<rect x="-60" y="-60" width="520" height="640" fill="url(#hg)"/>`},
+    {d: .1, svg: land},
+    {d: .2, svg: nebelband(200, 286, 2400, 44, 1)},
+    {d: .35, svg: `<rect x="-1300" y="290" width="3000" height="300" fill="url(#wg)"/>` + streifen(296, 3, 30, P.w[0], 0, true, -1300, 1700) + streifen(318, 4, 40, mix(P.w[0], P.w[1], .4), 0, true, -1300, 1700)},
+    {d: .55, svg: `<g id="orbitBoot" transform="translate(200 336) scale(1.3)"></g>`, slot: true},
+    {d: .7, svg: streifen(360, 6, 56, mix(P.w[0], P.w[1], .6), 0, true, -1300, 1700) + streifen(420, 8, 72, P.w[1], 0, true, -1300, 1700)},
+    {d: .95, svg: schilf(-1300, 1700, 560, 60, 160, 60, 7)}
+  ];
+}
+let WELLEN = [], FLUSS = [], MOEWEN = [], BLINK = [], STRAHL = [], DRIFT = [], BOOTE = [], WIND = [], GISCHT = [], FUNKEL = [], MUEHLE = [];
+function sammeln() {
+  const q = s => [...welt.querySelectorAll(s)];
+  WELLEN = q('[data-welle]').map(el => { const [sp, amp, ph, per] = el.dataset.welle.split(',').map(Number); return {el, sp, amp, ph, per, b: el.getAttribute('transform') || ''}; });
+  FLUSS = q('[data-fluss]').map(el => ({el, sp: +el.dataset.fluss}));
+  MOEWEN = q('[data-moewe]').map(el => { const [x0, y0, x1, y1, dur, ph] = el.dataset.moewe.split(',').map(Number); return {el, x0, y0, x1, y1, dur, ph, flug: el.querySelector('.flug')}; });
+  BLINK = q('[data-blink]'); STRAHL = q('[data-strahl]').map(el => { const [x, y] = el.dataset.strahl.split(',').map(Number); return {el, x, y}; });
+  DRIFT = q('[data-drift]').map(el => { const [sp, ph] = el.dataset.drift.split(',').map(Number); return {el, sp, ph, cx: +el.getAttribute('cx')}; });
+  BOOTE = q('[data-boot="1"]').map(el => ({el, b: ''}));
+  WIND = q('[data-wind]').map(el => ({el, s: +el.dataset.wind}));
+  GISCHT = q('[data-gischt]'); FUNKEL = q('[data-funkel]'); MUEHLE = q('[data-muehle]').map(el => { const [x, y] = el.dataset.muehle.split(',').map(Number); return {el, x, y}; });
+}
+
+/* ============================================================
+   6. Kamera pro Bild
+   ============================================================ */
+let K = 1, extraBlur = 0;
+function messen() { K = $('#buehne').clientWidth / 400; }
+addEventListener('resize', messen);
+function kameraAnwenden(p, t) {
+  const c = CAM[p], set = SETS[p]; if (!set || !set.classList.contains('an')) return;
+  const rig = set.firstChild, dreh = c.drehOff + (c.kreis ? t * 6 : 0);
+  const rt = (c.kipp || dreh) ? `perspective(${700 * K}px) rotateX(${c.kipp.toFixed(2)}deg) rotateZ(${dreh.toFixed(2)}deg)` : '';
+  if (rig._t !== rt) { rig.style.transform = rt; rig._t = rt; }
+  const atmen = reduziert ? 0 : 1, ox0 = Math.sin(t * .23) * 5 * atmen, oy0 = Math.cos(t * .17) * 3 * atmen;
+  const rollen = BLICKE[p] && BLICKE[p].hoch ? Math.sin(t * 1.05) * 1.6 : 0;
+  const g = GLAS[glasId];
+  for (const L of EBENEN[p]) {
+    const d = L.d;
+    let zl = 1 + (c.z - 1) * (.25 + .75 * d); zl *= 1 + c.vert * (.55 - d) * (d > .55 ? .7 : 1.8);
+    const u = Math.max(0, Math.min(1, (zl - 1) / .5));
+    const tx = (c.fx - 200) * (1 - u - zl) + (ox0 + c.ox) * d, ty = (c.fy - 250) * (1 - u - zl) + (oy0 + c.oy) * d;
+    const rot = d < .7 ? rollen : 0;
+    const tr = `translate(${(tx * K).toFixed(1)}px,${(ty * K).toFixed(1)}px) scale(${zl.toFixed(4)})${rot ? ` rotate(${rot.toFixed(2)}deg)` : ''}`;
+    L.cam.style.transform = tr;
+    if (d > 0) {
+      const bl = p === 'orbit' ? 0 : Math.min(14, g.blur * 3.2 * Math.abs(d - c.df) * (1 + (zl - 1) * .5) + extraBlur);
+      const op = d < .55 ? 1 - P.nebel * .97 * (.55 - d) / .55 : 1;
+      const key = bl.toFixed(1) + '|' + op.toFixed(2);
+      if (L.last.f !== key) { L.cam.style.filter = bl > .15 ? `blur(${bl.toFixed(1)}px)` : ''; L.cam.style.opacity = op.toFixed(2); L.last.f = key; }
+    }
+  }
+}
+/* Werte weich überblenden */
+let tweens = [];
+function tw(obj, ziel, dur, ease = 'inout') {
+  return new Promise(res => {
+    const von = {}; for (const k in ziel) von[k] = obj[k];
+    tweens.push({obj, von, ziel, dur: reduziert ? Math.min(dur, 250) : dur, start: performance.now(), ease, res});
+  });
+}
+const EASE = {inout: u => u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2, in: u => u * u * u, out: u => 1 - Math.pow(1 - u, 3)};
+const G = {get extraBlur() { return extraBlur; }, set extraBlur(v) { extraBlur = v; }};
+
+const t0 = performance.now();
+function zeichne(now) {
+  const t = (now - t0) / 1000;
+  tweens = tweens.filter(w => { const u = Math.min(1, (now - w.start) / w.dur), e = EASE[w.ease](u); for (const k in w.ziel) w.obj[k] = w.von[k] + (w.ziel[k] - w.von[k]) * e; if (u >= 1) { w.res(); return false; } return true; });
+  for (const p in SETS) kameraAnwenden(p, t);
+  const bob = Math.sin(t * 1.6) * 1.8, roll = Math.sin(t * 1.2) * 1.2;
+  for (const b of BOOTE) b.el.setAttribute('transform', `translate(0 ${bob.toFixed(2)}) rotate(${roll.toFixed(2)})`);
+  for (const w of WELLEN) { const dx = w.per ? ((((t * w.sp) % w.per) + w.per) % w.per) - w.per : Math.sin(t * .05 + w.ph) * w.sp * 6; w.el.setAttribute('transform', `${w.b} translate(${dx.toFixed(1)} ${(Math.sin(t * 1.1 + w.ph) * w.amp).toFixed(1)})`); }
+  for (const f of FLUSS) f.el.setAttribute('stroke-dashoffset', (t * f.sp).toFixed(1));
+  for (const m of MOEWEN) { const u = ((t + m.ph) % m.dur) / m.dur, x = m.x0 + (m.x1 - m.x0) * u, y = m.y0 + (m.y1 - m.y0) * u + Math.sin(u * 9) * 10; m.el.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`); m.flug.setAttribute('transform', `scale(1 ${(.35 + Math.abs(Math.sin(t * 5 + m.ph)) * .8).toFixed(2)})`); }
+  const an = (t % 4) < .5; for (const b of BLINK) b.setAttribute('opacity', an ? 1 : 0);
+  for (const s of STRAHL) s.el.setAttribute('transform', `rotate(${(t * 40) % 360} ${s.x} ${s.y})`);
+  for (const d of DRIFT) d.el.setAttribute('cx', (d.cx + Math.sin(t * .04 * d.sp + d.ph) * 50).toFixed(1));
+  for (const w of WIND) w.el.setAttribute('transform', `skewX(${(Math.sin(t * .9 + w.s) * 2.4).toFixed(2)})`);
+  for (const g of GISCHT) g.setAttribute('opacity', (.7 + Math.sin(t * 6) * .3).toFixed(2));
+  for (const f of FUNKEL) f.setAttribute('opacity', (.25 + Math.abs(Math.sin(t * 2.5 + +f.dataset.funkel * 1.7)) * .6).toFixed(2));
+  for (const m of MUEHLE) m.el.setAttribute('transform', `rotate(${(t * 25) % 360} 0 -30)`);
+  requestAnimationFrame(zeichne);
+}
+
+/* ============================================================
+   7. Übergänge
+   ============================================================ */
+const ani = (el, kf, dur, ease = 'ease-in-out', extra = {}) => el.animate(kf, {duration: reduziert ? Math.min(dur, 200) : dur, easing: ease, fill: 'both', ...extra}).finished;
+const warte = ms => new Promise(r => setTimeout(r, ms));
+const blende = $('#blende'), flare = $('#flare'), wisch = $('#wisch');
+function zeige(p) { for (const k in SETS) SETS[k].classList.toggle('an', k === p); }
+function aufraeumen(p) { if (!SETS[p]) return; SETS[p].getAnimations().forEach(a => a.cancel()); EBENEN[p].forEach(L => L.eb.getAnimations().forEach(a => a.cancel())); }
+const W = () => 400 * K, H = () => 500 * K;
+
+const UEBERGANG = {
+  schnitt: {name: 'Schnitt', erkl: 'Harter Schnitt. Zum Vergleich.', fn: async (a, n) => { zeige(n); }},
+  nebel: {name: 'Nebelblende', erkl: 'Eine Nebelbank zieht vor die Linse, dahinter wartet das neue Bild.', fn: async (a, n) => {
+    await ani(blende, [{opacity: 0}, {opacity: 1}], 750, 'ease-in'); zeige(n); await ani(blende, [{opacity: 1}, {opacity: 0}], 1000, 'ease-out'); blende.getAnimations().forEach(x => x.cancel()); }},
+  fahrt: {name: 'Kamerafahrt', erkl: 'Im selben Blick fährt die Kamera weich hin. Zu einem anderen Blick taucht sie nach vorn hinein und kommt im neuen Bild an.', fn: async (a, n, zielC) => {
+    if (a === n) { await tw(CAM[n], zielC, 1500); return; }
+    const A = CAM[a];
+    await Promise.all([tw(A, {z: A.z * 1.9, fx: A.fx, fy: A.fy}, 900, 'in'), tw(G, {extraBlur: 7}, 900, 'in'), ani(blende, [{opacity: 0}, {opacity: .7}], 900, 'ease-in')]);
+    Object.assign(CAM[n], zielC, {z: zielC.z * 1.6}); zeige(n);
+    await Promise.all([tw(CAM[n], {z: zielC.z}, 1200, 'out'), tw(G, {extraBlur: 0}, 1100, 'out'), ani(blende, [{opacity: .7}, {opacity: 0}], 1100, 'ease-out')]);
+    blende.getAnimations().forEach(x => x.cancel()); Object.assign(A, zielCamFuer(a)); }},
+  orbit: {name: 'Orbit', erkl: 'Die Kamera fährt um die Frieda herum. Sie bleibt in der Mitte, die Welt dahinter wandert mit, das Schilf vorn läuft dagegen. Dazwischen Bilder schräg von hinten und schräg von vorn.', fn: async (a, n, zielC) => {
+    const pa = BLICKE[a].peil, pn = BLICKE[n].peil;
+    if (pa == null || pn == null || BLICKE[a].hoch || BLICKE[n].hoch || pa === pn) return UEBERGANG[pa === pn ? 'fahrt' : (BLICKE[a].top || BLICKE[n].top ? 'kran' : 'fahrt')].fn(a, n, zielC);
+    const von = pa === 0 ? 360 : pa, bis = pn === 0 ? 360 : pn, dir = bis > von ? 1 : -1;
+    const schritte = []; for (let b = von + dir * 45; dir > 0 ? b < bis : b > bis; b += dir * 45) schritte.push(b);
+    const lauf = (L, s) => -dir * (.55 - L.d) * W() * s;
+    const ob = document.getElementById('orbitBoot'), O = EBENEN.orbit, S_A = SETS[a], S_O = SETS.orbit, S_N = SETS[n];
+    const weit = .9 * Math.min(schritte.length + 1, 2.4);
+    ob.innerHTML = ORBIT_BOOT[schritte[0] || von](); ob.style.opacity = 1; sammeln();
+    O.filter(L => L.d > 0).forEach(L => { L.eb.style.transform = `translateX(${-lauf(L, .9)}px)`; });
+    S_O.classList.add('an'); S_A.style.zIndex = 2;
+    /* das alte Bild gleitet in die Orbit-Welt hinüber: Ferne mit, Nähe dagegen */
+    await Promise.all(EBENEN[a].map(L => ani(L.eb, [{transform: 'none', opacity: 1}, {transform: `translateX(${lauf(L, .9)}px)`, opacity: L.d === .55 ? 1 : 0}], 600, 'ease-in')));
+    S_A.classList.remove('an'); S_A.style.zIndex = ''; aufraeumen(a); ob.style.opacity = 1;
+    const dauer = Math.max(1, schritte.length) * 420;
+    const bewegt = O.filter(L => L.d > 0).map(L => ani(L.eb, [{transform: `translateX(${-lauf(L, .9)}px)`}, {transform: `translateX(${lauf(L, weit)}px)`}], dauer, 'linear'));
+    for (const b of (schritte.length ? schritte : [von])) {
+      ob.innerHTML = ORBIT_BOOT[b](); sammeln();
+      await ani(ob, [{transform: 'translate(200px,336px) scale(1.18,1.3)'}, {transform: 'translate(200px,336px) scale(1.34,1.3)', offset: .5}, {transform: 'translate(200px,336px) scale(1.18,1.3)'}], 420, 'linear');
+    }
+    await Promise.all(bewegt);
+    Object.assign(CAM[n], zielC); S_N.classList.add('an'); S_N.style.zIndex = 2;
+    await Promise.all(EBENEN[n].map(L => ani(L.eb, [{transform: `translateX(${-lauf(L, .9)}px)`, opacity: L.d === .55 ? 1 : 0}, {transform: 'none', opacity: 1}], 700, 'ease-out')));
+    zeige(n); S_N.style.zIndex = ''; aufraeumen('orbit'); aufraeumen(n); O.forEach(L => { L.eb.style.transform = ''; }); ob.innerHTML = ''; sammeln(); }},
+  kran: {name: 'Kranfahrt', erkl: 'Die Kamera steigt senkrecht auf. Unten rutscht das Nahe schneller weg als das Ferne, oben kippt das Bild in die Draufsicht. Zurück senkt sie sich wieder.', fn: async (a, n, zielC) => {
+    if (BLICKE[n].top) {
+      await Promise.all([...EBENEN[a].map(L => ani(L.eb, [{transform: 'none', opacity: 1}, {transform: `translateY(${(L.d * H() * .7).toFixed(0)}px) scale(${1 + L.d * .35})`, opacity: L.d < .1 ? 1 : .2}], 1000, 'ease-in')), ani(blende, [{opacity: 0}, {opacity: .85}], 1000, 'ease-in')]);
+      Object.assign(CAM[n], zielC, {kipp: 62, drehOff: -18, z: zielC.z * 1.35}); zeige(n); aufraeumen(a);
+      await Promise.all([tw(CAM[n], {kipp: zielC.kipp, drehOff: 0, z: zielC.z}, 1500, 'out'), ani(blende, [{opacity: .85}, {opacity: 0}], 1300, 'ease-out')]);
+    } else {
+      const A = CAM[a];
+      await Promise.all([tw(A, {kipp: 62, z: A.z * 1.4, drehOff: 14}, 1000, 'in'), ani(blende, [{opacity: 0}, {opacity: .85}], 1000, 'ease-in')]);
+      Object.assign(CAM[n], zielC); zeige(n); if (a !== n) Object.assign(A, zielCamFuer(a));
+      await Promise.all([...EBENEN[n].map(L => ani(L.eb, [{transform: `translateY(${(-L.d * H() * .55).toFixed(0)}px) scale(${1 + L.d * .25})`, opacity: .3}, {transform: 'none', opacity: 1}], 1300, 'ease-out')), ani(blende, [{opacity: .85}, {opacity: 0}], 1300, 'ease-out')]);
+      aufraeumen(n);
+    }
+    blende.getAnimations().forEach(x => x.cancel()); }},
+  schaerfe: {name: 'Schärfenzieher', erkl: 'Alles verschwimmt, die Schärfe kommt im neuen Bild zuerst vorn an und wandert dann zur Frieda.', fn: async (a, n, zielC) => {
+    await Promise.all([tw(G, {extraBlur: 13}, 700, 'in'), tw(CAM[a], {df: 1}, 700, 'in')]);
+    Object.assign(CAM[n], zielC, {df: 1}); zeige(n); if (a !== n) Object.assign(CAM[a], zielCamFuer(a));
+    await Promise.all([tw(G, {extraBlur: 0}, 800, 'out'), tw(CAM[n], {df: zielC.df}, 1500, 'inout')]); }},
+  wischer: {name: 'Vordergrund-Wischer', erkl: 'Etwas Nahes zieht groß und unscharf durchs Bild: ein Schilfbüschel, ein Pfahl, eine Möwe. Dahinter ist geschnitten.', fn: async (a, n) => {
+    const art = BLICKE[n].top ? 'moewe' : ['schilf', 'pfahl', 'moewe'][Math.floor(Math.random() * 3)];
+    const form = {schilf: schilf(-20, 620, 640, 420, 640, 34, 9), pfahl: `<rect x="110" y="-80" width="380" height="760" rx="40" fill="${P.holz}"/><path d="M150 -80 V680 M230 -80 V680 M330 -80 V680" stroke="${dunkel(P.holz, .25)}" stroke-width="10"/>`,
+      moewe: `<g transform="translate(300 250) scale(14)"><path d="M-16 -2 Q-8 -10 0 0 Q8 -10 16 -2 Q8 -5 0 3 Q-8 -5 -16 -2Z" fill="${P.moewe}"/></g>`}[art];
+    wisch.innerHTML = `<svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0 -25%;width:150%;height:100%;filter:blur(${art === 'moewe' ? 10 : 7}px)">${form}</svg>`;
+    const lauf = wisch.animate([{transform: 'translateX(130%)'}, {transform: 'translateX(-130%)'}], {duration: reduziert ? 300 : 1200, easing: 'cubic-bezier(.4,.1,.6,.9)', fill: 'both'});
+    await warte(reduziert ? 150 : 600); zeige(n); await lauf.finished; lauf.cancel(); wisch.innerHTML = ''; }},
+  platten: {name: 'Glasplatten', erkl: 'Wie am Tricktisch: Die Glasplatten werden einzeln herausgezogen, vorn zuerst. Kurz sieht man das Leuchtpult. Dann schieben sich die neuen Platten hinein, hinten zuerst.', fn: async (a, n, zielC) => {
+    const LA = [...EBENEN[a]].sort((x, y) => y.d - x.d);
+    await Promise.all(LA.map((L, i) => ani(L.eb, [{transform: 'none'}, {transform: `translateX(${-W() * 1.25}px) rotate(-2deg)`}], 520, 'ease-in', {delay: i * 85})));
+    Object.assign(CAM[n], zielC); zeige(n); aufraeumen(a);
+    const LN = [...EBENEN[n]].sort((x, y) => x.d - y.d);
+    LN.forEach(L => { L.eb.style.transform = `translateX(${W() * 1.25}px)`; });
+    await warte(250);
+    await Promise.all(LN.map((L, i) => ani(L.eb, [{transform: `translateX(${W() * 1.25}px) rotate(2deg)`}, {transform: 'none'}], 560, 'cubic-bezier(.2,.8,.3,1)', {delay: i * 85})));
+    LN.forEach(L => { L.eb.style.transform = ''; }); aufraeumen(n); }},
+  licht: {name: 'Lichtblende', erkl: 'Die Sonne (nachts der Mond) blendet die Linse, alles wird hell, im Licht wechselt das Bild.', fn: async (a, n) => {
+    const k = P.sonne || P.mond, farbe = k ? k.farbe : '#fffaf0';
+    flare.style.background = `radial-gradient(circle at 70% 25%, ${farbe} 0%, ${farbe} 18%, ${mix(farbe, '#ffffff', .4)}cc 45%, ${farbe}00 80%), linear-gradient(${farbe}aa, ${farbe}aa)`;
+    await ani(flare, [{opacity: 0}, {opacity: 1}], 650, 'ease-in'); zeige(n); await ani(flare, [{opacity: 1}, {opacity: 0}], 1000, 'ease-out'); flare.getAnimations().forEach(x => x.cancel()); }},
+  atem: {name: 'Atemzug', erkl: 'Die Kamera holt Luft: Sie fährt ein Stück zurück, die Ebenen ziehen sich auseinander, dann gleitet sie ins neue Bild, als würde sie ausatmen.', fn: async (a, n, zielC) => {
+    await Promise.all([tw(CAM[a], {vert: -.6, oy: CAM[a].oy + 20}, 900, 'inout'), ani(blende, [{opacity: 0}, {opacity: .9}], 900, 'ease-in')]);
+    Object.assign(CAM[n], zielC, {vert: .7}); zeige(n); if (a !== n) Object.assign(CAM[a], zielCamFuer(a));
+    await Promise.all([tw(CAM[n], {vert: 0}, 1400, 'out'), ani(blende, [{opacity: .9}, {opacity: 0}], 1200, 'ease-out')]); blende.getAnimations().forEach(x => x.cancel()); }}
+};
+const zielCamFuer = p => zielCam(p, p === blick ? variante : 0);
+let uebergangId = 'orbit';
+let laeuft = false, warteschlange = null;
+
+async function gehe(p, v, uid = uebergangId) {
+  if (laeuft) { warteschlange = [p, v, uid]; return; }
+  laeuft = true;
+  try {
+    if (uid === 'zufall') uid = zufallFuer(blick, p);
+    const a = blick, ziel = zielCam(p, v);
+    if (a === p && uid !== 'fahrt' && uid !== 'schnitt') {
+      /* gleicher Blick, andere Einstellung: Übergang wie gewählt, aber auf dasselbe Bild */
+      if (uid === 'orbit' || uid === 'kran') uid = 'fahrt';
+    }
+    anzeigen(p, v, uid);
+    if (a === p) {
+      if (uid === 'fahrt') await tw(CAM[p], ziel, 1500);
+      else if (uid === 'schnitt') Object.assign(CAM[p], ziel);
+      else { const fx = UEBERGANG[uid]; await fx.fn(a, p, ziel); if (uid === 'nebel' || uid === 'licht' || uid === 'wischer') Object.assign(CAM[p], ziel); }
+    } else {
+      if (!['fahrt', 'orbit', 'kran', 'schaerfe', 'platten', 'atem'].includes(uid)) Object.assign(CAM[p], ziel);
+      await UEBERGANG[uid].fn(a, p, ziel);
+    }
+    blick = p; variante = v; extraBlur = 0;
+    knoepfe();
+  } catch (e) { console.error(e); zeige(p); blick = p; variante = v; }
+  laeuft = false;
+  if (warteschlange) { const w = warteschlange; warteschlange = null; gehe(...w); }
+}
+function zufallFuer(a, p) {
+  let l = Object.keys(UEBERGANG).filter(k => k !== 'schnitt');
+  if (a === p) l = ['fahrt', 'schaerfe', 'nebel', 'atem', 'wischer'];
+  return l[Math.floor(Math.random() * l.length)];
+}
+let anzeigeTimer;
+function anzeigen(p, v, uid) {
+  const el = $('#anzeige'); el.textContent = `${BLICKE[p].name} · ${BLICKE[p].varianten[v].n} · ${UEBERGANG[uid].name}`; el.style.opacity = 1;
+  clearTimeout(anzeigeTimer); anzeigeTimer = setTimeout(() => { el.style.opacity = .0; }, 3200);
+}
+
+/* ============================================================
+   8. Hitchcock-Zoom, Rundfahrt, Überrasch mich
+   ============================================================ */
+$('#vertigo').onclick = async () => {
+  if (laeuft) return; laeuft = true;
+  const c = CAM[blick], v0 = c.vert;
+  await tw(c, {vert: 1}, 1700, 'inout'); await warte(400); await tw(c, {vert: v0}, 1500, 'inout');
+  laeuft = false;
+};
+const TOUR = [
+  ['seite', 0, 'nebel', 2600], ['seite', 1, 'fahrt', 2600], ['heck', 1, 'orbit', 2800], ['schulter', 0, 'fahrt', 2800], ['schulter', 1, 'schaerfe', 2600],
+  ['oben', 0, 'kran', 2800], ['oben', 3, 'fahrt', 3200], ['bug', 0, 'wischer', 2600], ['bug', 2, 'schaerfe', 2400], ['bug', 1, 'fahrt', 2200],
+  ['seite', 2, 'orbit', 2800], ['seite', 4, 'atem', 2600], ['heck', 3, 'licht', 2600], ['seite', 0, 'platten', 2600]
+];
+let tourAn = false;
+$('#tour').onclick = async () => {
+  tourAn = !tourAn; $('#tour').setAttribute('aria-pressed', tourAn); $('#tour').textContent = tourAn ? '■ Rundfahrt anhalten' : '▶ Rundfahrt';
+  let i = 0;
+  while (tourAn) {
+    const [p, v, u, halt] = TOUR[i % TOUR.length];
+    while (laeuft) await warte(100);
+    if (!tourAn) break;
+    await gehe(p, v, u); await warte(halt); i++;
+  }
+};
+$('#zufallAlles').onclick = () => {
+  const ls = Object.keys(LICHT), gs = Object.keys(GLAS);
+  lichtId = ls[Math.floor(Math.random() * ls.length)]; glasId = gs[Math.floor(Math.random() * gs.length)]; naehe = Math.floor(Math.random() * 3);
+  bauen(); knoepfe();
+  const ps = Object.keys(BLICKE), p = ps[Math.floor(Math.random() * ps.length)], v = Math.floor(Math.random() * BLICKE[p].varianten.length);
+  gehe(p, v, 'zufall');
+};
+
+/* ============================================================
+   9. Bedienfelder
+   ============================================================ */
+function chip(txt, an, data, icon = '') { return `<button type="button" class="chip" aria-pressed="${an}" ${data}>${icon}${txt}</button>`; }
+function knoepfe() {
+  $('#blicke').innerHTML = Object.entries(BLICKE).map(([k, b]) => chip(b.name, k === blick, `data-b="${k}"`, `<svg viewBox="0 0 32 28" aria-hidden="true">${b.icon}</svg>`)).join('');
+  $('#einst').innerHTML = BLICKE[blick].varianten.map((v, i) => chip(v.n, i === variante, `data-v="${i}"`)).join('');
+  $('#uebergang').innerHTML = [...Object.entries(UEBERGANG).map(([k, u]) => chip(u.name, k === uebergangId, `data-u="${k}"`)), chip('Zufall', uebergangId === 'zufall', 'data-u="zufall"')].join('');
+  $('#naehe').innerHTML = NAEHE.map((n, i) => chip(n.n, i === naehe, `data-n="${i}"`)).join('');
+  $('#licht').innerHTML = Object.entries(LICHT).map(([k, l]) => chip(l.name, k === lichtId, `data-l="${k}"`)).join('');
+  $('#glas').innerHTML = Object.entries(GLAS).map(([k, g]) => chip(g.name, k === glasId, `data-g="${k}"`)).join('');
+  $('#blicke').querySelectorAll('[data-b]').forEach(b => b.onclick = () => gehe(b.dataset.b, 0));
+  $('#einst').querySelectorAll('[data-v]').forEach(b => b.onclick = () => gehe(blick, +b.dataset.v));
+  $('#uebergang').querySelectorAll('[data-u]').forEach(b => b.onclick = () => { uebergangId = b.dataset.u; knoepfe(); });
+  $('#naehe').querySelectorAll('[data-n]').forEach(b => b.onclick = () => { naehe = +b.dataset.n; knoepfe(); gehe(blick, variante, uebergangId === 'schnitt' ? 'schnitt' : 'fahrt'); });
+  $('#licht').querySelectorAll('[data-l]').forEach(b => b.onclick = () => lichtWechsel(b.dataset.l));
+  $('#glas').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { glasId = b.dataset.g; bauen(); knoepfe(); });
+}
+async function lichtWechsel(l) {
+  if (laeuft) return; laeuft = true;
+  await ani(blende, [{opacity: 0}, {opacity: 1}], 600, 'ease-in');
+  lichtId = l; bauen(); knoepfe();
+  await ani(blende, [{opacity: 1}, {opacity: 0}], 900, 'ease-out'); blende.getAnimations().forEach(x => x.cancel());
+  laeuft = false;
+}
+$('#erklaer').innerHTML = Object.values(UEBERGANG).map(u => `<li><b>${u.name}:</b> ${u.erkl}</li>`).join('') + '<li><b>Zufall:</b> bei jedem Klick ein anderer.</li>';
+
+messen(); bauen(); knoepfe();
+requestAnimationFrame(zeichne);
+window.KAMERA = {gehe, get zustand() { return {blick, variante, laeuft, CAM}; }, licht: l => { lichtId = l; bauen(); knoepfe(); }, glas: g => { glasId = g; bauen(); knoepfe(); }, naehe: n => { naehe = n; }};
+})();
+</script>
