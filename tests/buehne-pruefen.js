@@ -86,6 +86,26 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     r.da ? ok('Filmbühne steht im Player') : schlecht('Filmbühne fehlt im Player (#kges .fb)');
     Math.abs(r.fender - .5) < .01 ? ok(`Filmbühne läuft (Ort ${r.ort})`) : schlecht('Filmbühne steht still: Handlung kommt nicht an (' + r.fender + ')');
     errs.length ? schlecht('Konsole (Filmprobe A): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Filmprobe A)'); await ctx.close(); }
+  /* v5.73 Werft mit Drehrad: Bühne sichtbar (nicht von der Crew-Ansicht verdeckt), Wahl wirkt als Vorschau, Verwerfen stellt zurück, Übernehmen speichert */
+  { const ctx = await b.newContext({viewport: {width: 400, height: 860}}); const p = await ctx.newPage(); const errs = [];
+    p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));
+    await p.addInitScript(x => { if (!sessionStorage.getItem('i')) { localStorage.clear(); localStorage.setItem('skipper-sbfsee-v1', x); sessionStorage.setItem('i', '1'); } }, JSON.stringify(STAND));
+    await p.goto('http://localhost:8765/index.html'); await sleep(2500);
+    await p.evaluate(() => werftOeffnen()); await sleep(2000);
+    const r = await p.evaluate(async () => {
+      const film = !!document.querySelector('#werft2 .fb-set.an'), crewZu = getComputedStyle(document.querySelector('#werft2 .wcrew')).display === 'none';
+      const T = WERFT._themen(), bug = T.findIndex(t => t.id === 'p-bug'); WERFT._thema(bug); WERFT._wahl(T[bug].opts.findIndex(o => o.w === 'bordkanone'));
+      const vorschau = document.documentElement.dataset.up.includes('bordkanone');
+      document.querySelector('#wverw').click(); const zurueck = !document.documentElement.dataset.up.includes('bordkanone');
+      WERFT._thema(bug); WERFT._wahl(T[bug].opts.findIndex(o => o.w === 'anker')); document.querySelector('#wueb').click();
+      await new Promise(x => setTimeout(x, 300));
+      const gesp = JSON.parse(localStorage.getItem('skipper-sbfsee-v1')).cfg.look || {};
+      return {film, crewZu, vorschau, zurueck, gespeichert: (gesp.up || []).includes('anker'), zu: !document.getElementById('werft2')};
+    });
+    r.film && r.crewZu ? ok('Werft: Filmbühne sichtbar') : schlecht('Werft: Bühne verdeckt oder leer ' + JSON.stringify(r));
+    r.vorschau && r.zurueck ? ok('Werft: Vorschau wirkt, Verwerfen stellt zurück') : schlecht('Werft: Vorschau/Verwerfen ' + JSON.stringify(r));
+    r.gespeichert && r.zu ? ok('Werft: Übernehmen speichert und schließt') : schlecht('Werft: Übernehmen ' + JSON.stringify(r));
+    errs.length ? schlecht('Konsole (Werft): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Werft)'); await ctx.close(); }
   await b.close();
   console.log(fehler.length ? `${fehler.length} Fehler.` : 'Bühne in Ordnung.'); process.exit(fehler.length ? 1 : 0);
 })();

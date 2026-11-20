@@ -27,7 +27,7 @@
 
 ## Licht und Glas
 - **FK15** Das Licht folgt der Geschichte: Tageszeit und Wetter aus `[[SZENE]]` (Morgen, Mittag, Abend, Nebel, Nacht). Nachts stimmen die Lichter je Blick (Seite: rotes Seitenlicht und Topplicht; von achtern nur das Hecklicht; von vorn Rot rechts, Grün links, Topplicht oben).
-- **FK16** Eine Glasart für alle Folgen: **weich** (Nutzer, 20.11.2026).
+- **FK16** Eine Glasart für alle Folgen: **weich** (Nutzer, 20.11.2026). Seit v5.73 gibt es sechs Glasarten zur Auswahl in der Werft (Weich, Klar, Aquarell, Feder, Buntstift, Papiertheater; `docs/baukasten.md`); die Standardwahl bleibt Weich, bis der Nutzer anders entscheidet.
 
 ## Marken im Skript (seit v5.71, `film.js`)
 - `[[ORT: name, übergang, blick]]` neues Bühnenbild (`tankstelle`, `becken`, `kluever`, `ausfahrt`, seit v5.72 `motor` mit Blick `heck`: Außenborder von achtern, `[[TU: dreh=1, pfeil=1]]` zeigt „voraus: im Uhrzeigersinn“, `dreh=-1` „zurück“). Boot und Figuren kommen aus dem Baukasten (`docs/baukasten.md`). Das erste ORT einer Folge kommt immer mit Glasplatten (FK11).

@@ -80,6 +80,9 @@
 | Bild verrät die Antwort (v5.71, Lektorat Filmprobe: Draufsicht zeigte bei der Frage nach der Anlegeseite schon die Pier an Backbord) | Bild-Marken liefen vor der Frage weiter | ✋ während einer Frage nichts zeigen, was die Antwort ist (`pier=.5` zeigt beide Seiten); Lektorat prüft Bild gegen Frage |
 | `window.CREW` nicht erreichbar (v5.72, vor dem Hochladen gefunden) | `const CREW` in index.html ist eine globale Konstante; der Name `CREW` zeigt in jedem Skript auf sie, nicht auf `window.CREW` | ✋ neue globale Namen vorher mit `grep -n "const NAME\|let NAME" index.html` prüfen; Baukasten heißt `FIGUREN` |
 | Rückwärts-Bogen im Testbild fehlte (v5.72, nur Test) | mehrere Filmbühnen auf einer Testseite teilen sich die Kennungen (`$id`) | ✋ in Tests immer nur eine Filmbühne gleichzeitig |
+| Werft: Bühne leer, Crew-Bild blieb stehen (v5.73, vor dem Hochladen) | `display:flex` im CSS war stärker als das Attribut `hidden` | ⚙ buehne-pruefen (Werft: Filmbühne sichtbar); ✋ bei eigenen `display`-Regeln immer `[hidden]{display:none!important}` mitgeben |
+| Werft: „Übernehmen“ nicht antippbar (v5.73, vor dem Hochladen) | das Rad-SVG mit `overflow:visible` ragte über die Knöpfe | ⚙ buehne-pruefen klickt „Übernehmen“; ✋ große SVGs mit `overflow:hidden` |
+| Werft: Fehler nach dem Schließen (v5.73, vor dem Hochladen) | die Drehbewegung des Rads lief nach dem Schließen weiter | ⚙ buehne-pruefen (Konsole Werft); ✋ Animationen prüfen, ob ihr Element noch da ist |
 
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |
