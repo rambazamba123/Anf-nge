@@ -39,10 +39,12 @@ const anBord = (wer, id) => {
 /* Folgen mit Harms je Tag (für „Morgen wieder“) */
 const lese = d => fs.readFileSync(d, 'utf8');
 const folgeId = (txt, d) => { const m = txt.match(/^folge:\s*(\S+)/m); return m ? m[1] : path.basename(d).replace(/^reise-|\.md$/g, ''); };
+/* v5.71: Proben und Gold-Folgen ohne Nummer sagen mit „stelle: 1-3“, an welcher Stelle der Reise sie spielen (für „Wer ist an Bord?“) */
+const stelleVon = (txt, id) => { const m = txt.match(/^stelle:\s*(\d+-\d+)/m); return m ? m[1] : id; };
 const alle = fs.readdirSync(ordner).filter(f => /^reise-\d+-\d+\.md$/.test(f)).map(f => { const t = lese(path.join(ordner, f)); return {id: folgeId(t, f), harms: /^HARMS:/m.test(t)}; });
 
 for (const d of dateien) {
-  const txt = lese(d), id = folgeId(txt, d), zeilen = txt.split('\n');
+  const txt = lese(d), id = stelleVon(txt, folgeId(txt, d)), zeilen = txt.split('\n');
   let bereich = null, kopf = txt.startsWith('---'), kopfZu = false;
   const saetze = new Map();
   zeilen.forEach((roh, i) => {

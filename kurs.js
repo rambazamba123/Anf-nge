@@ -22,11 +22,15 @@
     'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf): Tanken mit der Hafenmeisterin', design: 'b'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
     'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
-    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'}};
+    'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'},
+    /* v5.71 Filmprobe (E27, docs/film-regeln.md): dieselbe Folge in drei Fassungen, Bühne „Film“ (film.js) */
+    'film-a': {datei: 'podcast/skripte/film-leise-raus-a.md', titel: 'Leise raus · A: Hafenkomödie', unter: 'Filmprobe: klassisch erzählt, Harms von außen', design: 'f', film: true, wetter: 'schoen'},
+    'film-b': {datei: 'podcast/skripte/film-leise-raus-b.md', titel: 'Leise raus · B: Der Fender', unter: 'Filmprobe: fängt mit dem Rumms an, dann zehn Minuten vorher', design: 'f', film: true, wetter: 'schoen'},
+    'film-c': {datei: 'podcast/skripte/film-leise-raus-c.md', titel: 'Leise raus · C: Du bist Ausguck', unter: 'Filmprobe: du hast eine Aufgabe, Harms ruft an', design: 'f', film: true, wetter: 'schoen'}};
   /* Design-Test (Nutzer, 08.11.2026): 1-2 im Entwurf B „Nachtbühne“, die Folge danach (1-3) im Entwurf A „Kajüte“; beide mit einem Knopf vertonen.
      1-1 hat keine Animation, darum 1-2 und 1-3 (dort sind Animationen und Fragen mit allen drei Lagen). */
   const TESTPAAR = ['reise-1-2', 'reise-1-3'];
-  const AUSSEHEN = {a: '🪵 Kajüte', b: '🌙 Nacht', s: '▫️ Schlicht'};
+  const AUSSEHEN = {a: '🪵 Kajüte', b: '🌙 Nacht', s: '▫️ Schlicht', f: '🎬 Film'};
   let aussehenAkt = 's', buehnenCrew = [];
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
@@ -113,6 +117,13 @@
       /* Mini-Animation (HR19, v5.27): [[ANIM: gas]] zeigt sie, [[ANIM: gas, 2]] schaltet auf Phase 2 */
       else if (kat === 'ANIM') { const [aid, ph] = wert.split(',').map(x => x.trim()); dazu({t: 'anim', id: aid, p: +ph || 0, ...(ph !== undefined ? {fest: true} : {})}); }   /* v5.70: [[ANIM: gas, 0]] hält Phase 0 fest (kein Durchlauf) */
       else if (kat === 'SIGNAL') dazu({t: 'signal', muster: wert});
+      /* v5.71 Filmbühne (film.js): Ort, Kamera, Handlung, Hitchcock-Zoom; Harms von außen oder am Telefon; Aufgabe mit der Kiste */
+      else if (kat === 'ORT') { const [name, ueb, blick] = wert.split(',').map(x => x.trim()); dazu({t: 'ort', name, ueb: ueb || 'nebel', blick: blick || null}); }
+      else if (kat === 'KAMERA') { const [blick, einst, ueb] = wert.split(',').map(x => x.trim()); dazu({t: 'kamera', blick, einst: einst || 'totale', ueb: ueb || 'fahrt'}); }
+      else if (kat === 'TU') { const werte = {}; wert.split(',').forEach(x => { const m = x.trim().match(/^([a-zA-Z]+)\s*=\s*(-?[\d.]+)(?:\s*\/\s*(\d+))?$/); if (m) werte[m[1]] = [+m[2], m[3] ? +m[3] : 1200]; }); dazu({t: 'tu', werte}); }
+      else if (kat === 'VERTIGO') dazu({t: 'vertigo'});
+      else if (kat === 'HARMS') { const w = (wert || '').trim(); if (w === 'anfang') { schluss(); bereich = {art: 'harms'}; } else if (w === 'sonst') { schluss(); bereich = {art: 'ohneharms'}; } else if (w === 'ende') { schluss(); bereich = null; } else dazu({t: 'harmsfrage', art: w || 'frage'}); }
+      else if (kat === 'KISTE') dazu({t: 'kiste', text: wert});
       else if (kat === 'AUDIO' && ger[wert]) dazu({t: 'ton', gen: ger[wert].id, parallel: !!ger[wert].parallel});
       else if (kat === 'AUDIO' && TOENE[wert]) dazu({t: 'ton', name: TOENE[wert]});
     };
@@ -649,6 +660,7 @@
   function gesichter(aktiv, laune) {
     if (aktiv && aktiv !== blaseWer) { blaseWer = aktiv; if (blase) blaseZeigen(); }
     const box = ui('#kges'); if (!box || aussehenAkt === 's') return;
+    if (aussehenAkt === 'f') { if (window.FILMB) { FILMB.sprecher(aktiv); FILMB.medaillon(aktiv === 'HARMS' ? (harmsArt || 'harms') : null); } return; }
     if (aussehenAkt === 'b') return buehneB(box, aktiv, laune);
     let gast = box.dataset.gast || ''; if (aktiv && !CREWW.includes(aktiv) && !OHNE_GESICHT.includes(aktiv)) gast = aktiv;
     if (box.dataset.gast !== gast || !box.children.length) { box.dataset.gast = gast; box.innerHTML = buehnenCrew.concat(gast ? [gast] : []).map(gesicht).join(''); }
@@ -666,8 +678,50 @@
   }
   function aussehenSetzen(d) {
     aussehenAkt = AUSSEHEN[d] ? d : 's'; const r = document.getElementById('kursplayer'); if (!r) return;
-    r.classList.remove('d-a', 'd-b', 'd-s'); r.classList.add('d-' + aussehenAkt);
-    const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null);
+    r.classList.remove('d-a', 'd-b', 'd-s', 'd-f'); r.classList.add('d-' + aussehenAkt);
+    const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; }
+    if (aussehenAkt === 'f' && g && window.FILMB) FILMB.mount(g);
+    gesichter(null);
+  }
+  /* v5.71 Filmbühne: Harms von außen („frage“, das Bild friert ein) oder am Telefon („anruf“) */
+  let harmsArt = null;
+  const FILM_ERSATZ = [2, 49, 64];   /* Fragen aus 1-1 und 1-2, falls noch keine Folge davor gehört ist */
+  function harmsTeile(st, art) {
+    const FW = ['Alfa', 'Bravo', 'Charlie', 'Delta'], eigene = new Set(folgenNummern(st));
+    let runde = harmsRunde(st.id).filter(n => !eigene.has(n));
+    if (!runde.length && typeof QN !== 'undefined') runde = FILM_ERSATZ.filter(n => QN[n] && !eigene.has(n));
+    runde = runde.slice(0, 2);
+    const sag = text => ({t: 'rede', inputs: [{text, voice_id: null}], wer: ['HARMS'], zeilen: [{wer: 'HARMS', text, laune: null}], zeichen: text.length, key: 'kurs:harmsfilm', tmp: true});
+    const t = [{t: 'harmsart', art, tmp: true}];
+    if (art !== 'anruf') t.push({t: 'filmkalt', an: true, tmp: true});
+    if (!runde.length) t.push(sag(art === 'anruf' ? 'Harms. Heute nichts. Weitermachen.' : 'Hier Harms. Heute keine Frage. Weiter.'));
+    else t.push(sag(art === 'anruf' ? `Harms. ${runde.length > 1 ? 'Zwei Fragen' : 'Eine Frage'} von neulich. Aufpassen.` : `Halt. Hier Harms. ${runde.length > 1 ? 'Zwei Fragen' : 'Eine Frage'} von neulich. Die Frieda wartet so lange.`));
+    runde.forEach((n, qi) => {
+      const q = QN[n], opts = q.a.slice(0, 4).map((text, i) => ({text, ok: !i})).sort(() => Math.random() - .5).map((o, i) => ({text: FW[i] + ': ' + o.text, ok: o.ok}));
+      const ok = opts.find(o => o.ok);
+      t.push(sag(qi ? 'Nächste.' : 'Frage.'), {t: 'ton', name: 'glocke', tmp: true}, sag(String(q.q).replace(/\s*\(([●▬\s]+)\)/, '').trim() + ' ' + opts.map(o => o.text.replace(/[.\s]*$/, '.')).join(' ')),
+        {t: 'wahl', id: 'sbf:' + n, vorab: null, opts, tmp: true}, {t: 'pause', s: 6, tmp: true}, sag(ok.text.split(':')[0] + ' ist richtig.'));
+    });
+    if (runde.length) t.push(sag(art === 'anruf' ? 'Das war\'s. Und sag dem Käpt\'n, er soll nicht so viel Gas geben.' : 'Gut. Weiter im Text.'));
+    if (art !== 'anruf') t.push({t: 'filmkalt', an: false, tmp: true});
+    t.push({t: 'harmsart', art: null, tmp: true});
+    return t;
+  }
+  /* Folgt auf Ort oder Kamera ein [[TU]] nur mit Sprüngen (bis 10 ms), gilt es im Moment des Bildwechsels (film.js „mitte“) */
+  const sprungDanach = (st, k) => { const nx = st.items[k + 1]; return nx && nx.t === 'tu' && Object.values(nx.werte).every(w => w[1] <= 10) ? nx.werte : null; };
+  async function kisteZeigen(st, it, me) {
+    const b = ui('#kblatt'); if (!b) return;
+    if (window.FILMB) FILMB.einfrieren(true);
+    b.innerHTML = `<div class="kbl"><h3>🧰 Jetzt du, mit der Kiste</h3><p style="margin:0 0 10px;line-height:1.4">${esc(it.text)}</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn lamp" id="kkisteok">Erledigt</button><button class="btn ghost" id="kkistesp">Später</button></div></div>`;
+    b.hidden = false;
+    const fertig = new Promise(res => { ui('#kkisteok').onclick = () => res(1); ui('#kkistesp').onclick = () => res(0); const w = setInterval(() => { if (me.aus || !b.isConnected) { clearInterval(w); res(0); } }, 300); });
+    const wer = cfgK().harms === false ? 'SMILLA' : 'HARMS';
+    if (wer === 'HARMS') harmsArt = 'harms';
+    redeGratis({t: 'rede', zeilen: [{wer, text: it.text}], wer: [wer], inputs: []}, me).catch(() => {});
+    await fertig;
+    try { VOX.stop('Kiste erledigt'); } catch (e) {}
+    harmsArt = null; b.hidden = true; b.innerHTML = '';
+    if (window.FILMB) { FILMB.einfrieren(false); FILMB.medaillon(null); }
   }
   const mitBild = an => document.getElementById('kursplayer')?.classList.toggle('mitbild', !!an);
   async function rede(st, it, me, vorBild) {
@@ -925,10 +979,19 @@
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'szene' && szeneTyp(st.items[k].text)) { szeneSetzen(st.items[k].text); break; }
     for (let k = ab; k >= 0; k--) if (st.items[k] && st.items[k].t === 'revier') { await atmo(st, st.items[k].wert); break; }
     /* v5.59: Modus lässt sich mitten in der Folge umschalten (⚓ Vor Anker / ⛵ In Fahrt). In Fahrt mit 🎙️ Mitreden ist jede Frage echt: man antwortet laut */
-    const interaktiv = () => cfgK().modus === 'interaktiv', echt = x => interaktiv() || harmsFrage(x) || (!!S.cfg.zuruf && zurufMoeglich());
+    const stufe = () => cfgK().stufe || 'hoeren';
+    const interaktiv = () => cfgK().modus === 'interaktiv', echt = x => interaktiv() || harmsFrage(x) || (!!S.cfg.zuruf && zurufMoeglich()) || (!!st.film && stufe() !== 'hoeren');
+    /* v5.71 Filmbühne: eingefügte Harms-Teile vom letzten Mal entfernen, Bühne auf den Stand vor dem Startpunkt bringen */
+    if (st.film) {
+      st.items = st.items.filter(x => !x.tmp); st.items.forEach(x => { if (x.t === 'harmsfrage-erledigt') x.t = 'harmsfrage'; });
+      harmsArt = null;
+      if (window.FILMB) { FILMB.reset(); if (ab > 0) { for (let j = 0; j < ab; j++) { const x = st.items[j]; if (x.t === 'ort') FILMB.ort(x.name, 'sofort', x.blick); else if (x.t === 'kamera') FILMB.kamera(x.blick, x.einst, 'sofort'); else if (x.t === 'tu') FILMB.sofort(x.werte); } await FILMB.warte(); } }
+    }
     for (let k = ab; k < st.items.length && !me.aus; k++) {
       const it = st.items[k];
       if (it.bereich && it.bereich.art === 'vert' && !me.falsch.has(it.bereich.id)) continue;
+      if (it.bereich && it.bereich.art === 'harms' && cfgK().harms === false) continue;
+      if (it.bereich && it.bereich.art === 'ohneharms' && cfgK().harms !== false) continue;   /* [[HARMS: sonst]]: Ersatz, nur wenn Harms aus ist */
       while (me.pause && !me.aus) await sleep(200);
       if (me.aus) break;
       /* früh getippt: Glocke und Rest der Frage überspringen, bis zur Wahl */
@@ -960,6 +1023,14 @@
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'glocke' && !(me.vorWahl && me.vorWahl.w.getippt)) await warten(me, luft(600)); if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'szene') szeneSetzen(it.text);
+      else if (it.t === 'ort') { if (window.FILMB) await FILMB.ort(it.name, k === 0 || !st.items.slice(0, k).some(x => x.t === 'ort') ? 'platten' : it.ueb, it.blick, sprungDanach(st, k)); }
+      else if (it.t === 'kamera') { if (window.FILMB) await FILMB.kamera(it.blick, it.einst, it.ueb, sprungDanach(st, k)); }
+      else if (it.t === 'tu') { if (window.FILMB) FILMB.tu(it.werte); }
+      else if (it.t === 'vertigo') { if (window.FILMB) FILMB.vertigo(); }
+      else if (it.t === 'filmkalt') { if (window.FILMB) FILMB.einfrieren(it.an); await warten(me, 700); }
+      else if (it.t === 'harmsart') { harmsArt = it.art; if (!it.art && window.FILMB) FILMB.medaillon(null); }
+      else if (it.t === 'harmsfrage') { if (cfgK().harms !== false) { const teile = harmsTeile(st, it.art); st.items.splice(k + 1, 0, ...teile.map(x => ({...x, ab: it.ab}))); } it.t = 'harmsfrage-erledigt'; }
+      else if (it.t === 'kiste') { if (stufe() === 'haende') await kisteZeigen(st, it, me); }
       else if (it.t === 'signal') { const b = ui('#kdenk'); if (b) b.innerHTML = `<div class="kdenk">📯 ${esc(it.muster)}</div>`; await AUD.horn(it.muster).done; if (b) b.innerHTML = ''; }
       else if (it.t === 'wahl' && echt(it)) {
         if (me.vorWahl && me.vorWahl.j === k) { const w = me.vorWahl.w; me.vorWahl = null; if (w.p && !w.fertig) { w.gesprochen = true; zurufStart(me); wahlUhr(me); await w.p; } }
@@ -977,7 +1048,7 @@
       if (window.KURS_MINI) blaseZeigen();
       /* v5.67: Das Ende steht als Blatt über der Bühne (in der Nachtbühne war der Text bisher unsichtbar): Mitnehmen-Karte, Tempo-Frage, Harms fragt zurück, Fragerunde, nächste Folge */
       const auto = fertig && cfgK().modus === 'auto' && !window.KURS_MINI, naechste = fertig ? naechsteFolge(st.id) : null;
-      const runde = fertig && st.neu && !st.harmsRunde && cfgK().harms !== false ? harmsRunde(st.id) : [];
+      const runde = fertig && st.neu && !st.harmsRunde && !st.film && cfgK().harms !== false ? harmsRunde(st.id) : [];
       if (fertig) {
         const bl = blattEnde(st, me, runde, naechste);
         const zaehler = (text, sek, fn) => {
@@ -1004,8 +1075,16 @@
   const liste = punkte => `<ul>${punkte.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
   function blattStart(st) {
     const b = ui('#kblatt'); if (!b || lauf || b.dataset.ende) return;
-    const h = (st.karten && st.karten.heute) || []; if (!h.length) return blattAus();
-    b.innerHTML = `<div class="kbl"><h3>Heute an Bord</h3>${liste(h)}</div>`; b.hidden = false;
+    const h = (st.karten && st.karten.heute) || []; if (!h.length && !st.film) return blattAus();
+    /* v5.71 Filmprobe (E27, GL11): drei Stufen und der Schalter Harms, vor dem Start wählbar */
+    const k = cfgK(), sf = k.stufe || 'hoeren', hr = k.harms !== false;
+    const stufen = st.film ? `<div class="kbl kbr"><b>Wie bist du dabei?</b><div class="kr3">${[['hoeren', '🎧', 'Nur hören'], ['sprechen', '🗣️', 'Mitsprechen'], ['haende', '🧰', 'Mit Händen']].map(([id, ic, t]) => `<button data-stufe="${id}" aria-pressed="${sf === id}"><span>${ic}</span>${t}</button>`).join('')}</div>
+      <p class="small" style="margin:4px 0 8px;opacity:.85">${sf === 'hoeren' ? 'Fürs Auto: Bei Fragen sind sechs Sekunden Ruhe, dann geht es weiter.' : sf === 'sprechen' ? 'Bei Fragen wartet die Szene auf deine Antwort, laut oder getippt.' : 'Wie Mitsprechen, dazu eine Aufgabe mit der Kiste am Ende.'}</p>
+      <div class="kr3" style="grid-template-columns:1fr 1fr"><button data-harms="1" aria-pressed="${hr}"><span>🧑‍✈️</span>Harms an</button><button data-harms="0" aria-pressed="${!hr}"><span>🔕</span>Harms aus</button></div>
+      <p class="small" style="margin:4px 0 0;opacity:.85">${hr ? 'Harms erzählt am Anfang, was bisher geschah, und fragt einmal zwischendurch.' : 'Die Geschichte läuft ohne Harms.'}</p></div>` : '';
+    b.innerHTML = (h.length ? `<div class="kbl"><h3>Heute an Bord</h3>${liste(h)}</div>` : '') + stufen; b.hidden = false;
+    b.querySelectorAll('[data-stufe]').forEach(x => x.onclick = () => { k.stufe = x.dataset.stufe; if (k.stufe !== 'hoeren' && zurufMoeglich()) S.cfg.zuruf = true; if (k.stufe === 'hoeren') S.cfg.zuruf = false; save(); blattStart(st); });
+    b.querySelectorAll('[data-harms]').forEach(x => x.onclick = () => { k.harms = x.dataset.harms === '1'; save(); blattStart(st); });
   }
   function blattEnde(st, me, runde, naechste) {
     const b = ui('#kblatt'); if (!b) return null;
@@ -1414,7 +1493,15 @@
         #kursplayer.d-b.mitbild .kanim.anstage>svg{max-height:100cqh}
         #kursplayer .kausruf{position:absolute;left:12px;right:12px;top:8px;z-index:3;background:rgba(15,36,51,.9);color:#f3e7c9;border-radius:12px;padding:8px 12px;font-size:.92em;text-align:left}
         #kursplayer.d-b.mitbild #kges .kpl.ksp{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
-        @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *,#kursplayer.d-b .kbord{animation:none!important}}</style>`;
+        @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *,#kursplayer.d-b .kbord{animation:none!important}}
+        #kursplayer.d-f{background:#1c2a30;color:#f3e7c9}#kursplayer.d-f .kkopf .muted{color:rgba(243,231,201,.65)}#kursplayer.d-f .kkopf .kknopf{background:rgba(255,255,255,.1)}
+        #kursplayer.d-f #kges{display:block;position:relative;width:min(94vw,calc((100dvh - 230px) * .8),520px);aspect-ratio:4/5;margin:0 auto;padding:0;transition:width .5s}
+        #kursplayer.d-f.mitwahl #kges{width:min(62vw,calc(34dvh * .8),300px)}
+        #kursplayer.d-f #kspr{text-align:center;min-height:1.6em}#kursplayer.d-f #kspr .kname{opacity:.75}#kursplayer.d-f:not(.mitlesen) #kspr .ktext{display:none}
+        #kursplayer.d-f #kbild:empty{display:none}#kursplayer.d-f .kfrage{background:transparent;color:#f3e7c9;box-shadow:none;transform:none;padding:0}#kursplayer.d-f .kfrage::before{display:none}
+        #kursplayer.d-f .kopt{background:rgba(255,255,255,.07);color:#f3e7c9;border:1.5px solid rgba(243,231,201,.22);border-radius:14px}#kursplayer.d-f .kopt .kabc{color:#e8a33c}
+        #kursplayer.d-f .kopt.ok{background:rgba(70,160,90,.35);border-color:#6fcf8a}#kursplayer.d-f .kopt.no{background:rgba(200,70,60,.35);border-color:#e0786c}#kursplayer.d-f .kfkopf{color:#e8a33c}
+        #kursplayer.d-f #kblatt{top:auto;bottom:calc(96px + env(safe-area-inset-bottom,0px));max-height:62dvh}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
@@ -1465,10 +1552,13 @@
     /* Aussehen: je Folge vorgesehen (FOLGEN[id].design), auf dem Gerät umstellbar (S.cfg.kurs.aussehen {id: a|b|s}, Standard leer, R7) */
     const ausWahl = () => ((k.aussehen || {})[id]) || f.design || (id === 'probe' ? 's' : 'b');   /* v5.52: Nachtbühne ist Standard (Nutzer 08.11.2026) */
     const ausChips = () => document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aus === aussehenAkt)));
+    if (ausWahl() === 'f') { try { await nachladen('film.js'); } catch (e) {} }
     buehnenCrew = []; aussehenSetzen(ausWahl()); ausChips();
     document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
     let st;
-    try { st = await laden(id); st.id = id; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
+    try { st = await laden(id); st.id = id; st.film = !!f.film; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
+    /* v5.71: Das Anfangsbild steht schon vor dem Start (erster Ort der Folge) */
+    if (st.film && window.FILMB && aussehenAkt === 'f') { const o = st.items.find(x => x.t === 'ort'); if (o) FILMB.ort(o.name, 'sofort', o.blick); }
     stoffNachtragen();
     const zahl = n => Math.round(n).toLocaleString('de-DE'), uhr = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
     const haupt = st.abschnitte.filter(a => !a.karte), gesamtSek = haupt.reduce((s, a) => s + a.sek, 0);
@@ -1510,7 +1600,8 @@
     /* Wetter der Geschichte: aus der Folge (FOLGEN.wetter, sonst HOERREISE in index.html), Szenen können es ändern */
     { let hr = null; try { hr = typeof HOERREISE !== 'undefined' ? HOERREISE.find(x => x[0] === st.id) : null; } catch (e) {} folgeWetter = (FOLGEN[st.id] && FOLGEN[st.id].wetter) || (hr && hr[3]) || null; szeneWetter = null; szeneZeit = null; szeneProps = {}; szeneArt = 'deck'; }
     buehnenCrew = (st.anBord || ['HINNERK', 'SMILLA']).slice(); if (aussehenAkt === 'a') buehnenCrew = buehnenCrew.filter(w => w !== 'BACKBORD');
-    { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; } gesichter(null); }
+    /* v5.71: Die Filmbühne nicht leeren, sonst hält ihre Zeichenschleife an; neu aufbauen und das Anfangsbild wieder setzen */
+    { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; if (aussehenAkt === 'f' && window.FILMB) { FILMB.mount(g); FILMB.reset(); const o = st.film && st.items.find(x => x.t === 'ort'); if (o) FILMB.ort(o.name, 'sofort', o.blick); } } gesichter(null); }
     await neu();
     /* Design-Test: beide Folgen mit einem Knopf vertonen (oben in der Bühne, nur mit Schlüssel) */
     const paar = async () => {

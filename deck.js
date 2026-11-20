@@ -193,12 +193,13 @@
         <div class="dkipp"><button data-k="reden" aria-pressed="${reden}" aria-label="hören und laut antworten">${ic('reden', '')}</button><button data-k="ohr" aria-pressed="${!reden}" aria-label="nur hören">${ic('ohr', '')}</button></div>
         <button class="dharms" id="dharms" aria-pressed="${harms}" aria-label="Harms am Ende: ${harms ? 'an' : 'aus'}">${ic('harms', '')}</button>
         <button class="dplay" id="dplay" aria-label="Folge starten">${ic('play', '')}</button>
-        <div class="dfmehr"><button class="linkbtn" id="dandere">Andere Folge</button><button class="linkbtn" id="dprobe">Alte Probefolge: Schleuse mit Quirin</button></div></div>`;
+        <div class="dfmehr"><button class="linkbtn" id="dfilm">🎬 Filmprobe: Leise raus (3 Fassungen)</button><button class="linkbtn" id="dandere">Andere Folge</button><button class="linkbtn" id="dprobe">Alte Probefolge: Schleuse mit Quirin</button></div></div>`;
       $('#dzur').onclick = () => { AUD.click(); setTab('cabin'); };
       app.querySelectorAll('[data-k]').forEach(b => b.onclick = () => { AUD.click(); S.cfg.zuruf = b.dataset.k === 'reden'; save(); zeichnen(); });
       $('#dharms').onclick = () => { AUD.click(); k.harms = !harms; save(); zeichnen(); };
       $('#dplay').onclick = () => { AUD.unlock(); AUD.click(); k.modus = 'auto'; save(); hoerreiseOeffnen(fid); };
       $('#dandere').onclick = () => { AUD.click(); hoerreiseWahl(); };
+      $('#dfilm').onclick = () => { AUD.click(); if (typeof filmWahl === 'function') filmWahl(); };
       $('#dprobe').onclick = () => { AUD.click(); nachladen('kurs.js').then(() => KURS.oeffnen('probe')).catch(fehlt); };
     };
     zeichnen();
