@@ -117,7 +117,7 @@
     const F = window.FIGUREN, g = (id, inner) => `<g class="ch" data-ch="${id}">${inner}</g>`;
     return {bugLinks: true,
       hinter: g('hinnerk', `<g class="nicht-steuerrad"><g transform="translate(-74 -10) scale(.62)">${F.figur('hinnerk', {blick: 'seite', pose: 'pinne', dreh: false})}</g></g><g class="nur-up nur-steuerrad"><g transform="translate(-52 -6) scale(.6)">${F.figur('hinnerk', {blick: 'seite', pose: 'steuern', pfeife: false, dreh: false})}</g></g>`),
-      vor: g('smilla', `<g transform="translate(60 -26) scale(-.56 .56)">${F.figur('smilla', {blick: 'seite', dreh: false})}</g>`) +
+      vor: g('smilla', `<g transform="translate(50 -26) scale(-.56 .56)">${F.figur('smilla', {blick: 'seite', dreh: false})}</g>`) +
         g('klabauter', `<g transform="translate(8 -56) scale(-.62 .62)">${F.figur('klabauter', {dreh: false})}</g>`) + g('backbord', `<g transform="translate(-14 -56) scale(-.62 .62)">${F.figur('backbord', {pose: 'sitzen', dreh: false})}</g>`)};
   }
   /* ---------- Szene: Himmel, Meer, Boot mit Crew ---------- */

@@ -13,16 +13,108 @@
 (() => {
 const F = {rumpf: '#fbf8f2', strich: '#5f5446', streifen: '#c0392b', unterwasser: '#1f3b63', dach: '#cfd6db', fenster: '#7fa7c2', deck: '#e9dfcb', motor: '#3b3f44', holz: '#b9874f', fender: '#f5f1e6', schrift: '#1f3b63'};
 const L = {r: '#ff4a3d', g: '#3ddc6a', w: '#fff7d6'};
-/* Ausbau (SK12: Belohnung fürs Lernen; Farbe und Name jederzeit) */
-const UPS = {
-  steuerrad: {name: 'Steuerrad statt Pinne', wann: 'nach Tag 3'},
-  laternen: {name: 'Laternen', wann: 'nach Tag 5'},
-  wimpel: {name: 'Skipperwimpel', wann: 'nach Tag 7'},
-  flagge: {name: 'Heckflagge', wann: 'jederzeit'},
-  rettungsring: {name: 'Rettungsring', wann: 'jederzeit'},
-  bimini: {name: 'Sonnendach', wann: 'jederzeit'},
-  radar: {name: 'Radar', wann: 'jederzeit'}
+/* ---------- Plätze und Teile (v5.73; Nutzer 20.11.2026: „feste Plätze, die sich bestücken lassen … damit sich Animationen und Zusätze nicht im Weg sind“) ----------
+   Jeder Platz sitzt in jeder Ansicht an einer festen Stelle [x, y] und belegt einen Freiraum (Kreis mit Radius r). Er nimmt höchstens ein Teil auf.
+   Die Plätze sind immer eingebaut (unsichtbar; <html data-plaetze> zeigt sie). Bühnen und Animationen fragen BOOT.platz(blick, name), statt eigene Stellen zu erfinden.
+   hs: Höhe in der Draufsicht (Höhenschichten der Filmbühne). Die Crew hat eigene Stellen (CREW_PLATZ), die keinen Platz überdecken. */
+const PLAETZE = {
+  bug:      {name: 'Vorschiff', r: 9, hs: .32, seite: [70, -26], heck: null, oben: [0, -36], d34: [-74, -24]},
+  dach:     {name: 'Kajütdach', r: 10, hs: .7, seite: [-30, -56], heck: [-16, -72], oben: [0, 2], d34: [-24, -56]},
+  mast:     {name: 'Mast', r: 7, hs: .95, seite: [36, -80], heck: [0, -94], oben: [0, 14], d34: [12, -77]},
+  ueber:    {name: 'Über dem Cockpit', r: 18, hs: .66, seite: [-62, -66], heck: [0, -82], oben: [0, 30], d34: [42, -64]},
+  steuer:   {name: 'Steuerstand', r: 9, hs: .34, seite: [-59, -26], heck: [28, -40], oben: [8, 27], d34: [32, -28]},
+  heck:     {name: 'Heckkorb', r: 9, hs: .34, seite: [-84, -26], heck: [48, -40], oben: [-12, 48], d34: [64, -27]},
+  spiegel:  {name: 'Spiegel', r: 8, hs: .3, seite: [-80, -6], heck: [-22, -10], oben: [8, 50], d34: [58, -6]},
+  bordwand: {name: 'Bordwand', r: 8, hs: .3, seite: [38, -19], heck: [-44, -20], oben: [-21, -22], d34: [-46, -18]}
 };
+/* Gewollte Überschneidungen (tools/plaetze-pruefen.js): der Steuermann steht am Steuerstand; von achtern liegt das Sonnendach näher als Dach und Mast und verdeckt sie */
+const ERLAUBT = {crew: {rad: 'steuer'}, heck: [['dach', 'ueber'], ['mast', 'ueber']]};
+/* In der Ansicht von achtern liegen diese Plätze hinter Kajüte oder Spiegel (werden davor gezeichnet) */
+const HECK_HINTEN = {ueber: 1, steuer: 1};
+const FLAG = (rot, k = 1) => `<g transform="rotate(${rot}) scale(${k})"><path d="M0 0 h-14 v3 h14z" fill="#222"/><path d="M0 3 h-14 v3 h14z" fill="#dd0000"/><path d="M0 6 h-14 v3 h14z" fill="#ffce00"/></g>`;
+const RING = (r, w) => `<circle r="${r}" fill="none" stroke="#e8642c" stroke-width="${w}"/><circle r="${r}" fill="none" stroke="#fff" stroke-width="${w}" stroke-dasharray="${(r * 0.785).toFixed(2)} ${(r * 0.785).toFixed(2)}"/>`;
+const SPEI = (cx, cy, r, w) => [0, 45, 90, 135].map(a => { const c = Math.cos(a * Math.PI / 180) * r, s = Math.sin(a * Math.PI / 180) * r; return `<path d="M${(cx - c).toFixed(1)} ${(cy - s).toFixed(1)} L${(cx + c).toFixed(1)} ${(cy + s).toFixed(1)}" stroke="#7a4d2a" stroke-width="${w}"/>`; }).join('');
+/* Teile: Zeichnung je Ansicht in Koordinaten um den Platz (Bug rechts wie BOOT.seite); d34 nimmt die Seitenansicht gespiegelt, wenn es keine eigene hat */
+const TEILE = {
+  steuerrad: {name: 'Steuerrad statt Pinne', platz: 'steuer', wann: 'nach Tag 3',
+    seite: f => `<path d="M-7 0 L-5 -18 L5 -18 L7 0Z" ${f('holz', 'bl')}/><circle cx="0" cy="-22" r="7" fill="none" stroke="#7a4d2a" stroke-width="2"/>${SPEI(0, -22, 7, 1.1)}`,
+    heck: f => `<rect x="-6" y="-12" width="12" height="12" rx="2" ${f('holz', 'bl')}/><ellipse cx="0" cy="-16" rx="7" ry="2.4" fill="none" stroke="#7a4d2a" stroke-width="1.8"/>`,
+    oben: f => `<rect x="-4" y="-3" width="8" height="7" rx="1.5" ${f('holz', 'bl')}/><circle cx="0" cy="-4" r="4" fill="none" stroke="#8a5a32" stroke-width="1.4"/>`},
+  bimini: {name: 'Sonnendach', platz: 'ueber', wann: 'jederzeit',
+    seite: () => `<path d="M-18 40 L-12 0 M14 40 L16 0" stroke="#8a8f93" stroke-width="1.6"/><path d="M-20 2 Q0 -8 20 2 L18 6 Q0 -2 -18 6Z" fill="#2f6f8f" class="bl"/>`,
+    heck: () => `<path d="M-54 42 L-50 2 M54 42 L50 2" stroke="#8a8f93" stroke-width="1.8"/><path d="M-58 2 Q0 -14 58 2 L56 7 Q0 -8 -56 7Z" fill="#2f6f8f" class="bl"/>`,
+    oben: () => `<path d="M-15 -9 H15 V10 H-15Z" fill="#2f6f8f" opacity=".92" class="bl"/><path d="M-15 -3 H15 M-15 4 H15" class="bd"/>`},
+  radar: {name: 'Radar', platz: 'dach', wann: 'jederzeit',
+    seite: () => `<path d="M0 0 V-6" stroke="#5f5446" stroke-width="1.4"/><ellipse cx="0" cy="-9" rx="7" ry="4.6" fill="#f3f1ea" class="bl"/>`,
+    heck: () => `<path d="M0 0 V-5" stroke="#5f5446" stroke-width="1.4"/><ellipse cx="0" cy="-8" rx="8" ry="4.6" fill="#f3f1ea" class="bl"/>`,
+    oben: () => `<circle cx="0" cy="0" r="4.2" fill="#f3f1ea" class="bl"/>`},
+  suchscheinwerfer: {name: 'Suchscheinwerfer', platz: 'dach', wann: 'später',
+    seite: () => `<path d="M-2 0 V-5 H2 V0" fill="#5f5446"/><path d="M-5 -11 H4 L8 -13 V-3 L4 -5 H-5Z" fill="#c9ced2" class="bl"/><ellipse cx="8" cy="-8" rx="1.4" ry="5" fill="#fff6c8"/>`,
+    heck: () => `<rect x="-4" y="-10" width="8" height="7" rx="2" fill="#c9ced2" class="bl"/>`, oben: () => `<rect x="-2.5" y="-4" width="5" height="7" rx="1.5" fill="#c9ced2" class="bl"/>`},
+  kajak: {name: 'Kajak auf dem Dach', platz: 'dach', wann: 'später',
+    seite: () => `<path d="M-20 -2 Q0 -8 20 -2 Q0 3 -20 -2Z" fill="#e8a33a" class="bl"/><ellipse cx="0" cy="-4.2" rx="4" ry="1.2" fill="#3a2e24"/>`,
+    heck: () => `<ellipse cx="0" cy="-3" rx="4.4" ry="3" fill="#e8a33a" class="bl"/>`, oben: () => `<ellipse cx="0" cy="0" rx="3" ry="13" fill="#e8a33a" class="bl"/><ellipse cx="0" cy="0" rx="1.6" ry="3" fill="#3a2e24"/>`},
+  solar: {name: 'Solarpaneel', platz: 'dach', wann: 'später',
+    seite: () => `<path d="M-15 -1 L15 -5 L15 -2 L-15 2Z" fill="#2a3f5a" class="bl"/>`,
+    heck: () => `<path d="M-14 -2 H14 V1 H-14Z" fill="#2a3f5a" class="bl"/>`, oben: () => `<rect x="-9" y="-6" width="18" height="11" fill="#2a3f5a" class="bl"/><path d="M-3 -6 V5 M3 -6 V5 M-9 0 H9" stroke="#6f8fb0" stroke-width=".6"/>`},
+  wimpel: {name: 'Skipperwimpel', platz: 'mast', wann: 'nach Tag 7',
+    seite: () => `<path d="M0 -1 l14 3 l-14 3z" fill="#2f4f80" class="bl" style="stroke-width:.8"/><circle cx="5" cy="2" r="1.2" fill="#fff"/>`,
+    heck: () => `<path d="M0 -1 l12 2.6 l-12 2.6z" fill="#2f4f80"/>`, oben: () => `<path d="M0 0 l7 1.6 l-7 1.6z" fill="#2f4f80"/>`},
+  antenne: {name: 'Funkantenne', platz: 'mast', wann: 'später',
+    seite: () => `<path d="M0 0 V-24" stroke="#3a3a3a" stroke-width="1.1"/><circle cx="0" cy="-24.5" r="1.2" fill="#3a3a3a"/>`,
+    heck: () => `<path d="M0 0 V-20" stroke="#3a3a3a" stroke-width="1.1"/>`, oben: () => `<circle r="1.4" fill="#3a3a3a"/>`},
+  flagge: {name: 'Heckflagge', platz: 'heck', wann: 'jederzeit',
+    seite: () => `<path d="M0 0 L-12 -24" stroke="#5f5446" stroke-width="1.4"/><g transform="translate(-12 -24)">${FLAG(-28)}</g>`,
+    heck: () => `<path d="M0 0 L14 -26" stroke="#5f5446" stroke-width="1.4"/><g transform="translate(14 -26) scale(-1 1)">${FLAG(-14)}</g>`,
+    oben: () => `<path d="M0 0 L-8 6" stroke="#5f5446" stroke-width="1.2"/><path d="M-8 6 l-6 3 l1 2 l6 -3z" fill="#dd0000"/>`},
+  angel: {name: 'Angelrute', platz: 'heck', wann: 'später',
+    seite: () => `<path d="M0 0 L-24 -34" stroke="#6b4a2a" stroke-width="1.3"/><path d="M-24 -34 Q-32 -8 -34 26" stroke="#ddd" stroke-width=".5" fill="none"/>`,
+    heck: () => `<path d="M0 0 L20 -36" stroke="#6b4a2a" stroke-width="1.3"/><path d="M20 -36 Q28 -10 30 44" stroke="#ddd" stroke-width=".5" fill="none"/>`, oben: () => `<path d="M0 0 L-10 12" stroke="#6b4a2a" stroke-width="1.1"/>`},
+  grill: {name: 'Heckgrill', platz: 'heck', wann: 'später',
+    seite: () => `<path d="M0 0 L-4 -6" stroke="#5f5446" stroke-width="1.2"/><path d="M-11 -7 H3 Q2 -1 -4 -1 Q-10 -1 -11 -7Z" fill="#333" class="bl"/><path d="M-8 -9 q1 -3 0 -5 M-4 -9 q1 -3 0 -5" stroke="#bbb" stroke-width=".6" fill="none"/>`,
+    heck: () => `<path d="M-6 -6 H6 Q5 0 0 0 Q-5 0 -6 -6Z" fill="#333" class="bl"/>`, oben: () => `<circle r="3.4" fill="#333" class="bl"/>`},
+  badeleiter: {name: 'Badeleiter', platz: 'spiegel', wann: 'später',
+    seite: () => `<path d="M-4 -18 L-6 14 M-9 -18 L-11 14" stroke="#c9ced2" stroke-width="1.4"/>${[-12, -4, 4, 12].map(y => `<path d="M${-4.6 + y * -.06} ${y} H${-9.6 + y * -.06}" stroke="#c9ced2" stroke-width="1.2"/>`).join('')}`,
+    heck: () => `<path d="M-4 -26 V20 M4 -26 V20" stroke="#c9ced2" stroke-width="1.6"/>${[-18, -8, 2, 12].map(y => `<path d="M-4 ${y} H4" stroke="#c9ced2" stroke-width="1.4"/>`).join('')}`,
+    oben: () => `<rect x="-3" y="0" width="6" height="8" fill="none" stroke="#c9ced2" stroke-width="1"/>`},
+  rettungsring: {name: 'Rettungsring', platz: 'bordwand', wann: 'jederzeit',
+    seite: () => RING(5, 2.8), heck: () => RING(7.4, 3.6), oben: () => RING(4.4, 2.4)},
+  fenderset: {name: 'Bunte Fender', platz: 'bordwand', wann: 'später',
+    seite: () => [['#e8642c', -14], ['#2f6f8f', -6], ['#e2b23c', 2]].map(([c, x]) => `<path d="M${x} -2 V3" stroke="#5f5446" stroke-width=".8"/><ellipse cx="${x}" cy="9" rx="3" ry="6" fill="${c}" class="bl" style="stroke-width:.6"/>`).join(''),
+    heck: () => [['#e8642c', -5], ['#2f6f8f', 5]].map(([c, x]) => `<ellipse cx="${x}" cy="6" rx="3.4" ry="6.4" fill="${c}" class="bl" style="stroke-width:.6"/>`).join(''),
+    oben: () => `<ellipse cx="0" cy="0" rx="3" ry="5" fill="#e8642c" class="bl"/>`},
+  anker: {name: 'Anker am Bug', platz: 'bug', wann: 'später',
+    seite: () => `<circle cx="6" cy="2" r="1.6" fill="none" stroke="#4a4a4a" stroke-width="1"/><path d="M6 4 V16 M1 13 Q6 19 11 13 M3 7 H9" stroke="#4a4a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>`,
+    oben: () => `<path d="M0 -4 V4 M-3 2 Q0 6 3 2" stroke="#4a4a4a" stroke-width="1.2" fill="none"/>`},
+  bordkanone: {name: 'Bordkanone', platz: 'bug', wann: 'später',
+    seite: () => `<rect x="-7" y="-4" width="11" height="4" rx="1" fill="#6b4a2a" class="bl"/><circle cx="-5" cy="0" r="2" fill="#4a3424"/><circle cx="2" cy="0" r="2" fill="#4a3424"/><path d="M-6 -6 L11 -9.5 L11.6 -5 L-6 -2.6Z" fill="#b8893a" class="bl"/><circle cx="-6.6" cy="-4.3" r="1.6" fill="#b8893a"/>`,
+    oben: () => `<rect x="-3" y="-2" width="6" height="5" fill="#6b4a2a"/><path d="M-1.4 -9 H1.4 V2 H-1.4Z" fill="#b8893a" class="bl"/>`},
+  glocke: {name: 'Schiffsglocke', platz: 'bug', wann: 'später',
+    seite: () => `<path d="M0 0 V-12 H4" stroke="#5f5446" stroke-width="1.2" fill="none"/><path d="M1 -11 Q1 -4 -1 -3 H9 Q7 -4 7 -11 Q4 -13 1 -11Z" fill="#d9a93b" class="bl"/>`,
+    oben: () => `<circle r="2.6" fill="#d9a93b" class="bl"/>`}
+};
+/* Laternen sind kein Platz: sie sitzen an den gesetzlichen Stellen (Seitenlichter, Topplicht, Hecklicht) */
+const AUSSTATTUNG = {laternen: {name: 'Laternen', wann: 'nach Tag 5'}};
+const UPS = {...Object.fromEntries(Object.entries(TEILE).map(([k, t]) => [k, {name: t.name, wann: t.wann, platz: t.platz}])), ...AUSSTATTUNG};
+/* Teile eines Platzes in einer Ansicht; ebene: welche Plätze hier gezeichnet werden */
+function plaetze(blick, f, fremd, filter = () => true, hs = null) {
+  if (fremd) return '';
+  let s = '';
+  for (const [pn, p] of Object.entries(PLAETZE)) {
+    if (!filter(pn)) continue;
+    const a = p[blick]; if (!a) continue;
+    let inner = '';
+    for (const [tn, t] of Object.entries(TEILE)) {
+      if (t.platz !== pn) continue;
+      const z = t[blick] ? t[blick](f) : blick === 'd34' && t.seite ? `<g transform="scale(-.85 .85)">${t.seite(f)}</g>` : '';
+      if (z) inner += `<g class="up up-${tn}">${z}</g>`;
+    }
+    const mark = `<g class="pmark"><circle r="${p.r}" fill="rgba(255,255,255,.25)" stroke="#e8642c" stroke-width="1" stroke-dasharray="2.5 2"/><text y="${-p.r - 2}" text-anchor="middle" font-size="5.5" font-family="Nunito,Arial,sans-serif" font-weight="800" fill="#b8402f">${p.name}</text></g>`;
+    const g = `<g class="platz" data-platz="${pn}" transform="translate(${a[0]} ${a[1]})">${inner}${mark}</g>`;
+    s += hs ? hs(p.hs, g) : g;
+  }
+  return s;
+}
 const FARBEN = {
   klassisch: {name: 'Klassisch', rumpf: '#fbf8f2', streifen: '#c0392b', unterwasser: '#1f3b63', dach: '#cfd6db', schrift: '#1f3b63'},
   nordsee: {name: 'Nordsee', rumpf: '#28405e', streifen: '#f3efe6', unterwasser: '#7a2b25', dach: '#e9e4d8', schrift: '#f3efe6'},
@@ -42,7 +134,7 @@ function css() {
     `.fr .bl{stroke:var(--frieda-strich,${F.strich});stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}.fr .bd{fill:none;stroke:var(--frieda-strich,${F.strich});stroke-width:.9;opacity:.7;stroke-linecap:round}
     .fr .bsch{fill:#1a1208;opacity:.14}.fr .bhl{fill:#fff;opacity:.28}
     :root[data-stil="kreide"] .fr .bl{stroke-width:2.3;stroke:#3a2e24}:root[data-stil="aquarell"] .fr .bl{stroke:none}:root[data-stil="aquarell"] .fr .bd{opacity:.3}
-    .fr .up{display:none}` +
+    .fr .up{display:none}.fr .pmark{display:none}:root[data-plaetze] .fr .pmark{display:inline}` +
     Object.keys(UPS).map(u => `:root[data-up~="${u}"] .fr .up-${u}{display:inline}:root[data-up~="${u}"] .fr .ohne-${u}{display:none}`).join('') +
     /* Bühnen dürfen dieselben Schalter für Dinge außerhalb des Boots nutzen (z. B. Hinnerk am Rad statt an der Pinne) */
     `.nur-up{display:none}` + Object.keys(UPS).map(u => `:root[data-up~="${u}"] .nur-${u}{display:inline}:root[data-up~="${u}"] .nicht-${u}{display:none}`).join('');
@@ -78,15 +170,12 @@ function oben(o = {}) {
     <rect x="-13" y="22" width="26" height="22" rx="3" ${f('deck', 'bl')}/><path d="M-11 26 H11 M-11 30 H11 M-11 34 H11 M-11 38 H11" class="bd" style="opacity:.35"/>
     ${[-24, 40].map(y => `<circle cx="-14" cy="${y}" r="1.8" fill="#5f5446"/><circle cx="14" cy="${y}" r="1.8" fill="#5f5446"/>`).join('')}
     ${[-10, 14].map(y => `<ellipse cx="-20.5" cy="${y}" rx="3" ry="5" ${f('fender', 'bl')} style="stroke-width:.6"/><ellipse cx="20.5" cy="${y}" rx="3" ry="5" ${f('fender', 'bl')} style="stroke-width:.6"/>`).join('')}
-    ${up('rettungsring', `<circle cx="-8" cy="44" r="4.4" fill="none" stroke="#e8642c" stroke-width="2.4"/><circle cx="-8" cy="44" r="4.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="3.4 3.5"/>`, fremd)}
-    ${up('steuerrad', `<rect x="4" y="24" width="8" height="7" rx="1.5" ${f('holz', 'bl')}/><circle cx="8" cy="23" r="4" fill="none" stroke="#8a5a32" stroke-width="1.4"/>`, fremd)}
-    ${up('flagge', `<path d="M-12 48 L-20 54" stroke="#5f5446" stroke-width="1.2"/><path d="M-20 54 l-6 3 l1 2 l6 -3z" fill="#dd0000"/>`, fremd)}`);
+`);
   s += H(.4, `<path d="M-10 -34 Q0 -50 10 -34" stroke="#5f5446" stroke-width="1.2" fill="none"/>`);
   if (o.hs) s += [.36, .44, .52].map(h => H(h, `<path d="${kab}" ${f('rumpf')}/><path d="${kab}" class="bsch" style="opacity:.2"/>`)).join('');
   s += H(.6, `<path d="${kab}" ${f('dach', 'bl')}/><path d="M-8 -1 H8 M-8 3 H8" ${st('fenster', 2)}/><path d="M-9 8 H9 M-9 12 H9" class="bd" style="opacity:.4"/>`);
-  s += H(.66, up('bimini', `<path d="M-15 21 H15 V40 H-15Z" fill="#2f6f8f" opacity=".92" class="bl"/><path d="M-15 27 H15 M-15 34 H15" class="bd"/>`, fremd));
-  s += H(.7, up('radar', `<circle cx="0" cy="4" r="4.2" fill="#f3f1ea" class="bl"/>`, fremd));
-  s += H(.95, up('wimpel', `<path d="M0 14 l7 1.6 l-7 1.6z" fill="#2f4f80"/>`, fremd) + up('laternen', `<circle cx="0" cy="14" r="1.6" fill="${L.w}"/>`, fremd));
+  s += plaetze('oben', f, fremd, () => true, o.hs ? H : null);
+  s += H(.95, up('laternen', `<circle cx="0" cy="14" r="1.6" fill="${L.w}"/>`, fremd));
   if (o.lichter) s += H(.5, licht(-18, -18, L.r) + licht(18, -18, L.g) + licht(0, 49, L.w, 2.6));
   else s += H(.3, up('laternen', `<rect x="-20" y="-20" width="3" height="4" fill="${L.r}"/><rect x="17" y="-20" width="3" height="4" fill="${L.g}"/>`, fremd));
   return wrap(o, 'boot-oben', s);
@@ -97,7 +186,7 @@ function seite(o = {}) {
   const {f, st, fremd} = ctx(o), ein = o.antrieb === 'einbau', links = !!o.bugLinks;
   const lat = links ? L.r : L.g;   /* wer die Frieda mit dem Bug nach links sieht, sieht ihre Backbordseite */
   const inner = `
-  ${up('flagge', `<path d="M-84 -26 L-96 -50" stroke="#5f5446" stroke-width="1.4"/><g transform="translate(-96 -50) rotate(-28)"><path d="M0 0 h-14 v3 h14z" fill="#222"/><path d="M0 3 h-14 v3 h14z" fill="#dd0000"/><path d="M0 6 h-14 v3 h14z" fill="#ffce00"/></g>`, fremd)}
+  ${plaetze('seite', f, fremd, pn => pn === 'heck')}
   ${o.hinter || ''}
   <path d="M-80 -6 L66 -6 Q76 -8 82 -24 L80 -26 L-78 -26 L-80 -24Z" ${f('rumpf', 'bl')}/>
   <path d="M-80 -6 L66 -6 Q72 -6 74 -10 L70 6 Q62 12 40 12 L-74 10 L-80 4Z" ${f('unterwasser', 'bl')}/>
@@ -115,11 +204,7 @@ function seite(o = {}) {
   <path d="M36 -56 V-78" stroke="#5f5446" stroke-width="1.6"/><rect x="34" y="-82" width="4" height="4" fill="#5f5446"/>
   ${ein ? `<path d="M-50 8 L-70 14" stroke="#777" stroke-width="2.5"/><rect x="-76" y="10" width="5" height="12" fill="#999"/><path d="M-80 2 L-86 2 L-86 20 L-80 18Z" fill="#666"/>`
         : `<rect x="-92" y="-34" width="12" height="18" rx="3" ${f('motor', 'bl')}/><path d="M-90 -30 H-82" stroke="#fff" stroke-width="1" opacity=".4"/><rect x="-88" y="-16" width="4" height="26" ${f('motor')}/><rect x="-94" y="8" width="10" height="6" rx="2" ${f('motor')}/>` + ohne('steuerrad', `<path d="M-86 -27 L-62 -33" stroke="#5f5446" stroke-width="2.6" stroke-linecap="round"/>`, fremd)}
-  ${up('steuerrad', `<path d="M-66 -26 L-64 -44 L-54 -44 L-52 -26Z" ${f('holz', 'bl')}/><circle cx="-59" cy="-48" r="7" fill="none" stroke="#7a4d2a" stroke-width="2"/>${[0, 45, 90, 135].map(a => `<path d="M-59 -48 l${(7 * Math.cos(a * Math.PI / 180)).toFixed(1)} ${(7 * Math.sin(a * Math.PI / 180)).toFixed(1)} M-59 -48 l${(-7 * Math.cos(a * Math.PI / 180)).toFixed(1)} ${(-7 * Math.sin(a * Math.PI / 180)).toFixed(1)}" stroke="#7a4d2a" stroke-width="1.1"/>`).join('')}`, fremd)}
-  ${up('bimini', `<path d="M-80 -26 L-74 -66 M-48 -26 L-46 -66" stroke="#8a8f93" stroke-width="1.6"/><path d="M-82 -64 Q-62 -74 -42 -64 L-44 -60 Q-62 -68 -80 -60Z" fill="#2f6f8f" class="bl"/>`, fremd)}
-  ${up('rettungsring', `<circle cx="50" cy="-33" r="5" fill="none" stroke="#e8642c" stroke-width="2.8"/><circle cx="50" cy="-33" r="5" fill="none" stroke="#fff" stroke-width="2.8" stroke-dasharray="3.9 3.9"/>`, fremd)}
-  ${up('radar', `<path d="M-14 -56 V-62" stroke="#5f5446" stroke-width="1.4"/><ellipse cx="-14" cy="-65" rx="7" ry="4.6" fill="#f3f1ea" class="bl"/>`, fremd)}
-  ${up('wimpel', `<path d="M36 -81 l14 3 l-14 3z" fill="#2f4f80" class="bl" style="stroke-width:.8"/><circle cx="41" cy="-78" r="1.2" fill="#fff"/>`, fremd)}
+  ${plaetze('seite', f, fremd, pn => pn !== 'heck')}
   ${o.lichter ? licht(28, -30, lat) + `<path d="M-40 -56 V-74" stroke="#5f5446" stroke-width="2"/>` + licht(36, -80, L.w) + licht(-80, -26, L.w, 2.6)
     : up('laternen', `<rect x="25" y="-33" width="6" height="5" rx="1" fill="${lat}" class="bl" style="stroke-width:.6"/><circle cx="36" cy="-80" r="1.8" fill="${L.w}" class="bl" style="stroke-width:.5"/><rect x="-82" y="-30" width="4" height="4" fill="${L.w}" class="bl" style="stroke-width:.5"/>`, fremd)}
   ${o.vor || ''}`;
@@ -133,13 +218,10 @@ function heck(o = {}) {
   const {f, st, fremd} = ctx(o);
   const s = `
   <path d="M0 -72 V-92" stroke="#5f5446" stroke-width="1.6"/><rect x="-2" y="-96" width="4" height="4" fill="#5f5446"/>
-  ${up('wimpel', `<path d="M0 -95 l12 2.6 l-12 2.6z" fill="#2f4f80"/>`, fremd)}
-  ${up('radar', `<path d="M-16 -72 V-77" stroke="#5f5446" stroke-width="1.4"/><ellipse cx="-16" cy="-80" rx="8" ry="4.6" fill="#f3f1ea" class="bl"/>`, fremd)}
   <path d="M-34 -40 L-30 -68 L30 -68 L34 -40Z" ${f('rumpf', 'bl')}/><path d="M-31 -66 L31 -66 L33 -72 L-33 -72Z" ${f('dach', 'bl')}/>
   <rect x="-9" y="-62" width="18" height="22" rx="2" ${f('holz', 'bl')}/><path d="M-6 -58 H6 M-6 -52 H6 M-6 -46 H6" class="bd"/><circle cx="5" cy="-50" r=".9" fill="#5f5446"/>
   ${[-22, 22].map(x => `<rect x="${x - 5}" y="-62" width="10" height="7" rx="2" ${f('fenster', 'bl')}/>`).join('')}
-  ${up('bimini', `<path d="M-54 -40 L-50 -82 M54 -40 L50 -82" stroke="#8a8f93" stroke-width="1.8"/><path d="M-58 -80 Q0 -96 58 -80 L56 -75 Q0 -90 -56 -75Z" fill="#2f6f8f" class="bl"/>`, fremd)}
-  ${up('steuerrad', `<rect x="22" y="-52" width="12" height="12" rx="2" ${f('holz', 'bl')}/><ellipse cx="28" cy="-56" rx="7" ry="2.4" fill="none" stroke="#7a4d2a" stroke-width="1.8"/>`, fremd)}
+  ${plaetze('heck', f, fremd, pn => !!HECK_HINTEN[pn] || pn === 'dach' || pn === 'mast')}
   ${o.mitte || ''}
   <path d="M-62 -40 L62 -40 L56 0 Q30 15 0 17 Q-30 15 -56 0 Z" ${f('rumpf', 'bl')}/><path d="M-62 -40 L62 -40 L61.4 -37 L-61.4 -37Z" fill="#8a6a48"/>
   <path d="M-60.5 -30 L60.5 -30 L59.6 -24.5 L-59.6 -24.5Z" ${f('streifen')}/>
@@ -148,10 +230,9 @@ function heck(o = {}) {
   <text x="0" y="-9" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="12" letter-spacing="1" class="fr-schrift">${fremd ? '' : name()}</text>
   <text x="0" y="-1.5" text-anchor="middle" font-family="Nunito,Arial,sans-serif" font-weight="800" font-size="5.2" letter-spacing="1.2" class="fr-schrift">${fremd ? '' : 'KUTTERSHAVEN'}</text>
   ${[-50, -36].map(y => `<ellipse cx="64" cy="${y + 22}" rx="5" ry="9" ${f('fender', 'bl')} style="stroke-width:.8"/>`).join('')}
-  ${up('rettungsring', `<circle cx="-44" cy="-20" r="7.4" fill="none" stroke="#e8642c" stroke-width="3.6"/><circle cx="-44" cy="-20" r="7.4" fill="none" stroke="#fff" stroke-width="3.6" stroke-dasharray="5.8 5.8"/>`, fremd)}
-  ${up('flagge', `<path d="M48 -40 L62 -66" stroke="#5f5446" stroke-width="1.4"/><g transform="translate(62 -66) rotate(14)"><path d="M0 0 h14 v3 h-14z" fill="#222"/><path d="M0 3 h14 v3 h-14z" fill="#dd0000"/><path d="M0 6 h14 v3 h-14z" fill="#ffce00"/></g>`, fremd)}
   <rect x="-10" y="-60" width="20" height="24" rx="5" ${f('motor', 'bl')}/><path d="M-6 -56 H6" stroke="#fff" stroke-width="1" opacity=".4"/><rect x="-3.5" y="-37" width="7" height="44" ${f('motor')}/>
   ${ohne('steuerrad', `<path d="M0 -50 L-14 -44" stroke="#5f5446" stroke-width="2.6" stroke-linecap="round"/>`, fremd)}
+  ${plaetze('heck', f, fremd, pn => !HECK_HINTEN[pn] && pn !== 'dach' && pn !== 'mast')}
   ${o.lichter ? licht(0, -70, L.w, 3) : up('laternen', `<rect x="-2" y="-74" width="4" height="4" fill="${L.w}" class="bl" style="stroke-width:.5"/>`, fremd)}
   ${o.vor || ''}`;
   return wrap(o, 'boot-heck', s);
@@ -160,16 +241,13 @@ function heck(o = {}) {
 /* ---------- schräg von achtern (für den Orbit), Bug links ---------- */
 function d34(o = {}) {
   const {f, st, fremd} = ctx(o);
-  const s = `<path d="M12 -56 V-78" stroke="#5f5446" stroke-width="1.6"/>${up('wimpel', `<path d="M12 -77 l12 2.4 l-12 2.4z" fill="#2f4f80"/>`, fremd)}
+  const s = `<path d="M12 -56 V-78" stroke="#5f5446" stroke-width="1.6"/>
     <path d="M-84 -22 Q-50 -27 26 -30 L26 -6 Q-30 2 -78 -8 Z" ${f('rumpf', 'bl')}/><path d="M-78 -8 Q-30 2 26 -6 L26 6 Q-20 12 -70 0Z" ${f('unterwasser', 'bl')}/>
     <path d="M-82 -16 Q-40 -19 26 -20" ${st('streifen', 3)}/><path d="M26 -30 L66 -27 L62 -3 Q46 5 26 -6Z" ${f('rumpf', 'bl')}/><path d="M26 -30 L66 -27 L62 -3 Q46 5 26 -6Z" class="bsch" style="opacity:.12"/><path d="M26 -20 L65 -18" ${st('streifen', 3)}/>
     <path d="M26 -6 Q46 5 62 -3 L60 4 Q44 11 26 6Z" ${f('unterwasser', 'bl')}/><path d="M-44 -26 L-42 -52 L10 -54 L22 -28Z" ${f('rumpf', 'bl')}/><path d="M10 -54 L24 -52 L32 -28 L22 -28Z" ${f('rumpf', 'bl')}/><path d="M10 -54 L24 -52 L32 -28 L22 -28Z" class="bsch" style="opacity:.12"/>
     <path d="M-43 -52 L10 -54 L24 -52 L20 -57 L6 -58 L-41 -56Z" ${f('dach', 'bl')}/>${[-30, -14].map(x => `<circle cx="${x}" cy="-40" r="4" ${f('fenster', 'bl')}/>`).join('')}
-    ${up('radar', `<ellipse cx="-12" cy="-62" rx="7" ry="4.2" fill="#f3f1ea" class="bl"/>`, fremd)}
-    ${up('bimini', `<path d="M24 -28 L28 -66 M60 -26 L58 -64" stroke="#8a8f93" stroke-width="1.6"/><path d="M20 -64 Q42 -74 64 -62 L62 -58 Q42 -68 22 -60Z" fill="#2f6f8f" class="bl"/>`, fremd)}
-    ${up('rettungsring', `<circle cx="56" cy="-36" r="5" fill="none" stroke="#e8642c" stroke-width="2.8"/><circle cx="56" cy="-36" r="5" fill="none" stroke="#fff" stroke-width="2.8" stroke-dasharray="3.9 3.9"/>`, fremd)}
-    ${up('flagge', `<path d="M64 -27 L74 -50" stroke="#5f5446" stroke-width="1.3"/><g transform="translate(74 -50) rotate(10)"><path d="M0 0 h12 v2.6 h-12z" fill="#222"/><path d="M0 2.6 h12 v2.6 h-12z" fill="#dd0000"/><path d="M0 5.2 h12 v2.6 h-12z" fill="#ffce00"/></g>`, fremd)}
     <rect x="40" y="-46" width="12" height="18" rx="4" ${f('motor', 'bl')}/><rect x="44" y="-30" width="4" height="36" ${f('motor')}/>
+    ${plaetze('d34', f, fremd)}
     ${up('laternen', `<rect x="62" y="-31" width="3.4" height="3.4" fill="${L.w}"/>`, fremd)}
     ${o.vor || ''}`;
   return wrap(o, 'boot-d34', s);
@@ -177,9 +255,13 @@ function d34(o = {}) {
 
 /* Plätze für die Crew je Ansicht (Bühnen setzen ihre Figuren dorthin); mit Steuerrad steht der Steuermann am Rad */
 const PLATZ = {
-  seite: {pinne: [-72, -26], rad: [-58, -26], vorn: [56, -26], kajuete: [-6, -56]},
+  seite: {pinne: [-72, -26], rad: [-58, -26], vorn: [52, -26], kajuete: [-4, -56], kajuete2: [10, -56]},
   heck: {pinne: [-24, -40], rad: [28, -40], kajuete: [22, -68]}
 };
+/* Wo sitzt ein Platz? (Animationen und Bühnen hängen Dinge dorthin, statt eigene Stellen zu erfinden) */
+function platz(blick, n) { const p = PLAETZE[n]; if (!p || !p[blick]) return null; return {x: p[blick][0], y: p[blick][1], r: p.r, name: p.name}; }
+/* Was steckt gerade auf einem Platz? (aus S.cfg.look.up, ein Teil je Platz) */
+function belegt(n) { try { const up = (window.S && S.cfg && S.cfg.look && S.cfg.look.up) || []; return up.find(t => TEILE[t] && TEILE[t].platz === n) || null; } catch (e) { return null; } }
 
-window.BOOT = {oben, seite, heck, d34, farben: F, FARBEN, UPS, PLATZ, RUMPF_OBEN, css, name};
+window.BOOT = {oben, seite, heck, d34, farben: F, FARBEN, UPS, TEILE, PLAETZE, ERLAUBT, AUSSTATTUNG, PLATZ, platz, belegt, RUMPF_OBEN, css, name};
 })();

@@ -563,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.72';
+  window.__ver = '5.73';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2907,6 +2907,7 @@ function lookAnwenden() {
   Object.entries(l.farben || {}).forEach(([k, v]) => { if (/^--[a-z0-9-]+$/.test(k) && /^#[0-9a-f]{3,8}$/i.test(String(v))) { r.style.setProperty(k, v); lookVars.push(k); } });
   r.dataset.stil = LOOK_STIL.includes(l.stil) ? l.stil : 'feder';
   r.dataset.up = (Array.isArray(l.up) ? l.up : []).filter(x => /^[a-z]+$/.test(x)).join(' ');
+  r.dataset.glas = /^[a-z]+$/.test(l.glas || '') ? l.glas : 'weich';
   try { dispatchEvent(new CustomEvent('look')); } catch (e) {}
 }
 function boot() {

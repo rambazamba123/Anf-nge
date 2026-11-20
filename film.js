@@ -26,6 +26,27 @@ const P = {
   ferne: '#a9b2a6', ferne2: '#8f9a90', mole: '#8b8676', glanz: '#f4f0e2', moewe: '#f6f3ea', moeweD: '#5a6570', wolke: '#f4efe2', sand: '#c9b88f', tang: '#6f8a5a',
   schilf: '#7d8a52', schilfD: '#55603a', schilfH: '#b8a76a', katze: '#1d1a1a'
 };
+/* ---------- 1b. Glasarten (v5.73; Nutzer 20.11.2026: „Glasplatten festgelegt, aber mehrere Varianten zur Auswahl, von Grund gedacht“) ----------
+   Eine Glasart = fünf Stellschrauben: Unschärfe nach Tiefe (blur), Dunst in der Ferne (dunst), Kante jeder Platte (kante: Filter je Ebene),
+   Oberfläche (papier, korn: Überzüge), Farbton (ton: Überzug mit Mischmodus) und Schatten der Platten (schatten, Papiertheater).
+   Gewählt über <html data-glas> (S.cfg.look.glas, Standard weich). Kanten-Filter kosten Rechenzeit; sie wirken nur auf die mittleren und vorderen Platten. */
+const GLAS = {
+  weich: {name: 'Weich', satz: 'Glasebenen mit Dunst und Tiefenschärfe', blur: 1, dunst: 1, kante: '', korn: .2, papier: 0, ton: '', schatten: 0},
+  klar: {name: 'Klar', satz: 'scharf, kräftig, wenig Dunst', blur: .18, dunst: .35, kante: '', korn: .08, papier: 0, ton: 'rgba(255,240,210,.08)', schatten: 0},
+  aquarell: {name: 'Aquarell', satz: 'Lavur mit Pigmentrand und Papierflecken (wie Nordqvist)', blur: .45, dunst: .75, kante: 'pigment', korn: .16, papier: .26, ton: 'rgba(214,180,120,.12)', schatten: 0},
+  feder: {name: 'Feder', satz: 'Tuschekontur um jede Platte, sepia', blur: .25, dunst: .55, kante: 'tusche', korn: .22, papier: .3, ton: 'rgba(160,110,60,.16)', schatten: 0},
+  buntstift: {name: 'Buntstift', satz: 'krakelig, körnig, kräftige Farben (wie Janosch)', blur: .2, dunst: .4, kante: 'krakel', korn: .24, papier: .15, ton: 'rgba(255,230,180,.06)', schatten: 0},
+  theater: {name: 'Papiertheater', satz: 'jede Platte wirft Schatten auf die dahinter', blur: .12, dunst: .5, kante: '', korn: .14, papier: .2, ton: '', schatten: 1}
+};
+let glasName = '', glasCfg = GLAS.weich;
+function glasJetzt() { const g = (document.documentElement.dataset.glas || 'weich'); if (g !== glasName) { glasName = g; glasCfg = GLAS[g] || GLAS.weich; if (root) glasUeberzug(); } return glasCfg; }
+function glasUeberzug() {
+  const G = glasCfg; root.dataset.glas = glasName;
+  const k = root.querySelector('.fb-korn'); if (k) k.style.opacity = G.korn;
+  const pa = root.querySelector('.fb-papier'); if (pa) pa.style.opacity = G.papier;
+  const t = root.querySelector('.fb-ton'); if (t) t.style.background = G.ton || 'transparent';
+  const kr = root.querySelector('.fb-korn rect'); if (kr) kr.setAttribute('filter', glasName === 'buntstift' ? 'url(#fb-stift)' : 'url(#fb-korn)');
+}
 const mix = (a, b, t) => { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const A = h(a), B = h(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
 const dunkel = (c, t = .18) => mix(c, '#000000', t), hell = (c, t = .2) => mix(c, '#ffffff', t);
 const dreh = (art, wer, px, py) => ` data-dreh="${art}" data-wer="${wer || ''}" data-px="${px}" data-py="${py}"`;
@@ -37,7 +58,7 @@ const hinnerk = (o = {}) => C('hinnerk', {blick: 'seite', ...o});
 const smilla = (o = {}) => C('smilla', {blick: 'seite', ...o});
 const hilke = (o = {}) => C('hilke', {blick: 'seite', pose: 'block', ...o});
 const katze = (o = {}) => C('backbord', {pose: 'sitzen', ...o});
-function harmsBuste() { return window.FIGUREN ? `<g transform="translate(61 128) scale(1.18)">${FIGUREN.figur('harms', {blick: 'vorn', dreh: false})}</g>` : ''; }
+function harmsBuste() { return window.FIGUREN ? `<g transform="translate(61 232) scale(2.3)">${FIGUREN.figur('harms', {blick: 'vorn', dreh: false})}</g>` : ''; }
 
 /* ---------- 3. Die Frieda aus boot.js (Farben und Ausbau aus der Werft), Crew in den Plätzen des Boots ----------
    Hinnerk sitzt ohne Steuerrad an der Pinne und steht mit Steuerrad am Rad (Schalter nur-/nicht-steuerrad aus boot.js). */
@@ -47,7 +68,7 @@ function friedaSeite(id) {
   /* Bug-rechts-Koordinaten (boot.js spiegelt mit bugLinks): Hinnerk achtern schaut zum Bug, Smilla vorn schaut nach achtern */
   const hinter = `<g class="nicht-steuerrad"><g transform="translate(-74 -14) scale(.4)">${hinnerk({pose: 'pinne'})}</g></g>
     <g class="nur-up nur-steuerrad"><g transform="translate(-50 -8) scale(.4)">${hinnerk({pose: 'steuern', pfeife: false})}</g></g>`;
-  const vor = `<g transform="translate(58 -26) scale(-.37 .37)">${smilla()}</g><g transform="translate(-6 -56) scale(-.46 .46)">${katze()}</g>`;
+  const vor = `<g transform="translate(52 -26) scale(-.37 .37)">${smilla()}</g><g transform="translate(-6 -56) scale(-.46 .46)">${katze()}</g>`;
   return `<g id="${id}"><g class="fb-bob">
     <g id="${id}-blasen" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="fb-blase" data-i="${i}" cx="90" cy="6" r="2.4" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
     ${bo.seite({bugLinks: true, hinter, vor})}
@@ -274,7 +295,7 @@ function css() {
   .fb-eb{position:absolute;inset:0}.fb-cam{position:absolute;inset:-10%;transform-origin:50% 50%}.fb-cam svg{width:100%;height:100%;display:block}
   .fb-ue{position:absolute;inset:0;pointer-events:none}.fb-blende{opacity:0;background:radial-gradient(ellipse at 50% 50%,${P.nebelFarbe},${hell(P.nebelFarbe, .25)})}
   .fb-wasser{opacity:0;background:linear-gradient(#9cc4c4,#2f5d63)}.fb-flare{opacity:0}
-  .fb-kasch{background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(30,40,45,.36) 100%)}.fb-korn{mix-blend-mode:multiply;opacity:.2;width:100%;height:100%}
+  .fb-kasch{background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(30,40,45,.36) 100%)}.fb-korn{mix-blend-mode:multiply;opacity:.2;width:100%;height:100%}.fb-papier{mix-blend-mode:multiply;opacity:0;width:100%;height:100%}.fb-ton{mix-blend-mode:multiply}
   .fb-med{position:absolute;left:4%;bottom:4%;width:24%;aspect-ratio:1;border-radius:50%;background:rgba(240,238,228,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     box-shadow:0 6px 20px rgba(20,30,35,.35);opacity:0;transform:scale(.9);transition:opacity .6s,transform .6s;overflow:hidden;pointer-events:none}
   .fb-med.an{opacity:1;transform:scale(1)}.fb-med svg{width:100%;height:100%}.fb-med .fb-tel{position:absolute;right:4%;top:4%;font-size:1.3em}`;
@@ -287,15 +308,25 @@ function defs() {
     <linearGradient id="fb-uw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa9a8"/><stop offset="1" stop-color="#2f5357"/></linearGradient>
     <radialGradient id="fb-ng" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${P.nebelFarbe}" stop-opacity=".95"/><stop offset="1" stop-color="${P.nebelFarbe}" stop-opacity="0"/></radialGradient>
     <radialGradient id="fb-sg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${P.sonne.farbe}" stop-opacity=".95"/><stop offset=".25" stop-color="${P.sonne.farbe}" stop-opacity=".55"/><stop offset="1" stop-color="${P.sonne.farbe}" stop-opacity="0"/></radialGradient>
-    <filter id="fb-korn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .16  0 0 0 0 .1  0 0 0 .6 0"/></filter></defs></svg>`;
+    <filter id="fb-korn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 .2  0 0 0 0 .16  0 0 0 0 .1  0 0 0 .6 0"/></filter>
+    <filter id="fb-stift"><feTurbulence type="fractalNoise" baseFrequency="1.4 .25" numOctaves="2" seed="9"/><feColorMatrix values="0 0 0 0 .28  0 0 0 0 .2  0 0 0 0 .12  0 0 0 1.1 -.3"/></filter>
+    <filter id="fb-papierf"><feTurbulence type="fractalNoise" baseFrequency=".012 .018" numOctaves="4" seed="11"/><feColorMatrix values="0 0 0 0 .72  0 0 0 0 .58  0 0 0 0 .38  0 0 0 1.3 -.5"/></filter>
+    <filter id="fbg-pigment" x="-3%" y="-3%" width="106%" height="106%"><feMorphology in="SourceAlpha" operator="erode" radius="2" result="e"/><feComposite in="SourceAlpha" in2="e" operator="out" result="rand"/>
+      <feFlood flood-color="#4a2e14" flood-opacity=".32"/><feComposite in2="rand" operator="in" result="dunkel"/><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="3.2" result="d"/><feMerge><feMergeNode in="d"/><feMergeNode in="dunkel"/></feMerge></filter>
+    <filter id="fbg-tusche" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="6" result="t"/><feDisplacementMap in="SourceAlpha" in2="t" scale="1.6" result="a"/>
+      <feMorphology in="a" operator="dilate" radius="1.3" result="g"/><feComposite in="g" in2="a" operator="out" result="linie"/><feFlood flood-color="#3b2614"/><feComposite in2="linie" operator="in" result="tinte"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="tinte"/></feMerge></filter>
+    <filter id="fbg-krakel" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.4"/></filter></defs></svg>`;
 }
 function mount(el) {
   css();
   el.innerHTML = `<div class="fb">${defs()}<div class="fb-innen"><div class="fb-welt"></div></div><div class="fb-ue fb-kasch"></div>
-    <svg class="fb-ue fb-korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-korn)"/></svg>
+    <svg class="fb-ue fb-papier" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-papierf)"/></svg>
+    <svg class="fb-ue fb-korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-korn)"/></svg><div class="fb-ue fb-ton"></div>
     <div class="fb-ue fb-wasser"></div><div class="fb-ue fb-blende"></div><div class="fb-ue fb-flare"></div>
     <div class="fb-med"><svg viewBox="0 0 122 122">${harmsBuste()}</svg><span class="fb-tel" hidden>☎️</span></div></div>`;
-  root = el.querySelector('.fb'); welt = el.querySelector('.fb-welt'); SETS = {}; EB = {}; CAM = {}; ort = null;
+  root = el.querySelector('.fb'); welt = el.querySelector('.fb-welt'); SETS = {}; EB = {}; CAM = {}; ort = null; glasName = ''; glasJetzt();
   messen(); if (!laeuft) { laeuft = true; requestAnimationFrame(zeichne); }
 }
 function messen() { if (root) K = (root.clientWidth || 400) / 400; }
@@ -357,9 +388,16 @@ function kameraAnwenden(key, t) {
     if (L.scroll) tx += ((((scrollOff * d) % 480) + 480) % 480) - 240 + 240 * 0;
     L.cam.style.transform = `translate(${(tx * K).toFixed(1)}px,${(ty * K).toFixed(1)}px) scale(${zl.toFixed(4)})`;
     if (d > 0) {
-      const bl = key === 'orbit:seite' ? 0 : Math.min(12, 3.2 * Math.abs(d - c.df) * (1 + (zl - 1) * .5) + extraBlur);
-      const op = d < .55 ? 1 - P.nebel * .9 * (.55 - d) / .55 : 1, k = bl.toFixed(1) + '|' + op.toFixed(2);
-      if (L.last !== k) { L.cam.style.filter = bl > .15 ? `blur(${bl.toFixed(1)}px)` : ''; L.cam.style.opacity = op.toFixed(2); L.last = k; }
+      const G = glasJetzt();
+      const bl = key === 'orbit:seite' ? 0 : Math.min(12, 3.2 * G.blur * Math.abs(d - c.df) * (1 + (zl - 1) * .5) + extraBlur);
+      const op = d < .55 ? 1 - P.nebel * G.dunst * .9 * (.55 - d) / .55 : 1, k = bl.toFixed(1) + '|' + op.toFixed(2) + '|' + glasName;
+      if (L.last !== k) {
+        const f = [];
+        if (G.kante && d >= .25 && d <= .9) f.push(`url(#fbg-${G.kante})`);
+        if (G.schatten && d >= .2 && d < .99) f.push(`drop-shadow(${(2 + d * 4).toFixed(1)}px ${(5 + d * 8).toFixed(1)}px ${(2 + d * 2).toFixed(1)}px rgba(40,28,14,.5))`);
+        if (bl > .15) f.push(`blur(${bl.toFixed(1)}px)`);
+        L.cam.style.filter = f.join(' '); L.cam.style.opacity = op.toFixed(2); L.last = k;
+      }
     }
   }
 }
@@ -567,6 +605,6 @@ function reset() {
 }
 /* sofort auf einen Stand springen (Abspielen ab einem späteren Kapitel) */
 function sofort(werte) { for (const [k, [v]] of Object.entries(werte)) if (k in s) s[k] = v; }
-window.FILMB = {mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
+window.FILMB = {GLAS, mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
   get zustand() { return {ort, blick, s: {...s}, sets: Object.keys(SETS)}; }, ORTE: Object.keys(ORTE), EINST};
 })();

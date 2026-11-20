@@ -14,6 +14,8 @@ if git diff --cached --name-only | grep -qE '^(img/karte7\.svg|data/karte7\.json
 if git diff --cached --name-only | grep -qE '^(data/welt-folgen\.json|data/crew-dialoge\.json|data/kompetenzen\.json|welt\.js|tools/kompetenzen-bauen\.js)$'; then node tools/kompetenzen-bauen.js >/dev/null && node tools/folgen-pruefen.js >/dev/null || { node tools/folgen-pruefen.js; echo "Folgen-Prüfung fehlgeschlagen."; exit 1; }; fi
 # Schlagworte zu den Fragen (Frage in Fahrt): je Antwort eins, keine zwei gleich (v5.64)
 if git diff --cached --name-only | grep -qE '^(data/schlagworte-sbf\.json|data/sbf\.json|tools/schlagworte-pruefen\.js)$'; then node tools/schlagworte-pruefen.js >/dev/null || { node tools/schlagworte-pruefen.js; echo "Schlagwort-Prüfung fehlgeschlagen."; exit 1; }; fi
+# Plätze am Boot: nichts überdeckt sich (v5.73, docs/baukasten.md)
+if git diff --cached --name-only | grep -qE '^(boot\.js|tools/plaetze-pruefen\.js)$'; then node tools/plaetze-pruefen.js || { echo "Plätze-Prüfung fehlgeschlagen (docs/baukasten.md)."; exit 1; }; fi
 if [ -z "$(git diff --cached --name-only | grep -v '\.md$')" ]; then echo "Nur Texte geändert, Rauchtest übersprungen."; exit 0; fi
 # Kreuzknoten mathematisch prüfen (echter Kreuzknoten, kein Altweiberknoten), wenn knoten.js geändert ist
 if git diff --cached --name-only | grep -q '^knoten\.js$'; then node tools/knoten-pruefen.js || { echo "Kreuzknoten-Prüfung fehlgeschlagen."; exit 1; }; fi
