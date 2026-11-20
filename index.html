@@ -563,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.71';
+  window.__ver = '5.72';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -2897,7 +2897,20 @@ async function offlineStock() {
     localStorage.setItem('skipper-offline', window.__ver); LOG.add('offline', n + ' von ' + urls.size + ' Dateien im Vorrat');
   } catch (e) {}
 }
+/* v5.72 Baukasten (docs/baukasten.md): Aussehen von Boot und Crew an einer Stelle. S.cfg.look = {stil, farben {--var: #farbe}, up [Ausbau], name, kleid {figur: {teil: wahl}}}; alles optional (R7).
+   Farben und Ausbau wirken über <html> sofort in jeder Zeichnung von boot.js und figuren.js; Kleidung beim nächsten Zeichnen (Ereignis „look“). */
+const LOOK_STIL = ['feder', 'kreide', 'aquarell'];
+let lookVars = [];
+function lookAnwenden() {
+  const l = (S.cfg && S.cfg.look) || {}, r = document.documentElement;
+  lookVars.forEach(k => r.style.removeProperty(k)); lookVars = [];
+  Object.entries(l.farben || {}).forEach(([k, v]) => { if (/^--[a-z0-9-]+$/.test(k) && /^#[0-9a-f]{3,8}$/i.test(String(v))) { r.style.setProperty(k, v); lookVars.push(k); } });
+  r.dataset.stil = LOOK_STIL.includes(l.stil) ? l.stil : 'feder';
+  r.dataset.up = (Array.isArray(l.up) ? l.up : []).filter(x => /^[a-z]+$/.test(x)).join(' ');
+  try { dispatchEvent(new CustomEvent('look')); } catch (e) {}
+}
 function boot() {
+  try { lookAnwenden(); } catch (e) {}
   applyTheme(); applyKi(); registerSW(); initBackKey(); setTimeout(offlineStock, 15000); try { PACK.load(); } catch (e) {}
   /* Chrome darf gespeicherte Stimmen sonst bei Platzmangel löschen */
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(ok => LOG.add('speicher', ok ? 'dauerhaft' : 'nicht dauerhaft')); } catch (e) {}
@@ -4109,9 +4122,10 @@ function renderSettings() {
   </div>
   <div class="card" id="handyst"><b>🗣️ Gratis-Stimme je Figur</b><p class="small muted" style="margin:4px 0 8px">Ohne Stimmenpaket spricht die Stimme deines Handys. Hat es mehrere deutsche Stimmen, bekommt jede Figur ihre eigene. Hier kannst du wählen und probehören.</p><div id="handyliste" class="small muted">Lade Handystimmen…</div></div>
 
-  <h2>🖌️ Boot-Look</h2>
-  <div class="card"><label for="bname" style="margin-top:0">Name am Heck</label><input type="text" id="bname" maxlength="18" placeholder="z. B. Seeschwalbe" value="${esc((S.boat || {}).name || '')}">
-    ${['hull', 'stripe', 'sail'].map(k => `<label>${{hull: 'Rumpf', stripe: 'Streifen und Schrift', sail: 'Segel'}[k]}</label><div class="chips">${LOOK[k].map(([v, l]) => `<button class="chip" data-look="${k}" data-v="${v}" aria-pressed="${((S.boat || {})[k] || LOOK[k][0][0]) === v}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${v};box-shadow:0 0 0 1px rgba(0,0,0,.3);margin-right:6px;vertical-align:-1px"></span>${l}</button>`).join('')}</div>`).join('')}
+  <h2>⚓ Werft: Boot und Crew</h2>
+  <div class="card"><p class="small muted" style="margin:0 0 8px">Farbe, Name und Ausbau der Frieda, Kleidung und Farben der Crew, Zeichenstil. Was du hier wählst, gilt in jeder Szene.</p>
+    <button class="btn lamp wide" id="werftbtn">⚓ Werft öffnen</button>
+    <label for="bname">Name am Heck</label><input type="text" id="bname" maxlength="12" placeholder="FRIEDA" value="${esc((S.boat || {}).name || '')}">
   </div>
 
   <h2>Sonstiges</h2>
@@ -4238,7 +4252,8 @@ function renderSettings() {
   bindSel('#cm', v => c.comments = v === '1'); bindSel('#th', v => { c.theme = v; applyTheme(); }); bindSel('#mo', v => { c.motion = v; applyTheme(); }); bindSel('#cyc', v => { c.cycle = v; tickDay(); });
   $('#pz').oninput = () => { c.pause = +$('#pz').value; $('#pzv').textContent = c.pause + ' Sekunden'; save(); };
   [['#vm', 'music'], ['#va', 'amb'], ['#vs', 'sfx'], ['#vv', 'voice']].forEach(([id, k]) => $(id).oninput = () => { c[k] = +$(id).value; AUD.applyVolumes(); save(); });
-  $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim()}; save(); toast('Name ans Heck gepinselt.'); };
+  $('#bname').onchange = () => { S.boat = {...(S.boat || {}), name: $('#bname').value.trim().slice(0, 12)}; save(); toast('Name ans Heck gepinselt.'); };
+  $('#werftbtn').onclick = () => werftOeffnen();
   document.querySelectorAll('[data-look]').forEach(b => b.onclick = () => { S.boat = {...(S.boat || {}), [b.dataset.look]: b.dataset.v}; save(); AUD.click(); document.querySelectorAll(`[data-look="${b.dataset.look}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
   $('#vpk').onclick = () => buildVoicePack($('#vpkr')); $('#vpk1').onclick = () => buildVoicePack($('#vpkr'), true);
   { let hpP = null; const hp = m => (hpP || (hpP = new Promise((res, rej) => { const sc = document.createElement('script'); sc.src = 'hoerprobe.js?v=' + window.__ver; sc.onload = res; sc.onerror = () => { hpP = null; rej(); }; document.head.appendChild(sc); }))).then(() => HOERPROBE.erzeuge($('#hpskr').value, m, $('#hpr'), $('#hpaus'))).catch(e => { $('#hpr').textContent = 'Hörprobe ging nicht: ' + ((e && (e.message || e.code)) || 'Laden fehlgeschlagen'); });
@@ -4621,7 +4636,7 @@ let deckLaden = null, deckFehler = false;
 function deckBereit(neu) {
   if (window.DECK && window.SZENERIE && window.BOOT) return true;
   if (deckFehler) return false;
-  if (!deckLaden) deckLaden = nachladen('boot.js').then(() => nachladen('szenerie.js')).then(() => nachladen('deck.js')).then(() => { if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); }).catch(() => { deckFehler = true; if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); });
+  if (!deckLaden) deckLaden = nachladen('boot.js').then(() => nachladen('figuren.js').catch(() => {})).then(() => nachladen('szenerie.js')).then(() => nachladen('deck.js')).then(() => { if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); }).catch(() => { deckFehler = true; if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); });
   app.innerHTML = '<div class="ddeck" style="min-height:70vh;background:#0f2433"></div>';
   return null;
 }
@@ -5164,6 +5179,7 @@ const HOERREISE = [['reise-1-1', 'Erster Morgen', 'Neue Machart · Hafenkino: we
   /* v5.66 neue Machart zum Testen (docs/plan-hoerspiel-neu.md): die alte 1-3 als drei Folgen, ohne Harms-Abschnitt; die alte Fassung liegt unter „Alte Folgen und Tests“ */
   ['gold-1', 'Leise raus', 'Neue Machart · Ablegen und Radeffekt · etwa 6 Minuten', 'schoen', 'hafen'], ['gold-2', 'Warten auf die Fähre', 'Neue Machart · Propeller und Außenborder · etwa 6 Minuten', 'schoen'], ['gold-3', 'Dicke Pötte', 'Neue Machart · der Raser und die Fähre · etwa 6 Minuten', 'schoen']];
 /* v5.71 Filmprobe (E27, docs/film-regeln.md): „Leise raus“ in drei Fassungen auf der Filmbühne (film.js) */
+function werftOeffnen(tab) { return nachladen('werft.js').then(() => WERFT.oeffnen(tab)).catch(() => toast('Die Werft ließ sich nicht laden. Bitte mit Internet erneut versuchen.')); }
 function filmWahl() {
   const w = sheet(`<h3 style="margin-top:0">🎬 Filmprobe: Leise raus</h3><p class="small muted" style="margin:0 0 8px">Dieselbe Szene in drei Fassungen, mit Film statt Gesichtern. Vor dem Start wählst du: nur hören, mitsprechen oder mit Händen, und Harms an oder aus. Gratis-Stimme des Handys.</p>${menuBtn('kurs:film-a', '🎬 A: Hafenkomödie', 'klassisch erzählt, Harms von außen · etwa 6 Minuten')}${menuBtn('kurs:film-b', '🎬 B: Der Fender', 'fängt mit dem Rumms an, dann zehn Minuten vorher · etwa 6 Minuten')}${menuBtn('kurs:film-c', '🎬 C: Du bist Ausguck', 'du hast eine Aufgabe, Harms ruft an · etwa 6 Minuten')}`);
   w.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { closeSheet(); hoerreiseOeffnen(b.dataset.m.slice(5)); });

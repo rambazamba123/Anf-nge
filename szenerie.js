@@ -111,9 +111,18 @@
   const moewen = h => flug([-8, h * .2], [110, h * .14], 19, 0, 1.4, 1.4, -3) + flug([-8, h * .27], [110, h * .23], 26, 7, 1, 1, 2) + flug([110, h * .12], [-8, h * .17], 23, 12, 1.15, 1.15, -2, true)
     + flug([30, h * .3], [112, h * .26], 12, 4, .6, 2.4, -1.5) + flug([112, h * .1], [56, h * .24], 15, 9, 2.2, .5, -1, true);
 
+  /* v5.72 Crew aus dem Baukasten (figuren.js) an Bord der Frieda aus boot.js: Werft-Farben, Kleidung und Ausbau gelten auch an Deck.
+     Bug-rechts-Koordinaten (boot.js spiegelt); antippbar wie bisher über .ch[data-ch]. Ohne figuren.js bleiben die alten Figuren. */
+  function crewAnBord() {
+    const F = window.FIGUREN, g = (id, inner) => `<g class="ch" data-ch="${id}">${inner}</g>`;
+    return {bugLinks: true,
+      hinter: g('hinnerk', `<g class="nicht-steuerrad"><g transform="translate(-74 -10) scale(.62)">${F.figur('hinnerk', {blick: 'seite', pose: 'pinne', dreh: false})}</g></g><g class="nur-up nur-steuerrad"><g transform="translate(-52 -6) scale(.6)">${F.figur('hinnerk', {blick: 'seite', pose: 'steuern', pfeife: false, dreh: false})}</g></g>`),
+      vor: g('smilla', `<g transform="translate(60 -26) scale(-.56 .56)">${F.figur('smilla', {blick: 'seite', dreh: false})}</g>`) +
+        g('klabauter', `<g transform="translate(8 -56) scale(-.62 .62)">${F.figur('klabauter', {dreh: false})}</g>`) + g('backbord', `<g transform="translate(-14 -56) scale(-.62 .62)">${F.figur('backbord', {pose: 'sitzen', dreh: false})}</g>`)};
+  }
   /* ---------- Szene: Himmel, Meer, Boot mit Crew ---------- */
   function szene(o = {}) {
-    const h = o.h || 100, st = o.stim || 'fahrt', s = STIM[st] || STIM.fahrt, hz = h * .55, id = neuId('sz'), fig = o.fig || (() => ''), boot = window.BOOT ? BOOT.seite({bugLinks: true}) : '';
+    const h = o.h || 100, st = o.stim || 'fahrt', s = STIM[st] || STIM.fahrt, hz = h * .55, id = neuId('sz'), fig = o.fig || (() => ''), neuCrew = !!(window.FIGUREN && o.crew !== false), boot = window.BOOT ? BOOT.seite(neuCrew ? crewAnBord() : {bugLinks: true}) : '';
     const rolle = s.wellen === 'E' ? 'roll1' : s.wellen === 'X' ? 'roll2' : s.wellen === 'F' || s.wellen === 'B' ? 'rollF' : '';
     return `<svg viewBox="0 0 100 ${h}" preserveAspectRatio="xMidYMid slice" class="szenerie" aria-hidden="true">
     <defs><linearGradient id="${id}h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${s.him[0]}"/><stop offset="1" stop-color="${s.him[1]}"/></linearGradient>
@@ -132,7 +141,7 @@
     <rect y="${f2(hz)}" width="100" height="${f2(h - hz)}" fill="url(#${id}s)"/>
     ${s.steg ? `<g><rect x="-4" y="${f2(hz - 4)}" width="108" height="2.4" fill="#8a6440"/><path d="M-4 ${f2(hz - 4)} H104" stroke="#a87a4e" stroke-width=".6"/>${[2, 18, 34, 50, 66, 82, 98].map(x => `<rect x="${x}" y="${f2(hz - 5)}" width="1.8" height="8" fill="#5a3b22"/>`).join('')}</g>` : ''}
     ${meer(s, h, hz, 'hinten', o.sturm)}
-    <g class="schaukel3 ${rolle}" style="transform-origin:50px ${f2(hz)}px">${o.crew === false ? '' : `<g clip-path="url(#${id}c)">${fig('hinnerk', 79, hz - 7, 27)}${fig('smilla', 24, hz - 7, 26)}</g>`}<g transform="translate(50 ${f2(hz)}) scale(.45)">${boot}</g>${o.crew === false ? '' : fig('klabauter', 47.5, hz - 24, 11) + fig('backbord', 60, hz - 24.4, 10)}
+    <g class="schaukel3 ${rolle}" style="transform-origin:50px ${f2(hz)}px">${o.crew === false || neuCrew ? '' : `<g clip-path="url(#${id}c)">${fig('hinnerk', 79, hz - 7, 27)}${fig('smilla', 24, hz - 7, 26)}</g>`}<g transform="translate(50 ${f2(hz)}) scale(.45)">${boot}</g>${o.crew === false || neuCrew ? '' : fig('klabauter', 47.5, hz - 24, 11) + fig('backbord', 60, hz - 24.4, 10)}
       ${s.licht ? `<circle cx="62" cy="${f2(hz - 25)}" r="3" fill="#ffd27a" opacity=".35" class="funkel"/><circle cx="62" cy="${f2(hz - 25)}" r=".9" fill="#fff3c4"/>` : ''}
       ${o.hot || ''}</g>
     ${meer(s, h, hz, 'vorn', o.sturm)}

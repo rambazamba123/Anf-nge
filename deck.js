@@ -134,13 +134,14 @@
       <button class="dempf" id="dempf">${gesicht(wer, 46)}<span><b>${TITEL[S.deckTitel]}</b></span><span class="dpf">›</span></button>
       ${weiterKnopf()}
       ${rennen()}
-      <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button></div>`;
+      <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><button class="dgear dwerft" id="dwerft" aria-label="Werft: Boot und Crew">⚓</button></div>`;
     const box = app.querySelector('.dszene'); if (box.clientWidth) { const h = Math.max(70, Math.round(100 * box.clientHeight / box.clientWidth)); if (h !== 100) box.innerHTML = szeneFuer(h); }
     $('#dempf').onclick = () => { AUD.unlock(); AUD.click(); happen(); };
     const dw = $('#dweiter'); if (dw) dw.onclick = () => { AUD.unlock(); AUD.click(); if (dw.dataset.alle) return hoerreiseWahl(); hoerreiseOeffnen(dw.dataset.id); };
     const da = $('#dabend'); if (da) da.onclick = () => { AUD.unlock(); AUD.click(); naviFolgeOeffnen('nf1'); };
     $('#drennen').onclick = () => { AUD.unlock(); AUD.click(); if (!examIsoOf(S.course)) return zieleOeffnen(() => setTab('deck')); statistik(); };
     $('#gear').onclick = () => { AUD.click(); returnTo = 'deck'; renderSettings(); };
+    $('#dwerft').onclick = () => { AUD.click(); werftOeffnen(); };
     app.querySelectorAll('.dszene [data-go]').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); if (el.dataset.go === 'kajuete') goBelow(); else nachladen('welt.js').then(() => WELT.seite()).catch(fehlt); }));
     app.querySelectorAll('.dszene .ch[data-ch]').forEach(g => g.addEventListener('click', e => { e.stopPropagation(); AUD.unlock(); if (CREW[g.dataset.ch]) charMenu(g.dataset.ch); }));
     requestAnimationFrame(() => setTimeout(() => app.querySelectorAll('.drbt').forEach(b => b.classList.add('da')), 150));
@@ -212,6 +213,7 @@
   .ddeck .dszene{position:relative;flex:1 1 auto;min-height:46vh}.ddeck .dszene>svg{position:absolute;inset:0}.ddeck .dszene .dhot{fill:transparent;cursor:pointer}.ddeck .dszene .ch{cursor:pointer}
   .ddeck .dgear,.dkaj .dgear{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:10px;width:42px;height:42px;border-radius:12px;border:0;background:rgba(15,36,51,.7);color:#f3e7c9;display:grid;place-items:center;z-index:4}
   .ddeck .dgear svg,.dkaj .dgear svg{width:24px;height:24px}
+  .ddeck .dwerft{right:60px;font-size:22px;line-height:42px;padding:0;color:#f3e7c9}
   .dempf{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:10px 12px 0;background:rgba(255,255,255,.07);border:1.5px solid rgba(232,163,60,.55);border-radius:16px;padding:10px 12px;color:inherit;font:inherit;text-align:left;cursor:pointer}
   .dempf b{font-family:var(--display,inherit);font-size:1.12rem}.dempf .dpf{color:var(--d-lamp);font-size:1.6rem}
   .dweiter{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin:8px 12px 0;background:#e8a33c;color:#1d1a14;border:0;border-radius:16px;padding:10px 14px;font:inherit;text-align:left;cursor:pointer}

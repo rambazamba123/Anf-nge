@@ -78,6 +78,8 @@
 | Filmbühne bleibt beim ersten Kamerawechsel stehen, Folge hängt (v5.71, vor dem Hochladen gefunden) | `oeffnen` leerte `#kges` nach dem Aufbau; die Zeichenschleife in `film.js` hält an, wenn die Bühne nicht mehr im Dokument ist, Tweens kamen nie an | ⚙ buehne-pruefen (Filmbühne steht und läuft); ✋ wer `#kges` leert, baut die Filmbühne neu (`FILMB.mount`) |
 | Gezoomte Bildebenen unscharf (v5.71) | `will-change: transform` lässt Chrome die Ebene einmal klein rastern und dann vergrößern | ✋ in `film.js` kein `will-change` auf `.fb-cam`; Schärfe beim Zoom auf Fender und Lehrbild ansehen |
 | Bild verrät die Antwort (v5.71, Lektorat Filmprobe: Draufsicht zeigte bei der Frage nach der Anlegeseite schon die Pier an Backbord) | Bild-Marken liefen vor der Frage weiter | ✋ während einer Frage nichts zeigen, was die Antwort ist (`pier=.5` zeigt beide Seiten); Lektorat prüft Bild gegen Frage |
+| `window.CREW` nicht erreichbar (v5.72, vor dem Hochladen gefunden) | `const CREW` in index.html ist eine globale Konstante; der Name `CREW` zeigt in jedem Skript auf sie, nicht auf `window.CREW` | ✋ neue globale Namen vorher mit `grep -n "const NAME\|let NAME" index.html` prüfen; Baukasten heißt `FIGUREN` |
+| Rückwärts-Bogen im Testbild fehlte (v5.72, nur Test) | mehrere Filmbühnen auf einer Testseite teilen sich die Kennungen (`$id`) | ✋ in Tests immer nur eine Filmbühne gleichzeitig |
 
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |

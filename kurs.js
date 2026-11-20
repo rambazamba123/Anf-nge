@@ -564,7 +564,7 @@
       + SCHAUKELG('fahrt', ANB.hinten + SEITE(50, 64, .45, {bugLinks: true}) + ANB.oben) + UEBER(64),
     abend: () => `<rect x="${W0}" y="-150" width="${WB}" height="420" fill="#0c1d2a"/>` + STERNE + `<circle cx="-30" cy="10" r=".7" fill="#f3e7c9"/><circle cx="130" cy="20" r=".7" fill="#f3e7c9"/><circle cx="80" cy="18" r="7" fill="#f3e7c9" opacity=".85"/><circle cx="83" cy="16" r="6" fill="#0c1d2a"/>`
       + SEEB(72, '#132e40') + WELLEB(74, '#7fb7cf', .25) + `<path d="M76 80 h8 M74 86 h12 M77 92 h6" stroke="#f3e7c9" stroke-width="1" opacity=".35"/>`
-      + SCHAUKELG('abend', SEITE(48, 74, .45, {farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})) + `<path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
+      + SCHAUKELG('abend', SEITE(48, 74, .45, {eigen: true, farbe: {rumpf: '#cdbd9c', deck: '#bfae8e', dach: '#9aa3a8'}})) + `<path d="M62 74 Q82 82 96 96" stroke="#9aa7b1" stroke-width=".8" fill="none" stroke-dasharray="1.5 1"/>` + UEBER(74).replace('#1d4a63', '#132e40'),
     besuch: () => SEEB(-150) + WELLEB(-60) + WELLEB(0) + WELLEB(40) + `<g transform="rotate(0)">${OBEN(38, 52, .8)}</g>`
       + `<path d="M80 14 C90 22 92 40 91 60 L90 86 Q80 90 70 86 L69 60 C68 40 70 22 80 14Z" fill="#c9d6e0" stroke="#2b4a66" stroke-width="1.4"/><circle cx="80" cy="36" r="3" fill="#3d7bd9"/><circle class="kblau" cx="80" cy="36" r="8" fill="#3d7bd9" opacity=".25"/><path d="M56 40 L69 42 M56 70 L69 70" stroke="#c9b48a" stroke-width=".8"/>`,
     schleuse: () => `<rect x="${W0}" y="-150" width="166" height="400" fill="#8f949c"/><rect x="84" y="-150" width="166" height="400" fill="#8f949c"/><rect x="16" y="-150" width="68" height="400" fill="#1d4a63"/>` + OBEN(50, 52, .8) + `<path d="M16 30 L34 34 M84 74 L66 78" stroke="#c9b48a" stroke-width=".9"/><rect x="16" y="2" width="68" height="4" fill="#5e636b"/>`};
@@ -667,7 +667,10 @@
     box.querySelectorAll('.kg').forEach(g => { const an = g.dataset.w === aktiv; g.classList.toggle('ksp', an); g.querySelector('svg')?.classList.toggle('talking', an && !!lauf); });
     launeSetzen(box, aktiv, laune);
   }
+  /* v5.72 Notizen: die Zeile, die gerade läuft (für „✏️ Notiz“) */
+  let aktZeile = null;
   function zeigeZeile(z, gratis) {
+    if (z && z.text) aktZeile = {wer: z.wer, text: z.text};
     const box = ui('#kspr'); if (!box || !z) return;
     abgangPruefen(z);
     /* Wer gegangen ist und wieder spricht, ist wieder da (nach dem Anruf) */
@@ -1106,16 +1109,16 @@
     return b;
   }
   /* ---------- v5.67 Rückmeldung der Tester: S.hoerreise.rueck[] (Standard leer, R7), höchstens 200 Einträge ---------- */
-  function rueckMerken(st, me, art, t) {
+  function rueckMerken(st, me, art, t, extra) {
     if (!window.S) return; S.hoerreise = S.hoerreise || {}; const r = S.hoerreise.rueck = S.hoerreise.rueck || [];
     const k = me && me.abK != null ? st.items[me.abK] : null;
-    r.push({id: st.id, ab: k ? k.ab + 1 : 0, k: k ? k.titel : '', art, ...(t ? {t: String(t).slice(0, 400)} : {}), d: new Date().toISOString().slice(0, 16), ruhe: ruheStufe(), v: window.__ver || ''});
+    r.push({id: st.id, ab: k ? k.ab + 1 : 0, k: k ? k.titel : '', art, ...(t ? {t: String(t).slice(0, 1200)} : {}), ...(extra || {}), d: new Date().toISOString().slice(0, 16), ruhe: ruheStufe(), v: window.__ver || ''});
     if (r.length > 200) r.splice(0, r.length - 200); save();
   }
   const RUECK_ART = {langsam: 'zu langsam', passt: 'Tempo passt', schnell: 'zu schnell', stelle: 'hier zu schnell', text: 'Notiz'};
   function rueckText() {
     const r = (window.S && S.hoerreise && S.hoerreise.rueck) || [];
-    return r.length ? 'Skipper, Rückmeldung zur Hörreise\n' + r.map(x => `${x.d.replace('T', ' ')} · ${(FOLGEN[x.id] || {}).titel || x.id}${x.k ? ' · Kapitel ' + x.ab + ' „' + x.k + '“' : ''} · ${RUECK_ART[x.art] || x.art}${x.t ? ': ' + x.t : ''} (Tempo-Stufe ${x.ruhe}, v${x.v})`).join('\n') : '';
+    return r.length ? 'Skipper, Rückmeldung zur Hörreise\n' + r.map(x => `${x.d.replace('T', ' ')} · ${(FOLGEN[x.id] || {}).titel || x.id}${x.k ? ' · Kapitel ' + x.ab + ' „' + x.k + '“' : ''} · ${RUECK_ART[x.art] || x.art}${x.zeile ? ' zu ' + (NAMEN[x.wer] || x.wer || '') + ': „' + x.zeile + '“' : ''}${x.t ? ': ' + x.t : ''} (Tempo-Stufe ${x.ruhe}, v${x.v})`).join('\n') : '';
   }
   /* ---------- v5.67 Kapitel: Punkte oben (antippen = Liste zum Springen), Titel kurz eingeblendet ---------- */
   const kapitelVon = st => st.items.map((it, i) => it.t === 'abschnitt' && !(it.bereich && it.bereich.art === 'karte') ? {i, titel: it.titel} : null).filter(Boolean);
@@ -1323,7 +1326,7 @@
       <div id="kbuehne">
         <div id="kstage"><div id="kges"></div><div id="kspr" class="small"></div><div id="kdenk"></div><div id="kbild" style="text-align:center"></div><div id="kwahl"></div></div>
         <div id="kkap" hidden></div><div id="kkapt" hidden></div><div id="kblatt" hidden></div>
-        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="kmini" aria-label="Kleiner: weiterhören und in der App bleiben"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" opacity=".45"/><circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/><path d="M7 7 L12.5 12.5 M12.5 8.5 V12.5 H8.5"/></svg></button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
+        <div class="kfuss"><button class="kknopf" id="kkarte" aria-label="Pause und zur Reisekarte">⟵</button><button class="kmod" id="kmod" hidden>⛵ In Fahrt</button><span id="kplay" class="kplay"></span><button class="kknopf" id="knotiz" aria-label="Anhalten und Notiz schreiben">✏️</button><button class="kknopf" id="kmini" aria-label="Kleiner: weiterhören und in der App bleiben"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" opacity=".45"/><circle cx="16" cy="16" r="4.2" fill="currentColor" stroke="none"/><path d="M7 7 L12.5 12.5 M12.5 8.5 V12.5 H8.5"/></svg></button><button class="kknopf" id="kzahn" aria-label="Einstellungen">⚙️</button></div>
         <div id="keinst" hidden><div class="kekipp"><button data-ek="reden" aria-label="hören und laut antworten"><svg viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 36 V30 C7 28 5 23 5 17 C5 9 11 4 18 4 C25 4 29 9 29 14 L32.5 20 L29.5 21 V25 C29.5 27 28 28 26 28 H22 V36"/><path d="M26.5 23.5 H30" stroke-width="2"/><circle cx="21" cy="13" r="1.3" fill="currentColor" stroke="none"/><path d="M35 15 Q38 20 35 25 M39.5 11 Q44.5 20 39.5 29" stroke-width="2.6"/></svg></button><button data-ek="ohr" aria-label="nur hören"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M13 16 Q13 6 22 6 Q31 6 31 16 Q31 22 25 26 Q22 28 22 32 Q22 36 17 36 Q13 36 13 32"/><path d="M18 17 Q18 12 22 12 Q26 12 26 16"/></svg></button></div><button class="keharms" id="keharms" aria-label="Harms am Ende"><svg viewBox="0 0 40 40" fill="none" stroke-width="2.4" stroke-linejoin="round"><path d="M7 13 Q7 7 13 7 H27 Q33 7 33 13 L29 16 L25 13 H15 L11 16 Z" fill="#c0392b" stroke="#7a2318"/><rect x="9" y="19" width="22" height="15" rx="3" fill="#c0392b" stroke="#7a2318"/><circle cx="20" cy="26.5" r="4" fill="#fff" stroke="#7a2318"/></svg></button><button class="kemehr" id="kemehr">Mehr …</button>
           <div class="keruhe"><span>Tempo der Folge</span><div><button data-ruhe="ruhig">Ruhig</button><button data-ruhe="normal">Normal</button><button data-ruhe="zuegig">Zügig</button></div></div>
           <div class="kerueck"><button id="kestelle">✋ Hier war's zu schnell</button><button id="kekopie">📋 Rückmeldungen kopieren</button></div></div></div>
@@ -1501,7 +1504,7 @@
         #kursplayer.d-f #kbild:empty{display:none}#kursplayer.d-f .kfrage{background:transparent;color:#f3e7c9;box-shadow:none;transform:none;padding:0}#kursplayer.d-f .kfrage::before{display:none}
         #kursplayer.d-f .kopt{background:rgba(255,255,255,.07);color:#f3e7c9;border:1.5px solid rgba(243,231,201,.22);border-radius:14px}#kursplayer.d-f .kopt .kabc{color:#e8a33c}
         #kursplayer.d-f .kopt.ok{background:rgba(70,160,90,.35);border-color:#6fcf8a}#kursplayer.d-f .kopt.no{background:rgba(200,70,60,.35);border-color:#e0786c}#kursplayer.d-f .kfkopf{color:#e8a33c}
-        #kursplayer.d-f #kblatt{top:auto;bottom:calc(96px + env(safe-area-inset-bottom,0px));max-height:62dvh}</style>`;
+        #kursplayer.d-f #kblatt{top:auto;bottom:calc(96px + env(safe-area-inset-bottom,0px));max-height:62dvh}#kursplayer #kblatt .btn.ghost{color:#f3e7c9;border-color:rgba(243,231,201,.5)}</style>`;
     const vollAus = () => { try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} };
     $('#back').onclick = () => { stop(); vollAus(); setTab('cabin'); };
     /* Zahnrad: Einstellungen, Abschnitte und Erzeugen; ✕ oder die Zurück-Taste schließt (BACKS in index.html) */
@@ -1524,6 +1527,24 @@
     /* ⛶ blendet auch die Leisten des Browsers aus, wo das Handy es erlaubt */
     /* v5.61 (Nutzer 11.11.2026): links unten zurück: pausieren und zur Reisekarte (bis sie gebaut ist: Liste der Folgen am Kartentisch) */
     $('#kmini').onclick = () => { if (!lauf) return info('Erst abspielen, dann kleiner machen.'); minimieren(); };
+    /* v5.72 (Nutzer 20.11.2026: „Player stoppbar und ich schreibe dann meine Kommentare“): anhalten, Notiz zur laufenden Zeile, speichern, weiterhören */
+    $('#knotiz').onclick = () => {
+      if (!st) return info('Erst eine Folge öffnen.');
+      const lief = !!(lauf && !lauf.pause); if (lief) pauseSetzen(true);
+      const k = lauf && lauf.abK != null ? st.items[lauf.abK] : null, z = aktZeile;
+      const bl = ui('#kblatt'); if (!bl) return;
+      const n = ((S.hoerreise && S.hoerreise.rueck) || []).filter(x => x.art === 'text' && x.id === st.id).length;
+      bl.innerHTML = `<div class="kbl"><h3 style="margin:0 0 4px">✏️ Notiz</h3><p class="small muted" style="margin:0 0 6px">${k ? 'Kapitel ' + (k.ab + 1) + ' „' + esc(k.titel) + '“' : 'Vor dem Start'}${z ? ' · ' + esc(NAMEN[z.wer] || z.wer) + ': „' + esc(z.text.slice(0, 140)) + (z.text.length > 140 ? '…' : '') + '“' : ''}</p>
+        <textarea id="knotiztxt" rows="4" style="width:100%;box-sizing:border-box;font:inherit" placeholder="Was soll anders sein? Zum Beispiel: zu lang, klingt nicht nach Hinnerk, Witz zündet nicht, Bild passt nicht …"></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn lamp" id="knotizweiter">Speichern und weiter</button><button class="btn ghost" id="knotizok">Speichern</button><button class="btn ghost" id="knotizab">Abbrechen</button></div>
+        <p class="small muted" style="margin:8px 0 0">${n ? n + ' Notiz' + (n > 1 ? 'en' : '') + ' zu dieser Folge. ' : ''}Alle Notizen schickst du mit ⚙️ → „📋 Rückmeldungen kopieren“.</p></div>`;
+      bl.hidden = false; const ta = ui('#knotiztxt'); setTimeout(() => { try { ta.focus(); } catch (e) {} }, 50);
+      const zu = weiter => { bl.hidden = true; bl.innerHTML = ''; if (weiter && lauf && lauf.pause) pauseSetzen(false); };
+      const merken = () => { const t = ta.value.trim(); if (t) rueckMerken(st, lauf, 'text', t, z ? {wer: z.wer, zeile: z.text.slice(0, 300)} : null); return !!t; };
+      ui('#knotizweiter').onclick = () => { merken(); zu(true); };
+      ui('#knotizok').onclick = () => { if (merken()) toast('Notiz gespeichert.'); zu(false); };
+      ui('#knotizab').onclick = () => zu(lief && false);
+    };
     $('#kkarte').onclick = () => { stop(); vollAus(); if (typeof hoerreiseWahl === 'function') hoerreiseWahl(); else setTab('cabin'); };
     /* Leiste unten verschwindet nach 15 Sekunden ohne Berühren; ein Finger im unteren Viertel holt sie zurück. Nur Verschieben, kein neues Layout: die Bühne springt nicht */
     $('#kursplayer').addEventListener('pointerdown', e => { const f = ui('.kfuss'); if (!f) return; if (!f.classList.contains('weg') || e.clientY > window.innerHeight * .75) fussZeigen(); }, true);
@@ -1552,7 +1573,7 @@
     /* Aussehen: je Folge vorgesehen (FOLGEN[id].design), auf dem Gerät umstellbar (S.cfg.kurs.aussehen {id: a|b|s}, Standard leer, R7) */
     const ausWahl = () => ((k.aussehen || {})[id]) || f.design || (id === 'probe' ? 's' : 'b');   /* v5.52: Nachtbühne ist Standard (Nutzer 08.11.2026) */
     const ausChips = () => document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aus === aussehenAkt)));
-    if (ausWahl() === 'f') { try { await nachladen('film.js'); } catch (e) {} }
+    if (ausWahl() === 'f') { try { await nachladen('boot.js'); await nachladen('figuren.js'); await nachladen('film.js'); } catch (e) {} }
     buehnenCrew = []; aussehenSetzen(ausWahl()); ausChips();
     document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
     let st;
