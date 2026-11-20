@@ -9,6 +9,8 @@
 - **Standard:** Animationen laufen beim Öffnen von selbst durch, mit Vorlesen (umgesetzt v5.30).
 - **Allgemein (Nutzer):** Schrift meist zu klein → mindestens 16 px, Überschrift 20 px (`gross: true`). Animationen zu klein → näher ranzoomen, Platz nutzen. Oft kleine Logikfehler → jede Phase als Bild ansehen und prüfen. Wo der Radeffekt wichtig ist: auch von oben zeigen, wo das Wasser am Heck anprallt (Markierung wie `prall` in `anim-test.js`).
 
+- **In Diskussion (20.11.2026, FI1 in `docs/plan-hoerspiel-neu.md` §7):** Animationen als Film aus der Grund-Szene heraus (unser Schiff in seinen Szenen, weitere Blickwinkel, Übergänge wie ein Schwenk), passend zum Text. Noch nicht beschlossen; bis dahin gilt diese Liste.
+
 ## 2. Arbeitsweise
 1. Animation im Hochformat neu anordnen (meist in `anim2.js`/`anim3.js`/`anim4.js`; die alten in `anim.js` als `ANIM.szene` neu bauen).
 2. Bilder aller Phasen erzeugen: `node tools/anim-bilder.js <datei.png> <von> <bis> [id-Anfang]` (Server vorher: `python3 -m http.server 8765` im Repo). Bild ansehen, Logik prüfen (Seiten, Richtungen, Radeffekt, Lichter, Texte überdecken nichts, nichts ragt aus dem Bild).

@@ -80,3 +80,14 @@ Der Nutzer muss kein Modell umstellen: Die Hauptsitzung (Fable 5.2) schreibt Gru
 - **Länge der Reise:** Sieben Tage waren beschlossen (E24). Mit Hörtagen von 20 bis 40 Minuten werden es mehr. Neuer Titel und neue Frist in 1-1 folgen aus Etappe 5.
 - **GL4** nach dem Test: natürliche Entweder-oder-Fragen behalten?
 - **Folge 0:** Das Kennenlernen und die Kiste standen dort. Wohin damit (App-Start oder erste Szene von 1-1)?
+
+## 7. Ideen in Diskussion (Nutzer, 20.11.2026; noch nicht beschlossen, muss genau definiert werden)
+> Wörtlich gesammelt, sortiert und mit Claudes Meinung in der Antwort vom 20.11.2026. Erst nach der Bestätigung des Nutzers wird daraus eine Entscheidung (GL9 ff.), dann ändern sich Bible, Vision und Regeln (R15, R16). Kein Code dazu, bis es definiert ist.
+
+| Nr. | Idee | Was noch zu klären ist |
+|---|---|---|
+| **FI1 Film statt Einzelbilder** | Die Animationen entstehen aus der Grund-Animation heraus: Man sieht unser Schiff in seinen Szenen (so wie heute auf der Bühne), dazu weitere Blickwinkel (von hinten, von oben, nah) und **Übergänge** dazwischen (z. B. Schwenk von der Seitenansicht nach hinten). Die Bilder passen wie ein Film zum Text. Lehrbilder wie „Radeffekt von oben“ werden eine Kamerafahrt nach oben statt eines eigenen Bildes. | Liste der Einstellungen (Seite, Heck, oben, nah), wie ein Schwenk in 2D aussieht (weicher Schnitt, Zoom, Kran) oder ob der Film in 3D (`welt.js`) läuft (E22), Kamera-Drehbuch je Folge, Gleichlauf mit dem Text |
+| **FI2 Die Story ist fürs Auto** | Die Grundfassung ist ein Hörspiel ganz ohne Interaktion. Der Film läuft immer gleich. | Bleiben kurze Denkfragen mit Pause und Auflösung, oder gar keine Fragen in der Grundfassung? |
+| **FI3 Ebenen zum Zuschalten** | Am Anfang wählt man: Harms an/aus, mitsprechen, nur hören, mit Zwischenaufgaben (Karte und Zirkel, Knotenbrett). Wer mehr wählt, wird bewusst aus der Story herausgeholt; der Film hält an. | Wo die Unterbrechungen sitzen (Kapitelenden), was davon die Lernkartei zählt, was aus den heutigen Modi (Vor Anker, In Fahrt, Mitreden) wird |
+| **FI4 Harms als Erzähler?** | Harms (oder ein Erzähler) holt dich aus der Story: fragt, kommentiert, erzählt. | Erzählt Harms die ganze Geschichte oder spricht er nur in den Unterbrechungen (Bible: Harms prüft ernst, ohne Musik)? |
+| **FI5 Die Kiste nur am Rand** | Die Kiste spielt nur eine Nebenrolle: Sie kommt bei der Wahl am Anfang vor (Zwischenaufgaben mit Kiste) und in der Abendwache. Die Geschichte braucht sie nicht. | Plan-Folgen mit Miniaturen (2-1 „Die Kiste“, 4-4 Mini-Anker, 5-1 Mini-Laternen, 5-7 Mini-Rettungsring) wandern in die Zwischenaufgaben |
