@@ -1,0 +1,1301 @@
+<title>Frieda-Filmproben</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&family=IM+Fell+English:ital@0;1&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: eine Bühne im Hochformat (wie die App, 400 × 500), darüber die Wahl der Bühne, darunter Untertitel, Erklärung und Vergleich.
+   Farben und Schriften wie die App (index.html: paper, ink, sea, Baloo 2, Nunito); Akzent gelb-orange wie die Weiter-Knöpfe (E7). */
+:root{
+  --bg:#dfe9e6; --paper:#fbf6ec; --edge:#e7dbc4; --ink:#2a2019; --muted:#6c5f52; --line:#e1d5bf;
+  --sea:#2d5f6a; --accent:#f0a23a; --accent-ink:#3a2408; --bb:#c2473b; --stb:#3c8c5a;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif; --bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;
+  --fell:"IM Fell English",Georgia,serif; --hand:"Caveat","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15212a; --paper:#22303a; --edge:#2f414d; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854;
+  --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --bb:#e0675c; --stb:#5bb37c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15212a; --paper:#22303a; --edge:#2f414d; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854;
+  --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --bb:#e0675c; --stb:#5bb37c; color-scheme:dark}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 40px}
+.wrap{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--hfont);font-size:21px;line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--hfont);font-size:17px;margin:0}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+
+/* Bühnenwahl */
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.chip{appearance:none;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:7px 4px 6px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font:700 12px/1.15 var(--bfont);cursor:pointer;min-width:0}
+.chip svg{width:34px;height:26px}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--paper));box-shadow:0 0 0 1px var(--accent) inset}
+.chip:focus-visible,.seg button:focus-visible,.btn:focus-visible,.sw input:focus-visible+span{outline:3px solid var(--sea);outline-offset:2px}
+
+/* Einstellungen */
+.regler{display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:color-mix(in srgb,var(--ink) 7%,transparent);border-radius:10px;padding:3px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink);font:700 13px/1.2 var(--bfont);padding:7px 2px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.schalter{display:flex;flex-wrap:wrap;gap:6px 14px}
+.sw{display:flex;align-items:center;gap:7px;font-weight:700;font-size:13px;cursor:pointer}
+.sw input{position:absolute;opacity:0;pointer-events:none}
+.sw span{width:34px;height:20px;border-radius:20px;background:color-mix(in srgb,var(--ink) 22%,transparent);position:relative;flex:none;transition:background .2s}
+.sw span::after{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw input:checked+span{background:var(--stb)}
+.sw input:checked+span::after{transform:translateX(14px)}
+.stufe-hinweis{font-size:12.5px;color:var(--muted)}
+
+/* Bühne */
+.buehne{position:relative;width:100%;aspect-ratio:4/5;max-width:100%;border-radius:16px;overflow:hidden;background:#0d0b0a;
+  box-shadow:0 10px 30px rgba(20,15,10,.28);isolation:isolate;user-select:none;-webkit-user-select:none}
+.innen{position:absolute;inset:0;overflow:hidden}
+.welt{position:absolute;inset:0;perspective:900px;perspective-origin:50% 45%}
+.set{position:absolute;inset:0;visibility:hidden;transform-style:preserve-3d;backface-visibility:hidden}
+.set.an{visibility:visible}
+.eb{position:absolute;inset:0;will-change:transform}
+.eb svg,.deko svg{width:100%;height:100%;display:block}
+.deko{position:absolute;inset:0;pointer-events:none}
+.ueber{position:absolute;inset:0;pointer-events:none}
+.ueber>*{pointer-events:auto}
+.start{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,8,6,.28);border:0;cursor:pointer;color:#fff;
+  font:800 16px var(--hfont);z-index:30}
+.start[hidden]{display:none!important}
+.start .rund{width:78px;height:78px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.start .rund svg{width:34px;height:34px;margin-left:5px}
+.start small{font:700 13px var(--bfont);background:rgba(0,0,0,.45);padding:3px 10px;border-radius:20px}
+.leiste{display:flex;gap:8px;align-items:center}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:800 14px var(--bfont);padding:8px 14px;border-radius:11px;cursor:pointer}
+.btn.haupt{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.zeit{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Untertitel */
+.ut{min-height:66px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:1px}
+.ut b{font-family:var(--hfont);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.ut span{font-size:16px;line-height:1.35}
+.ut.aus span{visibility:hidden}
+.wer-HINNERK{color:#2c4f7c}.wer-SMILLA{color:#c0392b}.wer-HILKE{color:#b8650f}.wer-HARMS{color:#5a5248}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .wer-HINNERK{color:#8fb6e6}:root:not([data-theme="light"]) .wer-SMILLA{color:#f08a7c}:root:not([data-theme="light"]) .wer-HILKE{color:#f3b064}:root:not([data-theme="light"]) .wer-HARMS{color:#cfc5b7}}
+:root[data-theme="dark"] .wer-HINNERK{color:#8fb6e6}:root[data-theme="dark"] .wer-SMILLA{color:#f08a7c}:root[data-theme="dark"] .wer-HILKE{color:#f3b064}:root[data-theme="dark"] .wer-HARMS{color:#cfc5b7}
+
+/* Info */
+.karte{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.karte ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.karte .vorbild{font-size:13.5px;color:var(--muted)}
+.punkte{display:inline-flex;gap:3px;vertical-align:middle}
+.punkte i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--ink) 18%,transparent)}
+.punkte i.v{background:var(--accent)}
+.tab-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:13px}
+th,td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--hfont);font-size:13px}
+tr:last-child td{border-bottom:0}
+.klein{font-size:12.5px;color:var(--muted)}
+a{color:var(--sea)}
+
+/* ---------- Overlays in der Bühne (Fragen, Harms, Kiste, Ende) ---------- */
+.ol{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6%;z-index:20}
+.ol[hidden]{display:none!important}
+.tafel{width:100%;max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:7px;padding:14px 14px 12px;border-radius:6px}
+.tafel h4{margin:0;font-size:19px;line-height:1.15}
+.tafel p{font-size:15.5px;line-height:1.35}
+.tafel .ant{display:flex;flex-direction:column;gap:6px}
+.tafel .ant button{appearance:none;text-align:left;font:700 15px/1.25 var(--bfont);padding:8px 10px;border-radius:8px;cursor:pointer;display:flex;gap:8px;align-items:flex-start}
+.tafel .ant button b{flex:none;width:22px}
+.tafel .ant button.richtig{outline:3px solid #3c8c5a}
+.tafel .ant button.falsch{outline:3px solid #c2473b;opacity:.8}
+.tafel .reihe{display:flex;gap:8px;flex-wrap:wrap}
+.tafel .reihe button{appearance:none;font:800 14px var(--bfont);padding:8px 14px;border-radius:9px;cursor:pointer}
+.harmsbild{width:84px;height:84px;flex:none}
+.kopf{display:flex;gap:10px;align-items:center}
+.denk{position:absolute;left:0;right:0;bottom:4%;display:flex;justify-content:center;gap:8px;z-index:19;padding:0 5%}
+.denk[hidden]{display:none!important}
+.denk button{appearance:none;font:800 15px/1.2 var(--bfont);padding:10px 12px;border-radius:12px;border:0;cursor:pointer;flex:1;min-width:0}
+.denk .sand{display:flex;gap:6px;align-items:center;background:rgba(0,0,0,.5);color:#fff;padding:6px 12px;border-radius:20px;font:700 13px var(--bfont)}
+.denk .sand i{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.25}
+.denk .sand i.an{opacity:1}
+
+/* Variante Papiertheater */
+.v-theater .tafel{background:#f4e6c4;color:#2a1b12;border:3px solid #7a4a1e;box-shadow:0 0 0 4px #e3b552,0 10px 24px rgba(0,0,0,.45);font-family:var(--bfont)}
+.v-theater .tafel h4{font-family:var(--hfont);color:#8a2a17}
+.v-theater .tafel button{background:#fffaf0;border:2px solid #7a4a1e;color:#2a1b12}
+.v-theater .denk button{background:#f4e6c4;color:#2a1b12;box-shadow:0 0 0 3px #e3b552,0 4px 10px rgba(0,0,0,.4)}
+/* Variante Scherenschnitt */
+.v-schatten .tafel{background:#141011;color:#f3e7cf;border:1px solid #f3e7cf;outline:1px solid #f3e7cf;outline-offset:-7px;font-family:var(--fell);text-align:center;border-radius:2px;padding:22px 20px 18px}
+.v-schatten .tafel h4{font-family:var(--fell);font-style:italic;font-weight:400;font-size:22px;letter-spacing:.02em}
+.v-schatten .tafel p{font-size:16px}
+.v-schatten .tafel .ant button{padding:6px 9px}
+.v-schatten .tafel .ant button{background:transparent;border:1px solid #f3e7cf;color:#f3e7cf;font-family:var(--fell);font-weight:400;font-size:16px}
+.v-schatten .tafel .reihe{justify-content:center}
+.v-schatten .tafel .reihe button{background:#f3e7cf;color:#141011;border:0;font-family:var(--fell);font-weight:400;font-size:16px}
+.v-schatten .kopf{justify-content:center;flex-direction:column}
+.v-schatten .denk button{background:#141011;color:#f3e7cf;border:1px solid #f3e7cf;font-family:var(--fell);font-weight:400;font-size:17px}
+/* Variante Glasebenen */
+.v-glas .tafel{background:rgba(236,240,238,.72);color:#22302f;border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;box-shadow:0 8px 30px rgba(30,50,55,.35)}
+.v-glas .tafel h4{font-family:var(--hfont);color:#2d5f6a}
+.v-glas .tafel button{background:rgba(255,255,255,.7);border:1px solid rgba(45,95,106,.35);color:#22302f}
+.v-glas .denk button{background:rgba(240,244,242,.82);color:#22302f;backdrop-filter:blur(4px)}
+/* Variante Aufklappbuch */
+.v-buch .tafel{background:#fbf3d9 repeating-linear-gradient(0deg,transparent 0 23px,rgba(90,120,160,.22) 23px 24px);color:#2b2a3a;border-radius:3px;
+  box-shadow:2px 6px 16px rgba(0,0,0,.35);transform:rotate(-1.6deg);font-family:var(--hand);position:relative}
+.v-buch .tafel::before{content:"";position:absolute;top:-12px;left:28px;width:16px;height:40px;border:3px solid #8e8f96;border-radius:10px;border-bottom-color:transparent}
+.v-buch .tafel h4{font-family:var(--hand);font-size:28px;color:#8a2a17}
+.v-buch .tafel p{font-family:var(--hand);font-size:22px;line-height:1.1}
+.v-buch .tafel .ant button{background:transparent;border:0;border-bottom:1.5px dashed #9aa3b8;border-radius:0;font-family:var(--hand);font-size:22px;color:#2b2a3a;padding:4px 2px}
+.v-buch .tafel .reihe button{background:#2b2a3a;color:#fbf3d9;border:0;font-family:var(--hand);font-size:22px;padding:4px 14px}
+.v-buch .denk button{background:#fbf3d9;color:#2b2a3a;font-family:var(--hand);font-size:22px;box-shadow:1px 4px 10px rgba(0,0,0,.35);border-radius:3px}
+
+@media (prefers-reduced-motion: reduce){ .start .rund{transition:none} }
+</style>
+
+<!-- gemeinsame Verläufe, Muster und Filter für alle Bühnen -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="th-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fa9cf"/><stop offset=".62" stop-color="#bfe0ea"/><stop offset="1" stop-color="#f6e2b2"/></linearGradient>
+    <linearGradient id="sc-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9845f"/><stop offset=".55" stop-color="#f4b56d"/><stop offset="1" stop-color="#f8dc98"/></linearGradient>
+    <radialGradient id="sc-sonne" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#ffe39a" stop-opacity=".9"/><stop offset="1" stop-color="#f8dc98" stop-opacity="0"/></radialGradient>
+    <linearGradient id="sc-wasserlicht" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6c47c"/><stop offset="1" stop-color="#e9845f"/></linearGradient>
+    <linearGradient id="gl-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9bfc4"/><stop offset=".55" stop-color="#d9dfd6"/><stop offset="1" stop-color="#efe5cf"/></linearGradient>
+    <linearGradient id="gl-wasser" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fb3ae"/><stop offset="1" stop-color="#4f7476"/></linearGradient>
+    <radialGradient id="gl-nebel" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f4f1e8" stop-opacity=".95"/><stop offset="1" stop-color="#f4f1e8" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gl-strahl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff6dc" stop-opacity=".55"/><stop offset="1" stop-color="#fff6dc" stop-opacity="0"/></linearGradient>
+    <linearGradient id="bu-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9dbe0"/><stop offset="1" stop-color="#f3ead2"/></linearGradient>
+    <linearGradient id="bu-falz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".5" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <pattern id="bu-schraffur" width="6" height="5" patternUnits="userSpaceOnUse"><path d="M0 2.5 H6" stroke="#3b6aa0" stroke-width=".9" opacity=".55"/></pattern>
+    <pattern id="bu-raster" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".9" fill="#7a9cc0" opacity=".45"/></pattern>
+    <pattern id="th-holz" width="40" height="8" patternUnits="userSpaceOnUse"><rect width="40" height="8" fill="#8a5a33"/><path d="M0 7.5 H40" stroke="#5e3a1f" stroke-width="1"/><path d="M6 3 Q14 1 22 3" stroke="#6e4527" stroke-width=".7" fill="none"/></pattern>
+    <filter id="schnitt" x="-10%" y="-10%" width="120%" height="125%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="dick"/>
+      <feFlood flood-color="#fffaf0"/><feComposite in2="dick" operator="in" result="rand"/>
+      <feOffset in="dick" dx="2.5" dy="3.5" result="ver"/><feGaussianBlur in="ver" stdDeviation="2.2" result="schatten"/>
+      <feFlood flood-color="#1a0e05" flood-opacity=".45"/><feComposite in2="schatten" operator="in" result="sch"/>
+      <feMerge><feMergeNode in="sch"/><feMergeNode in="rand"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="karton" x="-10%" y="-10%" width="125%" height="130%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.3" result="dick"/>
+      <feFlood flood-color="#fffdf6"/><feComposite in2="dick" operator="in" result="rand"/>
+      <feOffset in="dick" dx="5" dy="6" result="ver"/><feGaussianBlur in="ver" stdDeviation="3" result="schatten"/>
+      <feFlood flood-color="#3a2a12" flood-opacity=".32"/><feComposite in2="schatten" operator="in" result="sch"/>
+      <feMerge><feMergeNode in="sch"/><feMergeNode in="rand"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="korn" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/>
+      <feColorMatrix values="0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .1  0 0 0 .55 0"/>
+    </filter>
+    <filter id="aquarell" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="7" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="5"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <span class="eyebrow">Hörreise · Probe für den Film</span>
+    <h1>Frieda-Filmproben</h1>
+    <p class="lead">Eine Szene aus „Leise raus“, vier Bühnen. Das Drehbuch ist überall dasselbe: Seitenansicht, Schwenk nach achtern, Blick von oben, zurück. Nur das Handwerk wechselt.</p>
+  </header>
+
+  <div class="chips" role="group" aria-label="Bühne wählen" id="chips"></div>
+
+  <div class="regler">
+    <div class="seg" role="group" aria-label="Wie du dabei bist" id="stufe">
+      <button type="button" data-s="hoeren" aria-pressed="true">Nur hören</button>
+      <button type="button" data-s="sprechen" aria-pressed="false">Mitsprechen</button>
+      <button type="button" data-s="haende" aria-pressed="false">Mit Händen</button>
+    </div>
+    <p class="stufe-hinweis" id="stufeText"></p>
+    <div class="schalter">
+      <label class="sw"><input type="checkbox" id="harms" checked><span></span>Harms</label>
+      <label class="sw"><input type="checkbox" id="untertitel" checked><span></span>Untertitel</label>
+      <label class="sw"><input type="checkbox" id="ton" checked><span></span>Geräusche</label>
+    </div>
+  </div>
+
+  <div class="buehne" id="buehne">
+    <div class="innen" id="innen"><div class="welt" id="welt"></div></div>
+    <div class="deko" id="deko"></div>
+    <div class="ueber" id="ueber"></div>
+    <div class="denk" id="denk" hidden></div>
+    <div class="ol" id="ol" hidden><div class="tafel" id="tafel"></div></div>
+    <button class="start" id="startKnopf" type="button" aria-label="Szene abspielen">
+      <span class="rund"><svg viewBox="0 0 24 24"><path d="M5 3 L20 12 L5 21Z" fill="#3a2408"/></svg></span>
+      <small id="startText">Abspielen · etwa 2 Minuten</small>
+    </button>
+  </div>
+  <div class="leiste">
+    <button class="btn haupt" type="button" id="neu">▶ Von vorn</button>
+    <button class="btn" type="button" id="halt">■ Stopp</button>
+    <span class="zeit" id="zeit">Gratis-Stimme des Geräts</span>
+  </div>
+  <div class="ut" id="ut" aria-live="polite"><b id="utWer">&nbsp;</b><span id="utText">Tippe auf Abspielen. Am Handy: Ton an.</span></div>
+
+  <section class="karte" id="info"></section>
+
+  <section class="karte">
+    <h2>Was überall gleich ist</h2>
+    <ul>
+      <li><b>Ein Drehbuch, ein Film.</b> Jede Bühne spielt dieselben Zeilen mit denselben Kamera-Marken: <code>seite</code>, <code>heck</code>, <code>oben</code>. Der Film läuft immer gleich, egal was du unten wählst.</li>
+      <li><b>Nur hören:</b> Smillas Denkfrage bekommt sechs Sekunden Stille, dann geht es weiter. Nichts zu tippen, gut fürs Auto.</li>
+      <li><b>Mitsprechen:</b> An denselben Stellen wartet die Szene auf deine Antwort. In der App per Zuruf, hier zum Antippen.</li>
+      <li><b>Mit Händen:</b> Am Kapitelende holt dich die Szene kurz raus: Miniatur-Frieda aus der Kiste, einmal selbst rückwärts schieben.</li>
+      <li><b>Harms an:</b> Er erzählt am Anfang, was bisher geschah, und hält einmal den Film an, um eine Prüfungsfrage zu stellen. Harms aus: Die Geschichte läuft ohne ihn.</li>
+    </ul>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:8px">
+    <h2>Die vier Bühnen im Vergleich</h2>
+    <div class="tab-wrap">
+      <table>
+        <thead><tr><th></th><th>Papiertheater</th><th>Scherenschnitt</th><th>Glasebenen</th><th>Aufklappbuch</th></tr></thead>
+        <tbody>
+          <tr><td><b>Stimmung</b></td><td>bunt, verspielt, Jahrmarkt</td><td>märchenhaft, alt, ernst</td><td>still, poetisch, weich</td><td>gemütlich, zum Anfassen</td></tr>
+          <tr><td><b>Kleine Dinge lesbar</b> (Pfeile, Bb/Stb)</td><td>gut</td><td>schwer: alles schwarz, Farbe nur als Lichtfleck</td><td>gut, wenn nah</td><td>sehr gut, die Karte ist bedruckt</td></tr>
+          <tr><td><b>Nacht, Nebel, Sturm</b></td><td>Wellenwalzen wild drehen</td><td>sehr stark bei Nacht (Lichter als Glas)</td><td>am stärksten: Nebel ist das Material</td><td>mittel</td></tr>
+          <tr><td><b>Kamerawechsel</b></td><td>Drehbühne, Prospekt fällt</td><td>Irisblende</td><td>Kamerafahrt durch Nebel</td><td>Umblättern, Aufklappen, Zuklappen</td></tr>
+          <tr><td><b>Aufwand je Folge</b></td><td>mittel</td><td>gering (Silhouetten)</td><td>mittel bis hoch</td><td>hoch (jede Szene ein Bogen)</td></tr>
+          <tr><td><b>Handy-Leistung</b></td><td>gut</td><td>sehr gut</td><td>schwer (Unschärfe)</td><td>gut</td></tr>
+          <tr><td><b>Passt zu Kiste und Karte</b></td><td>ja, Pier und Modell sind auch Bühne</td><td>wenig</td><td>wenig</td><td>sehr: das Buch ist die Seekarte</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="karte">
+    <h2>Noch im Topf (nicht gebaut)</h2>
+    <ul>
+      <li><b>Kamishibai für Harms:</b> Harms erzählt den Rückblick mit Bildkarten im Holzrahmen. Eine Karte halb herausziehen ist im japanischen Papiertheater ein eigener Spannungstrick.</li>
+      <li><b>Gravur-Raster wie bei Karel Zeman:</b> feine Linien über allem, wie ein alter Stahlstich. Gut für die Garn-Folgen, wenn Hinnerk von früher erzählt.</li>
+      <li><b>Mischen nach Lage:</b> Tag im Papiertheater, Nacht im Scherenschnitt, Nebel in Glasebenen. Dieselben Figuren, nur das Licht wechselt.</li>
+    </ul>
+    <p class="klein">Vorbilder: <a href="https://en.wikipedia.org/wiki/Column_wave" target="_blank" rel="noopener">Wellenwalzen der Barockbühne</a>, <a href="https://kvl.cch.kcl.ac.uk/THEATRON/theatres/drottningholm/assets/text/drotxt11.html" target="_blank" rel="noopener">Wellenmaschine Drottningholm</a>, <a href="https://en.wikipedia.org/wiki/Lotte_Reiniger" target="_blank" rel="noopener">Lotte Reiniger</a>, <a href="https://en.wikipedia.org/wiki/Yuri_Norstein" target="_blank" rel="noopener">Juri Norstein</a>, <a href="https://www.cambridge.org/core/books/history-of-japanese-theatre/interlude-kamishibai-picturecard-storytelling/755D14DD927F910C6C23A8F744E460C3" target="_blank" rel="noopener">Kamishibai</a>, <a href="https://en.wikipedia.org/wiki/Karel_Zeman" target="_blank" rel="noopener">Karel Zeman</a>. Alles hier ist selbst gezeichnet, nichts kopiert.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+'use strict';
+/* ============================================================
+   1. Drehbuch (aus podcast/skripte/gold-heck.md, gekürzt)
+   kam = Kamera-Marke, tu = was sich in der Szene ändert, dauer = Mindestdauer
+   ============================================================ */
+const RUECKBLICK = 'Tag eins, später Vormittag. Die Frieda hat in Kuttershaven getankt. Den Sprit hat Hinnerk bezahlt. Den Strom nicht. Zweiundvierzig Euro. Mit mir redet er nicht. Aber ich krieg alles mit.';
+const DREHBUCH = [
+  {art: 'auftakt'},
+  {kam: 'seite', wer: 'HILKE', t: 'Zweiundvierzig Euro, Hinnerk. Ich hol den Quittungsblock. Und du bleibst, wo du bist.'},
+  {wer: 'HINNERK', t: 'Wo soll ich denn hin.', tu: {hx: [470, 2600]}},
+  {wer: 'HINNERK', t: 'Jetzt. Schnell. Leinen los.', leise: true},
+  {wer: 'SMILLA', t: 'Du haust ab. Wegen zweiundvierzig Euro Strom.'},
+  {wer: 'HINNERK', t: 'Ich leg ab. Dat is wat anderes.', tu: {motor: [1, 300]}},
+  {wer: 'SMILLA', t: 'Wir müssen rückwärts raus. Frage an dich: Fährt die Frieda schnurgerade raus? Oder will das Heck zur Seite?', glocke: true},
+  {art: 'denk', wahl: ['Schnurgerade raus', 'Das Heck will zur Seite'], richtig: 1},
+  {wer: 'HINNERK', t: 'Wirste gleich sehen. Rückwärts.', tu: {p: [.3, 2800]}, dauer: 2600},
+  {kam: 'heck', wer: 'SMILLA', t: 'Äh. Käpt\'n. Wir fahren schief. Auf Paul sein Boot zu.', tu: {p: [.65, 4200], a: [.65, 4200]}},
+  {wer: 'HINNERK', t: 'Jo. Jedes Mal, wenn ich hier tanke.', tu: {a: [.8, 2500]}},
+  {wer: 'SMILLA', t: 'Darum hängt bei Paul dieser riesige Fender.', tu: {fender: [1, 500]}},
+  {wer: 'HINNERK', t: 'Da steht mein Name drauf. Find ich nich nett.', tu: {fender: [0, 2500]}},
+  {kam: 'oben', wer: 'HINNERK', t: 'Dat macht der Propeller. Stell dir vor, der is \'n Rad, dat unten über\'n Grund rollt.', tu: {rad: [1, 800]}},
+  {wer: 'HINNERK', t: 'Rückwärts rollt dat Rad nach links. Und nimmt dat Heck mit.', tu: {p: [1, 3800], a: [1, 3800]}, dauer: 3600},
+  {wer: 'SMILLA', t: 'Nur das Heck. Der Bug bleibt, wo er ist. Das Boot rutscht hinten zur Seite weg. Das heißt Radeffekt.'},
+  {art: 'harms'},
+  {art: 'haende'},
+  {kam: 'seite', wer: 'HILKE', t: 'Hinnerk! Ich hab gesagt, du bleibst da!', tu: {hx: [250, 1800], rad: [0, 300], winken: [1, 300]}, laut: true},
+  {wer: 'HINNERK', t: 'Gas voraus.', tu: {go: [.35, 2600]}},
+  {wer: 'SMILLA', t: 'Er meint: Morgen, Hilke!', laut: true},
+  {wer: 'HILKE', t: 'Das sagt er seit drei Wochen!', laut: true, tu: {go: [.75, 3200]}},
+  {wer: 'HINNERK', t: 'Nich hingucken. Dat wird teurer.', tu: {go: [1.15, 3000]}, dauer: 2400},
+  {art: 'mitnehmen'}
+];
+const HARMSFRAGE = {
+  nr: 41, q: 'Wie verhält sich im Allgemeinen das Schiff im Rückwärtsgang bei einem rechtsdrehenden Propeller?',
+  a: ['Der Kurs des Schiffes ändert sich nicht.', 'Das Heck dreht nach Backbord.', 'Das Heck dreht nach Steuerbord.', 'Der Bug dreht nach Backbord.'], richtig: 1
+};
+const MITNEHMEN = ['Rückwärts dreht das Heck nach Backbord, beim Rechtsdreher.', 'Das heißt Radeffekt: Der Propeller versetzt das Heck zur Seite.', 'Der Bug bleibt, wo er ist.'];
+const KISTE = 'Kurz raus aus der Geschichte. Hol deine Miniatur-Frieda aus der Kiste und leg sie mit Steuerbord an den Pier. Jetzt schieb sie rückwärts weg und dreh dabei das Heck nach Backbord, zu Pauls Boot.';
+
+/* ============================================================
+   2. Farben je Bühne
+   ============================================================ */
+const BASIS = {
+  rumpf: '#fbf6ea', streifen: '#c0392b', unter: '#1f3b63', dach: '#cdd3d6', kfenster: '#6f9cbc', deck: '#e9dcc2', motor: '#3b3f44',
+  paul: '#3d6fa8', paulD: '#2b4f7c', paulDeck: '#e8e1cf', fender: '#f5f1e6', fenderSchrift: '#c0392b',
+  haut: '#f2c39b', nase: '#e59a7a', auge: '#2a1b12', hJacke: '#2c3e5c', hBart: '#ece8e0', hMuetze: '#24324a', schirm: '#141a26', pfeife: '#6b3d1f',
+  sJacke: '#d2452f', sHaar: '#f0c45a', hose: '#3a4a63', hiJacke: '#2f5d7c', hiWeste: '#f08a24', hiHaar: '#5b3a29', block: '#fffdf5',
+  hrJacke: '#1d2433', hrMuetze: '#f4f1ea', gold: '#d9a93b', katze: '#1d1a1a', zapf: '#c8382c', mast: '#6b5d4e',
+  haus: ['#b6452c', '#e7cfa0', '#7d9b6a', '#c9763a', '#9bb3c4'], dachF: '#5a2a20', hfenster: '#2f4f66', steg: '#8a5a33', stegD: '#5e3a1f',
+  wasser: ['#3a7aa4', '#2a6890', '#1d5279'], glanz: '#e9f4f6', obenWasser: '#3f7fa6', schrift: '#1f3b63', loch: '#f6c98a',
+  bb: '#c2473b', stb: '#3c8c5a', strich: null, sw: 0
+};
+const INK = '#151011';
+const PAL = {
+  theater: {...BASIS, strich: '#2a1b12', sw: 1.6, himmel: 'url(#th-himmel)'},
+  schatten: Object.assign({}, ...Object.keys(BASIS).map(k => ({[k]: Array.isArray(BASIS[k]) ? BASIS[k].map(() => INK) : (typeof BASIS[k] === 'string' ? INK : BASIS[k])})),
+    {himmel: 'url(#sc-himmel)', loch: '#f7c987', kfenster: '#f7c987', auge: '#f7c987', schrift: '#f7c987', fenderSchrift: '#f7c987', glanz: '#f7c987', block: INK, bb: '#ff5a48', stb: '#4fe08a', strich: null, sw: 0}),
+  glas: {...BASIS, himmel: 'url(#gl-himmel)', rumpf: '#f1ece1', streifen: '#b45a48', unter: '#3d5568', dach: '#c3c9c6', kfenster: '#8aa9b4', paul: '#5f7f9c', paulD: '#4a6680',
+    haus: ['#b07a5c', '#d8c7a5', '#8fa38a', '#c49a6c', '#a7b6bb'], dachF: '#6e4a3e', hfenster: '#5a6e78', steg: '#8d7259', stegD: '#6c5644', wasser: ['#7f9c9b', '#6a8a8b', '#55777a'], glanz: '#f4f0e2', obenWasser: '#6f9092',
+    hJacke: '#3d4c63', sJacke: '#c45a45', hiWeste: '#d98a4a', strich: null, sw: 0},
+  buch: {...BASIS, himmel: 'url(#bu-himmel)', strich: '#3b3550', sw: 1.1, wasser: ['#9cc0d6', '#86aecb', '#6f9cbc'], obenWasser: '#dbe7ea', haus: ['#c8664c', '#ead8b0', '#93ad84', '#d39a62', '#a9c1cf']}
+};
+
+/* ============================================================
+   3. Zeichnungen (gemeinsam für alle Bühnen; Gesicht nach rechts, Füße bei 0,0)
+   ============================================================ */
+const st = P => P.strich ? ` stroke="${P.strich}" stroke-width="${P.sw}" stroke-linejoin="round"` : '';
+const dreh = (art, wer, px, py) => ` data-dreh="${art}" data-wer="${wer || ''}" data-px="${px}" data-py="${py}"`;
+
+function hinnerk(P, sfx) {
+  const S = st(P);
+  return `<g${dreh('fig', 'HINNERK', 0, 0)}>
+    <path d="M-8 0 V-20 M7 0 V-20" stroke="${P.hose}" stroke-width="7.5" stroke-linecap="round" fill="none"/>
+    <path d="M-15 -17 Q-18 -44 -5 -49 L6 -49 Q18 -45 15 -17 Z" fill="${P.hJacke}"${S}/>
+    <g${dreh('arm-h', '', 8, -42)}><path d="M8 -42 Q17 -34 20 -24" stroke="${P.hJacke}" stroke-width="7.5" stroke-linecap="round" fill="none"/><circle cx="20" cy="-23" r="3.8" fill="${P.haut}"${S}/></g>
+    <circle cx="2" cy="-58" r="9.6" fill="${P.haut}"${S}/>
+    <path d="M-6.5 -57 Q-7.5 -44 3 -43 Q12.5 -44 12.5 -55.5 Q8 -51.5 3.5 -52.5 Q-1 -51.5 -6.5 -57Z" fill="${P.hBart}"${S}/>
+    <circle cx="11.6" cy="-59.5" r="2.8" fill="${P.nase}"/>
+    <circle cx="6.8" cy="-62" r="1.35" fill="${P.auge}"/>
+    <path d="M-9.5 -63 Q-8.5 -72 2 -72.5 Q11.5 -72 12 -63 Z" fill="${P.hMuetze}"${S}/>
+    <path d="M7 -63.6 L18 -62.6 L14 -60.4 L6 -61Z" fill="${P.schirm}"/>
+    <path d="M10 -51.5 L18 -50.5" stroke="${P.pfeife}" stroke-width="2.2"/><rect x="16.4" y="-56" width="4.4" height="5.6" rx="1.2" fill="${P.pfeife}"/>
+  </g>`;
+}
+function smilla(P) {
+  const S = st(P);
+  return `<g${dreh('fig', 'SMILLA', 0, 0)}>
+    <path d="M-4.5 0 V-19 M4 0 V-19" stroke="${P.hose}" stroke-width="5.6" stroke-linecap="round" fill="none"/>
+    <path d="M-8.5 -17 Q-10.5 -40 -3 -44 L4 -44 Q10.5 -40 8.5 -17Z" fill="${P.sJacke}"${S}/>
+    <g${dreh('arm-s', 'SMILLA', 5, -38)}><path d="M5 -38 Q12 -31 14 -23" stroke="${P.sJacke}" stroke-width="5.6" stroke-linecap="round" fill="none"/><circle cx="14" cy="-22" r="3" fill="${P.haut}"${S}/></g>
+    <g${dreh('zopf', '', -6, -56)}><path d="M-6 -57 Q-17 -55 -16 -43 Q-11.5 -49 -5.5 -52Z" fill="${P.sHaar}"${S}/></g>
+    <circle cx="1" cy="-52" r="8.2" fill="${P.haut}"${S}/>
+    <path d="M8.6 -53.5 L11 -51 L8.6 -49.8Z" fill="${P.haut}"/>
+    <path d="M-7.5 -53 Q-8 -62.5 1 -62 Q8.6 -61.6 8.8 -56 Q4 -58.5 -1 -57.4 Q-4.5 -55 -7.5 -49Z" fill="${P.sHaar}"${S}/>
+    <circle cx="5.2" cy="-53.8" r="1.15" fill="${P.auge}"/>
+  </g>`;
+}
+function hilke(P) {
+  const S = st(P);
+  return `<g${dreh('fig', 'HILKE', 0, 0)}>
+    <path d="M-7 0 V-19 M6 0 V-19" stroke="${P.hose}" stroke-width="7.2" stroke-linecap="round" fill="none"/>
+    <path d="M-14.5 -17 Q-17 -43 -4 -48 L5 -48 Q17 -43 14.5 -17Z" fill="${P.hiJacke}"${S}/>
+    <path d="M-12 -19 Q-13.5 -40 -3 -45 L4 -45 Q13.5 -40 12 -19Z" fill="${P.hiWeste}"/>
+    <path d="M-12.5 -29 H12.5" stroke="${P.glanz}" stroke-width="2.4" opacity=".85"/>
+    <g${dreh('arm-hi', '', 8, -40)}><path d="M8 -40 Q15 -33 18 -26" stroke="${P.hiWeste}" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <rect x="14" y="-36" width="11" height="14" rx="1" fill="${P.block}"${S} transform="rotate(-8 19 -29)"/><circle cx="18" cy="-25" r="3.4" fill="${P.haut}"${S}/></g>
+    <circle cx="-6.5" cy="-63" r="5.4" fill="${P.hiHaar}"/>
+    <circle cx="1" cy="-56" r="9.2" fill="${P.haut}"${S}/>
+    <path d="M-8.4 -54 Q-9 -65.5 1 -65.5 Q9.6 -65 9.8 -58 Q4 -61 -2 -59.5 Q-6 -57 -8.4 -51Z" fill="${P.hiHaar}"${S}/>
+    <path d="M9.7 -57.5 L12.6 -54.5 L9.7 -53Z" fill="${P.haut}"/>
+    <circle cx="5.6" cy="-57.6" r="1.25" fill="${P.auge}"/>
+  </g>`;
+}
+function katze(P) {
+  return `<g>
+    <g${dreh('schwanz', '', -8, -4)}><path d="M-8 -4 Q-20 -5 -17 -20" stroke="${P.katze}" stroke-width="3.4" stroke-linecap="round" fill="none"/></g>
+    <ellipse cx="0" cy="-7" rx="9.5" ry="7.2" fill="${P.katze}"/><circle cx="8" cy="-15" r="5.6" fill="${P.katze}"/>
+    <path d="M4.5 -19 L5.5 -25 L9 -20.5Z M9 -20.5 L12.6 -25 L12.8 -18.5Z" fill="${P.katze}"/>
+    <circle cx="10.4" cy="-15.6" r="1.1" fill="${P.schatten ? P.loch : '#f0d060'}"/>
+  </g>`;
+}
+function harmsBuste(P) {
+  const S = st(P);
+  return `<g>
+    <path d="M8 120 Q12 84 48 76 L76 76 Q110 84 114 120Z" fill="${P.hrJacke}"${S}/>
+    <circle cx="61" cy="96" r="2.6" fill="${P.gold}"/><circle cx="61" cy="108" r="2.6" fill="${P.gold}"/>
+    <ellipse cx="62" cy="52" rx="22" ry="25" fill="${P.haut}"${S}/>
+    <path d="M42 34 L33 49 L42 52Z" fill="${P.haut}"${S}/>
+    <path d="M41 56 Q43 80 63 82 Q81 80 84 58 Q75 67 62 66 Q50 66 41 56Z" fill="${P.hBart}"${S}/>
+    <path d="M40 37 L57 33" stroke="${P.auge}" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="48" cy="42" r="2.2" fill="${P.auge}"/>
+    <path d="M45 63 L55 62" stroke="${P.auge}" stroke-width="1.8"/>
+    <path d="M34 30 Q36 7 64 5 Q93 7 92 30Z" fill="${P.hrMuetze}"${S}/>
+    <rect x="34" y="25" width="58" height="9" fill="${P.schirm}"/>
+    <path d="M30 32 L60 32 L52 40 L25 38Z" fill="${P.schirm}"/>
+    <circle cx="50" cy="29.5" r="4.2" fill="${P.gold}"/>
+  </g>`;
+}
+function harmsFigur(P) {
+  /* ganze Figur, Gesicht nach links */
+  const S = st(P);
+  return `<g transform="scale(-1 1)">
+    <path d="M-8 0 V-22 M7 0 V-22" stroke="${P.hose}" stroke-width="7.5" stroke-linecap="round" fill="none"/>
+    <path d="M-14 -19 Q-17 -47 -5 -52 L6 -52 Q17 -47 14 -19Z" fill="${P.hrJacke}"${S}/>
+    <circle cx="4" cy="-40" r="1.6" fill="${P.gold}"/><circle cx="4" cy="-32" r="1.6" fill="${P.gold}"/>
+    <path d="M9 -45 Q16 -38 19 -30" stroke="${P.hrJacke}" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <circle cx="2" cy="-61" r="9.6" fill="${P.haut}"${S}/>
+    <path d="M-6 -59 Q-6 -49 3 -48 Q11 -49 12 -58.5 Q7 -55 3 -55.5 Q-1 -55 -6 -59Z" fill="${P.hBart}"${S}/>
+    <path d="M11 -64 L15 -59.5 L11 -58Z" fill="${P.haut}"/>
+    <path d="M5 -66.5 L11 -67.5" stroke="${P.auge}" stroke-width="1.8"/>
+    <circle cx="7.4" cy="-63.6" r="1.3" fill="${P.auge}"/>
+    <path d="M-10 -67 Q-9 -77 2 -77.5 Q13 -77 13 -67Z" fill="${P.hrMuetze}"${S}/>
+    <rect x="-10" y="-69" width="23" height="3.6" fill="${P.schirm}"/>
+    <path d="M8 -67 L19 -66 L15 -63.6 L7 -64.4Z" fill="${P.schirm}"/>
+    <circle cx="3" cy="-68.5" r="1.7" fill="${P.gold}"/>
+  </g>`;
+}
+
+/* Frieda von der Seite: Bug links, Wasserlinie y 0, Maße wie boot.js (160 lang) */
+function friedaSeite(P) {
+  const S = st(P), sw = P.sw || 0;
+  const hull = `
+    <path d="M-80 -6 L66 -6 Q76 -8 82 -24 L80 -26 L-78 -26 L-80 -24Z" fill="${P.rumpf}"${S}/>
+    <path d="M-80 -6 L66 -6 Q72 -6 74 -10 L70 6 Q62 12 40 12 L-74 10 L-80 4Z" fill="${P.unter}"${S}/>
+    <path d="M-79 -14 L78 -14" stroke="${P.streifen}" stroke-width="3.5"/>
+    <path d="M-46 -26 L-44 -52 L18 -52 L34 -26Z" fill="${P.rumpf}"${S}/>
+    <path d="M-44 -52 L18 -52 L20 -56 L-42 -56Z" fill="${P.dach}"${S}/>
+    <path d="M20 -50 L31 -29 L22 -29 L13 -50Z" fill="${P.kfenster}"/>
+    ${[-34, -18, -2].map(x => `<circle cx="${x}" cy="-39" r="4.6" fill="${P.kfenster}"${S}/>`).join('')}
+    <path d="M40 -26 V-36 H78 L80 -26" fill="none" stroke="${P.strich || P.motor}" stroke-width="${Math.max(1.4, sw)}"/>
+    <rect x="-92" y="-34" width="12" height="18" rx="3" fill="${P.motor}"${S}/><rect x="-88" y="-16" width="4" height="26" fill="${P.motor}"/><rect x="-94" y="8" width="10" height="6" rx="2" fill="${P.motor}"/>
+    <path d="M-86 -27 L-62 -33" stroke="${P.motor}" stroke-width="2.6" stroke-linecap="round"/>`;
+  return `<g id="f-seite">
+    <g id="blasen-seite" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="blase" data-i="${i}" cx="90" cy="6" r="2.4" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
+    <g transform="translate(66 -14) scale(.56) scale(-1 1)">${hinnerk(P)}</g>
+    <g transform="scale(-1 1)">${hull}</g>
+    ${P.schrift ? `<text x="-30" y="-17.2" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="7" letter-spacing=".6" fill="${P.schrift}">FRIEDA</text>` : ''}
+    <g transform="translate(-60 -26) scale(.52)">${smilla(P)}</g>
+    <g transform="translate(4 -56) scale(.44)">${katze(P)}</g>
+  </g>`;
+}
+/* Frieda von achtern: Spiegel mit Außenborder, Wasserlinie y 0, 120 breit */
+function friedaHeck(P) {
+  const S = st(P);
+  return `<g id="f-heck">
+    <path d="M-34 -40 L-30 -68 L30 -68 L34 -40Z" fill="${P.rumpf}"${S}/>
+    <path d="M-31 -66 L31 -66 L33 -72 L-33 -72Z" fill="${P.dach}"${S}/>
+    <rect x="-9" y="-62" width="18" height="22" rx="2" fill="${P.steg}"${S}/>
+    <g transform="translate(23 -66) scale(.5)">${smillaKopf(P)}</g>
+    <path d="M-62 -40 L62 -40 L56 0 Q30 15 0 17 Q-30 15 -56 0 Z" fill="${P.rumpf}"${S}/>
+    <path d="M-60.5 -30 L60.5 -30 L59.6 -24.5 L-59.6 -24.5Z" fill="${P.streifen}"/>
+    <path d="M-56 0 Q-30 15 0 17 Q30 15 56 0 L54.6 8 Q30 22 0 24 Q-30 22 -54.6 8Z" fill="${P.unter}"/>
+    ${P.schrift ? `<text x="0" y="-9" text-anchor="middle" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="12" letter-spacing="1" fill="${P.schrift}">FRIEDA</text>
+    <text x="0" y="-1.5" text-anchor="middle" font-family="Nunito,Arial,sans-serif" font-weight="800" font-size="5.2" letter-spacing="1.2" fill="${P.schrift}">KUTTERSHAVEN</text>` : ''}
+    ${[-50, -36].map(y => `<ellipse cx="64" cy="${y + 22}" rx="5" ry="9" fill="${P.fender}"${S}/>`).join('')}
+    <g transform="translate(-26 -34) scale(.62)">${hinnerkRuecken(P)}</g>
+    <rect x="-10" y="-60" width="20" height="24" rx="5" fill="${P.motor}"${S}/>
+    <rect x="-3.5" y="-37" width="7" height="44" fill="${P.motor}"/>
+    <g id="blasen-heck" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="blase" data-i="${i}" cx="0" cy="8" r="3" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
+  </g>`;
+}
+function smillaKopf(P) {
+  const S = st(P);
+  return `<g><path d="M-12 12 Q-12 -2 0 -4 Q12 -2 12 12Z" fill="${P.sJacke}"${S}/><circle cx="0" cy="-12" r="8.5" fill="${P.haut}"${S}/>
+    <path d="M-8.6 -12 Q-9 -22 0 -22 Q9 -22 8.8 -12 Q5 -17 0 -16.5 Q-5 -17 -8.6 -12Z" fill="${P.sHaar}"${S}/>
+    <circle cx="-3" cy="-12" r="1.1" fill="${P.auge}"/><circle cx="3" cy="-12" r="1.1" fill="${P.auge}"/></g>`;
+}
+function hinnerkRuecken(P) {
+  const S = st(P);
+  return `<g${dreh('fig', 'HINNERK', 0, 0)}>
+    <path d="M-17 10 Q-19 -24 -6 -30 L6 -30 Q19 -24 17 10Z" fill="${P.hJacke}"${S}/>
+    <g${dreh('arm-h', '', 12, -22)}><path d="M12 -22 Q22 -12 28 -4" stroke="${P.hJacke}" stroke-width="8" stroke-linecap="round" fill="none"/></g>
+    <path d="M-10 -36 Q-11 -27 0 -26 Q11 -27 10 -36Z" fill="${P.hBart}"${S}/>
+    <circle cx="0" cy="-40" r="10" fill="${P.haut}"${S}/>
+    <path d="M-10.5 -43 Q-10 -53 0 -53.5 Q10 -53 10.5 -43 Q0 -46 -10.5 -43Z" fill="${P.hMuetze}"${S}/>
+    <path d="M-10 -41 Q0 -45 10 -41 L10 -39 Q0 -43 -10 -39Z" fill="${P.hMuetze}"/>
+  </g>`;
+}
+/* Frieda von oben: Bug nach oben, 100 lang (boot.js), Maßstab außen */
+function friedaOben(P) {
+  const S = st(P) || ` stroke="#5f5446" stroke-width="2"`;
+  const sch = P === PAL.schatten;
+  return `<g id="f-oben">
+    <g id="kreis-oben" opacity="0"></g>
+    <path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="${P.rumpf}"${sch ? '' : S}/>
+    ${sch ? '' : `<path d="M0 -46 C14 -33 16.5 -6 15.5 22 L15 45 M0 -46 C-14 -33 -16.5 -6 -15.5 22 L-15 45" stroke="${P.streifen}" stroke-width="2.2" fill="none"/>
+    <path d="M0 -42 C10 -32 12 -14 12 -6 L-12 -6 C-12 -14 -10 -32 0 -42Z" fill="${P.deck}"/>
+    <path d="M-11 -4 H11 V20 H-11Z" fill="${P.dach}"${S}/>
+    <rect x="-13" y="22" width="26" height="22" rx="3" fill="${P.deck}"/>`}
+    ${sch ? `<path d="M-11 -4 H11 V20 H-11Z" fill="none" stroke="${P.loch}" stroke-width="1.2" opacity=".9"/>` : ''}
+    <circle cx="0" cy="36" r="6" fill="${P.hMuetze}"/><circle cx="0" cy="-28" r="4.6" fill="${P.sHaar}"/>
+    <rect x="-6" y="48" width="12" height="12" rx="3" fill="${P.motor}"/><rect x="-2" y="58" width="4" height="6" fill="${P.motor}"/>
+    ${[-10, 14].map(y => `<ellipse cx="21" cy="${y}" rx="3" ry="5" fill="${P.fender}"/>`).join('')}
+    <circle cx="-19.5" cy="-18" r="3" fill="${P.bb}"/><circle cx="19.5" cy="-18" r="3" fill="${P.stb}"/>
+  </g>`;
+}
+
+/* Wellenstreifen: Kämme mit Periode per, Höhe amp, gefüllt nach unten */
+function streifen(y, amp, per, fill, glanz, data, extra = '') {
+  let d = `M-120 ${y + 80} L-120 ${y}`;
+  for (let x = -120; x < 560; x += per) d += ` Q${x + per * .25} ${y - amp} ${x + per * .5} ${y} T${x + per} ${y}`;
+  d += ` L560 ${y + 80} Z`;
+  let g = '';
+  if (glanz) { g = `<path d="M-120 ${y}`; for (let x = -120; x < 560; x += per) g += ` Q${x + per * .25} ${y - amp} ${x + per * .5} ${y} T${x + per} ${y}`; g += `" fill="none" stroke="${glanz}" stroke-width="1.6" stroke-dasharray="${per * .32} ${per * .68}" opacity=".9"/>`; }
+  return `<g data-welle="${data},${per}"><path d="${d}" fill="${fill}"/>${g}${extra}</g>`;
+}
+function spitzenBand(y, amp, per, data, dick) {
+  /* Scherenschnitt: Welle als schmales schwarzes Band mit ausgeschnittenen Löchern, darunter scheint das Licht */
+  let o = `M-120 ${y}`, u = '';
+  for (let x = -120; x < 560; x += per) o += ` Q${x + per * .25} ${y - amp} ${x + per * .5} ${y} T${x + per} ${y}`;
+  for (let x = 560; x > -120; x -= per) u += ` Q${x - per * .25} ${y + dick - amp * .4} ${x - per * .5} ${y + dick} T${x - per} ${y + dick}`;
+  let l = '';
+  for (let x = -120; x < 560; x += per) l += `<circle cx="${x + per * .5}" cy="${y + Math.min(dick * .55, 8)}" r="${Math.min(3.2, Math.max(1.4, dick * .16))}" fill="${PAL.schatten.loch}"/>`;
+  return `<g data-welle="${data},${per}"><path d="${o} L560 ${y + dick}${u} Z" fill="${INK}"/>${l}</g>`;
+}
+function spitzenLoecher(y, per, loch) {
+  /* Scherenschnitt: ausgeschnittene Löcher im Wasser wie Spitze */
+  let s = '';
+  for (let x = -120; x < 560; x += per) s += `<ellipse cx="${x + per * .5}" cy="${y + 11}" rx="${per * .16}" ry="2.2" fill="${loch}"/><path d="M${x + per * .2} ${y + 22} q${per * .1} -6 ${per * .2} 0 q-${per * .07} -2.5 -${per * .12} 1" fill="none" stroke="${loch}" stroke-width="1.3"/>`;
+  return s;
+}
+
+/* ============================================================
+   4. Sets je Bühne: Ebenen von hinten nach vorn
+   jede Ebene: {d: Tiefe 0…1, svg, basis: Fußlinie in px für das Aufklappbuch}
+   ============================================================ */
+const SV = inner => `<svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+
+function haeuser(P, y, s = 1, sch = false) {
+  const H = [[10, 56, 40], [52, 76, 34], [88, 62, 46], [136, 84, 36], [176, 58, 44], [222, 70, 38], [262, 92, 50], [314, 64, 40], [356, 78, 44]];
+  return H.map(([x, h, w], i) => {
+    const c = P.haus[i % P.haus.length], S = st(P);
+    const fen = sch ? `<rect x="${x + w * .3}" y="${y - h * .55}" width="${w * .16}" height="${h * .16}" fill="${P.loch}"/><rect x="${x + w * .56}" y="${y - h * .55}" width="${w * .16}" height="${h * .16}" fill="${P.loch}"/>`
+      : `<rect x="${x + w * .22}" y="${y - h * .58}" width="${w * .18}" height="${h * .18}" fill="${P.hfenster}"/><rect x="${x + w * .6}" y="${y - h * .58}" width="${w * .18}" height="${h * .18}" fill="${P.hfenster}"/><rect x="${x + w * .4}" y="${y - h * .3}" width="${w * .2}" height="${h * .3}" fill="${P.hfenster}"/>`;
+    return `<path d="M${x} ${y} V${y - h * .7} L${x + w / 2} ${y - h} L${x + w} ${y - h * .7} V${y}Z" fill="${c}"${S}/><path d="M${x - 2} ${y - h * .68} L${x + w / 2} ${y - h - 3} L${x + w + 2} ${y - h * .68}" fill="none" stroke="${P.dachF}" stroke-width="${4 * s}"/>${fen}`;
+  }).join('') + (sch ? '' : `<rect x="262" y="${y - 52}" width="50" height="11" fill="${P.rumpf}"${st(P)}/><text x="287" y="${y - 43.6}" text-anchor="middle" font-family="Nunito,Arial,sans-serif" font-weight="800" font-size="6.2" fill="${P.schrift}">HAFENMEISTER</text>`);
+}
+function masten(P, y) {
+  return [40, 118, 200, 300].map(x => `<path d="M${x} ${y} V${y - 120}" stroke="${P.mast}" stroke-width="2"/><path d="M${x} ${y - 112} L${x + 34} ${y - 4}" stroke="${P.mast}" stroke-width=".9"/>`).join('');
+}
+function zapfsaeule(P, x, y, s = 1) {
+  const S = st(P);
+  return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-9" y="-36" width="18" height="36" rx="3" fill="${P.zapf}"${S}/><rect x="-6" y="-31" width="12" height="9" rx="1.5" fill="${P.rumpf}"/>
+    <path d="M9 -24 Q20 -22 18 -6" fill="none" stroke="${P.motor}" stroke-width="2.4"/><rect x="-10" y="-40" width="20" height="6" rx="2" fill="${P.motor}"/></g>`;
+}
+function stegSeite(P, y) {
+  const S = st(P);
+  let p = '';
+  for (let x = 8; x < 400; x += 46) p += `<rect x="${x}" y="${y + 6}" width="7" height="34" fill="${P.stegD}"/>`;
+  return p + `<rect x="-10" y="${y - 6}" width="420" height="13" fill="${P.steg}"${S}/>` +
+    [70, 220, 360].map(x => `<rect x="${x}" y="${y - 14}" width="9" height="9" rx="2" fill="${P.stegD}"/>`).join('');
+}
+function wolken(P, art) {
+  if (art === 'schatten') return [[70, 70, 1], [300, 110, .8], [210, 46, .6]].map(([x, y, s]) =>
+    `<g transform="translate(${x} ${y}) scale(${s})" data-welle="${s * 4},0,0"><path d="M-40 0 Q-36 -16 -20 -14 Q-14 -28 4 -24 Q16 -34 28 -20 Q44 -20 42 0Z" fill="${INK}"/>${[-24, -4, 16].map(cx => `<circle cx="${cx}" cy="-6" r="3" fill="${PAL.schatten.loch}"/>`).join('')}</g>`).join('');
+  const c = art === 'glas' ? '#f4efe2' : art === 'buch' ? '#fffdf5' : '#fff8e6';
+  return [[70, 70, 1], [300, 110, .8], [210, 46, .6]].map(([x, y, s]) =>
+    `<g transform="translate(${x} ${y}) scale(${s})" data-welle="${s * 4},0,0"><path d="M-40 0 Q-36 -16 -20 -14 Q-14 -28 4 -24 Q16 -34 28 -20 Q44 -20 42 0Z" fill="${c}"${art === 'theater' ? st(PAL.theater) : ''} opacity="${art === 'glas' ? .7 : 1}"/></g>`).join('');
+}
+function sonne(art) {
+  if (art === 'schatten') return `<circle cx="300" cy="150" r="90" fill="url(#sc-sonne)"/>`;
+  if (art === 'glas') return `<circle cx="300" cy="120" r="70" fill="#fff4d6" opacity=".55"/>`;
+  return `<circle cx="318" cy="70" r="24" fill="#ffd36b"${art === 'theater' ? st(PAL.theater) : ''}/>`;
+}
+
+function setSeite(V) {
+  const P = PAL[V], S = st(P), sch = V === 'schatten';
+  const himmel = `<rect width="400" height="500" fill="${P.himmel}"/>` + sonne(V) + wolken(P, V);
+  if (sch) {
+    const wl = `<rect x="0" y="282" width="400" height="218" fill="url(#sc-wasserlicht)"/>`;
+    return [
+      {d: 0, svg: himmel + wl, basis: 500, statisch: true},
+      {d: .15, svg: masten(P, 262) + haeuser(P, 262, 1, sch), basis: 262},
+      {d: .3, svg: spitzenBand(296, 4, 46, '9,1.5,0', 7) + stegSeite(P, 268) + zapfsaeule(P, 118, 262) + `<g id="hilke" transform="translate(150 262)"><g transform="scale(.74)">${hilke(P)}</g></g>`, basis: 276},
+      {d: .55, svg: `<g id="seite-boot" transform="translate(200 360) scale(1.45)">${friedaSeite(P)}</g>`, basis: 378},
+      {d: .7, svg: spitzenBand(372, 6, 58, '-14,3,1.3', 12) + spitzenBand(410, 5, 50, '10,2,2', 8), basis: 380, statisch: true},
+      {d: 1, svg: spitzenBand(452, 9, 74, '20,4,2.6', 60) + `<g id="paul-seite"><path d="M300 446 Q318 404 360 398 L430 396 L430 470 L330 470 Q306 462 300 446Z" fill="${INK}"/><circle cx="380" cy="420" r="5" fill="${P.loch}"/><circle cx="404" cy="420" r="5" fill="${P.loch}"/><path d="M352 398 V378 H430" fill="none" stroke="${INK}" stroke-width="2.4"/></g>`, basis: 470}
+    ];
+  }
+  const wasserHinten = V === 'buch' ? '' : streifen(300, 5, 46, P.wasser[0], V === 'theater' ? P.glanz : null, '9,2,0') + '';
+  const wasserMitte = V === 'buch' ? buchWelle(366, P, 'a') : streifen(368, 7, 58, P.wasser[1], V === 'theater' ? P.glanz : null, '-14,3,1.3', sch ? spitzenLoecher(368, 58, P.loch) : '');
+  const wasserVorn = V === 'buch' ? buchWelle(436, P, 'b') : streifen(438, 10, 74, P.wasser[2], V === 'theater' ? P.glanz : null, '20,4,2.6', sch ? spitzenLoecher(438, 74, P.loch) : '');
+  const paulBug = `<g id="paul-seite"><path d="M300 446 Q318 404 360 398 L430 396 L430 470 L330 470 Q306 462 300 446Z" fill="${P.paul}"${S}/>
+      <path d="M306 428 Q322 404 360 400 L430 398 L430 410 L362 412 Q330 414 310 434Z" fill="${P.rumpf}"${S}/>
+      <path d="M352 398 V378 H430" fill="none" stroke="${P.strich || P.motor}" stroke-width="2.4"/></g>`;
+  const boden = V === 'buch' ? buchSeiteBoden(P) : '';
+  return [
+    {d: 0, svg: himmel, basis: 500, statisch: true},
+    ...(V === 'buch' ? [{d: .05, svg: boden, basis: 500, statisch: true}] : []),
+    {d: .15, svg: masten(P, 262) + haeuser(P, 262, 1, sch), basis: 262},
+    {d: .3, svg: wasserHinten + stegSeite(P, 268) + zapfsaeule(P, 118, 262) + `<g id="hilke" transform="translate(150 262)"><g transform="scale(.74)">${hilke(P)}</g></g>`, basis: 276},
+    {d: .55, svg: `<g id="seite-boot" transform="translate(200 360) scale(1.45)">${friedaSeite(P)}</g>`, basis: 378},
+    {d: .7, svg: wasserMitte, basis: 380, statisch: V !== 'buch'},
+    {d: 1, svg: wasserVorn + paulBug, basis: 470}
+  ];
+}
+function setHeck(V) {
+  const P = PAL[V], S = st(P), sch = V === 'schatten';
+  const himmel = `<rect width="400" height="500" fill="${P.himmel}"/>` + sonne(V) + wolken(P, V);
+  const stegR = `<path d="M300 296 L336 296 L430 470 L360 470Z" fill="${P.steg}"${S}/>` + [0, 1, 2, 3, 4, 5].map(i => { const t = i / 6, y = 300 + t * 168; return `<path d="M${304 + t * 58} ${y} L${336 + t * 92} ${y}" stroke="${P.stegD}" stroke-width="${1 + t * 2}"/>`; }).join('') +
+    zapfsaeule(P, 326, 300, .8);
+  const paul = `<g id="paul-heck">
+      <path d="M118 318 L172 300 L172 384 L118 436Z" fill="${P.paul}"${S}/>
+      <path d="M118 318 L172 300 L172 310 L118 330Z" fill="${P.rumpf}"${S}/>
+      <path d="M-40 318 L118 318 L118 436 Q40 456 -40 446Z" fill="${P.paulD}"${S}/>
+      <path d="M-40 318 L118 318 L118 332 L-40 332Z" fill="${P.rumpf}"${S}/>
+      ${sch ? '' : `<text x="40" y="392" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="${P.rumpf}" letter-spacing="1">ELSE</text>`}
+      <g id="fender" transform="translate(146 372)"><g id="fender-innen"><path d="M0 -44 V-30" stroke="${P.motor}" stroke-width="1.6"/>
+        <rect x="-15" y="-32" width="30" height="66" rx="15" fill="${P.fender}"${S}/>
+        <text transform="rotate(-90)" x="0" y="${sch ? 4 : 3.6}" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="10" letter-spacing=".8" fill="${P.fenderSchrift}">HINNERK</text></g></g>
+    </g>`;
+  if (sch) {
+    const wl = `<rect x="0" y="300" width="400" height="200" fill="url(#sc-wasserlicht)"/>`;
+    return [
+      {d: 0, svg: himmel + wl, basis: 500, statisch: true},
+      {d: .15, svg: masten(P, 296) + haeuser(P, 296, .9, sch), basis: 296},
+      {d: .3, svg: spitzenBand(312, 3, 34, '7,1.2,0', 5) + stegR, basis: 300},
+      {d: .55, svg: `<g id="heck-boot" transform="translate(200 388)">${friedaHeck(P)}</g>`, basis: 410},
+      {d: .7, svg: spitzenBand(404, 6, 54, '-12,3,1.1', 10), basis: 410, statisch: true},
+      {d: 1, svg: paul + `<path d="M-30 340 H110 M-30 352 H110" stroke="${P.loch}" stroke-width="1.6" stroke-dasharray="6 5"/>` + spitzenBand(466, 9, 70, '16,4,2', 50), basis: 470}
+    ];
+  }
+  const w0 = V === 'buch' ? '' : streifen(312, 3, 34, P.wasser[0], V === 'theater' ? P.glanz : null, '7,1.5,0') + '';
+  const w1 = V === 'buch' ? buchWelle(404, P, 'a') : streifen(400, 7, 54, P.wasser[1], V === 'theater' ? P.glanz : null, '-12,3,1.1', sch ? spitzenLoecher(400, 54, P.loch) : '');
+  const w2 = V === 'buch' ? buchWelle(462, P, 'b') : streifen(462, 9, 70, P.wasser[2], V === 'theater' ? P.glanz : null, '16,4,2', sch ? spitzenLoecher(462, 70, P.loch) : '');
+  return [
+    {d: 0, svg: himmel, basis: 500, statisch: true},
+    ...(V === 'buch' ? [{d: .05, svg: buchSeiteBoden(P), basis: 500, statisch: true}] : []),
+    {d: .15, svg: masten(P, 296) + haeuser(P, 296, .9, sch), basis: 296},
+    {d: .3, svg: w0 + stegR, basis: 300},
+    {d: .55, svg: `<g id="heck-boot" transform="translate(200 388)">${friedaHeck(P)}</g>`, basis: 410},
+    {d: .7, svg: w1, basis: 410, statisch: V !== 'buch'},
+    {d: 1, svg: paul + w2, basis: 470}
+  ];
+}
+function setOben(V) {
+  const P = PAL[V], S = st(P), sch = V === 'schatten';
+  let wasser;
+  if (V === 'schatten') wasser = `<rect width="400" height="500" fill="url(#sc-wasserlicht)"/>` + Array.from({length: 26}, (_, i) => `<path d="M${(i * 71) % 400} ${(i * 113) % 500} q10 -5 20 0" stroke="${INK}" stroke-width="1.4" fill="none" opacity=".55" data-welle="${3 + i % 4},0,${i}"/>`).join('');
+  else if (V === 'buch') wasser = `<rect width="400" height="500" fill="#f3ead2"/><rect width="400" height="500" fill="url(#bu-raster)"/>` +
+      [60, 120, 190].map((r, i) => `<path d="M${-20} ${250 + r} Q 120 ${200 + r} 230 ${260 + r * .6} T 430 ${230 + r * .4}" fill="none" stroke="#5f86b0" stroke-width="1" stroke-dasharray="${i === 1 ? '6 4' : '2 3'}" opacity=".7"/>`).join('') +
+      `<text x="22" y="40" font-family="Caveat,cursive" font-size="19" fill="#3b6aa0">Kuttershaven · Tankstelle</text><text x="196" y="300" font-family="Caveat,cursive" font-size="13" fill="#5f86b0" transform="rotate(-6 196 300)">2,5 m</text>`;
+  else wasser = `<rect width="400" height="500" fill="${V === 'glas' ? 'url(#gl-wasser)' : P.obenWasser}"/>` +
+      Array.from({length: 30}, (_, i) => `<path d="M${(i * 71) % 400} ${(i * 113) % 500} q9 -5 18 0" stroke="${P.glanz}" stroke-width="1.6" fill="none" opacity="${V === 'glas' ? .45 : .7}" data-welle="${3 + i % 4},0,${i}"/>`).join('');
+  const steg = (x, y1, y2, w) => `<rect x="${x}" y="${y1}" width="${w}" height="${y2 - y1}" fill="${P.steg}"${S}/>` +
+    Array.from({length: Math.floor((y2 - y1) / 12)}, (_, i) => `<path d="M${x} ${y1 + 12 * i + 6} H${x + w}" stroke="${P.stegD}" stroke-width="1"/>`).join('');
+  const zapf = `<rect x="330" y="160" width="16" height="16" rx="2" fill="${P.zapf}"${S}/>`;
+  const paul = `<g transform="translate(128 392) scale(1.75)"><path d="M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z" fill="${P.paul}"${S || (sch ? '' : ' stroke="#2b4f7c" stroke-width="1.4"')}/>
+      ${sch ? '' : `<path d="M-11 -10 H11 V24 H-11Z" fill="${P.paulDeck}"/>`}<rect x="18" y="-6" width="7" height="18" rx="3.5" fill="${P.fender}"${S}/></g>`;
+  const rad = `<g id="rad" opacity="0"><g id="rad-pos"><path d="M-30 18 H30" stroke="${sch ? INK : '#fff'}" stroke-width="2.2" stroke-dasharray="4 4"/>
+      <g id="rad-dreh"><circle r="16" fill="${sch ? INK : 'rgba(255,255,255,.18)'}" stroke="${sch ? INK : '#fff'}" stroke-width="2.4"/>${[0, 45, 90, 135].map(a => `<path d="M0 0 L0 -15" transform="rotate(${a})" stroke="${sch ? PAL.schatten.loch : '#fff'}" stroke-width="2"/><path d="M0 0 L0 15" transform="rotate(${a})" stroke="${sch ? PAL.schatten.loch : '#fff'}" stroke-width="2"/>`).join('')}</g>
+      <path d="M-22 34 H-48 M-48 34 l8 -6 M-48 34 l8 6" stroke="${sch ? INK : '#ffe08a'}" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="22" y="-2" font-family="${V === 'buch' ? 'Caveat,cursive' : 'Baloo 2,sans-serif'}" font-weight="800" font-size="${V === 'buch' ? 18 : 13}" fill="${sch ? INK : V === 'buch' ? '#8a2a17' : '#ffe08a'}"><tspan x="22">Heck nach</tspan><tspan x="22" dy="1.1em">Backbord</tspan></text></g></g>`;
+  const kiel = `<path id="kiel" d="" fill="none" stroke="${sch ? INK : V === 'buch' ? '#8a2a17' : '#fff'}" stroke-width="2.2" stroke-dasharray="3 5" stroke-linecap="round" opacity=".9"/>`;
+  const extra = V === 'theater' ? `<path d="M40 0 V24 M360 0 V24" stroke="#5e3a1f" stroke-width="2"/><rect x="20" y="20" width="360" height="9" rx="3" fill="#7a4a1e" stroke="#2a1b12" stroke-width="1.4"/>`
+    : V === 'buch' ? `<circle id="klammer" cx="0" cy="0" r="5" fill="#c9a24a" stroke="#6e5420" stroke-width="1.4"/>` : '';
+  return [
+    {d: 0, svg: wasser, basis: 500, statisch: true},
+    {d: .3, svg: steg(320, -10, 520, 34) + steg(36, 300, 520, 30) + zapf + paul, basis: 500},
+    {d: .6, svg: kiel + `<g id="oben-boot">${friedaOben(P)}</g>` + rad + (V === 'buch' ? `<g id="klammer-pos">${extra}</g>` : ''), basis: 500},
+    {d: .9, svg: extra && V === 'theater' ? extra : '', basis: 500, statisch: true}
+  ];
+}
+function buchSeiteBoden(P) {
+  /* Aufklappbuch: unten die liegende Seite (bedrucktes Wasser), oben die stehende Seite, dazwischen der Falz */
+  return `<path d="M-20 290 L420 290 L420 500 L-20 500Z" fill="#f3ead2"/>
+    <path d="M-20 300 L420 300 L420 500 L-20 500Z" fill="url(#bu-schraffur)"/>
+    <path d="M-20 296 L420 296 L420 500 L-20 500Z" fill="#9cc0d6" opacity=".35"/>
+    <rect x="-20" y="276" width="440" height="30" fill="url(#bu-falz)"/>
+    <path d="M58 340 L120 340" stroke="#3b3550" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <path id="schlitz" d="M180 383 L330 383" stroke="#3b3550" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <path d="M0 492 H400 M0 495.5 H400 M0 498.5 H400" stroke="#d8ccb0" stroke-width="1"/>
+    <g id="lasche"><path d="M372 470 L404 470 L404 492 L372 492Z" fill="#d2452f" stroke="#3b3550" stroke-width="1.1"/><text x="380" y="485" font-family="Caveat,cursive" font-size="13" fill="#fff">zieh</text></g>`;
+}
+function buchWelle(y, P, k) {
+  /* Aufklappbuch: stehende Wellenkarte, die leicht schaukelt */
+  let d = `M-20 ${y + 26} L-20 ${y}`;
+  for (let x = -20; x < 440; x += 40) d += ` q10 -12 20 -2 q6 4 10 -6 q4 -4 10 8`;
+  d += ` L440 ${y + 26}Z`;
+  return `<g data-schaukel="${k}" data-py="${y + 26}"><path d="${d}" fill="${P.wasser[k === 'a' ? 1 : 2]}" stroke="${P.strich}" stroke-width="1.1"/><path d="${d}" fill="url(#bu-schraffur)" opacity=".6"/></g>`;
+}
+
+/* Rahmen je Bühne (über den Sets, fest) */
+function deko(V) {
+  if (V === 'theater') return `<svg viewBox="0 0 400 500" preserveAspectRatio="none">
+      <defs><linearGradient id="th-gold" x1="0" x2="1"><stop offset="0" stop-color="#b98a2e"/><stop offset=".5" stop-color="#f1cf6b"/><stop offset="1" stop-color="#a9791f"/></linearGradient>
+      <linearGradient id="th-rot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d1418"/><stop offset="1" stop-color="#b8262a"/></linearGradient></defs>
+      <path d="M0 0 H400 V500 H0Z M26 64 V474 H374 V64 Q200 36 26 64Z" fill="url(#th-gold)" fill-rule="evenodd" stroke="#5e3a1f" stroke-width="2"/>
+      <path d="M26 64 Q200 36 374 64 L374 92 Q330 80 300 96 Q250 78 200 96 Q150 78 100 96 Q70 80 26 92Z" fill="url(#th-rot)" stroke="#4a0c0e" stroke-width="1.5"/>
+      ${[60, 150, 250, 340].map(x => `<path d="M${x} 90 v14" stroke="#e3b552" stroke-width="2"/><circle cx="${x}" cy="108" r="4" fill="#e3b552"/>`).join('')}
+      <path d="M150 12 Q200 2 250 12 L244 30 Q200 22 156 30Z" fill="#7a4a1e"/><text x="200" y="25" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="11" fill="#f1cf6b" letter-spacing="2">FRIEDA</text>
+      <rect x="26" y="474" width="348" height="26" fill="#3a2410"/>
+      ${Array.from({length: 9}, (_, i) => `<ellipse class="rampe" cx="${50 + i * 37.5}" cy="478" rx="9" ry="5" fill="#ffe7a1"/>`).join('')}
+    </svg><div class="rampenlicht" style="position:absolute;left:6%;right:6%;bottom:5%;height:30%;background:radial-gradient(ellipse at 50% 100%,rgba(255,226,150,.28),transparent 70%);mix-blend-mode:screen"></div>`;
+  if (V === 'schatten') return `<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 46%,transparent 52%,rgba(20,10,5,.55) 100%)"></div>
+      <svg viewBox="0 0 400 500" preserveAspectRatio="none" style="position:absolute;inset:0;mix-blend-mode:multiply;opacity:.35"><rect width="400" height="500" filter="url(#korn)"/></svg>
+      <div id="kratzer" style="position:absolute;inset:0"></div>
+      <div style="position:absolute;inset:0;border-radius:16px;box-shadow:inset 0 0 0 10px #0b0807, inset 0 0 26px 14px rgba(0,0,0,.6)"></div>`;
+  if (V === 'glas') return `<div id="nebel" style="position:absolute;inset:0;opacity:.4"></div>
+      <svg viewBox="0 0 400 500" preserveAspectRatio="none" style="position:absolute;inset:0;mix-blend-mode:multiply;opacity:.22"><rect width="400" height="500" filter="url(#korn)"/></svg>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(40,55,60,.35) 100%)"></div>`;
+  return `<div style="position:absolute;inset:0;box-shadow:inset 0 0 0 7px #e9ddc0, inset 0 0 0 8.5px #b8a782, inset 0 0 30px rgba(60,40,10,.25)"></div>
+      <svg viewBox="0 0 400 500" preserveAspectRatio="none" style="position:absolute;inset:0;mix-blend-mode:multiply;opacity:.18"><rect width="400" height="500" filter="url(#korn)"/></svg>`;
+}
+
+/* ============================================================
+   5. Bühnen-Beschreibungen
+   ============================================================ */
+const VAR = {
+  theater: {name: 'Papiertheater', icon: '<path d="M3 23 V5 Q17 0 31 5 V23" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M3 5 Q17 9 31 5 V10 Q17 14 3 10Z" fill="#c0392b"/><path d="M6 21 q3 -3 6 0 t6 0 t6 0 t6 0" fill="none" stroke="#3a7aa4" stroke-width="2"/>',
+    vorbild: 'Vorbild: Papiertheater-Bögen des 19. Jahrhunderts, die Kinder ausschnitten und auf Pappe klebten, und die Wellenwalzen der Barockbühne: bemalte Spiralen, die sich hintereinander drehen.',
+    trick: ['Jede Figur ist ein Ausschneidebogen mit weißem Rand und Schlagschatten.', 'Die Frieda steckt zwischen drei Wellenreihen, die gegeneinander laufen, wie die Walzen in Drottningholm.', 'Wer spricht, wackelt ein wenig, als würde jemand von der Seite am Draht ziehen.'],
+    kamera: 'Seite zu Heck: Die Drehbühne dreht sich, mit Knarzen. Zu oben: Ein gemalter Prospekt fällt vom Schnürboden und pendelt aus.',
+    harms: 'Der Vorhang fällt, Harms tritt davor ins Rampenlicht.', aufwand: 3},
+  schatten: {name: 'Scherenschnitt', icon: '<rect x="2" y="2" width="30" height="22" rx="3" fill="#f4b56d"/><path d="M5 20 q6 -6 12 0 t12 0 V24 H5Z" fill="#151011"/><path d="M12 18 L13 9 L22 9 L25 18Z" fill="#151011"/>',
+    vorbild: 'Vorbild: Lotte Reiniger (ab 1919): schwarze Figuren mit Gelenken vor Licht, Farbe nur im Hintergrund. Dazu der Stummfilm: Irisblende, Zwischentitel, flackerndes Licht.',
+    trick: ['Alles ist schwarz, Fenster und Schrift sind Löcher, durch die das Licht scheint.', 'Bewegung „auf Zweien“: nur zwölf Bilder pro Sekunde für Figuren, das wirkt handgemacht.', 'Licht flackert leicht, ab und zu ein Kratzer über dem Bild.'],
+    kamera: 'Jeder Wechsel ist eine Irisblende: Der Kreis schließt sich auf dem Heck und öffnet sich auf dem nächsten Bild.',
+    harms: 'Das Bild friert ein, Harms erscheint als Zwischentitel wie im Stummfilm.', aufwand: 2},
+  glas: {name: 'Glasebenen', icon: '<rect x="3" y="12" width="20" height="12" fill="#9fb3ae" opacity=".6"/><rect x="8" y="7" width="20" height="12" fill="#c9d6d8" opacity=".7"/><rect x="13" y="2" width="18" height="12" fill="#efe5cf" opacity=".85" stroke="#6f9092"/>',
+    vorbild: 'Vorbild: Juri Norstein, „Der Igel im Nebel“ (1975): ausgeschnittene Figuren auf Glasplatten übereinander, dazwischen dünnes Papier als Nebel.',
+    trick: ['Sechs Ebenen mit eigener Unschärfe: Was nah ist und was fern ist, verschwimmt, die Frieda ist scharf.', 'Nebelbänke ziehen zwischen den Ebenen durch, langsam und jede für sich.', 'Die Kamera atmet: Sie steht nie ganz still, die Ebenen verschieben sich gegeneinander.'],
+    kamera: 'Die Kamera fährt seitlich und taucht in eine Nebelbank, dahinter wartet der neue Blick. Nach oben steigt sie, die nahen Ebenen rutschen schneller weg.',
+    harms: 'Alles wird unscharf, nur Harms wird scharf, als beuge er sich vor die Linse.', aufwand: 4},
+  buch: {name: 'Aufklappbuch', icon: '<path d="M2 14 L17 18 L32 14 V24 L17 26 L2 24Z" fill="#f3ead2" stroke="currentColor" stroke-width="1.4"/><path d="M9 16 V8 L14 6 V17" fill="#c8664c"/><path d="M19 17 V9 L26 8 V15" fill="#93ad84"/>',
+    vorbild: 'Vorbild: Pop-up-Bücher und alte Bewegungsbilderbücher mit Laschen, Drehscheiben und Musterklammern. Das Wasser ist wie ein Stahlstich schraffiert.',
+    trick: ['Alles steht als Karte auf einer aufgeschlagenen Seite und wirft Schatten aufs Papier.', 'Die Frieda fährt in einem Schlitz, unten rechts bewegt sich die Lasche mit.', 'Von oben ist die Seite eine Seekarte. Die Frieda dreht sich um eine Musterklammer am Bug: Genau so wirkt der Radeffekt, der Bug bleibt, das Heck wandert.'],
+    kamera: 'Seite zu Heck: umblättern, die neue Szene klappt auf. Zu oben: Alles klappt flach, und du beugst dich über die Karte.',
+    harms: 'Harms steckt einen Zettel mit Büroklammer ins Buch.', aufwand: 4}
+};
+const STUFEN = {
+  hoeren: 'Nur hören: Bei Smillas Frage sind sechs Sekunden Ruhe zum Nachdenken, dann geht es weiter. Harms beantwortet seine Frage selbst.',
+  sprechen: 'Mitsprechen: Die Szene wartet bei jeder Frage auf deine Antwort. In der App per Zuruf, hier zum Antippen.',
+  haende: 'Mit Händen: wie Mitsprechen, dazu am Kapitelende eine Aufgabe mit der Miniatur-Frieda aus der Kiste.'
+};
+
+/* ============================================================
+   6. Zustand, Aufbau, Darstellung
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const welt = $('#welt'), dekoEl = $('#deko'), ueber = $('#ueber'), denkEl = $('#denk'), ol = $('#ol'), tafel = $('#tafel'), buehne = $('#buehne');
+const reduziert = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let V = 'theater', stufe = 'hoeren', lauf = 0, sprecher = '', kamAktuell = 'seite';
+const NULL = {p: 0, a: 0, go: 0, motor: 0, hx: 150, fender: 0, rad: 0, winken: 0};
+let s = {...NULL};
+let tweens = {};
+let kielPunkte = [];
+const SETS = {};
+
+function lies(k, d) { try { const v = localStorage.getItem('frieda-film-' + k); return v === null ? d : v; } catch (e) { return d; } }
+function merke(k, v) { try { localStorage.setItem('frieda-film-' + k, v); } catch (e) {} }
+
+function bauen() {
+  welt.innerHTML = '';
+  for (const [name, fn] of [['seite', setSeite], ['heck', setHeck], ['oben', setOben]]) {
+    const set = document.createElement('div');
+    set.className = 'set' + (name === kamAktuell ? ' an' : '');
+    set.dataset.set = name;
+    for (const e of fn(V)) {
+      if (!e.svg) continue;
+      const d = document.createElement('div');
+      d.className = 'eb'; d.dataset.d = e.d; d.dataset.basis = e.basis; if (e.statisch) d.dataset.statisch = '1';
+      d.innerHTML = SV(e.svg);
+      if (V === 'glas' && name !== 'oben') { const blur = [2.2, 1.2, .6, 0, .4, 1.5][Math.min(5, Math.round(e.d * 5))]; if (blur) d.style.filter = `blur(${blur}px)`; }
+      if (V === 'theater' && e.d > .1 && e.d < .95 && name !== 'oben') d.querySelector('svg').style.filter = 'url(#schnitt)';
+      if (V === 'buch' && e.d > .1 && !e.statisch) d.querySelector('svg').style.filter = 'url(#karton)';
+      set.appendChild(d);
+    }
+    welt.appendChild(set);
+    SETS[name] = set;
+  }
+  dekoEl.innerHTML = deko(V);
+  buehne.className = 'buehne v-' + V;
+  /* Papiertheater: Bild sitzt im Bühnenrahmen */
+  const innen = $('#innen');
+  innen.style.inset = V === 'theater' ? '12.8% 6.5% 5.2% 6.5%' : '0';
+  innen.style.borderRadius = V === 'theater' ? '0' : '';
+  if (V === 'glas') nebelBauen();
+  teileSammeln();
+  info();
+}
+let TEILE = [], WELLEN = [], SCHAUKEL = [];
+function teileSammeln() {
+  TEILE = [...welt.querySelectorAll('[data-dreh]')].map(el => ({el, art: el.dataset.dreh, wer: el.dataset.wer, px: +el.dataset.px, py: +el.dataset.py, ph: Math.random() * 6}));
+  WELLEN = [...welt.querySelectorAll('[data-welle]')].map(el => { const [sp, amp, ph, per = 0] = el.dataset.welle.split(',').map(Number); return {el, sp, amp, ph, per, basis: el.getAttribute('transform') || ''}; });
+  SCHAUKEL = [...welt.querySelectorAll('[data-schaukel]')].map(el => ({el, k: el.dataset.schaukel, py: +el.dataset.py}));
+}
+function nebelBauen() {
+  const n = $('#nebel'); if (!n) return;
+  n.innerHTML = [[-30, 40, 16], [30, 50, 12], [-10, 62, 10], [45, 30, 9]].map(([l, t, h]) => `<div class="nb" style="position:absolute;left:${l}%;top:${t}%;width:85%;height:${h}%;background:radial-gradient(ellipse at 50% 50%,rgba(244,241,232,.95),rgba(244,241,232,0) 68%)"></div>`).join('');
+}
+
+/* eine Zeitbasis für alles; Scherenschnitt bewegt Figuren „auf Zweien“ */
+let t0 = performance.now();
+function zeichne(now) {
+  const t = (now - t0) / 1000;
+  const tq = V === 'schatten' ? Math.floor(t * 12) / 12 : t;
+  // Übergänge der Werte
+  for (const k in tweens) {
+    const w = tweens[k], u = Math.min(1, (now - w.start) / w.dur), e = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+    s[k] = w.von + (w.zu - w.von) * e;
+    if (u >= 1) delete tweens[k];
+  }
+  const bob = Math.sin(tq * 1.7) * 2.2, roll = Math.sin(tq * 1.25) * 1.3;
+  // Seite: Bug links; rückwärts = nach rechts; Gas voraus = nach links
+  const sb = document.getElementById('seite-boot');
+  if (sb) {
+    const x = 200 + s.p * 62 - s.go * 470;
+    const rueck = V === 'buch' ? 0 : roll;
+    sb.setAttribute('transform', `translate(${x} ${360 + (V === 'buch' ? 0 : bob)}) rotate(${rueck}) scale(1.45)`);
+    const lasche = document.getElementById('lasche'); if (lasche) lasche.setAttribute('transform', `translate(${-(s.p * 20) + s.go * 14} 0)`);
+  }
+  const hi = document.getElementById('hilke');
+  if (hi) { const hop = Math.abs(Math.sin(tq * 7)) * (tweens.hx ? 3 : 0); hi.setAttribute('transform', `translate(${s.hx} ${262 - hop})`); }
+  // Heck: Heck wandert nach links (Backbord), kommt näher
+  const hb = document.getElementById('heck-boot');
+  if (hb) hb.setAttribute('transform', `translate(${262 - s.a * 86} ${388 + bob * .8 + s.p * 10}) rotate(${roll * .8}) scale(${1 + s.p * .16})`);
+  const fi = document.getElementById('fender-innen');
+  if (fi) fi.setAttribute('transform', `rotate(${Math.sin(tq * 2.2) * (2 + s.fender * 6)}) scale(${1 + s.fender * .14})`);
+  // Oben: Drehpunkt nahe am Bug, das Heck schwenkt nach Backbord (links)
+  const ob = document.getElementById('oben-boot');
+  if (ob) {
+    const sk = 1.6, bugX = 282, bugY = 120 + s.p * 66, ang = s.a * 30;
+    const cx = bugX - Math.sin(ang * Math.PI / 180) * -0, cy = bugY;
+    ob.setAttribute('transform', `translate(${cx} ${cy}) rotate(${ang}) translate(0 ${50 * sk}) scale(${sk})`);
+    // Heckposition fürs Kielwasser und das Rad
+    const r = ang * Math.PI / 180, hx = cx - Math.sin(r) * 100 * sk, hy = cy + Math.cos(r) * 100 * sk;
+    if (s.p > .01) { const l = kielPunkte[kielPunkte.length - 1]; if (!l || Math.hypot(l[0] - hx, l[1] - hy) > 3) kielPunkte.push([hx, hy]); }
+    const kiel = document.getElementById('kiel'); if (kiel) kiel.setAttribute('d', kielPunkte.length > 1 ? 'M' + kielPunkte.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L') : '');
+    const rad = document.getElementById('rad');
+    if (rad) { rad.setAttribute('opacity', s.rad.toFixed(2)); document.getElementById('rad-pos').setAttribute('transform', `translate(${hx} ${hy + 30})`); document.getElementById('rad-dreh').setAttribute('transform', `rotate(${-t * 140})`); }
+    const kl = document.getElementById('klammer-pos'); if (kl) kl.setAttribute('transform', `translate(${cx} ${cy + 12})`);
+  }
+  // Blasen am Außenborder
+  for (const id of ['blasen-seite', 'blasen-heck']) {
+    const g = document.getElementById(id); if (!g) continue;
+    g.setAttribute('opacity', s.motor ? 1 : 0);
+    if (s.motor) g.querySelectorAll('.blase').forEach(c => { const i = +c.dataset.i, u = ((t * 1.3 + i * .25) % 1); c.setAttribute('transform', `translate(${(id === 'blasen-seite' ? 1 : 0) * u * 18 + (i % 2 ? 4 : -4)} ${-u * 10})`); c.setAttribute('opacity', (1 - u).toFixed(2)); });
+  }
+  // Teile mit Gelenk
+  for (const p of TEILE) {
+    let w = 0;
+    if (p.art === 'fig') w = sprecher && p.wer === sprecher ? Math.sin(tq * (V === 'theater' ? 22 : 15) + p.ph) * (V === 'glas' ? 1.2 : 2.6) : Math.sin(tq * 1.2 + p.ph) * .5;
+    else if (p.art === 'arm-h') w = Math.sin(tq * .9 + p.ph) * 4 + (sprecher === 'HINNERK' ? Math.sin(tq * 4) * 6 : 0);
+    else if (p.art === 'arm-s') w = sprecher === 'SMILLA' ? -30 + Math.sin(tq * 5) * 14 : 0;
+    else if (p.art === 'arm-hi') w = s.winken ? -95 + Math.sin(tq * 9) * 28 : (sprecher === 'HILKE' ? -20 + Math.sin(tq * 5) * 8 : 0);
+    else if (p.art === 'zopf') w = Math.sin(tq * 2.3 + p.ph) * 7;
+    else if (p.art === 'schwanz') w = Math.sin(tq * 1.6 + p.ph) * 16;
+    p.el.setAttribute('transform', `rotate(${w.toFixed(2)} ${p.px} ${p.py})`);
+  }
+  for (const wv of WELLEN) {
+    const dx = wv.per ? (((t * wv.sp) % wv.per) + wv.per) % wv.per - wv.per : Math.sin(t * .05 + wv.ph) * wv.sp * 6, dy = Math.sin(t * 1.1 + wv.ph) * wv.amp;
+    wv.el.setAttribute('transform', `${wv.basis} translate(${dx.toFixed(1)} ${dy.toFixed(1)})`);
+  }
+  for (const sk of SCHAUKEL) sk.el.setAttribute('transform', `rotate(${(Math.sin(t * 1.4 + (sk.k === 'a' ? 0 : 1.7)) * 2.2).toFixed(2)} 200 ${sk.py})`);
+  // Glas: die Kamera atmet, Nebel zieht
+  if (V === 'glas' && !uebergangLaeuft) {
+    const set = SETS[kamAktuell];
+    if (set) set.querySelectorAll('.eb').forEach(eb => { const d = +eb.dataset.d; eb.style.transform = `translate(${(Math.sin(t * .23) * 6 * d).toFixed(2)}px, ${(Math.cos(t * .17) * 3 * d).toFixed(2)}px)`; });
+    document.querySelectorAll('#nebel .nb').forEach((n, i) => { n.style.transform = `translateX(${Math.sin(t * (.05 + i * .02) + i) * 28}%)`; });
+  }
+  // Scherenschnitt: flackerndes Licht und Kratzer
+  if (V === 'schatten') {
+    welt.style.filter = `brightness(${(1 + (Math.random() - .5) * .05).toFixed(3)})`;
+    const kr = document.getElementById('kratzer');
+    if (kr && Math.random() < .02) { kr.innerHTML = `<div style="position:absolute;top:0;bottom:0;left:${Math.random() * 100}%;width:1px;background:rgba(255,240,210,.5)"></div>`; setTimeout(() => { kr.innerHTML = ''; }, 90); }
+  } else if (!uebergangLaeuft) welt.style.filter = '';
+  if (V === 'theater') document.querySelectorAll('.rampe').forEach((r, i) => r.setAttribute('opacity', (.75 + Math.sin(t * 7 + i * 2.1) * .12 + Math.random() * .1).toFixed(2)));
+  requestAnimationFrame(zeichne);
+}
+function tw(k, zu, dur) { tweens[k] = {von: s[k], zu, dur: Math.max(1, dur), start: performance.now()}; }
+
+/* ============================================================
+   7. Kamerawechsel je Bühne
+   ============================================================ */
+let uebergangLaeuft = false;
+const ani = (el, kf, dur, ease = 'ease-in-out', extra = {}) => el.animate(kf, {duration: reduziert ? Math.min(dur, 200) : dur, easing: ease, fill: 'both', ...extra}).finished;
+const zeige = n => { for (const k in SETS) SETS[k].classList.toggle('an', k === n); };
+const ziele = {seite: [74, 70], heck: [50, 76], oben: [62, 66]};
+
+async function kamera(neu) {
+  if (neu === kamAktuell) return;
+  const alt = kamAktuell, A = SETS[alt], N = SETS[neu];
+  uebergangLaeuft = true;
+  if (neu === 'oben') kielPunkte = [];
+  try {
+    if (reduziert) { await ani(A, [{opacity: 1}, {opacity: 0}], 200); zeige(neu); N.style.opacity = ''; A.getAnimations().forEach(a => a.cancel()); }
+    else if (V === 'theater') await theaterWechsel(A, N, alt, neu);
+    else if (V === 'schatten') await irisWechsel(A, N, alt, neu);
+    else if (V === 'glas') await nebelWechsel(A, N, alt, neu);
+    else await buchWechsel(A, N, alt, neu);
+  } finally { kamAktuell = neu; uebergangLaeuft = false; }
+}
+async function theaterWechsel(A, N, alt, neu) {
+  if (neu === 'oben') {
+    /* Prospekt fällt vom Schnürboden */
+    N.classList.add('an'); N.style.zIndex = 5; TON.seil();
+    await ani(N, [{transform: 'translateY(-108%) rotate(-1.2deg)'}, {transform: 'translateY(3%) rotate(.7deg)', offset: .72}, {transform: 'translateY(-1%) rotate(-.3deg)', offset: .88}, {transform: 'translateY(0) rotate(0)'}], 1500, 'cubic-bezier(.45,.05,.55,.95)');
+    A.classList.remove('an'); N.style.zIndex = '';
+    return;
+  }
+  if (alt === 'oben') {
+    /* Prospekt wird hochgezogen */
+    N.classList.add('an'); N.getAnimations().forEach(a => a.cancel()); A.style.zIndex = 5; TON.seil();
+    await ani(A, [{transform: 'translateY(0)'}, {transform: 'translateY(-110%)'}], 1100, 'ease-in');
+    A.classList.remove('an'); A.style.zIndex = ''; A.getAnimations().forEach(a => a.cancel());
+    return;
+  }
+  /* Drehbühne */
+  TON.knarzen();
+  await ani(A, [{transform: 'rotateY(0deg)', filter: 'brightness(1)'}, {transform: 'rotateY(86deg)', filter: 'brightness(.35)'}], 700, 'ease-in');
+  zeige(neu); A.getAnimations().forEach(a => a.cancel());
+  await ani(N, [{transform: 'rotateY(-86deg)', filter: 'brightness(.35)'}, {transform: 'rotateY(0deg)', filter: 'brightness(1)'}], 760, 'ease-out');
+  N.getAnimations().forEach(a => a.cancel());
+}
+async function irisWechsel(A, N, alt, neu) {
+  const [ax, ay] = ziele[alt], [nx, ny] = ziele[neu];
+  TON.klick();
+  await ani(A, [{clipPath: `circle(80% at ${ax}% ${ay}%)`}, {clipPath: `circle(0% at ${ax}% ${ay}%)`}], 820, 'ease-in');
+  zeige(neu); A.getAnimations().forEach(a => a.cancel());
+  N.style.clipPath = `circle(0% at ${nx}% ${ny}%)`;
+  await new Promise(r => setTimeout(r, 260));
+  await ani(N, [{clipPath: `circle(0% at ${nx}% ${ny}%)`}, {clipPath: `circle(80% at ${nx}% ${ny}%)`}], 900, 'ease-out');
+  N.getAnimations().forEach(a => a.cancel()); N.style.clipPath = '';
+}
+async function nebelWechsel(A, N, alt, neu) {
+  const nb = $('#nebel'); const hoch = neu === 'oben' || alt === 'oben';
+  const ebA = [...A.querySelectorAll('.eb')], ebN = [...N.querySelectorAll('.eb')];
+  const weg = (eb, d) => hoch ? (neu === 'oben' ? `translateY(${(90 * d).toFixed(0)}px) scale(${1 + .12 * d})` : `translateY(${(-60 * d).toFixed(0)}px) scale(${1 - .05 * d})`) : `translateX(${(-150 * d).toFixed(0)}px)`;
+  const her = (eb, d) => hoch ? (neu === 'oben' ? `scale(${1.22 - .05 * d})` : `translateY(${(-80 * d).toFixed(0)}px)`) : `translateX(${(150 * d).toFixed(0)}px)`;
+  TON.wind();
+  await Promise.all([...ebA.map(eb => ani(eb, [{transform: eb.style.transform || 'none'}, {transform: weg(eb, +eb.dataset.d)}], 1300, 'ease-in')),
+    ani(nb, [{opacity: getComputedStyle(nb).opacity}, {opacity: 1}], 1300, 'ease-in')]);
+  zeige(neu); ebA.forEach(eb => { eb.getAnimations().forEach(a => a.cancel()); eb.style.transform = ''; });
+  await Promise.all([...ebN.map(eb => ani(eb, [{transform: her(eb, +eb.dataset.d)}, {transform: 'none'}], 1500, 'ease-out')),
+    ani(nb, [{opacity: 1}, {opacity: neu === 'oben' ? .2 : .4}], 1500, 'ease-out')]);
+  ebN.forEach(eb => { eb.getAnimations().forEach(a => a.cancel()); eb.style.transform = ''; });
+  nb.getAnimations().forEach(a => a.cancel()); nb.style.opacity = neu === 'oben' ? .2 : .4;
+}
+async function aufklappen(set, an = true) {
+  const ebs = [...set.querySelectorAll('.eb')].filter(e => !e.dataset.statisch);
+  const reihe = an ? ebs : ebs.slice().reverse();
+  await Promise.all(reihe.map((eb, i) => { eb.style.transformOrigin = `50% ${(+eb.dataset.basis / 5).toFixed(1)}%`;
+    return ani(eb, an ? [{transform: 'scaleY(0.02)'}, {transform: 'scaleY(1.06)', offset: .7}, {transform: 'scaleY(1)'}] : [{transform: 'scaleY(1)'}, {transform: 'scaleY(0.02)'}], an ? 620 : 420, an ? 'ease-out' : 'ease-in', {delay: i * 90}); }));
+  if (an) ebs.forEach(eb => eb.getAnimations().forEach(a => a.cancel()));
+}
+async function buchWechsel(A, N, alt, neu) {
+  if (neu === 'oben') {
+    TON.rascheln(); await aufklappen(A, false);
+    zeige(neu); A.querySelectorAll('.eb').forEach(eb => { eb.getAnimations().forEach(a => a.cancel()); });
+    await ani(N, [{transform: 'rotateX(48deg) scale(.86)', opacity: .2}, {transform: 'rotateX(0) scale(1)', opacity: 1}], 1100, 'ease-out');
+    N.getAnimations().forEach(a => a.cancel());
+    return;
+  }
+  if (alt === 'oben') {
+    await ani(A, [{transform: 'none', opacity: 1}, {transform: 'rotateX(40deg) scale(.9)', opacity: 0}], 700, 'ease-in');
+    zeige(neu); A.getAnimations().forEach(a => a.cancel());
+    TON.rascheln(); await aufklappen(N, true);
+    return;
+  }
+  /* umblättern: die alte Seite dreht sich um den linken Rand weg, darunter liegt schon die neue */
+  N.classList.add('an'); N.querySelectorAll('.eb').forEach(eb => { if (!eb.dataset.statisch) { eb.style.transformOrigin = `50% ${(+eb.dataset.basis / 5).toFixed(1)}%`; eb.style.transform = 'scaleY(0.02)'; } });
+  A.style.zIndex = 5; A.style.transformOrigin = '0% 50%'; TON.rascheln();
+  await ani(A, [{transform: 'rotateY(0deg)', filter: 'brightness(1)'}, {transform: 'rotateY(-100deg)', filter: 'brightness(.55)'}], 950, 'cubic-bezier(.5,0,.6,1)');
+  A.classList.remove('an'); A.style.zIndex = ''; A.style.transformOrigin = ''; A.getAnimations().forEach(a => a.cancel());
+  await aufklappen(N, true);
+  N.querySelectorAll('.eb').forEach(eb => { eb.style.transform = ''; });
+}
+
+/* ============================================================
+   8. Auftakt, Harms, Kiste, Ende je Bühne
+   ============================================================ */
+function harmsSvg(gross = 84) { const P = PAL[V]; return `<svg class="harmsbild" viewBox="0 0 122 122" width="${gross}" height="${gross}">${V === 'schatten' ? `<circle cx="61" cy="61" r="60" fill="#f3e7cf"/>` : V === 'glas' ? `<circle cx="61" cy="61" r="60" fill="rgba(255,255,255,.5)"/>` : ''}${harmsBuste(P)}</svg>`; }
+
+async function auftakt(id, mitHarms) {
+  const sprich = mitHarms ? sag('HARMS', RUECKBLICK, id) : warte(1600);
+  if (V === 'theater') {
+    ueber.innerHTML = `<div id="vorhang" style="position:absolute;inset:12.8% 6.5% 5.2% 6.5%;display:flex;overflow:hidden">
+        <div class="vh" style="flex:1;background:repeating-linear-gradient(90deg,#8d171b 0 14px,#b8262a 14px 26px,#7a1216 26px 32px)"></div>
+        <div class="vh" style="flex:1;background:repeating-linear-gradient(90deg,#8d171b 0 14px,#b8262a 14px 26px,#7a1216 26px 32px)"></div></div>
+      <div id="vorText" style="position:absolute;left:0;right:0;top:44%;text-align:center;color:#f1cf6b;font:800 28px var(--hfont);text-shadow:0 2px 0 #4a0c0e">Leise raus</div>
+      ${mitHarms ? `<svg id="harmsFig" viewBox="0 0 120 120" style="position:absolute;left:28%;bottom:4%;width:44%;filter:url(#schnitt)"><g transform="translate(60 118) scale(1.35)">${harmsFigur(PAL.theater)}</g><path d="M60 0 V18" stroke="#c9a24a" stroke-width="1"/></svg>` : ''}`;
+    const hf = $('#harmsFig'); if (hf) ani(hf, [{transform: 'translateX(-140%)'}, {transform: 'translateX(0)'}], 900, 'ease-out');
+    await sprich;
+    if (lauf !== id && id !== -1) return;
+    if (hf) await ani(hf, [{transform: 'translateX(0)'}, {transform: 'translateX(160%)'}], 700, 'ease-in');
+    if (lauf !== id && id !== -1) return;
+    $('#vorText').remove();
+    const [l, r] = ueber.querySelectorAll('.vh');
+    TON.rascheln();
+    await Promise.all([ani(l, [{transform: 'translateX(0) scaleX(1)'}, {transform: 'translateX(-62%) scaleX(.25)'}], 1500, 'ease-in-out'), ani(r, [{transform: 'translateX(0) scaleX(1)'}, {transform: 'translateX(62%) scaleX(.25)'}], 1500, 'ease-in-out')]);
+    if (lauf !== id && id !== -1) return;
+    ueber.querySelector('#vorhang').style.pointerEvents = 'none';
+  } else if (V === 'schatten') {
+    zeigeTafel(`<div class="kopf">${mitHarms ? harmsSvg(96) : ''}<h4>${mitHarms ? 'Was bisher geschah' : 'Leise raus'}</h4></div><p>${mitHarms ? 'erzählt von Kapitän Harms' : 'Kuttershaven, später Vormittag'}</p>`);
+    SETS.seite.style.clipPath = 'circle(0% at 50% 60%)';
+    await sprich; await warte(400);
+    if (lauf !== id && id !== -1) return;
+    verbergeTafel();
+    await ani(SETS.seite, [{clipPath: 'circle(0% at 50% 60%)'}, {clipPath: 'circle(80% at 50% 60%)'}], 1400, 'ease-out');
+    if (lauf !== id && id !== -1) return;
+    SETS.seite.getAnimations().forEach(a => a.cancel()); SETS.seite.style.clipPath = '';
+  } else if (V === 'glas') {
+    const nb = $('#nebel'); nb.style.opacity = 1;
+    ueber.innerHTML = `<div id="glasTitel" style="position:absolute;left:0;right:0;top:38%;text-align:center;font:700 30px var(--hfont);color:#3d5568;opacity:.85;letter-spacing:.02em">Leise raus</div>` +
+      (mitHarms ? `<div id="glasHarms" style="position:absolute;left:50%;bottom:6%;transform:translateX(-50%);opacity:.0">${harmsSvg(130)}</div>` : '');
+    const gh = $('#glasHarms'); if (gh) ani(gh, [{opacity: 0, filter: 'blur(8px)'}, {opacity: .9, filter: 'blur(0)'}], 1800, 'ease-out');
+    await sprich;
+    if (lauf !== id && id !== -1) return;
+    await Promise.all([ani(nb, [{opacity: 1}, {opacity: .4}], 2600, 'ease-out'), ani($('#glasTitel'), [{opacity: .85}, {opacity: 0}], 1600), gh ? ani(gh, [{opacity: .9}, {opacity: 0, filter: 'blur(10px)'}], 1600) : null]);
+    if (lauf !== id && id !== -1) return;
+    nb.getAnimations().forEach(a => a.cancel()); nb.style.opacity = .4;
+    ueber.innerHTML = '';
+  } else {
+    ueber.innerHTML = `<div id="deckel" style="position:absolute;inset:0;transform-origin:50% 0;background:#2f4f66 repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 2px,transparent 2px 6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:inset 0 0 0 10px #284458, inset 0 0 0 12px #c9a24a">
+        <div style="font:800 15px var(--hfont);letter-spacing:.3em;color:#c9a24a">DIE REISE DER</div>
+        <div style="font:800 46px var(--hfont);color:#e8c766;line-height:1">Frieda</div>
+        <div style="font:700 14px var(--bfont);color:#c9a24a">Tag 1 · Leise raus</div>
+        ${mitHarms ? `<div id="zettelH" style="margin-top:16px;background:#fbf3d9;color:#2b2a3a;font:600 21px/1.05 var(--hand);padding:10px 14px;transform:rotate(-3deg);box-shadow:1px 4px 10px rgba(0,0,0,.35);max-width:72%">Was bisher geschah …<br><span style="font-size:16px">K. Harms</span></div>` : ''}
+      </div>`;
+    SETS.seite.querySelectorAll('.eb').forEach(eb => { if (!eb.dataset.statisch) { eb.style.transformOrigin = `50% ${(+eb.dataset.basis / 5).toFixed(1)}%`; eb.style.transform = 'scaleY(0.02)'; } });
+    await sprich;
+    if (lauf !== id && id !== -1) return;
+    TON.rascheln();
+    await ani($('#deckel'), [{transform: 'perspective(900px) rotateX(0deg)'}, {transform: 'perspective(900px) rotateX(-100deg)'}], 1200, 'ease-in-out');
+    if (lauf !== id && id !== -1) return;
+    ueber.innerHTML = '';
+    await aufklappen(SETS.seite, true);
+    if (lauf !== id && id !== -1) return;
+    SETS.seite.querySelectorAll('.eb').forEach(eb => { eb.style.transform = ''; });
+  }
+}
+
+function zeigeTafel(html) { tafel.innerHTML = html; ol.hidden = false; if (!reduziert) tafel.animate([{opacity: 0, transform: (V === 'buch' ? 'rotate(-1.6deg) ' : '') + 'translateY(-14px)'}, {opacity: 1, transform: (V === 'buch' ? 'rotate(-1.6deg) ' : '') + 'translateY(0)'}], {duration: 380, easing: 'ease-out'}); }
+function verbergeTafel() { ol.hidden = true; tafel.innerHTML = ''; }
+
+async function einfrieren(an) {
+  if (V === 'theater') {
+    const vh = ueber.querySelectorAll('.vh');
+    if (vh.length) await Promise.all([...vh].map((v, i) => ani(v, an ? [{transform: `translateX(${i ? 62 : -62}%) scaleX(.25)`}, {transform: 'translateX(0) scaleX(1)'}] : [{transform: 'translateX(0) scaleX(1)'}, {transform: `translateX(${i ? 62 : -62}%) scaleX(.25)`}], 1100, 'ease-in-out')));
+    TON.rascheln();
+  } else if (V === 'schatten') {
+    await ani(welt, an ? [{filter: 'brightness(1) sepia(0)'}, {filter: 'brightness(.3) sepia(.6)'}] : [{filter: 'brightness(.3) sepia(.6)'}, {filter: 'brightness(1) sepia(0)'}], 700);
+    if (!an) welt.getAnimations().forEach(a => a.cancel());
+  } else if (V === 'glas') {
+    await ani(welt, an ? [{filter: 'blur(0) saturate(1)'}, {filter: 'blur(5px) saturate(.4)'}] : [{filter: 'blur(5px) saturate(.4)'}, {filter: 'blur(0) saturate(1)'}], 900);
+    if (!an) welt.getAnimations().forEach(a => a.cancel());
+  } else {
+    await ani(welt, an ? [{filter: 'brightness(1)'}, {filter: 'brightness(.82) saturate(.7)'}] : [{filter: 'brightness(.82) saturate(.7)'}, {filter: 'brightness(1)'}], 500);
+    if (!an) welt.getAnimations().forEach(a => a.cancel());
+  }
+}
+
+async function harmsAuftritt(id) {
+  await einfrieren(true);
+  if (lauf !== id) return;
+  const F = HARMSFRAGE, L = ['A', 'B', 'C', 'D'];
+  const interaktiv = stufe !== 'hoeren';
+  zeigeTafel(`<div class="kopf">${harmsSvg(V === 'schatten' ? 58 : 64)}<div><h4>Halt. Prüfungsfrage.</h4><p style="font-size:13px;opacity:.75">Kapitän Harms · Frage ${F.nr} aus dem amtlichen Katalog</p></div></div>
+    <p>${F.q}</p><div class="ant">${F.a.map((a, i) => `<button type="button" data-i="${i}"${interaktiv ? '' : ' tabindex="-1"'}><b>${L[i]}</b><span>${a}</span></button>`).join('')}</div>`);
+  const knoepfe = [...tafel.querySelectorAll('.ant button')];
+  /* früher Tipp zählt: die Stimme verstummt, die Antwort gilt */
+  const wahlP = interaktiv ? new Promise(r => knoepfe.forEach(b => b.onclick = () => { knoepfe.forEach(k => k.onclick = null); stillSein(); r(+b.dataset.i); })) : null;
+  await Promise.race([sag('HARMS', 'Halt. Stopp. Eine Frage aus der Prüfung. ' + F.q, id), wahlP].filter(Boolean));
+  if (lauf !== id) return;
+  if (!interaktiv) {
+    await sag('HARMS', F.a.map((a, i) => ['Alfa', 'Bravo', 'Charlie', 'Delta'][i] + ': ' + a).join(' '), id);
+    await denkpause(6, id);
+    knoepfe[F.richtig].classList.add('richtig');
+    await sag('HARMS', 'Richtig ist Bravo. Das Heck dreht nach Backbord. Weiter.', id);
+  } else {
+    const wahl = await wahlP;
+    if (lauf !== id) return;
+    knoepfe[F.richtig].classList.add('richtig');
+    if (wahl !== F.richtig) knoepfe[wahl].classList.add('falsch');
+    await sag('HARMS', wahl === F.richtig ? 'Gut. Weiter.' : 'Falsch. Das Heck dreht nach Backbord. Merken. Weiter.', id);
+  }
+  await warte(500);
+  verbergeTafel();
+  await einfrieren(false);
+}
+async function kisteAuftritt(id, mitHarms) {
+  await einfrieren(true);
+  if (lauf !== id) return;
+  zeigeTafel(`<div class="kopf">${mitHarms ? harmsSvg(64) : ''}<h4>Jetzt du, mit der Kiste</h4></div><p>${KISTE}</p>
+    <div class="reihe"><button type="button" id="kErledigt">Erledigt</button><button type="button" id="kSpaeter">Später</button></div>`);
+  const fertig = new Promise(r => { $('#kErledigt').onclick = () => r(1); $('#kSpaeter').onclick = () => r(0); });
+  sag(mitHarms ? 'HARMS' : 'SMILLA', KISTE, id);
+  await fertig;
+  stillSein();
+  if (lauf !== id) return;
+  verbergeTafel();
+  await einfrieren(false);
+}
+async function denkFrage(b, id) {
+  if (stufe === 'hoeren') { await denkpause(6, id); return; }
+  denkEl.innerHTML = b.wahl.map((w, i) => `<button type="button" data-i="${i}">${w}</button>`).join('');
+  denkEl.hidden = false;
+  const knoepfe = [...denkEl.querySelectorAll('button')];
+  const i = await new Promise(r => knoepfe.forEach(k => k.onclick = () => r(+k.dataset.i)));
+  if (lauf !== id) return;
+  knoepfe.forEach((k, j) => { k.style.opacity = j === b.richtig ? 1 : .45; if (j === b.richtig) k.textContent = '✓ ' + k.textContent; });
+  await warte(900);
+  denkEl.hidden = true;
+}
+async function denkpause(sek, id) {
+  denkEl.innerHTML = `<div class="sand" aria-label="Denkpause">${Array.from({length: sek}, () => '<i></i>').join('')}</div>`;
+  denkEl.hidden = false;
+  const punkte = denkEl.querySelectorAll('i');
+  for (let i = 0; i < sek && lauf === id; i++) { punkte[i].classList.add('an'); TON.tick(); await warte(1000); }
+  denkEl.hidden = true;
+}
+async function ende(id) {
+  await einfrieren(true);
+  if (lauf !== id) return;
+  zeigeTafel(`<h4>${V === 'schatten' ? 'Ende des ersten Akts' : 'Das nimmst du mit'}</h4>${MITNEHMEN.map(m => `<p>• ${m}</p>`).join('')}
+    <div class="reihe"><button type="button" id="eNochmal">Nochmal</button><button type="button" id="eAndere">Andere Bühne</button></div>`);
+  $('#eNochmal').onclick = () => starten();
+  $('#eAndere').onclick = () => { const k = Object.keys(VAR), n = k[(k.indexOf(V) + 1) % k.length]; waehle(n); starten(); };
+}
+
+/* ============================================================
+   9. Stimme (Gratis-Stimme des Geräts) und Geräusche
+   ============================================================ */
+const STIMME = {HINNERK: {pitch: .72, rate: .92}, SMILLA: {pitch: 1.32, rate: 1.06}, HILKE: {pitch: 1.08, rate: 1.0}, HARMS: {pitch: .55, rate: .9}};
+const NAMEN = {HINNERK: 'Hinnerk', SMILLA: 'Smilla', HILKE: 'Hilke, Hafenmeisterin', HARMS: 'Kapitän Harms'};
+let stimmeDe = null;
+function stimmeSuchen() { const v = (window.speechSynthesis && speechSynthesis.getVoices()) || []; stimmeDe = v.find(x => /^de(-|_)DE/i.test(x.lang) && /google/i.test(x.name)) || v.find(x => /^de/i.test(x.lang)) || null; }
+if (window.speechSynthesis) { stimmeSuchen(); speechSynthesis.onvoiceschanged = stimmeSuchen; }
+const warte = ms => new Promise(r => setTimeout(r, ms));
+function untertitel(wer, text) { $('#utWer').textContent = wer ? NAMEN[wer] : ' '; $('#utWer').className = wer ? 'wer-' + wer : ''; $('#utText').textContent = text || ''; }
+function stillSein() { try { speechSynthesis.cancel(); } catch (e) {} sprecher = ''; }
+function sag(wer, text, id, opt = {}) {
+  return new Promise(res => {
+    if (lauf !== id) return res();
+    sprecher = wer; untertitel(wer, text);
+    const schaetz = Math.max(1400, text.length * 68 / (STIMME[wer].rate || 1));
+    let fertig = false;
+    const done = () => { if (fertig) return; fertig = true; if (sprecher === wer) sprecher = ''; res(); };
+    if (window.speechSynthesis && stimmeDe !== undefined) {
+      try {
+        const u = new SpeechSynthesisUtterance(text.replace(/[„“"]/g, ''));
+        u.lang = 'de-DE'; if (stimmeDe) u.voice = stimmeDe;
+        u.pitch = STIMME[wer].pitch; u.rate = STIMME[wer].rate * (opt.leise ? .92 : 1); u.volume = opt.leise ? .75 : 1;
+        u.onend = () => setTimeout(done, 250); u.onerror = () => setTimeout(done, schaetz);
+        speechSynthesis.speak(u);
+        setTimeout(done, schaetz * 2.2 + 2500);
+        return;
+      } catch (e) {}
+    }
+    setTimeout(done, schaetz);
+  });
+}
+const TON = (() => {
+  let ctx = null, master = null, wasser = null, motorG = null;
+  const an = () => $('#ton').checked;
+  function init() {
+    if (ctx) { ctx.resume(); return; }
+    try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+    master = ctx.createGain(); master.gain.value = an() ? .9 : 0; master.connect(ctx.destination);
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate), d = buf.getChannelData(0); let l = 0;
+    for (let i = 0; i < d.length; i++) { l = (l + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = l * 3.2; }
+    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700;
+    wasser = ctx.createGain(); wasser.gain.value = .16;
+    const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = .18; lg.gain.value = .07; lfo.connect(lg).connect(wasser.gain); lfo.start();
+    src.connect(lp).connect(wasser).connect(master); src.start();
+    const m = ctx.createOscillator(); m.type = 'sawtooth'; m.frequency.value = 52;
+    const mlp = ctx.createBiquadFilter(); mlp.type = 'lowpass'; mlp.frequency.value = 260;
+    motorG = ctx.createGain(); motorG.gain.value = 0;
+    const tuck = ctx.createOscillator(), tg = ctx.createGain(); tuck.frequency.value = 7; tg.gain.value = .5;
+    const am = ctx.createGain(); am.gain.value = .5; tuck.connect(tg).connect(am.gain); tuck.start();
+    m.connect(mlp).connect(am).connect(motorG).connect(master); m.start();
+    setInterval(moewe, 9000);
+  }
+  function rausch(dauer, f, q, vol, typ = 'bandpass', sweep) {
+    if (!ctx || !an()) return;
+    const n = ctx.createBufferSource(), b = ctx.createBuffer(1, ctx.sampleRate * dauer, ctx.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    n.buffer = b; const bp = ctx.createBiquadFilter(); bp.type = typ; bp.frequency.value = f; bp.Q.value = q;
+    if (sweep) bp.frequency.exponentialRampToValueAtTime(sweep, ctx.currentTime + dauer);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, ctx.currentTime); g.gain.linearRampToValueAtTime(vol, ctx.currentTime + dauer * .2); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + dauer);
+    n.connect(bp).connect(g).connect(master); n.start();
+  }
+  function ton(f, dauer, vol, typ = 'sine', f2) {
+    if (!ctx || !an()) return;
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = typ; o.frequency.value = f;
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, ctx.currentTime + dauer);
+    g.gain.setValueAtTime(vol, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.0005, ctx.currentTime + dauer);
+    o.connect(g).connect(master); o.start(); o.stop(ctx.currentTime + dauer);
+  }
+  function moewe() { if (!ctx || !an() || kamAktuell === 'oben' || !lauf) return; ton(1900, .22, .05, 'triangle', 1200); setTimeout(() => ton(2000, .28, .05, 'triangle', 1150), 260); }
+  return {
+    init, an,
+    stumm(st) { if (master) master.gain.value = st ? 0 : .9; },
+    motor(v) { if (motorG) motorG.gain.setTargetAtTime(v ? .07 : 0, ctx.currentTime, .3); },
+    glocke() { [660, 1321, 1985].forEach((f, i) => ton(f, 1.8 - i * .4, .12 / (i + 1))); setTimeout(() => [660, 1321, 1985].forEach((f, i) => ton(f, 1.8 - i * .4, .12 / (i + 1))), 420); },
+    knarzen() { rausch(.7, 380, 9, .25, 'bandpass', 900); },
+    seil() { rausch(1.1, 1600, 1, .08, 'bandpass', 600); },
+    rascheln() { rausch(.45, 3200, .7, .18, 'highpass'); },
+    klick() { for (let i = 0; i < 10; i++) setTimeout(() => rausch(.03, 2400, 2, .1), i * 55); },
+    wind() { rausch(1.8, 500, .6, .12, 'bandpass', 1200); },
+    tick() { ton(1600, .05, .05, 'square'); }
+  };
+})();
+
+/* ============================================================
+   10. Ablauf
+   ============================================================ */
+function zuruecksetzen() {
+  lauf++; stillSein(); tweens = {}; s = {...NULL}; kielPunkte = []; kamAktuell = 'seite';
+  ueber.innerHTML = ''; verbergeTafel(); denkEl.hidden = true; welt.getAnimations().forEach(a => a.cancel()); welt.style.filter = '';
+  TON.motor(0);
+  bauen();
+}
+async function starten() {
+  zuruecksetzen();
+  const id = lauf;
+  $('#startKnopf').hidden = true;
+  TON.init(); TON.stumm(!$('#ton').checked);
+  const mitHarms = $('#harms').checked;
+  try {
+    for (const b of DREHBUCH) {
+      if (lauf !== id) return;
+      if (b.art === 'auftakt') { await auftakt(id, mitHarms); continue; }
+      if (b.art === 'denk') { await denkFrage(b, id); continue; }
+      if (b.art === 'harms') { if (mitHarms) await harmsAuftritt(id); continue; }
+      if (b.art === 'haende') { if (stufe === 'haende') await kisteAuftritt(id, mitHarms); continue; }
+      if (b.art === 'mitnehmen') { untertitel('', ''); await ende(id); return; }
+      if (b.kam) await kamera(b.kam);
+      if (lauf !== id) return;
+      if (b.tu) for (const [k, [zu, dur]] of Object.entries(b.tu)) { tw(k, zu, dur); if (k === 'motor') TON.motor(zu); }
+      if (b.glocke) { TON.glocke(); await warte(1400); }
+      const min = b.dauer ? warte(b.dauer) : null;
+      await sag(b.wer, b.t, id, {leise: b.leise});
+      if (min) await min;
+      await warte(320);
+    }
+  } catch (e) { console.error(e); }
+}
+
+/* ============================================================
+   11. Bedienung
+   ============================================================ */
+function info() {
+  const v = VAR[V];
+  $('#info').innerHTML = `<span class="eyebrow">Diese Bühne</span><h2>${v.name}</h2><p class="vorbild">${v.vorbild}</p>
+    <h3>Der Trick</h3><ul>${v.trick.map(t => `<li>${t}</li>`).join('')}</ul>
+    <h3>Kamerawechsel</h3><p>${v.kamera}</p>
+    <h3>Harms hält an</h3><p>${v.harms}</p>
+    <p class="klein">Aufwand je Folge in der App: <span class="punkte" aria-label="${v.aufwand} von 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= v.aufwand ? 'v' : ''}"></i>`).join('')}</span></p>`;
+}
+function chips() {
+  $('#chips').innerHTML = Object.entries(VAR).map(([k, v]) => `<button type="button" class="chip" data-v="${k}" aria-pressed="${k === V}"><svg viewBox="0 0 34 26" aria-hidden="true">${v.icon}</svg>${v.name}</button>`).join('');
+  $('#chips').querySelectorAll('.chip').forEach(c => c.onclick = () => { waehle(c.dataset.v); });
+}
+function waehle(v) {
+  V = v; merke('buehne', v);
+  $('#chips').querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.v === v));
+  zuruecksetzen(); $('#startKnopf').hidden = false; untertitel('', 'Tippe auf Abspielen. Am Handy: Ton an.');
+}
+$('#stufe').querySelectorAll('button').forEach(b => b.onclick = () => {
+  stufe = b.dataset.s; merke('stufe', stufe);
+  $('#stufe').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#stufeText').textContent = STUFEN[stufe];
+});
+$('#untertitel').onchange = e => $('#ut').classList.toggle('aus', !e.target.checked);
+$('#ton').onchange = e => TON.stumm(!e.target.checked);
+$('#startKnopf').onclick = starten;
+$('#neu').onclick = starten;
+$('#halt').onclick = () => { zuruecksetzen(); $('#startKnopf').hidden = false; untertitel('', 'Angehalten.'); };
+
+V = VAR[lies('buehne', 'theater')] ? lies('buehne', 'theater') : 'theater';
+stufe = STUFEN[lies('stufe', 'hoeren')] ? lies('stufe', 'hoeren') : 'hoeren';
+$('#stufe').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.dataset.s === stufe));
+$('#stufeText').textContent = STUFEN[stufe];
+chips(); bauen();
+requestAnimationFrame(zeichne);
+/* Testzugang für die Bildprüfung */
+window.FILM = {probe: (was) => { zuruecksetzen(); const id = lauf; $('#startKnopf').hidden = true; if (was === 'auftakt') auftakt(id, true); if (was === 'harms') harmsAuftritt(id); if (was === 'kiste') kisteAuftritt(id, true); if (was === 'ende') ende(id); if (was === 'denk') { stufe = 'sprechen'; denkFrage(DREHBUCH[7], id); } }, waehle, kamera: n => kamera(n), setze: o => Object.assign(s, o), get zustand() { return {V, kamAktuell, s}; }, auftaktBild: () => auftakt(-1, true)};
+})();
+</script>
