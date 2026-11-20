@@ -75,7 +75,7 @@ function css() {
   #werft2 .wverw{background:rgba(243,231,201,.12);color:#f3e7c9}#werft2 .wueb{background:#e8a33a;color:#2a1c0e}#werft2 .wueb[disabled]{opacity:.45}
   #werft2 .rt{font:700 9px Nunito,sans-serif;fill:#f3e7c9;text-anchor:middle;pointer-events:none}#werft2 .rt.on{fill:#ffd27a}#werft2 .ri{font-size:17px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
   #werft2 .ot{font:800 10px Nunito,sans-serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-  #werft2 [hidden]{display:none!important}
+  #werft2 [hidden]{display:none!important}#werft2 textarea{touch-action:auto}
   :root[data-platz-hl] .fr .platz .pmark{display:none}` +
     ['bug', 'dach', 'mast', 'ueber', 'steuer', 'heck', 'spiegel', 'bordwand'].map(p => `:root[data-platz-hl="${p}"] .fr .platz[data-platz="${p}"] .pmark{display:inline}`).join('');
   document.head.appendChild(s);
@@ -206,6 +206,29 @@ function radBedienung(svg) {
 }
 let tickT = 0; function tick() { const n = performance.now(); if (n - tickT > 40) { tickT = n; try { navigator.vibrate && navigator.vibrate(3); } catch (e) {} } }
 
+/* Einstellungen als Text zum Kopieren (Nutzer 20.11.2026: „als Text für dich hier reinkopieren“): lesbare Zeilen plus die Rohdaten (JSON) */
+function exportText() {
+  const l = look(), B = window.BOOT, F = window.FIGUREN, z = [];
+  z.push(`Skipper Werft (v${window.__ver || '?'}), Stand ${new Date().toISOString().slice(0, 16).replace('T', ' ')}${geaendert ? ', mit noch nicht übernommenen Änderungen' : ''}`);
+  z.push(`Name am Heck: ${(S.boat && S.boat.name) || 'FRIEDA'}`);
+  z.push(`Zeichenstil: ${l.stil || 'feder'}   Glas der Filmbühne: ${l.glas || 'weich'}`);
+  z.push('Boot-Farben: ' + (['rumpf', 'streifen', 'unterwasser', 'dach', 'schrift'].map(k => `${k} ${l.farben['--frieda-' + k] || B.farben[k] + ' (Standard)'}`).join(', ')));
+  z.push('Plätze: ' + Object.entries(B.PLAETZE).map(([pn, p]) => `${p.name} = ${B.belegt(pn) ? B.TEILE[B.belegt(pn)].name : 'leer'}`).join('; '));
+  z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
+  z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
+  const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
+  z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));
+  return z.join('\n');
+}
+async function kopieren() {
+  const t = exportText(); let ok = false;
+  try { await navigator.clipboard.writeText(t); ok = true; } catch (e) {}
+  if (ok) { try { toast('Kopiert. Jetzt bei Claude einfügen.'); } catch (e) {} return; }
+  /* ohne Zwischenablage: Text zum Markieren zeigen */
+  const f = document.createElement('div'); f.style.cssText = 'position:absolute;inset:0;z-index:20;background:#1b2a33;padding:calc(16px + env(safe-area-inset-top,0px)) 14px 14px;display:flex;flex-direction:column;gap:8px';
+  f.innerHTML = `<b>Text markieren, kopieren und bei Claude einfügen:</b><textarea readonly style="flex:1;font:12px monospace;border-radius:10px;padding:8px;user-select:text;-webkit-user-select:text">${esc(t)}</textarea><button class="wueb" style="padding:12px;border-radius:14px;border:0;font:800 1em inherit;background:#e8a33a;color:#2a1c0e">Fertig</button>`;
+  W.appendChild(f); const ta = f.querySelector('textarea'); ta.style.touchAction = 'auto'; ta.focus(); ta.select(); f.querySelector('button').onclick = () => f.remove();
+}
 function schliessen(uebernehmen) {
   if (uebernehmen) { try { save(); } catch (e) {} try { toast('Übernommen. Gilt jetzt überall.'); } catch (e) {} }
   else if (alt) { S.cfg.look = alt.look; if (alt.name === undefined) { if (S.boat) delete S.boat.name; } else S.boat = {...(S.boat || {}), name: alt.name}; }
@@ -220,7 +243,7 @@ async function oeffnen(start) {
   alt = {look: JSON.parse(JSON.stringify((S.cfg && S.cfg.look) || {})), name: S.boat ? S.boat.name : undefined};
   themen = themenBauen(); geaendert = 0;
   W = document.createElement('div'); W.id = 'werft2';
-  W.innerHTML = `<div class="wkopf"><b>⚓ Werft</b><button class="wx" id="whilfe" aria-label="Hilfe">?</button><button class="wx" id="wzu" aria-label="Schließen">✕</button></div>
+  W.innerHTML = `<div class="wkopf"><b>⚓ Werft</b><button class="wx" id="wkop" aria-label="Einstellungen kopieren" title="Einstellungen als Text kopieren">📋</button><button class="wx" id="whilfe" aria-label="Hilfe">?</button><button class="wx" id="wzu" aria-label="Schließen">✕</button></div>
     <div class="wbuehne"><div class="wfilm"></div><div class="wcrew" hidden></div><button class="wauge" id="wauge" aria-pressed="false" aria-label="Alle Plätze zeigen">◎</button>
       <div class="wblicke"><button data-b="seite">Seite</button><button data-b="heck">Heck</button><button data-b="oben">Oben</button><button data-b="crew">Crew</button></div></div>
     <div class="wzeile"><button id="wl" aria-label="Vorherige Wahl">‹</button><div class="wtext"></div><button id="wr" aria-label="Nächste Wahl">›</button></div>
@@ -230,6 +253,7 @@ async function oeffnen(start) {
   W.querySelector('#wzu').onclick = () => { if (!geaendert || confirm('Änderungen verwerfen?')) schliessen(false); };
   W.querySelector('#wverw').onclick = () => { if (!geaendert) return schliessen(false); S.cfg.look = JSON.parse(JSON.stringify(alt.look)); if (alt.name === undefined) { if (S.boat) delete S.boat.name; } else S.boat = {...(S.boat || {}), name: alt.name}; geaendert = 0; try { lookAnwenden(); } catch (e) {} bildZeigen(blickAkt || 'seite', true); themaWaehlen(ti, false); };
   W.querySelector('#wueb').onclick = () => schliessen(true);
+  W.querySelector('#wkop').onclick = kopieren;
   W.querySelector('#wl').onclick = () => wahlSetzen(oi - 1); W.querySelector('#wr').onclick = () => wahlSetzen(oi + 1);
   W.querySelector('#whilfe').onclick = () => toast('Außen am Rad das Thema drehen, innen die Wahl. Antippen geht auch. Das Bild zeigt alles sofort; erst „Übernehmen“ speichert.', 6500);
   W.querySelector('#wauge').onclick = e => { const an = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', String(an)); if (an) document.documentElement.dataset.plaetze = '1'; else delete document.documentElement.dataset.plaetze; };
@@ -238,5 +262,5 @@ async function oeffnen(start) {
   const startI = Math.max(0, themen.findIndex(t => t.id === ({boot: 'satz', crew: 'k-hinnerk-hut', stil: 'stil'})[start || 'boot']));
   await bildZeigen('seite'); themaWaehlen(startI, false);
 }
-window.WERFT = {oeffnen, _themen: () => themen, _wahl: wahlSetzen, _thema: themaWaehlen};
+window.WERFT = {oeffnen, exportText, _themen: () => themen, _wahl: wahlSetzen, _thema: themaWaehlen};
 })();

@@ -60,6 +60,7 @@ Die Kanten-Filter wirken nur auf mittlere und vordere Platten (Rechenzeit). Auf 
 - Außen am Rad 24 Themen: Farbsatz, Rumpf, Streifen, Unterwasser, Kajütdach, Name, die acht Plätze, Laternen, sieben Kleidungsstücke, Zeichenstil, Glas. Innen die Wahl als Perlen (Farben als Farbtupfer, Teile als kleine Zeichnung).
 - Drehen mit dem Finger (rastet ein, kurzes Ruckeln am Handy), Antippen oder Pfeile. Die Bühne springt zum passenden Blick und markiert den Platz.
 - Alles wirkt sofort als Vorschau; „Übernehmen (n)“ speichert, „Verwerfen“ stellt zurück, ✕ fragt bei Änderungen nach.
+- **📋 Kopieren** (oben rechts): legt alle Einstellungen als Text in die Zwischenablage (lesbare Zeilen plus Rohdaten als JSON), auch mit noch nicht übernommenen Änderungen. Zum Einfügen in den Chat, damit Claude sieht, was eingestellt ist. Ohne Zwischenablage zeigt die Werft den Text zum Markieren. Die Einstellungen liegen nur auf dem Gerät; Claude sieht sie nur so.
 - Farben aus einer festen Palette, die zum Stil passt (keine freie Farbwahl mehr): So bleibt jedes Boot im Bilderbuch-Stil.
 
 ## Was schon umgezogen ist (v5.72)
