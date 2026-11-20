@@ -30,111 +30,55 @@ const mix = (a, b, t) => { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i,
 const dunkel = (c, t = .18) => mix(c, '#000000', t), hell = (c, t = .2) => mix(c, '#ffffff', t);
 const dreh = (art, wer, px, py) => ` data-dreh="${art}" data-wer="${wer || ''}" data-px="${px}" data-py="${py}"`;
 
-/* ---------- 2. Figuren (Gesicht nach rechts, Füße bei 0,0) ---------- */
-function hinnerk() {
-  return `<g${dreh('fig', 'HINNERK', 0, 0)}><path d="M-8 0 V-20 M7 0 V-20" stroke="${P.hose}" stroke-width="7.5" stroke-linecap="round"/>
-    <path d="M-15 -17 Q-18 -44 -5 -49 L6 -49 Q18 -45 15 -17 Z" fill="${P.hJacke}"/>
-    <g${dreh('arm-h', '', 8, -42)}><path d="M8 -42 Q17 -34 20 -24" stroke="${P.hJacke}" stroke-width="7.5" stroke-linecap="round" fill="none"/><circle cx="20" cy="-23" r="3.8" fill="${P.haut}"/></g>
-    <circle cx="2" cy="-58" r="9.6" fill="${P.haut}"/><path d="M-6.5 -57 Q-7.5 -44 3 -43 Q12.5 -44 12.5 -55.5 Q8 -51.5 3.5 -52.5 Q-1 -51.5 -6.5 -57Z" fill="${P.hBart}"/>
-    <circle cx="11.6" cy="-59.5" r="2.8" fill="${dunkel(P.haut, .1)}"/><circle cx="6.8" cy="-62" r="1.3" fill="#2a1b12"/>
-    <path d="M-9.5 -63 Q-8.5 -72 2 -72.5 Q11.5 -72 12 -63 Z" fill="${P.hMuetze}"/><path d="M7 -63.6 L18 -62.6 L14 -60.4 L6 -61Z" fill="#141a26"/>
-    <path d="M10 -51.5 L18 -50.5" stroke="#6b3d1f" stroke-width="2.2"/><rect x="16.4" y="-56" width="4.4" height="5.6" rx="1.2" fill="#6b3d1f"/></g>`;
-}
-function smilla() {
-  return `<g${dreh('fig', 'SMILLA', 0, 0)}><path d="M-4.5 0 V-19 M4 0 V-19" stroke="${P.hose}" stroke-width="5.6" stroke-linecap="round"/>
-    <path d="M-8.5 -17 Q-10.5 -40 -3 -44 L4 -44 Q10.5 -40 8.5 -17Z" fill="${P.sJacke}"/>
-    <g${dreh('arm-s', 'SMILLA', 5, -38)}><path d="M5 -38 Q12 -31 14 -23" stroke="${P.sJacke}" stroke-width="5.6" stroke-linecap="round" fill="none"/><circle cx="14" cy="-22" r="3" fill="${P.haut}"/></g>
-    <g${dreh('zopf', '', -6, -56)}><path d="M-6 -57 Q-17 -55 -16 -43 Q-11.5 -49 -5.5 -52Z" fill="${P.sHaar}"/></g><circle cx="1" cy="-52" r="8.2" fill="${P.haut}"/>
-    <path d="M8.6 -53.5 L11 -51 L8.6 -49.8Z" fill="${P.haut}"/><path d="M-7.5 -53 Q-8 -62.5 1 -62 Q8.6 -61.6 8.8 -56 Q4 -58.5 -1 -57.4 Q-4.5 -55 -7.5 -49Z" fill="${P.sHaar}"/>
-    <circle cx="5.2" cy="-53.8" r="1.15" fill="#2a1b12"/></g>`;
-}
-function hilke() {
-  return `<g${dreh('fig', 'HAFENMEISTER', 0, 0)}><path d="M-7 0 V-19 M6 0 V-19" stroke="${P.hose}" stroke-width="7.2" stroke-linecap="round"/>
-    <path d="M-14.5 -17 Q-17 -43 -4 -48 L5 -48 Q17 -43 14.5 -17Z" fill="${P.hiJacke}"/><path d="M-12 -19 Q-13.5 -40 -3 -45 L4 -45 Q13.5 -40 12 -19Z" fill="${P.hiWeste}"/>
-    <path d="M-12.5 -29 H12.5" stroke="${P.glanz}" stroke-width="2.4" opacity=".85"/>
-    <g${dreh('arm-hi', '', 8, -40)}><path d="M8 -40 Q15 -33 18 -26" stroke="${P.hiWeste}" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <rect x="14" y="-36" width="11" height="14" rx="1" fill="${P.block}" transform="rotate(-8 19 -29)"/><circle cx="18" cy="-25" r="3.4" fill="${P.haut}"/></g>
-    <circle cx="-6.5" cy="-63" r="5.4" fill="${P.hiHaar}"/><circle cx="1" cy="-56" r="9.2" fill="${P.haut}"/>
-    <path d="M-8.4 -54 Q-9 -65.5 1 -65.5 Q9.6 -65 9.8 -58 Q4 -61 -2 -59.5 Q-6 -57 -8.4 -51Z" fill="${P.hiHaar}"/><path d="M9.7 -57.5 L12.6 -54.5 L9.7 -53Z" fill="${P.haut}"/>
-    <circle cx="5.6" cy="-57.6" r="1.25" fill="#2a1b12"/></g>`;
-}
-function ruecken() {
-  return `<g${dreh('fig', 'HINNERK', 0, 0)}><path d="M-17 10 Q-19 -24 -6 -30 L6 -30 Q19 -24 17 10Z" fill="${P.hJacke}"/><path d="M12 -22 Q22 -12 28 -4" stroke="${P.hJacke}" stroke-width="8" stroke-linecap="round" fill="none"/>
-    <circle cx="0" cy="-40" r="10" fill="${P.haut}"/><path d="M-10.5 -43 Q-10 -53 0 -53.5 Q10 -53 10.5 -43 Q0 -46 -10.5 -43Z" fill="${P.hMuetze}"/></g>`;
-}
-function kopfVorn(c, haar, wer) {
-  return `<g${dreh('fig', wer || '', 0, 0)}><path d="M-11 12 Q-11 -2 0 -4 Q11 -2 11 12Z" fill="${c}"/><circle cx="0" cy="-12" r="8" fill="${P.haut}"/><path d="M-8 -12 Q-8.4 -21 0 -21 Q8.4 -21 8.2 -12 Q4 -16.5 0 -16 Q-4 -16.5 -8 -12Z" fill="${haar}"/>
-    <circle cx="-3" cy="-11" r="1" fill="#2a1b12"/><circle cx="3" cy="-11" r="1" fill="#2a1b12"/></g>`;
-}
-function harmsBuste() {
-  return `<g><path d="M8 120 Q12 84 48 76 L76 76 Q110 84 114 120Z" fill="${P.hrJacke}"/><circle cx="61" cy="96" r="2.6" fill="${P.gold}"/><circle cx="61" cy="108" r="2.6" fill="${P.gold}"/>
-    <ellipse cx="62" cy="52" rx="22" ry="25" fill="${P.haut}"/><path d="M42 34 L33 49 L42 52Z" fill="${P.haut}"/>
-    <path d="M41 56 Q43 80 63 82 Q81 80 84 58 Q75 67 62 66 Q50 66 41 56Z" fill="${P.hBart}"/><path d="M40 37 L57 33" stroke="#2a1b12" stroke-width="3.4" stroke-linecap="round"/>
-    <circle cx="48" cy="42" r="2.2" fill="#2a1b12"/><path d="M45 63 L55 62" stroke="#2a1b12" stroke-width="1.8"/>
-    <path d="M34 30 Q36 7 64 5 Q93 7 92 30Z" fill="${P.hrMuetze}"/><rect x="34" y="25" width="58" height="9" fill="#141a26"/><path d="M30 32 L60 32 L52 40 L25 38Z" fill="#141a26"/><circle cx="50" cy="29.5" r="4.2" fill="${P.gold}"/></g>`;
-}
-function katze() {
-  return `<g><g${dreh('schwanz', '', -8, -4)}><path d="M-8 -4 Q-20 -5 -17 -20" stroke="${P.katze}" stroke-width="3.4" stroke-linecap="round" fill="none"/></g>
-    <ellipse cx="0" cy="-7" rx="9.5" ry="7.2" fill="${P.katze}"/><circle cx="8" cy="-15" r="5.6" fill="${P.katze}"/><path d="M4.5 -19 L5.5 -25 L9 -20.5Z M9 -20.5 L12.6 -25 L12.8 -18.5Z" fill="${P.katze}"/><circle cx="10.4" cy="-15.6" r="1.1" fill="#f0d060"/></g>`;
-}
+/* ---------- 2. Figuren aus dem Crew-Baukasten (figuren.js, v5.72; Gesicht nach rechts, Füße bei 0,0) ----------
+   Größen: die alten Figuren waren etwa 72 hoch; die Baukasten-Menschen sind 100 hoch (Smilla 88), darum die kleineren Maßstäbe unten. */
+const C = (id, o = {}) => window.FIGUREN ? FIGUREN.figur(id, o) : '';
+const hinnerk = (o = {}) => C('hinnerk', {blick: 'seite', ...o});
+const smilla = (o = {}) => C('smilla', {blick: 'seite', ...o});
+const hilke = (o = {}) => C('hilke', {blick: 'seite', pose: 'block', ...o});
+const katze = (o = {}) => C('backbord', {pose: 'sitzen', ...o});
+function harmsBuste() { return window.FIGUREN ? `<g transform="translate(61 128) scale(1.18)">${FIGUREN.figur('harms', {blick: 'vorn', dreh: false})}</g>` : ''; }
 
-/* ---------- 3. Die Frieda aus allen Richtungen ---------- */
+/* ---------- 3. Die Frieda aus boot.js (Farben und Ausbau aus der Werft), Crew in den Plätzen des Boots ----------
+   Hinnerk sitzt ohne Steuerrad an der Pinne und steht mit Steuerrad am Rad (Schalter nur-/nicht-steuerrad aus boot.js). */
+const B = () => window.BOOT || null;
 function friedaSeite(id) {
-  const hull = `<path d="M-80 -6 L66 -6 Q76 -8 82 -24 L80 -26 L-78 -26 L-80 -24Z" fill="${P.rumpf}"/>
-    <path d="M-80 -6 L66 -6 Q72 -6 74 -10 L70 6 Q62 12 40 12 L-74 10 L-80 4Z" fill="${P.unter}"/><path d="M-79 -14 L78 -14" stroke="${P.streifen}" stroke-width="3.5"/>
-    <path d="M-46 -26 L-44 -52 L18 -52 L34 -26Z" fill="${P.rumpf}"/><path d="M-44 -52 L18 -52 L20 -56 L-42 -56Z" fill="${P.dach}"/>
-    <path d="M20 -50 L31 -29 L22 -29 L13 -50Z" fill="${P.fenster}"/>${[-34, -18, -2].map(x => `<circle cx="${x}" cy="-39" r="4.6" fill="${P.fenster}"/>`).join('')}
-    <path d="M40 -26 V-36 H78 L80 -26" fill="none" stroke="${P.motor}" stroke-width="1.4"/>
-    <rect x="-92" y="-34" width="12" height="18" rx="3" fill="${P.motor}"/><rect x="-88" y="-16" width="4" height="26" fill="${P.motor}"/><path d="M-86 -27 L-62 -33" stroke="${P.motor}" stroke-width="2.6"/>`;
+  const bo = B(); if (!bo) return `<g id="${id}"></g>`;
+  /* Bug-rechts-Koordinaten (boot.js spiegelt mit bugLinks): Hinnerk achtern schaut zum Bug, Smilla vorn schaut nach achtern */
+  const hinter = `<g class="nicht-steuerrad"><g transform="translate(-74 -14) scale(.4)">${hinnerk({pose: 'pinne'})}</g></g>
+    <g class="nur-up nur-steuerrad"><g transform="translate(-50 -8) scale(.4)">${hinnerk({pose: 'steuern', pfeife: false})}</g></g>`;
+  const vor = `<g transform="translate(58 -26) scale(-.37 .37)">${smilla()}</g><g transform="translate(-6 -56) scale(-.46 .46)">${katze()}</g>`;
   return `<g id="${id}"><g class="fb-bob">
     <g id="${id}-blasen" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="fb-blase" data-i="${i}" cx="90" cy="6" r="2.4" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
-    <g transform="translate(66 -14) scale(.56) scale(-1 1)">${hinnerk()}</g>
-    <g transform="scale(-1 1)">${hull}</g>
-    <path d="M36 -56 V-78" stroke="${P.motor}" stroke-width="1.6"/><rect x="34" y="-82" width="4" height="4" fill="${P.motor}"/>
-    <text x="-30" y="-17.2" font-family="Baloo 2,Trebuchet MS,sans-serif" font-weight="800" font-size="7" letter-spacing=".6" fill="#1f3b63">FRIEDA</text>
-    <g transform="translate(-60 -26) scale(.52)">${smilla()}</g><g transform="translate(4 -56) scale(.44)">${katze()}</g>
+    ${bo.seite({bugLinks: true, hinter, vor})}
     <g id="${id}-gischt" opacity="0"><path d="M-84 10 Q-96 4 -108 10 Q-96 8 -88 14Z" fill="${P.glanz}"/><path d="M-100 8 q-6 -5 -12 0" stroke="${P.glanz}" stroke-width="1.6" fill="none"/></g>
   </g></g>`;
 }
 function friedaHeck(id) {
-  return `<g id="${id}"><g class="fb-bob">
-    <path d="M0 -72 V-92" stroke="${P.motor}" stroke-width="1.6"/><rect x="-2" y="-96" width="4" height="4" fill="${P.motor}"/>
-    <path d="M-34 -40 L-30 -68 L30 -68 L34 -40Z" fill="${P.rumpf}"/><path d="M-31 -66 L31 -66 L33 -72 L-33 -72Z" fill="${P.dach}"/>
-    <rect x="-9" y="-62" width="18" height="22" rx="2" fill="${P.holz}"/><g transform="translate(23 -66) scale(.5)">${kopfVorn(P.sJacke, P.sHaar, 'SMILLA')}</g>
-    <path d="M-62 -40 L62 -40 L56 0 Q30 15 0 17 Q-30 15 -56 0 Z" fill="${P.rumpf}"/><path d="M-60.5 -30 L60.5 -30 L59.6 -24.5 L-59.6 -24.5Z" fill="${P.streifen}"/>
-    <path d="M-56 0 Q-30 15 0 17 Q30 15 56 0 L54.6 8 Q30 22 0 24 Q-30 22 -54.6 8Z" fill="${P.unter}"/>
-    <text x="0" y="-9" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="12" letter-spacing="1" fill="#1f3b63">FRIEDA</text>
-    <text x="0" y="-1.5" text-anchor="middle" font-family="Nunito,Arial,sans-serif" font-weight="800" font-size="5.2" letter-spacing="1.2" fill="#1f3b63">KUTTERSHAVEN</text>
-    ${[-50, -36].map(y => `<ellipse cx="64" cy="${y + 22}" rx="5" ry="9" fill="${P.fender}" stroke="${dunkel(P.rumpf, .2)}" stroke-width=".8"/>`).join('')}
-    <g transform="translate(-26 -34) scale(.62)">${ruecken()}</g>
-    <rect x="-10" y="-60" width="20" height="24" rx="5" fill="${P.motor}"/><rect x="-3.5" y="-37" width="7" height="44" fill="${P.motor}"/>
+  const bo = B(); if (!bo) return `<g id="${id}"></g>`;
+  const mitte = `<g transform="translate(40 -40) scale(.36)">${C('smilla', {blick: 'vorn'})}</g>
+    <g class="nicht-steuerrad"><g transform="translate(-24 -12) scale(.42)">${C('hinnerk', {blick: 'ruecken', pose: 'pinne'})}</g></g>
+    <g class="nur-up nur-steuerrad"><g transform="translate(26 -14) scale(.42)">${C('hinnerk', {blick: 'ruecken', pose: 'steuern'})}</g></g>`;
+  return `<g id="${id}"><g class="fb-bob">${bo.heck({mitte})}
     <g id="${id}-blasen" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="fb-blase" data-i="${i}" cx="0" cy="8" r="3" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
   </g></g>`;
 }
 function friedaD34H() {
-  const sch = dunkel(P.rumpf, .12);
-  return `<g class="fb-bob"><path d="M12 -56 V-78" stroke="${P.motor}" stroke-width="1.6"/>
-    <path d="M-84 -22 Q-50 -27 26 -30 L26 -6 Q-30 2 -78 -8 Z" fill="${P.rumpf}"/><path d="M-78 -8 Q-30 2 26 -6 L26 6 Q-20 12 -70 0Z" fill="${P.unter}"/>
-    <path d="M-82 -16 Q-40 -19 26 -20" stroke="${P.streifen}" stroke-width="3"/><path d="M26 -30 L66 -27 L62 -3 Q46 5 26 -6Z" fill="${sch}"/><path d="M26 -20 L65 -18" stroke="${P.streifen}" stroke-width="3"/>
-    <path d="M26 -6 Q46 5 62 -3 L60 4 Q44 11 26 6Z" fill="${P.unter}"/><path d="M-44 -26 L-42 -52 L10 -54 L22 -28Z" fill="${P.rumpf}"/><path d="M10 -54 L24 -52 L32 -28 L22 -28Z" fill="${sch}"/>
-    <path d="M-43 -52 L10 -54 L24 -52 L20 -57 L6 -58 L-41 -56Z" fill="${P.dach}"/>${[-30, -14].map(x => `<circle cx="${x}" cy="-40" r="4" fill="${P.fenster}"/>`).join('')}
-    <g transform="translate(-62 -24) scale(.42)">${smilla()}</g><g transform="translate(34 -28) scale(.5)">${ruecken()}</g>
-    <rect x="40" y="-46" width="12" height="18" rx="4" fill="${P.motor}"/><rect x="44" y="-30" width="4" height="36" fill="${P.motor}"/></g>`;
+  const bo = B(); if (!bo) return '';
+  const vor = `<g transform="translate(-64 -24) scale(.36)">${smilla()}</g><g transform="translate(40 -26) scale(.4)">${C('hinnerk', {blick: 'ruecken', pose: 'pinne'})}</g>`;
+  return `<g class="fb-bob">${bo.d34({vor})}</g>`;
 }
 const RUMPF_OBEN = 'M0 -50 C17 -36 20 -6 19 22 L18 46 Q18 50 14 50 L-14 50 Q-18 50 -18 46 L-19 22 C-20 -6 -17 -36 0 -50Z';
 /* Draufsicht mit Höhenschichten (Nutzer 20.11.2026: „das Boot muss Tiefenwirkung bekommen, alles Hohe in den Vordergrund“) */
 const HS = (h, inner, cx = 200, cy = 300, sk = 1.7) => `<g data-h="${h}" data-cx="${cx}" data-cy="${cy}" data-s="${sk}">${inner}</g>`;
 function friedaOben3D() {
-  const kab = 'M-11 -4 H11 V20 H-11Z', wand = dunkel(P.rumpf, .2);
-  return HS(0, `<path d="${RUMPF_OBEN}" fill="${P.unter}"/>`) + [.07, .14, .21].map((h, i) => HS(h, `<path d="${RUMPF_OBEN}" fill="${dunkel(P.rumpf, .26 - i * .05)}"/>`)).join('') +
-    HS(.3, `<rect x="-6" y="48" width="12" height="12" rx="3" fill="${P.motor}"/>`) +
-    HS(.28, `<path d="${RUMPF_OBEN}" fill="${P.rumpf}" stroke="${dunkel(P.rumpf, .35)}" stroke-width="1.2"/><path d="M0 -46 C14 -33 16.5 -6 15.5 22 L15 45 M0 -46 C-14 -33 -16.5 -6 -15.5 22 L-15 45" stroke="${P.streifen}" stroke-width="2.2" fill="none"/>
-      <path d="M0 -42 C10 -32 12 -14 12 -6 L-12 -6 C-12 -14 -10 -32 0 -42Z" fill="${P.deck}"/><rect x="-13" y="22" width="26" height="22" rx="3" fill="${P.deck}"/>
-      ${[-10, 14].map(y => `<ellipse cx="-20.5" cy="${y}" rx="3" ry="5" fill="${P.fender}" stroke="${wand}" stroke-width=".6"/><ellipse cx="20.5" cy="${y}" rx="3" ry="5" fill="${P.fender}" stroke="${wand}" stroke-width=".6"/>`).join('')}`) +
-    HS(.4, `<path d="M-10 -34 Q0 -50 10 -34" stroke="${P.motor}" stroke-width="1.2" fill="none"/>`) + [.36, .44, .52].map(h => HS(h, `<path d="${kab}" fill="${wand}"/>`)).join('') +
-    HS(.6, `<path d="${kab}" fill="${P.dach}" stroke="${dunkel(P.dach, .25)}" stroke-width=".8"/><path d="M-8 -1 H8 M-8 3 H8" stroke="${hell(P.dach, .25)}" stroke-width="1.2"/>`) +
-    HS(.42, `<ellipse cx="0" cy="34" rx="8.5" ry="5.5" fill="${P.hJacke}"/>`) + HS(.58, `<circle cx="0" cy="35" r="5" fill="${P.hMuetze}"/>`) +
-    HS(.4, `<ellipse cx="0" cy="-27" rx="6.5" ry="4.5" fill="${P.sJacke}"/>`) + HS(.52, `<circle cx="0" cy="-28" r="4.2" fill="${P.sHaar}"/>`) +
+  const bo = B(); if (!bo) return '';
+  /* Köpfe und Schultern von oben in den Farben des Baukastens */
+  const v = (n, std) => `style="fill:var(--${n},${std})"`;
+  return bo.oben({hs: (h, inner) => HS(h, inner)}) +
+    HS(.42, `<g class="nicht-steuerrad"><ellipse cx="0" cy="36" rx="8.5" ry="5.5" ${v('hinnerk-jacke', '#34465f')}/></g><g class="nur-up nur-steuerrad"><ellipse cx="6" cy="30" rx="8.5" ry="5.5" ${v('hinnerk-jacke', '#34465f')}/></g>`) +
+    HS(.58, `<g class="nicht-steuerrad"><circle cx="0" cy="37" r="5" ${v('hinnerk-hut', '#25304a')}/></g><g class="nur-up nur-steuerrad"><circle cx="6" cy="31" r="5" ${v('hinnerk-hut', '#25304a')}/></g>`) +
+    HS(.4, `<ellipse cx="0" cy="-27" rx="6.5" ry="4.5" ${v('smilla-jacke', '#c8503c')}/>`) + HS(.52, `<circle cx="0" cy="-28" r="4.2" ${v('smilla-hut', '#2f6f8f')}/>`) +
     [.62, .68, .74, .8, .86, .92, .97].map(h => HS(h, `<circle cx="0" cy="14" r="1.5" fill="${P.motor}"/>`)).join('') + HS(1, `<rect x="-1.8" y="12.2" width="3.6" height="3.6" fill="${P.motor}"/>`);
 }
 
@@ -196,7 +140,7 @@ const ORTE = {
       {d: 0, svg: himmel(90)},
       {d: .1, svg: masten(266, [30, 150, 330]) + haeuser(266, .62, 7, -20)},
       {d: .2, svg: nebelband(200, 276, 520, 30, .8)},
-      {d: .28, svg: stegSeite(272) + zapfsaeule(118, 266) + `<g id="fs-hilke" transform="translate(150 266)"><g transform="scale(.74)">${hilke()}</g></g>`},
+      {d: .28, svg: stegSeite(272) + zapfsaeule(118, 266) + `<g id="fs-hilke" transform="translate(150 266)"><g transform="scale(.5)">${hilke()}</g></g>`},
       {d: .36, svg: `<rect x="-60" y="282" width="520" height="300" fill="url(#fb-wg)"/>` + streifen(290, 3, 30, P.w[0], 6) + streifen(308, 4, 40, mix(P.w[0], P.w[1], .35), 9)},
       {d: .45, svg: moewe(-60, 140, 470, 110, 17, 0, .85)},
       {d: .55, svg: `<g id="fs-pos" transform="translate(200 340) scale(1.4)">${friedaSeite('fs-boot')}</g>`},
@@ -245,7 +189,7 @@ const ORTE = {
       {d: .1, svg: [-480, 0, 480].map(o => `<g transform="translate(${o} 0)">${masten(272, [20, 140, 260, 400]) + haeuser(272, .55, 8, -20, false)}</g>`).join(''), scroll: true},
       {d: .2, svg: nebelband(200, 280, 600, 30, .8)},
       {d: .28, svg: [-480, 0, 480].map(o => `<g transform="translate(${o} 0)">${stegSeite(282).replace(/x="-60" y="276" width="520"/, 'x="-20" y="276" width="480"')}</g>`).join('') +
-          `<g id="fb-hilke"><g transform="translate(330 276) scale(.42)">${hilke()}</g></g>`, scroll: true},
+          `<g id="fb-hilke"><g transform="translate(330 276) scale(.29)">${hilke()}</g></g>`, scroll: true},
       {d: .36, svg: `<rect x="-60" y="290" width="520" height="300" fill="url(#fb-wg)"/>` + streifen(296, 3, 30, P.w[0], 12) + streifen(314, 4, 40, mix(P.w[0], P.w[1], .35), 16)},
       {d: .45, svg: moewe(470, 130, -60, 170, 15, 4, .85)},
       {d: .55, svg: `<g id="fb-pos" transform="translate(200 344) scale(1.4)">${friedaSeite('fb-boot')}</g>`},
@@ -284,6 +228,25 @@ const ORTE = {
       {d: .55, svg: `<g id="fa-pos" transform="translate(220 346) scale(1.4)">${friedaSeite('fa-boot')}</g>`},
       {d: .7, svg: streifen(362, 6, 54, mix(P.w[0], P.w[1], .6), 14) + streifen(410, 8, 70, P.w[1], 20)},
       {d: .95, svg: `<path d="M-60 430 L120 420 L150 520 L-60 520Z" fill="${P.mole}"/>` + Array.from({length: 9}, (_, i) => `<ellipse cx="${-40 + i * 20}" cy="${430 + (i % 3) * 6}" rx="14" ry="9" fill="${dunkel(P.mole, .15 + (i % 2) * .1)}"/>`).join('') + `<rect x="96" y="352" width="14" height="74" fill="#3c8c5a"/><rect x="92" y="344" width="22" height="9" fill="${P.motor}"/>`}
+    ]
+  },
+  /* v5.72 Motor aus der Nähe, von achtern (für „Rechtsdreher“, sbf:44: von achtern gesehen dreht er in Vorausfahrt im Uhrzeigersinn).
+     TU: dreh (+1 voraus, −1 zurück; Schraube dreht), pfeil (Drehrichtung als Bogen mit Text). Die Frieda kommt aus boot.js (Farbe, Name, Ausbau). */
+  motor: {
+    heck: () => [
+      {d: 0, svg: himmel(180) + haeuser(250, .5, 8, -30, false)},
+      {d: .2, svg: nebelband(200, 252, 520, 28, .7)},
+      {d: .4, svg: `<rect x="-60" y="256" width="520" height="400" fill="url(#fb-wg)"/>` + streifen(262, 3, 34, P.w[0], 7)},
+      {d: .55, svg: `<g transform="translate(200 300) scale(2.3)">${friedaHeck('fm-boot').replace('id="fm-boot"', 'id="fm-boot" data-ohne-bob="1"')}</g>
+        <rect x="-60" y="300" width="520" height="260" fill="#2f5d66" opacity=".55"/>
+        <path d="M188 300 h24 v58 h-24Z" fill="${P.motor}"/><path d="M184 356 h32 l-4 20 h-24Z" fill="${P.motor}"/><path d="M196 376 h8 v14 h-8Z" fill="#555"/>
+        <g id="fm-prop">${[0, 120, 240].map(w => `<path d="M200 382 Q186 352 200 340 Q214 352 200 382Z" fill="#c9a24a" stroke="#7a5a1e" stroke-width="1.4" transform="rotate(${w} 200 382)"/>`).join('')}<circle cx="200" cy="382" r="6" fill="#8a6a2a"/></g>
+        <g id="fm-cw" opacity="0"><path d="M200 322 A60 60 0 0 1 258 396" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round"/><path d="M250 386 l9 14 l7 -15" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#fff6dc" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">voraus: im Uhrzeigersinn</text></g>
+        <g id="fm-ccw" opacity="0"><path d="M200 322 A60 60 0 0 0 142 396" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round"/><path d="M150 386 l-9 14 l-7 -15" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#ffd2c4" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">zurück: gegen den Uhrzeigersinn</text></g>
+        <text x="200" y="30" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="15" fill="#1f3b63" stroke="rgba(255,255,255,.7)" stroke-width="3" paint-order="stroke">von achtern gesehen</text>`},
+      {d: .85, svg: `<g transform="translate(352 300) scale(.95)">${C('smilla', {blick: 'vorn', pose: 'zeigen'})}</g>`}
     ]
   }
 };
@@ -423,6 +386,9 @@ function zeichne(now) {
   /* Lehrbild im Schnitt: Propeller und Rad drehen je nach Gang, das Heck wandert */
   e = $id('fx-pos'); if (e) e.setAttribute('transform', `translate(${(200 - s.a * 70).toFixed(1)} 0)`);
   e = $id('fx-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 0 305)`);
+  e = $id('fm-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 200 382)`);
+  e = $id('fm-cw'); if (e) e.setAttribute('opacity', (s.dreh >= 0 ? s.pfeil : 0).toFixed(2));
+  e = $id('fm-ccw'); if (e) e.setAttribute('opacity', (s.dreh < 0 ? s.pfeil : 0).toFixed(2));
   e = $id('fx-speichen'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 40 % 360).toFixed(1)} 0 305)`);
   e = $id('fx-rad'); if (e) e.setAttribute('opacity', s.rad.toFixed(2));
   e = $id('fx-pfeil'); if (e) e.setAttribute('opacity', s.pfeil.toFixed(2));
@@ -458,6 +424,13 @@ function zeichne(now) {
     else if (p.art === 'arm-h') w = Math.sin(t * .9 + p.ph) * 4 + (sprecher === 'HINNERK' ? Math.sin(t * 4) * 6 : 0);
     else if (p.art === 'arm-s') w = sprecher === 'SMILLA' ? -30 + Math.sin(t * 5) * 14 : 0;
     else if (p.art === 'arm-hi') w = s.winken > .5 ? -95 + Math.sin(t * 9) * 28 : (sprecher === 'HAFENMEISTER' ? -20 + Math.sin(t * 5) * 8 : 0);
+    else if (p.art === 'arm') w = p.wer === 'HAFENMEISTER' && s.winken > .5 ? -100 + Math.sin(t * 9) * 26 : sprecher && p.wer === sprecher ? -14 + Math.sin(t * 4 + p.ph) * 11 : Math.sin(t * .9 + p.ph) * 3;
+    else if (p.art === 'kopf') w = sprecher && p.wer === sprecher ? Math.sin(t * 3.1 + p.ph) * 3.2 : Math.sin(t * .6 + p.ph) * 1.4;
+    else if (p.art === 'blink' || p.art === 'mund') {
+      const k = p.art === 'blink' ? (((t + p.ph * 3) % 4.4) < .13 ? .12 : 1) : (sprecher && p.wer === sprecher ? 1 + Math.abs(Math.sin(t * 11 + p.ph)) * 1.4 : 1);
+      if (p.k !== k) { p.el.setAttribute('transform', k === 1 ? '' : `translate(${p.px} ${p.py}) scale(1 ${k}) translate(${-p.px} ${-p.py})`); p.k = k; }
+      continue;
+    }
     else if (p.art === 'zopf') w = Math.sin(t * 2.3 + p.ph) * 7;
     else if (p.art === 'schwanz') w = Math.sin(t * 1.6 + p.ph) * 16;
     p.el.setAttribute('transform', `rotate(${w.toFixed(2)} ${p.px} ${p.py})`);

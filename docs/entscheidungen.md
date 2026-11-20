@@ -73,3 +73,8 @@
   - Harms erzählt am Anfang jedes Hörtags 15 Sekunden „Was bisher geschah“ (knurrig, mit Seitenhieben auf Hinnerk) und hält den Film für Prüfungsfragen an. Er erzählt nicht die ganze Geschichte (GL12).
   - Die Kiste spielt nur am Rand: Wahl am Anfang, Abendwache, Zwischenaufgaben. Die Geschichte braucht sie nicht (GL13).
   - Offen: welche Bühne (Papiertheater, Scherenschnitt, Glasebenen, Aufklappbuch oder gemischt) nach dem Test der Filmproben (`docs/entwuerfe/film-varianten.html`).
+- **E28** (Nutzer, 20.11.2026) Filmprobe, Baukasten, Notizen:
+  - Von den drei Filmproben trägt Fassung A „Hafenkomödie“ am besten („V1 ist davon am besten“). Die Gespräche der Geschichten passt der Nutzer selbst an; dafür schreibt er Notizen im Player (✏️, v5.72).
+  - Bühne: Glasebenen, weich (E27-Test, 20.11.2026).
+  - Figuren und Boot sind austauschbar: Farbe, Ausbau und Aussehen gelten überall, wo sie vorkommen (`docs/baukasten.md`). Figuren detailreicher und im Stil (Pettersson, Janosch); Bordkatze Backbord rot getigert, „keine Grenzen“ für ihren Unsinn. Der Nutzer bekommt Auswahlmöglichkeiten (Werft).
+  - Offen: welcher Zeichenstil Standard wird; ob der Ausbau als Belohnung erst nach Tag 3, 5, 7 kommt (SK12) oder immer frei ist.
