@@ -134,7 +134,7 @@ Die ausführliche Karte liegt seit 17.11.2026 in **`docs/code-karte.md`** (GL7).
 - **Regelwerke der Folgen:** `podcast/schreibkarte.md` (eine Seite, beim Schreiben), `podcast/dialog-beispiele.md`, `podcast/folgen/VORLAGE.md`, `docs/reise.md` §7 (HR-Regeln), `PODCAST_BIBLE.md`, `PODCAST_STATUS.md`, `podcast/figuren.md`, `podcast/wortschatz.md`, `podcast/sprueche.json`, `docs/geschichte-logbuch.md`, `docs/fehler-katalog.md`, `docs/navi-schreibregeln.md`.
 
 ## 8. Status (von Claude gepflegt)
-Ältere Einträge: `docs/archiv/claude-v5-status.md` (Lauf 6 bis v5.65), `docs/archiv/claude-v4-status.md`, `docs/archiv/claude-v3.md`. Alle Entscheidungen E1–E26 im Wortlaut: `docs/entscheidungen.md`.
+Ältere Einträge: `docs/archiv/claude-v5-status.md` (Lauf 6 bis v5.65), `docs/archiv/claude-v4-status.md`, `docs/archiv/claude-v3.md`. Alle Entscheidungen E1–E27 im Wortlaut: `docs/entscheidungen.md`.
 
 ### Lauf 7: Hörspiel neu denken (ab 16.11.2026)
 Plan, Befund und Stand: **`docs/plan-hoerspiel-neu.md`** (nach einem Abbruch dort weiterlesen).
@@ -148,7 +148,7 @@ Plan, Befund und Stand: **`docs/plan-hoerspiel-neu.md`** (nach einem Abbruch dor
 ### Jetzt dran
 - **Hörtest Tag 1 (Nutzer):** Folge 1-1 bis 1-5 (alle neue Machart) mit der Gratis-Stimme hören, zum Vergleich die alte 1-3 („Alte Folgen und Tests“), danach die Abendwache (Navi-Folge 1) und am nächsten Tag deren Test. Am Ende jeder Folge „Wie war das Tempo?“ antippen. Danach entscheidet der Nutzer über die Machart (GL4, Harms fragt zurück, Länge), dann wird **eine Szene** vertont (nicht vorher, T5: Credit-Deckel 25.000).
 - **Etappe 5 Reiseplan und Serie** (erst nach dem Hörtest): `data/reiseplan.json` nach Lernlast und Hörtagen neu verteilen, Frist und Titel („sieben Tage“) anpassen, dann Folgen in Serie. Weitere Navi-Folgen (nf2 ff.) entstehen mit dem neuen Plan.
-- **In Diskussion (20.11.2026, noch nicht beschlossen):** Animation als Film aus der Grund-Szene mit Blickwinkeln und Übergängen (FI1), Story fürs Auto ohne Interaktion (FI2), Ebenen zum Zuschalten wie Harms, Mitsprechen, Karte und Knotenbrett (FI3), Harms als Erzähler (FI4), Kiste nur am Rand (FI5); Einzelheiten in `docs/plan-hoerspiel-neu.md` §7. Kein Code, bis es definiert ist.
+- **Film und Ebenen (E27, GL9–GL13, 20.11.2026):** Bilder als Film aus der Grund-Szene (2D zuerst), Grundfassung fürs Auto mit Denkfragen, drei Stufen (nur hören, mitsprechen, mit Händen) und Schalter Harms (Rückblick und Unterbrechung), Kiste am Rand. **Filmproben zum Testen:** `docs/entwuerfe/film-varianten.html` (vier Bühnen). Nach der Wahl der Bühne: Einbau in `kurs.js` (Kamera-Marken, Stufen, Harms-Rückblick), dann gold-1 als erstes Stück.
 - **Offen aus E26:** Wo Kennenlernen und Kiste erklärt werden, seit Folge 0 entfällt. Reisekarte Brede-Bucht wird noch überarbeitet (Nutzer).
 - **Animationen:** alle im Hochformat neu gezeichnet (`docs/animationen-umbau.md`); neue Bewertungen des Nutzers einarbeiten, sobald sie da sind.
 - **Aufgaben für den Nutzer:** `docs/aufgaben-nutzer.md` (Dateien, Stimmen, Impressum, Kataloge, Handy-Tests). Weiter offen: V18 Rechtliches, V20 Handy-Checkliste, V29 Quellen, V32 Katalogbilder, Funk-Kataloge, 12 Sätze fürs Stimmenpaket („Neue Sätze nachliefern“), SBF 279 und SKS recht-23 am Original prüfen.
@@ -162,6 +162,7 @@ Plan, Befund und Stand: **`docs/plan-hoerspiel-neu.md`** (nach einem Abbruch dor
 - **E21** Kein Zeitdruck, keine Uhr entscheidet (Ausnahme Probeprüfung); Scheinwahlen; das Boot heißt Frieda.
 - **E24/E25** Lineare Ausbildungsfahrt als Hörreise (Auto, Gym): Hörspiel mit Zwischenfragen, Bilder laufen mit, Aufgaben für später; Crew wächst (Klabauter ab 1-6, Quirin, Jasper); Ernstfälle erst später (HR28), Wiedersehen (HR29).
 - **E26** (16.11.2026) Hörspiel neu denken: Lernlast statt starrer Zahlen, Hörtage von 20 bis 40 Minuten, Harms fragt zurück, keine Redeanteil-Quote, eine Karte, Folge 0 entfällt.
+- **E27** (20.11.2026) Film und Ebenen: Bilder als Film aus der Grund-Szene (2D zuerst), Grundfassung fürs Auto, drei Stufen plus Schalter Harms, Harms erzählt „Was bisher geschah“ und hält für Prüfungsfragen an, Kiste am Rand.
 
 ### Handy-Checkliste (macht der Nutzer)
 - Mikrofon im Gespräch, Zurück-Taste (App und Browser), Offline-Start, Lautstärke der Stimmen

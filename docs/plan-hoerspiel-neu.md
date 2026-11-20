@@ -81,7 +81,10 @@ Der Nutzer muss kein Modell umstellen: Die Hauptsitzung (Fable 5.2) schreibt Gru
 - **GL4** nach dem Test: natürliche Entweder-oder-Fragen behalten?
 - **Folge 0:** Das Kennenlernen und die Kiste standen dort. Wohin damit (App-Start oder erste Szene von 1-1)?
 
-## 7. Ideen in Diskussion (Nutzer, 20.11.2026; noch nicht beschlossen, muss genau definiert werden)
+## 7. Film und Ebenen (Nutzer, 20.11.2026; beschlossen als GL9–GL13, E27)
+> **Bestätigt** am 20.11.2026 („Du beschreibst es schon sehr gut. Setze alles so um und lass es mich testen.“): FI1 = **GL9** (2D-Film zuerst, Kamera-Marken), FI2 = **GL10** (Grundfassung fürs Auto, Denkfragen mit sechs Sekunden Stille), FI3 = **GL11** (drei Stufen und Schalter Harms), FI4 = **GL12** (Harms: „Was bisher geschah“ und Unterbrechung, nicht Erzähler der ganzen Geschichte), FI5 = **GL13** (Kiste am Rand). Erster Test: **Filmproben** `docs/entwuerfe/film-varianten.html` (auch als Leseseite veröffentlicht): eine Szene aus gold-1 auf vier Bühnen (Papiertheater mit Drehbühne und Wellenwalzen, Scherenschnitt mit Irisblende, Glasebenen mit Nebel und Kamerafahrt, Aufklappbuch mit Umblättern und Musterklammer), gleiche Kamera-Marken, Stufen und Harms schaltbar. Offen: Wahl der Bühne, dann Einbau in `kurs.js`.
+
+### Ursprüngliche Ideen (wörtlich sortiert)
 > Wörtlich gesammelt, sortiert und mit Claudes Meinung in der Antwort vom 20.11.2026. Erst nach der Bestätigung des Nutzers wird daraus eine Entscheidung (GL9 ff.), dann ändern sich Bible, Vision und Regeln (R15, R16). Kein Code dazu, bis es definiert ist.
 
 | Nr. | Idee | Was noch zu klären ist |

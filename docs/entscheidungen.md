@@ -66,3 +66,10 @@
   - Eine Karte bleibt: die Brede-Bucht (wird noch überarbeitet).
   - `CLAUDE.md` und andere Doppelungen verschlanken; Lücken füllt der Nutzer auf Nachfrage.
   - Folge 0 entfällt. Damit sind E12 (Folgenlänge), HR17/HR18/HR30 (Fragerunde direkt nach der Folge) und die Zahl „sieben Tage“ aus E24 im Test bzw. offen.
+- **E27 Film und Ebenen** (Nutzer, 20.11.2026: „Du beschreibst es schon sehr gut. Setze alles so um und lass es mich testen.“; GL9–GL13 in `docs/plan-hoerspiel-neu.md` §7):
+  - Die Bilder der Hörreise sind ein Film aus der Grund-Szene: unser Schiff in seinen Szenen, Blickwinkel Seite, Heck, oben, nah, Übergänge wie ein Schwenk. Zuerst in 2D mit Kamera-Marken im Skript (`[[KAMERA: seite|heck|oben]]`, Vorschlag), 3D erst, wenn der 2D-Film gefällt (GL9).
+  - Die Grundfassung ist ein Hörspiel fürs Auto ohne Interaktion. Denkfragen der Crew bleiben, mit sechs Sekunden Stille und Auflösung (GL10).
+  - Ebenen zum Zuschalten in drei Stufen: nur hören, mitsprechen, mit Händen (Karte und Zirkel, Knotenbrett, Kiste); dazu der Schalter Harms an/aus. Zusätzliche Ebenen holen dich an Kapitelenden bewusst aus der Geschichte, der Film hält dafür an (GL11).
+  - Harms erzählt am Anfang jedes Hörtags 15 Sekunden „Was bisher geschah“ (knurrig, mit Seitenhieben auf Hinnerk) und hält den Film für Prüfungsfragen an. Er erzählt nicht die ganze Geschichte (GL12).
+  - Die Kiste spielt nur am Rand: Wahl am Anfang, Abendwache, Zwischenaufgaben. Die Geschichte braucht sie nicht (GL13).
+  - Offen: welche Bühne (Papiertheater, Scherenschnitt, Glasebenen, Aufklappbuch oder gemischt) nach dem Test der Filmproben (`docs/entwuerfe/film-varianten.html`).

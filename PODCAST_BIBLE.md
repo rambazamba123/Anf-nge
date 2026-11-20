@@ -183,6 +183,7 @@ Grundlage sind die Figuren aus CLAUDE.md §3 und V1. Ilse und Piet gibt es nicht
   - Grundlage ist die Prüfungsordnung, die der Nutzer hochlädt (F3). Ohne sie schreibt Claude diese Erklärung nicht.
   - Sonst trifft man ihn, „wenn es passt“.
   - **Das Staffelfinale ist keine Prüfung.** Die Prüfung ist die des Nutzers *(N 20.10. g)*: Nach allen Folgen lernt man am Boot weiter und ruft Harms zur Probeprüfung, wenn man bereit ist (das gibt es in der App schon: Telefon und Crew-Menü „Hol Kapitän Harms“).
+  - **Seit E27 (Nutzer, 20.11.2026, GL12):** Harms erzählt am Anfang jedes Hörtags kurz „Was bisher geschah“ (knurrig, mit Seitenhieben auf Hinnerk) und hält den Film an, um Prüfungsfragen zu stellen. Mit dem Schalter „Harms aus“ läuft die Geschichte ohne ihn. Er erzählt nicht die ganze Geschichte.
   - In der Wette (P30) ist er Hinnerks Gegenspieler. **Entfällt (E12).** Im Hörkurs prüft er in Stichprobe, Fallen-Check und Fragerunde (Konzept §8.3).
 - **P46 Gastrollen:** PFLICHT: Es gibt Gastrollen, dafür auch **zusätzliche eigene Stimmen** („gastrollen sind top“, „3. gerne zusätzlichen“, *N 20.10. b*). Der Nutzer hat diese Beispiele begrüßt: Hafenmeister, Funkstimme, Fischer. Figuren, Namen und Anzahl sind offen (O14).
 - **P47 PFLICHT – Ein Bayer kommt vor,** „vor allem beim sbf binnen. (chiemsee)“ *(N 20.10. b)*.
