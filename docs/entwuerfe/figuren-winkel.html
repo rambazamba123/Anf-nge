@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Figuren aus allen Winkeln</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Figuren aus allen Winkeln (Entwurf 22.11.2026): Feder und Aquarell weiterentwickelt, jede Figur von der Seite, von hinten, von vorn und von oben.
+   Alles kommt aus figuren.js der App; was hier gefällt, gilt sofort auch dort. */
+:root{--bg:#e8e2d3;--paper:#fbf6ec;--ink:#2a2019;--muted:#6c5f52;--line:#e1d5bf;--sea:#2d5f6a;--accent:#f0a23a;--accent-ink:#3a2408;--chip:#f3ece0;--chip-on:#2d5f6a;--chip-on-ink:#fff;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2a3a45;--chip-on:#7fb3bd;--chip-on-ink:#10202a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2a3a45;--chip-on:#7fb3bd;--chip-on-ink:#10202a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 60px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0}
+h2{font-family:var(--hfont);font-size:21px;line-height:1.15;margin:0}
+p{margin:0}.lead,.hint{color:var(--muted)}.hint{font-size:13px}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 93%,transparent);backdrop-filter:blur(8px);margin:0 -16px;padding:10px 16px 8px;border-bottom:1px solid var(--line)}
+.lab{font-family:var(--hfont);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:3px 0 3px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+section{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.kopf{display:flex;align-items:center;gap:8px}
+.kopf h2{flex:1}
+.herz{border:1px solid var(--line);background:var(--chip);color:#b5373a;border-radius:50%;width:36px;height:36px;font-size:17px;cursor:pointer}
+.herz[aria-pressed="true"]{background:#b5373a;color:#fff;border-color:#b5373a}
+.reihe{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.zelle{display:flex;flex-direction:column;align-items:stretch;gap:2px}
+.zelle small{font-size:11px;text-align:center;color:var(--muted);font-weight:700}
+.pap{position:relative;aspect-ratio:1/1.25;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#f8f1df 0%,#e8dbbc 100%)}
+.pap.oben{background:radial-gradient(circle at 50% 50%,#e3d6b6 0%,#cdbb92 100%)}
+.pap.oben::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(90,60,30,.12) 22px 23px)}
+.pap svg{position:absolute;inset:0;width:100%;height:100%}
+.vgl{display:grid;grid-template-columns:72px repeat(4,1fr);gap:6px;align-items:center}
+.vgl b{font-family:var(--hfont);font-size:12px;line-height:1.1}
+.vgl .pap{aspect-ratio:1/1.2}
+textarea{width:100%;min-height:100px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px}
+.btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="padding-top:18px">
+    <div class="eyebrow">Skipper · Entwurf 22.11.2026</div>
+    <h1>Figuren aus allen Winkeln</h1>
+    <p class="lead">Feder und Aquarell, je in drei Spielarten. Jede Figur von der <b>Seite</b>, von <b>hinten</b>, von <b>vorn</b> und von <b>oben</b> (so sieht man sie in der Aufsicht aufs Boot). Oben Stil und Körperbau wählen; mit ♥ merken.</p>
+  </div>
+  <div class="bar">
+    <div class="lab">Stil</div><div class="chips" id="cStil"></div>
+    <div class="lab">Körperbau</div><div class="chips" id="cTyp"></div>
+  </div>
+  <div id="figs" style="display:flex;flex-direction:column;gap:12px"></div>
+  <section>
+    <div class="kopf"><h2>Alle sechs Stile im Vergleich</h2></div>
+    <div class="lab">Figur</div><div class="chips" id="cFig"></div>
+    <div class="vgl" id="vgl"></div>
+  </section>
+  <section>
+    <h2>Meine Auswahl</h2>
+    <p class="hint" id="leer">Noch nichts mit ♥ markiert.</p>
+    <textarea id="txt" readonly></textarea>
+    <button class="btn" id="kop">Auswahl kopieren</button>
+  </section>
+</div>
+<script src="../../figuren.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id), F = window.FIGUREN;
+const STILE = {feder: 'Feder', federfein: 'Feder fein', laviert: 'Feder laviert', aquarell: 'Aquarell', aquarellnass: 'Aquarell nass', aquarellstift: 'Aquarell mit Bleistift'};
+const IDS = ['hinnerk', 'smilla', 'hilke', 'harms', 'backbord', 'klabauter'];
+const NAME = {hinnerk: "Käpt'n Hinnerk", smilla: 'Smilla', hilke: 'Hilke', harms: 'Kapitän Harms', backbord: 'Bordkatze Backbord', klabauter: 'Klabauter'};
+const W_MENSCH = [['seite', 'Seite', {blick: 'seite'}], ['ruecken', 'Hinten', {blick: 'ruecken'}], ['vorn', 'Vorn', {blick: 'vorn'}], ['oben', 'Oben', {blick: 'oben'}]];
+const W_TIER = {backbord: [['seite', 'Seite', {pose: 'laufen'}], ['sitzen', 'Sitzt', {pose: 'sitzen'}], ['putzen', 'Putzt sich', {pose: 'putzen'}], ['oben', 'Oben', {blick: 'oben'}]],
+  klabauter: [['seite', 'Seite', {}], ['sitzen', 'Sitzt', {pose: 'sitzen'}], ['fliegen', 'Fliegt', {pose: 'fliegen'}], ['oben', 'Oben', {blick: 'oben'}]]};
+const st = {stil: 'feder', typ: 'klassisch', fig: 'smilla'};
+let wahl = {}; try { wahl = JSON.parse(localStorage.getItem('skipper-winkel') || '{}'); } catch (e) {}
+const sp = () => { try { localStorage.setItem('skipper-winkel', JSON.stringify(wahl)); } catch (e) {} txt(); };
+
+const r = n => Math.round(n * 10) / 10;
+function bild(id, o, oben) {
+  const f = F.FIG[id], tier = !!f.tier;
+  const g = F.figur(id, Object.assign({dreh: false, stil: st.stil, typ: st.typ, machart: ''}, o));
+  if (oben) { const s = tier ? 1.55 : 1.3; return `<svg viewBox="-40 -60 80 100"><g transform="translate(0 ${tier ? 8 : 16}) scale(${s})">${g}</g></svg>`; }
+  const top = tier ? (o.pose === 'fliegen' ? 56 : 44) : f.h + 14, w = tier ? 66 : top * .8;
+  return `<svg viewBox="${r(-w / 2)} ${-top} ${r(w)} ${top + 6}" preserveAspectRatio="xMidYMax meet">${g}</svg>`;
+}
+function chips(el, obj, key) {
+  el.innerHTML = Object.entries(obj).map(([k, v]) => `<button class="chip" data-k="${k}" aria-pressed="${st[key] === k}">${v}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('.chip'); if (!b) return; st[key] = b.dataset.k; alles(); };
+}
+function alles() {
+  chips($('cStil'), STILE, 'stil');
+  chips($('cTyp'), Object.fromEntries(Object.entries(F.TYPEN).map(([k, t]) => [k, t.name])), 'typ');
+  chips($('cFig'), Object.fromEntries(IDS.map(i => [i, NAME[i].split(' ').pop()])), 'fig');
+  $('figs').innerHTML = IDS.map(id => { const W = W_TIER[id] || W_MENSCH, key = `${id}|${st.stil}|${st.typ}`;
+    return `<section><div class="kopf"><h2>${NAME[id]}</h2><button class="herz" data-k="${key}" aria-pressed="${!!wahl[key]}" aria-label="merken">♥</button></div>
+      <div class="reihe">${W.map(([w, n, o]) => `<div class="zelle"><div class="pap${w === 'oben' ? ' oben' : ''}">${bild(id, o, w === 'oben')}</div><small>${n}</small></div>`).join('')}</div></section>`; }).join('');
+  const W = W_TIER[st.fig] || W_MENSCH;
+  $('vgl').innerHTML = '<b></b>' + W.map(([, n]) => `<b style="text-align:center">${n}</b>`).join('') + Object.entries(STILE).map(([s, n]) => {
+    const alt = st.stil; st.stil = s; const zeile = `<b>${n}</b>` + W.map(([w, , o]) => `<div class="pap${w === 'oben' ? ' oben' : ''}">${bild(st.fig, o, w === 'oben')}</div>`).join(''); st.stil = alt; return zeile; }).join('');
+}
+function txt() {
+  const k = Object.keys(wahl); $('leer').style.display = k.length ? 'none' : '';
+  $('txt').value = k.length ? 'Meine Favoriten (Figuren aus allen Winkeln):\n' + k.map(x => { const [id, s, t] = x.split('|'); return `- ${NAME[id]}: Stil ${STILE[s]} (${s}), Körperbau ${F.TYPEN[t].name}`; }).join('\n') : '';
+}
+document.body.addEventListener('click', e => { const h = e.target.closest('.herz'); if (!h) return; const k = h.dataset.k; if (wahl[k]) delete wahl[k]; else wahl[k] = 1; h.setAttribute('aria-pressed', !!wahl[k]); sp(); });
+$('kop').onclick = () => { const t = $('txt'); t.select(); try { navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); } $('kop').textContent = 'Kopiert ✓'; setTimeout(() => $('kop').textContent = 'Auswahl kopieren', 1800); };
+alles(); txt();
+})();
+</script>
+</body>
+</html>

@@ -20,7 +20,12 @@ const STILE = {
   linol: 'Linolschnitt: dicker Strich, wenige Farbstufen',
   tusche: 'Tusche: braune Tusche mit Wasserfarbe, wie ein altes Buch',
   bleistift: 'Bleistift: grau schraffiert, nur ein Hauch Farbe',
-  scherenschnitt: 'Scherenschnitt: dunkle Umrisse, helle Details'
+  scherenschnitt: 'Scherenschnitt: dunkle Umrisse, helle Details',
+  /* v5.77 Weiterentwicklung von Feder und Aquarell (Nutzer 22.11.2026: „alte Feder/Aquarell-Stil ist gut, diese weiterentwickeln“) */
+  federfein: 'Feder fein: dünne Linie, mehr Schraffur, wie eine Buchillustration',
+  laviert: 'Feder laviert: Sepia-Tusche mit Wasserfarbe darüber (wie Pettersson und Findus)',
+  aquarellnass: 'Aquarell nass: Farbe läuft aus, dunkler Pigmentrand',
+  aquarellstift: 'Aquarell mit Bleistift: zarte Vorzeichnung unter der Farbe'
 };
 /* Körperbau (v5.75; Nutzer 21.11.2026: „mehrere Varianten, süßer etc.“): k = Kopfgröße, bw/bh = Breite/Höhe des Körpers, auge = Augenart, wange = Backen */
 const TYPEN = {
@@ -31,8 +36,6 @@ const TYPEN = {
   schlaksig: {name: 'Schlaksig', k: .92, bw: .88, bh: 1.1, auge: 'punkt', wange: .8},
   kraeftig: {name: 'Kräftig', k: 1.05, bw: 1.3, bh: .97, auge: 'glanz', wange: .9}
 };
-/* Machart (v5.76; Nutzer 22.11.2026: „Figuren neu gedacht“): wie die Figur gebaut ist, über jedem Zeichenstil. Leer = gezeichnet. */
-const MACHART = {'': 'Gezeichnet', papier: 'Papier am Stab', knete: 'Knete', filz: 'Filz und Wolle', strick: 'Gestrickt', schatten: 'Schattenfigur'};
 const AUGEN = {punkt: 'Punkt', glanz: 'Mit Glanzlicht', gross: 'Groß und glänzend', perle: 'Kulleraugen', strich: 'Zufriedener Strich'};
 const FIG = {
   hinnerk: {name: "Käpt'n Hinnerk", wer: 'HINNERK', h: 100, w: 1.18, bauch: .55, lean: 4, nase: 'knolle', bart: 'voll', haar: 'kranz',
@@ -75,6 +78,10 @@ function stilCss() {
   c += R('scherenschnitt', 'path,ellipse,circle,rect', `fill:${dunkel}!important`) + R('scherenschnitt', '.gl', `stroke:${dunkel}!important;fill:none!important`) + R('scherenschnitt', '.ol,.ln', 'stroke:none!important')
     + R('scherenschnitt', '.det,[fill="none"]', 'fill:none!important') + R('scherenschnitt', '.det', `stroke:${hellD}!important;opacity:.8`) + R('scherenschnitt', '.tinte', `fill:${hellD}!important`)
     + R('scherenschnitt', '.wange,.sch,.hl,.schraff', 'display:none') + R('scherenschnitt', null, 'filter:url(#cr-feder)');
+  c += V('federfein', '--tinte:#2e241c;--strich:.75') + R('federfein', '.schraff', 'opacity:.95') + R('federfein', '.det', 'opacity:.9');
+  c += V('laviert', '--tinte:#4a2f1c;--strich:1') + R('laviert', null, 'filter:url(#cr-lavur) sepia(.22) saturate(1.12)') + R('laviert', '.sch', 'opacity:.28') + R('laviert', '.schraff', 'opacity:.45');
+  c += wasser('aquarellnass') + R('aquarellnass', null, 'filter:url(#cr-nass) saturate(1.12)') + R('aquarellnass', '.sch', 'opacity:.3');
+  c += V('aquarellstift', '--tinte:#6d6a66;--strich:.55') + R('aquarellstift', '.ln', 'stroke-opacity:.75') + R('aquarellstift', '.det', 'opacity:.45') + R('aquarellstift', '.schraff', 'display:none') + R('aquarellstift', null, 'filter:url(#cr-aquarell)');
   return c;
 }
 function css() {
@@ -110,11 +117,8 @@ function defs() {
     <filter id="cr-linol" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="2" seed="12" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.2" result="d"/>
       <feComponentTransfer in="d"><feFuncR type="discrete" tableValues="0 .22 .45 .7 .9 1"/><feFuncG type="discrete" tableValues="0 .22 .45 .7 .9 1"/><feFuncB type="discrete" tableValues="0 .22 .45 .7 .9 1"/></feComponentTransfer></filter>
     <filter id="cr-stift" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".22" numOctaves="2" seed="21"/><feDisplacementMap in="SourceGraphic" scale=".9"/></filter>
-    <filter id="cr-m-papier" x="-20%" y="-15%" width="140%" height="135%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="r"/><feFlood flood-color="#fffaf0"/><feComposite in2="r" operator="in" result="rand"/><feGaussianBlur in="r" stdDeviation="2" result="b"/><feOffset in="b" dx="1.5" dy="3" result="o"/><feFlood flood-color="#000" flood-opacity=".32"/><feComposite in2="o" operator="in" result="sch"/><feMerge><feMergeNode in="sch"/><feMergeNode in="rand"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="cr-m-knete" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.2" result="d"/><feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="b"/><feSpecularLighting in="b" surfaceScale="8" specularConstant=".85" specularExponent="18" lighting-color="#fff" result="s"><fePointLight x="-60" y="-160" z="120"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/><feComposite in="d" in2="s2" operator="arithmetic" k1="0" k2="1" k3=".32" k4="0"/></filter>
-    <filter id="cr-m-filz" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3" result="d"/><feGaussianBlur in="d" stdDeviation=".45" result="w"/><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="8" result="f"/><feColorMatrix in="f" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .5 -.15" result="fa"/><feComposite in="fa" in2="w" operator="in" result="fasern"/><feMerge><feMergeNode in="w"/><feMergeNode in="fasern"/></feMerge></filter>
-    <filter id="cr-m-strick" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8'%3E%3Crect width='7' height='8' fill='white'/%3E%3Cpath d='M0 0 L3.5 4.5 L7 0 M0 4 L3.5 8.5 L7 4' stroke='black' stroke-opacity='.55' stroke-width='1.4' fill='none'/%3E%3C/svg%3E" x="0" y="0" width="7" height="8" result="m"/><feTile in="m" result="mt"/><feComposite in="mt" in2="SourceAlpha" operator="in" result="mm"/><feBlend in="SourceGraphic" in2="mm" mode="multiply"/></filter>
-    <filter id="cr-m-schatten"><feFlood flood-color="#130d09"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="cr-lavur" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="11" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.6" result="d"/><feMorphology in="SourceAlpha" operator="erode" radius="1.4" result="e"/><feComposite in="SourceAlpha" in2="e" operator="out" result="rand"/><feFlood flood-color="#6b4422" flood-opacity=".22"/><feComposite in2="rand" operator="in" result="pig"/><feMerge><feMergeNode in="d"/><feMergeNode in="pig"/></feMerge></filter>
+    <filter id="cr-nass" x="-12%" y="-12%" width="124%" height="124%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="3" seed="17" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.6" result="d"/><feGaussianBlur in="d" stdDeviation=".35" result="w"/><feMorphology in="SourceAlpha" operator="erode" radius="1.8" result="e"/><feComposite in="SourceAlpha" in2="e" operator="out" result="r0"/><feDisplacementMap in="r0" in2="t" scale="4" result="rand"/><feFlood flood-color="#3c2410" flood-opacity=".3"/><feComposite in2="rand" operator="in" result="pig"/><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="1" seed="4" result="k"/><feColorMatrix in="k" type="matrix" values="0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .35 -.1" result="korn"/><feComposite in="korn" in2="w" operator="in" result="kk"/><feMerge><feMergeNode in="w"/><feMergeNode in="kk"/><feMergeNode in="pig"/></feMerge></filter>
     <pattern id="cr-schraff" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V3" stroke="#3b2a1f" stroke-width=".55"/></pattern>
   </defs></svg>`;
   (document.body || document.documentElement).appendChild(d);
@@ -372,6 +376,51 @@ function menschRuecken(id, f, k, o) {
   return mitKopf(s, kopfRuecken(id, f, k, o, 0, -86.6 + dy), '', o._t || TYPEN.klassisch, 0, -86.6 + dy);
 }
 
+/* ---------- Blick von oben (v5.77; Nutzer 22.11.2026: „Figuren aus verschiedenen Winkeln: Seite, hinten, vorn, oben“) ----------
+   Die Figur schaut nach unten (zum Betrachter hin); Mittelpunkt des Kopfes bei y = -24, Füße vorn bei y = -6. */
+function menschOben(id, f, k, o) {
+  const w = f.w, b = f.bauch || 0, T = o._t || TYPEN.klassisch, kk = 8.4 * Math.min(1.5, T.k), pose = o.pose || 'stehen', vor = pose === 'pinne' || pose === 'steuern' || pose === 'zeigen';
+  const sb = (13.5 * w + b * 3) * T.bw;
+  let s = `<ellipse cx="2" cy="-18" rx="${r1(sb + 5)}" ry="13" fill="#2a1608" opacity=".14"/>`;
+  s += `<ellipse cx="-5" cy="-6" rx="3.6" ry="4.8" class="f-stiefel ln"/><ellipse cx="5" cy="-6" rx="3.6" ry="4.8" class="f-stiefel ln"/>`;
+  const arm = sd => vor && sd > 0 ? `<path d="M${r1(sd * sb * .8)} -25 Q${r1(sd * (sb + 3))} -16 ${r1(sd * (sb - 2))} -8" class="ol" style="--b:${r1(6.6 * w)}"/><path d="M${r1(sd * sb * .8)} -25 Q${r1(sd * (sb + 3))} -16 ${r1(sd * (sb - 2))} -8" class="gl s-jacke" style="--b:${r1(6.6 * w)}"/><circle cx="${r1(sd * (sb - 2))}" cy="-7" r="2.8" class="f-haut ln"/>`
+    : `<ellipse cx="${r1(sd * (sb + 1.5))}" cy="-21" rx="4" ry="8.4" class="f-jacke ln" ${jackenFarbe(id, k)}/><circle cx="${r1(sd * (sb + 1.8))}" cy="-13.4" r="2.7" class="f-haut ln"/>`;
+  s += arm(-1) + arm(1);
+  s += `<ellipse cx="0" cy="-23" rx="${r1(sb)}" ry="${r1(9.5 * T.bw)}" class="f-jacke ln" ${jackenFarbe(id, k)}/>`;
+  if (b > .3) s += `<ellipse cx="0" cy="-15.5" rx="${r1(sb * .55)}" ry="4.6" class="f-jacke ln" ${jackenFarbe(id, k)}/>`;
+  s += `<path d="M${r1(-sb * .9)} -26 Q0 -31 ${r1(sb * .9)} -26" class="det" style="opacity:.35"/>`;
+  if (id === 'hilke' && k.weste === 'warn') s += `<path d="M${r1(-sb * .82)} -25 Q0 -16 ${r1(sb * .82)} -25 L${r1(sb * .78)} -20 Q0 -11 ${r1(-sb * .78)} -20Z" class="f-weste ln"/><path d="M${r1(-sb * .8)} -22.4 Q0 -13.6 ${r1(sb * .8)} -22.4" stroke="#f3f1e6" stroke-width="1.3" fill="none"/>`;
+  /* Kopf */
+  const hy = -25.5;
+  let kt = '';
+  if (id === 'smilla') { kt += `<circle cx="0" cy="${hy}" r="${r1(kk + .8)}" class="f-haar ln"/>`; if (k.haar === 'zopf') kt += `<path d="M0 ${r1(hy - kk)} Q-3 ${r1(hy - kk - 9)} 1 ${r1(hy - kk - 17)}" class="ol" style="--b:4.4"/><path d="M0 ${r1(hy - kk)} Q-3 ${r1(hy - kk - 9)} 1 ${r1(hy - kk - 17)}" class="gl s-haar" style="--b:4.4"/>`; else if (k.haar === 'dutt') kt += `<circle cx="0" cy="${r1(hy - kk + 1)}" r="3.6" class="f-haar ln"/>`;
+    kt += `<circle cx="0" cy="${r1(hy + 1)}" r="${r1(kk * .86)}" class="f-hut ln"/><circle cx="0" cy="${r1(hy + 1)}" r="2.6" fill="#f2efe6" class="ln"/>`; }
+  else if (id === 'hinnerk') { const hut = k.hut || 'elbsegler', col = hut === 'fischer' ? 'style="fill:#b8402e"' : hut === 'suedwester' ? 'style="fill:#e2b23c"' : '';
+    kt += `<path d="M${r1(-kk * .9)} ${r1(hy + 4)} Q0 ${r1(hy + kk + 9)} ${r1(kk * .9)} ${r1(hy + 4)}" class="f-bart ln"/>`;
+    if (hut === 'ohne') kt += `<circle cx="0" cy="${hy}" r="${r1(kk)}" class="f-haut ln"/><path d="M${r1(-kk * .8)} ${r1(hy - 2)} A${r1(kk * .85)} ${r1(kk * .85)} 0 0 1 ${r1(kk * .8)} ${r1(hy - 2)}" class="det" style="opacity:.5"/>`;
+    else { if (hut === 'suedwester') kt += `<ellipse cx="0" cy="${r1(hy - 1)}" rx="${r1(kk * 1.4)}" ry="${r1(kk * 1.3)}" class="f-hut ln" ${col}/>`; kt += `<circle cx="0" cy="${hy}" r="${r1(kk)}" class="f-hut ln" ${col}/>`;
+      if (hut === 'elbsegler') kt += `<path d="M${r1(-kk * .75)} ${r1(hy + kk * .55)} Q0 ${r1(hy + kk * 1.45)} ${r1(kk * .75)} ${r1(hy + kk * .55)}Z" fill="#1a2236" class="ln"/><circle cx="0" cy="${r1(hy + kk * .2)}" r="1.4" fill="#c9a03c"/>`;
+      if (hut === 'fischer') kt += `<path d="M${r1(-kk * .4)} ${r1(hy - kk * .3)} q${r1(kk * .4)} -4 ${r1(kk * .8)} 0" class="det"/>`; } }
+  else if (id === 'harms') { if (k.hut === 'ohne') kt += `<circle cx="0" cy="${hy}" r="${r1(kk)}" class="f-haar ln"/>`;
+    else kt += `<circle cx="0" cy="${hy}" r="${r1(kk * 1.08)}" class="f-hut ln"/><circle cx="0" cy="${hy}" r="${r1(kk * .62)}" fill="none" class="det" style="opacity:.4"/><path d="M${r1(-kk * .8)} ${r1(hy + kk * .7)} Q0 ${r1(hy + kk * 1.55)} ${r1(kk * .8)} ${r1(hy + kk * .7)}Z" fill="#141a26" class="ln"/><circle cx="0" cy="${r1(hy + kk * .45)}" r="1.6" class="f-akzent"/>`; }
+  else { kt += `<circle cx="0" cy="${hy}" r="${r1(kk)}" class="f-haar ln"/><circle cx="0" cy="${r1(hy - kk * .5)}" r="3.4" class="f-haar ln"/><path d="M${r1(-kk * .6)} ${r1(hy + kk * .7)} q${r1(kk * .6)} 2 ${r1(kk * 1.2)} 0" class="f-haut ln"/>`;
+    if (f.brille) kt += `<path d="M${r1(-kk * .7)} ${r1(hy + kk * .5)} H${r1(kk * .7)}" class="det" style="opacity:.8"/>`; }
+  return s + kt;
+}
+function katzeOben(f, k) {
+  const latz = k.fell === 'latz', socken = k.fell === 'socken';
+  return `<ellipse cx="2" cy="-12" rx="13" ry="16" fill="#2a1608" opacity=".14"/><path d="M6 -2 Q16 -2 16 -14 Q16 -24 10 -26" class="ol" style="--b:4"/><path d="M6 -2 Q16 -2 16 -14 Q16 -24 10 -26" class="gl s-fell" style="--b:4"/>
+    <ellipse cx="0" cy="-14" rx="9" ry="12.5" class="f-fell ln"/>${[-19, -14, -9].map(y => `<path d="M-7 ${y} Q0 ${y + 3} 7 ${y}" class="s-streifen" stroke-width="1.8" fill="none"/>`).join('')}
+    ${socken ? '<circle cx="-5" cy="-1" r="2.2" fill="#f7efe2" class="ln"/><circle cx="5" cy="-1" r="2.2" fill="#f7efe2" class="ln"/>' : ''}
+    <circle cx="0" cy="-2" r="6.4" class="f-fell ln"/><path d="M-5.6 -5 L-6.4 -10.4 L-2.2 -7 Z M5.6 -5 L6.4 -10.4 L2.2 -7 Z" class="f-fell ln"/><path d="M-3 -5 Q0 -3.6 3 -5" class="s-streifen" stroke-width="1.4" fill="none"/>
+    ${latz ? '<path d="M-3 2 Q0 4.6 3 2" fill="#f7efe2"/>' : ''}<path d="M-2 -8.4 Q0 -7.4 2 -8.4" class="s-halsband" stroke-width="1.6" fill="none"/>`;
+}
+function papageiOben() {
+  return `<ellipse cx="2" cy="-12" rx="10" ry="14" fill="#2a1608" opacity=".14"/><path d="M-3 -24 L0 -34 L3 -24Z" class="f-fluegel ln"/><ellipse cx="0" cy="-15" rx="6.6" ry="10" class="f-koerper ln"/>
+    <path d="M-6 -20 Q-10 -12 -4 -6 Q-5 -13 -6 -20Z M6 -20 Q10 -12 4 -6 Q5 -13 6 -20Z" class="f-fluegel ln"/><circle cx="0" cy="-5" r="4.6" class="f-kopf ln"/><path d="M-1.8 -1.6 Q0 2.6 1.8 -1.6Z" class="f-schnabel ln"/>
+    <circle cx="-2.6" cy="-5.4" r=".9" class="tinte"/><circle cx="2.6" cy="-5.4" r=".9" class="tinte"/>`;
+}
+
 /* ---------- Bordkatze Backbord (rot getigert, Halsband: von ihr aus links rot, rechts grün) ---------- */
 function katze(f, k, o) {
   const pose = o.pose || 'sitzen', fell = k.fell;
@@ -456,12 +505,12 @@ function figur(id, o = {}) {
   const L0 = look(), tn = o.typ || (L0.typ || {})[id] || L0.typAlle || 'klassisch', T = TYPEN[tn] || TYPEN.klassisch;
   o = {...o, _t: T, auge: o.auge || L0.auge || null};
   let inner;
-  if (f.tier === 'katze') inner = katze(f, k, o);
+  if (o.blick === 'oben') inner = f.tier === 'katze' ? katzeOben(f, k) : f.tier === 'papagei' ? papageiOben() : menschOben(id, f, k, o);
+  else if (f.tier === 'katze') inner = katze(f, k, o);
   else if (f.tier === 'papagei') inner = papagei(f, k, o);
   else inner = (o.blick === 'vorn' ? menschVorn : o.blick === 'ruecken' ? menschRuecken : menschSeite)(id, f, k, o);
-  const sk = f.tier ? 1 : f.h / 100, ma = o.machart != null ? o.machart : (L0.machart || '');
-  if (MACHART[ma] && ma) { defs(); inner = `<g filter="url(#cr-m-${ma})">${sk === 1 ? inner : `<g transform="scale(${sk})">${inner}</g>`}</g>` + (ma === 'papier' ? '<path d="M1 -2 V14" stroke="#8a5d34" stroke-width="2.4" stroke-linecap="round"/>' : ma === 'schatten' && !f.tier ? '<g fill="#e8c35a"><circle cx="-9" cy="-52" r="1.6"/><circle cx="10" cy="-52" r="1.6"/><circle cx="1" cy="-34" r="1.6"/></g>' : ''); }
-  else if (sk !== 1) inner = `<g transform="scale(${sk})">${inner}</g>`;
+  const sk = f.tier ? 1 : f.h / 100;
+  if (sk !== 1) inner = `<g transform="scale(${sk})">${inner}</g>`;
   return `<g class="cr cr-${id} stil${STILE[o.stil] ? ' fest st-' + o.stil : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
 }
 /* Gespeichertes Aussehen (S.cfg.look, Standard leer; R7). index.html setzt Farben und Stil auf <html> (lookAnwenden). */
@@ -472,5 +521,5 @@ function bild(id, o = {}) {
   const h = f.h + 24, w = f.tier ? 50 : 70;
   return `<svg class="crsvg" viewBox="${-w / 2} ${-h + 4} ${w} ${h}" aria-label="${f.name}">${figur(id, o)}</svg>`;
 }
-window.FIGUREN = {figur, bild, css, FIG, STILE, TYPEN, AUGEN, MACHART, kleidVon, look};
+window.FIGUREN = {figur, bild, css, FIG, STILE, TYPEN, AUGEN, kleidVon, look};
 })();
