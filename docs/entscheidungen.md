@@ -78,3 +78,8 @@
   - Bühne: Glasebenen, weich (E27-Test, 20.11.2026).
   - Figuren und Boot sind austauschbar: Farbe, Ausbau und Aussehen gelten überall, wo sie vorkommen (`docs/baukasten.md`). Figuren detailreicher und im Stil (Pettersson, Janosch); Bordkatze Backbord rot getigert, „keine Grenzen“ für ihren Unsinn. Der Nutzer bekommt Auswahlmöglichkeiten (Werft).
   - Offen: welcher Zeichenstil Standard wird; ob der Ausbau als Belohnung erst nach Tag 3, 5, 7 kommt (SK12) oder immer frei ist.
+- **E29** (Nutzer, 21.11.2026) Standardschiff und Figuren-Varianten:
+  - Das Standardschiff hat keinen „Schnickschnack“; Extras (Kanone, Anker, Antenne …) kommen mit der Zeit dazu, freigeschaltet über die Tage der Hörreise. Bis der Nutzer die Tage festlegt, ist der **Testmodus** an (alles frei, Werft → letztes Thema).
+  - Figuren: viele Varianten (Körperbau, Augen, Stile), „süßer“, je einmal Aquarell (ohne Strich) und mit Strich außenrum; weitere Stile zum Ausprobieren (`docs/entwuerfe/figuren-atelier.html`).
+  - Menüs, auch die Kajüte, im Glasplatten-Stil mit mehreren Ansichten zur Auswahl (`docs/entwuerfe/menues-glas.html`). Welche Varianten in die App kommen, entscheidet der Nutzer.
+  - Offen: Standard-Stil, Standard-Glas, Tag je Teil, freie Farbwahl zurück, welche Menüvarianten.

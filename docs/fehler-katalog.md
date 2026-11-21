@@ -106,6 +106,12 @@
 | Autopilot an den Steinen und quer über Tonnenlinien (v5.14, v5.17) | Wegplaner ohne Hindernisse und Tore | ⚙ `tests/welt-folgen.js` |
 | Beendete Folge lief weiter (v5.14) | alter Lauf nicht gestoppt | ✋ Laufnummer prüfen |
 
+- **Komma im Selektor (v5.75):** Eine CSS-Regel für mehrere Teile (`circle, ellipse`) darf nie als ein Selektor-Präfix gebaut werden; sonst hängt nur das erste Teil an `.cr` und der Rest gilt global (alle Kreise dunkel, Papageienkopf schwarz). Prüfung: Stil-CSS aus `stilCss()` ansehen, ein Bild je Stil rendern.
+- **Filter in linearem RGB (v5.75):** SVG-Filter rechnen standardmäßig in linearem RGB; Kontrast darin macht Bilder fast schwarz (Linolschnitt). `color-interpolation-filters="sRGB"` setzen. Prüfung: Kontaktbogen aller Stile.
+- **Globaler Name `CREW` (v5.72):** `index.html` hat schon `const CREW`; neue Skripte heißen `FIGUREN`. Prüfung: `node --check` und Konsole beim Laden.
+- **Sperre und Verwerfen (v5.75):** Ist nichts geändert, schließt „Verwerfen“ die Werft. Tests, die danach weiterklicken, brauchen vorher eine Änderung.
+- **Platten in Entwurfsseiten (v5.75):** Die viewBox der Platte muss zum Seitenverhältnis des Plattenkastens passen (Rahmen 400×600 und Platte 116 % hoch ⇒ viewBox 400×600), sonst zoomt `slice` und die Knöpfe sitzen daneben.
+
 ## Teil E: Arbeitsweise
 - Vor dem Commit `node --check` auf jede geänderte JS-Datei; nach mehrzeiligem Ersetzen die Stelle ansehen.
 - Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.

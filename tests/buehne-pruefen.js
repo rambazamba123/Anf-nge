@@ -97,13 +97,21 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
       const T = WERFT._themen(), bug = T.findIndex(t => t.id === 'p-bug'); WERFT._thema(bug); WERFT._wahl(T[bug].opts.findIndex(o => o.w === 'bordkanone'));
       const vorschau = document.documentElement.dataset.up.includes('bordkanone');
       document.querySelector('#wverw').click(); const zurueck = !document.documentElement.dataset.up.includes('bordkanone');
+      /* v5.75: Körperbau wirkt als Vorschau (Kopf wird größer), gesperrte Extras lassen sich ohne Testmodus nicht wählen */
+      const ti = T.findIndex(t => t.id === 'typ-alle'); WERFT._thema(ti); WERFT._wahl(T[ti].opts.findIndex(o => (o.w || o.id) === 'puppe'));
+      const typ = S.cfg.look.typAlle === 'puppe' && FIGUREN.figur('smilla', {blick: 'vorn', dreh: false}).includes('scale(0.82');
+      document.querySelector('#wverw').click(); const typZurueck = !S.cfg.look.typAlle;
+      S.cfg.look.test = false; WERFT._thema(bug); WERFT._wahl(T[bug].opts.findIndex(o => o.w === 'bordkanone'));
+      const gesperrt = !document.documentElement.dataset.up.includes('bordkanone'); S.cfg.look.test = true;
       WERFT._thema(bug); WERFT._wahl(T[bug].opts.findIndex(o => o.w === 'anker')); document.querySelector('#wueb').click();
       await new Promise(x => setTimeout(x, 300));
       const gesp = JSON.parse(localStorage.getItem('skipper-sbfsee-v1')).cfg.look || {};
-      return {film, crewZu, vorschau, zurueck, gespeichert: (gesp.up || []).includes('anker'), zu: !document.getElementById('werft2')};
+      return {film, crewZu, vorschau, zurueck, typ, typZurueck, gesperrt, gespeichert: (gesp.up || []).includes('anker'), zu: !document.getElementById('werft2')};
     });
     r.film && r.crewZu ? ok('Werft: Filmbühne sichtbar') : schlecht('Werft: Bühne verdeckt oder leer ' + JSON.stringify(r));
     r.vorschau && r.zurueck ? ok('Werft: Vorschau wirkt, Verwerfen stellt zurück') : schlecht('Werft: Vorschau/Verwerfen ' + JSON.stringify(r));
+    r.typ && r.typZurueck ? ok('Werft: Körperbau wirkt, Verwerfen stellt zurück') : schlecht('Werft: Körperbau ' + JSON.stringify(r));
+    r.gesperrt ? ok('Werft: gesperrte Extras bleiben ohne Testmodus zu') : schlecht('Werft: Sperre ' + JSON.stringify(r));
     r.gespeichert && r.zu ? ok('Werft: Übernehmen speichert und schließt') : schlecht('Werft: Übernehmen ' + JSON.stringify(r));
     errs.length ? schlecht('Konsole (Werft): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Werft)'); await ctx.close(); }
   await b.close();

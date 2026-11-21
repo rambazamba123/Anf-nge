@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Menüs im Glasplatten-Stil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Menüs im Glasplatten-Stil (Entwurf 21.11.2026). Jede Szene besteht aus Platten hintereinander (Himmel, Küste, Meer, Boot, Wellen),
+   die sich beim Wischen verschieden weit bewegen. Die Menüs sind Glas davor. Oben: Glasart und Tageszeit gelten für alles. */
+:root{--bg:#e8e2d3;--paper:#fbf6ec;--ink:#2a2019;--muted:#6c5f52;--line:#e1d5bf;--sea:#2d5f6a;--accent:#f0a23a;--accent-ink:#3a2408;--chip:#f3ece0;--chip-on:#2d5f6a;--chip-on-ink:#fff;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2a3a45;--chip-on:#7fb3bd;--chip-on-ink:#10202a;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 70px}
+.wrap{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0}
+h2{font-family:var(--hfont);font-size:21px;line-height:1.15;margin:0}
+p{margin:0}.lead,.hint{color:var(--muted)}.hint{font-size:13px}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+.bar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);padding:10px 0 8px;margin:0 -16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.bar .lab{font-family:var(--hfont);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:2px 0 3px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+section.s{display:flex;flex-direction:column;gap:8px}
+.vname{font-family:var(--hfont);font-weight:800;font-size:14px;color:var(--sea)}
+
+/* ===== Telefonrahmen ===== */
+.ph{position:relative;width:100%;max-width:400px;margin:0 auto;aspect-ratio:400/780;border-radius:26px;overflow:hidden;background:#0d1520;box-shadow:0 12px 34px rgba(20,15,10,.3);isolation:isolate;color:#fff;font-family:var(--bfont)}
+.ph.kurz{aspect-ratio:400/600}
+.st{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;cursor:grab}
+.pl{position:absolute;left:-8%;width:116%;top:0;height:116%;will-change:transform}
+.pl svg{width:100%;height:100%;display:block}
+.pl.boot{animation:wipp 5.5s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes wipp{0%,100%{rotate:-.9deg;translate:0 0}50%{rotate:.9deg;translate:0 3px}}
+.pl.wl{animation:wog 7s ease-in-out infinite}
+@keyframes wog{0%,100%{translate:0 0}50%{translate:6px 2px}}
+.st .korn{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.2;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .3  0 0 0 .55 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
+.st .ton{position:absolute;inset:0;pointer-events:none}
+/* Glasarten: wirken auf die Platten */
+.ph[data-g="weich"] .pl.fern{filter:blur(1.3px) saturate(.9)}
+.ph[data-g="weich"] .pl.mitte{filter:blur(.5px)}
+.ph[data-g="aquarell"] .pl{filter:url(#g-pig)}
+.ph[data-g="aquarell"] .ton{background:rgba(214,180,120,.14)}
+.ph[data-g="feder"] .pl{filter:url(#g-tusche) sepia(.25)}
+.ph[data-g="feder"] .ton{background:rgba(160,110,60,.18)}
+.ph[data-g="buntstift"] .pl{filter:url(#g-krakel) saturate(1.15)}
+.ph[data-g="theater"] .pl{filter:drop-shadow(0 7px 5px rgba(10,15,25,.45))}
+.ph[data-g="klar"] .ton{background:rgba(255,240,210,.06)}
+.ph[data-g="weich"] .ton{background:rgba(255,246,230,.05)}
+.ph[data-g="aquarell"] .korn,.ph[data-g="feder"] .korn,.ph[data-g="buntstift"] .korn{opacity:.4}
+.ph[data-g="klar"] .korn{opacity:.08}
+.ph[data-z="nacht"] .pl.boot{filter:brightness(.62) saturate(.85)}
+.ph[data-z="abend"] .pl.boot{filter:brightness(.86) sepia(.2)}
+.ph[data-z="nacht"] .ton{background:rgba(8,14,40,.28)}
+
+/* ===== Glas (Menüs) ===== */
+.gl{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.36),rgba(255,255,255,.12));backdrop-filter:blur(12px) saturate(1.35);-webkit-backdrop-filter:blur(12px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.5);border-radius:18px;box-shadow:0 8px 22px rgba(10,20,35,.28),inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.12);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.gl::before{content:"";position:absolute;left:8%;right:8%;top:3px;height:36%;border-radius:14px 14px 40% 40%/14px 14px 100% 100%;background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0));pointer-events:none}
+.ph[data-z="nacht"] .gl{background:linear-gradient(135deg,rgba(150,180,230,.25),rgba(80,110,180,.1))}
+.ph[data-g="aquarell"] .gl{background:linear-gradient(135deg,rgba(255,248,232,.5),rgba(240,225,195,.22));border-color:rgba(190,150,90,.55);color:#2c2012;text-shadow:none}
+.ph[data-g="feder"] .gl{background:rgba(250,242,222,.55);border:2px solid #4a3522;color:#2c2012;text-shadow:none;border-radius:14px}
+.ph[data-g="buntstift"] .gl{border:2.5px dashed rgba(255,255,255,.8);border-radius:22px 16px 24px 14px}
+.ph[data-g="theater"] .gl{box-shadow:0 14px 0 -6px rgba(10,15,25,.45),0 18px 24px rgba(10,15,25,.4),inset 0 1px 0 rgba(255,255,255,.7)}
+.ph[data-g="aquarell"] .gl::before,.ph[data-g="feder"] .gl::before{opacity:.45}
+.gl.kl{border-radius:999px}
+.gl.akz{background:linear-gradient(135deg,rgba(255,196,90,.85),rgba(240,150,40,.7));border-color:rgba(255,230,170,.9);color:#3a2408;text-shadow:none}
+.ph[data-g="feder"] .gl.akz{background:#f0a23a;color:#3a2408}
+.gl b{font-family:var(--hfont);font-weight:800}
+.ov{position:absolute;inset:0;display:flex;flex-direction:column;padding:14px;gap:10px;pointer-events:none}
+.ov>*{pointer-events:auto}
+.kopfz{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;font-size:13px}
+.kopfz b{font-size:15px}
+.tile{display:flex;flex-direction:column;gap:2px;padding:11px 12px;text-align:left;cursor:pointer;font:inherit;color:inherit;border-radius:18px;text-shadow:inherit}
+.tile .ic{font-size:26px;line-height:1}
+.tile b{font-size:15px;line-height:1.1;margin-top:3px}
+.tile small{font-size:11.5px;opacity:.92;line-height:1.2}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn{font:inherit;font-weight:800;border-radius:14px;padding:11px 14px;cursor:pointer;color:inherit;border:1px solid rgba(255,255,255,.5)}
+.dock{display:flex;justify-content:space-around;padding:8px 6px;border-radius:24px}
+.dock button{font:inherit;color:inherit;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:0;font-size:11px;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:12px;text-shadow:inherit}
+.dock button span{font-size:22px;line-height:1.1}
+.dock button.on{background:rgba(255,255,255,.28)}
+.pin{position:absolute;display:flex;align-items:center;gap:5px;padding:5px 10px 5px 7px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap;transform:translate(-50%,-50%)}
+.pin::after{content:"";position:absolute;inset:-4px;border-radius:999px;border:2px solid rgba(255,255,255,.6);animation:puls 2.2s ease-out infinite;pointer-events:none}
+@keyframes puls{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.25);opacity:0}}
+.sp{flex:1}
+.chip2{display:inline-flex;gap:4px;align-items:center;padding:3px 9px;font-size:12px;font-weight:800;border-radius:999px}
+.ring{width:34px;height:34px;border-radius:50%;background:conic-gradient(#ffd27a calc(var(--p)*1%),rgba(255,255,255,.3) 0);display:grid;place-items:center;flex:none}
+.ring i{width:26px;height:26px;border-radius:50%;background:rgba(20,35,55,.55);display:grid;place-items:center;font-style:normal;font-size:14px}
+.ph[data-g="aquarell"] .ring i,.ph[data-g="feder"] .ring i{background:rgba(250,242,222,.9)}
+.ant{padding:11px 13px;font-weight:700;text-align:left;cursor:pointer;font:inherit;display:flex;gap:9px;align-items:center;color:inherit;text-shadow:inherit}
+.ant .bu{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.3);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.ant.ok{background:linear-gradient(135deg,rgba(90,200,120,.7),rgba(40,150,80,.5))}
+.ant.no{background:linear-gradient(135deg,rgba(230,90,80,.7),rgba(170,40,40,.5))}
+.knoten{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;width:46px;height:46px;font-size:20px;border-radius:50%;padding:0;cursor:pointer;color:inherit}
+.knoten.ak{width:56px;height:56px;font-size:24px}
+.mini{display:flex;gap:6px;overflow:auto;padding-bottom:2px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="g-pig" x="-3%" y="-3%" width="106%" height="106%"><feMorphology in="SourceAlpha" operator="erode" radius="1.6" result="e"/><feComposite in="SourceAlpha" in2="e" operator="out" result="rand"/><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="3" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 .55  0 0 0 0 .4  0 0 0 0 .25  0 0 0 .35 0" result="fl"/><feComposite in="fl" in2="SourceAlpha" operator="in" result="fl2"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="fl2"/><feMergeNode in="rand"/></feMerge></filter>
+  <filter id="g-tusche" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="6" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.2" result="a"/><feMorphology in="SourceAlpha" operator="dilate" radius="1.1" result="d"/><feComposite in="d" in2="SourceAlpha" operator="out" result="k"/><feFlood flood-color="#3b2916" flood-opacity=".8"/><feComposite in2="k" operator="in" result="kk"/><feMerge><feMergeNode in="a"/><feMergeNode in="kk"/></feMerge></filter>
+  <filter id="g-krakel" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="11" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3.4"/></filter>
+</defs></svg>
+
+<div class="wrap">
+  <div style="padding-top:18px">
+    <div class="eyebrow">Skipper · Entwurf 21.11.2026</div>
+    <h1>Menüs im Glasplatten-Stil</h1>
+    <p class="lead">Szene aus Platten (wische oder ziehe: nahe Platten bewegen sich mehr als ferne), Menüs als Glas davor. Oben stellst du <b>Glasart</b> und <b>Tageszeit</b> für alles ein. Die Boote und Figuren sind die echten aus der App.</p>
+  </div>
+  <div class="bar">
+    <div class="lab">Glasart</div><div class="chips" id="cG"></div>
+    <div class="lab">Tageszeit</div><div class="chips" id="cZ"></div>
+  </div>
+
+  <section class="s"><h2>A · Deck (Hauptmenü)</h2>
+    <div class="vname">A1 · Fenster: Bild oben, Glas-Kacheln unten</div><div class="ph" data-ph="a1" id="a1"></div>
+    <div class="vname">A2 · Alles im Bild: Knöpfe sitzen am Boot</div><div class="ph" data-ph="a2" id="a2"></div>
+    <div class="vname">A3 · Glasscheibe: Reiter wie ein Fenstervorhang</div><div class="ph" data-ph="a3" id="a3"></div>
+  </section>
+
+  <section class="s"><h2>B · Kajüte</h2>
+    <div class="vname">B1 · Panorama der App, Glasleiste darunter (ziehen)</div><div class="ph kurz" data-ph="b1" id="b1"></div>
+    <div class="vname">B2 · Glasplatten-Kajüte: vier Ebenen, Antippen öffnet</div><div class="ph kurz" data-ph="b2" id="b2"></div>
+    <p class="hint" id="b2info">Tippe auf ein Schild.</p>
+  </section>
+
+  <section class="s"><h2>C · Frei üben</h2>
+    <div class="ph" data-ph="c1" id="c1"></div>
+  </section>
+
+  <section class="s"><h2>D · Frage an Bord</h2>
+    <div class="ph" data-ph="d1" id="d1"></div>
+  </section>
+
+  <section class="s"><h2>E · Hörreise: Karte der Tage</h2>
+    <div class="ph" data-ph="e1" id="e1"></div>
+  </section>
+  <p class="hint">Nichts hier ist in der App. Sag mir, welche Varianten (A1–A3, B1/B2, C, D, E) du willst; die übernehme ich in Deck, Kajüte, Frei üben, Frage und Hörreise.</p>
+</div>
+
+<script src="../../figuren.js"></script>
+<script src="../../boot.js"></script>
+<script src="../../szenerie.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const GLAESER = {weich: 'Weich', klar: 'Klar', aquarell: 'Aquarell', feder: 'Feder', buntstift: 'Buntstift', theater: 'Papiertheater'};
+const ZEITEN = {morgen: 'Morgen', tag: 'Tag', abend: 'Abend', nacht: 'Nacht'};
+const S = {g: 'weich', z: 'tag'};
+const STIM = {morgen: 'morgen', tag: 'fahrt', abend: 'abend', nacht: 'sternennacht'};
+const TZ = {
+  morgen: {a: '#f6c9a0', b: '#b8d8e4', sea: '#5f95a8', sea2: '#3f7288', land: '#8c9a86', land2: '#6f8274', sun: '#fff0c8', sx: 80, sy: 120, haus: '#e8d9c0'},
+  tag: {a: '#7fc0e4', b: '#e6f2f4', sea: '#3f8fa6', sea2: '#26647c', land: '#7fa489', land2: '#5f8a70', sun: '#fffbe0', sx: 310, sy: 60, haus: '#f2e8d4'},
+  abend: {a: '#5d4d82', b: '#f2a266', sea: '#5a6f8f', sea2: '#34486a', land: '#59607a', land2: '#434a63', sun: '#ffd7a0', sx: 300, sy: 150, haus: '#d4b89a'},
+  nacht: {a: '#0a1330', b: '#28386a', sea: '#16264a', sea2: '#0b162f', land: '#1a2440', land2: '#111a30', sun: '#e8eefc', sx: 90, sy: 70, haus: '#7f8fb5', stern: 1}
+};
+let nid = 0;
+const fs = (id, o) => FIGUREN.figur(id, Object.assign({dreh: false}, o));
+
+/* ---------- Platten der Küstenszene: gemeinsames Hochformat (viewBox 400 × H), Küste ab Höhe oy ---------- */
+const VB = (H, inner, pa) => `<svg viewBox="0 0 400 ${H}" preserveAspectRatio="${pa || 'xMidYMin slice'}">${inner}</svg>`;
+function himmel(T, id, H, oy) {
+  const stern = T.stern ? Array.from({length: 46}, (_, i) => { const x = (i * 97 % 400), y = (i * 53 % (oy + 150)); return `<circle cx="${x}" cy="${y}" r="${.6 + (i % 3) * .4}" fill="#fff" opacity="${.5 + (i % 4) * .12}"/>`; }).join('') : '';
+  const wolke = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})" opacity="${T.stern ? .22 : .85}"><ellipse cx="0" cy="0" rx="34" ry="9" fill="#fff"/><ellipse cx="-14" cy="-6" rx="18" ry="9" fill="#fff"/><ellipse cx="12" cy="-8" rx="20" ry="10" fill="#fff"/></g>`;
+  const sy = oy + T.sy * .8;
+  return VB(H, `<defs><linearGradient id="h${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.a}"/><stop offset="${((oy + 170) / H).toFixed(3)}" stop-color="${T.b}"/></linearGradient>
+    <radialGradient id="s${id}"><stop offset="0" stop-color="${T.sun}"/><stop offset=".25" stop-color="${T.sun}" stop-opacity=".55"/><stop offset="1" stop-color="${T.sun}" stop-opacity="0"/></radialGradient></defs>
+    <rect width="400" height="${H}" fill="url(#h${id})"/>${stern}<circle cx="${T.sx}" cy="${sy}" r="${T.stern ? 46 : 70}" fill="url(#s${id})"/><circle cx="${T.sx}" cy="${sy}" r="${T.stern ? 11 : 15}" fill="${T.sun}"/>
+    ${wolke(60, oy * .5 + 20, 1.2)}${wolke(220, oy * .7 + 50, .9)}${wolke(340, oy * .4 + 10, 1.1)}`);
+}
+function kueste(T, H, oy) {
+  const haus = (x, y, w, h, c) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/><path d="M${x - 2} ${y} L${x + w / 2} ${y - 9} L${x + w + 2} ${y}Z" fill="${T.stern ? '#3a456a' : '#b8573f'}"/>${T.stern ? `<rect x="${x + w / 2 - 2}" y="${y + 4}" width="4" height="5" fill="#ffd27a"/>` : ''}`;
+  return VB(H, `<g transform="translate(0 ${oy})"><path d="M0 188 L0 160 Q50 128 110 150 Q160 168 210 144 Q270 118 330 148 Q370 160 400 152 L400 190Z" fill="${T.land}"/>
+    <path d="M0 192 L0 176 Q70 156 140 172 Q220 188 300 168 Q360 156 400 170 L400 196Z" fill="${T.land2}"/>
+    ${haus(248, 160, 14, 12, T.haus)}${haus(266, 158, 12, 14, T.haus)}${haus(282, 162, 15, 10, T.haus)}${haus(40, 168, 13, 11, T.haus)}
+    <rect x="334" y="120" width="8" height="42" fill="${T.stern ? '#8fa0c5' : '#f5f0e6'}"/><rect x="334" y="140" width="8" height="6" fill="#c0392b"/><path d="M332 120 L338 110 L344 120Z" fill="#33323a"/>${T.stern ? '<circle cx="338" cy="116" r="3.2" fill="#ffe08a"/><path d="M338 116 L190 104 L190 128Z" fill="#ffe08a" opacity=".18"/>' : ''}</g>`);
+}
+function meer(T, id, H, oy, vorn) {
+  const w = (y, c, o, a) => `<path d="M0 ${y} Q25 ${y - a} 50 ${y} T100 ${y} T150 ${y} T200 ${y} T250 ${y} T300 ${y} T350 ${y} T400 ${y} V${H} H0Z" fill="${c}" opacity="${o}"/>`;
+  if (vorn) { const y0 = oy + 252; return VB(H, `${w(y0, T.sea2, .95, 7)}${w(y0 + 22, T.sea, .9, 9)}${w(y0 + 48, T.sea2, 1, 11)}<path d="M0 ${y0 + 2} Q25 ${y0 - 5} 50 ${y0 + 2} T100 ${y0 + 2} T150 ${y0 + 2} T200 ${y0 + 2} T250 ${y0 + 2} T300 ${y0 + 2} T350 ${y0 + 2} T400 ${y0 + 2}" stroke="#fff" stroke-width="1.6" fill="none" opacity=".55"/><path d="M0 ${y0 + 24} Q25 ${y0 + 17} 50 ${y0 + 24} T100 ${y0 + 24} T150 ${y0 + 24} T200 ${y0 + 24} T250 ${y0 + 24} T300 ${y0 + 24} T350 ${y0 + 24} T400 ${y0 + 24}" stroke="#fff" stroke-width="1.8" fill="none" opacity=".5"/>`); }
+  return VB(H, `<defs><linearGradient id="m${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.sea}"/><stop offset="1" stop-color="${T.sea2}"/></linearGradient></defs><rect y="${oy + 186}" width="400" height="${H}" fill="url(#m${id})"/>
+    ${[196, 208, 222, 238].map((y, i) => `<path d="M0 ${oy + y} Q30 ${oy + y - 3 - i} 60 ${oy + y} T120 ${oy + y} T180 ${oy + y} T240 ${oy + y} T300 ${oy + y} T360 ${oy + y} T420 ${oy + y}" stroke="#fff" stroke-width="${.8 + i * .3}" fill="none" opacity="${.25 + i * .07}"/>`).join('')}
+    <ellipse cx="${T.sx}" cy="${oy + 212}" rx="34" ry="3" fill="${T.sun}" opacity="${T.stern ? .45 : .6}"/>`);
+}
+function bootPlatte(H, oy, opt) {
+  opt = opt || {}; const sc = opt.s || 1.25, x = opt.x || 200, y = opt.y || 236;
+  const crew = {bugLinks: true,
+    hinter: `<g transform="translate(-74 -10) scale(.62)">${fs('hinnerk', {blick: 'seite', pose: 'pinne'})}</g>`,
+    vor: `<g transform="translate(50 -26) scale(-.56 .56)">${fs('smilla', {blick: 'seite'})}</g><g transform="translate(8 -56) scale(-.62 .62)">${fs('klabauter', {})}</g><g transform="translate(-14 -56) scale(-.62 .62)">${fs('backbord', {pose: 'sitzen'})}</g>`};
+  return VB(H, `<g transform="translate(${x} ${oy + y}) scale(${sc})">${BOOT.seite(crew)}</g>`);
+}
+/* opt: oy (Höhe der Küste), s (Bootsgröße), y (Wasserlinie im Küstenbild), H (Höhe der Bühne) */
+function kuestenPlatten(opt) {
+  opt = opt || {}; const T = TZ[S.z], i = ++nid, H = opt.H || 780, oy = opt.oy == null ? 130 : opt.oy;
+  return [{z: .15, c: 'fern', h: himmel(T, i, H, oy)}, {z: .4, c: 'fern', h: kueste(T, H, oy)}, {z: .7, c: 'mitte wl', h: meer(T, i, H, oy)}, {z: 1.1, c: 'boot', h: bootPlatte(H, oy, opt)}, {z: 1.7, c: 'wl', h: meer(T, i, H, oy, true)}];
+}
+const pinXY = (x, y, H) => `left:${(x / 4).toFixed(1)}%;top:${(y / (H || 780) * 100).toFixed(1)}%`;
+
+/* ---------- Bühne: Platten, Wischen, sanftes Schwingen ---------- */
+const buehnen = [];
+function bauen(el, platten, extra) {
+  el.dataset.g = S.g; el.dataset.z = S.z;
+  const st = document.createElement('div'); st.className = 'st';
+  st.innerHTML = platten.map(p => `<div class="pl ${p.c || ''}" data-z="${p.z}" style="${p.style || ''}">${p.h}${p.pins || ''}</div>`).join('') + '<div class="ton"></div><div class="korn"></div>';
+  el.innerHTML = ''; el.appendChild(st);
+  if (extra) { const ov = document.createElement('div'); ov.className = 'ov'; ov.innerHTML = extra.html; el.appendChild(ov); extra.bind && extra.bind(ov, el); }
+  const b = {st, px: 0, ziel: 0, zieh: false, x0: 0}; buehnen.push(b); st.__b = b;
+  const pos = e => (e.clientX - st.getBoundingClientRect().left) / st.clientWidth;
+  st.addEventListener('pointerdown', e => { if (e.target.closest('.pin')) return; b.zieh = true; b.x0 = pos(e) - b.ziel / 2; try { st.setPointerCapture(e.pointerId); } catch (x) {} });
+  st.addEventListener('pointermove', e => { if (b.zieh) b.ziel = Math.max(-1, Math.min(1, (pos(e) - b.x0) * 2)); });
+  const aus = () => { b.zieh = false; };
+  st.addEventListener('pointerup', aus); st.addEventListener('pointercancel', aus);
+  return b;
+}
+const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let t0 = performance.now();
+(function lauf(t) {
+  for (let i = buehnen.length - 1; i >= 0; i--) {
+    const b = buehnen[i]; if (!b.st.isConnected) { buehnen.splice(i, 1); continue; }
+    const idle = (!b.zieh && !ruhig) ? Math.sin((t - t0) / 3400) * .35 : 0, ziel = b.zieh ? b.ziel : (b.ziel * .98 + idle * 0), want = b.zieh ? b.ziel : idle + b.ziel;
+    b.px += (want - b.px) * .12;
+    b.st.querySelectorAll('.pl').forEach(p => { p.style.transform = `translateX(${(-b.px * (+p.dataset.z) * 14).toFixed(2)}px)`; });
+    if (!b.zieh) b.ziel *= .985;
+  }
+  requestAnimationFrame(lauf);
+})(0);
+
+/* ---------- A1 Fenster ---------- */
+const kachel = (ic, t, k, cls) => `<button class="gl tile ${cls || ''}" data-t="${t}"><span class="ic">${ic}</span><b>${t}</b><small>${k}</small></button>`;
+function a1() {
+  bauen($('a1'), kuestenPlatten({oy: 120, y: 214, s: 1.15}), {html: `
+    <div class="gl kopfz"><span>Moin, <b>Skipper</b></span><span class="chip2 gl kl">🔥 4 Tage Serie</span></div>
+    <div class="sp"></div>
+    <div class="gl" style="padding:13px 14px;display:flex;gap:12px;align-items:center"><div style="flex:1"><small style="opacity:.9">Weiter mit der Crew</small><br><b style="font-size:17px">Folge 1-3 · Leise raus</b><br><small style="opacity:.9">noch 14 Minuten, Hinnerk wartet</small></div><button class="btn gl akz" style="white-space:nowrap">▶ Weiter</button></div>
+    <div class="g2">${kachel('🧭', 'Frei üben', 'Fragen, Knoten, Manöver')}${kachel('🛏️', 'Kajüte', 'Karte, Bücher, Telefon')}${kachel('🎧', 'Hörreise', 'Tag 1 · 3 von 5 Folgen')}${kachel('📊', 'Meine Prüfungen', 'SBF See · 62 %')}</div>
+    <div class="dock gl"><button class="on"><span>⛵</span>Deck</button><button><span>🗺️</span>Karte</button><button><span>⚓</span>Werft</button><button><span>⚙️</span>Mehr</button></div>`});
+}
+/* ---------- A2 Alles im Bild ---------- */
+function a2() {
+  const oy = 170, wy = oy + 235, pins = `<div class="gl kl pin" style="${pinXY(222, wy - 118)}"><span>🛏️</span>Kajüte</div>
+    <div class="gl kl pin akz" style="${pinXY(110, wy - 150)}"><span>🎡</span>Steuerrad · weiter</div>
+    <div class="gl kl pin" style="${pinXY(290, wy - 40)}"><span>📦</span>Spielekiste</div>
+    <div class="gl kl pin" style="${pinXY(120, wy + 22)}"><span>📞</span>Harms</div>`;
+  bauen($('a2'), kuestenPlatten({oy, y: 235, s: 1.45}).map(p => p.c === 'boot' ? {...p, pins} : p), {html: `
+    <div style="display:flex;justify-content:space-between;gap:8px"><div class="gl kl" style="padding:6px 13px;font-size:13px"><b>Frieda</b> · Tag 2</div><div style="display:flex;gap:6px"><span class="gl kl" style="padding:6px 11px">🔥 4</span><span class="gl kl" style="padding:6px 11px">⚙️</span></div></div>
+    <div class="sp"></div>
+    <div class="gl" style="padding:12px 14px;font-size:14px"><b>Hinnerk:</b> „Moin. Heute lernst du, wie man ohne Gas das Ruder behält.“</div>`});
+}
+/* ---------- A3 Reiter ---------- */
+function a3() {
+  bauen($('a3'), kuestenPlatten({oy: 110, y: 200, s: 1.0}), {html: `
+    <div class="gl kopfz"><span><b>Frieda</b> · Abendwache</span><span>🔥 4</span></div>
+    <div class="sp"></div>
+    <div class="gl" style="padding:10px 10px 12px;display:flex;flex-direction:column;gap:9px;border-radius:24px">
+      <div class="dock" style="padding:0" id="a3t"><button class="on" data-i="0"><span>☀️</span>Heute</button><button data-i="1"><span>📚</span>Üben</button><button data-i="2"><span>🛏️</span>Kajüte</button><button data-i="3"><span>🏅</span>Ich</button></div>
+      <div id="a3k" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>`, bind: ov => {
+    const T = [
+      `<div class="gl tile"><b>▶ Folge 1-3 · Leise raus</b><small>weiter bei 6:40 · 14 Min.</small></div><div class="gl tile"><b>🌙 Abendwache</b><small>Navi-Folge 1, Wache 2 von 3</small></div><div class="gl tile"><b>📝 Heute an Bord</b><small>5 Karten warten</small></div>`,
+      `<div class="g2">${kachel('❓', 'Fragen', '12 fällig')}${kachel('🪢', 'Knoten', 'Palstek üben')}${kachel('🚤', 'Manöver', 'Anlegen')}${kachel('🧭', 'Navigation', 'Wache 2')}</div>`,
+      `<div class="g2">${kachel('🗺️', 'Seekarte', 'Navigation')}${kachel('⚓', 'Manöverbrett', 'Manöver')}${kachel('🪢', 'Knotenbrett', 'Knoten')}${kachel('📞', 'Telefon', 'Harms prüft')}</div>`,
+      `<div class="gl tile"><b>📊 SBF See</b><small>62 % · 4 Themen grün</small></div><div class="gl tile"><b>🏆 Etappen</b><small>1 von 7 geschafft</small></div><div class="gl tile"><b>⚓ Werft</b><small>Farben, Namen, Zubehör</small></div>`];
+    const z = ov.querySelector('#a3k'), tabs = ov.querySelector('#a3t'); const set = i => { z.innerHTML = T[i]; tabs.querySelectorAll('button').forEach((b, k) => b.classList.toggle('on', k === i)); }; set(0);
+    tabs.onclick = e => { const b = e.target.closest('button'); if (b) set(+b.dataset.i); };
+  }});
+}
+/* ---------- B1 Panorama der App ---------- */
+function b1() {
+  const el = $('b1'); el.dataset.g = S.g; el.dataset.z = S.z;
+  const pano = window.SZENERIE ? SZENERIE.kajuete({stim: STIM[S.z], fig: id => ''}) : '<p>szenerie.js fehlt</p>';
+  el.innerHTML = `<div class="st" style="overflow-x:auto;touch-action:pan-x;cursor:default;scrollbar-width:none"><div style="width:190%;height:100%;display:flex;align-items:center;background:#3a2414">${pano}</div></div>
+    <div class="ov" style="pointer-events:none"><div class="gl kopfz"><span><b>Kajüte</b></span><span>zum Schauen wischen ↔</span></div><div class="sp"></div>
+    <div class="dock gl"><button><span>🗺️</span>Seekarte</button><button><span>⚓</span>Manöver</button><button><span>🪢</span>Knoten</button><button><span>📚</span>Bücher</button><button><span>📞</span>Telefon</button></div></div>`;
+  const s = el.querySelector('.st'); s.scrollLeft = 60; el.querySelectorAll('.ov button').forEach(b => b.style.pointerEvents = 'auto');
+  el.querySelector('.panosvg') && (el.querySelector('.panosvg').style.cssText = 'width:100%;height:auto');
+}
+/* ---------- B2 Glasplatten-Kajüte ---------- */
+function b2() {
+  const Z = S.z, nacht = Z === 'nacht', abend = Z === 'abend';
+  const wand = nacht ? '#3a2616' : '#6a4529', wand2 = nacht ? '#241509' : '#4f331e';
+  const SEE = {morgen: ['#bcd9e4', '#5f95a8'], tag: ['#9bd0ea', '#3f8fa6'], abend: ['#f2a266', '#4a5f82'], nacht: ['#1d2c58', '#0e1b38']}[Z];
+  const holz = (x, y, w, h, c) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" stroke="#2a1a0e" stroke-width="1.5"/>`;
+  const hinten = `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMin slice"><g transform="translate(0 100)"><defs><linearGradient id="bw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${wand}"/><stop offset="1" stop-color="${wand2}"/></linearGradient><linearGradient id="bs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${SEE[0]}"/><stop offset=".5" stop-color="${SEE[0]}"/><stop offset=".5" stop-color="${SEE[1]}"/><stop offset="1" stop-color="${SEE[1]}"/></linearGradient><clipPath id="bc1"><circle cx="66" cy="95" r="30"/></clipPath><clipPath id="bc2"><circle cx="200" cy="95" r="30"/></clipPath><clipPath id="bc3"><circle cx="334" cy="95" r="30"/></clipPath></defs>
+    <rect y="-100" width="400" height="600" fill="url(#bw)"/>${Array.from({length: 36}, (_, i) => `<path d="M0 ${i * 15 - 100} H400" stroke="#2f1d0e" stroke-width=".8" opacity=".6"/>`).join('')}
+    ${[66, 200, 334].map((x, i) => `<g clip-path="url(#bc${i + 1})"><rect x="${x - 30}" y="65" width="60" height="60" fill="url(#bs)"/><path d="M${x - 30} ${100 + i} q10 -3 20 0 t20 0 t20 0" stroke="#fff" stroke-width="1" fill="none" opacity=".5"/></g><circle cx="${x}" cy="95" r="30" fill="none" stroke="#c9a03c" stroke-width="5"/><circle cx="${x}" cy="95" r="35" fill="none" stroke="#7a5a1c" stroke-width="1.5"/>${[0, 60, 120, 180, 240, 300].map(a => `<circle cx="${x + 35 * Math.cos(a * Math.PI / 180)}" cy="${95 + 35 * Math.sin(a * Math.PI / 180)}" r="1.8" fill="#e8d08a"/>`).join('')}`).join('')}
+    <rect x="0" y="198" width="400" height="300" fill="${nacht ? '#2a1a0e' : '#5a3a22'}"/><path d="M0 198 H400" stroke="#2a1a0e" stroke-width="2"/></g></svg>`;
+  const bretter = `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMin slice"><g transform="translate(0 105)">
+    <g transform="translate(24 150)"><rect width="110" height="70" rx="3" fill="#f3e6c4" stroke="#5a3a1c" stroke-width="3"/><path d="M8 52 Q30 20 52 38 T98 14" stroke="#4a7a8f" stroke-width="2.4" fill="none"/><path d="M10 60 L50 28 L96 20" stroke="#333" stroke-width=".9" stroke-dasharray="3 2" fill="none"/><circle cx="50" cy="28" r="2.6" fill="#c0392b"/><path d="M70 50 l14 -6 M70 50 l4 12" stroke="#555" stroke-width="2.4" stroke-linecap="round"/></g>
+    <g transform="translate(160 156)">${holz(0, 0, 84, 62, '#8a6038')}<g fill="none" stroke="#f3ead2" stroke-width="2.2"><path d="M12 44 L40 18 L68 44 Z"/><path d="M22 44 V50 H58 V44" /></g><path d="M44 12 a20 20 0 1 1 -10 3" stroke="#f0a23a" stroke-width="2.4" fill="none"/><path d="M34 12 l-4 5 l7 1" stroke="#f0a23a" stroke-width="2.2" fill="none"/></g>
+    <g transform="translate(272 150)">${holz(0, 0, 100, 70, '#7a5230')}${[[18, 20], [50, 18], [82, 22], [30, 50], [66, 50]].map(([x, y], i) => `<path d="M${x - 9} ${y} q4 -12 9 -3 q6 8 9 3 q-3 12 -9 5 q-8 -3 -9 -5Z" fill="none" stroke="${['#e9d9a8', '#c0392b', '#f0a23a', '#9fd0e0', '#e9d9a8'][i]}" stroke-width="2.4" stroke-linecap="round"/>`).join('')}</g></g></svg>`;
+  const tisch = `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMin slice"><g transform="translate(0 185)">
+    <path d="M30 218 H370 L392 262 H8Z" fill="#a5733f" stroke="#3a2412" stroke-width="2.5"/><path d="M8 262 H392 V282 H8Z" fill="#7b5230" stroke="#3a2412" stroke-width="2.5"/>
+    <g transform="translate(60 196)"><rect width="110" height="30" rx="2" fill="#f1e5c2" stroke="#5a3a1c" stroke-width="1.8" transform="skewX(-12)"/><path d="M8 20 Q30 6 52 16 T100 8" stroke="#4a7a8f" stroke-width="1.8" fill="none"/></g>
+    <g transform="translate(200 206)"><rect width="34" height="12" rx="2" fill="#2f4f80"/><rect y="-11" width="30" height="11" rx="2" fill="#c0392b"/><rect y="-21" width="26" height="10" rx="2" fill="#3c8c5a"/></g>
+    <g transform="translate(290 190)"><rect width="44" height="26" rx="4" fill="#2a2a2e"/><rect x="6" y="-6" width="32" height="8" rx="3" fill="#3a3a40"/><circle cx="22" cy="14" r="8" fill="#555"/><circle cx="22" cy="14" r="5" fill="#333"/><path d="M10 -2 q12 -8 24 0" stroke="#3a3a40" stroke-width="3" fill="none"/></g>
+    <path d="M110 218 l24 -3" stroke="#c9a03c" stroke-width="3" stroke-linecap="round"/><g transform="translate(220 0)"><path d="M0 0 V44" stroke="#2a1a0e" stroke-width="2"/><path d="M-14 62 q14 -26 28 0Z" fill="#c9a03c" stroke="#5a3a1c" stroke-width="1.5"/><ellipse cx="0" cy="64" rx="7" ry="3" fill="#fff4cf"/></g></g></svg>`;
+  const vorn = `<svg viewBox="0 0 400 600" preserveAspectRatio="xMidYMin slice"><g transform="translate(0 200)">
+    <g transform="translate(46 286)"><path d="M-24 -62 Q0 -70 24 -62 L20 -52 H-20Z" fill="#8a5d34" stroke="#3a2412" stroke-width="2"/><path d="M-18 -52 L-24 0 M18 -52 L24 0 M0 -52 V0" stroke="#3a2412" stroke-width="5" stroke-linecap="round"/></g>
+    <g transform="translate(330 290) scale(1.9)">${fs('backbord', {pose: 'sitzen'})}</g>
+    <path d="M380 290 q-30 -10 -10 -22 q22 -10 -4 -20" stroke="#d9c79a" stroke-width="5" fill="none" stroke-linecap="round" opacity="0"/></g></svg>`;
+  const pin = (x, y, ic, t, k) => `<div class="gl kl pin" style="left:${x}%;top:${y}%" data-k="${k}"><span>${ic}</span>${t}</div>`;
+  bauen($('b2'), [
+    {z: .25, c: 'fern', h: hinten},
+    {z: .6, c: 'mitte', h: bretter, pins: pin(20, 46, '🗺️', 'Seekarte', 'Seekarte: Navigation, Kurse und Peilungen') + pin(52, 45, '⚓', 'Manöver', 'Manöverbrett: Anlegen, Ablegen, Wenden') + pin(82, 45, '🪢', 'Knoten', 'Knotenbrett: echte Knoten mit Tau')},
+    {z: 1.0, c: '', h: tisch, pins: pin(26, 69, '📚', 'Bücher', 'Meine Prüfungen: Bücher und Kartentisch') + pin(78, 66, '📞', 'Telefon', 'Harms prüft dich')},
+    {z: 1.5, c: '', h: vorn, pins: pin(11, 78, '🪑', 'Hocker', 'Hocker: Kajütenfunk, die Hörreise') + pin(80, 76, '🐈', 'Backbord', 'Backbord macht Unsinn')}
+  ], {html: `<div class="gl kopfz"><span><b>Kajüte</b></span><span>ziehen ↔ Tiefe</span></div><div class="sp"></div>`, bind: (ov, el) => {
+    el.querySelectorAll('.pin').forEach(p => p.addEventListener('click', e => { e.stopPropagation(); $('b2info').textContent = '→ ' + p.dataset.k; }));
+  }});
+}
+/* ---------- C Frei üben ---------- */
+function c1() {
+  const ring = (p, ic) => `<span class="ring" style="--p:${p}"><i>${ic}</i></span>`;
+  const k = (ic, t, s, p) => `<button class="gl tile" style="flex-direction:row;gap:9px;align-items:center">${ring(p, ic)}<span><b style="display:block">${t}</b><small>${s}</small></span></button>`;
+  const pl = kuestenPlatten({oy: 90, y: 180, s: .9}); pl.forEach(p => p.c += ' fern');
+  bauen($('c1'), pl, {html: `<div class="gl kopfz"><span><b>Frei üben</b></span><span>du entscheidest</span></div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:auto">
+    ${k('❓', 'Fragen mischen', '12 fällig · alle Themen', 62)}${k('📚', 'Nach Thema', 'Navigation · Recht · Technik', 48)}${k('🪢', 'Knoten', '7 von 12 sicher', 58)}${k('🚤', 'Manöver', 'Anlegen · Ablegen · Wenden', 35)}${k('⚓', 'Seezeichen', 'Tonnen, Feuer, Lichter', 71)}${k('🧠', 'Lernkartei', '9 Karten heute', 20)}
+    <div class="gl kl" style="padding:9px 14px;text-align:center;font-size:13px">Die Crew sagt: <b>Fang mit den 12 fälligen an.</b></div></div>`});
+}
+/* ---------- D Frage ---------- */
+function d1() {
+  const pl = kuestenPlatten({oy: 90, y: 150, s: .8}); pl.forEach(p => p.c += ' fern');
+  bauen($('d1'), pl, {html: `<div class="gl kopfz"><span>Frage 4 von 10 · <b>Navigation</b></span><span>💡 Tipp</span></div>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:9px">
+    <div class="gl" style="padding:14px 15px;font-size:16px;font-weight:700;line-height:1.35">Du fährst bei achterlichem Wind mit 5 kn. Welche Seite der Tonne läuft Frieda ansteuern, wenn sie grün ist?</div>
+    <button class="gl ant" data-i="0"><span class="bu">A</span>An Steuerbord lassen</button>
+    <button class="gl ant" data-i="1"><span class="bu">B</span>An Backbord lassen</button>
+    <button class="gl ant" data-i="2"><span class="bu">C</span>Genau darauf zufahren</button>
+    <div style="display:flex;gap:8px"><button class="gl kl btn" style="flex:1">🎤 Zuruf</button><button class="gl kl btn akz gl" style="flex:1" disabled>Weiter</button></div></div>`,
+    bind: ov => ov.querySelectorAll('.ant').forEach(b => b.onclick = () => { ov.querySelectorAll('.ant').forEach(x => x.classList.remove('ok', 'no')); b.classList.add(b.dataset.i === '1' ? 'ok' : 'no'); ov.querySelector('.ant[data-i="1"]').classList.add('ok'); })});
+}
+/* ---------- E Hörreise-Karte ---------- */
+function e1() {
+  const T = TZ[S.z], pk = [[70, 420, 1], [150, 350, 1], [250, 370, 1], [300, 270, 2], [200, 200, 0], [100, 150, 0], [290, 100, 0]];
+  const karte = `<svg viewBox="0 0 400 780" preserveAspectRatio="xMidYMin slice"><rect width="400" height="780" fill="${T.sea}"/>${[40, 100, 160, 220, 280, 340, 400, 460, 520, 580, 640, 700].map(y => `<path d="M0 ${y} Q50 ${y - 8} 100 ${y} T200 ${y} T300 ${y} T400 ${y}" stroke="#fff" stroke-width="1" opacity=".2" fill="none"/>`).join('')}
+    <path d="M-10 300 L-10 120 Q40 90 80 130 Q120 150 140 120 Q170 60 250 70 Q330 40 410 90 V-10 H-10Z" fill="${T.land}" opacity=".0"/>
+    <path d="M20 780 Q10 600 60 540 Q110 480 160 520 Q230 560 290 470 Q340 400 330 300 Q320 200 360 120 Q380 80 410 70 L410 780Z" fill="${T.land}"/><path d="M60 780 Q60 650 110 610 Q170 590 220 620 Q300 650 410 560 V780Z" fill="${T.land2}"/></svg>`;
+  const weg = pk.map(([x, y]) => `${x},${y}`).join(' ');
+  const pins = `<svg viewBox="0 0 400 780" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMin slice"><polyline points="${weg}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/></svg>` +
+    pk.map(([x, y, s], i) => `<div class="gl knoten ${s === 2 ? 'ak' : ''}" style="left:${x / 4}%;top:${y / 7.8}%;${s === 2 ? 'background:linear-gradient(135deg,rgba(255,196,90,.9),rgba(240,150,40,.8));color:#3a2408;text-shadow:none' : ''}">${s === 1 ? '✓' : s === 2 ? '⛵' : '🔒'}</div><div style="position:absolute;left:${x / 4}%;top:calc(${y / 7.8}% + ${s === 2 ? 34 : 28}px);transform:translateX(-50%);font-size:11px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)">Tag ${i + 1}</div>`).join('');
+  bauen($('e1'), [{z: .3, c: 'fern', h: karte, pins}], {html: `<div class="gl kopfz"><span><b>Ausbildungsfahrt</b></span><span>Tag 4 von 7</span></div><div class="sp"></div>
+    <div class="gl" style="padding:12px 14px;display:flex;flex-direction:column;gap:3px"><small style="opacity:.9">Heute an Bord</small><b style="font-size:17px">Tag 4 · Gezeiten und Strom</b><small>5 Folgen · 32 Min. · dazu Abendwache</small></div>
+    <div class="mini"><div class="gl tile" style="min-width:118px"><b>▶ 4-1</b><small>Der Strom</small></div><div class="gl tile" style="min-width:118px"><b>4-2</b><small>Niedrigwasser</small></div><div class="gl tile" style="min-width:118px"><b>4-3</b><small>Tonnen im Priel</small></div></div>
+    <button class="gl btn akz kl" style="padding:12px;text-align:center">Tag 4 beginnen</button>`});
+}
+
+function alle() { buehnen.length = 0; nid = 0; a1(); a2(); a3(); b1(); b2(); c1(); d1(); e1(); }
+function chips(el, o, k) { el.innerHTML = Object.entries(o).map(([a, b]) => `<button class="chip" data-k="${a}" aria-pressed="${S[k] === a}">${b}</button>`).join(''); el.onclick = e => { const b = e.target.closest('.chip'); if (b) { S[k] = b.dataset.k; chips($('cG'), GLAESER, 'g'); chips($('cZ'), ZEITEN, 'z'); alle(); } }; }
+chips($('cG'), GLAESER, 'g'); chips($('cZ'), ZEITEN, 'z'); alle();
+})();
+</script>
+</body>
+</html>
