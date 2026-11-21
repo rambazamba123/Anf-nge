@@ -83,3 +83,7 @@
   - Figuren: viele Varianten (Körperbau, Augen, Stile), „süßer“, je einmal Aquarell (ohne Strich) und mit Strich außenrum; weitere Stile zum Ausprobieren (`docs/entwuerfe/figuren-atelier.html`).
   - Menüs, auch die Kajüte, im Glasplatten-Stil mit mehreren Ansichten zur Auswahl (`docs/entwuerfe/menues-glas.html`). Welche Varianten in die App kommen, entscheidet der Nutzer.
   - Offen: Standard-Stil, Standard-Glas, Tag je Teil, freie Farbwahl zurück, welche Menüvarianten.
+- **E30** (Nutzer, 22.11.2026) Rad verschlanken und Stile erkunden:
+  - Das Werft-Rad zeigt zuerst nur Figuren und Glasplatten-Stile (einfach); Boot, Plätze und Kleidung liegen hinter „Mehr“.
+  - Wir bleiben bei den Glasplatten, erkunden aber sehr verschiedene Stilrichtungen, angelehnt an Künstler und alte Techniken; erst Grundkonzepte, nicht alles durcharbeiten (`docs/entwuerfe/glas-stile.html`). Figuren werden neu gedacht (Machart, neue Figurenarten).
+  - Offen: welche Stilrichtung(en) und welche Figuren-Konzepte weiterverfolgt werden.

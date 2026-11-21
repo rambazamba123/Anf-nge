@@ -31,6 +31,8 @@ const TYPEN = {
   schlaksig: {name: 'Schlaksig', k: .92, bw: .88, bh: 1.1, auge: 'punkt', wange: .8},
   kraeftig: {name: 'Kräftig', k: 1.05, bw: 1.3, bh: .97, auge: 'glanz', wange: .9}
 };
+/* Machart (v5.76; Nutzer 22.11.2026: „Figuren neu gedacht“): wie die Figur gebaut ist, über jedem Zeichenstil. Leer = gezeichnet. */
+const MACHART = {'': 'Gezeichnet', papier: 'Papier am Stab', knete: 'Knete', filz: 'Filz und Wolle', strick: 'Gestrickt', schatten: 'Schattenfigur'};
 const AUGEN = {punkt: 'Punkt', glanz: 'Mit Glanzlicht', gross: 'Groß und glänzend', perle: 'Kulleraugen', strich: 'Zufriedener Strich'};
 const FIG = {
   hinnerk: {name: "Käpt'n Hinnerk", wer: 'HINNERK', h: 100, w: 1.18, bauch: .55, lean: 4, nase: 'knolle', bart: 'voll', haar: 'kranz',
@@ -108,6 +110,11 @@ function defs() {
     <filter id="cr-linol" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="2" seed="12" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.2" result="d"/>
       <feComponentTransfer in="d"><feFuncR type="discrete" tableValues="0 .22 .45 .7 .9 1"/><feFuncG type="discrete" tableValues="0 .22 .45 .7 .9 1"/><feFuncB type="discrete" tableValues="0 .22 .45 .7 .9 1"/></feComponentTransfer></filter>
     <filter id="cr-stift" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".22" numOctaves="2" seed="21"/><feDisplacementMap in="SourceGraphic" scale=".9"/></filter>
+    <filter id="cr-m-papier" x="-20%" y="-15%" width="140%" height="135%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="r"/><feFlood flood-color="#fffaf0"/><feComposite in2="r" operator="in" result="rand"/><feGaussianBlur in="r" stdDeviation="2" result="b"/><feOffset in="b" dx="1.5" dy="3" result="o"/><feFlood flood-color="#000" flood-opacity=".32"/><feComposite in2="o" operator="in" result="sch"/><feMerge><feMergeNode in="sch"/><feMergeNode in="rand"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="cr-m-knete" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.2" result="d"/><feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="b"/><feSpecularLighting in="b" surfaceScale="8" specularConstant=".85" specularExponent="18" lighting-color="#fff" result="s"><fePointLight x="-60" y="-160" z="120"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="s2"/><feComposite in="d" in2="s2" operator="arithmetic" k1="0" k2="1" k3=".32" k4="0"/></filter>
+    <filter id="cr-m-filz" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="3" result="d"/><feGaussianBlur in="d" stdDeviation=".45" result="w"/><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="8" result="f"/><feColorMatrix in="f" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .5 -.15" result="fa"/><feComposite in="fa" in2="w" operator="in" result="fasern"/><feMerge><feMergeNode in="w"/><feMergeNode in="fasern"/></feMerge></filter>
+    <filter id="cr-m-strick" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB"><feImage href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8'%3E%3Crect width='7' height='8' fill='white'/%3E%3Cpath d='M0 0 L3.5 4.5 L7 0 M0 4 L3.5 8.5 L7 4' stroke='black' stroke-opacity='.55' stroke-width='1.4' fill='none'/%3E%3C/svg%3E" x="0" y="0" width="7" height="8" result="m"/><feTile in="m" result="mt"/><feComposite in="mt" in2="SourceAlpha" operator="in" result="mm"/><feBlend in="SourceGraphic" in2="mm" mode="multiply"/></filter>
+    <filter id="cr-m-schatten"><feFlood flood-color="#130d09"/><feComposite in2="SourceAlpha" operator="in"/></filter>
     <pattern id="cr-schraff" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V3" stroke="#3b2a1f" stroke-width=".55"/></pattern>
   </defs></svg>`;
   (document.body || document.documentElement).appendChild(d);
@@ -452,8 +459,10 @@ function figur(id, o = {}) {
   if (f.tier === 'katze') inner = katze(f, k, o);
   else if (f.tier === 'papagei') inner = papagei(f, k, o);
   else inner = (o.blick === 'vorn' ? menschVorn : o.blick === 'ruecken' ? menschRuecken : menschSeite)(id, f, k, o);
-  const sk = f.tier ? 1 : f.h / 100;
-  return `<g class="cr cr-${id} stil${STILE[o.stil] ? ' fest st-' + o.stil : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${sk === 1 ? inner : `<g transform="scale(${sk})">${inner}</g>`}</g>`;
+  const sk = f.tier ? 1 : f.h / 100, ma = o.machart != null ? o.machart : (L0.machart || '');
+  if (MACHART[ma] && ma) { defs(); inner = `<g filter="url(#cr-m-${ma})">${sk === 1 ? inner : `<g transform="scale(${sk})">${inner}</g>`}</g>` + (ma === 'papier' ? '<path d="M1 -2 V14" stroke="#8a5d34" stroke-width="2.4" stroke-linecap="round"/>' : ma === 'schatten' && !f.tier ? '<g fill="#e8c35a"><circle cx="-9" cy="-52" r="1.6"/><circle cx="10" cy="-52" r="1.6"/><circle cx="1" cy="-34" r="1.6"/></g>' : ''); }
+  else if (sk !== 1) inner = `<g transform="scale(${sk})">${inner}</g>`;
+  return `<g class="cr cr-${id} stil${STILE[o.stil] ? ' fest st-' + o.stil : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
 }
 /* Gespeichertes Aussehen (S.cfg.look, Standard leer; R7). index.html setzt Farben und Stil auf <html> (lookAnwenden). */
 function look() { try { return (window.S && S.cfg && S.cfg.look) || {}; } catch (e) { return {}; } }
@@ -463,5 +472,5 @@ function bild(id, o = {}) {
   const h = f.h + 24, w = f.tier ? 50 : 70;
   return `<svg class="crsvg" viewBox="${-w / 2} ${-h + 4} ${w} ${h}" aria-label="${f.name}">${figur(id, o)}</svg>`;
 }
-window.FIGUREN = {figur, bild, css, FIG, STILE, TYPEN, AUGEN, kleidVon, look};
+window.FIGUREN = {figur, bild, css, FIG, STILE, TYPEN, AUGEN, MACHART, kleidVon, look};
 })();

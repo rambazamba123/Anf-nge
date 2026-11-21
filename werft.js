@@ -33,7 +33,7 @@ let perleNr = 0;
 function kopfPerle(x, y, fid, opt) {
   const F = window.FIGUREN, f = F.FIG[fid], T = F.TYPEN[opt.typ || 'klassisch'] || F.TYPEN.klassisch, sk = f.h / 100, id = 'wk' + (perleNr++);
   const cy = f.tier ? (fid === 'backbord' ? -18 : -27) : ((-86.6 + 9) * T.bh - 9 * T.k) * sk, cx = f.tier ? 3 : .4, z = f.tier ? 2.1 : 1.7;
-  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
+  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, machart: opt.machart || '', dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
 }
 const r1 = n => Math.round(n * 10) / 10;
 function themenBauen() {
@@ -75,9 +75,18 @@ function themenBauen() {
       setz: w => { const l = look(); l.kleid[fid] = {...(l.kleid[fid] || {}), [teil]: w}; }});
   }
   T.push({id: 'stil', ic: '🖌️', name: 'Zeichenstil', blick: 'crew', opts: Object.entries(F.STILE).map(([k, n]) => ({w: k, name: n.split(':')[0], satzLang: n})), akt: () => look().stil || 'feder', setz: w => { look().stil = w; }});
-  T.push({id: 'glas', ic: '🪟', name: 'Glas der Filmbühne', blick: 'seite', opts: Object.entries(G).map(([k, g]) => ({w: k, name: g.name, satzLang: g.satz})), akt: () => look().glas || 'weich', setz: w => { look().glas = w; }});
+  T.push({id: 'glas', ic: '🪟', name: 'Glasplatten-Stil', kurzname: 'Glas-Stil', blick: 'seite', opts: Object.entries(G).map(([k, g]) => ({w: k, name: g.name, satzLang: g.satz})), akt: () => look().glas || 'weich', setz: w => { look().glas = w; }});
   T.push({id: 'test', ic: '🔓', name: 'Testmodus', blick: 'seite', opts: [{w: 'an', name: 'Alle Extras frei zum Testen', text: '🔓'}, {w: 'aus', name: 'Extras erst nach den Hörreise-Tagen', text: '🔒'}], akt: () => testmodus() ? 'an' : 'aus', setz: w => { look().test = w === 'an'; }});
-  return T;
+  /* v5.76 (Nutzer 22.11.2026: „reduziere beim Auswahlrad die Dinge, ich will die Charaktere wählen und mehrere Glasplatten-Stile testen“):
+     einfach = Glasplatten-Stil, Machart, Zeichenstil, Körperbau, Augen; alles Übrige erst mit „Mehr“ (S.cfg.look.werftVoll) */
+  const MA = F.MACHART || {};
+  T.push({id: 'machart', ic: '🎭', name: 'Machart der Figuren', kurzname: 'Machart', blick: 'crew', neu: true, opts: Object.entries(MA).map(([w, n]) => ({w, name: n, kopf: {typ: look().typAlle || 'klassisch', machart: w}, fig: 'smilla'})),
+    akt: () => look().machart || '', setz: w => { const l = look(); if (w) l.machart = w; else delete l.machart; }});
+  T.push({id: 'mehr', ic: '⚙️', name: 'Mehr am Rad', kurzname: 'Mehr', blick: 'seite', opts: [{w: 'einfach', name: 'Nur Figuren und Glas', text: '🎭'}, {w: 'alles', name: 'Alles: Boot, Plätze, Kleidung', text: '⚓'}],
+    akt: () => look().werftVoll ? 'alles' : 'einfach', setz: w => { const l = look(); if (w === 'alles') l.werftVoll = true; else delete l.werftVoll; }});
+  if (look().werftVoll) return T;
+  const EIN = ['glas', 'machart', 'stil', 'typ-alle', 'auge', 'mehr'];
+  return EIN.map(id => T.find(t => t.id === id)).filter(Boolean);
 }
 
 /* ---------- Aufbau ---------- */
@@ -196,6 +205,7 @@ function wahlSetzen(i) {
     geaendert++; try { lookAnwenden(); } catch (e) {}
     if (T.neu) bildZeigen(blickAkt === 'crew' ? 'crew' : blickAkt, true);
     if (T.id === 'glas' && blickAkt === 'crew') bildZeigen('seite');
+    if (T.id === 'mehr') { themen = themenBauen(); SA = Math.min(26, 360 / themen.length); themaWaehlen(themen.findIndex(t => t.id === 'mehr'), false); return; }
     try { AUD.click(); } catch (e) {} try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
   }
   ringeZeichnen(); textZeile();
@@ -243,7 +253,7 @@ function exportText() {
   z.push('Boot-Farben: ' + (['rumpf', 'streifen', 'unterwasser', 'dach', 'schrift'].map(k => `${k} ${l.farben['--frieda-' + k] || B.farben[k] + ' (Standard)'}`).join(', ')));
   z.push('Plätze: ' + Object.entries(B.PLAETZE).map(([pn, p]) => `${p.name} = ${B.belegt(pn) ? B.TEILE[B.belegt(pn)].name : 'leer'}`).join('; '));
   z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
-  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Testmodus: ${testmodus() ? 'an' : 'aus'}`);
+  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Machart: ${l.machart || 'gezeichnet'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
   z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
   const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
   z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));
@@ -270,7 +280,7 @@ async function oeffnen(start) {
   try { await nachladen('boot.js'); await nachladen('figuren.js'); await nachladen('film.js'); } catch (e) { toast('Die Werft ließ sich nicht laden.'); return; }
   css(); FIGUREN.css(); BOOT.css();
   alt = {look: JSON.parse(JSON.stringify((S.cfg && S.cfg.look) || {})), name: S.boat ? S.boat.name : undefined};
-  themen = themenBauen(); SA = Math.min(15, 360 / themen.length); geaendert = 0;
+  themen = themenBauen(); SA = Math.min(26, 360 / themen.length); geaendert = 0;
   W = document.createElement('div'); W.id = 'werft2';
   W.innerHTML = `<div class="wkopf"><b>⚓ Werft</b><button class="wx" id="wkop" aria-label="Einstellungen kopieren" title="Einstellungen als Text kopieren">📋</button><button class="wx" id="whilfe" aria-label="Hilfe">?</button><button class="wx" id="wzu" aria-label="Schließen">✕</button></div>
     <div class="wbuehne"><div class="wfilm"></div><div class="wcrew" hidden></div><button class="wauge" id="wauge" aria-pressed="false" aria-label="Alle Plätze zeigen">◎</button>

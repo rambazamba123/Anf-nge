@@ -112,6 +112,9 @@
 - **Sperre und Verwerfen (v5.75):** Ist nichts geändert, schließt „Verwerfen“ die Werft. Tests, die danach weiterklicken, brauchen vorher eine Änderung.
 - **Platten in Entwurfsseiten (v5.75):** Die viewBox der Platte muss zum Seitenverhältnis des Plattenkastens passen (Rahmen 400×600 und Platte 116 % hoch ⇒ viewBox 400×600), sonst zoomt `slice` und die Knöpfe sitzen daneben.
 
+- **Kantenfilter mit feConvolveMatrix (v5.76):** Mit `preserveAlpha="false"` wird auch der Alphakanal gefaltet; im Innern einer Fläche ergibt das 0 und alle Linien verschwinden (Gravur fast leer). Immer `preserveAlpha="true"` und danach mit einem Schwellwert (`feColorMatrix … 0 -0.35`) schwache Kanten wegschneiden, sonst werden kleine Figuren schwarz. Prüfung: Kontaktbogen der Stile.
+- **Bühnenfilter und Einfrieren (v5.76):** `.fb.kalt .fb-innen` friert per CSS-Filter ein; ein Inline-Filter auf `.fb-innen` würde das überschreiben. Darum sitzt der Glas-Filter `welt` auf `.fb-welt`.
+
 ## Teil E: Arbeitsweise
 - Vor dem Commit `node --check` auf jede geänderte JS-Datei; nach mehrzeiligem Ersetzen die Stelle ansehen.
 - Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.

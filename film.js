@@ -36,7 +36,17 @@ const GLAS = {
   aquarell: {name: 'Aquarell', satz: 'Lavur mit Pigmentrand und Papierflecken (wie Nordqvist)', blur: .45, dunst: .75, kante: 'pigment', korn: .16, papier: .26, ton: 'rgba(214,180,120,.12)', schatten: 0},
   feder: {name: 'Feder', satz: 'Tuschekontur um jede Platte, sepia', blur: .25, dunst: .55, kante: 'tusche', korn: .22, papier: .3, ton: 'rgba(160,110,60,.16)', schatten: 0},
   buntstift: {name: 'Buntstift', satz: 'krakelig, körnig, kräftige Farben (wie Janosch)', blur: .2, dunst: .4, kante: 'krakel', korn: .24, papier: .15, ton: 'rgba(255,230,180,.06)', schatten: 0},
-  theater: {name: 'Papiertheater', satz: 'jede Platte wirft Schatten auf die dahinter', blur: .12, dunst: .5, kante: '', korn: .14, papier: .2, ton: '', schatten: 1}
+  theater: {name: 'Papiertheater', satz: 'jede Platte wirft Schatten auf die dahinter', blur: .12, dunst: .5, kante: '', korn: .14, papier: .2, ton: '', schatten: 1},
+  /* v5.76 Stilrichtungen (Nutzer 22.11.2026, docs/entwuerfe/glas-stile.html): welt = Filter über die ganze Bühne, rahmen = Überzug, kmax = bis zu welcher Tiefe die Kante wirkt */
+  oel: {name: 'Öl auf Glas', satz: 'Farbe atmet, Licht von hinten (wie Petrov)', blur: .5, dunst: .7, kante: 'oel', kmax: 1.2, korn: .1, papier: 0, ton: 'rgba(255,170,90,.1)', schatten: 0, welt: 'saturate(1.2)', rahmen: 'licht'},
+  nebel: {name: 'Nebel', satz: 'leise Farben, viel Dunst zwischen den Platten (wie Norstein)', blur: 1.6, dunst: 1.8, kante: '', korn: .18, papier: .12, ton: 'rgba(200,205,195,.18)', schatten: 0, welt: 'saturate(.65)'},
+  schatten: {name: 'Schattentheater', satz: 'alles vorn als Scherenschnitt, der Himmel leuchtet (wie Reiniger)', blur: .1, dunst: .3, kante: 'sil', kmin: .4, kmax: 1.2, korn: .08, papier: 0, ton: 'rgba(240,140,60,.22)', schatten: 0, welt: 'sepia(.6) saturate(1.8) brightness(1.05)'},
+  laterna: {name: 'Laterna magica', satz: 'handgemaltes Glasbild im runden Lichtkegel, flackert', blur: .3, dunst: .5, kante: '', korn: .2, papier: 0, ton: 'rgba(255,200,120,.1)', schatten: 0, welt: 'saturate(1.45) sepia(.25) contrast(1.08)', rahmen: 'kreis'},
+  blei: {name: 'Bleiglas', satz: 'Edelsteinfarben, dunkle Bleiruten, Licht von hinten', blur: .1, dunst: .3, kante: 'blei', kmin: 0, kmax: 1.2, korn: .05, papier: 0, ton: '', schatten: 0, rahmen: 'blei'},
+  cyan: {name: 'Cyanotypie', satz: 'Blau und Weiß wie eine Blaupause (wie Anna Atkins)', blur: .3, dunst: .5, kante: '', korn: .15, papier: .2, ton: '', schatten: 0, welt: 'url(#fbw-cyan)'},
+  delft: {name: 'Delfter Kacheln', satz: 'Kobalt auf Weiß hinter Fliesenfugen', blur: .2, dunst: .4, kante: '', korn: .06, papier: 0, ton: '', schatten: 0, welt: 'url(#fbw-delft)', rahmen: 'kacheln'},
+  riso: {name: 'Riso-Druck', satz: 'zwei Leuchtfarben, verrutscht, Rasterpunkte', blur: .15, dunst: .3, kante: '', korn: .1, papier: 0, ton: '', schatten: 0, welt: 'url(#fbw-riso)', rahmen: 'raster'},
+  gravur: {name: 'Seemannsgravur', satz: 'Linien auf Elfenbein, wie in Walbein geritzt', blur: .1, dunst: .2, kante: '', korn: .1, papier: 0, ton: '', schatten: 0, welt: 'url(#fbw-scrim)'}
 };
 let glasName = '', glasCfg = GLAS.weich;
 function glasJetzt() { const g = (document.documentElement.dataset.glas || 'weich'); if (g !== glasName) { glasName = g; glasCfg = GLAS[g] || GLAS.weich; if (root) glasUeberzug(); } return glasCfg; }
@@ -46,6 +56,7 @@ function glasUeberzug() {
   const pa = root.querySelector('.fb-papier'); if (pa) pa.style.opacity = G.papier;
   const t = root.querySelector('.fb-ton'); if (t) t.style.background = G.ton || 'transparent';
   const kr = root.querySelector('.fb-korn rect'); if (kr) kr.setAttribute('filter', glasName === 'buntstift' ? 'url(#fb-stift)' : 'url(#fb-korn)');
+  const wl = root.querySelector('.fb-welt'); if (wl) wl.style.filter = G.welt || ''; root.dataset.rahmen = G.rahmen || '';
 }
 const mix = (a, b, t) => { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const A = h(a), B = h(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
 const dunkel = (c, t = .18) => mix(c, '#000000', t), hell = (c, t = .2) => mix(c, '#ffffff', t);
@@ -296,6 +307,13 @@ function css() {
   .fb-ue{position:absolute;inset:0;pointer-events:none}.fb-blende{opacity:0;background:radial-gradient(ellipse at 50% 50%,${P.nebelFarbe},${hell(P.nebelFarbe, .25)})}
   .fb-wasser{opacity:0;background:linear-gradient(#9cc4c4,#2f5d63)}.fb-flare{opacity:0}
   .fb-kasch{background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(30,40,45,.36) 100%)}.fb-korn{mix-blend-mode:multiply;opacity:.2;width:100%;height:100%}.fb-papier{mix-blend-mode:multiply;opacity:0;width:100%;height:100%}.fb-ton{mix-blend-mode:multiply}
+  .fb-rahmen{display:none}.fb[data-rahmen] .fb-rahmen{display:block}
+  .fb[data-rahmen="licht"] .fb-rahmen{background:radial-gradient(ellipse at 60% 35%,rgba(255,220,150,.35),transparent 60%),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(30,15,5,.5) 100%)}
+  .fb[data-rahmen="kreis"] .fb-rahmen{background:radial-gradient(circle at 50% 46%,transparent 0 44%,rgba(0,0,0,.6) 47%,#0a0705 50%)}.fb[data-rahmen="kreis"] .fb-innen{animation:fbflack 3.2s steps(1) infinite}
+  @keyframes fbflack{0%{opacity:1}12%{opacity:.9}14%{opacity:1}62%{opacity:.95}64%{opacity:.86}66%{opacity:1}}
+  .fb[data-rahmen="blei"] .fb-rahmen{background:linear-gradient(115deg,transparent 30%,rgba(255,255,230,.3) 42%,transparent 52%);box-shadow:inset 0 0 0 7px #1b1714;mix-blend-mode:normal}
+  .fb[data-rahmen="kacheln"] .fb-rahmen{background-image:linear-gradient(90deg,rgba(255,255,255,.75) 0 2px,transparent 2px),linear-gradient(0deg,rgba(255,255,255,.75) 0 2px,transparent 2px),radial-gradient(circle at 0 0,rgba(29,63,143,.55) 0 5px,transparent 6px);background-size:16.67% 13.33%;background-position:-1px -1px}
+  .fb[data-rahmen="raster"] .fb-rahmen{mix-blend-mode:multiply;opacity:.22;background-image:radial-gradient(circle,#000 0 1.1px,transparent 1.4px);background-size:4px 4px}
   .fb-med{position:absolute;left:4%;bottom:4%;width:24%;aspect-ratio:1;border-radius:50%;background:rgba(240,238,228,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
     box-shadow:0 6px 20px rgba(20,30,35,.35);opacity:0;transform:scale(.9);transition:opacity .6s,transform .6s;overflow:hidden;pointer-events:none}
   .fb-med.an{opacity:1;transform:scale(1)}.fb-med svg{width:100%;height:100%}.fb-med .fb-tel{position:absolute;right:4%;top:4%;font-size:1.3em}`;
@@ -317,13 +335,20 @@ function defs() {
     <filter id="fbg-tusche" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="6" result="t"/><feDisplacementMap in="SourceAlpha" in2="t" scale="1.6" result="a"/>
       <feMorphology in="a" operator="dilate" radius="1.3" result="g"/><feComposite in="g" in2="a" operator="out" result="linie"/><feFlood flood-color="#3b2614"/><feComposite in2="linie" operator="in" result="tinte"/>
       <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="tinte"/></feMerge></filter>
+    <filter id="fbg-oel" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="4" result="t"><animate attributeName="baseFrequency" values=".016;.022;.016" dur="10s" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="t" scale="8" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation=".6"/></filter>
+    <filter id="fbg-sil"><feFlood flood-color="#130d09"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+    <filter id="fbg-blei" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB"><feConvolveMatrix in="SourceGraphic" order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" result="e"/><feColorMatrix in="e" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.3 1.3 1.3 0 -.45" result="ea"/><feMorphology in="ea" operator="dilate" radius=".7" result="ed"/><feMorphology in="SourceAlpha" operator="dilate" radius="1.3" result="aus"/><feComposite in="aus" in2="SourceAlpha" operator="out" result="rand"/><feMerge result="linie"><feMergeNode in="ed"/><feMergeNode in="rand"/></feMerge><feFlood flood-color="#1b1714"/><feComposite in2="linie" operator="in" result="blei"/><feColorMatrix in="SourceGraphic" type="saturate" values="1.45" result="farbe"/><feMerge><feMergeNode in="farbe"/><feMergeNode in="blei"/></feMerge></filter>
+    <filter id="fbw-cyan" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0"/><feComponentTransfer><feFuncR type="table" tableValues=".93 .05"/><feFuncG type="table" tableValues=".95 .2"/><feFuncB type="table" tableValues=".97 .42"/></feComponentTransfer></filter>
+    <filter id="fbw-delft" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0"/><feComponentTransfer><feFuncR type="discrete" tableValues=".1 .3 .62 .96"/><feFuncG type="discrete" tableValues=".2 .42 .7 .95"/><feFuncB type="discrete" tableValues=".52 .7 .86 .92"/></feComponentTransfer></filter>
+    <filter id="fbw-riso" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.45 -.7 -.15 0 1.05" result="dunkel"/><feComponentTransfer in="dunkel" result="dk"><feFuncA type="discrete" tableValues="0 .35 .7 1"/></feComponentTransfer><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.9 .1 1.1 0 .05" result="blau"/><feComponentTransfer in="blau" result="bl"><feFuncA type="discrete" tableValues="0 .45 .8 1"/></feComponentTransfer><feFlood flood-color="#f5eedf" result="papier"/><feFlood flood-color="#2f5fc4"/><feComposite in2="bl" operator="in"/><feOffset dx="2.5" dy="1.6" result="farbeB"/><feFlood flood-color="#ff4f8b"/><feComposite in2="dk" operator="in" result="farbeA"/><feBlend in="farbeB" in2="papier" mode="multiply" result="m1"/><feBlend in="farbeA" in2="m1" mode="multiply"/></filter>
+    <filter id="fbw-scrim" color-interpolation-filters="sRGB"><feConvolveMatrix in="SourceGraphic" order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" preserveAlpha="true" result="e"/><feColorMatrix in="e" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.4 2.4 2.4 0 -.35" result="ea"/><feFlood flood-color="#efe3c6" result="bein"/><feFlood flood-color="#2b2016"/><feComposite in2="ea" operator="in" result="lin"/><feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.3 -.5 -.1 0 .62" result="sch"/><feComponentTransfer in="sch" result="sch2"><feFuncA type="discrete" tableValues="0 .25 .5 .75"/></feComponentTransfer><feFlood flood-color="#3a2a1a" flood-opacity=".5"/><feComposite in2="sch2" operator="in" result="ton"/><feMerge><feMergeNode in="bein"/><feMergeNode in="ton"/><feMergeNode in="lin"/></feMerge></filter>
     <filter id="fbg-krakel" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="8" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.4"/></filter></defs></svg>`;
 }
 function mount(el) {
   css();
   el.innerHTML = `<div class="fb">${defs()}<div class="fb-innen"><div class="fb-welt"></div></div><div class="fb-ue fb-kasch"></div>
     <svg class="fb-ue fb-papier" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-papierf)"/></svg>
-    <svg class="fb-ue fb-korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-korn)"/></svg><div class="fb-ue fb-ton"></div>
+    <svg class="fb-ue fb-korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-korn)"/></svg><div class="fb-ue fb-ton"></div><div class="fb-ue fb-rahmen"></div>
     <div class="fb-ue fb-wasser"></div><div class="fb-ue fb-blende"></div><div class="fb-ue fb-flare"></div>
     <div class="fb-med"><svg viewBox="0 0 122 122">${harmsBuste()}</svg><span class="fb-tel" hidden>☎️</span></div></div>`;
   root = el.querySelector('.fb'); welt = el.querySelector('.fb-welt'); SETS = {}; EB = {}; CAM = {}; ort = null; glasName = ''; glasJetzt();
@@ -393,7 +418,7 @@ function kameraAnwenden(key, t) {
       const op = d < .55 ? 1 - P.nebel * G.dunst * .9 * (.55 - d) / .55 : 1, k = bl.toFixed(1) + '|' + op.toFixed(2) + '|' + glasName;
       if (L.last !== k) {
         const f = [];
-        if (G.kante && d >= .25 && d <= .9) f.push(`url(#fbg-${G.kante})`);
+        if (G.kante && d >= (G.kmin != null ? G.kmin : .25) && d <= (G.kmax || .9)) f.push(`url(#fbg-${G.kante})`);
         if (G.schatten && d >= .2 && d < .99) f.push(`drop-shadow(${(2 + d * 4).toFixed(1)}px ${(5 + d * 8).toFixed(1)}px ${(2 + d * 2).toFixed(1)}px rgba(40,28,14,.5))`);
         if (bl > .15) f.push(`blur(${bl.toFixed(1)}px)`);
         L.cam.style.filter = f.join(' '); L.cam.style.opacity = op.toFixed(2); L.last = k;
