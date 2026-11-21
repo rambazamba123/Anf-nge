@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="de" data-glas="weich" data-stil="laviert">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Skipper zum Durchklicken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Skipper zum Durchklicken (Entwurf 22.11.2026): alle Menüpunkte im Stil „Feder laviert“ auf der Glasbühne.
+   Deck, Kajüte und Frage laufen auf der echten Filmbühne (film.js), Figuren aus figuren.js. Nichts wird gespeichert. */
+:root{--ink:#2b1d12;--sepia:#5b3c22;--papier:#f6eedc;--papier2:#ecdfc3;--muted:#7a6650;--akzent:#e8963a;--akzent-ink:#2a1a05;--see:#2f6470;--gruen:#5c8a4a;--rot:#b8402e;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#1a140e;font-family:var(--bfont);color:var(--ink);overflow:hidden}
+#app{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 40%,#3a2c1e,#120d08 75%)}
+#tel{position:relative;width:min(100vw,calc(100dvh * .5));height:min(100dvh,calc(100vw * 2));overflow:hidden;background:var(--papier)}
+@media (min-width:700px){#tel{border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.6);height:min(94dvh,880px);width:min(440px,calc(94dvh * .5))}}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.screen.an{display:flex;animation:ein .45s ease}
+@keyframes ein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* Papier und Lavur */
+.papier{background:radial-gradient(ellipse at 20% 10%,rgba(232,150,58,.12),transparent 40%),radial-gradient(ellipse at 90% 80%,rgba(47,100,112,.12),transparent 45%),linear-gradient(var(--papier),var(--papier2))}
+.papier::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.35;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='7'/><feColorMatrix values='0 0 0 0 .62  0 0 0 0 .5  0 0 0 0 .33  0 0 0 1.2 -.45'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>")}
+.buehne{position:absolute;inset:0}
+.buehne .fb{border-radius:0}
+.kopf{position:relative;z-index:3;display:flex;align-items:center;gap:8px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 8px}
+.kopf h1{font-family:var(--hfont);font-size:22px;margin:0;flex:1;line-height:1.05}
+.kopf small{display:block;font-family:var(--bfont);font-size:12px;color:var(--muted);font-weight:700}
+.zur{width:40px;height:40px;border-radius:50%;border:1.6px solid var(--sepia);background:rgba(246,238,220,.85);font-size:20px;color:var(--ink);cursor:pointer;flex:none}
+.inhalt{position:relative;z-index:2;flex:1;overflow:auto;padding:4px 14px 90px;display:flex;flex-direction:column;gap:10px}
+/* Karten aus Papier mit Tuschekante */
+.karte{position:relative;background:rgba(250,244,230,.93);border:1.6px solid var(--sepia);border-radius:14px 16px 13px 17px/16px 13px 17px 14px;padding:11px 13px;box-shadow:2px 3px 0 rgba(91,60,34,.18);backdrop-filter:blur(6px)}
+.karte.glas{background:rgba(250,244,230,.78)}
+.karte b{font-family:var(--hfont);font-size:16px}
+.karte small{color:var(--muted);font-size:12.5px;line-height:1.3;display:block}
+.kacheln{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.kachel{cursor:pointer;display:flex;flex-direction:column;gap:3px;text-align:left;font:inherit;color:inherit}
+.ic{width:44px;height:44px;flex:none}
+.buehne.fest{bottom:auto;aspect-ratio:400/500;height:auto}
+.kaj-unten{position:absolute;left:0;right:0;bottom:0;top:calc(min(100vw,440px) * 1.25);z-index:2;background:linear-gradient(#3a2616,#2a1a0e);padding:10px 12px 80px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.kaj-unten .pin{position:static;transform:none}
+.knopf{font:inherit;font-weight:800;border:1.6px solid #8a5418;border-radius:14px;padding:12px 16px;background:var(--akzent);color:var(--akzent-ink);cursor:pointer;box-shadow:2px 3px 0 rgba(91,60,34,.25)}
+.knopf.leise{background:rgba(250,244,230,.9);border-color:var(--sepia);color:var(--ink)}
+.dock{position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;justify-content:space-around;padding:6px 4px;background:rgba(250,244,230,.9);border:1.6px solid var(--sepia);border-radius:20px;box-shadow:2px 3px 0 rgba(91,60,34,.2);backdrop-filter:blur(8px)}
+.dock button{border:0;background:none;font:inherit;font-size:11px;font-weight:800;color:var(--muted);display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:3px 8px;border-radius:12px}
+.dock button span{font-size:21px;line-height:1.15}
+.dock button.an{color:var(--ink);background:rgba(232,150,58,.25)}
+.pin{position:absolute;z-index:4;transform:translate(-50%,-50%);display:flex;align-items:center;gap:5px;padding:5px 10px 5px 8px;font:800 12.5px var(--bfont);background:rgba(250,244,230,.92);border:1.6px solid var(--sepia);border-radius:999px;cursor:pointer;color:var(--ink);box-shadow:2px 2px 0 rgba(91,60,34,.25);white-space:nowrap}
+.pin::after{content:"";position:absolute;inset:-5px;border-radius:999px;border:2px solid rgba(232,150,58,.7);animation:puls 2.2s ease-out infinite;pointer-events:none}
+@keyframes puls{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.25);opacity:0}}
+.leiste{height:10px;border-radius:6px;background:rgba(91,60,34,.12);overflow:hidden;border:1px solid rgba(91,60,34,.3)}
+.leiste i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#7fae6a,#5c8a4a)}
+.zeile{display:flex;align-items:center;gap:10px}
+.fig{width:70px;height:86px;flex:none}
+.ant{display:flex;gap:9px;align-items:center;text-align:left;font:inherit;font-weight:700;cursor:pointer;color:inherit;width:100%}
+.ant .bu{width:28px;height:28px;border-radius:50%;border:1.6px solid var(--sepia);display:grid;place-items:center;font-family:var(--hfont);font-weight:800;flex:none}
+.ant.ok{background:rgba(127,174,106,.35)}.ant.no{background:rgba(184,64,46,.22)}
+.tag{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;border:1.2px solid var(--sepia);background:rgba(232,150,58,.2)}
+.karte-tage{position:relative;height:300px}
+.karte-tage svg{position:absolute;inset:0;width:100%;height:100%}
+.navi{position:fixed;left:50%;transform:translateX(-50%);bottom:8px;z-index:50;display:flex;gap:6px;padding:6px 8px;border-radius:999px;background:rgba(20,14,8,.8);color:#f6eedc;font-size:12px;align-items:center}
+.navi select{font:inherit;font-size:12px;background:#2a1e14;color:#f6eedc;border:1px solid #6b4a2e;border-radius:8px;padding:3px}
+@media (max-width:699px){.navi{display:none}}
+.tip{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);z-index:30;padding:10px 14px;border-radius:12px;background:rgba(43,29,18,.85);color:#f6eedc;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;max-width:80%;text-align:center}
+</style>
+</head>
+<body>
+<div id="app"><div id="tel"><div class="tip" id="tip"></div></div></div>
+<div class="navi">Direkt zu: <select id="sprung"></select></div>
+<script src="../../figuren.js"></script>
+<script src="../../boot.js"></script>
+<script src="../../film.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id), F = window.FIGUREN, tel = $('tel');
+const fig = (id, o, vb) => `<svg class="fig" viewBox="${vb || '-34 -112 68 118'}" preserveAspectRatio="xMidYMax meet">${F.figur(id, Object.assign({dreh: false, blick: 'vorn'}, o || {}))}</svg>`;
+const ic = (art) => `<svg class="ic" viewBox="0 0 44 44">${({
+  kajuete: '<rect x="6" y="10" width="32" height="26" rx="3" fill="#a5733f" stroke="#5b3c22" stroke-width="1.6"/><circle cx="16" cy="20" r="5" fill="#9bd0ea" stroke="#c9a03c" stroke-width="2"/><circle cx="29" cy="20" r="5" fill="#9bd0ea" stroke="#c9a03c" stroke-width="2"/><rect x="10" y="29" width="24" height="3" fill="#5b3c22"/>',
+  hoer: '<path d="M10 26 v-4 a12 12 0 0 1 24 0 v4" fill="none" stroke="#5b3c22" stroke-width="2.4"/><rect x="7" y="24" width="8" height="12" rx="3" fill="#b8402e" stroke="#5b3c22" stroke-width="1.4"/><rect x="29" y="24" width="8" height="12" rx="3" fill="#b8402e" stroke="#5b3c22" stroke-width="1.4"/>',
+  ueben: '<circle cx="22" cy="22" r="14" fill="#f3e6c4" stroke="#5b3c22" stroke-width="1.6"/><path d="M22 10 L25 22 L22 34 L19 22Z" fill="#b8402e" stroke="#5b3c22" stroke-width="1"/><circle cx="22" cy="22" r="2" fill="#5b3c22"/>',
+  pruef: '<rect x="9" y="8" width="26" height="30" rx="2" fill="#f3e6c4" stroke="#5b3c22" stroke-width="1.6"/><path d="M14 16 h16 M14 22 h16 M14 28 h10" stroke="#5b3c22" stroke-width="1.6"/><path d="M27 30 l3 3 l6 -8" stroke="#5c8a4a" stroke-width="2.4" fill="none"/>',
+  knoten: '<path d="M10 30 q6 -18 12 -6 q8 12 12 4 q-4 16 -12 6 q-10 -6 -12 -4Z" fill="none" stroke="#c9a03c" stroke-width="3" stroke-linecap="round"/>',
+  manoever: '<path d="M8 32 L22 12 L36 32Z" fill="none" stroke="#5b3c22" stroke-width="2"/><path d="M28 10 a10 10 0 1 1 -6 2" stroke="#e8963a" stroke-width="2.4" fill="none"/>',
+  navi: '<rect x="6" y="9" width="32" height="26" rx="2" fill="#f3e6c4" stroke="#5b3c22" stroke-width="1.6"/><path d="M9 30 Q18 18 26 22 T37 14" stroke="#2f6470" stroke-width="2" fill="none"/><path d="M12 32 L24 20 L34 18" stroke="#333" stroke-dasharray="3 2" fill="none"/>',
+  seezeichen: '<path d="M16 34 L22 10 L28 34Z" fill="#5c8a4a" stroke="#5b3c22" stroke-width="1.6"/><path d="M10 36 h24" stroke="#2f6470" stroke-width="3"/>',
+  kartei: '<rect x="8" y="12" width="26" height="20" rx="2" fill="#f3e6c4" stroke="#5b3c22" stroke-width="1.6" transform="rotate(-6 22 22)"/><rect x="10" y="14" width="26" height="20" rx="2" fill="#fbf4e3" stroke="#5b3c22" stroke-width="1.6"/><path d="M14 22 h18 M14 27 h12" stroke="#5b3c22" stroke-width="1.4"/>',
+  telefon: '<rect x="9" y="18" width="26" height="16" rx="4" fill="#2a2a2e"/><circle cx="22" cy="26" r="5" fill="#55555c"/><path d="M11 16 q11 -8 22 0" stroke="#2a2a2e" stroke-width="4" fill="none" stroke-linecap="round"/>',
+  werft: '<path d="M22 8 V36 M12 18 H32 M10 30 Q22 40 34 30" stroke="#5b3c22" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="22" cy="8" r="3" fill="none" stroke="#5b3c22" stroke-width="2"/>',
+  einst: '<circle cx="22" cy="22" r="7" fill="none" stroke="#5b3c22" stroke-width="2.4"/><path d="M22 8 v5 M22 31 v5 M8 22 h5 M31 22 h5 M12 12 l3.5 3.5 M28.5 28.5 l3.5 3.5 M12 32 l3.5 -3.5 M28.5 15.5 l3.5 -3.5" stroke="#5b3c22" stroke-width="2.4" stroke-linecap="round"/>'})[art] || ''}</svg>`;
+const kachel = (art, t, s, ziel) => `<button class="karte kachel" data-go="${ziel}">${ic(art)}<b>${t}</b><small>${s}</small></button>`;
+const dock = an => `<div class="dock">${[['deck', '⛵', 'Deck'], ['kajuete', '🛏️', 'Kajüte'], ['hoerreise', '🎧', 'Hörreise'], ['ueben', '🧭', 'Üben'], ['mehr', '☰', 'Mehr']].map(([z, i, n]) => `<button data-go="${z}" class="${z === an ? 'an' : ''}"><span>${i}</span>${n}</button>`).join('')}</div>`;
+const kopf = (t, sub, zurueck) => `<div class="kopf">${zurueck ? `<button class="zur" data-go="${zurueck}" aria-label="zurück">‹</button>` : ''}<h1>${t}${sub ? `<small>${sub}</small>` : ''}</h1></div>`;
+
+/* ---------- Bildschirme ---------- */
+const S = {
+  deck: {name: 'Deck (Start)', film: {licht: 'morgen', ort: ['tankstelle', 'seite'], kam: ['seite', 'totale'], sofort: {p: [.5]}}, html: () => `${kopf('Moin, Skipper!', 'Tag 2 · Klüverhafen')}
+    <div class="inhalt" style="justify-content:flex-end">
+      <div class="karte glas zeile">${fig('hinnerk', {laune: 'froh'})}<div style="flex:1"><small>Weiter mit der Crew</small><b>Folge 1-3 · Leise raus</b><small>noch 14 Minuten · Hinnerk wartet am Steg</small></div></div>
+      <button class="knopf" data-go="player">▶ Weiterhören</button>
+      <div class="kacheln">${kachel('kajuete', 'Kajüte', 'Karte, Knoten, Telefon', 'kajuete')}${kachel('ueben', 'Frei üben', '12 Fragen fällig', 'ueben')}</div>
+    </div>${dock('deck')}`},
+  player: {name: 'Hörreise-Player', film: {licht: 'mittag', ort: ['tankstelle', 'seite'], kam: ['seite', 'halbnah'], sofort: {p: [.5]}}, html: () => `${kopf('Leise raus', 'Folge 1-3 · Kapitel 2 von 5', 'deck')}
+    <div class="inhalt" style="justify-content:flex-end">
+      <div class="karte glas"><b>Hinnerk:</b> „Kiek mol. Ohne Gas kein Ruder. Wenn der Propeller steht, steht auch das Wasser am Ruderblatt.“</div>
+      <div class="karte glas"><div class="leiste"><i style="width:38%"></i></div><div class="zeile" style="justify-content:space-around;margin-top:8px"><button class="zur">⏪</button><button class="knopf" style="padding:10px 20px">❚❚</button><button class="zur">⏩</button><button class="zur" data-go="frage">❓</button><button class="zur">✏️</button></div></div>
+    </div>`},
+  kajuete: {name: 'Kajüte', fest: true, film: {licht: 'abend', ort: ['kajuete', 'innen'], kam: ['innen', 'totale']}, html: () => {
+    /* Pins aus den Kamerazielen in film.js: Bühne zeigt x -40…440, y -50…550 */
+    const P = [['karte', 'Seekarte', 96, 262, 'navi'], ['manoever', 'Manöverbrett', 223, 262, 'manoever'], ['knoten', 'Knotenbrett', 336, 258, 'knoten'], ['regal', 'Logbuch', 84, 80, 'pruefungen'], ['klabauter', 'Klabauter', 340, 186, 'kartei'], ['telefon', 'Telefon', 327, 330, 'harms'], ['tisch', 'Kartentisch', 130, 392, 'pruefungen'], ['hocker', 'Hocker', 74, 440, 'hoerreise']];
+    return `${kopf('Kajüte', 'Antippen, was du brauchst')}<div class="pins" style="position:absolute;left:0;right:0;top:0;aspect-ratio:400/500;z-index:4">${P.map(([k, n, x, y, z]) => `<button class="pin" style="left:${((x + 40) / 4.8).toFixed(1)}%;top:${((y + 50) / 6).toFixed(1)}%" data-kam="${k}" data-go="${z}">${n}</button>`).join('')}</div>
+      <div class="kaj-unten"><small style="width:100%;color:#e9d9b0;font-weight:700">Oder direkt:</small>${P.map(([k, n, , , z]) => `<button class="pin" data-kam="${k}" data-go="${z}">${n}</button>`).join('')}</div>${dock('kajuete')}`; }},
+  hoerreise: {name: 'Hörreise: Karte der Tage', html: () => `${kopf('Ausbildungsfahrt', 'Tag 2 von 7', 'deck')}
+    <div class="inhalt"><div class="karte karte-tage"><svg viewBox="0 0 320 300"><path d="M0 300 V210 Q60 170 120 200 Q190 236 250 160 Q290 110 320 120 V300Z" fill="#a9c39a" opacity=".55"/><path d="M0 0 H320 V60 Q240 90 170 60 Q90 30 0 70Z" fill="#a9c39a" opacity=".4"/>
+      <path d="M40 250 C80 220 70 190 120 180 S200 170 210 130 S280 90 260 50" stroke="#5b3c22" stroke-width="2.4" stroke-dasharray="3 6" fill="none" stroke-linecap="round"/>
+      ${[[40, 250, '✓', 1], [120, 180, '⛵', 2], [210, 130, '3', 0], [262, 92, '4', 0], [260, 50, '5', 0]].map(([x, y, t, a]) => `<circle cx="${x}" cy="${y}" r="${a === 2 ? 17 : 13}" fill="${a === 2 ? '#e8963a' : a ? '#7fae6a' : '#f6eedc'}" stroke="#5b3c22" stroke-width="1.8"/><text x="${x}" y="${y + 5}" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="14" fill="#2b1d12">${t}</text>`).join('')}</svg></div>
+      <div class="karte"><span class="tag">Heute an Bord</span><br><b>Tag 2 · Strom und Schleuse</b><small>5 Folgen · 31 Minuten · abends die Navi-Wache</small></div>
+      ${['2-1 · Der Strom kippt', '2-2 · Hilke sagt nie bitte', '2-3 · Schleuse Klappdörp'].map((t, i) => `<button class="karte zeile" data-go="player" style="text-align:left">${fig(['smilla', 'hilke', 'schleuse'][i], {}, '-34 -112 68 118')}<div><b>${t}</b><small>${['8 Minuten', '6 Minuten', '7 Minuten'][i]}</small></div></button>`).join('')}
+    </div>${dock('hoerreise')}`},
+  ueben: {name: 'Frei üben', html: () => `${kopf('Frei üben', 'Du entscheidest, die Crew empfiehlt')}
+    <div class="inhalt"><div class="karte zeile">${fig('smilla', {laune: 'froh'})}<div><b>Smilla:</b><small>„Fang mit den zwölf fälligen an. Dann Knoten, die kannst du im Schlaf.“</small></div></div>
+      <div class="kacheln">${kachel('pruef', 'Fragen', '12 fällig', 'frage')}${kachel('kartei', 'Lernkartei', '9 Karten', 'kartei')}${kachel('knoten', 'Knoten', '7 von 12 sicher', 'knoten')}${kachel('manoever', 'Manöver', 'Anlegen, Wenden', 'manoever')}${kachel('navi', 'Navigation', 'Wache 2 von 3', 'navi')}${kachel('seezeichen', 'Seezeichen', 'Tonnen und Feuer', 'seezeichen')}</div></div>${dock('ueben')}`},
+  frage: {name: 'Frage', film: {licht: 'mittag', ort: ['ausfahrt', 'seite'], kam: ['seite', 'totale'], kalt: true}, html: () => `${kopf('Frage 4 von 12', 'Navigation · Fahrwasser', 'ueben')}
+    <div class="inhalt" style="justify-content:flex-end"><div class="karte glas"><b style="font-size:17px">Ihr lauft in ein Fahrwasser ein. An welcher Seite lasst ihr die grüne Tonne?</b></div>
+      ${['An Steuerbord', 'An Backbord', 'Genau darauf zu'].map((a, i) => `<button class="karte ant" data-ant="${i}"><span class="bu">${'ABC'[i]}</span>${a}</button>`).join('')}
+      <div class="zeile"><button class="knopf leise" style="flex:1">🎤 Zuruf</button><button class="knopf" style="flex:1" data-go="ueben">Weiter</button></div></div>`},
+  pruefungen: {name: 'Meine Prüfungen', html: () => `${kopf('Meine Prüfungen', 'SBF See · Termin in 23 Tagen', 'deck')}
+    <div class="inhalt"><div class="karte zeile">${fig('harms', {})}<div><b>Harms:</b><small>„Navigation sitzt noch nicht. Recht passt. Ich ruf an, wenn du so weit bist.“</small></div></div>
+      ${[['Navigation', 34], ['Fahrregeln', 61], ['Lichter und Signale', 48], ['Seemannschaft', 72], ['Recht', 80], ['Technik', 55]].map(([t, p]) => `<div class="karte"><div class="zeile" style="justify-content:space-between"><b>${t}</b><span class="tag">${p} %</span></div><div class="leiste" style="margin-top:6px"><i style="width:${p}%"></i></div></div>`).join('')}
+      <button class="knopf" data-go="harms">☎️ Probeprüfung bei Harms</button></div>${dock('mehr')}`},
+  knoten: {name: 'Knotenbrett', html: () => `${kopf('Knotenbrett', '7 von 12 sicher', 'kajuete')}
+    <div class="inhalt"><div class="karte zeile">${fig('hinnerk', {pose: 'zeigen'})}<div><b>Hinnerk:</b><small>„Palstek. Der Hase kommt aus dem Bau, läuft um den Baum und wieder rein.“</small></div></div>
+      ${['Palstek', 'Achtknoten', 'Kreuzknoten', 'Schotstek', 'Webeleinstek', 'Rundtörn mit zwei halben Schlägen'].map((k, i) => `<div class="karte zeile">${ic('knoten')}<div style="flex:1"><b>${k}</b><small>${i < 4 ? 'sicher' : 'noch üben'}</small></div><span class="tag">${i < 4 ? '✓' : 'üben'}</span></div>`).join('')}</div>`},
+  manoever: {name: 'Manöverbrett', html: () => `${kopf('Manöverbrett', 'Anlegen, Ablegen, Wenden', 'kajuete')}
+    <div class="inhalt">${['Ablegen mit Achterspring', 'Anlegen bei auflandigem Wind', 'Wenden auf engem Raum', 'Mann über Bord'].map((m, i) => `<div class="karte zeile">${ic('manoever')}<div style="flex:1"><b>${m}</b><small>${['geübt', 'Einweisung offen', 'neu', 'Pflicht für die Prüfung'][i]}</small></div></div>`).join('')}
+      <div class="karte zeile">${fig('quirin', {laune: 'froh'})}<div><b>Quirin:</b><small>„Des kenn i vom Fluss. Na ja, fast.“</small></div></div></div>`},
+  navi: {name: 'Seekarte (Navigation)', html: () => `${kopf('Seekarte', 'Abendwache 2 von 3', 'kajuete')}
+    <div class="inhalt"><div class="karte" style="padding:0;overflow:hidden"><svg viewBox="0 0 320 220" style="display:block;width:100%"><rect width="320" height="220" fill="#eef3ee"/><path d="M0 220 V150 Q60 120 110 150 Q170 180 230 130 Q280 90 320 100 V220Z" fill="#e9dcb6" stroke="#8a6a40"/><path d="M40 60 L160 110 L250 70" stroke="#b8402e" stroke-width="2" stroke-dasharray="6 4" fill="none"/><circle cx="160" cy="110" r="4" fill="#b8402e"/><path d="M260 30 v20 M250 40 h20" stroke="#5b3c22" stroke-width="1.6"/><text x="262" y="26" font-size="10" font-family="Baloo 2" fill="#5b3c22">N</text><path d="M80 170 l6 -14 l6 14Z" fill="#5c8a4a"/><path d="M200 150 l6 -14 l6 14Z" fill="#b8402e"/></svg></div>
+      <div class="karte zeile">${fig('smilla', {pose: 'zeigen'})}<div><b>Smilla:</b><small>„Erst den Kurs abtragen, dann die Missweisung. Schritt 2 von 4.“</small></div></div><button class="knopf">Weiter mit Schritt 2</button></div>`},
+  seezeichen: {name: 'Seezeichen', html: () => `${kopf('Seezeichen', 'Tonnen, Feuer, Lichter', 'ueben')}
+    <div class="inhalt"><div class="kacheln">${['Steuerbordtonne', 'Backbordtonne', 'Kardinal Nord', 'Kardinal Süd', 'Gefahrenstelle', 'Ansteuerung'].map((t, i) => `<div class="karte kachel">${ic('seezeichen')}<b>${t}</b><small>${i % 2 ? 'sicher' : 'üben'}</small></div>`).join('')}</div></div>`},
+  kartei: {name: 'Lernkartei', html: () => `${kopf('Lernkartei', '9 Karten heute', 'ueben')}
+    <div class="inhalt"><div class="karte" style="min-height:220px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px"><small>Karte 3 von 9</small><b style="font-size:20px">Was bedeutet ein langer Ton?</b><small>Antippen zum Umdrehen</small></div>
+      <div class="zeile"><button class="knopf leise" style="flex:1">Noch mal</button><button class="knopf" style="flex:1">Gewusst</button></div>
+      <div class="karte zeile">${fig('klabauter', {pose: 'sitzen'}, '-24 -44 48 50')}<div><b>Klabauter:</b><small>„Merken! Merken! Lang heißt Achtung!“</small></div></div></div>`},
+  harms: {name: 'Telefon: Harms ruft an', html: () => `<div class="inhalt" style="justify-content:center;align-items:center;text-align:center;padding-top:40px">
+      <div style="width:200px;height:240px">${fig('harms', {laune: 'skeptisch'}, '-40 -118 80 124').replace('class="fig"', 'class="fig" style="width:100%;height:100%"')}</div>
+      <b style="font-family:var(--hfont);font-size:24px">Kapitän Harms ruft an</b><small style="color:var(--muted)">„Fünf Fragen. Keine Ausreden.“</small>
+      <div class="zeile" style="gap:30px;margin-top:20px"><button class="knopf leise" data-go="pruefungen" style="border-radius:50%;width:64px;height:64px;background:#e8b0a4">✕</button><button class="knopf" data-go="frage" style="border-radius:50%;width:64px;height:64px;background:#9cc98a">✓</button></div></div>`},
+  mehr: {name: 'Mehr', html: () => `${kopf('Mehr', 'Alles Weitere')}
+    <div class="inhalt"><div class="kacheln">${kachel('pruef', 'Meine Prüfungen', 'Stand je Thema', 'pruefungen')}${kachel('werft', 'Crew und Werft', 'Alle Figuren, Boot', 'crew')}${kachel('telefon', 'Harms', 'Probeprüfung', 'harms')}${kachel('einst', 'Einstellungen', 'Stimme, Ton, Scheine', 'einst')}</div></div>${dock('mehr')}`},
+  crew: {name: 'Crew und Werft', html: () => `${kopf('Die ganze Crew', 'Alle Figuren der Reise', 'mehr')}
+    <div class="inhalt"><div class="kacheln">${Object.entries(F.FIG).map(([id, f]) => `<div class="karte" style="text-align:center">${fig(id, f.tier ? {pose: 'sitzen'} : {}, f.tier ? (id === 'backbord' ? '-26 -40 52 46' : '-24 -48 48 54') : '-34 -114 68 120').replace('class="fig"', 'class="fig" style="width:100%;height:110px"')}<b style="font-size:14px">${f.name}</b></div>`).join('')}</div></div>`},
+  einst: {name: 'Einstellungen', html: () => `${kopf('Einstellungen', '', 'mehr')}
+    <div class="inhalt">${[['Scheine und Termine', 'SBF See · 15.12.'], ['Stimmen', 'Gratis-Stimme · Stimmenpaket'], ['Atempausen', 'normal'], ['Große Schrift', 'aus'], ['Über die App', 'Quellen, Haftung, Impressum']].map(([t, s]) => `<div class="karte zeile"><div style="flex:1"><b>${t}</b><small>${s}</small></div><span>›</span></div>`).join('')}</div>`}
+};
+
+/* ---------- Ablauf ---------- */
+const reihen = Object.keys(S); let jetzt = null, film = null;
+for (const k of reihen) { const d = document.createElement('div'); d.className = 'screen' + (S[k].film ? '' : ' papier'); d.id = 's-' + k; tel.appendChild(d); }
+$('sprung').innerHTML = reihen.map(k => `<option value="${k}">${S[k].name}</option>`).join('');
+$('sprung').onchange = e => zeige(e.target.value);
+async function zeige(k) {
+  if (!S[k]) return; const el = $('s-' + k), sc = S[k];
+  document.querySelectorAll('.screen').forEach(x => x.classList.toggle('an', x === el));
+  el.innerHTML = (sc.film ? `<div class="buehne${sc.fest ? ' fest' : ''}"></div>` : '') + sc.html(); jetzt = k; $('sprung').value = k;
+  if (sc.film && window.FILMB) { const f = sc.film, F2 = FILMB; F2.reset(); F2.licht(f.licht); F2.mount(el.querySelector('.buehne')); if (f.kalt) F2.einfrieren(true); await F2.ort(f.ort[0], 'sofort', f.ort[1]); if (f.sofort) F2.sofort(f.sofort); if (f.kam) F2.kamera(f.kam[0], f.kam[1], 'sofort'); }
+  try { history.replaceState(null, '', '#' + k); } catch (e) {}
+}
+let tt; function tip(s) { const t = $('tip'); t.textContent = s; t.style.opacity = 1; clearTimeout(tt); tt = setTimeout(() => t.style.opacity = 0, 1500); }
+tel.addEventListener('click', async e => {
+  const a = e.target.closest('[data-ant]'); if (a) { a.parentNode.querySelectorAll('.ant').forEach(x => x.classList.remove('ok', 'no')); a.classList.add(a.dataset.ant === '0' ? 'ok' : 'no'); a.parentNode.querySelector('[data-ant="0"]').classList.add('ok'); tip(a.dataset.ant === '0' ? 'Richtig! Grün an Steuerbord.' : 'Nicht ganz: grün bleibt an Steuerbord.'); return; }
+  const b = e.target.closest('[data-go]'); if (!b) return;
+  if (b.dataset.kam && window.FILMB) { document.querySelectorAll('.pin').forEach(p => p.style.opacity = p === b ? 1 : 0); await FILMB.kamera('innen', b.dataset.kam, 'fahrt'); await new Promise(r => setTimeout(r, 450)); }
+  zeige(b.dataset.go);
+});
+zeige(S[location.hash.slice(1)] ? location.hash.slice(1) : 'deck');
+})();
+</script>
+</body>
+</html>

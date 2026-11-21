@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de" data-stil="laviert">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gangarten der Crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Gangarten (Entwurf 22.11.2026): jede Figur läuft über einen Steg, je Figur eine Gangart wählen. Die Schritte rechnet figuren.js (o.gang). */
+:root{--bg:#e8e2d3;--paper:#fbf6ec;--ink:#2a2019;--muted:#6c5f52;--line:#e1d5bf;--sea:#2d5f6a;--accent:#f0a23a;--accent-ink:#3a2408;--chip:#f3ece0;--chip-on:#2d5f6a;--chip-on-ink:#fff;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2a3a45;--chip-on:#7fb3bd;--chip-on-ink:#10202a;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 60px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0}
+h2{font-family:var(--hfont);font-size:19px;line-height:1.1;margin:0;flex:1}
+p{margin:0}.lead{color:var(--muted)}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+section{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:7px}
+.kopf{display:flex;align-items:center;gap:8px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.steg{position:relative;aspect-ratio:400/150;border-radius:12px;overflow:hidden;background:linear-gradient(#cfe0e4 0 62%,#8d7259 62% 70%,#6c5644 70% 72%,#4f7779 72%)}
+.steg svg{position:absolute;inset:0;width:100%;height:100%}
+.herz{border:1px solid var(--line);background:var(--chip);color:#b5373a;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer}
+.herz[aria-pressed="true"]{background:#b5373a;color:#fff;border-color:#b5373a}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+textarea{width:100%;min-height:110px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px}
+.btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div><div class="eyebrow">Skipper · Entwurf 22.11.2026</div><h1>Gangarten der Crew</h1>
+    <p class="lead">Alle Figuren in Feder laviert, mit deinem Körperbau. Je Figur eine Gangart antippen; mit ♥ als ihren Gang merken. Unten das Tempo.</p></div>
+  <div class="bar"><span>Tempo</span><div class="chips" id="tempo"><button class="chip" data-v=".6" aria-pressed="false">langsam</button><button class="chip" data-v="1" aria-pressed="true">normal</button><button class="chip" data-v="1.6" aria-pressed="false">schnell</button></div></div>
+  <div id="liste" style="display:flex;flex-direction:column;gap:10px"></div>
+  <section><h2>Meine Wahl</h2><textarea id="txt" readonly></textarea><button class="btn" id="kop">Auswahl kopieren</button></section>
+</div>
+<script src="../../figuren.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id), F = window.FIGUREN, G = F.GANG;
+const MENSCHEN = ['hinnerk', 'smilla', 'hilke', 'harms', 'quirin', 'jasper', 'hafenmeister', 'polizistin', 'schleuse', 'rangerin', 'seenotretter', 'lotse'];
+const VOR = {hinnerk: 'seemann', smilla: 'flott', hilke: 'stapfen', harms: 'marsch', quirin: 'normal', jasper: 'schlendern', hafenmeister: 'schlendern', polizistin: 'flott', schleuse: 'stapfen', rangerin: 'huepfen', seenotretter: 'flott', lotse: 'normal'};
+const TIERE = {backbord: {schleichen: 'Schleichen', traben: 'Traben', stolzieren: 'Stolzieren'}, klabauter: {watscheln: 'Watscheln', huepfen: 'Hüpfen', flattern: 'Flattern'}};
+let wahl = {}; try { wahl = JSON.parse(localStorage.getItem('skipper-gang') || '{}'); } catch (e) {}
+const art = {}; let tempo = 1;
+for (const id of MENSCHEN) art[id] = (wahl[id] && wahl[id].art) || VOR[id];
+art.backbord = (wahl.backbord && wahl.backbord.art) || 'schleichen'; art.klabauter = (wahl.klabauter && wahl.klabauter.art) || 'watscheln';
+const ids = MENSCHEN.slice(0, 4).concat(['backbord', 'klabauter'], MENSCHEN.slice(4));
+$('liste').innerHTML = ids.map(id => { const opts = TIERE[id] || Object.fromEntries(Object.entries(G).map(([k, g]) => [k, g.name]));
+  return `<section data-id="${id}"><div class="kopf"><h2>${F.FIG[id].name}</h2><button class="herz" aria-pressed="${!!wahl[id]}" aria-label="merken">♥</button></div>
+    <div class="steg"><svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice"><g class="fg"></g></svg></div>
+    <div class="chips">${Object.entries(opts).map(([k, n]) => `<button class="chip" data-a="${k}" aria-pressed="${art[id] === k}">${n}</button>`).join('')}</div></section>`; }).join('');
+$('liste').onclick = e => { const sec = e.target.closest('section'); if (!sec) return; const id = sec.dataset.id;
+  const c = e.target.closest('.chip'); if (c) { art[id] = c.dataset.a; sec.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c)); if (wahl[id]) { wahl[id].art = art[id]; sp(); } }
+  const h = e.target.closest('.herz'); if (h) { if (wahl[id]) delete wahl[id]; else wahl[id] = {art: art[id]}; h.setAttribute('aria-pressed', !!wahl[id]); sp(); } };
+$('tempo').onclick = e => { const c = e.target.closest('.chip'); if (!c) return; tempo = +c.dataset.v; $('tempo').querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === c)); };
+function sp() { try { localStorage.setItem('skipper-gang', JSON.stringify(wahl)); } catch (e) {} txt(); }
+function txt() { const k = Object.keys(wahl); $('txt').value = k.length ? 'Meine Gangarten:\n' + k.map(id => `- ${F.FIG[id].name}: ${(TIERE[id] || {})[wahl[id].art] || (G[wahl[id].art] || {}).name} (${wahl[id].art})`).join('\n') : 'Noch nichts mit ♥ gemerkt.'; }
+txt();
+$('kop').onclick = () => { const t = $('txt'); t.select(); try { navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); } $('kop').textContent = 'Kopiert ✓'; setTimeout(() => $('kop').textContent = 'Auswahl kopieren', 1800); };
+/* Laufen: Mensch mit o.gang, Tiere mit Posen und Wippen */
+const secs = [...document.querySelectorAll('section[data-id]')], sichtbar = new Set();
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? sichtbar.add(e.target) : sichtbar.delete(e.target)), {rootMargin: '100px'}); secs.forEach(s => io.observe(s));
+const pos = {}, phase = {}; let last = performance.now(), acc = 0;
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; acc += dt;
+  if (acc >= 1 / 24) {
+    for (const sec of sichtbar) { const id = sec.dataset.id, f = F.FIG[id], g = sec.querySelector('.fg');
+      if (f.tier) { const a = art[id], v = {schleichen: 34, traben: 70, stolzieren: 46, watscheln: 26, huepfen: 50, flattern: 80}[a] * tempo; pos[id] = ((pos[id] || 0) + v * acc) % 520; phase[id] = (phase[id] || 0) + acc * (a === 'traben' ? 3.4 : a === 'huepfen' ? 2.2 : 1.6) * tempo;
+        const ph = phase[id] * Math.PI * 2, x = pos[id] - 60; let tr = '', o = {dreh: false};
+        if (id === 'backbord') { o.pose = Math.sin(ph) > 0 ? 'laufen' : (a === 'stolzieren' ? 'stehen' : 'laufen'); const lift = a === 'traben' ? Math.abs(Math.sin(ph)) * 4 : a === 'stolzieren' ? Math.abs(Math.sin(ph)) * 1.5 : 0; tr = `translate(${x.toFixed(1)} ${(93 - lift).toFixed(1)}) scale(${a === 'schleichen' ? '2.3 1.9' : '2.2'})`; }
+        else { o.pose = a === 'flattern' ? 'fliegen' : 'sitzen'; const lift = a === 'huepfen' ? Math.abs(Math.sin(ph)) * 14 : a === 'flattern' ? 26 + Math.sin(ph) * 6 : 0, rot = a === 'watscheln' ? Math.sin(ph) * 9 : 0; tr = `translate(${x.toFixed(1)} ${(93 - lift).toFixed(1)}) rotate(${rot.toFixed(1)}) scale(1.6)`; }
+        g.innerHTML = `<g transform="${tr}">${F.figur(id, o)}</g>`; continue; }
+      const Gn = G[art[id]] || G.normal; phase[id] = ((phase[id] || 0) + acc * .9 * Gn.tempo * tempo) % 1; pos[id] = ((pos[id] || 0) + acc * 52 * Gn.tempo * tempo * (Gn.schritt / 20)) % 520;
+      g.innerHTML = `<g transform="translate(${(pos[id] - 60).toFixed(1)} 96) scale(.92)">${F.figur(id, {blick: 'seite', dreh: false, gang: {art: art[id], t: phase[id]}})}</g>`; }
+    acc = 0;
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

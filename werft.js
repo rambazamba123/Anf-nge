@@ -59,8 +59,8 @@ function themenBauen() {
   T.push({id: 'laternen', ic: '💡', name: 'Laternen', blick: 'seite', opts: [{w: '', name: 'keine', text: '–'}, {w: 'laternen', name: 'Laternen an Bord', text: '💡', wann: B.AUSSTATTUNG.laternen.wann, tag: 5, get locked() { return gesperrt(5) && !look().up.includes('laternen'); }}],
     akt: () => look().up.includes('laternen') ? 'laternen' : '', setz: w => { const l = look(); l.up = l.up.filter(u => u !== 'laternen'); if (w) l.up.push(w); }});
   const TYP = Object.entries(F.TYPEN);
-  T.push({id: 'typ-alle', ic: '🧸', name: 'Körperbau: alle', kurzname: 'Bau alle', blick: 'crew', neu: true, opts: TYP.map(([w, t]) => ({w, name: t.name, kopf: {typ: w}, fig: 'smilla'})), akt: () => look().typAlle || 'klassisch',
-    setz: w => { const l = look(); if (w === 'klassisch') delete l.typAlle; else l.typAlle = w; }});
+  T.push({id: 'typ-alle', ic: '🧸', name: 'Körperbau: alle', kurzname: 'Bau alle', blick: 'crew', neu: true, opts: [{w: '', name: 'Standard je Figur', text: '★'}].concat(TYP.map(([w, t]) => ({w, name: t.name, kopf: {typ: w}, fig: 'smilla'}))), akt: () => look().typAlle || '',
+    setz: w => { const l = look(); if (!w) delete l.typAlle; else l.typAlle = w; }});
   const KN = {hinnerk: 'Hinnerk', smilla: 'Smilla', hilke: 'Hilke', harms: 'Harms', backbord: 'Katze', klabauter: 'Papagei'}, IC = {hinnerk: '👴', smilla: '👧', hilke: '👩', harms: '🧑‍✈️', backbord: '🐈', klabauter: '🦜'};
   for (const id of Object.keys(KN)) T.push({id: 'typ-' + id, ic: IC[id], name: `Körperbau: ${KN[id]}`, kurzname: 'Bau ' + KN[id], blick: 'crew', fig: id, neu: true,
     opts: [{w: '', name: 'wie alle', text: '='}].concat(TYP.map(([w, t]) => ({w, name: t.name, kopf: {typ: w}, fig: id}))), akt: () => (look().typ || {})[id] || '',
@@ -74,7 +74,7 @@ function themenBauen() {
       opts: Object.entries(f.kleid[teil]).map(([w, n]) => ({w, name: n})), akt: () => F.kleidVon(fid, {kleid: look().kleid[fid] || {}})[teil],
       setz: w => { const l = look(); l.kleid[fid] = {...(l.kleid[fid] || {}), [teil]: w}; }});
   }
-  T.push({id: 'stil', ic: '🖌️', name: 'Zeichenstil', blick: 'crew', opts: Object.entries(F.STILE).map(([k, n]) => ({w: k, name: n.split(':')[0], satzLang: n})), akt: () => look().stil || 'feder', setz: w => { look().stil = w; }});
+  T.push({id: 'stil', ic: '🖌️', name: 'Zeichenstil', blick: 'crew', opts: Object.entries(F.STILE).map(([k, n]) => ({w: k, name: n.split(':')[0], satzLang: n})), akt: () => look().stil || 'laviert', setz: w => { look().stil = w; }});
   T.push({id: 'glas', ic: '🪟', name: 'Glasplatten-Stil', kurzname: 'Glas-Stil', blick: 'seite', opts: Object.entries(G).map(([k, g]) => ({w: k, name: g.name, satzLang: g.satz})), akt: () => look().glas || 'weich', setz: w => { look().glas = w; }});
   T.push({id: 'test', ic: '🔓', name: 'Testmodus', blick: 'seite', opts: [{w: 'an', name: 'Alle Extras frei zum Testen', text: '🔓'}, {w: 'aus', name: 'Extras erst nach den Hörreise-Tagen', text: '🔒'}], akt: () => testmodus() ? 'an' : 'aus', setz: w => { look().test = w === 'an'; }});
   /* v5.76 (Nutzer 22.11.2026: „reduziere beim Auswahlrad die Dinge, ich will die Charaktere wählen und mehrere Glasplatten-Stile testen“):
@@ -255,7 +255,7 @@ function exportText() {
   z.push('Boot-Farben: ' + (['rumpf', 'streifen', 'unterwasser', 'dach', 'schrift'].map(k => `${k} ${l.farben['--frieda-' + k] || B.farben[k] + ' (Standard)'}`).join(', ')));
   z.push('Plätze: ' + Object.entries(B.PLAETZE).map(([pn, p]) => `${p.name} = ${B.belegt(pn) ? B.TEILE[B.belegt(pn)].name : 'leer'}`).join('; '));
   z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
-  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Licht: ${l.licht || 'mittag'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
+  z.push(`Körperbau: alle ${l.typAlle || 'Standard je Figur'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Licht: ${l.licht || 'mittag'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
   z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
   const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
   z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));

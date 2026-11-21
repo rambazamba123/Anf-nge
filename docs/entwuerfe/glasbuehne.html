@@ -90,6 +90,10 @@ const V = [
     licht: 'mittag', atmo: ['staub', 'glanz'], ort: ['motor', 'heck'], go: async (F, ok) => { F.tu({motor: [1, 800]}); while (ok()) { await F.kamera('heck', 'totale', 'sofort'); await warte(4000); if (!ok()) break; await F.kamera('heck', 'nah', 'atem'); await warte(4000); } }},
   {t: 'Durch die Platten fahren', s: 'Die Kamera taucht durch die Glasplatten hindurch von einem Ort zum nächsten, wie in Norsteins Filmen.',
     licht: 'morgen', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); let i = 0; while (ok()) { const o = [['becken', 'seite'], ['ausfahrt', 'seite'], ['tankstelle', 'seite']][i++ % 3]; await warte(3000); if (!ok()) break; await F.ort(o[0], 'platten', o[1]); } }},
+  {t: 'Kajüte im Lampenlicht', s: 'Die Kajüte als Glasbühne: Rückwand mit Bullaugen, Wand mit Seekarte, Manöver- und Knotenbrett, Kartentisch mit Lampe und Telefon, vorn Hocker und Backbord. Die Kamera fährt von Ding zu Ding.',
+    licht: 'abend', atmo: ['staub', 'glanz'], ort: ['kajuete', 'innen'], go: async (F, ok) => { const k = ['totale', 'karte', 'manoever', 'knoten', 'klabauter', 'telefon', 'tisch', 'hocker', 'totale']; let i = 0; while (ok()) { await F.kamera('innen', k[i++ % k.length], 'fahrt'); await warte(2600); } }},
+  {t: 'Kajüte am Morgen', s: 'Dieselbe Kajüte bei Morgenlicht: draußen in den Bullaugen der Dunst, drinnen tanzt Staub im Licht.',
+    licht: 'morgen', ort: ['kajuete', 'innen'], go: async (F, ok) => { while (ok()) { await F.kamera('innen', 'totale', 'sofort'); await warte(3500); if (!ok()) break; await F.kamera('innen', 'regal', 'schaerfe'); await warte(3000); if (!ok()) break; await F.kamera('innen', 'katze', 'schaerfe'); await warte(3000); } }},
   {t: 'Morgen am Kai, Nebel löst sich', s: 'Erst Nebel, dann kommt die Sonne durch: zwei Lichter nacheinander, wie ein Tagesanfang im Zeitraffer.',
     licht: 'nebel', ort: ['becken', 'seite'], wechsel: 'morgen', go: async (F, ok) => { while (ok()) { await warte(4500); if (!ok()) break; } }}
 ];
