@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Figuren-Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Figuren-Atelier (v5.75, 21.11.2026): die echte Figuren-Engine der App (figuren.js, boot.js) zum Durchklicken.
+   Nichts hier wird gespeichert außer deinen ♥ (nur in diesem Browser). */
+:root{
+  --bg:#e8e2d3; --paper:#fbf6ec; --ink:#2a2019; --muted:#6c5f52; --line:#e1d5bf;
+  --sea:#2d5f6a; --accent:#f0a23a; --accent-ink:#3a2408; --chip:#f3ece0; --chip-on:#2d5f6a; --chip-on-ink:#fff;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif; --bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15212a; --paper:#22303a; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854; --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --chip:#2a3a45; --chip-on:#7fb3bd; --chip-on-ink:#10202a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15212a; --paper:#22303a; --ink:#f1e8d8; --muted:#a9b3b6; --line:#344854; --sea:#7fb3bd; --accent:#f3b04f; --accent-ink:#2a1a05; --chip:#2a3a45; --chip-on:#7fb3bd; --chip-on-ink:#10202a; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 60px}
+.wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--hfont);font-size:21px;line-height:1.15;margin:0}
+p{margin:0}
+.lead,.hint{color:var(--muted)}
+.hint{font-size:13px}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+section{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-weight:700;font-size:13.5px;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.lab{font-family:var(--hfont);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:2px}
+.btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:10px 14px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.leise{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
+
+/* Papier je Stil */
+.pap{--p1:#f6eedb;--p2:#e9dcbc;background:radial-gradient(ellipse at 50% 45%,var(--p1) 0%,var(--p2) 100%);border-radius:14px;position:relative;overflow:hidden}
+.pap[data-st="aquarell"],.pap[data-st="pastell"]{--p1:#f8f1e1;--p2:#e8dbc4}
+.pap[data-st="feder"]{--p1:#f8f1dc;--p2:#eadfbd}
+.pap[data-st="kreide"]{--p1:#3b4a45;--p2:#26332f}
+.pap[data-st="flach"]{--p1:#dfeaec;--p2:#c9dadd}
+.pap[data-st="linol"]{--p1:#efe4c8;--p2:#dcc99c}
+.pap[data-st="tusche"]{--p1:#efe3c3;--p2:#d8c496}
+.pap[data-st="bleistift"]{--p1:#f1f0ec;--p2:#dedcd4}
+.pap[data-st="scherenschnitt"]{--p1:#f6e7b3;--p2:#e6cd83}
+.pap svg{display:block;width:100%;height:auto}
+
+.buehne{aspect-ratio:1/1.08}
+.buehne svg,.zelle .pap svg,.paar .pap svg,.fav .pap svg,.boot svg{position:absolute;inset:0;width:100%;height:100%}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gal.zwei{grid-template-columns:repeat(2,1fr)}
+.zelle{display:flex;flex-direction:column;gap:3px;align-items:stretch}
+.zelle .pap{aspect-ratio:1/1.12;cursor:pointer;border:2px solid transparent}
+.zelle .pap.on{border-color:var(--accent)}
+.zelle b{font-family:var(--hfont);font-size:13px;line-height:1.1;text-align:center}
+.zelle small{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.2}
+.herz{position:absolute;right:6px;top:6px;border:0;background:rgba(255,255,255,.75);color:#b5373a;border-radius:50%;width:32px;height:32px;font-size:17px;cursor:pointer;z-index:2}
+.herz[aria-pressed="true"]{background:#b5373a;color:#fff}
+.paar{display:grid;grid-template-columns:64px 1fr 1fr;gap:8px;align-items:center}
+.paar .pap{aspect-ratio:1/1.12}
+.paar .nm{font-family:var(--hfont);font-size:12px;font-weight:700;line-height:1.1;color:var(--muted)}
+.kopf2{display:grid;grid-template-columns:64px 1fr 1fr;gap:8px;font-family:var(--hfont);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--sea)}
+.kopf2 span{text-align:center}
+.boot{aspect-ratio:2/1.05}
+textarea{width:100%;min-height:110px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px}
+.favs{display:flex;flex-wrap:wrap;gap:6px}
+.fav{display:flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:3px 10px 3px 4px;font-size:12.5px;font-weight:700}
+.fav .pap{width:40px;height:44px;border-radius:8px}
+@media (min-width:560px){.gal{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="eyebrow">Skipper · Entwurf 21.11.2026</div>
+    <h1>Figuren-Atelier</h1>
+    <p class="lead">Alle Figuren aus der echten App-Engine. Wähle <b>Körperbau</b> (süßer, runder, schlaksig …), <b>Zeichenstil</b> (Aquarell ohne Strich, Feder und Kreide mit Strich außenrum, dazu fünf weitere Stile), <b>Augen</b> und <b>Kleidung</b>. Mit ♥ merkst du dir Favoriten und kopierst sie am Ende als Text für den Chat.</p>
+  </div>
+
+  <section id="s1">
+    <h2>1 · Atelier</h2>
+    <div class="lab">Figur</div><div class="chips" id="cFig"></div>
+    <div class="pap buehne" id="bueh"></div>
+    <div class="lab">Körperbau</div><div class="chips" id="cTyp"></div>
+    <div class="lab">Zeichenstil</div><div class="chips" id="cStil"></div>
+    <div class="lab">Augen</div><div class="chips" id="cAug"></div>
+    <div id="kleidBox"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="bFav">♥ Als Favorit merken</button><button class="btn leise" id="bZufall">🎲 Zufall</button></div>
+  </section>
+
+  <section id="s2">
+    <h2>2 · Aquarell gegen Strich</h2>
+    <p class="hint">Für die gewählte Figur: links Aquarell (ohne Strich, weiche Ränder), rechts ein Stil mit Strich außenrum. Tippe auf einen Körperbau, um ihn oben zu übernehmen.</p>
+    <div class="lab">Strich-Stil rechts</div><div class="chips" id="cStrich"></div>
+    <div class="kopf2"><span></span><span id="k2a">Aquarell</span><span id="k2b">Feder</span></div>
+    <div id="paare" style="display:flex;flex-direction:column;gap:8px"></div>
+  </section>
+
+  <section id="s3">
+    <h2>3 · Alle neun Stile</h2>
+    <p class="hint">Dieselbe Figur im gewählten Körperbau in allen Zeichenstilen. Antippen übernimmt den Stil.</p>
+    <div class="gal" id="alleStile"></div>
+  </section>
+
+  <section id="s4">
+    <h2>4 · Alle Körperbauten</h2>
+    <p class="hint">Im gewählten Zeichenstil. Antippen übernimmt den Körperbau.</p>
+    <div class="gal" id="alleTypen"></div>
+  </section>
+
+  <section id="s5">
+    <h2>5 · Die ganze Crew</h2>
+    <p class="hint">Alle sechs mit dem gewählten Körperbau und Stil (unabhängig von den Einzelwahlen oben).</p>
+    <div class="pap" id="gruppe"></div>
+    <div class="lab">An Bord der Frieda</div>
+    <div class="pap boot" id="boot"></div>
+  </section>
+
+  <section id="s6">
+    <h2>6 · Meine Favoriten</h2>
+    <div class="favs" id="favs"></div>
+    <p class="hint" id="favLeer">Noch keine. Tippe oben auf „♥ Als Favorit merken“.</p>
+    <button class="btn" id="bKop">Auswahl kopieren</button>
+    <textarea id="txt" readonly placeholder="Hier steht dein Text, den du in den Chat einfügst."></textarea>
+  </section>
+</div>
+
+<script src="../../figuren.js"></script>
+<script src="../../boot.js"></script>
+<script>
+(() => {
+'use strict';
+const F = window.FIGUREN, ids = Object.keys(F.FIG);
+const NAME = {hinnerk: 'Hinnerk', smilla: 'Smilla', hilke: 'Hilke', harms: 'Harms', backbord: 'Backbord', klabauter: 'Klabauter'};
+const st = {fig: 'smilla', typ: 'suess', stil: 'aquarell', auge: '', kleid: {}, strich: 'feder'};
+const $ = id => document.getElementById(id);
+const STRICH = ['feder', 'kreide', 'linol', 'tusche', 'scherenschnitt'];
+const kurz = s => (F.STILE[s] || s).split(':')[0];
+const AUGEN = {'': 'Wie der Körperbau', ...F.AUGEN};
+
+function fig(id, o) {
+  o = o || {}; const f = F.FIG[id], tier = !!f.tier;
+  const k = Object.assign({}, o.kleid || {});
+  const g = F.figur(id, {blick: 'vorn', dreh: false, stil: o.stil, typ: o.typ, auge: o.auge || undefined, kleid: k});
+  const top = tier ? 56 : f.h + 26, w = tier ? 62 : 84, bot = 4;
+  return `<svg viewBox="${-w / 2} ${-top} ${w} ${top + bot}" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${f.name}"><g transform="scale(1)">${g}</g></svg>`;
+}
+const pap = (st, inner, extra) => `<div class="pap ${extra || ''}" data-st="${st}">${inner}</div>`;
+
+function chips(el, obj, cur, on) {
+  el.innerHTML = Object.entries(obj).map(([k, v]) => `<button class="chip" data-k="${k}" aria-pressed="${k === cur}">${v}</button>`).join('');
+  el.onclick = e => { const b = e.target.closest('.chip'); if (b) on(b.dataset.k); };
+}
+function nur(o) { const r = {}; for (const k in o) r[k] = String(o[k]).split(':')[0]; return r; }
+
+function zeichnen() {
+  chips($('cFig'), NAME, st.fig, v => { st.fig = v; st.kleid = {}; st.auge = ''; zeichnen(); });
+  chips($('cTyp'), Object.fromEntries(Object.entries(F.TYPEN).map(([k, v]) => [k, v.name])), st.typ, v => { st.typ = v; zeichnen(); });
+  chips($('cStil'), nur(F.STILE), st.stil, v => { st.stil = v; zeichnen(); });
+  chips($('cAug'), AUGEN, st.auge, v => { st.auge = v; zeichnen(); });
+  chips($('cStrich'), Object.fromEntries(STRICH.map(s => [s, kurz(s)])), st.strich, v => { st.strich = v; zeichnen(); });
+  // Kleidung
+  const f = F.FIG[st.fig], teile = Object.keys(f.kleid);
+  $('kleidBox').innerHTML = teile.map(t => `<div class="lab">${({hut: 'Mütze', jacke: 'Jacke', haar: 'Haare', weste: 'Weste', fell: 'Fell'})[t] || t}</div><div class="chips" data-t="${t}">${Object.entries(f.kleid[t]).map(([k, v]) => `<button class="chip" data-k="${k}" aria-pressed="${(st.kleid[t] || f.std[t]) === k}">${v}</button>`).join('')}</div>`).join('');
+  $('kleidBox').onclick = e => { const b = e.target.closest('.chip'); if (!b) return; st.kleid[b.parentNode.dataset.t] = b.dataset.k; zeichnen(); };
+  const cur = () => ({stil: st.stil, typ: st.typ, auge: st.auge, kleid: st.kleid});
+  $('bueh').dataset.st = st.stil; $('bueh').innerHTML = fig(st.fig, cur());
+  $('bFav').textContent = favIdx() >= 0 ? '♥ Ist Favorit (nochmal: entfernen)' : '♥ Als Favorit merken';
+
+  // 2 Paare
+  $('k2a').textContent = 'Aquarell'; $('k2b').textContent = kurz(st.strich);
+  $('paare').innerHTML = Object.entries(F.TYPEN).map(([t, T]) => `<div class="paar" data-t="${t}"><div class="nm">${T.name}</div>${pap('aquarell', fig(st.fig, {stil: 'aquarell', typ: t, auge: st.auge, kleid: st.kleid}))}${pap(st.strich, fig(st.fig, {stil: st.strich, typ: t, auge: st.auge, kleid: st.kleid}))}</div>`).join('');
+  $('paare').onclick = e => { const p = e.target.closest('.paar'); if (p) { st.typ = p.dataset.t; zeichnen(); } };
+  // 3 Stile
+  $('alleStile').innerHTML = Object.keys(F.STILE).map(s => `<div class="zelle" data-s="${s}">${pap(s, fig(st.fig, {stil: s, typ: st.typ, auge: st.auge, kleid: st.kleid}), s === st.stil ? 'on' : '')}<b>${kurz(s)}</b><small>${F.STILE[s].split(':')[1].trim()}</small></div>`).join('');
+  $('alleStile').onclick = e => { const z = e.target.closest('.zelle'); if (z) { st.stil = z.dataset.s; zeichnen(); } };
+  // 4 Typen
+  $('alleTypen').innerHTML = Object.entries(F.TYPEN).map(([t, T]) => `<div class="zelle" data-t="${t}">${pap(st.stil, fig(st.fig, {stil: st.stil, typ: t, auge: st.auge, kleid: st.kleid}), t === st.typ ? 'on' : '')}<b>${T.name}</b></div>`).join('');
+  $('alleTypen').onclick = e => { const z = e.target.closest('.zelle'); if (z) { st.typ = z.dataset.t; zeichnen(); } };
+  // 5 Crew
+  const reihe = ['smilla', 'hilke', 'harms', 'hinnerk', 'backbord', 'klabauter'];
+  const brt = 120, xs = [-.8, -.48, -.2, .15, .55, .85];
+  $('gruppe').dataset.st = st.stil;
+  $('gruppe').innerHTML = `<svg viewBox="-150 -140 300 150">${reihe.map((id, i) => { const t = F.FIG[id].tier; return `<g transform="translate(${xs[i] * 130} 0) scale(${t ? 1.5 : 1.05})">${F.figur(id, {blick: 'vorn', dreh: false, stil: st.stil, typ: st.typ, auge: st.auge || undefined})}</g>`; }).join('')}</svg>`;
+  $('boot').dataset.st = st.stil;
+  const G = id => `<g transform="translate(0 0)">${id}</g>`;
+  const fs = (id, o) => F.figur(id, Object.assign({dreh: false, stil: st.stil, typ: st.typ, auge: st.auge || undefined}, o));
+  $('boot').innerHTML = `<svg viewBox="-95 -92 190 106">${window.BOOT ? BOOT.seite({bugLinks: true,
+    hinter: `<g transform="translate(-74 -10) scale(.62)">${fs('hinnerk', {blick: 'seite', pose: 'pinne'})}</g>`,
+    vor: `<g transform="translate(50 -26) scale(-.56 .56)">${fs('smilla', {blick: 'seite'})}</g><g transform="translate(8 -56) scale(-.62 .62)">${fs('klabauter', {})}</g><g transform="translate(-14 -56) scale(-.62 .62)">${fs('backbord', {pose: 'sitzen'})}</g>`}) : ''}</svg>`;
+  favZeigen();
+}
+
+/* Favoriten (nur in diesem Browser) */
+let favs = []; try { favs = JSON.parse(localStorage.getItem('skipper-atelier') || '[]'); } catch (e) {}
+const sp = () => { try { localStorage.setItem('skipper-atelier', JSON.stringify(favs)); } catch (e) {} };
+const gleich = (a, b) => a.fig === b.fig && a.typ === b.typ && a.stil === b.stil && a.auge === b.auge && JSON.stringify(a.kleid) === JSON.stringify(b.kleid);
+const aktuell = () => ({fig: st.fig, typ: st.typ, stil: st.stil, auge: st.auge, kleid: {...st.kleid}});
+const favIdx = () => favs.findIndex(f => gleich(f, aktuell()));
+function favZeigen() {
+  $('favs').innerHTML = favs.map((f, i) => `<div class="fav" data-i="${i}">${pap(f.stil, fig(f.fig, f))}${NAME[f.fig]} · ${F.TYPEN[f.typ].name} · ${kurz(f.stil)} ✕</div>`).join('');
+  $('favLeer').style.display = favs.length ? 'none' : '';
+  $('favs').onclick = e => { const x = e.target.closest('.fav'); if (x) { favs.splice(+x.dataset.i, 1); sp(); zeichnen(); } };
+  $('txt').value = favs.length ? 'Meine Favoriten im Figuren-Atelier:\n' + favs.map(f => `- ${NAME[f.fig]}: Körperbau ${F.TYPEN[f.typ].name} (${f.typ}), Stil ${kurz(f.stil)} (${f.stil}), Augen ${f.auge ? AUGEN[f.auge] : 'wie Körperbau'}, Kleidung ${Object.entries(f.kleid).map(([a, b]) => a + '=' + b).join(', ') || 'Standard'}`).join('\n') : '';
+}
+$('bFav').onclick = () => { const i = favIdx(); if (i >= 0) favs.splice(i, 1); else favs.push(aktuell()); sp(); zeichnen(); };
+$('bZufall').onclick = () => { const r = a => a[Math.floor(Math.random() * a.length)]; st.typ = r(Object.keys(F.TYPEN)); st.stil = r(Object.keys(F.STILE)); st.auge = r(Object.keys(AUGEN)); st.kleid = {}; const f = F.FIG[st.fig]; for (const t of Object.keys(f.kleid)) st.kleid[t] = r(Object.keys(f.kleid[t])); zeichnen(); };
+$('bKop').onclick = () => { const t = $('txt'); t.select(); try { navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); } $('bKop').textContent = 'Kopiert ✓'; setTimeout(() => $('bKop').textContent = 'Auswahl kopieren', 1800); };
+
+zeichnen();
+})();
+</script>
+</body>
+</html>

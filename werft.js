@@ -21,6 +21,21 @@ let W = null, alt = null, themen = [], ti = 0, oi = 0, wa = 0, wi = 0, blick = '
 
 /* ---------- Themen und ihre Wahl ---------- */
 function look() { S.cfg = S.cfg || {}; S.cfg.look = S.cfg.look || {}; const l = S.cfg.look; l.farben = l.farben || {}; l.up = Array.isArray(l.up) ? l.up : []; l.kleid = l.kleid || {}; return l; }
+/* Extras kommen mit der Zeit dazu (Nutzer 21.11.2026): jedes Teil hat einen Tag (BOOT.TEILE[].tag); frei, wenn die Hörreise so weit gehört ist. Der Testmodus (Standard an, solange getestet wird) schaltet alles frei. */
+function erreichterTag() {
+  let t = 0; try { Object.keys((S.hoerreise && S.hoerreise.gehoert) || {}).forEach(id => { const m = /^reise-(\d+)-/.exec(id); t = Math.max(t, m ? +m[1] : 1); }); } catch (e) {}
+  return t;
+}
+const testmodus = () => look().test !== false;
+const gesperrt = tag => !testmodus() && (tag || 0) > erreichterTag();
+/* Kopf einer Figur als Perle (für Körperbau und Augen): ein kleiner Ausschnitt mit Hals und Schultern */
+let perleNr = 0;
+function kopfPerle(x, y, fid, opt) {
+  const F = window.FIGUREN, f = F.FIG[fid], T = F.TYPEN[opt.typ || 'klassisch'] || F.TYPEN.klassisch, sk = f.h / 100, id = 'wk' + (perleNr++);
+  const cy = f.tier ? (fid === 'backbord' ? -18 : -27) : ((-86.6 + 9) * T.bh - 9 * T.k) * sk, cx = f.tier ? 3 : .4, z = f.tier ? 2.1 : 1.7;
+  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
+}
+const r1 = n => Math.round(n * 10) / 10;
 function themenBauen() {
   const B = window.BOOT, F = window.FIGUREN, G = (window.FILMB && FILMB.GLAS) || {weich: {name: 'Weich'}};
   const T = [];
@@ -38,20 +53,30 @@ function themenBauen() {
   for (const [pn, p] of Object.entries(B.PLAETZE)) {
     const teile = Object.entries(B.TEILE).filter(([, t]) => t.platz === pn);
     T.push({id: 'p-' + pn, ic: PIC[pn] || '◻️', name: 'Platz: ' + p.name, platz: pn, blick: BLICK[pn] || (pn === 'dach' ? 'oben' : 'seite'),
-      opts: [{w: '', name: 'leer', text: '–'}].concat(teile.map(([tn, t]) => ({w: tn, name: t.name, teil: tn, wann: t.wann}))),
+      opts: [{w: '', name: 'leer', text: '–'}].concat(teile.map(([tn, t]) => ({w: tn, name: t.name, teil: tn, wann: t.wann, tag: t.tag, get locked() { return gesperrt(t.tag) && !look().up.includes(tn); }}))),
       akt: () => B.belegt(pn) || '', setz: w => { const l = look(); l.up = l.up.filter(u => !(B.TEILE[u] && B.TEILE[u].platz === pn)); if (w) l.up.push(w); }});
   }
-  T.push({id: 'laternen', ic: '💡', name: 'Laternen', blick: 'seite', opts: [{w: '', name: 'keine', text: '–'}, {w: 'laternen', name: 'Laternen an Bord', text: '💡'}],
+  T.push({id: 'laternen', ic: '💡', name: 'Laternen', blick: 'seite', opts: [{w: '', name: 'keine', text: '–'}, {w: 'laternen', name: 'Laternen an Bord', text: '💡', wann: B.AUSSTATTUNG.laternen.wann, tag: 5, get locked() { return gesperrt(5) && !look().up.includes('laternen'); }}],
     akt: () => look().up.includes('laternen') ? 'laternen' : '', setz: w => { const l = look(); l.up = l.up.filter(u => u !== 'laternen'); if (w) l.up.push(w); }});
+  const TYP = Object.entries(F.TYPEN);
+  T.push({id: 'typ-alle', ic: '🧸', name: 'Körperbau: alle', kurzname: 'Bau alle', blick: 'crew', neu: true, opts: TYP.map(([w, t]) => ({w, name: t.name, kopf: {typ: w}, fig: 'smilla'})), akt: () => look().typAlle || 'klassisch',
+    setz: w => { const l = look(); if (w === 'klassisch') delete l.typAlle; else l.typAlle = w; }});
+  const KN = {hinnerk: 'Hinnerk', smilla: 'Smilla', hilke: 'Hilke', harms: 'Harms', backbord: 'Katze', klabauter: 'Papagei'}, IC = {hinnerk: '👴', smilla: '👧', hilke: '👩', harms: '🧑‍✈️', backbord: '🐈', klabauter: '🦜'};
+  for (const id of Object.keys(KN)) T.push({id: 'typ-' + id, ic: IC[id], name: `Körperbau: ${KN[id]}`, kurzname: 'Bau ' + KN[id], blick: 'crew', fig: id, neu: true,
+    opts: [{w: '', name: 'wie alle', text: '='}].concat(TYP.map(([w, t]) => ({w, name: t.name, kopf: {typ: w}, fig: id}))), akt: () => (look().typ || {})[id] || '',
+    setz: w => { const l = look(); l.typ = l.typ || {}; if (w) l.typ[id] = w; else delete l.typ[id]; }});
+  T.push({id: 'auge', ic: '👀', name: 'Augen', blick: 'crew', neu: true, opts: [{w: '', name: 'passend zum Körperbau', text: '='}].concat(Object.entries(F.AUGEN).map(([w, n]) => ({w, name: n, kopf: {typ: 'suess', auge: w}, fig: 'smilla'}))), akt: () => look().auge || '',
+    setz: w => { const l = look(); if (w) l.auge = w; else delete l.auge; }});
   const KL = [['hinnerk', 'hut', '🧢'], ['hinnerk', 'jacke', '🧥'], ['smilla', 'haar', '💇'], ['smilla', 'jacke', '🧥'], ['hilke', 'weste', '🦺'], ['harms', 'hut', '🎩'], ['backbord', 'fell', '🐈']];
   for (const [fid, teil, ic] of KL) {
     const f = F.FIG[fid];
-    T.push({id: `k-${fid}-${teil}`, ic, name: `${f.name.split(',')[0]}: ${({hut: 'Mütze', jacke: 'Jacke', haar: 'Haare', weste: 'Weste', fell: 'Fell'})[teil]}`, blick: 'crew', fig: fid, neu: true,
+    T.push({id: `k-${fid}-${teil}`, ic, name: `${f.name.split(',')[0]}: ${({hut: 'Mütze', jacke: 'Jacke', haar: 'Haare', weste: 'Weste', fell: 'Fell'})[teil]}`, kurzname: `${({hinnerk: 'Hinnerk', smilla: 'Smilla', hilke: 'Hilke', harms: 'Harms', backbord: 'Katze'})[fid]} ${({hut: 'Mütze', jacke: 'Jacke', haar: 'Haar', weste: 'Weste', fell: 'Fell'})[teil]}`, blick: 'crew', fig: fid, neu: true,
       opts: Object.entries(f.kleid[teil]).map(([w, n]) => ({w, name: n})), akt: () => F.kleidVon(fid, {kleid: look().kleid[fid] || {}})[teil],
       setz: w => { const l = look(); l.kleid[fid] = {...(l.kleid[fid] || {}), [teil]: w}; }});
   }
   T.push({id: 'stil', ic: '🖌️', name: 'Zeichenstil', blick: 'crew', opts: Object.entries(F.STILE).map(([k, n]) => ({w: k, name: n.split(':')[0], satzLang: n})), akt: () => look().stil || 'feder', setz: w => { look().stil = w; }});
   T.push({id: 'glas', ic: '🪟', name: 'Glas der Filmbühne', blick: 'seite', opts: Object.entries(G).map(([k, g]) => ({w: k, name: g.name, satzLang: g.satz})), akt: () => look().glas || 'weich', setz: w => { look().glas = w; }});
+  T.push({id: 'test', ic: '🔓', name: 'Testmodus', blick: 'seite', opts: [{w: 'an', name: 'Alle Extras frei zum Testen', text: '🔓'}, {w: 'aus', name: 'Extras erst nach den Hörreise-Tagen', text: '🔒'}], akt: () => testmodus() ? 'an' : 'aus', setz: w => { look().test = w === 'an'; }});
   return T;
 }
 
@@ -81,7 +106,8 @@ function css() {
   document.head.appendChild(s);
 }
 /* Steuerrad: Mittelpunkt unter dem sichtbaren Teil; außen Themen (r 232), innen Wahl (r 150), Nabe r 96 */
-const CX = 200, CY = 322, RA = 232, RI = 150, SA = 360 / 24, SI = 26;
+const CX = 200, CY = 322, RA = 232, RI = 150, SI = 26;
+let SA = 15;   /* Abstand der Themen am äußeren Ring, passt sich der Anzahl an */
 const polar = (r, w) => { const a = (w - 90) * Math.PI / 180; return [CX + r * Math.cos(a), CY + r * Math.sin(a)]; };
 function radSvg() {
   const holz = '#8a5a32', holzD = '#6b4426', messing = '#d9a93b';
@@ -105,16 +131,17 @@ function ringeZeichnen() {
   const a = W.querySelector('#waussen'), b = W.querySelector('#winnen'); if (!a || !b) return;
   const n = themen.length;
   a.innerHTML = themen.map((t, i) => { let w = ((i * SA - wa) % 360 + 540) % 360 - 180; if (Math.abs(w) > 78) return ''; const [x, y] = polar(RA, w), on = i === ti;
-    return `<g data-ti="${i}" opacity="${(1 - Math.abs(w) / 95).toFixed(2)}"><circle cx="${x}" cy="${y}" r="21" fill="${on ? 'rgba(255,210,122,.25)' : 'transparent'}"/><text class="ri" x="${x}" y="${y - 5}">${t.ic}</text><text class="rt${on ? ' on' : ''}" x="${x}" y="${y + 15}">${esc(kurz(t.name))}</text></g>`; }).join('');
+    return `<g data-ti="${i}" opacity="${(1 - Math.abs(w) / 95).toFixed(2)}"><circle cx="${x}" cy="${y}" r="21" fill="${on ? 'rgba(255,210,122,.25)' : 'transparent'}"/><text class="ri" x="${x}" y="${y - 5}">${t.ic}</text><text class="rt${on ? ' on' : ''}" x="${x}" y="${y + 15}">${esc(kurz(t.kurzname || t.name, 12))}</text></g>`; }).join('');
   const T = themen[ti], akt = T.akt();
   b.innerHTML = T.opts.map((o, i) => { let w = i * SI - wi; if (Math.abs(w) > 70) return ''; const [x, y] = polar(RI, w), gew = o.w === akt, sel = i === oi;
-    return `<g data-oi="${i}" opacity="${(1 - Math.abs(w) / 90).toFixed(2)}">${perle(o, x, y, gew, sel)}</g>`; }).join('');
+    return `<g data-oi="${i}" opacity="${((1 - Math.abs(w) / 90) * (o.locked ? .55 : 1)).toFixed(2)}">${perle(o, x, y, gew, sel)}${o.locked ? `<text class="ri" x="${x + 11}" y="${y + 12}" style="font-size:12px">🔒</text>` : ''}</g>`; }).join('');
   W.querySelector('#wnabe').textContent = kurz(T.opts[oi] ? T.opts[oi].name : '', 22);
   W.querySelector('#wnabe2').textContent = `${oi + 1} von ${T.opts.length}`;
 }
 const kurz = (s, n = 11) => (s = String(s).replace(/^Platz: /, '')).length > n ? s.slice(0, n - 1) + '…' : s;
 function perle(o, x, y, gew, sel) {
   const ring = `<circle cx="${x}" cy="${y}" r="21" fill="${o.farbe || '#f6efe0'}" stroke="${gew ? '#ffd27a' : '#0d1a22'}" stroke-width="${gew ? 3.5 : 1.5}"/>${sel && !gew ? `<circle cx="${x}" cy="${y}" r="24" fill="none" stroke="#ffd27a" stroke-width="1.2" stroke-dasharray="3 3"/>` : ''}`;
+  if (o.kopf) return ring.replace(/fill="[^"]*" stroke/, 'fill="#fbf6ea" stroke') + kopfPerle(x, y, o.fig || 'smilla', o.kopf);
   if (o.farbe) return ring;
   if (o.satz) return ring + `<path d="M${x - 15} ${y + 2} H${x + 15} L${x + 11} ${y + 10} H${x - 11}Z" fill="${o.satz.rumpf}" stroke="#333" stroke-width=".8"/><path d="M${x - 15} ${y + 4} H${x + 15}" stroke="${o.satz.streifen}" stroke-width="2.4"/><rect x="${x - 6}" y="${y - 7}" width="12" height="9" fill="${o.satz.dach}" stroke="#333" stroke-width=".7"/>`;
   if (o.teil && window.BOOT) { const t = BOOT.TEILE[o.teil], fn = t.seite || t.oben; const f = (teil, extra = '') => `class="fr-${teil}${extra ? ' ' + extra : ''}"`;
@@ -124,7 +151,7 @@ function perle(o, x, y, gew, sel) {
 function textZeile() {
   if (!W) return;
   const T = themen[ti], o = T.opts[oi] || {}, gew = o.w === T.akt();
-  W.querySelector('.wtext').innerHTML = `<small>${T.ic} ${esc(T.name)}</small><b>${esc(o.name || '')}${gew ? ' ✓' : ''}</b>${o.wann ? `<small>${o.wann === 'später' ? 'Platz schon eingebaut, Teil zum Ausprobieren' : 'später als Belohnung: ' + esc(o.wann)}</small>` : o.satzLang ? `<small>${esc(o.satzLang.split(':').slice(-1)[0])}</small>` : ''}`;
+  W.querySelector('.wtext').innerHTML = `<small>${T.ic} ${esc(T.name)}</small><b>${esc(o.name || '')}${gew ? ' ✓' : ''}</b>${o.wann ? `<small>${o.locked ? '🔒 ' : ''}${o.locked ? 'kommt ' : 'Extra, kommt '}${esc(o.wann)} der Hörreise dazu${testmodus() && gesperrt(o.tag) ? ' (Testmodus: frei)' : ''}</small>` : o.satzLang ? `<small>${esc(o.satzLang.split(':').slice(-1)[0])}</small>` : ''}`;
   const u = W.querySelector('.wueb'); u.disabled = !geaendert; u.textContent = geaendert ? `Übernehmen (${geaendert})` : 'Übernehmen';
 }
 
@@ -136,8 +163,8 @@ async function bildZeigen(neu, neuBauen) {
   if (neu === 'crew') {
     blickAkt = 'crew'; B.querySelector('.wfilm').hidden = true; const c = B.querySelector('.wcrew'); c.hidden = false;
     const T = themen[ti], F = window.FIGUREN, haupt = T.fig || 'hinnerk', rest = ['hinnerk', 'smilla', 'hilke', 'harms', 'backbord', 'klabauter'].filter(x => x !== haupt);
-    c.innerHTML = `<svg viewBox="-150 -150 300 196" preserveAspectRatio="xMidYMax meet"><g transform="translate(0 0) scale(${F.FIG[haupt].tier ? 3.2 : 1.25})">${F.figur(haupt, {blick: 'vorn', dreh: false, pose: F.FIG[haupt].tier ? 'sitzen' : 'stehen'})}</g>
-      ${rest.map((id, i) => `<g transform="translate(${-130 + i * 56 + (i > 1 ? 110 : 0)} 4) scale(${F.FIG[id].tier ? 1.4 : .5})">${F.figur(id, {blick: 'vorn', dreh: false})}</g>`).join('')}</svg>`;
+    c.innerHTML = `<svg viewBox="-190 -150 380 186" preserveAspectRatio="xMidYMax meet"><g transform="scale(${F.FIG[haupt].tier ? 3.6 : 1.5}) translate(0 -8)">${F.figur(haupt, {blick: 'vorn', dreh: false, pose: F.FIG[haupt].tier ? 'sitzen' : 'stehen'})}</g>
+      ${rest.map((id, i) => `<g transform="translate(${[-160, -118, -76, 100, 140][i]} -8) scale(${F.FIG[id].tier ? 1.8 : .8})">${F.figur(id, {blick: 'vorn', dreh: false, pose: F.FIG[id].tier ? 'sitzen' : 'stehen'})}</g>`).join('')}</svg>`;
   } else {
     const c = B.querySelector('.wcrew'); c.hidden = true; const fl = B.querySelector('.wfilm'); fl.hidden = false;
     if (!window.FILMB) return;
@@ -163,6 +190,7 @@ function themaWaehlen(i, sanft = true) {
 function wahlSetzen(i) {
   const T = themen[ti]; oi = Math.max(0, Math.min(T.opts.length - 1, i)); const o = T.opts[oi];
   drehen('i', oi * SI, true);
+  if (o.locked) { try { toast(`${o.name}: kommt nach Tag ${o.tag} der Hörreise. Im Testmodus (letztes Thema am Rad) ist alles frei.`, 5200); } catch (e) {} ringeZeichnen(); textZeile(); return; }
   if (o.w !== T.akt()) {
     if (T.setz(o.w) === false) { textZeile(); return; }
     geaendert++; try { lookAnwenden(); } catch (e) {}
@@ -215,6 +243,7 @@ function exportText() {
   z.push('Boot-Farben: ' + (['rumpf', 'streifen', 'unterwasser', 'dach', 'schrift'].map(k => `${k} ${l.farben['--frieda-' + k] || B.farben[k] + ' (Standard)'}`).join(', ')));
   z.push('Plätze: ' + Object.entries(B.PLAETZE).map(([pn, p]) => `${p.name} = ${B.belegt(pn) ? B.TEILE[B.belegt(pn)].name : 'leer'}`).join('; '));
   z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
+  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Testmodus: ${testmodus() ? 'an' : 'aus'}`);
   z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
   const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
   z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));
@@ -241,7 +270,7 @@ async function oeffnen(start) {
   try { await nachladen('boot.js'); await nachladen('figuren.js'); await nachladen('film.js'); } catch (e) { toast('Die Werft ließ sich nicht laden.'); return; }
   css(); FIGUREN.css(); BOOT.css();
   alt = {look: JSON.parse(JSON.stringify((S.cfg && S.cfg.look) || {})), name: S.boat ? S.boat.name : undefined};
-  themen = themenBauen(); geaendert = 0;
+  themen = themenBauen(); SA = Math.min(15, 360 / themen.length); geaendert = 0;
   W = document.createElement('div'); W.id = 'werft2';
   W.innerHTML = `<div class="wkopf"><b>⚓ Werft</b><button class="wx" id="wkop" aria-label="Einstellungen kopieren" title="Einstellungen als Text kopieren">📋</button><button class="wx" id="whilfe" aria-label="Hilfe">?</button><button class="wx" id="wzu" aria-label="Schließen">✕</button></div>
     <div class="wbuehne"><div class="wfilm"></div><div class="wcrew" hidden></div><button class="wauge" id="wauge" aria-pressed="false" aria-label="Alle Plätze zeigen">◎</button>

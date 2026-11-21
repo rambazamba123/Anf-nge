@@ -63,6 +63,15 @@ Die Kanten-Filter wirken nur auf mittlere und vordere Platten (Rechenzeit). Auf 
 - **📋 Kopieren** (oben rechts): legt alle Einstellungen als Text in die Zwischenablage (lesbare Zeilen plus Rohdaten als JSON), auch mit noch nicht übernommenen Änderungen. Zum Einfügen in den Chat, damit Claude sieht, was eingestellt ist. Ohne Zwischenablage zeigt die Werft den Text zum Markieren. Die Einstellungen liegen nur auf dem Gerät; Claude sieht sie nur so.
 - Farben aus einer festen Palette, die zum Stil passt (keine freie Farbwahl mehr): So bleibt jedes Boot im Bilderbuch-Stil.
 
+## Körperbau, Augen, neun Stile, Freischaltung (v5.75)
+> Nutzer, 21.11.2026: „mehrere Varianten, süßer etc.“, „einmal Aquarell und einmal mit Strich außenrum“, „Standard-Schiff ohne den Schnickschnack, Extras kommen mit der Zeit dazu“.
+- **Körperbau** (`FIGUREN.TYPEN`): Klassisch, Süß, Püppchen, Kugelrund, Schlaksig, Kräftig (Kopfgröße, Körperbreite und -höhe, Wangen, Standard-Augen). Gilt für alle Figuren (`S.cfg.look.typAlle`) oder je Figur (`typ[figur]`); Katze und Papagei skalieren Kopf und Augen mit.
+- **Augen** (`AUGEN`): Punkt, Glanzlicht, Groß und glänzend, Kulleraugen, Zufriedener Strich; `S.cfg.look.auge` überschreibt die Art des Körperbaus.
+- **Neun Zeichenstile** (`STILE`): Feder und Kreide (Strich außenrum), Aquarell und Pastell (ohne Strich), Flach, Linolschnitt, Tusche, Bleistift, Scherenschnitt. Boot (`boot.js`) zieht mit.
+- **Werft:** neue Themen „Körperbau: alle“, „Körperbau: je Figur“ (sechs), „Augen“ und „Testmodus“; Köpfe als Perlen im Rad.
+- **Freischaltung:** jedes Teil in `BOOT.TEILE` hat `tag` (Tag der Hörreise, ab dem es frei ist) und `wann` („nach Tag N“); Laternen Tag 5. Frei ist, was `erreichterTag()` (höchster gehörter Tag in `S.hoerreise.gehoert`) erreicht. Gesperrtes zeigt 🔒 und sagt, wann es kommt. **Testmodus** (`S.cfg.look.test`, Standard **an**) macht alles frei, bis der Nutzer die Tage festlegt; das Standardschiff hat ohne Extras zu starten.
+- **Entwurfsseiten zum Auswählen:** `docs/entwuerfe/figuren-atelier.html` (alle Körperbauten × alle Stile, Aquarell gegen Strich, Augen, Kleidung, ganze Crew, ♥ und „Auswahl kopieren“) und `docs/entwuerfe/menues-glas.html` (Deck A1–A3, Kajüte B1/B2, Frei üben, Frage, Hörreise-Karte im Glasplatten-Stil, mit Glasart und Tageszeit). Beide laden die echten Skripte (`figuren.js`, `boot.js`, `szenerie.js`).
+
 ## Was schon umgezogen ist (v5.72)
 - Filmbühne (`film.js`): Frieda in allen Blicken, Hinnerk, Smilla, Hilke, Katze, Harms im Medaillon.
 - Deck (`szenerie.js` `szene`): Frieda und Crew an Bord, antippbar wie bisher.
@@ -76,7 +85,7 @@ Die Kanten-Filter wirken nur auf mittlere und vordere Platten (Rechenzeit). Auf 
 - **Ölzeug, Ringelpulli, Joppe** haben feste Farben; der Farbregler „Jacke“ wirkt nur bei den anderen Jacken.
 
 ## Offen (Entscheidung des Nutzers)
-- Ausbau als Belohnung (SK12: Steuerrad nach Tag 3, Laternen nach Tag 5, Wimpel nach Tag 7) oder immer frei? Heute ist alles frei zum Ausprobieren.
+- Welches Teil kommt nach welchem Tag? Heute stehen Vorschläge in `TEILE[].tag`, der Testmodus macht alles frei, bis der Nutzer entschieden hat.
 - Welcher Zeichenstil ist der Standard (Feder, Kreide, Aquarell)?
 - Welches Glas ist der Standard (heute Weich)? Welche Teile sollen später dazukommen, und welche als Belohnung?
 - Eigene Farben: früher frei wählbar, seit v5.73 nur noch aus der Palette. Zurück zur freien Wahl?
