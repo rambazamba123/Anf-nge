@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de" data-glas="weich" data-stil="feder">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Glasbühne im Vollbild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Glasbühne im Vollbild (Entwurf 22.11.2026): die echte Filmbühne der App (film.js, Glas „weich“), ausgearbeitet mit Tageszeit, Wetter,
+   Licht durch die Platten, Bokeh, Spiegelung auf der vordersten Scheibe und Kamerafahrten. Wischen oder ‹ › = nächste Variante, Tippen = Bedienung ein/aus. */
+:root{--ink:#f6eedc;--muted:rgba(246,238,220,.75);--accent:#f0a23a;--accent-ink:#2a1a05;--hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0c1116;overflow:hidden;font-family:var(--bfont);color:var(--ink)}
+#rahmen{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden}
+#buehne{position:relative;width:min(100vw,calc(100dvh * .8));aspect-ratio:400/500;flex:none;box-shadow:0 0 60px rgba(0,0,0,.6)}
+body.fuell #buehne{width:max(100vw,calc(100dvh * .8))}
+#rahmen{background:radial-gradient(ellipse at 50% 50%,#26313a,#0c1116 70%)}
+#buehne .fb{border-radius:0}
+.ui{position:fixed;left:0;right:0;pointer-events:none;transition:opacity .45s,transform .45s;z-index:10}
+.ui>*{pointer-events:auto}
+body.still .ui{opacity:0;transform:translateY(var(--weg,0))}
+#oben{top:0;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 26px;background:linear-gradient(rgba(8,12,16,.62),transparent);--weg:-12px}
+#oben .nr{font-family:var(--hfont);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+#oben h1{font-family:var(--hfont);font-size:24px;line-height:1.05;margin:2px 0 3px;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+#oben p{margin:0;font-size:13.5px;line-height:1.35;color:var(--muted);max-width:520px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+#unten{bottom:0;padding:26px 14px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(8,12,16,.66));display:flex;flex-direction:column;gap:9px;--weg:12px}
+.zeile{display:flex;align-items:center;gap:8px;justify-content:center}
+.rund{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(20,28,36,.55);color:var(--ink);font-size:20px;cursor:pointer;backdrop-filter:blur(6px);display:grid;place-items:center;flex:none}
+.rund.an{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.punkte{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:300px}
+.punkte button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.35);cursor:pointer}
+.punkte button.an{background:var(--accent);transform:scale(1.35)}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.chip{font:inherit;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,.25);background:rgba(20,28,36,.55);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer;backdrop-filter:blur(6px)}
+.chip[aria-pressed="true"]{background:rgba(240,162,58,.92);color:var(--accent-ink);border-color:transparent}
+#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(10,14,18,.75);padding:10px 16px;border-radius:12px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:20}
+#liste{position:fixed;inset:0;z-index:30;background:rgba(8,12,16,.92);backdrop-filter:blur(8px);overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 40px;display:none}
+#liste.an{display:block}
+#liste .in{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+#liste h2{font-family:var(--hfont);margin:0 0 6px;font-size:22px}
+#liste button.v{display:flex;gap:10px;text-align:left;font:inherit;color:inherit;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;cursor:pointer}
+#liste button.v b{font-family:var(--hfont);font-size:15px;display:block}
+#liste button.v small{color:var(--muted);font-size:12.5px;line-height:1.3}
+#liste button.v .h{margin-left:auto;color:#ff7a7a}
+#liste textarea{width:100%;min-height:90px;background:rgba(255,255,255,.06);color:var(--ink);border:1px solid rgba(255,255,255,.15);border-radius:10px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;padding:8px}
+#liste .btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+</style>
+</head>
+<body>
+<div id="rahmen"><div id="buehne"></div></div>
+<div class="ui" id="oben"><div class="nr" id="nr"></div><h1 id="titel"></h1><p id="satz"></p></div>
+<div class="ui" id="unten">
+  <div class="chips" id="figstil"><button class="chip" data-s="feder" aria-pressed="true">Figuren Feder</button><button class="chip" data-s="laviert" aria-pressed="false">Feder laviert</button><button class="chip" data-s="aquarell" aria-pressed="false">Aquarell</button></div>
+  <div class="zeile"><button class="rund" id="zur" aria-label="vorige Variante">‹</button><div class="punkte" id="punkte"></div><button class="rund" id="vor" aria-label="nächste Variante">›</button></div>
+  <div class="zeile"><button class="rund" id="herz" aria-label="merken">♥</button><button class="rund" id="voll" aria-label="Vollbild">⛶</button><button class="rund" id="lst" aria-label="Liste">☰</button><button class="rund" id="fuell" aria-label="Bild füllen">⤢</button><button class="rund" id="ruhe" aria-label="Bedienung ausblenden">◌</button></div>
+</div>
+<div id="toast"></div>
+<div id="liste"><div class="in"><h2>Alle Varianten</h2><div id="lv" style="display:flex;flex-direction:column;gap:8px"></div>
+  <h2 style="margin-top:12px">Meine Auswahl</h2><textarea id="txt" readonly></textarea><button class="btn" id="kop">Auswahl kopieren</button><button class="btn" id="zu" style="background:rgba(255,255,255,.12);color:var(--ink)">Zurück zur Bühne</button></div></div>
+
+<script src="../../figuren.js"></script>
+<script src="../../boot.js"></script>
+<script src="../../film.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id), warte = ms => new Promise(r => setTimeout(r, ms));
+/* Jede Variante: Licht (Tageszeit/Wetter), Atmosphäre vor den Platten, Ort und Blick, und eine kleine Kamerafahrt in Schleife. */
+const V = [
+  {t: 'Morgendunst an der Tankstelle', s: 'Früh, die Sonne steht tief im Osten. Licht fällt in Bahnen durch die Platten, Staub tanzt vorn unscharf. Die Kamera schiebt sich langsam heran.',
+    licht: 'morgen', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); while (ok()) { await F.kamera('seite', 'totale', 'sofort'); await warte(2500); if (!ok()) break; await F.kamera('seite', 'halbnah', 'fahrt'); await warte(3500); if (!ok()) break; await F.kamera('seite', 'hinnerk', 'schaerfe'); await warte(3500); } }},
+  {t: 'Später Vormittag', s: 'Das heutige Glas, ausgearbeitet: klare Luft, Spiegelung auf der vordersten Scheibe. Die Schärfe wandert von Smilla zu Hinnerk.',
+    licht: 'mittag', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); while (ok()) { await F.kamera('seite', 'smilla', 'schaerfe'); await warte(3200); if (!ok()) break; await F.kamera('seite', 'hinnerk', 'schaerfe'); await warte(3200); if (!ok()) break; await F.kamera('seite', 'totale', 'atem'); await warte(3000); } }},
+  {t: 'Abendgold im Becken', s: 'Die Sonne steht tief im Westen, alles wird warm. Lichtbahnen und Bokeh, die Platten glühen an den Kanten.',
+    licht: 'abend', ort: ['becken', 'seite'], go: async (F, ok) => { while (ok()) { await F.kamera('seite', 'totale', 'sofort'); await warte(3000); if (!ok()) break; await F.kamera('seite', 'tief', 'kran'); await warte(4000); } }},
+  {t: 'Nacht im Hafen', s: 'Dunkle Platten, Sterne, warme Fenster und Laternen. Die Spiegelung auf dem Glas wird zum Mondschein.',
+    licht: 'nacht', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); while (ok()) { await F.kamera('seite', 'totale', 'sofort'); await warte(3500); if (!ok()) break; await F.kamera('seite', 'halbnah', 'fahrt'); await warte(4000); } }},
+  {t: 'Nebelbank auf der Ausfahrt', s: 'Die Ferne verschwindet. Nebelbänke ziehen zwischen Kamera und Boot hindurch; die Frieda tuckert hinein.',
+    licht: 'nebel', ort: ['ausfahrt', 'seite'], go: async (F, ok) => { F.tu({motor: [1, 800], fahrt: [1, 2000]}); while (ok()) { await F.kamera('seite', 'totale', 'sofort'); await warte(5000); if (!ok()) break; await F.kamera('seite', 'halbnah', 'atem'); await warte(5000); } }},
+  {t: 'Regen an der Scheibe', s: 'Wir schauen durch die vorderste Glasplatte, auf der Tropfen sitzen; manche rinnen hinunter. Hinter dem Glas Regenstreifen.',
+    licht: 'regen', ort: ['tankstelle', 'heck'], go: async (F, ok) => { while (ok()) { await F.kamera('heck', 'totale', 'sofort'); await warte(3500); if (!ok()) break; await F.kamera('heck', 'nah', 'fahrt'); await warte(4500); } }},
+  {t: 'Von oben: Höhenschichten', s: 'Die Aufsicht als Glasplatten in Höhenschichten: Wasser ganz unten, Boot, Mast und Möwen darüber. Die Kamera kippt leicht.',
+    licht: 'morgen', ort: ['kluever', 'oben'], go: async (F, ok) => { while (ok()) { await F.kamera('oben', 'totale', 'sofort'); await warte(3000); if (!ok()) break; await F.kamera('oben', 'schraeg', 'fahrt'); await warte(3500); if (!ok()) break; await F.kamera('oben', 'nah', 'fahrt'); await warte(3000); } }},
+  {t: 'Hitchcock am Steg', s: 'Abendlicht, dann der Hitchcock-Zoom: das Boot bleibt gleich groß, die Platten dahinter laufen auseinander. Für den Schreckmoment.',
+    licht: 'abend', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); while (ok()) { await F.kamera('seite', 'halbnah', 'sofort'); await warte(1800); if (!ok()) break; await F.vertigo(); await warte(2200); } }},
+  {t: 'Schnitt an der Wasserlinie', s: 'Oben die Frieda, unten Kiel und Schraube unter Wasser, im Abendlicht. Hier wird erklärt, was man sonst nicht sieht.',
+    licht: 'abend', atmo: ['lichter', 'staub', 'glanz'], ort: ['tankstelle', 'schnitt'], go: async (F, ok) => { while (ok()) { await F.kamera('schnitt', 'totale', 'sofort'); await warte(3500); if (!ok()) break; await F.kamera('schnitt', 'nah', 'fahrt'); await warte(4000); } }},
+  {t: 'Motor von achtern', s: 'Ganz nah am Heck: der Außenborder, das Wasser dahinter. Klar und kalt am Vormittag.',
+    licht: 'mittag', atmo: ['staub', 'glanz'], ort: ['motor', 'heck'], go: async (F, ok) => { F.tu({motor: [1, 800]}); while (ok()) { await F.kamera('heck', 'totale', 'sofort'); await warte(4000); if (!ok()) break; await F.kamera('heck', 'nah', 'atem'); await warte(4000); } }},
+  {t: 'Durch die Platten fahren', s: 'Die Kamera taucht durch die Glasplatten hindurch von einem Ort zum nächsten, wie in Norsteins Filmen.',
+    licht: 'morgen', ort: ['tankstelle', 'seite'], go: async (F, ok) => { F.sofort({p: [.5]}); let i = 0; while (ok()) { const o = [['becken', 'seite'], ['ausfahrt', 'seite'], ['tankstelle', 'seite']][i++ % 3]; await warte(3000); if (!ok()) break; await F.ort(o[0], 'platten', o[1]); } }},
+  {t: 'Morgen am Kai, Nebel löst sich', s: 'Erst Nebel, dann kommt die Sonne durch: zwei Lichter nacheinander, wie ein Tagesanfang im Zeitraffer.',
+    licht: 'nebel', ort: ['becken', 'seite'], wechsel: 'morgen', go: async (F, ok) => { while (ok()) { await warte(4500); if (!ok()) break; } }}
+];
+let i = 0, lauf = 0, wahl = {};
+try { wahl = JSON.parse(localStorage.getItem('skipper-glasbuehne') || '{}'); } catch (e) {}
+const sp = () => { try { localStorage.setItem('skipper-glasbuehne', JSON.stringify(wahl)); } catch (e) {} };
+
+async function zeigen(n) {
+  i = (n + V.length) % V.length; const v = V[i], meins = ++lauf, ok = () => meins === lauf;
+  $('nr').textContent = `Variante ${i + 1} von ${V.length} · ${FILMB.LICHT[v.licht].name}`; $('titel').textContent = v.t; $('satz').textContent = v.s;
+  $('punkte').querySelectorAll('button').forEach((b, k) => b.classList.toggle('an', k === i)); $('herz').classList.toggle('an', !!wahl[i]);
+  try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  const F = FILMB; F.reset(); F.licht(v.licht); F.mount($('buehne')); F.atmo(v.atmo || null);
+  await F.ort(v.ort[0], 'sofort', v.ort[1]);
+  if (v.wechsel) { (async () => { await warte(5000); if (!ok()) return; const b = $('buehne'); b.animate([{opacity: 1}, {opacity: .35}, {opacity: 1}], {duration: 2600, easing: 'ease-in-out'}); await warte(1300); if (!ok()) return; F.licht(v.wechsel); F.mount(b); F.atmo(null); await F.ort(v.ort[0], 'sofort', v.ort[1]); })(); }
+  try { await v.go(F, ok); } catch (e) { console.warn(e); }
+}
+$('punkte').innerHTML = V.map((v, k) => `<button aria-label="${v.t}"></button>`).join('');
+$('punkte').onclick = e => { const b = e.target.closest('button'); if (b) zeigen([...b.parentNode.children].indexOf(b)); };
+$('vor').onclick = () => zeigen(i + 1); $('zur').onclick = () => zeigen(i - 1);
+$('herz').onclick = () => { if (wahl[i]) delete wahl[i]; else wahl[i] = 1; sp(); $('herz').classList.toggle('an', !!wahl[i]); toast(wahl[i] ? '♥ gemerkt' : 'nicht mehr gemerkt'); };
+$('voll').onclick = () => { const d = document; try { if (d.fullscreenElement) d.exitFullscreen(); else d.documentElement.requestFullscreen(); } catch (e) {} };
+$('fuell').onclick = () => { const an = document.body.classList.toggle('fuell'); $('fuell').classList.toggle('an', an); toast(an ? 'Bild füllt den Schirm (Ränder abgeschnitten)' : 'Ganzes Bild'); };
+$('ruhe').onclick = e => { e.stopPropagation(); document.body.classList.add('still'); toast('Tippen zeigt die Bedienung wieder'); };
+$('figstil').onclick = e => { const b = e.target.closest('.chip'); if (!b) return; document.documentElement.dataset.stil = b.dataset.s; $('figstil').querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b)); zeigen(i); };
+$('lst').onclick = () => { $('lv').innerHTML = V.map((v, k) => `<button class="v" data-k="${k}"><span><b>${k + 1}. ${v.t}</b><small>${v.s}</small></span>${wahl[k] ? '<span class="h">♥</span>' : ''}</button>`).join(''); txt(); $('liste').classList.add('an'); };
+$('lv').onclick = e => { const b = e.target.closest('.v'); if (!b) return; $('liste').classList.remove('an'); zeigen(+b.dataset.k); };
+$('zu').onclick = () => $('liste').classList.remove('an');
+function txt() { const k = Object.keys(wahl).map(Number).sort((a, b) => a - b); $('txt').value = k.length ? 'Meine Favoriten auf der Glasbühne:\n' + k.map(n => `- Variante ${n + 1}: ${V[n].t} (${V[n].licht})`).join('\n') + `\nFiguren: ${document.documentElement.dataset.stil}` : 'Noch nichts mit ♥ gemerkt.'; }
+$('kop').onclick = () => { const t = $('txt'); t.select(); try { navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); } $('kop').textContent = 'Kopiert ✓'; setTimeout(() => $('kop').textContent = 'Auswahl kopieren', 1800); };
+let tt; function toast(s) { const t = $('toast'); t.textContent = s; t.style.opacity = 1; clearTimeout(tt); tt = setTimeout(() => t.style.opacity = 0, 1600); }
+/* Tippen auf die Bühne: Bedienung ein/aus; Wischen: Variante wechseln */
+let x0 = null, y0 = 0, t0 = 0;
+$('rahmen').addEventListener('pointerdown', e => { x0 = e.clientX; y0 = e.clientY; t0 = Date.now(); });
+$('rahmen').addEventListener('pointerup', e => { if (x0 == null) return; const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) zeigen(i + (dx < 0 ? 1 : -1)); else if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && Date.now() - t0 < 400) document.body.classList.toggle('still'); });
+addEventListener('keydown', e => { if (e.key === 'ArrowRight') zeigen(i + 1); else if (e.key === 'ArrowLeft') zeigen(i - 1); else if (e.key === ' ') document.body.classList.toggle('still'); });
+zeigen((parseInt(location.hash.slice(1), 10) || 1) - 1);
+})();
+</script>
+</body>
+</html>

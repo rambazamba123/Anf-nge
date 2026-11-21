@@ -87,3 +87,4 @@
   - Das Werft-Rad zeigt zuerst nur Figuren und Glasplatten-Stile (einfach); Boot, Plätze und Kleidung liegen hinter „Mehr“.
   - Wir bleiben bei den Glasplatten, erkunden aber sehr verschiedene Stilrichtungen, angelehnt an Künstler und alte Techniken; erst Grundkonzepte, nicht alles durcharbeiten (`docs/entwuerfe/glas-stile.html`). Figuren werden neu gedacht (Machart, neue Figurenarten).
   - Offen: welche Stilrichtung(en) und welche Figuren-Konzepte weiterverfolgt werden.
+- **E31** (Nutzer, 22.11.2026) „Die neuen Stile sucks“: Stilrichtungen und Macharten aus v5.76 verworfen. Figuren bleiben im Feder- und Aquarell-Stil und werden weiterentwickelt, auch aus allen Winkeln (Seite, hinten, vorn, oben). Hauptstil bleibt die weiche Glasplatten-Bühne; sie wird ausgearbeitet und im (fast) Vollbild in Varianten gezeigt (`docs/entwuerfe/glasbuehne.html`). Offen: welche Varianten und welche Feder-/Aquarell-Spielart Standard werden.

@@ -33,7 +33,7 @@ let perleNr = 0;
 function kopfPerle(x, y, fid, opt) {
   const F = window.FIGUREN, f = F.FIG[fid], T = F.TYPEN[opt.typ || 'klassisch'] || F.TYPEN.klassisch, sk = f.h / 100, id = 'wk' + (perleNr++);
   const cy = f.tier ? (fid === 'backbord' ? -18 : -27) : ((-86.6 + 9) * T.bh - 9 * T.k) * sk, cx = f.tier ? 3 : .4, z = f.tier ? 2.1 : 1.7;
-  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, machart: opt.machart || '', dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
+  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
 }
 const r1 = n => Math.round(n * 10) / 10;
 function themenBauen() {
@@ -79,13 +79,14 @@ function themenBauen() {
   T.push({id: 'test', ic: '🔓', name: 'Testmodus', blick: 'seite', opts: [{w: 'an', name: 'Alle Extras frei zum Testen', text: '🔓'}, {w: 'aus', name: 'Extras erst nach den Hörreise-Tagen', text: '🔒'}], akt: () => testmodus() ? 'an' : 'aus', setz: w => { look().test = w === 'an'; }});
   /* v5.76 (Nutzer 22.11.2026: „reduziere beim Auswahlrad die Dinge, ich will die Charaktere wählen und mehrere Glasplatten-Stile testen“):
      einfach = Glasplatten-Stil, Machart, Zeichenstil, Körperbau, Augen; alles Übrige erst mit „Mehr“ (S.cfg.look.werftVoll) */
-  const MA = F.MACHART || {};
-  T.push({id: 'machart', ic: '🎭', name: 'Machart der Figuren', kurzname: 'Machart', blick: 'crew', neu: true, opts: Object.entries(MA).map(([w, n]) => ({w, name: n, kopf: {typ: look().typAlle || 'klassisch', machart: w}, fig: 'smilla'})),
-    akt: () => look().machart || '', setz: w => { const l = look(); if (w) l.machart = w; else delete l.machart; }});
+  /* v5.77: Licht der Glasbühne (Tageszeit und Wetter) als Vorschau; in der Hörreise bestimmt später die Szene das Licht */
+  const LI = (window.FILMB && FILMB.LICHT) || {mittag: {name: 'Später Vormittag'}};
+  T.push({id: 'licht', ic: '🌅', name: 'Licht der Glasbühne', kurzname: 'Licht', blick: 'seite', opts: Object.entries(LI).map(([w, l]) => ({w, name: l.name})),
+    akt: () => look().licht || 'mittag', setz: w => { const l = look(); if (w === 'mittag') delete l.licht; else l.licht = w; }});
   T.push({id: 'mehr', ic: '⚙️', name: 'Mehr am Rad', kurzname: 'Mehr', blick: 'seite', opts: [{w: 'einfach', name: 'Nur Figuren und Glas', text: '🎭'}, {w: 'alles', name: 'Alles: Boot, Plätze, Kleidung', text: '⚓'}],
     akt: () => look().werftVoll ? 'alles' : 'einfach', setz: w => { const l = look(); if (w === 'alles') l.werftVoll = true; else delete l.werftVoll; }});
   if (look().werftVoll) return T;
-  const EIN = ['glas', 'machart', 'stil', 'typ-alle', 'auge', 'mehr'];
+  const EIN = ['glas', 'licht', 'stil', 'typ-alle', 'auge', 'mehr'];
   return EIN.map(id => T.find(t => t.id === id)).filter(Boolean);
 }
 
@@ -177,7 +178,7 @@ async function bildZeigen(neu, neuBauen) {
   } else {
     const c = B.querySelector('.wcrew'); c.hidden = true; const fl = B.querySelector('.wfilm'); fl.hidden = false;
     if (!window.FILMB) return;
-    if (!film) { FILMB.mount(fl); film = true; neuBauen = true; }
+    if (!film) { if (FILMB.licht) FILMB.licht(look().licht || 'mittag'); FILMB.mount(fl); film = true; neuBauen = true; }
     if (neu !== blickAkt || neuBauen) {
       blickAkt = neu; FILMB.reset();
       if (neu === 'oben') { FILMB.ort('kluever', 'sofort', 'oben'); FILMB.sofort({k: [.55], pier: [.5]}); FILMB.kamera('oben', 'nah', 'sofort'); }
@@ -205,6 +206,7 @@ function wahlSetzen(i) {
     geaendert++; try { lookAnwenden(); } catch (e) {}
     if (T.neu) bildZeigen(blickAkt === 'crew' ? 'crew' : blickAkt, true);
     if (T.id === 'glas' && blickAkt === 'crew') bildZeigen('seite');
+    if (T.id === 'licht' && window.FILMB) { FILMB.licht(o.w); film = false; bildZeigen(blickAkt === 'crew' ? 'seite' : blickAkt, true); }
     if (T.id === 'mehr') { themen = themenBauen(); SA = Math.min(26, 360 / themen.length); themaWaehlen(themen.findIndex(t => t.id === 'mehr'), false); return; }
     try { AUD.click(); } catch (e) {} try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
   }
@@ -253,7 +255,7 @@ function exportText() {
   z.push('Boot-Farben: ' + (['rumpf', 'streifen', 'unterwasser', 'dach', 'schrift'].map(k => `${k} ${l.farben['--frieda-' + k] || B.farben[k] + ' (Standard)'}`).join(', ')));
   z.push('Plätze: ' + Object.entries(B.PLAETZE).map(([pn, p]) => `${p.name} = ${B.belegt(pn) ? B.TEILE[B.belegt(pn)].name : 'leer'}`).join('; '));
   z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
-  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Machart: ${l.machart || 'gezeichnet'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
+  z.push(`Körperbau: alle ${l.typAlle || 'klassisch'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Licht: ${l.licht || 'mittag'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
   z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
   const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
   z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));
@@ -272,6 +274,7 @@ function schliessen(uebernehmen) {
   if (uebernehmen) { try { save(); } catch (e) {} try { toast('Übernommen. Gilt jetzt überall.'); } catch (e) {} }
   else if (alt) { S.cfg.look = alt.look; if (alt.name === undefined) { if (S.boat) delete S.boat.name; } else S.boat = {...(S.boat || {}), name: alt.name}; }
   try { lookAnwenden(); } catch (e) {}
+  try { if (window.FILMB && FILMB.licht) FILMB.licht('mittag'); } catch (e) {}
   delete document.documentElement.dataset.platzHl; delete document.documentElement.dataset.plaetze;
   if (W) W.remove(); W = null; film = false; blickAkt = '';
   try { if (typeof setTab === 'function' && document.querySelector('.ddeck')) setTab('deck'); } catch (e) {}
