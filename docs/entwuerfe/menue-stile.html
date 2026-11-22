@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="de" data-glas="weich" data-stil="laviert">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Menü-Stile zum Durchklicken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Menü-Stile (Entwurf 23.11.2026): Deck und Kajüte wie in der heutigen App (Boot, Zettel, Weiter, Schiffsrennen; Kajüte mit Tisch und Crew),
+   alte Symbole, aber auf der Glasbühne (film.js) und in fünf Stilen. Antippen in der Kajüte: die Kamera fährt heran, bleibt dort, Einzelheiten erscheinen. */
+:root{--hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#16120e;font-family:var(--bfont);overflow:hidden}
+#wahl{position:fixed;left:0;right:0;top:0;z-index:60;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;background:rgba(18,14,10,.92);display:flex;flex-direction:column;gap:5px}
+#wahl .z{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
+#wahl button{flex:none;font:700 12px var(--bfont);border:1px solid #6b553c;background:#2a2118;color:#f3e7c9;border-radius:999px;padding:5px 11px;cursor:pointer}
+#wahl button[aria-pressed="true"]{background:#e8963a;color:#2a1a05;border-color:#e8963a}
+#kunst{color:#cdbb98;font-size:11.5px;line-height:1.25;min-height:15px}
+#rahmen{position:fixed;left:0;right:0;bottom:0;top:var(--oben,96px);display:grid;place-items:center}
+#tel{position:relative;height:100%;aspect-ratio:400/860;max-width:100vw;overflow:hidden;background:var(--grund)}
+@media (min-width:700px){#tel{border-radius:26px;height:calc(100% - 20px);box-shadow:0 18px 50px rgba(0,0,0,.6)}}
+.screen{position:absolute;inset:0;display:none;flex-direction:column}
+.screen.an{display:flex}
+.buehne{position:relative;width:100%;aspect-ratio:400/500;flex:none;overflow:hidden}
+.buehne .fb{border-radius:0}
+.bw{position:relative;flex:none}.over{position:absolute;inset:0;z-index:5}
+.unten{flex:1;position:relative;display:flex;flex-direction:column;gap:9px;padding:10px 12px 74px;background:var(--grund);overflow:auto}
+.ecke{position:absolute;top:10px;right:10px;z-index:6;display:flex;gap:6px}
+.ecke button{width:40px;height:40px;border-radius:12px;border:var(--rand);background:var(--knopf);color:var(--tinte);display:grid;place-items:center;cursor:pointer;box-shadow:var(--schatten)}
+.ecke svg{width:22px;height:22px}
+/* Karten */
+.karte{position:relative;background:var(--karte);border:var(--rand);border-radius:var(--rad);padding:11px 12px;color:var(--tinte);box-shadow:var(--schatten);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur))}
+.karte b{font-family:var(--hfont);font-size:15px;line-height:1.15}
+.karte small{display:block;font-size:12px;opacity:.75;line-height:1.25}
+.paar{display:grid;grid-template-columns:1fr 1.15fr;gap:9px}
+.zettel{display:flex;align-items:center;gap:8px;cursor:pointer}
+.zettel .kopf{width:44px;height:44px;border-radius:50%;overflow:hidden;flex:none;background:var(--kopfgrund);border:var(--rand)}
+.weiter{background:var(--akzent);color:var(--akzentTinte);display:flex;align-items:center;gap:9px;cursor:pointer}
+.weiter .play{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.18);display:grid;place-items:center;flex:none}
+.rennen .bahn{position:relative;height:20px;border-radius:10px;background:var(--bahn);margin:9px 0 6px}
+.rennen .bahn i{position:absolute;top:50%;transform:translate(-50%,-50%);font-style:normal;font-size:16px}
+.rennen .leg{display:flex;gap:12px;font-size:11px;opacity:.75}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:flex;background:var(--nav);border-top:var(--navRand);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))}
+.nav button{flex:1;border:0;background:none;color:var(--navTinte);font:800 11px var(--bfont);display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;opacity:.75}
+.nav button.an{color:var(--navAn);opacity:1}
+.nav svg{width:24px;height:24px}
+/* Kajüte */
+.pin{position:absolute;z-index:5;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:var(--rand);background:var(--knopf);color:var(--tinte);display:grid;place-items:center;cursor:pointer;box-shadow:var(--schatten);transition:opacity .35s}
+.pin svg{width:22px;height:22px}
+.pin::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--akzent);opacity:.7;animation:puls 2.4s ease-out infinite}
+@keyframes puls{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.35);opacity:0}}
+.zoom .pin{opacity:0;pointer-events:none}
+.detail{position:absolute;inset:0;z-index:7;pointer-events:none}
+.detail>*{pointer-events:auto;position:absolute;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .45s,transform .45s}
+.detail.an>*{opacity:1;transform:none}
+.detail.an>*:nth-child(2){transition-delay:.12s}.detail.an>*:nth-child(3){transition-delay:.24s}.detail.an>*:nth-child(4){transition-delay:.36s}.detail.an>*:nth-child(5){transition-delay:.48s}.detail.an>*:nth-child(6){transition-delay:.6s}.detail.an>*:nth-child(7){transition-delay:.72s}.detail.an>*:nth-child(8){transition-delay:.84s}.detail.an>*:nth-child(9){transition-delay:.96s}.detail.an>*:nth-child(10){transition-delay:1.08s}
+.tag{font:800 11px var(--bfont);padding:3px 8px;border-radius:999px;background:var(--karte);border:var(--rand);color:var(--tinte);box-shadow:var(--schatten);white-space:nowrap}
+.tag.ok{background:var(--gut)}
+.zur{left:10px;top:10px;font:800 13px var(--bfont);padding:8px 12px;border-radius:12px;border:var(--rand);background:var(--knopf);color:var(--tinte);cursor:pointer;box-shadow:var(--schatten)}
+.los{font:800 14px var(--bfont);padding:11px 16px;border-radius:14px;border:0;background:var(--akzent);color:var(--akzentTinte);cursor:pointer;box-shadow:var(--schatten)}
+.liste{display:flex;flex-direction:column;gap:7px}
+.liste .karte{display:flex;align-items:center;gap:10px;cursor:pointer}
+.liste svg.sy{width:30px;height:30px;color:var(--tinte);flex:none}
+.hinweis{font-size:12px;color:var(--tinteHell);text-align:center}
+/* Stil-Verzierungen */
+[data-stilart="larsson"] .karte{box-shadow:0 0 0 3px var(--karte),0 0 0 4.5px #4d7a4a,var(--schatten)}
+[data-stilart="bilderbuch"] .karte::before{content:"";position:absolute;inset:4px;border-radius:calc(var(--rad) - 3px);border:1.5px dotted rgba(200,106,74,.55);pointer-events:none}
+[data-stilart="hammershoi"] .karte{letter-spacing:.01em}
+</style>
+</head>
+<body>
+<div id="wahl"><div class="z" id="cStil"></div><div class="z" id="cBild"></div><div id="kunst"></div></div>
+<div id="rahmen"><div id="tel"></div></div>
+<script src="../../figuren.js"></script>
+<script src="../../boot.js"></script>
+<script src="../../szenerie.js"></script>
+<script src="../../film.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id), F = window.FIGUREN, tel = $('tel');
+const SYM = (k, cls) => window.SZENERIE && SZENERIE.SYM[k] ? SZENERIE.SYM[k].replace('<svg ', `<svg class="${cls || 'sy'}" `) : '';
+/* Symbole der Leiste wie in index.html */
+const TAB = {deck: '<path d="M3 18c3 2 6 2 9 0s6-2 9 0M12 3v11M12 4l6 8h-6"/>', kajuete: '<circle cx="12" cy="11" r="6"/><circle cx="12" cy="11" r="3"/><path d="M12 2v3M12 17v5"/>', frei: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'};
+const tabSvg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${TAB[k]}</svg>`;
+const ZAHN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
+
+/* ---------- Fünf Stile: Standard aus den Filmproben, dazu vier nach Malern ---------- */
+const STILE = {
+  standard: {name: 'Standard: Glasbühne', kunst: 'Wie die Filmproben der Hörreise: weiche Glasebenen, Dunst in der Ferne, milchiges Glas für die Karten, Holzleiste unten wie heute.',
+    licht: 'mittag', glas: 'weich', v: {grund: '#1f2a33', karte: 'rgba(248,244,234,.88)', rand: '1px solid rgba(255,255,255,.6)', rad: '16px', tinte: '#2b2a26', tinteHell: '#c9c2b2', akzent: '#e8a33a', akzentTinte: '#2a1c0e', knopf: 'rgba(248,244,234,.82)', schatten: '0 6px 16px rgba(10,20,30,.25)', blur: '8px', nav: '#3a2a1c', navRand: '1px solid #5a4430', navTinte: '#e9d9b6', navAn: '#ffc35c', bahn: '#2f5f7a', gut: '#bfe0b0', kopfgrund: '#f3e6c8'}},
+  skagen: {name: 'Skagen-Abend', kunst: 'Nach P. S. Krøyer und den Skagen-Malern: das Licht am Strand in der blauen Stunde, Leinen und kühles Weiß, ein goldener Akzent.',
+    licht: 'blau', glas: 'weich', v: {grund: '#26304e', karte: 'rgba(240,242,246,.9)', rand: '1px solid #c9d0e2', rad: '14px', tinte: '#22304a', tinteHell: '#b9c2da', akzent: '#d9a441', akzentTinte: '#22180a', knopf: 'rgba(240,242,246,.85)', schatten: '0 4px 14px rgba(20,24,50,.3)', blur: '6px', nav: '#22304a', navRand: '1px solid #3a4870', navTinte: '#c9d0e2', navAn: '#f2d084', bahn: '#55658f', gut: '#cfe3d0', kopfgrund: '#e6e8f0'}},
+  larsson: {name: 'Larsson-Stube', kunst: 'Nach Carl Larsson („Ett hem“): helle Aquarell-Stuben, klare Tuschelinie, Rot und Grün, bemaltes Holz. Glas mit Federkante.',
+    licht: 'morgen', glas: 'feder', v: {grund: '#f3ece0', karte: '#fbf8f0', rand: '2px solid #b8402e', rad: '6px', tinte: '#2e2418', tinteHell: '#7a6a58', akzent: '#4d7a4a', akzentTinte: '#fbf8f0', knopf: '#fbf8f0', schatten: '2px 3px 0 rgba(120,40,30,.18)', blur: '0px', nav: '#9a3a2a', navRand: '3px solid #4d7a4a', navTinte: '#f6e6d2', navAn: '#ffe08a', bahn: '#d9cbb0', gut: '#cfe3c2', kopfgrund: '#f6efe0'}},
+  hammershoi: {name: 'Hammershøi-Stille', kunst: 'Nach Vilhelm Hammershøi: graue, stille Räume, weiches Fensterlicht, wenig Farbe. Klares Glas, gedämpftes Licht.',
+    licht: 'nebel', glas: 'klar', v: {grund: '#d8d8d4', karte: 'rgba(238,238,234,.94)', rand: '1px solid #b8b8b2', rad: '4px', tinte: '#34373a', tinteHell: '#6e7276', akzent: '#8a7b5e', akzentTinte: '#f4f2ec', knopf: 'rgba(238,238,234,.9)', schatten: '0 2px 8px rgba(40,40,40,.14)', blur: '4px', nav: '#4a4e52', navRand: '1px solid #63676b', navTinte: '#d4d4d0', navAn: '#f0e6c8', bahn: '#a9adb0', gut: '#d6dfd0', kopfgrund: '#e4e4e0'}},
+  bilderbuch: {name: 'Bilderbuch', kunst: 'Zarte Aquarelle mit feiner Linie und Ranken am Rand, wie in alten skandinavischen Bilderbüchern (angelehnt an Elsa Beskow; aus eigenem Wissen). Glas als Aquarell.',
+    licht: 'mittag', glas: 'aquarell', v: {grund: '#f6efdc', karte: 'rgba(253,249,238,.95)', rand: '1.5px solid #c99a6a', rad: '22px', tinte: '#3a2c1e', tinteHell: '#8a7660', akzent: '#c86a4a', akzentTinte: '#fff6ea', knopf: 'rgba(253,249,238,.92)', schatten: '0 3px 10px rgba(120,80,40,.16)', blur: '0px', nav: '#6a8a4a', navRand: '2px solid #4f6a36', navTinte: '#eef4dc', navAn: '#fff1b0', bahn: '#e8d6b0', gut: '#d8ecc4', kopfgrund: '#fbf1dc'}}
+};
+let stil = 'standard', bild = 'deck';
+const BILDER = {deck: 'Deck', kajuete: 'Kajüte', knoten: 'Untermenü: Knotenbrett', karte: 'Untermenü: Seekarte am Tisch'};
+
+/* ---------- Kopf einer Figur als Kreis (für „Heute auf dem Zettel“) ---------- */
+const kopf = id => `<svg viewBox="-19 -99 38 38" width="44" height="44">${F.figur(id, {blick: 'vorn', dreh: false, laune: 'froh'})}</svg>`;
+
+/* ---------- Deck wie heute ---------- */
+function deckHtml() {
+  return `<div class="buehne" id="b"></div><div class="ecke"><button aria-label="Werft">⚓</button><button aria-label="Einstellungen">${ZAHN}</button></div>
+    <div class="unten">
+      <div class="paar"><div class="karte zettel"><span class="kopf">${kopf('smilla')}</span><div><b>Heute auf dem Zettel</b><small>Smilla: 3 kleine Aufgaben</small></div></div>
+        <div class="karte weiter"><span class="play">▶</span><div><small style="opacity:.85">Weiter mit der Crew</small><b>Folge 1-3: Leise raus</b></div></div></div>
+      <div class="karte rennen"><div style="display:flex;justify-content:space-between"><b>Noch 10 Tage bis zur Prüfung</b><small style="color:var(--akzent);opacity:1;font-weight:800">2 Tage zurück</small></div>
+        <div class="bahn"><i style="left:22%">⛵</i><i style="left:38%">🚤</i><i style="left:96%">🏁</i></div><div class="leg"><span>⛵ Du (Prüfungsreife 22 %)</span><span>🚤 Prüfungsboot</span></div></div>
+      <p class="hinweis">Boot antippen: runter in die Kajüte</p>
+    </div>${nav('deck')}`;
+}
+/* ---------- Kajüte wie heute, mit Heranfahren ---------- */
+const DINGE = [['knoten', 'knoten', 'Knotenbrett', 200, 226], ['karte', 'navi', 'Seekarte', 200, 420], ['telefon', 'reden', 'Telefon', 14, 312], ['manoever', 'praxis', 'Manöverbrett', 390, 206], ['buch', 'frage', 'Bücher', 392, 284], ['hocker', 'ohr', 'Hocker', 200, 530], ['klabauter', 'licht', 'Klabauter', 336, 176]];
+function kajueteHtml() {
+  return `<div class="bw" id="bw"><div class="buehne" id="b"></div><div class="over">${DINGE.map(([k, sym, n, x, y]) => `<button class="pin" data-ding="${k}" aria-label="${n}" style="left:${((x + 40) / 4.8).toFixed(1)}%;top:${((y + 50) / 6).toFixed(1)}%">${SYM(sym)}</button>`).join('')}<div class="detail" id="det"></div></div></div>
+    <div class="ecke"><button aria-label="Einstellungen">${ZAHN}</button></div>
+    <div class="unten"><p class="hinweis" id="kinfo">Tippe auf ein Ding in der Kajüte. Die Kamera fährt hin und bleibt dort.</p>
+      <div class="liste" id="kliste">${DINGE.map(([k, sym, n]) => `<div class="karte" data-ding="${k}">${SYM(sym)}<div><b>${n}</b><small>${({knoten: '7 von 12 sicher', karte: 'Abendwache 2 von 3', telefon: 'Harms prüft dich', manoever: 'Anlegen, Wenden', buch: 'Meine Prüfungen', hocker: 'Hörreise weiterhören', klabauter: 'Lernkartei: 9 Karten'})[k]}</small></div></div>`).join('')}</div></div>${nav('kajuete')}`;
+}
+/* Einzelheiten, die beim Heranfahren auf dem Bild erscheinen (Bild bleibt stehen) */
+const DETAIL = {
+  knoten: () => `<button class="zur" data-zurueck>‹ Kajüte</button>${[['Palstek', 1, 30, 30], ['Achtknoten', 1, 70, 30], ['Kreuzknoten', 1, 30, 50], ['Schotstek', 1, 70, 50], ['Webeleinstek', 0, 30, 70], ['Rundtörn', 0, 70, 70]].map(([n, ok, x, y]) => `<span class="tag${ok ? ' ok' : ''}" style="left:${x}%;top:${y}%;transform:translate(-50%,-50%)">${ok ? '✓ ' : ''}${n}</span>`).join('')}<button class="los" style="left:50%;bottom:14px;transform:translateX(-50%)">Palstek üben</button>`,
+  karte: () => `<button class="zur" data-zurueck>‹ Kajüte</button>${[['Kuttershaven', 14, 54], ['Klüverhafen', 33, 40], ['Klappdörp', 50, 52], ['Lüttoog', 70, 38], ['Harmsoog', 88, 46]].map(([n, x, y], i) => `<span class="tag${i < 2 ? ' ok' : ''}" style="left:${x}%;top:${y}%;transform:translate(-50%,-50%)">${n}</span>`).join('')}<div class="karte" style="left:50%;bottom:64px;transform:translateX(-50%);width:80%"><b>Abendwache 2 von 3</b><small>Schritt 2 von 4: Missweisung anbringen</small></div><button class="los" style="left:50%;bottom:12px;transform:translateX(-50%)">Weiter am Kartentisch</button>`,
+  telefon: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="karte" style="left:50%;top:22%;transform:translateX(-50%);width:76%;text-align:center"><b>Harms ist bereit</b><small>Fünf Fragen, keine Ausreden.</small></div><button class="los" style="left:50%;bottom:16px;transform:translateX(-50%)">☎️ Harms anrufen</button>`,
+  manoever: () => `<button class="zur" data-zurueck>‹ Kajüte</button>${['Ablegen mit Spring', 'Anlegen', 'Wenden', 'Mann über Bord'].map((n, i) => `<span class="tag${i < 1 ? ' ok' : ''}" style="left:50%;top:${26 + i * 13}%;transform:translateX(-50%)">${n}</span>`).join('')}<button class="los" style="left:50%;bottom:14px;transform:translateX(-50%)">Anlegen üben</button>`,
+  buch: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="karte" style="left:8%;right:8%;top:16%">${[['Navigation', 34], ['Fahrregeln', 61], ['Lichter', 48], ['Recht', 80]].map(([n, p]) => `<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:4px"><span>${n}</span><span>${p} %</span></div><div style="height:7px;border-radius:4px;background:rgba(0,0,0,.1)"><div style="height:100%;width:${p}%;border-radius:4px;background:#6fa05a"></div></div>`).join('')}</div><button class="los" style="left:50%;bottom:14px;transform:translateX(-50%)">Meine Prüfungen</button>`,
+  hocker: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="karte" style="left:50%;top:24%;transform:translateX(-50%);width:80%;text-align:center"><small>Hörreise</small><b>Folge 1-3: Leise raus</b><small>noch 14 Minuten</small></div><button class="los" style="left:50%;bottom:16px;transform:translateX(-50%)">▶ Weiterhören</button>`,
+  klabauter: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="karte" style="left:8%;top:22%;width:62%"><b>„Merken! Merken!“</b><small>9 Karten in der Lernkartei</small></div><button class="los" style="left:50%;bottom:16px;transform:translateX(-50%)">Lernkartei</button>`
+};
+function nav(an) { return `<div class="nav">${[['deck', 'Deck'], ['kajuete', 'Kajüte'], ['frei', 'Frei üben']].map(([k, n]) => `<button data-nav="${k}" class="${k === an ? 'an' : ''}">${tabSvg(k)}${n}</button>`).join('')}</div>`; }
+
+/* ---------- Anzeigen ---------- */
+async function zeigen() {
+  const S = STILE[stil]; tel.dataset.stilart = stil;
+  for (const [k, v] of Object.entries(S.v)) tel.style.setProperty('--' + k.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v);
+  tel.style.setProperty('--tinte-hell', S.v.tinteHell); tel.style.setProperty('--akzent-tinte', S.v.akzentTinte);
+  /* CSS-Namen ohne Bindestrich (die Regeln oben nutzen camelCase) */
+  for (const [k, v] of Object.entries(S.v)) tel.style.setProperty('--' + k, v);
+  document.documentElement.dataset.glas = S.glas;
+  $('kunst').textContent = S.kunst;
+  const ist = bild === 'deck' ? 'deck' : 'kajuete';
+  tel.innerHTML = `<div class="screen an" id="sc">${ist === 'deck' ? deckHtml() : kajueteHtml()}</div>`;
+  const F2 = FILMB; F2.reset(); F2.licht(S.licht); F2.mount($('b'));
+  if (ist === 'deck') { await F2.ort('tankstelle', 'sofort', 'seite'); F2.sofort({p: [.5]}); F2.kamera('seite', 'totale', 'sofort'); }
+  else { await F2.ort('kajuete', 'sofort', 'innen'); F2.kamera('innen', 'totale', 'sofort'); if (bild === 'knoten' || bild === 'karte') setTimeout(() => ran(bild), 400); }
+}
+async function ran(k) {
+  const b = $('bw'); if (!b) return; b.classList.add('zoom'); const det = $('det'); det.classList.remove('an'); det.innerHTML = '';
+  await FILMB.kamera('innen', k, 'fahrt'); det.innerHTML = DETAIL[k] ? DETAIL[k]() : ''; requestAnimationFrame(() => det.classList.add('an'));
+  const i = $('kinfo'); if (i) i.textContent = 'Die Kajüte bleibt im Bild, die Einzelheiten liegen darauf. „‹ Kajüte“ fährt zurück.';
+}
+async function zurueck() { const det = $('det'); det.classList.remove('an'); await FILMB.kamera('innen', 'totale', 'fahrt'); det.innerHTML = ''; $('bw').classList.remove('zoom'); }
+tel.addEventListener('click', e => {
+  if (e.target.closest('[data-zurueck]')) return zurueck();
+  const d = e.target.closest('[data-ding]'); if (d) return ran(d.dataset.ding);
+  const n = e.target.closest('[data-nav]'); if (n && n.dataset.nav !== 'frei') { bild = n.dataset.nav; chips(); zeigen(); return; }
+  if (bild === 'deck' && e.target.closest('#b')) { bild = 'kajuete'; chips(); zeigen(); }
+});
+function chips() {
+  $('cStil').innerHTML = Object.entries(STILE).map(([k, s]) => `<button data-s="${k}" aria-pressed="${k === stil}">${s.name}</button>`).join('');
+  $('cBild').innerHTML = Object.entries(BILDER).map(([k, n]) => `<button data-b="${k}" aria-pressed="${k === bild}">${n}</button>`).join('');
+}
+$('wahl').addEventListener('click', e => { const s = e.target.closest('[data-s]'), b = e.target.closest('[data-b]'); if (s) stil = s.dataset.s; if (b) bild = b.dataset.b; if (s || b) { chips(); zeigen(); } });
+const hoehe = () => document.documentElement.style.setProperty('--oben', $('wahl').offsetHeight + 'px'); addEventListener('resize', hoehe);
+chips(); hoehe(); zeigen(); setTimeout(hoehe, 300);
+})();
+</script>
+</body>
+</html>

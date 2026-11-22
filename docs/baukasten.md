@@ -63,6 +63,19 @@ Die Kanten-Filter wirken nur auf mittlere und vordere Platten (Rechenzeit). Auf 
 - **📋 Kopieren** (oben rechts): legt alle Einstellungen als Text in die Zwischenablage (lesbare Zeilen plus Rohdaten als JSON), auch mit noch nicht übernommenen Änderungen. Zum Einfügen in den Chat, damit Claude sieht, was eingestellt ist. Ohne Zwischenablage zeigt die Werft den Text zum Markieren. Die Einstellungen liegen nur auf dem Gerät; Claude sieht sie nur so.
 - Farben aus einer festen Palette, die zum Stil passt (keine freie Farbwahl mehr): So bleibt jedes Boot im Bilderbuch-Stil.
 
+## Korrekturen, Mäuse, Fabelwesen, Menü-Stile (v5.79)
+> Nutzer, 23.11.2026: Gangarten wie voreingestellt; Polizistin bekommt einen Kollegen (schwarze Hautfarbe) und mehr Rundungen; Hafenmeister zu ähnlich gefärbt; Quirin freundlicher; Backbord flackert beim Hüpfen; Aufsicht von Smilla, Quirin, Hafenmeister zu dick; Klabauter mit Flügelschlag; mehr Gangarten für Backbord; Mäusefamilie; süße Fantasietiere; Menü wie das alte, alte Symbole, Deck und Kajüte wie heute, Heranfahren bleibt stehen und zeigt Einzelheiten, mehrere Stile.
+- **Gang je Figur:** `FIG[].gangStd` (Hinnerk Seemannsgang, Smilla flott, Harms Marsch …).
+- **Polizist** (`polizist`) als Kollege; **Polizistin** mit `rund: 1` (Taille, Hüfte, Brust dezent; jugendfrei, App ab 12).
+- **Hafenmeister:** grüne Jacke und gelbe Warnweste; **Quirin:** senffarbener Fleece, hellblaue Mütze.
+- **Aufsicht schmaler** (`menschOben`: Schulterbreite ohne vollen Körperbau-Faktor).
+- **Klabauter** im Flug mit `o.schlag` (Flügelschlag). **Backbord:** echte Beinbewegung im Gang (`KATZE_GANG`: Schleichen, Traben, Rennen, Stolzieren, Springen, Tapsen); das Flackern kam von Posenwechseln.
+- **Mäusefamilie** (`tier: 'maus'`: mausvater, mausmutter, mauskind, mausbaby; Posen sitzen, laufen, schnuppern, putzen, springen; Mütze, Kopftuch, Schal, Schleife).
+- **Fabelwesen** (`tier: 'fabel'`, eigene Erfindungen nach Sagen der Nordsee): Muschelwicht (krabbelt mit Schneckenhaus, rote Zipfelmütze wie ein Nis Puk), Nebelpuschel (wabert), Tangschrat (schlurft), Leuchtfloh (flattert und leuchtet).
+- **Kajüte der Glasbühne** neu angeordnet wie die Kajüte der App (Bullaugen mit karierten Gardinen, Wimpel, Knotenbrett in der Mitte, Lampe über dem runden Tisch, Hinnerk und Smilla auf der Bank, Hocker auf dem Teppich). Kameraziele `EINST.innen`: knoten, karte, telefon, manoever, buch, hocker, klabauter, crew, katze.
+- **Licht „Blaue Stunde“** (`LICHT.blau`) für den Skagen-Stil.
+- **Entwurfsseite** `docs/entwuerfe/menue-stile.html`: fünf Stile (Standard Glasbühne, Skagen-Abend, Larsson-Stube, Hammershøi-Stille, Bilderbuch), Deck wie heute (Boot, „Heute auf dem Zettel“ neben „Weiter mit der Crew“, Schiffsrennen, alte Leiste), Kajüte mit alten Symbolen; Antippen fährt heran, das Bild bleibt, Einzelheiten erscheinen darauf, „‹ Kajüte“ fährt zurück.
+
 ## Feder laviert als Standard, alle Figuren, Gangarten, Kajüte als Glasbühne (v5.78)
 > Nutzer, 22.11.2026: Favoriten alle „Feder laviert“, Körperbau Hinnerk/Smilla/Hilke/Klabauter kräftig, Harms schlaksig, Backbord klassisch; „Smilla etwas sexier, und wir brauchen alle anderen Charaktere … Boot von achtern und von hinten zu unterschiedlich … alle Menüpunkte und die Kajüte zum Durchklicken … Figuren animiert, verschiedene Geh-Stile“.
 - **Standard:** Zeichenstil `laviert` (index.html `lookAnwenden`, Werft), Körperbau je Figur `FIG[].typStd` (greift, solange der Nutzer nichts anderes gewählt hat; Werft „Körperbau: alle“ hat „Standard je Figur“). `LOOK_STIL` kennt jetzt alle 13 Stile (vorher nur drei: andere fielen still auf Feder zurück).

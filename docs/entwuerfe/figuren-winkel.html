@@ -75,7 +75,7 @@ textarea{width:100%;min-height:100px;font:13px/1.4 ui-monospace,Menlo,Consolas,m
 'use strict';
 const $ = id => document.getElementById(id), F = window.FIGUREN;
 const STILE = {feder: 'Feder', federfein: 'Feder fein', laviert: 'Feder laviert', aquarell: 'Aquarell', aquarellnass: 'Aquarell nass', aquarellstift: 'Aquarell mit Bleistift'};
-const IDS = ['hinnerk', 'smilla', 'hilke', 'harms', 'backbord', 'klabauter', 'quirin', 'jasper', 'hafenmeister', 'polizistin', 'schleuse', 'rangerin', 'seenotretter', 'lotse'];
+const IDS = ['hinnerk', 'smilla', 'hilke', 'harms', 'backbord', 'klabauter', 'quirin', 'jasper', 'hafenmeister', 'polizistin', 'polizist', 'schleuse', 'rangerin', 'seenotretter', 'lotse'];
 const NAME = Object.fromEntries(Object.entries(F.FIG).map(([k, f]) => [k, f.name]));
 const W_MENSCH = [['seite', 'Seite', {blick: 'seite'}], ['ruecken', 'Hinten', {blick: 'ruecken'}], ['vorn', 'Vorn', {blick: 'vorn'}], ['oben', 'Oben', {blick: 'oben'}]];
 const W_TIER = {backbord: [['seite', 'Seite', {pose: 'laufen'}], ['sitzen', 'Sitzt', {pose: 'sitzen'}], ['putzen', 'Putzt sich', {pose: 'putzen'}], ['oben', 'Oben', {blick: 'oben'}]],
