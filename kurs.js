@@ -39,7 +39,7 @@
   let aussehenAkt = 's', buehnenCrew = [];
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
-  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen'};
+  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen', Piep: 'piep'};   /* v5.83 Piep: Anrufbeantworter */
   const TON_DAUER = {glocke: 1.2, schritte: 2};
   const DENK_MIN = 6;   /* B152 (Nutzer, 27.10.2026): im Auto-Modus immer sechs Sekunden */
   /* Revier → leise Dauer-Geräusche */
@@ -690,7 +690,10 @@
   function filmLicht(f) {
     if (!window.FILMB || !FILMB.licht) return;
     const sz = f && f.items ? f.items.find(x => x.t === 'szene') : null, t = String(sz ? sz.text : '').toLowerCase();
-    FILMB.licht(/nebel|diesig/.test(t) ? 'nebel' : /regen|schauer|niesel|sturm/.test(t) ? 'regen' : /nacht|dunkel/.test(t) ? 'nacht' : /abend|dämmer/.test(t) ? 'abend' : /früh|morgen/.test(t) ? 'morgen' : 'mittag');
+    const l = /nebel|diesig/.test(t) ? 'nebel' : /regen|schauer|niesel|sturm/.test(t) ? 'regen' : /nacht|dunkel/.test(t) ? 'nacht' : /abend|dämmer/.test(t) ? 'abend' : /früh|morgen/.test(t) ? 'morgen' : 'mittag';
+    FILMB.licht(l);
+    /* die Uhr in der Kajüte zeigt die Zeit der Szene, nicht die des Handys (Lektorat 22.11.2026) */
+    if (FILMB.uhr) FILMB.uhr({morgen: 8 * 60 + 10, mittag: 10 * 60 + 20, abend: 19 * 60 + 30, nacht: 23 * 60 + 10, nebel: 8 * 60 + 40, regen: 15 * 60 + 5}[l]);
   }
   function aussehenSetzen(d) {
     aussehenAkt = AUSSEHEN[d] ? d : 's'; const r = document.getElementById('kursplayer'); if (!r) return;

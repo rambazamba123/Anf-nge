@@ -275,7 +275,9 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
       {wer: H, t: 'Und riecht es unten doch nach Gas: Gaszufuhr zu und lüften. Keinen Schalter anfassen, kein Funkgerät, kein Handy.', min: 8, cap: 'Gas im Boot: zu, lüften, kein Schalter'}],
     enter(s, p, st) { st.ps = []; st.fill = p === 1 ? 2.75 : p === 3 ? .8 : 0; st.split = null; st.rauch = [];
       put(q(s, '#gkiste'), {opacity: p === 2 ? .25 : 1}); put(q(s, '#gkast'), {opacity: p === 2 ? 1 : 0}); put(q(s, '#gzu'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gluft'), {opacity: p === 3 ? 1 : 0}); put(q(s, '#gverbot'), {opacity: p === 3 ? 1 : 0});
-      q(s, '.ghin').textContent = ['', '', 'Gas läuft nach außenbords ab', ''][p] || ''; },
+      q(s, '.ghin').textContent = ['', '', 'Gas läuft nach außenbords ab', ''][p] || '';
+      /* v5.83 (Lektorat 22.11.2026): in Phase 2 kommt die Leitung vom Gaskasten an Deck, nicht mehr aus dem leeren Schapp; die Luke ist nach der Explosion wieder da */
+      put(q(s, '#gltg'), {d: p === 2 ? 'M90 205 H118 V312 H236' : 'M118 334 V312 H236'}); if (p !== 1) put(q(s, '#gluke'), {transform: '', opacity: 1}); },
     tick(s, tp, p, st) {
       const dt = st.dt || .016, ps = st.ps, top = BI - st.fill * 58;
       if (p === 0 && st.fill < 1 && Math.random() < dt * 16) ps.push({x: 107, y: 332, vx: -10 + Math.random() * 30, vy: 4, r: 7 + Math.random() * 6, a: 1});
@@ -305,13 +307,14 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
         put(q(s, '#gfill'), {opacity: b > .3 ? 0 : 1});
         if (!st.qu) st.qu = Array.from({length: 18}, (_, i) => ({x: 90 + Math.random() * 220, y: 240 + Math.random() * 100, r: 18 + Math.random() * 22, v: 12 + Math.random() * 18}));
         q(s, '#gqualm').innerHTML = b < .5 ? '' : st.qu.map(k => `<circle cx="${k.x.toFixed(0)}" cy="${Math.max(110, k.y - (b - .5) * k.v * 3).toFixed(0)}" r="${(k.r * Math.min(2, .6 + (b - .5) * .5)).toFixed(0)}" fill="#5a5a5a" fill-opacity="${Math.min(.75, (b - .5) * .8).toFixed(2)}"/>`).join(''); }
-      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gluke'), {transform: ''}); put(q(s, '#gloch'), {opacity: 0}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
+      else { st.qu = null; q(s, '#gqualm').innerHTML = ''; put(q(s, '#gwelt'), {transform: ''}); put(q(s, '#gluke'), {transform: '', opacity: 1}); put(q(s, '#gloch'), {opacity: 0}); put(q(s, '#gflash'), {opacity: 0}); put(q(s, '.gwum'), {opacity: 0}); put(q(s, '#gfill'), {opacity: 1}); q(s, '#gsplit').innerHTML = ''; }
     }});
 })();
 
 /* ---------- A1.8 Tanken ohne Knall (SBF 49, 43; Luken und Lüften als Wissen) ----------
    v5.56 (Nutzer 09.11.2026): Tankdeckel seitlich am Rumpf geht auf, der Schlauch wird rangeführt, der Lappen kommt erst, wenn er gesagt wird;
-   Deckel, Zapfpistole und Lappen schaukeln mit dem Boot. Phasen: 0 vorher, 1 kein Feuer, 2 Deckel auf und tanken, 3 Lappen, 4 Luken und Lüften, 5 Bilge. */
+   Deckel, Zapfpistole und Lappen schaukeln mit dem Boot. Phasen: 0 vorher, 1 kein Feuer, 2 Deckel auf und tanken, 3 Lappen, 4 Luken und Lüften, 5 Bilge.
+   v5.83 (Lektorat 22.11.2026): Bug links, damit die Frieda wie im Film und in Folge 1-3 mit Steuerbord am Steg liegt; der Stutzen sitzt dadurch im Vorschiff. */
 (() => { const BX = 262, WL = 336, SK = 1.5, FL = [-42, -22], ZX = 18 + 76, ZY = 74 + 112;
   const LISTE = [['Motor aus', 49], ['Keine Schalter betätigen', 49], ['Kein Feuer, nicht rauchen', 49], ['Nichts überlaufen lassen', 49], ['Danach: Bilge gucken', 0], ['Öl: Lappen, an Land entsorgen', 43]];
   const kl = x => Math.max(0, Math.min(1, x)), weich = x => x * x * (3 - 2 * x);
@@ -322,7 +325,7 @@ const fit = (e, max = 370) => { if (!e) return; e.removeAttribute('textLength');
         <rect x="12" y="40" width="72" height="44" rx="5" fill="#1d2630" stroke="#555" stroke-width="2"/><text class="t tl" x="76" y="58" text-anchor="end" font-size="13" fill="#7dff9a" stroke="none">0,0 l</text><text class="t te" x="76" y="78" text-anchor="end" font-size="11" fill="#ffd36b" stroke="none">0,00 €</text>
         <rect x="64" y="98" width="24" height="44" rx="6" fill="#7a2a28"/><rect x="-4" y="168" width="104" height="10" rx="3" fill="#7a7f87"/></g>
       <path id="tschl" fill="none" stroke="#222" stroke-width="9" stroke-linecap="round"/><path id="tschl2" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9"/>
-      <g id="tboot">${BO.seite({})}</g>
+      <g id="tboot">${BO.seite({bugLinks: true})}</g>
       <g id="tstutzen"><circle r="8.5" fill="#d0d4da" stroke="#555" stroke-width="2"/><circle r="5" fill="#2b2b2b"/><text class="t" x="0" y="-14" text-anchor="middle" font-size="11" fill="#333" stroke="none">TANK</text>
         <g id="tdeckel"><circle cx="0" cy="0" r="8" fill="#9aa1aa" stroke="#555" stroke-width="2"/><path d="M-4 0 H4" stroke="#555" stroke-width="2"/></g></g>
       <g id="tlap" opacity="0"><path d="M-16 6 q6 8 14 2 q8 6 16 -2 l-2 9 q-14 7 -26 0z" fill="#f3d36b" stroke="#a88a2a" stroke-width="1.5"/><path d="M-10 9 l3 4 M2 8 l2 5" stroke="#c9c9c9" stroke-width="1.2"/></g>

@@ -88,8 +88,8 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     Math.abs(r.fender - .5) < .01 ? ok(`Filmbühne läuft (Ort ${r.ort})`) : schlecht('Filmbühne steht still: Handlung kommt nicht an (' + r.fender + ')');
     errs.length ? schlecht('Konsole (Filmprobe A): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Filmprobe A)'); await ctx.close(); }
   /* v5.83 Tag 1 als Film (E36, FK17): die Kajüte ist Szenenbild; Klabauter fehlt bis 1-6 (TU klab), in 1-3 steht Hinnerk oben am Ruder (TU hin),
-     die Kamera fährt an die Kombüse (1-2) und ans Manöverbrett (1-3); beim Wechsel an Deck ist der Liegeplatz da (1-1) */
-  for (const [id, ab, will] of [['reise-1-1', 'Kaffee ohne Papagei', {ort: 'kajuete', klab: 0, hin: 1}], ['reise-1-1', 'Hafenkino', {ort: 'liegeplatz'}],
+     die Kamera fährt an die Kombüse (1-2) und ans Manöverbrett (1-3); an Deck schaut man in 1-1 über die Bordwand aufs Charterboot gegenüber (Lektorat 22.11.2026) */
+  for (const [id, ab, will] of [['reise-1-1', 'Kaffee ohne Papagei', {ort: 'kajuete', klab: 0, hin: 1}], ['reise-1-1', 'Hafenkino', {ort: 'gegenueber'}],
     ['reise-1-2', 'Der Gashahn', {ort: 'kajuete', klab: 0, hin: 1, blick: 'kombuese'}], ['gold-1', 'Kalter Kaffee', {ort: 'kajuete', klab: 0, hin: 0, blick: 'manoever'}]]) {
     const {p, ctx, errs} = await oeffne(b, id, ab); let z = null;
     for (let i = 0; i < 60; i++) { await sleep(250);

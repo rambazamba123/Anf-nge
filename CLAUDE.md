@@ -169,6 +169,17 @@ Plan, Befund und Stand: **`docs/plan-hoerspiel-neu.md`** (nach einem Abbruch dor
   - Leichte Stufe: Die Bühne misst selbst, ob das Wischen ruckelt.
   - Werkstatt-Schalter für das alte Bild.
   - Rauch- und Bühnentest auf die App umgestellt.
+- [x] v5.83 (22.11.2026) Tag 1 als Film, Kajüte als Szenenbild (E36, Plan `docs/plan-bord.md` Etappe B):
+  - Folgen 1-1 bis 1-3 neu als Film (`podcast/folgen/film-1-1.md` bis `film-1-3.md`, IDs bleiben; die Fassungen ohne Film unter „Alte Folgen und Tests“):
+    - 1-1: Kaffee am Kajütentisch, Klabauters leere Stange mit Schälchen, Barometer, Tagesziel auf der Karte; Hafenkino aus dem Cockpit mit dem Charterboot gegenüber (vier Statisten, der mit der roten Mütze); Harms auf dem Anrufbeantworter des roten Telefons.
+    - 1-2: Harms erzählt, was bisher geschah, und fragt zurück; Gashahn-Einweisung an der Kombüse, Backbord auf dem kalten Kocher.
+    - 1-3 (Fassung A): Hinnerk schickt dich Kaffee holen, Smilla zeigt das Manöverbrett, von dort die Aufsicht auf Klüverhafen.
+  - Grundlagen: FK17 „Kajüte als Szenenbild“ (`docs/film-regeln.md`), Hinweise in Schreibkarte und Vorlage, Logbuch.
+  - Lektorat (5 Fehler, rund 30 Hinweise, `docs/lektorat/film-1-1-bis-1-3.md`), dabei behoben:
+    - Baukasten-Boote blinkten in allen Animationen halb durchsichtig (Namenskonflikt `.bl`).
+    - Manöverbrett „Anlegen“ zeigte die falsche Seite; Tank-Animation jetzt mit Steuerbord am Steg; Gas-Animation ohne Reste der Explosion.
+  - Filmbühne: Licht und Uhr kommen aus der Szene (vorher übernahmen Filmfolgen das Tageslicht der App), neue Schalter `hin`, `leer`, `kk`, `block`, `kessel`, `dampf`, `dose`, `eboot`, `weg`.
+  - Werkzeuge: Logik- und Kartenprüfung lesen `film-*.md`, die Sprüchekiste überspringt `status: alt`; Bühnentest prüft die Kajüten-Szenen.
 
 ### Jetzt dran
 - **Hörtest Tag 1 (Nutzer):** Folge 1-1 bis 1-5 mit der Gratis-Stimme hören und sehen (seit v5.83 laufen 1-1 bis 1-3 als Film mit der Kajüte als Szenenbild; die Fassungen ohne Film liegen unter „Alte Folgen und Tests“), zum Vergleich die alte 1-3, danach die Abendwache (Navi-Folge 1) und am nächsten Tag deren Test. Am Ende jeder Folge „Wie war das Tempo?“ antippen. Danach entscheidet der Nutzer über die Machart (GL4, Harms fragt zurück, Länge), dann wird **eine Szene** vertont (nicht vorher, T5: Credit-Deckel 25.000).

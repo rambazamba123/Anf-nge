@@ -21,6 +21,7 @@ machart: neu
 # Fragen: 49 und 63 als natürliches Entweder-oder (HR59), 43 und 64 als offene Denkfragen mit Auflösung. Hinnerk irrt an der Zapfsäule (Pfeife), Smilla und Hilke stellen es klar.
 # Kamera (FK1–FK17): Kapitel 1 Tankstelle von der Seite (Glasplatten), Schärfe auf Hilke (FK4). Kapitel 2 bleibt, die Animation „tanken“ zeigt den Ablauf (FK5). Kapitel 3 Schärfe auf Hilke, Animation „gas“ (Gas sinkt in die Bilge).
 #   Kapitel 4 Nebelblende in die Kajüte (FK10), Fahrt an die Kombüse (FK4), zurück in die Runde.
+# Lektorat 22.11.2026 (docs/lektorat/film-1-1-bis-1-3.md): Motor läuft schon in Kapitel 1, Hilke kommt mit den Schritten, „keinen Schalter anfassen“ statt „alles aus“, Lappen und Gas-Antwort nicht mehr vorab im Bild, Gasgeruch als Vorstellung, Backbord sitzt sichtbar auf dem kalten Kocher.
 # Ernstfall (HR28): Der Gasgeruch passiert hier NICHT, er kommt in 1-7 beim Kochen (Backbord am Kocher bereitet es vor).
 # Gezeiten (HR51): Hochwasser Kuttershaven um elf; wer jetzt losmacht, hat in der Brede den Flutstrom mit (erste Spur, ohne Erklärung).
 # Anreden: eine (Hinnerk). Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json; Hilkes Geschichten sind erzählt, keine Statistik. Ohne quellen/ geprüft (R8).
@@ -32,12 +33,15 @@ machart: neu
 [[SZENE: Bootstankstelle am Steg in Kuttershaven, Vormittag, Sonne. Die Frieda liegt längsseits an der Zapfsäule im Hafen. Hinnerk am Tankstutzen, Smilla an der Leine. Hilke kommt über den Steg.]]
 [[REVIER: hafen]]
 [[ORT: tankstelle]]
+[[TU: hx=470/10, motor=1/10]]
 [[HARMS: anfang]]
 HARMS: Tag eins, früh. Kuttershaven. Vier Mann auf einem Charterboot, und keiner hatte das Sagen.
 HARMS: Ich hab Hinnerk angerufen. Er ist nicht rangegangen. Hat er aber gehört. Sieben Tage, dann prüf ich.
 [[HARMS: ende]]
 [[AUDIO: Möwen]]
+[[AUDIO: Motor]]
 [[AUDIO: Schritte]]
+[[TU: hx=150/2600]]
 [[KAMERA: seite, hilke, schaerfe]]
 HAFENMEISTER: [[SPRUCH: hm-hafen-04]] Hinnerk, dein Strom ist nicht bezahlt.
 HINNERK: Moin, Hilke.
@@ -70,7 +74,6 @@ HINNERK: Ja, ja. Is ja gut.
 [[SZENE: Hinnerk steckt die Zapfpistole in den Tankstutzen der Frieda. Hilke steht auf dem Steg daneben, Hafen, Vormittag.]]
 [[REVIER: hafen]]
 [[STOFF: sbf:49, sbf:43]]
-[[TU: motor=1/300]]
 [[AUDIO: Motor]]
 SMILLA: Käpt'n, der Motor läuft noch.
 HAFENMEISTER: Hinnerk.
@@ -80,7 +83,7 @@ SMILLA: Frage an dich. Reicht beim Tanken Leerlauf, oder muss der Motor ganz aus
 [[WAHL: sbf:49 | Leerlauf reicht | *der Motor muss ganz aus]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:49]]
-SMILLA: Die Falle ist der Leerlauf. Ein laufender Motor ist heiß und macht Funken, auch wenn sich der Propeller nicht dreht. Und genau darum geht es beim Tanken: Unten sammelt sich Dampf, und alles, was zünden kann, muss aus sein. Also Motor aus, keine elektrischen Schalter, kein Feuer, und ein Lappen liegt bereit, falls etwas überläuft.
+SMILLA: Die Falle ist der Leerlauf. Ein laufender Motor ist heiß und macht Funken, auch wenn sich der Propeller nicht dreht. Und genau darum geht es beim Tanken: Unten sammelt sich Dampf, und alles, was zünden kann, muss aus sein. Also Motor aus, keine elektrischen Schalter betätigen, kein Feuer, und ein Lappen liegt bereit, falls etwas überläuft.
 [[VERTIEFUNG: ende]]
 [[TU: motor=0/600]]
 HINNERK: Ganz aus. Leerlauf reicht nich. So. Is aus.
@@ -94,12 +97,13 @@ HINNERK: Hatten wir.
 HINNERK: Lappen. Unter den Stutzen. Halten.
 SMILLA: Das bist du. Halt ihn drunter.
 HAFENMEISTER: Die Leute denken immer: Fenster zu und Feuerlöscher bereit, dann passt das. Passt nicht, wenn der Motor im Leerlauf tuckert oder einer am Schalter dreht.
-SMILLA: Beim Tanken ist alles aus. Motor, Schalter, Feuer.
+SMILLA: Beim Tanken: Motor aus, keinen Schalter anfassen, kein Feuer.
 HINNERK: Voll. Und keen Tropfen daneben.
 HAFENMEISTER: Fast keiner.
 HINNERK: [[INTENTION: schnaubend]] Fast.
 SMILLA: Für sieben Meilen hätte der halbe Tank gereicht.
 HINNERK: Wir fahren sieben Tage. Nich sieben Meilen.
+[[ANIM: tanken, 4]]
 HINNERK: Bilge gucken. Mach ich immer nach'm Tanken.
 HINNERK: [[INTENTION: genervt]] Schiet. Da glänzt wat. Bisschen Öl.
 [[AUDIO: Schiffsglocke]]
@@ -122,10 +126,8 @@ HINNERK: Natürlich.
 HAFENMEISTER: Wenigstens die Gasflasche steht bei dir richtig, Hinnerk.
 HINNERK: Steht da seit dreißig Jahren.
 HAFENMEISTER: Letzten Sommer hatte ich hier einen, die Flasche unten im Boot. In einem Schapp unter den Bodenbrettern.
-[[ANIM: gas, 0]]
 HINNERK: Oha.
 HAFENMEISTER: Ventil nicht ganz dicht. Über Nacht ist das Gas runtergelaufen, in die Bilge. Morgens steigt er runter und knipst das Licht an.
-[[ANIM: gas, 1]]
 SMILLA: Und?
 HAFENMEISTER: Die Luke lag im Hafenbecken. Er hatte Glück, er stand noch auf der Treppe, halb draußen. Sein Boot hatte keins.
 [[AUDIO: Schiffsglocke]]
@@ -135,6 +137,7 @@ SMILLA: Frage an dich, Hilke hat's vorhin schon gesagt. Propan und Butan, das Ga
 [[VERTIEFUNG: sbf:63]]
 SMILLA: Schwerer. Wäre Gas leichter als Luft, würde es durch die Luke nach oben abziehen, und es wäre viel weniger gefährlich. Aber Propan und Butan sind schwerer. Sie laufen nach unten, sammeln sich unbemerkt in der Bilge und bilden dort mit Luft ein explosives Gemisch. Ein Funke reicht.
 [[VERTIEFUNG: ende]]
+[[ANIM: gas, 0]]
 SMILLA: Schwerer. Gas benimmt sich wie Wasser: Es läuft nach unten und sammelt sich in der Bilge.
 HINNERK: Darum steht meine an Deck. Im Schatten.
 [[ANIM: gas, 2]]
@@ -146,11 +149,11 @@ HINNERK: Ja, ja.
 [[AUDIO: Schritte]]
 
 [[ABSCHNITT: Der Gashahn]]
-[[SZENE: Unten in der Kajüte der Frieda, sie liegt noch an der Tankstelle. Hinnerk und Smilla sitzen am Tisch, du auf dem Hocker. Hinnerk zeigt rüber zur Kombüse, auf die Drehknöpfe am Kocher und den Gashahn mit dem roten Hebel. Backbord streicht um den Herd.]]
+[[SZENE: Unten in der Kajüte der Frieda, sie liegt noch an der Tankstelle. Hinnerk und Smilla sitzen am Tisch, du auf dem Hocker. Hinnerk zeigt rüber zur Kombüse, auf die Drehknöpfe am Kocher und den Gashahn mit dem roten Hebel. Der Kocher ist aus, Backbord hat sich draufgesetzt.]]
 [[REVIER: hafen]]
 [[STOFF: sbf:64, sbf:65, sbf:66]]
 [[ORT: kajuete, nebel, innen]]
-[[TU: klab=0/10]]
+[[TU: klab=0/10, kessel=0/10, kk=1/10]]
 [[KAMERA: innen, kombuese, fahrt]]
 HINNERK: Kiek mol. Dat da am Kocher, dat sind die Ventile. Und der rote Hebel is der Gashahn. Der Haupthahn sitzt oben an der Flasche.
 SMILLA: Er macht Einweisung. Das macht er nur, wenn er sich vorher blamiert hat.
@@ -161,7 +164,8 @@ HINNERK: War noch Gas da. Augenbrauen hatte er danach keine mehr.
 SMILLA: Dümmer geht's nicht.
 [[KAMERA: innen, runde, fahrt]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Es riecht hier unten nach Gas. Was tust du? Licht an und nachsehen, wo es herkommt? Oder Gas zu, Luken auf und keinen Schalter anfassen?
+SMILLA: Frage an dich. Stell dir vor, es riecht hier unten nach Gas.
+SMILLA: Was tust du? Licht an und nachsehen, wo es herkommt? Oder Gas zu, Luken auf und keinen Schalter anfassen?
 [[DENKPAUSE: 6]]
 HINNERK: Hahn zu. Luken auf. Und dann fasst keiner wat an.
 SMILLA: Kein Lichtschalter, kein Funkgerät, kein Handy. Auch nicht schnell anrufen, um Hilfe zu holen. Jeder Schalter, jedes Handy kann einen Funken machen.
@@ -173,13 +177,16 @@ SMILLA: Erst geprüft, dann dicht, dann auf. Und aufmachen darfst du sie selbst.
 HINNERK: Und wenn wir nich kochen: Hahn zu.
 SMILLA: Wer nicht kocht, dreht zu: Haupthahn und Absperrventile schließen. Leeren oder die Flasche wegwerfen muss man nichts.
 HINNERK: Wär ja auch Verschwendung.
+[[KAMERA: innen, kombuese, fahrt]]
 [[AUDIO: Katze]]
 SMILLA: Und du, Backbord, gehst vom Kocher runter. Der ist nicht zum Wärmen.
 HINNERK: Lass se. Solang der Hahn zu is, is dat nur 'n Blech.
 SMILLA: Solange.
+[[TU: kk=0/700]]
+[[KAMERA: innen, runde, fahrt]]
 SMILLA: Hochwasser um elf, hat Hilke gesagt. Wenn wir jetzt losmachen, haben wir in der Brede den Strom mit.
 HINNERK: Gleich geht's los.
 SMILLA: Und Hilkes Stromrechnung?
 HINNERK: Morgen.
 [[KISTE: Hol deine Miniatur-Frieda aus der Kiste und zeig, wo die Gasflasche stehen muss: an Deck oder in einem eigenen Kasten mit Loch ganz unten. Dann zeig mit dem Finger, wohin das Gas laufen würde, wenn die Flasche unten im Boot stünde: ganz nach unten in die Bilge.]]
-[[MITNEHMEN: Benzindampf und Gas sind schwerer als Luft und sammeln sich unten in der Bilge | Beim Tanken alles aus: Motor, Schalter, Feuer, und ein Lappen gegen Überlaufen. Öl in der Bilge mit dem Lappen aufnehmen | Riecht es nach Gas: Hahn zu, Luken auf, nichts anfassen, was Funken macht]]
+[[MITNEHMEN: Benzindampf und Gas sind schwerer als Luft und sammeln sich unten in der Bilge | Beim Tanken: Motor aus, keinen Schalter anfassen, kein Feuer, ein Lappen gegen Überlaufen. Öl in der Bilge mit dem Lappen aufnehmen | Riecht es nach Gas: Hahn zu, Luken auf, nichts anfassen, was Funken macht]]

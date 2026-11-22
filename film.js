@@ -111,6 +111,20 @@ function friedaSeite(id) {
     <g id="${id}-gischt" opacity="0"><path d="M-84 10 Q-96 4 -108 10 Q-96 8 -88 14Z" fill="${P.glanz}"/><path d="M-100 8 q-6 -5 -12 0" stroke="${P.glanz}" stroke-width="1.6" fill="none"/></g>
   </g></g>`;
 }
+/* v5.83 Charterboot im Hafenkino: fremde Farben (kein Ausbau), vier Männer hinter dem Schanzkleid (Bug-rechts-Koordinaten wie BOOT.seite), Bierdose bei der roten Mütze */
+function charterBoot() {
+  const bo = B(); if (!bo) return '';
+  const m = (id, x, y, sk, o = {}) => `<g transform="translate(${x} ${y}) scale(${sk} ${Math.abs(sk)})">${C(id, {blick: 'seite', ...o})}</g>`;
+  const crew = `<g id="gg-crew">${m('charter2', -54, -16, .36)}${m('charter1', -74, -16, .36)}${m('charter4', 30, -20, .35)}${m('charter3', 62, -22, -.36)}
+    <g id="gg-dose" opacity="0" transform="translate(-65 -36)"><rect x="-2.3" y="-4.2" width="4.6" height="7.4" rx="1" fill="#c8382e" stroke="#5a1a10" stroke-width=".5"/><rect x="-2.3" y="-4.2" width="4.6" height="1.4" fill="#d9d9d9"/></g></g>`;
+  return `<g class="fb-bob">${bo.seite({farbe: {rumpf: '#f6f3ec', streifen: '#2f6a9a', unterwasser: '#2b3b4a', dach: '#dfe6ea', schrift: '#2f6a9a', deck: '#e6e0d2'}, hinter: crew})}</g>`;
+}
+/* v5.83 Leih-Elektroboot (Folge 1-1): kleine Schale, zwei Sonnenhüte, leise */
+function leihboot() {
+  const kopf = (x, hut) => `<g transform="translate(${x} -15)"><rect x="-5" y="-2" width="10" height="11" rx="4" fill="${hut === 1 ? '#e05a4a' : '#5a8fc0'}"/><circle cx="0" cy="-5" r="4.4" fill="#f0c8a6"/><ellipse cx="0" cy="-8" rx="10" ry="2.6" fill="#e8cf8a" stroke="#b8963a" stroke-width=".7"/><path d="M-4.6 -8.4 Q0 -15 4.6 -8.4Z" fill="#e8cf8a" stroke="#b8963a" stroke-width=".7"/><path d="M-4.6 -9 H4.6" stroke="${hut === 1 ? '#c0392b' : '#2f6a9a'}" stroke-width="1.2"/></g>`;
+  return `<g class="fb-bob"><path d="M-34 -6 H32 Q38 -6 34 2 Q30 8 22 8 H-28 Q-36 6 -34 -6Z" fill="#fbf8f2" stroke="#5f5446" stroke-width="1.6"/><path d="M-33 -1 H35" stroke="#3c8a5a" stroke-width="2.4"/>
+    <path d="M-34 -6 H32" stroke="#5f5446" stroke-width="1.2"/>${kopf(-12, 1)}${kopf(8, 2)}<rect x="-38" y="-10" width="6" height="12" rx="2" fill="#3b3f44"/><path d="M-35 2 V12" stroke="#3b3f44" stroke-width="2"/></g>`;
+}
 function friedaHeck(id, uo) {
   const bo = B(); if (!bo) return `<g id="${id}"></g>`;
   const mitte = `<g transform="translate(40 -40) scale(.36)">${C('smilla', {blick: 'vorn'})}</g>
@@ -239,7 +253,7 @@ function manoeverbrett() {
   const bild = (art, bx, by) => { const boot = (tx, ty, r) => `<g transform="translate(${tx} ${ty}) rotate(${r})"><path d="M0 -6 Q3 -2 3 4 L-3 4 Q-3 -2 0 -6Z" fill="#f3ead2" stroke="#1d2a38" stroke-width=".6"/></g>`;
     const pf = d => `<path d="${d}" stroke="#f0a23a" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
     if (art === 'ab') return `<rect x="${bx + 2}" y="${by + 3}" width="5" height="22" fill="#8a6440"/>` + boot(bx + 11, by + 15, 0) + pf(`M${bx + 13} ${by + 8} q8 -2 12 -6 m-3 0 l3 0 l-1 3`);
-    if (art === 'an') return `<rect x="${bx + 24}" y="${by + 3}" width="5" height="22" fill="#8a6440"/>` + boot(bx + 12, by + 16, 28) + pf(`M${bx + 5} ${by + 22} q6 -2 11 -8 m-3 0 l3 0 l0 3`);
+    if (art === 'an') return `<rect x="${bx + 3}" y="${by + 3}" width="5" height="22" fill="#8a6440"/>` + boot(bx + 17, by + 16, -28) + pf(`M${bx + 28} ${by + 22} q-6 -2 -11 -8 m3 0 l-3 0 l0 3`);   /* Pier links: Anlegen mit Backbord (Rechtsdreher) */
     if (art === 'wenden') return boot(bx + 15, by + 19, 0) + pf(`M${bx + 15} ${by + 12} q-1 -9 7 -8 q6 1 4 8 m-2 -2 l2 2 l2 -2`);
     return `<circle cx="${bx + 16}" cy="${by + 12}" r="5.6" fill="none" stroke="#e8e2d0" stroke-width="2.4"/><circle cx="${bx + 16}" cy="${by + 12}" r="5.6" fill="none" stroke="${KJ.rot}" stroke-width="2.4" stroke-dasharray="2.2 2.2"/><circle cx="${bx + 16}" cy="${by + 7.4}" r="1.6" fill="#f0c8a6"/>` + boot(bx + 7, by + 22, -60);
   };
@@ -283,7 +297,8 @@ function telefon() {
     ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => { const a = (i * 30 - 60) * Math.PI / 180; return `<circle cx="${r1(40 + Math.cos(a) * 7.4)}" cy="${r1(162 + Math.sin(a) * 7.4)}" r="1.6" fill="none" stroke="${KJ.rotD}" stroke-width=".6"/>`; }).join('')}<circle cx="40" cy="162" r="3" fill="${KJ.rot}"/>
     <path d="M14 136 q26 -12 52 0 l-3 6 q-23 -9 -46 0z" fill="${KJ.rotD}" stroke="${KJ.tinte}" stroke-width=".8"/><circle cx="16" cy="139" r="4.2" fill="${KJ.rotD}"/><circle cx="64" cy="139" r="4.2" fill="${KJ.rotD}"/>
     <g transform="rotate(-6 44 198)"><rect x="34" y="186" width="20" height="24" fill="#fbf4dc" stroke="#b9a274" stroke-width=".6"/><circle cx="44" cy="187.5" r="1.4" fill="${KJ.rot}"/><text x="44" y="195" font-family="${KJ.schrift}" font-weight="800" font-size="3.6" fill="${KJ.rotD}" text-anchor="middle">HARMS</text>
-    <path d="M37 199 h14 M37 203 h11 M37 207 h13" stroke="#8a7a5a" stroke-width=".7"/></g></g>`;
+    <path d="M37 199 h14 M37 203 h11 M37 207 h13" stroke="#8a7a5a" stroke-width=".7"/></g>
+    <g id="fk-ab"><rect x="62" y="166" width="19" height="14" rx="2" fill="#3a3e42" stroke="${KJ.tinte}" stroke-width=".6"/><rect x="64.5" y="169" width="9" height="5.6" rx="1" fill="#1f2226"/><circle cx="66.8" cy="171.8" r="1.4" fill="#5a5e62"/><circle cx="71.2" cy="171.8" r="1.4" fill="#5a5e62"/><circle class="fk-ab-lampe" cx="77.5" cy="171.6" r="1.5" fill="#e8463c"/></g></g>`;   /* v5.83 Anrufbeantworter (1-1: Harms spricht drauf) */
 }
 function bullauge(x, y, r, inhalt = '') {
   const id = 'kjb' + Math.round(x + 1000);
@@ -296,7 +311,7 @@ function bullauge(x, y, r, inhalt = '') {
 function gardine(x, sd, y0, y1) { const m = y1 - y0; return `<g class="fk-gard"><path d="M${x} ${y0} Q${x + sd * 11} ${r1(y0 + m * .26)} ${x + sd * 5} ${r1(y0 + m * .55)} Q${x + sd * 2} ${r1(y0 + m * .78)} ${x + sd * 9} ${y1} L${x + sd * 22} ${y1} Q${x + sd * 17} ${r1(y0 + m * .72)} ${x + sd * 21} ${r1(y0 + m * .45)} Q${x + sd * 24} ${r1(y0 + m * .2)} ${x + sd * 19} ${y0}Z" fill="url(#fk-karo)" stroke="#8a2a22" stroke-width="1.2"/><path d="M${x + sd * 4} ${r1(y0 + m * .62)} q${sd * 8} 5 ${sd * 18} 0" stroke="#8a2a22" stroke-width="2.4"/></g>`; }
 function kajueteEbenen() {
   const {holz, holzH, holzD, dunkel, messing, papier, tinte} = KJ;
-  const std = new Date(), stunde = std.getHours() % 12 + std.getMinutes() / 60;
+  const std = uhrMin != null ? {getHours: () => Math.floor(uhrMin / 60) % 24, getMinutes: () => uhrMin % 60} : new Date(), stunde = std.getHours() % 12 + std.getMinutes() / 60;   /* v5.83: Film zeigt die Zeit der Szene */
   /* Licht (v5.82, Nutzer: „Licht könnte schöner fallen, gemütlicher“): warme Lampe, Lichtbahnen aus den Bullaugen (tags), dunklere Ecken; nachts nur Lampe und Mondlicht */
   const nacht = lichtName === 'nacht', abend = lichtName === 'abend' || lichtName === 'blau', grau = lichtName === 'nebel' || lichtName === 'regen';
   const strahlF = nacht ? '#bcd0ff' : abend ? '#ffc98a' : grau ? '#e6ece9' : '#fff1c2', strahlO = nacht ? .07 : grau ? .08 : abend ? .2 : .16, lampeO = nacht ? .6 : abend ? .5 : .4;
@@ -367,9 +382,10 @@ function kajueteEbenen() {
       <rect x="-142" y="184" width="54" height="26" rx="3" fill="#8f9396" stroke="${tinte}" stroke-width=".8"/>${[-128, -102].map(x => `<ellipse cx="${x}" cy="186" rx="10" ry="2.6" fill="#3a3a3a"/>`).join('')}
       ${[-128, -102].map(x => `<circle cx="${x}" cy="199" r="3.2" fill="#2e2e2e" stroke="${tinte}" stroke-width=".6"/><path d="M${x} 196.6 v2.6" stroke="#e8e2d0" stroke-width="1"/>`).join('')}<g id="kj-gashahn"><path d="M-86 203 h9 v22" stroke="#e2b23c" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="-77" cy="213" r="3.4" fill="${messing}" stroke="${tinte}" stroke-width=".7"/><path d="M-77 213 l11 -4" stroke="${KJ.rot}" stroke-width="3.6" stroke-linecap="round"/></g>
       <g><path d="M-136 184 q0 -14 12 -14 q12 0 12 14z" fill="#3a5a7a" stroke="${tinte}" stroke-width=".8"/><path d="M-124 170 v-4 h-5" stroke="${tinte}" stroke-width="1.2" fill="none"/><path d="M-112 176 q8 -2 10 -8" stroke="#3a5a7a" stroke-width="2.4" fill="none"/>
-        <g class="fk-dampf" opacity=".7"><path d="M-104 164 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M-98 166 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" style="animation-delay:-1.2s"/></g></g>
+        <g class="fk-dampf" id="fk-kessel-dampf" opacity=".7"><path d="M-104 164 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M-98 166 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" style="animation-delay:-1.2s"/></g></g>
       <path d="M-72 196 q0 -10 10 -10 h30 q6 0 6 6 v4" fill="none" stroke="#9a9a96" stroke-width="3" stroke-linecap="round"/><rect x="-76" y="200" width="56" height="12" rx="3" fill="#6a6e72" stroke="${tinte}" stroke-width=".8"/><ellipse cx="-48" cy="203" rx="20" ry="3" fill="#3a3e42"/>
-      <path data-loch="kombuese" data-lx="-34" d="M-44 378 q0 -14 10 -14 q10 0 10 14z" fill="#1e120a"/></g>`;
+      <path data-loch="kombuese" data-lx="-34" d="M-44 378 q0 -14 10 -14 q10 0 10 14z" fill="#1e120a"/>
+      <g id="fk-katze-kocher" data-fest="" style="opacity:0" transform="translate(-100 185) scale(1.15)">${C('backbord', {pose: 'sitzen'})}</g></g>`;   /* v5.83: Backbord auf dem Kocher (1-2, TU kk) */
   m += `<g><path d="M70 300 Q200 286 330 300 L334 382 L66 382Z" fill="#9a3a2a" stroke="#5a1a10" stroke-width="2"/>${[100, 140, 180, 220, 260, 300].map(x => `<path d="M${x} 296 V380" stroke="#7a2a1e" stroke-width="1.2" opacity=".6"/>`).join('')}
       <path d="M76 314 Q200 302 324 314" stroke="#c0503a" stroke-width="3" fill="none" opacity=".55"/><g transform="translate(204 330)"><ellipse rx="25" ry="17" fill="#6f8f9a" stroke="#3a4a50" stroke-width="2"/><path d="M0 -9 V9 M-6 -4 H6 M-9 4 Q0 13 9 4" stroke="#f3ead2" stroke-width="2" fill="none" stroke-linecap="round"/></g>
       <g transform="translate(316 318)"><g id="kj-buchstapel">${['#3c7a52', '#e8b33c', '#b8402e', '#2f6a9a'].map((c, i) => `<rect x="-14" y="${-14 + i * 6}" width="30" height="6" rx="2" fill="${c}" stroke="${tinte}" stroke-width=".6"/>`).join('')}</g></g></g>`;
@@ -410,7 +426,7 @@ function kajueteEbenen() {
         <g transform="translate(34 50) rotate(-30)"><path d="M0 0 L-6 -40 M0 0 L6 -40" stroke="#6a6a6a" stroke-width="3"/><circle r="4" fill="${messing}"/></g><g transform="translate(-30 64) rotate(12)"><rect x="-34" y="-5" width="68" height="10" rx="2" fill="#c9b78a" stroke="#6a5a3a" stroke-width="1.4" opacity=".9"/></g></g></g>`;
   /* Lichtkreis der Lampe auf dem Tisch, dann Hände; Hinnerks Becher steht zwischen seinen Händen, Smillas rechts neben ihrer Hand, dein Becher vorn vor dem Hocker (Nutzer 23.11.2026) */
   t5 += `<ellipse cx="200" cy="${TY - 2}" rx="96" ry="24" fill="url(#kj-pool)"/>`;
-  t5 += `<g id="fk-hinnerk-arme" transform="translate(136 ${HY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('hinnerk', {kante: KH}) : ''}</g><g transform="translate(266 ${SY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('smilla', {kante: KS, halt: 'stift'}) : ''}</g>`;
+  t5 += `<g id="fk-hinnerk-arme" transform="translate(136 ${HY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('hinnerk', {kante: KH}) : ''}</g><g id="fk-smilla-arme" transform="translate(266 ${SY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('smilla', {kante: KS, halt: 'stift'}) : ''}</g>`;
   t5 += `<g id="fk-becher-hinnerk">${becher(137, r1(TY0 + 27), 1.15, '#e9e1cf', '#2f5f8a')}${dampf(136, TY0 + 12, 0)}</g><g id="fk-becher-smilla">${becher(293, r1(TY0 + 25), 1.05, '#c8503c', '#f3ead2')}${dampf(292, TY0 + 11, -1.1)}</g>
     <g id="fk-becher-du"><ellipse cx="200" cy="${r1(TY0 + 49.6)}" rx="10" ry="2.8" fill="#b98a56" stroke="#6a4a2a" stroke-width=".8"/>${becher(200, r1(TY0 + 49), 1.25, '#f3efe6', '#e8a33c')}<path d="M197.4 ${r1(TY0 + 41)} l2.6 -3 l2.6 3 m-2.6 -3 v5.4 m-2 -2 h4" stroke="#2f5f8a" stroke-width=".9" fill="none" stroke-linecap="round"/>${dampf(199, TY0 + 33, -2.1)}</g>`;
 
@@ -448,7 +464,7 @@ const ORTE = {
       {d: 0, svg: himmel(90)},
       {d: .1, svg: masten(266, [30, 150, 330]) + haeuser(266, .62, 7, -20)},
       {d: .2, svg: nebelband(200, 276, 520, 30, .8)},
-      {d: .28, svg: stegSeite(272) + zapfsaeule(118, 266) + `<g id="fs-hilke" transform="translate(150 266)"><g transform="scale(.5)">${hilke()}</g></g>`},
+      {d: .28, svg: stegSeite(272) + zapfsaeule(118, 266) + `<g id="fs-hilke" transform="translate(150 266)"><g transform="scale(.5)"><g id="fs-hilke-block">${hilke()}</g><g id="fs-hilke-frei" style="opacity:0">${C('hilke', {blick: 'seite', wende: true})}</g></g></g>`},
       {d: .36, svg: `<rect x="-60" y="282" width="520" height="300" fill="url(#fb-wg)"/>` + streifen(290, 3, 30, P.w[0], 6) + streifen(308, 4, 40, mix(P.w[0], P.w[1], .35), 9)},
       {d: .45, svg: moewe(-60, 140, 470, 110, 17, 0, .85)},
       {d: .55, svg: `<g id="fs-pos" transform="translate(200 340) scale(1.4)">${friedaSeite('fs-boot')}</g>`},
@@ -555,6 +571,24 @@ const ORTE = {
       {d: .95, svg: `<g><rect x="-40" y="300" width="30" height="300" rx="8" fill="${dunkel(P.stegD, .25)}"/><rect x="-14" y="306" width="26" height="300" rx="8" fill="${dunkel(P.stegD, .12)}"/><path d="M-40 330 Q-14 344 12 330" stroke="#c9b48a" stroke-width="4" fill="none"/><ellipse cx="-25" cy="300" rx="15" ry="4" fill="${dunkel(P.stegD, .4)}"/><ellipse cx="-1" cy="306" rx="13" ry="3.6" fill="${dunkel(P.stegD, .3)}"/></g><g id="dk-akt-vorn" data-fest=""></g>`}
     ]
   },
+  /* v5.83 Hafenkino (Folge 1-1, Lektorat 22.11.2026): Blick aus dem Cockpit der Frieda über die Bordwand auf den Steg gegenüber.
+     Dort liegt das Charterboot mit vier Männern (figuren.js charter1–4); der mit der roten Mütze will das Sagen haben. TU dose (Bierdose), eboot (Leihboot fährt vorbei), weg (die vier gehen). */
+  gegenueber: {
+    seite: () => [
+      {d: 0, svg: himmel(90)},
+      {d: .1, svg: masten(256, [40, 190, 320]) + haeuser(256, .6, 7, -10)},
+      {d: .2, svg: nebelband(200, 262, 520, 26, .8)},
+      {d: .3, svg: stegSeite(266) + [[60, 232], [330, 236]].map(([x, y]) => `<g><rect x="${x - 4}" y="${y}" width="8" height="${276 - y}" rx="2" fill="${P.stegD}"/><ellipse cx="${x}" cy="${y}" rx="4" ry="1.4" fill="${hell(P.stegD, .25)}"/></g>`).join('')},
+      {d: .34, svg: `<rect x="-60" y="276" width="520" height="300" fill="url(#fb-wg)"/>` + streifen(282, 2.5, 30, P.w[0], 6)},
+      {d: .4, svg: `<g id="gg-charter" transform="translate(206 306) scale(1.02)">${charterBoot()}</g>`},
+      {d: .46, svg: streifen(314, 3, 36, mix(P.w[0], P.w[1], .3), 8) + `<g id="gg-eboot" transform="translate(-140 372)">${leihboot()}</g>`},
+      {d: .5, svg: moewe(-60, 120, 470, 96, 21, 3, .75)},
+      {d: .62, svg: streifen(396, 6, 54, mix(P.w[0], P.w[1], .6), 14) + streifen(440, 8, 70, P.w[1], 20)},
+      {d: .95, svg: `<g><path d="M-60 452 Q200 440 460 452 V600 H-60Z" fill="${P.rumpf}" stroke="#5f5446" stroke-width="2.4"/><path d="M-60 466 Q200 454 460 466" stroke="#c0392b" stroke-width="6" fill="none"/>
+          <path d="M-60 446 Q200 434 460 446" stroke="#b9874f" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M-60 442 Q200 430 460 442" stroke="#d9a86a" stroke-width="2" fill="none" opacity=".7"/>
+          <g transform="translate(296 438) scale(1.5)"><ellipse cx="0" cy="0" rx="6.6" ry="1.9" fill="#1a0e06" opacity=".3"/><path d="M-4.6 -11 L4.6 -11 L4 -.8 Q0 .6 -4 -.8Z" fill="#f3efe6" stroke="#3a2a1c" stroke-width=".7"/><path d="M-4.4 -8.2 L4.4 -8.2" stroke="#e8a33c" stroke-width="1.5"/><ellipse cx="0" cy="-11" rx="4.6" ry="1.4" fill="#5a3418" stroke="#3a2a1c" stroke-width=".5"/><path d="M4.4 -9.4 q3.4 .4 2.8 3.4 q-.8 1.6 -3 1" fill="none" stroke="#3a2a1c" stroke-width=".9"/></g></g>`}
+    ]
+  },
   motor: {
     heck: () => [
       {d: 0, svg: himmel(180) + haeuser(250, .5, 8, -30, false)},
@@ -574,7 +608,7 @@ const ORTE = {
 };
 /* Einstellungen je Blick (Kamera: z Zoom, fx/fy Blickpunkt, oy Höhe, df Schärfeebene, kipp Neigung) */
 const EINST = {
-  seite: {totale: {}, deck: {z: 1, fx: 214, fy: 318, pan: 26}, liege: {z: 1.18, fx: 254, fy: 302}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}},
+  seite: {totale: {}, deck: {z: 1, fx: 214, fy: 318, pan: 26}, liege: {z: 1.18, fx: 254, fy: 302}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}, charter: {z: 2.15, fx: 196, fy: 278, df: .4}},
   heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.1, fx: 160, fy: 360, df: .92}},
   schnitt: {totale: {}, nah: {z: 1.3, fx: 200, fy: 300}},
   oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}},
@@ -611,8 +645,8 @@ function ausrichten(key) {
     }
   }
 }
-const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1, klab: 1, hin: 1};
-let einstAkt = 'totale';   /* v5.83: zuletzt gewählte Einstellung (für Tests und Werkzeuge) */
+const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1, klab: 1, hin: 1, dose: 0, eboot: 0, weg: 0, kessel: 1, dampf: 1, kk: 0, block: 1, leer: 0};
+let einstAkt = 'totale', uhrMin = null;   /* uhrMin: Uhr in der Kajüte fest auf diese Minute des Tages (Film), null = Uhr des Geräts (App) */   /* v5.83: zuletzt gewählte Einstellung (für Tests und Werkzeuge) */
 let leicht = false, root = null, welt = null, ort = null, blick = 'seite', s = {...NULLS}, tweens = [], SETS = {}, EB = {}, CAM = {}, K = 1, extraBlur = 0, sprecher = '', laeuft = false, scrollOff = 0, pegel = null;
 const SV = (x, weit) => `<svg viewBox="-40 -50 480 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"${weit ? ' style="overflow:visible"' : ''}>${x}</svg>`;
 function css() {
@@ -800,9 +834,21 @@ function zeichne(now) {
   e = $id('fb-hilke'); if (e) e.setAttribute('opacity', s.hilkeB.toFixed(2));
   /* Klabauter in der Kajüte ein- und ausblenden (TU klab; in der Geschichte ist er erst ab Folge 1-6 an Bord) */
   e = $id('fk-klabauter'); if (e && e._k !== s.klab) { e.style.opacity = s.klab.toFixed(2); e._k = s.klab; }
+  /* v5.83 Hafenkino: Bierdose, Leihboot fährt vorbei, die vier gehen; Kessel- und Becherdampf (kalter Kaffee, kalter Herd); Backbord auf dem Kocher; Hilke mit oder ohne Quittungsblock */
+  e = $id('gg-dose'); if (e) e.setAttribute('opacity', s.dose.toFixed(2));
+  e = $id('gg-eboot'); if (e) e.setAttribute('transform', `translate(${(-140 + s.eboot * 680).toFixed(1)} 372)`);
+  e = $id('gg-crew'); if (e && e._k !== s.weg) { e.style.opacity = (1 - s.weg).toFixed(2); e._k = s.weg; }
+  e = $id('fk-kessel-dampf'); if (e && e._k !== s.kessel) { e.style.opacity = (s.kessel * .7).toFixed(2); e._k = s.kessel; }
+  e = $id('fk-becher-smilla'); if (e && e._k !== s.dampf) { const d = e.querySelector('.fk-dampf'); if (d) d.style.opacity = (s.dampf * .55).toFixed(2); e._k = s.dampf; }
+  e = $id('fk-katze-kocher'); if (e && e._k !== s.kk) { e.style.opacity = s.kk.toFixed(2); const v = $id('fk-backbord'); if (v) v.style.opacity = (1 - s.kk).toFixed(2); e._k = s.kk; }
+  e = $id('fs-hilke-block'); if (e && e._k !== s.block) { e.style.opacity = s.block.toFixed(2); const f = $id('fs-hilke-frei'); if (f) f.style.opacity = (1 - s.block).toFixed(2); e._k = s.block; }
   /* Hinnerk in der Kajüte ausblenden (TU hin), wenn er in der Geschichte oben am Ruder steht; sein Becher bleibt auf dem Tisch */
-  e = $id('fk-hinnerk'); if (e && e._k !== s.hin) { const o = s.hin.toFixed(2); e.style.opacity = o; const arme = $id('fk-hinnerk-arme'); if (arme) arme.style.opacity = o;
-    const d = root && root.querySelector('#fk-becher-hinnerk .fk-dampf'); if (d) d.style.opacity = (s.hin * .55).toFixed(2); e._k = s.hin; }   /* ohne Hinnerk dampft sein Becher nicht: der Kaffee ist kalt (1-3) */
+  /* TU leer (v5.83): die Kajüte ist leer, alle sind oben (1-1, Anruf); Becher mit weg */
+  { const oh = s.hin * (1 - s.leer), osm = 1 - s.leer;
+    e = $id('fk-hinnerk'); if (e && e._k !== oh) { e.style.opacity = oh.toFixed(2); const arme = $id('fk-hinnerk-arme'); if (arme) arme.style.opacity = oh.toFixed(2); e._k = oh; }
+    e = $id('fk-smilla'); if (e && e._k !== osm) { e.style.opacity = osm.toFixed(2); const arme = $id('fk-smilla-arme'); if (arme) arme.style.opacity = osm.toFixed(2); e._k = osm;
+      for (const b of ['fk-becher-hinnerk', 'fk-becher-smilla', 'fk-becher-du']) { const g = $id(b); if (g) g.style.opacity = osm.toFixed(2); } } }
+  e = $id('fk-becher-hinnerk'); if (e) { const o = s.hin * s.dampf; if (e._k !== o) { const d = e.querySelector('.fk-dampf'); if (d) d.style.opacity = (o * .55).toFixed(2); e._k = o; } }   /* ohne Hinnerk dampft sein Becher nicht: der Kaffee ist kalt (1-3) */
   /* Klüverhafen von oben: anfahren, aufstoppen, das Heck zieht nach Backbord */
   e = $id('fo-pos'); if (e) {
     const bb = s.pier < .5, kx = bb ? 146 : 254, wink = bb ? -9 : 9;
@@ -999,5 +1045,6 @@ function panSetzen(p) { const c = CAM[akt()]; if (c) c.pan = p; }
 /* Leichte Stufe (v5.82): ohne Unschärfe, Kanten- und Schattenfilter; bord.js schaltet sie ein, wenn das Wischen ruckelt */
 window.FILMB = {_ebenen: (o, b) => ORTE[o][b](), pan: panSetzen, leicht: v => { if (v === undefined) return leicht; leicht = !!v; }, kaj: {pm: KAJ.pm, off: kajOff}, pegel: v => { pegel = v == null ? null : Math.max(0, Math.min(1, v)); }, ORT_OPT, get K() { return K; },
   teile: {knotenbrett, manoeverbrett, buecherregal, seekarteWand, telefon, BRETT, KNOTEN_BRETT, KNOTEN_SCHILD, MANOEVER, BUECHER}, GLAS, LICHT, licht: lichtSetzen, atmo, mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
+  uhr: m => { uhrMin = m == null ? null : Math.round(m) % 1440; },
   get zustand() { return {ort, blick, einst: einstAkt, s: {...s}, sets: Object.keys(SETS)}; }, ORTE: Object.keys(ORTE), EINST};
 })();

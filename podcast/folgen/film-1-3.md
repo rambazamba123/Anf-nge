@@ -27,16 +27,18 @@ machart: neu
 # Echo nach vorn: Den kalten Kaffee trinkt Hinnerk erst in 1-4 („Kalter Kaffee macht schön.“), darum hier kein zweites „kalt“ an Deck.
 # Seemannschaft: Der Ausguck geht kurz runter, weil der Schiffsführer es sagt; im ruhigen Hafenbecken hält Hinnerk am Ruder selbst Ausguck („Ich. Wie die letzten dreißig Jahre.“). Zur Ausfahrt bist du wieder oben.
 # Dichte-Messer: Lernlast 10 auf knapp vier Minuten ist viel. Gewollt: 41 und 46 sind ein Bündel und werden gezeigt (Heck, Fender, Rad am Grund), 47 ist ein Satz, Kapitel 4 ist Luft (wie Filmprobe A).
+# Lektorat 22.11.2026 (docs/lektorat/film-1-1-bis-1-3.md): Manöverbrett zeigt „Anlegen“ jetzt mit der Pier links, Hilke hat den Block erst, wenn sie zurückkommt, „Heute an Bord“ verrät die Ratefrage nicht mehr, „Vor allem das Heck“, kein Dampf über kaltem Kaffee, Übergang zu 1-4 ohne doppeltes „Dann warten wir“.
 # Harms von außen (E27, GL12): Rückblick am Anfang, nach Kapitel 2 hält er an und fragt zurück (HR57). Mit „Harms aus“ entfällt beides.
 # Stufen: nur hören (Denkpausen), mitsprechen (Antworten), mit Händen (Kiste am Ende).
 # Fachlich: 41, 46, 47, 48 nach data/sbf.json. Ohne quellen/ geprüft (R8). Länge: etwa vier Minuten Sprechtext, mit Denkpausen, Übergängen und Harms etwa sechs Minuten.
 
-[[HEUTE: Ablegen von der Tankstelle | Was das Heck beim Rückwärtsfahren macht | Mit welcher Seite man anlegt]]
+[[HEUTE: Ablegen von der Tankstelle | Rückwärts raus | Mit welcher Seite man anlegt]]
 
 [[ABSCHNITT: Leise raus]]
 [[SZENE: Kuttershaven, Bootstankstelle am Steg im Hafen, Vormittag, Sonne, kaum Wind. Die Frieda liegt mit Steuerbord an der Tankstelle. Schräg hinter ihr, an Backbord, liegt Pauls Boot am Nachbarsteg. Hilke steht auf dem Steg, Hinnerk am Außenborder, Smilla vorn.]]
 [[REVIER: hafen]]
 [[ORT: tankstelle]]
+[[TU: block=0/10]]
 [[HARMS: anfang]]
 HARMS: Tag eins, Vormittag. Kuttershaven. Die Frieda hat getankt. Den Sprit hat Hinnerk bezahlt. Den Strom nicht. Zweiundvierzig Euro.
 HARMS: Typisch. Ich prüfe dich in Harmsoog. Bis dahin frag ich zwischendurch nach.
@@ -95,7 +97,7 @@ SMILLA: Hast du's gesehen? Er hat gar nicht gelenkt. Das Heck dreht nach Backbor
 HINNERK: Dat macht der Propeller. Stell dir vor, der is 'n Rad, dat unten über'n Grund rollt.
 [[TU: a=.7/4200, pfeil=1/800]]
 HINNERK: Bei unserem rollt dat Rad rückwärts nach links. Und nimmt dat Heck mit.
-SMILLA: Nur das Heck. Der Bug bleibt, wo er ist. Das Boot rutscht hinten zur Seite weg.
+SMILLA: Vor allem das Heck. Der Bug bewegt sich kaum. Das Boot rutscht hinten zur Seite weg.
 [[TU: dreh=1/900, pfeil=0/500, rad=.45/900]]
 HINNERK: Vorwärts merkst du kaum wat. Rückwärts jedes Mal.
 HINNERK: Nennt sich Radeffekt.
@@ -103,7 +105,7 @@ SMILLA: Oder, wenn man angeben will: indirekte Ruderwirkung.
 HINNERK: Will hier keiner.
 [[KAMERA: seite, totale, tauchen]]
 [[TU: rad=0/10, dreh=0/10, p=1/10, a=0/10]]
-[[TU: hx=250/2400, winken=1/300]]
+[[TU: block=1/10, hx=250/2400, winken=1/300]]
 [[AUDIO: Schritte]]
 HAFENMEISTER: [[INTENTION: rufend]] Hinnerk! Ich hab gesagt, du bleibst da!
 HINNERK: Gas voraus.
@@ -122,13 +124,13 @@ SMILLA: Dann komm ich mit runter. Ich zeig dir was.
 [[HARMS: frage]]
 
 [[ABSCHNITT: Kalter Kaffee]]
-[[SZENE: Unten in der Kajüte der Frieda. Sie tuckert langsam durchs Hafenbecken von Kuttershaven, Hinnerk steuert oben, man hört ihn durch den offenen Niedergang. Auf dem Tisch steht sein Becher, unberührt. Smilla zeigt dir das Manöverbrett an der Wand. Hafen.]]
+[[SZENE: Unten in der Kajüte der Frieda. Sie tuckert langsam durchs Hafenbecken von Kuttershaven, Hinnerk steuert oben, man hört ihn durch den offenen Niedergang. Auf dem Tisch steht sein Becher, unberührt und kalt. Smilla sitzt am Tisch und zeigt dir das Manöverbrett an der Wand. Hafen.]]
 [[REVIER: hafen]]
 [[ORT: kajuete, nebel, innen]]
-[[TU: klab=0/10, hin=0/10]]
+[[TU: klab=0/10, hin=0/10, dampf=0/10]]
 [[STOFF: sbf:47, sbf:48]]
 [[AUDIO: Motor]]
-SMILLA: Da steht er. Nicht angerührt.
+SMILLA: Da steht sein Kaffee. Nicht angerührt.
 HINNERK: [[INTENTION: rufend]] Is er noch warm?
 SMILLA: [[INTENTION: rufend]] Kalt, Käpt'n!
 HINNERK: [[INTENTION: rufend]] Ich hab abgelegt. Dat is Arbeit.
@@ -173,11 +175,11 @@ SMILLA: Oder das. Komm, nimm den Becher mit.
 [[ORT: ausfahrt, kran]]
 [[TU: motor=1/10]]
 HINNERK: Na endlich. Mein Kaffee.
-SMILLA: Bitte sehr. Und du, Ausguck: Guck mal da raus. Was siehst du?
+SMILLA: Und jetzt guck mal da raus, Ausguck. Was siehst du?
 [[TU: faehre=.55/7000]]
 HINNERK: Ich seh's. Da kommt wat Großes.
 [[VERTIGO: an]]
-SMILLA: Oha. Die Fähre. Dann warten wir.
+SMILLA: Oha. Die Fähre.
 HINNERK: Dann warten wir.
 [[KISTE: Hol deine Miniatur-Frieda aus der Kiste und leg sie mit Steuerbord an den Pier. Schieb sie rückwärts weg und dreh dabei das Heck nach Backbord, wie eben bei Paul. Dann leg sie mit Backbord wieder an.]]
 [[MITNEHMEN: Rückwärts dreht das Heck nach Backbord (beim Rechtsdreher) | Das heißt Radeffekt: Der Propeller versetzt das Heck zur Seite | Darum anlegen mit der Backbordseite: Das Heck zieht an die Pier]]

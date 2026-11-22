@@ -19,8 +19,10 @@ machart: neu
 # Lernlast (HR56): Szene: 2 (Promille, Schwerpunkt). Regel: 1 (bestimmt, nicht gewählt) und 59 (Elektroboot). Was war neu? Kaffee: Tagesziel und Knoten. Hafenkino: Einer wird vor der Fahrt bestimmt.
 #   Bier: null Komma fünf, und wer nicht sicher führen kann, auch darunter nicht. Elektroboot: ohne Schein bis sieben Komma fünf Kilowatt Dauerleistung. Telefon: sieben Tage bis Harmsoog.
 # Fragen: alle drei als natürliches Entweder-oder (HR59). Hinnerk irrt bei 59 (Formalie, HR15).
-# Kamera (FK1–FK17): Kapitel 1 Kajüte (Glasplatten, FK11), Runde, Schärfe auf die leere Stange (FK4, Blick „stange“), zum Barometer und zur Karte, zurück in die Runde. Kapitel 2 Nebelblende an Deck (FK10), Liegeplatz von der Seite;
-#   Zufahrt auf Hinnerk bei „keine Demokratie“ (FK3). Kapitel 3 und 4 bleiben an Deck (FK14). Kapitel 5 Nebelblende in die Kajüte, Fahrt ans Telefon (FK4), zurück in die Runde.
+# Kamera (FK1–FK17): Kapitel 1 Kajüte (Glasplatten, FK11), Runde, Schärfe auf die leere Stange (FK4, Blick „stange“), zum Barometer und zur Karte, zurück in die Runde. Kapitel 2 Nebelblende an Deck (FK10):
+#   Blick aus dem Cockpit über die Bordwand auf den Steg gegenüber (Bühnenbild „gegenueber“, FK7), dort das Charterboot mit den vier (der mit der roten Mütze), Fahrt näher ran (Blick „charter“).
+#   Kapitel 3 Bierdose (TU dose), Kapitel 4 das Leihboot fährt durchs Bild (TU eboot), Kapitel 5 die vier gehen (TU weg), dann Nebelblende in die leere Kajüte ans Telefon (TU leer), Anrufbeantworter mit Piep; die Kamera bleibt am Telefon.
+# Lektorat 22.11.2026 (docs/lektorat/film-1-1-bis-1-3.md): Hafenkino jetzt im Bild, „du“ statt „unser Neuer“, Papagei genannt, Anrufbeantworter hörbar, Dose sichtbar statt „Zisch“, Uhr zeigt die Zeit der Szene.
 # Stufen: nur hören (Denkpausen), mitsprechen (Antworten), mit Händen (Kiste am Ende). Kein Harms-Rückblick (erste Folge), keine Zwischenfrage von Harms (es gibt noch nichts von früher).
 # Karte (HR51): Kuttershaven → Brede → Schilfwinkel, sieben Komma zwei Seemeilen (tools/karte-pruefen.js). Bei fünf Knoten knapp anderthalb Stunden.
 # Hinnerks Geheimnis (HR53): erste Spur „Bauch.“; „Vor Dunkelwerden. Immer.“ bleibt offen.
@@ -45,7 +47,7 @@ SMILLA: Erste Nacht an Bord, ne? Man hört jedes Knarzen.
 SMILLA: Sag mal, Käpt'n, hast du Klabauter gesehen?
 HINNERK: Nee.
 [[KAMERA: innen, stange, schaerfe]]
-SMILLA: Guck dir die Stange an. Gestern Abend, als unser Neuer an Bord kam, hat er da noch rumgekreischt. Und heute früh: leer.
+SMILLA: Guck dir die Stange an. Gestern Abend, als du an Bord kamst, hat unser Papagei da noch rumgekreischt. Und heute früh: leer.
 HINNERK: Der kommt wieder.
 SMILLA: Und wenn nicht?
 HINNERK: [[INTENTION: trocken]] Dann nich.
@@ -60,13 +62,13 @@ HINNERK: Is mir egal. Der hat in jedem Hafen 'n Kumpel.
 SMILLA: Was klopfst du da?
 HINNERK: [[SPRUCH: hi-wetter-09]] Barometer. Fällt 'n büschen. Nachmittags kommt Wind.
 [[KAMERA: innen, karte, fahrt]]
-SMILLA: Und wo fahren wir heute hin? Zeig mal. Liegt ja direkt vor dir.
+SMILLA: Und wo fahren wir heute hin? Zeig mal. Die Karte liegt ja direkt vor dir.
 HINNERK: Hier. Kuttershaven. Raus aus'm Hafen, rum nach Westen in die Brede.
 SMILLA: Und dann?
 HINNERK: Die Brede rauf bis zum Schilfwinkel. Sieben Komma zwei Meilen.
 SMILLA: Woher weißt du das so genau?
 HINNERK: [[SPRUCH: hi-plotter-01]] Bauch.
-SMILLA: Fünf Knoten, also fünf Seemeilen in der Stunde. Dann sind wir in anderthalb Stunden da. Ein Katzensprung.
+SMILLA: Fünf Knoten, also fünf Seemeilen in der Stunde. Dann sind wir in knapp anderthalb Stunden da. Ein Katzensprung.
 HINNERK: Erster Tag. Wir üben unterwegs.
 [[KAMERA: innen, runde, fahrt]]
 [[AUDIO: Motor]]
@@ -74,15 +76,16 @@ SMILLA: Hörst du das? Da kommt einer rein.
 HINNERK: Charter. Nimm deinen Becher mit. Dat lohnt sich.
 
 [[ABSCHNITT: Hafenkino]]
-[[SZENE: Oben im Cockpit der Frieda am Liegeplatz, Morgen, Sonne. Ein Charterboot kommt ins Hafenbecken und will an den Steg gegenüber. Vier Männer an Bord, alle rufen durcheinander. Hinnerk kommentiert wie ein Fußballreporter.]]
+[[SZENE: Oben im Cockpit der Frieda am Liegeplatz, Morgen, Sonne. Du schaust über die Bordwand zum Steg gegenüber: Ein Charterboot legt dort an, vier Männer an Bord, alle rufen durcheinander. Hinnerk kommentiert wie ein Fußballreporter.]]
 [[REVIER: hafen]]
-[[ORT: liegeplatz, nebel, seite]]
+[[ORT: gegenueber, nebel, seite]]
 [[AUDIO: Möwen]]
 HINNERK: Kiek mol. Gegenüber.
 SMILLA: Oh nein. Die vier von der Hafenkneipe gestern?
 HINNERK: Verlegen von der Charterbasis rüber. Zwanzig Meter. Dat reicht schon.
 HINNERK: Hafenkino. Setz dich. Besser als Fernsehen.
-SMILLA: Wer steuert da eigentlich? Der mit der Mütze?
+[[KAMERA: seite, charter, fahrt]]
+SMILLA: Wer steuert da eigentlich? Der mit der roten Mütze?
 HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
 SMILLA: Und die zwei vorne streiten, wer die Leine wirft.
 HINNERK: [[SPRUCH: hi-hafenkino-04]] Und Rückwärtsgang! Zu spät. Klassiker.
@@ -99,11 +102,11 @@ SMILLA: Frage an dich. Angenommen, vor der Fahrt steht nicht fest, wer das Boot 
 [[VERTIEFUNG: sbf:1]]
 SMILLA: Bestimmt, nicht gewählt. Einer muss vor dem Ablegen festgelegt werden, und dann gilt das. Und nur weil jemand einen Führerschein hat, ist er noch nicht automatisch der Schiffsführer. Auch der muss bestimmt werden.
 [[VERTIEFUNG: ende]]
-[[KAMERA: seite, hinnerk, fahrt]]
+[[KAMERA: seite, totale, fahrt]]
 HINNERK: [[SPRUCH: hi-anrede-01]] {{anrede:w=Min Deern|m=Min Jung|n=Landratte}}, hör zu. An Bord is keine Demokratie.
 HINNERK: Einer wird bestimmt. Vorher.
 SMILLA: Wenn's eng wird, ist keine Zeit zum Abstimmen.
-[[KAMERA: seite, liege, fahrt]]
+[[KAMERA: seite, charter, schaerfe]]
 HINNERK: Kiek. Jetzt zeigen alle auf den mit der Mütze. Abgestimmt.
 SMILLA: Bei uns ist das ja klar, oder?
 HINNERK: Ich.
@@ -112,10 +115,11 @@ HINNERK: Ich.
 SMILLA: Siehst du. Funktioniert.
 
 [[ABSCHNITT: Bier zum Frühstück]]
-[[SZENE: Drüben liegt das Charterboot endlich fest. Einer macht eine Dose Bier auf. Hinnerk und Smilla im Cockpit der Frieda, Hafen, Morgen.]]
+[[SZENE: Drüben liegt das Charterboot endlich fest. Der mit der roten Mütze macht eine Dose Bier auf. Hinnerk und Smilla im Cockpit der Frieda, Hafen, Morgen.]]
 [[REVIER: hafen]]
 [[AUDIO: Möwen]]
-SMILLA: Hast du das gehört? Zisch. Halb neun morgens.
+[[TU: dose=1/600]]
+SMILLA: Guck mal, der mit der roten Mütze. Macht 'ne Dose auf. Halb neun morgens.
 HINNERK: Anlegerbier.
 SMILLA: Die wollen in einer Stunde wieder raus. Hat der mit der Mütze gestern in der Kneipe erzählt. Und jetzt hat er die Dose.
 HINNERK: [[INTENTION: schnaubend]] Der steuert ja nich. Der sagt nur an.
@@ -143,6 +147,7 @@ SMILLA: Wo war ich? Ach so. Wer schon vorher wackelt, bleibt auch unter null Kom
 [[ABSCHNITT: Leise vorbei]]
 [[SZENE: Ein kleines Leih-Elektroboot surrt durchs Hafenbecken an der Frieda vorbei, ein Pärchen mit Sonnenhüten. Hinnerk hat zwei Becher nachgeschenkt. Hafen, Morgen.]]
 [[REVIER: hafen]]
+[[TU: eboot=1/18000]]
 HINNERK: Und die da? Hört man nich mal kommen.
 SMILLA: Elektroboot vom Verleih an der Promenade. Süß, oder?
 HINNERK: Keen Schein, keen Plan. Dat is verboten.
@@ -165,8 +170,9 @@ SMILLA: Du hast gesagt, das ist verboten.
 HINNERK: Für die mit Sonnenhut.
 
 [[ABSCHNITT: Wer das Sagen hat]]
-[[SZENE: Die vier vom Charterboot stapfen mit Brötchentüten über den Steg. Hinnerk und Smilla schauen ihnen nach. Dann klingelt unten in der Kajüte das alte Telefon. Hafen, Morgen.]]
+[[SZENE: Die vier vom Charterboot stapfen mit Brötchentüten über den Steg davon. Hinnerk und Smilla schauen ihnen nach. Dann klingelt unten in der leeren Kajüte das alte Telefon; keiner geht runter, man hört den Anrufbeantworter durch den offenen Niedergang. Hafen, Morgen.]]
 [[REVIER: hafen]]
+[[TU: weg=1/3000]]
 SMILLA: Weißt du, was die vier heute Morgen falsch gemacht haben?
 HINNERK: Allet.
 SMILLA: Keiner hatte das Sagen.
@@ -178,22 +184,24 @@ SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
 SMILLA: Warum eigentlich immer?
 [[AUDIO: Telefon]]
-[[ORT: kajuete, nebel, innen]]
-[[TU: klab=0/10]]
-[[KAMERA: innen, telefon, fahrt]]
-SMILLA: Dein Telefon. Das alte.
+SMILLA: Unten klingelt dein Telefon. Das alte.
 HINNERK: Lass klingeln.
 SMILLA: Die Nummer hat nur einer.
 HINNERK: Eben.
+[[ORT: kajuete, nebel, innen]]
+[[TU: klab=0/10, leer=1/10]]
+[[KAMERA: innen, telefon, fahrt]]
 [[AUDIO: Telefon]]
+SMILLA: Jetzt geht der Anrufbeantworter dran.
+[[AUDIO: Piep]]
 HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Ich weiß, dass du da bist.
 HARMS: Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog. {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord.
 HARMS: Bis dahin ruf ich zwischendurch an und frag ab, was hängen geblieben ist. Sieben Tage. Wer zu spät kommt, fährt allein heim.
-[[KAMERA: innen, runde, fahrt]]
+[[AUDIO: Piep]]
 SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.
 SMILLA: Neues Schiff, neuer Job für mich. Ihr zwei bringt mich hin, und Harms prüft dich gleich mit.
 HINNERK: Sieben Tage. Schaffen wir.
 SMILLA: Du hast meine Frage nicht beantwortet.
 HINNERK: Frühstück.
 [[KISTE: Leg die Seekarte aus der Kiste auf den Tisch und such Kuttershaven und den Schilfwinkel. Fahr die Strecke mit dem Finger ab: raus aus dem Hafen, nach Westen in die Brede, die Brede rauf.]]
-[[MITNEHMEN: Steht vor der Fahrt nicht fest, wer führt, wird der Schiffsführer bestimmt, nicht gewählt | Ab null Komma fünf Promille nicht mehr führen, und auch darunter nicht, wenn man nicht sicher führen kann | Elektroboot ohne Führerschein, wenn der Motor höchstens sieben Komma fünf Kilowatt Dauerleistung hat]]
+[[MITNEHMEN: Steht vor der Fahrt nicht fest, wer führt, wird der Schiffsführer bestimmt, nicht gewählt | Ab 0,5 Promille nicht mehr führen, und auch darunter nicht, wenn man nicht sicher führen kann | Elektroboot ohne Führerschein, wenn der Motor höchstens 7,5 Kilowatt Dauerleistung hat]]

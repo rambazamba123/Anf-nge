@@ -98,7 +98,7 @@
 
   /* ---------- Bühne aufbauen ---------- */
   async function buehne(ort, blick) {
-    const FBm = FB(); FBm.reset(); FBm.licht(lichtJetzt()); FBm.atmo([]); FBm.mount(bw());
+    const FBm = FB(); FBm.reset(); if (FBm.uhr) FBm.uhr(null); FBm.licht(lichtJetzt()); FBm.atmo([]); FBm.mount(bw());
     await FBm.ort(ort, 'sofort', blick);
   }
 
