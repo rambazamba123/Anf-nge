@@ -83,6 +83,8 @@
 | Werft: Bühne leer, Crew-Bild blieb stehen (v5.73, vor dem Hochladen) | `display:flex` im CSS war stärker als das Attribut `hidden` | ⚙ buehne-pruefen (Werft: Filmbühne sichtbar); ✋ bei eigenen `display`-Regeln immer `[hidden]{display:none!important}` mitgeben |
 | Werft: „Übernehmen“ nicht antippbar (v5.73, vor dem Hochladen) | das Rad-SVG mit `overflow:visible` ragte über die Knöpfe | ⚙ buehne-pruefen klickt „Übernehmen“; ✋ große SVGs mit `overflow:hidden` |
 | Werft: Fehler nach dem Schließen (v5.73, vor dem Hochladen) | die Drehbewegung des Rads lief nach dem Schließen weiter | ⚙ buehne-pruefen (Konsole Werft); ✋ Animationen prüfen, ob ihr Element noch da ist |
+| Kamera fährt im Hochformat am Ziel vorbei, Kajüte „zu klein“ und Dinge am Rand abgeschnitten (v5.80) | `film.js` rechnete Pixel je Einheit nur aus der Breite (`K = Breite/400`); bei hohen Bühnen zählt die Höhe. Außerdem zeigt die Bühne wegen des Kamera-Rands (10 %) auf dem Handy nur x 85–315, y 5–495 | ⚙ buehne-pruefen (Kajüte: alle Dinge im Bild, Knotenbrett-Zoom deckt das Brett); ✋ neue Bühnenbilder im Hochformat im Band x 85–315 anlegen |
+| Backbord flackert beim Springen (v5.79, v5.80) | die Testseite wechselte mitten im Sprung die Pose (`laufen` → `springen`) | ⚙ buehne-pruefen (Sprung als Gangart); ✋ Bewegungen als eine durchgehende Rechnung über die Phase, nie Posen tauschen |
 
 ## Teil C: Animationen
 | Fehler (Version) | Ursache | Prüfen |
@@ -127,4 +129,5 @@
 - Vor dem Commit `node --check` auf jede geänderte JS-Datei; nach mehrzeiligem Ersetzen die Stelle ansehen.
 - Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.
 - Was der Nutzer meldet und ich nicht nachstellen kann: messen (Position, Zeit), mehrere Ursachen ausschließen, dann die wahrscheinlichste beheben und offen sagen, dass es eine Vermutung ist (v5.56 „Springen“).
+- Screenshots aus Skripten im Notizordner mit absolutem Pfad speichern: ein relativer Pfad landet im Repo (v5.80, beinahe mit hochgeladen).
 - Änderungen an Sätzen machen vertonte Abschnitte ungültig: Kürzungen sammeln und zusammen mit anderen Änderungen machen, dem Nutzer sagen, welche Abschnitte neu fällig sind.
