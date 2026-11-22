@@ -563,7 +563,7 @@ html[data-motion="less"] *{animation:none!important;transition:none!important}
 </div></nav>
 <script>
 (function () {
-  window.__ver = '5.81';
+  window.__ver = '5.82';
   function bar(msg) {
     var b = document.getElementById('errbar');
     if (!b) { b = document.createElement('div'); b.id = 'errbar'; b.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:99;background:#8a1f17;color:#fff;padding:10px 12px;font:14px/1.4 sans-serif;max-height:45vh;overflow:auto'; b.innerHTML = '<b>Skipper v4.2 hat ein Problem. Mach bitte einen Screenshot davon.</b>'; (document.body || document.documentElement).appendChild(b); }
@@ -4144,6 +4144,7 @@ function renderSettings() {
 
   <details class="werkstatt" id="werkstatt"><summary><b>🔧 Werkstatt</b> <span class="small muted">KI, Schlüssel, Stimmen erzeugen, Casting, Protokoll</span></summary>
   <div class="card"><b>🗄️ Alte Folgen und Tests</b><p class="small muted" style="margin:4px 0 8px">3D-Folgen, Rohbau, alter Probetag, Test Wiedersehen, Test Bühne, Crew-Gespräche. Nur zum Vergleichen.</p><button class="btn ghost" id="altefolgen">Öffnen</button></div>
+  <div class="card"><label for="altbord" style="margin-top:0">Deck und Kajüte</label>${sel('altbord', [['neu', 'Neu: Glasbühne zum Wischen (Standard)'], ['alt', 'Alt: das bisherige Bild, zum Vergleichen']], c.altesBord ? 'alt' : 'neu')}<p class="small muted" style="margin:6px 0 0">Wenn das neue Bild auf deinem Handy ruckelt oder etwas fehlt, kannst du hier zurückschalten.</p></div>
   <div class="card ki"><b>✦ Mit der KI-Crew klönen</b><p class="small muted" style="margin:4px 0 8px">Freies Gespräch mit eigenem Schlüssel. Nicht Teil der Reise, dort ist alles fest geschrieben.</p><button class="btn ki" id="toklon">Gespräch öffnen</button></div>
 
   <h2>KI und Schlüssel</h2>
@@ -4232,6 +4233,7 @@ function renderSettings() {
   });
   $('#mdl').onchange = () => { S.model = $('#mdl').value; save(); };
   $('#devm').onchange = () => { c.dev = $('#devm').value === '1'; save(); applyKi(); };
+  $('#altbord').onchange = () => { if ($('#altbord').value === 'alt') c.altesBord = true; else delete c.altesBord; save(); toast(c.altesBord ? 'Deck und Kajüte im bisherigen Bild.' : 'Deck und Kajüte auf der Glasbühne.'); if (!c.altesBord && !window.BORD) bordNachladen(); };
   $('#kion').onchange = () => { c.ki = $('#kion').value === '1'; save(); applyKi(); VOX.stop('KI-Schalter'); toast(c.ki ? 'KI-Funktionen an. Graue Knöpfe mit ✦ kosten Credits.' : 'KI-Funktionen aus. Keine Kosten mehr.'); };
   const bindSel = (id, fn) => { $(id).onchange = () => { fn($(id).value); save(); }; };
   /* H2: Handystimme je Figur wählen und probehören (S.cfg.handy {cid: voiceURI}) */
@@ -4633,11 +4635,20 @@ function standKarte(path, next) {
 }
 /* v5.62 (Leitfaden Fassung 4): Deck, Happen, Rennen, Statistik und Kajüte kommen aus deck.js mit den Zeichnungen aus szenerie.js.
    Bis die Dateien geladen sind, ist die Seite kurz leer; lassen sie sich nicht laden, bleibt die alte Ansicht. */
-let deckLaden = null, deckFehler = false;
+let deckLaden = null, deckFehler = false, bordP = null;
+/* v5.82 (E36): Deck und Kajüte auf der Glasbühne: film.js und bord.js, dazu Knoten (Bilder am Brett) und Reisekarte (Seekarte am Tisch). Fehlt etwas, bleibt das alte Bild. */
+function bordNachladen() {
+  return bordP || (bordP = Promise.all([nachladen('film.js').then(() => nachladen('bord.js')), loadKnoten().catch(() => {}), nachladen('brede.js').then(() => BREDE.laden()).catch(() => {})]).catch(e => { bordP = null; console.warn('Glasbühne', e); }));
+}
 function deckBereit(neu) {
-  if (window.DECK && window.SZENERIE && window.BOOT) return true;
+  if (window.DECK && window.SZENERIE && window.BOOT) {
+    if (!window.BORD && !(S.cfg && S.cfg.altesBord) && !bordP) bordNachladen().then(() => { if (window.BORD && DECK.bordGeht && DECK.bordGeht()) { if (tab === 'deck' && !document.querySelector('.bdeck')) renderBoat(); else if (tab === 'cabin' && !document.querySelector('.bkaj')) renderCabin(); } });
+    return true;
+  }
   if (deckFehler) return false;
-  if (!deckLaden) deckLaden = nachladen('boot.js').then(() => nachladen('figuren.js').catch(() => {})).then(() => nachladen('szenerie.js')).then(() => nachladen('deck.js')).then(() => { if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); }).catch(() => { deckFehler = true; if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); });
+  if (!deckLaden) deckLaden = nachladen('boot.js').then(() => nachladen('figuren.js').catch(() => {})).then(() => nachladen('szenerie.js')).then(() => nachladen('deck.js'))
+    .then(() => (S.cfg && S.cfg.altesBord) ? null : Promise.race([bordNachladen(), new Promise(r => setTimeout(r, 6000))]))
+    .then(() => { if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); }).catch(() => { deckFehler = true; if (tab === 'deck') renderBoat(); else if (tab === 'cabin') renderCabin(); });
   app.innerHTML = '<div class="ddeck" style="min-height:70vh;background:#0f2433"></div>';
   return null;
 }

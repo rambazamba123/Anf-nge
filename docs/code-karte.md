@@ -3,6 +3,37 @@
 > Ausgelagert aus `CLAUDE.md` §7 am 17.11.2026 (GL7: verschlanken). **Der Code ist die Wahrheit**; diese Karte hilft beim Finden. Claude pflegt sie am Ende jedes Laufs: neue Einträge oben, mit Version. Vor Arbeit an einem Bereich den passenden Eintrag lesen (mit Suche nach dem Dateinamen), nicht die ganze Datei.
 
 ## Einträge
+- **Deck und Kajüte in der App, Leben an Bord, Hinnerk zur Auswahl (v5.82, E36, docs/plan-bord.md, docs/baukasten.md):**
+  - `bord.js` (neu, nachgeladen nach `film.js` über `bordNachladen()` in `index.html`, zusammen mit `knoten.js` und `brede.js`):
+    - `BORD.deck(box, opt)`: Ort `liegeplatz`, Kamera `seite:liege`, Antippflächen `.bhot[data-go]` aus den sichtbaren Bootsteilen.
+    - `BORD.kajuete(box, opt)`: Wisch-Streifen `.bpano`, `PAN` (merkt den Wischweg), `DING` (Lage, Ebene, Sprecher, Nahansicht), `zielFuer` mit `data-off`, `ran`/`zurueck`, `nahAuf` (Häkchen aus `opt.stand`), `DETAIL` (Knöpfe `data-tun` → `opt.tun` aus `deck.js`), `knotenBlick`, `karteAuf`/`kippen`/`tischOben`, `runde` (Hocker: in die Runde setzen, `rundeHtml`/`rundeKnopf` mit `opt.runde`), `fernglas`.
+    - Sprechen: `sprich`, `spiele` (Lautstärke `S.cfg.voice`), `medaillon`; `voxHaken` lässt beim App-eigenen Sprechen (VOX) den Mund mitgehen.
+    - Leben: `leben`, `darsteller`, `bewege`, `pose`, `akteurBei`.
+      - Auftritte `KAJ_AUF`: maus (`mausHinten`, `mausVorn`), klabauter, katze, wurm, qualle, kruemel, wicht, puschel, floh (nachts).
+      - Auftritte `DECK_AUF`: moewe, klabauter, katze, wichte.
+      - Testhilfe `BORD.auftritt(name)`.
+    - Rennen: `BORD.rennenSvg(daten)`.
+  - `film.js`:
+    - `KAJ.pm`: Tiefe je Ebene (Wand .7, Wanddinge .78, Möbel .9, Tisch 1, vorn 1.12, ganz vorn 1.36).
+    - `kajRef`/`kajOff`/`ausrichten` (verschiebt jedes Ding nach seiner Lage; `data-off`, `data-fest` für Darsteller, `data-xc`).
+    - Kajüte:
+      - Licht je Tageszeit (`nacht`, `abend`, `grau`; `kj-strahl`, `kj-oben`, `kj-pool`).
+      - Luke beim Niedergang, Mauselöcher `[data-loch][data-lx]`, `#fk-kiste`, `#kj-buchstapel`, `#kj-dose`.
+      - Becher `#fk-becher-hinnerk`, `-smilla`, `-du`; Tischkante je Figur (`kanteVon`, `SY` aus Smillas Größe).
+      - Vordergrund-Ebene `fg`; Darsteller-Ebenen `#kj-akt-m`, `-t`, `-v`.
+    - Ort `liegeplatz`: Darsteller `#dk-akt-steg`, `-luft`, `-vorn`; im Boot `#dk-boot-katze`, `#dk-boot-akt`.
+    - `moewe()` im neuen Stil (sechs vorgezeichnete Flügelschläge); `.fk-lampe.stoss`; `FILMB.kaj`.
+  - `deck.js`:
+    - Weichen: `bordGeht`, `deckNeu`, `kajNeu`.
+    - Rennen und Weiter in Teilen: `rennDaten`/`rennenNeu`, `weiterTeile`/`abendLage`.
+    - Altes Bild über `S.cfg.altesBord` (Werkstatt, Standard aus).
+  - `figuren.js`:
+    - `VARIANTEN.hinnerk`, `variante`, `mitVariante`, `typVon` (`FIGUREN.typ`).
+    - Bärte `bartSeite`/`bartVorn` (krause, walross, rausche, gestutzt, zwirbel).
+    - Möwe `moeweZeichnen` (FIG `moewe`, Extra im Aquarell).
+    - Smilla 82; `tischArme` mit Stift unter der Hand (kein Becher mehr in der Hand).
+  - `werft.js`: Thema `var-hinnerk` (im einfachen Rad), Export „Hinnerk: …“.
+  - Entwurf: `docs/entwuerfe/hinnerk-varianten.html`.
 - **Glasebenen-Kamera (20.11.2026, kein App-Code):** `docs/entwuerfe/glasebenen-kamera.html`. `BLICKE` (seite, heck, schulter, bug, oben; je `az` Blickrichtung, `peil` Peilung von der Frieda, `varianten` mit Kamera `c`, `bau()` liefert Ebenen {d, svg}), Kamera je Set `CAM[p]` {z, fx, fy, ox, oy, df Schärfentiefe, kipp, drehOff, kreis, vert Hitchcock}, `kameraAnwenden` (Parallaxe nach Tiefe, Unschärfe nach Abstand zu `df`, Luftperspektive nach `P.nebel`), Aufbau set > rig (Kippen, Drehen) > eb (Übergänge) > cam (Kamera je Bild); `UEBERGANG` (schnitt, nebel, fahrt, orbit mit `ORBIT_BOOT`-Zwischenbildern und breitem Orbit-Panorama, kran, schaerfe, wischer, platten, licht, atem), `LICHT` (morgen, mittag, abend, nebel, nacht; Sonne/Mond nach Azimut je Blick), `GLAS` (weich, klar, papier, tusche), Rundfahrt `TOUR`, Testzugang `window.KAMERA`.
 - **Filmproben (20.11.2026, E27, kein App-Code):** `docs/entwuerfe/film-varianten.html`, eigenständige Seite (auch als Leseseite veröffentlicht). `DREHBUCH` (Zeilen mit `kam` seite/heck/oben, `tu` = Zielwerte mit Dauer), Zustand `s` {p rückwärts, a Heck schwenkt, go voraus, motor, hx Hilke, fender, rad, winken}, Sets `setSeite`/`setHeck`/`setOben` je Bühne als Ebenen-Divs mit Tiefe `d` und Fußlinie `basis`; Bühnen `theater` (Drehbühne `theaterWechsel`, Prospekt vom Schnürboden, Wellenwalzen, Filter `schnitt`), `schatten` (`irisWechsel`, auf Zweien, `spitzenBand`), `glas` (`nebelWechsel`, Unschärfe je Ebene, atmende Kamera), `buch` (`buchWechsel` umblättern, `aufklappen`, Musterklammer, Lasche); Stufen `hoeren`/`sprechen`/`haende`, Harms-Rückblick in `auftakt`, `harmsAuftritt` (Frage 41, früher Tipp zählt), `kisteAuftritt`, `ende`; Gratis-Stimme `sag`, Geräusche `TON`; Testzugang `window.FILM` (`probe`, `waehle`, `kamera`, `setze`).
 - **Kajüte zum Wischen, Sprechen, Knotenwurm (v5.81, E35, docs/baukasten.md):** `film.js`: `KJ`, `schild`, `knotenbrett`, `manoeverbrett`, `buecherregal`, `seekarteWand`, `telefon`, `bullauge`, `gardine`, `kajueteEbenen` (sieben Ebenen inkl. zwei kleiner Extra-Ebenen), `NULLCAM.pan`, `ORT_OPT` (weit, dunst, unschaerfe, panTiefe, atmen), `SV(x, weit)`, `kameraAnwenden` mit `pan`/`pm`, Sprechen in `zeichne` (`mund`/`schnabel` mit `pegel`, `WENDE`), API `FILMB.pan`, `FILMB.pegel`, `FILMB.K`, `FILMB.ORT_OPT`, `FILMB._ebenen` (Test), `FILMB.teile` erweitert, `EINST.innen` neu, `EINST.seite.deck.pan`, CSS `.fk-lampe`, `.fk-dampf`, `.fk-sekunde`, `.glocke.laeuten`; Figuren an Deck mit `wende: true`. `figuren.js`: `mundG`, Pose `tisch`, `o.wende` in `menschSeite`, Unterschnabel, `ACHT_CP`/`ACHT_Z`/`knotenwurm`, `tischArme`, `mundSetzen`/`wendeSetzen` (Export `FIGUREN.tischArme`, `.mund`, `.wende`). Entwurf `docs/entwuerfe/menue-standard.html` neu. Test: `buehne-pruefen` Block „Menüs“ (Sprechen, Startbild, Wischen, Zoom, Schilder, Knotenwurm).

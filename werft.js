@@ -31,9 +31,9 @@ const gesperrt = tag => !testmodus() && (tag || 0) > erreichterTag();
 /* Kopf einer Figur als Perle (für Körperbau und Augen): ein kleiner Ausschnitt mit Hals und Schultern */
 let perleNr = 0;
 function kopfPerle(x, y, fid, opt) {
-  const F = window.FIGUREN, f = F.FIG[fid], T = F.TYPEN[opt.typ || 'klassisch'] || F.TYPEN.klassisch, sk = f.h / 100, id = 'wk' + (perleNr++);
+  const F = window.FIGUREN, f = F.FIG[fid], T = opt.var && F.typ ? F.typ(fid, {var: opt.var}) : F.TYPEN[opt.typ || 'klassisch'] || F.TYPEN.klassisch, sk = f.h / 100, id = 'wk' + (perleNr++);
   const cy = f.tier ? (fid === 'backbord' ? -18 : -27) : ((-86.6 + 9) * T.bh - 9 * T.k) * sk, cx = f.tier ? 3 : .4, z = f.tier ? 2.1 : 1.7;
-  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
+  return `<clipPath id="${id}"><circle cx="${x}" cy="${y}" r="20"/></clipPath><g clip-path="url(#${id})"><rect x="${x - 21}" y="${y - 21}" width="42" height="42" fill="#fbf6ea"/><g transform="translate(${r1(x - cx * z)} ${r1(y - cy * z + 3)}) scale(${z})">${F.figur(fid, {blick: 'vorn', typ: opt.typ, auge: opt.auge, var: opt.var, dreh: false, pose: f.tier ? 'sitzen' : 'stehen', stil: 'flach'})}</g></g>`;
 }
 const r1 = n => Math.round(n * 10) / 10;
 function themenBauen() {
@@ -67,6 +67,11 @@ function themenBauen() {
     setz: w => { const l = look(); l.typ = l.typ || {}; if (w) l.typ[id] = w; else delete l.typ[id]; }});
   T.push({id: 'auge', ic: '👀', name: 'Augen', blick: 'crew', neu: true, opts: [{w: '', name: 'passend zum Körperbau', text: '='}].concat(Object.entries(F.AUGEN).map(([w, n]) => ({w, name: n, kopf: {typ: 'suess', auge: w}, fig: 'smilla'}))), akt: () => look().auge || '',
     setz: w => { const l = look(); if (w) l.auge = w; else delete l.auge; }});
+  /* v5.82 (E36): Hinnerk zur Auswahl, ähnlich wie bisher, süßer, Bart anders (Entwurfsseite docs/entwuerfe/hinnerk-varianten.html) */
+  const VH = F.VARIANTEN && F.VARIANTEN.hinnerk;
+  if (VH) T.push({id: 'var-hinnerk', ic: '🧔', name: 'Hinnerk: Bart und Gesicht', kurzname: 'Hinnerk', blick: 'crew', fig: 'hinnerk', neu: true,
+    opts: Object.entries(VH).map(([w, v]) => ({w: w === 'bisher' ? '' : w, name: `${v.kurz} ${v.name}`, kopf: {var: w}, fig: 'hinnerk'})),
+    akt: () => (look().var || {}).hinnerk || '', setz: w => { const l = look(); l.var = {...(l.var || {})}; if (w) l.var.hinnerk = w; else delete l.var.hinnerk; }});
   const KL = [['hinnerk', 'hut', '🧢'], ['hinnerk', 'jacke', '🧥'], ['smilla', 'haar', '💇'], ['smilla', 'jacke', '🧥'], ['hilke', 'weste', '🦺'], ['harms', 'hut', '🎩'], ['backbord', 'fell', '🐈']];
   for (const [fid, teil, ic] of KL) {
     const f = F.FIG[fid];
@@ -86,7 +91,7 @@ function themenBauen() {
   T.push({id: 'mehr', ic: '⚙️', name: 'Mehr am Rad', kurzname: 'Mehr', blick: 'seite', opts: [{w: 'einfach', name: 'Nur Figuren und Glas', text: '🎭'}, {w: 'alles', name: 'Alles: Boot, Plätze, Kleidung', text: '⚓'}],
     akt: () => look().werftVoll ? 'alles' : 'einfach', setz: w => { const l = look(); if (w === 'alles') l.werftVoll = true; else delete l.werftVoll; }});
   if (look().werftVoll) return T;
-  const EIN = ['glas', 'licht', 'stil', 'typ-alle', 'auge', 'mehr'];
+  const EIN = ['glas', 'licht', 'stil', 'var-hinnerk', 'typ-alle', 'auge', 'mehr'];
   return EIN.map(id => T.find(t => t.id === id)).filter(Boolean);
 }
 
@@ -257,6 +262,7 @@ function exportText() {
   z.push('Laternen: ' + (l.up.includes('laternen') ? 'ja' : 'nein'));
   z.push(`Körperbau: alle ${l.typAlle || 'Standard je Figur'}${l.typ && Object.keys(l.typ).length ? '; einzeln ' + Object.entries(l.typ).map(([k, v]) => k + ' ' + v).join(', ') : ''}   Augen: ${l.auge || 'passend zum Körperbau'}   Licht: ${l.licht || 'mittag'}   Testmodus: ${testmodus() ? 'an' : 'aus'}   Rad: ${l.werftVoll ? 'alles' : 'einfach'}`);
   z.push('Kleidung: ' + Object.entries(F.FIG).filter(([, f]) => Object.keys(f.kleid).length).map(([id, f]) => { const k = F.kleidVon(id, {kleid: l.kleid[id] || {}}); return `${f.name.split(',')[0]} (${Object.entries(k).map(([t, w]) => `${t} ${f.kleid[t][w]}`).join(', ')})`; }).join('; '));
+  { const VH = F.VARIANTEN && F.VARIANTEN.hinnerk, w = (l.var || {}).hinnerk; z.push('Hinnerk: ' + (w && VH && VH[w] ? `${VH[w].kurz} ${VH[w].name}` : 'H1 wie bisher')); }
   const fz = Object.entries(l.farben).filter(([k]) => !k.startsWith('--frieda-')); if (fz.length) z.push('Figurenfarben: ' + fz.map(([k, v]) => `${k} ${v}`).join(', '));
   z.push('Rohdaten: ' + JSON.stringify({name: (S.boat && S.boat.name) || '', look: l}));
   return z.join('\n');

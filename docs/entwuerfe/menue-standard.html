@@ -237,7 +237,7 @@ const KN_OK = {acht: 1, kreuz: 1, palstek: 1, schot: 1}, MAN_OK = {Ablegen: 1}, 
 /* ---------- Anzeigen ---------- */
 let erster = true;
 async function zeigen(vonHand) {
-  stumm(); $('info').textContent = INFO[bild];
+  stumm(); $('info').textContent = 'Alter Entwurf: Deck und Kajüte sind seit v5.82 in der App (dort stimmen auch die Nahansichten). ' + INFO[bild];
   const ist = bild === 'deck' ? 'deck' : bild === 'frei' ? 'frei' : 'kajuete';
   tel.innerHTML = `<div class="screen" id="sc">${ist === 'deck' ? deckHtml() : ist === 'frei' ? freiHtml() : kajueteHtml()}</div>`;
   if (ist === 'frei') return;

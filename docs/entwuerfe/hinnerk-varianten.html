@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de" data-stil="laviert">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hinnerk zur Auswahl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Hinnerk zur Auswahl (Entwurf v5.82, E36): sieben Vorschläge, ähnlich wie bisher, süßer, mit anderem Bart. Gezeichnet von figuren.js (VARIANTEN.hinnerk). */
+:root{--bg:#e8e2d3;--paper:#fbf6ec;--ink:#2a2019;--muted:#6c5f52;--line:#e1d5bf;--sea:#2d5f6a;--accent:#f0a23a;--accent-ink:#3a2408;--chip:#f3ece0;--holz:#a8774a;--wand:#6e4a2e;
+  --hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2b3a45}}
+:root[data-theme="dark"]{--bg:#15212a;--paper:#22303a;--ink:#f1e8d8;--muted:#a9b3b6;--line:#344854;--sea:#7fb3bd;--accent:#f3b04f;--accent-ink:#2a1a05;--chip:#2b3a45}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+body{color:var(--ink);font-family:var(--bfont);font-size:15px;line-height:1.5;padding:16px max(16px,env(safe-area-inset-right,0px)) 90px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+h1{font-family:var(--hfont);font-size:30px;line-height:1.05;margin:0}
+h2{font-family:var(--hfont);font-size:19px;line-height:1.1;margin:0;flex:1}
+p{margin:0}.lead{color:var(--muted)}
+.eyebrow{font-family:var(--hfont);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);font-weight:700}
+section{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.kopf{display:flex;align-items:center;gap:8px}
+.nr{font:800 13px var(--hfont);background:var(--sea);color:#fff;border-radius:8px;padding:1px 7px}
+.herz{border:1px solid var(--line);background:var(--chip);color:#b5373a;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer;flex:none}
+.herz[aria-pressed="true"]{background:#b5373a;color:#fff;border-color:#b5373a}
+.reihe{display:grid;grid-template-columns:1fr 1fr;gap:6px}.reihe.drei{grid-template-columns:1fr 1fr 1fr}
+.bild{border-radius:12px;overflow:hidden;background:linear-gradient(#f6eedd,#efe3c8);aspect-ratio:4/5;position:relative}.drei .bild{aspect-ratio:1}
+.bild svg{position:absolute;inset:0;width:100%;height:100%}
+.bild.tisch{background:linear-gradient(var(--wand) 0 62%,#45291a 62%)}
+.bild.deck{background:linear-gradient(#cfe0e4 0 64%,#4f7779 64%)}
+.bild small{position:absolute;left:6px;bottom:4px;font:700 10.5px var(--bfont);color:#5a4a3a;background:rgba(255,250,240,.75);border-radius:6px;padding:0 5px}
+.text{font-size:13.5px;color:var(--muted)}
+.leiste{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--paper);border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;justify-content:center}
+.leiste button{font:800 14px var(--bfont);border:0;border-radius:14px;padding:11px 16px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.leiste span{font-size:13px;color:var(--muted)}
+.sprich{font:700 12px var(--bfont);border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Entwurf v5.82 · E36</div>
+  <h1>Hinnerk zur Auswahl</h1>
+  <p class="lead">Sieben Vorschläge: ähnlich wie bisher, aber süßer und mit anderem Bart. Jede Reihe zeigt ihn stehend, von vorn, am Kajütentisch und als Kopf. Markiere mit ♥, was dir gefällt, und schick mir die Auswahl. In der App kannst du sie unter Deck → ⚓ Werft → „Hinnerk“ ausprobieren.</p>
+  <div id="liste"></div>
+</div>
+<div class="leiste"><span id="zahl">Noch nichts markiert</span><button id="kopie">Auswahl kopieren</button></div>
+<script src="../../figuren.js"></script>
+<script>
+(() => {
+  'use strict';
+  const F = window.FIGUREN, V = F.VARIANTEN.hinnerk, $ = id => document.getElementById(id);
+  const TEXT = {bisher: 'Der jetzige Hinnerk zum Vergleich: kräftig, Vollbart, Knollennase.',
+    krause: 'Friesischer Kapitänsbart: Kinn und Wangen bärtig, Oberlippe frei. Man sieht ihn lächeln. Kopf etwas runder, rote Wangen.',
+    walross: 'Großer, hängender Schnauzer über dem Mund, dazu Stoppeln. Brummig, aber zum Knuddeln.',
+    wolke: 'Runder, flauschiger Bart wie eine Wolke, Kulleraugen. Am meisten „süß“.',
+    gestutzt: 'Kurzer, grauer Bart mit Schnauz und Koteletten. Jünger, ordentlich, immer noch Seebär.',
+    zwirbel: 'Gezwirbelter Schnauz mit Kinnbärtchen. Ein bisschen eitel, passt zu seinen Geschichten.',
+    knuddel: 'Der jetzige Bart, aber mit größerem Kopf, kürzerem Körper und Kulleraugen.'};
+  let herz = {}; try { herz = JSON.parse(localStorage.getItem('skipper-hinnerk-herz') || '{}'); } catch (e) {}
+  const svg = (vb, inner) => `<svg viewBox="${vb}" preserveAspectRatio="xMidYMax meet">${inner}</svg>`;
+  function kopfVb(w) { const T = F.typ('hinnerk', {var: w}), cy = -77.6 * T.bh - 9 * T.k, g = 40 * T.k; return `${(.4 * T.bw - g / 2).toFixed(1)} ${(cy - g * .52).toFixed(1)} ${g.toFixed(1)} ${g.toFixed(1)}`; }
+  function tisch(w) {
+    const T = F.typ('hinnerk', {var: w}), kante = -35.9 / T.bh;
+    return svg('-46 -112 92 122', `<g>${F.figur('hinnerk', {blick: 'vorn', pose: 'tisch', kante, var: w, dreh: false})}</g>
+      <ellipse cx="0" cy="-22" rx="44" ry="11" fill="#a8774a" stroke="#3a2412" stroke-width="1.2"/><path d="M-44 -22 Q-44 -6 0 -6 Q44 -6 44 -22" fill="#6e4628" stroke="#3a2412" stroke-width="1"/><ellipse cx="0" cy="-22" rx="44" ry="11" fill="#a8774a" stroke="#3a2412" stroke-width="1.2"/>
+      ${F.tischArme('hinnerk', {kante, var: w})}<g transform="translate(-1 -26)"><path d="M-3.4 -7 h6.8 l-.6 7.6 q-2.8 1.1 -5.6 0z" fill="#e9e1cf" stroke="#3a2a1c" stroke-width=".8"/><ellipse cx="0" cy="-7" rx="3.4" ry="1" fill="#5a3418"/><path d="M3.2 -5.4 q3 .4 2.4 3 q-.8 1.4 -2.6 .9" fill="none" stroke="#3a2a1c" stroke-width=".9"/></g>`);
+  }
+  function zeichnen() {
+    $('liste').innerHTML = Object.entries(V).map(([w, v]) => `<section data-w="${w}">
+      <div class="kopf"><span class="nr">${v.kurz}</span><h2>${v.name}</h2><button class="sprich" data-sprich="${w}">💬 sprechen</button><button class="herz" data-herz="${w}" aria-pressed="${!!herz[w]}" aria-label="${v.name} markieren">♥</button></div>
+      <div class="reihe">
+        <div class="bild">${svg('-36 -120 72 124', F.figur('hinnerk', {blick: 'seite', var: w, dreh: false}))}<small>stehend</small></div>
+        <div class="bild tisch">${tisch(w)}<small>am Kajütentisch</small></div>
+      </div>
+      <div class="reihe drei">
+        <div class="bild kopfbild">${svg(kopfVb(w), F.figur('hinnerk', {blick: 'vorn', var: w, dreh: false}))}<small>Kopf</small></div>
+        <div class="bild">${svg('-34 -110 68 114', F.figur('hinnerk', {blick: 'vorn', var: w, dreh: false}))}<small>von vorn</small></div>
+        <div class="bild deck">${svg('-24 -52 48 56', `<g transform="scale(.42)">${F.figur('hinnerk', {blick: 'seite', var: w, dreh: false, pose: 'pinne'})}</g><rect x="-30" y="0" width="60" height="8" fill="#f3efe6"/>`)}<small>an Deck (so klein)</small></div>
+      </div>
+      <p class="text">${TEXT[w] || ''}</p>
+    </section>`).join('');
+    zaehlen();
+  }
+  function zaehlen() { const n = Object.keys(herz).filter(k => herz[k]).length; $('zahl').textContent = n ? `${n} markiert` : 'Noch nichts markiert'; }
+  let sprichUhr = 0;
+  document.addEventListener('click', e => {
+    const h = e.target.closest('[data-herz]'); if (h) { const w = h.dataset.herz; herz[w] = !herz[w]; h.setAttribute('aria-pressed', !!herz[w]); try { localStorage.setItem('skipper-hinnerk-herz', JSON.stringify(herz)); } catch (x) {} zaehlen(); return; }
+    const sp = e.target.closest('[data-sprich]'); if (sp) { const sec = sp.closest('section'); cancelAnimationFrame(sprichUhr); const t0 = performance.now();
+      const lauf = now => { const t = (now - t0) / 1000, v = t > 2.6 ? 0 : Math.max(0, Math.sin(t * 12.6)) * (.55 + .45 * Math.sin(t * 3.3)); sec.querySelectorAll('svg').forEach(s => F.mund(s, v)); if (t <= 2.6) sprichUhr = requestAnimationFrame(lauf); };
+      sprichUhr = requestAnimationFrame(lauf); return; }
+    if (e.target.closest('#kopie')) { const wahl = Object.entries(V).filter(([w]) => herz[w]).map(([, v]) => `${v.kurz} ${v.name}`); const t = wahl.length ? 'Hinnerk-Varianten, mir gefallen: ' + wahl.join(', ') : 'Hinnerk-Varianten: noch nichts markiert';
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { $('zahl').textContent = 'Kopiert. Jetzt in den Chat einfügen.'; }).catch(() => { prompt('Zum Kopieren:', t); }); }
+  });
+  zeichnen();
+})();
+</script>
+</body>
+</html>

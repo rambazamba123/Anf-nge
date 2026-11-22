@@ -42,7 +42,7 @@ const FIG = {
     farben: {haut: '#efc19c', bart: '#f1ece2', haar: '#e9e4da', jacke: '#34465f', hose: '#4b505b', stiefel: '#3c4a3a', hut: '#25304a', akzent: '#c9a03c'},
     kleid: {hut: {elbsegler: 'Elbsegler-Mütze', fischer: 'rote Fischermütze', suedwester: 'Südwester', ohne: 'ohne'}, jacke: {troyer: 'Troyer (Strick)', oelzeug: 'Ölzeug', joppe: 'Joppe mit Knöpfen'}},
     std: {hut: 'elbsegler', jacke: 'troyer'}},
-  smilla: {name: 'Smilla', gangStd: 'flott', typStd: 'kraeftig', wer: 'SMILLA', h: 88, w: .86, bauch: 0, lean: 0, nase: 'stups', sommersprossen: true,
+  smilla: {name: 'Smilla', gangStd: 'flott', typStd: 'kraeftig', wer: 'SMILLA', h: 82, w: .86, bauch: 0, lean: 0, nase: 'stups', sommersprossen: true,
     farben: {haut: '#f4caa6', haar: '#b8582c', jacke: '#c8503c', hose: '#3d4f6e', stiefel: '#e2b23c', hut: '#2f6f8f', akzent: '#f2efe6'},
     kleid: {haar: {zopf: 'langer Zopf', dutt: 'Dutt', kurz: 'kurz'}, jacke: {regen: 'Regenjacke', ringel: 'Ringelpulli', oelzeug: 'Ölzeug'}},
     std: {haar: 'zopf', jacke: 'regen'}},
@@ -94,10 +94,32 @@ const FIG = {
   knotenwurm: {name: 'Knotenwurm', gangStd: 'kriechen', tier: 'fabel', wer: 'FABEL', h: 14, farben: {}, kleid: {}, std: {}},
   sandkruemel: {name: 'Sandkrümel', gangStd: 'hopsen', tier: 'fabel', wer: 'FABEL', h: 10, farben: {}, kleid: {}, std: {}},
   quallchen: {name: 'Quallchen', gangStd: 'schweben', tier: 'fabel', wer: 'FABEL', h: 22, farben: {}, kleid: {}, std: {}},
+  moewe: {name: 'Möwe', gangStd: 'watscheln', tier: 'fabel', wer: 'MOEWE', h: 20, farben: {}, kleid: {}, std: {}},
   lotse: {name: 'Mats, Verkehrszentrale', gangStd: 'normal', typStd: 'kraeftig', wer: 'VERKEHR', h: 98, w: 1, bauch: .15, lean: 0, nase: 'gerade', frisur: 'scheitel', brille: true, jacke: 'hemd',
     farben: {haut: '#ecc4a0', haar: '#2e2622', jacke: '#9cb8d4', hose: '#2f3a4e', stiefel: '#1f1f22', hut: '#2a2a2e', akzent: '#2f3a4e'},
     kleid: {hut: {headset: 'Headset', ohne: 'ohne'}}, std: {hut: 'headset'}}
 };
+
+/* Hinnerk zur Auswahl (v5.82, Nutzer 23.11.2026: „ähnlich wie der jetzige, aber etwas anders, süßer, Bart anders … Auswahlmöglichkeiten“).
+   Eine Variante überschreibt Bart, Körperbau (typ als eigenes Maß) und Farben. Gewählt wird in der Werft (S.cfg.look.var.hinnerk, Standard leer = wie bisher; R7). */
+const VARIANTEN = {hinnerk: {
+  bisher: {name: 'Wie bisher', kurz: 'H1'},
+  krause: {name: 'Schifferkrause', kurz: 'H2', bart: 'krause', typ: {k: 1.12, bw: 1.26, bh: .95, auge: 'glanz', wange: 1.5}},
+  walross: {name: 'Walross-Schnauzer', kurz: 'H3', bart: 'walross', typ: {k: 1.1, bw: 1.3, bh: .96, auge: 'glanz', wange: 1.4}},
+  wolke: {name: 'Wolkenbart', kurz: 'H4', bart: 'rausche', typ: {k: 1.16, bw: 1.24, bh: .93, auge: 'perle', wange: 1.6}},
+  gestutzt: {name: 'Kurz gestutzt', kurz: 'H5', bart: 'gestutzt', typ: {k: 1.1, bw: 1.24, bh: .97, auge: 'glanz', wange: 1.3}, farben: {bart: '#d6d0c5', haar: '#d6d0c5'}},
+  zwirbel: {name: 'Zwirbelbart', kurz: 'H6', bart: 'zwirbel', typ: {k: 1.12, bw: 1.26, bh: .95, auge: 'glanz', wange: 1.5}},
+  knuddel: {name: 'Knuddel-Hinnerk', kurz: 'H7', typ: {k: 1.28, bw: 1.32, bh: .86, auge: 'perle', wange: 1.9}}
+}};
+function variante(id, o) { const V = VARIANTEN[id]; if (!V) return null; const w = (o && o.var) || (look().var || {})[id]; return w && V[w] && w !== 'bisher' ? V[w] : null; }
+function mitVariante(f, V) { return V ? {...f, ...V, farben: {...f.farben, ...(V.farben || {})}} : f; }
+/* Körperbau, der wirklich gilt: Aufruf (o.typ) vor Werft je Figur vor Variante vor „alle“ vor Standard der Figur */
+function typVon(id, o = {}) {
+  const f = FIG[id]; if (!f) return TYPEN.klassisch; const L0 = look(), ex = o.typ || (L0.typ || {})[id], V = variante(id, o);
+  if (ex) return TYPEN[ex] || TYPEN.klassisch;
+  if (V && V.typ) return V.typ;
+  return TYPEN[L0.typAlle || f.typStd || 'klassisch'] || TYPEN.klassisch;
+}
 
 /* ---------- Stil und Farben als CSS (einmal pro Dokument) ---------- */
 /* Stilregeln: gelten für <html data-stil="X"> (alle Figuren ohne festen Stil) und für .st-X (Vorschauen mit festem Stil) */
@@ -241,6 +263,48 @@ function hutGen(hut, blick, hx, hy) {
 }
 const schnauz = (blick, hx, hy) => blick === 'seite' ? `<path d="M${hx + 6.6} ${hy + 4.2} Q${hx + 10.6} ${hy + 3.6} ${hx + 11.6} ${hy + 6.6} Q${hx + 9} ${hy + 5.6} ${hx + 6} ${hy + 6.2}Z" class="f-bart ln"/>`
   : `<path d="M${hx - 4.6} ${hy + 6} Q${hx - 2} ${hy + 3.6} ${hx + .8} ${hy + 4.8} Q${hx + 3.6} ${hy + 3.6} ${hx + 6.2} ${hy + 6} Q${hx + 3} ${hy + 6.4} ${hx + .8} ${hy + 6} Q${hx - 1.6} ${hy + 6.4} ${hx - 4.6} ${hy + 6}Z" class="f-bart ln"/>`;
+/* Neue Bärte für Hinnerk (v5.82, VARIANTEN): Schifferkrause (Kinnbart ohne Schnauz), Walross (großer Schnauzer über dem Mund, Stoppeln),
+   Wolkenbart (rund und flauschig), kurz gestutzt (kurzer Bart mit Schnauz und Koteletten), Zwirbelbart (gezwirbelter Schnauz mit Kinnbärtchen) */
+const BAERTE_NEU = ['krause', 'walross', 'rausche', 'gestutzt', 'zwirbel'];
+const pf = (pts, cls = 'f-bart ln', extra = '') => `<path d="${pts}" class="${cls}"${extra}/>`;
+function bartSeite(f, o, hx, hy, mundL) {
+  const b = f.bart, X = v => r1(hx + v), Y = v => r1(hy + v);
+  const mundZu = (mx, my) => mundL || `<path d="M${r1(mx - 2)} ${r1(my)} Q${r1(mx)} ${r1(my + .9)} ${r1(mx + 1.6)} ${r1(my - .2)}" class="det" style="opacity:1"/>`;
+  if (b === 'krause') return pf(`M${X(-4.2)} ${Y(-.6)} Q${X(-5.8)} ${Y(10.4)} ${X(.6)} ${Y(14.6)} Q${X(6.4)} ${Y(17.4)} ${X(10.8)} ${Y(12.4)} Q${X(11.8)} ${Y(10.6)} ${X(10.2)} ${Y(9.4)} Q${X(7.4)} ${Y(10.6)} ${X(4.4)} ${Y(9.8)} Q${X(-.8)} ${Y(8.2)} ${X(-2.2)} ${Y(2.4)} Q${X(-2.4)} ${Y(.6)} ${X(-2.6)} ${Y(-.6)}Z`)
+    + `<path d="M${X(1.6)} ${Y(11.6)} q1 2.4 3 3.2 M${X(6.6)} ${Y(12.2)} q.6 1.8 2.2 2.4 M${X(-2.6)} ${Y(7)} q.4 2.4 2 3.6" class="det"/>`;
+  if (b === 'walross') { const mx = hx + 8.2, my = hy + 8.6;
+    return pf(`M${X(-2.6)} ${Y(3)} Q${X(-2.4)} ${Y(10.6)} ${X(3)} ${Y(11)} Q${X(9.6)} ${Y(10.6)} ${X(10.6)} ${Y(4.6)} Q${X(9)} ${Y(8.4)} ${X(6.4)} ${Y(8.4)} Q${X(2)} ${Y(8.4)} ${X(-2.6)} ${Y(3)}Z`, 'f-bart', ' opacity=".45"')
+      + mundG(o, f, mx, my, mundZu(mx, my), 'seite')
+      + pf(`M${X(7.8)} ${Y(3.2)} Q${X(12.8)} ${Y(2.6)} ${X(13.6)} ${Y(6.2)} Q${X(14)} ${Y(10)} ${X(11.2)} ${Y(11.2)} Q${X(11.4)} ${Y(8.6)} ${X(9.4)} ${Y(8)} Q${X(7)} ${Y(7.6)} ${X(4.8)} ${Y(6.8)} Q${X(4.6)} ${Y(4.2)} ${X(7.8)} ${Y(3.2)}Z`)
+      + `<path d="M${X(8.6)} ${Y(4.4)} q2.6 .6 3.4 3.4 M${X(6.6)} ${Y(5.2)} q1.6 .8 2 2.2" class="det"/>`; }
+  if (b === 'rausche') { const mx = hx + 8, my = hy + 8.6;
+    return pf(`M${X(-4.6)} ${Y(.2)} Q${X(-7.6)} ${Y(12.4)} ${X(-1.4)} ${Y(18.4)} Q${X(4.2)} ${Y(22.4)} ${X(10.2)} ${Y(18.8)} Q${X(15.6)} ${Y(15)} ${X(14)} ${Y(7.4)} Q${X(13)} ${Y(4.2)} ${X(10.4)} ${Y(5.2)} Q${X(7.6)} ${Y(6.8)} ${X(5.4)} ${Y(5.4)} Q${X(.8)} ${Y(4.4)} ${X(-4.6)} ${Y(.2)}Z`)
+      + `<path d="M${X(1)} ${Y(10)} q1.4 3 3.6 3.6 M${X(7)} ${Y(11.4)} q1 2.6 3 3 M${X(2)} ${Y(16)} q2 1.4 4 .8 M${X(9.6)} ${Y(15.4)} q1.6 -.4 2.6 -2 M${X(-3.4)} ${Y(9)} q.6 2.6 2.4 4" class="det"/>`
+      + mundG(o, f, mx, my, `<path d="M${r1(mx - 1.8)} ${r1(my)} Q${r1(mx)} ${r1(my + 1)} ${r1(mx + 1.8)} ${r1(my - .2)}" class="det" style="opacity:1"/>`, 'seite'); }
+  if (b === 'gestutzt') return pf(`M${X(-5.4)} ${Y(-4.4)} Q${X(-5.6)} ${Y(1)} ${X(-2.6)} ${Y(3.4)} L${X(-1.6)} ${Y(2)} Q${X(-3.6)} ${Y(0)} ${X(-3.4)} ${Y(-4.6)}Z`)
+    + pf(`M${X(-2.6)} ${Y(3)} Q${X(-2.4)} ${Y(10.6)} ${X(3)} ${Y(11)} Q${X(9.6)} ${Y(10.6)} ${X(10.6)} ${Y(4.6)} Q${X(9)} ${Y(8.4)} ${X(6.4)} ${Y(8.4)} Q${X(2)} ${Y(8.4)} ${X(-2.6)} ${Y(3)}Z`) + schnauz('seite', hx, hy);
+  if (b === 'zwirbel') return pf(`M${X(5.4)} ${Y(8.8)} Q${X(5.8)} ${Y(14.8)} ${X(8.6)} ${Y(15.4)} Q${X(10.8)} ${Y(13.4)} ${X(9.8)} ${Y(8.6)} Q${X(7.6)} ${Y(9.6)} ${X(5.4)} ${Y(8.8)}Z`)
+    + pf(`M${X(7.2)} ${Y(4.2)} Q${X(10.6)} ${Y(3.4)} ${X(12.6)} ${Y(4.8)} Q${X(14.6)} ${Y(6)} ${X(16)} ${Y(4.4)} Q${X(16.8)} ${Y(3.2)} ${X(15.8)} ${Y(2.4)} Q${X(16.2)} ${Y(3.8)} ${X(15)} ${Y(4.4)} Q${X(13.6)} ${Y(5.2)} ${X(12.4)} ${Y(6.2)} Q${X(9.6)} ${Y(6.8)} ${X(7.2)} ${Y(5.8)}Z`);
+  return '';
+}
+function bartVorn(f, o, hx, hy, mund, mundL) {
+  const b = f.bart, X = v => r1(hx + v), Y = v => r1(hy + v);
+  const nase = f.nase === 'knolle' ? `<circle cx="${X(1.2)}" cy="${Y(2.4)}" r="3.6" class="f-haut ln"/><circle cx="${X(1.6)}" cy="${Y(2.8)}" r="2" class="wange"/>` : '';
+  const kurz = (extra = '') => pf(`M${X(-8.4)} ${Y(2)} Q${X(-8)} ${Y(11)} ${X(0)} ${Y(11.6)} Q${X(8)} ${Y(11)} ${X(8.4)} ${Y(2)} Q${X(6)} ${Y(8.4)} ${X(0)} ${Y(8.4)} Q${X(-6)} ${Y(8.4)} ${X(-8.4)} ${Y(2)}Z`, extra ? 'f-bart' : 'f-bart ln', extra);
+  if (b === 'krause') return mund + pf(`M${X(-9.4)} ${Y(-1.6)} Q${X(-11.2)} ${Y(12.4)} ${X(0)} ${Y(16.4)} Q${X(11.2)} ${Y(12.4)} ${X(9.4)} ${Y(-1.6)} Q${X(8.6)} ${Y(5.4)} ${X(5.8)} ${Y(9.4)} Q${X(.4)} ${Y(11.8)} ${X(-5.4)} ${Y(9.4)} Q${X(-8.6)} ${Y(5.4)} ${X(-9.4)} ${Y(-1.6)}Z`)
+    + `<path d="M${X(-4)} ${Y(12)} q1 2.2 3 2.8 M${X(4)} ${Y(12)} q-1 2.2 -3 2.8 M${X(-8)} ${Y(6)} q0 2.6 1.6 4 M${X(8)} ${Y(6)} q0 2.6 -1.6 4" class="det"/>`;
+  if (b === 'walross') { const mx = hx + .8, my = hy + 8.6, zu = mundL || `<path d="M${r1(mx - 2.2)} ${r1(my - .2)} Q${r1(mx)} ${r1(my + 1.1)} ${r1(mx + 2.2)} ${r1(my - .2)}" class="det" style="opacity:1"/>`;
+    return kurz(' opacity=".45"') + mundG(o, f, mx, my, zu, 'vorn')
+      + pf(`M${X(.8)} ${Y(3.8)} Q${X(-3.4)} ${Y(2.8)} ${X(-7)} ${Y(5.4)} Q${X(-9)} ${Y(9)} ${X(-7.2)} ${Y(11.6)} Q${X(-6.2)} ${Y(8.8)} ${X(-3.4)} ${Y(8.4)} Q${X(-1)} ${Y(8.2)} ${X(.8)} ${Y(7)} Q${X(2.6)} ${Y(8.2)} ${X(5)} ${Y(8.4)} Q${X(7.8)} ${Y(8.8)} ${X(8.8)} ${Y(11.6)} Q${X(10.6)} ${Y(9)} ${X(8.6)} ${Y(5.4)} Q${X(5)} ${Y(2.8)} ${X(.8)} ${Y(3.8)}Z`)
+      + `<path d="M${X(-1.4)} ${Y(4.6)} q-2.6 .6 -4 3 M${X(3)} ${Y(4.6)} q2.6 .6 4 3" class="det"/>` + nase; }
+  if (b === 'rausche') return pf(`M${X(-9.8)} ${Y(-1)} Q${X(-13)} ${Y(14.6)} ${X(0)} ${Y(20.4)} Q${X(13)} ${Y(14.6)} ${X(9.8)} ${Y(-1)} Q${X(7.4)} ${Y(5.6)} ${X(4)} ${Y(5)} Q${X(.8)} ${Y(3.6)} ${X(-2.4)} ${Y(5)} Q${X(-7.4)} ${Y(5.6)} ${X(-9.8)} ${Y(-1)}Z`)
+    + `<path d="M${X(-5)} ${Y(10)} q.6 3 3 4.2 M${X(5)} ${Y(10)} q-.6 3 -3 4.2 M${X(-1.6)} ${Y(16.6)} q1.6 1.2 3.4 0 M${X(-9)} ${Y(5)} q-.4 3.4 1.4 5.6 M${X(9)} ${Y(5)} q.4 3.4 -1.4 5.6" class="det"/>` + mund + nase;
+  if (b === 'gestutzt') return kurz() + mund + schnauz('vorn', hx, hy)
+    + [-1, 1].map(sd => pf(`M${X(sd * 9.2)} ${Y(-5)} Q${X(sd * 9.6)} ${Y(1)} ${X(sd * 8.2)} ${Y(3.6)} L${X(sd * 7.2)} ${Y(2.6)} Q${X(sd * 8)} ${Y(0)} ${X(sd * 7.8)} ${Y(-5)}Z`)).join('');
+  if (b === 'zwirbel') { const c = hx + .8, sw = sd => pf(`M${r1(c)} ${Y(4.2)} Q${r1(c + sd * 3.2)} ${Y(3.6)} ${r1(c + sd * 5.8)} ${Y(5)} Q${r1(c + sd * 7.8)} ${Y(6.2)} ${r1(c + sd * 9)} ${Y(4.4)} Q${r1(c + sd * 9.6)} ${Y(3)} ${r1(c + sd * 8.6)} ${Y(2.4)} Q${r1(c + sd * 9)} ${Y(3.8)} ${r1(c + sd * 8)} ${Y(4.4)} Q${r1(c + sd * 6.6)} ${Y(5.8)} ${r1(c + sd * 4.8)} ${Y(6.4)} Q${r1(c + sd * 2.2)} ${Y(6.8)} ${r1(c)} ${Y(5.8)}Z`);
+    return mund + pf(`M${X(-1.6)} ${Y(8.8)} Q${X(-1.6)} ${Y(14)} ${X(.8)} ${Y(14.8)} Q${X(3.2)} ${Y(14)} ${X(3.2)} ${Y(8.8)} Q${X(.8)} ${Y(9.8)} ${X(-1.6)} ${Y(8.8)}Z`) + sw(-1) + sw(1); }
+  return mund;
+}
 function kopfSeite(id, f, k, o, hx, hy) {
   const L = laune(o);
   let s = '';
@@ -274,12 +338,13 @@ function kopfSeite(id, f, k, o, hx, hy) {
   const mx = hx + 6.8, my = hy + 6.2;
   const MUND = {froh: `<path d="M${mx - 2.4} ${my - .6} Q${mx} ${my + 1.8} ${mx + 1.8} ${my - 1}" class="det" style="opacity:1"/>`, lacht: `<path d="M${mx - 2.4} ${my - .8} Q${mx} ${my + 3} ${mx + 2} ${my - 1}Z" fill="#7a2e22" class="det" style="opacity:1"/>`,
     genervt: `<path d="M${mx - 2.2} ${my + .2} L${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`, staunt: `<ellipse cx="${mx}" cy="${my + .3}" rx="1.1" ry="1.5" fill="#7a2e22"/>`};
-  if (!f.bart || f.bart === 'kurz' || f.bart === 'schnauz') s += mundG(o, f, mx, my, (MUND[L] || `<path d="M${mx - 2} ${my} Q${mx} ${my + .9} ${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`) + (id === 'smilla' ? `<path d="M${mx - 1.8} ${my + .5} Q${mx} ${my + 1.8} ${mx + 1.4} ${my + .3}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/>` : ''), 'seite');
+  if (!f.bart || ['kurz', 'schnauz', 'krause', 'gestutzt', 'zwirbel'].includes(f.bart)) s += mundG(o, f, mx, my, (MUND[L] || `<path d="M${mx - 2} ${my} Q${mx} ${my + .9} ${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`) + (id === 'smilla' ? `<path d="M${mx - 1.8} ${my + .5} Q${mx} ${my + 1.8} ${mx + 1.4} ${my + .3}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/>` : ''), 'seite');
   /* Bart */
   if (f.bart === 'voll') s += `<path d="M${hx - 3.8} ${hy + 1.6} Q${hx - 4.4} ${hy + 13} ${hx + 3} ${hy + 14.4} Q${hx + 11.6} ${hy + 13.6} ${hx + 12} ${hy + 4.4} Q${hx + 8.6} ${hy + 6.6} ${hx + 5.6} ${hy + 5} Q${hx + 1} ${hy + 4.4} ${hx - 3.8} ${hy + 1.6}Z" class="f-bart ln"/>
     <path d="M${hx} ${hy + 8} Q${hx + 1} ${hy + 11} ${hx + 3} ${hy + 12} M${hx + 6} ${hy + 8.6} Q${hx + 7} ${hy + 11} ${hx + 8} ${hy + 11.4}" class="det"/>${mundG(o, f, hx + 7.4, hy + 7.6, `<path d="M${hx + 5.6} ${hy + 7.6} Q${hx + 7.4} ${hy + 8.6} ${hx + 9.4} ${hy + 7.4}" class="det" style="opacity:1"/>`, 'seite')}`;
   if (f.bart === 'kurz') s += `<path d="M${hx - 2.6} ${hy + 3} Q${hx - 2.4} ${hy + 10.6} ${hx + 3} ${hy + 11} Q${hx + 9.6} ${hy + 10.6} ${hx + 10.6} ${hy + 4.6} Q${hx + 9} ${hy + 8.4} ${hx + 6.4} ${hy + 8.4} Q${hx + 2} ${hy + 8.4} ${hx - 2.6} ${hy + 3}Z" class="f-bart ln"/>`;
   if (f.bart === 'schnauz') s += schnauz('seite', hx, hy);
+  s += bartSeite(f, o, hx, hy, MUND[L]);
   /* Smilla (v5.78, Nutzer: „etwas attraktiver“, jugendfrei): Wimpern, Lippen, eine lose Strähne */
   if (id === 'smilla') s += `<path d="M${ax + 1} ${ay - 1.3} l1.7 -1.1 M${ax + 1.5} ${ay - .3} l1.9 -.5" class="det" style="opacity:1"/><path d="M${hx - 1} ${hy - 8} Q${hx - 4.6} ${hy - 1} ${hx - 2.6} ${hy + 6}" class="s-haar" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
   /* Haar vorn und oben */
@@ -330,6 +395,7 @@ function kopfVorn(id, f, k, o, hx, hy) {
   if (f.bart === 'voll') s += `<path d="M${hx - 9} ${hy + 1} Q${hx - 9} ${hy + 14} ${hx} ${hy + 15.6} Q${hx + 9} ${hy + 14} ${hx + 9} ${hy + 1} Q${hx + 6} ${hy + 6.4} ${hx + 3} ${hy + 5.4} Q${hx} ${hy + 4.2} ${hx - 3} ${hy + 5.4} Q${hx - 6} ${hy + 6.4} ${hx - 9} ${hy + 1}Z" class="f-bart ln"/>
     <path d="M${hx - 4} ${hy + 9} Q${hx - 3} ${hy + 12} ${hx - 1} ${hy + 13} M${hx + 4} ${hy + 9} Q${hx + 3} ${hy + 12} ${hx + 1} ${hy + 13}" class="det"/>` + mund + `<circle cx="${hx + 1.2}" cy="${hy + 2.4}" r="3.6" class="f-haut ln"/><circle cx="${hx + 1.6}" cy="${hy + 2.8}" r="2" class="wange"/>`;
   else if (f.bart === 'kurz') s += `<path d="M${hx - 8.4} ${hy + 2} Q${hx - 8} ${hy + 11} ${hx} ${hy + 11.6} Q${hx + 8} ${hy + 11} ${hx + 8.4} ${hy + 2} Q${hx + 6} ${hy + 8.4} ${hx} ${hy + 8.4} Q${hx - 6} ${hy + 8.4} ${hx - 8.4} ${hy + 2}Z" class="f-bart ln"/>` + mund;
+  else if (BAERTE_NEU.includes(f.bart)) s += bartVorn(f, o, hx, hy, mund, MUND[L]);
   else s += mund;
   if (f.bart === 'schnauz') s += schnauz('vorn', hx, hy);
   if (id === 'smilla') s += [-1, 1].map(sd => { const ax = hx + sd * 3.8 + .6; return `<path d="M${ax + sd * 1.3} ${ay - 1.2} l${sd * 1.4} -1.2 M${ax + sd * 1.8} ${ay - .2} l${sd * 1.6} -.6" class="det" style="opacity:1"/>`; }).join('') + `<path d="M${hx - 6} ${hy - 7} Q${hx - 10} ${hy - 1} ${hx - 8.4} ${hy + 6}" class="s-haar" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
@@ -354,7 +420,7 @@ function kopfRuecken(id, f, k, o, hx, hy) {
   let s = `<path d="M${hx - 9} ${hy - 1} Q${hx - 9.4} ${hy - 11} ${hx} ${hy - 11.2} Q${hx + 9.4} ${hy - 11} ${hx + 9} ${hy - 1} Q${hx + 9} ${hy + 9.4} ${hx} ${hy + 10.4} Q${hx - 9} ${hy + 9.4} ${hx - 9} ${hy - 1}Z" class="f-haut ln"/>`;
   s += [-1, 1].map(sd => `<path d="M${hx + sd * 8.4} ${hy - 2.4} Q${hx + sd * 11.2} ${hy - 2.4} ${hx + sd * 10.8} ${hy + 1} Q${hx + sd * 10.4} ${hy + 4} ${hx + sd * 8} ${hy + 3.4}" class="f-haut ln"/>`).join('');
   if (f.haar === 'kranz' || f.haar === 'grau') s += `<path d="M${hx - 8.8} ${hy - 4} Q${hx - 9.4} ${hy + 4} ${hx - 6} ${hy + 5} Q${hx} ${hy + 3} ${hx + 6} ${hy + 5} Q${hx + 9.4} ${hy + 4} ${hx + 8.8} ${hy - 4} Q${hx + 6} ${hy - 1} ${hx} ${hy - 1.4} Q${hx - 6} ${hy - 1} ${hx - 8.8} ${hy - 4}Z" class="f-haar ln"/><path d="M${hx - 5} ${hy + 1} Q${hx - 4} ${hy + 3} ${hx - 2} ${hy + 2.6} M${hx + 5} ${hy + 1} Q${hx + 4} ${hy + 3} ${hx + 2} ${hy + 2.6}" class="det"/>`;
-  if (f.bart === 'voll') s += [-1, 1].map(sd => `<path d="M${hx + sd * 8.6} ${hy + 3} Q${hx + sd * 10} ${hy + 9} ${hx + sd * 6} ${hy + 12}" class="s-bart" stroke-width="3" fill="none" stroke-linecap="round"/>`).join('');
+  if (['voll', 'krause', 'rausche', 'gestutzt'].includes(f.bart)) { const b = f.bart === 'rausche' ? 1.35 : 1; s += [-1, 1].map(sd => `<path d="M${hx + sd * 8.6} ${hy + 3} Q${r1(hx + sd * 10 * b)} ${r1(hy + 9 * b)} ${r1(hx + sd * 6 * b)} ${r1(hy + 12 * b)}" class="s-bart" stroke-width="${r1(3 * b)}" fill="none" stroke-linecap="round"/>`).join(''); }
   if (id === 'smilla' || id === 'hilke') s += `<path d="M${hx - 9.6} ${hy + 4} Q${hx - 11} ${hy - 12} ${hx} ${hy - 12} Q${hx + 11} ${hy - 12} ${hx + 9.6} ${hy + 4} Q${hx} ${hy + 7} ${hx - 9.6} ${hy + 4}Z" class="f-haar ln"/>`;
   if (id === 'smilla' && k.haar === 'zopf') s += `<g${dreh(o, 'zopf', f.wer, hx, hy + 4)}><path d="M${hx - 3} ${hy + 4} Q${hx - 4} ${hy + 18} ${hx - 1} ${hy + 28} Q${hx + 3} ${hy + 18} ${hx + 3} ${hy + 4}Z" class="f-haar ln"/>${[10, 16, 22].map(dy => `<path d="M${hx - 3} ${hy + dy} Q${hx} ${hy + dy + 2} ${hx + 2.6} ${hy + dy}" class="det"/>`).join('')}</g>`;
   if (id === 'smilla' && k.haar === 'dutt') s += `<circle cx="${hx}" cy="${hy - 9}" r="5" class="f-haar ln"/>`;
@@ -601,6 +667,7 @@ function fabel(id, f, k, o) {
       <circle cx="-6" cy="2" r="3.2" fill="#ffd94a" class="ln"/><ellipse cx="0" cy="0" rx="6" ry="5" fill="#5d7fa3" class="ln"/>${fabGesicht(1.4, -.6, .62, t, {ph: P})}
       <path d="M2 -4.6 q.6 -3.4 2.8 -4 M.4 -4.8 q-.4 -3.4 1 -4.6" stroke="${FAB_TINTE}" stroke-width=".7" fill="none" stroke-linecap="round"/><circle cx="4.8" cy="-8.6" r=".9" fill="#ffd94a"/><circle cx="1.4" cy="-9.4" r=".9" fill="#ffd94a"/></g>`; }
   if (id === 'knotenwurm') return knotenwurm(t, P);
+  if (id === 'moewe') return moeweZeichnen(t, o);
   if (id === 'sandkruemel') { /* drei Sandkrümel, die nacheinander hopsen (immer als Grüppchen) */
     return [[-8, .8, 0], [0, 1, .33], [8, .7, .66]].map(([x, g, o2]) => { const u = (t + o2) % 1, hp = Math.max(0, Math.sin(u * Math.PI * 2)) * 5 * g;
       return `<ellipse cx="${x}" cy="0" rx="${r1(3 * g)}" ry=".8" fill="#2a1608" opacity=".1"/><g transform="translate(${x} ${r1(-hp)}) scale(${g})"><path d="M-4 -3 Q-4.4 -8 0 -8.4 Q4.4 -8 4 -3 Q3.6 0 0 0 Q-3.6 0 -4 -3Z" fill="#e9cf96" class="ln"/>
@@ -612,6 +679,32 @@ function fabel(id, f, k, o) {
       <path d="M${r1(-7 - pu * .8)} 0 Q${r1(-7 - pu)} ${r1(-11 + pu)} 0 ${r1(-11 + pu)} Q${r1(7 + pu)} ${r1(-11 + pu)} ${r1(7 + pu * .8)} 0 Q0 2 ${r1(-7 - pu * .8)} 0Z" fill="#f4bfd6" opacity=".92" class="ln"/>
       <path d="M-4 -8 Q-2 -10 1 -9.6" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7" stroke-linecap="round"/>${fabGesicht(0, -4.6, .62, t, {ph: P})}</g>`; }
   return '';
+}
+/* Möwe (v5.82, Nutzer 23.11.2026: „Möwen im neuen Stil, wie die anderen Fabelwesen ohne Umrandung“): Silbermöwe als Extra (Aquarell), schaut nach rechts, Füße bei 0,0.
+   Posen: stehen, sitzen (auf Pfahl oder Wasser, ohne Beine), laufen (o.gang.t), picken, schreien, fliegen und gleiten (o.t = Flügelschlag). Eigene feste Farben. */
+function moeweZeichnen(t, o) {
+  const ph = t * Math.PI * 2, pose = o.pose || 'stehen', W = '#fbfaf6', WS = '#d5dce2', G = '#a3b3bf', GD = '#7f909d', SP = '#2c3138', GE = '#f2c23a', BE = '#e79a3c';
+  const auge = (x, y) => `<circle cx="${r1(x)}" cy="${r1(y)}" r=".95" fill="#2b2420"/><circle cx="${r1(x + .3)}" cy="${r1(y - .35)}" r=".32" fill="#fff"/><path d="M${r1(x - 1.5)} ${r1(y - 1.5)} q1.4 -.8 2.8 .1" stroke="#6a5a4a" stroke-width=".55" fill="none" stroke-linecap="round"/>`;
+  const schnabel = (x, y, auf = 0) => `<path d="M${r1(x)} ${r1(y - .9)} L${r1(x + 4.4)} ${r1(y - .2)} Q${r1(x + 4.8)} ${r1(y + .6)} ${r1(x + 3.8)} ${r1(y + .9)} L${r1(x)} ${r1(y + .5)}Z" fill="${GE}"/><path d="M${r1(x)} ${r1(y + .5)} L${r1(x + 3.6)} ${r1(y + 1 + auf * 2.4)} L${r1(x)} ${r1(y + 1.5 + auf * 1.4)}Z" fill="${GE}"/><circle cx="${r1(x + 3)}" cy="${r1(y + .9 + auf * 1.2)}" r=".55" fill="#d8452c"/>`;
+  if (pose === 'fliegen' || pose === 'gleiten') {
+    const u = pose === 'gleiten' ? .18 + Math.sin(ph) * .08 : Math.sin(ph * 2), y0 = -14 - (pose === 'gleiten' ? 0 : u * 1.2);
+    const fl = (dx, k, farbe, op) => { const ty = y0 - 13 * u * k, tx = -5 + dx, sp = 2.4 + 3 * Math.abs(u);
+      return `<path d="M${r1(2 + dx)} ${r1(y0 - .6)} Q${r1(-1 + dx)} ${r1(y0 - 8 * u * k - 2)} ${r1(tx)} ${r1(ty)} Q${r1(tx - 3)} ${r1(ty + 1)} ${r1(tx - 4.6)} ${r1(ty + sp)} Q${r1(-3 + dx)} ${r1(y0 - 2 * u * k + 1.4)} ${r1(-4 + dx)} ${r1(y0 + 1.2)}Z" fill="${farbe}" opacity="${op}"/><path d="M${r1(tx)} ${r1(ty)} Q${r1(tx - 3)} ${r1(ty + 1)} ${r1(tx - 4.6)} ${r1(ty + sp)} L${r1(tx - 1.4)} ${r1(ty + 1.6)}Z" fill="${SP}" opacity="${op}"/>`; };
+    return `${fl(3, .8, GD, .9)}<path d="M-10 ${r1(y0 + .2)} Q-6 ${r1(y0 - 3.2)} 2 ${r1(y0 - 3)} Q8.6 ${r1(y0 - 3)} 9.6 ${r1(y0 - .4)} Q8 ${r1(y0 + 2.6)} 1 ${r1(y0 + 2.6)} Q-6 ${r1(y0 + 2.6)} -10 ${r1(y0 + .2)}Z" fill="${W}"/><path d="M-10 ${r1(y0 + .2)} L-13 ${r1(y0 - 1)} L-12.6 ${r1(y0 + 1.6)}Z" fill="${W}"/>
+      <path d="M-6 ${r1(y0 + 1.8)} Q0 ${r1(y0 + 3.4)} 6 ${r1(y0 + 1.6)}" stroke="${WS}" stroke-width="1.2" fill="none"/>${auge(7.4, y0 - 1.4)}${schnabel(9.4, y0 - .4)}${fl(0, 1, G, 1)}`;
+  }
+  const lauf = pose === 'laufen', gt = o.gang ? (o.gang.t || 0) : t, s1 = lauf ? Math.sin(gt * Math.PI * 2) : 0, bob = lauf ? Math.abs(s1) * .8 : 0;
+  const sitzt = pose === 'sitzen', pickt = pose === 'picken', schreit = pose === 'schreien', by = sitzt ? 3.6 : 0, k0 = by - bob;
+  let s = `<ellipse cx="0" cy="0" rx="8" ry="1.3" fill="#2a1608" opacity=".1"/>`;
+  if (!sitzt) s += [[-1.2, s1], [1.6, -s1]].map(([x, w]) => `<path d="M${x} -5 L${r1(x + w * 1.6)} 0" stroke="${BE}" stroke-width="1.2" stroke-linecap="round"/><path d="M${r1(x + w * 1.6 - 1.2)} 0 h2.6" stroke="${BE}" stroke-width="1" stroke-linecap="round"/>`).join('');
+  s += `<g transform="translate(0 ${r1(k0)})"><path d="M-12.6 -9.4 Q-7 -14 1.4 -13.4 Q7.8 -12.6 8.6 -8.6 Q8.2 -4.2 1.8 -3.8 Q-4.6 -3.8 -8.2 -6.8 Z" fill="${W}"/><path d="M-5 -4.8 Q1 -3 7 -6" stroke="${WS}" stroke-width="1.4" fill="none"/>
+    <path d="M-9.8 -10.8 Q-3 -13.8 4.2 -11.8 Q2.2 -7.6 -4 -6.9 Q-8.4 -7.2 -11.2 -8.6 L-14.4 -9.8 Q-11.6 -10.2 -9.8 -10.8Z" fill="${G}"/><path d="M-11.2 -8.6 L-14.8 -10 L-12.2 -10.6Z" fill="${SP}"/><circle cx="-12.8" cy="-9.7" r=".45" fill="#fff"/>
+    <path d="M-7 -9.2 q3 -1.2 6 -.6" stroke="${GD}" stroke-width=".6" fill="none" opacity=".7"/></g>`;
+  /* Kopf: beim Picken nickt er zum Boden, beim Schreien geht er hoch und der Schnabel auf */
+  const kx = 6.8, ky = (schreit ? -17.6 : -15.4) + k0, pk = pickt ? 48 + Math.max(0, Math.sin(ph * 3)) * 26 : 0;
+  s += `<path d="M3.6 ${r1(-11.4 + k0)} Q${r1(kx - 2)} ${r1(ky + 1)} ${r1(kx)} ${r1(ky)} L${r1(kx + 1.6)} ${r1(ky + 2.6)} Q${r1(kx - .4)} ${r1(ky + 4.6)} 7.6 ${r1(-8 + k0)}Z" fill="${W}"/>`;
+  s += `<g${pk ? ` transform="rotate(${r1(pk)} 5.6 ${r1(-10 + k0)})"` : ''}><circle cx="${r1(kx)}" cy="${r1(ky)}" r="4" fill="${W}"/>${auge(kx + 1.3, ky - .8)}${schnabel(kx + 3.2, ky + .4, schreit ? .6 + Math.abs(Math.sin(ph * 3)) * .4 : 0)}</g>`;
+  return s;
 }
 /* Knotenwurm (v5.81, Nutzer 23.11.2026: „sollen einen richtigen Achterknoten als Körper bekommen“): die Stützpunkte des Achtknotens aus knoten.js (ACHT, LOOSE),
    etwas zusammengezogen, quer gelegt. Hinten der feste Part als Schwanz mit Takling, vorn das lose Ende mit dem Kopf. Über/unter nach den Ebenen des Knotenkurses.
@@ -841,9 +934,9 @@ function papagei(f, k, o) {
 /* ---------- Schnittstelle ---------- */
 function figur(id, o = {}) {
   css();
-  const f = FIG[id]; if (!f) return '';
+  const f0 = FIG[id]; if (!f0) return '';
   const k = kleidVon(id, o.kleid ? o : {kleid: (look().kleid || {})[id]});
-  const L0 = look(), tn = o.typ || (L0.typ || {})[id] || L0.typAlle || f.typStd || 'klassisch', T = TYPEN[tn] || TYPEN.klassisch;
+  const L0 = look(), V = variante(id, o), f = mitVariante(f0, V), T = typVon(id, o);
   o = {...o, _t: T, auge: o.auge || L0.auge || null};
   let inner;
   if (o.blick === 'oben') inner = f.tier === 'katze' ? katzeOben(f, k) : f.tier === 'papagei' ? papageiOben() : menschOben(id, f, k, o);
@@ -856,22 +949,23 @@ function figur(id, o = {}) {
   if (sk !== 1) inner = `<g transform="scale(${sk})">${inner}</g>`;
   /* Extras (Fabelwesen, Mäuse) immer im Aquarell ohne Umriss: alles Umrandete spielt mit (v5.80, E34) */
   const fst = STILE[o.stil] ? o.stil : (f.tier === 'fabel' || f.tier === 'maus') ? 'aquarell' : '';
-  return `<g class="cr cr-${id} stil${fst ? ' fest st-' + fst : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
+  const vf = V && V.farben ? ` style="${Object.entries(V.farben).map(([t, c]) => `--${id}-${t}:${c}`).join(';')}"` : '';
+  return `<g class="cr cr-${id} stil${fst ? ' fest st-' + fst : ''}"${vf}${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
 }
 /* Gespeichertes Aussehen (S.cfg.look, Standard leer; R7). index.html setzt Farben und Stil auf <html> (lookAnwenden). */
 /* Unterarme und Hände auf dem Tisch (v5.81) zur Pose „tisch“ von vorn: nach der Tischplatte zeichnen, an derselben Stelle und Größe wie die Figur.
    o.kante = Tischkante (lokales y, wie bei der Pose), o.halt = 'becher' (Hinnerk), 'stift' (Smilla) oder nichts */
 function tischArme(id, o = {}) {
-  css(); const f = FIG[id]; if (!f || f.tier) return '';
-  const k = kleidVon(id, o.kleid ? o : {kleid: (look().kleid || {})[id]}), L0 = look(), tn = o.typ || (L0.typ || {})[id] || L0.typAlle || f.typStd || 'klassisch', T = TYPEN[tn] || TYPEN.klassisch;
+  css(); const f0 = FIG[id]; if (!f0 || f0.tier) return '';
+  const f = mitVariante(f0, variante(id, o)), k = kleidVon(id, o.kleid ? o : {kleid: (look().kleid || {})[id]}), T = typVon(id, o);
   const w = f.w, ar = aermelFarbe(id, k), sy = -51, ke = o.kante != null ? o.kante : sy + 14, hy = ke + 9.5;
   let s = '';
   for (const sd of [-1, 1]) {
     const ex = sd * (10.2 * w + 2.4), hx = sd * (o.breit != null ? o.breit : 6.4 * w);
     s += glied([[ex, ke + .6], [r1(ex * .62 + hx * .38), r1(ke + 5.2)], [hx, hy]], 7.2 * w, 'jacke').replace(/class="gl s-jacke"/, `class="gl s-jacke" style="--b:${7.2 * w}${ar ? ';' + ar : ''}"`);
-    if (o.halt === 'becher' && sd > 0) s += `<path d="M${r1(hx - 3.6)} ${r1(hy - 6)} h7.2 l-.6 8.4 q-3 1.2 -6 0z" fill="#e9e1cf" class="ln"/><ellipse cx="${r1(hx)}" cy="${r1(hy - 6)}" rx="3.6" ry="1.1" fill="#5a3418" class="ln"/><path d="M${r1(hx + 3.4)} ${r1(hy - 4.4)} q3.4 .4 2.6 3.4 q-.8 1.6 -2.8 1" fill="none" class="ln" style="stroke-width:1.1"/><path d="M${r1(hx - 3)} ${r1(hy - 2.6)} h5.6" stroke="#2f5f8a" stroke-width="1.2"/>`;
+    /* Stift (v5.82, Nutzer: „Stiftposition bei Smilla ist nicht ideal“): in der rechten Hand (im Bild links), unter den Fingern, Spitze vorn auf der Karte, Ende zur Schulter */
+    if (o.halt === 'stift' && sd < 0) s += `<path d="M${r1(hx + 3.8)} ${r1(hy + 5.8)} L${r1(hx - 5.6)} ${r1(hy - 3.8)}" stroke="#3a2a1c" stroke-width="2.3" stroke-linecap="round"/><path d="M${r1(hx + 3.2)} ${r1(hy + 5.1)} L${r1(hx - 5.4)} ${r1(hy - 3.6)}" stroke="#e8b33c" stroke-width="1.5" stroke-linecap="round"/><path d="M${r1(hx + 3.9)} ${r1(hy + 5.9)} l-.9 -1" stroke="#3a2a1c" stroke-width="1.3" stroke-linecap="round"/><path d="M${r1(hx - 5.6)} ${r1(hy - 3.8)} l.9 .9" stroke="#d98a8a" stroke-width="1.6" stroke-linecap="round"/>`;
     s += `<ellipse cx="${r1(hx - sd * .5)}" cy="${r1(hy + 2.2)}" rx="3.4" ry="2.5" class="f-haut ln"/><path d="M${r1(hx - sd * 2.6)} ${r1(hy + 3)} q${sd * 2.2} 1.3 ${sd * 4.4} .1" class="det"/>`;
-    if (o.halt === 'stift' && sd > 0) s += `<g transform="rotate(${sd * -32} ${r1(hx)} ${r1(hy + 2)})"><rect x="${r1(hx - .8)}" y="${r1(hy - 9)}" width="1.6" height="11" rx=".4" fill="#e8b33c" class="ln"/><path d="M${r1(hx - .8)} ${r1(hy + 2)} l.8 2 l.8 -2z" fill="#3a2a1c"/></g>`;
   }
   const sk = f.h / 100;
   return `<g class="cr cr-${id} stil"><g transform="scale(${sk})"><g transform="scale(${T.bw} ${T.bh})">${s}</g></g></g>`;
@@ -894,5 +988,5 @@ function bild(id, o = {}) {
   const h = f.h + 24, w = f.tier ? 50 : 70;
   return `<svg class="crsvg" viewBox="${-w / 2} ${-h + 4} ${w} ${h}" aria-label="${f.name}">${figur(id, o)}</svg>`;
 }
-window.FIGUREN = {figur, gruppe, tischArme, mund: mundSetzen, wende: wendeSetzen, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, kleidVon, look};
+window.FIGUREN = {figur, gruppe, tischArme, mund: mundSetzen, wende: wendeSetzen, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, VARIANTEN, typ: typVon, kleidVon, look};
 })();

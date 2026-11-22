@@ -134,4 +134,7 @@
 - Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.
 - Was der Nutzer meldet und ich nicht nachstellen kann: messen (Position, Zeit), mehrere Ursachen ausschließen, dann die wahrscheinlichste beheben und offen sagen, dass es eine Vermutung ist (v5.56 „Springen“).
 - Screenshots aus Skripten im Notizordner mit absolutem Pfad speichern: ein relativer Pfad landet im Repo (v5.80, beinahe mit hochgeladen).
+- Unsichtbare Gruppen (Deckkraft 0, z. B. Blasen und Gischt am Boot) zählen bei `getBBox`/`getBoundingClientRect` mit: Antippflächen nur aus den sichtbaren Teilen rechnen und im Bild halten (v5.82, Motor-Fläche lag halb außerhalb; Bühnentest prüft, dass beide Flächen oben liegen).
+- Darsteller nur dort auftreten lassen, wo man hinschaut: Mäuse liefen zwischen Löchern außerhalb des Bildes, Backbord rannte hinterher aus dem Bild (v5.82). Sichtbarkeit beim jetzigen Wischweg prüfen (`sichtbar`).
+- Starke Tiefe beim Wischen verschiebt Ebenen gegeneinander: Was sich berührt (Luke und Treppe), gehört in eine Ebene; Bodenfugen verraten die Ebene; die vorderste Ebene beim Heranfahren ausblenden, sonst steht ein Pfosten mitten im Bild (v5.82).
 - Änderungen an Sätzen machen vertonte Abschnitte ungültig: Kürzungen sammeln und zusammen mit anderen Änderungen machen, dem Nutzer sagen, welche Abschnitte neu fällig sind.
