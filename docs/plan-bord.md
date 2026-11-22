@@ -86,8 +86,11 @@ E34 (Mäuse als Extras im Aquarell) und E35 sind bestätigt.
 - **Mäuse und Fabelwesen** zählen nicht als Funktion und erscheinen deshalb nicht im Fernglas (R13).
 
 ## 4. Offen, aber nicht blockierend
-- Welche Hinnerk-Variante? (Entwurfsseite)
-- Stimmt die Richtung der Tiefe?
+- **O172** Klabauter in der App: Die Geschichte lässt ihn bis 1-6 verschwinden (im Film ausgeblendet), in der Kajüte der App sitzt er immer auf der Stange. Bis 1-6 auch in der App weglassen, oder darf die App anders sein als die Geschichte?
+- **O173** Hafenkino in 1-1: Blick aus dem Cockpit auf das Charterboot gegenüber (v5.83). Reicht das stehende Bild, oder soll das Boot sichtbar manövrieren (zu spät rückwärts, Rumms an den Fender)?
+- **O174** Richtung der Tiefe beim Wischen: wie jetzt (nahe Dinge wandern schneller, wie aus dem Zugfenster) oder umgekehrt („langsamer“)? Ein Wert.
+- **O175** Welche Hinnerk-Variante? (`docs/entwuerfe/hinnerk-varianten.html` oder Werft → Hinnerk)
+- **O176** Reihenfolge: zuerst 1-4 und 1-5 (gold-2, gold-3) als Film, oder zuerst Etappe 5 (Reiseplan nach Hörtagen)?
 - Ab welchem Hörreise-Tag welche Extras frei werden (E29), ist weiter offen.
 
 ## 5. Kritik: was nicht zusammenpasst (BP16)
