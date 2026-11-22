@@ -121,26 +121,45 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     r.gesperrt ? ok('Werft: gesperrte Extras bleiben ohne Testmodus zu') : schlecht('Werft: Sperre ' + JSON.stringify(r));
     r.gespeichert && r.zu ? ok('Werft: Übernehmen speichert und schließt') : schlecht('Werft: Übernehmen ' + JSON.stringify(r));
     errs.length ? schlecht('Konsole (Werft): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Werft)'); await ctx.close(); }
-  /* v5.80 Menüs im Standard-Glas: Kajüte im Hochformat, alles Wichtige im Bild; Knotenbrett-Zoom trifft das Brett (vorher fuhr die Kamera bei hohen Bühnen vorbei);
-     Knotenbilder aus den Endbildern der Knoten-Animationen; Fabelwesen im Aquarell ohne Umriss; Backbord läuft ohne Posenwechsel */
+  /* v5.80/v5.81 Menüs im Standard-Glas (E34, E35): Kajüte als Panorama zum Wischen (Crew, Knotenbrett, Tisch, Hocker im Startbild, Bücher links, Niedergang rechts);
+     Knotenbrett-Zoom: Filz füllt die Breite, die Überblendung deckt das Brett, Schilder-Schrift passt; Kopf dreht sich beim Sprechen, Mund geht auf;
+     Knotenwurm mit Achtknoten; Knotenbilder aus den Endbildern; Fabelwesen im Aquarell; Backbord läuft ohne Posenwechsel */
   { const ctx = await b.newContext({viewport: {width: 400, height: 930}}); const p = await ctx.newPage(); const errs = [];
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));
-    await p.goto('http://localhost:8765/docs/entwuerfe/menue-standard.html'); await sleep(1800);
-    await p.click('[data-b="kajuete"]'); await sleep(1500);
-    const r = await p.evaluate(() => { const bw = document.getElementById('bw').getBoundingClientRect(), ids = ['fk-knotenbrett', 'fk-tischkarte', 'fk-telefon', 'fk-manoever', 'fk-buecher', 'fk-hocker', 'fk-klabauter', 'fk-crew'];
-      const raus = ids.filter(id => { const e = document.querySelector('#b #' + id); if (!e) return true; const q = e.getBoundingClientRect(); return q.left < bw.left - 2 || q.right > bw.right + 2 || q.top < bw.top - 2 || q.bottom > bw.bottom + 2; });
+    await p.goto('http://localhost:8765/docs/entwuerfe/menue-standard.html'); await sleep(2000);
+    /* an Deck: Sprecher dreht den Kopf her, Mund öffnet mit dem Pegel */
+    const dk = await p.evaluate(async () => { FILMB.sprecher('HINNERK'); FILMB.pegel(.9); await new Promise(r => setTimeout(r, 450));
+      const w = document.querySelector('#b .cr-hinnerk [data-wende]'), vorn = w && w.querySelector('.kw-v').style.display !== 'none' && w.querySelector('.kw-s').style.display === 'none';
+      const a = w && w.querySelector('.kw-v .m-auf'), offen = a ? +((a.getAttribute('transform') || '').match(/scale\([\d.]+ ([\d.]+)\)/) || [0, 0])[1] : 0;
+      FILMB.sprecher(''); FILMB.pegel(null); await new Promise(r => setTimeout(r, 900)); const zurueck = w && w.querySelector('.kw-s').style.display !== 'none';
+      return {vorn, offen, zurueck}; });
+    dk.vorn && dk.offen > .5 && dk.zurueck ? ok(`Deck: beim Sprechen Kopf her, Mund auf (${dk.offen.toFixed(2)}), danach zurück`) : schlecht('Deck Sprechen ' + JSON.stringify(dk));
+    await p.click('[data-b="kajuete"]'); await sleep(1800);
+    const r = await p.evaluate(() => { const bw = document.getElementById('bw').getBoundingClientRect(), drin = id => { const e = document.querySelector('#b #' + id); if (!e) return false; const q = e.getBoundingClientRect(); return q.left >= bw.left - 2 && q.right <= bw.right + 2 && q.top >= bw.top - 2 && q.bottom <= bw.bottom + 2; };
+      const start = ['fk-knotenbrett', 'fk-hinnerk', 'fk-smilla', 'fk-tischplatte', 'fk-hocker', 'fk-klabauter', 'fk-backbord'].filter(id => !drin(id));
       const img = document.querySelectorAll('#b #fk-knotenbrett image').length, kb = KNOTEN.endbild('palstek', {skala: 1});
       const fab = FIGUREN.figur('muschelwicht', {}).includes('st-aquarell') && !FIGUREN.figur('hinnerk', {}).includes('st-aquarell');
       const kat = [0, .2, .4, .6, .8].map(t => FIGUREN.figur('backbord', {pose: 'laufen', dreh: false, gang: {art: 'springen', t}}).length > 500).every(Boolean);
-      return {raus, img, kb: kb.startsWith('data:image/png'), fab, kat}; });
-    r.raus.length ? schlecht('Kajüte: nicht ganz im Bild: ' + r.raus.join(', ')) : ok('Kajüte: alle Dinge im Hochformat im Bild');
+      const wurm = (FIGUREN.figur('knotenwurm', {dreh: false}).match(/stroke="#6b4a26"/g) || []).length;
+      return {start, img, kb: kb.startsWith('data:image/png'), fab, kat, wurm}; });
+    r.start.length ? schlecht('Kajüte: im Startbild fehlt ' + r.start.join(', ')) : ok('Kajüte: Crew, Knotenbrett, Tisch, Hocker und Backbord im Startbild');
     r.img === 9 && r.kb ? ok('Knotenbrett: neun Knotenbilder aus den Endbildern') : schlecht('Knotenbrett: Bilder ' + r.img + ' ' + r.kb);
     r.fab ? ok('Fabelwesen im Aquarell, Crew mit Umriss') : schlecht('Fabelwesen: Stil falsch');
     r.kat ? ok('Backbord: Sprung als Gangart ohne Posenwechsel') : schlecht('Backbord: Sprung zeichnet nicht');
-    await p.click('[data-b="knoten"]'); await sleep(4200);
+    r.wurm >= 9 ? ok(`Knotenwurm: Körper ist ein Achtknoten (${r.wurm} Taustücke mit Über/Unter)`) : schlecht('Knotenwurm: kein Achtknoten ' + r.wurm);
+    /* Wischen: links die Bücher, rechts der Niedergang */
+    const wi = await p.evaluate(async () => { const pa = document.getElementById('pano'), bw = document.getElementById('bw').getBoundingClientRect(), sicht = id => { const q = document.querySelector('#b #' + id).getBoundingClientRect(); return q.right > bw.left && q.left < bw.right; };
+      pa.scrollLeft = 0; await new Promise(r => setTimeout(r, 400)); const links = sicht('fk-buecher');
+      pa.scrollLeft = pa.scrollWidth; await new Promise(r => setTimeout(r, 400)); const rechts = sicht('fk-niedergang') && sicht('fk-glocke');
+      return {links, rechts}; });
+    wi.links && wi.rechts ? ok('Kajüte: Wischen zeigt links das Bücherregal, rechts Niedergang und Glocke') : schlecht('Wischen ' + JSON.stringify(wi));
+    await p.click('[data-b="knoten"]'); await sleep(4400);
     const z = await p.evaluate(() => { const g = document.querySelector('#b #fk-knotenbrett').getBoundingClientRect(), n = document.querySelector('.nah'), bw = document.getElementById('bw').getBoundingClientRect();
-      if (!n) return {n: false}; const q = n.getBoundingClientRect(); return {n: true, d: Math.max(Math.abs(g.left - q.left), Math.abs(g.top - q.top), Math.abs(g.width - q.width), Math.abs(g.height - q.height)), voll: q.width / bw.width}; });
-    z.n && z.d < 6 && z.voll > .85 ? ok(`Knotenbrett: Zoom fast Vollbild (${Math.round(z.voll * 100)} %), Überblendung deckt das Brett`) : schlecht('Knotenbrett-Zoom ' + JSON.stringify(z));
+      if (!n) return {n: false}; const q = n.getBoundingClientRect(), filz = n.querySelector('rect[fill="#2c3e54"]').getBoundingClientRect();
+      const zuBreit = [...n.querySelectorAll('text')].filter(t => { const pl = t.previousElementSibling && t.previousElementSibling.tagName === 'path' ? t.previousElementSibling.previousElementSibling : null; const pw = pl ? pl.getBoundingClientRect().width : 1e9; return t.getBoundingClientRect().width > pw + .5; }).length;
+      return {n: true, d: Math.max(Math.abs(g.left - q.left), Math.abs(g.top - q.top), Math.abs(g.width - q.width), Math.abs(g.height - q.height)), filz: filz.width / bw.width, zuBreit}; });
+    z.n && z.d < 6 && z.filz > .9 ? ok(`Knotenbrett: Filz füllt ${Math.round(z.filz * 100)} % der Breite, Überblendung deckt das Brett`) : schlecht('Knotenbrett-Zoom ' + JSON.stringify(z));
+    z.zuBreit === 0 ? ok('Knotenbrett: jede Schrift passt auf ihr Schild') : schlecht(`Knotenbrett: ${z.zuBreit} Schriften zu breit`);
     errs.length ? schlecht('Konsole (Menüs): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Menüs)'); await ctx.close(); }
   await b.close();
   console.log(fehler.length ? `${fehler.length} Fehler.` : 'Bühne in Ordnung.'); process.exit(fehler.length ? 1 : 0);

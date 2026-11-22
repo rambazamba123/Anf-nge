@@ -7,12 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
-/* Menüs im Standard-Glas (Entwurf v5.80, E34): Deck und Kajüte wie in der heutigen App, auf der Glasbühne (film.js).
-   Deck: Bild oben (so groß wie möglich), darunter Smillas Zettel und „Weiter“ nebeneinander, dann das Schiffsrennen; alles ohne Scrollen.
-   Kajüte: bildschirmfüllend. Antippen: die Kamera fährt heran. Knotenbrett: fast Vollbild, dann Überblendung auf dasselbe Brett, scharf und mit Namen.
-   Seekarte: heranfahren und dabei langsam kippen, bis man von oben auf den Tisch schaut. Keine pulsierenden Knöpfe; das Fernglas zeigt, was man antippen kann (R13). */
+/* Menüs im Standard-Glas (Entwurf v5.81, E35). Deck und Kajüte wie in der App, auf der Glasbühne (film.js).
+   Kajüte: Panorama zum Wischen in der alten Aufteilung; beim Wischen wandern nahe Ebenen etwas schneller (Tiefe), sonst fast alles klar.
+   Antippen: Kamera fährt nah heran, dasselbe Ding liegt scharf darüber, Schilder mit passender Schrift; Seekarte auf dem Tisch kippt in die Draufsicht.
+   Sprechen: echte Stimmen aus audio/stimmen; der Mund folgt der Lautstärke, an Deck dreht die Figur den Kopf her. Fernglas statt pulsierender Knöpfe (R13). */
 :root{--hfont:"Baloo 2","Trebuchet MS",sans-serif;--bfont:"Nunito","Segoe UI",Roboto,Arial,sans-serif;color-scheme:dark;
-  --grund:#15212c;--karte:#1f2e3b;--rand:rgba(255,255,255,.14);--tinte:#f1ead8;--tinteHell:#a9b4bd;--akzent:#e1a03c;--akzentTinte:#2a1a07;--gut:#7fbf7a;--bahn:#2f5670;--holz:#3a2a1c}
+  --grund:#15212c;--karte:#1f2e3b;--rand:rgba(255,255,255,.14);--tinte:#f1ead8;--tinteHell:#a9b4bd;--akzent:#e1a03c;--akzentTinte:#2a1a07;--bahn:#2f5670;--holz:#3a2a1c}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#0e0b08;font-family:var(--bfont);overflow:hidden;color:var(--tinte)}
 #wahl{position:fixed;left:0;right:0;top:0;z-index:60;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;background:rgba(14,11,8,.94);display:flex;flex-direction:column;gap:4px}
@@ -24,14 +24,15 @@ html,body{margin:0;height:100%;background:#0e0b08;font-family:var(--bfont);overf
 #tel{position:relative;height:100%;aspect-ratio:400/860;max-width:100vw;overflow:hidden;background:var(--grund)}
 @media (min-width:700px){#tel{border-radius:26px;height:calc(100% - 20px);box-shadow:0 18px 50px rgba(0,0,0,.6)}}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column}
-.buehne{position:relative;flex:1;min-height:0;overflow:hidden}
+.bw{position:relative;flex:1;min-height:0;overflow:hidden}
+.buehne{position:absolute;inset:0;overflow:hidden}
 .buehne .fb{border-radius:0}
-.ecke{position:absolute;top:10px;right:10px;z-index:6;display:flex;gap:8px}
+.ecke{position:absolute;top:10px;right:10px;z-index:9;display:flex;gap:8px}
 .ecke button{width:42px;height:42px;border-radius:12px;border:1px solid var(--rand);background:rgba(21,33,44,.82);color:var(--tinte);display:grid;place-items:center;cursor:pointer;font-size:19px}
 .ecke svg{width:22px;height:22px}
-.tipp{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:5;font:800 13px var(--bfont);color:#2b2a26;background:rgba(253,250,242,.92);border-radius:999px;padding:7px 14px;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.tipp{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:5;font:800 13px var(--bfont);color:#2b2a26;background:rgba(253,250,242,.92);border-radius:999px;padding:7px 14px;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:opacity .4s}
 /* Deck unten: so knapp wie in der App */
-.unten{flex:none;display:flex;flex-direction:column;gap:8px;padding:10px 12px 10px;background:var(--grund)}
+.unten{flex:none;display:flex;flex-direction:column;gap:8px;padding:10px 12px;background:var(--grund)}
 .karte{position:relative;background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:9px 11px;color:var(--tinte)}
 .karte b{font-family:var(--hfont);font-size:15px;line-height:1.1;display:block}
 .karte small{display:block;font-size:11.5px;color:var(--tinteHell);line-height:1.2}
@@ -53,33 +54,37 @@ html,body{margin:0;height:100%;background:#0e0b08;font-family:var(--bfont);overf
 .nav button:last-child{border-right:0}
 .nav button.an{color:#ffc35c;opacity:1}
 .nav svg{width:24px;height:24px}
-/* Kajüte */
-.bw{position:relative;flex:1;min-height:0;overflow:hidden}
-.bw .buehne{position:absolute;inset:0}
-.over{position:absolute;inset:0;z-index:5}
+/* Kajüte: unsichtbarer Wisch-Streifen über der Bühne (native Schwungkraft), Pfeile wie früher */
+.pano{position:absolute;inset:0;z-index:5;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+.pano::-webkit-scrollbar{display:none}
+.pano>div{height:100%}
+.zoom .pano{pointer-events:none}
+.pf{position:absolute;top:50%;z-index:8;transform:translateY(-50%);width:34px;height:64px;border-radius:12px;background:rgba(21,33,44,.6);color:#f3e7c9;display:grid;place-items:center;font:800 26px var(--bfont);cursor:pointer;transition:opacity .4s;border:0}
+.pf.l{left:6px}.pf.r{right:6px}
+.zoom .pf,.weg{opacity:0;pointer-events:none}
 .fernglas{position:absolute;right:10px;bottom:10px;z-index:9;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,250,240,.92);color:#2a2019;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .fernglas svg{width:26px;height:26px}
 .kringel{position:absolute;z-index:6;border:3px solid #ffd27a;border-radius:50%;pointer-events:none;box-shadow:0 0 0 2px rgba(0,0,0,.25);animation:kringel 2.6s ease-out forwards}
 @keyframes kringel{0%{opacity:0;transform:scale(1.25)}15%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0}}
 .zoom .fernglas{opacity:0;pointer-events:none}
-.detail{position:absolute;inset:0;z-index:7;pointer-events:none}
+.over{position:absolute;inset:0;z-index:7;pointer-events:none}
+.over>*{pointer-events:auto}
+.detail{position:absolute;inset:0;z-index:10;pointer-events:none}
 .detail>*{pointer-events:auto;position:absolute;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
 .detail.an>*{opacity:1;transform:none}
-.detail.an>*:nth-child(2){transition-delay:.1s}.detail.an>*:nth-child(3){transition-delay:.2s}.detail.an>*:nth-child(4){transition-delay:.3s}.detail.an>*:nth-child(5){transition-delay:.4s}.detail.an>*:nth-child(n+6){transition-delay:.5s}
-.tag{font:800 11px var(--bfont);padding:3px 8px;border-radius:999px;background:rgba(31,46,59,.9);border:1px solid var(--rand);color:var(--tinte);white-space:nowrap}
-.tag.ok{background:#2f5a35;border-color:#7fbf7a}
-.zur{left:10px;top:10px;font:800 13px var(--bfont);padding:8px 12px;border-radius:12px;border:1px solid var(--rand);background:rgba(21,33,44,.88);color:var(--tinte);cursor:pointer;z-index:12}
+.detail.an>*:nth-child(2){transition-delay:.1s}.detail.an>*:nth-child(3){transition-delay:.2s}.detail.an>*:nth-child(n+4){transition-delay:.3s}
+.zur{left:10px;top:10px;font:800 13px var(--bfont);padding:8px 12px;border-radius:12px;border:1px solid var(--rand);background:rgba(21,33,44,.9);color:var(--tinte);cursor:pointer}
 .los{font:800 14px var(--bfont);padding:11px 16px;border-radius:14px;border:0;background:var(--akzent);color:var(--akzentTinte);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.dkarte{background:rgba(31,46,59,.92);border:1px solid var(--rand);border-radius:14px;padding:10px 12px}
+.dkarte{background:rgba(31,46,59,.94);border:1px solid var(--rand);border-radius:14px;padding:10px 12px}
 .dkarte b{font-family:var(--hfont);font-size:15px;display:block}.dkarte small{display:block;font-size:12px;color:var(--tinteHell)}
-/* Knotenbrett nah: dasselbe Brett, scharf */
-.nah{position:absolute;z-index:8;transform-origin:0 0;opacity:0}
-.nah svg{width:100%;height:100%;display:block}
-.nah .zelle{position:absolute;border:0;background:none;cursor:pointer;padding:0}
-.nah .zelle span{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);font:800 10px var(--bfont);color:#f1ead8;background:rgba(20,30,40,.78);border-radius:999px;padding:1px 6px;white-space:nowrap;opacity:0;transition:opacity .4s}
-.nah .zelle span.ok{background:#2f5a35}
-.nah.fertig .zelle span{opacity:1}
-.kblick{position:absolute;inset:0;z-index:11;background:rgba(14,11,8,.55);display:grid;place-items:center;opacity:0;transition:opacity .3s}
+/* Nahansicht: dasselbe Ding scharf; Antipp-Felder und Häkchen liegen darauf */
+.nah{position:absolute;z-index:8;opacity:0}
+.nah svg{width:100%;height:100%;display:block;overflow:visible}
+.nah .feld{position:absolute;border:0;background:none;cursor:pointer;padding:0;border-radius:8px}
+.nah .feld:active{background:rgba(255,220,140,.18)}
+.nah .ok{position:absolute;right:4%;top:3%;width:18px;height:18px;border-radius:50%;background:#2f8a4a;color:#fff;font:900 11px/18px var(--bfont);text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.4);opacity:0;transition:opacity .4s .2s}
+.nah.fertig .ok{opacity:1}
+.kblick{position:absolute;inset:0;z-index:12;background:rgba(14,11,8,.55);display:grid;place-items:center;opacity:0;transition:opacity .3s}
 .kblick.an{opacity:1}
 .kblick .p{width:86%;background:#f4ead2;border-radius:16px;padding:10px;color:#2b2a26;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.4)}
 .kblick canvas{width:100%;max-height:52vh;object-fit:contain;display:block;border-radius:10px}
@@ -88,9 +93,19 @@ html,body{margin:0;height:100%;background:#0e0b08;font-family:var(--bfont);overf
 .boden{position:absolute;inset:0;z-index:7;opacity:0;pointer-events:none;background:repeating-linear-gradient(90deg,#3d2717 0 38px,#45291a 38px 40px),#3d2717}
 .oben{position:absolute;z-index:8;transform-origin:50% 50%;pointer-events:none}
 .oben svg{width:100%;height:100%;display:block;overflow:visible}
+/* Sprechen: Medaillon (beim Heranfahren) und Sprechblase */
+.med{position:absolute;left:12px;bottom:14px;z-index:11;width:86px;height:86px;border-radius:50%;background:#f3e6c8;border:3px solid #c9a03c;box-shadow:0 6px 18px rgba(0,0,0,.45);overflow:hidden;opacity:0;transform:scale(.6);transition:opacity .3s,transform .35s cubic-bezier(.3,1.4,.6,1)}
+.med.an{opacity:1;transform:none}
+.med svg{width:100%;height:100%}
+.blase{position:absolute;z-index:11;max-width:230px;background:#fffaf0;color:#2b2a26;font:700 13.5px/1.3 var(--bfont);padding:8px 11px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.35);opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;pointer-events:none}
+.blase.an{opacity:1;transform:none}
+.blase b{display:block;font:800 11px var(--bfont);color:#9a6a2a;margin-bottom:1px;text-transform:uppercase;letter-spacing:.04em}
+.blase::after{content:"";position:absolute;left:var(--px,24px);bottom:-7px;width:14px;height:14px;background:#fffaf0;transform:rotate(45deg);border-radius:2px}
+.blase.links::after{left:-6px;bottom:auto;top:16px}
 .frei{flex:1;padding:14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start;overflow:auto}
 .frei .karte{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;text-align:center}
 .frei svg{width:34px;height:34px;color:var(--tinte)}
+.hinweis{position:absolute;left:50%;bottom:70px;transform:translateX(-50%);z-index:9;font:700 12px var(--bfont);color:#f3e7c9;background:rgba(21,33,44,.8);padding:6px 12px;border-radius:999px;white-space:nowrap;transition:opacity .5s;pointer-events:none}
 </style>
 </head>
 <body>
@@ -107,21 +122,82 @@ html,body{margin:0;height:100%;background:#0e0b08;font-family:var(--bfont);overf
 'use strict';
 const $ = id => document.getElementById(id), F = window.FIGUREN, tel = $('tel');
 const SYM = (k, cls) => window.SZENERIE && SZENERIE.SYM[k] ? SZENERIE.SYM[k].replace('<svg ', `<svg class="${cls || 'sy'}" `) : '';
-/* Symbole der Leiste wie in index.html */
 const TAB = {deck: '<path d="M3 18c3 2 6 2 9 0s6-2 9 0M12 3v11M12 4l6 8h-6"/>', kajuete: '<circle cx="12" cy="11" r="6"/><circle cx="12" cy="11" r="3"/><path d="M12 2v3M12 17v5"/>', frei: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'};
 const tabSvg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${TAB[k]}</svg>`;
 const ZAHN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
 const FERN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="15" r="4"/><circle cx="17" cy="15" r="4"/><path d="M10.5 13.5h3M5 11l2-6h3l1 5M19 11l-2-6h-3l-1 5"/></svg>';
-const BOOT = (c, w = 26) => `<svg width="${w}" height="${w * .7}" viewBox="0 0 26 18"><path d="M2 11h22l-4 6H6z" fill="${c}" stroke="#1b2733" stroke-width="1"/><path d="M12 1v10M12 2l7 8h-7" fill="#f3ead2" stroke="#1b2733" stroke-width="1"/></svg>`;
+const BOOT = c => `<svg width="26" height="18" viewBox="0 0 26 18"><path d="M2 11h22l-4 6H6z" fill="${c}" stroke="#1b2733" stroke-width="1"/><path d="M12 1v10M12 2l7 8h-7" fill="#f3ead2" stroke="#1b2733" stroke-width="1"/></svg>`;
 
-const BILDER = {deck: 'Deck', kajuete: 'Kajüte', knoten: 'Knotenbrett', karte: 'Seekarte am Tisch', frei: 'Frei üben'};
-const INFO = {deck: 'Deck wie in der App: Bild so groß wie möglich, darunter Zettel und Weiter nebeneinander, dann das Rennen. Alles auf einen Bildschirm. Boot antippen: Kajüte.',
-  kajuete: 'Kajüte bildschirmfüllend. Dinge antippen, das Fernglas zeigt, was geht. Die Kamera fährt hin und bleibt dort.',
-  knoten: 'Knotenbrett: fast Vollbild, Überblendung auf dasselbe Brett, scharf. Die Bilder sind die Endbilder aus dem Knotenkurs. Knoten antippen: Animation.',
-  karte: 'Seekarte: heranfahren und langsam kippen, bis man von oben auf den Tisch schaut.', frei: 'Frei üben wie bisher (nur angedeutet).'};
-let bild = 'deck';
+const BILDER = {deck: 'Deck', kajuete: 'Kajüte', knoten: 'Knotenbrett', karte: 'Seekarte am Tisch', navi: 'Seekarte an der Wand', manoever: 'Manöverbrett', buch: 'Bücherregal', telefon: 'Telefon', hocker: 'Hocker', frei: 'Frei üben'};
+const INFO = {deck: 'Deck wie in der App. Hinnerk, Smilla oder Hilke antippen: sie drehen den Kopf her und sprechen (echte Stimmen). Boot antippen: Kajüte.',
+  kajuete: 'Kajüte zum Wischen wie früher, mit leichter Tiefe. Personen antippen: sie sprechen. Dinge antippen: die Kamera fährt nah heran. Das Fernglas zeigt, was geht.',
+  knoten: 'Knotenbrett nah: dasselbe Brett scharf, Namen auf Messingschildern. Knoten antippen: Animation aus dem Knotenkurs.',
+  karte: 'Seekarte am Tisch: heranfahren und langsam kippen, bis man von oben auf den Tisch schaut.', navi: 'Seekarte an der Wand: Navigationsschule und Abendwache.',
+  manoever: 'Manöverbrett: vier Manöver mit Schildern, Praxis im 3D-Fenster.', buch: 'Bücherregal: Lernkartei und Meine Prüfungen, Lesezeichen in den Farben des Lernstands.',
+  telefon: 'Telefon: Harms meldet sich zur Probeprüfung.', hocker: 'Hocker: weiter in der Hörreise.', frei: 'Frei üben wie bisher (nur angedeutet).'};
+let bild = 'deck', ton = true;
+try { ton = localStorage.getItem('skipper-ton') !== 'aus'; } catch (e) {}
 const kopf = id => `<svg viewBox="-19 -99 38 38" width="40" height="40">${F.figur(id, {blick: 'vorn', dreh: false, laune: 'froh'})}</svg>`;
 function nav(an) { return `<div class="nav">${[['deck', 'Deck'], ['kajuete', 'Kajüte'], ['frei', 'Frei üben']].map(([k, n]) => `<button data-nav="${k}" class="${k === an ? 'an' : ''}">${tabSvg(k)}${n}</button>`).join('')}</div>`; }
+
+/* ---------- Stimmen: echte Aufnahmen aus audio/stimmen, Mund folgt der Lautstärke ---------- */
+let TEXTE = {}, actx = null, laufend = null, sprechNr = 0;
+const PUFFER = {};
+const STIMME = {hinnerk: {moin: ['1bps9q1', '8zipg1', 'kqhc0c', '1shkgyg', '1ej9no5'], kajuete: ['1nnlbz5', 'a0u32u']}, smilla: {moin: ['9t6fo4', 'g7dxo9', '13xcbjm', '1degtj5'], kajuete: ['1tr739f', '9t6fo4']},
+  klabauter: {moin: ['lzg1b7', '17eg7wk', 'l50afm'], kajuete: ['2fwqkh', 'lzg1b7']}};
+const WER = {hinnerk: 'HINNERK', smilla: 'SMILLA', klabauter: 'KLABAUTER', hilke: 'HILKE', harms: 'HARMS'};
+const NAME = {hinnerk: "Käpt'n Hinnerk", smilla: 'Smilla', klabauter: 'Klabauter', hilke: 'Hilke', harms: 'Kapitän Harms', backbord: 'Backbord'};
+const zufall = a => a[Math.floor(Math.random() * a.length)];
+async function spiele(datei) {
+  if (!ton) return null;
+  actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') await actx.resume();
+  const b = PUFFER[datei] || (PUFFER[datei] = await fetch(datei).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(a => actx.decodeAudioData(a)));
+  const q = actx.createBufferSource(), an = actx.createAnalyser(); an.fftSize = 512; q.buffer = b; q.connect(an); an.connect(actx.destination);
+  const st = {q, an, fertig: false}; q.onended = () => { st.fertig = true; }; q.start(); return st;
+}
+const pegelVon = (an, arr) => { an.getByteTimeDomainData(arr); let s = 0; for (let i = 0; i < arr.length; i++) { const x = (arr[i] - 128) / 128; s += x * x; } return Math.max(0, Math.min(1, (Math.sqrt(s / arr.length) - .012) * 6.5)); };
+const takt = t => Math.max(0, Math.min(1, .1 + .9 * Math.max(0, Math.sin(t * 12.6)) * (.55 + .45 * Math.sin(t * 3.3))));
+function blaseZeigen(wer, text, ankerEl, med) {
+  const box = $('bw') || tel; let b = $('blase'); if (!b || b.parentNode !== box) { if (b) b.remove(); b = document.createElement('div'); b.id = 'blase'; b.className = 'blase'; box.appendChild(b); }
+  b.innerHTML = `<b>${NAME[wer] || ''}</b>${text}`; b.classList.remove('links');
+  const T = box.getBoundingClientRect();
+  if (med) { const m = $('med').getBoundingClientRect(); b.classList.add('links'); b.style.left = (m.right - T.left + 10) + 'px'; b.style.top = (m.top - T.top + 6) + 'px'; b.style.bottom = ''; }
+  else if (ankerEl) { const r = ankerEl.getBoundingClientRect(), cx = r.left + r.width / 2 - T.left; b.style.maxWidth = Math.min(230, T.width - 24) + 'px'; b.style.left = '0px';
+    const bw = b.offsetWidth, left = Math.max(12, Math.min(T.width - bw - 12, cx - bw / 2)); b.style.left = left + 'px'; b.style.setProperty('--px', Math.max(10, Math.min(bw - 24, cx - left - 7)) + 'px');
+    b.style.top = ''; b.style.bottom = Math.min(T.height - 60, T.bottom - r.top + 10) + 'px'; }
+  requestAnimationFrame(() => b.classList.add('an'));
+}
+function stumm() {
+  sprechNr++; if (laufend && laufend.q) { try { laufend.q.stop(); } catch (e) {} } laufend = null;
+  if (window.FILMB) { FILMB.sprecher(''); FILMB.pegel(null); }
+  const b = $('blase'); if (b) b.classList.remove('an'); const m = $('med'); if (m) { m.classList.remove('an'); F.mund(m, 0); }
+}
+/* wer spricht clip (oder text ohne Aufnahme); med: im Medaillon statt auf der Bühne */
+async function sprich(wer, clip, o = {}) {
+  stumm(); const nr = sprechNr, text = (TEXTE[clip] || '').replace(/^[a-zäöü]+: /, '') || o.text || '';
+  let med = null;
+  if (o.med) { med = $('med'); const box = $('bw') || tel; if (!med || med.parentNode !== box) { if (med) med.remove(); med = document.createElement('div'); med.id = 'med'; med.className = 'med'; box.appendChild(med); } med.innerHTML = medaillon(wer); requestAnimationFrame(() => med.classList.add('an')); }
+  else if (WER[wer]) FILMB.sprecher(WER[wer]);
+  blaseZeigen(wer, text, o.anker, !!med);
+  let st = null; if (clip) { try { st = await spiele(`../../audio/stimmen/${clip}.mp3`); } catch (e) { st = null; } } else if (o.datei) { try { st = await spiele(o.datei); } catch (e) {} }
+  if (nr !== sprechNr) { if (st) try { st.q.stop(); } catch (e) {} return; }
+  laufend = st; const arr = new Uint8Array(512), t0 = performance.now(), dauer = Math.max(1500, text.length * 62);
+  await new Promise(res => { const tick = now => {
+      if (nr !== sprechNr) return res();
+      const v = st ? pegelVon(st.an, arr) : null, ende = st ? st.fertig : now - t0 > dauer;
+      if (med) F.mund(med, v != null ? v : takt((now - t0) / 1000)); else FILMB.pegel(v);
+      if (ende) return res(); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+  if (nr !== sprechNr) return;
+  if (med) F.mund(med, 0); else { FILMB.sprecher(''); FILMB.pegel(null); }
+  setTimeout(() => { if (nr === sprechNr) { const b = $('blase'); if (b) b.classList.remove('an'); if (med) med.classList.remove('an'); } }, 1400);
+}
+/* Kopf einer Figur von vorn im Medaillon (Mund bewegt sich mit) */
+function medaillon(wer) {
+  const id = wer === 'harms' ? 'harms' : wer, f = F.FIG[id]; if (!f) return '';
+  if (f.tier) return `<svg viewBox="-10 -42 28 28">${F.figur(id, {pose: 'sitzen'})}</svg>`;
+  const T = F.TYPEN[f.typStd] || F.TYPEN.klassisch, sk = f.h / 100, cy = (-77.6 * T.bh - 9 * T.k) * sk, g = 40 * T.k * sk;
+  return `<svg viewBox="${(.4 * T.bw * sk - g / 2).toFixed(1)} ${(cy - g * .52).toFixed(1)} ${g.toFixed(1)} ${g.toFixed(1)}">${F.figur(id, {blick: 'vorn'})}</svg>`;
+}
 
 /* ---------- Deck wie heute ---------- */
 function deckHtml() {
@@ -135,158 +211,221 @@ function deckHtml() {
     </div>${nav('deck')}`;
 }
 /* ---------- Kajüte ---------- */
-const DINGE = [['knoten', 'fk-knotenbrett', 'Knotenbrett'], ['karte', 'fk-tischkarte', 'Seekarte'], ['telefon', 'fk-telefon', 'Telefon: Harms prüft'], ['manoever', 'fk-manoever', 'Manöverbrett'], ['buch', 'fk-buecher', 'Meine Prüfungen'], ['hocker', 'fk-hocker', 'Hocker: Hörreise'], ['klabauter', 'fk-klabauter', 'Klabauter: Lernkartei']];
 function kajueteHtml() {
-  return `<div class="bw" id="bw"><div class="buehne" id="b"></div><div class="over" id="over"><div class="detail" id="det"></div></div>
+  return `<div class="bw" id="bw"><div class="buehne" id="b"></div><div class="pano" id="pano"><div id="panoIn"></div></div><div class="over" id="over"></div><div class="detail" id="det"></div>
+    <button class="pf l" id="pfl" aria-label="nach links">‹</button><button class="pf r" id="pfr" aria-label="nach rechts">›</button>
     <div class="ecke"><button aria-label="Einstellungen">${ZAHN}</button></div><button class="fernglas" id="fern" aria-label="Fernglas: zeigt, was man antippen kann">${FERN}</button></div>${nav('kajuete')}`;
 }
 function freiHtml() {
   return `<div class="frei">${[['frage', 'Fragen'], ['knoten', 'Knoten'], ['navi', 'Navigation'], ['licht', 'Lichter'], ['praxis', 'Manöver'], ['funk', 'Funk (später)']].map(([s, n]) => `<div class="karte">${SYM(s)}<b>${n}</b></div>`).join('')}</div>${nav('frei')}`;
 }
-const KN_NAMEN = {acht: 'Achtknoten', kreuz: 'Kreuzknoten', palstek: 'Palstek', schot: 'Schotstek', stopper: 'Stopperstek', webelein: 'Webeleinstek', webeleinslip: 'Webelein auf Slip', rundtoern: 'Rundtörn', klampe: 'Klampe'};
-const KN_OK = {acht: 1, kreuz: 1, palstek: 1, schot: 1};
-const DETAIL = {
-  telefon: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="dkarte" style="left:50%;top:16%;transform:translateX(-50%);width:76%;text-align:center"><b>Harms ist bereit</b><small>Fünf Fragen, keine Ausreden.</small></div><button class="los" style="left:50%;bottom:22px;transform:translateX(-50%)">☎️ Harms anrufen</button>`,
-  manoever: () => `<button class="zur" data-zurueck>‹ Kajüte</button>${['Ablegen mit Spring', 'Anlegen', 'Wenden', 'Mann über Bord'].map((n, i) => `<span class="tag${i < 1 ? ' ok' : ''}" style="left:50%;top:${16 + i * 8}%;transform:translateX(-50%)">${i < 1 ? '✓ ' : ''}${n}</span>`).join('')}<button class="los" style="left:50%;bottom:22px;transform:translateX(-50%)">Anlegen üben</button>`,
-  buch: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="dkarte" style="left:8%;right:8%;top:12%">${[['Navigation', 34], ['Fahrregeln', 61], ['Lichter', 48], ['Recht', 80]].map(([n, p]) => `<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:4px"><span>${n}</span><span>${p} %</span></div><div style="height:7px;border-radius:4px;background:rgba(255,255,255,.12)"><div style="height:100%;width:${p}%;border-radius:4px;background:#7fbf7a"></div></div>`).join('')}</div><button class="los" style="left:50%;bottom:22px;transform:translateX(-50%)">Meine Prüfungen</button>`,
-  hocker: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="dkarte" style="left:50%;top:14%;transform:translateX(-50%);width:80%;text-align:center"><small>Hörreise</small><b>Folge 1-3: Leise raus</b><small>noch 14 Minuten</small></div><button class="los" style="left:50%;bottom:22px;transform:translateX(-50%)">▶ Weiterhören</button>`,
-  klabauter: () => `<button class="zur" data-zurueck>‹ Kajüte</button><div class="dkarte" style="left:8%;top:62%;width:70%"><b>„Merken! Merken!“</b><small>9 Karten in der Lernkartei</small></div><button class="los" style="left:50%;bottom:22px;transform:translateX(-50%)">Lernkartei</button>`
+/* Dinge mit Funktion: Lage in der Welt (box = x, y, Breite, Höhe), Ebene d, wie voll sie die Nahansicht füllen, wer dazu spricht (SK9) */
+const DING = {
+  knoten: {sel: '#fk-knotenbrett', box: [157, 125, 86, 144], d: .12, fuell: [.98, .97], wer: 'hinnerk', clip: '13q5g7s', nah: 'knotenbrett'},  /* Filz füllt den Bildschirm */
+  karte: {sel: '#fk-tischplatte', box: [92, 357, 216, 52], d: .5, fuell: [.94, .6], wer: 'hinnerk', clip: '9y2xz6'},
+  navi: {sel: '#fk-seekarte', box: [352, 134, 106, 66], d: .12, fuell: [.97, .7], wer: 'smilla', clip: '1t3a6ml', nah: 'seekarteWand'},
+  manoever: {sel: '#fk-manoever', box: [372, 44, 82, 82], d: .12, fuell: [.96, .72], wer: 'smilla', clip: '1uxsomq', nah: 'manoeverbrett'},
+  buch: {sel: '#fk-buecher', box: [-300, 117, 128, 98], d: .12, fuell: [.97, .66], nah: 'buecherregal'},
+  telefon: {sel: '#fk-telefon', box: [-14, 126, 64, 86], d: .12, fuell: [.86, .66], wer: 'harms', clip: 'vzbq4f', nah: 'telefon'},
+  hocker: {sel: '#fk-hocker', box: [168, 451, 64, 45], d: .75, fuell: [.62, .4], wer: 'smilla', clip: '1tr739f'},
+  tuer: {sel: '#fk-niedergang', box: [500, 38, 140, 340], d: .3, fuell: [.9, .9]}
 };
+const FIGUR_SEL = {hinnerk: '#fk-hinnerk', smilla: '#fk-smilla', klabauter: '#fk-klabauter', backbord: '#fk-backbord'};
+const EGGS = {glocke: '#fk-glocke', baro: '#fk-baro', funk: '#fk-funk'};
+const KN_OK = {acht: 1, kreuz: 1, palstek: 1, schot: 1}, MAN_OK = {Ablegen: 1}, BUCH_INFO = {'Meine Prüfungen': 'SBF See: 62 % geschafft', 'Lernkartei': '9 Karten sind heute dran', 'Merksätze': 'Klabauters Eselsbrücken'};
 
 /* ---------- Anzeigen ---------- */
-async function zeigen() {
-  $('info').textContent = INFO[bild];
+let erster = true;
+async function zeigen(vonHand) {
+  stumm(); $('info').textContent = INFO[bild];
   const ist = bild === 'deck' ? 'deck' : bild === 'frei' ? 'frei' : 'kajuete';
   tel.innerHTML = `<div class="screen" id="sc">${ist === 'deck' ? deckHtml() : ist === 'frei' ? freiHtml() : kajueteHtml()}</div>`;
   if (ist === 'frei') return;
-  FILMB.reset(); FILMB.licht('mittag'); FILMB.mount($('b'));
-  if (ist === 'deck') { await FILMB.ort('tankstelle', 'sofort', 'seite'); FILMB.sofort({p: [.5]}); FILMB.kamera('seite', 'deck', 'sofort'); extras('deck'); }
-  else { await FILMB.ort('kajuete', 'sofort', 'innen'); FILMB.kamera('innen', 'totale', 'sofort'); extras('kajuete'); if (bild === 'knoten' || bild === 'karte') setTimeout(() => ran(bild), 500); }
-}
-/* Extras im Aquarell (spielen nicht mit): Muschelwichte am Steg, Mäuse am Mauseloch in der Kajüte; leben mit eigener kleiner Uhr */
-let extraUhr = 0;
-function extras(ist) {
-  cancelAnimationFrame(extraUhr);
-  let g;
-  if (ist === 'deck') { const h = inBuehne('#fs-hilke'); if (!h) return; g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); h.parentNode.appendChild(g); }
-  else { const kat = inBuehne('#fk-katze'); if (!kat) return; g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); kat.closest('svg').appendChild(g);
-    g.insertAdjacentHTML('beforebegin', '<path d="M258 470 q0 -16 12 -16 q12 0 12 16Z" fill="#1e120a"/>'); }
-  let t0 = performance.now(), last = 0;
-  const lauf = now => { if (!g.isConnected) return; if (now - last > 80) { last = now; const t = ((now - t0) / 1000) * .35 % 1;
-      g.innerHTML = ist === 'deck' ? `<g transform="translate(62 271) scale(.8)">${F.gruppe('muschelwicht', 2, {dreh: false, t})}</g>`
-        : `<g transform="translate(270 474) scale(.95)">${F.figur('mausmutter', {dreh: false, pose: 'schnuppern', t})}</g><g transform="translate(252 476) scale(.8)">${F.figur('mauskind', {dreh: false, pose: 'putzen', t: (t + .4) % 1})}</g>`; }
-    extraUhr = requestAnimationFrame(lauf); };
-  extraUhr = requestAnimationFrame(lauf);
+  FILMB.reset(); FILMB.licht('mittag'); FILMB.atmo([]); FILMB.mount($('b'));
+  if (ist === 'deck') { await FILMB.ort('tankstelle', 'sofort', 'seite'); FILMB.sofort({p: [.5]}); FILMB.kamera('seite', 'deck', 'sofort'); extras('deck');
+    if (vonHand) setTimeout(() => { if (bild === 'deck') sprich('hinnerk', zufall(STIMME.hinnerk.moin), {anker: figurEl('hinnerk')}).then(() => { if (bild === 'deck' && Math.random() < .35) sprich('smilla', 'g7dxo9', {anker: figurEl('smilla')}); }); }, 700); }
+  else { await FILMB.ort('kajuete', 'sofort', 'innen'); FILMB.EINST.innen.totale = {df: .5, pan: 0}; FILMB.kamera('innen', 'totale', 'sofort'); panoAufbauen(); extras('kajuete');
+    if (DING[bild]) setTimeout(() => ran(bild), 450); }
 }
 const inBuehne = sel => $('b') && $('b').querySelector(sel);
-const relRect = el => { const r = el.getBoundingClientRect(), b = $('bw').getBoundingClientRect(); return {x: r.left - b.left, y: r.top - b.top, w: r.width, h: r.height}; };
-let busy = false;
-async function ran(k) {
-  if (busy || !$('bw')) return; busy = true;
-  $('bw').classList.add('zoom'); const det = $('det'); det.classList.remove('an'); det.innerHTML = '';
-  if (k === 'karte') { await karteAuf(); busy = false; return; }
-  if (k === 'knoten') brettZoom();
-  await FILMB.kamera('innen', k, 'fahrt');
-  if (k === 'knoten') { await brettAuf(); busy = false; return; }
-  det.innerHTML = DETAIL[k] ? DETAIL[k]() : ''; requestAnimationFrame(() => det.classList.add('an')); busy = false;
+const figurEl = wer => wer === 'hilke' ? inBuehne('#fs-hilke .cr') : inBuehne(FIGUR_SEL[wer] || `.cr-${wer}`) || inBuehne(`.cr-${wer}`);
+const relRect = el => { const r = el.getBoundingClientRect(), b = $('bw') ? $('bw').getBoundingClientRect() : tel.getBoundingClientRect(); return {x: r.left - b.left, y: r.top - b.top, w: r.width, h: r.height}; };
+
+/* ---------- Wischen: der Streifen hat die Breite des Panoramas, scrollLeft wird zur Kamera-Verschiebung ---------- */
+const PAN = {min: -430, max: 370, p: 0, K: 1.6};
+function panoAufbauen() {
+  const bw = $('bw'), pa = $('pano'), K = FILMB.K, halb = bw.clientWidth / K / 2;
+  Object.assign(PAN, {K, min: (-318 + halb - 200) / .9, max: (662 - halb - 200) / .9, p: 0});
+  $('panoIn').style.width = ((PAN.max - PAN.min) * K + bw.clientWidth) + 'px';
+  pa.scrollLeft = (0 - PAN.min) * K;
+  let x0 = pa.scrollLeft;
+  pa.addEventListener('scroll', () => { PAN.zuletzt = performance.now(); PAN.p = PAN.min + pa.scrollLeft / PAN.K; FILMB.pan(PAN.p); if (Math.abs(pa.scrollLeft - x0) > 12) { $('pfl').classList.add('weg'); $('pfr').classList.add('weg'); } }, {passive: true});
+  $('pfl').onclick = () => pa.scrollBy({left: -bw.clientWidth * .8, behavior: 'smooth'});
+  $('pfr').onclick = () => pa.scrollBy({left: bw.clientWidth * .8, behavior: 'smooth'});
+  pa.addEventListener('click', e => { if ($('bw').classList.contains('zoom')) return; const t = treffer(e); if (t) tippen(t); });
 }
-async function zurueck() {
-  if (busy) return; busy = true; const det = $('det'); det.classList.remove('an');
-  const nah = document.querySelector('.nah'), oben = document.querySelector('.oben'), boden = document.querySelector('.boden');
-  if (nah) { nah.classList.remove('fertig'); await nah.animate([{opacity: 1}, {opacity: 0}], {duration: 450, fill: 'forwards'}).finished; nah.remove(); }
-  if (oben) { await kippen(false); oben.remove(); boden && boden.remove(); }
-  await FILMB.kamera('innen', 'totale', 'fahrt'); det.innerHTML = ''; $('bw').classList.remove('zoom'); busy = false;
+function treffer(e) {
+  const hit = (sel, pad = 6) => { const el = inBuehne(sel); if (!el) return false; const r = el.getBoundingClientRect(); return e.clientX > r.left - pad && e.clientX < r.right + pad && e.clientY > r.top - pad && e.clientY < r.bottom + pad; };
+  for (const w of Object.keys(FIGUR_SEL)) if (hit(FIGUR_SEL[w], 0)) return {art: 'figur', k: w};
+  for (const k of Object.keys(EGGS)) if (hit(EGGS[k])) return {art: 'egg', k};
+  for (const k of Object.keys(DING)) if (hit(DING[k].sel)) return {art: 'ding', k};
+  return null;
+}
+let kajNr = 0;
+function tippen(t) {
+  if (t.art === 'ding') return ran(t.k);
+  if (t.art === 'figur') {
+    if (t.k === 'backbord') return sprich('backbord', null, {anker: figurEl('backbord'), text: 'Miau.', datei: '../../audio/katze.mp3'});
+    const S = STIMME[t.k]; kajNr++; return sprich(t.k, S.kajuete[kajNr % S.kajuete.length], {anker: figurEl(t.k)});
+  }
+  if (t.k === 'glocke') { const g = inBuehne('#fk-glocke .glocke'); g.classList.remove('laeuten'); void g.getBoundingClientRect(); g.classList.add('laeuten'); spiele('../../audio/glocke.mp3').catch(() => {}); }
+  if (t.k === 'baro') { const n = inBuehne('#fk-baro .bnadel'); n.dataset.k = ((+n.dataset.k || 0) + 1) % 4; n.style.transform = `rotate(${-(+n.dataset.k) * 28}deg)`; }
+  if (t.k === 'funk') sprich('smilla', null, {anker: inBuehne('#fk-funk'), text: 'Das Funkgerät kommt später, wenn du den Funkschein machst.'});
+}
+function fernglas() {
+  for (const k of Object.keys(DING)) { const el = inBuehne(DING[k].sel); if (!el) continue; const r = relRect(el), m = Math.min(220, Math.max(r.w, r.h) + 18), kr = document.createElement('div');
+    kr.className = 'kringel'; Object.assign(kr.style, {left: (r.x + r.w / 2 - m / 2) + 'px', top: (r.y + r.h / 2 - m / 2) + 'px', width: m + 'px', height: m + 'px'}); $('over').appendChild(kr); setTimeout(() => kr.remove(), 2700); }
 }
 
-/* Knotenbrett: nach dem Heranfahren liegt dasselbe Brett scharf darüber und wächst auf fast Vollbild */
-/* Wie nah die Kamera muss, damit das Brett fast den ganzen Bildschirm füllt (Ebene d = 0.2 wächst mit 1 + (z − 1) · 0.4) */
-function brettZoom() {
-  const g = inBuehne('#fk-knotenbrett'); if (!g) return;
-  const r = relRect(g), W = $('bw').clientWidth, H = $('bw').clientHeight, c = FILMB.CAM && FILMB.CAM('kajuete:innen'), zl0 = 1;
-  const f = Math.min(W * .97 / r.w, (H - 70) * .97 / r.h) * zl0, e = FILMB.EINST.innen.knoten;
-  e.z = 1 + (f - 1) / .4; e.fy = 110 + 22 / f;  /* etwas tiefer, damit oben Platz für „‹ Kajüte“ bleibt */
+/* ---------- Heranfahren: so nah, dass das Ding fast den Bildschirm füllt; dann liegt dasselbe Ding scharf darüber ---------- */
+let busy = false;
+function zielFuer(D) {
+  const bw = $('bw'), W = bw.clientWidth, H = bw.clientHeight, K = FILMB.K, [x, y, w, h] = D.box, tiefe = .25 + .75 * D.d;
+  const f = Math.min(W * D.fuell[0] / (w * K), (H - 110) * D.fuell[1] / (h * K)), z = 1 + (f - 1) / tiefe;
+  return {z, fx: x + w / 2, fy: y + h / 2 + 18 / (K * f), df: D.d, pan: 0};
 }
-async function brettAuf() {
-  const g = inBuehne('#fk-knotenbrett'); if (!g) return;
-  const bb = g.getBBox(), r = relRect(g);
-  const nah = document.createElement('div'); nah.className = 'nah';
+async function ran(k) {
+  const D = DING[k]; if (busy || !$('bw') || !D) return; busy = true; stumm();
+  $('bw').classList.add('zoom'); const det = $('det'); det.classList.remove('an'); det.innerHTML = '';
+  FILMB.EINST.innen[k] = zielFuer(D);
+  if (k === 'tuer') { await FILMB.kamera('innen', k, 'fahrt'); busy = false; bild = 'deck'; chips(); return zeigen(true); }
+  await FILMB.kamera('innen', k, 'fahrt');
+  if (k === 'karte') await karteAuf();
+  else if (D.nah) await nahAuf(k, D);
+  det.innerHTML = `<button class="zur" data-zurueck>‹ Kajüte</button>` + (DETAIL[k] ? DETAIL[k]() : ''); requestAnimationFrame(() => det.classList.add('an'));
+  busy = false;
+  if (D.clip) sprich(D.wer, D.clip, {med: true});
+}
+async function zurueck() {
+  if (busy) return; busy = true; stumm(); const det = $('det'); det.classList.remove('an');
+  const nah = document.querySelector('.nah'), oben = document.querySelector('.oben'), boden = document.querySelector('.boden');
+  if (nah) { nah.classList.remove('fertig'); await nah.animate([{opacity: 1}, {opacity: 0}], {duration: 380, fill: 'forwards'}).finished; nah.remove(); }
+  if (oben) { await kippen(false); oben.remove(); if (boden) boden.remove(); }
+  FILMB.EINST.innen.totale = {df: .5, pan: PAN.p};
+  await FILMB.kamera('innen', 'totale', 'fahrt'); det.innerHTML = ''; $('bw').classList.remove('zoom'); busy = false;
+}
+/* Dasselbe Ding scharf darüber (Überblendung), mit Antipp-Feldern und Häkchen */
+async function nahAuf(k, D) {
+  const g = inBuehne(D.sel); if (!g) return;
+  const r = relRect(g), nah = document.createElement('div'); nah.className = 'nah'; nah.dataset.k = k;
   Object.assign(nah.style, {left: r.x + 'px', top: r.y + 'px', width: r.w + 'px', height: r.h + 'px'});
-  const {BRETT: Bt, KNOTEN_BRETT: KB} = FILMB.teile, ix = Bt.x + 8, iy = Bt.y + 24, cw = (Bt.w - 16) / 3, ch = (Bt.h - 32) / 3, pc = (v, a, l) => ((v - a) / l * 100).toFixed(2) + '%';
-  nah.innerHTML = `<svg viewBox="${bb.x} ${bb.y} ${bb.width} ${bb.height}" preserveAspectRatio="none">${FILMB.teile.knotenbrett()}</svg>` +
-    KB.map((kn, i) => `<button class="zelle" data-knoten="${kn}" aria-label="${KN_NAMEN[kn]}" style="left:${pc(ix + (i % 3) * cw, bb.x, bb.width)};top:${pc(iy + (i / 3 | 0) * ch, bb.y, bb.height)};width:${pc(bb.x + cw, bb.x, bb.width)};height:${pc(bb.y + ch, bb.y, bb.height)}"><span class="${KN_OK[kn] ? 'ok' : ''}">${KN_OK[kn] ? '✓ ' : ''}${KN_NAMEN[kn]}</span></button>`).join('');
-  $('over').appendChild(nah);
-  /* Überblendung: dasselbe Brett an derselben Stelle, nur scharf; dann erscheinen die Namen */
-  await nah.animate([{opacity: 0}, {opacity: 1}], {duration: 650, easing: 'ease-in-out', fill: 'forwards'}).finished;
-  nah.getAnimations().forEach(a => a.cancel()); nah.style.opacity = 1;
-  nah.classList.add('fertig');
-  const det = $('det'); det.innerHTML = `<button class="zur" data-zurueck>‹ Kajüte</button>`; requestAnimationFrame(() => det.classList.add('an'));
+  nah.innerHTML = `<svg viewBox="0 0 10 10" preserveAspectRatio="none"><g class="ni">${FILMB.teile[D.nah]()}</g></svg>`; $('over').appendChild(nah);
+  const bb = nah.querySelector('.ni').getBBox();
+  const pc = (v, a, l) => ((v - a) / l * 100).toFixed(2) + '%', feld = (x, y, w, h, attr, ok) => `<button class="feld" ${attr} style="left:${pc(x, bb.x, bb.width)};top:${pc(y, bb.y, bb.height)};width:${(w / bb.width * 100).toFixed(2)}%;height:${(h / bb.height * 100).toFixed(2)}%">${ok ? '<span class="ok">✓</span>' : ''}</button>`;
+  let felder = '';
+  if (k === 'knoten') { const B = FILMB.teile.BRETT, ix = B.x + 7, iy = B.y + 21, cw = (B.w - 14) / 3, ch = (B.h - 28) / 3;
+    felder = FILMB.teile.KNOTEN_BRETT.map((kn, i) => feld(ix + (i % 3) * cw, iy + (i / 3 | 0) * ch, cw, ch, `data-knoten="${kn}" aria-label="${FILMB.teile.KNOTEN_SCHILD[kn].join(' ')}"`, KN_OK[kn])).join(''); }
+  if (k === 'manoever') felder = FILMB.teile.MANOEVER.map(([n], i) => feld(377 + (i % 2) * 37, 61 + (i / 2 | 0) * 32, 35, 30, `data-manoever="${n}" aria-label="${n}"`, MAN_OK[n])).join('');
+  if (k === 'buch') { let bx = -297; felder = FILMB.teile.BUECHER.map(([t, , bw]) => { const s = feld(bx, 122, bw, 82, `data-buch="${t}" aria-label="${t}"`); bx += bw + 1; return s; }).join(''); }
+  nah.querySelector('svg').setAttribute('viewBox', `${bb.x} ${bb.y} ${bb.width} ${bb.height}`); nah.insertAdjacentHTML('beforeend', felder);
+  await nah.animate([{opacity: 0}, {opacity: 1}], {duration: 600, easing: 'ease-in-out', fill: 'forwards'}).finished;
+  nah.getAnimations().forEach(a => a.cancel()); nah.style.opacity = 1; nah.classList.add('fertig');
 }
+const DETAIL = {
+  knoten: () => '',
+  navi: () => `<div class="dkarte" style="left:50%;bottom:176px;transform:translateX(-50%);width:84%"><b>Abendwache 2 von 3</b><small>Schritt 2 von 4: Kurs ablesen</small></div><button class="los" style="left:50%;bottom:118px;transform:translateX(-50%)">Weiter am Kartentisch</button>`,
+  manoever: () => `<div class="dkarte" style="left:50%;bottom:118px;transform:translateX(-50%);width:84%"><b>Praxis im 3D-Fenster</b><small>Manöver antippen: üben mit der Frieda</small></div>`,
+  buch: () => `<div class="dkarte" style="left:50%;bottom:118px;transform:translateX(-50%);width:84%"><b>Lernkartei und Meine Prüfungen</b><small>Buch antippen. Lesezeichen: rot neu, gelb geübt, grün sicher</small></div>`,
+  telefon: () => `<button class="los" style="left:50%;bottom:118px;transform:translateX(-50%)">☎️ Harms: Probeprüfung</button>`,
+  hocker: () => `<div class="dkarte" style="left:50%;top:70px;transform:translateX(-50%);width:80%;text-align:center"><small>Hörreise</small><b>Folge 1-3: Leise raus</b><small>noch 14 Minuten</small></div><button class="los" style="left:50%;bottom:118px;transform:translateX(-50%)">▶ Weiterhören</button>`,
+  karte: () => `<div class="dkarte" style="left:50%;bottom:176px;transform:translateX(-50%);width:84%"><b>Tag 1: Kuttershaven → Klüverhafen</b><small>Weiter mit Folge 1-3 · Abendwache offen</small></div><button class="los" style="left:50%;bottom:118px;transform:translateX(-50%)">Reise ansehen</button>`
+};
 /* Knoten antippen: die echte Animation aus dem Knotenkurs läuft */
 let raf = 0;
 function knotenBlick(kn) {
   const A = KNOTEN.ANIM[kn]; if (!A) return;
-  const d = document.createElement('div'); d.className = 'kblick'; d.innerHTML = `<div class="p"><canvas width="${A.W * 2}" height="${A.H * 2}"></canvas><b>${KN_NAMEN[kn]}</b><div style="display:flex;gap:8px;justify-content:center;margin-top:6px"><button class="los" data-zu>Zurück zum Brett</button></div></div>`;
+  const d = document.createElement('div'); d.className = 'kblick'; d.innerHTML = `<div class="p"><canvas width="${A.W * 2}" height="${A.H * 2}"></canvas><b>${FILMB.teile.KNOTEN_SCHILD[kn].join(' ')}</b><div style="display:flex;gap:8px;justify-content:center;margin-top:6px"><button class="los" data-zu>Zurück zum Brett</button></div></div>`;
   $('bw').appendChild(d); requestAnimationFrame(() => d.classList.add('an'));
-  const cv = d.querySelector('canvas'), cx = cv.getContext('2d'); let t0 = performance.now();
+  const cv = d.querySelector('canvas'), cx = cv.getContext('2d'), t0 = performance.now();
   const lauf = now => { const t = ((now - t0) / 1000) % (A.DUR + 1.6); cx.setTransform(2, 0, 0, 2, 0, 0); A.draw(cx, Math.min(A.DUR, t)); raf = requestAnimationFrame(lauf); };
   cancelAnimationFrame(raf); raf = requestAnimationFrame(lauf);
   d.addEventListener('click', e => { if (e.target.closest('[data-zu]') || e.target === d) { cancelAnimationFrame(raf); d.remove(); } });
 }
+function hinweis(text) { let h = $('hinw'); if (!h) { h = document.createElement('div'); h.id = 'hinw'; h.className = 'hinweis'; $('bw').appendChild(h); } h.textContent = text; h.style.opacity = 1; clearTimeout(h.t); h.t = setTimeout(() => { h.style.opacity = 0; }, 2400); }
 
-/* Seekarte: heranfahren, dann kippt der Blick langsam nach oben, bis der Tisch von oben zu sehen ist */
-const TISCH_KIPP = Math.acos(26 / 118) * 180 / Math.PI;  /* Tischplatte im Bild: rx 118, ry 26 */
+/* ---------- Seekarte am Tisch: heranfahren, dann kippt der Blick langsam, bis man von oben auf den Tisch schaut ---------- */
+const TISCH_KIPP = Math.acos(26 / 108) * 180 / Math.PI;  /* Tischplatte im Bild: rx 108, ry 26 */
 function tischOben() {
-  const karte = BREDE.svg ? BREDE.svg('K1', {routen: [1], vb: '0 214 360 265', par: 'xMidYMid slice'}).replace('<svg ', '<svg x="-80" y="-59" width="160" height="118" ') : '';
-  return `<svg viewBox="-118 -118 236 236"><defs><radialGradient id="mo-holz" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#b48352"/><stop offset="1" stop-color="#8a5f38"/></radialGradient>
-    <clipPath id="mo-k"><rect x="-80" y="-59" width="160" height="118"/></clipPath></defs>
-    <circle r="118" fill="#946640" stroke="#3a2412" stroke-width="2.4"/><circle r="112" fill="url(#mo-holz)"/>${[-80, -40, 0, 40, 80].map(y => `<path d="M-110 ${y} Q0 ${y + 6} 110 ${y}" stroke="#7a5233" stroke-width=".8" fill="none" opacity=".5"/>`).join('')}
-    <rect x="-78" y="-56" width="160" height="118" fill="#000" opacity=".18"/><g clip-path="url(#mo-k)"><rect x="-80" y="-59" width="160" height="118" fill="#fbf8ef"/>${karte}</g><rect x="-80" y="-59" width="160" height="118" fill="none" stroke="#5a3a1c" stroke-width="1.3"/>
-    <g transform="translate(70 66) rotate(-18)"><rect x="-26" y="-3" width="52" height="6" rx="1.5" fill="#c9a03c" stroke="#5a3a1c" stroke-width=".8"/></g>
-    <g transform="translate(-92 -40)"><circle r="12" fill="#c9a03c" stroke="#5a3a1c" stroke-width="1.2"/><circle r="7" fill="#fff4cf" opacity=".8"/></g></svg>`;
+  const karte = BREDE.svg ? BREDE.svg('K1', {routen: [1], vb: '30 180 240 320', par: 'xMidYMid slice'}).replace('<svg ', '<svg x="-60" y="-80" width="120" height="160" ') : '';
+  const aermel = (x, y, r, c) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-7" y="-26" width="14" height="30" rx="6" fill="${c}" stroke="#1a1208" stroke-width="1"/><ellipse cx="0" cy="6" rx="6.5" ry="5.5" fill="#efc19c" stroke="#5a3a22" stroke-width="1"/></g>`;
+  return `<svg viewBox="-108 -108 216 216"><defs><radialGradient id="mo-holz" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#b48352"/><stop offset="1" stop-color="#8a5f38"/></radialGradient><clipPath id="mo-k"><rect x="-60" y="-80" width="120" height="160"/></clipPath><clipPath id="mo-t"><circle r="108"/></clipPath></defs>
+    <circle r="108" fill="#946640" stroke="#3a2412" stroke-width="2.4"/><circle r="101" fill="url(#mo-holz)"/>${[-80, -50, -20, 10, 40, 70].map(y => `<path d="M-100 ${y} Q0 ${y + 6} 100 ${y}" stroke="#7a5233" stroke-width=".8" fill="none" opacity=".45"/>`).join('')}
+    <rect x="-57" y="-76" width="120" height="160" fill="#000" opacity=".2"/><g clip-path="url(#mo-k)"><rect x="-60" y="-80" width="120" height="160" fill="#fbf8ef"/>${karte}</g><rect x="-60" y="-80" width="120" height="160" fill="none" stroke="#5a3a1c" stroke-width="1.2"/>
+    <g transform="translate(34 50) rotate(-30)"><path d="M0 0 L-6 -40 M0 0 L6 -40" stroke="#6a6a6a" stroke-width="2.2"/><circle r="3.4" fill="#c9a03c"/></g><g transform="translate(-30 64) rotate(12)"><rect x="-34" y="-5" width="68" height="10" rx="2" fill="#c9b78a" stroke="#6a5a3a" stroke-width="1" opacity=".92"/>${Array.from({length: 13}, (_, i) => `<path d="M${-31 + i * 5} -5 v${i % 2 ? 2 : 3.5}" stroke="#6a5a3a" stroke-width=".6"/>`).join('')}</g>
+    <g clip-path="url(#mo-t)">${aermel(-64, -92, -18, '#34465f')}${aermel(-34, -96, 14, '#34465f')}<g transform="translate(-40 -86)"><circle r="8" fill="#e9e1cf" stroke="#2a1a0e" stroke-width="1"/><circle r="6" fill="#5a3418"/><ellipse cx="-1.6" cy="-1.6" rx="2" ry="1.2" fill="#fff" opacity=".35"/></g>
+      ${aermel(48, -94, -14, '#c8503c')}${aermel(74, -88, 20, '#c8503c')}<g transform="translate(66 -76) rotate(-58)"><rect x="-1.4" y="-15" width="2.8" height="22" rx=".8" fill="#e8b33c" stroke="#3a2a1c" stroke-width=".6"/><path d="M-1.4 7 l1.4 3.4 l1.4 -3.4z" fill="#3a2a1c"/></g></g></svg>`;
 }
 async function kippen(hin) {
   const o = document.querySelector('.oben'), bo = document.querySelector('.boden'), W = $('bw').clientWidth, H = $('bw').clientHeight;
-  const r = JSON.parse(o.dataset.r), d = W * 1.42, ziel = `translate(${W / 2 - (r.x + r.w / 2)}px,${H * .45 - (r.y + r.h / 2)}px) perspective(4000px) rotateX(0deg) scale(${d / r.w})`, start = `translate(0px,0px) perspective(4000px) rotateX(${TISCH_KIPP.toFixed(1)}deg) scale(1)`;
-  const k = [{transform: start}, {transform: ziel}], b = [{opacity: 0}, {opacity: 1}];
-  const dur = 1900, opt = {duration: dur, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards'};
-  if (!hin) { k.reverse(); b.reverse(); opt.duration = 1200; }
+  const r = JSON.parse(o.dataset.r), s = Math.min(W * .94 / 120, (H - 200) / 160) * 216 / r.w;
+  const ziel = `translate(${W / 2 - (r.x + r.w / 2)}px,${(H - 120) / 2 + 10 - (r.y + r.h / 2)}px) perspective(2600px) rotateX(0deg) scale(${s})`, start = `translate(0px,0px) perspective(2600px) rotateX(${TISCH_KIPP.toFixed(1)}deg) scale(1)`;
+  const k = [{transform: start}, {transform: ziel}], b = [{opacity: 0}, {opacity: 1}], opt = {duration: hin ? 2100 : 1200, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards'};
+  if (!hin) { k.reverse(); b.reverse(); }
   await Promise.all([o.animate(k, opt).finished, bo.animate(b, {...opt, duration: opt.duration * .8}).finished]);
 }
 async function karteAuf() {
-  await FILMB.kamera('innen', 'karte', 'fahrt');
   const pl = inBuehne('#fk-tischplatte'); if (!pl) return;
   const r = relRect(pl), o = document.createElement('div'), bo = document.createElement('div');
   bo.className = 'boden'; o.className = 'oben'; o.dataset.r = JSON.stringify(r);
-  /* quadratisch, so breit wie die Platte; gekippt deckt es die Ellipse im Bild genau ab */
-  Object.assign(o.style, {left: r.x + 'px', top: (r.y + r.h / 2 - r.w / 2) + 'px', width: r.w + 'px', height: r.w + 'px', transform: `perspective(4000px) rotateX(${TISCH_KIPP.toFixed(1)}deg)`});
+  Object.assign(o.style, {left: r.x + 'px', top: (r.y + r.h / 2 - r.w / 2) + 'px', width: r.w + 'px', height: r.w + 'px', transform: `perspective(2600px) rotateX(${TISCH_KIPP.toFixed(1)}deg)`});
   o.innerHTML = tischOben(); $('over').append(bo, o);
   await o.animate([{opacity: 0}, {opacity: 1}], {duration: 450, fill: 'forwards'}).finished;
   await kippen(true);
-  const det = $('det');
-  det.innerHTML = `<button class="zur" data-zurueck>‹ Kajüte</button><div class="dkarte" style="left:50%;bottom:76px;transform:translateX(-50%);width:84%"><b>Abendwache 2 von 3</b><small>Schritt 2 von 4: Kurs ablesen. Tag 1: Kuttershaven → Klüverhafen</small></div><button class="los" style="left:50%;bottom:20px;transform:translateX(-50%)">Weiter am Kartentisch</button>`;
-  requestAnimationFrame(() => det.classList.add('an'));
 }
-function fernglas() {
-  for (const [, id] of DINGE) { const el = inBuehne('#' + id); if (!el) continue; const r = relRect(el), m = Math.max(r.w, r.h) + 18, k = document.createElement('div');
-    k.className = 'kringel'; Object.assign(k.style, {left: (r.x + r.w / 2 - m / 2) + 'px', top: (r.y + r.h / 2 - m / 2) + 'px', width: m + 'px', height: m + 'px'}); $('over').appendChild(k); setTimeout(() => k.remove(), 2700); }
+
+/* ---------- Extras im Aquarell (spielen nicht mit) ---------- */
+let extraUhr = 0;
+function extras(ist) {
+  cancelAnimationFrame(extraUhr);
+  const t0 = performance.now(); let last = 0, gD = null;
+  if (ist === 'deck') { const h = inBuehne('#fs-hilke'); if (h) { gD = document.createElementNS('http://www.w3.org/2000/svg', 'g'); h.parentNode.appendChild(gD); } }
+  const lauf = now => {
+    if (!$('b')) return;
+    /* während des Wischens ruhen die Extras (ihr Aquarell-Filter ist teuer), danach laufen sie mit 10 Bildern je Sekunde weiter */
+    if (now - last > 100 && !(now - (PAN.zuletzt || 0) < 350)) { last = now; const t = (now - t0) / 1000, BW = ($('bw') || tel).getBoundingClientRect(), sicht = el => { if (!el) return null; const r = el.getBoundingClientRect(); return r.right > BW.left - 40 && r.left < BW.right + 40 ? el : null; };
+      if (ist === 'deck' && gD && gD.isConnected) gD.innerHTML = `<g transform="translate(62 271) scale(.8)">${F.gruppe('muschelwicht', 2, {dreh: false, t: t * .35 % 1})}</g>`;
+      if (ist === 'kajuete') {
+        const w = sicht(inBuehne('#kj-wurm')); if (w) { const u = (t / 22) % 1, hin = u < .5, x = (hin ? u * 2 : 2 - u * 2) * 44 - 22; w.innerHTML = `<g transform="translate(${x.toFixed(1)} 0) scale(${hin ? 1 : -1} 1)">${F.figur('knotenwurm', {dreh: false, t: t * .5 % 1})}</g>`; }
+        const m = sicht(inBuehne('#kj-maeuse')); if (m) m.innerHTML = `<g transform="translate(14 0) scale(.95)">${F.figur('mausmutter', {dreh: false, pose: 'schnuppern', t: t * .35 % 1})}</g><g transform="translate(-6 1) scale(.8)">${F.figur('mauskind', {dreh: false, pose: 'putzen', t: (t * .35 + .4) % 1})}</g>`;
+        const p = sicht(inBuehne('#kj-puschel')); if (p) { const u = (t / 18) % 1, x = -77 - 46 + u * 92; p.innerHTML = `<g transform="translate(${x.toFixed(1)} ${(96 + Math.sin(t * .9) * 3).toFixed(1)}) scale(1.1)">${F.figur('nebelpuschel', {dreh: false, t: t * .3 % 1})}</g>`; }
+      } }
+    extraUhr = requestAnimationFrame(lauf); };
+  extraUhr = requestAnimationFrame(lauf);
 }
-function treffer(e) {
-  for (const [k, id] of DINGE) { const el = inBuehne('#' + id); if (!el) continue; const r = el.getBoundingClientRect(); if (e.clientX > r.left - 8 && e.clientX < r.right + 8 && e.clientY > r.top - 8 && e.clientY < r.bottom + 8) return k; }
-  return null;
-}
+
+/* ---------- Bedienung ---------- */
 tel.addEventListener('click', e => {
   if (e.target.closest('[data-zurueck]')) return zurueck();
   const z = e.target.closest('[data-knoten]'); if (z) return knotenBlick(z.dataset.knoten);
+  const mn = e.target.closest('[data-manoever]'); if (mn) return hinweis(`${mn.dataset.manoever}: öffnet das 3D-Fenster (in der App)`);
+  const bu = e.target.closest('[data-buch]'); if (bu) return hinweis(BUCH_INFO[bu.dataset.buch] || `${bu.dataset.buch}: Fragen und Merksätze`);
   if (e.target.closest('#fern')) return fernglas();
-  const n = e.target.closest('[data-nav]'); if (n) { bild = n.dataset.nav; chips(); zeigen(); return; }
-  if (bild === 'deck' && e.target.closest('#b')) { bild = 'kajuete'; chips(); zeigen(); return; }
-  if ($('bw') && !$('bw').classList.contains('zoom') && e.target.closest('#over')) { const k = treffer(e); if (k) ran(k); }
+  const n = e.target.closest('[data-nav]'); if (n) { bild = n.dataset.nav; chips(); zeigen(true); return; }
+  if (bild === 'deck' && e.target.closest('#b')) {
+    for (const w of ['hinnerk', 'smilla', 'hilke']) { const el = figurEl(w); if (!el) continue; const r = el.getBoundingClientRect(); if (e.clientX > r.left - 6 && e.clientX < r.right + 6 && e.clientY > r.top - 6 && e.clientY < r.bottom + 6) {
+      if (w === 'hilke') return sprich('hilke', null, {anker: el, text: 'Moin! Volltanken, wie immer?'});
+      return sprich(w, zufall(STIMME[w].moin), {anker: el}); } }
+    bild = 'kajuete'; chips(); zeigen(true);
+  }
 });
-function chips() { $('cBild').innerHTML = Object.entries(BILDER).map(([k, n]) => `<button data-b="${k}" aria-pressed="${k === bild}">${n}</button>`).join('') + '<a href="figuren-gang.html">Backbord und Fabelwesen →</a>'; }
-$('wahl').addEventListener('click', e => { const b = e.target.closest('[data-b]'); if (b) { bild = b.dataset.b; chips(); zeigen(); } });
+function chips() { $('cBild').innerHTML = Object.entries(BILDER).map(([k, n]) => `<button data-b="${k}" aria-pressed="${k === bild}">${n}</button>`).join('') + `<button data-ton aria-pressed="${ton}">${ton ? '🔊 Ton an' : '🔇 Ton aus'}</button><a href="figuren-gang.html">Figuren und Fabelwesen →</a>`; }
+$('wahl').addEventListener('click', e => {
+  const t = e.target.closest('[data-ton]'); if (t) { ton = !ton; try { localStorage.setItem('skipper-ton', ton ? 'an' : 'aus'); } catch (x) {} if (!ton) stumm(); chips(); return; }
+  const b = e.target.closest('[data-b]'); if (b) { bild = b.dataset.b; chips(); zeigen(true); } });
 const hoehe = () => document.documentElement.style.setProperty('--oben', $('wahl').offsetHeight + 'px'); addEventListener('resize', hoehe);
-const los = () => { chips(); hoehe(); zeigen(); setTimeout(hoehe, 300); };
-fetch('../../data/karte-brede.json').then(r => r.json()).then(j => window.BREDE && BREDE.setzen(j)).catch(() => {}).then(los);
+const los = () => { chips(); hoehe(); zeigen(false); setTimeout(hoehe, 300); };
+Promise.all([fetch('../../data/karte-brede.json').then(r => r.json()).then(j => window.BREDE && BREDE.setzen(j)).catch(() => {}),
+  fetch('../../audio/stimmen/manifest.json').then(r => r.json()).then(m => { TEXTE = m.texts || {}; }).catch(() => {})]).then(los);
 })();
 </script>
 </body>

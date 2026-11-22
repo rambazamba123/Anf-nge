@@ -187,6 +187,15 @@ function augeSvg(ax, ay, o, staunt, rx, ry) {
   return `<ellipse cx="${ax}" cy="${ay}" rx="${r1(rx * (staunt ? 1.3 : 1))}" ry="${r1(ry * (staunt ? 1.29 : 1))}" class="tinte"/>`;
 }
 
+/* Mund mit zwei Zuständen (v5.81, Nutzer 23.11.2026: „Wenn die Personen sprechen, bewegt sich der Mund“): .m-zu wie bisher, .m-auf offen (Höhe 0…1),
+   gesetzt von der Filmbühne oder FIGUREN.mund(el, wert); Anker oben am Mund (data-ax, data-ay), damit er nach unten aufgeht */
+function mundG(o, f, mx, my, zu, art) {
+  const ay = r1(my - .7), X = r1(mx), auf = art === 'seite'
+    ? `<path d="M${r1(mx - 2.3)} ${ay} Q${r1(mx - .3)} ${r1(my + 3.7)} ${r1(mx + 1.9)} ${r1(my - 1)}Z" fill="#5c231b"/><path d="M${r1(mx - 1.3)} ${r1(my + 1.7)} Q${r1(mx - .1)} ${r1(my + 3)} ${r1(mx + .9)} ${r1(my + 1.3)}" fill="#c96d5e"/>`
+    : `<path d="M${r1(mx - 2.6)} ${ay} Q${X} ${r1(my - 1.3)} ${r1(mx + 2.6)} ${ay} Q${r1(mx + 2.3)} ${r1(my + 3.5)} ${X} ${r1(my + 3.7)} Q${r1(mx - 2.3)} ${r1(my + 3.5)} ${r1(mx - 2.6)} ${ay}Z" fill="#5c231b"/><ellipse cx="${X}" cy="${r1(my + 2.6)}" rx="1.4" ry=".8" fill="#c96d5e"/>`;
+  return `<g class="mund"${dreh(o, 'mund', f.wer, mx, my)}><g class="m-zu">${zu}</g><g class="m-auf" data-ax="${X}" data-ay="${ay}" transform="translate(${X} ${ay}) scale(1 0) translate(${-X} ${-ay})">${auf}</g></g>`;
+}
+
 /* ---------- Köpfe ---------- */
 /* Kopf von der Seite, schaut nach rechts; (hx, hy) Mitte */
 /* ---------- Allgemeine Frisuren und Kopfbedeckungen (v5.78, für die neuen Figuren; die alte Crew behält ihre eigenen) ----------
@@ -265,14 +274,14 @@ function kopfSeite(id, f, k, o, hx, hy) {
   const mx = hx + 6.8, my = hy + 6.2;
   const MUND = {froh: `<path d="M${mx - 2.4} ${my - .6} Q${mx} ${my + 1.8} ${mx + 1.8} ${my - 1}" class="det" style="opacity:1"/>`, lacht: `<path d="M${mx - 2.4} ${my - .8} Q${mx} ${my + 3} ${mx + 2} ${my - 1}Z" fill="#7a2e22" class="det" style="opacity:1"/>`,
     genervt: `<path d="M${mx - 2.2} ${my + .2} L${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`, staunt: `<ellipse cx="${mx}" cy="${my + .3}" rx="1.1" ry="1.5" fill="#7a2e22"/>`};
-  if (!f.bart || f.bart === 'kurz' || f.bart === 'schnauz') s += `<g${dreh(o, 'mund', f.wer, mx, my)}>${MUND[L] || `<path d="M${mx - 2} ${my} Q${mx} ${my + .9} ${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`}</g>`;
+  if (!f.bart || f.bart === 'kurz' || f.bart === 'schnauz') s += mundG(o, f, mx, my, (MUND[L] || `<path d="M${mx - 2} ${my} Q${mx} ${my + .9} ${mx + 1.6} ${my - .2}" class="det" style="opacity:1"/>`) + (id === 'smilla' ? `<path d="M${mx - 1.8} ${my + .5} Q${mx} ${my + 1.8} ${mx + 1.4} ${my + .3}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/>` : ''), 'seite');
   /* Bart */
   if (f.bart === 'voll') s += `<path d="M${hx - 3.8} ${hy + 1.6} Q${hx - 4.4} ${hy + 13} ${hx + 3} ${hy + 14.4} Q${hx + 11.6} ${hy + 13.6} ${hx + 12} ${hy + 4.4} Q${hx + 8.6} ${hy + 6.6} ${hx + 5.6} ${hy + 5} Q${hx + 1} ${hy + 4.4} ${hx - 3.8} ${hy + 1.6}Z" class="f-bart ln"/>
-    <path d="M${hx} ${hy + 8} Q${hx + 1} ${hy + 11} ${hx + 3} ${hy + 12} M${hx + 6} ${hy + 8.6} Q${hx + 7} ${hy + 11} ${hx + 8} ${hy + 11.4}" class="det"/><g${dreh(o, 'mund', f.wer, hx + 7.4, hy + 7.6)}><path d="M${hx + 5.6} ${hy + 7.6} Q${hx + 7.4} ${hy + 8.6} ${hx + 9.4} ${hy + 7.4}" class="det" style="opacity:1"/></g>`;
+    <path d="M${hx} ${hy + 8} Q${hx + 1} ${hy + 11} ${hx + 3} ${hy + 12} M${hx + 6} ${hy + 8.6} Q${hx + 7} ${hy + 11} ${hx + 8} ${hy + 11.4}" class="det"/>${mundG(o, f, hx + 7.4, hy + 7.6, `<path d="M${hx + 5.6} ${hy + 7.6} Q${hx + 7.4} ${hy + 8.6} ${hx + 9.4} ${hy + 7.4}" class="det" style="opacity:1"/>`, 'seite')}`;
   if (f.bart === 'kurz') s += `<path d="M${hx - 2.6} ${hy + 3} Q${hx - 2.4} ${hy + 10.6} ${hx + 3} ${hy + 11} Q${hx + 9.6} ${hy + 10.6} ${hx + 10.6} ${hy + 4.6} Q${hx + 9} ${hy + 8.4} ${hx + 6.4} ${hy + 8.4} Q${hx + 2} ${hy + 8.4} ${hx - 2.6} ${hy + 3}Z" class="f-bart ln"/>`;
   if (f.bart === 'schnauz') s += schnauz('seite', hx, hy);
   /* Smilla (v5.78, Nutzer: „etwas attraktiver“, jugendfrei): Wimpern, Lippen, eine lose Strähne */
-  if (id === 'smilla') s += `<path d="M${ax + 1} ${ay - 1.3} l1.7 -1.1 M${ax + 1.5} ${ay - .3} l1.9 -.5" class="det" style="opacity:1"/><path d="M${mx - 1.8} ${my + .5} Q${mx} ${my + 1.8} ${mx + 1.4} ${my + .3}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M${hx - 1} ${hy - 8} Q${hx - 4.6} ${hy - 1} ${hx - 2.6} ${hy + 6}" class="s-haar" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+  if (id === 'smilla') s += `<path d="M${ax + 1} ${ay - 1.3} l1.7 -1.1 M${ax + 1.5} ${ay - .3} l1.9 -.5" class="det" style="opacity:1"/><path d="M${hx - 1} ${hy - 8} Q${hx - 4.6} ${hy - 1} ${hx - 2.6} ${hy + 6}" class="s-haar" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
   /* Haar vorn und oben */
   if (f.haar === 'kranz') s += `<path d="M${hx - 8.8} ${hy - 4} Q${hx - 10.6} ${hy + 1} ${hx - 7.6} ${hy + 4.6} Q${hx - 6.8} ${hy} ${hx - 5.4} ${hy - 4.6}Z" class="f-haar ln"/>`;
   if (f.haar === 'grau') s += `<path d="M${hx - 8.8} ${hy - 2} Q${hx - 9.6} ${hy + 2} ${hx - 7.6} ${hy + 4} Q${hx - 7} ${hy - 1} ${hx - 5.6} ${hy - 4}Z" class="f-haar ln"/>`;
@@ -317,13 +326,13 @@ function kopfVorn(id, f, k, o, hx, hy) {
   const mx = hx + .8, my = hy + 6.4;
   const MUND = {froh: `<path d="M${mx - 2.6} ${my - .6} Q${mx} ${my + 2} ${mx + 2.6} ${my - .6}" class="det" style="opacity:1"/>`, lacht: `<path d="M${mx - 2.8} ${my - .8} Q${mx} ${my + 3.4} ${mx + 2.8} ${my - .8}Z" fill="#7a2e22" class="det" style="opacity:1"/>`,
     genervt: `<path d="M${mx - 2.4} ${my} H${mx + 2.4}" class="det" style="opacity:1"/>`, staunt: `<ellipse cx="${mx}" cy="${my + .3}" rx="1.3" ry="1.7" fill="#7a2e22"/>`};
-  const mund = `<g${dreh(o, 'mund', f.wer, mx, my)}>${MUND[L] || `<path d="M${mx - 2.2} ${my - .2} Q${mx} ${my + 1.1} ${mx + 2.2} ${my - .2}" class="det" style="opacity:1"/>`}</g>`;
+  const mund = mundG(o, f, mx, my, (MUND[L] || `<path d="M${mx - 2.2} ${my - .2} Q${mx} ${my + 1.1} ${mx + 2.2} ${my - .2}" class="det" style="opacity:1"/>`) + (id === 'smilla' ? `<path d="M${mx - 1.8} ${my + .6} Q${mx} ${my + 1.9} ${mx + 1.8} ${my + .6}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/>` : ''), 'vorn');
   if (f.bart === 'voll') s += `<path d="M${hx - 9} ${hy + 1} Q${hx - 9} ${hy + 14} ${hx} ${hy + 15.6} Q${hx + 9} ${hy + 14} ${hx + 9} ${hy + 1} Q${hx + 6} ${hy + 6.4} ${hx + 3} ${hy + 5.4} Q${hx} ${hy + 4.2} ${hx - 3} ${hy + 5.4} Q${hx - 6} ${hy + 6.4} ${hx - 9} ${hy + 1}Z" class="f-bart ln"/>
     <path d="M${hx - 4} ${hy + 9} Q${hx - 3} ${hy + 12} ${hx - 1} ${hy + 13} M${hx + 4} ${hy + 9} Q${hx + 3} ${hy + 12} ${hx + 1} ${hy + 13}" class="det"/>` + mund + `<circle cx="${hx + 1.2}" cy="${hy + 2.4}" r="3.6" class="f-haut ln"/><circle cx="${hx + 1.6}" cy="${hy + 2.8}" r="2" class="wange"/>`;
   else if (f.bart === 'kurz') s += `<path d="M${hx - 8.4} ${hy + 2} Q${hx - 8} ${hy + 11} ${hx} ${hy + 11.6} Q${hx + 8} ${hy + 11} ${hx + 8.4} ${hy + 2} Q${hx + 6} ${hy + 8.4} ${hx} ${hy + 8.4} Q${hx - 6} ${hy + 8.4} ${hx - 8.4} ${hy + 2}Z" class="f-bart ln"/>` + mund;
   else s += mund;
   if (f.bart === 'schnauz') s += schnauz('vorn', hx, hy);
-  if (id === 'smilla') s += [-1, 1].map(sd => { const ax = hx + sd * 3.8 + .6; return `<path d="M${ax + sd * 1.3} ${ay - 1.2} l${sd * 1.4} -1.2 M${ax + sd * 1.8} ${ay - .2} l${sd * 1.6} -.6" class="det" style="opacity:1"/>`; }).join('') + `<path d="M${mx - 1.8} ${my + .6} Q${mx} ${my + 1.9} ${mx + 1.8} ${my + .6}" stroke="#c4605a" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M${hx - 6} ${hy - 7} Q${hx - 10} ${hy - 1} ${hx - 8.4} ${hy + 6}" class="s-haar" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  if (id === 'smilla') s += [-1, 1].map(sd => { const ax = hx + sd * 3.8 + .6; return `<path d="M${ax + sd * 1.3} ${ay - 1.2} l${sd * 1.4} -1.2 M${ax + sd * 1.8} ${ay - .2} l${sd * 1.6} -.6" class="det" style="opacity:1"/>`; }).join('') + `<path d="M${hx - 6} ${hy - 7} Q${hx - 10} ${hy - 1} ${hx - 8.4} ${hy + 6}" class="s-haar" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
   if (f.haar === 'kranz') s += [-1, 1].map(sd => `<path d="M${hx + sd * 9.2} ${hy - 4} Q${hx + sd * 11} ${hy + 1} ${hx + sd * 9} ${hy + 4}" class="s-haar" stroke-width="2.6" fill="none" stroke-linecap="round"/>`).join('');
   if (f.haar === 'grau') s += [-1, 1].map(sd => `<path d="M${hx + sd * 9} ${hy - 5} Q${hx + sd * 10.4} ${hy} ${hx + sd * 9} ${hy + 2}" class="s-haar" stroke-width="2.4" fill="none" stroke-linecap="round"/>`).join('');
   if (id === 'smilla') s += k.haar === 'kurz'
@@ -456,6 +465,10 @@ function menschSeite(id, f, k, o) {
   let kt = kopfSeite(id, f, k, o, hx, hy);
   /* Hinnerks Pfeife */
   if (id === 'hinnerk' && o.pfeife !== false && pose !== 'zeigen') kt += `<path d="M${r1(hx + 9)} ${r1(hy + 7.6)} Q${r1(hx + 14)} ${r1(hy + 9)} ${r1(hx + 17)} ${r1(hy + 8.4)}" class="det" style="opacity:1;stroke-width:1.6;stroke:#5b3a22"/><path d="M${r1(hx + 15.6)} ${r1(hy + 4.6)} h4 v4.6 q-2 1.4 -4 0z" fill="#6b3d1f" class="ln"/>`;
+  /* v5.81: o.wende = Kopf kann sich zum Betrachter drehen (beim Sprechen); beide Köpfe liegen übereinander, die Filmbühne oder FIGUREN.wende schaltet um */
+  if (o.wende) { let kv = kopfVorn(id, f, k, o, hx, hy);
+    if (id === 'hinnerk' && o.pfeife !== false && pose !== 'zeigen') kv += `<path d="M${r1(hx + 4)} ${r1(hy + 7)} Q${r1(hx + 9)} ${r1(hy + 9.6)} ${r1(hx + 12)} ${r1(hy + 9)}" class="det" style="opacity:1;stroke-width:1.6;stroke:#5b3a22"/><path d="M${r1(hx + 10.6)} ${r1(hy + 5.4)} h4 v4.6 q-2 1.4 -4 0z" fill="#6b3d1f" class="ln"/>`;
+    kt = `<g data-wende="${f.wer}" data-hx="${r1(hx)}" data-hy="${r1(hy)}"><g class="kw-s">${kt}</g><g class="kw-v" style="display:none">${kv}</g></g>`; }
   /* vorderer Arm (über allem) */
   const vorn = pose === 'block' ? [[0, 0], [5, 11], [12, 14]] : pose === 'steuern' ? [[0, 0], [4, 11], [9, 19]] : [[0, 0], [2.4, 13], [5.4, 24]];
   const [bx, by] = L(sx, sy);
@@ -465,7 +478,7 @@ function menschSeite(id, f, k, o) {
 }
 /* ---------- Mensch von vorn ---------- */
 function menschVorn(id, f, k, o) {
-  const pose = o.pose || 'stehen', sitzt = pose === 'sitzen' || pose === 'pinne', dy = sitzt ? 20 : 0, w = f.w, b = f.bauch, ar = aermelFarbe(id, k);
+  const pose = o.pose || 'stehen', sitzt = pose === 'sitzen' || pose === 'pinne' || pose === 'tisch', dy = sitzt ? 20 : 0, w = f.w, b = f.bauch, ar = aermelFarbe(id, k);
   let s = '';
   const beine = sitzt ? [[[-5, -26], [-6, -18], [-6, -7]], [[5, -26], [6, -18], [6, -7]]] : [[[-4.4, -46], [-5, -26], [-5, -7]], [[4.4, -46], [5, -26], [5, -7]]];
   beine.forEach((pts, i) => { s += glied(pts, 8.6 * w, 'hose'); const a = pts[2]; s += `<path d="M${a[0] - 4.6} ${a[1] - 9} H${a[0] + 4.6} V${a[1] + 5} H${a[0] - 4.6}Z" class="f-stiefel ln"/><path d="M${a[0] - 5.4} ${a[1] + 4} Q${a[0]} ${a[1] + 2.6} ${a[0] + 5.4} ${a[1] + 4} Q${a[0] + 6} ${a[1] + 7.6} ${a[0]} ${a[1] + 7.6} Q${a[0] - 6} ${a[1] + 7.6} ${a[0] - 5.4} ${a[1] + 4}Z" class="f-stiefel ln"/>`; });
@@ -485,7 +498,9 @@ function menschVorn(id, f, k, o) {
     block: [[[0, 0], [1.6, 13], [2.4, 24]], [[0, 0], [2, 12], [-6, 16]]], sitzen: [[[0, 0], [2, 12], [-2, 20]], [[0, 0], [2, 12], [-2, 20]]], pinne: [[[0, 0], [2, 12], [-2, 20]], [[0, 0], [6, 10], [12, 16]]],
     steuern: [[[0, 0], [1, 12], [-4, 18]], [[0, 0], [1, 12], [-4, 18]]]}[pose] || null;
   const PP = P || [[[0, 0], [1.6, 13], [2.4, 24]], [[0, 0], [1.6, 13], [2.4, 24]]];
-  s += armV(-1, PP[0], '') + armV(1, PP[1], 'arm');
+  /* v5.81 Pose „tisch“: am Tisch sitzen, Oberarme bis zur Tischkante (o.kante, lokales y); Unterarme und Hände kommen mit FIGUREN.tischArme nach der Tischplatte */
+  if (pose === 'tisch') { const ke = o.kante != null ? o.kante : sy + 14; s += [-1, 1].map(sd => { const px = sd * 10.2 * w; return glied([[px, sy], [px + sd * 1.8, (sy + ke) / 2], [px + sd * 2.4, ke + 1.5]], 7.2 * w, 'jacke').replace(/class="gl s-jacke"/, `class="gl s-jacke" style="--b:${7.2 * w}${ar ? ';' + ar : ''}"`); }).join(''); }
+  else s += armV(-1, PP[0], '') + armV(1, PP[1], 'arm');
   if (pose === 'block') s += `<rect x="-8" y="${sy + 10}" width="12" height="15" rx="1" fill="#fffdf5" class="ln"/><path d="M-6 ${sy + 14} H2 M-6 ${sy + 17} H2 M-6 ${sy + 20} H0" class="det"/>`;
   if (id === 'hinnerk' && o.pfeife !== false && pose !== 'zeigen') kt += `<path d="M${hx + 4} ${hy + 7} Q${hx + 9} ${hy + 9.6} ${hx + 12} ${hy + 9}" class="det" style="opacity:1;stroke-width:1.6;stroke:#5b3a22"/><path d="M${hx + 10.6} ${hy + 5.4} h4 v4.6 q-2 1.4 -4 0z" fill="#6b3d1f" class="ln"/>`;
   return mitKopf(teil1, kt, s, o._t || TYPEN.klassisch, hx, hy);
@@ -585,13 +600,7 @@ function fabel(id, f, k, o) {
       <g transform="translate(0 -3.6) scale(1 ${r1(fl)})"><ellipse cx="-2" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".8" transform="rotate(-25 -2 -4)"/><ellipse cx="3" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".8" transform="rotate(25 3 -4)"/></g>
       <circle cx="-6" cy="2" r="3.2" fill="#ffd94a" class="ln"/><ellipse cx="0" cy="0" rx="6" ry="5" fill="#5d7fa3" class="ln"/>${fabGesicht(1.4, -.6, .62, t, {ph: P})}
       <path d="M2 -4.6 q.6 -3.4 2.8 -4 M.4 -4.8 q-.4 -3.4 1 -4.6" stroke="${FAB_TINTE}" stroke-width=".7" fill="none" stroke-linecap="round"/><circle cx="4.8" cy="-8.6" r=".9" fill="#ffd94a"/><circle cx="1.4" cy="-9.4" r=".9" fill="#ffd94a"/></g>`; }
-  if (id === 'knotenwurm') { /* Tau-Würmchen mit einem Knoten im Bauch, kriecht wie eine Raupe (Witz: hat sich beim Üben selbst verknotet) */
-    const a = Math.max(0, Math.sin(ph)), hump = 2 + a * 6, len = 18 - a * 4, x0 = -len / 2, x1 = len / 2;
-    const d = `M${r1(x0)} -2 Q${r1(x0 + len * .25)} ${r1(-2 - hump)} 0 -4 Q${r1(x1 - len * .25)} ${r1(-2 - hump * .4)} ${r1(x1)} -3.4`;
-    return `<path d="${d}" stroke="#c99a52" stroke-width="5.4" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#e3bd78" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-      <path d="${d}" stroke="#a87a3c" stroke-width="5.4" fill="none" stroke-dasharray="1 2.6" opacity=".55"/>
-      <g transform="translate(${r1(-1 + a)} ${r1(-4 - hump * .5)})"><circle r="3.6" fill="none" stroke="#c99a52" stroke-width="2.6"/><circle r="3.6" fill="none" stroke="#e3bd78" stroke-width="1.4"/></g>
-      <g transform="translate(${r1(x1 + 1.4)} -5)"><circle r="4" fill="#e3bd78" class="ln"/>${fabGesicht(.8, -.6, .5, t, {ph: P})}<path d="M-2.6 -3.4 Q.6 -7.6 3.6 -3.6Z" fill="#2f4f80"/><circle cx=".6" cy="-6.2" r=".8" fill="#f3ead2"/></g>`; }
+  if (id === 'knotenwurm') return knotenwurm(t, P);
   if (id === 'sandkruemel') { /* drei Sandkrümel, die nacheinander hopsen (immer als Grüppchen) */
     return [[-8, .8, 0], [0, 1, .33], [8, .7, .66]].map(([x, g, o2]) => { const u = (t + o2) % 1, hp = Math.max(0, Math.sin(u * Math.PI * 2)) * 5 * g;
       return `<ellipse cx="${x}" cy="0" rx="${r1(3 * g)}" ry=".8" fill="#2a1608" opacity=".1"/><g transform="translate(${x} ${r1(-hp)}) scale(${g})"><path d="M-4 -3 Q-4.4 -8 0 -8.4 Q4.4 -8 4 -3 Q3.6 0 0 0 Q-3.6 0 -4 -3Z" fill="#e9cf96" class="ln"/>
@@ -603,6 +612,44 @@ function fabel(id, f, k, o) {
       <path d="M${r1(-7 - pu * .8)} 0 Q${r1(-7 - pu)} ${r1(-11 + pu)} 0 ${r1(-11 + pu)} Q${r1(7 + pu)} ${r1(-11 + pu)} ${r1(7 + pu * .8)} 0 Q0 2 ${r1(-7 - pu * .8)} 0Z" fill="#f4bfd6" opacity=".92" class="ln"/>
       <path d="M-4 -8 Q-2 -10 1 -9.6" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7" stroke-linecap="round"/>${fabGesicht(0, -4.6, .62, t, {ph: P})}</g>`; }
   return '';
+}
+/* Knotenwurm (v5.81, Nutzer 23.11.2026: „sollen einen richtigen Achterknoten als Körper bekommen“): die Stützpunkte des Achtknotens aus knoten.js (ACHT, LOOSE),
+   etwas zusammengezogen, quer gelegt. Hinten der feste Part als Schwanz mit Takling, vorn das lose Ende mit dem Kopf. Über/unter nach den Ebenen des Knotenkurses.
+   Bewegung: der Schwanz schlängelt, der Knoten atmet, der Kopf nickt. Eigene feste Farben, damit es auch im Aquarell ohne Umriss ein Tau bleibt. */
+const ACHT_CP = [[150, 76, 's1'], [150, 96, 's1'], [150, 116, 's1'], [150, 140, 's2'], [150, 168, 's2'], [151, 196, 's2'], [157, 219, 'lb'], [177, 229, 'lb'], [198, 217, 'lr'], [204, 192, 'lr'], [197, 170, 'lr'],
+  [185, 162, 'e1'], [168, 164, 'e1'], [150, 167, 'e1'], [128, 160, 'e1'], [114, 143, 'e2'], [116, 122, 'e2'], [131, 109, 'e2'], [150, 105, 'e2'], [168, 108, 'e2'], [179, 120, 'e3'], [178, 142, 'e3'],
+  [175, 166, 'e3'], [173, 190, 'e4'], [171, 214, 'e4'], [168, 238, 'e4'], [164, 262, 'end']];
+const ACHT_Z = {s1: 6, s2: 1, lb: 6, lr: 3, e1: 2, e2: 2, e3: 7, e4: 3, end: 3};
+function knotenwurm(t, P) {
+  const ph = t * Math.PI * 2, C = {x: 162, y: 172}, k = .86 + Math.sin(ph) * .025;
+  /* Punkte: Knoten zusammengezogen (atmet), Schwanz schlängelt (nur s1), Ende mit dem Kopf nickt */
+  const cp = ACHT_CP.map(([x, y, l], i) => {
+    if (l === 's1') { const f = (116 - y) / 40; return {x: x + Math.sin(ph * 2 - y / 9) * 9 * f, y: y + Math.sin(ph) * 6 * f, l}; }
+    const q = {x: C.x + (x - C.x) * k, y: C.y + (y - C.y) * k, l};
+    if (i >= 23) { const g = (i - 22) / 4; q.x += Math.sin(ph + .6) * 7 * g; q.y += Math.cos(ph) * 3 * g; }
+    return q; });
+  const sp = [];
+  for (let i = 0; i < cp.length - 1; i++) { const p0 = cp[i - 1] || cp[i], p1 = cp[i], p2 = cp[i + 1], p3 = cp[i + 2] || cp[i + 1];
+    for (let j = 0; j < 6; j++) { const u = j / 6, u2 = u * u, u3 = u2 * u, f = (a, b, c, d) => .5 * (2 * b + (c - a) * u + (2 * a - 5 * b + 4 * c - d) * u2 + (3 * b - a - 3 * c + d) * u3);
+      sp.push({x: f(p0.x, p1.x, p2.x, p3.x), y: f(p0.y, p1.y, p2.y, p3.y), l: p1.l}); } }
+  sp.push({...cp[cp.length - 1]});
+  /* quer legen: (x, y) → (y − 164, 117 − x) · 0,2 → Schwanz links, Kopf rechts, Bauch am Boden */
+  const T = q => [r1((q.y - 164) * .2), r1((117 - q.x) * .2)];
+  const st = []; let cur = null;
+  sp.forEach((q, i) => { if (!cur || cur.l !== q.l) { cur = {l: q.l, z: ACHT_Z[q.l], a: i, b: i}; st.push(cur); } cur.b = i; });
+  const d = (a, b) => 'M' + sp.slice(Math.max(0, a), Math.min(sp.length, b)).map(q => T(q).join(' ')).join(' L');
+  let s = `<ellipse cx="2" cy=".4" rx="17" ry="1.6" fill="#2a1608" opacity=".1"/>`;
+  st.map((q, i) => ({...q, i})).sort((a, b) => a.z - b.z || a.i - b.i).forEach(q => { const pd = d(q.a - 2, q.b + 3);
+    s += `<path d="${pd}" stroke="#6b4a26" stroke-width="3.3" fill="none" stroke-linejoin="round"/><path d="${pd}" stroke="#e3bd78" stroke-width="2.5" fill="none" stroke-linejoin="round"/>`
+      + `<path d="${pd}" stroke="#b98a4a" stroke-width="2.5" fill="none" stroke-dasharray=".35 .85" opacity=".6"/><path d="${pd}" stroke="#fff3d6" stroke-width=".7" fill="none" opacity=".5" transform="translate(-.25 -.3)"/>`; });
+  /* Schwanz: blauer Takling am festen Part */
+  const [sx, sy] = T(sp[0]), [sx2, sy2] = T(sp[2]);
+  s += `<path d="M${sx} ${sy} L${r1(sx + (sx2 - sx) * .9)} ${r1(sy + (sy2 - sy) * .9)}" stroke="#2f4f80" stroke-width="2.9" stroke-linecap="round"/>`;
+  /* Kopf am losen Ende, schaut nach rechts, mit Mützchen */
+  const [kx, ky] = T(sp[sp.length - 1]), nick = Math.sin(ph * 2) * 4;
+  s += `<g transform="translate(${r1(kx + 2.4)} ${r1(ky - .6)}) rotate(${r1(nick)})"><circle r="3.9" fill="#e3bd78" stroke="#6b4a26" stroke-width=".55"/>${fabGesicht(.9, -.4, .48, t, {ph: P})}`
+    + `<path d="M-2.8 -2.8 Q.4 -7.2 3.6 -3.2Z" fill="#2f4f80"/><circle cx=".5" cy="-5.8" r=".85" fill="#f3ead2"/></g>`;
+  return s;
 }
 /* Ein kleines Grüppchen derselben Art: versetzt, unterschiedlich groß, nicht im Gleichschritt (Nutzer 23.11.2026: „teilweise in kleinen Gruppen“) */
 function gruppe(id, n = 3, o = {}) {
@@ -785,7 +832,7 @@ function papagei(f, k, o) {
   s += `<g${dreh(o, 'arm', f.wer, -2, -18)}><path d="M-2 -19 Q-7 -12 -6 -2 Q-2 -6 1 -14Z" class="f-fluegel ln"/>${[0, 1].map(i => `<path d="M${-5 + i * 2} ${-10 + i * 2} L${-4 + i * 2} ${-4 + i}" class="det"/>`).join('')}</g>`;
   const TP = o._t || TYPEN.klassisch, hkp = Math.min(1.5, TP.k), eap = TP.auge === 'gross' ? 1.35 : TP.auge === 'glanz' ? 1.15 : 1;
   s += `<g transform="translate(2 -24) scale(${hkp}) translate(-2 24)"><g${dreh(o, 'kopf', f.wer, 2, -24)}><circle cx="3" cy="-27" r="6.6" class="f-kopf ln"/><path d="M-1 -32 Q0 -38 4 -37 M2 -33 Q4 -39 8 -36" class="s-kopf" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-    <path d="M8.4 -29.6 Q14 -29 12.4 -23 Q11 -24 9 -24.6Z" class="f-schnabel ln"/><path d="M9 -25 Q10.6 -24 11.6 -23.4" class="det"/>
+    <path d="M8.8 -25.4 L12.4 -23.4 L9.2 -21.4Z" fill="#5c231b"/><g class="schnabel" data-ax="9" data-ay="-25.2"${dreh(o, 'schnabel', f.wer, 9, -25.2)}><path d="M8.8 -25.4 Q11.8 -24.6 12.6 -23.1 Q11.2 -21 9 -22.4Z" class="f-schnabel ln"/></g><path d="M8.4 -29.6 Q14 -29 12.4 -23 Q11 -24 9 -24.6Z" class="f-schnabel ln"/><path d="M9 -25 Q10.6 -24 11.6 -23.4" class="det"/>
     <g${dreh(o, 'blink', f.wer, 5, -28.6)}><circle cx="5" cy="-28.6" r="${r1(2.4 * eap)}" fill="#fff" class="ln"/><circle cx="5.4" cy="-28.6" r="${r1(1.1 * eap)}" class="tinte"/></g></g></g>`;
   s += `<path d="M0 0 V2.6 M3 0 V2.6" class="s-fuss" stroke-width="1.6"/><path d="M-2 3 H5" class="s-fuss" stroke-width="1.6" stroke-linecap="round"/>`;
   return s;
@@ -812,6 +859,34 @@ function figur(id, o = {}) {
   return `<g class="cr cr-${id} stil${fst ? ' fest st-' + fst : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
 }
 /* Gespeichertes Aussehen (S.cfg.look, Standard leer; R7). index.html setzt Farben und Stil auf <html> (lookAnwenden). */
+/* Unterarme und Hände auf dem Tisch (v5.81) zur Pose „tisch“ von vorn: nach der Tischplatte zeichnen, an derselben Stelle und Größe wie die Figur.
+   o.kante = Tischkante (lokales y, wie bei der Pose), o.halt = 'becher' (Hinnerk), 'stift' (Smilla) oder nichts */
+function tischArme(id, o = {}) {
+  css(); const f = FIG[id]; if (!f || f.tier) return '';
+  const k = kleidVon(id, o.kleid ? o : {kleid: (look().kleid || {})[id]}), L0 = look(), tn = o.typ || (L0.typ || {})[id] || L0.typAlle || f.typStd || 'klassisch', T = TYPEN[tn] || TYPEN.klassisch;
+  const w = f.w, ar = aermelFarbe(id, k), sy = -51, ke = o.kante != null ? o.kante : sy + 14, hy = ke + 9.5;
+  let s = '';
+  for (const sd of [-1, 1]) {
+    const ex = sd * (10.2 * w + 2.4), hx = sd * (o.breit != null ? o.breit : 6.4 * w);
+    s += glied([[ex, ke + .6], [r1(ex * .62 + hx * .38), r1(ke + 5.2)], [hx, hy]], 7.2 * w, 'jacke').replace(/class="gl s-jacke"/, `class="gl s-jacke" style="--b:${7.2 * w}${ar ? ';' + ar : ''}"`);
+    if (o.halt === 'becher' && sd > 0) s += `<path d="M${r1(hx - 3.6)} ${r1(hy - 6)} h7.2 l-.6 8.4 q-3 1.2 -6 0z" fill="#e9e1cf" class="ln"/><ellipse cx="${r1(hx)}" cy="${r1(hy - 6)}" rx="3.6" ry="1.1" fill="#5a3418" class="ln"/><path d="M${r1(hx + 3.4)} ${r1(hy - 4.4)} q3.4 .4 2.6 3.4 q-.8 1.6 -2.8 1" fill="none" class="ln" style="stroke-width:1.1"/><path d="M${r1(hx - 3)} ${r1(hy - 2.6)} h5.6" stroke="#2f5f8a" stroke-width="1.2"/>`;
+    s += `<ellipse cx="${r1(hx - sd * .5)}" cy="${r1(hy + 2.2)}" rx="3.4" ry="2.5" class="f-haut ln"/><path d="M${r1(hx - sd * 2.6)} ${r1(hy + 3)} q${sd * 2.2} 1.3 ${sd * 4.4} .1" class="det"/>`;
+    if (o.halt === 'stift' && sd > 0) s += `<g transform="rotate(${sd * -32} ${r1(hx)} ${r1(hy + 2)})"><rect x="${r1(hx - .8)}" y="${r1(hy - 9)}" width="1.6" height="11" rx=".4" fill="#e8b33c" class="ln"/><path d="M${r1(hx - .8)} ${r1(hy + 2)} l.8 2 l.8 -2z" fill="#3a2a1c"/></g>`;
+  }
+  const sk = f.h / 100;
+  return `<g class="cr cr-${id} stil"><g transform="scale(${sk})"><g transform="scale(${T.bw} ${T.bh})">${s}</g></g></g>`;
+}
+/* Sprechen ohne Filmbühne (Medaillon, Entwurfsseiten): Mund 0…1 öffnen, Schnabel aufmachen, Kopf zum Betrachter drehen (0 = Seite, 1 = vorn) */
+function mundSetzen(el, v) {
+  const k = Math.max(0, Math.min(1, v || 0));
+  el.querySelectorAll('.m-auf').forEach(a => { const x = +a.dataset.ax, y = +a.dataset.ay; a.setAttribute('transform', `translate(${x} ${y}) scale(${(.72 + .28 * k).toFixed(3)} ${k.toFixed(3)}) translate(${-x} ${-y})`); const z = a.previousElementSibling; if (z) z.style.opacity = k > .1 ? 0 : 1; });
+  el.querySelectorAll('.schnabel').forEach(b => b.setAttribute('transform', `rotate(${(k * 34).toFixed(1)} ${b.dataset.ax} ${b.dataset.ay})`));
+}
+function wendeSetzen(el, u) {
+  (el.matches && el.matches('[data-wende]') ? [el] : [...el.querySelectorAll('[data-wende]')]).forEach(w => { const sv = w.querySelector('.kw-s'), vv = w.querySelector('.kw-v'), x = +w.dataset.hx, y = +w.dataset.hy; if (!sv || !vv) return;
+    const vorn = u >= .5, f = vorn ? .7 + (u - .5) * .6 : 1 - u * .6, g = vorn ? vv : sv; sv.style.display = vorn ? 'none' : ''; vv.style.display = vorn ? '' : 'none';
+    g.setAttribute('transform', f > .995 ? '' : `translate(${x} ${y}) scale(${f.toFixed(3)} 1) translate(${-x} ${-y})`); });
+}
 function look() { try { return (window.S && S.cfg && S.cfg.look) || {}; } catch (e) { return {}; } }
 /* Einzelbild als eigenes SVG, z. B. für die Werft oder Menüs */
 function bild(id, o = {}) {
@@ -819,5 +894,5 @@ function bild(id, o = {}) {
   const h = f.h + 24, w = f.tier ? 50 : 70;
   return `<svg class="crsvg" viewBox="${-w / 2} ${-h + 4} ${w} ${h}" aria-label="${f.name}">${figur(id, o)}</svg>`;
 }
-window.FIGUREN = {figur, gruppe, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, kleidVon, look};
+window.FIGUREN = {figur, gruppe, tischArme, mund: mundSetzen, wende: wendeSetzen, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, kleidVon, look};
 })();
