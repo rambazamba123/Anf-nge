@@ -91,6 +91,9 @@ const FIG = {
   nebelpuschel: {name: 'Nebelpuschel', gangStd: 'wabern', tier: 'fabel', wer: 'FABEL', h: 22, farben: {fell: '#eef1f2', haut: '#9aa6ad'}, kleid: {}, std: {}},
   tangschrat: {name: 'Tangschrat', gangStd: 'schlurfen', tier: 'fabel', wer: 'FABEL', h: 24, farben: {fell: '#5f7d45', akzent: '#e8823a'}, kleid: {}, std: {}},
   leuchtfloh: {name: 'Leuchtfloh', gangStd: 'flattern', tier: 'fabel', wer: 'FABEL', h: 20, farben: {fell: '#4d6a8a'}, kleid: {}, std: {}},
+  knotenwurm: {name: 'Knotenwurm', gangStd: 'kriechen', tier: 'fabel', wer: 'FABEL', h: 14, farben: {}, kleid: {}, std: {}},
+  sandkruemel: {name: 'Sandkrümel', gangStd: 'hopsen', tier: 'fabel', wer: 'FABEL', h: 10, farben: {}, kleid: {}, std: {}},
+  quallchen: {name: 'Quallchen', gangStd: 'schweben', tier: 'fabel', wer: 'FABEL', h: 22, farben: {}, kleid: {}, std: {}},
   lotse: {name: 'Mats, Verkehrszentrale', gangStd: 'normal', typStd: 'kraeftig', wer: 'VERKEHR', h: 98, w: 1, bauch: .15, lean: 0, nase: 'gerade', frisur: 'scheitel', brille: true, jacke: 'hemd',
     farben: {haut: '#ecc4a0', haar: '#2e2622', jacke: '#9cb8d4', hose: '#2f3a4e', stiefel: '#1f1f22', hut: '#2a2a2e', akzent: '#2f3a4e'},
     kleid: {hut: {headset: 'Headset', ohne: 'ohne'}}, std: {hut: 'headset'}}
@@ -541,30 +544,72 @@ function maus(f, k, o) {
   }
   return g === 1 ? s : `<g transform="scale(${g})">${s}</g>`;
 }
-/* ---------- Fabelwesen (v5.79; eigene Erfindungen, angelehnt an Sagen der Nordsee wie Nis Puk und Klabautermann, keine fremden Figuren) ---------- */
+/* ---------- Fabelwesen (v5.79, v5.80 süßer und mehr; eigene Erfindungen, angelehnt an Sagen der Nordsee wie Nis Puk und Klabautermann, keine fremden Figuren) ----------
+   v5.80 (Nutzer 23.11.2026): immer im Aquarell ohne Umriss (figur() setzt den Stil fest), damit man sieht: Extras, spielen nicht mit. Große Augen mit Glanzpunkt,
+   rote Bäckchen, kleine Witze (Muschel zu groß, Gähnen, Knoten im Bauch). Gruppen mit FIGUREN.gruppe(id, n). Gesichter mit festen Farben, damit sie im Aquarell sichtbar bleiben. */
+const FAB_TINTE = '#3a2a1c';
+function fabGesicht(x, y, s, t, o2 = {}) {
+  const zu = ((t * 2.3 + (o2.ph || 0)) % 1) > .93, ax = 2.4 * s, r = 1.9 * s, mund = o2.mund || 'lacht';
+  const auge = cx => zu ? `<path d="M${r1(cx - r)} ${y} q${r1(r)} ${r1(r * .8)} ${r1(2 * r)} 0" stroke="${FAB_TINTE}" stroke-width="${r1(.7 * s)}" fill="none" stroke-linecap="round"/>`
+    : `<ellipse cx="${r1(cx)}" cy="${y}" rx="${r1(r)}" ry="${r1(r * 1.15)}" fill="#fffdf6"/><circle cx="${r1(cx + .3 * s)}" cy="${r1(y + .2 * s)}" r="${r1(r * .62)}" fill="${FAB_TINTE}"/><circle cx="${r1(cx + .7 * s)}" cy="${r1(y - .5 * s)}" r="${r1(r * .26)}" fill="#fff"/>`;
+  const m = mund === 'gaehnt' ? `<ellipse cx="${x}" cy="${r1(y + 3 * s)}" rx="${r1(1.1 * s)}" ry="${r1(1.5 * s)}" fill="#7a3a2e"/>` : mund === 'oh' ? `<circle cx="${x}" cy="${r1(y + 2.8 * s)}" r="${r1(.7 * s)}" fill="#7a3a2e"/>`
+    : `<path d="M${r1(x - 1.2 * s)} ${r1(y + 2.4 * s)} q${r1(1.2 * s)} ${r1(1.3 * s)} ${r1(2.4 * s)} 0" stroke="${FAB_TINTE}" stroke-width="${r1(.6 * s)}" fill="none" stroke-linecap="round"/>`;
+  return auge(x - ax) + auge(x + ax) + `<ellipse cx="${r1(x - ax - 1.4 * s)}" cy="${r1(y + 2.2 * s)}" rx="${r1(1.2 * s)}" ry="${r1(.7 * s)}" fill="#f08a8a" opacity=".6"/><ellipse cx="${r1(x + ax + 1.4 * s)}" cy="${r1(y + 2.2 * s)}" rx="${r1(1.2 * s)}" ry="${r1(.7 * s)}" fill="#f08a8a" opacity=".6"/>` + m;
+}
 function fabel(id, f, k, o) {
-  const t = o.gang ? (o.gang.t || 0) : (o.t || 0), ph = t * Math.PI * 2;
-  if (id === 'muschelwicht') { const wk = Math.sin(ph * 2) * 6;
-    return `<g transform="rotate(${r1(wk)} 0 -4)">${[[-4, 0], [-1, Math.PI], [3, 0], [6, Math.PI]].map(([x, off]) => `<path d="M${x} -3 L${r1(x + 1.6 * Math.sin(ph * 2 + off))} 0" class="s-haut" stroke-width="1.4" stroke-linecap="round"/>`).join('')}
-      <path d="M-11 -4 Q-12 -17 -1 -18 Q9 -18 9 -9 Q8 -3 0 -3 Q-6 -3 -6 -8 Q-6 -12 -1 -12 Q3 -12 3 -9" class="f-jacke ln"/><path d="M-1 -12 Q3 -12 3 -9 Q2 -6 -1 -6.6" fill="none" class="det" style="opacity:.8"/><path d="M-11 -4 Q-12 -17 -1 -18 Q9 -18 9 -9" fill="none" class="det"/>
-      <circle cx="10" cy="-7" r="3.6" class="f-haut ln"/><circle cx="11.2" cy="-7.6" r=".8" class="tinte"/><circle cx="12.8" cy="-6.4" r=".9" class="wange" style="opacity:.6"/>
-      <path d="M7.4 -9.4 Q10 -18 15 -15 Q12 -12 13 -9.6Z" class="f-hut ln"/><circle cx="15" cy="-15" r=".9" class="f-akzent"/></g>`; }
-  if (id === 'nebelpuschel') { const hb = 6 + Math.sin(ph) * 4, sq = 1 + Math.sin(ph * 2) * .06;
-    return `<ellipse cx="0" cy="0" rx="${r1(8 - hb * .3)}" ry="1.6" class="tinte" opacity=".1"/><g transform="translate(0 ${r1(-hb)}) scale(${r1(1 / sq)} ${r1(sq)})">${[[-6, -8, 6], [6, -8, 6], [0, -13, 7], [-4, -4, 5.4], [4, -4, 5.4]].map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r1(r + Math.sin(ph * 2 + i) * .5)}" class="f-fell ln"/>`).join('')}
-      <circle cx="-2.6" cy="-9" r="2.2" fill="#fff" class="ln"/><circle cx="2.8" cy="-9" r="2.2" fill="#fff" class="ln"/><circle cx="-2.2" cy="-9" r="1" class="tinte"/><circle cx="3.2" cy="-9" r="1" class="tinte"/><path d="M-1.4 -5.6 Q.2 -4.4 1.6 -5.6" class="det" style="opacity:1"/>
-      <path d="M-3 1 v2 M3 1 v2" class="s-haut" stroke-width="1.4" stroke-linecap="round"/></g>`; }
-  if (id === 'tangschrat') { const sw = Math.sin(ph) * 4;
-    return `<g transform="rotate(${r1(sw * .6)} 0 0)"><path d="M-5 0 L-4 -6 M4 0 L3 -6" class="s-fell" stroke-width="2.4" stroke-linecap="round"/><path d="M-8 -6 Q-9 -20 0 -21 Q9 -20 8 -6 Q0 -3 -8 -6Z" class="f-fell ln"/>
-      ${[-6, -3, 0, 3, 6].map((x, i) => `<path d="M${x} -6 Q${r1(x + sw * .3)} -2 ${r1(x - 1 + sw * .5)} ${1 + i % 2}" class="s-fell" stroke-width="1.3" fill="none" stroke-linecap="round"/>`).join('')}
-      <path d="M-7 -14 Q-14 ${r1(-8 + sw)} -12 -1 M7 -14 Q14 ${r1(-8 - sw)} 12 -1" class="s-fell" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-      <circle cx="-2.6" cy="-15" r="1.8" fill="#f6f0d8" class="ln"/><circle cx="2.6" cy="-15" r="1.8" fill="#f6f0d8" class="ln"/><circle cx="-2.4" cy="-15" r=".8" class="tinte"/><circle cx="2.8" cy="-15" r=".8" class="tinte"/>
-      <path d="M0 -21 l1.4 -3 l1 3 l3 .6 l-2.6 1.6 l.6 3 l-2.4 -2 l-2.6 1.8 l.8 -3 l-2.4 -1.8Z" class="f-akzent ln" transform="translate(2 -1)"/></g>`; }
-  if (id === 'leuchtfloh') { const fl = .35 + Math.abs(Math.sin(ph * 6)) * .65, hb = 12 + Math.sin(ph) * 3, gl = .5 + Math.sin(ph * 2) * .25;
-    return `<ellipse cx="0" cy="0" rx="5" ry="1.2" class="tinte" opacity=".08"/><g transform="translate(0 ${r1(-hb)})"><circle cx="-6" cy="2" r="7" fill="#ffe27a" opacity="${r1(gl * .5)}"/>
-      <g transform="translate(0 -3) scale(1 ${r1(fl)})"><ellipse cx="-2" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".75" class="ln" transform="rotate(-25 -2 -4)"/><ellipse cx="3" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".75" class="ln" transform="rotate(25 3 -4)"/></g>
-      <ellipse cx="0" cy="0" rx="4.6" ry="3.6" class="f-fell ln"/><circle cx="-6" cy="2" r="2.8" fill="#ffd94a" class="ln"/><circle cx="4" cy="-2" r="2.8" class="f-fell ln"/><circle cx="5" cy="-2.4" r=".8" class="tinte"/>
-      <path d="M5 -4.6 q1 -3 3 -3.4 M3.6 -4.6 q0 -3 1.4 -4" class="det" style="opacity:1"/></g>`; }
+  const t = o.gang ? (o.gang.t || 0) : (o.t || 0), ph = t * Math.PI * 2, P = o.ph || 0;
+  if (id === 'muschelwicht') { /* Wicht mit viel zu großer Muschel als Haus auf dem Rücken, Zipfelmütze wippt */
+    const wk = Math.sin(ph * 2) * 4, hb = Math.abs(Math.sin(ph * 2)) * .8;
+    return `${[[-3, 0], [0, Math.PI], [4, 0], [6.5, Math.PI]].map(([x, off]) => `<path d="M${x} -3 L${r1(x + 1.4 * Math.sin(ph * 2 + off))} 0" stroke="#e0a986" stroke-width="1.8" stroke-linecap="round"/>`).join('')}
+      <g transform="translate(0 ${r1(-hb)})"><circle cx="6" cy="-8" r="5.2" fill="#f3cfae" class="ln"/>${fabGesicht(7, -8.6, .62, t, {ph: P})}
+      <g transform="rotate(${r1(wk)} 5 -12.6)"><path d="M1.4 -11.6 Q5 -24 12 -20 Q8.6 -15.6 10 -11.6Z" fill="#c8483a" class="ln"/><circle cx="12" cy="-20" r="1.3" fill="#f2d36b"/></g>
+      <g transform="rotate(${r1(-wk * .6)} -4 -4)"><path d="M-14 -3 Q-16 -21 -4 -22 Q7 -21 4 -3Z" fill="#efd9bd" class="ln"/>${[-11, -7.5, -4, -.5].map((x, n) => `<path d="M-5 -3 L${r1(x - 1)} ${-19 + Math.abs(n - 1.5) * 1.2}" stroke="#d8b892" stroke-width="1.6" fill="none"/>`).join('')}<path d="M-14 -3 H4" stroke="#d8b892" stroke-width="2"/></g></g>`; }
+  if (id === 'nebelpuschel') { /* Wölkchen auf Füßchen; gähnt ab und zu */
+    const hb = 3 + Math.abs(Math.sin(ph)) * 5, sq = 1 + Math.sin(ph * 2) * .07, gaehnt = (t % 1) > .55 && (t % 1) < .7;
+    return `<ellipse cx="0" cy="0" rx="${r1(8 - hb * .3)}" ry="1.5" fill="#2a1608" opacity=".1"/><g transform="translate(0 ${r1(-hb)}) scale(${r1(1 / sq)} ${r1(sq)})">
+      <path d="M-3 0 v2.4 M3 0 v2.4" stroke="#9aa6ad" stroke-width="1.6" stroke-linecap="round"/>
+      ${[[-6, -7, 6], [6, -7, 6], [0, -12, 7.4], [-3.6, -3.4, 5.2], [3.6, -3.4, 5.2], [-8.6, -11, 3.6], [8.6, -11, 3.6]].map(([x, y, r], n) => `<circle cx="${x}" cy="${y}" r="${r1(r + Math.sin(ph * 2 + n) * .45)}" fill="${n % 2 ? '#f4f6f7' : '#e8edf0'}" class="ln"/>`).join('')}
+      ${fabGesicht(0, -9, .8, t, {ph: P, mund: gaehnt ? 'gaehnt' : 'lacht'})}</g>`; }
+  if (id === 'tangschrat') { /* Tang-Kerlchen mit Seestern-Hut, Augen lugen durch den Pony */
+    const sw = Math.sin(ph) * 4;
+    return `<g transform="rotate(${r1(sw * .5)} 0 0)"><path d="M-4 0 L-3.6 -5 M4 0 L3.4 -5" stroke="#46613a" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M-8 -5 Q-9.6 -19 0 -20.4 Q9.6 -19 8 -5 Q0 -2 -8 -5Z" fill="#6f8f50" class="ln"/>
+      ${[-7, -4.4, -1.6, 1.2, 4, 6.6].map((x, n) => `<path d="M${x} -5 Q${r1(x + sw * .3)} -1.4 ${r1(x - 1 + sw * .5)} ${r1(1.4 + n % 2)}" stroke="#58773f" stroke-width="1.6" fill="none" stroke-linecap="round"/>`).join('')}
+      <path d="M-7 -12 Q-13 ${r1(-7 + sw)} -11.4 -1.4 M7 -12 Q13 ${r1(-7 - sw)} 11.4 -1.4" stroke="#58773f" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      ${fabGesicht(0, -12.4, .72, t, {ph: P})}
+      ${[-6, -3, 0, 3, 6].map(x => `<path d="M${x} -19.6 q${r1(.6 + sw * .1)} 3 ${r1(-.4)} 5" stroke="#58773f" stroke-width="1.5" fill="none" stroke-linecap="round"/>`).join('')}
+      <path d="M0 -20 l1.6 -3.4 l1.1 3.4 l3.4 .6 l-2.9 1.8 l.7 3.4 l-2.7 -2.3 l-2.9 2 l.9 -3.4 l-2.7 -2Z" fill="#ef8a44" class="ln" transform="translate(1 -1.6) rotate(${r1(sw * 2)} 1 -19)"/></g>`; }
+  if (id === 'leuchtfloh') { /* runder Glühkäfer mit Laterne am Po, flattert */
+    const fl = .35 + Math.abs(Math.sin(ph * 6)) * .65, hb = 12 + Math.sin(ph) * 3, gl = .55 + Math.sin(ph * 2) * .25;
+    return `<ellipse cx="0" cy="0" rx="5" ry="1.2" fill="#2a1608" opacity=".08"/><g transform="translate(0 ${r1(-hb)})"><circle cx="-6.6" cy="2" r="8" fill="#ffe27a" opacity="${r1(gl * .45)}"/>
+      <g transform="translate(0 -3.6) scale(1 ${r1(fl)})"><ellipse cx="-2" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".8" transform="rotate(-25 -2 -4)"/><ellipse cx="3" cy="-4" rx="6" ry="3" fill="#e8f4ff" opacity=".8" transform="rotate(25 3 -4)"/></g>
+      <circle cx="-6" cy="2" r="3.2" fill="#ffd94a" class="ln"/><ellipse cx="0" cy="0" rx="6" ry="5" fill="#5d7fa3" class="ln"/>${fabGesicht(1.4, -.6, .62, t, {ph: P})}
+      <path d="M2 -4.6 q.6 -3.4 2.8 -4 M.4 -4.8 q-.4 -3.4 1 -4.6" stroke="${FAB_TINTE}" stroke-width=".7" fill="none" stroke-linecap="round"/><circle cx="4.8" cy="-8.6" r=".9" fill="#ffd94a"/><circle cx="1.4" cy="-9.4" r=".9" fill="#ffd94a"/></g>`; }
+  if (id === 'knotenwurm') { /* Tau-Würmchen mit einem Knoten im Bauch, kriecht wie eine Raupe (Witz: hat sich beim Üben selbst verknotet) */
+    const a = Math.max(0, Math.sin(ph)), hump = 2 + a * 6, len = 18 - a * 4, x0 = -len / 2, x1 = len / 2;
+    const d = `M${r1(x0)} -2 Q${r1(x0 + len * .25)} ${r1(-2 - hump)} 0 -4 Q${r1(x1 - len * .25)} ${r1(-2 - hump * .4)} ${r1(x1)} -3.4`;
+    return `<path d="${d}" stroke="#c99a52" stroke-width="5.4" fill="none" stroke-linecap="round"/><path d="${d}" stroke="#e3bd78" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+      <path d="${d}" stroke="#a87a3c" stroke-width="5.4" fill="none" stroke-dasharray="1 2.6" opacity=".55"/>
+      <g transform="translate(${r1(-1 + a)} ${r1(-4 - hump * .5)})"><circle r="3.6" fill="none" stroke="#c99a52" stroke-width="2.6"/><circle r="3.6" fill="none" stroke="#e3bd78" stroke-width="1.4"/></g>
+      <g transform="translate(${r1(x1 + 1.4)} -5)"><circle r="4" fill="#e3bd78" class="ln"/>${fabGesicht(.8, -.6, .5, t, {ph: P})}<path d="M-2.6 -3.4 Q.6 -7.6 3.6 -3.6Z" fill="#2f4f80"/><circle cx=".6" cy="-6.2" r=".8" fill="#f3ead2"/></g>`; }
+  if (id === 'sandkruemel') { /* drei Sandkrümel, die nacheinander hopsen (immer als Grüppchen) */
+    return [[-8, .8, 0], [0, 1, .33], [8, .7, .66]].map(([x, g, o2]) => { const u = (t + o2) % 1, hp = Math.max(0, Math.sin(u * Math.PI * 2)) * 5 * g;
+      return `<ellipse cx="${x}" cy="0" rx="${r1(3 * g)}" ry=".8" fill="#2a1608" opacity=".1"/><g transform="translate(${x} ${r1(-hp)}) scale(${g})"><path d="M-4 -3 Q-4.4 -8 0 -8.4 Q4.4 -8 4 -3 Q3.6 0 0 0 Q-3.6 0 -4 -3Z" fill="#e9cf96" class="ln"/>
+        ${[[-2, -6], [1.8, -2.4], [-1, -1.6], [2.6, -6.4]].map(([a, b]) => `<circle cx="${a}" cy="${b}" r=".45" fill="#b8955a"/>`).join('')}${fabGesicht(.2, -4.6, .5, t, {ph: P + o2})}</g>`; }).join(''); }
+  if (id === 'quallchen') { /* Quallenkind: Schirm pumpt, Ärmchen wehen */
+    const pu = Math.sin(ph * 2), hb = 12 + Math.sin(ph) * 3;
+    return `<ellipse cx="0" cy="0" rx="5" ry="1.2" fill="#2a1608" opacity=".07"/><g transform="translate(0 ${r1(-hb)})">
+      ${[-4.6, -2, .6, 3.2, 5.6].map((x, n) => `<path d="M${x} -1 q${r1(Math.sin(ph * 2 + n) * 2)} 3 0 6 q${r1(-Math.sin(ph * 2 + n + 1) * 2)} 3 0 6" stroke="#e7a7c4" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".85"/>`).join('')}
+      <path d="M${r1(-7 - pu * .8)} 0 Q${r1(-7 - pu)} ${r1(-11 + pu)} 0 ${r1(-11 + pu)} Q${r1(7 + pu)} ${r1(-11 + pu)} ${r1(7 + pu * .8)} 0 Q0 2 ${r1(-7 - pu * .8)} 0Z" fill="#f4bfd6" opacity=".92" class="ln"/>
+      <path d="M-4 -8 Q-2 -10 1 -9.6" stroke="#fff" stroke-width="1.2" fill="none" opacity=".7" stroke-linecap="round"/>${fabGesicht(0, -4.6, .62, t, {ph: P})}</g>`; }
   return '';
+}
+/* Ein kleines Grüppchen derselben Art: versetzt, unterschiedlich groß, nicht im Gleichschritt (Nutzer 23.11.2026: „teilweise in kleinen Gruppen“) */
+function gruppe(id, n = 3, o = {}) {
+  const f = FIG[id]; if (!f) return '';
+  const t = o.gang ? o.gang.t || 0 : o.t || 0;
+  return Array.from({length: n}, (_, i) => { const dx = (i - (n - 1) / 2) * (f.h || 20) * 1.05 + (i % 2 ? 3 : -2), dy = (i % 2) * 3, g = [1, .82, .92, .74, .88][i % 5], tt = (t + i * .27) % 1;
+    return `<g transform="translate(${r1(dx)} ${dy}) scale(${g})">${figur(id, {...o, gang: o.gang ? {...o.gang, t: tt} : undefined, t: tt, ph: i * .37})}</g>`; }).join('');
 }
 
 /* ---------- Blick von oben (v5.77; Nutzer 22.11.2026: „Figuren aus verschiedenen Winkeln: Seite, hinten, vorn, oben“) ----------
@@ -621,9 +666,15 @@ function papageiOben() {
 
 /* ---------- Bordkatze Backbord (rot getigert, Halsband: von ihr aus links rot, rechts grün) ---------- */
 /* Gangarten der Katze (v5.79; Nutzer 23.11.2026: „Für Backbord noch ein paar mehr“): Schritt (amp), Pfote heben (lift), Wippen (bob), tiefer (tief) */
-const KATZE_GANG = {schleichen: {name: 'Schleichen', amp: 2.2, lift: .7, bob: .2, tief: 2, tempo: .55}, traben: {name: 'Traben', amp: 3.4, lift: 1.8, bob: .8, tempo: 1},
-  rennen: {name: 'Rennen', amp: 5.4, lift: 2.6, bob: 1.8, tempo: 1.8}, stolzieren: {name: 'Stolzieren', amp: 2.8, lift: 2.8, bob: .4, tempo: .8, kopf: -8},
-  springen: {name: 'Springen', amp: 4.4, lift: 2.4, bob: 1, tempo: 1.2, sprung: 1}, tappen: {name: 'Tapsen', amp: 1.6, lift: 2.2, bob: .6, tempo: .7}};
+/* v5.80 neu (Nutzer 23.11.2026: „Diese Animationen funktionieren teilweise noch nicht gut“): echte Beinfolge je Gangart (Schritt: eins nach dem anderen,
+   Trab: diagonal, Rennen: Galopp mit Strecken und Beugen, Springen: ein Bogen ohne Bildwechsel), Beine mit Gelenk, Kopf ruhig, Schwanz schwingt mit.
+   offs: Phase der Beine [hinten links, hinten rechts, vorn links, vorn rechts]; amp Schrittweite; lift Pfote heben; bob Wippen; tief Körper tiefer; schwanz Haltung */
+const KATZE_GANG = {schleichen: {name: 'Schleichen', offs: [0, .5, .25, .75], amp: 2.6, lift: .9, bob: .25, tief: 2.2, tempo: .55, schwanz: 'tief', nick: 2},
+  traben: {name: 'Traben', offs: [0, .5, .5, 0], amp: 3.6, lift: 2, bob: .8, tempo: 1, schwanz: 'hoch', nick: 1.5},
+  rennen: {name: 'Rennen', offs: [0, .1, .5, .6], amp: 5.6, lift: 2.6, bob: 1.4, tempo: 1.8, schwanz: 'lang', beug: 2.4, kipp: 5},
+  stolzieren: {name: 'Stolzieren', offs: [0, .5, .25, .75], amp: 2.8, lift: 3, bob: .4, tempo: .8, kopf: -8, schwanz: 'kringel', nick: 1},
+  springen: {name: 'Springen', sprung: 1, tempo: 1.2, hoehe: 9, schwanz: 'lang'},
+  tappen: {name: 'Tapsen', offs: [0, .5, .25, .75], amp: 1.6, lift: 2.6, bob: .6, tempo: .7, schwanz: 'hoch', nick: 2.5}};
 function katze(f, k, o) {
   const pose = o.pose || 'sitzen', fell = k.fell;
   const latz = fell === 'latz' || fell === 'socken', socken = fell === 'socken';
@@ -649,11 +700,7 @@ function katze(f, k, o) {
     s += pfote(3, -.6, socken) + pfote(-1, -.6, socken) + halsband(3, -14) + kopf(3, -18);
     if (latz) s += `<path d="M3 -13 Q6.4 -10 5.4 -5 Q3 -6 1.6 -10Z" fill="#f6f2ea"/>`;
   } else if (pose === 'laufen') {
-    s += schwanz('M-10 -9 Q-17 -12 -19 -19', -10, -9);
-    const KG = o.gang && KATZE_GANG[o.gang.art], kph = KG ? (o.gang.t || 0) * Math.PI * 2 : 0;
-    s += [[-8, -7, -9, 0], [-5, -7, -4, 0], [6, -7, 7, 0], [9, -7, 10, 0]].map(([x1, y1, x2, y2], i) => { if (KG) { const off = [0, Math.PI, Math.PI, 0][i]; x2 += KG.amp * Math.sin(kph + off); y2 -= KG.lift * Math.max(0, Math.cos(kph + off)); } return [x1, y1, x2, y2]; }).map(([x1, y1, x2, y2], i) => `<g${i % 2 ? ' class="hinten"' : ''}>${glied([[x1, y1], [x2 + (i < 2 ? -1 : 1), y2 - 1]], 3.4, 'fell')}${pfote(x2 + (i < 2 ? -1 : 1), y2 - .6, socken)}</g>`).join('');
-    s += `<path d="M-11 -9 Q-11 -15 -4 -15 L6 -15 Q12 -15 12 -10 Q12 -5 6 -5 L-6 -5 Q-11 -5 -11 -9Z" class="f-fell ln"/>` + streifenRumpf([[-7, -14.6, -6, -6], [-3, -15, -2, -6], [1, -15, 2, -6], [5, -15, 5, -7]]);
-    s += `<path d="M-6 -5.4 Q0 -4 6 -5.4 Q2 -7 -6 -5.4Z" class="f-bauch"/>` + halsband(11, -12, 30) + kopf(14, -15, 4);
+    s += katzeLauf(o, socken, {schwanz, kopf, halsband, pfote, streifenRumpf});
   } else if (pose === 'strecken') {
     s += schwanz('M-10 -12 Q-16 -18 -14 -26', -10, -12);
     s += glied([[-8, -11], [-9, -1]], 3.4, 'fell') + pfote(-9, -.6, socken) + glied([[-5, -11], [-4, -1]], 3.4, 'fell') + pfote(-4, -.6, socken);
@@ -675,7 +722,49 @@ function katze(f, k, o) {
     s += `<path d="M-11 -14 Q-10 -20 -2 -20 L6 -19 Q11 -18 10 -13 Q8 -10 2 -11 L-6 -11 Q-11 -11 -11 -14Z" class="f-fell ln"/>` + streifenRumpf([[-6, -19.6, -5, -11.4], [-2, -20, -1, -11], [2, -19.6, 3, -11]]);
     s += halsband(10, -16, 20) + kopf(13, -20, -6);
   }
-  if (o.gang && KATZE_GANG[o.gang.art] && pose === 'laufen') { const KG = KATZE_GANG[o.gang.art], ph = (o.gang.t || 0) * Math.PI * 2; return `<g transform="translate(0 ${r1(-KG.bob * Math.abs(Math.sin(ph * 2)) + (KG.tief || 0))})${KG.tief ? ' scale(1 .9)' : ''}">${s}</g>`; }
+  return s;
+}
+/* Laufende Katze: Beine mit Gelenk (zwei Glieder), Fußbahn als Bogen, Körper wippt, Kopf ruhiger, Schwanz mit Verzögerung. Ohne o.gang: Stand im Trab-Bild. */
+function katzeLauf(o, socken, Z) {
+  const KG = (o.gang && KATZE_GANG[o.gang.art]) || null, t = KG ? (o.gang.t || 0) % 1 : 0, ph = t * Math.PI * 2, P2 = Math.PI * 2;
+  const HUEFT = [[-8, 'h'], [-5, 'h'], [6, 'v'], [9, 'v']], L = 3.8;
+  /* Gelenk zwischen Hüfte H und Pfote F; Knie zeigt nach hinten (Katze: Ellbogen hinten, Sprunggelenk hinten) */
+  const bein = (hx, hy, fx, fy) => { let dx = fx - hx, dy = fy - hy, d = Math.hypot(dx, dy); if (d > 2 * L - .05) { const k = (2 * L - .05) / d; fx = hx + dx * k; fy = hy + dy * k; dx *= k; dy *= k; d = 2 * L - .05; }
+    const mx = (hx + fx) / 2, my = (hy + fy) / 2, h = Math.sqrt(Math.max(0, L * L - d * d / 4)), nx = -dy / d, ny = dx / d, sg = nx > 0 ? -1 : 1;
+    return [[hx, hy], [mx + nx * h * sg, my + ny * h * sg], [fx, fy]]; };
+  let koerperY = 0, kipp = 0, beug = 0, kopfY = 0, kopfRot = KG && KG.kopf || 0, fuesse;
+  if (KG && KG.sprung) {
+    /* ein Sprung: Ducken (Boden), Abstoßen, Bogen in der Luft mit gestreckten Beinen, weich landen */
+    const g = .32, hoehe = KG.hoehe || 9;
+    if (t < g) { const v = t / g; koerperY = 2.6 * Math.sin(Math.PI * v); kipp = -3 * Math.sin(Math.PI * v); fuesse = HUEFT.map(([x]) => [x + (x < 0 ? 1 : -1) * .8 * Math.sin(Math.PI * v), 0]); }
+    else { const v = (t - g) / (1 - g), sb = Math.sin(Math.PI * v); koerperY = -hoehe * sb; kipp = -9 * Math.cos(Math.PI * v) * sb * 1.6;
+      fuesse = HUEFT.map(([x, w]) => w === 'h' ? [x - 4.6 * sb, -7 + 7 - 1.5 * sb + koerperY] : [x + 4.6 * sb, -7 + 7 - 2.6 * sb + koerperY]); }
+    kopfY = -koerperY * .15;
+  } else {
+    const A = KG ? KG.amp : 0, LI = KG ? KG.lift : 0;
+    koerperY = KG ? -KG.bob * Math.abs(Math.sin(ph * 2)) + (KG.tief || 0) : 0; kopfY = KG ? KG.bob * .45 * Math.abs(Math.sin(ph * 2)) : 0;
+    if (KG && KG.beug) { beug = KG.beug * Math.sin(ph); kipp = KG.kipp * Math.sin(ph + .6); }
+    if (KG && KG.nick) kopfRot += KG.nick * Math.sin(ph * 2);
+    fuesse = HUEFT.map(([x], i) => { const th = ph + (KG ? KG.offs[i] : 0) * P2; return [x + A * Math.sin(th) + (x < 0 ? -beug : beug) * .5, -LI * Math.max(0, Math.cos(th))]; });
+  }
+  const tief = KG && KG.tief ? KG.tief : 0;
+  let s = `<ellipse cx="1" cy=".6" rx="${r1(13 - Math.min(6, Math.max(0, -koerperY) * .5))}" ry="1.6" fill="#2a1608" opacity=".14"/>`;
+  /* Schwanz: Haltung je Gangart, schwingt verzögert */
+  const sw = KG ? Math.sin(ph - 1.2) * (KG.sprung ? 2 : 2.4) : 0, by = -9 + koerperY, art = KG ? KG.schwanz : 'hoch';
+  const sd = art === 'tief' ? `M-10 ${by} Q-17 ${r1(by + 2 + sw * .4)} -22 ${r1(by + 5 + sw)}` : art === 'lang' ? `M-10 ${by} Q-18 ${r1(by - 2 + sw * .5)} -25 ${r1(by - 1 + sw)}`
+    : art === 'kringel' ? `M-10 ${by} Q-15 ${r1(by - 10)} ${r1(-12 + sw * .4)} ${r1(by - 16)} Q${r1(-8 + sw * .3)} ${r1(by - 19)} ${r1(-7 + sw * .3)} ${r1(by - 15)}` : `M-10 ${by} Q-16 ${r1(by - 4 + sw * .4)} ${r1(-18 + sw * .6)} ${r1(by - 11)}`;
+  s += Z.schwanz(sd, -10, by);
+  /* Hüften drehen mit dem Körper (Kippen beim Galopp und Sprung) */
+  const kr = kipp * Math.PI / 180, hueft = x => { const px = x + (x < 0 ? -beug * .5 : beug * .5) - 1, py = -7 + 10; return [1 + px * Math.cos(kr) - py * Math.sin(kr), -10 + px * Math.sin(kr) + py * Math.cos(kr) + koerperY]; };
+  const b = HUEFT.map(([x], i) => { const [hx, hy2] = hueft(x); return bein(hx, hy2, fuesse[i][0], fuesse[i][1]); });
+  const zeichneBein = i => `<g${i % 2 ? ' class="hinten"' : ''}>${glied(b[i], 3.2, 'fell')}${Z.pfote(r1(b[i][2][0] + .8), r1(b[i][2][1] - .5), socken)}</g>`;
+  s += zeichneBein(1) + zeichneBein(3);
+  s += `<g transform="translate(0 ${r1(koerperY)}) rotate(${r1(kipp)} 1 -10)">`;
+  const hx0 = -11 - beug * .5, vx0 = 12 + beug * .5;
+  s += `<path d="M${r1(hx0)} -9 Q${r1(hx0)} -15 ${r1(hx0 + 7)} -15 L${r1(vx0 - 6)} -15 Q${r1(vx0)} -15 ${r1(vx0)} -10 Q${r1(vx0)} -5 ${r1(vx0 - 6)} -5 L${r1(hx0 + 5)} -5 Q${r1(hx0)} -5 ${r1(hx0)} -9Z" class="f-fell ln"/>` + Z.streifenRumpf([[-7, -14.6, -6, -6], [-3, -15, -2, -6], [1, -15, 2, -6], [5, -15, 5, -7]]);
+  s += `<path d="M-6 -5.4 Q0 -4 6 -5.4 Q2 -7 -6 -5.4Z" class="f-bauch"/>` + Z.halsband(11 + beug * .5, -12, 30);
+  s += `<g transform="translate(0 ${r1(kopfY - (tief ? tief * .3 : 0))})">${Z.kopf(14 + beug * .5, -15, r1(4 + kopfRot - kipp * .6))}</g></g>`;
+  s += zeichneBein(0) + zeichneBein(2);
   return s;
 }
 
@@ -718,7 +807,9 @@ function figur(id, o = {}) {
   else inner = (o.blick === 'vorn' ? menschVorn : o.blick === 'ruecken' ? menschRuecken : menschSeite)(id, f, k, o);
   const sk = f.tier ? 1 : f.h / 100;
   if (sk !== 1) inner = `<g transform="scale(${sk})">${inner}</g>`;
-  return `<g class="cr cr-${id} stil${STILE[o.stil] ? ' fest st-' + o.stil : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
+  /* Extras (Fabelwesen, Mäuse) immer im Aquarell ohne Umriss: alles Umrandete spielt mit (v5.80, E34) */
+  const fst = STILE[o.stil] ? o.stil : (f.tier === 'fabel' || f.tier === 'maus') ? 'aquarell' : '';
+  return `<g class="cr cr-${id} stil${fst ? ' fest st-' + fst : ''}"${dreh(o, 'fig', o.wer || f.wer, 0, 0)}><ellipse cx="${f.tier ? 1 : 1}" cy=".6" rx="${f.tier ? 11 : 13 * (f.w || 1) * T.bw}" ry="2.2" class="tinte" opacity=".12"/>${inner}</g>`;
 }
 /* Gespeichertes Aussehen (S.cfg.look, Standard leer; R7). index.html setzt Farben und Stil auf <html> (lookAnwenden). */
 function look() { try { return (window.S && S.cfg && S.cfg.look) || {}; } catch (e) { return {}; } }
@@ -728,5 +819,5 @@ function bild(id, o = {}) {
   const h = f.h + 24, w = f.tier ? 50 : 70;
   return `<svg class="crsvg" viewBox="${-w / 2} ${-h + 4} ${w} ${h}" aria-label="${f.name}">${figur(id, o)}</svg>`;
 }
-window.FIGUREN = {figur, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, kleidVon, look};
+window.FIGUREN = {figur, gruppe, bild, css, FIG, STILE, TYPEN, AUGEN, GANG, KATZE_GANG, kleidVon, look};
 })();

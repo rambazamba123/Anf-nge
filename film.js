@@ -194,39 +194,60 @@ function pfeil(x, y, len, farbe, text, links = true) {
 /* ---------- Kajüte als Glasbühne (v5.78; Nutzer 22.11.2026: „die Kajüte zum Durchklicken … verbessere alles“) ----------
    Rückwand mit Bullaugen (draußen Himmel und Wasser im aktuellen Licht), Wand mit Seekarte, Manöverbrett und Knotenbrett, Regal mit Büchern und Buddelschiff,
    Klabauter auf der Stange, Kartentisch mit Lampe und Telefon, vorn Hocker und Backbord. Die Kamera fährt zu den Dingen (EINST.innen). */
+/* Knoten auf dem Knotenbrett: Endbild der echten Tau-Animation (knoten.js) im Stil „Feder laviert“, sonst eine schlichte Schlaufe */
+const KNOTEN_BRETT = ['acht', 'kreuz', 'palstek', 'schot', 'stopper', 'webelein', 'webeleinslip', 'rundtoern', 'klampe'];
+const knotBild = (a, x, y, w, h) => {
+  const K_ = window.KNOTEN; if (K_ && K_.endbild && K_.ANIM && K_.ANIM[a]) return `<image href="${K_.endbild(a, {stil: K_.LAVIERT.stil, wash: K_.LAVIERT.wash, skala: 1.5})}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+  const cx = x + w / 2, cy = y + h / 2; return `<path d="M${cx} ${y + 2} V${cy - 4} q-9 2 -7 12 q4 8 9 0 q3 -9 -4 -10 M${cx + 2} ${cy + 6} V${y + h - 2}" stroke="#dcc08a" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+};
+/* Das Knotenbrett: hochkant (wie der Bildschirm), damit der Zoom fast das ganze Bild füllt und die Nahansicht dasselbe Brett zeigt */
+const BRETT = {x: 150, y: -2, w: 100, h: 170};
+function knotenbrett(innen = true) {
+  const {x, y, w, h} = BRETT, ix = x + 8, iy = y + 24, iw = w - 16, ih = h - 32, cw = iw / 3, ch = ih / 3;
+  return `<g id="fk-knotenbrett"><rect x="${x + 3}" y="${y + 5}" width="${w}" height="${h}" rx="4" fill="#1a0f08" opacity=".35"/>
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="#7a5233" stroke="#3a2412" stroke-width="2"/><rect x="${ix}" y="${iy}" width="${iw}" height="${ih}" rx="2" fill="#2c3e54" stroke="#1d2a38" stroke-width="1.4"/>
+    <rect x="${x + 26}" y="${y + 6}" width="${w - 52}" height="12" rx="2" fill="#c9a03c" stroke="#5a3a1c" stroke-width="1"/><path d="M${x + 34} ${y + 12} h${w - 68}" stroke="#5a3a1c" stroke-width="1.6" stroke-dasharray="3 2"/>
+    ${[[x + 5, y + 5], [x + w - 5, y + 5], [x + 5, y + h - 5], [x + w - 5, y + h - 5]].map(([a, b]) => `<circle cx="${a}" cy="${b}" r="1.8" fill="#c9a03c"/>`).join('')}
+    ${innen ? KNOTEN_BRETT.map((k, i) => { const cx = ix + (i % 3) * cw, cy = iy + (i / 3 | 0) * ch; return `<circle cx="${cx + cw / 2}" cy="${cy + 3}" r="1.6" fill="#c9a03c"/>${knotBild(k, cx + 2, cy + 4, cw - 4, ch - 7)}`; }).join('') : ''}</g>`;
+}
 function kajueteEbenen() {
-  /* v5.79: Anordnung wie die Kajüte der App (szenerie.js): zwei Bullaugen mit karierten Gardinen, Wimpelkette, Knotenbrett in der Mitte, Lampe über dem runden Tisch,
-     Hinnerk und Smilla auf der Bank, Klabauter am Bullauge, Telefon links, Manöverbrett und Bücher rechts, vorn Hocker auf dem Teppich und Backbord */
+  /* v5.80: Hochformat und bildschirmfüllend. Alles Wichtige liegt im Band x 60–340 (so breit ist ein Handy im Hochformat), die Ränder sind Zugabe für breite Bildschirme.
+     Oben zwei Bullaugen mit karierten Gardinen und dazwischen das Knotenbrett (hochkant), links das Telefon, rechts Manöverbrett und Bücher,
+     Hinnerk und Smilla auf der Bank, Klabauter am Bullauge, vorn der runde Tisch mit der Seekarte und der Lampe, Hocker auf dem Teppich, Backbord. */
   const holz = '#6e4a2e', holzH = '#946640', holzD = '#45291a', messing = '#c9a03c', papier = '#f1e4c2', dunkel = '#2e1d10';
   const planken = (y0, y1, c) => Array.from({length: Math.ceil((y1 - y0) / 13)}, (_, i) => `<path d="M-60 ${y0 + i * 13} H460" stroke="${c}" stroke-width="1" opacity=".45"/>`).join('');
   const bullauge = (x, y, r) => `<clipPath id="kb${x}"><circle cx="${x}" cy="${y}" r="${r}"/></clipPath><g clip-path="url(#kb${x})"><rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${r * 1.1}" fill="url(#fb-hg)"/><rect x="${x - r}" y="${y + r * .1}" width="${2 * r}" height="${r}" fill="url(#fb-wg)"/>
-    <path d="M${x - r} ${y + r * .3} q${r / 2} -3 ${r} 0 t${r} 0" stroke="${P.glanz}" stroke-width="1.4" fill="none" opacity=".6" data-welle="3,0,${x % 5},0"/></g><circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${messing}" stroke-width="7"/><circle cx="${x}" cy="${y}" r="${r + 6}" fill="none" stroke="${holzD}" stroke-width="2"/>
-    ${[0, 60, 120, 180, 240, 300].map(a => `<circle cx="${(x + (r + 3) * Math.cos(a * Math.PI / 180)).toFixed(1)}" cy="${(y + (r + 3) * Math.sin(a * Math.PI / 180)).toFixed(1)}" r="2" fill="#ead08a"/>`).join('')}<path d="M${x - r * .55} ${y - r * .5} Q${x - r * .2} ${y - r * .8} ${x + r * .3} ${y - r * .7}" stroke="#fff" stroke-width="3" opacity=".35" fill="none" stroke-linecap="round"/>`;
-  const gardine = (x, sd) => `<path d="M${x} 92 Q${x + sd * 14} 120 ${x + sd * 6} 150 Q${x + sd * 2} 175 ${x + sd * 12} 205 L${x + sd * 30} 205 Q${x + sd * 22} 170 ${x + sd * 28} 140 Q${x + sd * 32} 115 ${x + sd * 26} 92Z" fill="url(#fk-karo)" stroke="#8a2a22" stroke-width="1.4"/><path d="M${x + sd * 4} 160 q${sd * 10} 6 ${sd * 24} 0" stroke="#8a2a22" stroke-width="3"/>`;
-  const wimpel = Array.from({length: 13}, (_, i) => { const x = -20 + i * 36, y = 70 + Math.sin(i / 12 * Math.PI) * 14; return `<path d="M${x} ${y} L${x + 18} ${y + 1} L${x + 9} ${y + 18}Z" fill="${['#c0392b', '#e8b33c', '#3c7a52', '#2f6a9a', '#f3ead2'][i % 5]}" stroke="${holzD}" stroke-width=".8"/>`; }).join('');
+    <path d="M${x - r} ${y + r * .3} q${r / 2} -3 ${r} 0 t${r} 0" stroke="${P.glanz}" stroke-width="1.4" fill="none" opacity=".6" data-welle="3,0,${x % 5},0"/></g><circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${messing}" stroke-width="6"/><circle cx="${x}" cy="${y}" r="${r + 5}" fill="none" stroke="${holzD}" stroke-width="2"/>
+    ${[0, 60, 120, 180, 240, 300].map(a => `<circle cx="${(x + (r + 2.5) * Math.cos(a * Math.PI / 180)).toFixed(1)}" cy="${(y + (r + 2.5) * Math.sin(a * Math.PI / 180)).toFixed(1)}" r="1.8" fill="#ead08a"/>`).join('')}<path d="M${x - r * .55} ${y - r * .5} Q${x - r * .2} ${y - r * .8} ${x + r * .3} ${y - r * .7}" stroke="#fff" stroke-width="2.6" opacity=".35" fill="none" stroke-linecap="round"/>`;
+  const gardine = (x, sd, y0 = 30, y1 = 128) => { const m = (y1 - y0); return `<g class="fk-gard"><path d="M${x} ${y0} Q${x + sd * 12} ${y0 + m * .26} ${x + sd * 5} ${y0 + m * .55} Q${x + sd * 2} ${y0 + m * .78} ${x + sd * 10} ${y1} L${x + sd * 24} ${y1} Q${x + sd * 18} ${y0 + m * .72} ${x + sd * 23} ${y0 + m * .45} Q${x + sd * 26} ${y0 + m * .2} ${x + sd * 21} ${y0}Z" fill="url(#fk-karo)" stroke="#8a2a22" stroke-width="1.3"/><path d="M${x + sd * 4} ${y0 + m * .62} q${sd * 9} 5 ${sd * 20} 0" stroke="#8a2a22" stroke-width="2.6"/></g>`; };
+  const wimpel = Array.from({length: 13}, (_, i) => { const x = -20 + i * 36, y = -24 + Math.sin(i / 12 * Math.PI) * 12; return `<path d="M${x} ${y} L${x + 16} ${y + 1} L${x + 8} ${y + 16}Z" fill="${['#c0392b', '#e8b33c', '#3c7a52', '#2f6a9a', '#f3ead2'][i % 5]}" stroke="${holzD}" stroke-width=".8"/>`; }).join('');
+  /* Die Bühne zeigt auf dem Handy nur x 85–315 und y 5–495 (Kamera-Rand 10 %): alles wird um die Mitte auf 84 % gesetzt */
+  const Z = x => `<g transform="translate(200 250) scale(.84) translate(-200 -250)">${x}</g>`;
   return [
-    {d: 0, svg: `<defs><pattern id="fk-karo" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f6efe2"/><rect width="4" height="8" fill="#c0392b" opacity=".55"/><rect width="8" height="4" fill="#c0392b" opacity=".55"/></pattern></defs>
-      <rect x="-60" y="-60" width="520" height="640" fill="${holz}"/>${planken(-60, 560, holzD)}<rect x="-60" y="-60" width="520" height="80" fill="${dunkel}"/>${[-30, 60, 150, 240, 330, 420].map(x => `<rect x="${x}" y="-60" width="18" height="92" fill="${holzD}"/>`).join('')}
-      <path d="M-40 68 Q200 98 440 68" stroke="${holzD}" stroke-width="1.6" fill="none"/>${wimpel}${bullauge(100, 150, 44)}${bullauge(300, 150, 44)}${gardine(48, -1)}${gardine(152, 1)}${gardine(248, -1)}${gardine(352, 1)}
-      <rect x="-60" y="460" width="520" height="140" fill="${holzD}"/>${planken(460, 560, dunkel)}`},
-    {d: .2, svg: `<g><rect x="148" y="178" width="104" height="96" rx="3" fill="#2c3e54" stroke="${holzD}" stroke-width="5"/>${[0, 1, 2].map(r => [0, 1, 2].map(c => `<circle cx="${204 + c * 18}" cy="${196 + r * 22}" r="2.6" fill="${messing}"/><path d="M${204 + c * 18} ${199 + r * 22} v6" stroke="#e9d9a8" stroke-width="1.6"/>`).join('')).join('')}
-        <path d="M174 192 v20 M168 214 q6 30 6 34 q0 -4 6 -34 q-6 -10 -12 0Z" fill="none" stroke="#e9d9a8" stroke-width="3" stroke-linecap="round"/><rect x="176" y="262" width="48" height="6" rx="2" fill="${messing}"/></g>
-      <g transform="translate(-6 300)"><rect width="40" height="26" rx="5" fill="#b8402e"/><circle cx="20" cy="15" r="8" fill="#7a2018"/><circle cx="20" cy="15" r="4.6" fill="#b8402e"/><path d="M4 -3 q16 -10 32 0" stroke="#7a2018" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M40 16 q14 10 6 40" stroke="#2a1a0e" stroke-width="1.4" fill="none"/></g>
-      <g><rect x="352" y="176" width="78" height="64" rx="2" fill="${holzH}" stroke="${holzD}" stroke-width="3"/><g fill="none" stroke="#f3ead2" stroke-width="2.2"><path d="M366 226 L391 198 L416 226Z"/></g><path d="M398 190 a16 16 0 1 1 -10 3" stroke="#f0a23a" stroke-width="2.4" fill="none"/>
-        <rect x="350" y="296" width="86" height="6" fill="${holzH}"/>${[['#2f4f80', 11], ['#b8402e', 9], ['#3c7a52', 12], ['#c99a3c', 8], ['#6b4a7a', 10]].map(([c, w], i, a) => { const x = 356 + a.slice(0, i).reduce((m, v) => m + v[1] + 1.5, 0); return `<rect x="${x}" y="${270 + (i % 2) * 4}" width="${w}" height="${26 - (i % 2) * 4}" rx="1.4" fill="${c}"/>`; }).join('')}</g>`},
-    {d: .3, svg: `<path d="M20 304 Q200 290 380 304 L384 380 L16 380Z" fill="#9a3a2a" stroke="#5a1a10" stroke-width="2"/><path d="M28 316 Q200 304 372 316" stroke="#c0503a" stroke-width="3" fill="none" opacity=".6"/>
-      <g transform="translate(200 334)"><ellipse rx="34" ry="24" fill="#6f8f9a" stroke="#3a4a50" stroke-width="2"/><path d="M0 -12 V12 M-8 -6 H8 M-12 6 Q0 18 12 6" stroke="#f3ead2" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>
-      <path d="M318 196 H368" stroke="${holzD}" stroke-width="5" stroke-linecap="round"/><g transform="translate(336 196) scale(1.3)">${C('klabauter', {pose: 'sitzen'})}</g>`},
-    {d: .45, svg: `<g transform="translate(118 412) scale(1.25)">${C('hinnerk', {blick: 'vorn', pose: 'sitzen'})}</g><g transform="translate(290 412) scale(1.25)">${C('smilla', {blick: 'vorn', pose: 'sitzen'})}</g>`},
-    {d: .62, svg: `<defs><linearGradient id="fk-kegel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe3a8" stop-opacity=".42"/><stop offset="1" stop-color="#ffe3a8" stop-opacity="0"/></linearGradient><radialGradient id="fk-schein"><stop offset="0" stop-color="#ffd58a" stop-opacity=".5"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient></defs>
-      <path d="M200 -60 V192" stroke="#2a1a0e" stroke-width="2"/><path d="M182 210 L80 430 H320 L218 210Z" fill="url(#fk-kegel)"/><path d="M180 212 q20 -34 40 0Z" fill="${messing}" stroke="#5a3a1c" stroke-width="1.6"/><ellipse cx="200" cy="214" rx="11" ry="4" fill="#fff4cf"/><circle cx="200" cy="214" r="40" fill="url(#fk-schein)"/>
-      <rect x="192" y="440" width="16" height="64" fill="${holzD}"/><ellipse cx="200" cy="506" rx="40" ry="8" fill="${holzD}"/><ellipse cx="200" cy="436" rx="128" ry="34" fill="${holzH}" stroke="#3a2412" stroke-width="2.6"/><ellipse cx="200" cy="432" rx="128" ry="30" fill="#a8774a"/>
-      <g transform="translate(200 430) skewX(-8)"><rect x="-76" y="-14" width="152" height="30" rx="2" fill="${papier}" stroke="#5a3a1c" stroke-width="1.4"/><path d="M-66 8 L-40 -2 L-10 6 L22 -4 L56 2" stroke="#3a3a3a" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
-        ${[[-66, 8, '#3c8c5a'], [-40, -2, '#3c8c5a'], [-10, 6, '#3c8c5a'], [22, -4, '#e8b33c'], [56, 2, '#c0392b']].map(([x, y, c]) => `<rect x="${x - 5}" y="${y - 3}" width="10" height="6" rx="1.5" fill="${c}" stroke="#2a1a0e" stroke-width=".8"/>`).join('')}</g>
-      <path d="M268 444 l22 -3" stroke="${messing}" stroke-width="3" stroke-linecap="round"/>`},
-    {d: .85, svg: `<ellipse cx="200" cy="548" rx="150" ry="30" fill="#7a2e20"/><ellipse cx="200" cy="548" rx="120" ry="22" fill="#b8742e"/><ellipse cx="200" cy="548" rx="88" ry="15" fill="#7a2e20"/>
-      <g transform="translate(200 548)"><path d="M-22 -2 L-28 -2 L-32 22 M22 -2 L28 -2 L32 22 M0 -2 V22" stroke="${holzD}" stroke-width="6" stroke-linecap="round"/><ellipse cx="0" cy="-8" rx="34" ry="10" fill="#c0392b" stroke="#5a1a10" stroke-width="2"/><ellipse cx="0" cy="-11" rx="26" ry="6" fill="#d9584a"/></g>`},
-    {d: .95, svg: `<g transform="translate(30 548) scale(1.7)">${C('backbord', {pose: 'sitzen'})}</g>`}
+    {d: 0, svg: `<defs><pattern id="fk-karo" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#f6efe2"/><rect width="3.5" height="7" fill="#c0392b" opacity=".55"/><rect width="7" height="3.5" fill="#c0392b" opacity=".55"/></pattern></defs>
+      <rect x="-200" y="-200" width="800" height="900" fill="${holz}"/>${planken(-200, 700, holzD)}${Z(`<rect x="-60" y="-60" width="520" height="28" fill="${dunkel}"/>${[-30, 60, 150, 240, 330, 420].map(x => `<rect x="${x}" y="-60" width="16" height="40" fill="${holzD}"/>`).join('')}
+      <path d="M-40 -26 Q200 0 440 -26" stroke="${holzD}" stroke-width="1.4" fill="none"/>${wimpel}${bullauge(102, 74, 32)}${bullauge(298, 74, 32)}${gardine(62, -1)}${gardine(142, 1)}${gardine(258, -1)}${gardine(338, 1)}
+      ${bullauge(-10, 74, 26)}${bullauge(410, 74, 26)}
+      <rect x="-260" y="420" width="920" height="400" fill="${holzD}"/>${planken(420, 800, dunkel)}`)}`},
+    {d: .2, svg: Z(knotenbrett() + `
+      <g id="fk-telefon" transform="translate(64 150)"><rect width="36" height="24" rx="5" fill="#b8402e" stroke="#5a1a10" stroke-width="1.2"/><circle cx="18" cy="14" r="7" fill="#7a2018"/><circle cx="18" cy="14" r="4" fill="#b8402e"/><path d="M3 -3 q15 -9 30 0" stroke="#7a2018" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M36 15 q12 9 5 34" stroke="#2a1a0e" stroke-width="1.3" fill="none"/></g>
+      <g id="fk-manoever"><rect x="282" y="128" width="56" height="46" rx="2" fill="${holzH}" stroke="${holzD}" stroke-width="2.4"/><path d="M292 166 L310 146 L328 166Z" fill="none" stroke="#f3ead2" stroke-width="2"/><path d="M314 140 a11 11 0 1 1 -7 2" stroke="#f0a23a" stroke-width="2" fill="none"/></g>
+        <g id="fk-buecher"><rect x="280" y="210" width="62" height="5" fill="${holzH}"/>${[['#2f4f80', 9], ['#b8402e', 7], ['#3c7a52', 10], ['#c99a3c', 6], ['#6b4a7a', 8]].map(([c, w], i, a) => { const x = 284 + a.slice(0, i).reduce((m, v) => m + v[1] + 1.4, 0); return `<rect x="${x.toFixed(1)}" y="${190 + (i % 2) * 3}" width="${w}" height="${20 - (i % 2) * 3}" rx="1.2" fill="${c}"/>`; }).join('')}</g>`)},
+    {d: .3, svg: Z(`<path d="M30 250 Q200 238 370 250 L374 322 L26 322Z" fill="#9a3a2a" stroke="#5a1a10" stroke-width="2"/><path d="M36 262 Q200 252 364 262" stroke="#c0503a" stroke-width="3" fill="none" opacity=".6"/>
+      <g transform="translate(200 280)"><ellipse rx="26" ry="18" fill="#6f8f9a" stroke="#3a4a50" stroke-width="2"/><path d="M0 -9 V9 M-6 -4 H6 M-9 4 Q0 13 9 4" stroke="#f3ead2" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+      <path d="M314 118 H344" stroke="${holzD}" stroke-width="4" stroke-linecap="round"/><g id="fk-klabauter" transform="translate(328 118) scale(1.05)">${C('klabauter', {pose: 'sitzen'})}</g>`)},
+    {d: .45, svg: Z(`<g id="fk-crew"><g transform="translate(112 338) scale(1.15)">${C('hinnerk', {blick: 'vorn', pose: 'sitzen'})}</g><g transform="translate(290 338) scale(1.15)">${C('smilla', {blick: 'vorn', pose: 'sitzen'})}</g></g>`)},
+    {d: .62, svg: `<defs><radialGradient id="fk-schein"><stop offset="0" stop-color="#ffd58a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient></defs>
+      ${Z(`<circle class="fk-schein" cx="200" cy="330" r="110" fill="url(#fk-schein)"/>
+      <rect x="192" y="378" width="16" height="70" fill="${holzD}"/><ellipse cx="200" cy="450" rx="40" ry="8" fill="${holzD}"/><ellipse cx="200" cy="378" rx="118" ry="30" fill="${holzH}" stroke="#3a2412" stroke-width="2.4"/><ellipse id="fk-tischplatte" cx="200" cy="374" rx="118" ry="26" fill="#a8774a"/>
+      <g id="fk-tischkarte" transform="translate(200 376)"><path d="M-74 -14 L70 -14 L82 12 L-86 12Z" fill="${papier}" stroke="#5a3a1c" stroke-width="1.3"/><path d="M-62 6 Q-40 -10 -14 2 T40 -6 L62 -2" stroke="#3a3a3a" stroke-width="1.1" stroke-dasharray="4 3" fill="none"/>
+        ${[[-62, 6, '#3c8c5a'], [-36, -4, '#3c8c5a'], [-12, 2, '#3c8c5a'], [22, -5, '#e8b33c'], [58, -2, '#c0392b']].map(([x, y, c]) => `<rect x="${x - 4.5}" y="${y - 2.5}" width="9" height="5" rx="1.3" fill="${c}" stroke="#2a1a0e" stroke-width=".7"/>`).join('')}
+        <path d="M-80 10 L-60 -12 M64 -12 L78 10" stroke="#cdbb92" stroke-width="1"/></g>
+      <path d="M262 392 l22 -3" stroke="${messing}" stroke-width="3" stroke-linecap="round"/>
+      <g transform="translate(200 352)"><ellipse cx="0" cy="10" rx="13" ry="3.5" fill="#3a2412"/><path d="M-10 9 Q-12 -2 0 -3 Q12 -2 10 9Z" fill="${messing}" stroke="#5a3a1c" stroke-width="1.2"/><path d="M-6 -3 Q-9 -16 0 -22 Q9 -16 6 -3" fill="#fff4cf" fill-opacity=".55" stroke="#5a3a1c" stroke-width="1"/><path class="fk-flamme" d="M0 -6 q-3 -5 0 -9 q3 4 0 9" fill="#ffb347"/><path d="M-5 -23 h10" stroke="#5a3a1c" stroke-width="1.6"/></g>`)}`},
+    {d: .85, svg: Z(`<ellipse cx="200" cy="506" rx="140" ry="28" fill="#7a2e20"/><ellipse cx="200" cy="506" rx="112" ry="20" fill="#b8742e"/><ellipse cx="200" cy="506" rx="82" ry="14" fill="#7a2e20"/>
+      <g id="fk-hocker" transform="translate(200 502)"><path d="M-20 -2 L-26 -2 L-30 22 M20 -2 L26 -2 L30 22 M0 -2 V22" stroke="${holzD}" stroke-width="6" stroke-linecap="round"/><ellipse cx="0" cy="-8" rx="32" ry="9" fill="#c0392b" stroke="#5a1a10" stroke-width="2"/><ellipse cx="0" cy="-11" rx="24" ry="5.5" fill="#d9584a"/></g>`)},
+    {d: .95, svg: Z(`<g id="fk-katze" transform="translate(94 532) scale(1.5)">${C('backbord', {pose: 'sitzen'})}</g>`)}
   ];
 }
 const ORTE = {
@@ -345,12 +366,11 @@ const ORTE = {
 };
 /* Einstellungen je Blick (Kamera: z Zoom, fx/fy Blickpunkt, oy Höhe, df Schärfeebene, kipp Neigung) */
 const EINST = {
-  seite: {totale: {}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}},
+  seite: {totale: {}, deck: {z: 1, fx: 214, fy: 318}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}},
   heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.1, fx: 160, fy: 360, df: .92}},
   schnitt: {totale: {}, nah: {z: 1.3, fx: 200, fy: 300}},
   oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}},
-  innen: {totale: {}, knoten: {z: 2.6, fx: 200, fy: 226, df: .2}, karte: {z: 2.3, fx: 200, fy: 432, df: .62}, telefon: {z: 3, fx: 14, fy: 316, df: .2}, manoever: {z: 3, fx: 390, fy: 210, df: .2},
-    buch: {z: 3.2, fx: 392, fy: 284, df: .2}, hocker: {z: 2.4, fx: 200, fy: 536, df: .85}, klabauter: {z: 3, fx: 340, fy: 180, df: .3}, crew: {z: 1.6, fx: 200, fy: 380, df: .45}, katze: {z: 3, fx: 34, fy: 530, df: .95}}
+  innen: {totale: {}, knoten: {z: 5.6, fx: 200, fy: 110, df: .2}, karte: {z: 2, fx: 200, fy: 352, df: .62}, telefon: {z: 4.6, fx: 101, fy: 174, df: .2}, manoever: {z: 4.2, fx: 292, fy: 167, df: .2}, buch: {z: 4.6, fx: 293, fy: 208, df: .2}, hocker: {z: 2.1, fx: 200, fy: 450, df: .85}, klabauter: {z: 3.1, fx: 306, fy: 124, df: .3}, crew: {z: 1.8, fx: 200, fy: 292, df: .45}, katze: {z: 2.4, fx: 112, fy: 466, df: .95}},
 };
 const PEIL = {seite: 270, heck: 180};
 
@@ -370,6 +390,10 @@ function css() {
   .fb-ue{position:absolute;inset:0;pointer-events:none}.fb-blende{opacity:0;background:radial-gradient(ellipse at 50% 50%,${P.nebelFarbe},${hell(P.nebelFarbe, .25)})}
   .fb-wasser{opacity:0;background:linear-gradient(#9cc4c4,#2f5d63)}.fb-flare{opacity:0}
   .fb-kasch{background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(30,40,45,.36) 100%)}.fb-korn{mix-blend-mode:multiply;opacity:.2;width:100%;height:100%}.fb-papier{mix-blend-mode:multiply;opacity:0;width:100%;height:100%}.fb-ton{mix-blend-mode:multiply}
+  .fk-gard{transform-box:fill-box;transform-origin:50% 0;animation:fkgard 5.2s ease-in-out infinite}@keyframes fkgard{25%{transform:rotate(1.8deg)}75%{transform:rotate(-1.8deg)}}
+  .fk-flamme{transform-box:fill-box;transform-origin:50% 100%;animation:fkfl 1.1s ease-in-out infinite alternate}@keyframes fkfl{50%{transform:scale(.84,1.14)}to{transform:scale(1.08,.9)}}
+  .fk-schein{animation:fksch 2.8s ease-in-out infinite alternate}@keyframes fksch{to{opacity:.78}}
+  @media (prefers-reduced-motion:reduce){.fk-gard,.fk-flamme,.fk-schein{animation:none}}
   .fb-atmo{overflow:hidden}.fb-atmo .fa{position:absolute;inset:0;pointer-events:none}
   .fa-strahlen{background:repeating-linear-gradient(104deg,transparent 0 7%,color-mix(in srgb,var(--c) 22%,transparent) 8% 11%,transparent 13% 21%);-webkit-mask-image:linear-gradient(transparent,#000 10%,#000 30%,transparent 80%);mask-image:linear-gradient(transparent,#000 10%,#000 30%,transparent 80%);mix-blend-mode:screen;animation:fastrahl 11s ease-in-out infinite alternate}
   @keyframes fastrahl{from{opacity:.45;transform:translateX(-3%)}to{opacity:1;transform:translateX(3%)}}
@@ -422,7 +446,8 @@ function mount(el) {
   root = el.querySelector('.fb'); welt = el.querySelector('.fb-welt'); SETS = {}; EB = {}; CAM = {}; ort = null; glasName = ''; glasJetzt(); atmoBauen();
   messen(); if (!laeuft) { laeuft = true; requestAnimationFrame(zeichne); }
 }
-function messen() { if (root) K = (root.clientWidth || 400) / 400; }
+/* Pixel je Bühnen-Einheit: die Bühne füllt den Rahmen (slice), bei hohen Rahmen zählt die Höhe (v5.80; vorher nur die Breite, dann fuhr die Kamera im Hochformat am Ziel vorbei) */
+function messen() { if (root) K = Math.max((root.clientWidth || 400) / 400, (root.clientHeight || 0) / 500) || 1; }
 addEventListener('resize', messen);
 function setBauen(o, b) {
   const key = o + ':' + b; if (SETS[key]) return SETS[key];
@@ -698,6 +723,6 @@ function reset() {
 }
 /* sofort auf einen Stand springen (Abspielen ab einem späteren Kapitel) */
 function sofort(werte) { for (const [k, [v]] of Object.entries(werte)) if (k in s) s[k] = v; }
-window.FILMB = {GLAS, LICHT, licht: lichtSetzen, atmo, mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
+window.FILMB = {teile: {knotenbrett, BRETT, KNOTEN_BRETT}, GLAS, LICHT, licht: lichtSetzen, atmo, mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
   get zustand() { return {ort, blick, s: {...s}, sets: Object.keys(SETS)}; }, ORTE: Object.keys(ORTE), EINST};
 })();

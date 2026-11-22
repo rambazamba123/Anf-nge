@@ -133,10 +133,10 @@ function knotenAnim(def) {
     out.forEach(pc => { pc.extO = sl(pc, 2); pc.ext = sl(pc, 3.5); });
     return out;
   }
-  function draw(cx, t) {
+  /* opt.klar (v5.80): ohne Hintergrund und ohne Beschriftung, für die Knotenbilder im Menü (KN.endbild) */
+  function draw(cx, t, opt = {}) {
     const s = stateAt(t), F = def.form(s), zmap = Object.assign({}, def.z, s.z || {}), R = {}, alle = [];
-    cx.fillStyle = '#f4ead2'; cx.fillRect(0, 0, W, H);
-    def.grund && def.grund(cx, s);
+    if (!opt.klar) { cx.fillStyle = '#f4ead2'; cx.fillRect(0, 0, W, H); def.grund && def.grund(cx, s); }
     let ord = 0;
     for (const id in F) {
       const sd = def.seile[id], r = bauen(F[id]); R[id] = r; const st = STIL[sd.stil || 'gelb'], tw = sd.tw || 9, ph = ((r.tip.m % (tw * .47)) + tw * .47) % (tw * .47);
@@ -146,7 +146,7 @@ function knotenAnim(def) {
     }
     (def.obj || []).forEach(o => alle.push({z: o.z, o: -1 - ord++, f: () => o.draw(cx, s, R)}));
     alle.sort((a, b) => a.z - b.z || a.o - b.o).forEach(x => x.f());
-    def.deko && def.deko(cx, s, R);
+    if (!opt.klar) def.deko && def.deko(cx, s, R);
     return s;
   }
   return {W, H, DUR, START, draw};
@@ -260,13 +260,14 @@ const PAL = (() => {
     out.forEach(pc => { pc.extO = sl(pc, 2); pc.ext = sl(pc, 3.5); });
     return out;
   }
-  function draw(cx, t) {
+  function draw(cx, t, opt = {}) {
     const s = stateAt(t), r = rope(s), pcs = pieces(r);
-    cx.fillStyle = '#f4ead2'; cx.fillRect(0, 0, W, H);
+    if (!opt.klar) { cx.fillStyle = '#f4ead2'; cx.fillRect(0, 0, W, H); }
     /* Schatten des ganzen Taus auf dem Brett */
     cx.save(); cx.translate(2.5, 3.5); pathOf(cx, r.pts); cx.strokeStyle = 'rgba(70,45,15,.16)'; cx.lineWidth = TW + 2; cx.lineJoin = 'round'; cx.stroke(); cx.restore();
     const last = pcs[pcs.length - 1];
     pcs.map((p, i) => ({p, i})).sort((a, b) => a.p.z - b.p.z || a.i - b.i).forEach(({p}) => { strang(cx, p, STIL.gelb, TW, 0); if (p === last) spitze(cx, p.pts, STIL.gelb, TW); });
+    if (opt.klar) return s;
     /* Beschriftung */
     const tip = r.pts[r.pts.length - 1];
     if (s.kk != null || (s.u != null && s.u < 12)) pill(cx, 'loses Ende', Math.min(W - 70, tip.x + 10), tip.y + 16);
@@ -797,6 +798,30 @@ const SLIP = (() => {
 /* Alle Animationen nach dem Feld "anim" in data/knoten.json */
 const ANIM = {palstek: PAL, acht: ACHT, kreuz: KREUZ, schot: SCHOT, webelein: WEBE, webeleinslip: SLIP, stopper: STOPPER, rundtoern: RUND, klampe: KLAMPE};
 KN.ANIM = ANIM;
+/* Endbild eines Knotens als Bild-Adresse (PNG), ohne Hintergrund und Beschriftung, für das Knotenbrett in der Kajüte (v5.80).
+   o.stil: eigene Farben für alle Taue {f, r, s, h, k}; o.skala: Auflösung. Ergebnis wird zwischengespeichert. */
+const ENDB = {};
+KN.endbild = function (anim, o = {}) {
+  const A = ANIM[anim]; if (!A) return '';
+  const key = anim + JSON.stringify(o); if (ENDB[key]) return ENDB[key];
+  const sk = o.skala || 2, cv = document.createElement('canvas'); cv.width = A.W * sk; cv.height = A.H * sk;
+  const cx = cv.getContext('2d'); cx.setTransform(sk, 0, 0, sk, 0, 0);
+  const alt = {}; if (o.stil) for (const n in STIL) { alt[n] = STIL[n]; STIL[n] = Object.assign({}, STIL[n], o.stil[n] || o.stil); }
+  try { A.draw(cx, A.DUR, {klar: true}); } finally { for (const n in alt) STIL[n] = alt[n]; }
+  if (o.wash) {  /* laviert: weicher Farbschatten wie eine Lasur unter der Tuschezeichnung */
+    const w = document.createElement('canvas'); w.width = cv.width; w.height = cv.height; const wx = w.getContext('2d');
+    wx.drawImage(cv, 0, 0); wx.globalCompositeOperation = 'source-in'; wx.fillStyle = o.wash; wx.fillRect(0, 0, w.width, w.height);
+    const e = document.createElement('canvas'); e.width = cv.width; e.height = cv.height; const ex = e.getContext('2d');
+    ex.globalAlpha = .32; if ('filter' in ex) ex.filter = `blur(${3 * sk}px)`; ex.drawImage(w, 3 * sk, 4 * sk); ex.filter = 'none'; ex.globalAlpha = 1; ex.drawImage(cv, 0, 0);
+    return (ENDB[key] = e.toDataURL('image/png'));
+  }
+  return (ENDB[key] = cv.toDataURL('image/png'));
+};
+/* Farben im Stil „Feder laviert“: gedeckt, Tusche-Rand, für Knotenbrett und Menü */
+KN.LAVIERT = {stil: {gelb: {f: '#dcc08a', r: '#3a2a1a', s: 'rgba(90,60,28,.38)', h: 'rgba(255,248,232,.5)', k: '#34405a'},
+  blau: {f: '#8aa6c2', r: '#24323f', s: 'rgba(24,40,60,.38)', h: 'rgba(240,246,255,.45)', k: '#a9483c'},
+  rot: {f: '#cc8a70', r: '#3e2016', s: 'rgba(80,32,20,.36)', h: 'rgba(255,236,226,.45)', k: '#34405a'}}, wash: '#6b4a26'};
+KN.endmass = anim => ANIM[anim] ? {W: ANIM[anim].W, H: ANIM[anim].H} : null;
 
 /* Abspieler: zeichnet eine Animation A auf eine Leinwand, hält am Ende an. o: {von, bis, auto, schritt(st), zeit(t), fertig()} */
 function spieler(cv, A, o = {}) {

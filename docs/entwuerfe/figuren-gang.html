@@ -36,7 +36,7 @@ textarea{width:100%;min-height:110px;font:13px/1.4 ui-monospace,Menlo,Consolas,m
 <body>
 <div class="wrap">
   <div><div class="eyebrow">Skipper · Entwurf 22.11.2026</div><h1>Gangarten der Crew</h1>
-    <p class="lead">Alle Figuren in Feder laviert, mit deinem Körperbau. Voreingestellt ist der Gang, den du gewählt hast. Dazu die Mäusefamilie und vier Fabelwesen. Je Figur eine Gangart antippen; mit ♥ als ihren Gang merken. Unten das Tempo.</p></div>
+    <p class="lead">Alle Figuren in Feder laviert, mit deinem Körperbau. Voreingestellt ist der Gang, den du gewählt hast. Dazu die Mäusefamilie und sieben Fabelwesen (v5.80: Backbord läuft neu, Fabelwesen und Mäuse im Aquarell ohne Umriss, weil sie nur Extras sind; „Grüppchen“ zeigt mehrere). Je Figur eine Gangart antippen; mit ♥ als ihren Gang merken. Unten das Tempo.</p></div>
   <div class="bar"><span>Tempo</span><div class="chips" id="tempo"><button class="chip" data-v=".6" aria-pressed="false">langsam</button><button class="chip" data-v="1" aria-pressed="true">normal</button><button class="chip" data-v="1.6" aria-pressed="false">schnell</button></div></div>
   <div id="liste" style="display:flex;flex-direction:column;gap:10px"></div>
   <section><h2>Meine Wahl</h2><textarea id="txt" readonly></textarea><button class="btn" id="kop">Auswahl kopieren</button></section>
@@ -50,12 +50,13 @@ const MENSCHEN = ['hinnerk', 'smilla', 'hilke', 'harms', 'quirin', 'jasper', 'ha
 const VOR = Object.fromEntries(Object.entries(F.FIG).map(([k, f]) => [k, f.gangStd || 'normal']));
 const MAUS = {laufen: 'Trippeln', springen: 'Hüpfen', schnuppern: 'Schnuppern', putzen: 'Putzen', sitzen: 'Sitzen'};
 const TIERE = {backbord: Object.fromEntries(Object.entries(F.KATZE_GANG).map(([k, g]) => [k, g.name])), klabauter: {watscheln: 'Watscheln', huepfen: 'Hüpfen', flattern: 'Fliegen'},
-  mausvater: MAUS, mausmutter: MAUS, mauskind: MAUS, mausbaby: MAUS, muschelwicht: {krabbeln: 'Krabbeln'}, nebelpuschel: {wabern: 'Wabern'}, tangschrat: {schlurfen: 'Schlurfen'}, leuchtfloh: {flattern: 'Flattern'}};
+  mausvater: MAUS, mausmutter: MAUS, mauskind: MAUS, mausbaby: MAUS, muschelwicht: {krabbeln: 'Krabbeln', gruppe: 'Grüppchen'}, nebelpuschel: {wabern: 'Wabern', gruppe: 'Grüppchen'}, tangschrat: {schlurfen: 'Schlurfen', gruppe: 'Grüppchen'}, leuchtfloh: {flattern: 'Flattern', gruppe: 'Schwarm'},
+  knotenwurm: {kriechen: 'Kriechen', gruppe: 'Grüppchen'}, sandkruemel: {hopsen: 'Hopsen', gruppe: 'Viele'}, quallchen: {schweben: 'Schweben', gruppe: 'Grüppchen'}};
 let wahl = {}; try { wahl = JSON.parse(localStorage.getItem('skipper-gang') || '{}'); } catch (e) {}
 const art = {}; let tempo = 1;
 for (const id of MENSCHEN) art[id] = (wahl[id] && wahl[id].art) || VOR[id];
 for (const id of Object.keys(TIERE)) art[id] = (wahl[id] && wahl[id].art) || VOR[id];
-const ids = MENSCHEN.slice(0, 4).concat(['backbord', 'klabauter'], MENSCHEN.slice(4), ['mausvater', 'mausmutter', 'mauskind', 'mausbaby', 'muschelwicht', 'nebelpuschel', 'tangschrat', 'leuchtfloh']);
+const ids = MENSCHEN.slice(0, 4).concat(['backbord', 'klabauter'], MENSCHEN.slice(4), ['mausvater', 'mausmutter', 'mauskind', 'mausbaby', 'muschelwicht', 'nebelpuschel', 'tangschrat', 'leuchtfloh', 'knotenwurm', 'sandkruemel', 'quallchen']);
 $('liste').innerHTML = ids.map(id => { const opts = TIERE[id] || Object.fromEntries(Object.entries(G).map(([k, g]) => [k, g.name]));
   return `<section data-id="${id}"><div class="kopf"><h2>${F.FIG[id].name}</h2><button class="herz" aria-pressed="${!!wahl[id]}" aria-label="merken">♥</button></div>
     <div class="steg"><svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice"><g class="fg"></g></svg></div>
@@ -76,16 +77,16 @@ function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now; acc += dt;
   if (acc >= 1 / 24) {
     for (const sec of sichtbar) { const id = sec.dataset.id, f = F.FIG[id], g = sec.querySelector('.fg');
-      if (f.tier) { const a = art[id], KG = F.KATZE_GANG[a];
-        const v = (f.tier === 'katze' ? 40 * (KG ? KG.tempo : 1) : f.tier === 'maus' ? (a === 'laufen' ? 44 : a === 'springen' ? 50 : 0) : f.tier === 'fabel' ? {krabbeln: 26, wabern: 22, schlurfen: 18, flattern: 40}[a] : {watscheln: 26, huepfen: 46, flattern: 80}[a]) * tempo;
+      if (f.tier) { const grp = f.tier === 'fabel' && art[id] === 'gruppe', a = grp ? f.gangStd : art[id], KG = F.KATZE_GANG[a];
+        const v = (f.tier === 'katze' ? 40 * (KG ? KG.tempo : 1) : f.tier === 'maus' ? (a === 'laufen' ? 44 : a === 'springen' ? 50 : 0) : f.tier === 'fabel' ? {krabbeln: 26, wabern: 22, schlurfen: 18, flattern: 40, kriechen: 12, hopsen: 22, schweben: 16}[a] : {watscheln: 26, huepfen: 46, flattern: 80}[a]) * tempo;
         pos[id] = ((pos[id] || 0) + v * acc) % 520; phase[id] = ((phase[id] || 0) + acc * (f.tier === 'katze' ? 1.4 * (KG ? KG.tempo : 1) : f.tier === 'maus' ? 2.2 : f.tier === 'fabel' ? .6 : 1.6) * tempo) % 1;
         const t = phase[id], ph = t * Math.PI * 2, x = (v ? pos[id] - 60 : 200); let tr = '', o = {dreh: false, gang: {art: a, t}};
-        if (f.tier === 'katze') { o.pose = KG && KG.sprung && t > .62 ? 'springen' : 'laufen'; const lift = KG && KG.sprung && t > .62 ? Math.sin((t - .62) / .38 * Math.PI) * 16 : 0; tr = `translate(${x.toFixed(1)} ${(93 - lift).toFixed(1)}) scale(2.2)`; }
+        if (f.tier === 'katze') { o.pose = 'laufen'; tr = `translate(${x.toFixed(1)} 93) scale(2.2)`; /* v5.80: der Sprung steckt in der Gangart selbst, kein Posenwechsel mehr */ }
         else if (f.tier === 'maus') { o.pose = a; tr = `translate(${x.toFixed(1)} 93) scale(2.6)`; }
         else if (f.tier === 'fabel') { tr = `translate(${x.toFixed(1)} 93) scale(2.6)`; }
         else { o.pose = a === 'flattern' ? 'fliegen' : 'sitzen'; o.schlag = a === 'flattern' ? Math.sin(ph * 5) * 22 : 0; const lift = a === 'huepfen' ? Math.abs(Math.sin(ph)) * 14 : a === 'flattern' ? 26 + Math.sin(ph) * 6 : 0, rot = a === 'watscheln' ? Math.sin(ph) * 9 : 0; tr = `translate(${x.toFixed(1)} ${(93 - lift).toFixed(1)}) rotate(${rot.toFixed(1)}) scale(1.6)`; }
         if (f.tier === 'maus' && id === 'mausvater' && !v) { /* Familie zusammen zeigen, wenn der Vater steht */ }
-        g.innerHTML = `<g transform="${tr}">${F.figur(id, o)}</g>`; continue; }
+        g.innerHTML = `<g transform="${tr}">${grp ? F.gruppe(id, id === 'sandkruemel' ? 2 : 3, o) : F.figur(id, o)}</g>`; continue; }
       const Gn = G[art[id]] || G.normal; phase[id] = ((phase[id] || 0) + acc * .9 * Gn.tempo * tempo) % 1; pos[id] = ((pos[id] || 0) + acc * 52 * Gn.tempo * tempo * (Gn.schritt / 20)) % 520;
       g.innerHTML = `<g transform="translate(${(pos[id] - 60).toFixed(1)} 96) scale(.92)">${F.figur(id, {blick: 'seite', dreh: false, gang: {art: art[id], t: phase[id]}})}</g>`; }
     acc = 0;
