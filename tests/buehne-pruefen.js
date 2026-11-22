@@ -121,46 +121,65 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     r.gesperrt ? ok('Werft: gesperrte Extras bleiben ohne Testmodus zu') : schlecht('Werft: Sperre ' + JSON.stringify(r));
     r.gespeichert && r.zu ? ok('Werft: Übernehmen speichert und schließt') : schlecht('Werft: Übernehmen ' + JSON.stringify(r));
     errs.length ? schlecht('Konsole (Werft): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Werft)'); await ctx.close(); }
-  /* v5.80/v5.81 Menüs im Standard-Glas (E34, E35): Kajüte als Panorama zum Wischen (Crew, Knotenbrett, Tisch, Hocker im Startbild, Bücher links, Niedergang rechts);
-     Knotenbrett-Zoom: Filz füllt die Breite, die Überblendung deckt das Brett, Schilder-Schrift passt; Kopf dreht sich beim Sprechen, Mund geht auf;
-     Knotenwurm mit Achtknoten; Knotenbilder aus den Endbildern; Fabelwesen im Aquarell; Backbord läuft ohne Posenwechsel */
-  { const ctx = await b.newContext({viewport: {width: 400, height: 930}}); const p = await ctx.newPage(); const errs = [];
+  /* v5.82 Deck und Kajüte in der App auf der Glasbühne (E34–E36, bord.js): Deck mit Antippflächen, Sprechen mit Kopf und Mund, Rennen im Zeichenstil;
+     Kajüte: Startbild vollständig (Crew, Brett, Tisch mit drei Bechern, Hocker), neun Knotenbilder, Tiefe beim Wischen (vorn schneller als hinten), links Bücher, rechts Niedergang,
+     Knotenbrett-Zoom (Filz füllt die Breite, Schrift passt), Hocker = in die Runde setzen, Auftritte (Maus), Extras im Aquarell, Backbord springt ohne Posenwechsel, Knotenwurm mit Achtknoten */
+  { const ctx = await b.newContext({viewport: {width: 400, height: 860}}); const p = await ctx.newPage(); const errs = [];
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));
-    await p.goto('http://localhost:8765/docs/entwuerfe/menue-standard.html'); await sleep(2000);
-    /* an Deck: Sprecher dreht den Kopf her, Mund öffnet mit dem Pegel */
+    await p.addInitScript(x => { if (!sessionStorage.getItem('i')) { localStorage.clear(); localStorage.setItem('skipper-sbfsee-v1', x); sessionStorage.setItem('i', '1'); } }, JSON.stringify({...STAND, intros: {schein_sbf: 1}}));
+    await p.goto('http://localhost:8765/index.html'); await sleep(2500);
+    const tz = await p.$('.tapzone'); if (tz) { await tz.click(); await sleep(600); }
+    await p.evaluate(() => setTab('deck')); await sleep(2500);
+    const d0 = await p.evaluate(() => { const hot = id => { const e = document.querySelector('.bdeck [data-go="' + id + '"]'); if (!e) return 'fehlt'; const r = e.getBoundingClientRect(); const t = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return t && t.closest('[data-go]') === e ? 'ok' : 'verdeckt'; };
+      return {deck: !!document.querySelector('.bdeck .bbuehne .fb'), kaj: hot('kajuete'), motor: hot('motor'), rennen: !!document.querySelector('#drennen .brsvg'), paar: document.querySelectorAll('.bpaar > .bkarte').length}; });
+    d0.deck && d0.kaj === 'ok' && d0.motor === 'ok' && d0.rennen && d0.paar === 2 ? ok('Deck in der App: Glasbühne, Kajüte und Motor antippbar, Zettel und Weiter nebeneinander, Rennen im Zeichenstil') : schlecht('Deck ' + JSON.stringify(d0));
     const dk = await p.evaluate(async () => { FILMB.sprecher('HINNERK'); FILMB.pegel(.9); await new Promise(r => setTimeout(r, 450));
-      const w = document.querySelector('#b .cr-hinnerk [data-wende]'), vorn = w && w.querySelector('.kw-v').style.display !== 'none' && w.querySelector('.kw-s').style.display === 'none';
+      const w = document.querySelector('.bbuehne #dk-boot .cr-hinnerk [data-wende]') || [...document.querySelectorAll('.bbuehne .cr-hinnerk [data-wende]')].find(x => x.getBoundingClientRect().width > 0);
+      const vorn = w && w.querySelector('.kw-v').style.display !== 'none' && w.querySelector('.kw-s').style.display === 'none';
       const a = w && w.querySelector('.kw-v .m-auf'), offen = a ? +((a.getAttribute('transform') || '').match(/scale\([\d.]+ ([\d.]+)\)/) || [0, 0])[1] : 0;
       FILMB.sprecher(''); FILMB.pegel(null); await new Promise(r => setTimeout(r, 900)); const zurueck = w && w.querySelector('.kw-s').style.display !== 'none';
       return {vorn, offen, zurueck}; });
     dk.vorn && dk.offen > .5 && dk.zurueck ? ok(`Deck: beim Sprechen Kopf her, Mund auf (${dk.offen.toFixed(2)}), danach zurück`) : schlecht('Deck Sprechen ' + JSON.stringify(dk));
-    await p.click('[data-b="kajuete"]'); await sleep(1800);
-    const r = await p.evaluate(() => { const bw = document.getElementById('bw').getBoundingClientRect(), drin = id => { const e = document.querySelector('#b #' + id); if (!e) return false; const q = e.getBoundingClientRect(); return q.left >= bw.left - 2 && q.right <= bw.right + 2 && q.top >= bw.top - 2 && q.bottom <= bw.bottom + 2; };
-      const start = ['fk-knotenbrett', 'fk-hinnerk', 'fk-smilla', 'fk-tischplatte', 'fk-hocker', 'fk-klabauter', 'fk-backbord'].filter(id => !drin(id));
-      const img = document.querySelectorAll('#b #fk-knotenbrett image').length, kb = KNOTEN.endbild('palstek', {skala: 1});
-      const fab = FIGUREN.figur('muschelwicht', {}).includes('st-aquarell') && !FIGUREN.figur('hinnerk', {}).includes('st-aquarell');
+    await p.evaluate(() => setTab('cabin')); await sleep(2600);
+    const r = await p.evaluate(() => { const bw = document.querySelector('.bkaj').getBoundingClientRect(), drin = id => { const e = document.querySelector('.bkaj #' + id); if (!e) return false; const q = e.getBoundingClientRect(); return q.left >= bw.left - 2 && q.right <= bw.right + 2 && q.top >= bw.top - 2 && q.bottom <= bw.bottom + 2; };
+      const start = ['fk-knotenbrett', 'fk-hinnerk', 'fk-smilla', 'fk-tischplatte', 'fk-hocker', 'fk-klabauter', 'fk-backbord', 'fk-becher-hinnerk', 'fk-becher-smilla', 'fk-becher-du'].filter(id => !drin(id));
+      const img = document.querySelectorAll('.bkaj #fk-knotenbrett image').length, kb = KNOTEN.endbild('palstek', {skala: 1});
+      const fab = FIGUREN.figur('muschelwicht', {}).includes('st-aquarell') && FIGUREN.figur('moewe', {}).includes('st-aquarell') && !FIGUREN.figur('hinnerk', {}).includes('st-aquarell');
       const kat = [0, .2, .4, .6, .8].map(t => FIGUREN.figur('backbord', {pose: 'laufen', dreh: false, gang: {art: 'springen', t}}).length > 500).every(Boolean);
-      const wurm = (FIGUREN.figur('knotenwurm', {dreh: false}).match(/stroke="#6b4a26"/g) || []).length;
-      return {start, img, kb: kb.startsWith('data:image/png'), fab, kat, wurm}; });
-    r.start.length ? schlecht('Kajüte: im Startbild fehlt ' + r.start.join(', ')) : ok('Kajüte: Crew, Knotenbrett, Tisch, Hocker und Backbord im Startbild');
+      const wurm = (FIGUREN.figur('knotenwurm', {dreh: false}).match(/stroke="#6b4a26"/g) || []).length, spots = document.querySelectorAll('.bkaj [data-spot]').length;
+      return {start, img, kb: kb.startsWith('data:image/png'), fab, kat, wurm, spots}; });
+    r.start.length ? schlecht('Kajüte: im Startbild fehlt ' + r.start.join(', ')) : ok('Kajüte: Crew, Knotenbrett, Tisch mit drei Bechern, Hocker und Backbord im Startbild');
     r.img === 9 && r.kb ? ok('Knotenbrett: neun Knotenbilder aus den Endbildern') : schlecht('Knotenbrett: Bilder ' + r.img + ' ' + r.kb);
-    r.fab ? ok('Fabelwesen im Aquarell, Crew mit Umriss') : schlecht('Fabelwesen: Stil falsch');
+    r.spots >= 9 ? ok(`Kajüte: ${r.spots} Dinge mit Funktion antippbar`) : schlecht('Kajüte: nur ' + r.spots + ' Dinge mit data-spot');
+    r.fab ? ok('Fabelwesen und Möwe im Aquarell, Crew mit Umriss') : schlecht('Fabelwesen: Stil falsch');
     r.kat ? ok('Backbord: Sprung als Gangart ohne Posenwechsel') : schlecht('Backbord: Sprung zeichnet nicht');
     r.wurm >= 9 ? ok(`Knotenwurm: Körper ist ein Achtknoten (${r.wurm} Taustücke mit Über/Unter)`) : schlecht('Knotenwurm: kein Achtknoten ' + r.wurm);
-    /* Wischen: links die Bücher, rechts der Niedergang */
-    const wi = await p.evaluate(async () => { const pa = document.getElementById('pano'), bw = document.getElementById('bw').getBoundingClientRect(), sicht = id => { const q = document.querySelector('#b #' + id).getBoundingClientRect(); return q.right > bw.left && q.left < bw.right; };
+    /* Tiefe (E36): beim Wischen wandert vorn (Stiefel) deutlich weiter als hinten (Wand), und links Bücher, rechts Niedergang */
+    const wi = await p.evaluate(async () => { const pa = document.querySelector('.bpano'), bw = document.querySelector('.bkaj').getBoundingClientRect(), sicht = id => { const q = document.querySelector('.bkaj #' + id).getBoundingClientRect(); return q.right > bw.left && q.left < bw.right; };
+      const eb = d => document.querySelector(`.bkaj .fb-eb[data-d="${d}"] .fb-cam`), tx = d => new DOMMatrix(getComputedStyle(eb(d)).transform).m41;
+      const s0 = pa.scrollLeft, w0 = tx('0'), v0 = tx('0.92'); pa.scrollLeft = s0 - 200; await new Promise(r => setTimeout(r, 400)); const dw = tx('0') - w0, dv = tx('0.92') - v0;
       pa.scrollLeft = 0; await new Promise(r => setTimeout(r, 400)); const links = sicht('fk-buecher');
       pa.scrollLeft = pa.scrollWidth; await new Promise(r => setTimeout(r, 400)); const rechts = sicht('fk-niedergang') && sicht('fk-glocke');
-      return {links, rechts}; });
+      pa.scrollLeft = s0; await new Promise(r => setTimeout(r, 400)); return {links, rechts, tiefe: dv / (dw || 1)}; });
+    wi.tiefe > 1.7 ? ok(`Kajüte: Tiefe beim Wischen, vorn wandert ${wi.tiefe.toFixed(1)}-mal so weit wie die Wand`) : schlecht('Tiefe zu schwach ' + JSON.stringify(wi));
     wi.links && wi.rechts ? ok('Kajüte: Wischen zeigt links das Bücherregal, rechts Niedergang und Glocke') : schlecht('Wischen ' + JSON.stringify(wi));
-    await p.click('[data-b="knoten"]'); await sleep(4400);
-    const z = await p.evaluate(() => { const g = document.querySelector('#b #fk-knotenbrett').getBoundingClientRect(), n = document.querySelector('.nah'), bw = document.getElementById('bw').getBoundingClientRect();
+    await p.evaluate(() => document.querySelector('.bkaj [data-spot="knoten"]').dispatchEvent(new MouseEvent('click', {bubbles: true}))); await sleep(4400);
+    const z = await p.evaluate(() => { const g = document.querySelector('.bkaj #fk-knotenbrett').getBoundingClientRect(), n = document.querySelector('.bnah'), bw = document.querySelector('.bkaj').getBoundingClientRect();
       if (!n) return {n: false}; const q = n.getBoundingClientRect(), filz = n.querySelector('rect[fill="#2c3e54"]').getBoundingClientRect();
       const zuBreit = [...n.querySelectorAll('text')].filter(t => { const pl = t.previousElementSibling && t.previousElementSibling.tagName === 'path' ? t.previousElementSibling.previousElementSibling : null; const pw = pl ? pl.getBoundingClientRect().width : 1e9; return t.getBoundingClientRect().width > pw + .5; }).length;
-      return {n: true, d: Math.max(Math.abs(g.left - q.left), Math.abs(g.top - q.top), Math.abs(g.width - q.width), Math.abs(g.height - q.height)), filz: filz.width / bw.width, zuBreit}; });
-    z.n && z.d < 6 && z.filz > .9 ? ok(`Knotenbrett: Filz füllt ${Math.round(z.filz * 100)} % der Breite, Überblendung deckt das Brett`) : schlecht('Knotenbrett-Zoom ' + JSON.stringify(z));
+      return {n: true, d: Math.max(Math.abs(g.left - q.left), Math.abs(g.top - q.top), Math.abs(g.width - q.width), Math.abs(g.height - q.height)), filz: filz.width / bw.width, zuBreit, knopf: !!document.querySelector('.bdet [data-tun="knoten"]')}; });
+    z.n && z.d < 6 && z.filz > .9 && z.knopf ? ok(`Knotenbrett: Filz füllt ${Math.round(z.filz * 100)} % der Breite, Überblendung deckt das Brett, Knopf zur Knotenkunde`) : schlecht('Knotenbrett-Zoom ' + JSON.stringify(z));
     z.zuBreit === 0 ? ok('Knotenbrett: jede Schrift passt auf ihr Schild') : schlecht(`Knotenbrett: ${z.zuBreit} Schriften zu breit`);
-    errs.length ? schlecht('Konsole (Menüs): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Menüs)'); await ctx.close(); }
+    await p.evaluate(() => document.querySelector('[data-zurueck]').click()); await sleep(2400);
+    await p.evaluate(() => document.querySelector('.bkaj [data-spot="hocker"]').dispatchEvent(new MouseEvent('click', {bubbles: true}))); await sleep(3200);
+    const ru = await p.evaluate(() => { const bw = document.querySelector('.bkaj').getBoundingClientRect(), H = q => { const e = document.querySelector('.bkaj ' + q); if (!e) return null; const r = e.getBoundingClientRect(); return {l: r.left - bw.left, r: r.right - bw.left, t: r.top - bw.top, h: r.height}; };
+      const hi = H('#fk-hinnerk .kopfg'), sm = H('#fk-smilla .kopfg'), ho = H('#fk-hocker');
+      return {runde: !!document.querySelector('.brunde [data-runde="play"]'), koepfe: !!(hi && sm && hi.l > 0 && sm.r < bw.width && hi.t > 0), gross: hi ? hi.h : 0, hockerWeg: !ho || ho.t > bw.height * .8}; });
+    ru.runde && ru.koepfe && ru.gross > 40 ? ok(`Hocker: in die Runde gesetzt (Köpfe ${Math.round(ru.gross)} px), Hörreise unten`) : schlecht('Runde ' + JSON.stringify(ru));
+    await p.evaluate(() => document.querySelector('[data-zurueck]').click()); await sleep(2400);
+    const mz = await p.evaluate(async () => { BORD.auftritt('maus'); await new Promise(r => setTimeout(r, 1600)); return document.querySelectorAll('.bkaj #kj-akt-v > g, .bkaj #kj-akt-m > g').length; });
+    mz > 0 ? ok(`Leben: Maus läuft (${mz} Darsteller)`) : schlecht('Leben: keine Maus');
+    errs.length ? schlecht('Konsole (Deck und Kajüte): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Deck und Kajüte)'); await ctx.close(); }
   await b.close();
   console.log(fehler.length ? `${fehler.length} Fehler.` : 'Bühne in Ordnung.'); process.exit(fehler.length ? 1 : 0);
 })();

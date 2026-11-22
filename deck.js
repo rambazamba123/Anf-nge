@@ -13,6 +13,20 @@
   const stimmung = () => { try { return Z().stimmungAus(dayPart(), weatherToday()); } catch (e) { return 'fahrt'; } };
 
   /* ---------- Rennen: eine Spur, zwei Boote (wie courseCard) ---------- */
+  /* v5.82 (E36): das Rennen im Zeichenstil auf dem neuen Deck (BORD.rennenSvg); die Zahlen wie bisher */
+  function rennDaten() {
+    const start = S.start || (S.start = today(), save(), S.start), LEAD = .15, iso = examIsoOf(S.course); if (!iso) return null;
+    const [y, m, d] = iso.split('-').map(Number), ex = dayNum(new Date(y, m - 1, d)), end = Math.max(today() + 1, ex), span = Math.max(1, end - start);
+    const pos = t => LEAD + (1 - LEAD) * Math.min(1, Math.max(0, (t - start) / span)), pruef = pos(today()), reif = fragenStand(S.course).v, du = pos(ex) * reif;
+    const tage = Math.round((pruef - du) / (1 - LEAD) * span), left = Math.max(0, ex - today());
+    return {pruef, du, reif, left, lage: tage > 0 ? `${tage} ${tage === 1 ? 'Tag' : 'Tage'} zurück` : tage < 0 ? `${-tage} ${tage === -1 ? 'Tag' : 'Tage'} voraus` : 'gleichauf'};
+  }
+  function rennenNeu() {
+    const d = rennDaten();
+    if (!d) return `<button class="brennen2" id="drennen"><span class="brk"><b>Wann ist deine Prüfung?</b><span>Termin eintragen ›</span></span>${BORD.rennenSvg({pruef: .15, du: .15, lage: ''})}</button>`;
+    return `<button class="brennen2" id="drennen"><span class="brk"><b>${d.left === 0 ? 'Heute ist Prüfung' : `Noch ${d.left} ${d.left === 1 ? 'Tag' : 'Tage'} bis zur Prüfung`}</b><span>${d.lage}</span></span>${BORD.rennenSvg(d)}
+      <span class="brl"><span><i style="background:#e8a33c"></i>Deine Frieda (Prüfungsreife ${Math.round(d.reif * 100)} %)</span><span><i style="background:#8a96a3"></i>Prüfungsboot</span></span></button>`;
+  }
   function rennen() {
     const start = S.start || (S.start = today(), save(), S.start), LEAD = .15, iso = examIsoOf(S.course);
     if (!iso) return `<button class="drennen" id="drennen"><span class="drk"><b>Wann ist deine Prüfung?</b><span>Termin eintragen</span></span><span class="drspur"><span class="drwasser"></span><span class="drstart">🏁</span><span class="drziel">${Z().miniHarms(harmsInnen(), 50)}</span></span></button>`;
@@ -111,6 +125,18 @@
 
   /* ---------- Deck ---------- */
   /* v5.67 (Tester: „etwas unübersichtlich“): ein klarer nächster Schritt an Deck: die nächste Folge der Hörreise, dazu die Abendwache, wenn sie offen ist */
+  function weiterTeile() {
+    if (typeof HOERREISE === 'undefined' || !HOERREISE.length) return {weiter: '', abend: ''};
+    const g = (S.hoerreise && S.hoerreise.gehoert) || {}, alle = HOERREISE.every(([id]) => g[id]), [id, titel] = HOERREISE[hoerreiseNaechste()];
+    const a = abendLage();
+    return {weiter: `<button class="dweiter bkarte bweiter" id="dweiter" data-id="${esc(id)}"${alle ? ' data-alle="1"' : ''}><span class="dwp">▶</span><span><small>${alle ? 'Alle Folgen gehört' : `Weiter: Folge ${hoerreiseNr(id)}`}</small><b>${alle ? 'Noch einmal hören' : esc(titel)}</b></span></button>`,
+      abend: a.abend ? '<button class="dabend bkarte babend" id="dabend">🌙 Abendwache offen: Kurs und Distanz am Kartentisch</button>' : a.test ? '<button class="dabend bkarte babend" id="dabend">🌙 Abendwache: kurzer Test von neulich (drei Aufgaben)</button>' : ''};
+  }
+  function abendLage() {
+    const g = (S.hoerreise && S.hoerreise.gehoert) || {}, nf = S.navifolge && S.navifolge.fertig && S.navifolge.fertig.nf1, abend = !nf && HOERREISE.slice(0, 2).every(([x]) => g[x]);
+    const nt = S.navifolge && S.navifolge.test && S.navifolge.test.nf1, test = !!nf && !(nt && nt.ok) && nf < new Date().toISOString().slice(0, 10);
+    return {abend, test};
+  }
   function weiterKnopf() {
     if (typeof HOERREISE === 'undefined' || !HOERREISE.length) return '';
     const g = (S.hoerreise && S.hoerreise.gehoert) || {}, alle = HOERREISE.every(([id]) => g[id]), [id, titel] = HOERREISE[hoerreiseNaechste()];
@@ -126,8 +152,10 @@
     if (warWeg === null) warWeg = !!S.zuletztDa && today() - S.zuletztDa >= 5;
     if (S.zuletztDa !== today()) { S.zuletztDa = today(); save(); }
     const st = stimmung(), {haupt} = pool(), [wer] = SATZ[lage(haupt)];
+    const vonHand = !!deck.neu;
     if (S.deckTitel == null || deck.neu) { S.deckTitel = ((S.deckTitel || 0) + 1 + Math.floor(Math.random() * (TITEL.length - 1))) % TITEL.length; save(); }
     deck.neu = false;
+    if (bordGeht()) return deckNeu(wer, vonHand);
     /* Die Szene bekommt das Format ihres Kastens: nichts wird seitlich abgeschnitten (sonst fehlt auf schmalen Handys der Motor), oben und unten gibt es mehr Himmel und Meer */
     const szeneFuer = h => { const hz = h * .55, hot = `<rect class="dhot" data-go="kajuete" x="36" y="${(hz - 20).toFixed(1)}" width="28" height="15" rx="3"/><rect class="dhot" data-go="motor" x="83" y="${(hz - 13).toFixed(1)}" width="10" height="20" rx="3"/>`; return Z().szene({h, stim: st, fig, hot}); };
     app.innerHTML = `<div class="ddeck"><div class="dszene">${szeneFuer(100)}</div>
@@ -148,10 +176,49 @@
     const mh = app.querySelector('.miniharms'); if (mh) stopHarms = Z().harmsLeben(mh);
   }
 
+  /* ---------- v5.82 (E36): Deck und Kajüte auf der Glasbühne (bord.js). Das alte Bild bleibt als Rückfall und über die Werkstatt (S.cfg.altesBord) ---------- */
+  const bordGeht = () => !!(window.BORD && window.FILMB && window.FIGUREN) && !(S.cfg && S.cfg.altesBord);
+  const kopf = (w, px) => { try { return `<span class="dges" style="width:${px}px;height:${px}px;background:#f3e6c8">${BORD.kopf(w)}</span>`; } catch (e) { return gesicht(w, px); } };
+  function deckNeu(wer, vonHand) {
+    const t = weiterTeile();
+    app.innerHTML = `<div class="ddeck bdeck"><div class="dszene bbuehne"></div>
+      <div class="bunten"><div class="bpaar"><button class="dempf bkarte" id="dempf">${kopf(wer, 40)}<span><small>${wer === 'hinnerk' ? 'Hinnerk' : 'Smilla'}</small><b>${TITEL[S.deckTitel]}</b></span></button>${t.weiter}</div>${t.abend}${rennenNeu()}</div>
+      <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><button class="dgear dwerft" id="dwerft" aria-label="Werft: Boot und Crew">⚓</button></div>`;
+    $('#dempf').onclick = () => { AUD.unlock(); AUD.click(); BORD.stumm(); happen(); };
+    const dw = $('#dweiter'); if (dw) dw.onclick = () => { AUD.unlock(); AUD.click(); BORD.stumm(); if (dw.dataset.alle) return hoerreiseWahl(); hoerreiseOeffnen(dw.dataset.id); };
+    const da = $('#dabend'); if (da) da.onclick = () => { AUD.unlock(); AUD.click(); BORD.stumm(); naviFolgeOeffnen('nf1'); };
+    $('#drennen').onclick = () => { AUD.unlock(); AUD.click(); BORD.stumm(); if (!examIsoOf(S.course)) return zieleOeffnen(() => setTab('deck')); statistik(); };
+    $('#gear').onclick = () => { AUD.click(); BORD.stumm(); returnTo = 'deck'; renderSettings(); };
+    $('#dwerft').onclick = () => { AUD.click(); BORD.stumm(); werftOeffnen(); };
+    const anlegen = !!document.querySelector('.tapzone');
+    BORD.deck(app.querySelector('.bdeck'), {vonHand: vonHand && !anlegen && AUD.ready, kajuete: () => { AUD.unlock(); BORD.stumm(); goBelow(); }, motor: () => { AUD.unlock(); BORD.stumm(); nachladen('welt.js').then(() => WELT.seite()).catch(fehlt); }});
+    requestAnimationFrame(() => setTimeout(() => { const r = $('#drennen'); if (r) r.classList.add('da'); }, 250));
+  }
+  function kajNeu() {
+    const g = (S.hoerreise && S.hoerreise.gehoert) || {}, i = hoerreiseNaechste(), [fid, titel] = HOERREISE[i], alle = HOERREISE.every(([id]) => g[id]), a = abendLage(), nr = hoerreiseNr(fid);
+    app.innerHTML = `<div class="dkaj bkaj"><div class="bbuehne"></div>
+      ${!courseBucket(S.course).examSet ? `<button class="dtermin" id="cdsave">🎯 Prüfungstermin eintragen</button>` : ''}
+      <button class="gear dgear" id="gear" aria-label="Einstellungen">${ic('zahn', '')}</button><p class="dkinfo" id="dkinfo"></p></div>`;
+    const cd = $('#cdsave'); if (cd) cd.onclick = () => { BORD.stumm(); zieleOeffnen(() => setTab('cabin')); };
+    $('#gear').onclick = () => { AUD.click(); BORD.stumm(); returnTo = 'cabin'; renderSettings(); };
+    const info = t => { const el = $('#dkinfo'); if (el) { el.textContent = t; clearTimeout(info.t); info.t = setTimeout(() => { el.textContent = ''; }, 2600); } };
+    const k = S.cfg.kurs = S.cfg.kurs || {};
+    const TUN = {tel: () => harmsKommt(), knoten: () => knotenBrett(), navi: () => { AUD.sfx('bleistift', {vol: .5, dur: .9}); navSchool(); }, abend: () => naviFolgeOeffnen('nf1'), buch: () => meinePruefungen(), praxis: () => maneuverGame(),
+      karte: () => hoerreiseWahl(), tuer: () => setTab('deck'), spiele: () => gamesHub(), frei: () => setTab('frei'), kartei: () => reviewSession('Wiederholen'), seezeichen: () => seezeichenKurs(szArt(S.course)), kapitel: () => chaptersSheet(),
+      glockeEi: () => { LOG.add('entdecken', 'Überraschung: glocke'); foundEgg('glocke'); }, funk: () => info('Das Funkgerät kommt später, wenn du den Funkschein machst.'),
+      baro: el => { const now = Date.now(); baro.t = (baro.t || []).filter(t => now - t < 4000).concat(now); const nd = el.querySelector('.bnadel'); if (nd) nd.style.transform = `rotate(${-baro.t.length * 35}deg)`;
+        if (baro.t.length >= 3) { baro.t = []; wxOverride('nebel', 6 * 60000); foundEgg('barometer'); sayEgg('barometer').then(() => { if (document.querySelector('.dkaj')) kajuete(); }); }
+        else setTimeout(() => { if (nd && !(baro.t || []).length) nd.style.transform = ''; }, 4200); }};
+    const stand = {knoten: Object.fromEntries(KNOTEN_IDS.map(x => [x, knotenWert(x) >= .5])), manoever: Object.fromEntries(MAN_IDS.map(x => [x, !!(S.man && S.man[x] && S.man[x].ok)]))};
+    BORD.kajuete(app.querySelector('.bkaj'), {tun: TUN, stand, abend: a.abend || a.test, reise: {titel: 'Die Reise der Frieda', zeile: `Weiter mit Folge ${nr} „${titel}“${a.abend ? ' · Abendwache offen' : ''}`},
+      runde: {nr, titel, alle, play: () => { AUD.unlock(); k.modus = 'auto'; save(); hoerreiseOeffnen(fid); }, andere: () => hoerreiseWahl(), film: () => { if (typeof filmWahl === 'function') filmWahl(); }}});
+  }
+
   /* ---------- Kajüte als Panorama ---------- */
   let panoX = null, geschoben = false;
   function kajuete() {
     Z().stil();
+    if (bordGeht()) return kajNeu();
     const lek = (S.navi && S.navi.lek) || {}, nl = NAVI_LEKTIONEN[S.course] || [], kurs = nl.length ? nl.filter(l => lek[l] && lek[l].sterne).length / nl.length : 0;
     const man = MAN_IDS.filter(m => S.man && S.man[m] && S.man[m].ok).length, kn = KNOTEN_IDS.filter(k => knotenWert(k) >= .5).length;
     app.innerHTML = `<div class="dkaj"><div class="dpano" id="dpano">${Z().kajuete({fig, stim: stimmung(), stunde: shipHour(), knoten: kn, kurs, manoever: man, gast: typeof hoerreiseGast === 'function' ? hoerreiseGast() : null})}</div>
@@ -256,5 +323,5 @@
   .dfmehr{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font-size:.85rem}.dfmehr .linkbtn{color:#f3e7c9;opacity:.8}`;
   function stil() { if (document.getElementById('deck-css')) return; const s = document.createElement('style'); s.id = 'deck-css'; s.textContent = CSS; document.head.appendChild(s); }
   stil();
-  window.DECK = {deck, happen, statistik, kajuete, funkStart, rennen, neuerBesuch: () => { deck.neu = true; }};
+  window.DECK = {deck, happen, statistik, kajuete, funkStart, rennen, rennDaten, bordGeht, neuerBesuch: () => { deck.neu = true; }};
 })();
