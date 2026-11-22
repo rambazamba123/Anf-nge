@@ -108,7 +108,7 @@ const S = {
     </div>`},
   kajuete: {name: 'Kajüte', fest: true, film: {licht: 'abend', ort: ['kajuete', 'innen'], kam: ['innen', 'totale']}, html: () => {
     /* Pins aus den Kamerazielen in film.js: Bühne zeigt x -40…440, y -50…550 */
-    const P = [['karte', 'Seekarte', 96, 262, 'navi'], ['manoever', 'Manöverbrett', 223, 262, 'manoever'], ['knoten', 'Knotenbrett', 336, 258, 'knoten'], ['regal', 'Logbuch', 84, 80, 'pruefungen'], ['klabauter', 'Klabauter', 340, 186, 'kartei'], ['telefon', 'Telefon', 327, 330, 'harms'], ['tisch', 'Kartentisch', 130, 392, 'pruefungen'], ['hocker', 'Hocker', 74, 440, 'hoerreise']];
+    const P = [['knoten', 'Knotenbrett', 200, 226, 'knoten'], ['karte', 'Seekarte', 200, 420, 'navi'], ['manoever', 'Manöverbrett', 390, 206, 'manoever'], ['buch', 'Bücher', 392, 284, 'pruefungen'], ['klabauter', 'Klabauter', 336, 176, 'kartei'], ['telefon', 'Telefon', 14, 312, 'harms'], ['hocker', 'Hocker', 200, 530, 'hoerreise']];
     return `${kopf('Kajüte', 'Antippen, was du brauchst')}<div class="pins" style="position:absolute;left:0;right:0;top:0;aspect-ratio:400/500;z-index:4">${P.map(([k, n, x, y, z]) => `<button class="pin" style="left:${((x + 40) / 4.8).toFixed(1)}%;top:${((y + 50) / 6).toFixed(1)}%" data-kam="${k}" data-go="${z}">${n}</button>`).join('')}</div>
       <div class="kaj-unten"><small style="width:100%;color:#e9d9b0;font-weight:700">Oder direkt:</small>${P.map(([k, n, , , z]) => `<button class="pin" data-kam="${k}" data-go="${z}">${n}</button>`).join('')}</div>${dock('kajuete')}`; }},
   hoerreise: {name: 'Hörreise: Karte der Tage', html: () => `${kopf('Ausbildungsfahrt', 'Tag 2 von 7', 'deck')}
