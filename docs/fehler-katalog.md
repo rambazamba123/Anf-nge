@@ -117,6 +117,9 @@
 
 - **Licht und Werft (v5.77):** `FILMB.licht` ändert die Farben global (`P`). Wer es für eine Vorschau setzt, muss es danach zurückstellen (Werft: beim Schließen auf Vormittag), sonst erbt der Player das Licht.
 
+- **Liste der Stile in index.html (v5.78):** `LOOK_STIL` kannte nur drei Stile; alle anderen fielen in der App still auf Feder zurück, obwohl die Werft sie anbot. Neue Stile immer dort mit eintragen. Prüfung: Werft-Stil wählen, `document.documentElement.dataset.stil` ansehen.
+- **Dasselbe Ding, verschiedene Zeichnungen (v5.78):** Für „Motor von achtern“ und „Schnitt“ waren Unterwasserrumpf und Schaft eigens gezeichnet und passten nicht zur Frieda aus `boot.js`. Dinge, die in mehreren Ansichten vorkommen, nur einmal zeichnen (Baukasten) und Teile per Option zuschalten.
+
 ## Teil E: Arbeitsweise
 - Vor dem Commit `node --check` auf jede geänderte JS-Datei; nach mehrzeiligem Ersetzen die Stelle ansehen.
 - Shell-Befehle mit Platzhaltern wie `h*.png` werden manchmal geblockt: Dateien lieber mit dem Werkzeug schreiben. Ebenso Heredocs mit `$$` oder `&` im Text (v5.65): dann das Edit-Werkzeug nehmen.

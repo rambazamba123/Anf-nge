@@ -110,12 +110,12 @@ function friedaSeite(id) {
     <g id="${id}-gischt" opacity="0"><path d="M-84 10 Q-96 4 -108 10 Q-96 8 -88 14Z" fill="${P.glanz}"/><path d="M-100 8 q-6 -5 -12 0" stroke="${P.glanz}" stroke-width="1.6" fill="none"/></g>
   </g></g>`;
 }
-function friedaHeck(id) {
+function friedaHeck(id, uo) {
   const bo = B(); if (!bo) return `<g id="${id}"></g>`;
   const mitte = `<g transform="translate(40 -40) scale(.36)">${C('smilla', {blick: 'vorn'})}</g>
     <g class="nicht-steuerrad"><g transform="translate(-24 -12) scale(.42)">${C('hinnerk', {blick: 'ruecken', pose: 'pinne'})}</g></g>
     <g class="nur-up nur-steuerrad"><g transform="translate(26 -14) scale(.42)">${C('hinnerk', {blick: 'ruecken', pose: 'steuern'})}</g></g>`;
-  return `<g id="${id}"><g class="fb-bob">${bo.heck({mitte})}
+  return `<g id="${id}"><g class="fb-bob">${bo.heck({mitte, unterWasser: !!(uo && uo.unter), ohneSchraube: !!(uo && uo.ohneSchraube)})}
     <g id="${id}-blasen" opacity="0">${[0, 1, 2, 3].map(i => `<circle class="fb-blase" data-i="${i}" cx="0" cy="8" r="3" fill="${P.glanz}" opacity=".8"/>`).join('')}</g>
   </g></g>`;
 }
@@ -190,6 +190,38 @@ function pfeil(x, y, len, farbe, text, links = true) {
    Blick „seite“: von Westen auf die Backbordseite, Bug links (Norden). „heck“: von achtern (Süden), Backbord ist links.
    „schnitt“: Lehrbild von achtern, halb unter Wasser (das Bild vom Rad am Grund ergibt nur so Sinn, Nutzer 20.11.2026).
    „oben“: Draufsicht, Norden oben, mit Höhenschichten. */
+/* ---------- Kajüte als Glasbühne (v5.78; Nutzer 22.11.2026: „die Kajüte zum Durchklicken … verbessere alles“) ----------
+   Rückwand mit Bullaugen (draußen Himmel und Wasser im aktuellen Licht), Wand mit Seekarte, Manöverbrett und Knotenbrett, Regal mit Büchern und Buddelschiff,
+   Klabauter auf der Stange, Kartentisch mit Lampe und Telefon, vorn Hocker und Backbord. Die Kamera fährt zu den Dingen (EINST.innen). */
+function kajueteEbenen() {
+  const holz = '#7a5234', holzH = '#9a6c45', holzD = '#4e3220', messing = '#c9a03c', papier = '#f1e4c2', dunkel = '#3a2616';
+  const planken = (y0, y1, c) => Array.from({length: Math.ceil((y1 - y0) / 14)}, (_, i) => `<path d="M-60 ${y0 + i * 14} H460" stroke="${c}" stroke-width="1" opacity=".5"/>`).join('');
+  const bullauge = (x, y, r) => `<clipPath id="kb${x}"><circle cx="${x}" cy="${y}" r="${r}"/></clipPath><g clip-path="url(#kb${x})"><rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${r * 1.1}" fill="url(#fb-hg)"/><rect x="${x - r}" y="${y + r * .1}" width="${2 * r}" height="${r}" fill="url(#fb-wg)"/>
+    <path d="M${x - r} ${y + r * .3} q${r / 2} -3 ${r} 0 t${r} 0" stroke="${P.glanz}" stroke-width="1.4" fill="none" opacity=".6" data-welle="3,0,${x % 5},0"/></g><circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${messing}" stroke-width="6"/><circle cx="${x}" cy="${y}" r="${r + 5}" fill="none" stroke="${holzD}" stroke-width="2"/>
+    ${[0, 60, 120, 180, 240, 300].map(a => `<circle cx="${(x + (r + 2.5) * Math.cos(a * Math.PI / 180)).toFixed(1)}" cy="${(y + (r + 2.5) * Math.sin(a * Math.PI / 180)).toFixed(1)}" r="1.8" fill="#ead08a"/>`).join('')}<path d="M${x - r * .55} ${y - r * .5} Q${x - r * .2} ${y - r * .8} ${x + r * .3} ${y - r * .7}" stroke="#fff" stroke-width="3" opacity=".35" fill="none" stroke-linecap="round"/>`;
+  const knoten = (x, y, c) => `<path d="M${x - 9} ${y} q4 -12 9 -3 q6 8 9 3 q-3 12 -9 5 q-8 -3 -9 -5Z" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>`;
+  return [
+    {d: 0, svg: `<rect x="-60" y="-60" width="520" height="640" fill="${holz}"/>${planken(-60, 560, holzD)}<rect x="-60" y="-60" width="520" height="70" fill="${dunkel}"/>${[-20, 70, 160, 250, 340, 430].map(x => `<rect x="${x}" y="-60" width="16" height="84" fill="${holzD}"/>`).join('')}
+      ${bullauge(80, 150, 34)}${bullauge(200, 140, 36)}${bullauge(320, 150, 34)}<rect x="-60" y="410" width="520" height="200" fill="${holzD}"/>${planken(410, 560, dunkel)}`},
+    {d: .25, svg: `<g><rect x="20" y="96" width="120" height="7" fill="${holzH}"/><path d="M24 103 l6 14 M136 103 l-6 14" stroke="${holzD}" stroke-width="3"/>${[['#2f4f80', 12], ['#b8402e', 10], ['#3c7a52', 13], ['#c99a3c', 9], ['#6b4a7a', 11]].map(([c, w], i, a) => { const x = 28 + a.slice(0, i).reduce((m, v) => m + v[1] + 1, 0); return `<rect x="${x}" y="${68 + (i % 2) * 4}" width="${w}" height="${28 - (i % 2) * 4}" rx="1.4" fill="${c}"/>`; }).join('')}
+        <g transform="translate(108 78)"><ellipse cx="0" cy="8" rx="18" ry="9" fill="#cfe6e0" opacity=".45" stroke="#e8f4f0" stroke-width="1"/><path d="M-10 9 H10 L7 13 H-7Z" fill="#8a3a2a"/><path d="M0 9 V-3 M0 -3 L8 7 M-1 -1 L-7 7" stroke="#f2ead8" stroke-width="1.4"/><rect x="17" y="5" width="6" height="6" fill="#a07850"/></g></g>
+      <g transform="translate(350 96)"><circle r="18" fill="${messing}"/><circle r="14" fill="#f6efdc"/><path d="M0 0 L0 -10 M0 0 L7 3" stroke="#2a1a0e" stroke-width="1.6" stroke-linecap="round"/></g>
+      <g><rect x="30" y="215" width="130" height="88" rx="2" fill="${papier}" stroke="${holzD}" stroke-width="3"/><path d="M38 286 Q60 250 90 262 T150 232" stroke="#4a7a8f" stroke-width="2.6" fill="none"/><path d="M40 296 L92 254 L150 244" stroke="#333" stroke-width="1" stroke-dasharray="4 3" fill="none"/><circle cx="92" cy="254" r="3" fill="#c0392b"/><path d="M112 282 l14 -6 M112 282 l4 12" stroke="#555" stroke-width="2.4"/></g>
+      <g><rect x="178" y="222" width="90" height="74" rx="2" fill="${holzH}" stroke="${holzD}" stroke-width="3"/><g fill="none" stroke="#f3ead2" stroke-width="2.4"><path d="M196 276 L223 246 L250 276Z"/><path d="M206 276 V283 H240 V276"/></g><path d="M230 236 a20 20 0 1 1 -12 4" stroke="#f0a23a" stroke-width="2.6" fill="none"/></g>
+      <g><rect x="284" y="214" width="104" height="88" rx="2" fill="${holzH}" stroke="${holzD}" stroke-width="3"/>${knoten(306, 240, '#e9d9a8')}${knoten(338, 238, '#c0392b')}${knoten(370, 242, '#f0a23a')}${knoten(318, 278, '#9fd0e0')}${knoten(356, 278, '#e9d9a8')}</g>`},
+    {d: .42, svg: `<path d="M340 -10 V150" stroke="#2a1a0e" stroke-width="1.6"/><path d="M318 150 H362" stroke="${holzD}" stroke-width="5" stroke-linecap="round"/><g transform="translate(340 150) scale(1.5)">${C('klabauter', {pose: 'sitzen'})}</g>`},
+    {d: .62, svg: `<defs><radialGradient id="fk-lampe"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="200" cy="330" r="150" fill="url(#fk-lampe)"/><path d="M200 -10 V296" stroke="#2a1a0e" stroke-width="2"/><path d="M184 314 q16 -28 32 0Z" fill="${messing}" stroke="#5a3a1c" stroke-width="1.6"/><ellipse cx="200" cy="316" rx="8" ry="3.2" fill="#fff4cf"/>
+      <path d="M20 372 H380 L404 420 H-4Z" fill="${holzH}" stroke="#3a2412" stroke-width="2.6"/><path d="M-4 420 H404 V444 H-4Z" fill="${holz}" stroke="#3a2412" stroke-width="2.6"/>
+      <g transform="translate(60 350)"><rect width="128" height="32" rx="2" fill="${papier}" stroke="#5a3a1c" stroke-width="1.8" transform="skewX(-14)"/><path d="M6 22 Q34 6 60 18 T118 8" stroke="#4a7a8f" stroke-width="2" fill="none"/></g>
+      <path d="M150 380 l30 -4 M150 380 l10 10" stroke="${messing}" stroke-width="2.6" stroke-linecap="round"/>
+      <g transform="translate(212 356)"><rect width="38" height="12" rx="2" fill="#2f4f80"/><rect y="-12" width="34" height="12" rx="2" fill="#c0392b"/><rect y="-23" width="30" height="11" rx="2" fill="#3c8c5a"/></g>
+      <g transform="translate(302 340)"><rect width="50" height="30" rx="5" fill="#2a2a2e"/><circle cx="25" cy="16" r="9" fill="#55555c"/><circle cx="25" cy="16" r="5.4" fill="#33333a"/><path d="M8 -2 q17 -10 34 0" stroke="#3a3a40" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M50 18 q16 8 6 30" stroke="#2a2a2e" stroke-width="1.6" fill="none"/></g>`},
+    {d: .8, svg: `<g transform="translate(250 372) scale(1.7)">${C('backbord', {pose: 'sitzen'})}</g>`},
+    {d: .95, svg: `<g transform="translate(74 520)"><ellipse cx="0" cy="-74" rx="34" ry="10" fill="#b8402e" stroke="#5a1a10" stroke-width="2"/><path d="M-30 -70 Q0 -60 30 -70 L26 -60 H-26Z" fill="${holz}"/><path d="M-24 -60 L-32 0 M24 -60 L32 0 M0 -60 V0" stroke="${holzD}" stroke-width="7" stroke-linecap="round"/></g>
+      <rect x="-60" y="-60" width="58" height="640" fill="${dunkel}"/><rect x="402" y="-60" width="58" height="640" fill="${dunkel}"/><path d="M-2 -60 V560 M402 -60 V560" stroke="${holzH}" stroke-width="3"/>`}
+  ];
+}
 const ORTE = {
   tankstelle: {
     seite: () => [
@@ -229,12 +261,10 @@ const ORTE = {
            <text x="386" y="30" text-anchor="end" font-family="Baloo 2,sans-serif" font-weight="800" font-size="16" fill="#3c8c5a" stroke="rgba(255,255,255,.7)" stroke-width="3" paint-order="stroke">Steuerbord</text>`},
       {d: .4, svg: Array.from({length: 22}, (_, i) => `<circle cx="${(i * 61) % 440 - 20}" cy="${220 + (i * 37) % 240}" r="${1 + i % 3}" fill="#e8f4f2" opacity=".35" data-welle="${2 + i % 3},2,${i},0"/>`).join('')},
       {d: .55, svg: `<g id="fx-pos" transform="translate(200 0)">
-          <g transform="translate(0 196) scale(1.15)">${friedaHeck('fx-boot').replace('id="fx-boot"', 'id="fx-boot" data-ohne-bob="1"')}</g>
-          <path d="M-70 200 Q-60 238 0 246 Q60 238 70 200Z" fill="${P.unter}" opacity=".85"/>
-          <rect x="-4" y="236" width="8" height="64" fill="${P.motor}"/><path d="M-6 296 h12 l-2 10 h-8Z" fill="${P.motor}"/>
-          <g id="fx-rad" opacity="0"><circle cx="0" cy="305" r="164" fill="rgba(255,255,255,.07)" stroke="#fff6dc" stroke-width="3" stroke-dasharray="10 7"/>
-            <g id="fx-speichen">${[0, 45, 90, 135].map(a => `<path d="M0 141 V469" transform="rotate(${a} 0 305)" stroke="#fff6dc" stroke-width="2" opacity=".55"/>`).join('')}</g></g>
-          <g id="fx-prop"><ellipse cx="0" cy="291" rx="5" ry="16" fill="#9aa3aa"/><ellipse cx="0" cy="319" rx="5" ry="16" fill="#9aa3aa"/><ellipse cx="-14" cy="305" rx="16" ry="5" fill="#9aa3aa"/><ellipse cx="14" cy="305" rx="16" ry="5" fill="#9aa3aa"/><circle cx="0" cy="305" r="5" fill="${P.motor}"/></g>
+          <g transform="translate(0 196) scale(1.15)">${friedaHeck('fx-boot', {unter: true, ohneSchraube: true}).replace('id="fx-boot"', 'id="fx-boot" data-ohne-bob="1"')}</g>
+          <g id="fx-rad" opacity="0"><circle cx="0" cy="242" r="112" fill="rgba(255,255,255,.07)" stroke="#fff6dc" stroke-width="3" stroke-dasharray="10 7"/>
+            <g id="fx-speichen">${[0, 45, 90, 135].map(a => `<path d="M0 130 V354" transform="rotate(${a} 0 242)" stroke="#fff6dc" stroke-width="2" opacity=".55"/>`).join('')}</g></g>
+          <g id="fx-prop"><ellipse cx="0" cy="234" rx="2.6" ry="8" fill="#9aa3aa"/><ellipse cx="0" cy="250" rx="2.6" ry="8" fill="#9aa3aa"/><ellipse cx="-8" cy="242" rx="8" ry="2.6" fill="#9aa3aa"/><ellipse cx="8" cy="242" rx="8" ry="2.6" fill="#9aa3aa"/><circle cx="0" cy="242" r="5" fill="${P.motor}"/></g>
         </g><g id="fx-pfeil" opacity="0" transform="translate(200 0)">${pfeil(20, 498, 120, '#fff6dc', 'Heck nach Backbord')}</g>`},
       {d: .7, svg: streifen(198, 4, 40, 'rgba(160,190,190,.25)', 10)}
     ]
@@ -288,18 +318,18 @@ const ORTE = {
   },
   /* v5.72 Motor aus der Nähe, von achtern (für „Rechtsdreher“, sbf:44: von achtern gesehen dreht er in Vorausfahrt im Uhrzeigersinn).
      TU: dreh (+1 voraus, −1 zurück; Schraube dreht), pfeil (Drehrichtung als Bogen mit Text). Die Frieda kommt aus boot.js (Farbe, Name, Ausbau). */
+  kajuete: {innen: kajueteEbenen},
   motor: {
     heck: () => [
       {d: 0, svg: himmel(180) + haeuser(250, .5, 8, -30, false)},
       {d: .2, svg: nebelband(200, 252, 520, 28, .7)},
       {d: .4, svg: `<rect x="-60" y="256" width="520" height="400" fill="url(#fb-wg)"/>` + streifen(262, 3, 34, P.w[0], 7)},
-      {d: .55, svg: `<g transform="translate(200 300) scale(2.3)">${friedaHeck('fm-boot').replace('id="fm-boot"', 'id="fm-boot" data-ohne-bob="1"')}</g>
+      {d: .55, svg: `<g transform="translate(200 300) scale(2.3)">${friedaHeck('fm-boot', {unter: true, ohneSchraube: true}).replace('id="fm-boot"', 'id="fm-boot" data-ohne-bob="1"')}</g>
         <rect x="-60" y="300" width="520" height="260" fill="#2f5d66" opacity=".55"/>
-        <path d="M188 300 h24 v58 h-24Z" fill="${P.motor}"/><path d="M184 356 h32 l-4 20 h-24Z" fill="${P.motor}"/><path d="M196 376 h8 v14 h-8Z" fill="#555"/>
-        <g id="fm-prop">${[0, 120, 240].map(w => `<path d="M200 382 Q186 352 200 340 Q214 352 200 382Z" fill="#c9a24a" stroke="#7a5a1e" stroke-width="1.4" transform="rotate(${w} 200 382)"/>`).join('')}<circle cx="200" cy="382" r="6" fill="#8a6a2a"/></g>
-        <g id="fm-cw" opacity="0"><path d="M200 322 A60 60 0 0 1 258 396" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round"/><path d="M250 386 l9 14 l7 -15" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="fm-prop">${[0, 120, 240].map(w => `<path d="M200 392 Q188 371 200 363 Q212 371 200 392Z" fill="#c9a24a" stroke="#7a5a1e" stroke-width="1.4" transform="rotate(${w} 200 392)"/>`).join('')}<circle cx="200" cy="392" r="5" fill="#8a6a2a"/></g>
+        <g id="fm-cw" opacity="0"><path d="M200 332 A60 60 0 0 1 258 406" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round"/><path d="M250 396 l9 14 l7 -15" fill="none" stroke="#fff6dc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#fff6dc" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">voraus: im Uhrzeigersinn</text></g>
-        <g id="fm-ccw" opacity="0"><path d="M200 322 A60 60 0 0 0 142 396" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round"/><path d="M150 386 l-9 14 l-7 -15" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="fm-ccw" opacity="0"><path d="M200 332 A60 60 0 0 0 142 406" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round"/><path d="M150 396 l-9 14 l-7 -15" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#ffd2c4" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">zurück: gegen den Uhrzeigersinn</text></g>
         <text x="200" y="30" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="15" fill="#1f3b63" stroke="rgba(255,255,255,.7)" stroke-width="3" paint-order="stroke">von achtern gesehen</text>`},
       {d: .85, svg: `<g transform="translate(352 300) scale(.95)">${C('smilla', {blick: 'vorn', pose: 'zeigen'})}</g>`}
@@ -311,7 +341,9 @@ const EINST = {
   seite: {totale: {}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}},
   heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.1, fx: 160, fy: 360, df: .92}},
   schnitt: {totale: {}, nah: {z: 1.3, fx: 200, fy: 300}},
-  oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}}
+  oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}},
+  innen: {totale: {}, karte: {z: 2.2, fx: 96, fy: 262, df: .25}, manoever: {z: 2.5, fx: 223, fy: 262, df: .25}, knoten: {z: 2.3, fx: 336, fy: 260, df: .25}, regal: {z: 2.4, fx: 84, fy: 90, df: .25},
+    klabauter: {z: 2.4, fx: 340, fy: 150, df: .42}, tisch: {z: 1.7, fx: 190, fy: 370, df: .62}, telefon: {z: 2.8, fx: 327, fy: 356, df: .62}, hocker: {z: 2.2, fx: 80, fy: 450, df: .95}, katze: {z: 2.6, fx: 252, fy: 350, df: .8}}
 };
 const PEIL = {seite: 270, heck: 180};
 
@@ -477,11 +509,11 @@ function zeichne(now) {
   e = $id('fh-kiel'); if (e) e.setAttribute('opacity', (s.motor * .9).toFixed(2));
   /* Lehrbild im Schnitt: Propeller und Rad drehen je nach Gang, das Heck wandert */
   e = $id('fx-pos'); if (e) e.setAttribute('transform', `translate(${(200 - s.a * 70).toFixed(1)} 0)`);
-  e = $id('fx-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 0 305)`);
-  e = $id('fm-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 200 382)`);
+  e = $id('fx-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 0 242)`);
+  e = $id('fm-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 200 392)`);
   e = $id('fm-cw'); if (e) e.setAttribute('opacity', (s.dreh >= 0 ? s.pfeil : 0).toFixed(2));
   e = $id('fm-ccw'); if (e) e.setAttribute('opacity', (s.dreh < 0 ? s.pfeil : 0).toFixed(2));
-  e = $id('fx-speichen'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 40 % 360).toFixed(1)} 0 305)`);
+  e = $id('fx-speichen'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 40 % 360).toFixed(1)} 0 242)`);
   e = $id('fx-rad'); if (e) e.setAttribute('opacity', s.rad.toFixed(2));
   e = $id('fx-pfeil'); if (e) e.setAttribute('opacity', s.pfeil.toFixed(2));
   /* Hafenbecken: die Frieda fährt, die Welt zieht vorbei */

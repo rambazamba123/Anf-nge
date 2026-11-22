@@ -231,6 +231,9 @@ function heck(o = {}) {
   <path d="M-62 -40 L62 -40 L56 0 Q30 15 0 17 Q-30 15 -56 0 Z" ${f('rumpf', 'bl')}/><path d="M-62 -40 L62 -40 L61.4 -37 L-61.4 -37Z" fill="#8a6a48"/>
   <path d="M-60.5 -30 L60.5 -30 L59.6 -24.5 L-59.6 -24.5Z" ${f('streifen')}/>
   <path d="M-56 0 Q-30 15 0 17 Q30 15 56 0 L54.6 8 Q30 22 0 24 Q-30 22 -54.6 8Z" ${f('unterwasser', 'bl')}/>
+  ${o.unterWasser ? `<path d="M-54.6 8 Q-30 22 0 24 Q30 22 54.6 8 Q51 25 28 35 Q12 41 0 42 Q-12 41 -28 35 Q-51 25 -54.6 8Z" ${f('unterwasser', 'bl')}/><path d="M-54.6 8 Q-51 25 -28 35 Q-12 41 0 42 L-6 26 Q-30 22 -54.6 8Z" class="bsch" style="opacity:.14"/>
+    <path d="M-2.6 41 L2.6 41 L2 55 L-2 55Z" ${f('unterwasser', 'bl')}/><rect x="-3.5" y="7" width="7" height="30" ${f('motor', 'bl')}/><path d="M-9 33 H9 V35.6 H-9Z" ${f('motor', 'bl')}/><ellipse cx="0" cy="40" rx="4.6" ry="3.2" ${f('motor', 'bl')}/>
+    ${o.ohneSchraube ? '' : `<g class="fr-prop">${[0, 120, 240].map(w => `<path d="M0 40 Q-5.4 31 0 27.6 Q5.4 31 0 40Z" fill="#c9a24a" stroke="#7a5a1e" stroke-width=".7" transform="rotate(${w} 0 40)"/>`).join('')}<circle cx="0" cy="40" r="2" fill="#8a6a2a"/></g>`}` : ''}
   <path d="M-62 -40 L-56 0 Q-40 9 -22 13 L-30 -40Z" class="bsch" style="opacity:.08"/>
   <text x="0" y="-9" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="12" letter-spacing="1" class="fr-schrift">${fremd ? '' : name()}</text>
   <text x="0" y="-1.5" text-anchor="middle" font-family="Nunito,Arial,sans-serif" font-weight="800" font-size="5.2" letter-spacing="1.2" class="fr-schrift">${fremd ? '' : 'KUTTERSHAVEN'}</text>
