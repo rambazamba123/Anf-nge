@@ -36,7 +36,7 @@ const laenge = r => r.slice(1).reduce((s, p, i) => s + B.sm(r[i], p), 0);
 /* Fahrzeiten in den Folgen: „N Meilen“ / „N Seemeilen“ in einem Folgenskript gegen die Tagesstrecke (grob, nur Hinweis) */
 const ZAHL = {eins: 1, ein: 1, eine: 1, zwei: 2, drei: 3, vier: 4, fünf: 5, sechs: 6, sieben: 7, acht: 8, neun: 9, zehn: 10, elf: 11, zwölf: 12, fünfzehn: 15, zwanzig: 20};
 const ordner = R('podcast/folgen');
-fs.readdirSync(ordner).filter(d => /^reise-\d+-\d+\.md$/.test(d)).forEach(d => {
+fs.readdirSync(ordner).filter(d => /^(reise|film)-\d+-\d+\.md$/.test(d)).forEach(d => {   /* v5.83: auch die Filmfassungen */
   const tag = Number(d.split('-')[1]), txt = fs.readFileSync(path.join(ordner, d), 'utf8').split(/<!--\s*FOLGENBLATT[\s\S]*?-->/).join('');
   const r = K.routen[tag]; if (!r) return;
   const soll = laenge(r);

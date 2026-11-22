@@ -25,6 +25,9 @@ machart: neu
 # Echos: Was aus früheren Folgen kommt hier in einem Satz wieder? Was legt diese Folge für später an? (danach ins Logbuch)
 # Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json. Was nicht im Katalog steht, hier nennen (R8).
 # KEIN Harms-Abschnitt: Harms fragt mit Abstand zurück, der Player stellt seine Runde zusammen (HR57).
+# FILM (seit v5.83, docs/film-regeln.md): Datei podcast/folgen/film-<tag>-<n>.md, in kurs.js mit design: 'f', film: true. Bühne je Kapitel: erstes ORT mit Glasplatten (FK11), Ortswechsel mit Nebel (FK10),
+#   höchstens ein Blickwechsel je Kapitel (FK2). Kajüte als Szenenbild (FK17): [[ORT: kajuete, nebel, innen]] + [[TU: klab=0/10]] (bis 1-6), Blicke runde, karte, kombuese, manoever, telefon …;
+#   steht Hinnerk oben am Ruder: [[TU: hin=0/10]]. Harms von außen: [[HARMS: anfang]] Rückblick … [[HARMS: ende]], nach einem Kapitel [[HARMS: frage]] (E27). Muster: podcast/folgen/film-1-1.md bis film-1-3.md.
 #
 # VOR DEM ABGEBEN
 #   node tools/podcast-pruefen.js --entwurf <datei>   ·   node tools/dichte-messer.js <datei> (nur Hinweise: beheben oder hier begründen)

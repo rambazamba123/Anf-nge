@@ -19,6 +19,14 @@
 | gold-2 „Warten auf die Fähre“ (bis 19.11. „Ohne Gas kein Ruder“) | 44, 45 Drehrichtung von achtern (Smilla irrt „von vorne“); 50 Außenborder lenkt mit dem Schraubenstrom (Motor drehen ohne Gas); 51 Fähre rückwärts („jeden Tag 'ne Andacht“) | der Mann mit dem Linksdreher; Hinnerks kalter Kaffee; „Für die Ausbildung“ als Smillas Hebel |
 | gold-3 „Dicke Pötte“ | 61 Lieger (der Raser, Hilkes Rechnung über drei Fender); 34, 36 die Fähre in der engen Ausfahrt (Sog, Heckwelle); 37 überholt werden | Pauls Kaffeebecher; Kaffee über Bord; Echo Tag 2 Elv: Frachter überholt, „Stau, Sog, Schwell“; Motor am Nachmittag (offen) |
 
+### Tag 1 als Film (v5.83, 22.11.2026; `podcast/folgen/film-1-1.md` bis `film-1-3.md`)
+> Nutzer 22.11.2026: Folgen 1-1 bis 1-3 neu mit den neuen Vorgaben und der neuen Grafik, die Kajüte als Szenenbild (FK17). Fakten, Fragen und Anker wie in reise-1-1, reise-1-2 und Filmprobe A; neu sind die Orte in der Kajüte.
+| Folge | Neu in der Kajüte | Anker, die bleiben |
+|---|---|---|
+| 1-1 „Erster Morgen“ | Morgenkaffee am Tisch, dein Becher vor dem Hocker; Klabauters leere Stange mit dem Schälchen (Zwieback weg = Backbord); Barometer klopfen; Tagesziel auf der Seekarte am Tisch. Am Ende klingelt das **rote Telefon**: Hinnerk geht nicht ran („Lass klingeln.“), Harms spricht auf den Anrufbeantworter („Ich weiß, dass du da bist.“) | Hafenkino aus dem Cockpit: Blick über die Bordwand auf das Charterboot gegenüber, vier Mann, **der mit der roten Mütze** will das Sagen haben und trinkt um halb neun das erste Bier; das Leihboot mit zwei Sonnenhüten fährt durchs Bild. Frist sieben Tage jetzt vom Anrufbeantworter, nicht mehr vom Handy |
+| 1-2 „Gas, Sprit und Streichholz“ | Harms erzählt am Anfang, was bisher geschah, und fragt nach dem Tanken zurück. Die Gashahn-Einweisung findet unten statt: Hinnerk zeigt vom Tisch auf die Kombüse (Drehknöpfe, roter Hebel = Gashahn, Haupthahn oben an der Flasche); Backbord auf dem Kocher | Streichholz, Lappen, Luke im Hafenbecken, Augenbrauen wie bisher |
+| 1-3 „Leise raus“ | Hinnerk schickt dich runter, seinen Kaffee holen („Und wer guckt dann?“ – „Ich. Wie die letzten dreißig Jahre.“). Unten zeigt Smilla am Manöverbrett „Anlegen“, Hinnerk ruft durch den offenen Niedergang („Rechtsdreher legt links an!“). Vom Brett in die Aufsicht auf Klüverhafen | Pauls Fender, Hilkes Block, Rad am Grund, Fähre am Ende; den kalten Kaffee trinkt er in 1-4 |
+
 ### 0-1 „Anheuern“ (entfallen am 16.11.2026, GL8; Skript in `podcast/archiv/folgen/`)
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|
@@ -70,7 +78,9 @@
 - **Strom nicht bezahlt:** Hilke mahnt (1-2), „Heute.“ Offen: Bezahlt er?
 - **Charter-Crew von gegenüber:** Hafenkino (1-1), Anlegerbier, rückwärts zu spät; Hinnerk zitiert sie in 1-3. Kann in Klüverhafen wieder auftauchen.
 - **Pauls Boot:** liegt neben der Frieda (1-3, Heck zieht hin, Leine beim Raser).
-- **Klabauter verschwunden:** seit 1-1, Zwieback war Backbord. Kommt in 1-6 zurück (Plan).
+- **Klabauter verschwunden:** seit 1-1, Zwieback war Backbord. Kommt in 1-6 zurück (Plan). Im Film ist seine Stange mit dem Schälchen leer (TU klab=0), in der App sitzt er dort weiter (offen: angleichen?).
+- **Rotes Telefon in der Kajüte:** Harms' Leitung („Die Nummer hat nur einer.“). Hinnerk geht nicht ran, Harms spricht auf den Anrufbeantworter (1-1). In der App ruft man dort Harms zur Probeprüfung.
+- **Hinnerks Kaffee:** steht an der Tankstelle unberührt auf dem Tisch (1-3), wird kalt, Hinnerk trinkt ihn trotzdem (1-4 „Kalter Kaffee macht schön.“).
 - **Hilkes Lappen:** „Kosten extra.“
 - **Hinnerk und Harms:** Hinnerk redet nicht mit ihm, verdrückt sich bei jedem Anruf (Lage `harms`). Die Vorgeschichte (Elbe, Nebel) kommt in 4-5.
 - **Hinnerk 38 Jahre Fähre:** 1-3. „Von oben sah dat immer harmlos aus.“

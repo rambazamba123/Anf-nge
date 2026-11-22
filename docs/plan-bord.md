@@ -72,10 +72,10 @@ E34 (Mäuse als Extras im Aquarell) und E35 sind bestätigt.
 | Glocke, Barometer, Funkgerät | kein Heranfahren | kleine Spielereien und Eier wie bisher (nicht im Fernglas) |
 
 ### Etappe B: Folgen 1-1 bis 1-3 als Film (v5.83)
-- [ ] **B1 Grundlagen:** In `docs/film-regeln.md` kommt die Kajüte als Szenenbild dazu: welche Kamerablicke es gibt, wann man sie nutzt und dass sie dieselbe Kajüte wie in der App ist (Karte = Welt, HR50). Dazu `podcast/schreibkarte.md` und `podcast/folgen/VORLAGE.md` ergänzen.
-- [ ] **B2 Folgen:** 1-1, 1-2 und 1-3 („Leise raus“, Fassung A als Vorbild) als Filmfassung schreiben, mit `[[ORT: kajuete]]`, Kamerablicken und den Regeln von Tag 1 (R15: Bible, Reise §7, Dialogregeln, Schreibkarte, Beispiele, Vorlage).
-- [ ] **B3 Lektorat** (HR61): `node tools/lektorat.js <folge> --bilder`, dann ein unabhängiger Unteragent; Befunde in `docs/lektorat/`.
-- [ ] **B4** Prüfwerkzeuge, Bühnentest, Doku, Version, Pull Request.
+- [x] **B1 Grundlagen** (v5.83: FK17 in `docs/film-regeln.md`, Hinweise in Schreibkarte und Vorlage, Logbuch): In `docs/film-regeln.md` kommt die Kajüte als Szenenbild dazu: welche Kamerablicke es gibt, wann man sie nutzt und dass sie dieselbe Kajüte wie in der App ist (Karte = Welt, HR50). Dazu `podcast/schreibkarte.md` und `podcast/folgen/VORLAGE.md` ergänzen.
+- [x] **B2 Folgen** (v5.83: `podcast/folgen/film-1-1.md` bis `film-1-3.md`; 1-1 Kaffee, Stange, Barometer, Karte und Telefon in der Kajüte; 1-2 Gashahn an der Kombüse; 1-3 Kaffee holen und Manöverbrett): 1-1, 1-2 und 1-3 („Leise raus“, Fassung A als Vorbild) als Filmfassung schreiben, mit `[[ORT: kajuete]]`, Kamerablicken und den Regeln von Tag 1 (R15: Bible, Reise §7, Dialogregeln, Schreibkarte, Beispiele, Vorlage).
+- [x] **B3 Lektorat** (HR61; 22.11.2026: 5 Fehler, rund 30 Hinweise, eingearbeitet in `docs/lektorat/film-1-1-bis-1-3.md`): `node tools/lektorat.js <folge> --bilder`, dann ein unabhängiger Unteragent; Befunde in `docs/lektorat/`.
+- [x] **B4** Prüfwerkzeuge, Bühnentest, Doku, Version, Pull Request (v5.83; dabei behoben: Filmfolgen übernahmen das Tageslicht der App).
 
 ## 3. Was ich selbst entschieden habe (R3)
 - **Tiefe physikalisch richtig:** Beim Wischen wandern nahe Dinge schneller als ferne, wie beim Blick aus dem Zugfenster. Du hast „langsamer“ geschrieben (in Anführungszeichen). Falls du es wirklich andersherum willst, ist das ein einziger Wert.

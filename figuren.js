@@ -97,7 +97,16 @@ const FIG = {
   moewe: {name: 'Möwe', gangStd: 'watscheln', tier: 'fabel', wer: 'MOEWE', h: 20, farben: {}, kleid: {}, std: {}},
   lotse: {name: 'Mats, Verkehrszentrale', gangStd: 'normal', typStd: 'kraeftig', wer: 'VERKEHR', h: 98, w: 1, bauch: .15, lean: 0, nase: 'gerade', frisur: 'scheitel', brille: true, jacke: 'hemd',
     farben: {haut: '#ecc4a0', haar: '#2e2622', jacke: '#9cb8d4', hose: '#2f3a4e', stiefel: '#1f1f22', hut: '#2a2a2e', akzent: '#2f3a4e'},
-    kleid: {hut: {headset: 'Headset', ohne: 'ohne'}}, std: {hut: 'headset'}}
+    kleid: {hut: {headset: 'Headset', ohne: 'ohne'}}, std: {hut: 'headset'}},
+  /* v5.83 Charter-Crew aus dem Hafenkino (Folge 1-1): vier Männer, keiner hat das Sagen. Statisten ohne Stimme und ohne Kleidung zum Wechseln. */
+  charter1: {name: 'Charter: der mit der roten Mütze', gangStd: 'normal', typStd: 'kraeftig', wer: 'CHARTER', h: 97, w: 1.12, bauch: .45, lean: 1, nase: 'knolle', frisur: 'kurz', jacke: 'hemd',
+    farben: {haut: '#efc19c', haar: '#6b4a32', jacke: '#f0a23a', hose: '#3d5a7a', stiefel: '#f2efe6', hut: '#c8382e', akzent: '#2f8a6a'}, kleid: {}, std: {hut: 'cap'}},
+  charter2: {name: 'Charter: am Gas', gangStd: 'normal', typStd: 'kraeftig', wer: 'CHARTER', h: 99, w: 1, bauch: .1, lean: 0, nase: 'gerade', frisur: 'locken', jacke: 'fleece',
+    farben: {haut: '#d9a77e', haar: '#2a211b', jacke: '#2f6a9a', hose: '#c9b88e', stiefel: '#3a2a1c', hut: '#2a211b', akzent: '#f4f1e8'}, kleid: {}, std: {hut: 'ohne'}},
+  charter3: {name: 'Charter: der Dicke vorn', gangStd: 'stapfen', typStd: 'kugel', wer: 'CHARTER', h: 95, w: 1.24, bauch: .8, lean: 0, nase: 'stups', frisur: 'kurz', jacke: 'ringel',
+    farben: {haut: '#f2c9a8', haar: '#c9a46a', jacke: '#2f4f80', hose: '#4a4a52', stiefel: '#2a2a2e', hut: '#c9a46a', akzent: '#f4f1e8'}, kleid: {}, std: {hut: 'ohne'}},
+  charter4: {name: 'Charter: der mit der Sonnenbrille', gangStd: 'schlendern', typStd: 'schlaksig', wer: 'CHARTER', h: 100, w: .96, bauch: 0, lean: -1, nase: 'lang', frisur: 'scheitel', jacke: 'segel',
+    farben: {haut: '#f0c7a2', haar: '#3a2a1c', jacke: '#3c8a5a', hose: '#e8e2d0', stiefel: '#f2efe6', hut: '#1d1d1f', akzent: '#f4f1e8'}, kleid: {}, std: {hut: 'sonnenbrille'}}
 };
 
 /* Hinnerk zur Auswahl (v5.82, Nutzer 23.11.2026: „ähnlich wie der jetzige, aber etwas anders, süßer, Bart anders … Auswahlmöglichkeiten“).

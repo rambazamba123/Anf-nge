@@ -11,13 +11,13 @@
    - „Frage an dich“ ohne Denkpause oder Wahl danach.
    - Ein Spruch aus der Kiste, dessen Hinweis einen Anlass nennt („wenn …“), steht ohne diesen Anlass in der Nähe (nur bekannte Fälle, Liste ANLASS).
 
-   Aufruf: node tools/logik-pruefen.js            (alle podcast/folgen/reise-*.md)
+   Aufruf: node tools/logik-pruefen.js            (alle podcast/folgen/reise-*.md und seit v5.83 film-*.md)
            node tools/logik-pruefen.js datei.md    (nur diese) */
 const fs = require('fs'), path = require('path');
 const wurzel = path.resolve(__dirname, '..');
 const plan = JSON.parse(fs.readFileSync(path.join(wurzel, 'data/reiseplan.json'), 'utf8'));
 const ordner = path.join(wurzel, 'podcast/folgen');
-const dateien = process.argv.slice(2).length ? process.argv.slice(2) : fs.readdirSync(ordner).filter(f => /^reise-\d+-\d+\.md$/.test(f)).map(f => path.join(ordner, f));
+const dateien = process.argv.slice(2).length ? process.argv.slice(2) : fs.readdirSync(ordner).filter(f => /^(reise|film)-\d+-\d+\.md$/.test(f)).map(f => path.join(ordner, f));
 const CODE = /\[\[\s*([A-ZÄÖÜ]+)\s*(?::\s*([^\]]*?))?\s*\]\]/g;
 const ohneCodes = s => s.replace(CODE, ' ').replace(/\{\{[^}]*\}\}/g, ' ').replace(/\s+/g, ' ').trim();
 const nr = id => { const [t, n] = String(id).split('-').map(Number); return t * 100 + n; };
@@ -38,10 +38,10 @@ const anBord = (wer, id) => {
 };
 /* Folgen mit Harms je Tag (für „Morgen wieder“) */
 const lese = d => fs.readFileSync(d, 'utf8');
-const folgeId = (txt, d) => { const m = txt.match(/^folge:\s*(\S+)/m); return m ? m[1] : path.basename(d).replace(/^reise-|\.md$/g, ''); };
+const folgeId = (txt, d) => { const m = txt.match(/^folge:\s*(\S+)/m); return m ? m[1] : path.basename(d).replace(/^(reise|film)-|\.md$/g, ''); };
 /* v5.71: Proben und Gold-Folgen ohne Nummer sagen mit „stelle: 1-3“, an welcher Stelle der Reise sie spielen (für „Wer ist an Bord?“) */
 const stelleVon = (txt, id) => { const m = txt.match(/^stelle:\s*(\d+-\d+)/m); return m ? m[1] : id; };
-const alle = fs.readdirSync(ordner).filter(f => /^reise-\d+-\d+\.md$/.test(f)).map(f => { const t = lese(path.join(ordner, f)); return {id: folgeId(t, f), harms: /^HARMS:/m.test(t)}; });
+const alle = fs.readdirSync(ordner).filter(f => /^(reise|film)-\d+-\d+\.md$/.test(f)).map(f => { const t = lese(path.join(ordner, f)); return {id: folgeId(t, f), harms: /^HARMS:/m.test(t)}; });
 
 for (const d of dateien) {
   const txt = lese(d), id = stelleVon(txt, folgeId(txt, d)), zeilen = txt.split('\n');

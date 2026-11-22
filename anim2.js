@@ -16,7 +16,8 @@ const g = (inner, at = '') => `<g ${at}>${inner}</g>`;
 
 /* ---------- Stile ---------- */
 (() => { if (document.getElementById('ancss2')) return; const s = document.createElement('style'); s.id = 'ancss2';
-  s.textContent = `.an .bl{animation:anbl 1s steps(1) infinite}@keyframes anbl{50%{opacity:.12}}.an .fl{stroke-dasharray:9 7;animation:anfl .9s linear infinite}@keyframes anfl{to{stroke-dashoffset:-16}}
+  /* v5.83: .bl heißt in boot.js „Bootslinie“ (Umriss); in Animationen blinkte deshalb das ganze Boot halb durchsichtig (Lektorat 22.11.2026, Tanken). Boote aus boot.js (.fr) blinken nicht. */
+  s.textContent = `.an .bl{animation:anbl 1s steps(1) infinite}.an .fr .bl{animation:none}@keyframes anbl{50%{opacity:.12}}.an .fl{stroke-dasharray:9 7;animation:anfl .9s linear infinite}@keyframes anfl{to{stroke-dashoffset:-16}}
 .an .pu{animation:anpu 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}@keyframes anpu{50%{transform:scale(1.18)}}.an .t.w{fill:#fff;stroke:#16222e}.an .t.r{fill:#c0392b}.an .t.gr{fill:#1f7a3a}.an .t.b{fill:#1f5f99}
 .an .hl{stroke:#f08a1c;stroke-width:3;fill:none;stroke-dasharray:6 4}`;
   document.head.appendChild(s); })();

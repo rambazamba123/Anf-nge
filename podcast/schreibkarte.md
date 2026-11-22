@@ -26,5 +26,6 @@
 ## Regie-Marken der neuen Machart
 `[[ABSCHNITT: Titel]]` = Kapitel · `[[SZENE: Ort, Tageszeit, Wetter, wer wo ist]]` · `[[REVIER: …]]` · `[[AUDIO: …]]` · `[[HEUTE: a | b | c]]` und `[[MITNEHMEN: a | b | c]]` (nur Bildschirm) · `[[STOFF: sbf:41, sbf:46]]` (diese Szene behandelt diese Fragen; kein Wortlaut nötig) · `[[WAHL: sbf:n | Antwort | *richtige Antwort]]` mit `[[DENKPAUSE: 6]]` und `[[VERTIEFUNG: sbf:n]] … [[VERTIEFUNG: ende]]` · `[[ANIM: id, phase]]` (höchstens eine je Fakt) · `[[SPRUCH: id]]` · `[[GESICHT: laune]]` · `{{anrede:w=…|m=…|n=…}}`.
 Kein Harms-Abschnitt im Skript: Harms fragt mit Abstand zurück, der Player setzt seine Runde zusammen (HR57).
+**Film (seit v5.83 für Tag 1, E27, E36):** Folgen laufen als Film auf der Glasbühne, Marken nach `docs/film-regeln.md` (`[[ORT]]`, `[[KAMERA]]`, `[[TU]]`, `[[KISTE]]`; Harms von außen mit `[[HARMS: anfang]]` und `[[HARMS: frage]]`). **Die Kajüte ist Szenenbild (FK17):** dieselbe Kajüte wie in der App; Gespräche am Tisch, Erklärungen an den Brettern, Harms am roten Telefon. Szenen bleiben auch ohne Bild verständlich (nur hören, im Auto): Nichts im Dialog hängt nur am Bild („das Bild oben rechts“).
 
 Vorbilder: `podcast/dialog-beispiele.md`. Vorlage: `podcast/folgen/VORLAGE.md`.

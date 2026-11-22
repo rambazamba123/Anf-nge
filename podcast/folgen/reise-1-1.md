@@ -1,9 +1,10 @@
 ---
 folge: 1-1
 titel: Erster Morgen
-status: entwurf
+status: alt
 machart: neu
 ---
+# ALTE FASSUNG (bis v5.82). Seit v5.83 läuft die Folge als Film: podcast/folgen/film-1-1.md (in der App unter „Alte Folgen und Tests“ als „ohne Film“).
 # Hörreise, Tag 1, Folge 1-1 (docs/reise.md §7). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), am 17.11.2026 auf die neue Machart umgestellt (podcast/schreibkarte.md, HR56–HR60): ohne Harms-Abschnitt, natürliche Fragen, kein Aufzählungs-Überblick. Noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-1.md  ·  node tools/sprueche-pruefen.js
 #

@@ -1,9 +1,10 @@
 ---
 folge: 1-2
 titel: Gas, Sprit und Streichholz
-status: entwurf
+status: alt
 machart: neu
 ---
+# ALTE FASSUNG (bis v5.82). Seit v5.83 läuft die Folge als Film: podcast/folgen/film-1-2.md (in der App unter „Alte Folgen und Tests“ als „ohne Film“).
 # Hörreise, Tag 1, Folge 1-2 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-2.md  ·  node tools/sprueche-pruefen.js
 #

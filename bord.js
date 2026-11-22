@@ -98,7 +98,7 @@
 
   /* ---------- Bühne aufbauen ---------- */
   async function buehne(ort, blick) {
-    const FBm = FB(); FBm.reset(); FBm.licht(lichtJetzt()); FBm.atmo([]); FBm.mount(bw());
+    const FBm = FB(); FBm.reset(); if (FBm.uhr) FBm.uhr(null); FBm.licht(lichtJetzt()); FBm.atmo([]); FBm.mount(bw());
     await FBm.ort(ort, 'sofort', blick);
   }
 
@@ -156,7 +156,7 @@
       <button class="bpf l" aria-label="nach links">‹</button><button class="bpf r" aria-label="nach rechts">›</button><button class="bfern fernglas" aria-label="Fernglas: zeigt, was man antippen kann">${FERN}</button>`);
     await buehne('kajuete', 'innen'); if (!da(n)) return;
     const s0 = PAN.merk != null ? PAN.merk : 0;
-    FB().EINST.innen.totale = {df: .5, pan: s0}; FB().kamera('innen', 'totale', 'sofort');
+    FB().EINST.innen['b-totale'] = {df: .5, pan: s0}; FB().kamera('innen', 'b-totale', 'sofort');
     /* Dinge bekommen data-spot (für Tests und Tastatur); ein Klick darauf (oder das Antippen über dem Wisch-Streifen) führt zu tippen() */
     for (const [k, sp] of Object.entries(SPOT)) { const d = inB(DING[k].sel); if (d) d.setAttribute('data-spot', sp); }
     panoAufbauen(n, s0); texteLaden(); leben('kajuete', n);
@@ -247,9 +247,9 @@
   async function ran(k) {
     const D = DING[k]; if (busy || !box || !D) return; busy = true; stumm(); ZOOM = k;
     box.classList.add('zoom'); const det = box.querySelector('.bdet'); det.classList.remove('an'); det.innerHTML = '';
-    FB().EINST.innen[k] = zielFuer(D);
-    if (k === 'tuer') { sfx('schritte', {vol: .5}); await FB().kamera('innen', k, 'fahrt'); busy = false; ZOOM = null; return tun('tuer'); }
-    await FB().kamera('innen', k, 'fahrt');
+    FB().EINST.innen['b-' + k] = zielFuer(D);
+    if (k === 'tuer') { sfx('schritte', {vol: .5}); await FB().kamera('innen', 'b-' + k, 'fahrt'); busy = false; ZOOM = null; return tun('tuer'); }
+    await FB().kamera('innen', 'b-' + k, 'fahrt');
     if (!box || ZOOM !== k) { busy = false; return; }
     if (k === 'karte') await karteAuf(); else if (D.nah) await nahAuf(k, D);
     det.innerHTML = `<button class="bzur" data-zurueck>‹ Kajüte</button>` + (DETAIL[k] ? DETAIL[k]() : ''); requestAnimationFrame(() => det.classList.add('an'));
@@ -262,8 +262,8 @@
     if (kb) { cancelAnimationFrame(knotRaf); kb.remove(); }
     if (nah) { nah.classList.remove('fertig'); await nah.animate([{opacity: 1}, {opacity: 0}], {duration: 380, fill: 'forwards'}).finished; nah.remove(); }
     if (oben) { await kippen(false); oben.remove(); if (boden) boden.remove(); }
-    FB().EINST.innen.totale = {df: .5, pan: PAN.p};
-    await FB().kamera('innen', 'totale', 'fahrt'); det.innerHTML = ''; box.classList.remove('zoom'); ZOOM = null; busy = false;
+    FB().EINST.innen['b-totale'] = {df: .5, pan: PAN.p};
+    await FB().kamera('innen', 'b-totale', 'fahrt'); det.innerHTML = ''; box.classList.remove('zoom'); ZOOM = null; busy = false;
   }
   /* Dasselbe Ding scharf darüber (Überblendung), mit Antipp-Feldern und Häkchen aus dem echten Lernstand */
   async function nahAuf(k, D) {
@@ -343,9 +343,9 @@
     if (busy || !box) return; busy = true; stumm(); ZOOM = 'hocker'; box.classList.add('zoom');
     const det = box.querySelector('.bdet'); det.classList.remove('an'); det.innerHTML = '';
     const H = box.clientHeight, W = box.clientWidth, K = FB().K, z = Math.max(1.25, Math.min(1.6, W / (K * 196) / .625 - .6 / .625 + 1));
-    FB().EINST.innen.runde = {z, fx: 200, fy: 322 + 60 / (K * (1 + (z - 1) * .625)) * (H > 700 ? 1 : .6), df: .5, pan: 0};
+    FB().EINST.innen['b-runde'] = {z, fx: 200, fy: 322 + 60 / (K * (1 + (z - 1) * .625)) * (H > 700 ? 1 : .6), df: .5, pan: 0};
     sfx('schritte', {vol: .35});
-    await FB().kamera('innen', 'runde', 'fahrt'); if (!box || ZOOM !== 'hocker') { busy = false; return; }
+    await FB().kamera('innen', 'b-runde', 'fahrt'); if (!box || ZOOM !== 'hocker') { busy = false; return; }
     det.innerHTML = `<button class="bzur" data-zurueck>‹ Kajüte</button>` + rundeHtml(); requestAnimationFrame(() => det.classList.add('an'));
     busy = false;
     sprich('smilla', '1tr739f', {anker: figurEl('smilla')});

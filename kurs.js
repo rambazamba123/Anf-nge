@@ -15,11 +15,16 @@
   const FOLGEN = {probe: {datei: 'podcast/archiv/folgen/probe-G6-3.md', titel: 'Brücken und Schleusen', unter: 'Alte Probefolge des Kajütenfunks (G6.3), mit Quirin'},
     /* Hörreise (docs/reise.md §7): erste Folge, Entwurf (Nutzer, 07.11.2026); die Probefolge oben bleibt */
     /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
-    'gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Leise raus', unter: 'Neue Machart (Test): Ablegen und Radeffekt', wetter: 'schoen'},
+    /* v5.83 (E36): Tag 1, Folgen 1-1 bis 1-3 als Film mit der Kajüte als Szenenbild (FK17); IDs bleiben (R7), die Fassungen ohne Film liegen unter alt-… */
+    'gold-1': {datei: 'podcast/folgen/film-1-3.md', titel: 'Leise raus', unter: 'Hörreise, Tag 1, Folge 3 (Film): Ablegen, Radeffekt, Manöverbrett', design: 'f', film: true, wetter: 'schoen'},
     'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Warten auf die Fähre', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
     'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
-    'reise-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Entwurf): Hafenkino, wer das Sagen hat'},
-    'reise-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Entwurf): Tanken mit der Hafenmeisterin', design: 'b'},
+    'reise-1-1': {datei: 'podcast/folgen/film-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Film): Kajüte, Hafenkino, wer das Sagen hat', design: 'f', film: true, wetter: 'schoen'},
+    'reise-1-2': {datei: 'podcast/folgen/film-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Film): Tanken mit der Hafenmeisterin, Gashahn in der Kajüte', design: 'f', film: true, wetter: 'schoen'},
+    /* die Fassungen ohne Film (bis v5.82), unter „Alte Folgen und Tests“ */
+    'alt-1-1': {datei: 'podcast/folgen/reise-1-1.md', titel: 'Erster Morgen (ohne Film)', unter: 'Folge 1-1 wie bis v5.82: neue Machart, ohne Filmbühne'},
+    'alt-1-2': {datei: 'podcast/folgen/reise-1-2.md', titel: 'Gas, Sprit und Streichholz (ohne Film)', unter: 'Folge 1-2 wie bis v5.82: neue Machart, Nachtbühne', design: 'b'},
+    'alt-gold-1': {datei: 'podcast/skripte/gold-heck.md', titel: 'Leise raus (ohne Film)', unter: 'Folge 1-3 wie bis v5.82: neue Machart, ohne Filmbühne', wetter: 'schoen'},
     /* Test vom 08.11.2026: die neun Formen fürs Wiedersehen (HR29), Nutzer will sie erst hören */
     'test-wiedersehen': {datei: 'podcast/skripte/test-wiedersehen.md', titel: 'Test: Wiedersehen in neun Formen', unter: 'W1 bis W9, je eine kurze Szene, am besten interaktiv'},
     'reise-1-3': {datei: 'podcast/folgen/reise-1-3.md', titel: 'Das Heck zieht weg', unter: 'Hörreise, Tag 1, Folge 3 (Entwurf), Radeffekt, Ruder, Sog'},
@@ -29,12 +34,12 @@
     'film-c': {datei: 'podcast/skripte/film-leise-raus-c.md', titel: 'Leise raus · C: Du bist Ausguck', unter: 'Filmprobe: du hast eine Aufgabe, Harms ruft an', design: 'f', film: true, wetter: 'schoen'}};
   /* Design-Test (Nutzer, 08.11.2026): 1-2 im Entwurf B „Nachtbühne“, die Folge danach (1-3) im Entwurf A „Kajüte“; beide mit einem Knopf vertonen.
      1-1 hat keine Animation, darum 1-2 und 1-3 (dort sind Animationen und Fragen mit allen drei Lagen). */
-  const TESTPAAR = ['reise-1-2', 'reise-1-3'];
+  const TESTPAAR = ['alt-1-2', 'reise-1-3'];   /* v5.83: 1-2 ist jetzt ein Film, der Vergleich läuft mit der alten Fassung */
   const AUSSEHEN = {a: '🪵 Kajüte', b: '🌙 Nacht', s: '▫️ Schlicht', f: '🎬 Film'};
   let aussehenAkt = 's', buehnenCrew = [];
   const FORMAT = 'mp3_44100_64';   /* 64 kbit/s (Konzept §17.3) */
   /* [[AUDIO: …]] im Skript → Geräusch der App; was fehlt, fehlt */
-  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen'};
+  const TOENE = {Schiffsglocke: 'glocke', 'Möwen': 'moewe', Katze: 'katze', Papagei: 'papagei', Motor: 'motorStart', Uhr: 'uhr', Schritte: 'schritte', Streichholz: 'streichholz', Klopfen: 'klopfen', Piep: 'piep'};   /* v5.83 Piep: Anrufbeantworter */
   const TON_DAUER = {glocke: 1.2, schritte: 2};
   const DENK_MIN = 6;   /* B152 (Nutzer, 27.10.2026): im Auto-Modus immer sechs Sekunden */
   /* Revier → leise Dauer-Geräusche */
@@ -679,11 +684,22 @@
     gesichter(z.wer, launeRaten(z));
     box.innerHTML = `<div class="kname">${esc(NAMEN[z.wer] || z.wer)}${gratis ? ' <span class="kgr">· Gratis-Stimme</span>' : ''}</div><div class="ktext">${esc(z.text)}</div>`;
   }
+  /* v5.83: Licht der Filmbühne aus der Geschichte (FK15): Tageszeit und Wetter der ersten Szene der Folge.
+     Vorher blieb das Licht von Deck und Kajüte der App stehen (bord.js setzt seit v5.82 die echte Tageszeit), abends lief „Morgen, Sonne“ dann bei Nacht. */
+  let filmFolge = null;   /* die geöffnete Folge, für das Licht der Filmbühne */
+  function filmLicht(f) {
+    if (!window.FILMB || !FILMB.licht) return;
+    const sz = f && f.items ? f.items.find(x => x.t === 'szene') : null, t = String(sz ? sz.text : '').toLowerCase();
+    const l = /nebel|diesig/.test(t) ? 'nebel' : /regen|schauer|niesel|sturm/.test(t) ? 'regen' : /nacht|dunkel/.test(t) ? 'nacht' : /abend|dämmer/.test(t) ? 'abend' : /früh|morgen/.test(t) ? 'morgen' : 'mittag';
+    FILMB.licht(l);
+    /* die Uhr in der Kajüte zeigt die Zeit der Szene, nicht die des Handys (Lektorat 22.11.2026) */
+    if (FILMB.uhr) FILMB.uhr({morgen: 8 * 60 + 10, mittag: 10 * 60 + 20, abend: 19 * 60 + 30, nacht: 23 * 60 + 10, nebel: 8 * 60 + 40, regen: 15 * 60 + 5}[l]);
+  }
   function aussehenSetzen(d) {
     aussehenAkt = AUSSEHEN[d] ? d : 's'; const r = document.getElementById('kursplayer'); if (!r) return;
     r.classList.remove('d-a', 'd-b', 'd-s', 'd-f'); r.classList.add('d-' + aussehenAkt);
     const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; }
-    if (aussehenAkt === 'f' && g && window.FILMB) FILMB.mount(g);
+    if (aussehenAkt === 'f' && g && window.FILMB) { filmLicht(filmFolge); FILMB.mount(g); }
     gesichter(null);
   }
   /* v5.71 Filmbühne: Harms von außen („frage“, das Bild friert ein) oder am Telefon („anruf“) */
@@ -1577,7 +1593,7 @@
     buehnenCrew = []; aussehenSetzen(ausWahl()); ausChips();
     document.querySelectorAll('#kursplayer [data-aus]').forEach(b => b.onclick = () => { k.aussehen = k.aussehen || {}; k.aussehen[id] = b.dataset.aus; save(); aussehenSetzen(b.dataset.aus); ausChips(); });
     let st;
-    try { st = await laden(id); st.id = id; st.film = !!f.film; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
+    try { st = await laden(id); st.id = id; st.film = !!f.film; filmFolge = st; } catch (e) { return info('Ging nicht: ' + (e.message || e)); }
     /* v5.71: Das Anfangsbild steht schon vor dem Start (erster Ort der Folge) */
     if (st.film && window.FILMB && aussehenAkt === 'f') { const o = st.items.find(x => x.t === 'ort'); if (o) FILMB.ort(o.name, 'sofort', o.blick); }
     stoffNachtragen();
@@ -1622,7 +1638,7 @@
     { let hr = null; try { hr = typeof HOERREISE !== 'undefined' ? HOERREISE.find(x => x[0] === st.id) : null; } catch (e) {} folgeWetter = (FOLGEN[st.id] && FOLGEN[st.id].wetter) || (hr && hr[3]) || null; szeneWetter = null; szeneZeit = null; szeneProps = {}; szeneArt = 'deck'; }
     buehnenCrew = (st.anBord || ['HINNERK', 'SMILLA']).slice(); if (aussehenAkt === 'a') buehnenCrew = buehnenCrew.filter(w => w !== 'BACKBORD');
     /* v5.71: Die Filmbühne nicht leeren, sonst hält ihre Zeichenschleife an; neu aufbauen und das Anfangsbild wieder setzen */
-    { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; if (aussehenAkt === 'f' && window.FILMB) { FILMB.mount(g); FILMB.reset(); const o = st.film && st.items.find(x => x.t === 'ort'); if (o) FILMB.ort(o.name, 'sofort', o.blick); } } gesichter(null); }
+    { const g = ui('#kges'); if (g) { g.innerHTML = ''; g.dataset.w = ''; g.dataset.gast = ''; if (aussehenAkt === 'f' && window.FILMB) { filmLicht(filmFolge); FILMB.mount(g); FILMB.reset(); const o = st.film && st.items.find(x => x.t === 'ort'); if (o) FILMB.ort(o.name, 'sofort', o.blick); } } gesichter(null); }
     await neu();
     /* Design-Test: beide Folgen mit einem Knopf vertonen (oben in der Bühne, nur mit Schlüssel) */
     const paar = async () => {
