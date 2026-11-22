@@ -37,7 +37,8 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
 (async () => {
   const b = await pw.chromium.launch();
   /* 1 und 5: Tankstelle (Gast und Crew), Sprecherwechsel */
-  { const {p, ctx, errs} = await oeffne(b, 'reise-1-2', 'Die Gasflasche'); let vorher = null, spruenge = 0, wechsel = 0;
+  /* seit v5.83 ist 1-2 ein Film (keine Gesichter); die Gesichter-Prüfung läuft mit der Fassung ohne Film */
+  { const {p, ctx, errs} = await oeffne(b, 'alt-1-2', 'Die Gasflasche'); let vorher = null, spruenge = 0, wechsel = 0;
     for (let i = 0; i < 70; i++) { await sleep(150); const l = await lage(p); const sp = Object.keys(l).find(k => k.endsWith('*'));
       if (vorher && sp && vorher.sp !== sp) { wechsel++; for (const [k, v] of Object.entries(l)) { const w = k.replace('*', ''), a = vorher.l[w] || vorher.l[w + '*']; if (a && (Math.abs(a[1] - v[1]) > 6 || Math.abs(a[2] - v[2]) > 4)) spruenge++; } }
       const n = {}; for (const [k, v] of Object.entries(l)) n[k.replace('*', '')] = v; vorher = {sp, l: n}; }
@@ -86,6 +87,22 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     r.da ? ok('Filmbühne steht im Player') : schlecht('Filmbühne fehlt im Player (#kges .fb)');
     Math.abs(r.fender - .5) < .01 ? ok(`Filmbühne läuft (Ort ${r.ort})`) : schlecht('Filmbühne steht still: Handlung kommt nicht an (' + r.fender + ')');
     errs.length ? schlecht('Konsole (Filmprobe A): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (Filmprobe A)'); await ctx.close(); }
+  /* v5.83 Tag 1 als Film (E36, FK17): die Kajüte ist Szenenbild; Klabauter fehlt bis 1-6 (TU klab), in 1-3 steht Hinnerk oben am Ruder (TU hin),
+     die Kamera fährt an die Kombüse (1-2) und ans Manöverbrett (1-3); beim Wechsel an Deck ist der Liegeplatz da (1-1) */
+  for (const [id, ab, will] of [['reise-1-1', 'Kaffee ohne Papagei', {ort: 'kajuete', klab: 0, hin: 1}], ['reise-1-1', 'Hafenkino', {ort: 'liegeplatz'}],
+    ['reise-1-2', 'Der Gashahn', {ort: 'kajuete', klab: 0, hin: 1, blick: 'kombuese'}], ['gold-1', 'Kalter Kaffee', {ort: 'kajuete', klab: 0, hin: 0, blick: 'manoever'}]]) {
+    const {p, ctx, errs} = await oeffne(b, id, ab); let z = null;
+    for (let i = 0; i < 60; i++) { await sleep(250);
+      z = await p.evaluate(() => { const st = FILMB.zustand, k = document.getElementById('fk-klabauter'), h = document.getElementById('fk-hinnerk'), a = document.getElementById('fk-hinnerk-arme');
+        return {ort: st.ort, klab: k ? +(k.style.opacity || 1) : null, hin: h ? +(h.style.opacity || 1) : null, arme: a ? +(a.style.opacity || 1) : null}; });
+      if (z.ort === will.ort && (will.klab === undefined || z.klab === will.klab) && (will.hin === undefined || z.hin === will.hin)) break; }
+    const name = `${id} „${ab}“`;
+    z.ort === will.ort ? ok(`${name}: Bühnenbild ${z.ort}`) : schlecht(`${name}: Bühnenbild ${z.ort} statt ${will.ort}`);
+    if (will.klab !== undefined) z.klab === will.klab ? ok(`${name}: Klabauter ${will.klab ? 'da' : 'ausgeblendet'}`) : schlecht(`${name}: Klabauter ${z.klab} statt ${will.klab}`);
+    if (will.hin !== undefined) z.hin === will.hin && z.arme === will.hin ? ok(`${name}: Hinnerk ${will.hin ? 'am Tisch' : 'oben am Ruder (ausgeblendet, Becher bleibt)'}`) : schlecht(`${name}: Hinnerk ${z.hin}/${z.arme} statt ${will.hin}`);
+    if (will.blick) { let ja = false; for (let i = 0; i < 80 && !ja; i++) { await sleep(250); ja = await p.evaluate(e => FILMB.zustand.einst === e, will.blick); }
+      ja ? ok(`${name}: Kamera fährt an „${will.blick}“`) : schlecht(`${name}: Kamera kommt nicht an „${will.blick}“`); }
+    errs.length ? schlecht(`Konsole (${name}): ` + errs.slice(0, 3).join(' | ')) : ok(`Konsole fehlerfrei (${name})`); await ctx.close(); }
   /* v5.73 Werft mit Drehrad: Bühne sichtbar (nicht von der Crew-Ansicht verdeckt), Wahl wirkt als Vorschau, Verwerfen stellt zurück, Übernehmen speichert */
   { const ctx = await b.newContext({viewport: {width: 400, height: 860}}); const p = await ctx.newPage(); const errs = [];
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));

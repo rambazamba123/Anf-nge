@@ -21,6 +21,15 @@
 | FK11 | Anfang einer Folge (neues Bühnenbild) | Glasplatten |
 | FK12 | Licht wechselt (Sonne geht unter, Licht an) | Lichtblende |
 
+## Die Kajüte als Szenenbild (Nutzer, 22.11.2026: „Wir nutzen die Kajüte als Szenenbild mit. Das muss in die Grundlagen.“)
+- **FK17 Dieselbe Kajüte wie in der App.** Wer die Folge hört, kennt den Raum vom Wischen: Tisch mit Hinnerk und Smilla, dein Hocker mit deinem Becher, Knotenbrett, Manöverbrett, Seekarte, Telefon, Kombüse, Niedergang. Darum spielen Gespräche am Tisch, Erklärungen an den Brettern und Anrufe von Harms dort und nicht an einem erfundenen Ort.
+  - **Wann:** Ruhe vor oder nach einer Fahrt (Kaffee, Abend, Regen), Erklärungen an einem Brett (Manöver, Knoten, Karte), Kombüse (Gas, Kochen), Telefon (Harms ruft an). Unterwegs nur kurz und mit Grund (etwas holen, Hinnerk bleibt oben am Ruder).
+  - **Marke:** `[[ORT: kajuete, nebel, innen]]` (als erstes Bild der Folge mit Glasplatten, FK11), danach Blicke mit `[[KAMERA: innen, …, fahrt]]`: `totale`, `runde` (am Tisch, du sitzt auf dem Hocker), `crew` (Hinnerk und Smilla halbnah), `karte` (Seekarte am Tisch), `stange` (Klabauters Stange mit Schälchen), `baro` (Uhr und Barometer), `telefon`, `kombuese` (Herd, Drehknöpfe, Gashahn mit rotem Hebel), `knoten`, `manoever`, `navi` (Kartentisch), `buch`, `tuer` (Niedergang), `hocker`.
+  - **Wer da ist:** Klabauter ist bis zu seiner Rückkehr in 1-6 ausgeblendet (`[[TU: klab=0/10]]` direkt nach dem ORT). Steht Hinnerk in der Geschichte oben am Ruder, wird er ausgeblendet (`[[TU: hin=0/10]]`); sein Becher bleibt stehen und dampft nicht mehr. Gäste sitzen (noch) nicht am Tisch, sie rufen von oben oder kommen per Telefon.
+  - **Harms:** Das rote Telefon ist seine Leitung, wie in der App (dort ruft man ihn zur Probeprüfung). Geht keiner ran, spricht er auf den Anrufbeantworter.
+  - **Vom Brett in die Aufsicht:** Manöverbrett und Seekarte zeigen die Aufsicht schon. Von dort geht es mit einer Nebelblende in die Ansicht von oben (FK5), nicht mit einer Kranfahrt aus der Kajüte.
+  - **Licht:** wie draußen (FK15), die Lampe brennt immer. Karte = Welt (HR50): Was auf der Seekarte am Tisch liegt, ist die Reisekarte.
+
 ## Nicht
 - **FK13** Kein Vordergrund-Wischer (Nutzer, 20.11.2026). Kein harter Schnitt, außer zum Vergleich.
 - **FK14** Keine Wechsel nur, damit sich etwas bewegt. Wenn nichts passiert, bleibt das Bild stehen und die Welt lebt (Wellen, Möwen, Nebel).
@@ -30,9 +39,9 @@
 - **FK16** Eine Glasart für alle Folgen: **weich** (Nutzer, 20.11.2026). Seit v5.73 gibt es sechs Glasarten zur Auswahl in der Werft (Weich, Klar, Aquarell, Feder, Buntstift, Papiertheater; `docs/baukasten.md`); die Standardwahl bleibt Weich, bis der Nutzer anders entscheidet.
 
 ## Marken im Skript (seit v5.71, `film.js`)
-- `[[ORT: name, übergang, blick]]` neues Bühnenbild (`tankstelle`, `becken`, `kluever`, `ausfahrt`, seit v5.72 `motor` mit Blick `heck`: Außenborder von achtern, `[[TU: dreh=1, pfeil=1]]` zeigt „voraus: im Uhrzeigersinn“, `dreh=-1` „zurück“). Boot und Figuren kommen aus dem Baukasten (`docs/baukasten.md`). Das erste ORT einer Folge kommt immer mit Glasplatten (FK11).
+- `[[ORT: name, übergang, blick]]` neues Bühnenbild (`tankstelle`, `becken`, `kluever`, `ausfahrt`, seit v5.72 `motor` mit Blick `heck`: Außenborder von achtern, `[[TU: dreh=1, pfeil=1]]` zeigt „voraus: im Uhrzeigersinn“, `dreh=-1` „zurück“; seit v5.83 `kajuete` mit Blick `innen` (FK17) und `liegeplatz` mit Blick `seite`, die Frieda am Liegeplatz in Kuttershaven). Boot und Figuren kommen aus dem Baukasten (`docs/baukasten.md`). Das erste ORT einer Folge kommt immer mit Glasplatten (FK11).
 - `[[KAMERA: blick, einstellung, übergang]]` im selben Ort, z. B. `[[KAMERA: heck, totale, orbit]]`, `[[KAMERA: seite, hilke, schaerfe]]`, `[[KAMERA: schnitt, totale, tauchen]]`. Übergänge: `fahrt`, `schaerfe`, `orbit`, `kran`, `tauchen`, `atem`, `nebel`, `licht`, `platten`, `schnitt`.
-- `[[TU: name=wert/ms, …]]` Handlung im Bild (z. B. `p=.7/5000` Frieda fährt zurück, `fender=1/600`). Ein TU nur mit Sprüngen (0 bis 10 ms) direkt nach ORT oder KAMERA gilt genau im Moment des Bildwechsels, man sieht den Sprung nicht.
+- `[[TU: name=wert/ms, …]]` Handlung im Bild (z. B. `p=.7/5000` Frieda fährt zurück, `fender=1/600`; in der Kajüte `klab=0` Klabauter weg, `hin=0` Hinnerk oben am Ruder). Ein TU nur mit Sprüngen (0 bis 10 ms) direkt nach ORT oder KAMERA gilt genau im Moment des Bildwechsels, man sieht den Sprung nicht.
 - `[[VERTIGO: an]]` Hitchcock-Zoom (FK9).
 - `[[HARMS: anfang]] … [[HARMS: ende]]` Harms von außen (Rückblick „Was bisher geschah“); `[[HARMS: frage]]` hält den Film an (Bild friert ein) und stellt bis zu zwei Fragen früherer Folgen; `[[HARMS: anruf]]` dasselbe am Telefon in der Geschichte. Mit „Harms aus“ entfällt alles davon.
 - `[[KISTE: Aufgabe]]` nur in der Stufe „Mit Händen“: Bild friert ein, Karte mit der Aufgabe, Erledigt oder Später.

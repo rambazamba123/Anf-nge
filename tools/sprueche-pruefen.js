@@ -86,6 +86,7 @@ for (const d of dateien) {
   const D = `podcast/folgen/${d}`, zeilen = fs.readFileSync(path.join(FOLGEN, d), 'utf8').split('\n');
   let kopf = {}, i = 0;
   if (zeilen[0] && zeilen[0].trim() === '---') { for (i = 1; i < zeilen.length && zeilen[i].trim() !== '---'; i++) { const m = zeilen[i].match(/^(\w+):\s*(.*)$/); if (m) kopf[m[1]] = m[2].trim(); } i++; }
+  if (kopf.status === 'alt') continue;   /* v5.83: alte Fassungen (z. B. reise-1-1 neben film-1-1) zählen nicht fürs Budget, sonst doppelt */
   const folge = kopf.folge || d.replace(/\.md$/, ''), tag = /^\d-\d+$/.test(folge) ? +folge[0] : null;
   for (; i < zeilen.length; i++) {
     const z = zeilen[i].trim(), ort = `${D}:${i + 1}`;

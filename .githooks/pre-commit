@@ -7,7 +7,7 @@ if git diff --cached --name-only | grep -q '^podcast/'; then node tools/podcast-
 # Reiseplan der Ausbildungsfahrt: jede Frage genau einmal, nichts angewendet ohne Einführung (docs/reise.md)
 if git diff --cached --name-only | grep -qE '^(data/reiseplan\.json|data/kompetenzen\.json|tools/reiseplan\.js)$'; then node tools/reiseplan.js --check || { echo "Reiseplan-Prüfung fehlgeschlagen."; exit 1; }; fi
 # Reisekarte Brede-Bucht = Welt der Geschichte (docs/reise.md HR51): Orte, Routen, Meilen in den Folgen
-if git diff --cached --name-only | grep -qE '^(data/karte-brede\.json|data/reiseplan\.json|brede\.js|tools/karte-pruefen\.js|podcast/folgen/reise-)'; then node tools/karte-pruefen.js || { echo "Karte-Welt-Prüfung fehlgeschlagen (docs/reise.md HR51)."; exit 1; }; fi
+if git diff --cached --name-only | grep -qE '^(data/karte-brede\.json|data/reiseplan\.json|brede\.js|tools/karte-pruefen\.js|podcast/folgen/(reise|film)-)'; then node tools/karte-pruefen.js || { echo "Karte-Welt-Prüfung fehlgeschlagen (docs/reise.md HR51)."; exit 1; }; fi
 # Karte 7: Objektdaten müssen zum SVG passen
 if git diff --cached --name-only | grep -qE '^(img/karte7\.svg|data/karte7\.json|data/navi7\.json)$'; then node tools/karte7-extrahieren.js --check && node tools/navi7-pruefen.js || { echo "Karte-7-Prüfung fehlgeschlagen."; exit 1; }; fi
 # 3D-Folgen, Crew-Gespräche und Kompetenzen prüfen (v5.22, tools/folgen-pruefen.js)

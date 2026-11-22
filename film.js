@@ -344,12 +344,14 @@ function kajueteEbenen() {
       <rect x="42" y="214" width="12" height="18" rx="2" fill="#e9dcc0" stroke="${tinte}" stroke-width=".7"/><rect x="42" y="214" width="12" height="5" rx="1" fill="#c0392b"/><rect x="58" y="210" width="18" height="22" rx="1.5" fill="#2f6a7a" stroke="${tinte}" stroke-width=".7"/><text x="67" y="224" font-family="${KJ.schrift}" font-weight="800" font-size="4" fill="#f3ead2" text-anchor="middle">TEE</text></g>`;
   /* Gardinen, Wimpel, Knotenbrett, Bild, Manöverbrett, Seekarte, Ölzeug, Rettungsring, Glocke */
   w2 += gardine(70, -1, 108, 196) + gardine(140, 1, 108, 196) + gardine(260, -1, 108, 196) + gardine(330, 1, 108, 196) + `<path d="M64 110 H146 M254 110 H336" stroke="${messing}" stroke-width="2.4" stroke-linecap="round"/>`
+    + `<g id="kj-schaelchen"><path d="M276 110 v3.6 M286 110 v3.6" stroke="#6b4a2a" stroke-width=".8"/><path d="M272.5 113.4 h17 q-1.2 6.4 -8.5 6.4 q-7.3 0 -8.5 -6.4z" fill="#e9e1cf" stroke="#3a2a1c" stroke-width=".8"/><path d="M274 114.6 h14" stroke="#2f6a9a" stroke-width="1"/></g>`   /* Klabauters Schälchen an der Stange (1-1: „Der Zwieback ist weg!“) */
     + `<g id="fk-klabauter" data-fest="" transform="translate(302 110) scale(1.3)">${C('klabauter', {pose: 'sitzen'})}</g>`;  /* Klabauter sitzt auf der Gardinenstange (gleiche Ebene, damit er beim Wischen nicht verrutscht) */
   w2 += `<path d="M58 46 Q200 76 342 46" stroke="${holzD}" stroke-width="1.2" fill="none"/>` + Array.from({length: 11}, (_, i) => { const x = 62 + i * 26, y = 47 + Math.sin(i / 10 * Math.PI) * 13; return `<path d="M${x} ${r1(y)} L${x + 15} ${r1(y + 1)} L${x + 7.5} ${r1(y + 15)}Z" fill="${['#c0392b', '#e8b33c', '#3c7a52', '#2f6a9a', '#f3ead2'][i % 5]}" stroke="${holzD}" stroke-width=".7"/>`; }).join('');
   w2 += knotenbrett();
   w2 += `<g><rect x="331" y="54" width="27" height="34" fill="#c9a03c" stroke="${holzD}" stroke-width="1.4"/><rect x="334" y="57" width="21" height="28" fill="#bcd6dc"/><path d="M334 78 q5 -3 10 0 t11 0 V85 H334Z" fill="#4f7a8a"/><path d="M343 78 V64 h3 V78" fill="#f3ead2" stroke="${tinte}" stroke-width=".5"/><path d="M342 64 h5 l-2.5 -3z" fill="${KJ.rot}"/></g>`;
   w2 += manoeverbrett() + seekarteWand();
-  w2 += `<g><circle cx="469" cy="88" r="2.4" fill="${messing}"/><path d="M462 104 Q469 84 476 104" fill="#d9a82a" stroke="#8a6a12" stroke-width="1"/>
+  /* Ölzeug: v5.83 um 38 nach rechts, damit es mit der stärkeren Tiefe (kajOff) nicht über Manöverbrett und Seekarte hängt */
+  w2 += `<g transform="translate(38 0)"><circle cx="469" cy="88" r="2.4" fill="${messing}"/><path d="M462 104 Q469 84 476 104" fill="#d9a82a" stroke="#8a6a12" stroke-width="1"/>
       <path d="M452 196 L455 108 Q469 100 483 108 L486 196 Q469 202 452 196Z" fill="#e7b730" stroke="#8a6a12" stroke-width="1.2"/><path d="M469 104 V198" stroke="#b8891a" stroke-width="1.1"/>${[122, 140, 158, 176].map(y => `<rect x="466.5" y="${y}" width="5" height="2.4" rx="1" fill="#6b4a12"/>`).join('')}
       <path d="M455 110 Q446 120 445 176 L452 178 Q454 132 459 118" fill="#d9a82a" stroke="#8a6a12" stroke-width="1"/><path d="M483 110 Q492 120 493 176 L486 178 Q484 132 479 118" fill="#d9a82a" stroke="#8a6a12" stroke-width="1"/>
       <path d="M455 160 h10 v12 h-10z M473 160 h10 v12 h-10z" fill="none" stroke="#b8891a" stroke-width=".9"/></g>`;
@@ -363,6 +365,7 @@ function kajueteEbenen() {
   m += `<g><rect x="-150" y="214" width="142" height="164" fill="${holzD}"/><rect x="-154" y="210" width="150" height="8" fill="#b08458" stroke="${tinte}" stroke-width=".8"/><path d="M-154 206 H-4" stroke="${messing}" stroke-width="1.6"/>
       ${[0, 1].map(r => [0, 1].map(c => `<rect x="${-146 + c * 70}" y="${226 + r * 74}" width="64" height="66" rx="2" fill="${holz}" stroke="${tinte}" stroke-width=".8"/><circle cx="${-146 + c * 70 + (c ? 8 : 56)}" cy="${259 + r * 74}" r="2.2" fill="${messing}"/>`).join('')).join('')}
       <rect x="-142" y="184" width="54" height="26" rx="3" fill="#8f9396" stroke="${tinte}" stroke-width=".8"/>${[-128, -102].map(x => `<ellipse cx="${x}" cy="186" rx="10" ry="2.6" fill="#3a3a3a"/>`).join('')}
+      ${[-128, -102].map(x => `<circle cx="${x}" cy="199" r="3.2" fill="#2e2e2e" stroke="${tinte}" stroke-width=".6"/><path d="M${x} 196.6 v2.6" stroke="#e8e2d0" stroke-width="1"/>`).join('')}<g id="kj-gashahn"><path d="M-86 203 h9 v22" stroke="#e2b23c" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="-77" cy="213" r="3.4" fill="${messing}" stroke="${tinte}" stroke-width=".7"/><path d="M-77 213 l11 -4" stroke="${KJ.rot}" stroke-width="3.6" stroke-linecap="round"/></g>
       <g><path d="M-136 184 q0 -14 12 -14 q12 0 12 14z" fill="#3a5a7a" stroke="${tinte}" stroke-width=".8"/><path d="M-124 170 v-4 h-5" stroke="${tinte}" stroke-width="1.2" fill="none"/><path d="M-112 176 q8 -2 10 -8" stroke="#3a5a7a" stroke-width="2.4" fill="none"/>
         <g class="fk-dampf" opacity=".7"><path d="M-104 164 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M-98 166 q-4 -6 0 -12 q4 -6 0 -12" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" style="animation-delay:-1.2s"/></g></g>
       <path d="M-72 196 q0 -10 10 -10 h30 q6 0 6 6 v4" fill="none" stroke="#9a9a96" stroke-width="3" stroke-linecap="round"/><rect x="-76" y="200" width="56" height="12" rx="3" fill="#6a6e72" stroke="${tinte}" stroke-width=".8"/><ellipse cx="-48" cy="203" rx="20" ry="3" fill="#3a3e42"/>
@@ -407,7 +410,7 @@ function kajueteEbenen() {
         <g transform="translate(34 50) rotate(-30)"><path d="M0 0 L-6 -40 M0 0 L6 -40" stroke="#6a6a6a" stroke-width="3"/><circle r="4" fill="${messing}"/></g><g transform="translate(-30 64) rotate(12)"><rect x="-34" y="-5" width="68" height="10" rx="2" fill="#c9b78a" stroke="#6a5a3a" stroke-width="1.4" opacity=".9"/></g></g></g>`;
   /* Lichtkreis der Lampe auf dem Tisch, dann Hände; Hinnerks Becher steht zwischen seinen Händen, Smillas rechts neben ihrer Hand, dein Becher vorn vor dem Hocker (Nutzer 23.11.2026) */
   t5 += `<ellipse cx="200" cy="${TY - 2}" rx="96" ry="24" fill="url(#kj-pool)"/>`;
-  t5 += `<g transform="translate(136 ${HY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('hinnerk', {kante: KH}) : ''}</g><g transform="translate(266 ${SY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('smilla', {kante: KS, halt: 'stift'}) : ''}</g>`;
+  t5 += `<g id="fk-hinnerk-arme" transform="translate(136 ${HY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('hinnerk', {kante: KH}) : ''}</g><g transform="translate(266 ${SY}) scale(${S})">${FG && FG.tischArme ? FG.tischArme('smilla', {kante: KS, halt: 'stift'}) : ''}</g>`;
   t5 += `<g id="fk-becher-hinnerk">${becher(137, r1(TY0 + 27), 1.15, '#e9e1cf', '#2f5f8a')}${dampf(136, TY0 + 12, 0)}</g><g id="fk-becher-smilla">${becher(293, r1(TY0 + 25), 1.05, '#c8503c', '#f3ead2')}${dampf(292, TY0 + 11, -1.1)}</g>
     <g id="fk-becher-du"><ellipse cx="200" cy="${r1(TY0 + 49.6)}" rx="10" ry="2.8" fill="#b98a56" stroke="#6a4a2a" stroke-width=".8"/>${becher(200, r1(TY0 + 49), 1.25, '#f3efe6', '#e8a33c')}<path d="M197.4 ${r1(TY0 + 41)} l2.6 -3 l2.6 3 m-2.6 -3 v5.4 m-2 -2 h4" stroke="#2f5f8a" stroke-width=".9" fill="none" stroke-linecap="round"/>${dampf(199, TY0 + 33, -2.1)}</g>`;
 
@@ -575,7 +578,11 @@ const EINST = {
   heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.1, fx: 160, fy: 360, df: .92}},
   schnitt: {totale: {}, nah: {z: 1.3, fx: 200, fy: 300}},
   oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}},
-  innen: {totale: {df: .5}, knoten: {z: 6, fx: 200, fy: 190, df: .12}, karte: {z: 2, fx: 200, fy: 383, df: .5}, telefon: {z: 4, fx: 40, fy: 160, df: .12}, manoever: {z: 4, fx: 413, fy: 85, df: .12}, buch: {z: 3, fx: -236, fy: 186, df: .12}, navi: {z: 3.4, fx: 405, fy: 167, df: .12}, hocker: {z: 2.4, fx: 200, fy: 470, df: .75}, tuer: {z: 1.6, fx: 585, fy: 200, df: .3}},
+  /* Kajüte (v5.82): Blicke für Folgen und App. buch, manoever, navi und tuer liegen seit der stärkeren Tiefe um ihre Verschiebung (kajOff) versetzt;
+     runde = am Tisch in der Runde (Hocker), baro = Uhr und Barometer, kombuese = Herd und Gashahn, crew = Hinnerk und Smilla halbnah */
+  innen: {totale: {df: .5}, knoten: {z: 6, fx: 200, fy: 190, df: .12}, karte: {z: 2, fx: 200, fy: 383, df: .5}, telefon: {z: 4, fx: 40, fy: 160, df: .12}, manoever: {z: 7, fx: 400, fy: 85, df: .12},
+    buch: {z: 3, fx: -169, fy: 186, df: .12}, stange: {z: 4.6, fx: 302, fy: 122, df: .2}, navi: {z: 3.4, fx: 394, fy: 167, df: .12}, hocker: {z: 2.4, fx: 200, fy: 470, df: .75}, tuer: {z: 1.6, fx: 560, fy: 200, df: .3},
+    runde: {z: 1.45, fx: 200, fy: 330, df: .5}, crew: {z: 1.8, fx: 200, fy: 300, df: .5}, baro: {z: 4.2, fx: 48, fy: 92, df: .12}, kombuese: {z: 3.4, fx: -82, fy: 202, df: .3}},
 };
 const PEIL = {seite: 270, heck: 180};
 
@@ -583,7 +590,7 @@ const PEIL = {seite: 270, heck: 180};
 const NULLCAM = {z: 1, fx: 200, fy: 250, ox: 0, oy: 0, df: .55, kipp: 0, drehOff: 0, vert: 0, pan: 0};
 /* Ort-Einstellungen (v5.81): weit = Ebenen dürfen über den Bildrand gezeichnet sein (Panorama zum Wischen, FILMB.pan), dunst/unschaerfe = Anteil von Dunst und Tiefenschärfe,
    panTiefe = wie stark nahe Ebenen beim Wischen schneller wandern als ferne, atmen = Stärke der leichten Eigenbewegung. Kajüte: fast alles klar, Personen scharf (Nutzer 23.11.2026) */
-const ORT_OPT = {kajuete: {weit: true, dunst: 0, unschaerfe: .5, panTiefe: .7, atmen: .45, ausrichten: true}};
+const ORT_OPT = {kajuete: {weit: true, dunst: 0, unschaerfe: .5, panTiefe: .7, atmen: .45, ausrichten: true}, liegeplatz: {start: 'liege'}};
 /* Tiefe beim Wischen (v5.82, Nutzer 23.11.2026: „Gegenstände verschieben sich gegeneinander … ausbauen, etwas verstärken“): jede Ebene der Kajüte wandert mit eigenem Faktor pm
    (nah schneller als fern, wie beim Blick aus dem Zugfenster). Damit die Dinge dort stehen, wo man sie anschaut, rückt jedes Ding um off(x, pm) zur Mitte (ferne Ebenen) oder nach außen (nahe):
    in der Startansicht (Mitte ±160) bleibt alles wie gezeichnet, an den Enden stimmt das Bild, wenn man dorthin gewischt hat (pRef = Wischweg, bei dem man das Ding ansieht). */
@@ -604,7 +611,8 @@ function ausrichten(key) {
     }
   }
 }
-const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1};
+const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1, klab: 1, hin: 1};
+let einstAkt = 'totale';   /* v5.83: zuletzt gewählte Einstellung (für Tests und Werkzeuge) */
 let leicht = false, root = null, welt = null, ort = null, blick = 'seite', s = {...NULLS}, tweens = [], SETS = {}, EB = {}, CAM = {}, K = 1, extraBlur = 0, sprecher = '', laeuft = false, scrollOff = 0, pegel = null;
 const SV = (x, weit) => `<svg viewBox="-40 -50 480 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"${weit ? ' style="overflow:visible"' : ''}>${x}</svg>`;
 function css() {
@@ -790,6 +798,11 @@ function zeichne(now) {
   /* Hafenbecken: die Frieda fährt, die Welt zieht vorbei */
   for (const id of ['fb-boot', 'fa-boot', 'fs-boot']) { const g = $id(id + '-gischt'); if (g) g.setAttribute('opacity', (Math.min(1, (id === 'fs-boot' ? s.go : s.fahrt)) * (.7 + Math.sin(t * 6) * .3)).toFixed(2)); }
   e = $id('fb-hilke'); if (e) e.setAttribute('opacity', s.hilkeB.toFixed(2));
+  /* Klabauter in der Kajüte ein- und ausblenden (TU klab; in der Geschichte ist er erst ab Folge 1-6 an Bord) */
+  e = $id('fk-klabauter'); if (e && e._k !== s.klab) { e.style.opacity = s.klab.toFixed(2); e._k = s.klab; }
+  /* Hinnerk in der Kajüte ausblenden (TU hin), wenn er in der Geschichte oben am Ruder steht; sein Becher bleibt auf dem Tisch */
+  e = $id('fk-hinnerk'); if (e && e._k !== s.hin) { const o = s.hin.toFixed(2); e.style.opacity = o; const arme = $id('fk-hinnerk-arme'); if (arme) arme.style.opacity = o;
+    const d = root && root.querySelector('#fk-becher-hinnerk .fk-dampf'); if (d) d.style.opacity = (s.hin * .55).toFixed(2); e._k = s.hin; }   /* ohne Hinnerk dampft sein Becher nicht: der Kaffee ist kalt (1-3) */
   /* Klüverhafen von oben: anfahren, aufstoppen, das Heck zieht nach Backbord */
   e = $id('fo-pos'); if (e) {
     const bb = s.pier < .5, kx = bb ? 146 : 254, wink = bb ? -9 : 9;
@@ -949,10 +962,10 @@ function ortSetzen(name, ueb = 'nebel', b = null, mw = null) {
     const alt = akt(), alteSets = Object.keys(SETS).filter(k => !k.startsWith(name + ':') && k !== 'orbit:seite');
     const nb = b || Object.keys(ORTE[name])[0];
     setBauen(name, nb);
-    const n = name + ':' + nb, z = zielCam(nb, 'totale'); CAM[n] = {...z};
+    const n = name + ':' + nb, z = zielCam(nb, (ORT_OPT[name] || {}).start || 'totale'); CAM[n] = {...z};
     if (ueb === 'sofort' || (!alt && ueb !== 'platten')) zeige(n);
     else await (UEB[ueb] || UEB.nebel)(alt, n, z);
-    ort = name; blick = nb; if (mitte) { sofort(mitte); mitte = null; }
+    ort = name; blick = nb; einstAkt = (ORT_OPT[name] || {}).start || 'totale'; if (mitte) { sofort(mitte); mitte = null; }
     for (const k of alteSets) { if (SETS[k] && !SETS[k].classList.contains('an')) { SETS[k].remove(); delete SETS[k]; delete EB[k]; delete CAM[k]; } }
     sammeln();
   });
@@ -964,7 +977,7 @@ function kamera(b, einst = 'totale', ueb = 'fahrt', mw = null) {
     const a = akt(); setBauen(ort, b); const n = ort + ':' + b, z = zielCam(b, einst);
     if (ueb === 'sofort' || ueb === 'schnitt') { Object.assign(CAM[n], z); zeige(n); }
     else await (UEB[ueb] || UEB.fahrt)(a, n, z);
-    blick = b; if (mitte) { sofort(mitte); mitte = null; }
+    blick = b; einstAkt = einst; if (mitte) { sofort(mitte); mitte = null; }
   });
 }
 function tu(werte) { for (const [k, [v, ms]] of Object.entries(werte)) if (k in s) tw(s, {[k]: v}, ms || 1200); }
@@ -975,7 +988,7 @@ function medaillon(art) {
 }
 function sprecherSetzen(wer) { sprecher = wer || ''; }
 function reset() {
-  tweens = []; s = {...NULLS}; extraBlur = 0; scrollOff = 0; sprecher = ''; pegel = null; kette = Promise.resolve();
+  tweens = []; s = {...NULLS}; einstAkt = 'totale'; extraBlur = 0; scrollOff = 0; sprecher = ''; pegel = null; kette = Promise.resolve();
   if (welt) { welt.innerHTML = ''; } SETS = {}; EB = {}; CAM = {}; ort = null; blick = 'seite'; einfrieren(false); medaillon(null);
   if (root) root.querySelectorAll('.fb-ue').forEach(x => x.getAnimations().forEach(a => a.cancel()));
 }
@@ -986,5 +999,5 @@ function panSetzen(p) { const c = CAM[akt()]; if (c) c.pan = p; }
 /* Leichte Stufe (v5.82): ohne Unschärfe, Kanten- und Schattenfilter; bord.js schaltet sie ein, wenn das Wischen ruckelt */
 window.FILMB = {_ebenen: (o, b) => ORTE[o][b](), pan: panSetzen, leicht: v => { if (v === undefined) return leicht; leicht = !!v; }, kaj: {pm: KAJ.pm, off: kajOff}, pegel: v => { pegel = v == null ? null : Math.max(0, Math.min(1, v)); }, ORT_OPT, get K() { return K; },
   teile: {knotenbrett, manoeverbrett, buecherregal, seekarteWand, telefon, BRETT, KNOTEN_BRETT, KNOTEN_SCHILD, MANOEVER, BUECHER}, GLAS, LICHT, licht: lichtSetzen, atmo, mount, ort: ortSetzen, kamera, tu, sofort, vertigo, einfrieren, medaillon, sprecher: sprecherSetzen, reset, warte: () => kette,
-  get zustand() { return {ort, blick, s: {...s}, sets: Object.keys(SETS)}; }, ORTE: Object.keys(ORTE), EINST};
+  get zustand() { return {ort, blick, einst: einstAkt, s: {...s}, sets: Object.keys(SETS)}; }, ORTE: Object.keys(ORTE), EINST};
 })();

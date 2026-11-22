@@ -3,6 +3,16 @@
 > Ausgelagert aus `CLAUDE.md` §7 am 17.11.2026 (GL7: verschlanken). **Der Code ist die Wahrheit**; diese Karte hilft beim Finden. Claude pflegt sie am Ende jedes Laufs: neue Einträge oben, mit Version. Vor Arbeit an einem Bereich den passenden Eintrag lesen (mit Suche nach dem Dateinamen), nicht die ganze Datei.
 
 ## Einträge
+- **Tag 1 als Film, Kajüte als Szenenbild (v5.83, E36, FK17):**
+  - Skripte `podcast/folgen/film-1-1.md`, `film-1-2.md`, `film-1-3.md` (Film, `design: 'f', film: true`). In `kurs.js` `FOLGEN` laufen die IDs `reise-1-1`, `reise-1-2`, `gold-1` jetzt auf diese Dateien (IDs bleiben, R7); die Fassungen ohne Film als `alt-1-1`, `alt-1-2`, `alt-gold-1` (unter „Alte Folgen und Tests“, `alteFolgen()` in `index.html`); `TESTPAAR` = `alt-1-2` + `reise-1-3`.
+  - `kurs.js`: `filmLicht(f)` setzt das Licht der Filmbühne aus der ersten `[[SZENE]]` der Folge (nebel, regen, nacht, abend, morgen, sonst mittag), vor jedem `FILMB.mount`; `filmFolge` hält die geöffnete Folge. Vorher blieb das Licht von Deck und Kajüte der App stehen.
+  - `film.js`:
+    - TU `hin` (Hinnerk in der Kajüte aus, `#fk-hinnerk` und `#fk-hinnerk-arme`; sein Becher dampft dann nicht), TU `klab` (seit v5.82).
+    - Blicke `EINST.innen`: neu `stange` (Klabauters Stange mit `#kj-schaelchen`); `manoever` z 7, `kombuese` z 3.4 auf Herd und Gashahn.
+    - Kombüse: Drehknöpfe am Herd, `#kj-gashahn` (gelbe Leitung, roter Hebel). Ölzeug um 38 nach rechts (hing mit der Tiefe über Manöverbrett und Seekarte).
+    - `FILMB.zustand.einst` (zuletzt gewählte Einstellung, `einstAkt`).
+  - `tools/logik-pruefen.js` prüft ohne Angabe auch `podcast/folgen/film-*.md`.
+  - `tests/buehne-pruefen.js`: Gesichter-Prüfung mit `alt-1-2`; neue Prüfung der Kajüten-Szenen (Bühnenbild, Klabauter aus, Hinnerk aus in 1-3, Kamera an Kombüse und Manöverbrett, Liegeplatz in 1-1).
 - **Deck und Kajüte in der App, Leben an Bord, Hinnerk zur Auswahl (v5.82, E36, docs/plan-bord.md, docs/baukasten.md):**
   - `bord.js` (neu, nachgeladen nach `film.js` über `bordNachladen()` in `index.html`, zusammen mit `knoten.js` und `brede.js`):
     - `BORD.deck(box, opt)`: Ort `liegeplatz`, Kamera `seite:liege`, Antippflächen `.bhot[data-go]` aus den sichtbaren Bootsteilen.
