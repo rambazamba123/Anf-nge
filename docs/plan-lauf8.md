@@ -1,6 +1,6 @@
 # Plan Lauf 8: Aufräumen, Player-Regeln, Tag 1 nachschärfen, Gesamtkonzept (ab 22.11.2026)
 
-> Grundlage: Rückmeldung des Nutzers vom 22.11.2026 nach dem Hörtest von v5.83. **Status: wartet auf Antworten zu O177–O188** (unten). Erst danach beginnt die Arbeit.
+> Grundlage: Rückmeldung des Nutzers vom 22.11.2026 nach dem Hörtest von v5.83. **Status: wartet auf Antworten zu O177–O179, O181–O188** (O180 beantwortet, O182 teilweise) (unten). Erst danach beginnt die Arbeit.
 > Nach einem Abbruch hier weiterlesen. Erledigtes wird abgehakt, Nummern bleiben.
 
 ## 1. Schon entschieden (Nutzer, 22.11.2026)
@@ -67,9 +67,13 @@ Die Fragen und meine Vorschläge stehen im Bericht vom 22.11.2026. Die Antworten
 - O177 Harms ab 1-3: Fällt auch der Anrufbeantworter in 1-1 weg?
 - O178 Welche Stelle wirkt wie „Fähre, dann einparken“?
 - O179 Pauls Fender: Wie soll die Szene aussehen?
-- O180 Player-Grundregeln: stimmt die Zusammenfassung?
+- ~~O180~~ **Beantwortet (Nutzer, 25.11.2026):** „Der Film läuft durch, die Animationen kommen im Film vor, ohne Umschalten. Bei Fragen sieht man NUR die Frage, dann können wir den ganzen Platz für die Frage nutzen. Nur wenn eine Darstellung (Schild o. ä.) da ist, sieht man sie, fragenabhängig.“ Daraus werden die Regeln PL1–PL4 in P1:
+  - **PL1:** Der Film läuft ohne Umschalten durch, es gibt kein Fenster neben oder unter der Szene.
+  - **PL2:** Lehrbilder und Animationen sind Teil des Films. Sie laufen in der Bühne als Bild des Films, im Vollbild.
+  - **PL3:** Bei einer Frage nutzt die Frage den ganzen Bildschirm, keine kleine Szene oben. Ein Bild gibt es nur, wenn die Frage eines braucht (Schild, Licht, Zeichen aus dem Katalog).
+  - **PL4:** Kein Text im Bild (außer Stufe „Mitlesen“), unten nur eine einfache Leiste.
 - O181 Leiste unten: welche Variante?
-- O182 Fortschritt: Zettel behalten? Wo liegt die genaue Übersicht?
+- O182 Fortschritt: **Der Zettel an Deck entfällt (Nutzer, 25.11.2026), Smillas Aufgaben genügen.** Offen bleibt: Liegt die genaue Übersicht nur unter „Meine Prüfungen“, umschaltbar zwischen Kuchen und Liste?
 - O183 Reisekarte: einfach, dann detailliert mit Stecknadeln? Wer zeichnet?
 - O184 Figuren-Qualität: Was stört am meisten?
 - O185 Smilla aufstehen, freier Stuhl
