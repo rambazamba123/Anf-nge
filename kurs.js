@@ -17,8 +17,11 @@
     /* v5.66 Gold-Folgen der neuen Machart (docs/plan-hoerspiel-neu.md, podcast/schreibkarte.md); Folge 0 ist entfallen (GL8) */
     /* v5.83 (E36): Tag 1, Folgen 1-1 bis 1-3 als Film mit der Kajüte als Szenenbild (FK17); IDs bleiben (R7), die Fassungen ohne Film liegen unter alt-… */
     'gold-1': {datei: 'podcast/folgen/film-1-3.md', titel: 'Leise raus', unter: 'Hörreise, Tag 1, Folge 3 (Film): Ablegen, Radeffekt, Manöverbrett', design: 'f', film: true, wetter: 'schoen'},
-    'gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Warten auf die Fähre', unter: 'Neue Machart (Test): Propeller und Außenborder', wetter: 'schoen'},
-    'gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte', unter: 'Neue Machart (Test): der Raser und die Fähre', wetter: 'schoen'},
+    /* v5.84: 1-4 und 1-5 als Film und neu geordnet (O178: erst die Fähre, dann der Motor); IDs bleiben (R7), die alten Fassungen unter alt-gold-2 und alt-gold-3 */
+    'gold-2': {datei: 'podcast/folgen/film-1-4.md', titel: 'Dicke Pötte', unter: 'Hörreise, Tag 1, Folge 4 (Film): der Raser und die Fähre', design: 'f', film: true, wetter: 'schoen'},
+    'gold-3': {datei: 'podcast/folgen/film-1-5.md', titel: 'Ohne Gas kein Ruder', unter: 'Hörreise, Tag 1, Folge 5 (Film): Propeller und Außenborder', design: 'f', film: true, wetter: 'schoen'},
+    'alt-gold-2': {datei: 'podcast/skripte/gold-motor.md', titel: 'Warten auf die Fähre (ohne Film)', unter: 'Folge 1-4 wie bis v5.83: Propeller und Außenborder vor der Fähre', wetter: 'schoen'},
+    'alt-gold-3': {datei: 'podcast/skripte/gold-faehre.md', titel: 'Dicke Pötte (ohne Film)', unter: 'Folge 1-5 wie bis v5.83: der Raser und die Fähre', wetter: 'schoen'},
     'reise-1-1': {datei: 'podcast/folgen/film-1-1.md', titel: 'Erster Morgen', unter: 'Hörreise, Tag 1, Folge 1 (Film): Kajüte, Hafenkino, wer das Sagen hat', design: 'f', film: true, wetter: 'schoen'},
     'reise-1-2': {datei: 'podcast/folgen/film-1-2.md', titel: 'Gas, Sprit und Streichholz', unter: 'Hörreise, Tag 1, Folge 2 (Film): Tanken mit der Hafenmeisterin, Gashahn in der Kajüte', design: 'f', film: true, wetter: 'schoen'},
     /* die Fassungen ohne Film (bis v5.82), unter „Alte Folgen und Tests“ */
@@ -911,7 +914,7 @@
     const p = new Promise(res => {
       const ende = () => { me.wahlRes = null; w.fertig = true; if (me.wahlOffen === w) me.wahlOffen = null; zurufStop(); document.getElementById('kursplayer')?.classList.remove('mitwahl'); if (window.KURS_MINI) blaseZeigen();
         /* Nachtbühne: nach der Frage wieder Vollbild auf die Crew */
-        if (aussehenAkt === 'b') { const bb = ui('#kbild'); if (bb) bb.innerHTML = ''; mitBild(false); }
+        if (aussehenAkt === 'b' || aussehenAkt === 'f') { const bb = ui('#kbild'); if (bb) bb.innerHTML = ''; mitBild(false); }   /* v5.84 Film (PL2): nach der Frage läuft wieder der Film */
         res(); };
       me.wahlRes = () => { box.innerHTML = ''; ende(); };
       box.querySelectorAll('[data-o]').forEach(b => b.onclick = async () => {
@@ -1042,6 +1045,8 @@
       else if (it.t === 'ton' && it.gen) await geraeusch(st, it, me);
       else if (it.t === 'ton') { if (it.name === 'glocke' && !glockeFuerFrage(st, k)) continue; if (it.name === 'glocke' && !(me.vorWahl && me.vorWahl.w.getippt)) await warten(me, luft(600)); if (it.name === 'streichholz') pfeifeAn(me); await AUD.sfx(it.name, {vol: .8, dur: TON_DAUER[it.name] || 3}); }
       else if (it.t === 'szene') szeneSetzen(it.text);
+      /* v5.84 (PL2): Im Film endet ein Lehrbild, sobald der Film mit einem neuen Ort oder einer neuen Einstellung weitergeht */
+      else if ((it.t === 'ort' || it.t === 'kamera') && aussehenAkt === 'f' && ui('#kbild') && ui('#kbild').innerHTML && (ui('#kbild').innerHTML = '', mitBild(false), false)) {}
       else if (it.t === 'ort') { if (window.FILMB) await FILMB.ort(it.name, k === 0 || !st.items.slice(0, k).some(x => x.t === 'ort') ? 'platten' : it.ueb, it.blick, sprungDanach(st, k)); }
       else if (it.t === 'kamera') { if (window.FILMB) await FILMB.kamera(it.blick, it.einst, it.ueb, sprungDanach(st, k)); }
       else if (it.t === 'tu') { if (window.FILMB) FILMB.tu(it.werte); }
@@ -1100,7 +1105,7 @@
     const stufen = st.film ? `<div class="kbl kbr"><b>Wie bist du dabei?</b><div class="kr3">${[['hoeren', '🎧', 'Nur hören'], ['sprechen', '🗣️', 'Mitsprechen'], ['haende', '🧰', 'Mit Händen']].map(([id, ic, t]) => `<button data-stufe="${id}" aria-pressed="${sf === id}"><span>${ic}</span>${t}</button>`).join('')}</div>
       <p class="small" style="margin:4px 0 8px;opacity:.85">${sf === 'hoeren' ? 'Fürs Auto: Bei Fragen sind sechs Sekunden Ruhe, dann geht es weiter.' : sf === 'sprechen' ? 'Bei Fragen wartet die Szene auf deine Antwort, laut oder getippt.' : 'Wie Mitsprechen, dazu eine Aufgabe mit der Kiste am Ende.'}</p>
       <div class="kr3" style="grid-template-columns:1fr 1fr"><button data-harms="1" aria-pressed="${hr}"><span>🧑‍✈️</span>Harms an</button><button data-harms="0" aria-pressed="${!hr}"><span>🔕</span>Harms aus</button></div>
-      <p class="small" style="margin:4px 0 0;opacity:.85">${hr ? 'Harms erzählt am Anfang, was bisher geschah, und fragt einmal zwischendurch.' : 'Die Geschichte läuft ohne Harms.'}</p></div>` : '';
+      <p class="small" style="margin:4px 0 0;opacity:.85">${hr ? 'Harms ruft an, erzählt, was bisher geschah, und fragt an passenden Stellen zurück, nie mitten in einer Szene.' : 'Die Geschichte läuft ohne Harms.'}</p></div>` : '';
     b.innerHTML = (h.length ? `<div class="kbl"><h3>Heute an Bord</h3>${liste(h)}</div>` : '') + stufen; b.hidden = false;
     b.querySelectorAll('[data-stufe]').forEach(x => x.onclick = () => { k.stufe = x.dataset.stufe; if (k.stufe !== 'hoeren' && zurufMoeglich()) S.cfg.zuruf = true; if (k.stufe === 'hoeren') S.cfg.zuruf = false; save(); blattStart(st); });
     b.querySelectorAll('[data-harms]').forEach(x => x.onclick = () => { k.harms = x.dataset.harms === '1'; save(); blattStart(st); });
@@ -1515,8 +1520,15 @@
         @media (prefers-reduced-motion: reduce){#kursplayer.d-b .kbg *,#kursplayer.d-b .kbord{animation:none!important}}
         #kursplayer.d-f{background:#1c2a30;color:#f3e7c9}#kursplayer.d-f .kkopf .muted{color:rgba(243,231,201,.65)}#kursplayer.d-f .kkopf .kknopf{background:rgba(255,255,255,.1)}
         #kursplayer.d-f #kges{display:block;position:relative;width:min(94vw,calc((100dvh - 230px) * .8),520px);aspect-ratio:4/5;margin:0 auto;padding:0;transition:width .5s}
-        #kursplayer.d-f.mitwahl #kges{width:min(62vw,calc(34dvh * .8),300px)}
-        #kursplayer.d-f #kspr{text-align:center;min-height:1.6em}#kursplayer.d-f #kspr .kname{opacity:.75}#kursplayer.d-f:not(.mitlesen) #kspr .ktext{display:none}
+        /* v5.84 Player-Regeln PL1–PL4 (Nutzer 25.11.2026, docs/film-regeln.md): Der Film läuft durch; Animationen erscheinen im selben Rahmen wie der Film (gleiche Größe, 4:5, kein Fenster darunter);
+           bei einer Frage nur die Frage auf dem ganzen Platz; kein Text im Bild außer auf der Stufe „Mitlesen“ */
+        #kursplayer.d-f.mitwahl #kges{display:none}
+        #kursplayer.d-f.mitbild:not(.mitwahl) #kges{display:none}
+        #kursplayer.d-f.mitbild #kbild{order:-1;width:min(94vw,calc((100dvh - 230px) * .8),520px);aspect-ratio:4/5;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:14px;background:#f7f5ef}
+        #kursplayer.d-f.mitbild .kanim{max-height:none;width:100%;height:100%;margin:0;border:0;border-radius:0;box-shadow:none}#kursplayer.d-f.mitbild .kanim>svg,#kursplayer.d-f.mitbild .kanim .an{width:100%;height:100%;max-height:none}
+        #kursplayer.d-f .kfkopf .chip{font-size:14px;padding:4px 10px;line-height:1.2}#kursplayer.d-f .kfrage .btn.ghost{font-size:14px;color:#f3e7c9;border-color:rgba(243,231,201,.55)}
+        #kursplayer.d-f.mitwahl #kbild{display:none}#kursplayer.d-f.mitwahl #kwahl{flex:1;display:flex;flex-direction:column;justify-content:center}
+        #kursplayer.d-f #kspr{text-align:center;min-height:1.6em}#kursplayer.d-f #kspr .kname{opacity:.75}#kursplayer.d-f:not(.mitlesen) #kspr .ktext,#kursplayer.d-f:not(.mitlesen) #kspr .kname{display:none}
         #kursplayer.d-f #kbild:empty{display:none}#kursplayer.d-f .kfrage{background:transparent;color:#f3e7c9;box-shadow:none;transform:none;padding:0}#kursplayer.d-f .kfrage::before{display:none}
         #kursplayer.d-f .kopt{background:rgba(255,255,255,.07);color:#f3e7c9;border:1.5px solid rgba(243,231,201,.22);border-radius:14px}#kursplayer.d-f .kopt .kabc{color:#e8a33c}
         #kursplayer.d-f .kopt.ok{background:rgba(70,160,90,.35);border-color:#6fcf8a}#kursplayer.d-f .kopt.no{background:rgba(200,70,60,.35);border-color:#e0786c}#kursplayer.d-f .kfkopf{color:#e8a33c}

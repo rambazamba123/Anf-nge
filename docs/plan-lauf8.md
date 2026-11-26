@@ -1,6 +1,7 @@
 # Plan Lauf 8: Aufräumen, Player-Regeln, Tag 1 nachschärfen, Gesamtkonzept (ab 22.11.2026)
 
-> Grundlage: Rückmeldung des Nutzers vom 22.11.2026 nach dem Hörtest von v5.83. **Status: wartet auf Antworten zu O177–O179, O181–O188** (O180 beantwortet, O182 teilweise) (unten). Erst danach beginnt die Arbeit.
+> Grundlage: Rückmeldung des Nutzers vom 22.11.2026 nach dem Hörtest von v5.83. **Status (26.11.2026):** Der Nutzer hat am 25.11.2026 gesagt „Schreib den ersten Tag, so wie er jetzt sein soll, fertig“. Für O177–O179 und O181–O188 gelten seitdem Claudes Vorschläge aus dem Bericht vom 22.11.2026, bis der Nutzer etwas anderes sagt.
+> **Erledigt in v5.84:** P1 (PL1–PL4 im Film, Bühnentest), P4 (Tag 1: Harms ab 1-3, Pauls Fender, neuer Witz, Klüverhafen als Vorstellung, 1-4/1-5 als Film und neu geordnet, Hafenkino bewegt), P5 (Klabauter), aus P3 die Standbilder (`tools/film-bilder.js`) und das Lektorat je Folge gleichzeitig ohne Code. Offen: P2, P6, P7, P8, P9, P10 (Rest).
 > Nach einem Abbruch hier weiterlesen. Erledigtes wird abgehakt, Nummern bleiben.
 
 ## 1. Schon entschieden (Nutzer, 22.11.2026)

@@ -7,17 +7,17 @@ hoerreise: ja
 machart: neu
 ---
 # Hörreise, Tag 1, Folge 1-2 als Film (v5.83, E36: „Folgen 1-3 neu, mit den neuen Vorgaben und der neuen Grafik, die Kajüte als Szenenbild“).
-# Grundlage: podcast/folgen/reise-1-2.md (neue Machart, 17.11.2026; bleibt unter „Alte Folgen und Tests“). Geschichte, Fragen und Fakten wie dort; neu sind Bühne, Kamera, Harms von außen und die Kajüte.
+# Grundlage: podcast/folgen/reise-1-2.md (neue Machart, 17.11.2026; bleibt unter „Alte Folgen und Tests“). Geschichte, Fragen und Fakten wie dort; neu sind Bühne, Kamera und die Kajüte.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/film-1-2.md  ·  node tools/dichte-messer.js podcast/folgen/film-1-2.md  ·  node tools/lektorat.js podcast/folgen/film-1-2.md
 #
 # FOLGENBLATT
 # Wo und wann: Kuttershaven, Bootstankstelle am Steg im Hafen, Vormittag von Tag 1 nach dem Frühstück, Sonne, kaum Wind; zum Schluss unten in der Kajüte der Frieda (sie liegt noch an der Tankstelle).
-# Vorher: 1-1 (Hafenkino, Harms auf dem Anrufbeantworter: sieben Tage). Gleich wird abgelegt, vorher wird getankt.
+# Vorher: 1-1 (Hafenkino, das alte Telefon klingelt, Smilla erzählt von Harms: sieben Tage). Gleich wird abgelegt, vorher wird getankt.
 # Szene vor Stoff: Hilke will ihr Geld für drei Wochen Strom, Hinnerk will tanken und dabei die Pfeife anzünden. Smilla nimmt ihm das Streichholz weg.
 # Lernlast (HR56): ein Bündel „Dampf und Gas kriechen nach unten“ (System-Block 43, 49, 62, 63, 64, 65, 66). Was war neu? Tankstelle: Gas und Benzindampf sind schwerer als Luft.
 #   Tanken: Motor ganz aus, keine Schalter, Lappen bereit; Öl in der Bilge mit dem Lappen aufnehmen. Gasflasche: an Deck oder im Kasten mit Loch unten. Gashahn: Riecht es nach Gas, Hahn zu, Luken auf, nichts anfassen.
 # Die Kajüte als Szenenbild (FK17): Die Einweisung am Gashahn findet unten statt, an der Kombüse (Blick „kombuese“): Herd, Kessel, Ventile. Hinnerk erklärt am Tisch weiter (Blick „runde“). Klabauter fehlt noch (ausgeblendet).
-# Harms von außen (E27, GL12): Rückblick am Anfang (1-1 in drei Sätzen), nach Kapitel 2 hält er den Film an und fragt bis zu zwei Fragen von früher zurück (HR57). Mit „Harms aus“ entfällt beides.
+# Harms (v5.84, Nutzer 22.11.2026): tritt erst ab 1-3 auf. In 1-2 kein Rückblick und keine Rückfrage.
 # Fragen: 49 und 63 als natürliches Entweder-oder (HR59), 43 und 64 als offene Denkfragen mit Auflösung. Hinnerk irrt an der Zapfsäule (Pfeife), Smilla und Hilke stellen es klar.
 # Kamera (FK1–FK17): Kapitel 1 Tankstelle von der Seite (Glasplatten), Schärfe auf Hilke (FK4). Kapitel 2 bleibt, die Animation „tanken“ zeigt den Ablauf (FK5). Kapitel 3 Schärfe auf Hilke, Animation „gas“ (Gas sinkt in die Bilge).
 #   Kapitel 4 Nebelblende in die Kajüte (FK10), Fahrt an die Kombüse (FK4), zurück in die Runde.
@@ -25,7 +25,7 @@ machart: neu
 # Ernstfall (HR28): Der Gasgeruch passiert hier NICHT, er kommt in 1-7 beim Kochen (Backbord am Kocher bereitet es vor).
 # Gezeiten (HR51): Hochwasser Kuttershaven um elf; wer jetzt losmacht, hat in der Brede den Flutstrom mit (erste Spur, ohne Erklärung).
 # Anreden: eine (Hinnerk). Fachlich: Fragen nach data/sbf.json, Merksätze wie data/karten-sbf.json; Hilkes Geschichten sind erzählt, keine Statistik. Ohne quellen/ geprüft (R8).
-# Länge: etwa acht Minuten Sprechtext, mit Denkpausen, Harms und Übergängen etwa zehn.
+# Länge: etwa acht Minuten Sprechtext, mit Denkpausen und Übergängen etwa neun.
 
 [[HEUTE: Tanken an der Bootstankstelle | Warum Gas und Benzindampf gefährlich sind | Was tun, wenn es nach Gas riecht]]
 
@@ -34,10 +34,6 @@ machart: neu
 [[REVIER: hafen]]
 [[ORT: tankstelle]]
 [[TU: hx=470/10, motor=1/10]]
-[[HARMS: anfang]]
-HARMS: Tag eins, früh. Kuttershaven. Vier Mann auf einem Charterboot, und keiner hatte das Sagen.
-HARMS: Ich hab Hinnerk angerufen. Er ist nicht rangegangen. Hat er aber gehört. Sieben Tage, dann prüf ich.
-[[HARMS: ende]]
 [[AUDIO: Möwen]]
 [[AUDIO: Motor]]
 [[AUDIO: Schritte]]
@@ -116,7 +112,6 @@ HAFENMEISTER: Einer kippt Spülmittel in die Bilge, dann sieht man das Öl nicht
 SMILLA: Lüften und abwarten hilft also nicht, Spülmittel auch nicht. Und ins Wasser darf es sowieso nicht.
 HAFENMEISTER: Öl in der Bilge gehört in den Lappen, nicht ins Hafenbecken. Lappen gibt's bei mir. Kosten extra.
 HINNERK: Natürlich.
-[[HARMS: frage]]
 
 [[ABSCHNITT: Die Gasflasche]]
 [[SZENE: Hilke klopft auf den Gaskasten an Deck der Frieda, Steg, Hafen, Vormittag.]]

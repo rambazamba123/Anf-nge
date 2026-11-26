@@ -423,8 +423,11 @@
   let katze = null, papagei = null, wurm = null;
   const KATZE_PLATZ = [[118, 490], [300, 494], [150, 496]];
   const PAPAGEI_PLATZ = [[302, 110, 'stange'], [98, 110, 'stange'], [27, 62, 'uhr'], [-232, 117, 'regal'], [430, 128, 'karte']];
+  /* O172 (Nutzer 22.11.2026): Klabauter kommt erst in Folge 1-6 an Bord (Schilfwinkel). Vorher fehlt er an Deck und in der Kajüte.
+     Sichtbar, sobald 1-6 gehört ist, oder wenn der Testmodus der Werft ausdrücklich eingeschaltet ist (Standard: aus für Klabauter, R7: kein neues Feld) */
+  const klabDa = () => { try { return !!((S.hoerreise && S.hoerreise.gehoert) || {})['reise-1-6'] || (S.cfg && S.cfg.look && S.cfg.look.test === true); } catch (e) { return true; } };
   function kajueteLeben() {
-    const kl = inB('#fk-klabauter'), bb = inB('#fk-backbord'), wu = inB('#kj-wurm'), mz = inB('#kj-maeuse');
+    const kl = klabDa() ? inB('#fk-klabauter') : (inB('#fk-klabauter') && (inB('#fk-klabauter').style.display = 'none'), null), bb = inB('#fk-backbord'), wu = inB('#kj-wurm'), mz = inB('#kj-maeuse');
     if (mz) mz.innerHTML = '';
     if (bb) { katze = darsteller(bb, {x: 118, y: 490, s: 1.65, zeich: a => F().figur('backbord', {pose: a.pose, gang: a.gang ? {art: a.gang, t: a.t % 1} : null, dreh: a.pose === 'sitzen'}), tipp: katzeTipp}); katze.platz = 0; akteure.add(katze); }
     if (kl) { papagei = darsteller(kl, {x: 302, y: 110, s: 1.3, zeich: a => F().figur('klabauter', {pose: a.pose, t: a.t % 1, dreh: a.pose !== 'fliegen'}), tipp: klabauterTipp}); papagei.platz = 0; akteure.add(papagei); }
@@ -597,7 +600,7 @@
     const kz = inB('#dk-boot-katze'), ak = inB('#dk-boot-akt');
     /* Backbord: in Bug-rechts-Koordinaten des Boots (boot.js spiegelt), Ursprung wie bisher (−6, −56), Maß .46 gespiegelt */
     if (kz) { dKatze = darsteller(kz, {x: -6, y: -56, s: .46, flip: -1, zeich: a => F().figur('backbord', {pose: a.pose, gang: a.gang ? {art: a.gang, t: a.t % 1} : null, dreh: a.pose === 'sitzen'})}); dKatze.tipp = () => { sfx('katze', {vol: .45}); pose(dKatze, 'strecken', 1200).then(() => { dKatze.pose = 'sitzen'; dKatze.mal(0, true); }); }; akteure.add(dKatze); }
-    if (ak) { const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); ak.appendChild(g);
+    if (ak && klabDa()) { const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); ak.appendChild(g);
       dPapagei = darsteller(g, {x: -30, y: -62, s: .42, flip: -1, zeich: a => F().figur('klabauter', {pose: a.pose, t: a.t % 1, dreh: a.pose !== 'fliegen'})});
       dPapagei.tipp = () => sprich('klabauter', zufall(STIMME.klabauter.moin), {anker: dPapagei.g, menue: 'klabauter'}); akteure.add(dPapagei); }
   }

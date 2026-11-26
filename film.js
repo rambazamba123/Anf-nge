@@ -479,14 +479,20 @@ const ORTE = {
       {d: .3, svg: `<rect x="-60" y="300" width="520" height="300" fill="url(#fb-wg)"/>` + streifen(306, 2.5, 26, P.w[0], 4) + streifen(330, 4, 38, mix(P.w[0], P.w[1], .35), -6)},
       {d: .42, svg: `<path d="M300 296 L336 296 L440 520 L360 520Z" fill="${P.steg}"/>` +
           [0, 1, 2, 3, 4, 5].map(i => { const t = i / 6, y = 300 + t * 200; return `<path d="M${304 + t * 66} ${y} L${336 + t * 100} ${y}" stroke="${P.stegD}" stroke-width="${1 + t * 2}"/>`; }).join('') + zapfsaeule(326, 300, .8)},
-      {d: .55, svg: `<g id="fh-pos" transform="translate(262 362) scale(1.15)">${friedaHeck('fh-boot')}</g>`},
+      /* v5.84 (Nutzer 22.11.2026: „Das Boot sieht aus, als ob es vor dem anderen fährt. Es müsste den Fender berühren“):
+         Pauls Boot ELSE liegt jetzt in derselben Tiefe links neben der Frieda, Heck zu uns, Fender an seiner Steuerbordseite.
+         Fährt die Frieda rückwärts (p) und wandert ihr Heck nach Backbord (a), stößt sie an den Fender; TU rums drückt ihn zusammen und schaukelt beide Boote */
+      {d: .55, svg: `<g id="fh-else" transform="translate(78 364) scale(1.12)"><g id="fh-else-b">
+          <path d="M-36 -16 L-31 -46 L33 -46 L38 -16Z" fill="${P.rumpf}" stroke="#5f5446" stroke-width="1.4"/><rect x="-24" y="-40" width="18" height="12" rx="3" fill="#9fb8c4"/><rect x="4" y="-40" width="18" height="12" rx="3" fill="#9fb8c4"/>
+          <path d="M58 -16 L86 -30 L82 16 L52 36Z" fill="${P.paul}" stroke="#2e3a4a" stroke-width="1.4"/><path d="M58 -16 L86 -30 L86 -25 L58 -10Z" fill="${P.rumpf}"/>
+          <path d="M-58 -16 L58 -16 L52 36 Q0 44 -52 36Z" fill="${P.paulD}" stroke="#2e3a4a" stroke-width="1.6"/><path d="M-58 -16 L58 -16 L57 -9 L-57 -9Z" fill="${P.rumpf}"/>
+          <text x="0" y="17" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="15" fill="${P.rumpf}" letter-spacing="1">ELSE</text>
+          <path d="M-52 36 Q0 44 52 36" stroke="${P.glanz}" stroke-width="2" fill="none" opacity=".6"/>
+          <g transform="translate(66 4) scale(.62)"><g id="fh-fender"><path d="M0 -44 V-30" stroke="${P.motor}" stroke-width="2.2"/><rect x="-15" y="-32" width="30" height="66" rx="15" fill="${P.fender}" stroke="#7a2a20" stroke-width="1.2"/>
+          <text transform="rotate(-90)" x="0" y="3.6" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="10" letter-spacing=".8" fill="${P.fenderSchrift}">HINNERK</text></g></g></g></g>
+        <g id="fh-pos" transform="translate(262 362) scale(1.15)">${friedaHeck('fh-boot')}</g>`},
       {d: .62, svg: `<g id="fh-kiel" opacity="0"><path data-fluss="-14" d="M240 392 Q200 440 150 520 M284 392 Q320 440 360 520" stroke="${P.glanz}" stroke-width="3" fill="none" stroke-dasharray="14 10" opacity=".75"/></g>`},
-      {d: .7, svg: streifen(402, 6, 52, mix(P.w[0], P.w[1], .6), 12, false) + streifen(458, 8, 68, P.w[1], -16, false)},
-      {d: .92, svg: `<g><path d="M118 318 L172 300 L172 384 L118 436Z" fill="${P.paul}"/><path d="M118 318 L172 300 L172 310 L118 330Z" fill="${P.rumpf}"/>
-          <path d="M-60 318 L118 318 L118 436 Q40 456 -60 446Z" fill="${P.paulD}"/><path d="M-60 318 L118 318 L118 332 L-60 332Z" fill="${P.rumpf}"/>
-          <text x="30" y="392" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="${P.rumpf}" letter-spacing="1">ELSE</text>
-          <g transform="translate(146 372)"><g id="fh-fender"><path d="M0 -44 V-30" stroke="${P.motor}" stroke-width="1.6"/><rect x="-15" y="-32" width="30" height="66" rx="15" fill="${P.fender}"/>
-          <text transform="rotate(-90)" x="0" y="3.6" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="10" letter-spacing=".8" fill="${P.fenderSchrift}">HINNERK</text></g></g></g>`}
+      {d: .7, svg: streifen(402, 6, 52, mix(P.w[0], P.w[1], .6), 12, false) + streifen(458, 8, 68, P.w[1], -16, false)}
     ],
     schnitt: () => [
       {d: 0, svg: `<rect x="-60" y="-60" width="520" height="290" fill="url(#fb-hg)"/>` + haeuser(196, .45, 8, -30, false) + `<rect x="-60" y="196" width="520" height="400" fill="url(#fb-uw)"/>` +
@@ -601,7 +607,7 @@ const ORTE = {
           <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#fff6dc" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">voraus: im Uhrzeigersinn</text></g>
         <g id="fm-ccw" opacity="0"><path d="M200 332 A60 60 0 0 0 142 406" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round"/><path d="M150 396 l-9 14 l-7 -15" fill="none" stroke="#ffd2c4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           <text x="200" y="476" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="17" fill="#ffd2c4" stroke="rgba(30,50,60,.6)" stroke-width="3" paint-order="stroke">zurück: gegen den Uhrzeigersinn</text></g>
-        <text x="200" y="30" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="15" fill="#1f3b63" stroke="rgba(255,255,255,.7)" stroke-width="3" paint-order="stroke">von achtern gesehen</text>`},
+        <text id="fm-titel" opacity="0" x="200" y="30" text-anchor="middle" font-family="Baloo 2,sans-serif" font-weight="800" font-size="15" fill="#1f3b63" stroke="rgba(255,255,255,.7)" stroke-width="3" paint-order="stroke">von achtern gesehen</text>`},
       {d: .85, svg: `<g transform="translate(352 300) scale(.95)">${C('smilla', {blick: 'vorn', pose: 'zeigen'})}</g>`}
     ]
   }
@@ -609,7 +615,7 @@ const ORTE = {
 /* Einstellungen je Blick (Kamera: z Zoom, fx/fy Blickpunkt, oy Höhe, df Schärfeebene, kipp Neigung) */
 const EINST = {
   seite: {totale: {}, deck: {z: 1, fx: 214, fy: 318, pan: 26}, liege: {z: 1.18, fx: 254, fy: 302}, halbnah: {z: 1.55, fx: 205, fy: 318}, hinnerk: {z: 2.5, fx: 272, fy: 300}, smilla: {z: 2.5, fx: 125, fy: 302}, heck: {z: 1.9, fx: 300, fy: 330}, hilke: {z: 2.1, fx: 160, fy: 236, df: .28}, tief: {z: 1.1, oy: -30, fy: 330}, charter: {z: 2.15, fx: 196, fy: 278, df: .4}},
-  heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.1, fx: 160, fy: 360, df: .92}},
+  heck: {totale: {}, nah: {z: 1.7, fx: 230, fy: 330}, fender: {z: 2.2, fx: 158, fy: 352, df: .55}},
   schnitt: {totale: {}, nah: {z: 1.3, fx: 200, fy: 300}},
   oben: {totale: {}, nah: {z: 1.5, fx: 170, fy: 280}, schraeg: {kipp: 32, z: 1.45, fy: 290}},
   /* Kajüte (v5.82): Blicke für Folgen und App. buch, manoever, navi und tuer liegen seit der stärkeren Tiefe um ihre Verschiebung (kajOff) versetzt;
@@ -645,7 +651,7 @@ function ausrichten(key) {
     }
   }
 }
-const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1, klab: 1, hin: 1, dose: 0, eboot: 0, weg: 0, kessel: 1, dampf: 1, kk: 0, block: 1, leer: 0};
+const NULLS = {p: 0, a: 0, go: 0, motor: 0, hx: 150, winken: 0, fender: 0, rad: 0, dreh: 0, pfeil: 0, fahrt: 0, k: 0, stopp: 0, pier: 0, mann: 0, faehre: 0, hilkeB: 1, klab: 1, hin: 1, dose: 0, eboot: 0, weg: 0, kessel: 1, dampf: 1, kk: 0, block: 1, leer: 0, rums: 0, ch: 1, krach: 0, traum: 0, schwell: 0};
 let einstAkt = 'totale', uhrMin = null;   /* uhrMin: Uhr in der Kajüte fest auf diese Minute des Tages (Film), null = Uhr des Geräts (App) */   /* v5.83: zuletzt gewählte Einstellung (für Tests und Werkzeuge) */
 let leicht = false, root = null, welt = null, ort = null, blick = 'seite', s = {...NULLS}, tweens = [], SETS = {}, EB = {}, CAM = {}, K = 1, extraBlur = 0, sprecher = '', laeuft = false, scrollOff = 0, pegel = null;
 const SV = (x, weit) => `<svg viewBox="-40 -50 480 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"${weit ? ' style="overflow:visible"' : ''}>${x}</svg>`;
@@ -654,6 +660,8 @@ function css() {
   const st = document.createElement('style'); st.id = 'fb-css';
   st.textContent = `.fb{position:relative;width:100%;height:100%;overflow:hidden;border-radius:18px;background:#5b513f;isolation:isolate}
   .fb-innen{position:absolute;inset:0;overflow:hidden;transition:filter .8s}.fb.kalt .fb-innen{filter:blur(5px) saturate(.45) brightness(.94)}
+  .fb.traum .fb-innen{filter:sepia(.62) saturate(.75) brightness(1.04) contrast(.92)}.fb-traumrand{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s;z-index:3;
+    background:radial-gradient(ellipse at 50% 50%,rgba(255,248,230,0) 52%,rgba(250,240,215,.55) 78%,rgba(245,232,200,.92) 100%)}.fb.traum .fb-traumrand{opacity:1}
   .fb-welt{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#f6eedb 0%,#cdbf9f 55%,#5b513f 100%)}
   .fb-set{position:absolute;inset:0;visibility:hidden}.fb-set.an{visibility:visible}.fb-rig{position:absolute;inset:0;transform-origin:50% 55%}
   .fb-eb{position:absolute;inset:0}.fb-cam{position:absolute;inset:-10%;transform-origin:50% 50%}.fb-cam svg{width:100%;height:100%;display:block}
@@ -718,7 +726,7 @@ function mount(el) {
   el.innerHTML = `<div class="fb">${defs()}<div class="fb-innen"><div class="fb-welt"></div></div><div class="fb-ue fb-kasch"></div>
     <svg class="fb-ue fb-papier" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-papierf)"/></svg>
     <svg class="fb-ue fb-korn" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="500" filter="url(#fb-korn)"/></svg><div class="fb-ue fb-ton"></div><div class="fb-ue fb-atmo"></div>
-    <div class="fb-ue fb-wasser"></div><div class="fb-ue fb-blende"></div><div class="fb-ue fb-flare"></div>
+    <div class="fb-traumrand"></div><div class="fb-ue fb-wasser"></div><div class="fb-ue fb-blende"></div><div class="fb-ue fb-flare"></div>
     <div class="fb-med"><svg viewBox="0 0 122 122">${harmsBuste()}</svg><span class="fb-tel" hidden>☎️</span></div></div>`;
   root = el.querySelector('.fb'); welt = el.querySelector('.fb-welt'); SETS = {}; EB = {}; CAM = {}; ort = null; glasName = ''; glasJetzt(); atmoBauen();
   messen(); if (!laeuft) { laeuft = true; requestAnimationFrame(zeichne); }
@@ -817,24 +825,36 @@ function zeichne(now) {
   /* Tankstelle von der Seite: rückwärts nach rechts, voraus nach links */
   let e = $id('fs-pos'); if (e) e.setAttribute('transform', `translate(${(200 + s.p * 62 - s.go * 470).toFixed(1)} 340) scale(1.4)`);
   e = $id('fs-hilke'); if (e) { const hop = Math.abs(Math.sin(t * 7)) * (tweens.some(w => 'hx' in w.ziel) ? 3 : 0); e.setAttribute('transform', `translate(${s.hx.toFixed(1)} ${(266 - hop).toFixed(1)})`); }
-  e = $id('fh-pos'); if (e) e.setAttribute('transform', `translate(${(262 - s.a * 86).toFixed(1)} ${(362 + s.p * 14).toFixed(1)}) scale(${(1.15 + s.p * .18).toFixed(3)})`);
-  e = $id('fh-fender'); if (e) e.setAttribute('transform', `rotate(${(Math.sin(t * 2.2) * (2 + s.fender * 6)).toFixed(2)}) scale(${(1 + s.fender * .14).toFixed(3)})`);
+  e = $id('fh-pos'); if (e) e.setAttribute('transform', `translate(${(262 - s.a * 86 + s.rums * 7).toFixed(1)} ${(362 + s.p * 14).toFixed(1)}) scale(${(1.15 + s.p * .18).toFixed(3)})`);
+  /* v5.84 Rumms am Fender: Fender wird flach, Pauls Boot ELSE weicht aus und schaukelt nach */
+  e = $id('fh-else-b'); if (e) e.setAttribute('transform', `translate(${(-s.rums * 5).toFixed(1)} 0) rotate(${(-s.rums * 4 + Math.sin(t * 1.4) * (.6 + s.rums * 1.5)).toFixed(2)})`);
+  e = $id('fh-fender'); if (e) e.setAttribute('transform', `rotate(${(Math.sin(t * 2.2) * (2 + s.fender * 6) * (1 - s.rums)).toFixed(2)}) scale(${((1 + s.fender * .14) * (1 - s.rums * .38)).toFixed(3)} ${(1 + s.fender * .14 + s.rums * .1).toFixed(3)})`);
   e = $id('fh-kiel'); if (e) e.setAttribute('opacity', (s.motor * .9).toFixed(2));
   /* Lehrbild im Schnitt: Propeller und Rad drehen je nach Gang, das Heck wandert */
   e = $id('fx-pos'); if (e) e.setAttribute('transform', `translate(${(200 - s.a * 70).toFixed(1)} 0)`);
   e = $id('fx-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 0 242)`);
   e = $id('fm-prop'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 420 % 360).toFixed(1)} 200 392)`);
+  /* v5.84: „von achtern gesehen“ erst mit dem Pfeil, sonst verrät das Bild die Antwort auf sbf:44 (1-5, Smilla irrt erst „von vorne“) */
+  e = $id('fm-titel'); if (e) e.setAttribute('opacity', s.pfeil.toFixed(2));
   e = $id('fm-cw'); if (e) e.setAttribute('opacity', (s.dreh >= 0 ? s.pfeil : 0).toFixed(2));
   e = $id('fm-ccw'); if (e) e.setAttribute('opacity', (s.dreh < 0 ? s.pfeil : 0).toFixed(2));
   e = $id('fx-speichen'); if (e) e.setAttribute('transform', `rotate(${(s.dreh * t * 40 % 360).toFixed(1)} 0 242)`);
   e = $id('fx-rad'); if (e) e.setAttribute('opacity', s.rad.toFixed(2));
   e = $id('fx-pfeil'); if (e) e.setAttribute('opacity', s.pfeil.toFixed(2));
   /* Hafenbecken: die Frieda fährt, die Welt zieht vorbei */
+  /* v5.84 Schwell an der Ausfahrt (1-4, Fähre und Raser): die Frieda schaukelt stärker */
+  e = $id('fa-pos'); if (e) e.setAttribute('transform', `translate(220 ${(346 + Math.sin(t * 2.6) * 5 * s.schwell).toFixed(1)}) rotate(${(Math.sin(t * 2.1) * 5 * s.schwell).toFixed(2)}) scale(1.4)`);
   for (const id of ['fb-boot', 'fa-boot', 'fs-boot']) { const g = $id(id + '-gischt'); if (g) g.setAttribute('opacity', (Math.min(1, (id === 'fs-boot' ? s.go : s.fahrt)) * (.7 + Math.sin(t * 6) * .3)).toFixed(2)); }
   e = $id('fb-hilke'); if (e) e.setAttribute('opacity', s.hilkeB.toFixed(2));
   /* Klabauter in der Kajüte ein- und ausblenden (TU klab; in der Geschichte ist er erst ab Folge 1-6 an Bord) */
   e = $id('fk-klabauter'); if (e && e._k !== s.klab) { e.style.opacity = s.klab.toFixed(2); e._k = s.klab; }
   /* v5.83 Hafenkino: Bierdose, Leihboot fährt vorbei, die vier gehen; Kessel- und Becherdampf (kalter Kaffee, kalter Herd); Backbord auf dem Kocher; Hilke mit oder ohne Quittungsblock */
+  /* v5.84 Vorstellung (O178): TU traum=1 zeigt, dass ein Bild nur gedacht ist (Sepia, heller Rand wie eine Erinnerung), z. B. Klüverhafen vom Manöverbrett aus */
+  if (root && root._traum !== (s.traum > .5)) { root._traum = s.traum > .5; root.classList.toggle('traum', root._traum); }
+  /* v5.84 Hafenkino bewegt (O173): ch 0 = noch draußen rechts, 1 = liegt am Steg; krach = Rumms gegen den Steg */
+  e = $id('gg-charter'); if (e) { const k = `${s.ch.toFixed(3)}|${s.krach.toFixed(3)}|${s.ch < 1 ? (t * 4 | 0) : 0}`; if (e._k !== k) { e._k = k;
+    const fahrt = 1 - s.ch, wack = fahrt > .01 ? Math.sin(t * 1.3) * 1.2 : 0;
+    e.setAttribute('transform', `translate(${(206 + fahrt * 330 - s.krach * 9).toFixed(1)} ${(306 + fahrt * 10).toFixed(1)}) rotate(${(wack - s.krach * 3.5).toFixed(2)}) scale(1.02)`); } }
   e = $id('gg-dose'); if (e) e.setAttribute('opacity', s.dose.toFixed(2));
   e = $id('gg-eboot'); if (e) e.setAttribute('transform', `translate(${(-140 + s.eboot * 680).toFixed(1)} 372)`);
   e = $id('gg-crew'); if (e && e._k !== s.weg) { e.style.opacity = (1 - s.weg).toFixed(2); e._k = s.weg; }
@@ -862,7 +882,8 @@ function zeichne(now) {
     const pb = $id('fo-pier-bb'), ps = $id('fo-pier-stb'); if (pb) pb.setAttribute('opacity', Math.min(1, 2 - 2 * s.pier).toFixed(2)); if (ps) ps.setAttribute('opacity', Math.min(1, 2 * s.pier).toFixed(2));   /* pier=.5: beide Piers, für die Frage nach der Seite (verrät nichts) */
     const m = $id('fo-mann'); if (m) m.setAttribute('opacity', s.mann.toFixed(2));
   }
-  e = $id('fa-faehre'); if (e) e.setAttribute('transform', `translate(${(40 + s.faehre * 120).toFixed(1)} ${(266 + s.faehre * 12).toFixed(1)}) scale(${(.32 + s.faehre * .9).toFixed(3)})`);
+  /* faehre < 0 = keine Fähre zu sehen (v5.84: nach der Durchfahrt liegt sie hinten im Hafen, nicht wieder draußen) */
+  e = $id('fa-faehre'); if (e) { const f = Math.max(0, s.faehre); e.setAttribute('transform', `translate(${(40 + f * 120).toFixed(1)} ${(266 + f * 12).toFixed(1)}) scale(${(.32 + f * .9).toFixed(3)})`); e.setAttribute('opacity', s.faehre < 0 ? Math.max(0, 1 + s.faehre * 4).toFixed(2) : '1'); }
   /* Höhenschichten der Draufsicht: Hohes neigt sich vom Bildmittelpunkt weg */
   if (HOEHE.length && ort === 'kluever') {
     const wx = Math.sin(t * .31) * 3, wy = Math.cos(t * .27) * 3;

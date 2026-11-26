@@ -28,9 +28,13 @@ machart: neu
 # Seemannschaft: Der Ausguck geht kurz runter, weil der Schiffsführer es sagt; im ruhigen Hafenbecken hält Hinnerk am Ruder selbst Ausguck („Ich. Wie die letzten dreißig Jahre.“). Zur Ausfahrt bist du wieder oben.
 # Dichte-Messer: Lernlast 10 auf knapp vier Minuten ist viel. Gewollt: 41 und 46 sind ein Bündel und werden gezeigt (Heck, Fender, Rad am Grund), 47 ist ein Satz, Kapitel 4 ist Luft (wie Filmprobe A).
 # Lektorat 22.11.2026 (docs/lektorat/film-1-1-bis-1-3.md): Manöverbrett zeigt „Anlegen“ jetzt mit der Pier links, Hilke hat den Block erst, wenn sie zurückkommt, „Heute an Bord“ verrät die Ratefrage nicht mehr, „Vor allem das Heck“, kein Dampf über kaltem Kaffee, Übergang zu 1-4 ohne doppeltes „Dann warten wir“.
-# Harms von außen (E27, GL12): Rückblick am Anfang, nach Kapitel 2 hält er an und fragt zurück (HR57). Mit „Harms aus“ entfällt beides.
+# Harms (v5.84, Nutzer 22.11.2026: „erst ab Folge 3, nicht mitten in der Folge abfragen“): erster Auftritt. Er ruft in der Kajüte an, als du den Kaffee holst; Smilla geht ran, Harms stellt sich selbst vor
+#   und fragt dich am Telefon bis zu zwei Fragen aus 1-1 und 1-2 (HARMS: anruf). Kein Rückblick am Anfang, keine Unterbrechung im Film. Mit „Harms aus“ entfallen nur die Fragen, der Anruf bleibt (Geschichte).
+# Pauls Fender (v5.84, Nutzer: „Das Boot sieht aus, als ob es vor dem anderen fährt. Es müsste den Fender berühren“): Pauls Boot liegt jetzt in derselben Tiefe neben der Frieda, das Heck stößt sichtbar an den Fender (TU rums, Klopfen).
+#   „Dat wird teurer“ (Nutzer: unlustig) ist ersetzt durch „Liebesbriefe. Krieg ich jede Woche.“ / „Mit Kontonummer.“
+# Klüverhafen ist eine Vorstellung (O178): Sepia und heller Rand (TU traum), Smilla sagt „Stell's dir von oben vor“.
 # Stufen: nur hören (Denkpausen), mitsprechen (Antworten), mit Händen (Kiste am Ende).
-# Fachlich: 41, 46, 47, 48 nach data/sbf.json. Ohne quellen/ geprüft (R8). Länge: etwa vier Minuten Sprechtext, mit Denkpausen, Übergängen und Harms etwa sechs Minuten.
+# Fachlich: 41, 46, 47, 48 nach data/sbf.json. Ohne quellen/ geprüft (R8). Länge: etwa viereinhalb Minuten Sprechtext, mit Denkpausen, Übergängen und Harms' Anruf etwa sieben Minuten.
 
 [[HEUTE: Ablegen von der Tankstelle | Rückwärts raus | Mit welcher Seite man anlegt]]
 
@@ -39,10 +43,6 @@ machart: neu
 [[REVIER: hafen]]
 [[ORT: tankstelle]]
 [[TU: block=0/10]]
-[[HARMS: anfang]]
-HARMS: Tag eins, Vormittag. Kuttershaven. Die Frieda hat getankt. Den Sprit hat Hinnerk bezahlt. Den Strom nicht. Zweiundvierzig Euro.
-HARMS: Typisch. Ich prüfe dich in Harmsoog. Bis dahin frag ich zwischendurch nach.
-[[HARMS: ende]]
 [[AUDIO: Möwen]]
 [[KAMERA: seite, hilke, schaerfe]]
 HAFENMEISTER: Zweiundvierzig Euro, Hinnerk. Ich hol den Quittungsblock. Und du bleibst, wo du bist.
@@ -55,7 +55,7 @@ SMILLA: Was, jetzt?
 HINNERK: Mach die Leinen klar.
 SMILLA: Du haust ab. Wegen zweiundvierzig Euro Strom.
 HINNERK: Ich leg ab. Dat is wat anderes.
-SMILLA: [[INTENTION: seufzend]] Na gut. Komm, du gehst nach achtern. Du bist heute Ausguck: gucken und Bescheid sagen.
+SMILLA: [[INTENTION: seufzend]] Na gut. Und du, Frischfisch, bist heute unser Ausguck: gucken und Bescheid sagen.
 HINNERK: Und leise.
 [[TU: motor=1/300]]
 [[AUDIO: Motor]]
@@ -79,14 +79,19 @@ HINNERK: Rückwärts. Kiek mol aufs Heck.
 [[TU: p=.35/3000]]
 [[AUDIO: Motor]]
 [[KAMERA: heck, totale, orbit]]
-[[TU: p=.7/5000, a=.7/5000]]
+[[TU: a=.36/5200]]
 SMILLA: Äh. Käpt'n. Wir fahren schief.
 HINNERK: Jo.
 SMILLA: Auf Paul sein Boot zu.
 HINNERK: Jo. Jedes Mal, wenn ich hier tanke.
 [[KAMERA: heck, fender, schaerfe]]
+[[TU: rums=1/220]]
+[[AUDIO: Klopfen]]
+[[TU: rums=0/1100]]
+SMILLA: Rumms.
+HINNERK: Fender. Dafür is der da.
 [[TU: fender=1/600]]
-SMILLA: Darum hängt bei Paul dieser riesige Fender.
+SMILLA: Darum hängt bei Paul dieser dicke Fender.
 HINNERK: Da steht mein Name drauf. Find ich nich nett.
 [[TU: fender=0/1500]]
 [[KATALOG: sbf:41]]
@@ -96,7 +101,7 @@ SMILLA: Hast du's gesehen? Er hat gar nicht gelenkt. Das Heck dreht nach Backbor
 [[TU: dreh=-1/800, rad=1/1200]]
 HINNERK: Dat macht der Propeller. Stell dir vor, der is 'n Rad, dat unten über'n Grund rollt.
 [[TU: a=.7/4200, pfeil=1/800]]
-HINNERK: Bei unserem rollt dat Rad rückwärts nach links. Und nimmt dat Heck mit.
+HINNERK: Unser Propeller dreht rechtsrum. Wenn wir zurückgehen, rollt dat Rad nach links weg. Und nimmt dat Heck mit.
 SMILLA: Vor allem das Heck. Der Bug bewegt sich kaum. Das Boot rutscht hinten zur Seite weg.
 [[TU: dreh=1/900, pfeil=0/500, rad=.45/900]]
 HINNERK: Vorwärts merkst du kaum wat. Rückwärts jedes Mal.
@@ -116,15 +121,15 @@ SMILLA: Sie winkt. Mit dem Block.
 HINNERK: Nich hingucken.
 [[TU: go=1.2/5000]]
 SMILLA: Jetzt schreibt sie was auf.
-HINNERK: Dat wird teurer.
-HINNERK: Ausguck. Mein Kaffee steht noch unten auf'm Tisch. Holst du den?
+HINNERK: Liebesbriefe. Krieg ich jede Woche.
+SMILLA: Mit Kontonummer.
+HINNERK: Ausguck, du. Mein Kaffee steht noch unten auf'm Tisch. Holst du den?
 SMILLA: Und wer guckt dann?
 HINNERK: Ich. Wie die letzten dreißig Jahre.
 SMILLA: Dann komm ich mit runter. Ich zeig dir was.
-[[HARMS: frage]]
 
 [[ABSCHNITT: Kalter Kaffee]]
-[[SZENE: Unten in der Kajüte der Frieda. Sie tuckert langsam durchs Hafenbecken von Kuttershaven, Hinnerk steuert oben, man hört ihn durch den offenen Niedergang. Auf dem Tisch steht sein Becher, unberührt und kalt. Smilla sitzt am Tisch und zeigt dir das Manöverbrett an der Wand. Hafen.]]
+[[SZENE: Unten in der Kajüte der Frieda. Sie tuckert langsam durchs Hafenbecken von Kuttershaven, Hinnerk steuert oben, man hört ihn durch den offenen Niedergang. Auf dem Tisch steht sein Becher, unberührt und kalt. Das alte rote Telefon klingelt, Smilla geht ran: Harms. Danach zeigt sie dir das Manöverbrett an der Wand. Hafen.]]
 [[REVIER: hafen]]
 [[ORT: kajuete, nebel, innen]]
 [[TU: klab=0/10, hin=0/10, dampf=0/10]]
@@ -135,24 +140,41 @@ HINNERK: [[INTENTION: rufend]] Is er noch warm?
 SMILLA: [[INTENTION: rufend]] Kalt, Käpt'n!
 HINNERK: [[INTENTION: rufend]] Ich hab abgelegt. Dat is Arbeit.
 SMILLA: Er hört alles. Der Niedergang ist offen.
+[[AUDIO: Telefon]]
+[[KAMERA: innen, telefon, fahrt]]
+HINNERK: [[INTENTION: rufend]] Ich bin nich da!
+SMILLA: [[INTENTION: seufzend]] Ich weiß.
+SMILLA: Frieda, Smilla.
+HARMS: [[INTENTION: trocken]] Harms. Gib mir Hinnerk.
+SMILLA: Der steht am Ruder. Und ist nicht da.
+HARMS: Dacht ich mir. Ist {{anrede:w=die Neue|m=der Neue|n=der Frischfisch}} an Bord?
+SMILLA: Steht neben mir.
+HARMS: Gib mal her.
+HARMS: Ich nehm in Harmsoog die Prüfung ab. Sieben Tage. Bis dahin ruf ich an und frag, was hängen geblieben ist.
+[[HARMS: anruf]]
+HINNERK: [[INTENTION: rufend]] Is er weg?
+SMILLA: [[INTENTION: rufend]] Er lässt grüßen!
+HINNERK: [[INTENTION: rufend]] Lässt er nich.
+SMILLA: Stimmt. Du sollst nicht so viel Gas geben.
 [[KAMERA: innen, manoever, fahrt]]
 SMILLA: Wenn wir schon unten sind: Guck aufs Manöverbrett. Anlegen. Das brauchst du morgen.
 HINNERK: [[INTENTION: rufend]] Morgen is Klüverhafen!
-SMILLA: Da legen wir an einer langen Pier an. Er fährt langsam ran, und kurz davor gibt er rückwärts. Zum Bremsen.
+SMILLA: Da legen wir an einer langen Pier an. Stell dir vor, du steuerst. Du fährst langsam ran, und kurz davor gibst du rückwärts. Zum Bremsen.
 HINNERK: [[INTENTION: rufend]] Aufstoppen heißt dat!
 SMILLA: Und du weißt jetzt, was das Heck dann macht.
 HINNERK: [[INTENTION: rufend]] Wat et immer macht!
+SMILLA: Stell's dir von oben vor. Klüverhafen, die lange Pier.
 [[ORT: kluever, nebel, oben]]
-[[TU: pier=.5/10]]
+[[TU: pier=.5/10, traum=1/10]]
 [[AUDIO: Schiffsglocke]]
-SMILLA: Frage an dich. Beim Aufstoppen gibt er rückwärts. An welcher Seite willst du dann die Pier haben: Backbord oder Steuerbord?
+SMILLA: Frage an dich. Beim Aufstoppen gibst du rückwärts. An welcher Seite willst du dann die Pier haben: Backbord oder Steuerbord?
 [[WAHL: sbf:48 | *Backbord | Steuerbord]]
 [[DENKPAUSE: 6]]
 [[VERTIEFUNG: sbf:48]]
 SMILLA: Denk an eben. Rückwärts zieht das Heck nach Backbord, also nach links. Liegt die Pier links, zieht es dich genau dorthin, und du liegst von allein längsseits. Liegt sie rechts, zieht es dich von ihr weg.
 [[VERTIEFUNG: ende]]
 [[TU: pier=0/700, k=1/4200]]
-SMILLA: Backbord. Die Pier liegt links. Er fährt ran.
+SMILLA: Backbord. Die Pier liegt links. Du fährst ran.
 HINNERK: [[INTENTION: rufend]] Und rückwärts!
 [[TU: stopp=1/2800]]
 SMILLA: Siehst du? Das Heck zieht dich von allein ran.
@@ -161,9 +183,9 @@ SMILLA: Und jetzt das Ganze mit der Pier an Steuerbord.
 [[TU: k=1/2600, mann=1/900]]
 HINNERK: [[INTENTION: rufend]] Ran. Und rückwärts!
 [[TU: stopp=1/2600]]
-SMILLA: Und weg. Jetzt hängst du einen Meter vor der Pier, und da drüben wartet einer auf deine Leine.
+SMILLA: Und weg. Jetzt hängst du ein paar Meter vor der Pier, und da drüben wartet einer auf deine Leine.
 HINNERK: [[INTENTION: rufend]] Und wartet. Und wartet.
-SMILLA: Unser Propeller ist ein Rechtsdreher. Was das genau heißt, zeig ich dir gleich am Motor.
+SMILLA: Unser Propeller ist ein Rechtsdreher. Was das genau heißt, zeig ich dir nachher am Motor.
 HINNERK: [[INTENTION: rufend]] Rechtsdreher legt links an!
 SMILLA: Ich guck bei jedem fremden Boot zuerst, wie rum der Propeller dreht. Dann weiß ich, wohin das Heck will, und plane das Manöver danach.
 HINNERK: [[INTENTION: rufend]] Oder du fährst dreißig Jahre dasselbe Boot!
@@ -173,11 +195,12 @@ SMILLA: Oder das. Komm, nimm den Becher mit.
 [[SZENE: Wieder oben im Cockpit. Kurz vor der Hafenausfahrt von Kuttershaven, Sonne. Die Molenköpfe kommen näher, draußen glitzert das Wasser. Hinnerk nimmt das Gas zurück. Hafen.]]
 [[REVIER: hafen]]
 [[ORT: ausfahrt, kran]]
-[[TU: motor=1/10]]
+[[TU: motor=1/10, traum=0/10]]
 HINNERK: Na endlich. Mein Kaffee.
 SMILLA: Und jetzt guck mal da raus, Ausguck. Was siehst du?
 [[TU: faehre=.55/7000]]
-HINNERK: Ich seh's. Da kommt wat Großes.
+[[PAUSE: nachdenklich]]
+HINNERK: Siehste. Da kommt wat Großes.
 [[VERTIGO: an]]
 SMILLA: Oha. Die Fähre.
 HINNERK: Dann warten wir.
