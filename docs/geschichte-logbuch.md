@@ -27,6 +27,33 @@
 | 1-2 „Gas, Sprit und Streichholz“ | Harms erzählt am Anfang, was bisher geschah, und fragt nach dem Tanken zurück. Die Gashahn-Einweisung findet unten statt: Hinnerk zeigt vom Tisch auf die Kombüse (Drehknöpfe, roter Hebel = Gashahn, Haupthahn oben an der Flasche); Backbord auf dem Kocher | Streichholz, Lappen, Luke im Hafenbecken, Augenbrauen wie bisher |
 | 1-3 „Leise raus“ | Hinnerk schickt dich runter, seinen Kaffee holen („Und wer guckt dann?“ – „Ich. Wie die letzten dreißig Jahre.“). Unten zeigt Smilla am Manöverbrett „Anlegen“, Hinnerk ruft durch den offenen Niedergang („Rechtsdreher legt links an!“). Vom Brett in die Aufsicht auf Klüverhafen | Pauls Fender, Hilkes Block, Rad am Grund, Fähre am Ende; den kalten Kaffee trinkt er in 1-4 |
 
+### Tag 1 fertig (v5.84, 25.11.2026; `film-1-1.md` bis `film-1-5.md`)
+> Nutzer 22.11.2026 nach dem Hörtest: Harms erst ab Folge 3 und nicht mitten in der Folge; Pauls Fender sichtbar berühren; „Dat wird teurer“ ist unlustig; „Fähre kommt, danach einparken“ ergibt keinen Sinn. Umgesetzt mit den Vorschlägen O177–O179.
+- **1-1:** Kein Harms mehr zu hören. Das rote Telefon klingelt aus, Smilla erzählt: Harms war ihr Prüfer, in sieben Tagen mustert sie auf der Albertine in Harmsoog an, ihr bringt sie hin, Harms prüft dich dort gleich mit, bis dahin ruft er an. Hinnerk: „Darum geh ich nich ran.“ Das Charterboot fährt jetzt sichtbar ein und rumst an den Steg.
+- **1-2:** Kein Rückblick und keine Rückfrage von Harms.
+- **1-3:** **Harms' erster Auftritt:** Er ruft in der Kajüte an, als du den Kaffee holst. Hinnerk von oben: „Ich bin nich da!“ Smilla geht ran, Harms stellt sich dir vor und fragt am Telefon zurück. Danach: „Er lässt grüßen!“ – „Lässt er nich.“ Pauls Fender: Rumms. Hilke schreibt was auf: „Liebesbriefe. Krieg ich jede Woche.“ – „Mit Kontonummer.“ Klüverhafen ist Smillas Vorstellung („Stell's dir von oben vor“).
+- **Neue Reihenfolge:** 1-4 ist jetzt „Dicke Pötte“ (Raser und Fähre direkt nach 1-3), 1-5 „Ohne Gas kein Ruder“ (Kaffeepause hinter der Tonne, Motor).
+
+### 1-4 „Dicke Pötte“ (Hafenausfahrt Kuttershaven, später Vormittag, schön; Film, ID gold-2)
+| Fakt | Anker | Nennungen | Echo geplant |
+|---|---|---|---|
+| sbf:36 Im Engen Fahrt runter, Platz lassen; man wartet am Rand | „In der Ausfahrt is für zwei kein Platz“ | 2 | jede enge Stelle (Schleuse, Brücke): „Für zwei kein Platz.“ |
+| sbf:61 An Liegern langsam vorbei | Raser, Pauls Becher fliegt beim Segler, Hilkes Rechnung über drei Fender, „schlafender Hund“ | 4 | 1-6 Lage: Boote am Ufer, Hinnerk will voll vorbei |
+| sbf:34 Große Schiffe: Welle wirft um, Sog zieht heran | die Fähre, „Ach du dicker Pott“, Kaffee über Bord | 4 | Tag 2 Elv: Frachter |
+| sbf:37 Beim Überholen trifft es den Kleinen: Stau, Sog, Schwell, im Flachen Grundberührung | „Der Große merkt nix“ | 2 | Tag 2 Elv: Frachter überholt |
+| Kurs null-vier-null bis zur grünen Tonne, die bleibt links, dann nach Westen in die Brede | Ausguck | 1 | Tag 2: Tonnen als Block |
+| Harms' Rückblick am Anfang (Tankstelle, Fender, Fähre) | – | 1 | – |
+
+### 1-5 „Ohne Gas kein Ruder“ (hinter der grünen Tonne, Mittag, schön; Film, ID gold-3)
+| Fakt | Anker | Nennungen | Echo geplant |
+|---|---|---|---|
+| sbf:44, 45 rechts- und linksdrehend: von achtern gesehen, in Vorausfahrt | Smillas Irrtum „von vorne“, „Von wo guckst du?“ | 4 | – |
+| sbf:50 Außenborder lenkt mit dem Schraubenstrom: ohne Gas keine Lenkung | Motor ganz nach links, nichts passiert; „Für die Ausbildung“ | 4 | Ablegen, Anlegen: „Ohne Gas keen Ruder.“ |
+| sbf:51 Ruder hinter dem Propeller wirkt rückwärts erst mit Fahrt | die Fähre legt an, „jeden Tag 'ne Andacht“ | 3 | – |
+| Treiben statt parken: raus aus dem Fahrwasser | Thermoskanne, „Auf'm Wasser parkt man nich.“ | 1 | – |
+| Harms fragt am Ende zurück (bis zu zwei Fragen) | – | – | – |
+| Haken: „Rein in die Brede. Da ist Gegenverkehr.“ – „Dann halten wir rechts.“ | – | 1 | nächste Folge „Rechts halten“ |
+
 ### 0-1 „Anheuern“ (entfallen am 16.11.2026, GL8; Skript in `podcast/archiv/folgen/`)
 | Fakt | Anker | Nennungen | Echo geplant |
 |---|---|---|---|

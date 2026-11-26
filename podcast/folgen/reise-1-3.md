@@ -1,7 +1,7 @@
 ---
 folge: 1-3
 titel: Das Heck zieht weg
-status: entwurf
+status: alt
 ---
 # Hörreise, Tag 1, Folge 1-3 (docs/reise.md §7, Folgenblatt 7.10). Erste Fassung vom 07.11.2026, überarbeitet am 15.11.2026 (HR50–HR55), noch nicht vertont.
 # Prüfen: node tools/podcast-pruefen.js --entwurf podcast/folgen/reise-1-3.md  ·  node tools/sprueche-pruefen.js

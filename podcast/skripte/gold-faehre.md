@@ -1,7 +1,7 @@
 ---
 folge: gold-3
 titel: Dicke Pötte
-status: test
+status: alt
 hoerreise: ja
 machart: neu
 ---

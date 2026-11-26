@@ -30,6 +30,17 @@
   - **Vom Brett in die Aufsicht:** Manöverbrett und Seekarte zeigen die Aufsicht schon. Von dort geht es mit einer Nebelblende in die Ansicht von oben (FK5), nicht mit einer Kranfahrt aus der Kajüte.
   - **Licht:** wie draußen (FK15), die Lampe brennt immer. Karte = Welt (HR50): Was auf der Seekarte am Tisch liegt, ist die Reisekarte.
 
+## Player (Nutzer, 25.11.2026: „Der Film läuft durch, die Animationen kommen im Film vor, ohne Umschalten. Bei Fragen sieht man NUR die Frage.“)
+Gilt für jedes Aussehen des Players, nicht nur für den Film (seit v5.84; vorher hatte nur die Nachtbühne diese Regeln, `docs/plan-lauf8.md` §2).
+- **PL1** Der Film läuft ohne Umschalten durch. Kein Fenster neben oder unter der Szene.
+- **PL2** Lehrbilder und Animationen sind Teil des Films: Sie erscheinen im selben Rahmen wie die Szene, gleich groß (4:5), und danach geht der Film dort weiter.
+- **PL3** Bei einer Frage zeigt der Bildschirm nur die Frage, auf dem ganzen Platz. Ein Bild gibt es nur, wenn die Frage eines braucht (Schild, Licht, Zeichen aus dem Katalog).
+- **PL4** Kein Text im Bild (außer in der Stufe „Mitlesen“), unten nur die einfache Leiste. Ausnahme: Beschriftungen in Lehrbildern (z. B. „von achtern gesehen“), aber nie vor der Frage, deren Antwort sie verraten.
+- Geprüft: `node tests/buehne-pruefen.js` (Animation im Filmrahmen, Szene bei Fragen ausgeblendet). Standbilder je Folge: `node tools/film-bilder.js <folgen-id>`.
+
+## Harms im Film (Nutzer, 22.11.2026: „erst ab Folge 3 oder so“, „nicht während der Folge einfach abfragen, sondern an geeigneten Stellen oder am Anfang/Ende“)
+- **FK18** Harms tritt in Tag 1 erst in 1-3 auf (Anruf in der Kajüte). Seine Rückfragen kommen am Anfang, am Ende oder an einer Stelle, an der die Geschichte ohnehin Pause macht (Anruf, Warten), nie mitten in einer Szene. Eine Folge hat höchstens einen Harms-Teil vorn und einen hinten.
+
 ## Nicht
 - **FK13** Kein Vordergrund-Wischer (Nutzer, 20.11.2026). Kein harter Schnitt, außer zum Vergleich.
 - **FK14** Keine Wechsel nur, damit sich etwas bewegt. Wenn nichts passiert, bleibt das Bild stehen und die Welt lebt (Wellen, Möwen, Nebel).
@@ -42,6 +53,7 @@
 - `[[ORT: name, übergang, blick]]` neues Bühnenbild (`tankstelle`, `becken`, `kluever`, `ausfahrt`, seit v5.72 `motor` mit Blick `heck`: Außenborder von achtern, `[[TU: dreh=1, pfeil=1]]` zeigt „voraus: im Uhrzeigersinn“, `dreh=-1` „zurück“; seit v5.83 `kajuete` mit Blick `innen` (FK17) und `liegeplatz` mit Blick `seite`, die Frieda am Liegeplatz in Kuttershaven). Boot und Figuren kommen aus dem Baukasten (`docs/baukasten.md`). Das erste ORT einer Folge kommt immer mit Glasplatten (FK11).
 - `[[KAMERA: blick, einstellung, übergang]]` im selben Ort, z. B. `[[KAMERA: heck, totale, orbit]]`, `[[KAMERA: seite, hilke, schaerfe]]`, `[[KAMERA: schnitt, totale, tauchen]]`. Übergänge: `fahrt`, `schaerfe`, `orbit`, `kran`, `tauchen`, `atem`, `nebel`, `licht`, `platten`, `schnitt`.
 - `[[TU: name=wert/ms, …]]` Handlung im Bild (z. B. `p=.7/5000` Frieda fährt zurück, `fender=1/600`; in der Kajüte `klab=0` Klabauter weg, `hin=0` Hinnerk oben am Ruder). Ein TU nur mit Sprüngen (0 bis 10 ms) direkt nach ORT oder KAMERA gilt genau im Moment des Bildwechsels, man sieht den Sprung nicht.
+- v5.84 neue TU: `rums` (Stoß an Pauls Fender: Fender flach, beide Boote schaukeln; Tankstelle von achtern, Pauls Boot liegt jetzt neben der Frieda), `ch` und `krach` (Hafenkino: Charterboot fährt ein, 0 = draußen, 1 = am Steg; Rumms gegen den Steg), `traum` (Vorstellung: Sepia und heller Rand, z. B. Klüverhafen vom Manöverbrett), `schwell` (die Frieda schaukelt an der Ausfahrt), `faehre=-1` (keine Fähre im Bild).
 - `[[VERTIGO: an]]` Hitchcock-Zoom (FK9).
 - `[[HARMS: anfang]] … [[HARMS: ende]]` Harms von außen (Rückblick „Was bisher geschah“); `[[HARMS: frage]]` hält den Film an (Bild friert ein) und stellt bis zu zwei Fragen früherer Folgen; `[[HARMS: anruf]]` dasselbe am Telefon in der Geschichte. Mit „Harms aus“ entfällt alles davon.
 - `[[KISTE: Aufgabe]]` nur in der Stufe „Mit Händen“: Bild friert ein, Karte mit der Aufgabe, Erledigt oder Später.

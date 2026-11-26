@@ -1,7 +1,7 @@
 ---
 folge: gold-2
 titel: Warten auf die Fähre
-status: test
+status: alt
 hoerreise: ja
 machart: neu
 ---

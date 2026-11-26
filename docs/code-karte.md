@@ -3,6 +3,13 @@
 > Ausgelagert aus `CLAUDE.md` §7 am 17.11.2026 (GL7: verschlanken). **Der Code ist die Wahrheit**; diese Karte hilft beim Finden. Claude pflegt sie am Ende jedes Laufs: neue Einträge oben, mit Version. Vor Arbeit an einem Bereich den passenden Eintrag lesen (mit Suche nach dem Dateinamen), nicht die ganze Datei.
 
 ## Einträge
+- **Tag 1 fertig, Player-Regeln (v5.84, plan-lauf8 P1/P4/P5):**
+  - `kurs.js`: CSS für `#kursplayer.d-f` (PL1–PL4): `.mitbild` blendet `#kges` aus und zeigt `#kbild` im Filmrahmen (4:5, `order:-1`), `.mitwahl` blendet Szene und Bild aus; nach der Frage und bei `[[ORT]]`/`[[KAMERA]]` endet ein Lehrbild im Film (`mitBild(false)`); Chip und „Weiter ohne Antwort“ in fester Größe. `FOLGEN`: `gold-2` → `film-1-4.md`, `gold-3` → `film-1-5.md` (Film), alte Fassungen `alt-gold-2`, `alt-gold-3`. Startblatt-Text zu Harms.
+  - `film.js`: Tankstelle von achtern: Pauls Boot `#fh-else` in derselben Ebene wie die Frieda (vorher vorderste Ebene), Fender `#fh-fender` daran; neue TU `rums`, `ch`, `krach`, `traum` (Klasse `.fb.traum`, Rand `.fb-traumrand`), `schwell` (`#fa-pos`), `faehre < 0` blendet die Fähre aus; `EINST.heck.fender` mit `df .55`; Motor von achtern: `#fm-titel` erst mit `pfeil`.
+  - `bord.js`: `klabDa()` (Folge `reise-1-6` gehört oder `S.cfg.look.test === true`); ohne sie kein Papagei in Kajüte und Deck. `index.html` `moinKette`: Klabauter grüßt erst dann mit. `HOERREISE` neue Titel für gold-2/gold-3, Menü „Alte Folgen“ um 1-4/1-5 ohne Film ergänzt.
+  - `tools/film-bilder.js` (neu): Standbilder einer Filmfolge vor jeder Sprechzeile mit Bildwechsel, Kontaktbogen und Liste in `podcast/lektorat/pakete/` (nicht im Repo).
+  - `tests/buehne-pruefen.js`: Block „Player-Regeln“ (gold-2 „Der Raser“ mit Stufe Mitsprechen: Animation im Filmrahmen, Frage allein, danach Film), Tag-1-Block um gold-2/gold-3 und die Telefon-Kamera in 1-3 erweitert.
+  - Skripte `podcast/folgen/film-1-4.md`, `film-1-5.md` (neu); `gold-heck.md`, `gold-motor.md`, `gold-faehre.md`, `reise-1-3.md` jetzt `status: alt`.
 - **Tag 1 als Film, Kajüte als Szenenbild (v5.83, E36, FK17):**
   - Skripte `podcast/folgen/film-1-1.md`, `film-1-2.md`, `film-1-3.md` (Film, `design: 'f', film: true`). In `kurs.js` `FOLGEN` laufen die IDs `reise-1-1`, `reise-1-2`, `gold-1` jetzt auf diese Dateien (IDs bleiben, R7); die Fassungen ohne Film als `alt-1-1`, `alt-1-2`, `alt-gold-1` (unter „Alte Folgen und Tests“, `alteFolgen()` in `index.html`); `TESTPAAR` = `alt-1-2` + `reise-1-3`.
   - `figuren.js`: Statisten `charter1`–`charter4` (Charter-Crew, `wer: 'CHARTER'`, ohne Kleidung zum Wechseln).

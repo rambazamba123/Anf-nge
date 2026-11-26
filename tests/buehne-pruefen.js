@@ -60,7 +60,7 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     errs.length ? schlecht('Konsole (alte 1-3 Harms): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (alte 1-3 Harms)'); await ctx.close(); }
   /* 3: Animation ohne Phasen läuft weiter (Der Raser: [[ANIM: gleiter]]) */
   /* v5.70 Handystimme: kein Stück, das nur aus Zeichen besteht, keine Anführungszeichen (Nutzer 17.11.2026: „Anführungszeichen … Punkt“) */
-  { const {p, ctx} = await oeffne(b, 'gold-3', 'Der Raser');
+  { const {p, ctx} = await oeffne(b, 'gold-2', 'Der Raser');
     const r = await p.evaluate(async () => { const cfg = await (await fetch('podcast/audio_config.json')).json(), schlecht = [];
       for (const id of HOERREISE.map(x => x[0])) { const f = await (await fetch(KURS._datei ? KURS._datei(id) : '')).text().catch(() => '');
         if (!f) continue; KURS.zerlege(f, cfg, {}).items.filter(i => i.t === 'rede').forEach(i => i.zeilen.forEach(z => VOX._chunks(z.text).forEach(c => { if (/[„“”"«»]/.test(c) || c.split(/\s+/).some(w => w && !/[A-Za-zÄÖÜäöüß0-9]/.test(w))) schlecht.push(id + ': ' + c.slice(0, 60)); }))); }
@@ -90,7 +90,7 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
   /* v5.83 Tag 1 als Film (E36, FK17): die Kajüte ist Szenenbild; Klabauter fehlt bis 1-6 (TU klab), in 1-3 steht Hinnerk oben am Ruder (TU hin),
      die Kamera fährt an die Kombüse (1-2) und ans Manöverbrett (1-3); an Deck schaut man in 1-1 über die Bordwand aufs Charterboot gegenüber (Lektorat 22.11.2026) */
   for (const [id, ab, will] of [['reise-1-1', 'Kaffee ohne Papagei', {ort: 'kajuete', klab: 0, hin: 1}], ['reise-1-1', 'Hafenkino', {ort: 'gegenueber'}],
-    ['reise-1-2', 'Der Gashahn', {ort: 'kajuete', klab: 0, hin: 1, blick: 'kombuese'}], ['gold-1', 'Kalter Kaffee', {ort: 'kajuete', klab: 0, hin: 0, blick: 'manoever'}]]) {
+    ['reise-1-2', 'Der Gashahn', {ort: 'kajuete', klab: 0, hin: 1, blick: 'kombuese'}], ['gold-1', 'Kalter Kaffee', {ort: 'kajuete', klab: 0, hin: 0, blick: 'telefon'}], ['gold-2', 'Kalter Kaffee', {ort: 'ausfahrt'}], ['gold-3', 'Rechtsdreher', {ort: 'motor'}]]) {
     const {p, ctx, errs} = await oeffne(b, id, ab); let z = null;
     for (let i = 0; i < 60; i++) { await sleep(250);
       z = await p.evaluate(() => { const st = FILMB.zustand, k = document.getElementById('fk-klabauter'), h = document.getElementById('fk-hinnerk'), a = document.getElementById('fk-hinnerk-arme');
@@ -100,9 +100,25 @@ const lage = p => p.evaluate(() => Object.fromEntries([...document.querySelector
     z.ort === will.ort ? ok(`${name}: Bühnenbild ${z.ort}`) : schlecht(`${name}: Bühnenbild ${z.ort} statt ${will.ort}`);
     if (will.klab !== undefined) z.klab === will.klab ? ok(`${name}: Klabauter ${will.klab ? 'da' : 'ausgeblendet'}`) : schlecht(`${name}: Klabauter ${z.klab} statt ${will.klab}`);
     if (will.hin !== undefined) z.hin === will.hin && z.arme === will.hin ? ok(`${name}: Hinnerk ${will.hin ? 'am Tisch' : 'oben am Ruder (ausgeblendet, Becher bleibt)'}`) : schlecht(`${name}: Hinnerk ${z.hin}/${z.arme} statt ${will.hin}`);
-    if (will.blick) { let ja = false; for (let i = 0; i < 80 && !ja; i++) { await sleep(250); ja = await p.evaluate(e => FILMB.zustand.einst === e, will.blick); }
+    if (will.blick) { let ja = false; for (let i = 0; i < 200 && !ja; i++) { await sleep(250); ja = await p.evaluate(e => FILMB.zustand.einst === e, will.blick); }
       ja ? ok(`${name}: Kamera fährt an „${will.blick}“`) : schlecht(`${name}: Kamera kommt nicht an „${will.blick}“`); }
     errs.length ? schlecht(`Konsole (${name}): ` + errs.slice(0, 3).join(' | ')) : ok(`Konsole fehlerfrei (${name})`); await ctx.close(); }
+  /* v5.84 Player-Regeln PL1–PL4 im Film (Nutzer 25.11.2026; Rückschritt v5.71–v5.83: Animation unter der kleinen Szene, Frage mit kleiner Szene oben):
+     die Animation erscheint im Filmrahmen (Szene ausgeblendet, Bild etwa so groß wie die Szene), bei der Frage ist nur die Frage zu sehen, danach läuft der Film weiter */
+  { const vorher = STAND.cfg.kurs.stufe; STAND.cfg.kurs.stufe = 'sprechen';
+    const {p, ctx, errs} = await oeffne(b, 'gold-2', 'Der Raser'); STAND.cfg.kurs.stufe = vorher;
+    let bild = null, wahl = null, nach = null;
+    for (let i = 0; i < 220 && !(bild && wahl && nach); i++) { await sleep(500);
+      const k = await p.evaluate(() => { const r = document.getElementById('kursplayer'), g = document.getElementById('kges'), bb = document.getElementById('kbild'), q = bb.getBoundingClientRect();
+        return {b: r.classList.contains('mitbild'), w: r.classList.contains('mitwahl'), kges: getComputedStyle(g).display, kbild: getComputedStyle(bb).display, bw: q.width, bh: q.height}; });
+      if (k.b && !k.w && !bild) bild = k;
+      if (k.w && !wahl) { wahl = k; await p.evaluate(() => { const o = document.querySelector('#kwahl [data-o="1"]') || document.querySelector('#kwahl [data-o]'); if (o) o.click(); }); 
+        for (let j = 0; j < 60; j++) { await sleep(150); const z = await p.evaluate(() => { const r = document.getElementById('kursplayer'); return {w: r.classList.contains('mitwahl'), b: r.classList.contains('mitbild'), kges: getComputedStyle(document.getElementById('kges')).display}; });
+          if (!z.w) { nach = z; break; } } } }
+    bild && bild.kges === 'none' && bild.bw > 300 && bild.bh > 380 ? ok(`PL2: Animation im Filmrahmen (${Math.round(bild.bw)}×${Math.round(bild.bh)}, Szene ausgeblendet)`) : schlecht('PL2: Animation nicht im Filmrahmen: ' + JSON.stringify(bild));
+    wahl && wahl.kges === 'none' && wahl.kbild === 'none' ? ok('PL3: Bei der Frage nur die Frage') : schlecht('PL3: Bei der Frage ist noch Bild zu sehen: ' + JSON.stringify(wahl));
+    nach && !nach.b && nach.kges !== 'none' ? ok('PL1: Nach der Frage läuft wieder der Film') : schlecht('PL1: Nach der Frage kein Film: ' + JSON.stringify(nach));
+    errs.length ? schlecht('Konsole (gold-2 Player-Regeln): ' + errs.slice(0, 3).join(' | ')) : ok('Konsole fehlerfrei (gold-2 Player-Regeln)'); await ctx.close(); }
   /* v5.73 Werft mit Drehrad: Bühne sichtbar (nicht von der Crew-Ansicht verdeckt), Wahl wirkt als Vorschau, Verwerfen stellt zurück, Übernehmen speichert */
   { const ctx = await b.newContext({viewport: {width: 400, height: 860}}); const p = await ctx.newPage(); const errs = [];
     p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); }); p.on('pageerror', e => errs.push(String(e)));

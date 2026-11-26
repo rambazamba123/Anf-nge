@@ -79,7 +79,9 @@ HINNERK: Charter. Nimm deinen Becher mit. Dat lohnt sich.
 [[SZENE: Oben im Cockpit der Frieda am Liegeplatz, Morgen, Sonne. Du schaust über die Bordwand zum Steg gegenüber: Ein Charterboot legt dort an, vier Männer an Bord, alle rufen durcheinander. Hinnerk kommentiert wie ein Fußballreporter.]]
 [[REVIER: hafen]]
 [[ORT: gegenueber, nebel, seite]]
+[[TU: ch=0/10]]
 [[AUDIO: Möwen]]
+[[TU: ch=.75/9000]]
 HINNERK: Kiek mol. Gegenüber.
 SMILLA: Oh nein. Die vier von der Hafenkneipe gestern?
 HINNERK: Verlegen von der Charterbasis rüber. Zwanzig Meter. Dat reicht schon.
@@ -88,7 +90,11 @@ HINNERK: Hafenkino. Setz dich. Besser als Fernsehen.
 SMILLA: Wer steuert da eigentlich? Der mit der roten Mütze?
 HINNERK: Der mit der Mütze ruft „rückwärts“. Der am Gas fährt vorwärts.
 SMILLA: Und die zwei vorne streiten, wer die Leine wirft.
+[[TU: ch=1/1400]]
 HINNERK: [[SPRUCH: hi-hafenkino-04]] Und Rückwärtsgang! Zu spät. Klassiker.
+[[TU: krach=1/180]]
+[[AUDIO: Klopfen]]
+[[TU: krach=0/900]]
 SMILLA: [[INTENTION: lachend]] Au. Wenigstens hatten sie einen Fender draußen. Einen.
 SMILLA: Jetzt hat der Dicke vorn die Leine in der Hand und weiß nicht, wo er sie reinstecken soll.
 HINNERK: Dat Problem kenn ich.
@@ -170,7 +176,7 @@ SMILLA: Du hast gesagt, das ist verboten.
 HINNERK: Für die mit Sonnenhut.
 
 [[ABSCHNITT: Wer das Sagen hat]]
-[[SZENE: Die vier vom Charterboot stapfen mit Brötchentüten über den Steg davon. Hinnerk und Smilla schauen ihnen nach. Dann klingelt unten in der leeren Kajüte das alte Telefon; keiner geht runter, man hört den Anrufbeantworter durch den offenen Niedergang. Hafen, Morgen.]]
+[[SZENE: Die vier vom Charterboot stapfen mit Brötchentüten über den Steg davon. Hinnerk und Smilla schauen ihnen nach. Dann klingelt unten in der leeren Kajüte das alte Telefon; keiner geht runter, es klingelt aus. Hafen, Morgen.]]
 [[REVIER: hafen]]
 [[TU: weg=1/3000]]
 SMILLA: Weißt du, was die vier heute Morgen falsch gemacht haben?
@@ -179,7 +185,7 @@ SMILLA: Keiner hatte das Sagen.
 HINNERK: Einer hatte 'n Bier.
 SMILLA: Und die mit dem Sonnenhut durften ohne Schein fahren. Die haben alles richtig gemacht.
 HINNERK: Trotzdem. Sonnenhut.
-HINNERK: Nach'm Frühstück Leinen los. Heute Abend liegen wir im Schilfwinkel vor Anker.
+HINNERK: Nach'm Frühstück Leinen los. Unterwegs wird geübt, und heute Abend liegen wir im Schilfwinkel vor Anker.
 SMILLA: Vor Dunkelwerden?
 HINNERK: Vor Dunkelwerden. Immer.
 SMILLA: Warum eigentlich immer?
@@ -192,16 +198,16 @@ HINNERK: Eben.
 [[TU: klab=0/10, leer=1/10]]
 [[KAMERA: innen, telefon, fahrt]]
 [[AUDIO: Telefon]]
-SMILLA: Jetzt geht der Anrufbeantworter dran.
-[[AUDIO: Piep]]
-HARMS: [[INTENTION: trocken]] Hinnerk. Harms. Ich weiß, dass du da bist.
-HARMS: Smilla mustert in sieben Tagen bei mir an, auf der Albertine in Harmsoog. {{anrede:w=Die Neue|m=Den Neuen|n=Den Frischfisch}} bringst du mit, ich prüf hier an Bord.
-HARMS: Bis dahin ruf ich zwischendurch an und frag ab, was hängen geblieben ist. Sieben Tage. Wer zu spät kommt, fährt allein heim.
-[[AUDIO: Piep]]
-SMILLA: [[INTENTION: flüsternd]] Mein alter Prüfer. Und bald deiner.
-SMILLA: Neues Schiff, neuer Job für mich. Ihr zwei bringt mich hin, und Harms prüft dich gleich mit.
+SMILLA: Harms. Wetten?
+HINNERK: Wer sonst.
+[[PAUSE: dramatisch]]
+SMILLA: Aus. Der ruft wieder an. Der ruft immer wieder an.
+SMILLA: Harms war mein Prüfer, damals. In sieben Tagen fang ich bei ihm an, auf der Albertine in Harmsoog. Neues Schiff, neuer Job.
+SMILLA: Hinnerk und du, ihr bringt mich mit der Frieda hin. Und du machst da deine Prüfung für den Bootsführerschein. Harms nimmt sie dir an Bord ab.
 HINNERK: Sieben Tage. Schaffen wir.
-SMILLA: Du hast meine Frage nicht beantwortet.
+SMILLA: Und bis dahin ruft er an. Er will hören, was bei dir hängen geblieben ist.
+HINNERK: Darum geh ich nich ran. Sonst fragt er mich auch.
+SMILLA: Und warum immer vor Dunkelwerden, hast du mir auch nicht gesagt.
 HINNERK: Frühstück.
 [[KISTE: Leg die Seekarte aus der Kiste auf den Tisch und such Kuttershaven und den Schilfwinkel. Fahr die Strecke mit dem Finger ab: raus aus dem Hafen, nach Westen in die Brede, die Brede rauf.]]
 [[MITNEHMEN: Steht vor der Fahrt nicht fest, wer führt, wird der Schiffsführer bestimmt, nicht gewählt | Ab 0,5 Promille nicht mehr führen, und auch darunter nicht, wenn man nicht sicher führen kann | Elektroboot ohne Führerschein, wenn der Motor höchstens 7,5 Kilowatt Dauerleistung hat]]
